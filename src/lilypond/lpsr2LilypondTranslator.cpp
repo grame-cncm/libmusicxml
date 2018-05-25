@@ -7972,6 +7972,40 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
+  // print the note slashes if any
+  const list<S_msrSlash>&
+    noteSlashes =
+      elt->getNoteSlashes ();
+      
+  if (noteSlashes.size ()) {
+    list<S_msrSlash>::const_iterator i;
+    for (
+      i=noteSlashes.begin ();
+      i!=noteSlashes.end ();
+      i++) {
+      S_msrSlash slash = (*i);
+      
+      switch (slash->getSlashTypeKind ()) {
+        case k_NoSlashType:
+          break;
+          
+        case kSlashTypeStart:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\override Staff.NoteHead.style = #'slash " <<
+            endl;
+          break;
+
+        case kSlashTypeStop:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\revert Staff.NoteHead.style " <<
+            endl;
+          break;
+      } // switch
+    } // for
+  }
+
   // print the note wedges circled tips if any
   const list<S_msrWedge>&
     noteWedges =

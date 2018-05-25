@@ -68,9 +68,9 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // part handling
 
   // measure style handling
-  fCurrentSlashTypeKind     = kSlashTypeStart; // ???
-  fCurrentSlashUseDotsKind  = kSlashUseDotsYes; // ???
-  fCurrentSlashUseStemsKind = kSlashUseStemsYes; // ??? JMI
+  fCurrentSlashTypeKind     = k_NoSlashType;
+  fCurrentSlashUseDotsKind  = k_NoSlashUseDots;
+  fCurrentSlashUseStemsKind = k_NoSlashUseStems;
 
   fCurrentBeatRepeatSlashes = -1;
 
@@ -15202,6 +15202,37 @@ void mxmlTree2MsrTranslator::copyNotePedalsToChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteSlashesToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's slashes if any from the first note to chord
+  
+  list<S_msrSlash>
+    noteSlashes =
+      note->
+        getNoteSlashes ();
+                          
+  list<S_msrSlash>::const_iterator i;
+  for (
+    i=noteSlashes.begin ();
+    i!=noteSlashes.end ();
+    i++) {
+
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceSlashes) {
+      fLogOutputStream <<
+        "Copying slash '" <<
+        (*i)->asString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+
+    chord->
+      appendSlashToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -15300,6 +15331,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's pedals if any to the chord
   copyNotePedalsToChord (note, chord);
+
+  // copy note's slashes if any to the chord
+  copyNoteSlashesToChord (note, chord);
 
   // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);

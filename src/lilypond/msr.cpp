@@ -5871,6 +5871,21 @@ S_msrNote msrNote::createNoteDeepCopy (
     } // for
   }
   
+  // slashes
+  // ------------------------------------------------------
+
+  {
+    list<S_msrSlash>::const_iterator i;
+    for (i=fNoteSlashes.begin (); i!=fNoteSlashes.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteSlashes.push_back ((*i));
+    } // for
+  }
+  
+  // wedges
+  // ------------------------------------------------------
+
   {
     list<S_msrWedge>::const_iterator i;
     for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
@@ -6954,6 +6969,16 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
 
 void msrNote::appendSlashToNote (S_msrSlash slash)
 {
+  if (gTraceOptions->fTraceSlashes) {
+    gLogIOstream <<
+      "Appending slash '" <<
+      slash <<
+      "' to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+
   fNoteSlashes.push_back (slash);
 }
 
@@ -7320,6 +7345,18 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the wedges if any
+  if (fNoteSlashes.size ()) {
+    gIndenter++;
+    list<S_msrSlash>::const_iterator i;
+    for (i=fNoteSlashes.begin (); i!=fNoteSlashes.end (); i++) {
+      // browse the wedge
+      msrBrowser<msrSlash> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the wedges if any
   if (fNoteWedges.size ()) {
     gIndenter++;
     list<S_msrWedge>::const_iterator i;
@@ -7653,11 +7690,11 @@ string msrNote::asShortString () const
       if (! fNoteIsARest)
         s <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-
-      s <<
-        ", line " << fInputLineNumber;
       break;
   } // switch
+
+  s <<
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }
@@ -8617,6 +8654,29 @@ void msrNote::print (ostream& os)
     gIndenter--;
   }
   
+  // print the slashes if any
+  if (fNoteSlashes.size ()) {
+    gIndenter++;
+    os <<
+      "Note slashes:" <<
+      endl;
+      
+    gIndenter++;
+    
+    list<S_msrSlash>::const_iterator
+      iBegin = fNoteSlashes.begin (),
+      iEnd   = fNoteSlashes.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+    gIndenter--;
+  }
+
   // print the wedges if any
   if (fNoteWedges.size ()) {
     gIndenter++;
@@ -9397,6 +9457,15 @@ void msrChord::browseData (basevisitor* v)
   } // for
   
   for (
+    list<S_msrSlash>::const_iterator i = fChordSlashes.begin ();
+    i != fChordSlashes.end ();
+    i++ ) {
+    // browse the slash
+    msrBrowser<msrSlash> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
     list<S_msrWedge>::const_iterator i = fChordWedges.begin ();
     i != fChordWedges.end ();
     i++ ) {
@@ -9683,6 +9752,14 @@ void msrChord::print (ostream& os)
   if (fChordLigatures.size ()) {
     list<S_msrLigature>::const_iterator i;
     for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
+      os << (*i);
+    } // for
+  }
+
+  // print the slashes if any
+  if (fChordSlashes.size ()) {
+    list<S_msrSlash>::const_iterator i;
+    for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); i++) {
       os << (*i);
     } // for
   }
@@ -26671,30 +26748,30 @@ void msrMultipleRest::print (ostream& os)
 //______________________________________________________________________________
 S_msrSlash msrSlash::create (
   int                  inputLineNumber,
-  msrSlashTypeKind     currentSlashTypeKind,
-  msrSlashUseDotsKind  currentSlashUseDotsKind,
-  msrSlashUseStemsKind currentSlashUseStemsKind)
+  msrSlashTypeKind     slashTypeKind,
+  msrSlashUseDotsKind  slashUseDotsKind,
+  msrSlashUseStemsKind slashUseStemsKind)
 {
   msrSlash* o =
     new msrSlash (
       inputLineNumber,
-      currentSlashTypeKind,
-      currentSlashUseDotsKind,
-      currentSlashUseStemsKind);
+      slashTypeKind,
+      slashUseDotsKind,
+      slashUseStemsKind);
   assert(o!=0);
   return o;
 }
 
 msrSlash::msrSlash (
   int                  inputLineNumber,
-  msrSlashTypeKind     currentSlashTypeKind,
-  msrSlashUseDotsKind  currentSlashUseDotsKind,
-  msrSlashUseStemsKind currentSlashUseStemsKind)
+  msrSlashTypeKind     slashTypeKind,
+  msrSlashUseDotsKind  slashUseDotsKind,
+  msrSlashUseStemsKind slashUseStemsKind)
     : msrElement (inputLineNumber)
 {
-  fCurrentSlashTypeKind     = currentSlashTypeKind;
-  fCurrentSlashUseDotsKind  = currentSlashUseDotsKind;
-  fCurrentSlashUseStemsKind = currentSlashUseStemsKind;
+  fSlashTypeKind     = slashTypeKind;
+  fSlashUseDotsKind  = slashUseDotsKind;
+  fSlashUseStemsKind = slashUseStemsKind;
 
  // JMI fSlashVoiceUplink = voiceUplink;
 }
@@ -26722,9 +26799,9 @@ S_msrSlash msrSlash::createSlashNewbornClone (
     newbornClone =
       msrSlash::create (
         fInputLineNumber,
-        fCurrentSlashTypeKind,
-        fCurrentSlashUseDotsKind,
-        fCurrentSlashUseStemsKind,
+        fSlashTypeKind,
+        fSlashUseDotsKind,
+        fSlashUseStemsKind,
         containingVoice);
 
   return newbornClone;
@@ -26791,15 +26868,15 @@ string msrSlash::asString () const
     fSlashVoiceUplink->getVoiceName () <<
     "\"" <<
     */
-    ", currentSlashTypeKind:" <<
+    ", slashTypeKind:" <<
     msrSlashTypeKindAsString (
-      fCurrentSlashTypeKind) <<
-    ", currentSlashUseDotsKind:" <<
+      fSlashTypeKind) <<
+    ", slashUseDotsKind:" <<
     msrSlashUseDotsKindAsString (
-      fCurrentSlashUseDotsKind) <<
-    ", currentSlashUseStemsKind:" <<
+      fSlashUseDotsKind) <<
+    ", slashUseStemsKind:" <<
     msrSlashUseStemsKindAsString (
-      fCurrentSlashUseStemsKind);
+      fSlashUseStemsKind);
     
   return s.str ();
 }
@@ -26813,8 +26890,8 @@ ostream& operator<< (ostream& os, const S_msrSlash& elt)
 void msrSlash::print (ostream& os)
 {
   os <<
-    endl <<
-    asString () <<
+    "Slash" <<
+    ", line " << fInputLineNumber <<
     endl;
   
   gIndenter++;
@@ -26831,20 +26908,21 @@ void msrSlash::print (ostream& os)
     "\"" <<
     endl <<
     */
+
     setw (fieldWidth) <<
-    "currentSlashTypeKind" << " : " <<
+    "slashTypeKind" << " : " <<
     msrSlashTypeKindAsString (
-      fCurrentSlashTypeKind) <<
+      fSlashTypeKind) <<
     endl <<
     setw (fieldWidth) <<
-    "currentSlashUseDotsKind" << " : " <<
+    "slashUseDotsKind" << " : " <<
     msrSlashUseDotsKindAsString (
-      fCurrentSlashUseDotsKind) <<
+      fSlashUseDotsKind) <<
     endl <<
     setw (fieldWidth) <<
-    "currentSlashUseStemsKind" << " : " <<
+    "slashUseStemsKind" << " : " <<
     msrSlashUseStemsKindAsString (
-      fCurrentSlashUseStemsKind) <<
+      fSlashUseStemsKind) <<
     endl;
       
   gIndenter--;

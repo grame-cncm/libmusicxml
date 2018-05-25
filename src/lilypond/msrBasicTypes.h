@@ -499,18 +499,21 @@ string multipleRestWholeNoteAsMsrString (
 //______________________________________________________________________________
 
 enum msrSlashTypeKind {
+  k_NoSlashType,
   kSlashTypeStart, kSlashTypeStop };
 
 string msrSlashTypeKindAsString (
   msrSlashTypeKind slashTypeKind);
 
 enum msrSlashUseDotsKind {
+  k_NoSlashUseDots,
   kSlashUseDotsYes, kSlashUseDotsNo };
 
 string msrSlashUseDotsKindAsString (
   msrSlashUseDotsKind slashUseDotsKind);
 
 enum msrSlashUseStemsKind {
+  k_NoSlashUseStems,
   kSlashUseStemsYes, kSlashUseStemsNo };
 
 string msrSlashUseStemsKindAsString (

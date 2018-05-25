@@ -19192,11 +19192,14 @@ string msrSlashTypeKindAsString (
   string result;
 
   switch (slashTypeKind) {
+    case k_NoSlashType:
+      result = "noSlashType";
+      break;
     case kSlashTypeStart:
-      result = "SlashTypeStart";
+      result = "slashTypeStart";
       break;
     case kSlashTypeStop:
-      result = "SlashTypeStop";
+      result = "slashTypeStop";
       break;
   } // switch
 
@@ -19209,11 +19212,14 @@ string msrSlashUseDotsKindAsString (
   string result;
 
   switch (slashUseDotsKind) {
+    case k_NoSlashUseDots:
+      result = "noSlashUseDots";
+      break;
     case kSlashUseDotsYes:
-      result = "SlashUseDotsYes";
+      result = "slashUseDotsYes";
       break;
     case kSlashUseDotsNo:
-      result = "SlashUseDotsNo";
+      result = "slashUseDotsNo";
       break;
   } // switch
 
@@ -19226,11 +19232,14 @@ string msrSlashUseStemsKindAsString (
   string result;
 
   switch (slashUseStemsKind) {
+    case k_NoSlashUseStems:
+      result = "noSlashUseStems";
+      break;
     case kSlashUseStemsYes:
-      result = "SlashUseStemsYes";
+      result = "slashUseStemsYes";
       break;
     case kSlashUseStemsNo:
-      result = "SlashUseStemsNo";
+      result = "slashUseStemsNo";
       break;
   } // switch
 
@@ -19268,6 +19277,9 @@ string msrTremoloTypeKindAsString (
   string result;
   
   switch (tremoloTypeKind) {
+    case k_NoTremoloType:
+      result = "noTremoloType";
+      break;
     case kTremoloTypeSingle:
       result = "tremoloTypeSingle";
       break;
@@ -19276,9 +19288,6 @@ string msrTremoloTypeKindAsString (
       break;
     case kTremoloTypeStop:
       result = "tremoloTypeStop";
-      break;
-    case k_NoTremoloType:
-      result = "noTremoloType";
       break;
   } // switch
 

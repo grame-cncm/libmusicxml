@@ -1695,6 +1695,8 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNotePedalsToChord (
                                 S_msrNote note, S_msrChord chord);
+    void                      copyNoteSlashesToChord (
+                                S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
                                 

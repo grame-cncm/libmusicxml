@@ -2752,6 +2752,27 @@ void msr2LpsrTranslator::visitEnd (S_msrLigature& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrSlash" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingNote) {
+    fCurrentNoteClone->
+      appendSlashToNote (elt);
+  }
+  
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      appendSlashToChord (elt);
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

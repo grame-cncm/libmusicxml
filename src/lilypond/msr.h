@@ -2695,24 +2695,14 @@ class msrSlash : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrSlashKind {
-      kStartSlash, kStopSlash, 
-      k_NoSlash };
-
-    static string slashKindAsString (
-      msrSlashKind slashKind);
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrSlash> create (
       int                  inputLineNumber,
-      msrSlashTypeKind     currentSlashTypeKind,
-      msrSlashUseDotsKind  currentSlashUseDotsKind,
-      msrSlashUseStemsKind currentSlashUseStemsKind);
+      msrSlashTypeKind     slashTypeKind,
+      msrSlashUseDotsKind  slashUseDotsKind,
+      msrSlashUseStemsKind slashUseStemsKind);
 
    /* JMi 
     SMARTP<msrSlash> createSlashNewbornClone (
@@ -2726,9 +2716,9 @@ class msrSlash : public msrElement
 
     msrSlash (
       int                  inputLineNumber,
-      msrSlashTypeKind     currentSlashTypeKind,
-      msrSlashUseDotsKind  currentSlashUseDotsKind,
-      msrSlashUseStemsKind currentSlashUseStemsKind);
+      msrSlashTypeKind     slashTypeKind,
+      msrSlashUseDotsKind  slashUseDotsKind,
+      msrSlashUseStemsKind slashUseStemsKind);
       
     virtual ~msrSlash ();
   
@@ -2742,14 +2732,14 @@ class msrSlash : public msrElement
                             { return fSlashVoiceUplink; }
          */
                                                 
-    msrSlashTypeKind      getCurrentSlashTypeKind () const
-                              { return fCurrentSlashTypeKind; }
+    msrSlashTypeKind      getSlashTypeKind () const
+                              { return fSlashTypeKind; }
 
-    msrSlashUseDotsKind   getCurrentSlashUseDotsKind () const
-                              { return fCurrentSlashUseDotsKind; }
+    msrSlashUseDotsKind   getSlashUseDotsKind () const
+                              { return fSlashUseDotsKind; }
 
-    msrSlashUseStemsKind  getCurrentSlashUseStemsKind () const
-                              { return fCurrentSlashUseStemsKind; }
+    msrSlashUseStemsKind  getSlashUseStemsKind () const
+                              { return fSlashUseStemsKind; }
 
     // services
     // ------------------------------------------------------
@@ -2776,9 +2766,9 @@ class msrSlash : public msrElement
 
 // JMI    S_msrVoice            fSlashVoiceUplink;
     
-    msrSlashTypeKind      fCurrentSlashTypeKind;
-    msrSlashUseDotsKind   fCurrentSlashUseDotsKind;
-    msrSlashUseStemsKind  fCurrentSlashUseStemsKind;
+    msrSlashTypeKind      fSlashTypeKind;
+    msrSlashUseDotsKind   fSlashUseDotsKind;
+    msrSlashUseStemsKind  fSlashUseStemsKind;
 };
 typedef SMARTP<msrSlash> S_msrSlash;
 EXP ostream& operator<< (ostream& os, const S_msrSlash& elt);
@@ -6923,11 +6913,19 @@ class msrChord : public msrElement
                               {
                                 fChordOtherDynamics.push_back (otherDynamic);
                               }
+
+    // slashes
+    void                  appendSlashToChord (S_msrSlash slash)
+                              {
+                                fChordSlashes.push_back (slash);
+                              }
+
+    // wedges
     void                  appendWedgeToChord (S_msrWedge wedge)
                               {
                                 fChordWedges.push_back (wedge);
                               }
-                    
+                                        
     // words
     void                  appendWordsToChord (S_msrWords dynamic)
                               {
@@ -7058,6 +7056,10 @@ class msrChord : public msrElement
     list<S_msrOtherDynamics>
                           fChordOtherDynamics;
 
+    // slashes
+    list<S_msrSlash>      fChordSlashes;
+    
+    // wedges
     list<S_msrWedge>      fChordWedges;
     
     // words
