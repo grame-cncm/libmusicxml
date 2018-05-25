@@ -20745,7 +20745,7 @@ void mxmlTree2MsrTranslator::visitStart (S_harp_pedals& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_staff_lines" <<
+      "--> Start visiting S_harp_pedals" <<
       endl;
   }
 

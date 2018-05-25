@@ -7972,6 +7972,26 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
+  // should the note be printed
+  msrNote::msrNotePrintKind
+    notePrintKind =
+      elt->getNotePrintKind ();
+
+  switch (notePrintKind) {
+    case msrNote::kNotePrintYes:
+      fLilypondCodeIOstream <<
+        endl <<
+        "\\revert NoteHead.color" <<
+        endl;
+      break;
+    case msrNote::kNotePrintNo:
+      fLilypondCodeIOstream <<
+        endl <<
+        "\\temporary\\override NoteHead.color = #(rgb-color 0.5 0.5 0.5)" <<
+        endl;
+      break;
+  } // switch
+      
   // print the note slashes if any
   const list<S_msrSlash>&
     noteSlashes =

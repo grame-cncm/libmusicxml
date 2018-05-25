@@ -5762,9 +5762,9 @@ class msrNote : public msrElement
       bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
-      msrNotePrintKind           msrNotePrintKind,
+      msrNotePrintKind           notePrintKind,
       
-      msrNoteHeadKind            msrNoteHeadKind,
+      msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
     
@@ -5823,7 +5823,7 @@ class msrNote : public msrElement
       bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
-      msrNotePrintKind           msrNotePrintKind,
+      msrNotePrintKind           notePrintKind,
       
       msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,

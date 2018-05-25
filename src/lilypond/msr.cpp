@@ -7883,10 +7883,12 @@ void msrNote::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
+  const int fieldWidth = 29;
+    
   {
     // print sounding and displayed whole notes
     gIndenter++;
-        
+
     switch (fNoteKind) {
       case msrNote::k_NoNoteKind:
       case msrNote::kRestNote:
@@ -7894,84 +7896,113 @@ void msrNote::print (ostream& os)
       case msrNote::kStandaloneNote:
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kChordMemberNote:
-        os <<
-          "noteSoundingWholeNotes: " <<
+        os << left <<
+          setw (fieldWidth) <<
+          "noteSoundingWholeNotes" << " : " <<
           fNoteSoundingWholeNotes <<
-          ", noteDisplayWholeNotes: " <<
-          fNoteDisplayWholeNotes;
+          endl <<
+          setw (fieldWidth) <<
+          "noteDisplayWholeNotes" << " : " <<
+          fNoteDisplayWholeNotes <<
+          endl;
         break;
   
       case msrNote::kGraceNote:
       case msrNote::kGraceChordMemberNote:
         os <<
-          "noteDisplayWholeNotes: " <<
-          fNoteDisplayWholeNotes;
+          setw (fieldWidth) <<
+          "noteDisplayWholeNotes" << " : " <<
+          fNoteDisplayWholeNotes <<
+          endl;
         break;
   
       case msrNote::kTupletMemberNote:
         os <<
-          "fNoteSoundingWholeNotes: " <<
+          setw (fieldWidth) <<
+          "noteSoundingWholeNotes" << " : " <<
           fNoteSoundingWholeNotes <<
-          ", fNoteDisplayWholeNotes: " <<
+          endl <<
+          setw (fieldWidth) <<
+          "noteDisplayWholeNotes" << " : " <<
           fNoteDisplayWholeNotes <<
-          ", tupletSoundingWholeNotes: " <<
+          endl <<
+          setw (fieldWidth) <<
+          "tupletSoundingWholeNotes" << " : " <<
           wholeNotesAsMsrString (
             fInputLineNumber,
             getNoteTupletUplink ()->
-              getTupletSoundingWholeNotes ());
+              getTupletSoundingWholeNotes ()) <<
+          endl;
         break;
       } // switch
 
     // full measure length,
     // may be unknown if there is no time signature
     if (fullMeasureLength.getNumerator () == 0) {
-      os <<
-        ", full measure length unknown, no time signature";
+      os << left <<
+        setw (fieldWidth) <<
+        "full measure length unknown, no time signature";
     }
     else {
-      os <<
-        ", fullMeasureLength :" <<
+      os << left <<
+        setw (fieldWidth) <<
+        "fullMeasureLength" << " : " <<
         fullMeasureLength;
     }
-
     os <<
       endl;
 
-    // print kind
+    // note print kind
 
-    os <<
-      notePrintKindAsString ();
+    os << left <<
+      setw (fieldWidth) <<
+     "notePrintKind" << " : " <<
+      notePrintKindAsString () <<
+      endl;
 
     // note head
-    os <<
-      ", " <<
-        noteHeadKindAsString () <<
-      ", " <<
-        noteHeadFilledKindAsString () <<
-      ", " <<
-        noteHeadParenthesesKindAsString ();
-  
-    os <<
+    os << left <<
+      setw (fieldWidth) <<
+      "noteHeadKind" << " : " <<
+      noteHeadKindAsString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "notePrintKind" << " : " <<
+      notePrintKindAsString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteHeadFilledKind" << " : " <<
+      noteHeadFilledKindAsString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteHeadParentheses" << " : " <<
+      noteHeadParenthesesKindAsString () <<
       endl;
-      
+        
     // accidentals
-    os <<
-      "noteAccidentalKind: " <<
+    os << left <<
+      setw (fieldWidth) <<
+      "noteAccidentalKind" << " : " <<
       noteAccidentalKindAsString (
         fNoteAccidentalKind) <<
       endl;
 
-    os <<
+    os << left <<
+      setw (fieldWidth) <<
+      "noteEditorialAccidentalKind" << " : " << 
       noteEditorialAccidentalKindAsString (
         fNoteEditorialAccidentalKind) <<
-      ", " <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteCautionaryAccidentalKind" << " : " << 
       noteCautionaryAccidentalKindAsString (
         fNoteCautionaryAccidentalKind) <<
       endl;
 
     // print measure related information
-    os <<
-      "noteMeasureNumber: ";
+    os << left <<
+      setw (fieldWidth) <<
+      "noteMeasureNumber" << " : ";
     if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER)
       os <<
         "unknown";
@@ -7992,9 +8023,12 @@ void msrNote::print (ostream& os)
         fInputLineNumber,
         s.str ());
     }
-
     os <<
-      ", notePositionInMeasure: ";
+      endl;
+
+    os << left <<
+      setw (fieldWidth) <<
+      "notePositionInMeasure" << " : ";
     if (fNotePositionInMeasure == K_NO_POSITION_MEASURE_NUMBER)
       os << "unknown";
     else
@@ -8095,11 +8129,9 @@ void msrNote::print (ostream& os)
         
       case msrNote::kRestNote:
         {
-          const int fieldWidth = 46;
-
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+            "noteSoundingWholeNotes" << " = \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl;
@@ -8108,11 +8140,9 @@ void msrNote::print (ostream& os)
         
       case msrNote::kSkipNote:
         {
-          const int fieldWidth = 46;
-
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+            "noteSoundingWholeNotes" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl;
@@ -8121,21 +8151,19 @@ void msrNote::print (ostream& os)
         
       case msrNote::kStandaloneNote:
         {
-          const int fieldWidth = 36;
-
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+            "noteSoundingWholeNotes" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteDisplayWholeNotesAsMsrString" << " = \"" <<
+            "noteDisplayWholeNotes" << " : \"" <<
             noteDisplayWholeNotesAsMsrString () <<
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " = \"" <<
+            "noteGraphicDuration" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -8151,11 +8179,9 @@ void msrNote::print (ostream& os)
       case msrNote::kGraceNote:
       case msrNote::kGraceChordMemberNote:
         {
-          const int fieldWidth = 46;
-
           os << left <<
             setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " = \"" <<
+            "noteGraphicDuration" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -8170,18 +8196,16 @@ void msrNote::print (ostream& os)
         
       case msrNote::kTupletMemberNote:
         {
-          const int fieldWidth = 46;
-
           os << left <<
           /* JMI
             setw (fieldWidth) <<
-            "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
+            "noteTupletNoteGraphicDurationAsMsrString" << " : \"" <<
             fNoteTupletNoteGraphicDurationAsMsrString <<
             "\"" <<
             endl <<
               */
             setw (fieldWidth) <<
-            "noteTupletNoteSoundingWholeNotes" << " = \"" <<
+            "noteTupletNoteSoundingWholeNotes" << " : \"" <<
             wholeNotesAsMsrString (
               fInputLineNumber,
               getNoteTupletUplink ()->
@@ -8189,7 +8213,7 @@ void msrNote::print (ostream& os)
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteGraphicDurationAsMsrString" << " = \"" <<
+            "noteGraphicDuration" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -8226,7 +8250,7 @@ void msrNote::print (ostream& os)
         syllable->syllableKindAsString () <<
         ", " <<
         syllable->syllableExtendKindAsString () <<
-        ": ";
+        " : ";
 
       msrSyllable::writeTextsList (
         syllable->getSyllableTextsList (),
@@ -26896,7 +26920,7 @@ void msrSlash::print (ostream& os)
   
   gIndenter++;
 
-  const int fieldWidth = 24;
+  const int fieldWidth = 18;
 
   // print the voice uplink
   os << left <<
@@ -34937,14 +34961,17 @@ void msrStaff::print (ostream& os)
     endl;
 
   // print the staff details if any
-  os <<
-    "staff details: ";
   if (fStaffStaffDetails) {
-    os << fStaffStaffDetails;
+    os <<
+      fStaffStaffDetails;
   }
-  else
-    os << "none";
-  os << endl;
+  else {
+    os << left <<
+      setw (fieldwidth) <<
+      "staff details" << " : " << "none";
+  }
+  os <<
+    endl;
 
 /* JMI
   // print the staff tunings if any
