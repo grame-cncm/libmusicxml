@@ -207,9 +207,8 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     ofstream outFileStream;
         
     if (outputFileNameSize) {
-      if (gTraceOptions->fTraceBasic)
+      if (gTraceOptions->fTracePasses)
         gLogIOstream <<
-          endl <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
           
@@ -234,7 +233,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
     
     else {
-      if (gTraceOptions->fTraceBasic)
+      if (gTraceOptions->fTracePasses)
         gLogIOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -257,7 +256,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
 
     if (outputFileNameSize) {
-      if (gTraceOptions->fTraceBasic)
+      if (gTraceOptions->fTracePasses)
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -378,7 +377,7 @@ int main (int argc, char *argv[])
   // welcome message
   // ------------------------------------------------------
 
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     gLogIOstream <<
       "This is xml2ly " << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -457,7 +456,7 @@ int main (int argc, char *argv[])
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;

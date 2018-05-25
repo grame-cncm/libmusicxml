@@ -71,7 +71,7 @@ class traceOptions : public optionsGroup
   public:
 
     // trace and display  
-    bool                  fTraceBasic;
+    bool                  fTracePasses;
     
     bool                  fTraceOptions;
     bool                  fDisplayOptionsValues;
@@ -131,6 +131,9 @@ class traceOptions : public optionsGroup
 
     // repeats
     bool                  fTraceRepeats;
+
+    // slashes
+    bool                  fTraceSlashes;
 
     // measures
     bool                  fTraceMeasures;

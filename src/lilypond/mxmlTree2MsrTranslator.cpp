@@ -84,6 +84,9 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fRemainingMultipleRestMeasuresNumber = 0;
   fOnGoingMultipleRest = false;
   fCurrentMultipleRestHasBeenCreated = false;
+
+  fCurrentSlashDotsNumber = -1;
+  fCurrentSlashGraphicDurationKind = k_NoDuration;
   
   // staff details handling
   fStaffDetailsStaffNumber = K_NO_STAFF_NUMBER;
@@ -1286,7 +1289,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
@@ -6488,7 +6491,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   fCurrentMeasureNumber =
     elt->getAttributeValue ("number");
 
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << fCurrentMeasureNumber <<
@@ -8881,6 +8884,115 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
         s.str ());
     }
   }
+
+  fCurrentSlashDotsNumber = 0;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_slash_type" <<
+      endl;
+  }
+
+/*
+ Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
+*/
+
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  {
+    string slashType = elt->getValue();
+  
+    // the type contains a display duration,
+    if      (slashType == "maxima") {
+      fCurrentSlashGraphicDurationKind = kMaxima; }
+    else if (slashType == "long") {
+      fCurrentSlashGraphicDurationKind = kLong; }
+    else if (slashType == "breve") {
+        fCurrentSlashGraphicDurationKind = kBreve; } 
+    else if (slashType == "whole") {
+        fCurrentSlashGraphicDurationKind = kWhole; } 
+    else if (slashType == "half") {
+        fCurrentSlashGraphicDurationKind = kHalf; } 
+    else if (slashType == "quarter") {
+        fCurrentSlashGraphicDurationKind = kQuarter; } 
+    else if (slashType == "eighth") {
+        fCurrentSlashGraphicDurationKind = kEighth; } 
+    else if (slashType == "16th") {
+        fCurrentSlashGraphicDurationKind = k16th; } 
+    else if (slashType == "32nd") {
+        fCurrentSlashGraphicDurationKind = k32nd; } 
+    else if (slashType == "64th") {
+        fCurrentSlashGraphicDurationKind = k64th; } 
+    else if (slashType == "128th") {
+        fCurrentSlashGraphicDurationKind = k128th; } 
+    else if (slashType == "256th") {
+        fCurrentSlashGraphicDurationKind = k256th; } 
+    else if (slashType == "512th") {
+        fCurrentSlashGraphicDurationKind = k512th; } 
+    else if (slashType == "1024th") {
+        fCurrentSlashGraphicDurationKind = k1024th; }
+    else {
+      stringstream s;
+      
+      s <<
+        "slash type \"" << slashType <<
+        "\" is unknown";
+  
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  // size
+  
+  {
+    string slashTypeSize = elt->getAttributeValue ("size");
+  
+    if (slashTypeSize == "cue") { // USE IT! JMI ???
+    }
+  
+    else {
+      if (slashTypeSize.size ())
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+            "slash type size \"" + slashTypeSize + "\" is unknown");
+    }
+  }
+
+/* JMI
+  if (gTraceOptions->fTraceSlashes) {
+    fLogOutputStream <<
+      "slashType: \"" <<
+      slashType <<
+      "\"" <<
+      endl <<
+      "slashTypeSize: \"" <<
+      slashTypeSize <<
+      "\"" <<
+      endl;
+  }
+  */
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_slash_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_slash_dot" <<
+      endl;
+  }
+
+  fCurrentSlashDotsNumber++;
 }
 
 //______________________________________________________________________________
@@ -15753,7 +15865,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
 {
  // attach the pending tempos if any to the note
   if (fPendingTempos.size ()) {
-    if (gTraceOptions->fTraceBasic) { // tempos ??? JMI
+    if (gTraceOptions->fTracePasses) { // tempos ??? JMI
       fLogOutputStream <<
         "Attaching pending tempos to note " <<
         note->asString () <<
@@ -15787,7 +15899,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
 {
  // attach the pending rehearsals if any to the note
   if (fPendingRehearsals.size ()) {
-    if (gTraceOptions->fTraceBasic) { // Rehearsals ??? JMI
+    if (gTraceOptions->fTracePasses) { // Rehearsals ??? JMI
       fLogOutputStream <<
         "Attaching pending rehearsals to note " <<
         note->asString () <<
@@ -15821,7 +15933,7 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
 {
  // attach the pending eyeglasses if any to the note
   if (fPendingEyeGlasses.size ()) {
-    if (gTraceOptions->fTraceBasic) { // EyeGlasses ??? JMI
+    if (gTraceOptions->fTracePasses) { // EyeGlasses ??? JMI
       fLogOutputStream <<
         "Attaching pending eyeglasses to note " <<
         note->asString () <<
@@ -15847,7 +15959,7 @@ void mxmlTree2MsrTranslator::attachPendingDampsToNote (
 {
  // attach the pending damps if any to the note
   if (fPendingDamps.size ()) {
-    if (gTraceOptions->fTraceBasic) {
+    if (gTraceOptions->fTracePasses) {
       fLogOutputStream <<
         "Attaching pending damps to note " <<
         note->asString () <<
@@ -15873,7 +15985,7 @@ void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
 {
  // attach the pending damp alls if any to the note
   if (fPendingDampAlls.size ()) {
-    if (gTraceOptions->fTraceBasic) {
+    if (gTraceOptions->fTracePasses) {
       fLogOutputStream <<
         "Attaching pending damp alls to note " <<
         note->asString () <<
@@ -15933,7 +16045,7 @@ void mxmlTree2MsrTranslator::attachPendingScordaturasToNote (
 {
  // attach the pending scordatura if any to the note
   if (fPendingScordaturas.size ()) {
-    if (gTraceOptions->fTraceBasic) {
+    if (gTraceOptions->fTracePasses) {
       fLogOutputStream <<
         "Attaching pending scordaturas to note " <<
         note->asString () <<
@@ -16393,7 +16505,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
 {
  // attach the pending dynamics if any to the note
   if (fPendingSlides.size ()) {
-    if (gTraceOptions->fTraceBasic) { // slides ??? JMI
+    if (gTraceOptions->fTracePasses) { // slides ??? JMI
       fLogOutputStream <<
         "Attaching pending slides to note " <<
         note->asString () <<

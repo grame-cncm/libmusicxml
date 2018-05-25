@@ -337,8 +337,9 @@ std::list<int> extractNumbersFromString (
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim string from start
 inline std::string &ltrim (std::string &s) {
-  std::function <int (int)> checkSpace =
-    [] (int x) { return isspace (x); };
+  std::function <int (int)>
+    checkSpace =
+      [] (int x) { return isspace (x); };
 
   s.erase (
     s.begin (),
@@ -354,8 +355,9 @@ inline std::string &ltrim (std::string &s) {
 
 // trim string from end
 inline std::string &rtrim (std::string &s) {
-  std::function <int (int)> checkSpace =
-    [] (int x) { return isspace (x); };
+  std::function <int (int)>
+    checkSpace =
+      [] (int x) { return isspace (x); };
 
   s.erase (
     find_if (

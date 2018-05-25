@@ -783,7 +783,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       endl;
   }
 
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -1543,7 +1543,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   }
      */
       
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << measureNumber <<

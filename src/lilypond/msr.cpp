@@ -24066,7 +24066,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -24092,7 +24092,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->asString () <<
@@ -26664,6 +26664,190 @@ void msrMultipleRest::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrSlash msrSlash::create (
+  int                  inputLineNumber,
+  msrSlashTypeKind     currentSlashTypeKind,
+  msrSlashUseDotsKind  currentSlashUseDotsKind,
+  msrSlashUseStemsKind currentSlashUseStemsKind,
+  S_msrVoice           voiceUplink)
+{
+  msrSlash* o =
+    new msrSlash (
+      inputLineNumber,
+      currentSlashTypeKind,
+      currentSlashUseDotsKind,
+      currentSlashUseStemsKind,
+      voiceUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrSlash::msrSlash (
+  int                  inputLineNumber,
+  msrSlashTypeKind     currentSlashTypeKind,
+  msrSlashUseDotsKind  currentSlashUseDotsKind,
+  msrSlashUseStemsKind currentSlashUseStemsKind,
+  S_msrVoice           voiceUplink)
+    : msrElement (inputLineNumber)
+{
+  fCurrentSlashTypeKind     = currentSlashTypeKind;
+  fCurrentSlashUseDotsKind  = currentSlashUseDotsKind;
+  fCurrentSlashUseStemsKind = currentSlashUseStemsKind;
+
+  fSlashVoiceUplink = voiceUplink;
+}
+
+msrSlash::~msrSlash ()
+{}
+
+S_msrSlash msrSlash::createSlashNewbornClone (
+  S_msrVoice containingVoice)
+{
+  if (gTraceOptions->fTraceSlashes) {
+    gLogIOstream <<
+      "Creating a newborn clone of a " <<
+      asString () <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != nullptr,
+    "containingVoice is null");
+    
+  S_msrSlash
+    newbornClone =
+      msrSlash::create (
+        fInputLineNumber,
+        fCurrentSlashTypeKind,
+        fCurrentSlashUseDotsKind,
+        fCurrentSlashUseStemsKind,
+        containingVoice);
+
+  return newbornClone;
+}
+
+void msrSlash::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrSlash::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrSlash>*
+    p =
+      dynamic_cast<visitor<S_msrSlash>*> (v)) {
+        S_msrSlash elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrSlash::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrSlash::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrSlash::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSlash>*
+    p =
+      dynamic_cast<visitor<S_msrSlash>*> (v)) {
+        S_msrSlash elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrSlash::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrSlash::browseData (basevisitor* v)
+{}
+
+string msrSlash::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Slash" <<
+    ", line " << fInputLineNumber <<
+    "slashVoiceUplink" << " : " <<
+    "\"" <<
+    fSlashVoiceUplink->getVoiceName () <<
+    "\"" <<
+    endl <<
+    
+    ", currentSlashTypeKind:" <<
+    msrSlashTypeKindAsString (
+      fCurrentSlashTypeKind) <<
+    endl <<
+    ", currentSlashUseDotsKind:" <<
+    msrSlashUseDotsKindAsString (
+      fCurrentSlashUseDotsKind) <<
+    endl <<
+    ", currentSlashUseStemsKind:" <<
+    msrSlashUseStemsKindAsString (
+      fCurrentSlashUseStemsKind);
+    
+  return s.str ();
+}
+
+ostream& operator<< (ostream& os, const S_msrSlash& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrSlash::print (ostream& os)
+{
+  os <<
+    endl <<
+    asString () <<
+    endl;
+  
+  gIndenter++;
+
+  const int fieldWidth = 24;
+
+  // print the voice uplink
+  os << left <<
+    setw (fieldWidth) <<
+    "slashVoiceUplink" << " : " <<
+    "\"" <<
+    fSlashVoiceUplink->getVoiceName () <<
+    "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "currentSlashTypeKind" << " : " <<
+    msrSlashTypeKindAsString (
+      fCurrentSlashTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "currentSlashUseDotsKind" << " : " <<
+    msrSlashUseDotsKindAsString (
+      fCurrentSlashUseDotsKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "currentSlashUseStemsKind" << " : " <<
+    msrSlashUseStemsKindAsString (
+      fCurrentSlashUseStemsKind) <<
+    endl;
+      
+  gIndenter--;
+}
+
+//______________________________________________________________________________
 S_msrRepeatCoda msrRepeatCoda::create (
   int                 inputLineNumber,
   S_msrSegment        repeatCodaSegment,
@@ -28604,7 +28788,7 @@ void msrVoice::appendAccordionRegistrationToVoice (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -28625,7 +28809,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<
@@ -36111,7 +36295,7 @@ void msrPart::appendFiguredBassToPartClone (
 void msrPart::appendScordaturaToPart (
   S_msrScordatura scordatura)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending scordatura '" <<
       scordatura->asString () <<
@@ -36134,7 +36318,7 @@ void msrPart::appendAccordionRegistrationToPart (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -36157,7 +36341,7 @@ void msrPart::appendHarpPedalsTuningToPart (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<

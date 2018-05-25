@@ -54,7 +54,7 @@ void populateMsrSkeletonFromMxmlTree (
     
   clock_t startClock = clock ();
 
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -160,7 +160,7 @@ void displayMSRPopulatedScoreSummary (
     
   clock_t startClock = clock ();
   
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     

@@ -50,7 +50,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     
   clock_t startClock = clock ();
 
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -163,7 +163,7 @@ void displayMsrSkeletonSummary (
     
   clock_t startClock = clock ();
   
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     

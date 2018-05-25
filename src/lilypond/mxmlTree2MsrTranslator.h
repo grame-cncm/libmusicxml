@@ -267,6 +267,8 @@ class mxmlTree2MsrTranslator :
   public visitor<S_measure_repeat>,
   public visitor<S_multiple_rest>,
   public visitor<S_slash>,
+  public visitor<S_slash_type>,
+  public visitor<S_slash_dot>,
  
   // articulations
   
@@ -777,6 +779,8 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_measure_repeat& elt );
     virtual void visitStart ( S_multiple_rest& elt );
     virtual void visitStart ( S_slash& elt );
+    virtual void visitStart ( S_slash_type& elt );
+    virtual void visitStart ( S_slash_dot& elt );
 
     // atticulations
     // ------------------------------------------------------
@@ -1068,6 +1072,9 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingMultipleRest;
     bool                      fCurrentMultipleRestHasBeenCreated;
 
+    msrDurationKind           fCurrentSlashGraphicDurationKind;
+    int                       fCurrentSlashDotsNumber;
+    
     // staff details handling
     // ------------------------------------------------------
     

@@ -2537,7 +2537,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   // fCurrentPartID is used throughout
   fCurrentPartID = elt->getAttributeValue ("id");
 
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << fCurrentPartID << "\"" <<
@@ -2801,7 +2801,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
   fCurrentMeasureNumber = // JMI local variable???
     elt->getAttributeValue ("number");
 
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << fCurrentMeasureNumber <<

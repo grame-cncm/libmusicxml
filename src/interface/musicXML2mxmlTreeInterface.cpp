@@ -717,7 +717,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   string fileNameAsString = fileName;
   
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -872,7 +872,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 {
   clock_t startClock = clock ();
   
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -999,7 +999,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 {
   clock_t startClock = clock ();
 
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     

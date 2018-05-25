@@ -47,7 +47,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     
   clock_t startClock = clock ();
       
-  if (gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -70,6 +70,9 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
+
+  logIOstream <<
+    endl;
 
   clock_t endClock = clock ();
 
@@ -116,7 +119,6 @@ void displayLpsrScore (
     "%--------------------------------------------------------------";
 
   logIOstream <<
-    endl <<
     separator <<
     endl <<
     gTab <<
@@ -126,10 +128,8 @@ void displayLpsrScore (
     endl <<
     endl <<
     lpScore <<
-    endl;
-  
-  logIOstream <<
     separator <<
+    endl <<
     endl;
 
   clock_t endClock = clock ();
