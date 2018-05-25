@@ -7983,7 +7983,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       i=noteSlashes.begin ();
       i!=noteSlashes.end ();
       i++) {
-      S_msrSlash slash = (*i);
+      S_msrSlash
+        slash =
+          (*i);
       
       switch (slash->getSlashTypeKind ()) {
         case k_NoSlashType:
@@ -8000,6 +8002,44 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           fLilypondCodeIOstream <<
             endl <<
             "\\revert Staff.NoteHead.style " <<
+            endl;
+          break;
+      } // switch
+      
+      switch (slash->getSlashUseDotsKind ()) {
+        case k_NoSlashUseDots:
+          break;
+          
+        case kSlashUseDotsYes:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\override Staff.NoteHead.style = #'slash " <<
+            endl;
+          break;
+
+        case kSlashUseDotsNo:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\revert Staff.NoteHead.style " <<
+            endl;
+          break;
+      } // switch
+      
+      switch (slash->getSlashUseStemsKind ()) {
+        case k_NoSlashUseStems:
+          break;
+          
+        case kSlashUseStemsYes:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\undo \\hide Staff.Stem " <<
+            endl;
+          break;
+
+        case kSlashUseStemsNo:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\hide Staff.Stem " <<
             endl;
           break;
       } // switch
