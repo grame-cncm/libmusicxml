@@ -6952,6 +6952,11 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
     fNotePedals.push_back (pedal);
 }
 
+void msrNote::appendSlashToNote (S_msrSlash slash)
+{
+  fNoteSlashes.push_back (slash);
+}
+
 void msrNote::appendWedgeToNote (S_msrWedge wedge)
 {
   fNoteWedges.push_back (wedge);
@@ -26668,16 +26673,14 @@ S_msrSlash msrSlash::create (
   int                  inputLineNumber,
   msrSlashTypeKind     currentSlashTypeKind,
   msrSlashUseDotsKind  currentSlashUseDotsKind,
-  msrSlashUseStemsKind currentSlashUseStemsKind,
-  S_msrVoice           voiceUplink)
+  msrSlashUseStemsKind currentSlashUseStemsKind)
 {
   msrSlash* o =
     new msrSlash (
       inputLineNumber,
       currentSlashTypeKind,
       currentSlashUseDotsKind,
-      currentSlashUseStemsKind,
-      voiceUplink);
+      currentSlashUseStemsKind);
   assert(o!=0);
   return o;
 }
@@ -26686,20 +26689,20 @@ msrSlash::msrSlash (
   int                  inputLineNumber,
   msrSlashTypeKind     currentSlashTypeKind,
   msrSlashUseDotsKind  currentSlashUseDotsKind,
-  msrSlashUseStemsKind currentSlashUseStemsKind,
-  S_msrVoice           voiceUplink)
+  msrSlashUseStemsKind currentSlashUseStemsKind)
     : msrElement (inputLineNumber)
 {
   fCurrentSlashTypeKind     = currentSlashTypeKind;
   fCurrentSlashUseDotsKind  = currentSlashUseDotsKind;
   fCurrentSlashUseStemsKind = currentSlashUseStemsKind;
 
-  fSlashVoiceUplink = voiceUplink;
+ // JMI fSlashVoiceUplink = voiceUplink;
 }
 
 msrSlash::~msrSlash ()
 {}
 
+/* JMI
 S_msrSlash msrSlash::createSlashNewbornClone (
   S_msrVoice containingVoice)
 {
@@ -26726,6 +26729,7 @@ S_msrSlash msrSlash::createSlashNewbornClone (
 
   return newbornClone;
 }
+*/
 
 void msrSlash::acceptIn (basevisitor* v)
 {
@@ -26781,20 +26785,18 @@ string msrSlash::asString () const
   s <<
     "Slash" <<
     ", line " << fInputLineNumber <<
+    /* JMI
     "slashVoiceUplink" << " : " <<
     "\"" <<
     fSlashVoiceUplink->getVoiceName () <<
     "\"" <<
-    endl <<
-    
+    */
     ", currentSlashTypeKind:" <<
     msrSlashTypeKindAsString (
       fCurrentSlashTypeKind) <<
-    endl <<
     ", currentSlashUseDotsKind:" <<
     msrSlashUseDotsKindAsString (
       fCurrentSlashUseDotsKind) <<
-    endl <<
     ", currentSlashUseStemsKind:" <<
     msrSlashUseStemsKindAsString (
       fCurrentSlashUseStemsKind);
@@ -26821,13 +26823,14 @@ void msrSlash::print (ostream& os)
 
   // print the voice uplink
   os << left <<
+  /* JMI
     setw (fieldWidth) <<
     "slashVoiceUplink" << " : " <<
     "\"" <<
     fSlashVoiceUplink->getVoiceName () <<
     "\"" <<
     endl <<
-    
+    */
     setw (fieldWidth) <<
     "currentSlashTypeKind" << " : " <<
     msrSlashTypeKindAsString (

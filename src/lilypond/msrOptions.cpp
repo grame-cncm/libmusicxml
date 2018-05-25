@@ -498,6 +498,7 @@ which may be global to the score.)",
     fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
     fDelayRestsLigatures = boolOptionsInitialValue; // JMI
     fDelayRestsPedals    = boolOptionsInitialValue; // JMI
+    fDelayRestsSlashes   = boolOptionsInitialValue; // JMI
     fDelayRestsWedges    = boolOptionsInitialValue; // JMI
   
     // options
@@ -551,6 +552,14 @@ R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
 R"(pedals)",
           "delayRestsPedals",
           fDelayRestsPedals));
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "drslashes", "delayRestsSlashes",
+R"('<slash/>' in MusicXML)",
+          "delayRestsSlashes",
+          fDelayRestsSlashes));
 
     notesSubGroup->
       appendOptionsItem (
@@ -719,6 +728,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
     fDelayRestsLigatures;
   clone->fDelayRestsPedals =
     fDelayRestsPedals;
+  clone->fDelayRestsSlashes =
+    fDelayRestsSlashes;
   clone->fDelayRestsWedges =
     fDelayRestsWedges;
 
@@ -898,6 +909,10 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     
     setw (fieldWidth) << "delayRestsPedals" << " : " <<
     booleanAsString (fDelayRestsPedals) <<
+    endl <<
+    
+    setw (fieldWidth) << "delayRestsSlashes" << " : " <<
+    booleanAsString (fDelayRestsSlashes) <<
     endl <<
     
     setw (fieldWidth) << "delayRestsWedges" << " : " <<

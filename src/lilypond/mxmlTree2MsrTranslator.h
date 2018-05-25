@@ -779,6 +779,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_measure_repeat& elt );
     virtual void visitStart ( S_multiple_rest& elt );
     virtual void visitStart ( S_slash& elt );
+    virtual void visitEnd   ( S_slash& elt );
     virtual void visitStart ( S_slash_type& elt );
     virtual void visitStart ( S_slash_dot& elt );
 
@@ -1652,6 +1653,7 @@ class mxmlTree2MsrTranslator :
     list<S_msrSlur>           fPendingSlurs;
     list<S_msrLigature>       fPendingLigatures;
     list<S_msrWedge>          fPendingWedges;
+    list<S_msrSlash>          fPendingSlashes;
 
     void                      attachPendingElementsToNote (
                                 S_msrNote note);
@@ -1669,6 +1671,8 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingPedalsToNote (
                                 S_msrNote note);
     void                      attachPendingWedgesToNote (
+                                S_msrNote note);
+    void                      attachPendingSlashesToNote (
                                 S_msrNote note);
 
     void                      attachPendingGlissandosToNote (

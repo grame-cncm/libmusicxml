@@ -8904,72 +8904,67 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  {
-    string slashType = elt->getValue();
-  
-    // the type contains a display duration,
-    if      (slashType == "maxima") {
-      fCurrentSlashGraphicDurationKind = kMaxima; }
-    else if (slashType == "long") {
-      fCurrentSlashGraphicDurationKind = kLong; }
-    else if (slashType == "breve") {
-        fCurrentSlashGraphicDurationKind = kBreve; } 
-    else if (slashType == "whole") {
-        fCurrentSlashGraphicDurationKind = kWhole; } 
-    else if (slashType == "half") {
-        fCurrentSlashGraphicDurationKind = kHalf; } 
-    else if (slashType == "quarter") {
-        fCurrentSlashGraphicDurationKind = kQuarter; } 
-    else if (slashType == "eighth") {
-        fCurrentSlashGraphicDurationKind = kEighth; } 
-    else if (slashType == "16th") {
-        fCurrentSlashGraphicDurationKind = k16th; } 
-    else if (slashType == "32nd") {
-        fCurrentSlashGraphicDurationKind = k32nd; } 
-    else if (slashType == "64th") {
-        fCurrentSlashGraphicDurationKind = k64th; } 
-    else if (slashType == "128th") {
-        fCurrentSlashGraphicDurationKind = k128th; } 
-    else if (slashType == "256th") {
-        fCurrentSlashGraphicDurationKind = k256th; } 
-    else if (slashType == "512th") {
-        fCurrentSlashGraphicDurationKind = k512th; } 
-    else if (slashType == "1024th") {
-        fCurrentSlashGraphicDurationKind = k1024th; }
-    else {
-      stringstream s;
-      
-      s <<
-        "slash type \"" << slashType <<
-        "\" is unknown";
-  
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
+  string slashType = elt->getValue();
+
+  // the type contains a display duration,
+  if      (slashType == "maxima") {
+    fCurrentSlashGraphicDurationKind = kMaxima; }
+  else if (slashType == "long") {
+    fCurrentSlashGraphicDurationKind = kLong; }
+  else if (slashType == "breve") {
+      fCurrentSlashGraphicDurationKind = kBreve; } 
+  else if (slashType == "whole") {
+      fCurrentSlashGraphicDurationKind = kWhole; } 
+  else if (slashType == "half") {
+      fCurrentSlashGraphicDurationKind = kHalf; } 
+  else if (slashType == "quarter") {
+      fCurrentSlashGraphicDurationKind = kQuarter; } 
+  else if (slashType == "eighth") {
+      fCurrentSlashGraphicDurationKind = kEighth; } 
+  else if (slashType == "16th") {
+      fCurrentSlashGraphicDurationKind = k16th; } 
+  else if (slashType == "32nd") {
+      fCurrentSlashGraphicDurationKind = k32nd; } 
+  else if (slashType == "64th") {
+      fCurrentSlashGraphicDurationKind = k64th; } 
+  else if (slashType == "128th") {
+      fCurrentSlashGraphicDurationKind = k128th; } 
+  else if (slashType == "256th") {
+      fCurrentSlashGraphicDurationKind = k256th; } 
+  else if (slashType == "512th") {
+      fCurrentSlashGraphicDurationKind = k512th; } 
+  else if (slashType == "1024th") {
+      fCurrentSlashGraphicDurationKind = k1024th; }
+  else {
+    stringstream s;
+    
+    s <<
+      "slash type \"" << slashType <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   // size
   
-  {
-    string slashTypeSize = elt->getAttributeValue ("size");
-  
-    if (slashTypeSize == "cue") { // USE IT! JMI ???
-    }
-  
-    else {
-      if (slashTypeSize.size ())
-        msrMusicXMLError (
-          gXml2lyOptions->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-            "slash type size \"" + slashTypeSize + "\" is unknown");
-    }
+  string slashTypeSize = elt->getAttributeValue ("size");
+
+  if (slashTypeSize == "cue") { // USE IT! JMI ???
   }
 
-/* JMI
+  else {
+    if (slashTypeSize.size ())
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+          "slash type size \"" + slashTypeSize + "\" is unknown");
+  }
+
   if (gTraceOptions->fTraceSlashes) {
     fLogOutputStream <<
       "slashType: \"" <<
@@ -8981,7 +8976,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
       "\"" <<
       endl;
   }
-  */
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_slash_dot& elt )
@@ -8993,6 +8987,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_dot& elt )
   }
 
   fCurrentSlashDotsNumber++;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_slash& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_slash" <<
+      endl;
+  }
+
+  S_msrSlash
+    slash =
+      msrSlash::create (
+        elt->getInputLineNumber (),
+        fCurrentSlashTypeKind,
+        fCurrentSlashUseDotsKind,
+        fCurrentSlashUseStemsKind);
+
+  fPendingSlashes.push_back (slash);
 }
 
 //______________________________________________________________________________
@@ -16416,6 +16429,64 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
+  S_msrNote note)
+{
+  // attach the pending slashes if any to the note
+  if (fPendingSlashes.size ()) {
+    bool delayAttachment = false;
+        
+    if (gTraceOptions->fTraceSlashes) {
+      fLogOutputStream <<
+        "Attaching pending slashes to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    if (fCurrentNoteIsARest) {
+      if (gMsrOptions->fDelayRestsSlashes) {
+        fLogOutputStream <<
+          "Delaying slash attached to a rest until next note" <<
+      endl;
+
+        delayAttachment = true;
+      }
+
+      else {
+        stringstream s;
+
+        int numberOfSlashes = fPendingSlashes.size ();
+
+        if (numberOfSlashes > 1)
+          s <<
+            "there are " << numberOfSlashes << " slashes";
+        else
+          s <<
+            "there is 1 slash";
+        s <<
+          " attached to a rest";
+          
+        msrMusicXMLWarning (
+          gXml2lyOptions->fInputSourceName,
+          note->getInputLineNumber (),
+          s.str ());
+      }
+    }
+    
+    if (! delayAttachment) {
+      while (fPendingSlashes.size ()) {
+        S_msrSlash
+          slash =
+            fPendingSlashes.front ();
+            
+        note->appendSlashToNote (slash);
+        fPendingSlashes.pop_front ();
+      } // while
+    }
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
@@ -16566,6 +16637,9 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 
   // attach the pending pedals, if any, to the note
   attachPendingPedalsToNote (note);
+
+  // attach the pending slashes, if any, to the note
+  attachPendingSlashesToNote (note);
 
   // attach the pending wedges, if any, to the note
   attachPendingWedgesToNote (note);

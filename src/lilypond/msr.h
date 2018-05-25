@@ -2691,6 +2691,99 @@ typedef SMARTP<msrOtherDynamics> S_msrOtherDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
 
 //______________________________________________________________________________
+class msrSlash : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrSlashKind {
+      kStartSlash, kStopSlash, 
+      k_NoSlash };
+
+    static string slashKindAsString (
+      msrSlashKind slashKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSlash> create (
+      int                  inputLineNumber,
+      msrSlashTypeKind     currentSlashTypeKind,
+      msrSlashUseDotsKind  currentSlashUseDotsKind,
+      msrSlashUseStemsKind currentSlashUseStemsKind);
+
+   /* JMi 
+    SMARTP<msrSlash> createSlashNewbornClone (
+      S_msrVoice containingVoice);
+*/
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSlash (
+      int                  inputLineNumber,
+      msrSlashTypeKind     currentSlashTypeKind,
+      msrSlashUseDotsKind  currentSlashUseDotsKind,
+      msrSlashUseStemsKind currentSlashUseStemsKind);
+      
+    virtual ~msrSlash ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+/* JMI
+    S_msrVoice            getSlashVoiceUplink () const
+                            { return fSlashVoiceUplink; }
+         */
+                                                
+    msrSlashTypeKind      getCurrentSlashTypeKind () const
+                              { return fCurrentSlashTypeKind; }
+
+    msrSlashUseDotsKind   getCurrentSlashUseDotsKind () const
+                              { return fCurrentSlashUseDotsKind; }
+
+    msrSlashUseStemsKind  getCurrentSlashUseStemsKind () const
+                              { return fCurrentSlashUseStemsKind; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+// JMI    S_msrVoice            fSlashVoiceUplink;
+    
+    msrSlashTypeKind      fCurrentSlashTypeKind;
+    msrSlashUseDotsKind   fCurrentSlashUseDotsKind;
+    msrSlashUseStemsKind  fCurrentSlashUseStemsKind;
+};
+typedef SMARTP<msrSlash> S_msrSlash;
+EXP ostream& operator<< (ostream& os, const S_msrSlash& elt);
+
+//______________________________________________________________________________
 class msrWedge : public msrElement
 {
   public:
@@ -6061,6 +6154,11 @@ class msrNote : public msrElement
     list<S_msrWords>&     getNoteWordsToModify ()
                               { return fNoteWords; }
                       
+    // slashes
+    const list<S_msrSlash>&
+                          getNoteSlashes () const
+                              { return fNoteSlashes; }
+
     // wedges
     const list<S_msrWedge>&
                           getNoteWedges () const
@@ -6279,6 +6377,9 @@ class msrNote : public msrElement
     // pedals
     void                  appendPedalToNote (S_msrPedal pedal);
     
+    //  slashes
+    void                  appendSlashToNote (S_msrSlash slash);
+
     //  wedges
     void                  appendWedgeToNote (S_msrWedge wedge);
 
@@ -6465,6 +6566,15 @@ class msrNote : public msrElement
     list<S_msrDynamics>   fNoteDynamics;
     list<S_msrOtherDynamics>
                           fNoteOtherDynamics;
+                          
+    // slashes
+    // ------------------------------------------------------
+
+    list<S_msrSlash>      fNoteSlashes;
+
+    // wedges
+    // ------------------------------------------------------
+
     list<S_msrWedge>      fNoteWedges;
 
     // eyeglasses
@@ -10440,98 +10550,6 @@ class msrMultipleRest : public msrElement
 };
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
-
-//______________________________________________________________________________
-class msrSlash : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrSlashKind {
-      kStartSlash, kStopSlash, 
-      k_NoSlash };
-
-    static string slashKindAsString (
-      msrSlashKind slashKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSlash> create (
-      int                  inputLineNumber,
-      msrSlashTypeKind     currentSlashTypeKind,
-      msrSlashUseDotsKind  currentSlashUseDotsKind,
-      msrSlashUseStemsKind currentSlashUseStemsKind,
-      S_msrVoice           voiceUplink);
-    
-    SMARTP<msrSlash> createSlashNewbornClone (
-      S_msrVoice containingVoice);
-
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSlash (
-      int                  inputLineNumber,
-      msrSlashTypeKind     currentSlashTypeKind,
-      msrSlashUseDotsKind  currentSlashUseDotsKind,
-      msrSlashUseStemsKind currentSlashUseStemsKind,
-      S_msrVoice           voiceUplink);
-      
-    virtual ~msrSlash ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    S_msrVoice            getSlashVoiceUplink () const
-                            { return fSlashVoiceUplink; }
-                                                
-    msrSlashTypeKind      getCurrentSlashTypeKind () const
-                              { return fCurrentSlashTypeKind; }
-
-    msrSlashUseDotsKind   getCurrentSlashUseDotsKind () const
-                              { return fCurrentSlashUseDotsKind; }
-
-    msrSlashUseStemsKind  getCurrentSlashUseStemsKind () const
-                              { return fCurrentSlashUseStemsKind; }
-
-    // services
-    // ------------------------------------------------------
-
-    string                asString () const;
-    
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    S_msrVoice            fSlashVoiceUplink;
-    
-    msrSlashTypeKind      fCurrentSlashTypeKind;
-    msrSlashUseDotsKind   fCurrentSlashUseDotsKind;
-    msrSlashUseStemsKind  fCurrentSlashUseStemsKind;
-};
-typedef SMARTP<msrSlash> S_msrSlash;
-EXP ostream& operator<< (ostream& os, const S_msrSlash& elt);
 
 //______________________________________________________________________________
 class msrRepeatCoda : public msrElement
