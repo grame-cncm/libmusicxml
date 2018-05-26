@@ -651,7 +651,7 @@ R"(Generate repeats with brackets instead of regular bar lines)",
   {
     // variables
     
-    fDelayedOrnamentsFraction = rational (2, 3);
+    fDelayedOrnamentsFraction = rational (1, 2);
   
     // options
   
@@ -672,7 +672,7 @@ R"()",
           "dof", "delayedOrnamentsFraction",
 R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
-The default value is '2/3'.)",
+The default value is '1/2'.)",
           "num/denom",
           "delayedOrnamentsFraction",
           fDelayedOrnamentsFraction));

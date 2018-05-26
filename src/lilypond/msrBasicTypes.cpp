@@ -18935,7 +18935,6 @@ string wholeNotesAsMsrString (
   }
 
   if (numerator == 1) {
-    // a number of ??? JMI notes
     return to_string (denominator);
   }
 
@@ -18953,7 +18952,6 @@ string wholeNotesAsMsrString (
     }
     
     if (workNumerator == 1) {
-      // a number of ??? JMI notes
       s <<
         workDenominator;
       break;

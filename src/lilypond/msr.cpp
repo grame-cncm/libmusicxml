@@ -1551,7 +1551,7 @@ msrTechnicalWithInteger::msrTechnicalWithInteger (
   fTechnicalWithIntegerPlacementKind = technicalWithIntegerPlacementKind;
 }
 
-msrTechnicalWithInteger::~msrTechnicalWithInteger()
+msrTechnicalWithInteger::~msrTechnicalWithInteger ()
 {}
 
 string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
@@ -1559,9 +1559,6 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
   string result;
   
   switch (fTechnicalWithIntegerKind) {
-    case msrTechnicalWithInteger::kBend:
-      result = "bend";
-      break;
     case msrTechnicalWithInteger::kFingering:
       result = "fingering";
       break;
@@ -1676,6 +1673,158 @@ void msrTechnicalWithInteger::print (ostream& os)
     setw (fieldWidth) <<
     "noteUplink" << " = " <<
     fTechnicalWithIntegerNoteUplink->asShortString () <<
+    endl;
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+S_msrTechnicalWithFloat msrTechnicalWithFloat::create (
+  int                       inputLineNumber,
+  msrTechnicalWithFloatKind technicalWithFloatKind,
+  float                     technicalWithFloatValue,
+  msrPlacementKind          technicalWithFloatPlacementKind)
+{
+  msrTechnicalWithFloat* o =
+    new msrTechnicalWithFloat (
+      inputLineNumber,
+      technicalWithFloatKind,
+      technicalWithFloatValue,
+      technicalWithFloatPlacementKind);
+  assert (o!=0);
+  return o;
+}
+
+msrTechnicalWithFloat::msrTechnicalWithFloat (
+  int                       inputLineNumber,
+  msrTechnicalWithFloatKind technicalWithFloatKind,
+  float                     technicalWithFloatValue,
+  msrPlacementKind          technicalWithFloatPlacementKind)
+    : msrElement (inputLineNumber)
+{
+  fTechnicalWithFloatKind = technicalWithFloatKind;
+
+  fTechnicalWithFloatValue = technicalWithFloatValue;
+
+  fTechnicalWithFloatPlacementKind = technicalWithFloatPlacementKind;
+}
+
+msrTechnicalWithFloat::~msrTechnicalWithFloat ()
+{}
+
+string msrTechnicalWithFloat::technicalWithFloatKindAsString () const
+{
+  string result;
+  
+  switch (fTechnicalWithFloatKind) {
+    case msrTechnicalWithFloat::kBend:
+      result = "bend";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTechnicalWithFloat::technicalWithFloatPlacementKindAsString () const
+{
+  return
+    msrPlacementKindAsString (
+      fTechnicalWithFloatPlacementKind);
+}
+
+void msrTechnicalWithFloat::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrTechnicalWithFloat::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrTechnicalWithFloat>*
+    p =
+      dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
+        S_msrTechnicalWithFloat elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrTechnicalWithFloat::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrTechnicalWithFloat::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrTechnicalWithFloat::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrTechnicalWithFloat>*
+    p =
+      dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
+        S_msrTechnicalWithFloat elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrTechnicalWithFloat::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrTechnicalWithFloat::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTechnicalWithFloat::asString () const
+{
+  stringstream s;
+
+  s <<
+    technicalWithFloatKindAsString () <<
+    ", value '" <<
+    fTechnicalWithFloatValue <<
+    "', placement " <<
+    technicalWithFloatPlacementKindAsString ();
+
+  return s.str ();
+}
+
+void msrTechnicalWithFloat::print (ostream& os)
+{
+  os <<
+    "TechnicalWithFloat" <<
+    ", " << technicalWithFloatKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 14;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "value" << " : " <<
+    fTechnicalWithFloatValue <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "placement" << " : " <<
+    technicalWithFloatPlacementKindAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "noteUplink" << " = " <<
+    fTechnicalWithFloatNoteUplink->asShortString () <<
     endl;
 
   gIndenter--;
@@ -3537,7 +3686,7 @@ void msrDynamics::print (ostream& os)
   os <<
     "Dynamics" " " <<
     dynamicsKindAsString () <<
-    ", " <<
+    ", dynamicsPlacementKind: " <<
     dynamicsPlacementKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
@@ -3545,26 +3694,39 @@ void msrDynamics::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrOtherDynamics msrOtherDynamics::create (
-  int    inputLineNumber,
-  string otherDynamicsString)
+  int              inputLineNumber,
+  string           otherDynamicsString,
+  msrPlacementKind otherDynamicsPlacementKind)
 {
   msrOtherDynamics* o =
     new msrOtherDynamics (
-      inputLineNumber, otherDynamicsString);
+      inputLineNumber,
+      otherDynamicsString,
+      otherDynamicsPlacementKind);
     assert(o!=0);
   return o;
 }
 
 msrOtherDynamics::msrOtherDynamics (
-  int    inputLineNumber,
-  string otherDynamicsString)
+  int              inputLineNumber,
+  string           otherDynamicsString,
+  msrPlacementKind otherDynamicsPlacementKind)
     : msrElement (inputLineNumber)
 {
   fOtherDynamicsString = otherDynamicsString; 
+
+  fOtherDynamicsPlacementKind = otherDynamicsPlacementKind;
 }
 
-msrOtherDynamics::~msrOtherDynamics()
+msrOtherDynamics::~msrOtherDynamics ()
 {}
+
+string msrOtherDynamics::otherDynamicsPlacementKindAsString () const
+{
+  return
+    msrPlacementKindAsString (
+      fOtherDynamicsPlacementKind);
+}
 
 void msrOtherDynamics::acceptIn (basevisitor* v)
 {
@@ -3625,7 +3787,11 @@ string msrOtherDynamics::asString () const
   stringstream s;
   
   s <<
-    "OtherDynamics '" << fOtherDynamicsString <<
+    "OtherDynamics '" <<
+    ", otherDynamicsString: " <<
+    fOtherDynamicsString <<
+    ", otherDynamicsPlacementKind: " <<
+    otherDynamicsPlacementKindAsString () <<
     "', line " << fInputLineNumber;
 
   return s.str ();
@@ -6767,6 +6933,27 @@ void msrNote::appendTechnicalWithIntegerToNote (
     setTechnicalWithIntegerNoteUplink (this);
 }
 
+void msrNote::appendTechnicalWithFloatToNote (
+  S_msrTechnicalWithFloat technicalWithFloat)
+{
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
+    gLogIOstream <<
+      "Adding technical with float '" <<
+      technicalWithFloat->asString () <<
+      "' to note '" << asShortString () <<
+      "', line " << fInputLineNumber <<
+      endl;
+  }
+
+  // append the technical with float to the note technicals with floats list
+  fNoteTechnicalWithFloats.push_back (
+    technicalWithFloat);
+
+  // set technical's note uplink
+  technicalWithFloat->
+    setTechnicalWithFloatNoteUplink (this);
+}
+
 void msrNote::appendTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
@@ -6779,7 +6966,7 @@ void msrNote::appendTechnicalWithStringToNote (
       endl;
   }
 
-  // append the technical with integer to the note technicals with integers list
+  // append the technical with string to the note technicals with strings list
   fNoteTechnicalWithStrings.push_back (
     technicalWithString);
 
@@ -7204,6 +7391,21 @@ void msrNote::browseData (basevisitor* v)
       i++) {
       // browse the technical
       msrBrowser<msrTechnicalWithInteger> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+  
+  // browse the technicals with float if any
+  if (fNoteTechnicalWithFloats.size ()) {
+    gIndenter++;
+    list<S_msrTechnicalWithFloat>::const_iterator i;
+    for (
+      i=fNoteTechnicalWithFloats.begin ();
+      i!=fNoteTechnicalWithFloats.end ();
+      i++) {
+      // browse the technical
+      msrBrowser<msrTechnicalWithFloat> browser (v);
       browser.browse (*(*i));
     } // for
     gIndenter--;
@@ -7967,10 +8169,6 @@ void msrNote::print (ostream& os)
       noteHeadKindAsString () <<
       endl <<
       setw (fieldWidth) <<
-      "notePrintKind" << " : " <<
-      notePrintKindAsString () <<
-      endl <<
-      setw (fieldWidth) <<
       "noteHeadFilledKind" << " : " <<
       noteHeadFilledKindAsString () <<
       endl <<
@@ -8410,6 +8608,29 @@ void msrNote::print (ostream& os)
     list<S_msrTechnicalWithInteger>::const_iterator
       iBegin = fNoteTechnicalWithIntegers.begin (),
       iEnd   = fNoteTechnicalWithIntegers.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+        
+    gIndenter--;
+    gIndenter--;
+  }
+  
+  // print the technicals with float if any
+  if (fNoteTechnicalWithFloats.size ()) {
+    gIndenter++;
+    os <<
+      "Note technicals with integers:" <<
+      endl;
+      
+    gIndenter++;
+
+    list<S_msrTechnicalWithFloat>::const_iterator
+      iBegin = fNoteTechnicalWithFloats.begin (),
+      iEnd   = fNoteTechnicalWithFloats.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -9214,6 +9435,35 @@ void msrChord::appendTechnicalWithIntegerToChord (
   }
 
   fChordTechnicalWithIntegers.push_back (tech);
+}
+
+void msrChord::appendTechnicalWithFloatToChord (
+  S_msrTechnicalWithFloat tech)
+{
+  msrTechnicalWithFloat::msrTechnicalWithFloatKind
+    technicalWithFloatKind =
+      tech->
+        getTechnicalWithFloatKind ();
+
+  // don't append the same technical several times
+  for (
+    list<S_msrTechnicalWithFloat>::const_iterator i =
+      fChordTechnicalWithFloats.begin ();
+    i!=fChordTechnicalWithFloats.end ();
+    i++) {
+      if ((*i)->getTechnicalWithFloatKind () == technicalWithFloatKind)
+        return;
+  } // for
+
+  if (gTraceOptions->fTraceChords) {
+    gLogIOstream <<
+      "Appending technical with integer '" <<
+      tech->asString () <<
+      "' to chord" <<
+      endl;
+  }
+
+  fChordTechnicalWithFloats.push_back (tech);
 }
 
 void msrChord::appendTechnicalWithStringToChord (
@@ -23088,8 +23338,8 @@ void msrMeasure::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
-        // JMI << endl;
       if (++i == iEnd) break;
+      os << endl;
     } // for
     
     gIndenter--;
@@ -32527,7 +32777,6 @@ void msrStaffTuning::print (ostream& os)
   os <<
     "StaffTuning" <<
     ", line " << fInputLineNumber <<
-    ", " <<
     endl;
 
   gIndenter++;
@@ -32536,17 +32785,17 @@ void msrStaffTuning::print (ostream& os)
 
   os << left <<  
     setw (fieldWidth) <<
-    "StaffTuningLineNumber" << " = " <<
+    "staffTuningLineNumber" << " : " <<
     fStaffTuningLineNumber <<
     endl <<
     setw (fieldWidth) <<
-    "fStaffTuningQuarterTonesPitch" << " = " <<
+    "staffTuningQuarterTonesPitch" << " : " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fStaffTuningQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "StaffTuningOctave" << " = " <<
+    "staffTuningOctave" << " : " <<
     fStaffTuningOctave <<
     endl;
 
@@ -32776,15 +33025,14 @@ void msrStaffDetails::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "staffTypeKind" << " = " <<
+    "staffTypeKind" << " : " <<
     staffTypeKindAsString (fStaffTypeKind) <<
     endl <<
     setw (fieldWidth) <<
-    "staffLinesNumber" << " = " << fStaffLinesNumber <<
+    "staffLinesNumber" << " : " << fStaffLinesNumber <<
     endl;
 
   // print the staff tunings if any
-  os << "StaffTunings: ";
   if (fStaffTuningsList.size ()) {
     os <<
       endl;
@@ -32797,8 +33045,7 @@ void msrStaffDetails::print (ostream& os)
     gIndenter++;
     
     for ( ; ; ) {
-      os <<
-        (*i)->asString ();
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -32808,22 +33055,23 @@ void msrStaffDetails::print (ostream& os)
     gIndenter--;
   }
   else {
-    os <<
-      " : " << "none" <<
+    os << left <<
+      setw (fieldWidth) <<
+      "staffTunings" << " : " << "none" <<
       endl;
   }
 
   os << left <<
     setw (fieldWidth) <<
-    "showFretsKind" << " = " <<
+    "showFretsKind" << " : " <<
     showFretsKindAsString (fShowFretsKind) <<
     endl <<
     setw (fieldWidth) <<
-    "printObjectKind" << " = " <<
+    "printObjectKind" << " : " <<
     printObjectKindAsString (fPrintObjectKind) <<
     endl <<
     setw (fieldWidth) <<
-    "printSpacingKind" << " = " <<
+    "printSpacingKind" << " : " <<
     printSpacingKindAsString (fPrintSpacingKind) <<
     endl;
 

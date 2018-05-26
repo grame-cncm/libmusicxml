@@ -39,60 +39,132 @@ string wholeNotesAsLilypondString (
   rational wholeNotes,
   int&     dotsNumber)
 {  
+#define DEBUG_WHOLE_NOTES 0
+
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> wholeNotes: " << wholeNotes <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   wholeNotes.rationalise ();
+
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> wholeNotes rationalised: " << wholeNotes <<
+      endl;
+  }
 
   int
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numerator: " << numerator <<
+      endl <<
+      "--> denominator: " << denominator <<
+      endl <<
+      endl;
+  }
+
+  if (numerator == 0) {
+    return "256"; // JMI ???
+  }
+
   if (numerator == 1) {
-    // a number of ??? JMI notes
     return to_string (denominator);
   }
 
   int
-    numberOfDots = 0;
+    workNumerator   = numerator,
+    workDenominator = denominator,
+    workDotsNumber  = 0;
 
   stringstream s;
 
-  // handle the quarter note fraction if any
+  // handle the 'smaller than quarter note' part if any
   for ( ; ; ) {
-    if (denominator <= 4) {
+    if (workDenominator <= 4) {
       break;
     }
     
-    if (numerator == 1) {
-      // a number of ??? JMI notes
-      s << denominator;
+    if (workDenominator == 1) {
+      s <<
+        workDenominator;
       break;
     }
     
-    if (numerator % 2 == 1) {
-      numberOfDots += 1;
+    if (workNumerator % 2 == 1) {
+      workDotsNumber += 1;
       
-      numerator = (numerator - 1) / 2;
-      denominator /= 2;
+      workNumerator = (workNumerator - 1) / 2;
+      workDenominator /= 2;
       
-      rational r (numerator, denominator);
+      rational r (workNumerator, workDenominator);
       r.rationalise ();
       
-      numerator   = r.getNumerator (),
-      denominator = r.getDenominator ();
+      workNumerator   = r.getNumerator (),
+      workDenominator = r.getDenominator ();
+    }
+
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> workNumerator" << " : " << workNumerator <<
+        endl <<
+        "--> workDenominator" << " : " << workDenominator <<
+        endl <<
+        "--> workDotsNumber" << " : " << workDotsNumber <<
+        endl <<
+        "--> s.str ()" << " : \"" << s.str () << "\"" <<
+        endl <<
+        endl;
     }
   } // for
   
-  if (denominator <= 4) {
-    // handle the 'above quarter note' part
+  if (workDenominator <= 4) {
+    // handle the 'larger than quarter note' part
+
+    int accumulatedValue = 1;
+
+    accumulatedValue++; // JMI
+    
     for ( ; ; ) {
-      if (numerator == 1) {
-        // a number of whole notes
-        s << denominator;
+      if (workNumerator == 1) {
+        // wholeNotes is a number of whole notes
+        if (workDenominator * 4 == numerator) {
+          // wholeNotes is a dotted note duration
+          s <<
+            workDenominator;
+        }
+        else {
+          // wholeNotes is NOT a dotted note duration,
+          // use a multiplying factor and exit
+          stringstream ss;
+          
+          ss <<
+            workDenominator /*1*/ <<
+            "*" <<
+            numerator << "/" << denominator; // JMI
+
+          if (DEBUG_WHOLE_NOTES) {
+            gLogIOstream <<
+              "--> return:" <<
+              endl <<
+              "--> ss.str ()" << " : \"" << ss.str () << "\"" <<
+              endl <<
+            endl;
+          }
+
+          return ss.str ();
+        }
         break;
       }
       
-      if (denominator == 1) {
+      if (workDenominator == 1) {
         // a number of whole notes
-        switch (numerator) {
+        switch (workNumerator) {
           case 1:
             s << "1";
             break;
@@ -101,33 +173,33 @@ string wholeNotesAsLilypondString (
             break;
           case 3:
             s << "\\breve";
-            numberOfDots += 1;
+            workDotsNumber += 1;
             break;
           case 4:
             s << "\\longa";
             break;
           case 6:
             s << "\\longa";
-            numberOfDots += 1;
+            workDotsNumber += 1;
             break;
           case 7:
             s << "\\longa";
-            numberOfDots += 2;
+            workDotsNumber += 2;
             break;
           case 8:
             s << "\\maxima";
             break;
           case 12:
             s << "\\maxima";
-            numberOfDots += 1;
+            workDotsNumber += 1;
             break;
           case 14:
             s << "\\maxima";
-            numberOfDots += 2;
+            workDotsNumber += 2;
             break;
           default:
             s <<
-              numerator << "/" << denominator <<
+              workNumerator << "/" << workDenominator <<
               " whole notes cannot be represented as an MSR string";
   
             msrInternalError (
@@ -139,34 +211,75 @@ string wholeNotesAsLilypondString (
         break;
       }
       
-      if (numerator % 2 == 1) {
+      if (DEBUG_WHOLE_NOTES) {
+        gLogIOstream <<
+          "--> workNumerator % 2" << " : " << workNumerator % 2 <<
+          endl;
+      }
+
+      if (workNumerator % 2 == 1) {
         // a number of quarter or half notes
-        numberOfDots += 1;
+        workDotsNumber += 1;
         
-        numerator = (numerator - 1) / 2;
-        denominator /= 2;
+        workNumerator = (workNumerator - 1) / 2;
+        workDenominator /= 2;
         
-        rational r (numerator, denominator);
+        if (DEBUG_WHOLE_NOTES) {
+          gLogIOstream <<
+            "--> workNumerator" << " : " << workNumerator <<
+            endl <<
+            "--> workDenominator" << " : " << workDenominator <<
+            endl <<
+            "--> workDotsNumber" << " : " << workDotsNumber <<
+            endl <<
+            endl;
+        }
+
+        rational r (workNumerator, workDenominator);
         r.rationalise ();
         
-        numerator   = r.getNumerator (),
-        denominator = r.getDenominator ();
+        workNumerator   = r.getNumerator (),
+        workDenominator = r.getDenominator ();
+
+        if (DEBUG_WHOLE_NOTES) {
+          gLogIOstream <<
+            "--> workNumerator" << " : " << workNumerator <<
+            endl <<
+            "--> workDenominator" << " : " << workDenominator <<
+            endl <<
+            "--> workDotsNumber" << " : " << workDotsNumber <<
+            endl <<
+            "--> s.str ()" << " : \"" << s.str () << "\"" <<
+            endl <<
+            endl;
+        }
       }
     } // for
   }  
 
   // append the dots if any
+  /* JMI
   if (false) {
     s <<
       " %{" << numerator << "/" << denominator << "%} ";
   }
+  */
     
-  for (int i = 0; i < numberOfDots; i++) {
+  for (int i = 0; i < workDotsNumber; i++) {
     s << ".";
   } // for
   
   // return the result
-  dotsNumber = numberOfDots;
+  dotsNumber = workDotsNumber;
+  
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> return:" <<
+      endl <<
+      "--> s.str ()" << " : \"" << s.str () << "\"" <<
+      endl <<
+      endl;
+  }
   
   return
     s.str ();

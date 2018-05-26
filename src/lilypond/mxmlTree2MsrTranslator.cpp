@@ -269,7 +269,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // technicals handling
   fOnGoingTechnical = false;
-  fBendAlterValue = -39;
+  fBendAlterValue = -39.3;
 
   // ornaments handling
 
@@ -6087,10 +6087,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   // there can be several <text/>'s and <elision/> in a row, hence the list
   fCurrentLyricTextsList.push_back (textValue);
 
-  fLogOutputStream <<
-    "textValue = \""<< textValue << "\"" <<
-    ", line " << elt->getInputLineNumber () <<
-    endl;
+  if (gTraceOptions->fTraceLyrics) {
+    fLogOutputStream <<
+      "textValue = \""<< textValue << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
     
   fCurrentStanzaHasText = true;
 
@@ -10029,7 +10031,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bend_alter& elt )
       endl;
   }
 
-  fBendAlterValue = (int)(*elt);
+  fBendAlterValue = (float)(*elt);
 }
   
 void mxmlTree2MsrTranslator::visitStart ( S_bend& elt ) // JMI
@@ -10075,16 +10077,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
       s.str ());    
   }
 
-  S_msrTechnicalWithInteger
-    technicalWithInteger =
-      msrTechnicalWithInteger::create (
+  S_msrTechnicalWithFloat
+    technicalWithFloat =
+      msrTechnicalWithFloat::create (
         inputLineNumber,
-        msrTechnicalWithInteger::kBend,
+        msrTechnicalWithFloat::kBend,
         fBendAlterValue,
         bendPlacementKind);
       
-  fCurrentTechnicalWithIntegersList.push_back (
-    technicalWithInteger);
+  fCurrentTechnicalWithFloatsList.push_back (
+    technicalWithFloat);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
@@ -13455,13 +13457,42 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   string otherDynamicsValue = elt->getValue ();
+
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    otherDynamicsPlacementKind = kPlacementNone;
+
+  if      (placement == "above")
+    otherDynamicsPlacementKind = kPlacementAbove;
+  else if (placement == "below")
+    otherDynamicsPlacementKind = kPlacementBelow;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "other dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
   
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
         elt->getInputLineNumber (),
-        otherDynamicsValue);
+        otherDynamicsValue,
+        otherDynamicsPlacementKind);
         
   fPendingOtherDynamics.push_back(otherDynamics);
 }
@@ -14858,6 +14889,39 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's technicals if any from the first note to chord
+  
+  list<S_msrTechnicalWithFloat>
+    noteTechnicalWithFloats =
+      note->
+        getNoteTechnicalWithFloats ();
+                          
+  list<S_msrTechnicalWithFloat>::const_iterator i;
+  for (
+    i=noteTechnicalWithFloats.begin ();
+    i!=noteTechnicalWithFloats.end ();
+    i++) {
+
+    if (
+    gTraceOptions->fTraceNotesDetails
+      ||
+    gTraceOptions->fTraceTechnicals) {
+      fLogOutputStream <<
+        "Copying technical '" <<
+        (*i)->technicalWithFloatKindAsString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+
+    chord->appendTechnicalWithFloatToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -15300,6 +15364,7 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   // copy note's technicals if any to the chord
   copyNoteTechnicalsToChord (note, chord);
   copyNoteTechnicalWithIntegersToChord (note, chord);
+  copyNoteTechnicalWithFloatsToChord (note, chord);
   copyNoteTechnicalWithStringsToChord (note, chord);
 
   // copy note's ornaments if any to the chord
@@ -15640,6 +15705,42 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
 
       // forget about this technical
       fCurrentTechnicalWithIntegersList.pop_front();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachCurrentTechnicalWithFloatsToNote (
+  S_msrNote note)
+{
+  // attach the current technicals if any to the note
+  if (fCurrentTechnicalWithFloatsList.size ()) {
+    
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
+      fLogOutputStream <<
+        "Attaching current technical with floats to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    while (fCurrentTechnicalWithFloatsList.size ()) {
+      S_msrTechnicalWithFloat
+        tech =
+          fCurrentTechnicalWithFloatsList.front();
+          
+      if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
+        fLogOutputStream <<
+          "Attaching technical with integer '" <<
+          tech->asString () <<
+          "' to note " << note->asString () <<
+          endl;
+      }
+  
+      note->
+        appendTechnicalWithFloatToNote (tech);
+
+      // forget about this technical
+      fCurrentTechnicalWithFloatsList.pop_front();
     } // while
   }
 }
@@ -17146,6 +17247,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // attach the technicals if any to the note
   attachCurrentTechnicalsToNote (newNote);
   attachCurrentTechnicalWithIntegersToNote (newNote);
+  attachCurrentTechnicalWithFloatsToNote (newNote);
   attachCurrentTechnicalWithStringsToNote (newNote);
 
   // attach the ornaments if any to the note
@@ -17348,10 +17450,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote);
 
   // register newNote as the last met note for this voice
- // fVoicesLastMetNoteMap [voice] = newNote;
+  fVoicesLastMetNoteMap [voice] = newNote;
 
+/*
   fVoicesLastMetNoteMap.insert ( // JMI ???
     pair<S_msrVoice, S_msrNote>(voice, newNote));
+*/
 
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
@@ -19239,15 +19343,17 @@ void mxmlTree2MsrTranslator::handleEndingStart (
   if (fOnGoingRepeat) {
     // yes
 
-    fLogOutputStream <<
-      endl <<
-      endl <<
-      "****************** handleEndingStart" <<
-      endl <<
-      fCurrentPart <<
-      endl <<
-      endl <<
-      endl;
+    if (gTraceOptions->fTraceRepeats) {
+      fLogOutputStream <<
+        endl <<
+        endl <<
+        "****************** handleEndingStart" <<
+        endl <<
+        fCurrentPart <<
+        endl <<
+        endl <<
+        endl;
+    }
 
     if (fOnGoingRepeatHasBeenCreated) {
       fLogOutputStream <<

@@ -343,11 +343,12 @@ R"(Write the structure of the part groups to standard error.)",
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        optionsTwoBooleansItem::create (
           "msr", "displayMsr",
 R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
-          fDisplayMsr));
+          fDisplayMsr,
+          gTraceOptions->fTracePasses));
           
     traceAndDisplaySubGroup->
       appendOptionsItem (

@@ -236,6 +236,7 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
+  public visitor<S_msrTechnicalWithFloat>,
   public visitor<S_msrTechnicalWithString>,
   
   // ornaments
@@ -515,6 +516,9 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrTechnicalWithInteger& elt);
     virtual void visitEnd   (S_msrTechnicalWithInteger& elt);
 
+    virtual void visitStart (S_msrTechnicalWithFloat& elt);
+    virtual void visitEnd   (S_msrTechnicalWithFloat& elt);
+
     virtual void visitStart (S_msrTechnicalWithString& elt);
     virtual void visitEnd   (S_msrTechnicalWithString& elt);
 
@@ -661,9 +665,6 @@ class lpsr2LilypondTranslator :
     string                alterationKindAsLilypondString (
                             msrAlterationKind alterationKind);
 
-    string                alterationKindAsLilypondAccidentalMark (
-                            msrAlterationKind alterationKind);
-
     // durations
     
     rational              fLastMetWholeNotes;
@@ -675,9 +676,13 @@ class lpsr2LilypondTranslator :
     string                durationAsExplicitLilypondString ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
-                            
+
     // notes
     
+    msrNote::msrNotePrintKind
+                          fCurrentNotePrintKind;
+    bool                  fCurrentNoteIsUnpitched;
+
     string                lilypondRelativeOctave (
                             S_msrNote note);
 
@@ -705,12 +710,15 @@ class lpsr2LilypondTranslator :
     string                technicalWithIntegerAsLilypondString (
                             S_msrTechnicalWithInteger technicalWithInteger);
 
+    string                technicalWithFloatAsLilypondString (
+                            S_msrTechnicalWithFloat technicalWithFloat);
+
     string                technicalWithStringAsLilypondString (
                             S_msrTechnicalWithString technicalWithString);
 
     // ornaments
     
-    string                ornamentAsLilypondString (
+    void                  generateOrnament (
                             S_msrOrnament ornament);
 
     // trills
@@ -718,6 +726,8 @@ class lpsr2LilypondTranslator :
     bool                  fOnGoingTrillSpanner; // JMI
     
     // spanners
+
+    msrPlacementKind      fCurrentSpannerPlacementKind;
     
     void                  generateCodeForSpannerBeforeNote (
                             S_msrSpanner spanner);

@@ -1220,10 +1220,9 @@ class msrTechnicalWithInteger : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalWithIntegerKind {
-      kBend,
       kFingering,
       kFret,
-      kString};
+      kString };
 
     static string technicalWithIntegerKindAsString (
       msrTechnicalWithIntegerKind technicalWithIntegerKind);
@@ -1248,7 +1247,7 @@ class msrTechnicalWithInteger : public msrElement
       int                         technicalWithIntegerValue,
       msrPlacementKind            technicalWithIntegerPlacementKind);
       
-    virtual ~msrTechnicalWithInteger();
+    virtual ~msrTechnicalWithInteger ();
   
   public:
 
@@ -1318,6 +1317,111 @@ class msrTechnicalWithInteger : public msrElement
 };
 typedef SMARTP<msrTechnicalWithInteger> S_msrTechnicalWithInteger;
 EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
+
+//______________________________________________________________________________
+class msrTechnicalWithFloat : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTechnicalWithFloatKind {
+      kBend };
+
+    static string technicalWithFloatKindAsString (
+      msrTechnicalWithFloatKind technicalWithFloatKind);
+                  
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTechnicalWithFloat> create (
+      int                       inputLineNumber,
+      msrTechnicalWithFloatKind technicalWithFloatKind,
+      float                     technicalWithFloatValue,
+      msrPlacementKind          technicalWithFloatPlacementKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTechnicalWithFloat (
+      int                       inputLineNumber,
+      msrTechnicalWithFloatKind technicalWithFloatKind,
+      float                     technicalWithFloatValue,
+      msrPlacementKind          technicalWithFloatPlacementKind);
+      
+    virtual ~msrTechnicalWithFloat ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrTechnicalWithFloatKind
+                          getTechnicalWithFloatKind () const
+                              { return fTechnicalWithFloatKind; }
+        
+    float                 getTechnicalWithFloatValue () const
+                              { return fTechnicalWithFloatValue; }
+        
+    void                  setTechnicalWithFloatPlacementKind (
+                            msrPlacementKind
+                              technicalWithFloatPlacementKind)
+                              {
+                                fTechnicalWithFloatPlacementKind =
+                                  technicalWithFloatPlacementKind;
+                              }
+        
+    msrPlacementKind      getTechnicalWithFloatPlacementKind () const
+                              { return fTechnicalWithFloatPlacementKind; }
+
+    void                  setTechnicalWithFloatNoteUplink (S_msrNote note)
+                              { fTechnicalWithFloatNoteUplink = note; }
+
+    S_msrNote             getTechnicalWithFloatNoteUplink () const
+                              { return fTechnicalWithFloatNoteUplink; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                technicalWithFloatKindAsString () const;
+
+    string                technicalWithFloatPlacementKindAsString () const;
+
+    string                technicalWithFloatAccidentalMarkKindAsString () const;
+    
+    string                asString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrTechnicalWithFloatKind       fTechnicalWithFloatKind;
+
+    float                           fTechnicalWithFloatValue;
+
+    msrPlacementKind                fTechnicalWithFloatPlacementKind;
+    
+    S_msrNote                       fTechnicalWithFloatNoteUplink;
+};
+typedef SMARTP<msrTechnicalWithFloat> S_msrTechnicalWithFloat;
+EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt);
 
 //______________________________________________________________________________
 class msrTechnicalWithString : public msrElement
@@ -2640,8 +2744,9 @@ class msrOtherDynamics : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrOtherDynamics> create (
-      int    inputLineNumber,
-      string otherDynamicsString);
+      int              inputLineNumber,
+      string           otherDynamicsString,
+      msrPlacementKind otherDynamicsPlacementKind);
 
   protected:
 
@@ -2649,8 +2754,9 @@ class msrOtherDynamics : public msrElement
     // ------------------------------------------------------
 
     msrOtherDynamics (
-      int    inputLineNumber,
-      string otherDynamicsString);
+      int              inputLineNumber,
+      string           otherDynamicsString,
+      msrPlacementKind otherDynamicsPlacementKind);
       
     virtual ~msrOtherDynamics();
   
@@ -2662,8 +2768,13 @@ class msrOtherDynamics : public msrElement
     string                getOtherDynamicsString () const
                               { return fOtherDynamicsString; }
 
+    msrPlacementKind      getOtherDynamicsPlacementKind () const
+                              { return fOtherDynamicsPlacementKind; }
+
     // services
     // ------------------------------------------------------
+
+    string                otherDynamicsPlacementKindAsString () const;
 
     string                asString () const;
 
@@ -2686,6 +2797,8 @@ class msrOtherDynamics : public msrElement
     // ------------------------------------------------------
 
     string                fOtherDynamicsString;
+
+    msrPlacementKind      fOtherDynamicsPlacementKind;
 };
 typedef SMARTP<msrOtherDynamics> S_msrOtherDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
@@ -6096,6 +6209,10 @@ class msrNote : public msrElement
                           getNoteTechnicalWithIntegers () const
                               { return fNoteTechnicalWithIntegers; }
                               
+    const list<S_msrTechnicalWithFloat>&
+                          getNoteTechnicalWithFloats () const
+                              { return fNoteTechnicalWithFloats; }
+                              
     const list<S_msrTechnicalWithString>&
                           getNoteTechnicalWithStrings () const
                               { return fNoteTechnicalWithStrings; }
@@ -6335,6 +6452,9 @@ class msrNote : public msrElement
     void                  appendTechnicalWithIntegerToNote (
                             S_msrTechnicalWithInteger tech);
     
+    void                  appendTechnicalWithFloatToNote (
+                            S_msrTechnicalWithFloat tech);
+    
     void                  appendTechnicalWithStringToNote (
                             S_msrTechnicalWithString tech);
     
@@ -6520,8 +6640,13 @@ class msrNote : public msrElement
     // ------------------------------------------------------
 
     list<S_msrTechnical>  fNoteTechnicals;
+    
     list<S_msrTechnicalWithInteger>
                           fNoteTechnicalWithIntegers;
+                          
+    list<S_msrTechnicalWithFloat>
+                          fNoteTechnicalWithFloats;
+                          
     list<S_msrTechnicalWithString>
                           fNoteTechnicalWithStrings;
 
@@ -6748,6 +6873,10 @@ class msrChord : public msrElement
                           getChordTechnicalWithIntegers () const
                               { return fChordTechnicalWithIntegers; }
     
+    const list<S_msrTechnicalWithFloat>&
+                          getChordTechnicalWithFloats () const
+                              { return fChordTechnicalWithFloats; }
+    
     const list<S_msrTechnicalWithString>&
                           getChordTechnicalWithStrings () const
                               { return fChordTechnicalWithStrings; }
@@ -6891,6 +7020,9 @@ class msrChord : public msrElement
     void                  appendTechnicalWithIntegerToChord (
                             S_msrTechnicalWithInteger tech);
     
+    void                  appendTechnicalWithFloatToChord (
+                            S_msrTechnicalWithFloat tech);
+    
     void                  appendTechnicalWithStringToChord (
                             S_msrTechnicalWithString tech);
     
@@ -7032,6 +7164,9 @@ class msrChord : public msrElement
     
     list<S_msrTechnicalWithInteger>
                           fChordTechnicalWithIntegers;
+    
+    list<S_msrTechnicalWithFloat>
+                          fChordTechnicalWithFloats;
     
     list<S_msrTechnicalWithString>
                           fChordTechnicalWithStrings;

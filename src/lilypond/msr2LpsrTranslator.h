@@ -134,6 +134,7 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
+  public visitor<S_msrTechnicalWithFloat>,
   public visitor<S_msrTechnicalWithString>,
   
   // ornaments
@@ -347,6 +348,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrTechnicalWithInteger& elt);
     virtual void visitEnd   (S_msrTechnicalWithInteger& elt);
+
+    virtual void visitStart (S_msrTechnicalWithFloat& elt);
+    virtual void visitEnd   (S_msrTechnicalWithFloat& elt);
 
     virtual void visitStart (S_msrTechnicalWithString& elt);
     virtual void visitEnd   (S_msrTechnicalWithString& elt);

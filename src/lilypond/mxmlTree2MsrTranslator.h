@@ -1709,16 +1709,20 @@ class mxmlTree2MsrTranslator :
     list<S_msrTechnical>      fCurrentTechnicalsList;
     list<S_msrTechnicalWithInteger>
                               fCurrentTechnicalWithIntegersList;
+    list<S_msrTechnicalWithFloat>
+                              fCurrentTechnicalWithFloatsList;
     list<S_msrTechnicalWithString>
                               fCurrentTechnicalWithStringsList;
 
     bool                      fOnGoingTechnical;
 
-    int                       fBendAlterValue;
+    float                     fBendAlterValue;
     
     void                      attachCurrentTechnicalsToNote (
                                 S_msrNote note);
     void                      attachCurrentTechnicalWithIntegersToNote (
+                                S_msrNote note);
+    void                      attachCurrentTechnicalWithFloatsToNote (
                                 S_msrNote note);
     void                      attachCurrentTechnicalWithStringsToNote (
                                 S_msrNote note);
@@ -1729,6 +1733,8 @@ class mxmlTree2MsrTranslator :
     void                      copyNoteTechnicalsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteTechnicalWithIntegersToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNoteTechnicalWithFloatsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteTechnicalWithStringsToChord (
                                 S_msrNote note, S_msrChord chord);

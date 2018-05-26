@@ -2317,6 +2317,36 @@ void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrTechnicalWithFloat" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingNote) {
+    fCurrentNoteClone->
+      appendTechnicalWithFloatToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      appendTechnicalWithFloatToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrTechnicalWithFloat" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
