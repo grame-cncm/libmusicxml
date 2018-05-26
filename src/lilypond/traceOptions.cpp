@@ -200,6 +200,9 @@ debugging information to standard error for the specified measures.)",
     // beams
     fTraceBeams = boolOptionsInitialValue;
     
+    // articulations
+    fTraceArticulations = boolOptionsInitialValue;
+    
     // technicals
     fTraceTechnicals = boolOptionsInitialValue;
     
@@ -505,6 +508,15 @@ This option implies '-tndetails, -traceNotesDetails'.)",
 R"(Beams)",
           "traceBeams",
           fTraceBeams,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tarts", "traceArticulations",
+R"(Articulations)",
+          "traceArticulations",
+          fTraceArticulations,
           fTracePasses));
       
     specificTraceSubGroup->
@@ -841,6 +853,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // beams
   clone->fTraceBeams = true;
     
+  // articulations
+  clone->fTraceArticulations = true;
+  
   // technicals
   clone->fTraceTechnicals = true;
   
@@ -1122,6 +1137,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // beams
     setw (fieldWidth) << "traceBeams" << " : " <<
     booleanAsString (fTraceBeams) <<
+    endl <<
+    
+    // articulations
+    setw (fieldWidth) << "traceArticulations" << " : " <<
+    booleanAsString (fTraceArticulations) <<
     endl <<
     
     // technicals

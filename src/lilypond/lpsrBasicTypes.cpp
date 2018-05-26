@@ -39,7 +39,7 @@ string wholeNotesAsLilypondString (
   rational wholeNotes,
   int&     dotsNumber)
 {  
-#define DEBUG_WHOLE_NOTES 0
+#define DEBUG_WHOLE_NOTES 1
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<

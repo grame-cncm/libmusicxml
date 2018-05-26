@@ -1636,9 +1636,11 @@ class mxmlTree2MsrTranslator :
 
     void                      attachCurrentArticulationsToNote (
                                 S_msrNote note);
-                                
+
+                                /* JMI
     void                      attachCurrentArticulationsToChord ( // JMI
                                 S_msrChord chord);
+                                */
                                 
     void                      copyNoteArticulationsToChord (
                                 S_msrNote note, S_msrChord chord);

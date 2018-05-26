@@ -986,10 +986,10 @@ string msrArticulation::articulationKindAsString (
       result = "unstress";
       break;
     case msrArticulation::kDetachedLegato:
-      result = "detached legato";
+      result = "detachedLegato";
       break;
     case msrArticulation::kStrongAccent:
-      result = "strong accent";
+      result = "strongAccent";
       break;
     case msrArticulation::kTenuto:
       result = "tenuto";
@@ -8140,15 +8140,15 @@ void msrNote::print (ostream& os)
 
     // full measure length,
     // may be unknown if there is no time signature
+    os << left <<
+      setw (fieldWidth) <<
+      "fullMeasureLength" << " : ";
     if (fullMeasureLength.getNumerator () == 0) {
-      os << left <<
-        setw (fieldWidth) <<
-        "full measure length unknown, no time signature";
+      os <<
+        "unknown, there's no time signature";
     }
     else {
-      os << left <<
-        setw (fieldWidth) <<
-        "fullMeasureLength" << " : " <<
+      os <<
         fullMeasureLength;
     }
     os <<
@@ -9327,7 +9327,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
         return;
   } // for
 
-  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) { // JMI
+  if (gTraceOptions->fTraceArticulations || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending articulation '" <<
       art->articulationKindAsString () <<

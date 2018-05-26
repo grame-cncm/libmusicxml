@@ -15608,7 +15608,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   // attach the current articulations if any to the note
   if (fCurrentArticulations.size ()) {
 
-    if (gTraceOptions->fTraceNotes) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceArticulations) {
       fLogOutputStream <<
         "Attaching current articulations to note " <<
         note->asString () <<
@@ -15944,6 +15944,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
 }
 
 //______________________________________________________________________________
+/* JMI
 void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   S_msrChord chord)
 {
@@ -15973,6 +15974,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       } // for
   }
 }
+*/
 
 /*
 //______________________________________________________________________________

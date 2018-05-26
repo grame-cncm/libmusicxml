@@ -1556,25 +1556,31 @@ void lpsr2LilypondTranslator::writeChordArticulationAsLilyponString (
         endl;
       break;
     case msrArticulation::kSpiccato:
-      fLilypondCodeIOstream << "%{spiccato???%}";
+      fLilypondCodeIOstream <<
+        "%{spiccato???%}";
       break;
     case msrArticulation::kStaccato:
-      fLilypondCodeIOstream << "\\staccato"; // JMI "-.";
+      fLilypondCodeIOstream <<
+        "\\staccato"; // JMI "-.";
       break;
     case msrArticulation::kStaccatissimo:
       fLilypondCodeIOstream << "!";
       break;
     case msrArticulation::kStress:
-      fLilypondCodeIOstream << "%{stress???%}";
+      fLilypondCodeIOstream <<
+        "%{stress???%}";
       break;
     case msrArticulation::kUnstress:
-      fLilypondCodeIOstream << "%{unstress%}";
+      fLilypondCodeIOstream <<
+        "%{unstress%}";
       break;
     case msrArticulation::kDetachedLegato:
-      fLilypondCodeIOstream << "_"; // portato
+      fLilypondCodeIOstream <<
+        "_"; // portato
       break;
     case msrArticulation::kStrongAccent:
-      fLilypondCodeIOstream << "^"; // marcato
+      fLilypondCodeIOstream <<
+        "^"; // marcato
       break;
     case msrArticulation::kTenuto:
       fLilypondCodeIOstream << "-";
@@ -1585,22 +1591,28 @@ void lpsr2LilypondTranslator::writeChordArticulationAsLilyponString (
       break;
       
     case msrArticulation::kArpeggiato:
-      fLilypondCodeIOstream << "\\arpeggio";
+      fLilypondCodeIOstream <<
+        "\\arpeggio";
       break;
     case msrArticulation::kNonArpeggiato:
-      fLilypondCodeIOstream << "\\arpeggio";
+      fLilypondCodeIOstream <<
+        "\\arpeggio";
       break;
     case msrArticulation::kDoit:
-      fLilypondCodeIOstream << "\\bendAfter #+4";
+      fLilypondCodeIOstream <<
+        "\\bendAfter #+4";
       break;
     case msrArticulation::kFalloff:
-      fLilypondCodeIOstream << "\\bendAfter #-4";
+      fLilypondCodeIOstream <<
+        "\\bendAfter #-4";
       break;
     case msrArticulation::kPlop:
-      fLilypondCodeIOstream << "%{plop%}";
+      fLilypondCodeIOstream <<
+        "%{plop%}";
       break;
     case msrArticulation::kScoop:
-      fLilypondCodeIOstream << "%{scoop%}";
+      fLilypondCodeIOstream <<
+        "%{scoop%}";
       break;
   } // switch
 }
@@ -8723,30 +8735,32 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   */
   
   // print the note articulations if any
-  const list<S_msrArticulation>&
-    noteArticulations =
-      elt->getNoteArticulations ();
-      
-  if (noteArticulations.size ()) {
-    list<S_msrArticulation>::const_iterator i;
-    for (
-      i=noteArticulations.begin ();
-      i!=noteArticulations.end ();
-      i++) {
-      S_msrArticulation articulation = (*i);
-      switch (articulation->getArticulationKind ()) {
-        case msrArticulation::kFermata:
-          // this is handled in visitStart (S_msrFermata&)
-          break;
-          
-        default:
-          writeNoteArticulationAsLilyponString ((*i));
-          fLilypondCodeIOstream <<
-            " ";
-      } // switch
-    } // for
+  if (! fOnGoingChord) {
+    const list<S_msrArticulation>&
+      noteArticulations =
+        elt->getNoteArticulations ();
+        
+    if (noteArticulations.size ()) {
+      list<S_msrArticulation>::const_iterator i;
+      for (
+        i=noteArticulations.begin ();
+        i!=noteArticulations.end ();
+        i++) {
+        S_msrArticulation articulation = (*i);
+        switch (articulation->getArticulationKind ()) {
+          case msrArticulation::kFermata:
+            // this is handled in visitStart (S_msrFermata&)
+            break;
+            
+          default:
+            writeNoteArticulationAsLilyponString ((*i));
+            fLilypondCodeIOstream <<
+              " ";
+        } // switch
+      } // for
+    }
   }
-
+  
   // print the note technicals if any
   const list<S_msrTechnical>&
     noteTechnicals =
@@ -8914,51 +8928,55 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note dynamics if any
-  const list<S_msrDynamics>&
-    noteDynamics =
-      elt->getNoteDynamics ();
-      
-  if (noteDynamics.size ()) {
-    list<S_msrDynamics>::const_iterator i;
-    for (
-      i=noteDynamics.begin ();
-      i!=noteDynamics.end ();
-      i++) {
-      S_msrDynamics
-        dynamics = (*i);
+  if (! fOnGoingChord) {
+    const list<S_msrDynamics>&
+      noteDynamics =
+        elt->getNoteDynamics ();
         
-      switch (dynamics->getDynamicsPlacementKind ()) {
-        case kPlacementNone:
-   // JMI       fLilypondCodeIOstream << "-3";
-          break;
-        case kPlacementAbove:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kPlacementBelow:
-          // this is done by LilyPond by default
-          break;
-      } // switch
-
-      fLilypondCodeIOstream <<
-        dynamicsAsLilypondString (dynamics) << " ";
-    } // for
+    if (noteDynamics.size ()) {
+      list<S_msrDynamics>::const_iterator i;
+      for (
+        i=noteDynamics.begin ();
+        i!=noteDynamics.end ();
+        i++) {
+        S_msrDynamics
+          dynamics = (*i);
+          
+        switch (dynamics->getDynamicsPlacementKind ()) {
+          case kPlacementNone:
+     // JMI       fLilypondCodeIOstream << "-3";
+            break;
+          case kPlacementAbove:
+            fLilypondCodeIOstream << "^";
+            break;
+          case kPlacementBelow:
+            // this is done by LilyPond by default
+            break;
+        } // switch
+  
+        fLilypondCodeIOstream <<
+          dynamicsAsLilypondString (dynamics) << " ";
+      } // for
+    }
   }
   
   // print the note other dynamics if any
-  const list<S_msrOtherDynamics>&
-    noteOtherDynamics =
-      elt->getNoteOtherDynamics ();
-      
-  if (noteOtherDynamics.size ()) {
-    list<S_msrOtherDynamics>::const_iterator i;
-    for (
-      i=noteOtherDynamics.begin ();
-      i!=noteOtherDynamics.end ();
-      i++) {
-      fLilypondCodeIOstream <<
-        "-\\markup { "
-        "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
-    } // for
+  if (! fOnGoingChord) {
+    const list<S_msrOtherDynamics>&
+      noteOtherDynamics =
+        elt->getNoteOtherDynamics ();
+        
+    if (noteOtherDynamics.size ()) {
+      list<S_msrOtherDynamics>::const_iterator i;
+      for (
+        i=noteOtherDynamics.begin ();
+        i!=noteOtherDynamics.end ();
+        i++) {
+        fLilypondCodeIOstream <<
+          "-\\markup { "
+          "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
+      } // for
+    }
   }
 
   // print the note words if any

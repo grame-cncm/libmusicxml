@@ -145,6 +145,9 @@ class traceOptions : public optionsGroup
     // beams
     bool                  fTraceBeams;
 
+    // articulations
+    bool                  fTraceArticulations;
+
     // technicals
     bool                  fTraceTechnicals;
 
