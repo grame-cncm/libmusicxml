@@ -5247,7 +5247,7 @@ void msrNote::initializeNote ()
 {
   // rests handling
   // ------------------------------------------------------
-
+  
   if (fNoteIsARest && fNoteDisplayOctave != K_NO_OCTAVE) {
     // this note is a pitched rest:
     // copy the display octave to the the note octave, // JMI
@@ -7744,6 +7744,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
+        " " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
@@ -7756,6 +7757,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
@@ -7769,6 +7771,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kGraceChordMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         noteGraphicDurationAsMsrString () <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -7780,6 +7783,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -7791,6 +7795,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         noteGraphicDurationAsMsrString ();
 
       if (! fNoteIsARest)
@@ -7841,6 +7846,7 @@ string msrNote::asShortString () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
+        " " <<
         noteSoundingWholeNotesAsMsrString () <<
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -7848,6 +7854,7 @@ string msrNote::asShortString () const
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         noteSoundingWholeNotesAsMsrString () <<
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -7856,6 +7863,7 @@ string msrNote::asShortString () const
     case msrNote::kGraceChordMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         noteGraphicDurationAsMsrString () <<
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -7867,6 +7875,7 @@ string msrNote::asShortString () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -7875,6 +7884,7 @@ string msrNote::asShortString () const
     case msrNote::kTupletMemberNote:
       s <<
         notePitchAsString () <<
+        " " <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
@@ -7962,6 +7972,7 @@ string msrNote::asString () const
       s <<
         "Standalone note '"<<
         notePitchAsString () <<
+        " " <<
         noteSoundingWholeNotesAsMsrString () <<
         "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -7970,6 +7981,7 @@ string msrNote::asString () const
       s <<
         "Double tremolo note "<<
         notePitchAsString () <<
+        " " <<
         noteSoundingWholeNotesAsMsrString () <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -7979,6 +7991,7 @@ string msrNote::asString () const
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
+        " " <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -7992,6 +8005,7 @@ string msrNote::asString () const
       s <<
         "Chord member note" " "<<
         notePitchAsString () <<
+        " " <<
  // JMI       ", " << fNoteSoundingWholeNotes << " sound whole notes, " <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
@@ -8000,6 +8014,7 @@ string msrNote::asString () const
       s <<
         "Tuplet member note"  " "<<
         notePitchAsString () <<
+        " " <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<

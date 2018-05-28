@@ -17,6 +17,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <climits>      /* INT_MIN, INT_MAX */
+
 #include "utilities.h"
 
 #include "messagesHandling.h"
@@ -34,17 +36,115 @@ namespace MusicXML2 {
 #define TRACE_LPSR_BASIC_TYPES 0
 
 //_______________________________________________________________________________
+int lpsrDurationBinaryLogarithm (int duration)
+{
+  int result = INT_MIN;
+
+/*
+with LilyPond's limitation to 128th of a whole note,
+valid denominators binary logarithms, i.e. their exponent, are:
+*/
+
+  switch (duration) {
+    case 1:
+      result = 0;
+      break;
+    case 2:
+      result = 1;
+      break;
+    case 4:
+      result = 2;
+      break;
+    case 8:
+      result = 3;
+      break;
+    case 16:
+      result = 4;
+      break;
+    case 32:
+      result = 5;
+      break;
+    case 64:
+      result = 6;
+      break;
+    case 128:
+      result = 7;
+      break;
+    case 256: // JMI
+      result = 8;
+      break;
+
+    default:
+      ;
+  } // switch
+
+  return result;
+}
+
+//_______________________________________________________________________________
+int lpsrNumberOfDots (int n)
+{
+  int  result = INT_MIN;
+
+   switch (n) {
+    case 1:
+      result = 0;
+      break;
+    case 3:
+      result = 1;
+      break;
+    case 7:
+      result = 2;
+      break;
+    case 15:
+      result = 3;
+      break;
+    case 31:
+      result = 4;
+      break;
+    case 63:
+      result = 5;
+      break;
+    case 127:
+      result = 6;
+      break;
+
+    default:
+      ;
+    } // switch
+
+  return result;
+}
+
+//_______________________________________________________________________________
 string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes,
   int&     dotsNumber)
 {  
+  // this algorithm is inspired by musicxml2ly
+
 #define DEBUG_WHOLE_NOTES 1
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
+      "--> -------------------------------------" <<
+      endl <<
       "--> wholeNotes: " << wholeNotes <<
       ", line " << inputLineNumber <<
+      endl;
+  }
+
+  int
+    numerator    = wholeNotes.getNumerator (),
+    denominator  = wholeNotes.getDenominator ();
+
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numerator:   " << numerator <<
+      endl <<
+      "--> denominator: " << denominator <<
+      endl <<
       endl;
   }
 
@@ -56,230 +156,283 @@ string wholeNotesAsLilypondString (
       endl;
   }
 
-  int
+  bool
+    rationalHasBeenSimplified =
+      wholeNotes.getNumerator () != numerator; // denominators could be used too
+
+  if (rationalHasBeenSimplified) {
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
+  }
+
+  bool
+    integralNumberOfWholeNotes = denominator == 1;
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
-      "--> numerator: " << numerator <<
+      "--> rationalHasBeenSimplified: " <<
+      booleanAsString (
+        rationalHasBeenSimplified) <<
       endl <<
-      "--> denominator: " << denominator <<
+      "--> integralNumberOfWholeNotes: " <<
+      booleanAsString (
+        integralNumberOfWholeNotes) <<
       endl <<
       endl;
   }
 
-  if (numerator == 0) {
-    return "256"; // JMI ???
-  }
+/*
+augmentation dots add half the preceding increment to the duration:
+they constitue a series of frations or the form '(2^n-1) / 2^n',
+starting with 3/2, 7/4, 15/8,
+that tends towards 2 while always remaining less than two.
 
-  if (numerator == 1) {
-    return to_string (denominator);
-  }
+with MusicXML's limitation to 1024th of a whole note,
+with LilyPond's limitation to 128th of a whole note,
+valid numerators are:
+*/
 
-  int
-    workNumerator   = numerator,
-    workDenominator = denominator,
-    workDotsNumber  = 0;
+  int  numeratorDots = lpsrNumberOfDots (numerator);
 
-  stringstream s;
-
-  // handle the 'smaller than quarter note' part if any
-  for ( ; ; ) {
-    if (workDenominator <= 4) {
-      break;
-    }
+/*
+    default:
+      if (! integralNumberOfWholeNotes) {
+  //      multiplyingFactorIsToBeUsed = true;
+      }
+      else {
+        // there can be integral numbers of whole notes up to 15,
+        // corresponding to a \maxima...
+          stringstream s;
+          
+          s <<
+            "numerator " << numerator <<
+            " is not one of 1, 3, 7, 15, 31, 63 or 127" <<
+       //     " is not one of 1, 3, 7, 15, 31, 63, 127, 255, 511 or 1023" <<
+            ", whole notes duration " <<
+            numerator << "/" << denominator;
+  
+          if (rationalHasBeenSimplified) {
+            s <<
+              " (" << numerator << "/" << denominator << ")" <<
+            endl;
+          }
+  
+          s <<
+            " it will be represented using a multiplying factor";
     
-    if (workDenominator == 1) {
+          msrMusicXMLWarning (
+            gXml2lyOptions->fInputSourceName,
+            inputLineNumber,
+            s.str ());
+
+  //      multiplyingFactorIsToBeUsed = true;
+      }
+  } // switch
+    */
+
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numeratorDots " << " : " <<
+      numeratorDots <<
+      endl <<
+      endl;
+  }
+
+/*
+valid denominators are powers of 2
+
+the rational representing a dotted duration has to be brought
+to a value less than two, as explained above
+
+this is done by changing it denominator in the resulting string:
+
+ whole notes        string
+     3/1              \breve.
+     3/2              1.
+     3/4              2.
+     3/8              4.
+
+     7/1              \longa..
+     7/2              \breve..
+     7/4              1..
+     7/8              2..         
+
+since such resulting denominators can be fractions of wholes notes
+as well as multiple thereof,
+we'll be better of using binary logarithms for the computations
+
+*/
+
+  int durationLog = lpsrDurationBinaryLogarithm (denominator);
+
+  if (durationLog == INT_MIN) {
+    stringstream s;
+        
+    s <<
+      "denominator " << denominator <<
+      " is no power of two between 1 and 128" <<
+ //     " is no power of two between 1 and 1024" <<
+      ", whole notes duration " <<
+      numerator << "/" << denominator;
+
+    if (rationalHasBeenSimplified) {
       s <<
-        workDenominator;
-      break;
+        " (" << numerator << "/" << denominator << ")" <<
+      endl;
     }
-    
-    if (workNumerator % 2 == 1) {
-      workDotsNumber += 1;
-      
-      workNumerator = (workNumerator - 1) / 2;
-      workDenominator /= 2;
-      
-      rational r (workNumerator, workDenominator);
-      r.rationalise ();
-      
-      workNumerator   = r.getNumerator (),
-      workDenominator = r.getDenominator ();
-    }
+
+    s <<
+      " cannot be represented as a LilyPond string";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> durationLog" << " : " <<
+      durationLog <<
+      endl <<
+      endl;
+  }
+
+  // bring the resulting fraction to be less that two if needed
+  if (integralNumberOfWholeNotes) {
+    // adapt the duration to avoid even numerators if can be,
+    // since dotted durations cannot be recognized otherwise
+    // 6/1 thus becomes 3\breve, hence \longa.
+    while (numerator % 2 == 0) {
+      numerator /= 2;
+      durationLog -= 1;
+    } // while
+
+    // update the number of dots
+    numeratorDots = lpsrNumberOfDots (numerator);
+  }
+
+  // take care of the dots
+  int multiplyingFactor = 1;
+
+  if (numeratorDots >= 0 && durationLog >= numeratorDots) {
+    // take the dots into account
+    durationLog -= numeratorDots;
 
     if (DEBUG_WHOLE_NOTES) {
       gLogIOstream <<
-        "--> workNumerator" << " : " << workNumerator <<
+        "--> durationLog" << " : " <<
+        durationLog <<
         endl <<
-        "--> workDenominator" << " : " << workDenominator <<
-        endl <<
-        "--> workDotsNumber" << " : " << workDotsNumber <<
-        endl <<
-        "--> s.str ()" << " : \"" << s.str () << "\"" <<
+        "--> multiplyingFactor " << " : " <<
+        multiplyingFactor <<
         endl <<
         endl;
     }
-  } // for
-  
-  if (workDenominator <= 4) {
-    // handle the 'larger than quarter note' part
+  }
+  else {
+    // set the multiplying factor
+    multiplyingFactor = numerator;
 
-    int accumulatedValue = 1;
-
-    accumulatedValue++; // JMI
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> durationLog" << " : " <<
+        durationLog <<
+        endl <<
+        "--> multiplyingFactor " << " : " <<
+        multiplyingFactor <<
+        endl <<
+        endl;
+    }
     
-    for ( ; ; ) {
-      if (workNumerator == 1) {
-        // wholeNotes is a number of whole notes
-        if (workDenominator * 4 == numerator) {
-          // wholeNotes is a dotted note duration
-          s <<
-            workDenominator;
-        }
-        else {
-          // wholeNotes is NOT a dotted note duration,
-          // use a multiplying factor and exit
-          stringstream ss;
-          
-          ss <<
-            workDenominator /*1*/ <<
-            "*" <<
-            numerator << "/" << denominator; // JMI
-
-          if (DEBUG_WHOLE_NOTES) {
-            gLogIOstream <<
-              "--> return:" <<
-              endl <<
-              "--> ss.str ()" << " : \"" << ss.str () << "\"" <<
-              endl <<
-            endl;
-          }
-
-          return ss.str ();
-        }
-        break;
-      }
+    while (multiplyingFactor >= 2) {
+      // double duration
+      durationLog--;
       
-      if (workDenominator == 1) {
-        // a number of whole notes
-        switch (workNumerator) {
-          case 1:
-            s << "1";
-            break;
-          case 2:
-            s << "\\breve";
-            break;
-          case 3:
-            s << "\\breve";
-            workDotsNumber += 1;
-            break;
-          case 4:
-            s << "\\longa";
-            break;
-          case 6:
-            s << "\\longa";
-            workDotsNumber += 1;
-            break;
-          case 7:
-            s << "\\longa";
-            workDotsNumber += 2;
-            break;
-          case 8:
-            s << "\\maxima";
-            break;
-          case 12:
-            s << "\\maxima";
-            workDotsNumber += 1;
-            break;
-          case 14:
-            s << "\\maxima";
-            workDotsNumber += 2;
-            break;
-          default:
-            s <<
-              workNumerator << "/" << workDenominator <<
-              " whole notes cannot be represented as an MSR string";
-  
-            msrInternalError (
-              gXml2lyOptions->fInputSourceName,
-              inputLineNumber,
-              __FILE__, __LINE__,
-              s.str ());
-        } // switch
-        break;
-      }
-      
+      // adapt multiplying factor
+      multiplyingFactor /= 2;
+
       if (DEBUG_WHOLE_NOTES) {
         gLogIOstream <<
-          "--> workNumerator % 2" << " : " << workNumerator % 2 <<
+          "--> durationLog" << " : " <<
+          durationLog <<
+          endl <<
+          "--> multiplyingFactor " << " : " <<
+          multiplyingFactor <<
+          endl <<
           endl;
       }
+    } // while
+  }
 
-      if (workNumerator % 2 == 1) {
-        // a number of quarter or half notes
-        workDotsNumber += 1;
-        
-        workNumerator = (workNumerator - 1) / 2;
-        workDenominator /= 2;
-        
-        if (DEBUG_WHOLE_NOTES) {
-          gLogIOstream <<
-            "--> workNumerator" << " : " << workNumerator <<
-            endl <<
-            "--> workDenominator" << " : " << workDenominator <<
-            endl <<
-            "--> workDotsNumber" << " : " << workDotsNumber <<
-            endl <<
-            endl;
-        }
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numerator " << " : " <<
+      numerator <<
+      endl <<
+      "--> numeratorDots " << " : " <<
+      numeratorDots <<
+      endl <<
+      "--> durationLog" << " : " <<
+      durationLog <<
+      endl <<
+      "--> multiplyingFactor " << " : " <<
+      multiplyingFactor <<
+      endl <<
+      endl;
+  }
+  
+  // generate the code for the duration
+  stringstream s;
 
-        rational r (workNumerator, workDenominator);
-        r.rationalise ();
-        
-        workNumerator   = r.getNumerator (),
-        workDenominator = r.getDenominator ();
+  switch (durationLog) {
+    case -3:
+      s << "\\maxima";
+      break;
+    case -2:
+      s << "\\longa";
+      break;
+    case -1:
+      s << "\\breve";
+      break;
 
-        if (DEBUG_WHOLE_NOTES) {
-          gLogIOstream <<
-            "--> workNumerator" << " : " << workNumerator <<
-            endl <<
-            "--> workDenominator" << " : " << workDenominator <<
-            endl <<
-            "--> workDotsNumber" << " : " << workDotsNumber <<
-            endl <<
-            "--> s.str ()" << " : \"" << s.str () << "\"" <<
-            endl <<
-            endl;
-        }
-      }
-    } // for
-  }  
+    default:
+      s << (1 << durationLog);
+  } // switch
 
   // append the dots if any
-  /* JMI
-  if (false) {
-    s <<
-      " %{" << numerator << "/" << denominator << "%} ";
+  if (numeratorDots > 0) {
+    for (int i = 0; i < numeratorDots; i++) {
+      s << ".";
+    } // for
   }
-  */
-    
-  for (int i = 0; i < workDotsNumber; i++) {
-    s << ".";
-  } // for
-  
-  // return the result
-  dotsNumber = workDotsNumber;
+
+  if (multiplyingFactor != 1) {
+    // append the multiplying factor
+    if (integralNumberOfWholeNotes) {
+      s <<
+        "*" << multiplyingFactor;
+    }
+    else {
+      s <<
+        "*" << multiplyingFactor << "/" << 1; // ??? denominator;
+    }
+  }
   
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
       "--> return:" <<
       endl <<
-      "--> s.str ()" << " : \"" << s.str () << "\"" <<
+      "  --> s.str ()     " << " : \"" << s.str () << "\"" <<
+      endl <<
+      "  --> numeratorDots" << " : " << numeratorDots <<
       endl <<
       endl;
   }
+  
+  // return the result
+  dotsNumber = numeratorDots;
   
   return
     s.str ();

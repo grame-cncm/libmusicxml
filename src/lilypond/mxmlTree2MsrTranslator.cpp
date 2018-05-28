@@ -8076,9 +8076,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 /* JMI
     // set current grace note display whole notes
     // to note sounding whole notes
-    fCurrentNoteDisplayWholeNotesFromDuration =
+    fCurrentNoteDisplayWholeNotes =
       fCurrentNoteSoundingWholeNotesFromDuration; // by default
-      */
+     */
   }
 
   else if (fOnGoingFiguredBass) {
@@ -8169,6 +8169,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     if      (noteType == "maxima") {
       fCurrentNoteGraphicDurationKind = kMaxima; }
     else if (noteType == "long") {
+      fCurrentNoteGraphicDurationKind = kLong; }
+    else if (noteType == "longa") { // extension sauvage ???
       fCurrentNoteGraphicDurationKind = kLong; }
     else if (noteType == "breve") {
         fCurrentNoteGraphicDurationKind = kBreve; } 
@@ -16845,18 +16847,76 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentNoteDisplayWholeNotesFromType =
         msrDurationKindAsWholeNotes (
           fCurrentNoteGraphicDurationKind);
+
+      if (gTraceOptions->fTraceNotesDetails) {
+        fLogOutputStream <<
+          endl <<
+          "(1):" <<
+          endl <<
+          "fCurrentNoteGraphicDurationKind = " <<
+          msrDurationKindAsString (
+            fCurrentNoteGraphicDurationKind) <<
+          endl <<
+          "fCurrentNoteDisplayWholeNotesFromType = " <<
+          fCurrentNoteDisplayWholeNotesFromType <<
+          endl <<
+          "fCurrentNoteDotsNumber = " <<
+          fCurrentNoteDotsNumber <<
+          endl <<
+          endl;
+      }
     
       // take dots into account if any
       if (fCurrentNoteDotsNumber > 0) {
-        int dots = fCurrentNoteDotsNumber;
+        rational
+          wholeNotesIncrement =
+            fCurrentNoteDisplayWholeNotesFromType * rational (1, 2);
+        int
+          dots =
+            fCurrentNoteDotsNumber;
     
         while (dots > 0) {
-          fCurrentNoteDisplayWholeNotesFromType *=
-            rational (3, 2);
-          fCurrentNoteDisplayWholeNotesFromType.rationalise ();
+          fCurrentNoteDisplayWholeNotesFromType +=
+            wholeNotesIncrement;
+
+          wholeNotesIncrement * rational (1, 2);
     
           dots--;
+
+          if (gTraceOptions->fTraceNotesDetails) {
+            fLogOutputStream <<
+              endl <<
+              "(2):" <<
+              endl <<
+              "fCurrentNoteDisplayWholeNotesFromType = " <<
+              fCurrentNoteDisplayWholeNotesFromType <<
+              endl <<
+              "dots = " <<
+              dots <<
+              endl <<
+              endl;
+          }
         } // while
+
+        fCurrentNoteDisplayWholeNotesFromType.rationalise ();
+      }
+      
+      if (gTraceOptions->fTraceNotesDetails) {
+        fLogOutputStream <<
+          endl <<
+          "(3):" <<
+          endl <<
+          "fCurrentNoteGraphicDurationKind = " <<
+          msrDurationKindAsString (
+            fCurrentNoteGraphicDurationKind) <<
+          endl <<
+          "fCurrentNoteDisplayWholeNotesFromType = " <<
+          fCurrentNoteDisplayWholeNotesFromType <<
+          endl <<
+          "fCurrentNoteDotsNumber = " <<
+          fCurrentNoteDotsNumber <<
+          endl <<
+          endl;
       }
   } // switch
 
@@ -16916,15 +16976,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteDotsNumber <<
       endl <<
       setw (fieldWidth) <<
-      "CurrentNoteDisplayWholeNotesFromType" << " = " << 
+      "fCurrentNoteDisplayWholeNotesFromType" << " = " << 
       fCurrentNoteDisplayWholeNotesFromType <<
       endl <<
       setw (fieldWidth) <<
-      "CurrentNoteIsARest" << " = " << 
+      "fCurrentNoteIsARest" << " = " << 
       booleanAsString (fCurrentNoteIsARest) <<
       endl <<
       setw (fieldWidth) <<
-      "CurrentDivisionsPerQuarterNote" << " = " <<
+      "fCurrentDivisionsPerQuarterNote" << " = " <<
       fCurrentDivisionsPerQuarterNote <<
       endl <<
       setw (fieldWidth) <<
