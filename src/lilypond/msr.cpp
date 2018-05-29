@@ -6382,39 +6382,43 @@ string msrNote::noteKindAsString (
   
   switch (noteKind) {
     case msrNote::k_NoNoteKind:
-      result = "k_NoNoteKind???";
+      result = "noNoteKind???";
       break;
       
     case msrNote::kRestNote:
-      result = "rest";
+      result = "restNote";
       break;
       
     case msrNote::kSkipNote:
-      result = "skip";
+      result = "skipNote";
+      break;
+      
+    case msrNote::kUnpitchedNote:
+      result = "unpitchedNote";
       break;
       
     case msrNote::kStandaloneNote:
-      result = "standalone";
+      result = "standaloneNote";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
-      result = "double tremolo member note";
+      result = "doubleTremoloMemberNote";
       break;
       
     case msrNote::kGraceNote:
-      result = "grace note";
+      result = "graceNote";
       break;
       
     case msrNote::kGraceChordMemberNote:
-      result = "grace chord member";
+      result = "graceChordMemberNote";
       break;
       
     case msrNote::kChordMemberNote:
-      result = "chord member";
+      result = "chordMemberNote";
       break;
       
     case msrNote::kTupletMemberNote:
-      result = "tuplet member";
+      result = "tupletMemberNote";
       break;
   } // switch
 
@@ -7741,6 +7745,18 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " disp";
       break;
       
+    case msrNote::kUnpitchedNote:
+      s <<
+        notePitchAsString () <<
+        "U" <<
+        ":" <<
+        ", whole notes: " <<
+        fNoteSoundingWholeNotes <<
+        " sound, " <<
+        fNoteDisplayWholeNotes <<
+        " disp";
+      break;
+      
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
@@ -7843,6 +7859,13 @@ string msrNote::asShortString () const
         noteSoundingWholeNotesAsMsrString ();
       break;
       
+    case msrNote::kUnpitchedNote:
+      s <<
+        "Unpitched" <<
+        ":" <<
+        noteSoundingWholeNotesAsMsrString ();
+      break;
+      
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
@@ -7921,12 +7944,12 @@ string msrNote::asString () const
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
-        "k_NoNoteKind???";
+        "noNoteKind???";
       break;
       
     case msrNote::kRestNote:
       s <<
-        "Rest, ";
+        "restNote, ";
       if (fNoteOccupiesAFullMeasure) {
         s <<
           "R" <<
@@ -7940,18 +7963,12 @@ string msrNote::asString () const
           noteSoundingWholeNotesAsMsrString ();
       }
 
-      if (fNoteDisplayOctave < 0)
-        s <<
-          ", unpitched";
-      else
-        s <<
-          " (" <<
-          noteDisplayPitchKindAsString () <<
-          noteSoundingWholeNotesAsMsrString () <<
-          ", octave" " "<< noteDisplayOctaveAsString () <<
-          ")";
-
       s <<
+        " (" <<
+        noteDisplayPitchKindAsString () <<
+        noteSoundingWholeNotesAsMsrString () <<
+        ", octave" " "<< noteDisplayOctaveAsString () <<
+        ")" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
@@ -7963,14 +7980,21 @@ string msrNote::asString () const
       
     case msrNote::kSkipNote:
       s <<
-        "Skip" <<
+        "skipNote" <<
         ":" <<
+        noteSoundingWholeNotesAsMsrString ();
+      break;
+      
+    case msrNote::kUnpitchedNote:
+      s <<
+        "unpitchedNote"<<
+        " " <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kStandaloneNote:
       s <<
-        "Standalone note '"<<
+        "standaloneNote '"<<
         notePitchAsString () <<
         " " <<
         noteSoundingWholeNotesAsMsrString () <<
@@ -8110,6 +8134,7 @@ void msrNote::print (ostream& os)
       case msrNote::k_NoNoteKind:
       case msrNote::kRestNote:
       case msrNote::kSkipNote:
+      case msrNote::kUnpitchedNote:
       case msrNote::kStandaloneNote:
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kChordMemberNote:
@@ -8357,6 +8382,27 @@ void msrNote::print (ostream& os)
             setw (fieldWidth) <<
             "noteSoundingWholeNotes" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
+            "\"" <<
+            endl;
+        }
+        break;
+        
+      case msrNote::kUnpitchedNote:
+        {
+          os << left <<
+            setw (fieldWidth) <<
+            "noteSoundingWholeNotes" << " : \"" <<
+            noteSoundingWholeNotesAsMsrString () <<
+            "\"" <<
+            endl <<
+            setw (fieldWidth) <<
+            "noteDisplayWholeNotes" << " : \"" <<
+            noteDisplayWholeNotesAsMsrString () <<
+            "\"" <<
+            endl <<
+            setw (fieldWidth) <<
+            "noteGraphicDuration" << " : \"" <<
+            noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
         }
@@ -17104,21 +17150,31 @@ string msrSyllable::asString () const
     case msrSyllable::kSyllableMeasureEnd:
       // fSyllableText contains the measure number
       s << 
-        "measure end" <<
-        " measure " << "fSyllableText ???";
+        " measure ";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
       break;
       
     case msrSyllable::kSyllableLineBreak:
       // fSyllableText contains the measure number
       s << 
-        "line break" <<
-        " measure " << "fSyllableText ???";
+        " measure ";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
       break;
       
     case msrSyllable::kSyllablePageBreak:
+      // fSyllableText contains the measure number JMI ???
       s << 
-        "page break" <<
-        " measure " << "fSyllableText ???";
+        " measure ";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
       break;
       
     case msrSyllable::kSyllableNone:
@@ -17144,9 +17200,6 @@ void msrSyllable::print (ostream& os)
     "Syllable" <<
     ", syllableKind: " <<
     syllableKindAsString () <<
-    ", whole notes:" <<
-    syllableWholeNotesAsMsrString () <<
-    " (" << fSyllableWholeNotes << ")" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -17173,32 +17226,37 @@ void msrSyllable::print (ostream& os)
     syllableNoteUplinkAsString () <<      
     endl;
 
+  os <<
+    syllableKindAsString (fSyllableKind);
+    
   switch (fSyllableKind) { // JMI
     case msrSyllable::kSyllableSingle:
     case msrSyllable::kSyllableBegin:
     case msrSyllable::kSyllableMiddle:
     case msrSyllable::kSyllableEnd:
     case msrSyllable::kSyllableSkip:
-      break;
+      os <<
+       ", whole notes:" <<
+      syllableWholeNotesAsMsrString () <<
+      " (" << fSyllableWholeNotes << ")";
+     break;
       
     case kSyllableMeasureEnd:
       // fSyllableText contains the measure number
       os << 
-        "measure end" <<
-        " measure " << "fSyllableText ???";
+        ", measure " << "fSyllableText ???";
       break;
       
     case kSyllableLineBreak:
       // fSyllableText contains the measure number
       os << 
-        "line break" <<
-        " measure " << "fSyllableText ???";
+        ", measure " << "fSyllableText ???";
       break;
       
     case kSyllablePageBreak:
+      // fSyllableText contains the measure number JMI ???
       os << 
-        "page break" <<
-        " measure " << "fSyllableText ???";
+        ", measure " << "fSyllableText ???";
       break;
       
     case kSyllableNone:
@@ -29270,6 +29328,12 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       fVoiceSkipsCounter++;
       break;
       
+    case msrNote::kUnpitchedNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
+      fMusicHasBeenInsertedInVoice = true;
+      break;
+      
     case msrNote::kStandaloneNote:
       // register actual note
       fVoiceActualNotesCounter++;
@@ -29386,6 +29450,12 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     case msrNote::kSkipNote:
       // don't account skips as music
       fVoiceSkipsCounter++;
+      break;
+      
+    case msrNote::kUnpitchedNote:
+      // register actual note
+      fVoiceActualNotesCounter++;
+      fMusicHasBeenInsertedInVoice = true;
       break;
       
     case msrNote::kStandaloneNote:

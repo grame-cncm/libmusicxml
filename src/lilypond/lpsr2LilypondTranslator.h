@@ -681,7 +681,6 @@ class lpsr2LilypondTranslator :
     
     msrNote::msrNotePrintKind
                           fCurrentNotePrintKind;
-    bool                  fCurrentNoteIsUnpitched;
 
     string                lilypondRelativeOctave (
                             S_msrNote note);

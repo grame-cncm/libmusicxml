@@ -17186,10 +17186,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     setNoteCautionaryAccidentalKind (
       fCurrentNoteCautionaryAccidentalKind);
 
+/* JMI
   // set note print kind
   newNote->
     setNotePrintKind (
       fCurrentNotePrintKind);
+*/
 
   // handle note
   if (fCurrentNoteBelongsToAChord) {
@@ -17253,6 +17255,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
       case msrNote::kRestNote:
       case msrNote::kSkipNote:
+      case msrNote::kUnpitchedNote:
       case msrNote::kStandaloneNote:
       case msrNote::kChordMemberNote:
         if (! fCurrentNoteIsAGraceNote) {
@@ -17572,6 +17575,11 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       newNote->
         setNoteKind (
           msrNote::kRestNote);
+    else if (fCurrentNoteIsUnpitched) {
+      newNote->
+        setNoteKind (
+          msrNote::kUnpitchedNote);
+    }
     else
       newNote->
         setNoteKind (
@@ -18202,6 +18210,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kSkipNote:
+        break;
+        
+      case msrNote::kUnpitchedNote:
         break;
         
       case msrNote::kStandaloneNote:

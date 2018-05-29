@@ -124,7 +124,7 @@ string wholeNotesAsLilypondString (
 {  
   // this algorithm is inspired by musicxml2ly
 
-#define DEBUG_WHOLE_NOTES 1
+#define DEBUG_WHOLE_NOTES 0
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
@@ -148,6 +148,10 @@ string wholeNotesAsLilypondString (
       endl;
   }
 
+  msrAssert (
+    numerator > 0,
+    "numerator is not positive");
+    
   wholeNotes.rationalise ();
 
   if (DEBUG_WHOLE_NOTES) {

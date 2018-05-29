@@ -382,63 +382,6 @@
         <bar-style>light-heavy</bar-style>
       </barline>
     </measure>
-    <!--=======================================================-->
-    <measure number="3">
-      <attributes>
-        <time>
-          <beats>32</beats>
-          <beat-type>4</beat-type>
-        </time>
-      </attributes>
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>2048</duration>
-        <voice>1</voice>
-        <type>long</type>
-        <dot/>
-      </note>
-    </measure>
-    <!--=======================================================-->
-    <measure number="3">
-      <attributes>
-        <time>
-          <beats>48</beats>
-          <beat-type>4</beat-type>
-        </time>
-      </attributes>
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>3072</duration>
-        <voice>1</voice>
-        <type>long</type>
-        <dot/>
-      </note>
-    </measure>
-    <!--=======================================================-->
-    <measure number="3">
-      <attributes>
-        <time>
-          <beats>56</beats>
-          <beat-type>4</beat-type>
-        </time>
-      </attributes>
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>3584</duration>
-        <voice>1</voice>
-        <type>long</type>
-        <dot/>
-      </note>
-    </measure>
   </part>
   <!--=========================================================-->
 </score-partwise>

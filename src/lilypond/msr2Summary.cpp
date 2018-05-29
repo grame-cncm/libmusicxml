@@ -51,6 +51,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
   fStanzasCounter = 0;
   
   // notes
+  fScoreUnpitchedNotesCounter     = 0;
   fScoreStandaloneNotesCounter    = 0;
   fScoreRestNotesCounter          = 0;
   fScoreSkipNotesCounter          = 0;
@@ -136,6 +137,8 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     elt->getScoreNumberOfMeasures () << " measures" <<
     endl <<
 
+    fScoreUnpitchedNotesCounter << " standalone notes" <<
+    endl <<
     fScoreStandaloneNotesCounter << " standalone notes" <<
     endl <<
     fScoreRestNotesCounter << " rest notes" <<
@@ -705,6 +708,9 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
     case msrNote::kSkipNote:
       fScoreSkipNotesCounter++;
       break;
+    case msrNote::kUnpitchedNote:
+      fScoreUnpitchedNotesCounter++;
+      break;
     case msrNote::kStandaloneNote:
       fScoreStandaloneNotesCounter++;
       break;
@@ -741,6 +747,8 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kRestNote:
       break;
     case msrNote::kSkipNote:
+      break;
+    case msrNote::kUnpitchedNote:
       break;
     case msrNote::kStandaloneNote:
       break;

@@ -5773,6 +5773,7 @@ class msrNote : public msrElement
     enum msrNoteKind {
       k_NoNoteKind,
       kRestNote, kSkipNote,
+      kUnpitchedNote,
       kStandaloneNote,
       kDoubleTremoloMemberNote,
       kGraceNote,

@@ -163,7 +163,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // notes
   fCurrentNotePrintKind = msrNote::kNotePrintYes; // default value
-  fCurrentNoteIsUnpitched = false; // default value
   fOnGoingNote = false;
 
   // articulations
@@ -656,6 +655,98 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kSkipNote:      
       break;
       
+    case msrNote::kUnpitchedNote:
+      {
+        // is this note in a tab staff?
+        S_msrStaff
+          noteStaff =
+            note->
+              getNoteMeasureUplink ()->
+                getMeasureSegmentUplink ()->
+                  getSegmentVoiceUplink ()->
+                    getVoiceStaffUplink ();
+        
+        switch (noteStaff->getStaffKind ()) {
+          case msrStaff::kTablatureStaff:
+            break;
+          case msrStaff::kHarmonyStaff:
+            break;
+          case msrStaff::kFiguredBassStaff:
+            break;
+          case msrStaff::kDrumStaff:
+            break;
+          case msrStaff::kRythmicStaff: // JMI
+            // should the stem be omitted?
+            if (note->getNoteIsStemless ()) {
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
+            }
+    
+            // should stem direction be generated?          
+            if (fCurrentStem) {
+              // should stem direction be generated?
+              if (stemKind != fCurrentStemKind) {
+                switch (stemKind) {
+                  case msrStem::kStemNone:
+                    fLilypondCodeIOstream << "\\stemNeutral ";
+                    break;
+                  case msrStem::kStemUp:
+                    fLilypondCodeIOstream << "\\stemUp ";
+                    break;
+                  case msrStem::kStemDown:
+                    fLilypondCodeIOstream << "\\stemDown ";
+                    break;
+                  case msrStem::kStemDouble: // JMI ???
+                    break;
+                } // switch
+              }
+        
+              // is there a stem kind change?
+              if (stemKind != fCurrentStemKind)
+                fCurrentStemKind = stemKind;
+            }
+            break;
+
+          case msrStaff::kRegularStaff:
+            // should the stem be omitted?
+            if (note->getNoteIsStemless ()) {
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
+            }
+    
+            // should stem direction be generated?
+            if (gLilypondOptions->fStems) {
+          
+              if (fCurrentStem) {
+                // should stem direction be generated?
+                if (stemKind != fCurrentStemKind) {
+                  switch (stemKind) {
+                    case msrStem::kStemNone:
+                      fLilypondCodeIOstream << "\\stemNeutral ";
+                      break;
+                    case msrStem::kStemUp:
+                      fLilypondCodeIOstream << "\\stemUp ";
+                      break;
+                    case msrStem::kStemDown:
+                      fLilypondCodeIOstream << "\\stemDown ";
+                      break;
+                    case msrStem::kStemDouble: // JMI ???
+                      break;
+                  } // switch
+                }
+          
+                // is there a stem kind change?
+                if (stemKind != fCurrentStemKind)
+                  fCurrentStemKind = stemKind;
+              }
+            }
+            break;
+        } // switch
+      }
+      break;
+
     case msrNote::kStandaloneNote:
       {
         // is this note in a tab staff?
@@ -846,6 +937,48 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       // the preceding one is kept
       break;
       
+    case msrNote::kUnpitchedNote:
+      {
+        // print the note name, "e" by convention
+        fLilypondCodeIOstream <<
+            "e";
+  
+        rational
+          noteSoundingWholeNotes =
+            note->
+              getNoteSoundingWholeNotes ();
+          
+        // print the note duration
+        fLilypondCodeIOstream <<
+          durationAsLilypondString (
+            inputLineNumber,
+            noteSoundingWholeNotes);
+  
+        // handle delayed ornaments if any
+        if (note->getNoteDelayedTurnOrnament ())
+          // c2*2/3 ( s2*1/3\turn) JMI
+          // we need the explicit duration in all cases,
+          // regardless of gGeneralOptions->fAllDurations
+          fLilypondCodeIOstream <<
+            wholeNotesAsLilypondString (
+              inputLineNumber,
+              noteSoundingWholeNotes) <<
+            "*" <<
+            gLilypondOptions->fDelayedOrnamentsFraction;
+        
+        // print the tie if any
+        {
+          S_msrTie noteTie = note->getNoteTie ();
+        
+          if (noteTie) {
+            if (noteTie->getTieKind () == msrTie::kTieStart) {
+              fLilypondCodeIOstream << " ~";
+            }
+          }
+        }
+      }
+      break;
+
     case msrNote::kStandaloneNote:
       {
         // print the note name
@@ -1070,18 +1203,6 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   S_msrNote note)
 {
   stringstream s;
-
-  // is the note unpitched?
-  if (note->getNoteIsUnpitched ()) {
-    if (! fCurrentNoteIsUnpitched) {
-      s <<
-        endl <<
-        "\\once \\override NoteHead #'style = #'cross " <<
-        endl;
-    }
-
-    fCurrentNoteIsUnpitched = true;
-  }
 
   // should an editorial accidental be generated?
   switch (note->getNoteEditorialAccidentalKind ()) {
@@ -8438,7 +8559,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         fLilypondCodeIOstream << "\\tweak style #'cross ";
         break;
       case msrNote::kNoteHeadX:
-        fLilypondCodeIOstream << "\\tweak style #'cross ";
+        fLilypondCodeIOstream << "\\tweak style #'cross %{x%} ";
         break;
       case msrNote::kNoteHeadCircleX:
         fLilypondCodeIOstream << "\\tweak style #'xcircle ";

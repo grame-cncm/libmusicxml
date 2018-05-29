@@ -3101,6 +3101,20 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           fCurrentNoteClone);
       break;
       
+    case msrNote::kUnpitchedNote:
+      if (gTraceOptions->fTraceNotes) {
+        fLogOutputStream <<
+          "Appending " <<
+          fCurrentNoteClone->asString () << " to voice clone " <<
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
+      }
+          
+      fCurrentVoiceClone->
+        appendNoteToVoiceClone (
+          fCurrentNoteClone);
+      break;
+      
     case msrNote::kStandaloneNote:
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<

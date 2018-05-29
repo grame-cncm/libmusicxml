@@ -18996,7 +18996,7 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-#define DEBUG_WHOLE_NOTES 1
+#define DEBUG_WHOLE_NOTES 0
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
@@ -19018,6 +19018,10 @@ string wholeNotesAsMsrString (
       endl;
   }
 
+  msrAssert (
+    numerator > 0,
+    "numerator is not positive");
+    
   wholeNotes.rationalise ();
 
   if (DEBUG_WHOLE_NOTES) {
@@ -19141,6 +19145,17 @@ we'll be better of using binary logarithms for the computations
     while (numerator % 2 == 0) {
       numerator /= 2;
       durationLog -= 1;
+
+      if (DEBUG_WHOLE_NOTES) {
+        gLogIOstream <<
+          "--> numerator" << " : " <<
+          numerator <<
+          endl <<
+          "--> durationLog " << " : " <<
+          durationLog <<
+          endl <<
+          endl;
+      }
     } // while
 
     // update the number of dots
