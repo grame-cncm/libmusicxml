@@ -94,8 +94,8 @@ string msrElement::asString () const
 
 string msrElement::asShortString () const
 {
-  // this is overriden in actual elements only if needed
-  return asString ();
+  // this is overriden in actual elements
+  return "??? msrElement::asShortString () ???";
 }
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)

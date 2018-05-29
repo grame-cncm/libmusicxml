@@ -439,7 +439,7 @@ void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
       
   fLogOutputStream <<
     endl <<
-    "VoicesLastMetNoteMap contains " <<
+    "fVoicesLastMetNoteMap contains " <<
     singularOrPlural (
       voicesLastMetNoteMapSize, "element", "elements") <<
     ", line " << inputLineNumber <<
@@ -457,7 +457,6 @@ void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
       fLogOutputStream <<
         (*i).first->getVoiceName () <<
         ":" <<
-        endl <<
         endl;
 
       gIndenter++;
@@ -17515,20 +17514,39 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote);
 
   // register newNote as the last met note for this voice
-  fVoicesLastMetNoteMap [voice] = newNote;
+  map<S_msrVoice, S_msrNote>::const_iterator
+    it =
+      fVoicesLastMetNoteMap.find (voice); // JMI
+          
+  if (it != fVoicesLastMetNoteMap.end ()) {
+    fLogOutputStream <<
+      "--> fVoicesLastMetNoteMap contains YESYESYES " <<
+      voice->getVoiceName () <<
+      " ==> " <<
+      fVoicesLastMetNoteMap [voice] <<
+      endl;
 
-/*
-  fVoicesLastMetNoteMap.insert ( // JMI ???
-    pair<S_msrVoice, S_msrNote>(voice, newNote));
-*/
-
+ //   fVoicesLastMetNoteMap.erase (it);
+  }
+  else {
+    fLogOutputStream <<
+      "--> fVoicesLastMetNoteMap contains NONONO " <<
+      voice->getVoiceName () <<
+      endl;
+  }
+  
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
-      "--> fCurrentNoteVoiceNumber        = " <<
-      fCurrentNoteVoiceNumber <<
+      "--> STORING " <<
+      newNote->asShortString () <<
+      " as last note met in voice " <<
+      voice->getVoiceName () <<
       endl <<
       "-->  fCurrentNoteStaffNumber = " <<
       fCurrentNoteStaffNumber <<
+      endl <<
+      "--> fCurrentNoteVoiceNumber  = " <<
+      fCurrentNoteVoiceNumber <<
       endl <<
       "--> staff name  = " <<
       staff->getStaffName () <<
@@ -17536,7 +17554,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       "--> voice name  = " <<
       voice->getVoiceName () <<
       endl;
+  }
+  
+  fVoicesLastMetNoteMap [voice] = newNote;
 
+  if (gTraceOptions->fTraceChords) {
+    fLogOutputStream <<
+      "--> AFTER STORING " <<
+      endl;
+      
     printVoicesLastMetNoteMap (
       inputLineNumber);
   }
