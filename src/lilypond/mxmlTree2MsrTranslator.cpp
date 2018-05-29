@@ -449,13 +449,16 @@ void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
   if (voicesLastMetNoteMapSize) {
     gIndenter++;
     
-    map<S_msrVoice, S_msrNote>::const_iterator
+//    map<S_msrVoice, S_msrNote>::const_iterator
+    map<pair<int, int>, S_msrNote>::const_iterator
       iBegin = fVoicesLastMetNoteMap.begin (),
       iEnd   = fVoicesLastMetNoteMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       fLogOutputStream <<
-        (*i).first->getVoiceName () <<
+  //      (*i).first->getVoiceName () <<
+        "staff " << (*i).first.first <<
+        ", voice " <<  (*i).first.second <<
         ":" <<
         endl;
 
@@ -14727,6 +14730,13 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
   S_msrChord chord)
 {
   fVoicesCurrentChordMap [voice] = chord;
+  /*
+  fVoicesCurrentChordMap [
+    make_pair (
+      voice->getVoiceStaffUplink ()->getStaffNumber (),
+      voice->getVoiceNumber ())] =
+      chord;
+*/
 
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
@@ -14738,17 +14748,17 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
       "\", line " << inputLineNumber <<
       endl;
 
-    displayVoicesCurrentChordMap ();
+    printVoicesCurrentChordMap ();
   }
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::displayVoicesCurrentChordMap ()
+void mxmlTree2MsrTranslator::printVoicesCurrentChordMap ()
 {
   fLogOutputStream <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
     endl <<
-    "fVoicesCurrentChordMap, " <<
+    "fVoicesCurrentChordMap contains " <<
     singularOrPlural (
       fVoicesCurrentChordMap.size (), "element", "elements") <<
     ":";
@@ -14760,6 +14770,7 @@ void mxmlTree2MsrTranslator::displayVoicesCurrentChordMap ()
     gIndenter++;
 
     map<S_msrVoice, S_msrChord>::const_iterator
+//    map<pair<int, int>, S_msrChord>::const_iterator
       iBegin = fVoicesCurrentChordMap.begin (),
       iEnd   = fVoicesCurrentChordMap.end (),
       i      = iBegin;
@@ -14772,6 +14783,16 @@ void mxmlTree2MsrTranslator::displayVoicesCurrentChordMap ()
         voice->getVoiceName () <<
         ":" <<
         endl;
+
+/*
+      S_msrChord chord = (*i).second;
+
+      fLogOutputStream <<
+        "stave " << (*i).first.first <<
+        ", voice " << (*i).first.second <<
+        ":" <<
+        endl;
+*/
 
       gIndenter++;
 
@@ -17377,7 +17398,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // append the harmony to the harmony voice for the current voice
       S_msrVoice
         voiceHarmonyVoice =
-          voice->getHarmonyVoiceForRegularVoice ();
+          voice->
+            getHarmonyVoiceForRegularVoice ();
             
       voiceHarmonyVoice->
         appendHarmonyToVoice (
@@ -17476,9 +17498,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     if (fOnGoingChord) {
       // newNote is the first note after the chord in voice
 
+  //    map<pair<int, int>, S_msrChord>::const_iterator
       map<S_msrVoice, S_msrChord>::const_iterator
         it =
           fVoicesCurrentChordMap.find (voice);
+          /*
+          fVoicesCurrentChordMap.find (
+            make_pair (
+              fCurrentNoteStaffNumber,
+              fCurrentNoteVoiceNumber));
+              */
           
       msrAssert (
         it != fVoicesCurrentChordMap.end (),
@@ -17489,6 +17518,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fLogOutputStream <<
           "Forgetting about current chord '" <<
           (*it).second->asString () <<
+          /*
+          "' in staff " <<
+          (*it).first.first <<
+          "' in voice " <<
+          (*it).first.second <<
+          */
           "' in voice " <<
           (*it).first->getVoiceName () <<
           endl;
@@ -17496,7 +17531,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
       fVoicesCurrentChordMap.erase (it);
       if (gTraceOptions->fTraceChords) {
-        displayVoicesCurrentChordMap ();
+        printVoicesCurrentChordMap ();
       }
 
       if (fCurrentDoubleTremolo) {
@@ -17514,7 +17549,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote);
 
   // register newNote as the last met note for this voice
-  map<S_msrVoice, S_msrNote>::const_iterator
+  /*
+  map<S_msrVoice, S_msrNote>::iterator
     it =
       fVoicesLastMetNoteMap.find (voice); // JMI
           
@@ -17526,6 +17562,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       fVoicesLastMetNoteMap [voice] <<
       endl;
 
+    (*it).second = newNote;
+
  //   fVoicesLastMetNoteMap.erase (it);
   }
   else {
@@ -17533,7 +17571,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       "--> fVoicesLastMetNoteMap contains NONONO " <<
       voice->getVoiceName () <<
       endl;
+
+    fVoicesLastMetNoteMap [voice] = newNote;
   }
+  */
   
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
@@ -17556,7 +17597,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       endl;
   }
   
-  fVoicesLastMetNoteMap [voice] = newNote;
+  fVoicesLastMetNoteMap [
+    make_pair(fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+    ] =
+      newNote;
 
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
@@ -18154,7 +18198,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     
     S_msrNote
       chordFirstNote =
-        fVoicesLastMetNoteMap [currentVoice];
+  //      fVoicesLastMetNoteMap [currentVoice];
+        fVoicesLastMetNoteMap [
+          make_pair (fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)];
       /*
         currentVoice->
           getVoiceLastAppendedNote (); ??? JMI
@@ -18373,12 +18419,19 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     }
     
     if (gTraceOptions->fTraceChords) {
-      displayVoicesCurrentChordMap ();
+      printVoicesCurrentChordMap ();
     }
     
     map<S_msrVoice, S_msrChord>::const_iterator
+ //   map<pair<int, int>, S_msrChord>::const_iterator
       it =
         fVoicesCurrentChordMap.find (currentVoice);
+        /*
+        fVoicesCurrentChordMap.find (
+          make_pair (
+            fCurrentNoteStaffNumber,
+            fCurrentNoteVoiceNumber));
+            */
             
     if (it == fVoicesCurrentChordMap.end ()) {
       // a chord has to be created from newChordNote
@@ -18409,6 +18462,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       fLogOutputStream <<
         "--> fVoicesCurrentChordMap \[\"" <<
         (*it).first->getVoiceName () <<
+        /*
+        "staff " <<
+        (*it).first.first <<
+        ", voice " <<
+        (*it).first.second <<
+        */
         "\"] = " <<
         (*it).second <<
         endl;
@@ -18440,6 +18499,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   S_msrChord
     chord =
       fVoicesCurrentChordMap [currentVoice];
+      /*
+      fVoicesCurrentChordMap [
+        make_pair (
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber)];
+          */
 
   chord->
     addAnotherNoteToChord (newChordNote);
@@ -18449,7 +18514,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     newChordNote, chord);
 
   if (gTraceOptions->fTraceChords) {
-    displayVoicesCurrentChordMap ();
+    printVoicesCurrentChordMap ();
   }
 }
 
@@ -18973,6 +19038,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   S_msrChord
     chord =
       fVoicesCurrentChordMap [currentVoice];
+      /*
+      fVoicesCurrentChordMap [
+        make_pair (
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber)];
+          */
 
   chord->
     addAnotherNoteToChord (newChordNote);
@@ -18982,7 +19053,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     newChordNote, chord);
 
   if (gTraceOptions->fTraceChords) {
-    displayVoicesCurrentChordMap ();
+    printVoicesCurrentChordMap ();
   }
 }
 
@@ -19148,6 +19219,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
   S_msrChord
     chord =
       fVoicesCurrentChordMap [currentVoice];
+      /*
+      fVoicesCurrentChordMap [
+        make_pair (
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber)];
+          */
 
   chord->
     addAnotherNoteToChord (newChordNote);
@@ -19157,7 +19234,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
     newChordNote, chord);
 
   if (gTraceOptions->fTraceChords) {
-    displayVoicesCurrentChordMap ();
+    printVoicesCurrentChordMap ();
   }
 }
 

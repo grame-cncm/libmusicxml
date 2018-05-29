@@ -1512,7 +1512,9 @@ class mxmlTree2MsrTranslator :
     // notes/rests handling
     // ------------------------------------------------------
 
-    map<S_msrVoice, S_msrNote>
+    // map<S_msrVoice, S_msrNote> seems buggy, so
+    // we use a pair containing the staff and voice numbers:
+    map<pair<int, int>, S_msrNote>
                               fVoicesLastMetNoteMap;
 
     void                      printVoicesLastMetNoteMap (
@@ -1806,7 +1808,9 @@ class mxmlTree2MsrTranslator :
     // chords handling
     // ------------------------------------------------------
 
-    map<S_msrVoice, S_msrChord>
+     map<S_msrVoice, S_msrChord> // seems buggy, so
+    // we use a pair containing the staff and voice numbers:
+  //  map<pair<int, int>, S_msrChord>
                               fVoicesCurrentChordMap;
     bool                      fOnGoingChord;
     
@@ -1820,7 +1824,7 @@ class mxmlTree2MsrTranslator :
                                 S_msrVoice voice,
                                 S_msrChord chord);
                                 
-    void                      displayVoicesCurrentChordMap ();
+    void                      printVoicesCurrentChordMap ();
                                 
     // tuplets handling
     // ------------------------------------------------------
