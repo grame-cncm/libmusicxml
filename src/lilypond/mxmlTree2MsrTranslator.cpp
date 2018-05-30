@@ -17271,6 +17271,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         break;
 
       case msrNote::kTupletMemberNote:
+      case msrNote::kTupletMemberUnpitchedNote:
         break;
 
       case msrNote::kRestNote:
@@ -17640,7 +17641,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   else {
-    // standalone note or rest
+    // standalone or unpitched note or rest
     if (fCurrentNoteIsARest)
       newNote->
         setNoteKind (
@@ -18283,10 +18284,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         
       case msrNote::kSkipNote:
         break;
-        
+                
       case msrNote::kUnpitchedNote:
-        break;
-        
       case msrNote::kStandaloneNote:
         // remove last handled (previous current) note from the current voice
         if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
@@ -18396,6 +18395,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kTupletMemberNote:
+      case msrNote::kTupletMemberUnpitchedNote:
         break;
   
       case msrNote::k_NoNoteKind:
@@ -18526,8 +18526,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     note->getInputLineNumber ();
     
  // register note as a tuplet member
-  note->
-    setNoteKind (msrNote::kTupletMemberNote);
+ if (! fCurrentNoteIsUnpitched) {
+    note->
+      setNoteKind (msrNote::kTupletMemberNote);
+  }
+  else {
+    note->
+      setNoteKind (msrNote::kTupletMemberUnpitchedNote);
+  }
 
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
     // no duration has been found,
@@ -18587,7 +18593,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           fCurrentATupletStopIsPending = false;
         }
 
-        // create the chord
+        // create the tuplet
         createTupletWithItsFirstNote (note);
       
         // swith to continuation mode

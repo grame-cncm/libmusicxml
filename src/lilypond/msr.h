@@ -5779,7 +5779,8 @@ class msrNote : public msrElement
       kGraceNote,
       kChordMemberNote,
       kGraceChordMemberNote,
-      kTupletMemberNote };
+      kTupletMemberNote,
+      kTupletMemberUnpitchedNote };
       
     static string noteKindAsString (
       msrNoteKind noteKind);

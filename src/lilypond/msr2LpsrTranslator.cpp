@@ -3278,6 +3278,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletMemberUnpitchedNote:
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending " <<

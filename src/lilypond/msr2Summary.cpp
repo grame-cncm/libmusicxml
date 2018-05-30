@@ -725,6 +725,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       fScoreChordNotesCounter++;
       break;
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletMemberUnpitchedNote:
       fScoreTupletNotesCounter++;
       break;
   } // switch
@@ -760,6 +761,7 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kChordMemberNote:
       break;
     case msrNote::kTupletMemberNote:
+    case msrNote::kTupletMemberUnpitchedNote:
       break;
   } // switch
 }
