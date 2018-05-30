@@ -170,7 +170,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // stems
   fCurrentStemKind = msrStem::kStemNone;
-//  fOnGoingStemNone = false; JMI
 
   // double tremolos
 
@@ -505,6 +504,262 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
   return s.str ();
 }
   
+//________________________________________________________________________
+string lpsr2LilypondTranslator::notePitchAsLilypondString (
+  S_msrNote note)
+{
+  stringstream s;
+
+  // should an editorial accidental be generated?
+  switch (note->getNoteEditorialAccidentalKind ()) {
+    case msrNote::kNoteEditorialAccidentalYes:
+      s <<
+        "\\editorialAccidental ";
+      break;
+    case msrNote::kNoteEditorialAccidentalNo:
+      break;
+  } // switch
+  
+  // get the note quarter tones pitch
+  msrQuarterTonesPitchKind
+    noteQuarterTonesPitchKind =
+      note->
+        getNoteQuarterTonesPitchKind ();
+
+  // fetch the quarter tones pitch as string
+  string
+    quarterTonesPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesPitchKind);
+
+  // get the note quarter tones display pitch
+  msrQuarterTonesPitchKind
+    noteQuarterTonesDisplayPitchKind =
+      note->
+        getNoteQuarterTonesDisplayPitchKind ();
+
+  // fetch the quarter tones display pitch as string
+  string
+    quarterTonesDisplayPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesDisplayPitchKind);
+      
+  // generate the pitch
+  s <<
+    quarterTonesPitchKindAsString;
+    
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+    
+  int noteAbsoluteDisplayOctave =
+    note->getNoteDisplayOctave ();
+
+  // should an absolute octave be generated?
+  bool generateAbsoluteOctave =
+    gLilypondOptions->fAbsoluteOctaves
+      ||
+    ! fRelativeOctaveReference;
+
+  if (gTraceOptions->fTraceNotes) {
+    const int fieldWidth = 28;
+
+    fLilypondCodeIOstream << left <<
+      endl <<
+      setw (fieldWidth) <<
+      "% line" <<
+      " = " <<
+      note->getInputLineNumber () <<
+      endl <<
+      setw (fieldWidth) <<
+      "% msrQuarterTonesPitch" <<
+      " = " <<
+      quarterTonesPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% quarterTonesDisplayPitch" <<
+      " = " <<
+      quarterTonesDisplayPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteOctave" <<
+      " = " <<
+      noteAbsoluteOctave <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteDisplayOctave" <<
+      " = " <<
+      noteAbsoluteDisplayOctave <<
+      endl <<
+    endl;
+  }
+
+  if (generateAbsoluteOctave) {
+    // generate LilyPond absolute octave
+    s <<
+      absoluteOctaveAsLilypondString (
+        noteAbsoluteOctave);
+  }
+
+  else {
+    // generate LilyPond octave relative to fRelativeOctaveReference
+    s <<
+      lilypondRelativeOctave (note);
+  }
+
+  // should an accidental be generated? JMI this can be fine tuned with cautionary
+  switch (note->getNoteAccidentalKind ()) {
+    case msrNote::kNoteAccidentalNone:
+      break;
+    default:
+      s <<
+        "!";
+      break;
+  } // switch
+
+  // should a cautionary accidental be generated?
+  switch (note->getNoteCautionaryAccidentalKind ()) {
+    case msrNote::kNoteCautionaryAccidentalYes:
+      s <<
+        "?";
+      break;
+    case msrNote::kNoteCautionaryAccidentalNo:
+      break;
+  } // switch
+
+  return s.str ();
+}
+
+//________________________________________________________________________
+string lpsr2LilypondTranslator::durationAsLilypondString (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  string result;
+  
+  bool generateExplicitDuration;
+  
+  if (wholeNotes != fLastMetWholeNotes) {
+    generateExplicitDuration = true;
+    fLastMetWholeNotes = wholeNotes;
+  }
+  else {
+    generateExplicitDuration =
+      gLilypondOptions->fAllDurations;
+  }
+  
+  if (generateExplicitDuration)
+    result =
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        wholeNotes);
+
+  return result;
+}
+
+//________________________________________________________________________
+string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
+  S_msrNote note)
+{
+  stringstream s;
+
+  // get the note quarter tones pitch
+  msrQuarterTonesPitchKind
+    noteQuarterTonesPitchKind =
+      note->
+        getNoteQuarterTonesPitchKind ();
+
+  // fetch the quarter tones pitch as string
+  string
+    quarterTonesPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesPitchKind);
+
+  // get the note quarter tones display pitch
+  msrQuarterTonesPitchKind
+    noteQuarterTonesDisplayPitchKind =
+      note->
+        getNoteQuarterTonesDisplayPitchKind ();
+
+  // fetch the quarter tones display pitch as string
+  string
+    quarterTonesDisplayPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesDisplayPitchKind);
+      
+  // generate the display pitch
+  s <<
+    note->
+      noteDisplayPitchKindAsString ();
+//    note->notePitchAsString (); JMI
+//    quarterTonesDisplayPitchAsString;
+    
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+    
+  int noteAbsoluteDisplayOctave =
+    note->getNoteDisplayOctave ();
+
+  // should an absolute octave be generated?
+  bool generateAbsoluteOctave =
+    gLilypondOptions->fAbsoluteOctaves
+      ||
+    ! fRelativeOctaveReference;
+
+  if (gTraceOptions->fTraceNotes) {
+    const int fieldWidth = 28;
+
+    fLilypondCodeIOstream << left <<
+      endl <<
+      setw (fieldWidth) <<
+      "% line" <<
+      " = " <<
+      note->getInputLineNumber () <<
+      endl <<
+      setw (fieldWidth) <<
+      "% msrQuarterTonesPitch" <<
+      " = " <<
+      quarterTonesPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% quarterTonesDisplayPitch" <<
+      " = " <<
+      quarterTonesDisplayPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteOctave" <<
+      " = " <<
+      noteAbsoluteOctave <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteDisplayOctave" <<
+      " = " <<
+      noteAbsoluteDisplayOctave <<
+      endl <<
+      endl;
+  }
+
+  if (generateAbsoluteOctave) {
+    // generate LilyPond absolute octave
+    s <<
+      absoluteOctaveAsLilypondString (
+        noteAbsoluteDisplayOctave);
+  }
+
+  else {
+    // generate LilyPond octave relative to fRelativeOctaveReference
+    s <<
+      lilypondRelativeOctave (note);
+  }
+
+  return s.str ();
+}
+
 void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   S_msrNote note)
 {
@@ -637,11 +892,18 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   }
 
   // get note stem kind 
-  msrStem::msrStemKind
-    stemKind =
-      fCurrentStem
-        ? fCurrentStem->getStemKind ()
-        : msrStem::kStemNone;
+  S_msrStem
+    noteStem =
+      note->getNoteStem ();
+
+  msrStem::msrStemKind noteStemKind;
+
+  if (noteStem) {
+    noteStemKind = noteStem->getStemKind ();
+  }
+  else {
+    noteStemKind = msrStem::kStemNone;
+  }
 
   // handle note kind before printing note itself
   switch (note->getNoteKind ()) {
@@ -685,26 +947,23 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
               fCurrentStemKind = msrStem::kStemNone;
             }
     
-            // should stem direction be generated?          
-            if (fCurrentStem) {
-              // should stem direction be generated?
-              if (stemKind != fCurrentStemKind) {
-                switch (stemKind) {
-                  case msrStem::kStemNone:
-                    fLilypondCodeIOstream << "\\stemNeutral ";
-                    break;
-                  case msrStem::kStemUp:
-                    fLilypondCodeIOstream << "\\stemUp ";
-                    break;
-                  case msrStem::kStemDown:
-                    fLilypondCodeIOstream << "\\stemDown ";
-                    break;
-                  case msrStem::kStemDouble: // JMI ???
-                    break;
-                } // switch
+            // should stem direction be generated?
+            if (noteStemKind != fCurrentStemKind) {
+              switch (noteStemKind) {
+                case msrStem::kStemNone:
+                  fLilypondCodeIOstream << "\\stemNeutral ";
+                  break;
+                case msrStem::kStemUp:
+                  fLilypondCodeIOstream << "\\stemUp ";
+                  break;
+                case msrStem::kStemDown:
+                  fLilypondCodeIOstream << "\\stemDown ";
+                  break;
+                case msrStem::kStemDouble: // JMI ???
+                  break;
+              } // switch
 
-                fCurrentStemKind = stemKind;
-              }
+              fCurrentStemKind = noteStemKind;
             }
             break;
 
@@ -720,26 +979,22 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     
             // should stem direction be generated?
             if (gLilypondOptions->fStems) {
-          
-              if (fCurrentStem) {
-                // should stem direction be generated?
-                if (stemKind != fCurrentStemKind) {
-                  switch (stemKind) {
-                    case msrStem::kStemNone:
-                      fLilypondCodeIOstream << "\\stemNeutral ";
-                      break;
-                    case msrStem::kStemUp:
-                      fLilypondCodeIOstream << "\\stemUp ";
-                      break;
-                    case msrStem::kStemDown:
-                      fLilypondCodeIOstream << "\\stemDown ";
-                      break;
-                    case msrStem::kStemDouble: // JMI ???
-                      break;
-                  } // switch
+              if (noteStemKind != fCurrentStemKind) {
+                switch (noteStemKind) {
+                  case msrStem::kStemNone:
+                    fLilypondCodeIOstream << "\\stemNeutral ";
+                    break;
+                  case msrStem::kStemUp:
+                    fLilypondCodeIOstream << "\\stemUp ";
+                    break;
+                  case msrStem::kStemDown:
+                    fLilypondCodeIOstream << "\\stemDown ";
+                    break;
+                  case msrStem::kStemDouble: // JMI ???
+                    break;
+                } // switch
 
-                  fCurrentStemKind = stemKind;
-                }
+                fCurrentStemKind = noteStemKind;
               }
             }
             break;
@@ -782,26 +1037,22 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     
             // should stem direction be generated?
             if (gLilypondOptions->fStems) {
-          
-              if (fCurrentStem) {
-                // should stem direction be generated?
-                if (stemKind != fCurrentStemKind) {
-                  switch (stemKind) {
-                    case msrStem::kStemNone:
-                      fLilypondCodeIOstream << "\\stemNeutral ";
-                      break;
-                    case msrStem::kStemUp:
-                      fLilypondCodeIOstream << "\\stemUp ";
-                      break;
-                    case msrStem::kStemDown:
-                      fLilypondCodeIOstream << "\\stemDown ";
-                      break;
-                    case msrStem::kStemDouble: // JMI ???
-                      break;
-                  } // switch
+              if (noteStemKind != fCurrentStemKind) {
+                switch (noteStemKind) {
+                  case msrStem::kStemNone:
+                    fLilypondCodeIOstream << "\\stemNeutral ";
+                    break;
+                  case msrStem::kStemUp:
+                    fLilypondCodeIOstream << "\\stemUp ";
+                    break;
+                  case msrStem::kStemDown:
+                    fLilypondCodeIOstream << "\\stemDown ";
+                    break;
+                  case msrStem::kStemDouble: // JMI ???
+                    break;
+                } // switch
 
-                  fCurrentStemKind = stemKind;
-                }
+                fCurrentStemKind = noteStemKind;
               }
             }
             break;
@@ -820,32 +1071,26 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
 
         // should stem direction be generated?
         if (gLilypondOptions->fStems) {
-      
-          if (fCurrentStem) {
-            // should stem direction be generated?
-            if (stemKind != fCurrentStemKind) {
-              switch (stemKind) {
-                case msrStem::kStemNone:
-                  fLilypondCodeIOstream << "\\stemNeutral ";
-                  break;
-                case msrStem::kStemUp:
-                  fLilypondCodeIOstream << "\\stemUp ";
-                  break;
-                case msrStem::kStemDown:
-                  fLilypondCodeIOstream << "\\stemDown ";
-                  break;
-                  /* JMI
-                case msrStem::kStemNone:
-                  break;
-                  */
-                case msrStem::kStemDouble: // JMI ???
-                  break;
-              } // switch
-            }
-      
-            // is there a stem kind change?
-            if (stemKind != fCurrentStemKind)
-              fCurrentStemKind = stemKind;
+          if (noteStemKind != fCurrentStemKind) {
+            switch (noteStemKind) {
+              case msrStem::kStemNone:
+                fLilypondCodeIOstream << "\\stemNeutral ";
+                break;
+              case msrStem::kStemUp:
+                fLilypondCodeIOstream << "\\stemUp ";
+                break;
+              case msrStem::kStemDown:
+                fLilypondCodeIOstream << "\\stemDown ";
+                break;
+                /* JMI
+              case msrStem::kStemNone:
+                break;
+                */
+              case msrStem::kStemDouble: // JMI ???
+                break;
+            } // switch
+
+            fCurrentStemKind = noteStemKind;
           }
         }
       }
@@ -1300,179 +1545,10 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   } // switch
 
   fLilypondCodeIOstream << " ";
-
-  // was there an unmetered (stemless) section?
-  if (stemKind != fCurrentStemKind) {
-    switch (stemKind) {
-      case msrStem::kStemNone:
-        break;
-        
-// JMI      case msrStem::kStemNone:
-      case msrStem::kStemUp:
-      case msrStem::kStemDown:
-      case msrStem::kStemDouble:
-        fOnGoingStemNone =false;
-        break;
-    } // switch
-  }
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::notePitchAsLilypondString (
-  S_msrNote note)
-{
-  stringstream s;
-
-  // should an editorial accidental be generated?
-  switch (note->getNoteEditorialAccidentalKind ()) {
-    case msrNote::kNoteEditorialAccidentalYes:
-      s <<
-        "\\editorialAccidental ";
-      break;
-    case msrNote::kNoteEditorialAccidentalNo:
-      break;
-  } // switch
-  
-  // get the note quarter tones pitch
-  msrQuarterTonesPitchKind
-    noteQuarterTonesPitchKind =
-      note->
-        getNoteQuarterTonesPitchKind ();
-
-  // fetch the quarter tones pitch as string
-  string
-    quarterTonesPitchKindAsString =
-      msrQuarterTonesPitchKindAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-        noteQuarterTonesPitchKind);
-
-  // get the note quarter tones display pitch
-  msrQuarterTonesPitchKind
-    noteQuarterTonesDisplayPitchKind =
-      note->
-        getNoteQuarterTonesDisplayPitchKind ();
-
-  // fetch the quarter tones display pitch as string
-  string
-    quarterTonesDisplayPitchKindAsString =
-      msrQuarterTonesPitchKindAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-        noteQuarterTonesDisplayPitchKind);
-      
-  // generate the pitch
-  s <<
-    quarterTonesPitchKindAsString;
-    
-  // in MusicXML, octave number is 4 for the octave starting with middle C
-  int noteAbsoluteOctave =
-    note->getNoteOctave ();
-    
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
-
-  // should an absolute octave be generated?
-  bool generateAbsoluteOctave =
-    gLilypondOptions->fAbsoluteOctaves
-      ||
-    ! fRelativeOctaveReference;
-
-  if (gTraceOptions->fTraceNotes) {
-    const int fieldWidth = 28;
-
-    fLilypondCodeIOstream << left <<
-      endl <<
-      setw (fieldWidth) <<
-      "% line" <<
-      " = " <<
-      note->getInputLineNumber () <<
-      endl <<
-      setw (fieldWidth) <<
-      "% msrQuarterTonesPitch" <<
-      " = " <<
-      quarterTonesPitchKindAsString <<
-      endl <<
-      setw (fieldWidth) <<
-      "% quarterTonesDisplayPitch" <<
-      " = " <<
-      quarterTonesDisplayPitchKindAsString <<
-      endl <<
-      setw (fieldWidth) <<
-      "% noteAbsoluteOctave" <<
-      " = " <<
-      noteAbsoluteOctave <<
-      endl <<
-      setw (fieldWidth) <<
-      "% noteAbsoluteDisplayOctave" <<
-      " = " <<
-      noteAbsoluteDisplayOctave <<
-      endl <<
-    endl;
-  }
-
-  if (generateAbsoluteOctave) {
-    // generate LilyPond absolute octave
-    s <<
-      absoluteOctaveAsLilypondString (
-        noteAbsoluteOctave);
-  }
-
-  else {
-    // generate LilyPond octave relative to fRelativeOctaveReference
-    s <<
-      lilypondRelativeOctave (note);
-  }
-
-  // should an accidental be generated? JMI this can be fine tuned with cautionary
-  switch (note->getNoteAccidentalKind ()) {
-    case msrNote::kNoteAccidentalNone:
-      break;
-    default:
-      s <<
-        "!";
-      break;
-  } // switch
-
-  // should a cautionary accidental be generated?
-  switch (note->getNoteCautionaryAccidentalKind ()) {
-    case msrNote::kNoteCautionaryAccidentalYes:
-      s <<
-        "?";
-      break;
-    case msrNote::kNoteCautionaryAccidentalNo:
-      break;
-  } // switch
-
-  return s.str ();
-}
-
-//________________________________________________________________________
-string lpsr2LilypondTranslator::durationAsLilypondString (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-  string result;
-  
-  bool generateExplicitDuration;
-  
-  if (wholeNotes != fLastMetWholeNotes) {
-    generateExplicitDuration = true;
-    fLastMetWholeNotes = wholeNotes;
-  }
-  else {
-    generateExplicitDuration =
-      gLilypondOptions->fAllDurations;
-  }
-  
-  if (generateExplicitDuration)
-    result =
-      wholeNotesAsLilypondString (
-        inputLineNumber,
-        wholeNotes);
-
-  return result;
-}
-
-//________________________________________________________________________
+/* JMI
 string lpsr2LilypondTranslator::durationAsExplicitLilypondString (
   int      inputLineNumber,
   rational wholeNotes)
@@ -1486,107 +1562,7 @@ string lpsr2LilypondTranslator::durationAsExplicitLilypondString (
 
   return result;
 }
-
-//________________________________________________________________________
-string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
-  S_msrNote note)
-{
-  stringstream s;
-
-  // get the note quarter tones pitch
-  msrQuarterTonesPitchKind
-    noteQuarterTonesPitchKind =
-      note->
-        getNoteQuarterTonesPitchKind ();
-
-  // fetch the quarter tones pitch as string
-  string
-    quarterTonesPitchKindAsString =
-      msrQuarterTonesPitchKindAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-        noteQuarterTonesPitchKind);
-
-  // get the note quarter tones display pitch
-  msrQuarterTonesPitchKind
-    noteQuarterTonesDisplayPitchKind =
-      note->
-        getNoteQuarterTonesDisplayPitchKind ();
-
-  // fetch the quarter tones display pitch as string
-  string
-    quarterTonesDisplayPitchKindAsString =
-      msrQuarterTonesPitchKindAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-        noteQuarterTonesDisplayPitchKind);
-      
-  // generate the display pitch
-  s <<
-    note->
-      noteDisplayPitchKindAsString ();
-//    note->notePitchAsString (); JMI
-//    quarterTonesDisplayPitchAsString;
-    
-  // in MusicXML, octave number is 4 for the octave starting with middle C
-  int noteAbsoluteOctave =
-    note->getNoteOctave ();
-    
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
-
-  // should an absolute octave be generated?
-  bool generateAbsoluteOctave =
-    gLilypondOptions->fAbsoluteOctaves
-      ||
-    ! fRelativeOctaveReference;
-
-  if (gTraceOptions->fTraceNotes) {
-    const int fieldWidth = 28;
-
-    fLilypondCodeIOstream << left <<
-      endl <<
-      setw (fieldWidth) <<
-      "% line" <<
-      " = " <<
-      note->getInputLineNumber () <<
-      endl <<
-      setw (fieldWidth) <<
-      "% msrQuarterTonesPitch" <<
-      " = " <<
-      quarterTonesPitchKindAsString <<
-      endl <<
-      setw (fieldWidth) <<
-      "% quarterTonesDisplayPitch" <<
-      " = " <<
-      quarterTonesDisplayPitchKindAsString <<
-      endl <<
-      setw (fieldWidth) <<
-      "% noteAbsoluteOctave" <<
-      " = " <<
-      noteAbsoluteOctave <<
-      endl <<
-      setw (fieldWidth) <<
-      "% noteAbsoluteDisplayOctave" <<
-      " = " <<
-      noteAbsoluteDisplayOctave <<
-      endl <<
-      endl;
-  }
-
-  if (generateAbsoluteOctave) {
-    // generate LilyPond absolute octave
-    s <<
-      absoluteOctaveAsLilypondString (
-        noteAbsoluteDisplayOctave);
-  }
-
-  else {
-    // generate LilyPond octave relative to fRelativeOctaveReference
-    s <<
-      lilypondRelativeOctave (note);
-  }
-
-  return s.str ();
-}
+*/
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::writeNoteArticulationAsLilyponString (
@@ -8869,23 +8845,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           noteSingleTremolo);
     }
   }
-
-/* JMI
-  // get note stem kind 
-  msrStem::msrStemKind
-    stemKind = // JMI
-      fCurrentStem
-        ? fCurrentStem->getStemKind ()
-        : msrStem::kStemNone;
-*/
-
-/* JMI
-  // has the stem been omitted?
-  if (elt->getNoteIsStemless ()) {
-    fLilypondCodeIOstream <<
-      endl;
-  }
-  */
   
   // print the note articulations if any
   if (! fOnGoingChord) {
@@ -9639,8 +9598,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStem& elt)
       "% --> Start visiting msrStem" <<
       endl;
   }
-
-  fCurrentStem = elt;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrStem& elt)
@@ -11717,48 +11674,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
 
 } // namespace
 
-
-/* JMI
-  // is there an unmetered (stemless) section?
-  if (stemKind != fCurrentStemKind) {
-    switch (stemKind) {
-      case msrStem::kStemNone:
-        if (! fOnGoingStemNone) {
-          fLilypondCodeIOstream <<
-            endl <<
-            endl << //JMI
-            "\\temporary\\omit Stem" <<
-            endl <<
-            "\\once\\omit Staff.TimeSignature" <<
-            endl <<
-            "\\cadenzaOn" <<
-            endl <<
-            endl; //JMI
-
-          fOnGoingStemNone = true;
-        }
-        else {
-          fLilypondCodeIOstream <<
-            endl <<
-            endl << //JMI
-            "\\cadenzaOff" <<
-            endl <<
-            "\\bar \"|\"" <<
-            endl <<
-            "\\undo\\omit Stem" <<
-            endl <<
-            endl; //JMI
-        }
-        break;
-        
-      case msrStem::kStemNone:
-      case msrStem::kStemUp:
-      case msrStem::kStemDown:
-      case msrStem::kStemDouble:
-        break;
-    } // switch
-  }
-*/
 
         /* dotted-note: JMI
   \relative {

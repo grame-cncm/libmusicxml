@@ -672,10 +672,12 @@ class lpsr2LilypondTranslator :
     string                durationAsLilypondString (
                             int      inputLineNumber,
                             rational wholeNotes);
-                            
+
+         /* JMI                   
     string                durationAsExplicitLilypondString ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
+*/
 
     // notes
     
@@ -861,8 +863,6 @@ class lpsr2LilypondTranslator :
 
     // stems
     msrStem::msrStemKind  fCurrentStemKind;
-    S_msrStem             fCurrentStem;
-    bool                  fOnGoingStemNone;
 
     // double tremolos
     // ------------------------------------------------------
