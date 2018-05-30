@@ -8382,9 +8382,8 @@ class msrTuplet : public msrElement
     
     void                  addTupletToTupletClone (S_msrTuplet tuplet);
     
-    void                  removeFirstNoteFromTuplet (
-                            int       inputLineNumber,
-                            S_msrNote note);
+    S_msrNote             removeFirstNoteFromTuplet (
+                            int       inputLineNumber);
 
  // JMI   void                  applyDisplayFactorToTupletMembers ();
     

@@ -11748,15 +11748,14 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   fTupletDisplayWholeNotes.rationalise ();
 }
 
-void msrTuplet::removeFirstNoteFromTuplet (
-  int       inputLineNumber,
-  S_msrNote note)
+S_msrNote msrTuplet::removeFirstNoteFromTuplet (
+  int       inputLineNumber)
 {
+  S_msrNote result;
+  
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Removing first note '" <<
-      note->asShortStringWithRawWholeNotes () <<
-      "' from tuplet '" <<
+      "Removing first note from tuplet '" <<
       asString () <<
       "'" <<
       endl;
@@ -11767,6 +11766,21 @@ void msrTuplet::removeFirstNoteFromTuplet (
       firstTupletElement =
         fTupletElements.front ();
 
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(*firstTupletElement))
+      ) {
+      result = note;
+    }
+    
+    else {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "removeFirstNoteFromTuplet() expects a note as the first tuplet element");
+    }
+
+/* JMI
     for (
       list<S_msrElement>::iterator i=fTupletElements.begin ();
       i!=fTupletElements.end ();
@@ -11811,22 +11825,20 @@ void msrTuplet::removeFirstNoteFromTuplet (
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
+  */
   }
   
   else {
     stringstream s;
 
     s <<
-      "cannot remove note " <<
-      note <<
-      " from empty tuplet " <<
+      "cannot remove the first note of an empty tuplet " <<
       "' in voice \"" <<
       fTupletMeasureUplink->
         getMeasureSegmentUplink ()->
           getSegmentVoiceUplink ()->
             getVoiceName () <<
-      "\"," <<
-      " since it has not been found";
+      "\"";
 
     msrInternalError (
       gXml2lyOptions->fInputSourceName,
@@ -11834,6 +11846,8 @@ void msrTuplet::removeFirstNoteFromTuplet (
       __FILE__, __LINE__,
       s.str ());
   }
+
+  return result;
 }
 
 void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI

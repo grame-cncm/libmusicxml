@@ -14729,7 +14729,19 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
   S_msrVoice voice,
   S_msrChord chord)
 {
+  if (gTraceOptions->fTraceChords) {
+    fLogOutputStream <<
+      "Registering chord '" <<
+      chord->asString () <<
+      "'" <<
+      " as current chord in voice \"" <<
+      voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+
   fVoicesCurrentChordMap [voice] = chord;
+  
   /*
   fVoicesCurrentChordMap [
     make_pair (
@@ -14747,7 +14759,9 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
       voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
+  }
 
+  if (gTraceOptions->fTraceChords) {
     printVoicesCurrentChordMap ();
   }
 }
@@ -15477,10 +15491,6 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
 
   // add note as first note of the stack top tuplet
   tuplet->addNoteToTuplet (firstNote);
-
-  // register firstNote as the current tuplet first note,
-  // needed for chords in tuplets
-  fCurrentTupletFirstNote = firstNote;
 
   if (gTraceOptions->fTraceTuplets) {
     // only after addNoteToTuplet() has set the note's tuplet uplink
@@ -18909,40 +18919,37 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   // should a chord be created?
   if (! fOnGoingChord) {
     // this is the second note of the chord to be created,
-    // fLastHandledNote being the first one and marked as a tuplet member
 
-/* JMI
-    // fetch last handled note for this voice
-    S_msrNote
-      lastHandledNoteInVoice =
-        currentVoice->
-          getVoiceLastAppendedNote ();
-
-    if (! lastHandledNoteInVoice) {
-
-    fLogOutputStream <<
-      endl <<
-      "handleNoteBelongingToAChordInATuplet() )============================" <<
-      endl <<
-      currentVoice <<
-      endl <<
-      endl;
-      
+    // fetch the current tuplet, i.e. the top of the stack
+    S_msrTuplet currentTuplet;
+    
+    if (fTupletsStack.size ()) {
+      currentTuplet =
+        fTupletsStack.top ();
+    }
+    else {
       stringstream s;
-
+  
       s <<
         "handleNoteBelongingToAChordInATuplet():" <<
         endl <<
-        "lastHandledNoteInVoice is null on " <<
-        newChordNote->asString ();
-        
+        " a tuplet member chord " <<
+        "cannot be added, tuplets stack is empty";
+  
       msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
         s.str ());
     }
-       */
+    
+    // remove and fetch tupletFirstNote from the current tuplet,
+    // it will be the first chord member note
+    S_msrNote
+      tupletFirstNote =
+        currentTuplet->
+          removeFirstNoteFromTuplet (
+            inputLineNumber);
 
     // create the chord from its first note
     S_msrChord
@@ -18950,14 +18957,15 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         createChordFromItsFirstNote (
           inputLineNumber,
           currentVoice,
-          fCurrentTupletFirstNote);
+          tupletFirstNote);
 
+    // register it in the current chords map
     registerVoiceCurrentChordInMap (
       inputLineNumber,
       currentVoice,
       chord);
     
-    if (false)
+    if (false) {
       fLogOutputStream <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<
@@ -18966,84 +18974,37 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         endl <<
         currentVoice <<
         endl << endl;
-
-    if (fTupletsStack.size ()) {
-      S_msrTuplet
-        currentTuplet =
-          fTupletsStack.top ();
-          
-      // remove last handled (previous current) note from the current tuplet
-      if (
-        gTraceOptions->fTraceNotes
-          ||
-        gTraceOptions->fTraceChords
-          ||
-        gTraceOptions->fTraceTuplets) {
-        fLogOutputStream <<
-          "Removing first note " <<
-          fCurrentTupletFirstNote->
-            asShortStringWithRawWholeNotes () <<
-          ", line " << inputLineNumber <<
-          ", from tuplet '" <<
-          currentTuplet->asString () <<
-          "'" <<
-          endl;
-      }
-
-      // remove fCurrentTupletFirstNote from the current tuplet
-      currentTuplet->
-        removeFirstNoteFromTuplet (
-          inputLineNumber,
-          fCurrentTupletFirstNote);
-
-      // forget about fCurrentTupletFirstNote
-      fCurrentTupletFirstNote = nullptr;
-  
-      // add chord to the current tuplet instead
-      if (
-        gTraceOptions->fTraceNotes
-          ||
-        gTraceOptions->fTraceChords
-          ||
-        gTraceOptions->fTraceTuplets) {
-        fLogOutputStream <<
-          "Adding chord " << chord->asString () <<
-          " to stack top tuplet '" <<
-          currentTuplet->asString () <<
-          "', line " << inputLineNumber <<
-          endl;
-      }
-
-      currentTuplet->
-        addChordToTuplet (chord);
-
-      if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
-        // no duration has been found,
-        // determine sounding from display whole notes
-        newChordNote->
-          determineTupletMemberSoundingFromDisplayWholeNotes (
-            fCurrentNoteActualNotes,
-            fCurrentNoteNormalNotes);
-      }
-    }
-    
-    else {
-      stringstream s;
-
-      s <<
-        "handleNoteBelongingToAChordInATuplet():" <<
-        endl <<
-        "tuplet member chord " << chord->asString () <<
-        "cannot be added, tuplets stack is empty";
-
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
     }
 
-    // account for chord being built
+    // add chord to the current tuplet instead of tupletFirstNote
+    if (
+      gTraceOptions->fTraceNotes
+        ||
+      gTraceOptions->fTraceChords
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "Adding chord " <<
+        chord->asString () <<
+        " to stack top tuplet '" <<
+        currentTuplet->asString () <<
+        "', line " << inputLineNumber <<
+        endl;
+    }
+
+    currentTuplet->
+      addChordToTuplet (chord);
+
+    if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+      // no duration has been found,
+      // determine sounding from display whole notes
+      newChordNote->
+        determineTupletMemberSoundingFromDisplayWholeNotes (
+          fCurrentNoteActualNotes,
+          fCurrentNoteNormalNotes);
+    }
+
+    // account for a chord being built
     fOnGoingChord = true;
   }
 
@@ -19061,7 +19022,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   
   S_msrChord
     chord =
-      fVoicesCurrentChordMap [currentVoice];
+      fVoicesCurrentChordMap [currentVoice]; // JMI
       /*
       fVoicesCurrentChordMap [
         make_pair (

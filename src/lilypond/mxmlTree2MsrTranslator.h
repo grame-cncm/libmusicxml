@@ -1858,8 +1858,6 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentTempoTupletNumber;
     
     bool                      fCurrentNoteBelongsToATuplet;
-    S_msrNote                 fCurrentTupletFirstNote;
-                                // needed for chords in tuplets
 
     stack<S_msrTuplet>        fTupletsStack;
 
