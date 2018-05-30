@@ -1594,12 +1594,6 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentNoteStaffNumber;
     int                       fCurrentNoteVoiceNumber;
 
-    // chords
-    bool                      fCurrentNoteBelongsToAChord;
-
-    // tuplets
-    bool                      fCurrentNoteBelongsToATuplet;
-
     // elements attached to the note
     S_msrStem                 fCurrentStem;
 
@@ -1808,6 +1802,8 @@ class mxmlTree2MsrTranslator :
     // chords handling
     // ------------------------------------------------------
 
+    bool                      fCurrentNoteBelongsToAChord;
+
      map<S_msrVoice, S_msrChord> // seems buggy, so
     // we use a pair containing the staff and voice numbers:
   //  map<pair<int, int>, S_msrChord>
@@ -1861,6 +1857,10 @@ class mxmlTree2MsrTranslator :
                               fCurrentTupletShowTypeKind;
     int                       fCurrentTempoTupletNumber;
     
+    bool                      fCurrentNoteBelongsToATuplet;
+    S_msrNote                 fCurrentTupletFirstNote;
+                                // needed for chords in tuplets
+
     stack<S_msrTuplet>        fTupletsStack;
 
     bool                      fCurrentATupletStopIsPending;

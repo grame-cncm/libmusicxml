@@ -15478,6 +15478,10 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   // add note as first note of the stack top tuplet
   tuplet->addNoteToTuplet (firstNote);
 
+  // register firstNote as the current tuplet first note,
+  // needed for chords in tuplets
+  fCurrentTupletFirstNote = firstNote;
+
   if (gTraceOptions->fTraceTuplets) {
     // only after addNoteToTuplet() has set the note's tuplet uplink
     fLogOutputStream <<
@@ -18907,6 +18911,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     // this is the second note of the chord to be created,
     // fLastHandledNote being the first one and marked as a tuplet member
 
+/* JMI
     // fetch last handled note for this voice
     S_msrNote
       lastHandledNoteInVoice =
@@ -18914,6 +18919,15 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           getVoiceLastAppendedNote ();
 
     if (! lastHandledNoteInVoice) {
+
+    fLogOutputStream <<
+      endl <<
+      "handleNoteBelongingToAChordInATuplet() )============================" <<
+      endl <<
+      currentVoice <<
+      endl <<
+      endl;
+      
       stringstream s;
 
       s <<
@@ -18928,14 +18942,15 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       __FILE__, __LINE__,
         s.str ());
     }
-        
+       */
+
     // create the chord from its first note
     S_msrChord
       chord =
         createChordFromItsFirstNote (
           inputLineNumber,
           currentVoice,
-          lastHandledNoteInVoice);
+          fCurrentTupletFirstNote);
 
     registerVoiceCurrentChordInMap (
       inputLineNumber,
@@ -18965,8 +18980,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           ||
         gTraceOptions->fTraceTuplets) {
         fLogOutputStream <<
-          "Removing last handled note " <<
-          lastHandledNoteInVoice->
+          "Removing first note " <<
+          fCurrentTupletFirstNote->
             asShortStringWithRawWholeNotes () <<
           ", line " << inputLineNumber <<
           ", from tuplet '" <<
@@ -18975,11 +18990,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           endl;
       }
 
-      // remove lastHandledNoteInVoice from the current voice
+      // remove fCurrentTupletFirstNote from the current tuplet
       currentTuplet->
         removeFirstNoteFromTuplet (
           inputLineNumber,
-          lastHandledNoteInVoice);
+          fCurrentTupletFirstNote);
+
+      // forget about fCurrentTupletFirstNote
+      fCurrentTupletFirstNote = nullptr;
   
       // add chord to the current tuplet instead
       if (
@@ -19272,51 +19290,6 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
     // finalize the tuplet, thus popping it off the stack
     finalizeTupletAndPopItFromTupletsStack (
       inputLineNumber);
-
-    /* JMI
-    // pop it from the tuplets stack
-  if (gTraceOptions->fTraceTuplets) {
-      fLogOutputStream <<
-        "--> popping tuplet 1 '" <<
-        pendingTuplet->asString () <<
-        "' from tuplets stack" <<
-        endl;
-  }
-
-      fTupletsStack.pop ();        
-
-    if (fTupletsStack.size ()) {
-      
-      // tuplet is a nested tuplet
-  //    if (gGeneralOptions->fDebug)
-        fLogOutputStream <<
-          "=== adding nested tuplet '" <<
-        pendingTuplet->asString () <<
-        "' to " <<
-        fTupletsStack.top ()->asString () <<
-        " current stack top tuplet" <<
-      endl;
-      
-      fTupletsStack.top ()->
-        addTupletToTuplet (pendingTuplet);
-    }
-    
-    else {
-      
-      // pendingTuplet is a top level tuplet
-  //    if (gGeneralOptions->fDebug)
-        fLogOutputStream <<
-          "=== adding top level tuplet 1 '" <<
-        pendingTuplet->asString () <<
-        "' to voice \"" <<
-        currentVoice->getVoiceName () <<
-        "\"" <<
-        endl;
-        
-      currentVoice->
-        appendTupletToVoice (pendingTuplet);
-    }  
-    */
   } // while
 }
 

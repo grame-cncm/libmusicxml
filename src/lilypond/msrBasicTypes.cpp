@@ -19103,6 +19103,7 @@ we'll be better of using binary logarithms for the computations
 
   int durationLog = msrDurationBinaryLogarithm (denominator);
 
+/* JMI
   if (durationLog == INT_MIN) {
     stringstream s;
         
@@ -19128,6 +19129,7 @@ we'll be better of using binary logarithms for the computations
       __FILE__, __LINE__,
       s.str ());
   }
+*/
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<

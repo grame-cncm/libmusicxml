@@ -29457,29 +29457,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
-
-/* JMI
-  // should a skip be added to the voice harmony voice if any?
-  if (
-    fHarmonyVoiceForRegularVoice
-      &&
-    ! note->getNoteHarmony ()) {
-      // create skip with same duration as note
-      S_msrNote
-        skip =
-          msrNote::createSkipNote (
-            note->               getInputLineNumber (),
-            note->               getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
-            note->               getNoteDisplayWholeNotes (),
-            note->               getNoteDotsNumber (),
-            fHarmonyVoiceForRegularVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
-            fHarmonyVoiceForRegularVoice-> getVoiceNumber ());
-
-      // append it to the voice harmony voice
-      fHarmonyVoiceForRegularVoice->
-        appendNoteToVoice (skip);
-  }
-  */
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
@@ -29575,6 +29552,9 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
     fVoiceShortestNoteDuration = noteDisplayWholeNotes;
   }
+
+  // register note as the last appended one into this voice
+  fVoiceLastAppendedNote = note;
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
@@ -32502,15 +32482,16 @@ void msrVoice::print (ostream& os)
     endl;
     
   os << left <<
-    setw (fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
+    setw (fieldWidth) << "musicHasBeenInsertedInVoice" << " : " <<
     booleanAsString (fMusicHasBeenInsertedInVoice) <<
     endl <<
-    setw (fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
+    setw (fieldWidth) << "voiceContainsMultipleRests" << " : " <<
     booleanAsString (fVoiceContainsMultipleRests) <<
-    endl <<
-    setw (fieldWidth) << "fVoiceFirstSegment" << " : ";
+    endl;
     
   // print the voice first segment if any
+  os <<
+    setw (fieldWidth) << "voiceFirstSegment" << " : ";
   if (fVoiceFirstSegment) {
     os <<
       "'" <<
@@ -32524,6 +32505,22 @@ void msrVoice::print (ostream& os)
   os <<
     endl;
 
+  // print the voice last appended note
+  os <<
+    setw (fieldWidth) << "voiceLastAppendedNote" << " : ";
+  if (fVoiceLastAppendedNote) {
+    os <<
+      "'" <<
+      fVoiceLastAppendedNote <<
+      "'";
+  }
+  else {
+    os <<
+      "none";
+  }
+  os <<
+    endl;
+    
   os <<
     endl;
   
