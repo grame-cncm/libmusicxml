@@ -94,8 +94,8 @@ string msrElement::asString () const
 
 string msrElement::asShortString () const
 {
-  // this is overriden in actual elements
-  return "??? msrElement::asShortString () ???";
+  // this can be overriden in actual elements
+  return asString ();
 }
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
@@ -9986,6 +9986,40 @@ string msrChord::asString () const
   return s.str ();
 }
 
+string msrChord::asShortString () const
+{
+  stringstream s;
+
+  s << "<";
+
+  if (fChordNotes.size ()) {
+    vector<S_msrNote>::const_iterator
+      iBegin = fChordNotes.begin (),
+      iEnd   = fChordNotes.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrNote
+        note = (*i);
+        
+      s <<
+        note->notePitchAsString () <<
+        ", whole notes: " <<
+        note->getNoteSoundingWholeNotes () <<
+        " sound, " <<
+        note->getNoteDisplayWholeNotes () <<
+        " disp," <<
+        "[" << note->getNoteOctave () << "]";
+        
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  s << ">";
+  
+  return s.str ();
+}
+
 void msrChord::print (ostream& os)
 {
   rational
@@ -11769,6 +11803,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*firstTupletElement))
       ) {
+      fTupletElements.pop_front ();
       result = note;
     }
     
@@ -12253,6 +12288,7 @@ void msrTuplet::print (ostream& os)
     fTupletDisplayWholeNotes << " disp" <<
     ", meas "<<
     fTupletMeasureNumber <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
@@ -12315,6 +12351,96 @@ void msrTuplet::print (ostream& os)
       os << (*i);
       if (++i == iEnd) break;
       // no endl here
+    } // for
+    
+    gIndenter--;
+    
+  // JMI  os << endl;
+  }
+}
+
+void msrTuplet::printShort (ostream& os)
+{
+  os <<
+    "Tuplet " <<
+    fTupletActualNotes << "/" << fTupletNormalNotes <<
+    ", " <<
+    singularOrPlural (
+      fTupletElements.size (), "element", "elements") <<
+    ", whole notes: " <<
+    fTupletSoundingWholeNotes << " sound, " <<
+    fTupletDisplayWholeNotes << " disp" <<
+    ", meas "<<
+    fTupletMeasureNumber <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 30;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "TupletBracketKind" << " : " <<
+    tupletBracketKindAsString (
+      fTupletBracketKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TupletLineShapeKind" << " : " <<
+    tupletLineShapeKindAsString (
+      fTupletLineShapeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TupletShowNumberKind" << " : " <<
+    tupletShowNumberKindAsString (
+      fTupletShowNumberKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TupletShowTypeKind" << " : " <<
+    tupletShowTypeKindAsString (
+      fTupletShowTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "MemberNotesSoundingWholeNotes" << " : " <<
+    fMemberNotesSoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "MemberNotesDisplayWholeNotes" << " : " <<
+    fMemberNotesDisplayWholeNotes <<
+    endl <<
+    endl;
+
+/* JMI ???
+  os << left <<
+    setw (fieldWidth) <<
+    "(position in measure" << " : ";
+  if (fTupletPositionInMeasure.getNumerator () < 0)
+    os << "???)";
+  else
+    os << fTupletPositionInMeasure << ")";
+  os <<
+    endl;
+    */
+
+  gIndenter--;
+
+  if (fTupletElements.size ()) {
+    os <<
+      "TupletElements:" <<
+      endl;
+      
+    gIndenter++;
+
+    list<S_msrElement>::const_iterator
+      iBegin = fTupletElements.begin (),
+      iEnd   = fTupletElements.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        (*i)->asShortString () <<
+        endl;
+      if (++i == iEnd) break;
+      os << endl;
     } // for
     
     gIndenter--;

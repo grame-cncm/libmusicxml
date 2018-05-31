@@ -168,6 +168,7 @@ class traceOptions : public optionsGroup
 
     // tuplets
     bool                  fTraceTuplets;
+    bool                  fTraceTupletsDetails;
 
     // glissandos
     bool                  fTraceGlissandos;

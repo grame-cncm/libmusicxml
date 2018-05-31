@@ -223,6 +223,7 @@ debugging information to standard error for the specified measures.)",
     
     // tuplets
     fTraceTuplets = boolOptionsInitialValue;
+    fTraceTupletsDetails = boolOptionsInitialValue;
     
     // glissandos
     fTraceGlissandos = boolOptionsInitialValue;
@@ -584,6 +585,16 @@ R"(Tuplets)",
       
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "ttupsd", "traceTupletsDetails",
+R"(Tuplets details)",
+          "traceTupletsDetails",
+          fTraceTupletsDetails,
+          fTraceTuplets,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsTwoBooleansItem::create (
           "tgliss", "traceGlissandos",
 R"(Glissandos)",
@@ -876,6 +887,7 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
     
   // tuplets
   clone->fTraceTuplets = true;
+  clone->fTraceTupletsDetails = true;
   
   // grace notes
   clone->fTraceGraceNotes = true;
@@ -1177,6 +1189,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // tuplets
     setw (fieldWidth) << "traceTuplets" << " : " <<
     booleanAsString (fTraceTuplets) <<
+    endl <<
+    setw (fieldWidth) << "traceTupletsDetails" << " : " <<
+    booleanAsString (fTraceTupletsDetails) <<
     endl <<
     
     // grace notes

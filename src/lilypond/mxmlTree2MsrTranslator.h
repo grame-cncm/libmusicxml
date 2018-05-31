@@ -1859,7 +1859,9 @@ class mxmlTree2MsrTranslator :
     
     bool                      fCurrentNoteBelongsToATuplet;
 
-    stack<S_msrTuplet>        fTupletsStack;
+    list<S_msrTuplet>         fTupletsStack;
+    void                      displayTupletsStack (
+                                string context);
 
     bool                      fCurrentATupletStopIsPending;
 

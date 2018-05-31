@@ -7107,6 +7107,8 @@ class msrChord : public msrElement
     string                asStringwithRawDivisions () const;
 
     string                asString () const;
+    
+    string                asShortString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -8405,6 +8407,8 @@ class msrTuplet : public msrElement
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
+
+    virtual void          printShort (ostream& os);
 
   private:
 

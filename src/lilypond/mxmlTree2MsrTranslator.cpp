@@ -5405,6 +5405,53 @@ void mxmlTree2MsrTranslator::displaySlurStartsStack (
 }
 
 //________________________________________________________________________
+void mxmlTree2MsrTranslator::displayTupletsStack (
+  string context)
+{
+  int tupletStackSize = fTupletsStack.size ();
+  
+  fLogOutputStream <<
+    endl <<
+    ">>++++++++++++++++ " <<
+    "The tuplet starts stack contains " << tupletStackSize << " elements:" <<
+    endl;
+
+  if (tupletStackSize) {  
+    list<S_msrTuplet>::const_iterator
+      iBegin = fTupletsStack.begin (),
+      iEnd   = fTupletsStack.end (),
+      i      = iBegin;
+        
+    gIndenter++;
+
+    int n = tupletStackSize;
+    for ( ; ; ) {
+      fLogOutputStream <<
+        "v (" << n << ")" <<
+        endl;
+
+      gIndenter++;
+      (*i)->printShort (fLogOutputStream);
+      gIndenter--;
+
+      n--;
+      
+      if (++i == iEnd) break;
+      
+      fLogOutputStream <<
+        endl;
+    } // for
+  
+    gIndenter--;
+  }
+  
+  fLogOutputStream <<
+    "<<++++++++++++++++ " <<
+    endl <<
+    endl;
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -15490,8 +15537,6 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
         firstNote->getNotePositionInMeasure ());
 
   // add note as first note of the stack top tuplet
-  tuplet->addNoteToTuplet (firstNote);
-
   if (gTraceOptions->fTraceTuplets) {
     // only after addNoteToTuplet() has set the note's tuplet uplink
     fLogOutputStream <<
@@ -15504,6 +15549,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
       endl;
   }
       
+  tuplet->addNoteToTuplet (firstNote);
+
   // register tuplet in this visitor
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     fLogOutputStream <<
@@ -15513,7 +15560,12 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
       endl;
   }
       
-  fTupletsStack.push (tuplet);
+  fTupletsStack.push_front (tuplet);
+
+  if (gTraceOptions->fTraceTupletsDetails) {
+    displayTupletsStack (
+      "############## After  createTupletWithItsFirstNote()");
+  }
 
 /* JMI
   // set note displayed divisions
@@ -15536,10 +15588,6 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   
 // JMI  fLastHandledTupletInVoice [currentVoice] = tuplet;
   
-  if (gTraceOptions->fTraceTuplets) {
-    displayLastHandledTupletInVoice (
-      "############## After  fLastHandledTupletInVoice");
-  }
   */
 }
 
@@ -15554,6 +15602,11 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
       endl;
   }
 
+  if (gTraceOptions->fTraceTuplets) {
+    displayTupletsStack (
+      "############## Before  finalizeTupletAndPopItFromTupletsStack()");
+  }
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -15565,7 +15618,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
   // get tuplet from top of tuplet stack
   S_msrTuplet
     tuplet =
-      fTupletsStack.top ();
+      fTupletsStack.front ();
 
 /*  // set note displayed divisions JMI
   note->
@@ -15580,7 +15633,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     fLogOutputStream <<
       "==> adding last note " << lastNote->asString () <<
       " to tuplets stack top " <<
-      fTupletsStack.top ()->asString () <<
+      fTupletsStack.front ()->asString () <<
       endl;
   }
 
@@ -15597,7 +15650,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
       endl;
   }
       
-  fTupletsStack.pop ();        
+  fTupletsStack.pop_front ();        
 
   if (fTupletsStack.size ()) {
     // tuplet is a nested tuplet
@@ -15606,13 +15659,13 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
         "=== adding nested tuplet '" <<
       tuplet->asString () <<
         "' to current stack top tuplet '" <<
-      fTupletsStack.top ()->asString () <<
+      fTupletsStack.front ()->asString () <<
       "'" <<
       ", line " << inputLineNumber <<
       endl;
     }
     
-    fTupletsStack.top ()->
+    fTupletsStack.front ()->
       addTupletToTuplet (tuplet);
   }
   
@@ -15635,6 +15688,11 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     // the tuplet stop is not to be handled later
     fCurrentATupletStopIsPending = false;
   }  
+
+  if (gTraceOptions->fTraceTuplets) {
+    displayTupletsStack (
+      "############## After  finalizeTupletAndPopItFromTupletsStack()");
+  }
 }          
 
 //______________________________________________________________________________
@@ -18622,7 +18680,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         if (fTupletsStack.size ()) {
           S_msrTuplet
             currentTuplet =
-              fTupletsStack.top ();
+              fTupletsStack.front ();
               
           // populate the tuplet at the top of the stack
           if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
@@ -18636,14 +18694,20 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               endl;
           }
   
-          fTupletsStack.top()->
+          currentTuplet->
             addNoteToTuplet (note);
+
+          if (gTraceOptions->fTraceTupletsDetails) {
+            displayTupletsStack (
+              "############## kTupletTypeContinue");
+          }
+
 /* JMI
           // set note displayed divisions
           note->
             applyTupletMemberDisplayFactor (
-              fTupletsStack.top ()->getTupletActualNotes (),
-              fTupletsStack.top ()->getTupletNormalNotes ());
+              fTupletsStack.front ()->getTupletActualNotes (),
+              fTupletsStack.front ()->getTupletNormalNotes ());
 */
         }
         
@@ -18696,7 +18760,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               // add the note to to it before finalizing it
               S_msrTuplet
                 currentTuplet =
-                  fTupletsStack.top ();
+                  fTupletsStack.front ();
                 
               // populate the tuplet at the top of the stack
               if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
@@ -18712,13 +18776,18 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           
               currentTuplet->
                 addNoteToTuplet (note);
+
+              if (gTraceOptions->fTraceTupletsDetails) {
+                displayTupletsStack (
+                  "############## kTupletTypeStop, outer-most");
+              }
                 
       /* JMI
               // set note displayed divisions
               note->
                 applyTupletMemberDisplayFactor (
-                  fTupletsStack.top ()->getTupletActualNotes (),
-                  fTupletsStack.top ()->getTupletNormalNotes ());
+                  fTupletsStack.front ()->getTupletActualNotes (),
+                  fTupletsStack.front ()->getTupletNormalNotes ());
     */
     
               if (fCurrentATupletStopIsPending) {
@@ -18772,7 +18841,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
               S_msrTuplet
                 currentTuplet =
-                  fTupletsStack.top ();
+                  fTupletsStack.front ();
                 
               // populate the tuplet at the top of the stack
               if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
@@ -18789,12 +18858,17 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               currentTuplet->
                 addNoteToTuplet (note);
                 
+
+              if (gTraceOptions->fTraceTupletsDetails) {
+                displayTupletsStack (
+                  "############## kTupletTypeStop, nested");
+              }
       /* JMI
               // set note displayed divisions
               note->
                 applyTupletMemberDisplayFactor (
-                  fTupletsStack.top ()->getTupletActualNotes (),
-                  fTupletsStack.top ()->getTupletNormalNotes ());
+                  fTupletsStack.front ()->getTupletActualNotes (),
+                  fTupletsStack.front ()->getTupletNormalNotes ());
     */
             }
         } // switch
@@ -18925,7 +18999,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     
     if (fTupletsStack.size ()) {
       currentTuplet =
-        fTupletsStack.top ();
+        fTupletsStack.front ();
     }
     else {
       stringstream s;
@@ -18950,6 +19024,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         currentTuplet->
           removeFirstNoteFromTuplet (
             inputLineNumber);
+
+    if (gTraceOptions->fTraceTupletsDetails) {
+      displayTupletsStack (
+        "############## After  removeFirstNoteFromTuplet()");
+    }
 
     // create the chord from its first note
     S_msrChord
@@ -19234,6 +19313,11 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
       endl;
   }
 
+  if (gTraceOptions->fTraceTupletsDetails) {
+    displayTupletsStack (
+      "############## Before  handleTupletsPendingOnTupletsStack()");
+  }
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -19246,12 +19330,17 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   while (fTupletsStack.size ()) {
     S_msrTuplet
       pendingTuplet =
-        fTupletsStack.top ();
+        fTupletsStack.front ();
 
     // finalize the tuplet, thus popping it off the stack
     finalizeTupletAndPopItFromTupletsStack (
       inputLineNumber);
   } // while
+
+  if (gTraceOptions->fTraceTupletsDetails) {
+    displayTupletsStack (
+      "############## Before  handleTupletsPendingOnTupletsStack()");
+  }
 }
 
 void mxmlTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
