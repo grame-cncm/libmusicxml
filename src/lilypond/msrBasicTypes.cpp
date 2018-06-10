@@ -17196,6 +17196,7 @@ void printChordAnalysis (
         iEnd   = invertedChordStructureIntervals.end (),
         i      = iBegin;
 
+      // print the chord contents
       os <<
         "Chord " <<
         rootQuarterTonesPitchKindAsString <<
@@ -17215,6 +17216,89 @@ void printChordAnalysis (
         " contents, "<<
         invertedChordStructureIntervals.size () <<
         " intervals:" <<
+        endl;
+        
+      gIndenter++;
+
+      for ( ; ; ) {
+        S_msrChordInterval
+          chordInterval = (*i);
+  
+        msrIntervalKind
+          intervalKind =
+            chordInterval->
+              getChordIntervalIntervalKind ();
+
+        int
+          relativeOctave =
+            chordInterval->
+              getChordIntervalRelativeOctave ();
+              
+        const int fieldWidth1 = 17;
+        
+        os << left <<
+          setw (fieldWidth1) <<
+          msrIntervalKindAsString (intervalKind) <<
+          ": ";
+  
+        // fetch the semitones pitch kind
+        msrSemiTonesPitchKind
+          noteSemiTonesPitchKind =
+            noteAtIntervalFromSemiTonesPitch (
+              NO_INPUT_LINE_NUMBER,
+              intervalKind,
+              rootSemiTonesPitchKind);
+  
+        // fetch the quartertones pitch kind
+        msrQuarterTonesPitchKind
+          noteQuarterTonesPitchKind =
+            quarterTonesPitchKindFromSemiTonesPitchKind (
+              noteSemiTonesPitchKind);
+  
+        // print it
+        const int fieldWidth2 = 8;
+  
+        os << left <<
+          setw (fieldWidth2) <<
+          msrQuarterTonesPitchKindAsString (
+            gLpsrOptions->
+              fLpsrQuarterTonesPitchesLanguageKind,
+            noteQuarterTonesPitchKind) <<
+          ", octave " << relativeOctave <<
+          " (" <<
+          msrSemiTonesPitchKindAsString (
+            noteSemiTonesPitchKind) <<
+          ")" <<
+          endl;
+  
+        if (++i == iEnd) break;
+        
+        // no endl here
+      } // for
+
+      gIndenter--;
+  
+      os <<
+        endl;
+        
+      // print the chord's inner intervals
+      os <<
+        "Chord " <<
+        rootQuarterTonesPitchKindAsString <<
+        " " <<
+        harmonyKindShortName;
+
+      if (inversion == 0) {
+        os <<
+          " fundamental state";
+      }
+      else {
+        os <<
+          " inversion " << inversion;
+      }
+
+      os <<
+        " inner intervals:" <<
         endl;
         
       gIndenter++;

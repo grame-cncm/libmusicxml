@@ -71,8 +71,8 @@ void traceOptions::initializeTraceOptions (
     
     fTracePasses = boolOptionsInitialValue;
     
-    fTraceOptions         = boolOptionsInitialValue;
     fDisplayOptionsValues = boolOptionsInitialValue;
+    fTraceOptions         = boolOptionsInitialValue;
     
     // fTraceDetailedMeasureNumbersSet is empty
     

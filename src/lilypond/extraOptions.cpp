@@ -775,9 +775,9 @@ void extraOptions::handleOptionsItemValue (
     // decipher theString with a regular expression
     string regularExpression (
       "[[:space:]]*"
-      "([[:alnum:]]*)"
+      "([[:alnum:]]+)"
       "[[:space:]]*"
-      "([[:alnum:]]*)"
+      "([[:alnum:]]+)"
       "[[:space:]]*");
       
     regex  e (regularExpression);
@@ -939,11 +939,11 @@ void extraOptions::handleOptionsItemValue (
     // decipher theString with a regular expression
     string regularExpression (
       "[[:space:]]*"
-      "([[:alnum:]]*)"
+      "([[:alnum:]]+)"
       "[[:space:]]*"
-      "([[:alnum:]]*)"
+      "([[:alnum:]]+)"
       "[[:space:]]*"
-      "([[:digit:]]*)"
+      "([[:digit:]]+)"
       "[[:space:]]*");
       
     regex  e (regularExpression);
