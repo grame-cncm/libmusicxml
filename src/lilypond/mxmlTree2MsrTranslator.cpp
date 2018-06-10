@@ -19019,11 +19019,26 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     
     // remove and fetch tupletFirstNote from the current tuplet,
     // it will be the first chord member note
+    /* JMI
     S_msrNote
       tupletFirstNote =
         currentTuplet->
           removeFirstNoteFromTuplet (
             inputLineNumber);
+*/
+
+    S_msrNote
+      tupletFirstNote =
+  //      fVoicesLastMetNoteMap [currentVoice];
+        fVoicesLastMetNoteMap [
+          make_pair (fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)];
+
+/* JMI
+    currentVoice->
+      removeNoteFromVoice (
+        inputLineNumber,
+        tupletFirstNote);
+*/
 
     if (gTraceOptions->fTraceTupletsDetails) {
       displayTupletsStack (

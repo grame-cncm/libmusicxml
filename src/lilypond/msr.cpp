@@ -7763,8 +7763,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kStandaloneNote:
       s <<
+        "'" <<
         notePitchAsString () <<
-        " " <<
+        "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
@@ -7776,8 +7777,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
+        "'" <<
         notePitchAsString () <<
-        " " <<
+        "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
@@ -7790,8 +7792,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
       s <<
+        "'" <<
         notePitchAsString () <<
-        " " <<
+        "' " <<
         noteGraphicDurationAsMsrString () <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -7802,8 +7805,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kChordMemberNote:
       s <<
+        "'" <<
         notePitchAsString () <<
-        " " <<
+        "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -7814,8 +7818,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberNote:
       s <<
+        "'" <<
         notePitchAsString () <<
-        " " <<
+        "' " <<
         noteGraphicDurationAsMsrString ();
 
       if (! fNoteIsARest) {
@@ -7833,6 +7838,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
+        "TU " <<
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -10002,8 +10008,9 @@ string msrChord::asShortString () const
         note = (*i);
         
       s <<
+        "'" <<
         note->notePitchAsString () <<
-        ", whole notes: " <<
+        "', whole notes: " <<
         note->getNoteSoundingWholeNotes () <<
         " sound, " <<
         note->getNoteDisplayWholeNotes () <<
@@ -11808,6 +11815,10 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
     }
     
     else {
+      if (true) {
+        this->print (gLogIOstream);
+      }
+      
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,

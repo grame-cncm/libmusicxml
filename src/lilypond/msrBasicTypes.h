@@ -237,14 +237,6 @@ msrIntervalKind invertIntervalKind (
 int intervalKindAsSemitones (
   msrIntervalKind intervalKind);
 
-msrIntervalKind intervalKindSum (
-  msrIntervalKind intervalKind1,
-  msrIntervalKind intervalKind2);
-
-msrIntervalKind intervalKindDifference (
-  msrIntervalKind intervalKind1,
-  msrIntervalKind intervalKind2);
-
 /* JMI
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrIntervalKind             intervalKind,
@@ -612,6 +604,9 @@ class msrDottedDuration
 EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
 
 //______________________________________________________________________________
+class msrChordInterval;
+typedef SMARTP<msrChordInterval> S_msrChordInterval;
+
 class msrChordInterval : public smartable
 {
   public:
@@ -683,6 +678,19 @@ class msrChordInterval : public smartable
     string                chordIntervalAsString () const;
     string                chordIntervalAsShortString () const;
    
+    /*
+      we handle intervals up to the thirteenth in chords,
+      but operations on intervals are easier to compute
+      in a normal form limited to an octave, hence:
+    */
+    void                  normalizeInterval ();
+    void                  deNormalizeInterval ();
+      
+    S_msrChordInterval    intervalDifference (
+                            S_msrChordInterval otherChordInterval);
+    S_msrChordInterval    intervalSum (
+                            S_msrChordInterval otherChordInterval);
+  
     // visitors
     // ------------------------------------------------------
 
@@ -702,12 +710,10 @@ class msrChordInterval : public smartable
 
     // fields
     // ------------------------------------------------------
-
- // JMI   int                   fChordIntervalNumber;
     
     msrIntervalKind       fChordIntervalIntervalKind;
 
-    int                   fChordIntervalRelativeOctave; // JMI
+    int                   fChordIntervalRelativeOctave;
 };
 typedef SMARTP<msrChordInterval> S_msrChordInterval;
 EXP ostream& operator<< (ostream& os, const S_msrChordInterval& elt);

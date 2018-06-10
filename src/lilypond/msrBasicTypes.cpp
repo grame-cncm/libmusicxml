@@ -940,6985 +940,6 @@ int intervalKindAsSemitones (
   return result;
 }
 
-msrIntervalKind intervalKindSum (
-  msrIntervalKind intervalKind1,
-  msrIntervalKind intervalKind2)
-{
-  msrIntervalKind result = k_NoIntervalKind;
-
-  msrIntervalKind
-    workIntervalKind1 = intervalKind1,
-    workIntervalKind2 = intervalKind2;
-    
-  // order the intervals so that
-  // workIntervalKind1 is greater or equal to workIntervalKind2
-  // according to the enum type
-  bool invertInterval = false;
-  
-  if (intervalKind1 < intervalKind2) {
-    workIntervalKind1 = intervalKind2;
-    workIntervalKind2 = intervalKind1;
-    invertInterval = true;
-  }
-    
-  switch (workIntervalKind1) {
-    case k_NoIntervalKind:
-      break;
-      
-    case kDiminishedUnisson:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectUnison:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedUnison:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kDiminishedSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedFourth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectFourth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedFourth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedFifth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectFifth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedFifth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kDiminishedSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kDiminishedOctave:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectOctave:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedOctave:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedEleventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectEleventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedEleventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedTwelfth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectTwelfth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedTwelfth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kDiminishedThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-  } // switch
-  
-
-  if (invertInterval) {
-    result = invertIntervalKind (result);
-  }
-  
-  return result;
-}
-
-msrIntervalKind intervalKindDifference (
-  msrIntervalKind intervalKind1,
-  msrIntervalKind intervalKind2)
-{
-  msrIntervalKind result = k_NoIntervalKind;
-
-  msrIntervalKind
-    workIntervalKind1 = intervalKind1,
-    workIntervalKind2 = intervalKind2;
-    
-  // order the intervals so that
-  // workIntervalKind1 is greater or equal to workIntervalKind2
-  // according to the enum type
-  bool invertInterval = false;
-  
-  if (intervalKind1 < intervalKind2) {
-    workIntervalKind1 = intervalKind2;
-    workIntervalKind2 = intervalKind1;
-    invertInterval = true;
-  }
-  
-  int workingOctaveOffset = 0;
-
-  workingOctaveOffset++; // JMI
-  
-  switch (workIntervalKind1) {
-    case k_NoIntervalKind:
-      break;
-      
-    case kDiminishedUnisson:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectUnison:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-     /*
-        k_NoIntervalKind,
-  
-  kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
-  
-  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
-  
-  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
-  
-  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
-  
-  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
-  
-  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
-  
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
-  
-  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
-  
-  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
-  
-  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
-  
-  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
-  
-  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
-  
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
-
-      */
-    case kAugmentedUnison:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kDiminishedSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedSecond:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedThird:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedFourth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectFourth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedFourth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedFifth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectFifth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedFifth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kDiminishedSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedSixth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedSeventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kDiminishedOctave:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectOctave:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedOctave:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedNinth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedTenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedEleventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectEleventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedEleventh:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kDiminishedTwelfth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kPerfectTwelfth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedTwelfth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-
-    case kDiminishedThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMinorThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kMajorThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-      
-    case kAugmentedThirteenth:
-      switch (workIntervalKind2) {
-        case kDiminishedUnisson:
-          result = kAugmentedUnison;
-          break;
-        case kPerfectUnison:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedUnison:
-          result = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          result = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          result = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
-          result = kDiminishedSeventh;
-          break;
-        case kDiminishedThird:
-          result = kAugmentedSixth;
-          break;
-        case kMinorThird:
-          result = kMinorThird;
-          break;
-        case kMajorThird:
-          result = kMinorThird;
-          break;
-        case kAugmentedThird:
-          result = kMinorThird;
-          break;
-        case kDiminishedFourth:
-          result = kMinorThird;
-          break;
-        case kPerfectFourth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFourth:
-          result = kMinorThird;
-          break;
-        case kDiminishedFifth:
-          result = kMinorThird;
-          break;
-        case kPerfectFifth:
-          result = kMinorThird;
-          break;
-        case kAugmentedFifth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSixth:
-          result = kPerfectUnison;
-          break;
-        case kMinorSixth:
-          result = kPerfectUnison;
-          break;
-        case kMajorSixth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSixth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMinorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kMajorSeventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedSeventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedOctave:
-          result = kPerfectUnison;
-          break;
-        case kPerfectOctave:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedOctave:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedNinth:
-          result = kPerfectUnison;
-          break;
-        case kMinorNinth:
-          result = kPerfectUnison;
-          break;
-        case kMajorNinth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedNinth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorTenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorTenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTenth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kPerfectEleventh:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedEleventh:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kPerfectTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedTwelfth:
-          result = kPerfectUnison;
-          break;
-        case kDiminishedThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMinorThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kMajorThirteenth:
-          result = kPerfectUnison;
-          break;
-        case kAugmentedThirteenth:
-          result = kPerfectUnison;
-          break;
-        default:
-          ;
-      } // switch
-      break;
-  } // switch
-  
-
-  if (invertInterval) {
-    result = invertIntervalKind (result);
-  }
-  
-  return result;
-}
 
 /* JMI
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
@@ -19561,6 +12582,2293 @@ string msrChordInterval::chordIntervalAsShortString () const
 {
   return
     msrIntervalKindAsString (fChordIntervalIntervalKind);
+}
+
+
+void msrChordInterval::normalizeInterval ()
+{
+  if (fChordIntervalIntervalKind > kAugmentedSeventh) {
+    fChordIntervalIntervalKind =
+      msrIntervalKind (
+        fChordIntervalIntervalKind - kAugmentedSeventh);
+
+    fChordIntervalRelativeOctave += 1;
+  }
+}
+
+void msrChordInterval::deNormalizeInterval ()
+{
+  if (fChordIntervalIntervalKind <= kAugmentedSeventh) {
+    fChordIntervalIntervalKind =
+      msrIntervalKind (
+        fChordIntervalIntervalKind + kAugmentedSeventh);
+
+    fChordIntervalRelativeOctave -= 1;
+  }
+}
+
+S_msrChordInterval msrChordInterval::intervalDifference (
+  S_msrChordInterval otherChordInterval)
+{
+  msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
+  int             resultRelativeOffset = 0;
+
+
+  msrIntervalKind
+    intervalKind1 = fChordIntervalIntervalKind,
+    intervalKind2 = otherChordInterval->fChordIntervalIntervalKind;
+    
+  int
+    relativeOctave1 = fChordIntervalRelativeOctave,
+    relativeOctave2 = otherChordInterval->fChordIntervalRelativeOctave;
+    
+  // order the intervals so that
+  // intervalKind1 is greater or equal to intervalKind2
+  // according to the enum type
+  bool invertInterval = false;
+  
+  if (intervalKind1 < intervalKind2) {
+    intervalKind1 = intervalKind2;
+    intervalKind2 = intervalKind1;
+    invertInterval = true;
+  }
+    
+  switch (intervalKind1) {
+    case k_NoIntervalKind:
+      break;
+      
+    case kDiminishedUnisson:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kPerfectUnison:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case kAugmentedUnison:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kDiminishedSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedFourth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kPerfectFourth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedFourth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedFifth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kPerfectFifth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedFifth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case kDiminishedSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    default:
+      ;
+  } // switch
+
+  if (invertInterval) {
+    resultIntervalKind =
+      invertIntervalKind (resultIntervalKind);
+  }
+  
+  return
+    msrChordInterval::create (
+      resultIntervalKind,
+      resultRelativeOffset);
+}
+
+S_msrChordInterval msrChordInterval::intervalSum (
+  S_msrChordInterval otherChordInterval)
+{
+  msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
+  int             resultRelativeOffset = 0;
+
+  msrIntervalKind
+    intervalKind1 = fChordIntervalIntervalKind,
+    intervalKind2 = otherChordInterval->fChordIntervalIntervalKind;
+    
+  int
+    relativeOctave1 = fChordIntervalRelativeOctave,
+    relativeOctave2 = otherChordInterval->fChordIntervalRelativeOctave;
+    
+  // order the intervals so that
+  // intervalKind1 is greater or equal to intervalKind2
+  // according to the enum type
+  bool invertInterval = false;
+  
+  if (intervalKind1 < intervalKind2) {
+    intervalKind1 = intervalKind2;
+    intervalKind2 = intervalKind1;
+    invertInterval = true;
+  }
+    
+  switch (intervalKind1) {
+    case k_NoIntervalKind:
+      break;
+      
+    case kDiminishedUnisson:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kPerfectUnison:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedUnison:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kDiminishedSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedSecond:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedThird:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedFourth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kPerfectFourth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedFourth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedFifth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kPerfectFifth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedFifth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    case kDiminishedSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedSixth:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kDiminishedSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMinorSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kMajorSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+      
+    case kAugmentedSeventh:
+      switch (intervalKind2) {
+        case kDiminishedUnisson:
+          resultIntervalKind = kAugmentedUnison;
+          break;
+        case kPerfectUnison:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedUnison:
+          resultIntervalKind = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          resultIntervalKind = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kMajorThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedThird:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kPerfectFifth:
+          resultIntervalKind = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSixth:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kDiminishedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMinorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kMajorSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        case kAugmentedSeventh:
+          resultIntervalKind = kPerfectUnison;
+          break;
+        default:
+          ;
+      } // switch
+      break;
+
+    default:
+      ;
+  } // switch
+  
+
+  if (invertInterval) {
+    resultIntervalKind =
+      invertIntervalKind (resultIntervalKind);
+  }
+  
+  return
+    msrChordInterval::create (
+      resultIntervalKind,
+      resultRelativeOffset);
 }
 
 /* JMI
