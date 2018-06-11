@@ -28538,7 +28538,7 @@ void msrVoice::createMeasureAndAppendItToVoice (
 
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Creating measure number '" <<
+      "Creating measure '" <<
       measureNumber <<
       "' and appending it to voice \"" << getVoiceName () << "\"" <<
       "', line " << inputLineNumber <<
@@ -33766,8 +33766,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
     gLogIOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
-      "', line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
+      "', line " << inputLineNumber <<
       endl;
   }
 

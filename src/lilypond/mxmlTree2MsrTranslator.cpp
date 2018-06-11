@@ -15491,7 +15491,7 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
+void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack (
   S_msrNote firstNote)
 {
   // firstNote is the first tuplet note,
@@ -15564,7 +15564,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
 
   if (gTraceOptions->fTraceTupletsDetails) {
     displayTupletsStack (
-      "############## After  createTupletWithItsFirstNote()");
+      "############## After  createTupletWithItsFirstNoteAndPushItToTupletsStack()");
   }
 
 /* JMI
@@ -15685,8 +15685,8 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     currentVoice->
       appendTupletToVoice (tuplet);
 
-    // the tuplet stop is not to be handled later
-    fCurrentATupletStopIsPending = false;
+ // JMI BAD HERE   // the tuplet stop is not to be handled later
+ //   fCurrentATupletStopIsPending = false;
   }  
 
   if (gTraceOptions->fTraceTuplets) {
@@ -18666,7 +18666,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         }
 
         // create the tuplet
-        createTupletWithItsFirstNote (note);
+        createTupletWithItsFirstNoteAndPushItToTupletsStack (note);
       
         // swith to continuation mode
         // this is handy in case the forthcoming tuplet members
@@ -18910,7 +18910,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         }
 
         // create the tuplet
-        createTupletWithItsFirstNote (note);
+        createTupletWithItsFirstNoteAndPushItToTupletsStack (note);
         
         // the tuplet stop is not to be handled later
  //       fCurrentATupletStopIsPending = false; // JMI

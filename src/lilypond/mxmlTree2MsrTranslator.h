@@ -1865,7 +1865,7 @@ class mxmlTree2MsrTranslator :
 
     bool                      fCurrentATupletStopIsPending;
 
-    void                      createTupletWithItsFirstNote (
+    void                      createTupletWithItsFirstNoteAndPushItToTupletsStack (
                                 S_msrNote note);
                                 
     void                      finalizeTupletAndPopItFromTupletsStack (
