@@ -1868,6 +1868,10 @@ class mxmlTree2MsrTranslator :
     void                      createTupletWithItsFirstNoteAndPushItToTupletsStack (
                                 S_msrNote note);
                                 
+    void                      handlePendingTupletStopIfAny (
+                                int       inputLineNumber,
+                                S_msrNote note);
+
     void                      finalizeTupletAndPopItFromTupletsStack (
                                 int inputLineNumber);
                                 

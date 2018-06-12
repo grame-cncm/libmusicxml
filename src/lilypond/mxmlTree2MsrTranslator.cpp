@@ -17328,6 +17328,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   else {
     
     // note/rest is standalone or a member of grace notes
+
+    // this terminates a tuplet if any
+    handlePendingTupletStopIfAny (
+      inputLineNumber,
+      newNote);
+
+    // handle it
     handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
       newNote);
     
@@ -18591,6 +18598,29 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::handlePendingTupletStopIfAny (
+  int       inputLineNumber,
+  S_msrNote note)
+{
+  if (fCurrentATupletStopIsPending) {
+    // finalize the tuplet, only now
+    // in case the last element is a chord
+    if (gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "--> kTupletTypeStart: handling pending tuplet stop, note '" <<
+        note->
+          asShortStringWithRawWholeNotes () <<
+        "', line " << inputLineNumber <<
+        endl;
+    }
+    finalizeTupletAndPopItFromTupletsStack (
+      inputLineNumber);
+
+    // the tuplet stop is not to be handled later
+    fCurrentATupletStopIsPending = false;
+  }
+}
+
 void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
   S_msrNote note)
 {
@@ -18647,6 +18677,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             endl;
         }
 
+        handlePendingTupletStopIfAny (
+          inputLineNumber,
+          note);
+        /* JMI
         if (fCurrentATupletStopIsPending) {
           // finalize the tuplet, only now
           // in case the last element is a chord
@@ -18664,6 +18698,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           // the tuplet stop is not to be handled later
           fCurrentATupletStopIsPending = false;
         }
+        */
 
         // create the tuplet
         createTupletWithItsFirstNoteAndPushItToTupletsStack (note);
@@ -18782,14 +18817,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                   "############## kTupletTypeStop, outer-most");
               }
                 
-      /* JMI
-              // set note displayed divisions
-              note->
-                applyTupletMemberDisplayFactor (
-                  fTupletsStack.front ()->getTupletActualNotes (),
-                  fTupletsStack.front ()->getTupletNormalNotes ());
-    */
-    
+    //* JMI
               if (fCurrentATupletStopIsPending) {
                 // end of a tuplet forces handling of the pending one 
                 if (gTraceOptions->fTraceTuplets) {
@@ -18815,8 +18843,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 finalizeTupletAndPopItFromTupletsStack (
                   inputLineNumber);
               }
+    //*/
     
               // don't pop the inner-most tuplet from the stack yet
+
+        //      fCurrentATupletStopIsPending = true;
             }
             break;
 
@@ -18824,6 +18855,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             {
               // nested tuplet:
               // finalize it before adding the note to the containing tuplet
+              handlePendingTupletStopIfAny (
+                inputLineNumber,
+                note);
+              /* JMI
               if (fCurrentATupletStopIsPending) {
                 // end of a tuplet forces handling of the pending one 
                 if (gTraceOptions->fTraceTuplets) {
@@ -18838,6 +18873,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 // the tuplet stop is not to be handled later
                 fCurrentATupletStopIsPending = false;
               }
+              */
 
               S_msrTuplet
                 currentTuplet =
