@@ -1804,9 +1804,9 @@ class mxmlTree2MsrTranslator :
 
     bool                      fCurrentNoteBelongsToAChord;
 
-     map<S_msrVoice, S_msrChord> // seems buggy, so
+ //    map<S_msrVoice, S_msrChord> // seems buggy, so
     // we use a pair containing the staff and voice numbers:
-  //  map<pair<int, int>, S_msrChord>
+    map<pair<int, int>, S_msrChord>
                               fVoicesCurrentChordMap;
     bool                      fOnGoingChord;
     
@@ -1878,10 +1878,13 @@ class mxmlTree2MsrTranslator :
     void                      handleTupletsPendingOnTupletsStack (
                                 int inputLineNumber);
 
-     map<S_msrVoice, S_msrTuplet>
-                              fLastHandledTupletInVoice;
+    // map<S_msrVoice, S_msrTuplet> seems buggy, so
+    // we use a pair containing the staff and voice numbers:
+//     map<S_msrVoice, S_msrTuplet>
+    map<pair<int, int>, S_msrTuplet>
+                              fLastHandledTupletInVoiceMap;
 
-     void                     displayLastHandledTupletInVoice (
+     void                     displayLastHandledTupletInVoiceMap (
                                 string header);
        
     // ties handling

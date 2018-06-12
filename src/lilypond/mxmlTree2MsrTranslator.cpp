@@ -14787,15 +14787,12 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
       endl;
   }
 
-  fVoicesCurrentChordMap [voice] = chord;
-  
-  /*
+ // fVoicesCurrentChordMap [voice] = chord;
   fVoicesCurrentChordMap [
     make_pair (
       voice->getVoiceStaffUplink ()->getStaffNumber (),
       voice->getVoiceNumber ())] =
       chord;
-*/
 
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
@@ -14830,35 +14827,32 @@ void mxmlTree2MsrTranslator::printVoicesCurrentChordMap ()
 
     gIndenter++;
 
-    map<S_msrVoice, S_msrChord>::const_iterator
-//    map<pair<int, int>, S_msrChord>::const_iterator
+//    map<S_msrVoice, S_msrChord>::const_iterator
+    map<pair<int, int>, S_msrChord>::const_iterator
       iBegin = fVoicesCurrentChordMap.begin (),
       iEnd   = fVoicesCurrentChordMap.end (),
       i      = iBegin;
 
     for ( ; ; ) {
+      gIndenter++;
+
+      /* JMI
       S_msrVoice voice = (*i).first;
       S_msrChord chord = (*i).second;
-    
+    */
       fLogOutputStream <<
-        voice->getVoiceName () <<
+//        voice->getVoiceName () <<
+        "staff " << (*i).first.first <<
+        ", voice " <<  (*i).first.second <<
         ":" <<
         endl;
 
-/*
+/* JMI
       S_msrChord chord = (*i).second;
-
-      fLogOutputStream <<
-        "stave " << (*i).first.first <<
-        ", voice " << (*i).first.second <<
-        ":" <<
-        endl;
-*/
-
-      gIndenter++;
 
       fLogOutputStream <<
         chord;
+*/
         
       gIndenter--;
 
@@ -15580,15 +15574,18 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord ?? JMI XXL
 
-  /* JMI
+  // register tuplet as last one met in this voice
+  // for chords in tuplets handling
+// JMI  fLastHandledTupletInVoiceMap [currentVoice] = tuplet;
+  fLastHandledTupletInVoiceMap [
+    make_pair(fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+    ] =
+    tuplet;
+
   if (gTraceOptions->fTraceTuplets) {
-    displayLastHandledTupletInVoice (
-      "############## Before fLastHandledTupletInVoice");
+    displayLastHandledTupletInVoiceMap (
+      "############## Before fLastHandledTupletInVoiceMap");
   }
-  
-// JMI  fLastHandledTupletInVoice [currentVoice] = tuplet;
-  
-  */
 }
 
 //______________________________________________________________________________
@@ -15687,7 +15684,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
 
  // JMI BAD HERE   // the tuplet stop is not to be handled later
  //   fCurrentATupletStopIsPending = false;
-  }  
+  }
 
   if (gTraceOptions->fTraceTuplets) {
     displayTupletsStack (
@@ -17578,16 +17575,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     if (fOnGoingChord) {
       // newNote is the first note after the chord in voice
 
-  //    map<pair<int, int>, S_msrChord>::const_iterator
-      map<S_msrVoice, S_msrChord>::const_iterator
+      map<pair<int, int>, S_msrChord>::const_iterator
+  //    map<S_msrVoice, S_msrChord>::const_iterator
         it =
-          fVoicesCurrentChordMap.find (voice);
-          /*
+   //       fVoicesCurrentChordMap.find (voice);
           fVoicesCurrentChordMap.find (
             make_pair (
               fCurrentNoteStaffNumber,
               fCurrentNoteVoiceNumber));
-              */
           
       msrAssert (
         it != fVoicesCurrentChordMap.end (),
@@ -17597,15 +17592,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
           "Forgetting about current chord '" <<
-          (*it).second->asString () <<
+     //     (*it).second->asString () <<
+          "staff " << (*it).first.first <<
+          ", voice " <<  (*it).first.second <<
           /*
           "' in staff " <<
           (*it).first.first <<
           "' in voice " <<
           (*it).first.second <<
           */
+          /*
           "' in voice " <<
           (*it).first->getVoiceName () <<
+          */
           endl;
       }
 
@@ -18501,16 +18500,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       printVoicesCurrentChordMap ();
     }
     
-    map<S_msrVoice, S_msrChord>::const_iterator
- //   map<pair<int, int>, S_msrChord>::const_iterator
+ //   map<S_msrVoice, S_msrChord>::const_iterator
+    map<pair<int, int>, S_msrChord>::const_iterator
       it =
-        fVoicesCurrentChordMap.find (currentVoice);
-        /*
+ //       fVoicesCurrentChordMap.find (currentVoice);
         fVoicesCurrentChordMap.find (
           make_pair (
             fCurrentNoteStaffNumber,
             fCurrentNoteVoiceNumber));
-            */
             
     if (it == fVoicesCurrentChordMap.end ()) {
       // a chord has to be created from newChordNote
@@ -18540,7 +18537,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     else {
       fLogOutputStream <<
         "--> fVoicesCurrentChordMap \[\"" <<
-        (*it).first->getVoiceName () <<
+        "staff " << (*it).first.first <<
+        ", voice " <<  (*it).first.second <<
+ //       (*it).first->getVoiceName () <<
         /*
         "staff " <<
         (*it).first.first <<
@@ -18577,13 +18576,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   
   S_msrChord
     chord =
-      fVoicesCurrentChordMap [currentVoice];
-      /*
+// JMI      fVoicesCurrentChordMap [currentVoice];
       fVoicesCurrentChordMap [
         make_pair (
           fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber)];
-          */
 
   chord->
     addAnotherNoteToChord (newChordNote);
@@ -19032,7 +19029,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
     // fetch the current tuplet, i.e. the top of the stack
     S_msrTuplet currentTuplet;
-    
+
+    /* JMI
     if (fTupletsStack.size ()) {
       currentTuplet =
         fTupletsStack.front ();
@@ -19052,6 +19050,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         __FILE__, __LINE__,
         s.str ());
     }
+    */
+
+    currentTuplet =
+      fLastHandledTupletInVoiceMap [
+        make_pair(fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+      ];
     
     // remove and fetch tupletFirstNote from the current tuplet,
     // it will be the first chord member note
@@ -19152,13 +19156,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   
   S_msrChord
     chord =
-      fVoicesCurrentChordMap [currentVoice]; // JMI
-      /*
+// JMI      fVoicesCurrentChordMap [currentVoice]; // JMI
       fVoicesCurrentChordMap [
         make_pair (
           fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber)];
-          */
 
   chord->
     addAnotherNoteToChord (newChordNote);
@@ -19333,13 +19335,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
   
   S_msrChord
     chord =
-      fVoicesCurrentChordMap [currentVoice];
-      /*
+ // JMI     fVoicesCurrentChordMap [currentVoice];
       fVoicesCurrentChordMap [
         make_pair (
           fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber)];
-          */
 
   chord->
     addAnotherNoteToChord (newChordNote);
@@ -19394,37 +19394,44 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   }
 }
 
-void mxmlTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
+void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
 {
   fLogOutputStream <<
     endl <<
     header <<
-    ", fLastHandledTupletInVoice contains:";
+    ", fLastHandledTupletInVoiceMap contains:";
 
-  if (! fLastHandledTupletInVoice.size ()) {
+  if (! fLastHandledTupletInVoiceMap.size ()) {
     fLogOutputStream <<
       " none" <<
       endl;
   }
   
   else {
-    map<S_msrVoice, S_msrTuplet>::const_iterator
-      iBegin = fLastHandledTupletInVoice.begin (),
-      iEnd   = fLastHandledTupletInVoice.end (),
+    map<pair<int, int>, S_msrTuplet>::const_iterator
+      iBegin = fLastHandledTupletInVoiceMap.begin (),
+      iEnd   = fLastHandledTupletInVoiceMap.end (),
       i      = iBegin;
       
-    fLogOutputStream << endl;
+    fLogOutputStream <<
+      endl;
     
     gIndenter++;
+    
     for ( ; ; ) {
       fLogOutputStream <<
-        "\"" << (*i).first->getVoiceName () <<
-        "\" ----> " << (*i).second->asString ();
+        "staff " << (*i).first.first <<
+        ", voice " <<  (*i).first.second <<
+        endl;
+//        "\"" << (*i).first->getVoiceName () <<
+//        "\" ----> " << (*i).second->asString ();
       if (++i == iEnd) break;
       fLogOutputStream << endl;
     } // for
+    
     fLogOutputStream <<
       endl;
+      
     gIndenter--;
   }
 
