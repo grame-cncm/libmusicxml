@@ -5563,12 +5563,11 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             stringstream s;
             
             s <<
-              "a standalong slur 'stop' is meaningless";
+              "a standalone slur 'stop' is meaningless, ignoring it";
             
-            msrMusicXMLError (
+            msrMusicXMLWarning (
               gXml2lyOptions->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -8265,7 +8264,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
   {
     string noteTypeSize = elt->getAttributeValue ("size");
   
-    if (noteTypeSize == "cue") { // USE IT! JMI ???
+    if (noteTypeSize == "full") {
+      // a regular note
+    }
+    else if (noteTypeSize == "cue") { // USE IT! JMI ???
     }
   
     else {
