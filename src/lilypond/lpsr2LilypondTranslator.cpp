@@ -10326,7 +10326,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   // is used as the reference point for the octave placement
   // of a following note or chord
   fRelativeOctaveReference =
-    elt->getChordNotes () [0];
+    elt->getChordNotesVector () [0];
 
   fOnGoingChord = false; 
 }

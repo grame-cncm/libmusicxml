@@ -6848,8 +6848,8 @@ class msrChord : public msrElement
             
     // chord notes
     const vector<S_msrNote>&
-                          getChordNotes () const
-                              { return fChordNotes; }
+                          getChordNotesVector () const
+                              { return fChordNotesVector; }
 
     // beams
     const list<S_msrBeam>&
@@ -7138,7 +7138,7 @@ class msrChord : public msrElement
     // since they don't have any note (sounding) duration
     msrDurationKind       fChordGraphicDurationKind;
     
-    vector<S_msrNote>     fChordNotes;
+    vector<S_msrNote>     fChordNotesVector;
 
     // position in measure
     S_msrMeasure          fChordMeasureUplink;
@@ -8344,8 +8344,8 @@ class msrTuplet : public msrElement
                               { return fMemberNotesDisplayWholeNotes; }
 
     const list<S_msrElement>&
-                          getTupletElements () const
-                              { return fTupletElements; }
+                          getTupletElementsList () const
+                              { return fTupletElementsList; }
 
     rational              getTupletSoundingWholeNotes () const
                               { return fTupletSoundingWholeNotes; }
@@ -8384,7 +8384,9 @@ class msrTuplet : public msrElement
     
     void                  addTupletToTupletClone (S_msrTuplet tuplet);
     
-    S_msrNote             removeFirstNoteFromTuplet (
+    S_msrNote             removeFirstNoteFromTuplet ( // JMI
+                            int       inputLineNumber);
+    S_msrNote             removeLastNoteFromTuplet (
                             int       inputLineNumber);
 
  // JMI   void                  applyDisplayFactorToTupletMembers ();
@@ -8442,7 +8444,7 @@ class msrTuplet : public msrElement
     string                fTupletMeasureNumber;
     rational              fTupletPositionInMeasure;
     
-    list<S_msrElement>    fTupletElements;
+    list<S_msrElement>    fTupletElementsList;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);

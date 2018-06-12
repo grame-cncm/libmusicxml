@@ -9376,7 +9376,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   }
 
   // append note to chord notes
-  fChordNotes.push_back (note);
+  fChordNotesVector.push_back (note);
 
   // mark note as belonging to a chord
   note->setNoteIsAChordsFirstMemberNote ();
@@ -9407,7 +9407,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
       endl;
   }
 
-  fChordNotes.push_back (note);
+  fChordNotesVector.push_back (note);
   
   note->setNoteBelongsToAChord ();
   
@@ -9423,8 +9423,8 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 void msrChord::setChordFirstNotePositionInMeasure (
   rational positionInMeasure)
 {
-  if (fChordNotes.size ()) { // JMI
-    fChordNotes.front ()->
+  if (fChordNotesVector.size ()) { // JMI
+    fChordNotesVector.front ()->
       setNotePositionInMeasure (positionInMeasure);
   }
   else {
@@ -9435,8 +9435,8 @@ void msrChord::setChordFirstNotePositionInMeasure (
 void msrChord::setChordFirstNoteMeasureNumber (
   string measureNumber)
 {
-  if (fChordNotes.size ()) { // JMI
-    fChordNotes.front ()->
+  if (fChordNotesVector.size ()) { // JMI
+    fChordNotesVector.front ()->
       setNoteMeasureNumber (measureNumber);
   }
   else {
@@ -9756,8 +9756,8 @@ void msrChord::acceptOut (basevisitor* v)
 void msrChord::browseData (basevisitor* v)
 {
   for (
-    vector<S_msrNote>::const_iterator i = fChordNotes.begin ();
-    i != fChordNotes.end ();
+    vector<S_msrNote>::const_iterator i = fChordNotesVector.begin ();
+    i != fChordNotesVector.end ();
     i++ ) {
     // browse chord note
     msrBrowser<msrNote> browser (v);
@@ -9914,8 +9914,8 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
       endl;
 
   for (
-    vector<S_msrNote>::const_iterator i = fChordNotes.begin ();
-    i != fChordNotes.end ();
+    vector<S_msrNote>::const_iterator i = fChordNotesVector.begin ();
+    i != fChordNotesVector.end ();
     ++i) {
     (*i)->
       applyTupletMemberSoundingFactorToNote (
@@ -9930,10 +9930,10 @@ string msrChord::asStringwithRawDivisions () const
 
   s << "<";
 
-  if (fChordNotes.size ()) {
+  if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin (),
-      iEnd   = fChordNotes.end (),
+      iBegin = fChordNotesVector.begin (),
+      iEnd   = fChordNotesVector.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrNote
@@ -9964,10 +9964,10 @@ string msrChord::asString () const
 
   s << "<";
 
-  if (fChordNotes.size ()) {
+  if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin (),
-      iEnd   = fChordNotes.end (),
+      iBegin = fChordNotesVector.begin (),
+      iEnd   = fChordNotesVector.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrNote
@@ -9998,10 +9998,10 @@ string msrChord::asShortString () const
 
   s << "<";
 
-  if (fChordNotes.size ()) {
+  if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin (),
-      iEnd   = fChordNotes.end (),
+      iBegin = fChordNotesVector.begin (),
+      iEnd   = fChordNotesVector.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrNote
@@ -10040,7 +10040,7 @@ void msrChord::print (ostream& os)
   os <<
     "Chord: " <<
     singularOrPlural (
-      fChordNotes.size (), "note", "notes") <<
+      fChordNotesVector.size (), "note", "notes") <<
     ", " <<
     fChordSoundingWholeNotes << " sound whole notes" <<
     ", " <<
@@ -10083,15 +10083,15 @@ void msrChord::print (ostream& os)
   gIndenter++;
   
   // print the member notes if any
-  if (fChordNotes.size ()) {
+  if (fChordNotesVector.size ()) {
     vector<S_msrNote>::const_iterator i;
-    for (i=fChordNotes.begin (); i!=fChordNotes.end (); i++) {
+    for (i=fChordNotesVector.begin (); i!=fChordNotesVector.end (); i++) {
       os << (*i);
     } // for
 
 /* JMI   vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin (),
-      iEnd   = fChordNotes.end (),
+      iBegin = fChordNotesVector.begin (),
+      iEnd   = fChordNotesVector.end (),
       i      = iBegin;
     for ( ; ; ) {
    //   os << (*i)->notePitchAsString (); JMI
@@ -11655,7 +11655,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       endl;
   }
 
-  fTupletElements.push_back (note);
+  fTupletElementsList.push_back (note);
 
   // register note's tuplet uplink
   note->
@@ -11691,7 +11691,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
       endl;
   }
 
-  fTupletElements.push_back (chord);
+  fTupletElementsList.push_back (chord);
     
   // account for chord duration
   fTupletSoundingWholeNotes +=
@@ -11733,7 +11733,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   */
   
   // register tuplet in elements list
-  fTupletElements.push_back (tuplet);
+  fTupletElementsList.push_back (tuplet);
     
   // account for tuplet duration
   fTupletSoundingWholeNotes +=
@@ -11777,7 +11777,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   // this has been done when building the MSR from MusicXML
   
   // register tuplet in elements list
-  fTupletElements.push_back (tuplet);
+  fTupletElementsList.push_back (tuplet);
     
   // account for tuplet duration
   fTupletSoundingWholeNotes +=
@@ -11802,15 +11802,15 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       endl;
   }
 
-  if (fTupletElements.size ()) {
+  if (fTupletElementsList.size ()) {
     S_msrElement
       firstTupletElement =
-        fTupletElements.front ();
+        fTupletElementsList.front ();
 
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*firstTupletElement))
       ) {
-      fTupletElements.pop_front ();
+      fTupletElementsList.pop_front ();
       result = note;
     }
     
@@ -11828,12 +11828,119 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 
 /* JMI
     for (
-      list<S_msrElement>::iterator i=fTupletElements.begin ();
-      i!=fTupletElements.end ();
+      list<S_msrElement>::iterator i=fTupletElementsList.begin ();
+      i!=fTupletElementsList.end ();
       ++i) {
       if ((*i) == note) {
         // found note, erase it
-        fTupletElements.erase (i);
+        fTupletElementsList.erase (i);
+        
+        // account for note duration
+        fTupletSoundingWholeNotes -=
+          note->getNoteSoundingWholeNotes ();
+        fTupletSoundingWholeNotes.rationalise ();
+
+        fTupletDisplayWholeNotes -= // JMI
+          note->getNoteDisplayWholeNotes ();  
+        fTupletDisplayWholeNotes.rationalise ();
+
+        // don't update measure number nor position in measure: // JMI
+        // they have not been set yet
+  
+        // return from function
+        return;
+      }
+    } // for
+
+    stringstream s;
+
+    s <<
+      "cannot remove note " <<
+      note <<
+      " from tuplet " << asString () <<
+      "' in voice \"" <<
+      fTupletMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"," <<
+      " since it has not been found";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  */
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "cannot remove the first note of an empty tuplet " <<
+      "' in voice \"" <<
+      fTupletMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+S_msrNote msrTuplet::removeLastNoteFromTuplet (
+  int       inputLineNumber)
+{
+  S_msrNote result;
+  
+  if (gTraceOptions->fTraceTuplets) {
+    gLogIOstream <<
+      "Removing first note from tuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  if (fTupletElementsList.size ()) {
+    S_msrElement
+      firstTupletElement =
+        fTupletElementsList.back ();
+
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(*firstTupletElement))
+      ) {
+      fTupletElementsList.pop_back ();
+      result = note;
+    }
+    
+    else {
+      if (true) {
+        this->print (gLogIOstream);
+      }
+      
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "removeFirstNoteFromTuplet() expects a note as the first tuplet element");
+    }
+
+/* JMI
+    for (
+      list<S_msrElement>::iterator i=fTupletElementsList.begin ();
+      i!=fTupletElementsList.end ();
+      ++i) {
+      if ((*i) == note) {
+        // found note, erase it
+        fTupletElementsList.erase (i);
         
         // account for note duration
         fTupletSoundingWholeNotes -=
@@ -11902,8 +12009,8 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
 
   // propagate measure number to the tuplets elements
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
-    i != fTupletElements.end ();
+    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
+    i != fTupletElementsList.end ();
     i++ ) {
     // set tuplet element measure number
 
@@ -11949,8 +12056,8 @@ rational msrTuplet::setTupletPositionInMeasure (
   
   // compute position in measure for the tuplets elements
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
-    i != fTupletElements.end ();
+    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
+    i != fTupletElementsList.end ();
     i++ ) {
     // set tuplet element position in measure
     
@@ -12019,8 +12126,8 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
   }
 
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
-    i != fTupletElements.end ();
+    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
+    i != fTupletElementsList.end ();
     i++ ) {
     // apply sounding factor to tuplet element
     
@@ -12138,8 +12245,8 @@ void msrTuplet::acceptOut (basevisitor* v)
 void msrTuplet::browseData (basevisitor* v)
 {
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
-    i != fTupletElements.end ();
+    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
+    i != fTupletElementsList.end ();
     i++ ) {
     // browse tuplet element
     msrBrowser<msrElement> browser (v);
@@ -12172,10 +12279,10 @@ string msrTuplet::asString () const
   
   s << "[[";
 
-  if (fTupletElements.size ()) {
+  if (fTupletElementsList.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin (),
-      iEnd   = fTupletElements.end (),
+      iBegin = fTupletElementsList.begin (),
+      iEnd   = fTupletElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       
@@ -12239,10 +12346,10 @@ string msrTuplet::asString () const
   
   s << "[[";
 
-  if (fTupletElements.size ()) {
+  if (fTupletElementsList.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin (),
-      iEnd   = fTupletElements.end (),
+      iBegin = fTupletElementsList.begin (),
+      iEnd   = fTupletElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       
@@ -12293,7 +12400,7 @@ void msrTuplet::print (ostream& os)
     fTupletActualNotes << "/" << fTupletNormalNotes <<
     ", " <<
     singularOrPlural (
-      fTupletElements.size (), "element", "elements") <<
+      fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
     fTupletSoundingWholeNotes << " sound, " <<
     fTupletDisplayWholeNotes << " disp" <<
@@ -12351,12 +12458,12 @@ void msrTuplet::print (ostream& os)
 
   gIndenter--;
 
-  if (fTupletElements.size ()) {
+  if (fTupletElementsList.size ()) {
     gIndenter++;
 
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin (),
-      iEnd   = fTupletElements.end (),
+      iBegin = fTupletElementsList.begin (),
+      iEnd   = fTupletElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -12377,7 +12484,7 @@ void msrTuplet::printShort (ostream& os)
     fTupletActualNotes << "/" << fTupletNormalNotes <<
     ", " <<
     singularOrPlural (
-      fTupletElements.size (), "element", "elements") <<
+      fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
     fTupletSoundingWholeNotes << " sound, " <<
     fTupletDisplayWholeNotes << " disp" <<
@@ -12435,7 +12542,7 @@ void msrTuplet::printShort (ostream& os)
 
   gIndenter--;
 
-  if (fTupletElements.size ()) {
+  if (fTupletElementsList.size ()) {
     os <<
       "TupletElements:" <<
       endl;
@@ -12443,8 +12550,8 @@ void msrTuplet::printShort (ostream& os)
     gIndenter++;
 
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin (),
-      iEnd   = fTupletElements.end (),
+      iBegin = fTupletElementsList.begin (),
+      iEnd   = fTupletElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os <<
