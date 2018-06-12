@@ -17440,6 +17440,7 @@ void printChordAnalysis (
               ": " <<
               endl;
 
+/* JMI
             os << left <<
               setw (fieldWidth2) <<
               msrQuarterTonesPitchKindAsString (
@@ -17467,6 +17468,7 @@ void printChordAnalysis (
                 noteSemiTonesPitchKind2) <<
               ")" <<
               endl;
+      */
       
             if (++i2 == iEnd2) break;
             
