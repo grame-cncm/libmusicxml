@@ -30656,8 +30656,6 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             endl;
         }
 
-        gIndenter++;
-        
         S_msrRepeat
           newRepeat =
             msrRepeat::create (
@@ -30674,8 +30672,6 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             ", line " << inputLineNumber <<
             endl;
         }
-
-        gIndenter++;
         
         S_msrRepeatCommonPart
           repeatCommonPart =
@@ -30695,8 +30691,6 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
               ", line " << inputLineNumber <<
               endl;
           }
-
-          gIndenter++;
           
           for (
             list<S_msrElement>::iterator i = fVoiceInitialElementsList.begin ();
@@ -30728,12 +30722,6 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           repeatCommonPart->
             appendElementToRepeatCommonPart (
               fVoiceLastSegment);
-
-          gIndenter--;
-          
-          gIndenter--;
-          
-          gIndenter--;
         }
         
         else {
