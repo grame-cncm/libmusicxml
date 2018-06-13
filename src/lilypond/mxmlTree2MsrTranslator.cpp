@@ -19472,8 +19472,12 @@ void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
       msrBarline::kBarlineCategoryRepeatStart);
 
   // prepend the implicit barline to the voice
+  gIndenter++;
+  
   currentVoice->
     prependBarlineToVoice (implicitBarline);
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________

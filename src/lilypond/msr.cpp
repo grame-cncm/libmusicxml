@@ -10299,6 +10299,8 @@ void msrDivisions::initializeDivisions ()
     ", line " << fInputLineNumber <<
     endl;
   }
+
+  gIndenter++;
   
   // forget fDurationsToDivisions's contents
   fDurationKindsToDivisions.clear ();
@@ -10354,6 +10356,8 @@ void msrDivisions::initializeDivisions ()
   if (gTraceOptions->fTraceDivisions) {
     printDurationKindsDivisions (gLogIOstream);
   }
+
+  gIndenter--;
 }
 
 int msrDivisions::durationKindAsDivisions (
@@ -11061,7 +11065,7 @@ msrBarCheck::msrBarCheck (
   }
 }
 
-msrBarCheck::~msrBarCheck()
+msrBarCheck::~msrBarCheck ()
 {}
 
 void msrBarCheck::setNextBarNumber (string number)
@@ -11903,7 +11907,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Removing first note from tuplet '" <<
+      "Removing last note from tuplet '" <<
       asString () <<
       "'" <<
       endl;
@@ -11911,11 +11915,11 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
   if (fTupletElementsList.size ()) {
     S_msrElement
-      firstTupletElement =
+      lastTupletElement =
         fTupletElementsList.back ();
 
     if (
-      S_msrNote note = dynamic_cast<msrNote*>(&(*firstTupletElement))
+      S_msrNote note = dynamic_cast<msrNote*>(&(*lastTupletElement))
       ) {
       fTupletElementsList.pop_back ();
       result = note;
@@ -11930,7 +11934,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
-        "removeFirstNoteFromTuplet() expects a note as the first tuplet element");
+        "removeLastNoteFromTuplet() expects a note as the last tuplet element");
     }
 
 /* JMI
@@ -11985,7 +11989,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
     stringstream s;
 
     s <<
-      "cannot remove the first note of an empty tuplet " <<
+      "cannot remove the last note of an empty tuplet " <<
       "' in voice \"" <<
       fTupletMeasureUplink->
         getMeasureSegmentUplink ()->
@@ -14153,7 +14157,6 @@ void msrClef::print (ostream& os)
 {
   os <<
     asString () <<
-    endl <<
     endl;
 }
 
@@ -14708,13 +14711,11 @@ void msrKey::print (ostream& os)
       else
         {
           os <<
-            " none";
+            " none" <<
+            endl;
         }
       break;
   } // switch
-
-  os <<
-    endl;
 }
 
 //______________________________________________________________________________
@@ -15345,11 +15346,9 @@ void msrTime::print (ostream& os)
   else
     {
       os <<
-        " none";
+        " none" <<
+        endl;
     }
-
-  os <<
-    endl;
 }
 
 //______________________________________________________________________________
@@ -15393,7 +15392,7 @@ msrTranspose::msrTranspose (
   }
 }
 
-msrTranspose::~msrTranspose()
+msrTranspose::~msrTranspose ()
 {}
 
 bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
@@ -17815,6 +17814,8 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza rest syllable
   S_msrSyllable
@@ -17829,6 +17830,8 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -17845,6 +17848,8 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza skip syllable
   S_msrSyllable
@@ -17859,6 +17864,8 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -17873,6 +17880,8 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza skip syllable
   S_msrSyllable
@@ -17887,6 +17896,8 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -17907,6 +17918,8 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza melisma syllable
   S_msrSyllable
@@ -17921,6 +17934,8 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -17935,6 +17950,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza line break syllable
   S_msrSyllable
@@ -17949,6 +17966,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -17966,7 +17985,9 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
-  
+
+  gIndenter++;
+  * 
   // create stanza tied syllable
   S_msrSyllable
     syllable =
@@ -17980,6 +18001,8 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  * 
   // and return it
   return syllable;
 }
@@ -17996,7 +18019,9 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
-  
+
+  gIndenter++;
+  * 
   // create stanza slur syllable
   S_msrSyllable
     syllable =
@@ -18010,6 +18035,8 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -18176,6 +18203,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza break syllable
   S_msrSyllable
@@ -18191,6 +18220,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -18206,6 +18237,8 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // create stanza break syllable
   S_msrSyllable
@@ -18221,6 +18254,8 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
+  gIndenter--;
+  
   // and return it
   return syllable;
 }
@@ -21871,6 +21906,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       endl;
   }
 
+  gIndenter++;
+  
   // populate measure uplink
   note->
     setNoteMeasureUplink (this);
@@ -21945,6 +21982,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
   // this measure contains music
   fMeasureContainsMusic = true;
+
+  gIndenter--;
 }
 
 void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
@@ -21964,6 +22003,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       endl;
   }
 
+  gIndenter++;
+  
     /* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
     // a new measure has been appended to the segment
@@ -22027,6 +22068,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   // this measure contains music
   fMeasureContainsMusic = true;
  // JMI }
+
+  gIndenter--;
 }
 
 void msrMeasure::appendDoubleTremoloToMeasure (
@@ -22051,6 +22094,8 @@ void msrMeasure::appendDoubleTremoloToMeasure (
       endl;
   }
 
+  gIndenter++;
+  
   // register doubleTremolo measure number
   doubleTremolo->
     setDoubleTremoloMeasureNumber (
@@ -22106,6 +22151,8 @@ void msrMeasure::appendDoubleTremoloToMeasure (
         inputLineNumber,
         fMeasureLength);
         */
+
+  gIndenter--;
 }
 
 void msrMeasure::appendMeasuresRepeatToMeasure (
@@ -22339,6 +22386,8 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       endl;
   }
 
+  gIndenter++;
+
   // populate measure uplink
   tuplet->setTupletMeasureUplink (this);
 
@@ -22407,6 +22456,8 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
         inputLineNumber,
         fMeasureLength);
         */
+
+  gIndenter--;
 }
 
 void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
@@ -22639,6 +22690,8 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
       endl;
   }
 
+  gIndenter++;
+  
   if (fMeasureLength < measureLength) {
     // appending a padding rest or skip to this measure to reach measureLength
     rational
@@ -22727,6 +22780,8 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
       inputLineNumber, fMeasureLength + missingDuration);
 */
   }
+
+  gIndenter--;
 }
 
 void msrMeasure::appendGraceNotesToMeasure (
@@ -23057,7 +23112,7 @@ void msrMeasure::removeElementFromMeasure (
       endl;
     gIndenter--;
   }
-
+  
   for (
     list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
@@ -23277,6 +23332,8 @@ void msrMeasure::determineMeasureKind (
 void msrMeasure::padUpToPartMeasureLengthHighTide (
   int inputLineNumber)
 {
+  gIndenter++;
+  
   // fetch the part measure length high tide
   rational
     partMeasureLengthHighTide =
@@ -23370,6 +23427,8 @@ void msrMeasure::padUpToPartMeasureLengthHighTide (
     // this measure contains music
     fMeasureContainsMusic = true;
   }
+
+  gIndenter--;
 }
 
 void msrMeasure::finalizeMeasure (
@@ -23413,6 +23472,8 @@ void msrMeasure::finalizeMeasure (
     gIndenter--;
   }
 
+  gIndenter++;
+  
   switch (fMeasureKind) {
     case msrMeasure::kSenzaMisuraMeasureKind:
       break;
@@ -23452,6 +23513,8 @@ void msrMeasure::finalizeMeasure (
         setNoteOccupiesAFullMeasure ();
     }
   }
+
+  gIndenter--;
 }
 
 void msrMeasure::acceptIn (basevisitor* v)
@@ -23947,6 +24010,8 @@ void msrSegment::createMeasureAndAppendItToSegment (
       endl;
   }
 
+  gIndenter++;
+  
   fSegmentMeasureNumber = measureNumber; // JMI
 
   // determine new measure 'first in segment' kind
@@ -24012,6 +24077,8 @@ void msrSegment::createMeasureAndAppendItToSegment (
     newMeasure);
   
   fMeasureNumberHasBeenSetInSegment = true;
+
+  gIndenter--;
 }
 
 void msrSegment::setNextMeasureNumberInSegment (
@@ -24029,6 +24096,8 @@ void msrSegment::setNextMeasureNumberInSegment (
       endl;
   }
 
+  gIndenter++;
+  
   if (fSegmentMeasuresList.size ()) { // JMI ???
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
@@ -24059,7 +24128,9 @@ void msrSegment::setNextMeasureNumberInSegment (
 
     exit (1);
   }
-  */    
+  */
+
+  gIndenter--;   
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
@@ -24083,6 +24154,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       endl;
   }
 
+  gIndenter++;
+  
   // don't finalize it it ain't been created
   if (fSegmentMeasuresList.size ()) {
     // finalize or remove segment's last measure
@@ -24090,7 +24163,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       lastMeasure =
         fSegmentMeasuresList.back ();
   
- // JMI   if (lastMeasure->getMeasureContainsMusic ()) {
+ // JMI   if (lastMeasure->getMeasureContainsMusic ()) {      
       lastMeasure->
         finalizeMeasure (
           inputLineNumber);
@@ -24130,6 +24203,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         endl;
     }
   }
+
+  gIndenter--;
 }
 
 void msrSegment::appendCommentToSegment (S_msrComment comment)
@@ -24144,6 +24219,8 @@ void msrSegment::appendCommentToSegment (S_msrComment comment)
       endl;
   }
 
+  gIndenter++;
+  
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
 
@@ -24179,6 +24256,8 @@ void msrSegment::appendCommentToSegment (S_msrComment comment)
   // register comment in segments's current measure
   fSegmentMeasuresList.back ()->
     appendCommentToMeasure (comment);
+
+  gIndenter--;
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
@@ -24193,6 +24272,8 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       endl;
   }
 
+  gIndenter++;
+  
       /* JMI
   fetchSegmentPartUplink ()->
     print (gLogIOstream);
@@ -24233,6 +24314,8 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
     appendClefToMeasure (clef);
+
+  gIndenter--;
 }
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
@@ -24313,7 +24396,9 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
       "\"" <<
       endl;
   }
-      
+
+  gIndenter++;
+  
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
@@ -24322,6 +24407,8 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasureClone (time);
+
+  gIndenter--;
 }
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
@@ -24335,7 +24422,9 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
       "\"" <<
       endl;
   }
-      
+
+  gIndenter++;
+  
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
@@ -24344,6 +24433,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
     appendHarmonyToMeasure (harmony);
+
+  gIndenter--;
 }
 
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
@@ -24362,10 +24453,14 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
+
+  gIndenter--;
 }
 
 void msrSegment::appendFiguredBassToSegment (
@@ -24385,10 +24480,14 @@ void msrSegment::appendFiguredBassToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
     appendFiguredBassToMeasure (figuredBass);
+
+  gIndenter--;
 }
 
 void msrSegment::appendFiguredBassToSegmentClone (
@@ -24408,10 +24507,14 @@ void msrSegment::appendFiguredBassToSegmentClone (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
+
+  gIndenter--;
 }
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
@@ -24430,10 +24533,14 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendSegnoToMeasure (segno);
+
+  gIndenter--;
 }
 
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
@@ -24452,10 +24559,14 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendCodaToMeasure (coda);
+
+  gIndenter--;
 }
 
 void msrSegment::appendEyeGlassesToSegment (
@@ -24475,10 +24586,14 @@ void msrSegment::appendEyeGlassesToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendEyeGlassesToMeasure (eyeGlasses);
+
+  gIndenter--;
 }
 
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
@@ -24497,10 +24612,14 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPedalToMeasure (pedal);
+
+  gIndenter--;
 }
 
 void msrSegment::appendDampToSegment (S_msrDamp damp)
@@ -24519,10 +24638,14 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendDampToMeasure (damp);
+
+  gIndenter--;
 }
 
 void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
@@ -24541,10 +24664,14 @@ void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendDampAllToMeasure (dampAll);
+
+  gIndenter--;
 }
 
 void msrSegment::appendTransposeToSegment (
@@ -24564,10 +24691,14 @@ void msrSegment::appendTransposeToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTransposeToMeasure (transpose);
+
+  gIndenter--;
 }
 
 void msrSegment::appendPartNameDisplayToSegment (
@@ -24587,10 +24718,14 @@ void msrSegment::appendPartNameDisplayToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPartNameDisplayToMeasure (partNameDisplay);
+
+  gIndenter--;
 }
 
 void msrSegment::appendPartAbbreviationDisplayToSegment (
@@ -24611,10 +24746,15 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
-    appendPartAbbreviationDisplayToMeasure (partAbbreviationDisplay);
+    appendPartAbbreviationDisplayToMeasure (
+      partAbbreviationDisplay);
+
+  gIndenter--;
 }
 
 void msrSegment::appendStaffDetailsToSegment (
@@ -24629,7 +24769,9 @@ void msrSegment::appendStaffDetailsToSegment (
       "\"" <<
       endl;
   }
-      
+
+  gIndenter++;
+  
   // sanity check
   if (fSegmentMeasuresList.size () == 0) { // JMI
     stringstream s;
@@ -24655,6 +24797,8 @@ void msrSegment::appendStaffDetailsToSegment (
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendStaffDetailsToMeasure (staffDetails);
+
+  gIndenter--;
 }
 
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
@@ -24673,10 +24817,14 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendLineBreakToMeasure (lineBreak);
+
+  gIndenter--;
 }
 
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
@@ -24695,10 +24843,14 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPageBreakToMeasure (pageBreak);
+
+  gIndenter--;
 }
 
 void msrSegment::appendBarNumberCheckToSegment (
@@ -24718,10 +24870,14 @@ void msrSegment::appendBarNumberCheckToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendBarNumberCheckToMeasure (barNumberCheck);
+
+  gIndenter--;
 }
 
 void msrSegment::appendTempoToSegment (
@@ -24741,10 +24897,14 @@ void msrSegment::appendTempoToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTempoToMeasure (tempo);
+
+  gIndenter--;
 }
 
 void msrSegment::appendRehearsalToSegment (
@@ -24764,10 +24924,14 @@ void msrSegment::appendRehearsalToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendRehearsalToMeasure (rehearsal);
+
+  gIndenter--;
 }
 
 void msrSegment::appendOctaveShiftToSegment (
@@ -24788,10 +24952,14 @@ void msrSegment::appendOctaveShiftToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendOctaveShiftToMeasure (octaveShift);
+
+  gIndenter--;
 }
 
 void msrSegment::appendScordaturaToSegment (
@@ -24812,10 +24980,14 @@ void msrSegment::appendScordaturaToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendScordaturaToMeasure (scordatura);
+
+  gIndenter--;
 }
 
 void msrSegment::appendAccordionRegistrationToSegment (
@@ -24837,11 +25009,15 @@ void msrSegment::appendAccordionRegistrationToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendAccordionRegistrationToMeasure (
       accordionRegistration);
+
+  gIndenter--;
 }
 
 void msrSegment::appendHarpPedalsTuningToSegment (
@@ -24863,11 +25039,15 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarpPedalsTuningToMeasure (
       harpPedalsTuning);
+
+  gIndenter--;
 }
 
 void msrSegment::padUpToMeasureLengthInSegment (
@@ -25097,8 +25277,12 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
     "fSegmentMeasuresList is empty");
 
   // prepend barline to this segment
+  gIndenter++;
+  
   fSegmentMeasuresList.front ()->
     prependBarlineToMeasure (barline);
+
+  gIndenter--;
 }
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
@@ -25138,9 +25322,13 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
+  gIndenter++;
+  
   // append barline to this segment
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
+
+  gIndenter--;
 }
 
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
@@ -28157,6 +28345,8 @@ void msrVoice::initializeVoice (
   // in registerVoiceInRegularVoicesMap()
   fRegularVoiceStaffSequentialNumber = -1;
 
+  gIndenter++;
+  
   // compute voice number
   int voiceNumber =
     gMsrOptions->
@@ -28314,6 +28504,8 @@ void msrVoice::initializeVoice (
 
     gIndenter--;
   }
+
+  gIndenter--;
 }
 
 void msrVoice::changeVoiceIdentity ( // after a deep copy
@@ -28715,6 +28907,8 @@ void msrVoice::setNextMeasureNumberInVoice (
       endl;
   }
 
+  gIndenter++;
+  
   fVoiceLastSegment->
     setNextMeasureNumberInSegment (
       inputLineNumber,
@@ -28755,6 +28949,8 @@ void msrVoice::setNextMeasureNumberInVoice (
       fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr;
     }
   }
+
+  gIndenter--;
 }
 
 void msrVoice::createNewLastSegmentForVoice (
@@ -30459,7 +30655,9 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             ", line " << inputLineNumber <<
             endl;
         }
-      
+
+        gIndenter++;
+        
         S_msrRepeat
           newRepeat =
             msrRepeat::create (
@@ -30476,7 +30674,9 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             ", line " << inputLineNumber <<
             endl;
         }
-      
+
+        gIndenter++;
+        
         S_msrRepeatCommonPart
           repeatCommonPart =
             msrRepeatCommonPart::create (
@@ -30495,7 +30695,9 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
               ", line " << inputLineNumber <<
               endl;
           }
-  
+
+          gIndenter++;
+          
           for (
             list<S_msrElement>::iterator i = fVoiceInitialElementsList.begin ();
             i != fVoiceInitialElementsList.end ();
@@ -30525,7 +30727,13 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         
           repeatCommonPart->
             appendElementToRepeatCommonPart (
-              fVoiceLastSegment);  
+              fVoiceLastSegment);
+
+          gIndenter--;
+          
+          gIndenter--;
+          
+          gIndenter--;
         }
         
         else {
@@ -30540,9 +30748,13 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
               endl;
           }
 
+          gIndenter++;
+          
           repeatCommonPart->
             appendElementToRepeatCommonPart (
             fVoiceLastSegment);
+
+          gIndenter--;
         }
 
         // set newRepeat's common part
@@ -30585,6 +30797,8 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             endl;
         }
 
+        gIndenter++;
+
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
           fullMeasureLength);
@@ -30609,6 +30823,8 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             endl <<
             endl;
         }
+
+        gIndenter--;
       }
       break;
   } // switch
@@ -30658,7 +30874,9 @@ void msrVoice::createRegularRepeatUponItsFirstEndingInVoice (
             ", line " << inputLineNumber <<
             endl;
         }
-      
+
+        gIndenter++;
+        
         fVoiceCurrentRepeat =
           msrRepeat::create (
             inputLineNumber,
@@ -30755,6 +30973,8 @@ void msrVoice::createRegularRepeatUponItsFirstEndingInVoice (
             endl <<
             endl;
         }
+
+        gIndenter--;
       }
       break;
   } // switch
@@ -30804,6 +31024,8 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             ", line " << inputLineNumber <<
             endl;
         }
+
+        gIndenter++;
       
         fVoiceCurrentRepeat =
           msrRepeat::create (
@@ -30837,6 +31059,8 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             endl;
         }
 
+        gIndenter++;
+        
         for (
           list<S_msrElement>::const_iterator i = fVoiceInitialElementsList.begin ();
           i != fVoiceInitialElementsList.end ();
@@ -30845,6 +31069,8 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             appendElementToRepeatCommonPart ((*i));
         } // for
 
+        gIndenter--;
+        
         // empty the initial elements list
         fVoiceInitialElementsList.resize (0);
         
@@ -30857,11 +31083,15 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             ", line " << inputLineNumber <<
             endl;
         }
-      
+
+        gIndenter++;
+        
         repeatCommonPart->
           appendElementToRepeatCommonPart (
             fVoiceLastSegment);
 
+        gIndenter--;
+        
         // set fVoiceCurrentRepeat's common part
         if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
@@ -30872,9 +31102,13 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             endl;
         }
 
+        gIndenter++;
+        
         fVoiceCurrentRepeat->
           setRepeatCommonPart (
             repeatCommonPart);
+
+        gIndenter--;
           
         // append the repeat to the list of initial elements
         if (gTraceOptions->fTraceRepeats) {
@@ -30898,9 +31132,13 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             endl;
         }
 
+        gIndenter++;
+        
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           firstEndingMeasure);
+
+        gIndenter--;
 
         if (
           gTraceOptions->fTraceRepeatsDetails
@@ -30922,6 +31160,8 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             endl <<
             endl;
         }
+
+        gIndenter--;
       }
       break;
   } // switch
@@ -32091,7 +32331,9 @@ void msrVoice::appendRepeatEndingToVoice (
             ", line " << inputLineNumber <<
             endl;
         }
-      
+
+        gIndenter++;
+        
         // fetch last measure's full measure length
         int fullMeasureLength =
           fVoiceLastSegment->
@@ -32144,6 +32386,8 @@ void msrVoice::appendRepeatEndingToVoice (
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
           fullMeasureLength);
+
+        gIndenter--;
       }
       break;
   } // switch
@@ -32286,8 +32530,12 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
   appendAFirstMeasureToVoiceIfNotYetDone (
     barline->getInputLineNumber ());
 
+  gIndenter++;
+  
   fVoiceLastSegment->
     prependBarlineToSegment (barline);
+
+  gIndenter--;
 }
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
@@ -32305,8 +32553,12 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
  // appendAFirstMeasureToVoiceIfNotYetDone (
  //JMI   barline->getInputLineNumber ());
 
+  gIndenter++;
+  
   fVoiceLastSegment->
     appendBarlineToSegment (barline);
+
+  gIndenter--;
 }
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
@@ -32435,10 +32687,14 @@ void msrVoice::removeNoteFromVoice (
       endl;
   }
 
+  gIndenter++;
+  
   fVoiceLastSegment->
     removeNoteFromSegment (
       inputLineNumber,
       note);
+
+  gIndenter--;
 }
 
 void msrVoice::removeElementFromVoice (
@@ -32453,10 +32709,14 @@ void msrVoice::removeElementFromVoice (
       endl;
   }
 
+  gIndenter++;
+  
   fVoiceLastSegment->
     removeElementFromSegment (
       inputLineNumber,
       element);
+
+  gIndenter--;
 }
 
 S_msrMeasure msrVoice::removeLastMeasureFromVoice (
@@ -32470,11 +32730,18 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
       endl;
   }
 
-  // remove (new) last measure and return it
-  return
+  gIndenter++;
+
+  // remove (new) last measure
+  S_msrMeasure result =
     fVoiceLastSegment->
       removeLastMeasureFromSegment (
         inputLineNumber);
+
+  gIndenter--;
+
+  // return it
+  return result;
 }
 
 void msrVoice::finalizeCurrentMeasureInVoice (
@@ -32501,6 +32768,8 @@ void msrVoice::finalizeCurrentMeasureInVoice (
     gIndenter--;
   }
 
+  gIndenter++;
+  
   // make sure the voice's last segment exists
   appendAFirstMeasureToVoiceIfNotYetDone (
     inputLineNumber);
@@ -32528,6 +32797,8 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       if (++i == iEnd) break;
     } // for
   }
+
+  gIndenter--;
 }
 
 void msrVoice::finalizeVoice ( // JMI ???
@@ -33618,6 +33889,8 @@ void msrStaff::initializeStaff ()
       endl;
   }
 
+  gIndenter++;
+  
   // check the staff number
   switch (fStaffKind) {
     case msrStaff::kRegularStaff:
@@ -33796,9 +34069,11 @@ void msrStaff::initializeStaff ()
   fStaffInstrumentAbbreviation =
     fStaffPartUplink->
       getPartInstrumentAbbreviation ();
+
+  gIndenter--;
 }
 
-msrStaff::~msrStaff()
+msrStaff::~msrStaff ()
 {}
 
 S_msrStaff msrStaff::createStaffNewbornClone (
@@ -33986,6 +34261,8 @@ void msrStaff::setNextMeasureNumberInStaff (
       endl;
   }
 
+  gIndenter++;
+  
   // propagate it to all staves
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -34012,6 +34289,8 @@ void msrStaff::setNextMeasureNumberInStaff (
         inputLineNumber,
         nextMeasureNumber);
   } // for
+
+  gIndenter--;
 }
 
 S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
@@ -34758,6 +35037,8 @@ void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -34767,6 +35048,8 @@ void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
         inputLineNumber,
         repeatTimes);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::createRegularRepeatUponItsFirstEndingInStaff (
@@ -34782,6 +35065,8 @@ void msrStaff::createRegularRepeatUponItsFirstEndingInStaff (
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -34791,6 +35076,8 @@ void msrStaff::createRegularRepeatUponItsFirstEndingInStaff (
         inputLineNumber,
         repeatTimes);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::createEnclosingRepeatUponItsFirstEndingInStaff (
@@ -34806,6 +35093,8 @@ void msrStaff::createEnclosingRepeatUponItsFirstEndingInStaff (
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -34815,6 +35104,8 @@ void msrStaff::createEnclosingRepeatUponItsFirstEndingInStaff (
         inputLineNumber,
         repeatTimes);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::appendRepeatEndingToStaff (
@@ -35022,6 +35313,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -35029,6 +35322,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
     (*i).second->
       appendBarlineToVoice (barline);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::appendTransposeToStaff (
@@ -35322,6 +35617,8 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       endl;
   }
 
+  gIndenter++;
+  
   // finalize all the registered voices
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -35341,6 +35638,8 @@ void msrStaff::finalizeCurrentMeasureInStaff (
         break;
     } // switch
   } // for
+
+  gIndenter--;
 }
 
 bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
@@ -35438,6 +35737,8 @@ void msrStaff::finalizeStaff (int inputLineNumber)
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -35464,6 +35765,8 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     }
     */
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::acceptIn (basevisitor* v)
@@ -36302,6 +36605,8 @@ void msrPart::createMeasureAndAppendItToPart (
       endl;
   }
 
+  gIndenter++;
+  
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
 
@@ -36320,6 +36625,8 @@ void msrPart::createMeasureAndAppendItToPart (
         measureOrdinalNumber,
         measureImplicitKind);
   } // for
+
+  gIndenter--;
 }
 
 void msrPart::setNextMeasureNumberInPart (
@@ -36336,6 +36643,8 @@ void msrPart::setNextMeasureNumberInPart (
       endl;
   }
 
+  gIndenter++;
+  
   // set next measure number in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -36349,6 +36658,8 @@ void msrPart::setNextMeasureNumberInPart (
         inputLineNumber,
         nextMeasureNumber);
   } // for
+
+  gIndenter--;
 }
 
 /* JMI
@@ -37380,6 +37691,8 @@ void msrPart::finalizeCurrentMeasureInPart (
       ", line " << inputLineNumber <<
       endl;
   }
+
+  gIndenter++;
   
   // finalize current measure in registered staves
   for (
@@ -37395,6 +37708,8 @@ void msrPart::finalizeCurrentMeasureInPart (
   setPartMeasureLengthHighTide (
     fInputLineNumber,
     rational (0, 1));
+
+  gIndenter--;
 }
 
 void msrPart::setPartInstrumentNamesMaxLengthes ()
@@ -37452,6 +37767,8 @@ void msrPart::finalizePart (
       endl;
   }
 
+  gIndenter++;
+  
   if (! fPartStavesMap.size ()) {
     stringstream s;
 
@@ -37480,6 +37797,8 @@ void msrPart::finalizePart (
 
   // set score instrument names max lengthes if relevant
   setPartInstrumentNamesMaxLengthes ();
+
+  gIndenter--;
 }
 
 void msrPart::finalizePartClone (
@@ -38161,6 +38480,8 @@ void msrPartGroup::removePartFromPartGroup (
       " from part group " << fPartGroupNumber <<
       endl;
   }
+
+  gIndenter++;
   
   for (
     list<S_msrElement>::iterator i = fPartGroupElements.begin ();
@@ -38204,6 +38525,8 @@ void msrPartGroup::removePartFromPartGroup (
         s.str ());
     }
   } // for
+
+  gIndenter--;
 }
 
 void msrPartGroup::prependSubPartGroupToPartGroup (
