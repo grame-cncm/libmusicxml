@@ -24112,7 +24112,10 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     }
   */
   
-    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
+    if (
+      gTraceOptions->fTraceMeasuresDetails
+        ||
+      gTraceOptions->fTraceSegmentsDetails) {
       gLogIOstream <<
         endl <<
         "*********>> Current voice \"" <<
@@ -25111,7 +25114,10 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   }
 
   if (! fSegmentMeasuresList.size ()) { // JMI
-    if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceSegments) { // JMI
+    if (
+      gTraceOptions->fTraceBarlinesDetails
+        ||
+      gTraceOptions->fTraceSegmentsDetails) { // JMI
       gLogIOstream <<
         endl <<
         "*********>> Current voice \"" <<
@@ -30235,7 +30241,10 @@ void msrVoice::prepareForRepeatInVoice (
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
   
-          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+          if (
+            gTraceOptions->fTraceRepeatsDetails
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice ZZZ \"" <<
@@ -30279,7 +30288,10 @@ void msrVoice::prepareForRepeatInVoice (
             inputLineNumber,
             fullMeasureLength);
   
-          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+          if (
+            gTraceOptions->fTraceRepeatsDetails
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice TTT \"" <<
@@ -30325,7 +30337,10 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
   
-          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+          if (
+            gTraceOptions->fTraceRepeatsDetails
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice BBB \"" <<
@@ -30369,7 +30384,10 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
             inputLineNumber,
             fullMeasureLength);
   
-          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+          if (
+            gTraceOptions->fTraceRepeatsDetails
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice QQQ \"" <<
@@ -30411,7 +30429,10 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         finalizeCurrentMeasureInVoice (
           inputLineNumber);
           
-        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceRepeatsDetails
+            ||
+          gTraceOptions->fTraceVoicesDetails) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice III \"" <<
@@ -30568,7 +30589,10 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           inputLineNumber,
           fullMeasureLength);
 
-        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceRepeatsDetails
+            ||
+          gTraceOptions->fTraceVoicesDetails) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice EEE \"" <<
@@ -30711,7 +30735,10 @@ void msrVoice::createRegularRepeatUponItsFirstEndingInVoice (
           inputLineNumber,
           firstEndingMeasure);
 
-        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceRepeatsDetails
+            ||
+          gTraceOptions->fTraceVoicesDetails) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice \"" <<
@@ -30875,7 +30902,10 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
           inputLineNumber,
           firstEndingMeasure);
 
-        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceRepeatsDetails
+            ||
+          gTraceOptions->fTraceVoicesDetails) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice \"" <<
@@ -31862,7 +31892,10 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
   
-          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+          if (
+            gTraceOptions->fTraceRepeatsDetails
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice HHH \"" <<
@@ -31906,7 +31939,10 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
             inputLineNumber,
             fullMeasureLength);
   
-          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+          if (
+            gTraceOptions->fTraceRepeatsDetails
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice PPP \"" <<

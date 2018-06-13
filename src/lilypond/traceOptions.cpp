@@ -180,18 +180,22 @@ debugging information to standard error for the specified measures.)",
 
     // segments
     fTraceSegments = boolOptionsInitialValue;
+    fTraceSegmentsDetails = boolOptionsInitialValue;
     
     // barlines
     fTraceBarlines = boolOptionsInitialValue;
+    fTraceBarlinesDetails = boolOptionsInitialValue;
 
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
+    fTraceRepeatsDetails = boolOptionsInitialValue;
   
     // slashes
     fTraceSlashes = boolOptionsInitialValue;
 
     // measures
     fTraceMeasures = boolOptionsInitialValue;
+    fTraceMeasuresDetails = boolOptionsInitialValue;
   
     // notes
     fTraceNotes = boolOptionsInitialValue;
@@ -448,6 +452,16 @@ R"(Voices segments)",
       
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "tsegsd", "traceSegmentsDetails",
+R"(Voices segments details)",
+          "traceSegments",
+          fTraceSegmentsDetails,
+          fTraceSegments,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsTwoBooleansItem::create (
           "tbars", "traceBarlines",
 R"(Barlines)",
@@ -457,10 +471,30 @@ R"(Barlines)",
       
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "tbarsd", "traceBarlinesDetails",
+R"(Barlines details)",
+          "traceBarlinesDetails",
+          fTraceBarlinesDetails,
+          fTraceBarlines,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsTwoBooleansItem::create (
           "treps", "traceRepeats",
 R"(Repeats, including multiple mesure repeats)",
           "traceRepeats",
+          fTraceRepeats,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "trepsd", "traceRepeatsDetails",
+R"(Repeats details, including multiple mesure repeats)",
+          "traceRepeats",
+          fTraceRepeatsDetails,
           fTraceRepeats,
           fTracePasses));
       
@@ -484,6 +518,16 @@ R"(Measures)",
       
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "tmeasd", "traceMeasuresDetails",
+R"(Measures details)",
+          "traceMeasures",
+          fTraceMeasuresDetails,
+          fTraceMeasures,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsTwoBooleansItem::create (
           "tnotes", "traceNotes",
 R"(Notes)",
@@ -496,7 +540,7 @@ R"(Notes)",
         optionsThreeBooleansItem::create (
           "tnotesd", "traceNotesDetails",
 R"(Notes with more details, including divisions handling (quite verbose)..
-This option implies '-tndetails, -traceNotesDetails'.)",
+This option implies '-tnnotes, -traceNotes'.)",
           "traceNotesDetails",
           fTraceNotesDetails,
           fTraceNotes,
@@ -844,18 +888,22 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
 
   // segments
   clone->fTraceSegments = true;
+  clone->fTraceSegmentsDetails = true;
     
   // barlines
   clone->fTraceBarlines = true;
+  clone->fTraceBarlinesDetails = true;
 
   // repeats
   clone->fTraceRepeats = true;
+  clone->fTraceRepeatsDetails = true;
 
   // slashes
   clone->fTraceSlashes = true;
 
   // measures
   clone->fTraceMeasures = true;
+  clone->fTraceMeasuresDetails = true;
   
   // notes
   clone->fTraceNotes = true;
@@ -1117,15 +1165,24 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceSegments" << " : " <<
     booleanAsString (fTraceSegments) <<
     endl <<
+    setw (fieldWidth) << "traceSegmentsDetails" << " : " <<
+    booleanAsString (fTraceSegmentsDetails) <<
+    endl <<
     
     // barlines
     setw (fieldWidth) << "traceBarlines" << " : " <<
     booleanAsString (fTraceBarlines) <<
     endl <<
+    setw (fieldWidth) << "traceBarlinesDetails" << " : " <<
+    booleanAsString (fTraceBarlinesDetails) <<
+    endl <<
     
     // repeats
     setw (fieldWidth) << "traceRepeats" << " : " <<
     booleanAsString (fTraceRepeats) <<
+    endl <<
+    setw (fieldWidth) << "traceRepeatsDetails" << " : " <<
+    booleanAsString (fTraceRepeatsDetails) <<
     endl <<
     
     // repeats
@@ -1136,6 +1193,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // measures
     setw (fieldWidth) << "traceMeasures" << " : " <<
     booleanAsString (fTraceMeasures) <<
+    endl <<
+    setw (fieldWidth) << "traceMeasuresDetails" << " : " <<
+    booleanAsString (fTraceMeasuresDetails) <<
     endl <<
     
     // notes

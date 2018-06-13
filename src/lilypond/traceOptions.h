@@ -125,18 +125,22 @@ class traceOptions : public optionsGroup
 
     // segments
     bool                  fTraceSegments;
+    bool                  fTraceSegmentsDetails;
 
     // barlines
     bool                  fTraceBarlines;
+    bool                  fTraceBarlinesDetails;
 
     // repeats
     bool                  fTraceRepeats;
+    bool                  fTraceRepeatsDetails;
 
     // slashes
     bool                  fTraceSlashes;
 
     // measures
     bool                  fTraceMeasures;
+    bool                  fTraceMeasuresDetails;
 
     // notes
     bool                  fTraceNotes;
