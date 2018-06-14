@@ -12630,6 +12630,10 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   if (intervalKind1 < intervalKind2) {
     intervalKind1 = intervalKind2;
     intervalKind2 = intervalKind1;
+    
+    intervalKind1 = intervalKind2;
+    intervalKind2 = intervalKind1;
+    
     invertInterval = true;
   }
     
@@ -12663,7 +12667,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kAugmentedUnison:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+     // JMI     resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kAugmentedUnison;
@@ -12679,13 +12683,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kDiminishedSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+   // JMI       resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kDiminishedSecond;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kDiminishedSecond:
           resultIntervalKind = kPerfectUnison;
@@ -12698,13 +12702,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMinorSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kMajorSecond;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMinorSecond;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMinorSecond:
           resultIntervalKind = kPerfectUnison;
@@ -12717,16 +12721,16 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMajorSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMajorSecond;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kMinorSecond;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMajorSecond:
           resultIntervalKind = kPerfectUnison;
@@ -12739,7 +12743,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kAugmentedSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+  // JMI        resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kAugmentedSecond;
@@ -12751,7 +12755,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMajorSeventh;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kAugmentedSecond:
           resultIntervalKind = kPerfectUnison;
@@ -12764,7 +12768,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kDiminishedThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+   // JMI       resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kDiminishedThird;
@@ -12779,7 +12783,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorSeventh;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kDiminishedThird:
           resultIntervalKind = kPerfectUnison;
@@ -12792,25 +12796,25 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMinorThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kMajorThird;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMinorThird;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kDiminishedThird;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kMajorSecond;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kMinorSecond;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kDiminishedSecond;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMinorThird:
           resultIntervalKind = kPerfectUnison;
@@ -12823,28 +12827,28 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMajorThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedThird;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMajorThird;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kMinorThird;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kMajorSecond;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kMinorSecond;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+  // JMI        resultIntervalKind = kMajorSecond;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMajorThird:
           resultIntervalKind = kPerfectUnison;
@@ -12857,31 +12861,31 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kAugmentedThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+   // JMI       resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kAugmentedThird;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+     // JMI     resultIntervalKind = kMajorThird;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+   // JMI      resultIntervalKind = kMajorSeventh;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kDiminishedSecond;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kMajorSecond;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorSecond;
           break;
         case kMajorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kAugmentedThird:
           resultIntervalKind = kPerfectUnison;
@@ -12894,13 +12898,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kDiminishedFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kPerfectUnison:
           resultIntervalKind = kDiminishedFourth;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+   // JMI       resultIntervalKind = kDiminishedOctave;
           break;
         case kMinorSecond:
           resultIntervalKind = kMajorSeventh;
@@ -12921,7 +12925,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorThird;
           break;
         case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kDiminishedFourth:
           resultIntervalKind = kPerfectUnison;
@@ -12934,37 +12938,37 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kPerfectFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kPerfectUnison:
           resultIntervalKind = kPerfectFourth;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kDiminishedFourth;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kMajorThird;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kMinorThird;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kDiminishedThird;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorSecond;
           break;
         case kMajorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMinorSecond;
           break;
         case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedSecond;
           break;
         case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectFourth:
           resultIntervalKind = kPerfectUnison;
@@ -12977,7 +12981,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kAugmentedFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+   // JMI       resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kAugmentedFourth;
@@ -13010,7 +13014,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorThird;
           break;
         case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kAugmentedFourth:
           resultIntervalKind = kPerfectUnison;
@@ -13023,7 +13027,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kDiminishedFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+ // JMI         resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kDiminishedFifth;
@@ -13072,25 +13076,25 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kPerfectFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedFifth;
           break;
         case kPerfectUnison:
           resultIntervalKind = kPerfectFifth;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kDiminishedFifth;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kDiminishedFourth;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+          resultIntervalKind = kAugmentedThird;
           break;
         case kMinorThird:
           resultIntervalKind = kMajorThird;
@@ -13099,19 +13103,19 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorThird;
           break;
         case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedThird;
           break;
         case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorSecond;
           break;
         case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMinorSecond;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectFifth:
           resultIntervalKind = kPerfectUnison;
@@ -13124,13 +13128,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kAugmentedFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+  // JMI        resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kAugmentedFifth;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kPerfectFifth;
           break;
         case kMinorSecond:
           resultIntervalKind = kMajorSeventh;
@@ -13163,10 +13167,10 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorThird;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+ // JMI         resultIntervalKind = kMinorThird;
           break;
         case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kAugmentedFifth:
           resultIntervalKind = kPerfectUnison;
@@ -13218,13 +13222,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorThird;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+  //  JMI      resultIntervalKind = kMinorThird;
           break;
         case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+   //  JMI     resultIntervalKind = kMinorThird;
           break;
         case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kDiminishedSixth:
           resultIntervalKind = kPerfectUnison;
@@ -13237,55 +13241,55 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMinorSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedSixth;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMinorSixth;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kDiminishedSixth;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kPerfectFifth;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kDiminishedFifth;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+   // JMI       resultIntervalKind = kDiminishedSeventh;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kMajorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedFourth;
           break;
         case kAugmentedThird:
           resultIntervalKind = kMinorThird;
           break;
         case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorThird;
           break;
         case kPerfectFourth:
           resultIntervalKind = kMinorThird;
           break;
         case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedThird;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorSecond;
           break;
         case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMinorSecond;
           break;
         case kAugmentedFifth:
           resultIntervalKind = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMinorSixth:
           resultIntervalKind = kPerfectUnison;
@@ -13298,58 +13302,58 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMajorSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedSixth;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMajorSixth;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kMinorSixth;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kAugmentedFifth;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kPerfectFifth;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kDiminishedFifth;
           break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+   // JMI       resultIntervalKind = kAugmentedSixth;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedFourth;
           break;
         case kMajorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kAugmentedThird:
           resultIntervalKind = kMinorThird;
           break;
         case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedThird;
           break;
         case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorThird;
           break;
         case kAugmentedFourth:
           resultIntervalKind = kMinorThird;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorSecond;
           break;
         case kAugmentedFifth:
           resultIntervalKind = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+   // JMI       resultIntervalKind = kPerfectUnison;
           break;
         case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMajorSixth:
           resultIntervalKind = kPerfectUnison;
@@ -13416,7 +13420,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kPerfectUnison;
           break;
         case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kAugmentedSixth:
           resultIntervalKind = kPerfectUnison;
@@ -13486,7 +13490,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kDiminishedSeventh:
           resultIntervalKind = kPerfectUnison;
@@ -13499,67 +13503,67 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMinorSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kMajorSeventh;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMinorSeventh;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
-          break;
-        case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
-          break;
-        case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
-          break;
-        case kAugmentedSecond:
           resultIntervalKind = kDiminishedSeventh;
           break;
+        case kMinorSecond:
+          resultIntervalKind = kMajorSixth;
+          break;
+        case kMajorSecond:
+          resultIntervalKind = kMinorSixth;
+          break;
+        case kAugmentedSecond:
+          resultIntervalKind = kDiminishedSixth;
+          break;
         case kDiminishedThird:
-          resultIntervalKind = kAugmentedSixth;
+          resultIntervalKind = kAugmentedFifth;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFifth;
           break;
         case kMajorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedFifth;
           break;
         case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+  // JMI        resultIntervalKind = kMinorThird;
           break;
         case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedFourth;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorThird;
           break;
         case kPerfectFifth:
           resultIntervalKind = kMinorThird;
           break;
         case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kDiminishedThird;
           break;
         case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kMajorSecond;
           break;
         case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kMinorSecond;
           break;
         case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+   // JMI       resultIntervalKind = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMinorSeventh:
           resultIntervalKind = kPerfectUnison;
@@ -13572,7 +13576,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kMajorSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+          resultIntervalKind = kAugmentedSeventh;
           break;
         case kPerfectUnison:
           resultIntervalKind = kMajorSeventh;
@@ -13581,61 +13585,61 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kDiminishedOctave;
           break;
         case kMinorSecond:
-          resultIntervalKind = kMajorSeventh;
+          resultIntervalKind = kAugmentedSixth;
           break;
         case kMajorSecond:
-          resultIntervalKind = kMinorSeventh;
+          resultIntervalKind = kMajorSixth;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kDiminishedSeventh;
+          resultIntervalKind = kMinorSixth;
           break;
         case kDiminishedThird:
           resultIntervalKind = kAugmentedSixth;
           break;
         case kMinorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedFifth;
           break;
         case kMajorThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFifth;
           break;
         case kAugmentedThird:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kDiminishedFifth;
           break;
         case kDiminishedFourth:
-          resultIntervalKind = kMinorThird;
+  // JMI        resultIntervalKind = kMinorThird;
           break;
         case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedThird;
           break;
         case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kMajorThird;
           break;
         case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kMinorThird;
           break;
         case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+ // JMI         resultIntervalKind = kPerfectUnison;
           break;
         case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kMajorSecond;
           break;
         case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kMinorSecond;
           break;
         case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+  // JMI        resultIntervalKind = kPerfectUnison;
           break;
         case kMinorSeventh:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kMajorSeventh:
           resultIntervalKind = kPerfectUnison;
@@ -13648,13 +13652,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     case kAugmentedSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
-          resultIntervalKind = kAugmentedUnison;
+ // JMI         resultIntervalKind = kAugmentedUnison;
           break;
         case kPerfectUnison:
           resultIntervalKind = kAugmentedSeventh;
           break;
         case kAugmentedUnison:
-          resultIntervalKind = kDiminishedOctave;
+          resultIntervalKind = kMajorSeventh;
           break;
         case kMinorSecond:
           resultIntervalKind = kMajorSeventh;
@@ -13681,40 +13685,40 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           resultIntervalKind = kMinorThird;
           break;
         case kPerfectFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kAugmentedFourth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kDiminishedFifth:
-          resultIntervalKind = kMinorThird;
+  // JMI        resultIntervalKind = kMinorThird;
           break;
         case kPerfectFifth:
-          resultIntervalKind = kMinorThird;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kAugmentedFifth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kPerfectFourth;
           break;
         case kDiminishedSixth:
-          resultIntervalKind = kPerfectUnison;
+  // JMI        resultIntervalKind = kPerfectUnison;
           break;
         case kMinorSixth:
-          resultIntervalKind = kPerfectUnison;
+ // JMI         resultIntervalKind = kPerfectUnison;
           break;
         case kMajorSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedSecond;
           break;
         case kAugmentedSixth:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kMajorSecond;
           break;
         case kDiminishedSeventh:
-          resultIntervalKind = kPerfectUnison;
+   // JMI       resultIntervalKind = kPerfectUnison;
           break;
         case kMinorSeventh:
-          resultIntervalKind = kPerfectUnison;
+    // JMI      resultIntervalKind = kPerfectUnison;
           break;
         case kMajorSeventh:
-          resultIntervalKind = kPerfectUnison;
+          resultIntervalKind = kAugmentedUnison;
           break;
         case kAugmentedSeventh:
           resultIntervalKind = kPerfectUnison;
