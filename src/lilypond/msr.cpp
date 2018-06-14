@@ -21146,7 +21146,7 @@ void msrMeasure::initializeMeasure ()
       endl;
   }
 
-  if (fMeasureNumber == "2" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 3) {
+  if (false && fMeasureNumber == "2" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 1) {
     abort ();
   }
   
@@ -21827,9 +21827,11 @@ void msrMeasure::appendPartAbbreviationDisplayToMeasure (
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
+  /* JMI NO, a barline may appear anywhere}
   // the measure may have to be padded
   padUpToPartMeasureLengthHighTide (
     barline->getInputLineNumber ());
+    */
     
   // append it to the measure elements list
   fMeasureElementsList.push_back (barline);
@@ -22641,6 +22643,20 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   rational   duration,
   S_msrVoice voice)
 {
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Creating a padding note for voice \"" <<
+      voice->getVoiceName () <<
+      "\" in measure '" <<
+      fMeasureNumber <<
+      "', duration = '" <<
+      duration <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+
+ // JMI abort ();
+  
   // create a rest or a skip depending on measureVoice kind
   S_msrNote paddingNote;
 
@@ -23472,8 +23488,12 @@ void msrMeasure::finalizeMeasure (
     
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Finalizing measure '" << fMeasureNumber << "'" <<
-      " in voice \"" << voice->getVoiceName () <<
+      "Finalizing measure '" <<
+      fMeasureNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
 
@@ -30534,9 +30554,13 @@ void msrVoice::prepareForRepeatInVoice (
               endl;
           }
   
+if (true)
           createNewLastSegmentAndANewMeasureAfterARepeat (
             inputLineNumber,
             fullMeasureLength);
+else
+          createNewLastSegmentForVoice (
+            inputLineNumber);
   
           if (
             gTraceOptions->fTraceRepeatsDetails
@@ -32812,6 +32836,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       "Finalizing current measure in voice \"" <<
       getVoiceName () <<
       "\"" <<
+      ", line " << inputLineNumber <<
       endl;
       
     gIndenter++;
@@ -35682,6 +35707,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       "\", line " << inputLineNumber <<
       ", partMeasureLengthHighTide = " <<
       partMeasureLengthHighTide <<
+      ", line " << inputLineNumber <<
       endl;
   }
 

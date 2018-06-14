@@ -31,7 +31,10 @@
         </clef>
       </attributes>
       <note>
-        <rest/>
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -43,7 +46,10 @@
         <repeat direction="forward"/>
       </barline>
       <note>
-        <rest/>
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -51,7 +57,10 @@
     <!--=======================================================-->
     <measure number="3">
       <note>
-        <rest/>
+        <pitch>
+          <step>E</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -63,7 +72,10 @@
     <!--=======================================================-->
     <measure number="4">
       <note>
-        <rest/>
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -71,7 +83,10 @@
     <!--=======================================================-->
     <measure number="5">
       <note>
-        <rest/>
+        <pitch>
+          <step>G</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -79,7 +94,10 @@
     <!--=======================================================-->
     <measure number="6">
       <note>
-        <rest/>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -87,7 +105,10 @@
     <!--=======================================================-->
     <measure number="7">
       <note>
-        <rest/>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
@@ -99,7 +120,10 @@
     <!--=======================================================-->
     <measure number="8">
       <note>
-        <rest/>
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
         <duration>4</duration>
         <voice>1</voice>
       </note>
