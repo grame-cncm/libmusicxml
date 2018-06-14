@@ -21134,10 +21134,10 @@ void msrMeasure::initializeMeasure ()
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Initializing measure " << fMeasureNumber <<
-      " in segment " <<
+      "Initializing measure '" << fMeasureNumber <<
+      "' in segment '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
-      " in voice \"" <<
+      "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
           getVoiceName () <<
@@ -21146,6 +21146,10 @@ void msrMeasure::initializeMeasure ()
       endl;
   }
 
+  if (fMeasureNumber == "2" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 3) {
+    abort ();
+  }
+  
   // measure kind
   fMeasureKind = kUnknownMeasureKind;
 
@@ -21583,8 +21587,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         endl;
     }
 
-    setMeasureKind (
-      kSenzaMisuraMeasureKind);
+    fMeasureKind = kSenzaMisuraMeasureKind;
     
     fFullMeasureLength = INT_MAX; // JMI
   }
@@ -21731,8 +21734,7 @@ void msrMeasure::setFullMeasureLengthFromTime (
         endl;
     }
 
-    setMeasureKind (
-      kSenzaMisuraMeasureKind);
+    fMeasureKind = kSenzaMisuraMeasureKind;
     
     fFullMeasureLength =
       rational (INT_MAX, 1);
@@ -23249,6 +23251,17 @@ void msrMeasure::determineMeasureKind (
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ();
     
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+    "Determining the measure kind of measure '" <<
+    fMeasureNumber <<
+    "' in voice \"" << voice->getVoiceName () <<
+    ", line " << inputLineNumber <<
+    endl;
+  }
+
+  gIndenter++;
+
   // determine the measure kind
   if (fMeasureLength == fFullMeasureLength) {
     // full measure
@@ -23261,8 +23274,7 @@ void msrMeasure::determineMeasureKind (
       endl;
     }
 
-    setMeasureKind (
-      kFullMeasureKind);
+    fMeasureKind = kFullMeasureKind;
   }
   
   else if (fMeasureLength.getNumerator () == 0) { // JMI
@@ -23276,8 +23288,7 @@ void msrMeasure::determineMeasureKind (
       endl;
     }
 
-    setMeasureKind (
-      kEmptyMeasureKind);
+    fMeasureKind = kEmptyMeasureKind;
   }
   
   else if (fMeasureLength < fFullMeasureLength) {
@@ -23293,8 +23304,7 @@ void msrMeasure::determineMeasureKind (
           endl;
         }
     
-        setMeasureKind (
-          kUpbeatMeasureKind);
+        fMeasureKind = kUpbeatMeasureKind;
         break;
         
       case msrMeasure::kMeasureFirstInSegmentNo:
@@ -23307,8 +23317,7 @@ void msrMeasure::determineMeasureKind (
           endl;
         }
     
-        setMeasureKind (
-          kUnderfullMeasureKind);
+        fMeasureKind = kUnderfullMeasureKind;
         break;
     } // switch
   }
@@ -23324,9 +23333,24 @@ void msrMeasure::determineMeasureKind (
       endl;
     }
 
-    setMeasureKind (
-      kOverfullMeasureKind);
+    fMeasureKind = kOverfullMeasureKind;
   }
+  
+  else {
+    // strange measure...
+    if (gTraceOptions->fTraceMeasures) {
+      gLogIOstream <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is in a **STRANGE** state" <<
+      ", fMeasureKind = " <<
+      measureKindAsString (fMeasureKind) <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+  }
+
+  gIndenter--;
 }
 
 void msrMeasure::padUpToPartMeasureLengthHighTide (
@@ -23473,7 +23497,9 @@ void msrMeasure::finalizeMeasure (
   }
 
   gIndenter++;
-  
+
+  // pad measure up to part measure length high tide
+  // and determine it measure kind if relevant
   switch (fMeasureKind) {
     case msrMeasure::kSenzaMisuraMeasureKind:
       break;
@@ -24202,6 +24228,34 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         endl <<
         endl;
     }
+  }
+
+  else {
+    /*
+    if (
+      gTraceOptions->fTraceMeasuresDetails
+        ||
+      gTraceOptions->fTraceSegmentsDetails) {
+      gLogIOstream <<
+        endl <<
+        "*********>> HOUHOU Current voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        ", line " << inputLineNumber <<
+        " contains:" <<
+        endl <<
+        fSegmentVoiceUplink <<
+        "<<*********" <<
+        endl <<
+        endl;
+    }
+    */
+
+    gLogIOstream <<
+      "Segment '" <<
+      fSegmentAbsoluteNumber <<
+      "' has no measures to finalize" <<
+      endl;
   }
 
   gIndenter--;
@@ -25131,8 +25185,8 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending measure " << measureNumber <<
-      " to segment " << asString ();
+      "Appending measure '" << measureNumber <<
+      "' to segment " << asString ();
 
     if (fSegmentMeasuresList.size () == 0)
       gLogIOstream <<
@@ -30615,11 +30669,13 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
+        /* JMI
         // fetch last measure's full measure length
         int fullMeasureLength =
           fVoiceLastSegment->
             getSegmentMeasuresList ().back ()->
                 getFullMeasureLength ();
+              */
               
         // finalize current measure in voice
         finalizeCurrentMeasureInVoice (
@@ -30779,7 +30835,8 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         // create a new last segment containing a new measure for the voice
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
-            "Creating a new last segment containing a new measure for voice \"" <<
+    // JMI        "Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment for voice \"" <<
             fVoiceName << "\"" <<
             ", line " << inputLineNumber <<
             endl;
@@ -30787,9 +30844,13 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
 
         gIndenter++;
 
+/* JMI
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
           fullMeasureLength);
+          */
+        createNewLastSegmentForVoice (
+          inputLineNumber);
 
         if (
           gTraceOptions->fTraceRepeatsDetails
@@ -32321,12 +32382,14 @@ void msrVoice::appendRepeatEndingToVoice (
         }
 
         gIndenter++;
-        
+
+/* JMI        
         // fetch last measure's full measure length
         int fullMeasureLength =
           fVoiceLastSegment->
             getSegmentMeasuresList ().back ()->
                 getFullMeasureLength ();
+*/
 
         // sanity check
         msrAssert (
@@ -32366,14 +32429,19 @@ void msrVoice::appendRepeatEndingToVoice (
             ||
           gTraceOptions->fTraceSegments) {
           gLogIOstream <<
-            "Creating a new last segment containing a new measure for voice \"" <<
+     // JMI       "Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
-            
+
+            /* JMI
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
           fullMeasureLength);
+          */
+        createNewLastSegmentForVoice (
+          inputLineNumber);
 
         gIndenter--;
       }
@@ -32465,6 +32533,8 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
 void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
   S_msrRepeatEnding repeatEndingClone)
 {
+  gIndenter++;
+  
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
@@ -32501,6 +32571,8 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
       }
       break;
   } // switch
+
+  gIndenter--;
 }
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
@@ -35104,13 +35176,15 @@ void msrStaff::appendRepeatEndingToStaff (
 {
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending repeat ending to staff \"" <<
+      "Appending a repeat ending to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -35121,6 +35195,8 @@ void msrStaff::appendRepeatEndingToStaff (
         repeatEndingNumber,
         repeatEndingKind);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
@@ -35273,13 +35349,15 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 {
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending repeat ending clone to staff \"" <<
+      "Appending a repeat ending clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -35287,6 +35365,8 @@ void msrStaff::appendRepeatEndingCloneToStaff (
     (*i).second-> // JMI msrAssert???
       appendRepeatEndingCloneToVoice (repeatEndingClone);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
@@ -37000,6 +37080,16 @@ void msrPart::appendRepeatEndingToPart (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
+  if (gTraceOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Appending a repeat ending to part \"" <<
+      getPartCombinedName () <<
+      "\"" <<
+      endl;
+  }
+
+  gIndenter++;
+  
   // append repeat ending to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -37011,6 +37101,8 @@ void msrPart::appendRepeatEndingToPart (
         repeatEndingNumber,
         repeatEndingKind);
   } // for
+
+  gIndenter--;
 }
 
 void msrPart::appendRepeatCloneToPart (

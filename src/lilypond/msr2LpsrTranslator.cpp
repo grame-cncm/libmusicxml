@@ -1730,10 +1730,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
               getVoiceName () <<
           "\" is of unknown kind";
 
-        msrInternalError (
+      // JMI  msrInternalError (
+        msrInternalWarning (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
-          __FILE__, __LINE__,
+  //        __FILE__, __LINE__,
           s.str ());
       }
       break;

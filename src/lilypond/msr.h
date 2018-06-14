@@ -3701,8 +3701,8 @@ class msrMeasure : public msrElement
                       
     // measure kind
     
-    void                  setMeasureKind (msrMeasureKind measureKind)
-                              { fMeasureKind = measureKind; }
+ // JMI   void                  setMeasureKind (msrMeasureKind measureKind)
+   //                           { fMeasureKind = measureKind; }
 
     msrMeasureKind        getMeasureKind () const
                               { return fMeasureKind; }
