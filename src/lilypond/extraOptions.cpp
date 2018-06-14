@@ -1090,6 +1090,21 @@ void extraOptions::handleOptionsItemValue (
         msrHarmonyKindFromString (
           harmonyName);
 
+    if (harmonyKind == k_NoHarmony) {
+      stringstream s;
+  
+      s <<
+        "'" << harmonyName <<
+        "' is no harmony name, valid names are:" <<
+        endl <<
+        "maj, min,aug, dim, dom, maj7, min7, dim7, aug7, halfdim, minmaj7, maj6, min6, dom9, maj9, min9, dom11, maj11, min11, dom13, maj13, min13, sus2, sus4, neapolitan, italian, french, german, pedal, power, tristan" <<
+        endl;
+        
+      optionError (s.str ());
+                
+      exit (4);
+    }
+    
     // print the chord analysis
     printChordAnalysis (
       os,
