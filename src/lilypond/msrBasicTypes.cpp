@@ -12763,7 +12763,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
   // order the operands so that
   // relativeOctave1 is greater or equal to relativeOctave2
- // JMI bool invertRelativeOctave = false;
+  bool permuteRelativeOctaves = false;
   
   if (relativeOctave1 < relativeOctave2) {
     int saveRelativeOctave1 = relativeOctave1;
@@ -12771,7 +12771,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     relativeOctave1 = relativeOctave2;
     relativeOctave2 = saveRelativeOctave1;
         
-// JMI    invertRelativeOctave = true;
+    permuteRelativeOctaves = true;
   }
 
   // order the intervals so that
@@ -13963,6 +13963,12 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
   // take interval inversion into account if relevant
   if (invertInterval) {
+    resultIntervalKind =
+      invertIntervalKind (resultIntervalKind);
+  }
+  
+  // take relative octabes permutation into account if relevant
+  if (permuteRelativeOctaves) {
     resultIntervalKind =
       invertIntervalKind (resultIntervalKind);
   }
@@ -17380,7 +17386,7 @@ void printChordAnalysis (
             // print it
             gIndenter++;
 
-            const int fieldWidth2 = 16;
+            const int fieldWidth2 = 20;
 
             os << left <<
               setw (fieldWidth1) <<
