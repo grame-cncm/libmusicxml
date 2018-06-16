@@ -17297,7 +17297,7 @@ void printChordAnalysis (
         
         vector<S_msrChordInterval>::const_iterator
           iBegin1 = invertedChordStructureIntervals.begin (),
-          iEnd1   = invertedChordStructureIntervals.end (),
+          iEnd1   = invertedChordStructureIntervals.end () - 1,
           i1      = iBegin1;
   
         for ( ; ; ) {
@@ -17323,10 +17323,10 @@ void printChordAnalysis (
               quarterTonesPitchKindFromSemiTonesPitchKind (
                 noteSemiTonesPitchKind1);
     
-          // print it
+          // print the invervals
           vector<S_msrChordInterval>::const_iterator
             iBegin2 = i1 + 1,
-            iEnd2   = iEnd1,
+            iEnd2   = invertedChordStructureIntervals.end (),
             i2      = iBegin2;
     
           for ( ; ; ) {
@@ -17379,6 +17379,8 @@ void printChordAnalysis (
             // print it
             gIndenter++;
 
+            const int fieldWidth2 = 16;
+
             os << left <<
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
@@ -17396,14 +17398,13 @@ void printChordAnalysis (
 
               " : " <<
               
-              setw (16) << // JMI
+              setw (fieldWidth2) << // JMI
               msrIntervalKindAsString (innerIntervalKind) <<
 
               "(" <<
-              setw (16) <<
+              setw (fieldWidth2) <<
               msrIntervalKindAsString (intervalKind1) <<
               " - " <<
-              setw (16) <<
               msrIntervalKindAsString (intervalKind2) <<
               ")" <<           
 
