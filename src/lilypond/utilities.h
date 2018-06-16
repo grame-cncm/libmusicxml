@@ -28,7 +28,7 @@
 #include <algorithm>
 
 #include <string.h> 
-#include <iconv.h> 
+//#include <iconv.h> 
 
 #include "smartpointer.h"
 #include "basevisitor.h"
@@ -421,6 +421,7 @@ std::string baseName (const std::string &filename);
 std::string makeSingleWordFromString (const std::string& theString);
 
 //______________________________________________________________________________
+/* JMI
 class IConv {
   // see https://stackoverflow.com/questions/8104154/iconv-only-works-once
 
@@ -444,6 +445,7 @@ class IConv {
     size_t                fOutputBufferSize;
     char*                 fOutputBuffer;
 };
+*/
 
 //______________________________________________________________________________
 // see: http://www.icce.rug.nl/documents/cplusplus/

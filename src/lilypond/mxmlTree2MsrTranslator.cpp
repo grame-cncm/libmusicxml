@@ -5218,11 +5218,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
   // the staff number should be positive
-  if (fCurrentStaffNumber <= 0) {
+  if (fCurrentForwardStaffNumber <= 0) {
     stringstream s;
 
     s <<
-      "staff number " << fCurrentStaffNumber <<
+      "staff number " << fCurrentForwardStaffNumber <<
       " is not positive";
       
     msrAssert (false, s.str ());
@@ -7219,7 +7219,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
   }
   
   else if (fOnGoingBarline) {
-    fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoYes;
+    fCurrentBarlineHasSegnoKind =
+      msrBarline::kBarlineHasSegnoYes;
   }
 }
 
@@ -17574,10 +17575,59 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
             make_pair (
               fCurrentNoteStaffNumber,
               fCurrentNoteVoiceNumber));
+
+      if (it == fVoicesCurrentChordMap.end ()) {
+        // fetch current voice
+        S_msrVoice
+          currentVoice =
+            fetchVoiceFromCurrentPart (
+              inputLineNumber,
+              fCurrentNoteStaffNumber,
+              fCurrentNoteVoiceNumber);
+
+        fLogOutputStream <<
+          endl <<
+          "======================= visitEnd ( S_note& ):" <<
+          endl <<
+          endl;
+
+        printVoicesCurrentChordMap ();
+
+        fLogOutputStream <<
+          "=======================" <<
+          endl <<
+          endl;
+
+        fLogOutputStream <<
+          endl <<
+          "======================= visitEnd ( S_note& ):" <<
+          endl <<
+          endl;
+        currentVoice->print (fLogOutputStream);
+        fLogOutputStream <<
+          "=======================" <<
+          endl <<
+          endl;
+
+        stringstream s;
+  
+        s <<
+          "visitEnd ( S_note& ):" <<
+          endl <<
+          "the pair:" <<
+          endl <<
+          "fCurrentNoteStaffNumber = " << fCurrentNoteStaffNumber <<
+          endl <<
+          "fCurrentNoteVoiceNumber = " << fCurrentNoteVoiceNumber <<
+          endl <<
+          "has not been found in fVoicesCurrentChordMap";
           
-      msrAssert (
-        it != fVoicesCurrentChordMap.end (),
-        "it == fVoicesCurrentChordMap.end ()");
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+        }
 
       // forget about this chord
       if (gTraceOptions->fTraceChords) {

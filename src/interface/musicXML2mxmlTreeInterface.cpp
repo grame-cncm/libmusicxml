@@ -497,7 +497,7 @@ SXMLFile convertStreamDataEncoding (
       currentEncoding <<
       "\" to \"" <<
       desiredEncoding <<
-      "\" with command:" <<
+      "\" with iconv command:" <<
       endl;
 
     gIndenter++;

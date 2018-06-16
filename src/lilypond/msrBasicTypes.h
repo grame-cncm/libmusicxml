@@ -615,17 +615,12 @@ class msrChordInterval : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrChordInterval> create (
-//      int             inputLineNumber,
-// JMI      int             chordIntervalNumber,
       msrIntervalKind chordIntervalIntervalKind,
-      int             chordIntervalRelativeOctave);
+      int             chordIntervalRelativeOctave = 0);
+                        // 0: up to the thirteenth,
+                        // no relative octave is needed
 
     SMARTP<msrChordInterval> createChordIntervalNewbornClone ();
-
-    /* JMI
-    SMARTP<msrChordInterval> createChordIntervalDeepCopy ( // JMI ???
-      S_msrPart containingPart);
-      */
 
   protected:
 
@@ -633,8 +628,6 @@ class msrChordInterval : public smartable
     // ------------------------------------------------------
 
     msrChordInterval (
- //     int             inputLineNumber,
-// JMI      int             chordIntervalNumber,
       msrIntervalKind chordIntervalIntervalKind,
       int             chordIntervalRelativeOctave);
 
@@ -644,11 +637,6 @@ class msrChordInterval : public smartable
 
     // set and get
     // ------------------------------------------------------
-
-/* JMI
-    int                   getChordIntervalNumber () const
-                              { return fChordIntervalNumber; }
-                     */
                               
     msrIntervalKind       getChordIntervalIntervalKind () const
                               { return fChordIntervalIntervalKind; }
@@ -730,19 +718,12 @@ class msrChordStructure : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrChordStructure> createBare (
- // JMI     int            inputLineNumber,
       msrHarmonyKind chordStructureHarmonyKind);
 
     static SMARTP<msrChordStructure> create (
- // JMI     int            inputLineNumber,
       msrHarmonyKind chordStructureHarmonyKind);
 
     SMARTP<msrChordStructure> createChordStructureNewbornClone ();
-
-    /* JMI
-    SMARTP<msrChordStructure> createChordStructureDeepCopy ( // JMI ???
-      );
-      */
 
   protected:
 
@@ -750,7 +731,6 @@ class msrChordStructure : public smartable
     // ------------------------------------------------------
 
     msrChordStructure (
- // JMI     int            inputLineNumber,
       msrHarmonyKind chordStructureHarmonyKind);
 
     virtual ~msrChordStructure ();

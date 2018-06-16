@@ -1172,6 +1172,7 @@ string makeSingleWordFromString (const string& theString)
 }
 
 //______________________________________________________________________________
+/* JMI
 IConv::IConv (const char* to, const char* from) 
   : fIconvDescriptor (iconv_open (to, from))
 {
@@ -1423,6 +1424,7 @@ bool IConv::convert (std::string& input, std::string& output)
   // return boolean result
   return iconvResult != (size_t)(-1);
 }
+*/
 
 //______________________________________________________________________________
 inline IFdStreambuf::IFdStreambuf(int fd)

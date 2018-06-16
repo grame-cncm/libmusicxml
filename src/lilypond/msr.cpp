@@ -25465,7 +25465,9 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
       endl <<
       endl <<
       endl <<
-      "+++++++++++++++++ appendNoteToSegment, score:" <<
+      "+++++++++++++++++ appendNoteToSegment '" <<
+      fSegmentAbsoluteNumber <<
+      "', score:" <<
       endl <<
       fSegmentVoiceUplink->
         getVoiceStaffUplink ()->
