@@ -8555,7 +8555,7 @@ msrHarmonyKind msrHarmonyKindFromString (
     result = kDominantAugmentedEleventhHarmony;             // 7#11, domaug11
   }
   else if (theString == "maj7aug11") {  
-    kMajorSeventhAugmentedEleventhHarmony;                  // maj7#11, maj7aug11
+    result = kMajorSeventhAugmentedEleventhHarmony;         // maj7#11, maj7aug11
   }
 
   return result;
@@ -8572,7 +8572,6 @@ void initializeChordStructuresMap ()
     S_msrChordStructure
       chordStructure =
         msrChordStructure::create (
-   // JMI       NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // register it in the map
@@ -12763,7 +12762,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
 
   // order the operands so that
   // relativeOctave1 is greater or equal to relativeOctave2
-  bool invertRelativeOctave = false;
+ // JMI bool invertRelativeOctave = false;
   
   if (relativeOctave1 < relativeOctave2) {
     int saveRelativeOctave1 = relativeOctave1;
@@ -12771,7 +12770,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     relativeOctave1 = relativeOctave2;
     relativeOctave2 = saveRelativeOctave1;
         
-    invertRelativeOctave = true;
+// JMI    invertRelativeOctave = true;
   }
 
   // order the intervals so that
@@ -13995,7 +13994,10 @@ S_msrChordInterval msrChordInterval::intervalSum (
   int
     relativeOctave1 = fChordIntervalRelativeOctave,
     relativeOctave2 = otherChordInterval->fChordIntervalRelativeOctave;
-    
+
+  relativeOctave1 = relativeOctave2; // TEMP, JMI
+  relativeOctave2 = relativeOctave1; // TEMP, JMI
+  
   // order the intervals so that
   // intervalKind1 is greater or equal to intervalKind2
   // according to the enum type
@@ -16206,14 +16208,20 @@ void msrChordStructure::print (ostream& os)
   gIndenter++;
     
   if (fChordStructureIntervals.size ()) {
-    for (unsigned int i = 0; i < fChordStructureIntervals.size (); i++) {
+    vector<S_msrChordInterval>::const_reverse_iterator
+      iBegin = fChordStructureIntervals.crbegin (),
+      iEnd   = fChordStructureIntervals.crend (),
+      i      = iBegin;
+    
+    for ( ; ; ) {
       S_msrChordInterval
-        chordInterval =
-          fChordStructureIntervals [i];
+        chordInterval = (*i);
 
       gLogIOstream <<
         chordInterval->chordIntervalAsShortString () <<
         endl;
+
+      if (++i == iEnd) break;
     } // for
   }
   else {
@@ -16371,13 +16379,12 @@ void msrChordStructure::printAllChordsStructures (ostream& os)
   
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
-    harmonyKind <= kTristanHarmony;
+    harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
     harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
     // create the chord intervals
     S_msrChordStructure
       chordStructure =
         msrChordStructure::create (
-  // JMI        NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // print it
@@ -16399,7 +16406,6 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
   S_msrChordStructure
     chordStructure =
       msrChordStructure::create (
-  // JMI      NO_INPUT_LINE_NUMBER,
         harmonyKind);
 
   // add the root to the chord
@@ -16618,7 +16624,6 @@ msrChordContents::msrChordContents (
   S_msrChordStructure
     chordStructure =
       msrChordStructure::create (
-   // JMI     inputLineNumber,
         fChordContentsHarmonyKind);
       
   const vector<S_msrChordInterval>&
@@ -16716,15 +16721,17 @@ void msrChordContents::printAllChordsContents (
         rootSemiTonesPitchKind);
         
   os <<
-    "All the known chords contents with diatonic (semitones) root '" <<
+    "All the known chords contents with diatonic root '" <<
     msrQuarterTonesPitchKindAsString (
       gLpsrOptions->
         fLpsrQuarterTonesPitchesLanguageKind,
       rootQuarterTonesPitchKind) <<
+      /* JMI
     "' (" <<
     msrSemiTonesPitchKindAsString (
       rootSemiTonesPitchKind) <<
     ")" <<
+    */
     " in language '" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       gLpsrOptions->
@@ -16737,7 +16744,7 @@ void msrChordContents::printAllChordsContents (
   
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
-    harmonyKind <= kTristanHarmony;
+    harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
     harmonyKind = msrHarmonyKind (harmonyKind + 1)
   ) {
     os <<
@@ -16751,7 +16758,6 @@ void msrChordContents::printAllChordsContents (
     S_msrChordStructure
       chordStructure =
         msrChordStructure::create (
-   // JMI       NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // fetch the intervals items for these intervals
@@ -16763,9 +16769,9 @@ void msrChordContents::printAllChordsContents (
 
     if (chordStructureIntervals.size ()) {
       // fetch the notes for these intervals
-      vector<S_msrChordInterval>::const_iterator
-        iBegin = chordStructureIntervals.begin (),
-        iEnd   = chordStructureIntervals.end (),
+      vector<S_msrChordInterval>::const_reverse_iterator
+        iBegin = chordStructureIntervals.crbegin (),
+        iEnd   = chordStructureIntervals.crend (),
         i      = iBegin;
   
       for ( ; ; ) {
@@ -16777,13 +16783,6 @@ void msrChordContents::printAllChordsContents (
             chordInterval->
               getChordIntervalIntervalKind ();
   
-        const int fieldWidth1 = 17;
-        
-        os << left <<
-          setw (fieldWidth1) <<
-          msrIntervalKindAsString (intervalKind) <<
-        ": ";
-
         // fetch the semitones pitch kind
         msrSemiTonesPitchKind
           noteSemiTonesPitchKind =
@@ -16807,10 +16806,8 @@ void msrChordContents::printAllChordsContents (
             gLpsrOptions->
               fLpsrQuarterTonesPitchesLanguageKind,
             noteQuarterTonesPitchKind) <<
-          " (" <<
-          msrSemiTonesPitchKindAsString (
-            noteSemiTonesPitchKind) <<
-          ")" <<
+          " : " <<
+          msrIntervalKindAsString (intervalKind) <<
           endl;
   
         if (++i == iEnd) break;
@@ -16820,7 +16817,6 @@ void msrChordContents::printAllChordsContents (
     }
 
   os <<
-    endl <<
     endl;
     
   gIndenter--;
@@ -16973,7 +16969,6 @@ void printChordDetails (
   S_msrChordStructure
     chordStructure =
       msrChordStructure::create (
- // JMI       NO_INPUT_LINE_NUMBER,
         harmonyKind);
 
   // fetch the intervals items for these intervals
@@ -17015,9 +17010,15 @@ void printChordDetails (
             getChordStructureIntervals ();
     
       // fetch the notes for these intervals
+      /* JMI
       vector<S_msrChordInterval>::const_iterator
         iBegin = invertedChordStructureIntervals.begin (),
         iEnd   = invertedChordStructureIntervals.end (),
+        i      = iBegin;
+        */
+      vector<S_msrChordInterval>::const_reverse_iterator
+        iBegin = invertedChordStructureIntervals.crbegin (),
+        iEnd   = invertedChordStructureIntervals.crend (),
         i      = iBegin;
 
       os <<
@@ -17052,11 +17053,6 @@ void printChordDetails (
           intervalKind =
             chordInterval->
               getChordIntervalIntervalKind ();
-
-        int
-          relativeOctave =
-            chordInterval->
-              getChordIntervalRelativeOctave ();
               
         const int fieldWidth1 = 17;
         
@@ -17155,7 +17151,6 @@ void printChordAnalysis (
   S_msrChordStructure
     chordStructure =
       msrChordStructure::create (
- // JMI       NO_INPUT_LINE_NUMBER,
         harmonyKind);
 
   // fetch the intervals items for these intervals
@@ -17236,13 +17231,6 @@ void printChordAnalysis (
               chordInterval->
                 getChordIntervalIntervalKind ();
   
-          int
-            relativeOctave =
-              chordInterval->
-                getChordIntervalRelativeOctave ();
-                
-          const int fieldWidth1 = 17;
-              
           // fetch the semitones pitch kind
           msrSemiTonesPitchKind
             noteSemiTonesPitchKind =
@@ -17266,13 +17254,6 @@ void printChordAnalysis (
               gLpsrOptions->
                 fLpsrQuarterTonesPitchesLanguageKind,
               noteQuarterTonesPitchKind) <<
-              /* JMI
-            ", octave " << relativeOctave <<
-            " (" <<
-            msrSemiTonesPitchKindAsString (
-              noteSemiTonesPitchKind) <<
-            ")" <<
-            */
             " : " <<
             msrIntervalKindAsString (intervalKind) <<
             endl;
@@ -17327,20 +17308,7 @@ void printChordAnalysis (
             intervalKind1 =
               chordInterval1->
                 getChordIntervalIntervalKind ();
-  
-          int
-            relativeOctave1 =
-              chordInterval1->
-                getChordIntervalRelativeOctave ();
-                
-          const int fieldWidth1 = 17;
-
-/*          
-          os << left <<
-            setw (fieldWidth1) <<
-            msrIntervalKindAsString (intervalKind1) <<
-            ": ";
- */   
+                  
           // fetch the semitones pitch kind
           msrSemiTonesPitchKind
             noteSemiTonesPitchKind1 =
@@ -17356,25 +17324,6 @@ void printChordAnalysis (
                 noteSemiTonesPitchKind1);
     
           // print it
-          const int fieldWidth2 = 8;
-
-    /* JMI
-          os << left <<
-            setw (fieldWidth2) <<
-            "i1" <<
-            endl <<
-            msrQuarterTonesPitchKindAsString (
-              gLpsrOptions->
-                fLpsrQuarterTonesPitchesLanguageKind,
-              noteQuarterTonesPitchKind1) <<
-            ", octave " << relativeOctave1 <<
-            " (" <<
-            msrSemiTonesPitchKindAsString (
-              noteSemiTonesPitchKind1) <<
-            ")" <<
-            endl;
-*/
-
           vector<S_msrChordInterval>::const_iterator
             iBegin2 = i1 + 1,
             iEnd2   = iEnd1,
@@ -17388,21 +17337,8 @@ void printChordAnalysis (
               intervalKind2 =
                 chordInterval2->
                   getChordIntervalIntervalKind ();
-    
-            int
-              relativeOctave2 =
-                chordInterval2->
-                  getChordIntervalRelativeOctave ();
-                  
+                      
             const int fieldWidth1 = 5;
-
-            /* JMI
-            os << left <<
-              setw (fieldWidth2) <<
-              msrIntervalKindAsString (intervalKind1) <<
-              ": " <<
-              endl;
-      */
       
             // fetch the semitones pitch kind
             msrSemiTonesPitchKind
@@ -17440,11 +17376,6 @@ void printChordAnalysis (
                 ;
             } // switch
                 
-            int
-              innerRelativeOctave =
-                interInterval->
-                  getChordIntervalRelativeOctave ();
-
             // print it
             gIndenter++;
 
@@ -17479,37 +17410,7 @@ void printChordAnalysis (
               endl;
 
             gIndenter--;
-            
-/* JMI
-            os << left <<
-              setw (fieldWidth2) <<
-              msrQuarterTonesPitchKindAsString (
-                gLpsrOptions->
-                  fLpsrQuarterTonesPitchesLanguageKind,
-                noteQuarterTonesPitchKind1) <<
-              ", octave " << relativeOctave1 <<
-              " (" <<
-              msrSemiTonesPitchKindAsString (
-                noteSemiTonesPitchKind1) <<
-              ")" <<
-              endl;
-
-            const int fieldWidth2 = 8;
-      
-            os << left <<
-              setw (fieldWidth2) <<
-              msrQuarterTonesPitchKindAsString (
-                gLpsrOptions->
-                  fLpsrQuarterTonesPitchesLanguageKind,
-                noteQuarterTonesPitchKind2) <<
-              ", octave " << relativeOctave2 <<
-              " (" <<
-              msrSemiTonesPitchKindAsString (
-                noteSemiTonesPitchKind2) <<
-              ")" <<
-              endl;
-      */
-      
+                  
             if (++i2 == iEnd2) break;
           } // for
           
