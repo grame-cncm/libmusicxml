@@ -262,6 +262,8 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 //______________________________________________________________________________
 enum msrHarmonyKind {
   k_NoHarmony,
+
+  // classical chords
   
   kMajorHarmony, kMinorHarmony, 
   kAugmentedHarmony, kDiminishedHarmony,
@@ -287,7 +289,23 @@ enum msrHarmonyKind {
 
   kPedalHarmony, kPowerHarmony, kTristanHarmony,
 
+  // jazz-specific chords
+
+  kMinorMajorNinth,                              // -maj9, minmaj9
+
+  kDominantSuspendedFourthHarmony,               // 7sus4, domsus4
+  kDominantAugmentedFifthHarmony,                // 7#5, domaug5
+  kDominantMinorNinthHarmony,                    // 7b9, dommin9
+  kDominantAugmentedNinthDiminishedFifthHarmony, // 7#9b5, domaug9dim5
+  kDominantAugmentedNinthAugmentedFifthHarmony,  // 7#9#5, domaug9aug5
+  kDominantAugmentedEleventhHarmony,             // 7#11, domaug11
+  
+  kMajorSeventhAugmentedEleventhHarmony,         // maj7#11, maj7aug11
+
+  // other
+  
   kOtherHarmony,
+  
   kNoneHarmony };
 
 string msrHarmonyKindAsString (

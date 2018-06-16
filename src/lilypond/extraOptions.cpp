@@ -476,7 +476,8 @@ the selected MSR pitches language, "nederlands" by default.
   "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
   "dom13", "maj13", "min13", "sus2", "sus4",
   "neapolitan", "italian", "french", "german",
-  "pedal", "power" or "tristan".
+  "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
+  "dommin9", "domaug9dim5", "domaug9aug5", "domaug11" or "maj7aug11".
   
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
@@ -527,7 +528,8 @@ the selected MSR pitches language, "nederlands" by default.
   "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
   "dom13", "maj13", "min13", "sus2", "sus4",
   "neapolitan", "italian", "french", "german",
-  "pedal", "power" or "tristan".
+  "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
+  "dommin9", "domaug9dim5", "domaug9aug5", "domaug11" or "maj7aug11".
   
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
@@ -1097,7 +1099,7 @@ void extraOptions::handleOptionsItemValue (
         "'" << harmonyName <<
         "' is no harmony name, valid names are:" <<
         endl <<
-        "maj, min,aug, dim, dom, maj7, min7, dim7, aug7, halfdim, minmaj7, maj6, min6, dom9, maj9, min9, dom11, maj11, min11, dom13, maj13, min13, sus2, sus4, neapolitan, italian, french, german, pedal, power, tristan" <<
+        "maj, min,aug, dim, dom, maj7, min7, dim7, aug7, halfdim, minmaj7, maj6, min6, dom9, maj9, min9, dom11, maj11, min11, dom13, maj13, min13, sus2, sus4, neapolitan, italian, french, german, pedal, power, tristan, minmaj9, domsus4, domaug5, dommin9, domaug9dim5, domaug9aug5, domaug11 and maj7aug11" <<
         endl;
         
       optionError (s.str ());

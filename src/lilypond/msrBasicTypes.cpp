@@ -7972,113 +7972,146 @@ string msrHarmonyKindAsString (
       result = "noHarmony";
       break;
 
+    // classical chords
+
     case kMajorHarmony:
-      result = "Major";
+      result = "major";
       break;
     case kMinorHarmony:
-      result = "Minor";
+      result = "minor";
       break;
     case kAugmentedHarmony:
-      result = "Augmented";
+      result = "augmented";
       break;
     case kDiminishedHarmony:
-      result = "Diminished";
+      result = "diminished";
       break;
 
     case kDominantHarmony:
-      result = "Dominant";
+      result = "dominant";
       break;
     case kMajorSeventhHarmony:
-      result = "MajorSeventh";
+      result = "majorSeventh";
       break;
     case kMinorSeventhHarmony:
-      result = "MinorSeventh";
+      result = "minorSeventh";
       break;
     case kDiminishedSeventhHarmony:
-      result = "DiminishedSeventh";
+      result = "diminishedSeventh";
       break;
     case kAugmentedSeventhHarmony:
-      result = "AugmentedSeventh";
+      result = "augmentedSeventh";
       break;
     case kHalfDiminishedHarmony:
-      result = "HalfDiminished";
+      result = "halfDiminished";
       break;
     case kMinorMajorSeventhHarmony:
-      result = "MinorMajorSeventhHarmony";
+      result = "minorMajorSeventhHarmony";
       break;
 
     case kMajorSixthHarmony:
-      result = "MajorSixth";
+      result = "majorSixth";
       break;
     case kMinorSixthHarmony:
-      result = "MinorSixth";
+      result = "minorSixth";
       break;
 
     case kDominantNinthHarmony:
-      result = "DominantNinth";
+      result = "dominantNinth";
       break;
     case kMajorNinthHarmony:
-      result = "MajorNinth";
+      result = "majorNinth";
       break;
     case kMinorNinthHarmony:
-      result = "MinorNinth";
+      result = "minorNinth";
       break;
 
     case kDominantEleventhHarmony:
-      result = "DominantEleventh";
+      result = "dominantEleventh";
       break;
     case kMajorEleventhHarmony:
-      result = "MajorEleventh";
+      result = "majorEleventh";
       break;
     case kMinorEleventhHarmony:
-      result = "MinorEleventh";
+      result = "minorEleventh";
       break;
 
     case kDominantThirteenthHarmony:
-      result = "DominantThirteenth";
+      result = "dominantThirteenth";
       break;
     case kMajorThirteenthHarmony:
-      result = "MajorThirteenth";
+      result = "majorThirteenth";
       break;
     case kMinorThirteenthHarmony:
-      result = "MinorThirteenth";
+      result = "minorThirteenth";
       break;
 
     case kSuspendedSecondHarmony:
-      result = "SuspendedSecond";
+      result = "suspendedSecond";
       break;
     case kSuspendedFourthHarmony:
-      result = "SuspendedFourth";
+      result = "suspendedFourth";
       break;
       
     case kNeapolitanHarmony:
-      result = "Neapolitan";
+      result = "neapolitan";
       break;
     case kItalianHarmony:
-      result = "Italian";
+      result = "italian";
       break;
     case kFrenchHarmony:
-      result = "French";
+      result = "french";
       break;
     case kGermanHarmony:
-      result = "German";
+      result = "german";
       break;
 
     case kPedalHarmony:
-      result = "Pedal";
+      result = "pedal";
       break;
     case kPowerHarmony:
-      result = "Power";
+      result = "power";
       break;
     case kTristanHarmony:
-      result = "Tristan";
+      result = "tristan";
       break;
       
+    // jazz-specific chords
+
+    case kMinorMajorNinth: // -maj9, minmaj9
+      result = "minorMajorNinth";
+      break;
+    
+    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+      result = "dominantSuspendedFourthHarmony";
+      break;
+    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+      result = "dominantAugmentedFifthHarmony";
+      break;
+    case kDominantMinorNinthHarmony: // 7b9, dommin9
+      result = "dominantMinorNinthHarmony";
+      break;
+    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+      result = "dominantAugmentedNinthDiminishedFifthHarmony";
+      break;
+    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+      result = "dominantAugmentedNinthAugmentedFifthHarmony";
+      break;
+    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+      result = "dominantAugmentedEleventhHarmony";
+      break;
+    
+    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+      result = "majorSeventhAugmentedEleventhHarmony";
+      break;
+
+    // other
+    
     case kOtherHarmony:
-      result = "Other";
+      result = "other";
       break;
     case kNoneHarmony:
-      result = "None";
+      result = "none";
       break;
   } // switch
 
@@ -8094,6 +8127,8 @@ string msrHarmonyKindAsShortString (
     case k_NoHarmony:
       result = "noHarmony";
       break;
+
+    // classical chords
 
     case kMajorHarmony:
       result = "";
@@ -8151,20 +8186,20 @@ string msrHarmonyKindAsShortString (
       result = "11";
       break;
     case kMajorEleventhHarmony:
-      result = "∆7/9/11";
+      result = "∆7/11";
       break;
     case kMinorEleventhHarmony:
-      result = "m∆7/9/11";
+      result = "m∆7/11";
       break;
 
     case kDominantThirteenthHarmony:
       result = "13";
       break;
     case kMajorThirteenthHarmony:
-      result = "∆7/9/11/13";
+      result = "∆7/13";
       break;
     case kMinorThirteenthHarmony:
-      result = "m∆7/9/11/13";
+      result = "m∆7/13";
       break;
 
     case kSuspendedSecondHarmony:
@@ -8197,6 +8232,37 @@ string msrHarmonyKindAsShortString (
       result = "Tristan";
       break;
 
+    // jazz-specific chords
+
+    case kMinorMajorNinth: // -maj9, minmaj9
+      result = "m∆9";
+      break;
+    
+    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+      result = "7sus4";
+      break;
+    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+      result = "7#5";
+      break;
+    case kDominantMinorNinthHarmony: // 7b9, dommin9
+      result = "7b9";
+      break;
+    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+      result = "7#9b5";
+      break;
+    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+      result = "7#9#5";
+      break;
+    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+      result = "7#11";
+      break;
+    
+    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+      result = "maj7#11";
+      break;
+
+    // other
+    
     case kOtherHarmony:
       result = "Other";
       break;
@@ -8217,6 +8283,8 @@ string msrHarmonyKindShortName (
     case k_NoHarmony:
       result = "noHarmony";
       break;
+
+    // classical chords
 
     case kMajorHarmony:
       result = "maj";
@@ -8320,6 +8388,37 @@ string msrHarmonyKindShortName (
       result = "tristan";
       break;
 
+    // jazz-specific chords
+
+    case kMinorMajorNinth: // -maj9, minmaj9
+      result = "minmaj9";
+      break;
+    
+    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+      result = "domsus4";
+      break;
+    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+      result = "domaug5";
+      break;
+    case kDominantMinorNinthHarmony: // 7b9, dommin9
+      result = "dommin9";
+      break;
+    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+      result = "domaug9dim5";
+      break;
+    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+      result = "domaug9aug5";
+      break;
+    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+      result = "domaug11";
+      break;
+    
+    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+      result = "maj7aug11";
+      break;
+
+    // other
+    
     case kOtherHarmony:
       result = "other";
       break;
@@ -8335,6 +8434,8 @@ msrHarmonyKind msrHarmonyKindFromString (
   string theString)
 {
   msrHarmonyKind result = k_NoHarmony;
+
+  // classical chords
 
   if (theString == "maj") {
     result = kMajorHarmony;
@@ -8429,7 +8530,34 @@ msrHarmonyKind msrHarmonyKindFromString (
   else if (theString == "tristan") {
     result = kTristanHarmony;
   }
-  
+
+  // jazz-specific chords
+
+  else if (theString == "minmaj9") {
+    result = kMinorMajorNinth;                              // -maj9, minmaj9
+  }
+  else if (theString == "domsus4") {
+    result = kDominantSuspendedFourthHarmony;               // 7sus4, domsus4
+  }
+  else if (theString == "domaug5") {
+    result = kDominantAugmentedFifthHarmony;                // 7#5, domaug5
+  }
+  else if (theString == "dommin9") {
+    result = kDominantMinorNinthHarmony;                    // 7b9, dommin9
+  }
+  else if (theString == "domaug9dim5") {
+    result = kDominantAugmentedNinthDiminishedFifthHarmony; // 7#9b5, domaug9dim5
+  }
+  else if (theString == "domaug9aug5") {
+    result = kDominantAugmentedNinthAugmentedFifthHarmony;  // 7#9#5, domaug9aug5
+  }
+  else if (theString == "domaug11") {
+    result = kDominantAugmentedEleventhHarmony;             // 7#11, domaug11
+  }
+  else if (theString == "maj7aug11") {  
+    kMajorSeventhAugmentedEleventhHarmony;                  // maj7#11, maj7aug11
+  }
+
   return result;
 }
 
@@ -15126,6 +15254,8 @@ void msrChordStructure::populateChordStructure ()
     case k_NoHarmony:
       break;
 
+    // classical chords
+
     case kMajorHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15478,10 +15608,6 @@ void msrChordStructure::populateChordStructure ()
           );
         appendChordIntervalToChordStructure (
           msrChordInterval::create (
-            kMajorSeventh)
-          );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
             kPerfectEleventh)
           );
       }
@@ -15505,13 +15631,7 @@ void msrChordStructure::populateChordStructure ()
           msrChordInterval::create (
             kMajorSeventh)
           );
-        /* JMI ???
         appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kMajorNinth)
-          );
-          */
-         appendChordIntervalToChordStructure (
           msrChordInterval::create (
             kPerfectEleventh)
           );
@@ -15536,12 +15656,6 @@ void msrChordStructure::populateChordStructure ()
           msrChordInterval::create (
             kMinorSeventh)
           );
-        /* JMI
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kMajorNinth)
-          );
-          */
         appendChordIntervalToChordStructure (
           msrChordInterval::create (
             kPerfectEleventh)
@@ -15567,12 +15681,6 @@ void msrChordStructure::populateChordStructure ()
           msrChordInterval::create (
             kMinorSeventh)
           );
-        /* JMI
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kPerfectEleventh)
-          );
-          */
         appendChordIntervalToChordStructure (
           msrChordInterval::create (
             kMajorThirteenth)
@@ -15598,16 +15706,6 @@ void msrChordStructure::populateChordStructure ()
           msrChordInterval::create (
             kMajorSeventh)
           );
-        /* JMI
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kMajorNinth)
-          );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kPerfectEleventh)
-          );
-          */
         appendChordIntervalToChordStructure (
           msrChordInterval::create (
             kMajorThirteenth)
@@ -15633,16 +15731,6 @@ void msrChordStructure::populateChordStructure ()
           msrChordInterval::create (
             kMinorSeventh)
           );
-        /* JMI
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kMajorNinth)
-          );
-        appendChordIntervalToChordStructure (
-          msrChordInterval::create (
-            kPerfectEleventh)
-          );
-          */
         appendChordIntervalToChordStructure (
           msrChordInterval::create (
             kMajorThirteenth)
@@ -15812,6 +15900,202 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
+    
+    // jazz-specific chords
+
+    case kMinorMajorNinth: // -maj9, minmaj9
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorThird)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMajorSeventh)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMajorNinth)
+          );
+      }
+      break;
+
+    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFourth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorSeventh)
+          );
+      }
+      break;
+
+    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFourth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kAugmentedFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorSeventh)
+          );
+      }
+      break;
+
+    case kDominantMinorNinthHarmony: // 7b9, dommin9
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMajorThird)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorSeventh)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorNinth)
+          );
+      }
+      break;
+
+    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMajorThird)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kDiminishedFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorSeventh)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kAugmentedNinth)
+          );
+      }
+      break;
+
+    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMajorThird)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kAugmentedFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorSeventh)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kAugmentedNinth)
+          );
+      }
+      break;
+
+    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFourth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMinorSeventh)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kAugmentedEleventh)
+          );
+      }
+      break;
+
+    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+      {
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectUnison)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFourth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kPerfectFifth)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kMajorSeventh)
+          );
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+            kAugmentedEleventh)
+          );
+      }
+      break;
+
+    // other
     
     case kOtherHarmony:
       break;

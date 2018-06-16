@@ -2523,6 +2523,8 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s << "Harmony???";
       break;
 
+    // classical chords
+
     case kMajorHarmony:
       s << ":5.3";
       break;
@@ -2639,10 +2641,34 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     case kTristanHarmony:
       s << ":2+.5+.6+%{:Tristan%}";
       break;
-      
+
+    // jazz-specific chords
+
+    case kMinorMajorNinth: // -maj9, minmaj9
+      break;
+    
+    case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+      break;
+    case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+      break;
+    case kDominantMinorNinthHarmony: // 7b9, dommin9
+      break;
+    case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+      break;
+    case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+      break;
+    case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+      break;
+    
+    case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+      break;
+
+    // other
+    
     case kOtherHarmony:
       s << "%{:Other%}";
       break;
+      
     case kNoneHarmony:
       s << "%{:None%}";
       break;
