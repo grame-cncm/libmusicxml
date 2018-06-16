@@ -12676,7 +12676,6 @@ S_msrChordInterval msrChordInterval::createChordIntervalNewbornClone ()
   S_msrChordInterval
     newbornClone =
       msrChordInterval::create (
-   //      0, // JMI fInputLineNumber
         fChordIntervalIntervalKind,
         fChordIntervalRelativeOctave);
   
@@ -12739,8 +12738,10 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
 
   S_msrChordInterval
-    operand1 = this,
-    operand2 = otherChordInterval;
+    operand1 =
+      this->createChordIntervalNewbornClone (),
+    operand2 =
+      otherChordInterval->createChordIntervalNewbornClone ();
     
   // normalize both intervals
   operand1->
@@ -17388,7 +17389,7 @@ void printChordAnalysis (
                   fLpsrQuarterTonesPitchesLanguageKind,
                 noteQuarterTonesPitchKind1) <<
               
-              " - " <<
+              " -> " <<
               
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
@@ -17404,7 +17405,7 @@ void printChordAnalysis (
               "(" <<
               setw (fieldWidth2) <<
               msrIntervalKindAsString (intervalKind1) <<
-              " - " <<
+              " -> " <<
               msrIntervalKindAsString (intervalKind2) <<
               ")" <<           
 
