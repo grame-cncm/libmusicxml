@@ -17028,6 +17028,8 @@ void printChordAnalysis (
         
         gIndenter++;
 
+        int tritonsCounter = 0;
+        
         vector<S_msrChordInterval>::const_iterator
           iBegin1 = invertedChordStructureIntervals.begin (),
           iEnd1   = invertedChordStructureIntervals.end (),
@@ -17138,11 +17140,22 @@ void printChordAnalysis (
                 chordInterval2->
                   intervalDifference (
                     chordInterval1);
-                
+
             msrIntervalKind
               innerIntervalKind =
                 interInterval->
                   getChordIntervalIntervalKind ();
+
+            // is this interval a triton?
+            switch (innerIntervalKind) {
+              case kAugmentedFourth:
+              case kDiminishedFifth:
+                tritonsCounter++;
+                break;
+              default:
+                ;
+            } // switch
+                
             int
               innerRelativeOctave =
                 interInterval->
@@ -17215,7 +17228,7 @@ void printChordAnalysis (
       
             if (++i2 == iEnd2) break;
           } // for
-  
+          
           if (++i1 == iEnd1) break;
           
           os <<
@@ -17224,6 +17237,15 @@ void printChordAnalysis (
   
         gIndenter--;
     
+
+        if (tritonsCounter > 0) {
+          os <<
+            "This chord contains " <<
+            singularOrPlural (
+              tritonsCounter, "triton", "tritons") <<
+            endl;
+        }
+
         os <<
           endl;
       }
