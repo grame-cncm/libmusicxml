@@ -115,29 +115,31 @@ void msrStreamScore::print (ostream& os)
 {
   os <<
     "MSR Stream Score" <<
-    endl <<
-    "title : " << fScoreTitle <<
     endl;
 
   gIndenter++;
 
+  os <<
+    "scoreTitle : \"" << fScoreTitle << "\"" <<
+    endl;
+
   const int fieldWidth = 38;
 
-  int partGroupsListSize =
+  int streamPartGroupsListSize =
     fStreamPartGroupsList.size ();
     
   os << left <<
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
-      partGroupsListSize,
+      streamPartGroupsListSize,
       "stream part group", "stream part groups") <<
     " : " <<
-    partGroupsListSize <<
+    streamPartGroupsListSize <<
     endl <<
     endl;
 
   // print the part groups if any
-  if (fStreamPartGroupsList.size ()) {
+  if (streamPartGroupsListSize) {
     list<S_msrStreamPartGroup>::const_iterator
       iBegin = fStreamPartGroupsList.begin (),
       iEnd   = fStreamPartGroupsList.end (),

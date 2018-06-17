@@ -40063,7 +40063,7 @@ void msrScore::print (ostream& os)
   }
 
   // print the part groups if any
-  if (fPartGroupsList.size ()) {
+  if (partGroupsListSize) {
     list<S_msrPartGroup>::const_iterator
       iBegin = fPartGroupsList.begin (),
       iEnd   = fPartGroupsList.end (),
@@ -40133,7 +40133,7 @@ void msrScore::printSummary (ostream& os)
 
   // print the implicit part group contents
   // it is the only element in fPartGroupsList JMI single variable
-  if (fPartGroupsList.size ()) {
+  if (partGroupsListSize) {
     os <<
       "Parts and part groups structure:" <<
       endl;
@@ -40176,7 +40176,7 @@ void msrScore::printSummary (ostream& os)
     } // for
   }
   
-  if (fPartGroupsList.size ()) {
+  if (partGroupsListSize) {
     list<S_msrPartGroup>::const_iterator
       iBegin = fPartGroupsList.begin (),
       iEnd   = fPartGroupsList.end (),

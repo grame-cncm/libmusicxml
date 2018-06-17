@@ -3618,7 +3618,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
   // exit if there are no arguments
   if (argumentsVectorSize == 0) {
-    exit (1);
+// NO JMI ???    exit (1);
   }
 
   // register option element names in command line strings
