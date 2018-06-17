@@ -2523,7 +2523,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       s << "Harmony???";
       break;
 
-    // classical chords
+    // MusicXML chords
 
     case kMajorHarmony:
       s << ":5.3";

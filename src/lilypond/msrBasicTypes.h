@@ -263,7 +263,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 enum msrHarmonyKind {
   k_NoHarmony,
 
-  // classical chords
+  // MusicXML chords
   
   kMajorHarmony, kMinorHarmony, 
   kAugmentedHarmony, kDiminishedHarmony,
@@ -697,6 +697,9 @@ class msrChordInterval : public smartable
     S_msrChordInterval    intervalSum (
                             S_msrChordInterval otherChordInterval);
   
+    string                asString ();
+    string                asShortString ();
+            
     // visitors
     // ------------------------------------------------------
 

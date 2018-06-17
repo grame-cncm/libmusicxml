@@ -34,6 +34,7 @@
 #include "msrBasicTypes.h"
 
 #include "generalOptions.h"
+#include "traceOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 
@@ -7972,7 +7973,7 @@ string msrHarmonyKindAsString (
       result = "noHarmony";
       break;
 
-    // classical chords
+    // MusicXML chords
 
     case kMajorHarmony:
       result = "major";
@@ -8128,7 +8129,7 @@ string msrHarmonyKindAsShortString (
       result = "noHarmony";
       break;
 
-    // classical chords
+    // MusicXML chords
 
     case kMajorHarmony:
       result = "";
@@ -8284,7 +8285,7 @@ string msrHarmonyKindShortName (
       result = "noHarmony";
       break;
 
-    // classical chords
+    // MusicXML chords
 
     case kMajorHarmony:
       result = "maj";
@@ -8435,7 +8436,7 @@ msrHarmonyKind msrHarmonyKindFromString (
 {
   msrHarmonyKind result = k_NoHarmony;
 
-  // classical chords
+  // MusicXML chords
 
   if (theString == "maj") {
     result = kMajorHarmony;
@@ -12735,6 +12736,17 @@ void msrChordInterval::deNormalizeInterval ()
 S_msrChordInterval msrChordInterval::intervalDifference (
   S_msrChordInterval otherChordInterval)
 {
+  if (gTraceOptions->fTraceExtraChords) {
+    gLogIOstream <<
+      endl <<
+      "--> computing intervalDifference betwwen '" <<
+      asShortString () <<
+      "' and '" <<
+      otherChordInterval->asShortString () <<
+      "'" <<
+      endl;
+  }
+  
   msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
 
   S_msrChordInterval
@@ -12748,6 +12760,16 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     normalizeInterval ();
   operand2->
     normalizeInterval ();
+  
+  if (gTraceOptions->fTraceExtraChords) {
+    gLogIOstream <<
+      "--> normalized operands are '" <<
+      operand1->asShortString () <<
+      "' and '" <<
+      operand2->asShortString () <<
+      "'" <<
+      endl;
+  }
   
   // fetch the relative octaves
   int
@@ -12796,6 +12818,17 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     resultRelativeOctave--;
   }
 
+  if (gTraceOptions->fTraceExtraChords) {
+    gLogIOstream <<
+      "--> permuteRelativeOctaves = " <<
+      booleanAsString (permuteRelativeOctaves) <<
+      ", invertInterval = " <<
+      booleanAsString (invertInterval) <<
+      ", resultRelativeOctave = " <<
+      resultRelativeOctave <<
+      endl;
+  }
+  
   // compute resulting interval Kind
   switch (intervalKind1) {
     case k_NoIntervalKind:
@@ -13285,13 +13318,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     // JMI      resultIntervalKind = kPerfectUnison;
           break;
         case kMinorSecond:
-          resultIntervalKind = kDiminishedFourth;
+          resultIntervalKind = kAugmentedFourth;
           break;
         case kMajorSecond:
           resultIntervalKind = kPerfectFourth;
           break;
         case kAugmentedSecond:
-          resultIntervalKind = kAugmentedFourth;
+          resultIntervalKind = kDiminishedFourth;
           break;
         case kDiminishedThird:
           resultIntervalKind = kAugmentedThird;
@@ -13961,6 +13994,14 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       ;
   } // switch
 
+  if (gTraceOptions->fTraceExtraChords) {
+    gLogIOstream <<
+      "--> base resultIntervalKind = '" <<
+      msrIntervalKindAsString (resultIntervalKind) <<
+      "'" <<
+      endl;
+  }
+  
   // take interval inversion into account if relevant
   if (invertInterval) {
     resultIntervalKind =
@@ -13984,6 +14025,15 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   // greater than an augmented seventh if applicable
   result->deNormalizeInterval ();
 
+  if (gTraceOptions->fTraceExtraChords) {
+    gLogIOstream <<
+      "--> result = '" <<
+      result->asShortString () <<
+      "'" <<
+      endl <<
+      endl;
+  }
+  
   // return it;
   return result;
 }
@@ -15174,6 +15224,34 @@ ostream& operator<< (ostream& os, const S_msrChordInterval& elt)
   return os;
 }
 
+string msrChordInterval::asString ()
+{
+  stringstream s;
+
+  s <<
+    "ChordInterval '" <<
+    msrIntervalKindAsString (fChordIntervalIntervalKind) <<
+    ", rel. oct. " <<
+    fChordIntervalRelativeOctave <<
+    "'";
+  
+  return s.str ();
+}
+
+string msrChordInterval::asShortString ()
+{
+  stringstream s;
+
+  s <<
+    "'" <<
+    msrIntervalKindAsString (fChordIntervalIntervalKind) <<
+    ", rel.oct. " <<
+    fChordIntervalRelativeOctave <<
+    "'";
+  
+  return s.str ();
+}
+
 void msrChordInterval::print (ostream& os)
 {  
   os <<
@@ -15263,7 +15341,7 @@ void msrChordStructure::populateChordStructure ()
     case k_NoHarmony:
       break;
 
-    // classical chords
+    // MusicXML chords
 
     case kMajorHarmony:
       {
