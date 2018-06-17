@@ -90,6 +90,19 @@ void msrLimitation (
   int    sourceCodeLineNumber,
   std::string message);
 
+//______________________________________________________________________________
+void msrStreamsError (
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
+void msrStreamsWarning (
+  int         inputLineNumber,
+  std::string sourceCodeFileName,
+  int         sourceCodeLineNumber,
+  std::string message);
+
 
 }
 

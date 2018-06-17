@@ -195,5 +195,43 @@ void msrLimitation (
   }
 }
 
+//______________________________________________________________________________
+void msrStreamsError (
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string  message)
+{
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+    gLogIOstream <<
+      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+      " ### " << "MSR STREAMS" << " ERROR ### " <<
+      "fake line number" << ":" << inputLineNumber << ": " << message <<
+      endl <<
+      endl;
+  }
+
+  abort ();
+}
+
+void msrStreamsWarning (
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string  message)
+{
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+    gLogIOstream <<
+      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+      "*** " << "MSR STREAMS" << " warning *** " <<
+      " ### " << "MSR STREAMS" << " ERROR ### " <<
+      "fake line number" << ":" << inputLineNumber << ": " << message <<
+      endl <<
+      endl;
+  }
+
+  abort ();
+}
+
 
 }

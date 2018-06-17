@@ -281,6 +281,9 @@ debugging information to standard error for the specified measures.)",
     // extra chords
     fTraceExtraChords = boolOptionsInitialValue;
     
+    // msrStreams
+    fTraceMsrStreams = boolOptionsInitialValue;
+
     // options
   
     S_optionsSubGroup
@@ -797,6 +800,15 @@ R"(Harp pedals tuning)",
 R"(Extra chords handling)",
           "traceExtraChords",
           fTraceExtraChords,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tms", "traceMsrStreams",
+R"(MSR Streams API for applications)",
+          "traceMsrStreams",
+          fTraceMsrStreams,
           fTracePasses));
   }
       

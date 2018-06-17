@@ -225,6 +225,9 @@ class traceOptions : public optionsGroup
 
     // extra chords
     bool                  fTraceExtraChords;
+
+    // msrStreams
+    bool                  fTraceMsrStreams;
     
     /* STUFF not yet handled JMI */
     bool                  fTraceMidi;

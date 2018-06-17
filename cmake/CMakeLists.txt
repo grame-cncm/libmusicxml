@@ -130,7 +130,7 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly msrStreamsExample xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xml2ly xmltranspose)
 
 foreach(sample ${SAMPLES})
