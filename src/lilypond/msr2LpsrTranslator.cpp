@@ -588,19 +588,6 @@ void msr2LpsrTranslator::visitEnd (S_msrCreditWords& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrComment& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrComment " <<
-      endl;
-  }
-
-  fCurrentVoiceClone->
-    appendCommentToVoice (elt);
-}
-
-//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

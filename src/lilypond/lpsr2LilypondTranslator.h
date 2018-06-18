@@ -144,10 +144,6 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrScore>,
 
-  // comments
-  
-  public visitor<S_msrComment>,
-
   // rights
 
   public visitor<S_msrCredit>,
@@ -429,8 +425,6 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
   
-    virtual void visitStart (S_msrComment& elt);
-
     virtual void visitStart (S_msrCredit& elt);
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);

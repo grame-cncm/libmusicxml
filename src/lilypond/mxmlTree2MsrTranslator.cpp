@@ -650,29 +650,6 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_comment& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_comment" <<
-      endl;
-  }
-
-  // create the comment
-  S_msrComment
-    comment =
-      msrComment::create (
-        elt->getInputLineNumber (),
-        elt->getValue ());
-
-  // append it to the current part it it already exists
-  if (fCurrentPart) {
- // JMI check empty segment measures list   fCurrentPart->
- //     appendCommentToPart (comment);
-  }
-}
-
-//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
