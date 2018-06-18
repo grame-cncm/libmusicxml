@@ -156,7 +156,7 @@ optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
       optionsLpsrChordsLanguageKindItemVariable)
 {}
 
-optionsLpsrChordsLanguageItem::~optionsLpsrChordsLanguageItem()
+optionsLpsrChordsLanguageItem::~optionsLpsrChordsLanguageItem ()
 {}
 
 void optionsLpsrChordsLanguageItem::print (ostream& os) const

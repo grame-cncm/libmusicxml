@@ -39,14 +39,14 @@ msrElement::msrElement (
   fInputLineNumber = inputLineNumber;  
 }
 
-msrElement::~msrElement()
+msrElement::~msrElement ()
 {}
 
 void msrElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrElement::acceptIn()" <<
+      "% ==> msrElement::acceptIn ()" <<
       endl;
   }
       
@@ -57,7 +57,7 @@ void msrElement::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrElement::visitStart()" <<
+            "% ==> Launching msrElement::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -68,7 +68,7 @@ void msrElement::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrElement::acceptOut()" <<
+      "% ==> msrElement::acceptOut ()" <<
       endl;
   }
 
@@ -79,7 +79,7 @@ void msrElement::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrElement::visitEnd()" <<
+            "% ==> Launching msrElement::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -136,7 +136,7 @@ void msrComment::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrComment::acceptIn()" <<
+      "% ==> msrComment::acceptIn ()" <<
       endl;
   }
   
@@ -147,7 +147,7 @@ void msrComment::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrComment::visitStart()" <<
+            "% ==> Launching msrComment::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -158,7 +158,7 @@ void msrComment::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrComment::acceptOut()" <<
+      "% ==> msrComment::acceptOut ()" <<
       endl;
   }
 
@@ -169,7 +169,7 @@ void msrComment::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrComment::visitEnd()" <<
+            "% ==> Launching msrComment::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -237,7 +237,7 @@ void msrOctaveShift::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrOctaveShift::acceptIn()" <<
+      "% ==> msrOctaveShift::acceptIn ()" <<
       endl;
   }
   
@@ -248,7 +248,7 @@ void msrOctaveShift::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrOctaveShift::visitStart()" <<
+            "% ==> Launching msrOctaveShift::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -259,7 +259,7 @@ void msrOctaveShift::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrOctaveShift::acceptOut()" <<
+      "% ==> msrOctaveShift::acceptOut ()" <<
       endl;
   }
 
@@ -270,7 +270,7 @@ void msrOctaveShift::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrOctaveShift::visitEnd()" <<
+            "% ==> Launching msrOctaveShift::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -365,7 +365,7 @@ void msrStringTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStringTuning::acceptIn()" <<
+      "% ==> msrStringTuning::acceptIn ()" <<
       endl;
   }
   
@@ -376,7 +376,7 @@ void msrStringTuning::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStringTuning::visitStart()" <<
+            "% ==> Launching msrStringTuning::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -387,7 +387,7 @@ void msrStringTuning::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStringTuning::acceptOut()" <<
+      "% ==> msrStringTuning::acceptOut ()" <<
       endl;
   }
 
@@ -398,7 +398,7 @@ void msrStringTuning::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStringTuning::visitEnd()" <<
+            "% ==> Launching msrStringTuning::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -472,7 +472,7 @@ void msrScordatura::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrScordatura::acceptIn()" <<
+      "% ==> msrScordatura::acceptIn ()" <<
       endl;
   }
   
@@ -483,7 +483,7 @@ void msrScordatura::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrScordatura::visitStart()" <<
+            "% ==> Launching msrScordatura::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -494,7 +494,7 @@ void msrScordatura::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrScordatura::acceptOut()" <<
+      "% ==> msrScordatura::acceptOut ()" <<
       endl;
   }
 
@@ -505,7 +505,7 @@ void msrScordatura::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrScordatura::visitEnd()" <<
+            "% ==> Launching msrScordatura::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -597,14 +597,14 @@ msrAccordionRegistration::msrAccordionRegistration (
   fLowDotsNumber    = lowDotsNumber;
 }
 
-msrAccordionRegistration::~msrAccordionRegistration()
+msrAccordionRegistration::~msrAccordionRegistration ()
 {}
 
 void msrAccordionRegistration::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAccordionRegistration::acceptIn()" <<
+      "% ==> msrAccordionRegistration::acceptIn ()" <<
       endl;
   }
       
@@ -615,7 +615,7 @@ void msrAccordionRegistration::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAccordionRegistration::visitStart()" <<
+            "% ==> Launching msrAccordionRegistration::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -626,7 +626,7 @@ void msrAccordionRegistration::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAccordionRegistration::acceptOut()" <<
+      "% ==> msrAccordionRegistration::acceptOut ()" <<
       endl;
   }
 
@@ -637,7 +637,7 @@ void msrAccordionRegistration::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAccordionRegistration::visitEnd()" <<
+            "% ==> Launching msrAccordionRegistration::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -698,14 +698,14 @@ msrStem::msrStem (
   fStemKind   = stemKind; 
 }
 
-msrStem::~msrStem()
+msrStem::~msrStem ()
 {}
 
 void msrStem::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStem::acceptIn()" <<
+      "% ==> msrStem::acceptIn ()" <<
       endl;
   }
       
@@ -716,7 +716,7 @@ void msrStem::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStem::visitStart()" <<
+            "% ==> Launching msrStem::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -727,7 +727,7 @@ void msrStem::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStem::acceptOut()" <<
+      "% ==> msrStem::acceptOut ()" <<
       endl;
   }
 
@@ -738,7 +738,7 @@ void msrStem::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStem::visitEnd()" <<
+            "% ==> Launching msrStem::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -828,7 +828,7 @@ void msrBeam::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBeam::acceptIn()" <<
+      "% ==> msrBeam::acceptIn ()" <<
       endl;
   }
       
@@ -839,7 +839,7 @@ void msrBeam::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBeam::visitStart()" <<
+            "% ==> Launching msrBeam::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -850,7 +850,7 @@ void msrBeam::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBeam::acceptOut()" <<
+      "% ==> msrBeam::acceptOut ()" <<
       endl;
   }
 
@@ -861,7 +861,7 @@ void msrBeam::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBeam::visitEnd()" <<
+            "% ==> Launching msrBeam::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -952,7 +952,7 @@ msrArticulation::msrArticulation (
   fArticulationPlacementKind = articulationPlacementKind;
 }
 
-msrArticulation::~msrArticulation()
+msrArticulation::~msrArticulation ()
 {}
 
 string msrArticulation::articulationKindAsString (
@@ -1038,7 +1038,7 @@ void msrArticulation::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrArticulation::acceptIn()" <<
+      "% ==> msrArticulation::acceptIn ()" <<
       endl;
   }
       
@@ -1049,7 +1049,7 @@ void msrArticulation::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrArticulation::visitStart()" <<
+            "% ==> Launching msrArticulation::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1060,7 +1060,7 @@ void msrArticulation::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrArticulation::acceptOut()" <<
+      "% ==> msrArticulation::acceptOut ()" <<
       endl;
   }
 
@@ -1071,7 +1071,7 @@ void msrArticulation::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrArticulation::visitEnd()" <<
+            "% ==> Launching msrArticulation::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -1130,7 +1130,7 @@ msrArpeggiato::msrArpeggiato (
   fArpeggiatoNumber = arpeggiatoNumber;
 }
 
-msrArpeggiato::~msrArpeggiato()
+msrArpeggiato::~msrArpeggiato ()
 {}
 
 string msrArpeggiato::arpeggiatoDirectionKindAsString () const
@@ -1143,7 +1143,7 @@ void msrArpeggiato::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrArpeggiato::acceptIn()" <<
+      "% ==> msrArpeggiato::acceptIn ()" <<
       endl;
   }
       
@@ -1154,7 +1154,7 @@ void msrArpeggiato::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrArpeggiato::visitStart()" <<
+            "% ==> Launching msrArpeggiato::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1165,7 +1165,7 @@ void msrArpeggiato::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrArpeggiato::acceptOut()" <<
+      "% ==> msrArpeggiato::acceptOut ()" <<
       endl;
   }
 
@@ -1176,7 +1176,7 @@ void msrArpeggiato::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrArpeggiato::visitEnd()" <<
+            "% ==> Launching msrArpeggiato::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -1239,7 +1239,7 @@ msrNonArpeggiato::msrNonArpeggiato (
   fNonArpeggiatoNumber = nonArpeggiatoNumber;
 }
 
-msrNonArpeggiato::~msrNonArpeggiato()
+msrNonArpeggiato::~msrNonArpeggiato ()
 {}
 
 string msrNonArpeggiato::nonArpeggiatoTypeKindAsString (
@@ -1272,7 +1272,7 @@ void msrNonArpeggiato::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrNonArpeggiato::acceptIn()" <<
+      "% ==> msrNonArpeggiato::acceptIn ()" <<
       endl;
   }
       
@@ -1283,7 +1283,7 @@ void msrNonArpeggiato::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrNonArpeggiato::visitStart()" <<
+            "% ==> Launching msrNonArpeggiato::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1294,7 +1294,7 @@ void msrNonArpeggiato::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrNonArpeggiato::acceptOut()" <<
+      "% ==> msrNonArpeggiato::acceptOut ()" <<
       endl;
   }
 
@@ -1305,7 +1305,7 @@ void msrNonArpeggiato::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrNonArpeggiato::visitEnd()" <<
+            "% ==> Launching msrNonArpeggiato::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -1362,7 +1362,7 @@ msrTechnical::msrTechnical (
   fTechnicalPlacementKind = technicalPlacementKind;
 }
 
-msrTechnical::~msrTechnical()
+msrTechnical::~msrTechnical ()
 {}
 
 string msrTechnical::technicalKindAsString () const
@@ -1452,7 +1452,7 @@ void msrTechnical::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnical::acceptIn()" <<
+      "% ==> msrTechnical::acceptIn ()" <<
       endl;
   }
       
@@ -1463,7 +1463,7 @@ void msrTechnical::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnical::visitStart()" <<
+            "% ==> Launching msrTechnical::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1474,7 +1474,7 @@ void msrTechnical::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnical::acceptOut()" <<
+      "% ==> msrTechnical::acceptOut ()" <<
       endl;
   }
 
@@ -1485,7 +1485,7 @@ void msrTechnical::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnical::visitEnd()" <<
+            "% ==> Launching msrTechnical::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -1584,7 +1584,7 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnicalWithInteger::acceptIn()" <<
+      "% ==> msrTechnicalWithInteger::acceptIn ()" <<
       endl;
   }
       
@@ -1595,7 +1595,7 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnicalWithInteger::visitStart()" <<
+            "% ==> Launching msrTechnicalWithInteger::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1606,7 +1606,7 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnicalWithInteger::acceptOut()" <<
+      "% ==> msrTechnicalWithInteger::acceptOut ()" <<
       endl;
   }
 
@@ -1617,7 +1617,7 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnicalWithInteger::visitEnd()" <<
+            "% ==> Launching msrTechnicalWithInteger::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -1736,7 +1736,7 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnicalWithFloat::acceptIn()" <<
+      "% ==> msrTechnicalWithFloat::acceptIn ()" <<
       endl;
   }
       
@@ -1747,7 +1747,7 @@ void msrTechnicalWithFloat::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnicalWithFloat::visitStart()" <<
+            "% ==> Launching msrTechnicalWithFloat::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1758,7 +1758,7 @@ void msrTechnicalWithFloat::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnicalWithFloat::acceptOut()" <<
+      "% ==> msrTechnicalWithFloat::acceptOut ()" <<
       endl;
   }
 
@@ -1769,7 +1769,7 @@ void msrTechnicalWithFloat::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnicalWithFloat::visitEnd()" <<
+            "% ==> Launching msrTechnicalWithFloat::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -1866,7 +1866,7 @@ msrTechnicalWithString::msrTechnicalWithString (
   fTechnicalWithStringPlacementKind = technicalWithStringPlacementKind;
 }
 
-msrTechnicalWithString::~msrTechnicalWithString()
+msrTechnicalWithString::~msrTechnicalWithString ()
 {}
 
 string msrTechnicalWithString::technicalWithStringKindAsString () const
@@ -1915,7 +1915,7 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnicalWithString::acceptIn()" <<
+      "% ==> msrTechnicalWithString::acceptIn ()" <<
       endl;
   }
       
@@ -1926,7 +1926,7 @@ void msrTechnicalWithString::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnicalWithString::visitStart()" <<
+            "% ==> Launching msrTechnicalWithString::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -1937,7 +1937,7 @@ void msrTechnicalWithString::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTechnicalWithString::acceptOut()" <<
+      "% ==> msrTechnicalWithString::acceptOut ()" <<
       endl;
   }
 
@@ -1948,7 +1948,7 @@ void msrTechnicalWithString::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTechnicalWithString::visitEnd()" <<
+            "% ==> Launching msrTechnicalWithString::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -2040,14 +2040,14 @@ msrFermata::msrFermata (
   fFermataTypeKind = fermataTypeKind;
 }
 
-msrFermata::~msrFermata()
+msrFermata::~msrFermata ()
 {}
 
 void msrFermata::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFermata::acceptIn()" <<
+      "% ==> msrFermata::acceptIn ()" <<
       endl;
   }
       
@@ -2058,7 +2058,7 @@ void msrFermata::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFermata::visitStart()" <<
+            "% ==> Launching msrFermata::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -2069,7 +2069,7 @@ void msrFermata::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFermata::acceptOut()" <<
+      "% ==> msrFermata::acceptOut ()" <<
       endl;
   }
 
@@ -2080,7 +2080,7 @@ void msrFermata::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFermata::visitEnd()" <<
+            "% ==> Launching msrFermata::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -2184,7 +2184,7 @@ msrOrnament::msrOrnament (
   fOrnamentAccidentalMark = k_NoAlteration;
 }
 
-msrOrnament::~msrOrnament()
+msrOrnament::~msrOrnament ()
 {}
 
 string msrOrnament::ornamentKindAsString () const
@@ -2290,7 +2290,7 @@ void msrOrnament::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrOrnament::acceptIn()" <<
+      "% ==> msrOrnament::acceptIn ()" <<
       endl;
   }
       
@@ -2301,7 +2301,7 @@ void msrOrnament::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrOrnament::visitStart()" <<
+            "% ==> Launching msrOrnament::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -2312,7 +2312,7 @@ void msrOrnament::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrOrnament::acceptOut()" <<
+      "% ==> msrOrnament::acceptOut ()" <<
       endl;
   }
 
@@ -2323,7 +2323,7 @@ void msrOrnament::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrOrnament::visitEnd()" <<
+            "% ==> Launching msrOrnament::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -2424,7 +2424,7 @@ msrSingleTremolo::msrSingleTremolo (
   fSingleTremoloPlacementKind = singleTremoloPlacementKind;
 }
 
-msrSingleTremolo::~msrSingleTremolo()
+msrSingleTremolo::~msrSingleTremolo ()
 {}
 
 string msrSingleTremolo::singleTremoloPlacementKindAsString () const
@@ -2438,7 +2438,7 @@ void msrSingleTremolo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSingleTremolo::acceptIn()" <<
+      "% ==> msrSingleTremolo::acceptIn ()" <<
       endl;
   }
       
@@ -2449,7 +2449,7 @@ void msrSingleTremolo::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSingleTremolo::visitStart()" <<
+            "% ==> Launching msrSingleTremolo::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -2460,7 +2460,7 @@ void msrSingleTremolo::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSingleTremolo::acceptOut()" <<
+      "% ==> msrSingleTremolo::acceptOut ()" <<
       endl;
   }
 
@@ -2471,7 +2471,7 @@ void msrSingleTremolo::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSingleTremolo::visitEnd()" <<
+            "% ==> Launching msrSingleTremolo::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -2601,7 +2601,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   return newbornClone;
 }
 
-msrDoubleTremolo::~msrDoubleTremolo()
+msrDoubleTremolo::~msrDoubleTremolo ()
 {}
 
 void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
@@ -2939,7 +2939,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDoubleTremolo::acceptIn()" <<
+      "% ==> msrDoubleTremolo::acceptIn ()" <<
       endl;
   }
       
@@ -2950,7 +2950,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDoubleTremolo::visitStart()" <<
+            "% ==> Launching msrDoubleTremolo::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -2961,7 +2961,7 @@ void msrDoubleTremolo::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDoubleTremolo::acceptOut()" <<
+      "% ==> msrDoubleTremolo::acceptOut ()" <<
       endl;
   }
 
@@ -2972,7 +2972,7 @@ void msrDoubleTremolo::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDoubleTremolo::visitEnd()" <<
+            "% ==> Launching msrDoubleTremolo::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -3286,7 +3286,7 @@ void msrSpanner::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSpanner::acceptIn()" <<
+      "% ==> msrSpanner::acceptIn ()" <<
       endl;
   }
       
@@ -3297,7 +3297,7 @@ void msrSpanner::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSpanner::visitStart()" <<
+            "% ==> Launching msrSpanner::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -3308,7 +3308,7 @@ void msrSpanner::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSpanner::acceptOut()" <<
+      "% ==> msrSpanner::acceptOut ()" <<
       endl;
   }
 
@@ -3319,7 +3319,7 @@ void msrSpanner::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSpanner::visitEnd()" <<
+            "% ==> Launching msrSpanner::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -3401,14 +3401,14 @@ msrRehearsal::msrRehearsal (
   fRehearsalPlacementKind = rehearsalPlacementKind;
 }
 
-msrRehearsal::~msrRehearsal()
+msrRehearsal::~msrRehearsal ()
 {}
 
 void msrRehearsal::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRehearsal::acceptIn()" <<
+      "% ==> msrRehearsal::acceptIn ()" <<
       endl;
   }
       
@@ -3419,7 +3419,7 @@ void msrRehearsal::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRehearsal::visitStart()" <<
+            "% ==> Launching msrRehearsal::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -3430,7 +3430,7 @@ void msrRehearsal::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRehearsal::acceptOut()" <<
+      "% ==> msrRehearsal::acceptOut ()" <<
       endl;
   }
 
@@ -3441,7 +3441,7 @@ void msrRehearsal::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRehearsal::visitEnd()" <<
+            "% ==> Launching msrRehearsal::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -3526,7 +3526,7 @@ msrDynamics::msrDynamics (
   fDynamicsPlacementKind = dynamicsPlacementKind;
 }
 
-msrDynamics::~msrDynamics()
+msrDynamics::~msrDynamics ()
 {}
 
 string msrDynamics::dynamicsKindAsString (
@@ -3631,7 +3631,7 @@ void msrDynamics::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDynamics::acceptIn()" <<
+      "% ==> msrDynamics::acceptIn ()" <<
       endl;
   }
       
@@ -3642,7 +3642,7 @@ void msrDynamics::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDynamics::visitStart()" <<
+            "% ==> Launching msrDynamics::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -3653,7 +3653,7 @@ void msrDynamics::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDynamics::acceptOut()" <<
+      "% ==> msrDynamics::acceptOut ()" <<
       endl;
   }
 
@@ -3664,7 +3664,7 @@ void msrDynamics::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDynamics::visitEnd()" <<
+            "% ==> Launching msrDynamics::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -3732,7 +3732,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrOtherDynamics::acceptIn()" <<
+      "% ==> msrOtherDynamics::acceptIn ()" <<
       endl;
   }
       
@@ -3743,7 +3743,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrOtherDynamics::visitStart()" <<
+            "% ==> Launching msrOtherDynamics::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -3754,7 +3754,7 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrOtherDynamics::acceptOut()" <<
+      "% ==> msrOtherDynamics::acceptOut ()" <<
       endl;
   }
 
@@ -3765,7 +3765,7 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrOtherDynamics::visitEnd()" <<
+            "% ==> Launching msrOtherDynamics::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -3837,7 +3837,7 @@ msrWedge::msrWedge (
   fWedgePlacementKind = wedgePlacementKind; 
 }
 
-msrWedge::~msrWedge()
+msrWedge::~msrWedge ()
 {}
 
 string msrWedge::wedgeKindAsString ()
@@ -3883,7 +3883,7 @@ void msrWedge::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrWedge::acceptIn()" <<
+      "% ==> msrWedge::acceptIn ()" <<
       endl;
   }
       
@@ -3894,7 +3894,7 @@ void msrWedge::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrWedge::visitStart()" <<
+            "% ==> Launching msrWedge::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -3905,7 +3905,7 @@ void msrWedge::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrWedge::acceptOut()" <<
+      "% ==> msrWedge::acceptOut ()" <<
       endl;
   }
 
@@ -3916,7 +3916,7 @@ void msrWedge::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrWedge::visitEnd()" <<
+            "% ==> Launching msrWedge::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -3983,7 +3983,7 @@ msrTie::msrTie (
   fTieKind = tieKind; 
 }
 
-msrTie::~msrTie()
+msrTie::~msrTie ()
 {}
 
 string msrTie::tieKindAsString (msrTieKind tieKind)
@@ -4011,7 +4011,7 @@ void msrTie::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTie::acceptIn()" <<
+      "% ==> msrTie::acceptIn ()" <<
       endl;
   }
       
@@ -4022,7 +4022,7 @@ void msrTie::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTie::visitStart()" <<
+            "% ==> Launching msrTie::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -4033,7 +4033,7 @@ void msrTie::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTie::acceptOut()" <<
+      "% ==> msrTie::acceptOut ()" <<
       endl;
   }
 
@@ -4044,7 +4044,7 @@ void msrTie::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTie::visitEnd()" <<
+            "% ==> Launching msrTie::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -4094,14 +4094,14 @@ msrSlur::msrSlur (
   fSlurLineTypeKind = slurLineTypeKind;
 }
 
-msrSlur::~msrSlur()
+msrSlur::~msrSlur ()
 {}
 
 void msrSlur::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSlur::acceptIn()" <<
+      "% ==> msrSlur::acceptIn ()" <<
       endl;
   }
       
@@ -4112,7 +4112,7 @@ void msrSlur::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSlur::visitStart()" <<
+            "% ==> Launching msrSlur::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -4123,7 +4123,7 @@ void msrSlur::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSlur::acceptOut()" <<
+      "% ==> msrSlur::acceptOut ()" <<
       endl;
   }
 
@@ -4134,7 +4134,7 @@ void msrSlur::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSlur::visitEnd()" <<
+            "% ==> Launching msrSlur::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -4243,7 +4243,7 @@ msrLigature::msrLigature (
   fLigaturePlacementKind = ligaturePlacementKind; 
 }
 
-msrLigature::~msrLigature()
+msrLigature::~msrLigature ()
 {}
 
 void msrLigature::setLigatureOtherEndSidelink (
@@ -4316,7 +4316,7 @@ void msrLigature::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrLigature::acceptIn()" <<
+      "% ==> msrLigature::acceptIn ()" <<
       endl;
   }
       
@@ -4327,7 +4327,7 @@ void msrLigature::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrLigature::visitStart()" <<
+            "% ==> Launching msrLigature::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -4338,7 +4338,7 @@ void msrLigature::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrLigature::acceptOut()" <<
+      "% ==> msrLigature::acceptOut ()" <<
       endl;
   }
 
@@ -4349,7 +4349,7 @@ void msrLigature::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrLigature::visitEnd()" <<
+            "% ==> Launching msrLigature::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -4436,7 +4436,7 @@ msrGraceNotes::msrGraceNotes (
   fGraceNotesIsFollowedByNotes = true;
 }
 
-msrGraceNotes::~msrGraceNotes()
+msrGraceNotes::~msrGraceNotes ()
 {}
 
 S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
@@ -4578,7 +4578,7 @@ S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
       gXml2lyOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
-      "removeLastNoteFromGraceNotes(): grace notes element should be a note");
+      "removeLastNoteFromGraceNotes (): grace notes element should be a note");
   }   
 
   fGraceNotesElementsList.pop_back ();
@@ -4590,7 +4590,7 @@ void msrGraceNotes::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrGraceNotes::acceptIn()" <<
+      "% ==> msrGraceNotes::acceptIn ()" <<
       endl;
   }
       
@@ -4601,7 +4601,7 @@ void msrGraceNotes::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrGraceNotes::visitStart()" <<
+            "% ==> Launching msrGraceNotes::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -4612,7 +4612,7 @@ void msrGraceNotes::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrGraceNotes::acceptOut()" <<
+      "% ==> msrGraceNotes::acceptOut ()" <<
       endl;
   }
 
@@ -4623,7 +4623,7 @@ void msrGraceNotes::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrGraceNotes::visitEnd()" <<
+            "% ==> Launching msrGraceNotes::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -4747,7 +4747,7 @@ msrAfterGraceNotesContents::msrAfterGraceNotesContents (
     afterGraceNotesContentsVoiceUplink;
 }
 
-msrAfterGraceNotesContents::~msrAfterGraceNotesContents()
+msrAfterGraceNotesContents::~msrAfterGraceNotesContents ()
 {}
 
 S_msrPart msrAfterGraceNotesContents::fetchAfterGraceNotesContentsPartUplink () const
@@ -4790,7 +4790,7 @@ void msrAfterGraceNotesContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotesContents::acceptIn()" <<
+      "% ==> msrAfterGraceNotesContents::acceptIn ()" <<
       endl;
   }
       
@@ -4801,7 +4801,7 @@ void msrAfterGraceNotesContents::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotesContents::visitStart()" <<
+            "% ==> Launching msrAfterGraceNotesContents::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -4812,7 +4812,7 @@ void msrAfterGraceNotesContents::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotesContents::acceptOut()" <<
+      "% ==> msrAfterGraceNotesContents::acceptOut ()" <<
       endl;
   }
 
@@ -4823,7 +4823,7 @@ void msrAfterGraceNotesContents::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotesContents::visitEnd()" <<
+            "% ==> Launching msrAfterGraceNotesContents::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -4953,7 +4953,7 @@ msrAfterGraceNotes::msrAfterGraceNotes (
       afterGraceNotesVoiceUplink);
 }
 
-msrAfterGraceNotes::~msrAfterGraceNotes()
+msrAfterGraceNotes::~msrAfterGraceNotes ()
 {}
 
 S_msrPart msrAfterGraceNotes::fetchAfterGraceNotesPartUplink () const
@@ -5006,7 +5006,7 @@ void msrAfterGraceNotes::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotes::acceptIn()" <<
+      "% ==> msrAfterGraceNotes::acceptIn ()" <<
       endl;
   }
       
@@ -5017,7 +5017,7 @@ void msrAfterGraceNotes::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotes::visitStart()" <<
+            "% ==> Launching msrAfterGraceNotes::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -5028,7 +5028,7 @@ void msrAfterGraceNotes::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotes::acceptOut()" <<
+      "% ==> msrAfterGraceNotes::acceptOut ()" <<
       endl;
   }
 
@@ -5039,7 +5039,7 @@ void msrAfterGraceNotes::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotes::visitEnd()" <<
+            "% ==> Launching msrAfterGraceNotes::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -7284,7 +7284,7 @@ void msrNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrNote::acceptIn()" <<
+      "% ==> msrNote::acceptIn ()" <<
       endl;
   }
       
@@ -7295,7 +7295,7 @@ void msrNote::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrNote::visitStart()" <<
+            "% ==> Launching msrNote::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -7306,7 +7306,7 @@ void msrNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrNote::acceptOut()" <<
+      "% ==> msrNote::acceptOut ()" <<
       endl;
   }
 
@@ -7317,7 +7317,7 @@ void msrNote::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrNote::visitEnd()" <<
+            "% ==> Launching msrNote::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -9257,7 +9257,7 @@ msrChord::msrChord (
   fChordIsSecondChordInADoubleTremolo = false;
 }
 
-msrChord::~msrChord()
+msrChord::~msrChord ()
 {}
 
 S_msrChord msrChord::createChordNewbornClone (
@@ -9713,7 +9713,7 @@ void msrChord::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChord::acceptIn()" <<
+      "% ==> msrChord::acceptIn ()" <<
       endl;
   }
       
@@ -9724,7 +9724,7 @@ void msrChord::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChord::visitStart()" <<
+            "% ==> Launching msrChord::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -9735,7 +9735,7 @@ void msrChord::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChord::acceptOut()" <<
+      "% ==> msrChord::acceptOut ()" <<
       endl;
   }
 
@@ -9746,7 +9746,7 @@ void msrChord::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChord::visitEnd()" <<
+            "% ==> Launching msrChord::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -10941,14 +10941,14 @@ string msrDivisions::tupletWholeNotesAsMsrString (
       rational (actualNotes, normalNotes));
 }
 
-msrDivisions::~msrDivisions()
+msrDivisions::~msrDivisions ()
 {}
 
 void msrDivisions::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDivisions::acceptIn()" <<
+      "% ==> msrDivisions::acceptIn ()" <<
       endl;
   }
       
@@ -10959,7 +10959,7 @@ void msrDivisions::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDivisions::visitStart()" <<
+            "% ==> Launching msrDivisions::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -10970,7 +10970,7 @@ void msrDivisions::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDivisions::acceptOut()" <<
+      "% ==> msrDivisions::acceptOut ()" <<
       endl;
   }
 
@@ -10981,7 +10981,7 @@ void msrDivisions::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDivisions::visitEnd()" <<
+            "% ==> Launching msrDivisions::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -11097,7 +11097,7 @@ void msrBarCheck::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBarCheck::acceptIn()" <<
+      "% ==> msrBarCheck::acceptIn ()" <<
       endl;
   }
       
@@ -11108,7 +11108,7 @@ void msrBarCheck::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBarCheck::visitStart()" <<
+            "% ==> Launching msrBarCheck::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -11119,7 +11119,7 @@ void msrBarCheck::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBarCheck::acceptOut()" <<
+      "% ==> msrBarCheck::acceptOut ()" <<
       endl;
   }
 
@@ -11130,7 +11130,7 @@ void msrBarCheck::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBarCheck::visitEnd()" <<
+            "% ==> Launching msrBarCheck::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -11173,7 +11173,7 @@ msrBarNumberCheck::msrBarNumberCheck (
   fNextBarNumber=nextBarNumber; 
 }
 
-msrBarNumberCheck::~msrBarNumberCheck()
+msrBarNumberCheck::~msrBarNumberCheck ()
 {}
 
 string msrBarNumberCheck::asString () const
@@ -11191,7 +11191,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBarNumberCheck::acceptIn()" <<
+      "% ==> msrBarNumberCheck::acceptIn ()" <<
       endl;
   }
       
@@ -11202,7 +11202,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBarNumberCheck::visitStart()" <<
+            "% ==> Launching msrBarNumberCheck::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -11213,7 +11213,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBarNumberCheck::acceptOut()" <<
+      "% ==> msrBarNumberCheck::acceptOut ()" <<
       endl;
   }
 
@@ -11224,7 +11224,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBarNumberCheck::visitEnd()" <<
+            "% ==> Launching msrBarNumberCheck::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -11273,7 +11273,7 @@ msrLineBreak::msrLineBreak (
   }
 }
 
-msrLineBreak::~msrLineBreak()
+msrLineBreak::~msrLineBreak ()
 {}
 
 string msrLineBreak::asString () const
@@ -11291,7 +11291,7 @@ void msrLineBreak::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrLineBreak::acceptIn()" <<
+      "% ==> msrLineBreak::acceptIn ()" <<
       endl;
   }
       
@@ -11302,7 +11302,7 @@ void msrLineBreak::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrLineBreak::visitStart()" <<
+            "% ==> Launching msrLineBreak::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -11313,7 +11313,7 @@ void msrLineBreak::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrLineBreak::acceptOut()" <<
+      "% ==> msrLineBreak::acceptOut ()" <<
       endl;
   }
 
@@ -11324,7 +11324,7 @@ void msrLineBreak::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrLineBreak::visitEnd()" <<
+            "% ==> Launching msrLineBreak::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -11369,7 +11369,7 @@ msrPageBreak::msrPageBreak (
   }
 }
 
-msrPageBreak::~msrPageBreak()
+msrPageBreak::~msrPageBreak ()
 {}
 
 string msrPageBreak::asString () const
@@ -11386,7 +11386,7 @@ void msrPageBreak::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPageBreak::acceptIn()" <<
+      "% ==> msrPageBreak::acceptIn ()" <<
       endl;
   }
       
@@ -11397,7 +11397,7 @@ void msrPageBreak::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPageBreak::visitStart()" <<
+            "% ==> Launching msrPageBreak::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -11408,7 +11408,7 @@ void msrPageBreak::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPageBreak::acceptOut()" <<
+      "% ==> msrPageBreak::acceptOut ()" <<
       endl;
   }
 
@@ -11419,7 +11419,7 @@ void msrPageBreak::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPageBreak::visitEnd()" <<
+            "% ==> Launching msrPageBreak::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -11506,7 +11506,7 @@ msrTuplet::msrTuplet (
   fTupletPositionInMeasure = notePositionInMeasure;
 }
 
-msrTuplet::~msrTuplet()
+msrTuplet::~msrTuplet ()
 {}
 
 S_msrTuplet msrTuplet::createTupletNewbornClone ()
@@ -11754,7 +11754,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
     */
 
   // don't populate tuplet's measure number nor position in measure,
-  // this will be done in setTupletMeasureNumber()
+  // this will be done in setTupletMeasureNumber ()
   /* JMI
   tuplet->setTupletMeasureNumber (
     fTupletMeasureNumber);
@@ -11827,7 +11827,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
-        "removeFirstNoteFromTuplet() expects a note as the first tuplet element");
+        "removeFirstNoteFromTuplet () expects a note as the first tuplet element");
     }
 
 /* JMI
@@ -11934,7 +11934,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
-        "removeLastNoteFromTuplet() expects a note as the last tuplet element");
+        "removeLastNoteFromTuplet () expects a note as the last tuplet element");
     }
 
 /* JMI
@@ -12113,7 +12113,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
 {
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "% ==> applyDisplayFactorToTupletMembers()" <<
+      "% ==> applyDisplayFactorToTupletMembers ()" <<
       endl;
 
     gIndenter++;
@@ -12175,7 +12175,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
 {
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "unapplySoundingFactorToTupletMembers()" <<
+      "unapplySoundingFactorToTupletMembers ()" <<
       endl;
 
     gIndenter++;
@@ -12206,7 +12206,7 @@ void msrTuplet::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTuplet::acceptIn()" <<
+      "% ==> msrTuplet::acceptIn ()" <<
       endl;
   }
       
@@ -12217,7 +12217,7 @@ void msrTuplet::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTuplet::visitStart()" <<
+            "% ==> Launching msrTuplet::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -12228,7 +12228,7 @@ void msrTuplet::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTuplet::acceptOut()" <<
+      "% ==> msrTuplet::acceptOut ()" <<
       endl;
   }
 
@@ -12239,7 +12239,7 @@ void msrTuplet::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTuplet::visitEnd()" <<
+            "% ==> Launching msrTuplet::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -12649,7 +12649,7 @@ void msrGlissando::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrGlissando::acceptIn()" <<
+      "% ==> msrGlissando::acceptIn ()" <<
       endl;
   }
       
@@ -12660,7 +12660,7 @@ void msrGlissando::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrGlissando::visitStart()" <<
+            "% ==> Launching msrGlissando::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -12671,7 +12671,7 @@ void msrGlissando::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrGlissando::acceptOut()" <<
+      "% ==> msrGlissando::acceptOut ()" <<
       endl;
   }
 
@@ -12682,7 +12682,7 @@ void msrGlissando::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrGlissando::visitEnd()" <<
+            "% ==> Launching msrGlissando::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -12797,7 +12797,7 @@ void msrSlide::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSlide::acceptIn()" <<
+      "% ==> msrSlide::acceptIn ()" <<
       endl;
   }
       
@@ -12808,7 +12808,7 @@ void msrSlide::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSlide::visitStart()" <<
+            "% ==> Launching msrSlide::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -12819,7 +12819,7 @@ void msrSlide::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSlide::acceptOut()" <<
+      "% ==> msrSlide::acceptOut ()" <<
       endl;
   }
 
@@ -12830,7 +12830,7 @@ void msrSlide::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSlide::visitEnd()" <<
+            "% ==> Launching msrSlide::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -12897,7 +12897,7 @@ msrPageGeometry::msrPageGeometry (
   fTenths      = -1;
 }
 
-msrPageGeometry::~msrPageGeometry()
+msrPageGeometry::~msrPageGeometry ()
 {}
 
 S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
@@ -12941,9 +12941,9 @@ float msrPageGeometry::globalStaffSize () const
 
   /*
         mm = scaling.get_named_child('millimeters')
-        mm = float(mm.get_text())
+        mm = float(mm.get_text ())
         tn = scaling.get_maybe_exist_named_child('tenths')
-        tn = float(tn.get_text())
+        tn = float(tn.get_text ())
         # The variable 'tenths' is actually a ratio, NOT the value of <tenths>.
         # TODO: rename and replace.
         tenths = mm / tn
@@ -12965,7 +12965,7 @@ float msrPageGeometry::globalStaffSize () const
 
   if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
-      "globalStaffSize():" <<
+      "globalStaffSize ():" <<
       endl;
 
     gIndenter++;
@@ -13022,7 +13022,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPageGeometry::acceptIn()" <<
+      "% ==> msrPageGeometry::acceptIn ()" <<
       endl;
   }
       
@@ -13033,7 +13033,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPageGeometry::visitStart()" <<
+            "% ==> Launching msrPageGeometry::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -13044,7 +13044,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPageGeometry::acceptOut()" <<
+      "% ==> msrPageGeometry::acceptOut ()" <<
       endl;
   }
 
@@ -13055,7 +13055,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPageGeometry::visitEnd()" <<
+            "% ==> Launching msrPageGeometry::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -13278,14 +13278,14 @@ msrCreditWords::msrCreditWords (
   fCreditWordsFontXMLLanguage = creditWordsFontXMLLanguage;
 }
 
-msrCreditWords::~msrCreditWords()
+msrCreditWords::~msrCreditWords ()
 {}
 
 void msrCreditWords::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrCreditWords::acceptIn()" <<
+      "% ==> msrCreditWords::acceptIn ()" <<
       endl;
   }
       
@@ -13296,7 +13296,7 @@ void msrCreditWords::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrCreditWords::visitStart()" <<
+            "% ==> Launching msrCreditWords::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -13307,7 +13307,7 @@ void msrCreditWords::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrCreditWords::acceptOut()" <<
+      "% ==> msrCreditWords::acceptOut ()" <<
       endl;
   }
 
@@ -13318,7 +13318,7 @@ void msrCreditWords::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrCreditWords::visitEnd()" <<
+            "% ==> Launching msrCreditWords::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -13409,7 +13409,7 @@ msrCredit::msrCredit (
   fCreditPageNumber = creditPageNumber;
 }
 
-msrCredit::~msrCredit()
+msrCredit::~msrCredit ()
 {}
 
 void msrCredit::appendCreditWordsToCredit (
@@ -13422,7 +13422,7 @@ void msrCredit::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrCredit::acceptIn()" <<
+      "% ==> msrCredit::acceptIn ()" <<
       endl;
   }
       
@@ -13433,7 +13433,7 @@ void msrCredit::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrCredit::visitStart()" <<
+            "% ==> Launching msrCredit::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -13444,7 +13444,7 @@ void msrCredit::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrCredit::acceptOut()" <<
+      "% ==> msrCredit::acceptOut ()" <<
       endl;
   }
 
@@ -13455,7 +13455,7 @@ void msrCredit::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrCredit::visitEnd()" <<
+            "% ==> Launching msrCredit::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -13563,7 +13563,7 @@ msrVarValAssoc::msrVarValAssoc (
   fVariableValue   = value;
 }
 
-msrVarValAssoc::~msrVarValAssoc()
+msrVarValAssoc::~msrVarValAssoc ()
 {}
 
 string msrVarValAssoc::varValAssocKindAsString (
@@ -13602,7 +13602,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVarValAssoc::acceptIn()" <<
+      "% ==> msrVarValAssoc::acceptIn ()" <<
       endl;
   }
       
@@ -13613,7 +13613,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVarValAssoc::visitStart()" <<
+            "% ==> Launching msrVarValAssoc::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -13624,7 +13624,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVarValAssoc::acceptOut()" <<
+      "% ==> msrVarValAssoc::acceptOut ()" <<
       endl;
   }
 
@@ -13635,7 +13635,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVarValAssoc::visitEnd()" <<
+            "% ==> Launching msrVarValAssoc::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -13702,7 +13702,7 @@ msrVarValsListAssoc::msrVarValsListAssoc (
   fVarValsListAssocKind = varValsListAssocKind;
 }
 
-msrVarValsListAssoc::~msrVarValsListAssoc()
+msrVarValsListAssoc::~msrVarValsListAssoc ()
 {}
 
 string msrVarValsListAssoc::varValsListAssocKindAsString (
@@ -13763,7 +13763,7 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVarValsListAssoc::acceptIn()" <<
+      "% ==> msrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
       
@@ -13774,7 +13774,7 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVarValsListAssoc::visitStart()" <<
+            "% ==> Launching msrVarValsListAssoc::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -13785,7 +13785,7 @@ void msrVarValsListAssoc::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVarValsListAssoc::acceptOut()" <<
+      "% ==> msrVarValsListAssoc::acceptOut ()" <<
       endl;
   }
 
@@ -13796,7 +13796,7 @@ void msrVarValsListAssoc::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVarValsListAssoc::visitEnd()" <<
+            "% ==> Launching msrVarValsListAssoc::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -13870,14 +13870,14 @@ msrLayout::msrLayout (
     : msrElement (inputLineNumber)
 {}
 
-msrLayout::~msrLayout()
+msrLayout::~msrLayout ()
 {}
 
 void msrLayout::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrLayout::acceptIn()" <<
+      "% ==> msrLayout::acceptIn ()" <<
       endl;
   }
       
@@ -13888,7 +13888,7 @@ void msrLayout::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrLayout::visitStart()" <<
+            "% ==> Launching msrLayout::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -13899,7 +13899,7 @@ void msrLayout::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrLayout::acceptOut()" <<
+      "% ==> msrLayout::acceptOut ()" <<
       endl;
   }
 
@@ -13910,7 +13910,7 @@ void msrLayout::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrLayout::visitEnd()" <<
+            "% ==> Launching msrLayout::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -13976,7 +13976,7 @@ msrClef::msrClef (
   fClefKind = clefKind;
 }
 
-msrClef::~msrClef()
+msrClef::~msrClef ()
 {}
 
 bool msrClef::clefIsATablatureClef () const
@@ -14016,7 +14016,7 @@ void msrClef::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrClef::acceptIn()" <<
+      "% ==> msrClef::acceptIn ()" <<
       endl;
   }
       
@@ -14027,7 +14027,7 @@ void msrClef::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrClef::visitStart()" <<
+            "% ==> Launching msrClef::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -14038,7 +14038,7 @@ void msrClef::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrClef::acceptOut()" <<
+      "% ==> msrClef::acceptOut ()" <<
       endl;
   }
 
@@ -14049,7 +14049,7 @@ void msrClef::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrClef::visitEnd()" <<
+            "% ==> Launching msrClef::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -14188,7 +14188,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
   fKeyOctave            = -1; // actual MusicXML octaves are non-negative
 }
 
-msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem()
+msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem ()
 {}
 
 bool msrHumdrumScotKeyItem::isEqualTo (
@@ -14251,7 +14251,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHumdrumScotKeyItem::acceptIn()" <<
+      "% ==> msrHumdrumScotKeyItem::acceptIn ()" <<
       endl;
   }
       
@@ -14262,7 +14262,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHumdrumScotKeyItem::visitStart()" <<
+            "% ==> Launching msrHumdrumScotKeyItem::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -14273,7 +14273,7 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHumdrumScotKeyItem::acceptOut()" <<
+      "% ==> msrHumdrumScotKeyItem::acceptOut ()" <<
       endl;
   }
 
@@ -14284,7 +14284,7 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHumdrumScotKeyItem::visitEnd()" <<
+            "% ==> Launching msrHumdrumScotKeyItem::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -14381,7 +14381,7 @@ msrKey::msrKey ( // for Humdrum/Scot keys
   fKeyItemsOctavesAreSpecified = false;
 }
 
-msrKey::~msrKey()
+msrKey::~msrKey ()
 {}
 
 bool msrKey::isEqualTo (S_msrKey otherKey) const
@@ -14519,7 +14519,7 @@ void msrKey::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrKey::acceptIn()" <<
+      "% ==> msrKey::acceptIn ()" <<
       endl;
   }
       
@@ -14530,7 +14530,7 @@ void msrKey::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrKey::visitStart()" <<
+            "% ==> Launching msrKey::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -14541,7 +14541,7 @@ void msrKey::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrKey::acceptOut()" <<
+      "% ==> msrKey::acceptOut ()" <<
       endl;
   }
 
@@ -14552,7 +14552,7 @@ void msrKey::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrKey::visitEnd()" <<
+            "% ==> Launching msrKey::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -14744,7 +14744,7 @@ msrTimeItem::msrTimeItem (
   }
 }
 
-msrTimeItem::~msrTimeItem()
+msrTimeItem::~msrTimeItem ()
 {}
 
 bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
@@ -14811,7 +14811,7 @@ void msrTimeItem::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTimeItem::acceptIn()" <<
+      "% ==> msrTimeItem::acceptIn ()" <<
       endl;
   }
       
@@ -14822,7 +14822,7 @@ void msrTimeItem::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTimeItem::visitStart()" <<
+            "% ==> Launching msrTimeItem::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -14833,7 +14833,7 @@ void msrTimeItem::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTimeItem::acceptOut()" <<
+      "% ==> msrTimeItem::acceptOut ()" <<
       endl;
   }
 
@@ -14844,7 +14844,7 @@ void msrTimeItem::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTimeItem::visitEnd()" <<
+            "% ==> Launching msrTimeItem::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -14996,7 +14996,7 @@ S_msrTime msrTime::createFourQuartersTime (
   return time;
 }
 
-msrTime::~msrTime()
+msrTime::~msrTime ()
 {}
 
 void msrTime::appendTimeItem (
@@ -15102,7 +15102,7 @@ void msrTime::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTime::acceptIn()" <<
+      "% ==> msrTime::acceptIn ()" <<
       endl;
   }
       
@@ -15113,7 +15113,7 @@ void msrTime::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTime::visitStart()" <<
+            "% ==> Launching msrTime::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -15124,7 +15124,7 @@ void msrTime::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTime::acceptOut()" <<
+      "% ==> msrTime::acceptOut ()" <<
       endl;
   }
 
@@ -15135,7 +15135,7 @@ void msrTime::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTime::visitEnd()" <<
+            "% ==> Launching msrTime::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -15418,7 +15418,7 @@ void msrTranspose::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTranspose::acceptIn()" <<
+      "% ==> msrTranspose::acceptIn ()" <<
       endl;
   }
       
@@ -15429,7 +15429,7 @@ void msrTranspose::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTranspose::visitStart()" <<
+            "% ==> Launching msrTranspose::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -15440,7 +15440,7 @@ void msrTranspose::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTranspose::acceptOut()" <<
+      "% ==> msrTranspose::acceptOut ()" <<
       endl;
   }
 
@@ -15451,7 +15451,7 @@ void msrTranspose::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTranspose::visitEnd()" <<
+            "% ==> Launching msrTranspose::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -15564,14 +15564,14 @@ msrWords::msrWords (
   fWordsXMLLangKind    = wordsXMLLangKind;
 }
 
-msrWords::~msrWords()
+msrWords::~msrWords ()
 {}
 
 void msrWords::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrWords::acceptIn()" <<
+      "% ==> msrWords::acceptIn ()" <<
       endl;
   }
       
@@ -15582,7 +15582,7 @@ void msrWords::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrWords::visitStart()" <<
+            "% ==> Launching msrWords::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -15593,7 +15593,7 @@ void msrWords::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrWords::acceptOut()" <<
+      "% ==> msrWords::acceptOut ()" <<
       endl;
   }
 
@@ -15604,7 +15604,7 @@ void msrWords::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrWords::visitEnd()" <<
+            "% ==> Launching msrWords::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -15781,7 +15781,7 @@ void msrTempoNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempoNote::acceptIn()" <<
+      "% ==> msrTempoNote::acceptIn ()" <<
       endl;
   }
       
@@ -15792,7 +15792,7 @@ void msrTempoNote::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempoNote::visitStart()" <<
+            "% ==> Launching msrTempoNote::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -15803,7 +15803,7 @@ void msrTempoNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempoNote::acceptOut()" <<
+      "% ==> msrTempoNote::acceptOut ()" <<
       endl;
   }
 
@@ -15814,7 +15814,7 @@ void msrTempoNote::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempoNote::visitEnd()" <<
+            "% ==> Launching msrTempoNote::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -16070,7 +16070,7 @@ void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
     * /
 
   // don't populate tempoTuplet's measure number nor position in measure,
-  // this will be done in setTupletMeasureNumber()
+  // this will be done in setTupletMeasureNumber ()
   / * JMI
   tempoTuplet->setTempoTupletMeasureNumber (
     fTempoTupletMeasureNumber);
@@ -16159,7 +16159,7 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 {
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
-      "% ==> applyDisplayFactorToTempoTupletMembers()" <<
+      "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
       endl;
 
     gIndenter++;
@@ -16182,7 +16182,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
 {
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
-      "unapplySoundingFactorToTempoTupletMembers()" <<
+      "unapplySoundingFactorToTempoTupletMembers ()" <<
       endl;
 
     gIndenter++;
@@ -16214,7 +16214,7 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempoTuplet::acceptIn()" <<
+      "% ==> msrTempoTuplet::acceptIn ()" <<
       endl;
   }
       
@@ -16225,7 +16225,7 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempoTuplet::visitStart()" <<
+            "% ==> Launching msrTempoTuplet::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -16236,7 +16236,7 @@ void msrTempoTuplet::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempoTuplet::acceptOut()" <<
+      "% ==> msrTempoTuplet::acceptOut ()" <<
       endl;
   }
 
@@ -16247,7 +16247,7 @@ void msrTempoTuplet::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempoTuplet::visitEnd()" <<
+            "% ==> Launching msrTempoTuplet::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -16509,7 +16509,7 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempoRelationshipElements::acceptIn()" <<
+      "% ==> msrTempoRelationshipElements::acceptIn ()" <<
       endl;
   }
       
@@ -16520,7 +16520,7 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempoRelationshipElements::visitStart()" <<
+            "% ==> Launching msrTempoRelationshipElements::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -16531,7 +16531,7 @@ void msrTempoRelationshipElements::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempoRelationshipElements::acceptOut()" <<
+      "% ==> msrTempoRelationshipElements::acceptOut ()" <<
       endl;
   }
 
@@ -16542,7 +16542,7 @@ void msrTempoRelationshipElements::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempoRelationshipElements::visitEnd()" <<
+            "% ==> Launching msrTempoRelationshipElements::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -16795,7 +16795,7 @@ void msrTempo::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempo::acceptIn()" <<
+      "% ==> msrTempo::acceptIn ()" <<
       endl;
   }
       
@@ -16806,7 +16806,7 @@ void msrTempo::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempo::visitStart()" <<
+            "% ==> Launching msrTempo::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -16817,7 +16817,7 @@ void msrTempo::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrTempo::acceptOut()" <<
+      "% ==> msrTempo::acceptOut ()" <<
       endl;
   }
 
@@ -16828,7 +16828,7 @@ void msrTempo::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrTempo::visitEnd()" <<
+            "% ==> Launching msrTempo::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -17090,7 +17090,7 @@ msrSyllable::msrSyllable (
   fSyllableExtendKind = syllableExtendKind;
   
   // fSyllableNoteUplink will be set
-  // by appendSyllableToNoteAndSetItsUplink() later
+  // by appendSyllableToNoteAndSetItsUplink () later
 
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
@@ -17299,7 +17299,7 @@ void msrSyllable::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSyllable::acceptIn()" <<
+      "% ==> msrSyllable::acceptIn ()" <<
       endl;
   }
       
@@ -17310,7 +17310,7 @@ void msrSyllable::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSyllable::visitStart()" <<
+            "% ==> Launching msrSyllable::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -17321,7 +17321,7 @@ void msrSyllable::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSyllable::acceptOut()" <<
+      "% ==> msrSyllable::acceptOut ()" <<
       endl;
   }
 
@@ -17332,7 +17332,7 @@ void msrSyllable::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSyllable::visitEnd()" <<
+            "% ==> Launching msrSyllable::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -17641,7 +17641,7 @@ msrStanza::msrStanza (
 void msrStanza::initializeStanza ()
 {
   fStanzaName =
-    fStanzaVoiceUplink->getVoiceName() +
+    fStanzaVoiceUplink->getVoiceName () +
     "_Stanza_" + 
       stringNumbersToEnglishWords (
         makeSingleWordFromString (
@@ -17661,7 +17661,7 @@ string msrStanza::getStanzaName () const
   return fStanzaName;
 }
 
-msrStanza::~msrStanza()
+msrStanza::~msrStanza ()
 {}
 
 S_msrStanza msrStanza::createStanzaNewbornClone (
@@ -17781,7 +17781,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kSyllableBegin:
     case msrSyllable::kSyllableMiddle:
     case msrSyllable::kSyllableEnd:
-      // only now, in case addSyllableToStanza() is called
+      // only now, in case addSyllableToStanza () is called
       // from LPSR for example
       fStanzaTextPresent = true;
       break;
@@ -18264,7 +18264,7 @@ void msrStanza::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStanza::acceptIn()" <<
+      "% ==> msrStanza::acceptIn ()" <<
       endl;
   }
       
@@ -18275,7 +18275,7 @@ void msrStanza::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStanza::visitStart()" <<
+            "% ==> Launching msrStanza::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -18286,7 +18286,7 @@ void msrStanza::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStanza::acceptOut()" <<
+      "% ==> msrStanza::acceptOut ()" <<
       endl;
   }
 
@@ -18297,7 +18297,7 @@ void msrStanza::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStanza::visitEnd()" <<
+            "% ==> Launching msrStanza::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -18308,7 +18308,7 @@ void msrStanza::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStanza::browseData()" <<
+      "% ==> msrStanza::browseData ()" <<
       endl;
   }
 
@@ -18328,7 +18328,7 @@ void msrStanza::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrStanza::browseData()" <<
+      "% <== msrStanza::browseData ()" <<
       endl;
   }
 }
@@ -18593,7 +18593,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHarmonyDegree::acceptIn()" <<
+      "% ==> msrHarmonyDegree::acceptIn ()" <<
       endl;
   }
       
@@ -18604,7 +18604,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHarmonyDegree::visitStart()" <<
+            "% ==> Launching msrHarmonyDegree::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -18615,7 +18615,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHarmonyDegree::acceptOut()" <<
+      "% ==> msrHarmonyDegree::acceptOut ()" <<
       endl;
   }
 
@@ -18626,7 +18626,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHarmonyDegree::visitEnd()" <<
+            "% ==> Launching msrHarmonyDegree::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -18923,7 +18923,7 @@ void msrHarmony::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHarmony::acceptIn()" <<
+      "% ==> msrHarmony::acceptIn ()" <<
       endl;
   }
       
@@ -18934,7 +18934,7 @@ void msrHarmony::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHarmony::visitStart()" <<
+            "% ==> Launching msrHarmony::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -18945,7 +18945,7 @@ void msrHarmony::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHarmony::acceptOut()" <<
+      "% ==> msrHarmony::acceptOut ()" <<
       endl;
   }
 
@@ -18956,7 +18956,7 @@ void msrHarmony::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHarmony::visitEnd()" <<
+            "% ==> Launching msrHarmony::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -19146,7 +19146,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFrameNote::acceptIn()" <<
+      "% ==> msrFrameNote::acceptIn ()" <<
       endl;
   }
       
@@ -19157,7 +19157,7 @@ void msrFrameNote::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFrameNote::visitStart()" <<
+            "% ==> Launching msrFrameNote::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -19168,7 +19168,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFrameNote::acceptOut()" <<
+      "% ==> msrFrameNote::acceptOut ()" <<
       endl;
   }
 
@@ -19179,7 +19179,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFrameNote::visitEnd()" <<
+            "% ==> Launching msrFrameNote::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -19376,7 +19376,7 @@ void msrFrame::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFrame::acceptIn()" <<
+      "% ==> msrFrame::acceptIn ()" <<
       endl;
   }
       
@@ -19387,7 +19387,7 @@ void msrFrame::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFrame::visitStart()" <<
+            "% ==> Launching msrFrame::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -19398,7 +19398,7 @@ void msrFrame::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFrame::acceptOut()" <<
+      "% ==> msrFrame::acceptOut ()" <<
       endl;
   }
 
@@ -19409,7 +19409,7 @@ void msrFrame::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFrame::visitEnd()" <<
+            "% ==> Launching msrFrame::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -19592,7 +19592,7 @@ msrFigure::msrFigure (
   }
 }
 
-msrFigure::~msrFigure()
+msrFigure::~msrFigure ()
 {}
 
 S_msrFigure msrFigure::createFigureNewbornClone (
@@ -19754,7 +19754,7 @@ void msrFigure::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFigure::acceptIn()" <<
+      "% ==> msrFigure::acceptIn ()" <<
       endl;
   }
       
@@ -19765,7 +19765,7 @@ void msrFigure::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFigure::visitStart()" <<
+            "% ==> Launching msrFigure::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -19776,7 +19776,7 @@ void msrFigure::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFigure::acceptOut()" <<
+      "% ==> msrFigure::acceptOut ()" <<
       endl;
   }
 
@@ -19787,7 +19787,7 @@ void msrFigure::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFigure::visitEnd()" <<
+            "% ==> Launching msrFigure::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -19884,7 +19884,7 @@ msrFiguredBass::msrFiguredBass (
   }
 }
 
-msrFiguredBass::~msrFiguredBass()
+msrFiguredBass::~msrFiguredBass ()
 {}
 
 S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
@@ -20020,7 +20020,7 @@ void msrFiguredBass::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFiguredBass::acceptIn()" <<
+      "% ==> msrFiguredBass::acceptIn ()" <<
       endl;
   }
       
@@ -20031,7 +20031,7 @@ void msrFiguredBass::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFiguredBass::visitStart()" <<
+            "% ==> Launching msrFiguredBass::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20042,7 +20042,7 @@ void msrFiguredBass::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrFiguredBass::acceptOut()" <<
+      "% ==> msrFiguredBass::acceptOut ()" <<
       endl;
   }
 
@@ -20053,7 +20053,7 @@ void msrFiguredBass::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrFiguredBass::visitEnd()" <<
+            "% ==> Launching msrFiguredBass::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20127,14 +20127,14 @@ msrSegno::msrSegno (
     : msrElement (inputLineNumber)
 {}
 
-msrSegno::~msrSegno()
+msrSegno::~msrSegno ()
 {}
 
 void msrSegno::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSegno::acceptIn()" <<
+      "% ==> msrSegno::acceptIn ()" <<
       endl;
   }
       
@@ -20145,7 +20145,7 @@ void msrSegno::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSegno::visitStart()" <<
+            "% ==> Launching msrSegno::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20156,7 +20156,7 @@ void msrSegno::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSegno::acceptOut()" <<
+      "% ==> msrSegno::acceptOut ()" <<
       endl;
   }
 
@@ -20167,7 +20167,7 @@ void msrSegno::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSegno::visitEnd()" <<
+            "% ==> Launching msrSegno::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20207,14 +20207,14 @@ msrCoda::msrCoda (
     : msrElement (inputLineNumber)
 {}
 
-msrCoda::~msrCoda()
+msrCoda::~msrCoda ()
 {}
 
 void msrCoda::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrCoda::acceptIn()" <<
+      "% ==> msrCoda::acceptIn ()" <<
       endl;
   }
       
@@ -20225,7 +20225,7 @@ void msrCoda::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrCoda::visitStart()" <<
+            "% ==> Launching msrCoda::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20236,7 +20236,7 @@ void msrCoda::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrCoda::acceptOut()" <<
+      "% ==> msrCoda::acceptOut ()" <<
       endl;
   }
 
@@ -20247,7 +20247,7 @@ void msrCoda::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrCoda::visitEnd()" <<
+            "% ==> Launching msrCoda::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20294,7 +20294,7 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrEyeGlasses::acceptIn()" <<
+      "% ==> msrEyeGlasses::acceptIn ()" <<
       endl;
   }
       
@@ -20305,7 +20305,7 @@ void msrEyeGlasses::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrEyeGlasses::visitStart()" <<
+            "% ==> Launching msrEyeGlasses::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20316,7 +20316,7 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrEyeGlasses::acceptOut()" <<
+      "% ==> msrEyeGlasses::acceptOut ()" <<
       endl;
   }
 
@@ -20327,7 +20327,7 @@ void msrEyeGlasses::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrEyeGlasses::visitEnd()" <<
+            "% ==> Launching msrEyeGlasses::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20378,7 +20378,7 @@ msrPedal::msrPedal (
   fPedalSignKind = pedalSignKind;
 }
 
-msrPedal::~msrPedal()
+msrPedal::~msrPedal ()
 {}
 
 string msrPedal::pedalTypeAsString ()
@@ -20439,7 +20439,7 @@ void msrPedal::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPedal::acceptIn()" <<
+      "% ==> msrPedal::acceptIn ()" <<
       endl;
   }
       
@@ -20450,7 +20450,7 @@ void msrPedal::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPedal::visitStart()" <<
+            "% ==> Launching msrPedal::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20461,7 +20461,7 @@ void msrPedal::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPedal::acceptOut()" <<
+      "% ==> msrPedal::acceptOut ()" <<
       endl;
   }
 
@@ -20472,7 +20472,7 @@ void msrPedal::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPedal::visitEnd()" <<
+            "% ==> Launching msrPedal::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20525,7 +20525,7 @@ void msrDamp::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDamp::acceptIn()" <<
+      "% ==> msrDamp::acceptIn ()" <<
       endl;
   }
       
@@ -20536,7 +20536,7 @@ void msrDamp::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDamp::visitStart()" <<
+            "% ==> Launching msrDamp::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20547,7 +20547,7 @@ void msrDamp::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDamp::acceptOut()" <<
+      "% ==> msrDamp::acceptOut ()" <<
       endl;
   }
 
@@ -20558,7 +20558,7 @@ void msrDamp::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDamp::visitEnd()" <<
+            "% ==> Launching msrDamp::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20605,7 +20605,7 @@ void msrDampAll::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDampAll::acceptIn()" <<
+      "% ==> msrDampAll::acceptIn ()" <<
       endl;
   }
       
@@ -20616,7 +20616,7 @@ void msrDampAll::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDampAll::visitStart()" <<
+            "% ==> Launching msrDampAll::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20627,7 +20627,7 @@ void msrDampAll::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrDampAll::acceptOut()" <<
+      "% ==> msrDampAll::acceptOut ()" <<
       endl;
   }
 
@@ -20638,7 +20638,7 @@ void msrDampAll::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrDampAll::visitEnd()" <<
+            "% ==> Launching msrDampAll::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -20721,14 +20721,14 @@ msrBarline::msrBarline (
       fEndingNumber, false); // 'true' to debug it
 }
 
-msrBarline::~msrBarline()
+msrBarline::~msrBarline ()
 {}
 
 void msrBarline::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBarline::acceptIn()" <<
+      "% ==> msrBarline::acceptIn ()" <<
       endl;
   }
       
@@ -20739,7 +20739,7 @@ void msrBarline::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBarline::visitStart()" <<
+            "% ==> Launching msrBarline::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -20750,7 +20750,7 @@ void msrBarline::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrBarline::acceptOut()" <<
+      "% ==> msrBarline::acceptOut ()" <<
       endl;
   }
 
@@ -20761,7 +20761,7 @@ void msrBarline::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrBarline::visitEnd()" <<
+            "% ==> Launching msrBarline::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -21171,7 +21171,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureContainsMusic = false;
 }
 
-msrMeasure::~msrMeasure()
+msrMeasure::~msrMeasure ()
 {}
 
 S_msrPart msrMeasure::fetchMeasurePartUplink () const
@@ -23567,7 +23567,7 @@ void msrMeasure::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasure::acceptIn()" <<
+      "% ==> msrMeasure::acceptIn ()" <<
       endl;
   }
       
@@ -23578,7 +23578,7 @@ void msrMeasure::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasure::visitStart()" <<
+            "% ==> Launching msrMeasure::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -23589,7 +23589,7 @@ void msrMeasure::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasure::acceptOut()" <<
+      "% ==> msrMeasure::acceptOut ()" <<
       endl;
   }
 
@@ -23600,7 +23600,7 @@ void msrMeasure::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasure::visitEnd()" <<
+            "% ==> Launching msrMeasure::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -23611,7 +23611,7 @@ void msrMeasure::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasure::browseData()" <<
+      "% ==> msrMeasure::browseData ()" <<
       endl;
   }
 
@@ -23626,7 +23626,7 @@ void msrMeasure::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrMeasure::browseData()" <<
+      "% <== msrMeasure::browseData ()" <<
       endl;
   }
 }
@@ -23886,7 +23886,7 @@ msrSegment::msrSegment (
   initializeSegment ();
 }
 
-msrSegment::~msrSegment()
+msrSegment::~msrSegment ()
 {}
 
 void msrSegment::initializeSegment ()
@@ -25806,7 +25806,7 @@ void msrSegment::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSegment::acceptIn()" <<
+      "% ==> msrSegment::acceptIn ()" <<
       endl;
   }
       
@@ -25817,7 +25817,7 @@ void msrSegment::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSegment::visitStart()" <<
+            "% ==> Launching msrSegment::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -25828,7 +25828,7 @@ void msrSegment::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSegment::acceptOut()" <<
+      "% ==> msrSegment::acceptOut ()" <<
       endl;
   }
 
@@ -25839,7 +25839,7 @@ void msrSegment::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSegment::visitEnd()" <<
+            "% ==> Launching msrSegment::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -25850,7 +25850,7 @@ void msrSegment::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSegment::browseData()" <<
+      "% ==> msrSegment::browseData ()" <<
       endl;
   }
 
@@ -25872,7 +25872,7 @@ void msrSegment::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrSegment::browseData()" <<
+      "% <== msrSegment::browseData ()" <<
       endl;
   }
 }
@@ -25993,7 +25993,7 @@ msrRepeatCommonPart::msrRepeatCommonPart (
   fRepeatCommonPartRepeatUplink = repeatUplink;
 }
 
-msrRepeatCommonPart::~msrRepeatCommonPart()
+msrRepeatCommonPart::~msrRepeatCommonPart ()
 {}
 
 /* JMI
@@ -26009,7 +26009,7 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeatCommonPart::acceptIn()" <<
+      "% ==> msrRepeatCommonPart::acceptIn ()" <<
       endl;
   }
       
@@ -26020,7 +26020,7 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeatCommonPart::visitStart()" <<
+            "% ==> Launching msrRepeatCommonPart::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -26031,7 +26031,7 @@ void msrRepeatCommonPart::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeatCommonPart::acceptOut()" <<
+      "% ==> msrRepeatCommonPart::acceptOut ()" <<
       endl;
   }
 
@@ -26042,7 +26042,7 @@ void msrRepeatCommonPart::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeatCommonPart::visitEnd()" <<
+            "% ==> Launching msrRepeatCommonPart::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -26194,7 +26194,7 @@ msrRepeatEnding::msrRepeatEnding (
   fRepeatEndingRepeatUplink = repeatUplink;
 }
 
-msrRepeatEnding::~msrRepeatEnding()
+msrRepeatEnding::~msrRepeatEnding ()
 {}
 
 /* JMI
@@ -26210,7 +26210,7 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeatEnding::acceptIn()" <<
+      "% ==> msrRepeatEnding::acceptIn ()" <<
       endl;
   }
       
@@ -26221,7 +26221,7 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeatEnding::visitStart()" <<
+            "% ==> Launching msrRepeatEnding::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -26232,7 +26232,7 @@ void msrRepeatEnding::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeatEnding::acceptOut()" <<
+      "% ==> msrRepeatEnding::acceptOut ()" <<
       endl;
   }
 
@@ -26243,7 +26243,7 @@ void msrRepeatEnding::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeatEnding::visitEnd()" <<
+            "% ==> Launching msrRepeatEnding::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -26359,7 +26359,7 @@ msrRepeat::msrRepeat (
   fRepeatTimes = repeatTimes;
 }
 
-msrRepeat::~msrRepeat()
+msrRepeat::~msrRepeat ()
 {}
 
 void msrRepeat::setRepeatCommonPart (
@@ -26435,7 +26435,7 @@ void msrRepeat::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeat::acceptIn()" <<
+      "% ==> msrRepeat::acceptIn ()" <<
       endl;
   }
       
@@ -26446,7 +26446,7 @@ void msrRepeat::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeat::visitStart()" <<
+            "% ==> Launching msrRepeat::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -26457,7 +26457,7 @@ void msrRepeat::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeat::acceptOut()" <<
+      "% ==> msrRepeat::acceptOut ()" <<
       endl;
   }
 
@@ -26468,7 +26468,7 @@ void msrRepeat::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeat::visitEnd()" <<
+            "% ==> Launching msrRepeat::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -26621,7 +26621,7 @@ msrMeasuresRepeatPattern::msrMeasuresRepeatPattern (
   fMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
-msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern()
+msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern ()
 {}
 
 void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
@@ -26664,7 +26664,7 @@ void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeatPattern::acceptIn()" <<
+      "% ==> msrMeasuresRepeatPattern::acceptIn ()" <<
       endl;
   }
       
@@ -26675,7 +26675,7 @@ void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasuresRepeatPattern::visitStart()" <<
+            "% ==> Launching msrMeasuresRepeatPattern::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -26686,7 +26686,7 @@ void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeatPattern::acceptOut()" <<
+      "% ==> msrMeasuresRepeatPattern::acceptOut ()" <<
       endl;
   }
 
@@ -26697,7 +26697,7 @@ void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasuresRepeatPattern::visitEnd()" <<
+            "% ==> Launching msrMeasuresRepeatPattern::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -26708,7 +26708,7 @@ void msrMeasuresRepeatPattern::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeatPattern::browseData()" <<
+      "% ==> msrMeasuresRepeatPattern::browseData ()" <<
       endl;
   }
 
@@ -26803,7 +26803,7 @@ msrMeasuresRepeatReplicas::msrMeasuresRepeatReplicas (
   fMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
-msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas()
+msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas ()
 {}
 
 void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
@@ -26846,7 +26846,7 @@ void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeatReplicas::acceptIn()" <<
+      "% ==> msrMeasuresRepeatReplicas::acceptIn ()" <<
       endl;
   }
       
@@ -26857,7 +26857,7 @@ void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasuresRepeatReplicas::visitStart()" <<
+            "% ==> Launching msrMeasuresRepeatReplicas::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -26868,7 +26868,7 @@ void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeatReplicas::acceptOut()" <<
+      "% ==> msrMeasuresRepeatReplicas::acceptOut ()" <<
       endl;
   }
 
@@ -26879,7 +26879,7 @@ void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasuresRepeatReplicas::visitEnd()" <<
+            "% ==> Launching msrMeasuresRepeatReplicas::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -26890,7 +26890,7 @@ void msrMeasuresRepeatReplicas::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeatReplicas::browseData()" <<
+      "% ==> msrMeasuresRepeatReplicas::browseData ()" <<
       endl;
   }
 
@@ -27000,7 +27000,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
   fMeasuresRepeatVoiceUplink = voiceUplink;
 }
 
-msrMeasuresRepeat::~msrMeasuresRepeat()
+msrMeasuresRepeat::~msrMeasuresRepeat ()
 {}
 
 void msrMeasuresRepeat::setMeasuresRepeatPattern (
@@ -27067,7 +27067,7 @@ void msrMeasuresRepeat::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeat::acceptIn()" <<
+      "% ==> msrMeasuresRepeat::acceptIn ()" <<
       endl;
   }
       
@@ -27078,7 +27078,7 @@ void msrMeasuresRepeat::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasuresRepeat::visitStart()" <<
+            "% ==> Launching msrMeasuresRepeat::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -27089,7 +27089,7 @@ void msrMeasuresRepeat::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeat::acceptOut()" <<
+      "% ==> msrMeasuresRepeat::acceptOut ()" <<
       endl;
   }
 
@@ -27100,7 +27100,7 @@ void msrMeasuresRepeat::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasuresRepeat::visitEnd()" <<
+            "% ==> Launching msrMeasuresRepeat::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -27111,7 +27111,7 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasuresRepeat::browseData()" <<
+      "% ==> msrMeasuresRepeat::browseData ()" <<
       endl;
   }
 
@@ -27252,7 +27252,7 @@ msrMultipleRestContents::msrMultipleRestContents (
   fMultipleRestContentsVoiceUplink = voiceUplink;
 }
 
-msrMultipleRestContents::~msrMultipleRestContents()
+msrMultipleRestContents::~msrMultipleRestContents ()
 {}
 
 S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNewbornClone (
@@ -27318,7 +27318,7 @@ void msrMultipleRestContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRestContents::acceptIn()" <<
+      "% ==> msrMultipleRestContents::acceptIn ()" <<
       endl;
   }
       
@@ -27329,7 +27329,7 @@ void msrMultipleRestContents::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRestContents::visitStart()" <<
+            "% ==> Launching msrMultipleRestContents::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -27340,7 +27340,7 @@ void msrMultipleRestContents::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRestContents::acceptOut()" <<
+      "% ==> msrMultipleRestContents::acceptOut ()" <<
       endl;
   }
 
@@ -27351,7 +27351,7 @@ void msrMultipleRestContents::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRestContents::visitEnd()" <<
+            "% ==> Launching msrMultipleRestContents::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -27362,7 +27362,7 @@ void msrMultipleRestContents::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRestContents::browseData()" <<
+      "% ==> msrMultipleRestContents::browseData ()" <<
       endl;
   }
 
@@ -27461,7 +27461,7 @@ msrMultipleRest::msrMultipleRest (
   fMultipleRestVoiceUplink = voiceUplink;
 }
 
-msrMultipleRest::~msrMultipleRest()
+msrMultipleRest::~msrMultipleRest ()
 {}
 
 S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
@@ -27534,7 +27534,7 @@ void msrMultipleRest::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRest::acceptIn()" <<
+      "% ==> msrMultipleRest::acceptIn ()" <<
       endl;
   }
       
@@ -27545,7 +27545,7 @@ void msrMultipleRest::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRest::visitStart()" <<
+            "% ==> Launching msrMultipleRest::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -27556,7 +27556,7 @@ void msrMultipleRest::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRest::acceptOut()" <<
+      "% ==> msrMultipleRest::acceptOut ()" <<
       endl;
   }
 
@@ -27567,7 +27567,7 @@ void msrMultipleRest::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRest::visitEnd()" <<
+            "% ==> Launching msrMultipleRest::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -27578,7 +27578,7 @@ void msrMultipleRest::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRest::browseData()" <<
+      "% ==> msrMultipleRest::browseData ()" <<
       endl;
   }
 
@@ -27753,7 +27753,7 @@ void msrSlash::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSlash::acceptIn()" <<
+      "% ==> msrSlash::acceptIn ()" <<
       endl;
   }
       
@@ -27764,7 +27764,7 @@ void msrSlash::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSlash::visitStart()" <<
+            "% ==> Launching msrSlash::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -27775,7 +27775,7 @@ void msrSlash::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrSlash::acceptOut()" <<
+      "% ==> msrSlash::acceptOut ()" <<
       endl;
   }
 
@@ -27786,7 +27786,7 @@ void msrSlash::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrSlash::visitEnd()" <<
+            "% ==> Launching msrSlash::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -27905,7 +27905,7 @@ msrRepeatCoda::msrRepeatCoda (
   fRepeatCodaRepeatUplink = repeatUplink;
 }
 
-msrRepeatCoda::~msrRepeatCoda()
+msrRepeatCoda::~msrRepeatCoda ()
 {}
 
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
@@ -27994,7 +27994,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeatCoda::acceptIn()" <<
+      "% ==> msrRepeatCoda::acceptIn ()" <<
       endl;
   }
       
@@ -28005,7 +28005,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeatCoda::visitStart()" <<
+            "% ==> Launching msrRepeatCoda::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -28016,7 +28016,7 @@ void msrRepeatCoda::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrRepeatCoda::acceptOut()" <<
+      "% ==> msrRepeatCoda::acceptOut ()" <<
       endl;
   }
 
@@ -28027,7 +28027,7 @@ void msrRepeatCoda::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrRepeatCoda::visitEnd()" <<
+            "% ==> Launching msrRepeatCoda::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -28091,7 +28091,7 @@ msrHarpPedalsTuning::msrHarpPedalsTuning (
 {
 }
 
-msrHarpPedalsTuning::~msrHarpPedalsTuning()
+msrHarpPedalsTuning::~msrHarpPedalsTuning ()
 {}
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
@@ -28159,7 +28159,7 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHarpPedalsTuning::acceptIn()" <<
+      "% ==> msrHarpPedalsTuning::acceptIn ()" <<
       endl;
   }
       
@@ -28170,7 +28170,7 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHarpPedalsTuning::visitStart()" <<
+            "% ==> Launching msrHarpPedalsTuning::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -28181,7 +28181,7 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrHarpPedalsTuning::acceptOut()" <<
+      "% ==> msrHarpPedalsTuning::acceptOut ()" <<
       endl;
   }
 
@@ -28192,7 +28192,7 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrHarpPedalsTuning::visitEnd()" <<
+            "% ==> Launching msrHarpPedalsTuning::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -28369,14 +28369,14 @@ void msrVoice::setVoiceNameFromNumber (
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
+        fVoiceStaffUplink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (voiceNumber);
       break;
       
     case msrVoice::kHarmonyVoice:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
+        fVoiceStaffUplink->getStaffName () +
         "_Voice_" +
         int2EnglishWord (
           voiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER) +
@@ -28418,7 +28418,7 @@ void msrVoice::initializeVoice (
 {
   // the voice staff sequential number will be set
   // when regular voices are added to a staff
-  // in registerVoiceInRegularVoicesMap()
+  // in registerVoiceInRegularVoicesMap ()
   fRegularVoiceStaffSequentialNumber = -1;
 
   gIndenter++;
@@ -28446,7 +28446,7 @@ void msrVoice::initializeVoice (
       
     case msrVoice::kFiguredBassVoice:
       fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
+        fVoiceStaffUplink->getStaffName () +
         "_FIGURED_BASS_Voice";
       break;
   } // switch
@@ -29089,7 +29089,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
   It may lead to several measures having the same number,
   in case a bar line cuts them apart
   If this measure remains empty because the end of measure
-  follows the barline, it will be removed upon finalizeMeasure()
+  follows the barline, it will be removed upon finalizeMeasure ()
 */
 
   // finalize the current measure
@@ -32904,7 +32904,7 @@ void msrVoice::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVoice::acceptIn()" <<
+      "% ==> msrVoice::acceptIn ()" <<
       endl;
   }
       
@@ -32915,7 +32915,7 @@ void msrVoice::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVoice::visitStart()" <<
+            "% ==> Launching msrVoice::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -32926,7 +32926,7 @@ void msrVoice::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVoice::acceptOut()" <<
+      "% ==> msrVoice::acceptOut ()" <<
       endl;
   }
 
@@ -32937,7 +32937,7 @@ void msrVoice::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVoice::visitEnd()" <<
+            "% ==> Launching msrVoice::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -32948,7 +32948,7 @@ void msrVoice::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVoice::browseData()" <<
+      "% ==> msrVoice::browseData ()" <<
       endl;
   }
 
@@ -32986,7 +32986,7 @@ void msrVoice::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrVoice::browseData()" <<
+      "% <== msrVoice::browseData ()" <<
       endl;
   }
 }
@@ -33288,7 +33288,7 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartNameDisplay::acceptIn()" <<
+      "% ==> msrPartNameDisplay::acceptIn ()" <<
       endl;
   }
       
@@ -33299,7 +33299,7 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPartNameDisplay::visitStart()" <<
+            "% ==> Launching msrPartNameDisplay::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -33310,7 +33310,7 @@ void msrPartNameDisplay::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartNameDisplay::acceptOut()" <<
+      "% ==> msrPartNameDisplay::acceptOut ()" <<
       endl;
   }
 
@@ -33321,7 +33321,7 @@ void msrPartNameDisplay::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPartNameDisplay::visitEnd()" <<
+            "% ==> Launching msrPartNameDisplay::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -33383,7 +33383,7 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartAbbreviationDisplay::acceptIn()" <<
+      "% ==> msrPartAbbreviationDisplay::acceptIn ()" <<
       endl;
   }
       
@@ -33394,7 +33394,7 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPartAbbreviationDisplay::visitStart()" <<
+            "% ==> Launching msrPartAbbreviationDisplay::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -33405,7 +33405,7 @@ void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartAbbreviationDisplay::acceptOut()" <<
+      "% ==> msrPartAbbreviationDisplay::acceptOut ()" <<
       endl;
   }
 
@@ -33416,7 +33416,7 @@ void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPartAbbreviationDisplay::visitEnd()" <<
+            "% ==> Launching msrPartAbbreviationDisplay::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -33509,7 +33509,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaffTuning::acceptIn()" <<
+      "% ==> msrStaffTuning::acceptIn ()" <<
       endl;
   }
       
@@ -33520,7 +33520,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaffTuning::visitStart()" <<
+            "% ==> Launching msrStaffTuning::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -33531,7 +33531,7 @@ void msrStaffTuning::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaffTuning::acceptOut()" <<
+      "% ==> msrStaffTuning::acceptOut ()" <<
       endl;
   }
 
@@ -33542,7 +33542,7 @@ void msrStaffTuning::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaffTuning::visitEnd()" <<
+            "% ==> Launching msrStaffTuning::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -33648,7 +33648,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaffDetails::acceptIn()" <<
+      "% ==> msrStaffDetails::acceptIn ()" <<
       endl;
   }
       
@@ -33659,7 +33659,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaffDetails::visitStart()" <<
+            "% ==> Launching msrStaffDetails::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -33670,7 +33670,7 @@ void msrStaffDetails::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaffDetails::acceptOut()" <<
+      "% ==> msrStaffDetails::acceptOut ()" <<
       endl;
   }
 
@@ -33681,7 +33681,7 @@ void msrStaffDetails::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaffDetails::visitEnd()" <<
+            "% ==> Launching msrStaffDetails::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -35869,7 +35869,7 @@ void msrStaff::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaff::acceptIn()" <<
+      "% ==> msrStaff::acceptIn ()" <<
       endl;
   }
       
@@ -35880,7 +35880,7 @@ void msrStaff::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaff::visitStart()" <<
+            "% ==> Launching msrStaff::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -35891,7 +35891,7 @@ void msrStaff::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaff::acceptOut()" <<
+      "% ==> msrStaff::acceptOut ()" <<
       endl;
   }
 
@@ -35902,7 +35902,7 @@ void msrStaff::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaff::visitEnd()" <<
+            "% ==> Launching msrStaff::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -35913,7 +35913,7 @@ void msrStaff::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaff::browseData()" <<
+      "% ==> msrStaff::browseData ()" <<
       endl;
   }
 
@@ -35967,7 +35967,7 @@ void msrStaff::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrStaff::browseData()" <<
+      "% <== msrStaff::browseData ()" <<
       endl;
   }
 }
@@ -36259,7 +36259,7 @@ msrVoiceStaffChange::msrVoiceStaffChange (
   fNewStaff = newStaff;
 }
 
-msrVoiceStaffChange::~msrVoiceStaffChange()
+msrVoiceStaffChange::~msrVoiceStaffChange ()
 {}
 
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
@@ -36285,7 +36285,7 @@ void msrVoiceStaffChange::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVoiceStaffChange::acceptIn()" <<
+      "% ==> msrVoiceStaffChange::acceptIn ()" <<
       endl;
   }
       
@@ -36296,7 +36296,7 @@ void msrVoiceStaffChange::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVoiceStaffChange::visitStart()" <<
+            "% ==> Launching msrVoiceStaffChange::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -36307,7 +36307,7 @@ void msrVoiceStaffChange::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrVoiceStaffChange::acceptOut()" <<
+      "% ==> msrVoiceStaffChange::acceptOut ()" <<
       endl;
   }
 
@@ -36318,7 +36318,7 @@ void msrVoiceStaffChange::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrVoiceStaffChange::visitEnd()" <<
+            "% ==> Launching msrVoiceStaffChange::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -36427,7 +36427,7 @@ void msrPart::initializePart ()
     rational (0, 1));
 }
 
-msrPart::~msrPart()
+msrPart::~msrPart ()
 {}
 
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
@@ -37680,7 +37680,7 @@ void msrPart::appendSkipGraceNotesToVoicesClones ( // JMI ???
         
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
     gLogIOstream <<
-      "appendSkipGraceNotesToVoicesClones() in " <<
+      "appendSkipGraceNotesToVoicesClones () in " <<
       getPartCombinedName () <<
       ", graceNotesOriginVoiceMeasureLength = " <<
       graceNotesOriginVoiceMeasureLength <<
@@ -37743,7 +37743,7 @@ void msrPart::prependSkipGraceNotesToVoicesClones (
         
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
     gLogIOstream <<
-      "prependSkipGraceNotesToVoicesClones() in " <<
+      "prependSkipGraceNotesToVoicesClones () in " <<
       getPartCombinedName () <<
       ", graceNotesOriginVoiceMeasureLength = " <<
       graceNotesOriginVoiceMeasureLength <<
@@ -37928,7 +37928,7 @@ void msrPart::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPart::acceptIn()" <<
+      "% ==> msrPart::acceptIn ()" <<
       endl;
   }
       
@@ -37939,7 +37939,7 @@ void msrPart::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPart::visitStart()" <<
+            "% ==> Launching msrPart::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -37950,7 +37950,7 @@ void msrPart::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPart::acceptOut()" <<
+      "% ==> msrPart::acceptOut ()" <<
       endl;
   }
 
@@ -37961,7 +37961,7 @@ void msrPart::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPart::visitEnd()" <<
+            "% ==> Launching msrPart::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -37972,7 +37972,7 @@ void msrPart::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPart::browseData()" <<
+      "% ==> msrPart::browseData ()" <<
       endl;
   }
 
@@ -38373,7 +38373,7 @@ msrPartGroup::msrPartGroup (
   }
 }
 
-msrPartGroup::~msrPartGroup()
+msrPartGroup::~msrPartGroup ()
 {}
 
 S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
@@ -38523,7 +38523,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       gLogIOstream <<
         "\"" << (*i).first << "\" --% --> " <<
         (*i).second->
-          getPartCombinedName() <<
+          getPartCombinedName () <<
         endl;
     } // for
     
@@ -38867,7 +38867,7 @@ void msrPartGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartGroup::acceptIn()" <<
+      "% ==> msrPartGroup::acceptIn ()" <<
       endl;
   }
       
@@ -38878,7 +38878,7 @@ void msrPartGroup::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPartGroup::visitStart()" <<
+            "% ==> Launching msrPartGroup::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -38889,7 +38889,7 @@ void msrPartGroup::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartGroup::acceptOut()" <<
+      "% ==> msrPartGroup::acceptOut ()" <<
       endl;
   }
 
@@ -38900,7 +38900,7 @@ void msrPartGroup::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrPartGroup::visitEnd()" <<
+            "% ==> Launching msrPartGroup::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -38911,7 +38911,7 @@ void msrPartGroup::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrPartGroup::browseData()" <<
+      "% ==> msrPartGroup::browseData ()" <<
       endl;
   }
   
@@ -38926,7 +38926,7 @@ void msrPartGroup::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrPartGroup::browseData()" <<
+      "% <== msrPartGroup::browseData ()" <<
       endl;
   }
 }
@@ -39236,7 +39236,7 @@ msrIdentification::msrIdentification (
     : msrElement (inputLineNumber)
 {}
 
-msrIdentification::~msrIdentification()
+msrIdentification::~msrIdentification ()
 {}
 
 void msrIdentification::setWorkNumber (
@@ -39418,7 +39418,7 @@ void msrIdentification::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrIdentification::acceptIn()" <<
+      "% ==> msrIdentification::acceptIn ()" <<
       endl;
   }
       
@@ -39429,7 +39429,7 @@ void msrIdentification::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrIdentification::visitStart()" <<
+            "% ==> Launching msrIdentification::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -39440,7 +39440,7 @@ void msrIdentification::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrIdentification::acceptOut()" <<
+      "% ==> msrIdentification::acceptOut ()" <<
       endl;
   }
 
@@ -39451,7 +39451,7 @@ void msrIdentification::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrIdentification::visitEnd()" <<
+            "% ==> Launching msrIdentification::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -39816,7 +39816,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
         i != fPartGroupsList.end ();
         i++) {
       gLogIOstream <<
-        (*i)->getPartGroupCombinedName() <<
+        (*i)->getPartGroupCombinedName () <<
         ", " <<
         (*i)->getPartGroupName () <<
         endl;
@@ -39889,7 +39889,7 @@ void msrScore::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrScore::acceptIn()" <<
+      "% ==> msrScore::acceptIn ()" <<
       endl;
   }
       
@@ -39900,7 +39900,7 @@ void msrScore::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrScore::visitStart()" <<
+            "% ==> Launching msrScore::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -39911,7 +39911,7 @@ void msrScore::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrScore::acceptOut()" <<
+      "% ==> msrScore::acceptOut ()" <<
       endl;
   }
 
@@ -39922,7 +39922,7 @@ void msrScore::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrScore::visitEnd()" <<
+            "% ==> Launching msrScore::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
@@ -39933,7 +39933,7 @@ void msrScore::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrScore::browseData()" <<
+      "% ==> msrScore::browseData ()" <<
       endl;
   }
     
@@ -39969,7 +39969,7 @@ void msrScore::browseData (basevisitor* v)
 
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% <== msrScore::browseData()" <<
+      "% <== msrScore::browseData ()" <<
       endl;
   }
 }
@@ -40217,14 +40217,14 @@ msrMidi::msrMidi (
   fMidiTempoPerSecond = midiTempoPerSecond;
 }
 
-msrMidi::~msrMidi()
+msrMidi::~msrMidi ()
 {}
 
 void msrMidi::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMidi::acceptIn()" <<
+      "% ==> msrMidi::acceptIn ()" <<
       endl;
   }
       
@@ -40235,7 +40235,7 @@ void msrMidi::acceptIn (basevisitor* v)
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMidi::visitStart()" <<
+            "% ==> Launching msrMidi::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
@@ -40246,7 +40246,7 @@ void msrMidi::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMidi::acceptOut()" <<
+      "% ==> msrMidi::acceptOut ()" <<
       endl;
   }
 
@@ -40257,7 +40257,7 @@ void msrMidi::acceptOut (basevisitor* v)
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMidi::visitEnd()" <<
+            "% ==> Launching msrMidi::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);

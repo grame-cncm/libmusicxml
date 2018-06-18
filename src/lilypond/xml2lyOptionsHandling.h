@@ -195,7 +195,7 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     xml2lyOptionsHandler (
       indentedOstream& ios);
       
-    virtual ~xml2lyOptionsHandler();
+    virtual ~xml2lyOptionsHandler ();
 
   private:
 

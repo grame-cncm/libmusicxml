@@ -53,7 +53,7 @@ optionsShowAllChordsStructuresItem::optionsShowAllChordsStructuresItem (
       optionsItemDescription)
 {}
 
-optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem()
+optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem ()
 {}
 
 void optionsShowAllChordsStructuresItem::print (ostream& os) const

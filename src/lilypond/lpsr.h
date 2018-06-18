@@ -56,7 +56,7 @@ class lpsrElement : public msrElement
     lpsrElement (
       int inputLineNumber);
 
-    virtual ~lpsrElement();
+    virtual ~lpsrElement ();
 
   public:
 
@@ -91,7 +91,7 @@ template <typename T> class lpsrBrowser : public browser<T>
     
     lpsrBrowser (basevisitor* v) : fVisitor (v) {}
     
-    virtual ~lpsrBrowser() {}
+    virtual ~lpsrBrowser () {}
 
     virtual void          set (basevisitor* v) { fVisitor = v; }
     
@@ -328,7 +328,9 @@ class lpsrVarValsListAssoc : public lpsrElement
     // ------------------------------------------------------
 
     void                  addAssocVariableValue (string value)
-                              { fVariableValuesList.push_back (value); }
+                              {
+                                fVariableValuesList.push_back (value);
+                              }
 
     string                lilyPondVarValsListAssocKindAsString ()
                               {
@@ -412,7 +414,7 @@ class lpsrSchemeVariable : public lpsrElement
       string            comment,
       lpsrEndlKind      endlKind);
       
-    virtual ~lpsrSchemeVariable();
+    virtual ~lpsrSchemeVariable ();
   
   public:
 
@@ -493,7 +495,7 @@ class lpsrSchemeFunction : public lpsrElement
       string functionDescription,
       string functionCode);
       
-    virtual ~lpsrSchemeFunction();
+    virtual ~lpsrSchemeFunction ();
   
   public:
 
@@ -571,7 +573,7 @@ class lpsrComment : public lpsrElement
       string             contents,
       lpsrCommentGapKind commentGapKind = kNoGapAfterwards);
       
-    virtual ~lpsrComment();
+    virtual ~lpsrComment ();
   
   public:
 
@@ -632,7 +634,7 @@ class lpsrBarNumberCheck : public lpsrElement
       int inputLineNumber,
       int nextBarNumber);
       
-    virtual ~lpsrBarNumberCheck();
+    virtual ~lpsrBarNumberCheck ();
   
   public:
 
@@ -693,12 +695,6 @@ class lpsrNewStaffgroupBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void                  addElementToNewStaffgroupBlock (
-                            S_msrElement elem)
-                              {
-                                fNewStaffgroupElements.push_back (elem);
-                              }
-
     // visitors
     // ------------------------------------------------------
 
@@ -743,7 +739,7 @@ class lpsrNewStaffTuningBlock : public lpsrElement
       int              inputLineNumber,
       S_msrStaffTuning staffTuning);
       
-    virtual ~lpsrNewStaffTuningBlock();
+    virtual ~lpsrNewStaffTuningBlock ();
   
   public:
 
@@ -808,9 +804,6 @@ class lpsrNewStaffBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void                  addElementToNewStaff (S_msrElement elem)
-                              { fNewStaffElements.push_back(elem); }
-
     // visitors
     // ------------------------------------------------------
 
@@ -855,7 +848,7 @@ class lpsrUseVoiceCommand : public lpsrElement
       int        inputLineNumber,
       S_msrVoice voice);
       
-    virtual ~lpsrUseVoiceCommand();
+    virtual ~lpsrUseVoiceCommand ();
   
   public:
 
@@ -1047,7 +1040,7 @@ class lpsrUseLyricsCommand : public lpsrElement
       int            inputLineNumber,
       S_msrStanza&   stanza);
       
-    virtual ~lpsrUseLyricsCommand();
+    virtual ~lpsrUseLyricsCommand ();
   
   private:
   
@@ -1117,7 +1110,7 @@ class lpsrContext : public lpsrElement
     string                getContextName () const
                               { return fContextName; }
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     string                getContextTypeKindAsString () const
@@ -1133,11 +1126,6 @@ class lpsrContext : public lpsrElement
                                   contextExistingKindAsString (
                                     fContextExistingKind);
                               }
-
-    void                  addElementToContext (S_msrElement elem)
-                            {
-                              fContextElementsList.push_back(elem);
-                            }
 
     // visitors
     // ------------------------------------------------------
@@ -1308,7 +1296,7 @@ class lpsrBarCommand : public lpsrElement
     lpsrBarCommand (
       int inputLineNumber);
       
-    virtual ~lpsrBarCommand();
+    virtual ~lpsrBarCommand ();
   
   public:
 
@@ -1369,7 +1357,7 @@ class lpsrMelismaCommand : public lpsrElement
       int             inputLineNumber,
       lpsrMelismaKind melismaKind);
       
-    virtual ~lpsrMelismaCommand();
+    virtual ~lpsrMelismaCommand ();
   
   public:
 
@@ -1611,8 +1599,12 @@ class lpsrHeader : public lpsrElement
                                 fLilypondTagline = lilypondTagline;
                               }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
+
+  public:
 
     void                  addRights (
                             int    inputLineNumber,
@@ -1638,7 +1630,14 @@ class lpsrHeader : public lpsrElement
                             int    inputLineNumber,
                             string value);
 
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
     int                   maxLilypondVariablesNamesLength ();
+
+  public:
 
     // visitors
     // ------------------------------------------------------
@@ -1739,7 +1738,7 @@ class lpsrPaper : public msrElement
     lpsrPaper (
       int inputLineNumber);
       
-    virtual ~lpsrPaper();
+    virtual ~lpsrPaper ();
   
   public:
 
@@ -1871,7 +1870,7 @@ class lpsrLayout : public lpsrElement
     void                  setGlobalStaffSize (float size)
                               { fStaffSize = size; }
 
-    // services
+    // services JMI ???
     // ------------------------------------------------------
 
     void                  addLilypondVarValAssoc (
@@ -1934,7 +1933,7 @@ class lpsrStaffBlock : public lpsrElement
     lpsrStaffBlock (
       S_msrStaff staff);
       
-    virtual ~lpsrStaffBlock();
+    virtual ~lpsrStaffBlock ();
   
   public:
 
@@ -1968,7 +1967,9 @@ class lpsrStaffBlock : public lpsrElement
     string                getStaffBlockShortInstrumentName () const
                               { return fStaffBlockShortInstrumentName; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendVoiceUseToStaffBlock (
@@ -2062,7 +2063,9 @@ class lpsrPartBlock : public lpsrElement
     string                getPartBlockShortInstrumentName () const
                               { return fPartBlockShortInstrumentName; }
 
-    // services
+  public:
+  
+    // pbulic services
     // ------------------------------------------------------
 
     void                  appendStaffBlockToPartBlock (
@@ -2074,6 +2077,11 @@ class lpsrPartBlock : public lpsrElement
 
     void                  appendFiguredBassContextToPartBlock (
                             S_lpsrFiguredBassContext context);
+
+  private:
+  
+    // private services
+    // ------------------------------------------------------
 
     // voices ordering in staves
     
@@ -2096,6 +2104,8 @@ class lpsrPartBlock : public lpsrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2136,7 +2146,7 @@ class lpsrPartGroupBlock : public lpsrElement
     lpsrPartGroupBlock (
       S_msrPartGroup partGroup);
       
-    virtual ~lpsrPartGroupBlock();
+    virtual ~lpsrPartGroupBlock ();
   
   public:
 
@@ -2150,7 +2160,9 @@ class lpsrPartGroupBlock : public lpsrElement
                           getPartGroupBlockElements () const
                               { return fPartGroupBlockElements; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     void                  appendElementToPartGroupBlock (
@@ -2226,15 +2238,15 @@ class lpsrParallelMusicBLock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendPartGroupBlockToParallelMusicBLock (
+    void                  appendPartGroupBlockToParallelMusicBLock ( // JMI
                             S_lpsrPartGroupBlock partGroupBlock)
                               {
                                 fParallelMusicBLockPartGroupBlocks.push_back (
                                   partGroupBlock);
                               }
                     
-    S_lpsrPartGroupBlock
-                          getLastPartGroupBlockOfParallelMusicBLock ()
+/* JMI
+    S_lpsrPartGroupBlock  getLastPartGroupBlockOfParallelMusicBLock ()
                               {
                                 return
                                   fParallelMusicBLockPartGroupBlocks.back ();
@@ -2244,6 +2256,7 @@ class lpsrParallelMusicBLock : public lpsrElement
                               {
                                 fParallelMusicBLockPartGroupBlocks.pop_back ();
                               }
+*/
 
     // visitors
     // ------------------------------------------------------
@@ -2291,7 +2304,7 @@ class lpsrScoreBlock : public lpsrElement
     lpsrScoreBlock (
       int            inputLineNumber);
       
-    virtual ~lpsrScoreBlock();
+    virtual ~lpsrScoreBlock ();
   
   public:
 
@@ -2379,7 +2392,7 @@ class lpsrScore : public lpsrElement
       int            inputLineNumber,
       S_msrScore     mScore);
       
-    virtual ~lpsrScore();
+    virtual ~lpsrScore ();
   
   public:
 
@@ -2476,10 +2489,13 @@ class lpsrScore : public lpsrElement
     void                  setDampMarkupIsNeeded ();
                         
     void                  setDampAllMarkupIsNeeded ();
-                        
-    // services
+
+  public:
+  
+    // public services
     // ------------------------------------------------------
 
+/* JMI ???
     void                  appendCommentToScore (
                             S_lpsrComment comment)
                               { fScoreElements.push_back (comment); }
@@ -2492,6 +2508,13 @@ class lpsrScore : public lpsrElement
                             S_lpsrSchemeVariable assoc)
                               { fScoreElements.push_front (assoc); }
                   
+    void                  appendVoiceUseToStoreCommand (
+                            S_msrVoice voice);
+
+    void                  appendLyricsUseToStoreCommand (
+                            S_msrStanza stanza);
+*/
+
     void                  appendVoiceToScoreElements (
                             S_msrVoice voice)
                               { fScoreElements.push_back (voice); }
@@ -2500,11 +2523,10 @@ class lpsrScore : public lpsrElement
                             S_msrStanza stanza)
                               { fScoreElements.push_back (stanza); }
 
-    void                  appendVoiceUseToStoreCommand (
-                            S_msrVoice voice);
-
-    void                  appendLyricsUseToStoreCommand (
-                            S_msrStanza stanza);
+  private:
+  
+    // private services
+    // ------------------------------------------------------
 
     // files includes
 
@@ -2539,6 +2561,8 @@ class lpsrScore : public lpsrElement
     void                  addDampMarkupToScore ();
     void                  addDampAllMarkupToScore ();
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 

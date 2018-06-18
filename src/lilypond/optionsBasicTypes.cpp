@@ -58,7 +58,7 @@ optionsElement::optionsElement (
   fOptionsElementIsHidden    = false;
 }
 
-optionsElement::~optionsElement()
+optionsElement::~optionsElement ()
 {}
 
 S_optionsElement optionsElement::fetchOptionElement (
@@ -265,7 +265,7 @@ optionsItem::optionsItem (
 {
 }
     
-optionsItem::~optionsItem()
+optionsItem::~optionsItem ()
 {}
 
 void optionsItem::setOptionsSubGroupUplink (
@@ -444,7 +444,7 @@ optionsHelpSummaryItem::optionsHelpSummaryItem (
       optionsItemDescription)
 {}
 
-optionsHelpSummaryItem::~optionsHelpSummaryItem()
+optionsHelpSummaryItem::~optionsHelpSummaryItem ()
 {}
 
 void optionsHelpSummaryItem::print (ostream& os) const
@@ -525,7 +525,7 @@ optionsCombinedItemsItem::optionsCombinedItemsItem (
       optionsCombinedItemsItemVariable)
 {}
 
-optionsCombinedItemsItem::~optionsCombinedItemsItem()
+optionsCombinedItemsItem::~optionsCombinedItemsItem ()
 {}
 
 void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
@@ -836,7 +836,7 @@ optionsBooleanItem::optionsBooleanItem (
       optionsBooleanItemVariable)
 {}
 
-optionsBooleanItem::~optionsBooleanItem()
+optionsBooleanItem::~optionsBooleanItem ()
 {}
 
 void optionsBooleanItem::print (ostream& os) const
@@ -932,7 +932,7 @@ optionsTwoBooleansItem::optionsTwoBooleansItem (
       optionsTwoBooleansItemSecondaryVariable)
 {}
 
-optionsTwoBooleansItem::~optionsTwoBooleansItem()
+optionsTwoBooleansItem::~optionsTwoBooleansItem ()
 {}
 
 void optionsTwoBooleansItem::print (ostream& os) const
@@ -1033,7 +1033,7 @@ optionsThreeBooleansItem::optionsThreeBooleansItem (
       optionsThreeBooleansItemTertiaryVariable)
 {}
 
-optionsThreeBooleansItem::~optionsThreeBooleansItem()
+optionsThreeBooleansItem::~optionsThreeBooleansItem ()
 {}
 
 void optionsThreeBooleansItem::print (ostream& os) const
@@ -1119,7 +1119,7 @@ optionsValuedItem::optionsValuedItem (
   fOptionsValueSpecification = optionsValueSpecification;
 }
     
-optionsValuedItem::~optionsValuedItem()
+optionsValuedItem::~optionsValuedItem ()
 {}
 
 string optionsValuedItem::optionsItemKindAsString (
@@ -1241,7 +1241,7 @@ optionsItemHelpItem::optionsItemHelpItem (
       optionsValueSpecification)
 {}
 
-optionsItemHelpItem::~optionsItemHelpItem()
+optionsItemHelpItem::~optionsItemHelpItem ()
 {}
 
 void optionsItemHelpItem::print (ostream& os) const
@@ -1312,7 +1312,7 @@ optionsIntegerItem::optionsIntegerItem (
       optionsIntegerItemVariable)
 {}
 
-optionsIntegerItem::~optionsIntegerItem()
+optionsIntegerItem::~optionsIntegerItem ()
 {}
 
 void optionsIntegerItem::print (ostream& os) const
@@ -1398,7 +1398,7 @@ optionsFloatItem::optionsFloatItem (
       optionsFloatItemVariable)
 {}
 
-optionsFloatItem::~optionsFloatItem()
+optionsFloatItem::~optionsFloatItem ()
 {}
 
 void optionsFloatItem::print (ostream& os) const
@@ -1484,7 +1484,7 @@ optionsStringItem::optionsStringItem (
       optionsStringItemVariable)
 {}
 
-optionsStringItem::~optionsStringItem()
+optionsStringItem::~optionsStringItem ()
 {}
 
 void optionsStringItem::print (ostream& os) const
@@ -1572,7 +1572,7 @@ optionsRationalItem::optionsRationalItem (
       optionsRationalItemVariable)
 {}
 
-optionsRationalItem::~optionsRationalItem()
+optionsRationalItem::~optionsRationalItem ()
 {}
 
 void optionsRationalItem::print (ostream& os) const
@@ -1656,7 +1656,7 @@ optionsNumbersSetItem::optionsNumbersSetItem (
       optionsNumbersSetItemVariable)
 {}
 
-optionsNumbersSetItem::~optionsNumbersSetItem()
+optionsNumbersSetItem::~optionsNumbersSetItem ()
 {}
 
 void optionsNumbersSetItem::print (ostream& os) const
@@ -1798,7 +1798,7 @@ optionsSubGroup::optionsSubGroup (
     optionsSubGroupDescriptionVisibilityKind;
 }
 
-optionsSubGroup::~optionsSubGroup()
+optionsSubGroup::~optionsSubGroup ()
 {}
 
 string optionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
@@ -2263,7 +2263,7 @@ optionsGroup::optionsGroup (
   fOptionsGroupHelpHeader = optionsGroupHelpHeader;
 }
 
-optionsGroup::~optionsGroup()
+optionsGroup::~optionsGroup ()
 {}
 
 void optionsGroup::setOptionsHandlerUplink (
@@ -2808,7 +2808,7 @@ optionsHandler::optionsHandler (
   fMaximumDisplayNameWidth = 1;
 }
 
-optionsHandler::~optionsHandler()
+optionsHandler::~optionsHandler ()
 {}
 
 void optionsHandler::registerOptionsHandlerInItself ()
@@ -3218,7 +3218,7 @@ void optionsHandler::printSpecificItemHelp (
 
     s <<
       "option name '" << optionsItemName <<
-      "' is not well handled in optionsHandler::printSpecificItemHelp()";
+      "' is not well handled in optionsHandler::printSpecificItemHelp ()";
       
     optionError (s.str ());
     exit (33);
@@ -3643,7 +3643,7 @@ void optionsHandler::handleOptionsItemName (
 {
   if (gTraceOptions->fTraceOptions) {
     fOptionsHandlerLogIOstream <<
-      "==> handleOptionsItemName(), optionsItemName = \"" <<
+      "==> handleOptionsItemName (), optionsItemName = \"" <<
       optionsItemName <<
       "\"" <<
       endl;
@@ -4061,7 +4061,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 {
   if (gTraceOptions->fTraceOptions) {
     fOptionsHandlerLogIOstream <<
-      "==> handleOptionsItemValueOrArgument()" <<
+      "==> handleOptionsItemValueOrArgument ()" <<
       endl;
       
     gIndenter++;

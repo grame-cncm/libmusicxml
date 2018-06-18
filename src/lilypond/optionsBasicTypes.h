@@ -76,7 +76,7 @@ class optionsElement : public smartable
       string optionsElementLongName,
       string optionsElementDescription);
 
-    virtual ~optionsElement();
+    virtual ~optionsElement ();
 
   public:
 
@@ -109,7 +109,7 @@ class optionsElement : public smartable
     string                optionsElementNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
-    string                operator() () const
+    string                operator () () const
                               { return fOptionsElementDescription; }
   
     S_optionsElement      fetchOptionElement ( // JMI
@@ -165,7 +165,7 @@ class optionsItem : public optionsElement
       string optionsItemLongName,
       string optionsItemDescription);
   
-    virtual ~optionsItem();
+    virtual ~optionsItem ();
 
   public:
   
@@ -278,7 +278,7 @@ class optionsHelpSummaryItem : public optionsItem
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~optionsHelpSummaryItem();
+    virtual ~optionsHelpSummaryItem ();
 
   public:
   
@@ -334,7 +334,7 @@ class optionsCombinedItemsItem : public optionsItem
       string optionsCombinedItemsItemVariableDisplayName,
       bool&  optionsCombinedItemsItemVariable);
       
-    virtual ~optionsCombinedItemsItem();
+    virtual ~optionsCombinedItemsItem ();
 
   public:
   
@@ -419,7 +419,7 @@ class optionsBooleanItem : public optionsItem
       string optionsBooleanItemVariableDisplayName,
       bool&  optionsBooleanItemVariable);
       
-    virtual ~optionsBooleanItem();
+    virtual ~optionsBooleanItem ();
 
   public:
   
@@ -490,7 +490,7 @@ class optionsTwoBooleansItem : public optionsItem
       bool&  optionsTwoBooleansItemVariable,
       bool&  optionsTwoBooleansItemSecondaryVariable);
       
-    virtual ~optionsTwoBooleansItem();
+    virtual ~optionsTwoBooleansItem ();
 
   public:
   
@@ -568,7 +568,7 @@ class optionsThreeBooleansItem : public optionsItem
       bool&  optionsThreeBooleansItemSecondaryVariable,
       bool&  optionsThreeBooleansItemTertiaryVariable);
       
-    virtual ~optionsThreeBooleansItem();
+    virtual ~optionsThreeBooleansItem ();
 
   public:
   
@@ -654,7 +654,7 @@ class optionsValuedItem : public optionsItem
       string optionsItemDescription,
       string optionsValueSpecification);
   
-    virtual ~optionsValuedItem();
+    virtual ~optionsValuedItem ();
 
   public:
   
@@ -729,7 +729,7 @@ class optionsItemHelpItem : public optionsValuedItem
   protected:
 
 
-    virtual ~optionsItemHelpItem();
+    virtual ~optionsItemHelpItem ();
 
   public:
   
@@ -787,7 +787,7 @@ class optionsIntegerItem : public optionsValuedItem
   protected:
 
 
-    virtual ~optionsIntegerItem();
+    virtual ~optionsIntegerItem ();
 
   public:
   
@@ -857,7 +857,7 @@ class optionsFloatItem : public optionsValuedItem
       string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable);
       
-    virtual ~optionsFloatItem();
+    virtual ~optionsFloatItem ();
 
   public:
   
@@ -928,7 +928,7 @@ class optionsStringItem : public optionsValuedItem
       string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable);
       
-    virtual ~optionsStringItem();
+    virtual ~optionsStringItem ();
 
   public:
   
@@ -999,7 +999,7 @@ class optionsRationalItem : public optionsValuedItem
       string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable);
       
-    virtual ~optionsRationalItem();
+    virtual ~optionsRationalItem ();
 
   public:
   
@@ -1070,7 +1070,7 @@ class optionsNumbersSetItem : public optionsValuedItem
       string             optionsNumbersSetItemVariableDisplayName,
       set<int>&          optionsNumbersSetItemVariable);
       
-    virtual ~optionsNumbersSetItem();
+    virtual ~optionsNumbersSetItem ();
 
   public:
   
@@ -1158,7 +1158,7 @@ class optionsSubGroup : public optionsElement
       S_optionsGroup
              optionsGroupUplink);
     
-    virtual ~optionsSubGroup();
+    virtual ~optionsSubGroup ();
 
   public:
   
@@ -1270,7 +1270,7 @@ class optionsGroup : public optionsElement
       S_optionsHandler
              optionsHandlerUplink);
       
-    virtual ~optionsGroup();
+    virtual ~optionsGroup ();
 
   public:
   
@@ -1392,7 +1392,7 @@ class EXP optionsHandler : public optionsElement
       string           optionHandlerDescription,
       indentedOstream& optionsHandlerLogIOstream);
       
-    virtual ~optionsHandler();
+    virtual ~optionsHandler ();
 
   private:
 

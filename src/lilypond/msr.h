@@ -182,7 +182,7 @@ class msrElement : public smartable
     msrElement (
       int inputLineNumber);
 
-    virtual ~msrElement();
+    virtual ~msrElement ();
 
   public:
 
@@ -231,7 +231,7 @@ template <typename T> class msrBrowser : public browser<T>
     
     msrBrowser (basevisitor* v) : fVisitor (v) {}
     
-    virtual ~msrBrowser() {}
+    virtual ~msrBrowser () {}
 
   public:
 
@@ -585,7 +585,7 @@ class msrAccordionRegistration : public msrElement
       int middleDotsNumber,
       int lowDotsNumber);
       
-    virtual ~msrAccordionRegistration();
+    virtual ~msrAccordionRegistration ();
   
   public:
 
@@ -733,7 +733,7 @@ class msrStem : public msrElement
       int           inputLineNumber,
       msrStemKind   stemKind);
       
-    virtual ~msrStem();
+    virtual ~msrStem ();
   
   public:
 
@@ -802,7 +802,7 @@ class msrBeam : public msrElement
       int         number,
       msrBeamKind beamKind);
       
-    virtual ~msrBeam();
+    virtual ~msrBeam ();
   
   public:
 
@@ -884,7 +884,7 @@ class msrArticulation : public msrElement
       msrArticulationKind articulationKind,
       msrPlacementKind    articulationPlacementKind);
       
-    virtual ~msrArticulation();
+    virtual ~msrArticulation ();
   
   public:
 
@@ -954,7 +954,7 @@ class msrArpeggiato : public msrArticulation
       msrDirectionKind arpeggiatoDirectionKind,
       int              arpeggiatoNumber);
       
-    virtual ~msrArpeggiato();
+    virtual ~msrArpeggiato ();
   
   public:
 
@@ -1032,7 +1032,7 @@ class msrNonArpeggiato : public msrArticulation
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
       int                      nonArpeggiatoNumber);
       
-    virtual ~msrNonArpeggiato();
+    virtual ~msrNonArpeggiato ();
   
   public:
 
@@ -1131,7 +1131,7 @@ class msrTechnical : public msrElement
       msrTechnicalKind technicalKind,
       msrPlacementKind technicalPlacementKind);
       
-    virtual ~msrTechnical();
+    virtual ~msrTechnical ();
   
   public:
 
@@ -1463,7 +1463,7 @@ class msrTechnicalWithString : public msrElement
       string                     technicalWithStringValue,
       msrPlacementKind           technicalWithStringPlacementKind);
       
-    virtual ~msrTechnicalWithString();
+    virtual ~msrTechnicalWithString ();
   
   public:
 
@@ -1579,7 +1579,7 @@ class msrOrnament : public msrElement
       msrOrnamentKind  ornamentKind,
       msrPlacementKind ornamentPlacementKind);
       
-    virtual ~msrOrnament();
+    virtual ~msrOrnament ();
   
   public:
 
@@ -1694,7 +1694,7 @@ class msrFermata : public msrArticulation
       msrFermataKind     fermataKind,
       msrFermataTypeKind fermataTypeKind);
       
-    virtual ~msrFermata();
+    virtual ~msrFermata ();
   
   public:
 
@@ -1763,7 +1763,7 @@ class msrSingleTremolo : public msrElement
       int              singleTremoloMarksNumber,
       msrPlacementKind singleTremoloPlacementKind);
       
-    virtual ~msrSingleTremolo();
+    virtual ~msrSingleTremolo ();
   
   public:
 
@@ -2326,7 +2326,7 @@ class msrRehearsal : public msrElement
       string           rehearsalText,
       msrPlacementKind rehearsalPlacementKind);
       
-    virtual ~msrRehearsal();
+    virtual ~msrRehearsal ();
   
   public:
 
@@ -2404,7 +2404,7 @@ class msrTie : public msrElement
       int        inputLineNumber,
       msrTieKind tieKind);
       
-    virtual ~msrTie();
+    virtual ~msrTie ();
   
   public:
 
@@ -2480,7 +2480,7 @@ class msrSlur : public msrElement
       msrSlurTypeKind slurKind,
       msrLineTypeKind slurLineTypeKind);
       
-    virtual ~msrSlur();
+    virtual ~msrSlur ();
   
   public:
 
@@ -2584,7 +2584,7 @@ class msrLigature : public msrElement
       msrLineTypeKind        ligatureLineTypeKind,
       msrPlacementKind       ligaturePlacementKind);
       
-    virtual ~msrLigature();
+    virtual ~msrLigature ();
   
   public:
 
@@ -2690,7 +2690,7 @@ class msrDynamics : public msrElement
       msrDynamicsKind  dynamicsKind,
       msrPlacementKind dynamicsPlacementKind);
       
-    virtual ~msrDynamics();
+    virtual ~msrDynamics ();
   
   public:
 
@@ -2758,7 +2758,7 @@ class msrOtherDynamics : public msrElement
       string           otherDynamicsString,
       msrPlacementKind otherDynamicsPlacementKind);
       
-    virtual ~msrOtherDynamics();
+    virtual ~msrOtherDynamics ();
   
   public:
 
@@ -2929,7 +2929,7 @@ class msrWedge : public msrElement
       msrLineTypeKind    wedgeLineTypeKind,
       msrPlacementKind   wedgePlacementKind);
       
-    virtual ~msrWedge();
+    virtual ~msrWedge ();
   
   public:
 
@@ -3024,7 +3024,7 @@ class msrClef : public msrElement
       int         inputLineNumber,
       msrClefKind clefKind);
       
-    virtual ~msrClef();
+    virtual ~msrClef ();
   
   public:
 
@@ -3107,7 +3107,7 @@ class msrHumdrumScotKeyItem : public msrElement
     msrHumdrumScotKeyItem (
       int inputLineNumber);
             
-    virtual ~msrHumdrumScotKeyItem();
+    virtual ~msrHumdrumScotKeyItem ();
 
   public:
 
@@ -3213,7 +3213,7 @@ class msrKey : public msrElement
     msrKey ( // for Humdrum/Scot keys
       int                  inputLineNumber);
       
-    virtual ~msrKey();
+    virtual ~msrKey ();
 
   public:
 
@@ -3312,7 +3312,7 @@ class msrTimeItem : public msrElement
     msrTimeItem (
       int inputLineNumber);
             
-    virtual ~msrTimeItem();
+    virtual ~msrTimeItem ();
 
   public:
 
@@ -3424,7 +3424,7 @@ class msrTime : public msrElement
       int               inputLineNumber,
       msrTimeSymbolKind timeSymbolKind);
       
-    virtual ~msrTime();
+    virtual ~msrTime ();
   
   public:
 
@@ -3512,7 +3512,7 @@ class msrTranspose : public msrElement
       int  transposeOctaveChange,
       bool transposeDouble);
       
-    virtual ~msrTranspose();
+    virtual ~msrTranspose ();
   
   public:
 
@@ -4128,7 +4128,7 @@ class msrSegment : public msrElement
       int        inputLineNumber,
       S_msrVoice segmentVoicekUplink);
       
-    virtual ~msrSegment();
+    virtual ~msrSegment ();
     
   private:
 
@@ -4481,7 +4481,7 @@ class msrGraceNotes : public msrElement
       bool       gracenoteIsSlashed,
       S_msrVoice graceNotesVoiceUplink);
       
-    virtual ~msrGraceNotes();
+    virtual ~msrGraceNotes ();
   
   public:
 
@@ -4591,7 +4591,7 @@ class msrAfterGraceNotesContents : public msrElement
       int        inputLineNumber,
       S_msrVoice afterGraceNotesContentsVoiceUplink);
       
-    virtual ~msrAfterGraceNotesContents();
+    virtual ~msrAfterGraceNotesContents ();
   
   public:
 
@@ -4678,7 +4678,7 @@ class msrAfterGraceNotes : public msrElement
       bool         aftergracenoteIsSlashed,
       S_msrVoice   afterGraceNotesVoiceUplink);
       
-    virtual ~msrAfterGraceNotes();
+    virtual ~msrAfterGraceNotes ();
   
   public:
 
@@ -4792,7 +4792,7 @@ class msrWords : public msrElement
       msrFontWeightKind        wordsFontWeightKind,
       msrWordsXMLLangKind      wordsXMLLangKind);
       
-    virtual ~msrWords();
+    virtual ~msrWords ();
   
   public:
 
@@ -4933,7 +4933,7 @@ class msrSyllable : public msrElement
       rational              syllableWholeNotes,
       S_msrStanza           syllableStanzaUplink);
         
-    virtual ~msrSyllable();
+    virtual ~msrSyllable ();
 
   public:
 
@@ -5087,7 +5087,7 @@ Degree elements
       msrAlterationKind        harmonyDegreeAlterationKind,
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
-    virtual ~msrHarmonyDegree();
+    virtual ~msrHarmonyDegree ();
   
   public:
 
@@ -5581,7 +5581,7 @@ class msrFigure : public msrElement
       int                 figureNumber,
       msrFigureSuffixKind figureSuffixKind);
 
-    virtual ~msrFigure();
+    virtual ~msrFigure ();
   
   public:
 
@@ -5686,7 +5686,7 @@ class msrFiguredBass : public msrElement
       msrFiguredBassParenthesesKind
                 figuredBassParenthesesKind);
 
-    virtual ~msrFiguredBass();
+    virtual ~msrFiguredBass ();
   
   public:
 
@@ -6822,7 +6822,7 @@ class msrChord : public msrElement
       rational        chordDisplayWholeNotes,
       msrDurationKind chordGraphicDurationKind);
       
-    virtual ~msrChord();
+    virtual ~msrChord ();
   
   public:
 
@@ -7258,7 +7258,7 @@ class msrVarValAssoc : public msrElement
       msrVarValAssocKind varValAssocKind,
       string             value);
       
-    virtual ~msrVarValAssoc();
+    virtual ~msrVarValAssoc ();
   
   public:
 
@@ -7417,7 +7417,7 @@ class msrIdentification : public msrElement
     msrIdentification (
       int inputLineNumber);
       
-    virtual ~msrIdentification();
+    virtual ~msrIdentification ();
   
   public:
 
@@ -7584,7 +7584,7 @@ class msrPageGeometry : public msrElement
     msrPageGeometry (
       int inputLineNumber);
       
-    virtual ~msrPageGeometry();
+    virtual ~msrPageGeometry ();
   
   public:
 
@@ -7699,7 +7699,7 @@ class msrCreditWords : public msrElement
       string      creditWordsFontVAlign,
       string      creditWordsFontXMLLanguage);
       
-    virtual ~msrCreditWords();
+    virtual ~msrCreditWords ();
   
   public:
 
@@ -7770,7 +7770,7 @@ class msrCredit : public msrElement
       int inputLineNumber,
       int creditPageNumber);
       
-    virtual ~msrCredit();
+    virtual ~msrCredit ();
   
   public:
 
@@ -7836,7 +7836,7 @@ class msrLayout : public msrElement // JMI
     msrLayout (
       int           inputLineNumber);
       
-    virtual ~msrLayout();
+    virtual ~msrLayout ();
   
   public:
 
@@ -7903,7 +7903,7 @@ class msrDivisions : public msrElement
       int inputLineNumber,
       int divisionsPerQuarterNote);
       
-    virtual ~msrDivisions();
+    virtual ~msrDivisions ();
   
   public:
 
@@ -8021,7 +8021,7 @@ class msrBarCheck : public msrElement
       int    inputLineNumber,
       string nextBarNumber);
       
-    virtual ~msrBarCheck();
+    virtual ~msrBarCheck ();
   
   public:
 
@@ -8082,7 +8082,7 @@ class msrBarNumberCheck : public msrElement
       int    inputLineNumber,
       string nextBarNumber);
       
-    virtual ~msrBarNumberCheck();
+    virtual ~msrBarNumberCheck ();
   
   public:
 
@@ -8141,7 +8141,7 @@ class msrLineBreak : public msrElement
       int    inputLineNumber,
       string nextBarNumber);
       
-    virtual ~msrLineBreak();
+    virtual ~msrLineBreak ();
   
   public:
 
@@ -8198,7 +8198,7 @@ class msrPageBreak : public msrElement
     msrPageBreak (
       int inputLineNumber);
       
-    virtual ~msrPageBreak();
+    virtual ~msrPageBreak ();
   
   public:
 
@@ -9149,7 +9149,7 @@ class msrStanza : public msrElement
 
   public:
   
-    virtual ~msrStanza();
+    virtual ~msrStanza ();
   
   private:
 
@@ -9305,7 +9305,7 @@ class msrSegno : public msrElement
     msrSegno (
       int                       inputLineNumber);
       
-    virtual ~msrSegno();
+    virtual ~msrSegno ();
   
   public:
 
@@ -9355,7 +9355,7 @@ class msrCoda : public msrElement
     msrCoda (
       int                       inputLineNumber);
       
-    virtual ~msrCoda();
+    virtual ~msrCoda ();
   
   public:
 
@@ -9405,7 +9405,7 @@ class msrEyeGlasses : public msrElement
     msrEyeGlasses (
       int inputLineNumber);
       
-    virtual ~msrEyeGlasses();
+    virtual ~msrEyeGlasses ();
   
   public:
 
@@ -9482,7 +9482,7 @@ class msrPedal : public msrElement
       msrPedalLineKind pedalLineKind,
       msrPedalSignKind pedalSignKind);
       
-    virtual ~msrPedal();
+    virtual ~msrPedal ();
   
   public:
 
@@ -9771,7 +9771,7 @@ class msrBarline : public msrElement
       msrBarlineRepeatWingedKind    repeatWinged,
       int                           barlineTimes);
       
-    virtual ~msrBarline();
+    virtual ~msrBarline ();
   
   public:
 
@@ -9828,7 +9828,7 @@ class msrBarline : public msrElement
                                   positionInMeasure;
                               }
                       
-    int                   getBarlineMeasureNumber() const
+    int                   getBarlineMeasureNumber () const
                               { return fBarlineMeasureNumber; }
 
     // position in measure
@@ -9926,7 +9926,7 @@ class msrRepeatCommonPart : public msrElement
       int          inputLineNumber,
       S_msrRepeat  repeatUplink);
       
-    virtual ~msrRepeatCommonPart();
+    virtual ~msrRepeatCommonPart ();
   
   public:
 
@@ -10022,7 +10022,7 @@ class msrRepeatEnding : public msrElement
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
       
-    virtual ~msrRepeatEnding();
+    virtual ~msrRepeatEnding ();
   
   public:
 
@@ -10130,7 +10130,7 @@ class msrRepeat : public msrElement
       int        repeatTimes,
       S_msrVoice voiceUplink);
       
-    virtual ~msrRepeat();
+    virtual ~msrRepeat ();
   
   public:
 
@@ -10235,7 +10235,7 @@ class msrMeasuresRepeatPattern : public msrElement
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
       
-    virtual ~msrMeasuresRepeatPattern();
+    virtual ~msrMeasuresRepeatPattern ();
   
   public:
 
@@ -10316,7 +10316,7 @@ class msrMeasuresRepeatReplicas : public msrElement
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
       
-    virtual ~msrMeasuresRepeatReplicas();
+    virtual ~msrMeasuresRepeatReplicas ();
   
   public:
 
@@ -10410,7 +10410,7 @@ class msrMeasuresRepeat : public msrElement
       int        measuresRepeatSlashesNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMeasuresRepeat();
+    virtual ~msrMeasuresRepeat ();
   
   public:
 
@@ -10530,7 +10530,7 @@ class msrMultipleRestContents : public msrElement
       int        inputLineNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMultipleRestContents();
+    virtual ~msrMultipleRestContents ();
   
   public:
 
@@ -10621,7 +10621,7 @@ class msrMultipleRest : public msrElement
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMultipleRest();
+    virtual ~msrMultipleRest ();
   
   public:
 
@@ -10724,7 +10724,7 @@ class msrRepeatCoda : public msrElement
       S_msrSegment segment,
       S_msrRepeat  repeatUplink);
       
-    virtual ~msrRepeatCoda();
+    virtual ~msrRepeatCoda ();
   
   public:
 
@@ -10840,7 +10840,7 @@ class msrVoice : public msrElement
       S_msrStaff   voiceStaffUplink);
 
     // destructor
-    virtual ~msrVoice();
+    virtual ~msrVoice ();
 
   private:
 
@@ -12221,7 +12221,7 @@ class msrVoiceStaffChange : public msrElement
       int        inputLineNumber,
       S_msrStaff newStaff);
       
-    virtual ~msrVoiceStaffChange();
+    virtual ~msrVoiceStaffChange ();
   
   public:
 
@@ -12447,7 +12447,7 @@ class msrPart : public msrElement
                                   partInstrumentAbbreviation;
                               }
                               
-    string                getPartInstrumentAbbreviation() const
+    string                getPartInstrumentAbbreviation () const
                               { return fPartInstrumentAbbreviation; }
 
     // figured bass staff and voice
@@ -12871,7 +12871,7 @@ class msrPartGroup : public msrElement
       S_msrPartGroup           partGroupPartGroupUplink,
       S_msrScore               partGroupScoreUplink);
             
-    virtual ~msrPartGroup();
+    virtual ~msrPartGroup ();
   
   public:
 
@@ -13273,7 +13273,7 @@ class msrMidi : public msrElement
       string midiTempoDuration,
       int    midiTempoPerSecond);
       
-    virtual ~msrMidi();
+    virtual ~msrMidi ();
   
   public:
 

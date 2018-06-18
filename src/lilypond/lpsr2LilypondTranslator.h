@@ -45,7 +45,7 @@ struct msrRepeatDescr : public smartable
     msrRepeatDescr (
       int repeatEndingsNumber);
 
-    virtual ~msrRepeatDescr();
+    virtual ~msrRepeatDescr ();
 
   public:
 

@@ -12669,7 +12669,7 @@ msrChordInterval::msrChordInterval (
   }
 }
 
-msrChordInterval::~msrChordInterval()
+msrChordInterval::~msrChordInterval ()
 {}
 
 S_msrChordInterval msrChordInterval::createChordIntervalNewbornClone ()
@@ -15177,7 +15177,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
 void msrChordInterval::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordInterval::acceptIn()" <<
+      "% ==> msrChordInterval::acceptIn ()" <<
       endl;
   }
       
@@ -15188,7 +15188,7 @@ void msrChordInterval::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordInterval::visitStart()" <<
+            "% ==> Launching msrChordInterval::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
@@ -15197,7 +15197,7 @@ void msrChordInterval::acceptIn (basevisitor* v) {
 void msrChordInterval::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordInterval::acceptOut()" <<
+      "% ==> msrChordInterval::acceptOut ()" <<
       endl;
   }
 
@@ -15208,7 +15208,7 @@ void msrChordInterval::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordInterval::visitEnd()" <<
+            "% ==> Launching msrChordInterval::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -16229,7 +16229,7 @@ string msrChordStructure::chordStructureAsString () const
 void msrChordStructure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordStructure::acceptIn()" <<
+      "% ==> msrChordStructure::acceptIn ()" <<
       endl;
   }
       
@@ -16240,7 +16240,7 @@ void msrChordStructure::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordStructure::visitStart()" <<
+            "% ==> Launching msrChordStructure::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
@@ -16249,7 +16249,7 @@ void msrChordStructure::acceptIn (basevisitor* v) {
 void msrChordStructure::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordStructure::acceptOut()" <<
+      "% ==> msrChordStructure::acceptOut ()" <<
       endl;
   }
 
@@ -16260,7 +16260,7 @@ void msrChordStructure::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordStructure::visitEnd()" <<
+            "% ==> Launching msrChordStructure::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -16370,7 +16370,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
-      "==> invertChordStructure(), inversion = " << inversion <<
+      "==> invertChordStructure (), inversion = " << inversion <<
       ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
       endl;
   }
@@ -16586,7 +16586,7 @@ string msrChordPitch::chordPitchAsString () const
 void msrChordPitch::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordPitch::acceptIn()" <<
+      "% ==> msrChordPitch::acceptIn ()" <<
       endl;
   }
       
@@ -16597,7 +16597,7 @@ void msrChordPitch::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordPitch::visitStart()" <<
+            "% ==> Launching msrChordPitch::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
@@ -16606,7 +16606,7 @@ void msrChordPitch::acceptIn (basevisitor* v) {
 void msrChordPitch::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordPitch::acceptOut()" <<
+      "% ==> msrChordPitch::acceptOut ()" <<
       endl;
   }
 
@@ -16617,7 +16617,7 @@ void msrChordPitch::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordPitch::visitEnd()" <<
+            "% ==> Launching msrChordPitch::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }
@@ -16914,7 +16914,7 @@ void msrChordContents::printAllChordsContents (
 void msrChordContents::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordContents::acceptIn()" <<
+      "% ==> msrChordContents::acceptIn ()" <<
       endl;
   }
       
@@ -16925,7 +16925,7 @@ void msrChordContents::acceptIn (basevisitor* v) {
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordContents::visitStart()" <<
+            "% ==> Launching msrChordContents::visitStart ()" <<
              endl;
         p->visitStart (elem);
   }
@@ -16934,7 +16934,7 @@ void msrChordContents::acceptIn (basevisitor* v) {
 void msrChordContents::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordContents::acceptOut()" <<
+      "% ==> msrChordContents::acceptOut ()" <<
       endl;
   }
 
@@ -16945,7 +16945,7 @@ void msrChordContents::acceptOut (basevisitor* v) {
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordContents::visitEnd()" <<
+            "% ==> Launching msrChordContents::visitEnd ()" <<
             endl;
         p->visitEnd (elem);
   }

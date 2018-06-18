@@ -68,7 +68,7 @@ optionsAccidentalStyleItem::optionsAccidentalStyleItem (
       optionsAccidentalStyleKindItemVariable)
 {}
 
-optionsAccidentalStyleItem::~optionsAccidentalStyleItem()
+optionsAccidentalStyleItem::~optionsAccidentalStyleItem ()
 {}
 
 void optionsAccidentalStyleItem::print (ostream& os) const
@@ -158,7 +158,7 @@ optionsMidiTempoItem::optionsMidiTempoItem (
       optionsMidiTempoItemVariable)
 {}
 
-optionsMidiTempoItem::~optionsMidiTempoItem()
+optionsMidiTempoItem::~optionsMidiTempoItem ()
 {}
 
 void optionsMidiTempoItem::print (ostream& os) const

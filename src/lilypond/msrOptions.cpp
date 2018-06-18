@@ -69,7 +69,7 @@ optionsPartRenameItem::optionsPartRenameItem (
       optionsPartRenameItemVariable)
 {}
 
-optionsPartRenameItem::~optionsPartRenameItem()
+optionsPartRenameItem::~optionsPartRenameItem ()
 {}
 
 void optionsPartRenameItem::print (ostream& os) const

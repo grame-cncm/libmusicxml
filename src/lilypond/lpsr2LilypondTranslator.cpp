@@ -1246,7 +1246,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           // this note is the new relative octave reference
           // (the display quarter tone pitch and octave
           // have been copied to the note octave
-          // in the msrNote::msrNote() constructor,
+          // in the msrNote::msrNote () constructor,
           // since the note octave is used in relative code generation)
           fRelativeOctaveReference = note;
         }
@@ -2645,22 +2645,30 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     // jazz-specific chords
 
     case kMinorMajorNinth: // -maj9, minmaj9
+      s << ":m9";
       break;
     
     case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
+      s << ":7sus4";
       break;
     case kDominantAugmentedFifthHarmony: // 7#5, domaug5
+      s << ":7.5+";
       break;
     case kDominantMinorNinthHarmony: // 7b9, dommin9
+      s << ":7.9-";
       break;
     case kDominantAugmentedNinthDiminishedFifthHarmony: // 7#9b5, domaug9dim5
+      s << ":7.9+.5-";
       break;
     case kDominantAugmentedNinthAugmentedFifthHarmony: // 7#9#5, domaug9aug5
+      s << ":7.9+.5+";
       break;
     case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
+      s << ":7.11+";
       break;
     
     case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
+      s << ":maj7.11+";
       break;
 
     // other
@@ -7555,7 +7563,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempoTuplet& elt)
     "\\tuplet " <<
     elt->getTempoTupletActualNotes () <<
     "/" <<
-    elt->getTempoTupletNormalNotes() << " { ";
+    elt->getTempoTupletNormalNotes () << " { ";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTempoTuplet& elt)
@@ -7589,7 +7597,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArticulation& elt)
   }
 
   // don't generate the articulation here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrArticulation& elt)
@@ -7716,7 +7724,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnical& elt)
   }
 
   // don't generate the technical here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnical& elt)
@@ -7740,7 +7748,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
   }
 
   // don't generate the technicalWithInteger here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
@@ -7764,7 +7772,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithFloat& elt)
   }
 
   // don't generate the technicalWithFloat here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
@@ -7786,7 +7794,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
   }
 
   // don't generate the technicalWithString here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
@@ -7808,7 +7816,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOrnament& elt)
   }
 
   // don't generate the ornament here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrOrnament& elt)
@@ -7830,7 +7838,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrGlissando& elt)
   }
 
   // don't generate the glissando here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrGlissando& elt)
@@ -7852,7 +7860,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSlide& elt)
   }
 
   // don't generate the slide here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrSlide& elt)
@@ -7874,7 +7882,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSingleTremolo& elt)
   }
 
   // don't generate the singleTremolo here,
-  // the note or chord will do it in its visitEnd() method
+  // the note or chord will do it in its visitEnd () method
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
@@ -10497,7 +10505,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
     "\\tuplet " <<
     elt->getTupletActualNotes () <<
     "/" <<
-    elt->getTupletNormalNotes() << " { ";
+    elt->getTupletNormalNotes () << " { ";
 
   fTupletsStack.push (elt);
 

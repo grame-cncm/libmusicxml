@@ -46,7 +46,7 @@ struct mxmlPartGroupDescr : public smartable
       S_msrPartGroup partGroup,
       int            startPosition);
 
-    virtual ~mxmlPartGroupDescr();
+    virtual ~mxmlPartGroupDescr ();
 
   public:
 

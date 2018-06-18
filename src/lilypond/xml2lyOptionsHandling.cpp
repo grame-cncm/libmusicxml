@@ -59,7 +59,7 @@ xml2lyOptionsVersionItem::xml2lyOptionsVersionItem (
       optionsItemDescription)
 {}
 
-xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem()
+xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem ()
 {}
 
 void xml2lyOptionsVersionItem::print (ostream& os) const

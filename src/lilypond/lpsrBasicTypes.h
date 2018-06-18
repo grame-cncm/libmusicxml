@@ -96,14 +96,6 @@ string multipleRestWholeNoteAsLilypondString (
   int      inputLineNumber, // JMI
   rational wholeNotes);
 
-// notes
-//______________________________________________________________________________
-  /* JMI
-void writeNoteAsLilypondString (
-  S_msrNote note,
-  ostream&  os);
-*/
-
 // texts lists
 //______________________________________________________________________________
 void writeTextsListAsLilypondString (

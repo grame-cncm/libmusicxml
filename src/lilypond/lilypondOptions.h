@@ -52,7 +52,7 @@ class optionsAccidentalStyleItem : public optionsValuedItem
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
       
-    virtual ~optionsAccidentalStyleItem();
+    virtual ~optionsAccidentalStyleItem ();
 
   public:
   
@@ -126,7 +126,7 @@ class optionsMidiTempoItem : public optionsValuedItem
       pair<string, int>&
                          optionsMidiTempoItemVariable);
       
-    virtual ~optionsMidiTempoItem();
+    virtual ~optionsMidiTempoItem ();
 
   public:
   

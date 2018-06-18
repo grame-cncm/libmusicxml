@@ -54,7 +54,7 @@ class optionsPartRenameItem : public optionsValuedItem
       map<string, string>&
                          optionsPartRenameItemVariable);
       
-    virtual ~optionsPartRenameItem();
+    virtual ~optionsPartRenameItem ();
 
   public:
   
