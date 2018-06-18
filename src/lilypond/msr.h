@@ -54,6 +54,8 @@
 #include "msrBars.h"
 
 #include "msrDynamics.h"
+#include "msrArticulations.h"
+
 #include "msrTablatures.h"
 #include "msrInstruments.h"
 #include "msrOtherElements.h"
@@ -73,65 +75,14 @@
 namespace MusicXML2 
 {
 
-/*
-  The classes in this file implement the
-  
-              MSR (Music Score Representation)
-*/
-
 //______________________________________________________________________________
-// PRE-declarations for class dependencies
-
-class msrDivisions;
-typedef SMARTP<msrDivisions> S_msrDivisions;
-
-class msrClef;
-typedef SMARTP<msrClef> S_msrClef;
-
-class msrKey;
-typedef SMARTP<msrKey> S_msrKey;
-
-class msrTimeItem;
-typedef SMARTP<msrTimeItem> S_msrTimeItem;
-
-class msrTime;
-typedef SMARTP<msrTime> S_msrTime;
-
-class msrHumdrumScotKeyItem;
-typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
-
-class msrBarline;
-typedef SMARTP<msrBarline> S_msrBarline;
-
-class msrBarCheck;
-typedef SMARTP<msrBarCheck> S_msrBarCheck;
-
-class msrBarNumberCheck;
-typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
-
-class msrLineBreak;
-typedef SMARTP<msrLineBreak> S_msrLineBreak;
-
-class msrPageBreak;
-typedef SMARTP<msrPageBreak> S_msrPageBreak;
-
-class msrVoiceStaffChange;
-typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+// PRE-declarations for class mutual dependencies
 
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
-class msrMeasuresRepeat;
-typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
-
-class msrMultipleRest;
-typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
-
-class msrGraceNotes;
-typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
-
-class msrAfterGraceNotes;
-typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
@@ -139,86 +90,42 @@ typedef SMARTP<msrChord> S_msrChord;
 class msrTuplet;
 typedef SMARTP<msrTuplet> S_msrTuplet;
 
-class msrGlissando;
-typedef SMARTP<msrGlissando> S_msrGlissando;
+class msrGraceNotes;
+typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 
-class msrSlide;
-typedef SMARTP<msrSlide> S_msrSlide;
-
-class msrStanza;
-typedef SMARTP<msrStanza> S_msrStanza;
-
-class msrVoice;
-typedef SMARTP<msrVoice> S_msrVoice;
+class msrAfterGraceNotes;
+typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
 
-class msrFrame;
-typedef SMARTP<msrFrame> S_msrFrame;
+class msrMultipleRest;
+typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 
-class msrFiguredBass;
-typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
-
-class msrSegment;
-typedef SMARTP<msrSegment> S_msrSegment;
-
-class msrMeasure;
-typedef SMARTP<msrMeasure> S_msrMeasure;
-
-class msrTranspose;
-typedef SMARTP<msrTranspose> S_msrTranspose;
-
-class msrPartNameDisplay;
-typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
-
-class msrPartAbbreviationDisplay;
-typedef SMARTP<msrPartAbbreviationDisplay> S_msrPartAbbreviationDisplay;
-
-class msrStaffDetails;
-typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
-
-class msrTempo;
-typedef SMARTP<msrTempo> S_msrTempo;
-
-class msrSegno;
-typedef SMARTP<msrSegno> S_msrSegno;
-
-class msrCoda;
-typedef SMARTP<msrCoda> S_msrCoda;
-
-class msrEyeGlasses;
-typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
-
-class msrPedal;
-typedef SMARTP<msrPedal> S_msrPedal;
-
-class msrDamp;
-typedef SMARTP<msrDamp> S_msrDamp;
-
-class msrDampAll;
-typedef SMARTP<msrDampAll> S_msrDampAll;
-
-class msrStaff;
-typedef SMARTP<msrStaff> S_msrStaff;
-
-class msrPart;
-typedef SMARTP<msrPart> S_msrPart;
-
-class msrPartGroup;
-typedef SMARTP<msrPartGroup> S_msrPartGroup;
-
-class msrScore;
-typedef SMARTP<msrScore> S_msrScore;
+class msrMeasuresRepeat;
+typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
-class msrTempoTuplet;
-typedef SMARTP<msrTempoTuplet> S_msrTempoTuplet;
+class msrMeasure;
+typedef SMARTP<msrMeasure> S_msrMeasure;
+
+class msrSegment;
+typedef SMARTP<msrSegment> S_msrSegment;
+
+class msrVoice;
+typedef SMARTP<msrVoice> S_msrVoice;
+
+class msrVoiceStaffChange;
+typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
+
+class msrPart;
+typedef SMARTP<msrPart> S_msrPart;
 
 
 //______________________________________________________________________________
+/*
 class msrPolyphony : public smartable
 {  
   public:
@@ -239,251 +146,7 @@ class msrPolyphony : public smartable
     // what happens to the voices
     list<S_msrVoice>      fPolyphonyVoiceActivities;
 };
-
-//______________________________________________________________________________
-class msrArticulation : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrArticulationKind {
-        kAccent, kBreathMark, kCaesura, 
-        kSpiccato,
-        kStaccato, kStaccatissimo,
-        kStress, kUnstress,
-        kDetachedLegato,
-        kStrongAccent, kTenuto,
-        kFermata, // barline ??? JMI
-        kArpeggiato, kNonArpeggiato,
-        kDoit, kFalloff, kPlop, kScoop};
-
-    static string articulationKindAsString (
-      msrArticulationKind articulationKind);
-            
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrArticulation> create (
-      int                 inputLineNumber,
-      msrArticulationKind articulationKind,
-      msrPlacementKind    articulationPlacementKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrArticulation (
-      int                 inputLineNumber,
-      msrArticulationKind articulationKind,
-      msrPlacementKind    articulationPlacementKind);
-      
-    virtual ~msrArticulation ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrArticulationKind   getArticulationKind () const
-                              { return fArticulationKind; }
-        
-    msrPlacementKind      getArticulationPlacementKind () const
-                              { return fArticulationPlacementKind; }
-                        
-    // services
-    // ------------------------------------------------------
-
-    virtual string        articulationKindAsString () const;
-
-    virtual string        articulationPlacementKindAsString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  protected:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrArticulationKind   fArticulationKind;
-
-    msrPlacementKind      fArticulationPlacementKind;
-};
-typedef SMARTP<msrArticulation> S_msrArticulation;
-EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
-
-//______________________________________________________________________________
-class msrArpeggiato : public msrArticulation
-{
-  public:
-    
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrArpeggiato> create (
-      int              inputLineNumber,
-      msrPlacementKind arpeggiatoPlacementKind,
-      msrDirectionKind arpeggiatoDirectionKind,
-      int              arpeggiatoNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrArpeggiato (
-      int              inputLineNumber,
-      msrPlacementKind arpeggiatoPlacementKind,
-      msrDirectionKind arpeggiatoDirectionKind,
-      int              arpeggiatoNumber);
-      
-    virtual ~msrArpeggiato ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrDirectionKind      getArpeggiatoDirectionKind () const
-                              { return fArpeggiatoDirectionKind; }
-        
-    int                   getArpeggiatoNumber () const
-                              { return fArpeggiatoNumber; }
-        
-    // services
-    // ------------------------------------------------------
-
-    virtual string        arpeggiatoDirectionKindAsString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrDirectionKind      fArpeggiatoDirectionKind;
-
-    int                   fArpeggiatoNumber;
-};
-typedef SMARTP<msrArpeggiato> S_msrArpeggiato;
-EXP ostream& operator<< (ostream& os, const S_msrArpeggiato& elt);
-
-//______________________________________________________________________________
-class msrNonArpeggiato : public msrArticulation
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrNonArpeggiatoTypeKind {
-      kNonArpeggiatoTypeNone,
-      kNonArpeggiatoTypeTop, kNonArpeggiatoTypeBottom };
-
-    static string nonArpeggiatoTypeKindAsString (
-      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrNonArpeggiato> create (
-      int                      inputLineNumber,
-      msrPlacementKind         nonArpeggiatoPlacementKind,
-      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
-      int                      nonArpeggiatoNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrNonArpeggiato (
-      int                      inputLineNumber,
-      msrPlacementKind         nonArpeggiatoPlacementKind,
-      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
-      int                      nonArpeggiatoNumber);
-      
-    virtual ~msrNonArpeggiato ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrNonArpeggiatoTypeKind
-                          getNonArpeggiatoTypeKind () const
-                              { return fNonArpeggiatoTypeKind; }
-        
-    int                   getNonArpeggiatoNumber () const
-                              { return fNonArpeggiatoNumber; }
-        
-    // services
-    // ------------------------------------------------------
-
-    virtual string        nonArpeggiatoTypeKindAsString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-                          
-    msrNonArpeggiatoTypeKind
-                          fNonArpeggiatoTypeKind;
-
-    int                   fNonArpeggiatoNumber;
-};
-typedef SMARTP<msrNonArpeggiato> S_msrNonArpeggiato;
-EXP ostream& operator<< (ostream& os, const S_msrNonArpeggiato& elt);
+*/
 
 //______________________________________________________________________________
 class msrTechnical : public msrElement
@@ -2853,6 +2516,10 @@ typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);
 
 //______________________________________________________________________________
+class msrStanza;
+typedef SMARTP<msrStanza> S_msrStanza;
+
+//______________________________________________________________________________
 class msrSyllable : public msrElement
 {
   public:
@@ -3525,6 +3192,210 @@ class msrFiguredBass : public msrElement
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
+
+//______________________________________________________________________________
+class msrGlissando : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrGlissandoTypeKind {
+      kGlissandoTypeNone,
+      kGlissandoTypeStart, kGlissandoTypeStop };
+
+    static string glissandoTypeKindAsString (
+      msrGlissandoTypeKind glissandoTypeKind);
+                  
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrGlissando> create (
+      int                  inputLineNumber,
+      int                  glissandoNumber,
+      msrGlissandoTypeKind glissandoTypeKind,
+      msrLineTypeKind      glissandoLineTypeKind);
+
+    SMARTP<msrGlissando> createGlissandoNewbornClone ();
+
+    SMARTP<msrGlissando> createGlissandoDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrGlissando (
+      int                  inputLineNumber,
+      int                  glissandoNumber,
+      msrGlissandoTypeKind glissandoTypeKind,
+      msrLineTypeKind      glissandoLineTypeKind);
+      
+    virtual ~msrGlissando ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    int                   getGlissandoNumber () const
+                              { return fGlissandoNumber; }
+
+    msrGlissandoTypeKind  getGlissandoTypeKind () const
+                              { return fGlissandoTypeKind; }
+            
+    msrLineTypeKind       getGlissandoLineTypeKind () const
+                              { return fGlissandoLineTypeKind; }
+            
+    // measure uplink
+    void                  setGlissandoMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fGlissandoMeasureUplink = measure; }
+                      
+    S_msrMeasure          getGlissandoMeasureUplink () const
+                              { return fGlissandoMeasureUplink; }
+                      
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplink
+    S_msrMeasure          fGlissandoMeasureUplink;
+    
+    int                   fGlissandoNumber;
+                  
+    msrGlissandoTypeKind  fGlissandoTypeKind;
+                          
+    msrLineTypeKind       fGlissandoLineTypeKind;
+};
+typedef SMARTP<msrGlissando> S_msrGlissando;
+EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
+
+//______________________________________________________________________________
+class msrSlide : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrSlideTypeKind {
+      kSlideTypeNone,
+      kSlideTypeStart, kSlideTypeStop };
+
+    static string slideTypeKindAsString (
+      msrSlideTypeKind slideTypeKind);
+                  
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSlide> create (
+      int              inputLineNumber,
+      int              slideNumber,
+      msrSlideTypeKind slideTypeKind,
+      msrLineTypeKind  slideLineTypeKind);
+
+    SMARTP<msrSlide> createSlideNewbornClone ();
+
+    SMARTP<msrSlide> createSlideDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSlide (
+      int              inputLineNumber,
+      int              slideNumber,
+      msrSlideTypeKind slideTypeKind,
+      msrLineTypeKind  slideLineTypeKind);
+      
+    virtual ~msrSlide ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    int                   getSlideNumber () const
+                              { return fSlideNumber; }
+
+    msrSlideTypeKind      getSlideTypeKind () const
+                              { return fSlideTypeKind; }
+            
+    msrLineTypeKind       getSlideLineTypeKind () const
+                              { return fSlideLineTypeKind; }
+            
+    // measure uplink
+    void                  setSlideMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fSlideMeasureUplink = measure; }
+                      
+    S_msrMeasure          getSlideMeasureUplink () const
+                              { return fSlideMeasureUplink; }
+                      
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplink
+    S_msrMeasure          fSlideMeasureUplink;
+    
+    int                   fSlideNumber;
+                  
+    msrSlideTypeKind      fSlideTypeKind;
+                          
+    msrLineTypeKind       fSlideLineTypeKind;
+};
+typedef SMARTP<msrSlide> S_msrSlide;
+EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
 
 //______________________________________________________________________________
 class msrNote : public msrElement
@@ -5226,210 +5097,6 @@ typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 
 //______________________________________________________________________________
-class msrGlissando : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrGlissandoTypeKind {
-      kGlissandoTypeNone,
-      kGlissandoTypeStart, kGlissandoTypeStop };
-
-    static string glissandoTypeKindAsString (
-      msrGlissandoTypeKind glissandoTypeKind);
-                  
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrGlissando> create (
-      int                  inputLineNumber,
-      int                  glissandoNumber,
-      msrGlissandoTypeKind glissandoTypeKind,
-      msrLineTypeKind      glissandoLineTypeKind);
-
-    SMARTP<msrGlissando> createGlissandoNewbornClone ();
-
-    SMARTP<msrGlissando> createGlissandoDeepCopy ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrGlissando (
-      int                  inputLineNumber,
-      int                  glissandoNumber,
-      msrGlissandoTypeKind glissandoTypeKind,
-      msrLineTypeKind      glissandoLineTypeKind);
-      
-    virtual ~msrGlissando ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-    
-    int                   getGlissandoNumber () const
-                              { return fGlissandoNumber; }
-
-    msrGlissandoTypeKind  getGlissandoTypeKind () const
-                              { return fGlissandoTypeKind; }
-            
-    msrLineTypeKind       getGlissandoLineTypeKind () const
-                              { return fGlissandoLineTypeKind; }
-            
-    // measure uplink
-    void                  setGlissandoMeasureUplink (
-                            const S_msrMeasure& measure)
-                              { fGlissandoMeasureUplink = measure; }
-                      
-    S_msrMeasure          getGlissandoMeasureUplink () const
-                              { return fGlissandoMeasureUplink; }
-                      
-    // services
-    // ------------------------------------------------------
-
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    // uplink
-    S_msrMeasure          fGlissandoMeasureUplink;
-    
-    int                   fGlissandoNumber;
-                  
-    msrGlissandoTypeKind  fGlissandoTypeKind;
-                          
-    msrLineTypeKind       fGlissandoLineTypeKind;
-};
-typedef SMARTP<msrGlissando> S_msrGlissando;
-EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
-
-//______________________________________________________________________________
-class msrSlide : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrSlideTypeKind {
-      kSlideTypeNone,
-      kSlideTypeStart, kSlideTypeStop };
-
-    static string slideTypeKindAsString (
-      msrSlideTypeKind slideTypeKind);
-                  
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSlide> create (
-      int              inputLineNumber,
-      int              slideNumber,
-      msrSlideTypeKind slideTypeKind,
-      msrLineTypeKind  slideLineTypeKind);
-
-    SMARTP<msrSlide> createSlideNewbornClone ();
-
-    SMARTP<msrSlide> createSlideDeepCopy ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSlide (
-      int              inputLineNumber,
-      int              slideNumber,
-      msrSlideTypeKind slideTypeKind,
-      msrLineTypeKind  slideLineTypeKind);
-      
-    virtual ~msrSlide ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-    
-    int                   getSlideNumber () const
-                              { return fSlideNumber; }
-
-    msrSlideTypeKind      getSlideTypeKind () const
-                              { return fSlideTypeKind; }
-            
-    msrLineTypeKind       getSlideLineTypeKind () const
-                              { return fSlideLineTypeKind; }
-            
-    // measure uplink
-    void                  setSlideMeasureUplink (
-                            const S_msrMeasure& measure)
-                              { fSlideMeasureUplink = measure; }
-                      
-    S_msrMeasure          getSlideMeasureUplink () const
-                              { return fSlideMeasureUplink; }
-                      
-    // services
-    // ------------------------------------------------------
-
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    // uplink
-    S_msrMeasure          fSlideMeasureUplink;
-    
-    int                   fSlideNumber;
-                  
-    msrSlideTypeKind      fSlideTypeKind;
-                          
-    msrLineTypeKind       fSlideLineTypeKind;
-};
-typedef SMARTP<msrSlide> S_msrSlide;
-EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
-
-//______________________________________________________________________________
 class msrStanza : public msrElement
 {
   public:
@@ -6518,6 +6185,10 @@ class msrRepeatCoda : public msrElement
 };
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
+
+//______________________________________________________________________________
+class msrStaff;
+typedef SMARTP<msrStaff> S_msrStaff;
 
 //______________________________________________________________________________
 class msrVoice : public msrElement
@@ -7682,6 +7353,13 @@ class msrVoiceStaffChange : public msrElement
 };
 typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 EXP ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt);
+
+//______________________________________________________________________________
+class msrPartGroup;
+typedef SMARTP<msrPartGroup> S_msrPartGroup;
+
+class msrScore;
+typedef SMARTP<msrScore> S_msrScore;
 
 //______________________________________________________________________________
 class msrPart : public msrElement
