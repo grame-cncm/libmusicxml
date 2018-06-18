@@ -66,6 +66,9 @@ class lpsrElement : public msrElement
     // services
     // ------------------------------------------------------
 
+
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -89,11 +92,14 @@ template <typename T> class lpsrBrowser : public browser<T>
 
   public:
     
-    lpsrBrowser (basevisitor* v) : fVisitor (v) {}
+    lpsrBrowser (basevisitor* v) : fVisitor (v)
+    {}
     
-    virtual ~lpsrBrowser () {}
+    virtual ~lpsrBrowser ()
+    {}
 
-    virtual void          set (basevisitor* v) { fVisitor = v; }
+    virtual void          set (basevisitor* v)
+                            { fVisitor = v; }
     
     virtual               void browse (T& t)
                             {
@@ -235,7 +241,9 @@ class lpsrVarValAssoc : public lpsrElement
     lpsrEndlKind          getEndlKind () const
                               { return fEndlKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
     string                lilyPondVarValAssocKindAsString ()
@@ -245,6 +253,8 @@ class lpsrVarValAssoc : public lpsrElement
                                     fLilyPondVarValAssocKind);
                               }
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -252,7 +262,9 @@ class lpsrVarValAssoc : public lpsrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
-
+  
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -341,6 +353,8 @@ class lpsrVarValsListAssoc : public lpsrElement
                                   
     string                lilyPondVarValsListAssocValuesAsString () const;
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -348,7 +362,9 @@ class lpsrVarValsListAssoc : public lpsrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
-
+  
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -439,6 +455,8 @@ class lpsrSchemeVariable : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -447,6 +465,8 @@ class lpsrSchemeVariable : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -514,6 +534,8 @@ class lpsrSchemeFunction : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -522,6 +544,8 @@ class lpsrSchemeFunction : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -589,6 +613,8 @@ class lpsrComment : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -597,6 +623,8 @@ class lpsrComment : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -644,6 +672,8 @@ class lpsrBarNumberCheck : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -652,6 +682,8 @@ class lpsrBarNumberCheck : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -695,6 +727,8 @@ class lpsrNewStaffgroupBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -703,6 +737,8 @@ class lpsrNewStaffgroupBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -752,6 +788,8 @@ class lpsrNewStaffTuningBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -760,6 +798,8 @@ class lpsrNewStaffTuningBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -804,6 +844,8 @@ class lpsrNewStaffBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -812,6 +854,8 @@ class lpsrNewStaffBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -860,6 +904,8 @@ class lpsrUseVoiceCommand : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -868,6 +914,8 @@ class lpsrUseVoiceCommand : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -919,6 +967,8 @@ class lpsrNewLyricsBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -927,6 +977,8 @@ class lpsrNewLyricsBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -974,6 +1026,8 @@ class lpsrVariableUseCommand : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -982,6 +1036,8 @@ class lpsrVariableUseCommand : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1018,6 +1074,8 @@ class lpsrUseLyricsCommand : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1026,6 +1084,8 @@ class lpsrUseLyricsCommand : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1127,6 +1187,8 @@ class lpsrContext : public lpsrElement
                                     fContextExistingKind);
                               }
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1135,6 +1197,8 @@ class lpsrContext : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1193,6 +1257,8 @@ class lpsrChordNamesContext : public lpsrContext
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1201,6 +1267,8 @@ class lpsrChordNamesContext : public lpsrContext
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1254,6 +1322,8 @@ class lpsrFiguredBassContext : public lpsrContext
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1262,6 +1332,8 @@ class lpsrFiguredBassContext : public lpsrContext
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1306,6 +1378,8 @@ class lpsrBarCommand : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1314,6 +1388,8 @@ class lpsrBarCommand : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1370,6 +1446,8 @@ class lpsrMelismaCommand : public lpsrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1378,6 +1456,8 @@ class lpsrMelismaCommand : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1647,6 +1727,8 @@ class lpsrHeader : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1791,6 +1873,8 @@ class lpsrPaper : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1799,6 +1883,8 @@ class lpsrPaper : public msrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1885,6 +1971,8 @@ class lpsrLayout : public lpsrElement
                                 fLpsrSchemeVariables.push_back (assoc);
                               }
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1893,6 +1981,8 @@ class lpsrLayout : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -1982,6 +2072,8 @@ class lpsrStaffBlock : public lpsrElement
                             S_msrElement elem)
                               { fStaffBlockElements.push_back (elem); }
                   
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -1990,6 +2082,8 @@ class lpsrStaffBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -2097,6 +2191,8 @@ class lpsrPartBlock : public lpsrElement
                             const S_lpsrChordNamesContext& chordNamesContext,
                             const S_msrElement&            otherElement);
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -2107,6 +2203,8 @@ class lpsrPartBlock : public lpsrElement
 
   public:
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -2169,6 +2267,8 @@ class lpsrPartGroupBlock : public lpsrElement
                             S_msrElement elem)
                               { fPartGroupBlockElements.push_back (elem); }
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -2177,6 +2277,8 @@ class lpsrPartGroupBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -2258,6 +2360,8 @@ class lpsrParallelMusicBLock : public lpsrElement
                               }
 */
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -2266,6 +2370,8 @@ class lpsrParallelMusicBLock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -2343,6 +2449,8 @@ class lpsrScoreBlock : public lpsrElement
                             S_lpsrNewLyricsBlock lyricsUse);
                             */
 
+  public:
+  
     // visitors
     // ------------------------------------------------------
 
@@ -2351,6 +2459,8 @@ class lpsrScoreBlock : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 
@@ -2571,6 +2681,8 @@ class lpsrScore : public lpsrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+  
     // print
     // ------------------------------------------------------
 

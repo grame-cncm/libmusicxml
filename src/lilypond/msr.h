@@ -199,6 +199,8 @@ class msrElement : public smartable
     
     virtual string        asShortString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -206,6 +208,10 @@ class msrElement : public smartable
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v) = 0;
+
+  public:
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -289,6 +295,8 @@ class msrComment : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -296,6 +304,8 @@ class msrComment : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -314,9 +324,9 @@ EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
 
 //______________________________________________________________________________
 class msrPolyphony : public smartable
-{
+{  
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -386,6 +396,8 @@ class msrOctaveShift : public msrElement
 
     string                octaveShiftKindAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -393,6 +405,8 @@ class msrOctaveShift : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -462,6 +476,8 @@ class msrStringTuning : public msrElement
 
     string                stringTuningKindAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -469,6 +485,8 @@ class msrStringTuning : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -536,6 +554,8 @@ class msrScordatura : public msrElement
     void                  addStringTuningToScordatura (
                             S_msrStringTuning stringTuning);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -543,6 +563,8 @@ class msrScordatura : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -606,6 +628,8 @@ class msrAccordionRegistration : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -613,6 +637,8 @@ class msrAccordionRegistration : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -678,6 +704,8 @@ class msrHarpPedalsTuning : public msrElement
                             
     string                asString () const;
          
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -685,6 +713,8 @@ class msrHarpPedalsTuning : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -745,6 +775,8 @@ class msrStem : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -752,6 +784,8 @@ class msrStem : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -820,6 +854,8 @@ class msrBeam : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -827,6 +863,8 @@ class msrBeam : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -904,6 +942,8 @@ class msrArticulation : public msrElement
 
     virtual string        articulationPlacementKindAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -911,6 +951,8 @@ class msrArticulation : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -972,6 +1014,8 @@ class msrArpeggiato : public msrArticulation
 
     virtual string        arpeggiatoDirectionKindAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -979,6 +1023,8 @@ class msrArpeggiato : public msrArticulation
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1051,6 +1097,8 @@ class msrNonArpeggiato : public msrArticulation
 
     virtual string        nonArpeggiatoTypeKindAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1058,6 +1106,8 @@ class msrNonArpeggiato : public msrArticulation
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1182,6 +1232,8 @@ class msrTechnical : public msrElement
     
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1189,6 +1241,8 @@ class msrTechnical : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1289,6 +1343,8 @@ class msrTechnicalWithInteger : public msrElement
     
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1296,6 +1352,8 @@ class msrTechnicalWithInteger : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1394,6 +1452,8 @@ class msrTechnicalWithFloat : public msrElement
     
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1401,6 +1461,8 @@ class msrTechnicalWithFloat : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1510,6 +1572,8 @@ class msrTechnicalWithString : public msrElement
     
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1517,6 +1581,8 @@ class msrTechnicalWithString : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1626,6 +1692,8 @@ class msrOrnament : public msrElement
 
     string                ornamentAccidentalMarkAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1633,6 +1701,8 @@ class msrOrnament : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1712,6 +1782,8 @@ class msrFermata : public msrArticulation
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1719,6 +1791,8 @@ class msrFermata : public msrArticulation
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1797,6 +1871,8 @@ class msrSingleTremolo : public msrElement
     
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -1804,6 +1880,8 @@ class msrSingleTremolo : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2050,6 +2128,8 @@ class msrDoubleTremolo : public msrElement
     void                  setDoubleTremoloFirstNoteMeasureNumber (
                             string measureNumber);
                     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2057,6 +2137,8 @@ class msrDoubleTremolo : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2187,6 +2269,8 @@ class msrSpanner : public msrElement
 
     string                spannerPlacementKindAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2194,6 +2278,8 @@ class msrSpanner : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2265,6 +2351,8 @@ class msrWavyLine : public msrSpanner
 
     string                fermataAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2272,6 +2360,8 @@ class msrWavyLine : public msrSpanner
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2346,6 +2436,8 @@ class msrRehearsal : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2353,6 +2445,8 @@ class msrRehearsal : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2420,6 +2514,8 @@ class msrTie : public msrElement
     string                tieKindAsString () const
                               { return tieKindAsString (fTieKind); }
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2427,6 +2523,8 @@ class msrTie : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2506,6 +2604,8 @@ class msrSlur : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2513,6 +2613,8 @@ class msrSlur : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2619,6 +2721,8 @@ class msrLigature : public msrElement
 
     string                ligatureKindAsString ();
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2626,6 +2730,8 @@ class msrLigature : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2703,12 +2809,12 @@ class msrDynamics : public msrElement
     msrPlacementKind      getDynamicsPlacementKind () const
                               { return fDynamicsPlacementKind; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
-    string                dynamicsKindAsString () const;
-    
-    string                dynamicsPlacementKindAsString () const;
+  public:
 
     // visitors
     // ------------------------------------------------------
@@ -2718,8 +2824,14 @@ class msrDynamics : public msrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+
     // print
     // ------------------------------------------------------
+
+    string                dynamicsKindAsString () const;
+    
+    string                dynamicsPlacementKindAsString () const;
 
     virtual void          print (ostream& os);
 
@@ -2774,9 +2886,7 @@ class msrOtherDynamics : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                otherDynamicsPlacementKindAsString () const;
-
-    string                asString () const;
+  public:
 
     // visitors
     // ------------------------------------------------------
@@ -2786,8 +2896,14 @@ class msrOtherDynamics : public msrElement
 
     virtual void          browseData (basevisitor* v);
 
+  public:
+
     // print
     // ------------------------------------------------------
+
+    string                otherDynamicsPlacementKindAsString () const;
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -2859,6 +2975,8 @@ class msrSlash : public msrElement
 
     string                asString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2866,6 +2984,8 @@ class msrSlash : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -2953,6 +3073,8 @@ class msrWedge : public msrElement
 
     string                wedgeKindAsString ();
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -2960,6 +3082,8 @@ class msrWedge : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -3048,6 +3172,8 @@ class msrClef : public msrElement
     static msrClefKind    clefKindFromString (
                             string theString);
                             
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -3055,6 +3181,8 @@ class msrClef : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -3140,6 +3268,8 @@ class msrHumdrumScotKeyItem : public msrElement
                             
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -3147,6 +3277,8 @@ class msrHumdrumScotKeyItem : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -3258,6 +3390,8 @@ class msrKey : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -3265,6 +3399,8 @@ class msrKey : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -3339,6 +3475,8 @@ class msrTimeItem : public msrElement
                               
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -3346,6 +3484,8 @@ class msrTimeItem : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -3455,6 +3595,8 @@ class msrTime : public msrElement
 
     string                asShortString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -3462,6 +3604,8 @@ class msrTime : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -3538,6 +3682,8 @@ class msrTranspose : public msrElement
                             
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -3545,6 +3691,8 @@ class msrTranspose : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4023,6 +4171,8 @@ class msrMeasure : public msrElement
     void                  finalizeMeasure (
                             int inputLineNumber);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4030,6 +4180,8 @@ class msrMeasure : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4412,6 +4564,8 @@ class msrSegment : public msrElement
     void                  finalizeCurrentMeasureInSegment (
                             int inputLineNumber);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4419,6 +4573,8 @@ class msrSegment : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4527,6 +4683,8 @@ class msrGraceNotes : public msrElement
 
     string                asShortString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4534,6 +4692,8 @@ class msrGraceNotes : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4618,6 +4778,8 @@ class msrAfterGraceNotesContents : public msrElement
     // strings
     string                asShortString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4625,6 +4787,8 @@ class msrAfterGraceNotesContents : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4705,6 +4869,8 @@ class msrAfterGraceNotes : public msrElement
     // strings
     string                asShortString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4712,6 +4878,8 @@ class msrAfterGraceNotes : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4841,6 +5009,8 @@ class msrWords : public msrElement
 
     string                asString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4848,6 +5018,8 @@ class msrWords : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -4986,6 +5158,8 @@ class msrSyllable : public msrElement
 
     string                syllableNoteUplinkAsString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -4993,6 +5167,8 @@ class msrSyllable : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -5120,6 +5296,8 @@ Degree elements
     
     string                asString () const;
    
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -5127,6 +5305,8 @@ Degree elements
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -5262,6 +5442,8 @@ class msrHarmony : public msrElement
     
     string                asString () const;
    
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -5269,6 +5451,8 @@ class msrHarmony : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -5371,6 +5555,8 @@ class msrFrameNote : public msrElement
     
     string                asString () const;
    
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -5378,6 +5564,8 @@ class msrFrameNote : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -5490,6 +5678,8 @@ class msrFrame : public msrElement
     
     string                asString () const;
    
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -5497,6 +5687,8 @@ class msrFrame : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -5610,6 +5802,8 @@ class msrFigure : public msrElement
     
     string                asString () const;
    
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -5617,6 +5811,8 @@ class msrFigure : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -5722,6 +5918,8 @@ class msrFiguredBass : public msrElement
 
     string                asString () const;
    
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -5729,6 +5927,8 @@ class msrFiguredBass : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -6510,6 +6710,8 @@ class msrNote : public msrElement
     void                  appendScordaturaToNote (S_msrScordatura scordatura);
     
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -6517,6 +6719,8 @@ class msrNote : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7110,6 +7314,8 @@ class msrChord : public msrElement
     
     string                asShortString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7117,6 +7323,8 @@ class msrChord : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7284,6 +7492,8 @@ class msrVarValAssoc : public msrElement
                                     fVarValAssocKind);
                               }
                               
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7291,6 +7501,8 @@ class msrVarValAssoc : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7372,6 +7584,8 @@ class msrVarValsListAssoc : public msrElement
                               
     string                varValsListAssocValuesAsString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7379,6 +7593,8 @@ class msrVarValsListAssoc : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7522,6 +7738,8 @@ class msrIdentification : public msrElement
                             int    inputLineNumber,
                             string value);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7529,6 +7747,8 @@ class msrIdentification : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7624,8 +7844,12 @@ class msrPageGeometry : public msrElement
 
     float   globalStaffSize       () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
+
+  public:
 
     // visitors
     // ------------------------------------------------------
@@ -7634,6 +7858,8 @@ class msrPageGeometry : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7714,6 +7940,8 @@ class msrCreditWords : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7721,6 +7949,8 @@ class msrCreditWords : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7792,6 +8022,8 @@ class msrCredit : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7799,6 +8031,8 @@ class msrCredit : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7849,6 +8083,8 @@ class msrLayout : public msrElement // JMI
     void                  addMsrVarValAssoc (S_msrVarValAssoc assoc)
                               { fVarValAssocs.push_back(assoc); } // JMI ???
       
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7856,6 +8092,8 @@ class msrLayout : public msrElement // JMI
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -7968,6 +8206,8 @@ class msrDivisions : public msrElement
     void                  testTupletSoundingWholeNotesAndDurations ();
 */
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -7975,6 +8215,8 @@ class msrDivisions : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8038,6 +8280,8 @@ class msrBarCheck : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8045,6 +8289,8 @@ class msrBarCheck : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8097,6 +8343,8 @@ class msrBarNumberCheck : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8104,6 +8352,8 @@ class msrBarNumberCheck : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8156,6 +8406,8 @@ class msrLineBreak : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8163,6 +8415,8 @@ class msrLineBreak : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8210,6 +8464,8 @@ class msrPageBreak : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8217,6 +8473,8 @@ class msrPageBreak : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8397,6 +8655,8 @@ class msrTuplet : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8404,6 +8664,8 @@ class msrTuplet : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8517,6 +8779,8 @@ class msrGlissando : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8524,6 +8788,8 @@ class msrGlissando : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8615,6 +8881,8 @@ class msrSlide : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8622,6 +8890,8 @@ class msrSlide : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8689,6 +8959,8 @@ class msrTempoNote : public msrElement
 
     void                  appendBeamToTempoNote (S_msrBeam beam);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8696,6 +8968,8 @@ class msrTempoNote : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8822,6 +9096,8 @@ class msrTempoTuplet : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8829,6 +9105,8 @@ class msrTempoTuplet : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -8917,6 +9195,8 @@ class msrTempoRelationshipElements : public msrElement
     void                  addElementToTempoRelationshipElements (
                             S_msrElement element);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -8924,6 +9204,8 @@ class msrTempoRelationshipElements : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9072,6 +9354,8 @@ class msrTempo : public msrElement
 
     string                asString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9079,6 +9363,8 @@ class msrTempo : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9249,6 +9535,8 @@ class msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9256,6 +9544,8 @@ class msrStanza : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9315,6 +9605,8 @@ class msrSegno : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9322,6 +9614,8 @@ class msrSegno : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9365,6 +9659,8 @@ class msrCoda : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9372,6 +9668,8 @@ class msrCoda : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9415,6 +9713,8 @@ class msrEyeGlasses : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9422,6 +9722,8 @@ class msrEyeGlasses : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9507,6 +9809,8 @@ class msrPedal : public msrElement
     
     string                pedalSignAsString ();
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9514,6 +9818,8 @@ class msrPedal : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9561,6 +9867,8 @@ class msrDamp : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9568,6 +9876,8 @@ class msrDamp : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9611,6 +9921,8 @@ class msrDampAll : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9618,6 +9930,8 @@ class msrDampAll : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9849,6 +10163,8 @@ class msrBarline : public msrElement
     
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9856,6 +10172,8 @@ class msrBarline : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -9950,6 +10268,8 @@ class msrRepeatCommonPart : public msrElement
 
     string                asString () const;
                     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -9957,6 +10277,8 @@ class msrRepeatCommonPart : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10065,6 +10387,8 @@ class msrRepeatEnding : public msrElement
 
  //  JMI void                  appendElementToRepeatEnding (S_msrElement elem);
                     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10072,6 +10396,8 @@ class msrRepeatEnding : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10173,6 +10499,8 @@ class msrRepeat : public msrElement
 
     string                asString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10180,6 +10508,8 @@ class msrRepeat : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10260,6 +10590,8 @@ class msrMeasuresRepeatPattern : public msrElement
         
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10267,6 +10599,8 @@ class msrMeasuresRepeatPattern : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10342,6 +10676,8 @@ class msrMeasuresRepeatReplicas : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10349,6 +10685,8 @@ class msrMeasuresRepeatReplicas : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10467,6 +10805,8 @@ class msrMeasuresRepeat : public msrElement
 
     string                asString () const;
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10474,6 +10814,8 @@ class msrMeasuresRepeat : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10554,6 +10896,8 @@ class msrMultipleRestContents : public msrElement
 
     string                asString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10561,6 +10905,8 @@ class msrMultipleRestContents : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10662,6 +11008,8 @@ class msrMultipleRest : public msrElement
 
     string                asString () const;
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10669,6 +11017,8 @@ class msrMultipleRest : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -10746,6 +11096,8 @@ class msrRepeatCoda : public msrElement
 
  //  JMI void                  appendElementToRepeatCoda (S_msrElement elem);
                     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -10753,6 +11105,8 @@ class msrRepeatCoda : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -11340,6 +11694,8 @@ class msrVoice : public msrElement
     void                  finalizeVoice (
                             int inputLineNumber);
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -11347,6 +11703,8 @@ class msrVoice : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -11493,6 +11851,8 @@ class msrPartNameDisplay : public msrElement
 
     string                asString () const;
          
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -11500,6 +11860,8 @@ class msrPartNameDisplay : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -11552,6 +11914,8 @@ class msrPartAbbreviationDisplay : public msrElement
 
     string                asString () const;
          
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -11559,6 +11923,8 @@ class msrPartAbbreviationDisplay : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -11626,6 +11992,8 @@ class msrStaffTuning : public msrElement
 
     string                asString () const;
          
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -11633,6 +12001,8 @@ class msrStaffTuning : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -11751,6 +12121,8 @@ class msrStaffDetails : public msrElement
                             
     string                asShortString ();
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -11758,6 +12130,8 @@ class msrStaffDetails : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -12121,6 +12495,8 @@ class msrStaff : public msrElement
 
     // strings
     
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -12128,6 +12504,8 @@ class msrStaff : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -12236,6 +12614,8 @@ class msrVoiceStaffChange : public msrElement
 
     string                asString () const;
          
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -12243,6 +12623,8 @@ class msrVoiceStaffChange : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -12691,6 +13073,8 @@ class msrPart : public msrElement
     void                  finalizePartClone (
                             int inputLineNumber);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -12698,6 +13082,8 @@ class msrPart : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -12981,6 +13367,8 @@ class msrPartGroup : public msrElement
                             int    inputLineNumber,
                             list<S_msrPart>& partsList);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -12988,6 +13376,8 @@ class msrPartGroup : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -13190,6 +13580,8 @@ class msrScore : public msrElement
                             int    inputLineNumber,
                             list<S_msrPart>& partsList);
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -13197,6 +13589,8 @@ class msrScore : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -13288,6 +13682,8 @@ class msrMidi : public msrElement
     // services
     // ------------------------------------------------------
 
+  public:
+
     // visitors
     // ------------------------------------------------------
 
@@ -13295,6 +13691,8 @@ class msrMidi : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
 
     // print
     // ------------------------------------------------------

@@ -408,7 +408,10 @@ class msrFontSize : public smartable
 
     string                fontSizeAsString () const;
 
-    // print
+  public:
+  
+  public:
+  
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -606,7 +609,8 @@ class msrDottedDuration
     virtual void          browseData (basevisitor* v);
 */
 
-    // print
+  public:
+  
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -710,7 +714,8 @@ class msrChordInterval : public smartable
     virtual void          browseData (basevisitor* v);
 */
 
-    // print
+  public:
+  
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -801,7 +806,8 @@ class msrChordStructure : public smartable
     virtual void          browseData (basevisitor* v);
 */
 
-    // print
+  public:
+  
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -893,7 +899,8 @@ class msrChordPitch : public smartable
     virtual void          browseData (basevisitor* v);
 */
 
-    // print
+  public:
+  
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -976,7 +983,8 @@ class msrChordContents : public smartable
     virtual void          browseData (basevisitor* v);
 */
 
-    // print
+  public:
+  
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
