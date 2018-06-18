@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iomanip>      // setw, setprecision, ...
 
 #include "msrDynamics.h"
 
@@ -328,6 +329,165 @@ void msrOtherDynamics::print (ostream& os)
   os <<
     asString () <<
     endl;
+}
+
+//______________________________________________________________________________
+S_msrWedge msrWedge::create (
+  int                inputLineNumber,
+  msrWedgeKind       wedgeKind,
+  msrWedgeNienteKind wedgeNienteKind,
+  msrLineTypeKind    wedgeLineTypeKind,
+  msrPlacementKind   wedgePlacementKind)
+{
+  msrWedge* o =
+    new msrWedge (
+      inputLineNumber,
+      wedgeKind,
+      wedgeNienteKind,
+      wedgeLineTypeKind,
+      wedgePlacementKind);
+  assert(o!=0);
+  return o;
+}
+
+msrWedge::msrWedge (
+  int                inputLineNumber,
+  msrWedgeKind       wedgeKind,
+  msrWedgeNienteKind wedgeNienteKind,
+  msrLineTypeKind    wedgeLineTypeKind,
+  msrPlacementKind   wedgePlacementKind)
+    : msrElement (inputLineNumber)
+{
+  fWedgeKind          = wedgeKind; 
+  fWedgeNienteKind    = wedgeNienteKind; 
+  fWedgeLineTypeKind  = wedgeLineTypeKind; 
+  fWedgePlacementKind = wedgePlacementKind; 
+}
+
+msrWedge::~msrWedge ()
+{}
+
+string msrWedge::wedgeKindAsString ()
+{
+  string result;
+  
+  switch (fWedgeKind) {
+    case msrWedge::kWedgeKindNone:
+      result = "wedgeKindNone";
+      break;
+    case msrWedge::kWedgeCrescendo:
+      result = "wedgeCrescendo";
+      break;
+    case msrWedge::kWedgeDecrescendo:
+      result = "wedgeDecrescendo";
+      break;
+    case msrWedge::kWedgeStop:
+      result = "wedgeStop";
+      break;
+  } // switch
+    
+  return result;
+}
+    
+string msrWedge::wedgeNienteKindAsString (
+  msrWedgeNienteKind wedgeNienteKind)
+{
+  string result;
+  
+  switch (wedgeNienteKind) {
+    case msrWedge::kWedgeNienteYes:
+      result = "kWedgeNienteYes";
+      break;
+    case msrWedge::kWedgeNienteNo:
+      result = "kWedgeNienteNo";
+      break;
+  } // switch
+    
+  return result;
+}
+
+void msrWedge::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrWedge::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrWedge>*
+    p =
+      dynamic_cast<visitor<S_msrWedge>*> (v)) {
+        S_msrWedge elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrWedge::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrWedge::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrWedge::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrWedge>*
+    p =
+      dynamic_cast<visitor<S_msrWedge>*> (v)) {
+        S_msrWedge elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrWedge::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrWedge::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrWedge& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrWedge::print (ostream& os)
+{
+  os <<
+    "Wedge" " " << wedgeKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 19;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "wedgeNienteKind" << " : " <<
+    wedgeNienteKindAsString (
+      fWedgeNienteKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "wedgeLineTypeKind" << " : " <<
+    msrLineTypeKindAsString (
+      fWedgeLineTypeKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "wedgePlacementKind" << " : " <<
+    msrPlacementKindAsString (
+      fWedgePlacementKind) << 
+    endl;
+
+  gIndenter--;
 }
 
 

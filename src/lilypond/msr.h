@@ -13,17 +13,20 @@
 #ifndef __msr__
 #define __msr__
 
+#include "typedefs.h"
+#include "tree_browser.h"
+#include "exports.h"
+
+#include "utilities.h"
+#include "messagesHandling.h"
+
 #include "msrElements.h"
 
 #include "msrDynamics.h"
+#include "msrTablatures.h"
+#include "msrInstruments.h"
 
-#include "typedefs.h"
-#include "tree_browser.h"
-#include "utilities.h"
-#include "messagesHandling.h"
-#include "msrBasicTypes.h"
 #include "generalOptions.h"
-#include "exports.h"
 
 namespace MusicXML2 
 {
@@ -338,313 +341,6 @@ class msrOctaveShift : public msrElement
 };
 typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
-
-//______________________________________________________________________________
-class msrStringTuning : public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrStringTuning> create (
-      int                  inputLineNumber,
-      int                  stringTuningNumber,
-      msrDiatonicPitchKind stringTuningDiatonicPitchKind,
-      msrAlterationKind    stringTuningAlterationKind,
-      int                  stringTuningOctave);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrStringTuning (
-      int                  inputLineNumber,
-      int                  stringTuningNumber,
-      msrDiatonicPitchKind stringTuningDiatonicPitchKind,
-      msrAlterationKind    stringTuningAlterationKind,
-      int                  stringTuningOctave);
-      
-    virtual ~msrStringTuning ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int                   getStringTuningNumber () const
-                              { return fStringTuningNumber; }
-
-    msrDiatonicPitchKind  getStringTuningDiatonicPitchKind () const
-                              { return fStringTuningDiatonicPitchKind; }
-
-    msrAlterationKind     getStringTuningAlterationKind () const
-                              { return fStringTuningAlterationKind; }
-
-    int                   getStringTuningOctave () const
-                              { return fStringTuningOctave; }
-
-    // services
-    // ------------------------------------------------------
-
-    string                stringTuningKindAsString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    int                   fStringTuningNumber;
-    
-    msrDiatonicPitchKind  fStringTuningDiatonicPitchKind;
-    msrAlterationKind     fStringTuningAlterationKind;
-    int                   fStringTuningOctave;
-};
-typedef SMARTP<msrStringTuning> S_msrStringTuning;
-EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);
-
-//______________________________________________________________________________
-class msrScordatura : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrScordaturaKind {
-      kScordaturaNone,
-      kScordaturaUp, kScordaturaDown,
-      kScordaturaStop, kScordaturaContinue };
-
-    static string scordaturaKindAsString (
-      msrScordaturaKind scordaturaKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrScordatura> create (
-      int inputLineNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrScordatura (
-      int inputLineNumber);
-      
-    virtual ~msrScordatura ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const list<S_msrStringTuning>&
-                          getScordaturaStringTuningsList ()
-                              { return fScordaturaStringTuningsList; }
-
-    // services
-    // ------------------------------------------------------
-
-    void                  addStringTuningToScordatura (
-                            S_msrStringTuning stringTuning);
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    list<S_msrStringTuning>
-                          fScordaturaStringTuningsList;
-};
-typedef SMARTP<msrScordatura> S_msrScordatura;
-EXP ostream& operator<< (ostream& os, const S_msrScordatura& elt);
-
-//______________________________________________________________________________
-class msrAccordionRegistration : public msrElement
-{
-  public:
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrAccordionRegistration> create (
-      int inputLineNumber,
-      int highDotsNumber,
-      int middleDotsNumber,
-      int lowDotsNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrAccordionRegistration (
-      int inputLineNumber,
-      int highDotsNumber,
-      int middleDotsNumber,
-      int lowDotsNumber);
-      
-    virtual ~msrAccordionRegistration ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int                   getHighDotsNumber () const
-                              { return fHighDotsNumber; }
-
-    int                   getMiddleDotsNumber () const
-                              { return fMiddleDotsNumber; }
-
-    int                   getLowDotsNumber () const
-                              { return fLowDotsNumber; }
-
-    // services
-    // ------------------------------------------------------
-
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    // see https://de.wikipedia.org/wiki/Register_%28Akkordeon%29
-    // for the meaning of the dots numbers
-
-    int                   fHighDotsNumber;
-    int                   fMiddleDotsNumber;
-    int                   fLowDotsNumber;
-};
-typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
-EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
-
-//______________________________________________________________________________
-class msrHarpPedalsTuning : public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrHarpPedalsTuning> create (
-      int inputLineNumber);
-    
-    SMARTP<msrHarpPedalsTuning> createHarpPedalsTuningNewbornClone ();
-
-    SMARTP<msrHarpPedalsTuning> createHarpPedalsTuningDeepCopy ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrHarpPedalsTuning (
-      int inputLineNumber);
-         
-    ~ msrHarpPedalsTuning ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const map<msrDiatonicPitchKind, msrAlterationKind>&
-                          getHarpPedalsAlterationKindsMap ()
-                              { return fHarpPedalsAlterationKindsMap; }
-
-    // services
-    // ------------------------------------------------------
-
-    void                  addPedalTuning (
-                            int                  intputLineNumber,
-                            msrDiatonicPitchKind diatonicPitchKind,
-                            msrAlterationKind    alterationKind);
-                            
-    string                asString () const;
-         
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-    
-  public:
-  
-    // fields
-    // ------------------------------------------------------
-    
-    map<msrDiatonicPitchKind, msrAlterationKind>
-                          fHarpPedalsAlterationKindsMap;
-};
-typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
-EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
 
 //______________________________________________________________________________
 class msrStem : public msrElement
@@ -2761,106 +2457,6 @@ class msrSlash : public msrElement
 };
 typedef SMARTP<msrSlash> S_msrSlash;
 EXP ostream& operator<< (ostream& os, const S_msrSlash& elt);
-
-//______________________________________________________________________________
-class msrWedge : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrWedgeKind {
-      kWedgeKindNone,
-      kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
-    
-    static string wedgeKindAsString (
-      msrWedgeKind wedgeKind);
-      
-    enum msrWedgeNienteKind {
-      kWedgeNienteYes, kWedgeNienteNo };
-    
-    static string wedgeNienteKindAsString (
-      msrWedgeNienteKind wedgeNienteKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrWedge> create (
-      int                inputLineNumber,
-      msrWedgeKind       wedgeKind,
-      msrWedgeNienteKind wedgeNienteKind,
-      msrLineTypeKind    wedgeLineTypeKind,
-      msrPlacementKind   wedgePlacementKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrWedge (
-      int                inputLineNumber,
-      msrWedgeKind       wedgeKind,
-      msrWedgeNienteKind wedgeNienteKind,
-      msrLineTypeKind    wedgeLineTypeKind,
-      msrPlacementKind   wedgePlacementKind);
-      
-    virtual ~msrWedge ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrWedgeKind          getWedgeKind () const
-                              { return fWedgeKind; }
-    
-    msrWedgeNienteKind    getWedgeNienteKind () const
-                              { return fWedgeNienteKind; }
-    
-    msrLineTypeKind       getWedgeLineTypeKind () const
-                              { return fWedgeLineTypeKind; }
-
-    msrPlacementKind      getWedgePlacementKind () const
-                              { return fWedgePlacementKind; }
-
-    // services
-    // ------------------------------------------------------
-
-    string                wedgeKindAsString ();
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrWedgeKind          fWedgeKind;
-
-    msrWedgeNienteKind    fWedgeNienteKind;
-    
-    msrLineTypeKind       fWedgeLineTypeKind;
-
-    msrPlacementKind      fWedgePlacementKind;
-};
-typedef SMARTP<msrWedge> S_msrWedge;
-EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 //______________________________________________________________________________
 class msrClef : public msrElement
@@ -5244,6 +4840,7 @@ typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 
 //______________________________________________________________________________
+/*
 class msrFrameNote : public msrElement
 {
   public:
@@ -5258,12 +4855,12 @@ class msrFrameNote : public msrElement
     static string barreTypeKindAsString (
       msrBarreTypeKind barreTypeKind);
       
-/*
+/ *
           <frame-note>
             <string>6</string>
             <fret>0</fret>
           </frame-note>
-*/
+* /
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -5473,6 +5070,7 @@ class msrFrame : public msrElement
 };
 typedef SMARTP<msrFrame> S_msrFrame;
 EXP ostream& operator<< (ostream& os, const S_msrFrame& elt);
+*/
 
 //______________________________________________________________________________
 class msrFigure : public msrElement

@@ -179,6 +179,105 @@ class msrOtherDynamics : public msrElement
 typedef SMARTP<msrOtherDynamics> S_msrOtherDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
 
+//______________________________________________________________________________
+class msrWedge : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrWedgeKind {
+      kWedgeKindNone,
+      kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
+    
+    static std::string wedgeKindAsString (
+      msrWedgeKind wedgeKind);
+      
+    enum msrWedgeNienteKind {
+      kWedgeNienteYes, kWedgeNienteNo };
+    
+    static string wedgeNienteKindAsString (
+      msrWedgeNienteKind wedgeNienteKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrWedge> create (
+      int                inputLineNumber,
+      msrWedgeKind       wedgeKind,
+      msrWedgeNienteKind wedgeNienteKind,
+      msrLineTypeKind    wedgeLineTypeKind,
+      msrPlacementKind   wedgePlacementKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrWedge (
+      int                inputLineNumber,
+      msrWedgeKind       wedgeKind,
+      msrWedgeNienteKind wedgeNienteKind,
+      msrLineTypeKind    wedgeLineTypeKind,
+      msrPlacementKind   wedgePlacementKind);
+      
+    virtual ~msrWedge ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrWedgeKind          getWedgeKind () const
+                              { return fWedgeKind; }
+    
+    msrWedgeNienteKind    getWedgeNienteKind () const
+                              { return fWedgeNienteKind; }
+    
+    msrLineTypeKind       getWedgeLineTypeKind () const
+                              { return fWedgeLineTypeKind; }
+
+    msrPlacementKind      getWedgePlacementKind () const
+                              { return fWedgePlacementKind; }
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    std::string           wedgeKindAsString ();
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrWedgeKind          fWedgeKind;
+
+    msrWedgeNienteKind    fWedgeNienteKind;
+    
+    msrLineTypeKind       fWedgeLineTypeKind;
+
+    msrPlacementKind      fWedgePlacementKind;
+};
+typedef SMARTP<msrWedge> S_msrWedge;
+EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
 
 } // namespace MusicXML2
