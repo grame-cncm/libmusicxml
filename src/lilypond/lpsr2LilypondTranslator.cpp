@@ -5743,8 +5743,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
-      "% <!--=== measure " << measureNumber <<
-      ", line " << inputLineNumber << " ===-->" <<
+      "% <!--=== measure '" << measureNumber <<
+      "', line " << inputLineNumber << " ===-->" <<
       endl;
   }
 
@@ -5830,15 +5830,6 @@ else
       
     case msrMeasure::kUpbeatMeasureKind:
       {
-/* JMI
-        rational
-          measureLength =
-            elt->getMeasureLength ();
-
-        fLilypondCodeIOstream <<
-          "%{ measureLength: " << measureLength << " %}";
-*/
-
         string
           upbeatDuration =
             wholeNotesAsLilypondString (
@@ -5846,15 +5837,18 @@ else
               elt->getMeasureLength ());
 
         // only generate '\partial' at the beginning of a voice
-        if (
-          elt->getMeasureCreatedAfterARepeatKind ()
-            ==
-          msrMeasure::kMeasureCreatedAfterARepeatNo // JMI
-        ) {
-        fLilypondCodeIOstream <<
-          "\\partial " << upbeatDuration <<
-          endl;
-        }
+        switch (elt->getMeasureCreatedForARepeatKind ()) {
+          case msrMeasure::kMeasureCreatedForARepeatNo:
+            fLilypondCodeIOstream <<
+              "\\partial " << upbeatDuration <<
+              endl;
+            break;
+  
+          case msrMeasure::kMeasureCreatedForARepeatBefore:
+          case msrMeasure::kMeasureCreatedForARepeatAfter:
+            // such a measure does not need a \partial
+            break;
+        } // switch
       }
       break;
       

@@ -6521,8 +6521,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
-      "<!--=== measure " << fCurrentMeasureNumber <<
-      ", line " << inputLineNumber << " ===-->" <<
+      "<!--=== measure '" << fCurrentMeasureNumber <<
+      "', line " << inputLineNumber << " ===-->" <<
       endl;
   }
 
@@ -19541,11 +19541,9 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
       msrBarline::kBarlineCategoryRepeatStart);
 
   // prepare for repeat in current part
-  /* JMI
   fCurrentPart->
     prepareForRepeatInPart (
       inputLineNumber);
-*/
 
   // append the bar line to the current part
   fCurrentPart->

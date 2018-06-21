@@ -11006,8 +11006,8 @@ void msrMeasure::initializeMeasure ()
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentNo;
 
-  // measure 'created after a repeat' kind
-  fMeasureCreatedAfterARepeatKind = kMeasureCreatedAfterARepeatNo;
+  // measure 'created for a repeat' kind
+  fMeasureCreatedForARepeatKind = kMeasureCreatedForARepeatNo;
 
   // single-measure rest?
   fMeasureIsASingleMeasureRest = false;
@@ -11090,8 +11090,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
     fMeasureFirstInSegmentKind;
 
   // measure 'created after a repeat' kind
-  newbornClone->fMeasureCreatedAfterARepeatKind =
-    fMeasureCreatedAfterARepeatKind;
+  newbornClone->fMeasureCreatedForARepeatKind =
+    fMeasureCreatedForARepeatKind;
 
   // single-measure rest?
   newbornClone->fMeasureIsASingleMeasureRest =
@@ -11157,8 +11157,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     fMeasureFirstInSegmentKind;
 
   // measure 'created after a repeat' kind
-  measureDeepCopy->fMeasureCreatedAfterARepeatKind =
-    fMeasureCreatedAfterARepeatKind;
+  measureDeepCopy->fMeasureCreatedForARepeatKind =
+    fMeasureCreatedForARepeatKind;
 
   // elements
 
@@ -11262,6 +11262,32 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // fMeasureSegmentUplink JMI ???
   
   return measureDeepCopy;
+}
+
+void msrMeasure::setMeasureCreatedForARepeatKind (
+  msrMeasureCreatedForARepeatKind
+    measureCreatedForARepeatKind)
+{
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Setting measureCreatedForARepeatKind in measure '" <<
+      fMeasureNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUplink-> asString () <<
+      /* JMI
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      */
+      "' to '" <<
+      msrMeasure::measureCreatedForARepeatKindAsString (
+        measureCreatedForARepeatKind) << 
+      "', line " << fInputLineNumber <<
+      endl;
+  }
+
+  fMeasureCreatedForARepeatKind =
+    measureCreatedForARepeatKind;
 }
 
 void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
@@ -13363,14 +13389,15 @@ void msrMeasure::finalizeMeasure (
 
     case msrMeasure::kUnknownMeasureKind:
     case msrMeasure::kEmptyMeasureKind:
-      switch (fMeasureCreatedAfterARepeatKind) {
-        case msrMeasure::kMeasureCreatedAfterARepeatYes:
-          // such a measure should not be completed with a rest!
-          break;
-          
-        case msrMeasure::kMeasureCreatedAfterARepeatNo:
+      switch (fMeasureCreatedForARepeatKind) {
+        case msrMeasure::kMeasureCreatedForARepeatNo:
           padUpToPartMeasureLengthHighTide (
             inputLineNumber);
+          break;
+
+        case msrMeasure::kMeasureCreatedForARepeatBefore:
+        case msrMeasure::kMeasureCreatedForARepeatAfter:
+          // such a measure should not be padded with a rest
           break;
       } // switch
   
@@ -13534,17 +13561,20 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   return result;
 }
       
-string msrMeasure::measureCreatedAfterARepeatKindAsString (
-  msrMeasureCreatedAfterARepeatKind measureCreatedAfterARepeatKind)
+string msrMeasure::measureCreatedForARepeatKindAsString (
+  msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind)
 {
   string result;
 
-  switch (measureCreatedAfterARepeatKind) {
-    case msrMeasure::kMeasureCreatedAfterARepeatYes:
-      result = "measureCreatedAfterARepeatYes";
+  switch (measureCreatedForARepeatKind) {
+    case msrMeasure::kMeasureCreatedForARepeatNo:
+      result = "measureCreatedForRepeatNo";
       break;
-    case msrMeasure::kMeasureCreatedAfterARepeatNo:
-      result = "measureCreatedAfterARepeatNo";
+    case msrMeasure::kMeasureCreatedForARepeatBefore:
+      result = "measureCreatedForRepeatBefore";
+      break;
+    case msrMeasure::kMeasureCreatedForARepeatAfter:
+      result = "measureCreatedForRepeatAfter";
       break;
   } // switch
 
@@ -13616,8 +13646,8 @@ void msrMeasure::print (ostream& os)
     
     setw (fieldWidth) <<
     "measureCreatedAfterARepeat" << " : " <<
-    msrMeasure::measureCreatedAfterARepeatKindAsString (
-      fMeasureCreatedAfterARepeatKind) << 
+    msrMeasure::measureCreatedForARepeatKindAsString (
+      fMeasureCreatedForARepeatKind) << 
     endl <<
     
     setw (fieldWidth) <<
@@ -14040,36 +14070,73 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       lastMeasure =
         fSegmentMeasuresList.back ();
 
-    // is last measure an empty measure that was created after a repeat?
-    if (
-      lastMeasure->getMeasureCreatedAfterARepeatKind ()
-        ==
-      msrMeasure::kMeasureCreatedAfterARepeatYes
-        &&
-      lastMeasure->getMeasureLength ().getNumerator () == 0
-    ) {
-      // yes, remove it
-      if (gTraceOptions->fTraceMeasures) {
-        stringstream s;
+    // is last measure an empty measure that was created for a repeat?
+    msrMeasure::msrMeasureCreatedForARepeatKind
+      lastMeasureCreatedForARepeatKind =
+        lastMeasure->getMeasureCreatedForARepeatKind ();
+        
+    switch (lastMeasureCreatedForARepeatKind) {
+      case msrMeasure::kMeasureCreatedForARepeatNo:
+      /* JMI
+        // no, finalize it
+        lastMeasure->
+          finalizeMeasure (
+            inputLineNumber);
+            */
+        if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
+          // yes, remove it
+          if (gTraceOptions->fTraceMeasures) {
+            stringstream s;
+        
+            gLogIOstream <<
+              "Removing empty measure '" <<
+              lastMeasure->getMeasureNumber () <<
+              "' that was created for a repeat (" <<
+                msrMeasure::measureCreatedForARepeatKindAsString (
+                  lastMeasureCreatedForARepeatKind) <<
+              ") in segment '" <<
+              asString () <<
+              "'";
+          }
     
-        gLogIOstream <<
-          "Removing empty measure '" <<
-          lastMeasure->getMeasureNumber () <<
-          "' that was created after a repeat" <<
-          " in segment '" <<
-          asString () <<
-          "'";
-      }
+          fSegmentMeasuresList.pop_back ();
+        }
+        else {
+          // no, finalize it
+          lastMeasure->
+            finalizeMeasure (
+              inputLineNumber);
+        }
+        break;
 
-      fSegmentMeasuresList.pop_back ();
-    }
-
-    else {
-      // no, finalize it
-      lastMeasure->
-        finalizeMeasure (
-          inputLineNumber);
-    }
+      case msrMeasure::kMeasureCreatedForARepeatBefore:
+      case msrMeasure::kMeasureCreatedForARepeatAfter:
+        if (lastMeasure->getMeasureLength ().getNumerator () == 0) {
+          // yes, remove it
+          if (gTraceOptions->fTraceMeasures) {
+            stringstream s;
+        
+            gLogIOstream <<
+              "Removing empty measure '" <<
+              lastMeasure->getMeasureNumber () <<
+              "' that was created for a repeat (" <<
+                msrMeasure::measureCreatedForARepeatKindAsString (
+                  lastMeasureCreatedForARepeatKind) <<
+              ") in segment '" <<
+              asString () <<
+              "'";
+          }
+    
+          fSegmentMeasuresList.pop_back ();
+        }
+        else {
+          // no, finalize it
+          lastMeasure->
+            finalizeMeasure (
+              inputLineNumber);
+        }
+        break;
+    } // switch
 
     /* JMI
     else {
@@ -15919,6 +15986,7 @@ void msrRepeatCommonPart::print (ostream& os)
     "Repeat uplink: '" <<
     fRepeatCommonPartRepeatUplink->
       asString () <<
+      "'" <<
     endl <<
     endl;
 
@@ -18483,6 +18551,65 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
     appendMeasureToSegment (firstMeasure);
 }
 
+void msrVoice::createNewLastSegmentAndANewMeasureBeforeARepeat (
+  int inputLineNumber,
+  int fullMeasureLength)
+{
+/*
+  This method is used for repeats
+  It may lead to several measures having the same number,
+  in case a bar line cuts them apart
+  If this measure remains empty because the end of measure
+  follows the barline, it will be removed upon finalizeMeasure ()
+*/
+
+  // finalize the current measure
+  finalizeCurrentMeasureInVoice (
+    inputLineNumber);
+
+  // create the segment
+  if (gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Creating a new segment containing a new measure '" <<
+      fVoiceCurrentMeasureNumber <<
+      "'for voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create the new voice last segment
+  fVoiceLastSegment =
+    msrSegment::create (
+      inputLineNumber,
+      this);
+
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
+
+  // create the new measure with number newMeasureMeasureNumber
+  S_msrMeasure
+    newMeasure =
+      msrMeasure::create (
+        inputLineNumber,
+        fVoiceCurrentMeasureNumber,
+        fVoiceLastSegment);
+
+  // set it's full measure length
+  newMeasure->setFullMeasureLength (
+    fullMeasureLength);
+    
+  // set it as being created before a repeat
+  newMeasure->
+    setMeasureCreatedForARepeatKind (
+      msrMeasure::kMeasureCreatedForARepeatBefore);
+    
+  // append new measure to new voice last segment
+  fVoiceLastSegment->
+    appendMeasureToSegment (newMeasure);
+}
+
 void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
   int inputLineNumber,
   int fullMeasureLength)
@@ -18534,8 +18661,8 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
     
   // set it as being created after a repeat
   newMeasure->
-    setMeasureCreatedAfterARepeatKind (
-      msrMeasure::kMeasureCreatedAfterARepeatYes);
+    setMeasureCreatedForARepeatKind (
+      msrMeasure::kMeasureCreatedForARepeatAfter);
     
   // append new measure to new voice last segment
   fVoiceLastSegment->
@@ -19942,7 +20069,7 @@ void msrVoice::prepareForRepeatInVoice (
           }
   
 if (true)
-          createNewLastSegmentAndANewMeasureAfterARepeat (
+          createNewLastSegmentAndANewMeasureBeforeARepeat (
             inputLineNumber,
             fullMeasureLength);
 else
@@ -20274,8 +20401,8 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
 
         // set it as created after a repeat
         voiceLastMeasure->
-          setMeasureCreatedAfterARepeatKind (
-            msrMeasure::kMeasureCreatedAfterARepeatYes);
+          setMeasureCreatedForARepeatKind (
+            msrMeasure::kMeasureCreatedForARepeatAfter);
 
         if (
           gTraceOptions->fTraceRepeatsDetails
@@ -22780,17 +22907,20 @@ void msrVoice::print (ostream& os)
     setw (fieldWidth) << "voiceLastAppendedNote" << " : ";
   if (fVoiceLastAppendedNote) {
     os <<
-      "'" <<
-      fVoiceLastAppendedNote <<
-      "'";
+      endl;
+
+    gIndenter++;
+
+    os <<
+      fVoiceLastAppendedNote;
+
+    gIndenter--;
   }
   else {
     os <<
-      "none";
+      "none" <<
+      endl;
   }
-  os <<
-    endl;
-    
   os <<
     endl;
   

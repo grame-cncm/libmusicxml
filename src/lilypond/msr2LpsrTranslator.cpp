@@ -1533,8 +1533,8 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
-      "<!--=== measure " << measureNumber <<
-      ", voice \"" <<
+      "<!--=== measure '" << measureNumber <<
+      "', voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber << " ===-->" <<

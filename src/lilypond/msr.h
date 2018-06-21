@@ -642,12 +642,13 @@ class msrMeasure : public msrElement
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
-    enum msrMeasureCreatedAfterARepeatKind {
-        kMeasureCreatedAfterARepeatYes,
-        kMeasureCreatedAfterARepeatNo };
+    enum msrMeasureCreatedForARepeatKind {
+        kMeasureCreatedForARepeatNo,
+        kMeasureCreatedForARepeatBefore,
+        kMeasureCreatedForARepeatAfter };
       
-    static string measureCreatedAfterARepeatKindAsString (
-      msrMeasureCreatedAfterARepeatKind measureCreatedAfterARepeatKind);
+    static string measureCreatedForARepeatKindAsString (
+      msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -779,19 +780,15 @@ class msrMeasure : public msrElement
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
 
-    // measure 'created after a repeat' kind
+    // measure 'created for a repeat' kind
     
-    void                  setMeasureCreatedAfterARepeatKind (
-                            msrMeasureCreatedAfterARepeatKind
-                              measureCreatedAfterARepeatKind)
-                              {
-                                fMeasureCreatedAfterARepeatKind =
-                                  measureCreatedAfterARepeatKind;
-                              }
+    void                  setMeasureCreatedForARepeatKind (
+                            msrMeasureCreatedForARepeatKind
+                              measureCreatedForARepeatKind);
 
-    msrMeasureCreatedAfterARepeatKind
-                          getMeasureCreatedAfterARepeatKind () const
-                              { return fMeasureCreatedAfterARepeatKind; }
+    msrMeasureCreatedForARepeatKind
+                          getMeasureCreatedForARepeatKind () const
+                              { return fMeasureCreatedForARepeatKind; }
 
     // single-measure rest?
 
@@ -1121,10 +1118,10 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
                         
-    // measure 'created after a repeat' kind
+    // measure 'created for a repeat' kind
 
-    msrMeasureCreatedAfterARepeatKind
-                          fMeasureCreatedAfterARepeatKind;
+    msrMeasureCreatedForARepeatKind
+                          fMeasureCreatedForARepeatKind;
 
     // single-measure rest?
 
@@ -5977,6 +5974,9 @@ class msrVoice : public msrElement
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure);
 
+    void                  createNewLastSegmentAndANewMeasureBeforeARepeat (
+                            int inputLineNumber,
+                            int fullMeasureLength);
     void                  createNewLastSegmentAndANewMeasureAfterARepeat (
                             int inputLineNumber,
                             int fullMeasureLength);
