@@ -1407,7 +1407,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       endl;
   }
 
-/* JMI ??? TRICKY
   if (fOnGoingRepeat) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -1418,7 +1417,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     // let's recover from this error
     // JMI
   }
-*/
 
   // finalize the current part
   fCurrentPart->
