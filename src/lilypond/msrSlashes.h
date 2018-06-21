@@ -65,8 +65,6 @@ class msrSlash : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-    
   public:
 
     // visitors
@@ -82,6 +80,8 @@ class msrSlash : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+    
     virtual void          print (ostream& os);
 
   private:

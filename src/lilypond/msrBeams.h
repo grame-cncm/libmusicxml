@@ -34,7 +34,7 @@ class msrBeam : public msrElement
       kBeginBeam, kContinueBeam, kEndBeam,
       kForwardHookBeam, kBackwardHookBeam};
     
-    static std::string beamKindAsString (
+    static string beamKindAsString (
       msrBeamKind beamKind);
       
     // creation from MusicXML
@@ -86,7 +86,7 @@ class msrBeam : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
 

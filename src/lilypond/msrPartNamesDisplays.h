@@ -118,8 +118,6 @@ class msrPartAbbreviationDisplay : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-         
   public:
 
     // visitors
@@ -135,6 +133,8 @@ class msrPartAbbreviationDisplay : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+         
     virtual void          print (ostream& os);
 
   private:

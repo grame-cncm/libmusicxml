@@ -33,844 +33,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-/*
-void msrPolyphony::print (ostream& os)
-{
-  const int fieldWidth = 9;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fBeatUnit" << " = " << fBeatUnit <<
-    endl <<
-    setw (fieldWidth) <<
-    "fDots" << " = " << fDots <<
-    endl;
-};
-*/
-
-//______________________________________________________________________________
-S_msrTechnical msrTechnical::create (
-  int              inputLineNumber,
-  msrTechnicalKind technicalKind,
-  msrPlacementKind technicalPlacementKind)
-{
-  msrTechnical* o =
-    new msrTechnical (
-      inputLineNumber,
-      technicalKind,
-      technicalPlacementKind);
-  assert (o!=0);
-  return o;
-}
-
-msrTechnical::msrTechnical (
-  int              inputLineNumber,
-  msrTechnicalKind technicalKind,
-  msrPlacementKind technicalPlacementKind)
-    : msrElement (inputLineNumber)
-{
-  fTechnicalKind = technicalKind;
-
-  fTechnicalPlacementKind = technicalPlacementKind;
-}
-
-msrTechnical::~msrTechnical ()
-{}
-
-string msrTechnical::technicalKindAsString () const
-{
-  string result;
-  
-  switch (fTechnicalKind) {
-    case msrTechnical::kArrow:
-      result = "Arrow";
-      break;
-    case msrTechnical::kDoubleTongue:
-      result = "DoubleTongue";
-      break;
-    case msrTechnical::kDownBow:
-      result = "DownBow";
-      break;
-    case msrTechnical::kFingernails:
-      result = "Fingernails";
-      break;
-    case msrTechnical::kHarmonic:
-      result = "Harmonic";
-      break;
-    case msrTechnical::kHeel:
-      result = "Heel";
-      break;
-    case msrTechnical::kHole:
-      result = "Hole";
-      break;
-    case msrTechnical::kOpenString:
-      result = "OpenString";
-      break;
-    case msrTechnical::kSnapPizzicato:
-      result = "SnapPizzicato";
-      break;
-    case msrTechnical::kStopped:
-      result = "Stopped";
-      break;
-    case msrTechnical::kTap:
-      result = "Tap";
-      break;
-    case msrTechnical::kThumbPosition:
-      result = "ThumbPosition";
-      break;
-    case msrTechnical::kToe:
-      result = "Toe";
-      break;
-    case msrTechnical::kTripleTongue:
-      result = "TripleTongue";
-      break;
-    case msrTechnical::kUpBow:
-      result = "UpBow";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrTechnical::technicalPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fTechnicalPlacementKind);
-}
-
-/*
-string msrTechnical::technicalAccidentalMarkKindAsString () const
-{
-  string result;
-  
-  switch (fTechnicalAccidentalMarkKind) {
-    case msrTechnical::kNatural:
-      result = "natural";
-      break;
-    case msrTechnical::kSharp:
-      result = "sharp";
-      break;
-    case msrTechnical::kFlat:
-      result = "flat";
-      break;
-  } // switch
-
-  return result;
-}
-*/
-
-void msrTechnical::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnical::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrTechnical>*
-    p =
-      dynamic_cast<visitor<S_msrTechnical>*> (v)) {
-        S_msrTechnical elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnical::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrTechnical::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnical::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrTechnical>*
-    p =
-      dynamic_cast<visitor<S_msrTechnical>*> (v)) {
-        S_msrTechnical elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnical::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrTechnical::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrTechnical& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrTechnical::asString () const
-{
-  return
-    msrPlacementKindAsString (
-      fTechnicalPlacementKind);
-}
-
-void msrTechnical::print (ostream& os)
-{
-  os <<
-    "Technical" " " <<
-    asString () <<
-    ", line " << fInputLineNumber <<
-//    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
-    ", noteUplink" << " = " <<
-    fTechnicalNoteUplink->asShortString () <<
-    endl;
-}
-
-//______________________________________________________________________________
-S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
-  int                         inputLineNumber,
-  msrTechnicalWithIntegerKind technicalWithIntegerKind,
-  int                         technicalWithIntegerValue,
-  msrPlacementKind            technicalWithIntegerPlacementKind)
-{
-  msrTechnicalWithInteger* o =
-    new msrTechnicalWithInteger (
-      inputLineNumber,
-      technicalWithIntegerKind,
-      technicalWithIntegerValue,
-      technicalWithIntegerPlacementKind);
-  assert (o!=0);
-  return o;
-}
-
-msrTechnicalWithInteger::msrTechnicalWithInteger (
-  int                         inputLineNumber,
-  msrTechnicalWithIntegerKind technicalWithIntegerKind,
-  int                         technicalWithIntegerValue,
-  msrPlacementKind            technicalWithIntegerPlacementKind)
-    : msrElement (inputLineNumber)
-{
-  fTechnicalWithIntegerKind = technicalWithIntegerKind;
-
-  fTechnicalWithIntegerValue = technicalWithIntegerValue;
-
-  fTechnicalWithIntegerPlacementKind = technicalWithIntegerPlacementKind;
-}
-
-msrTechnicalWithInteger::~msrTechnicalWithInteger ()
-{}
-
-string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
-{
-  string result;
-  
-  switch (fTechnicalWithIntegerKind) {
-    case msrTechnicalWithInteger::kFingering:
-      result = "fingering";
-      break;
-    case msrTechnicalWithInteger::kFret:
-      result = "fret";
-      break;
-    case msrTechnicalWithInteger::kString:
-      result = "string";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fTechnicalWithIntegerPlacementKind);
-}
-
-void msrTechnicalWithInteger::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnicalWithInteger::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrTechnicalWithInteger>*
-    p =
-      dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
-        S_msrTechnicalWithInteger elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnicalWithInteger::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrTechnicalWithInteger::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnicalWithInteger::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrTechnicalWithInteger>*
-    p =
-      dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
-        S_msrTechnicalWithInteger elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnicalWithInteger::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrTechnicalWithInteger::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrTechnicalWithInteger::asString () const
-{
-  stringstream s;
-
-  s <<
-    technicalWithIntegerKindAsString () <<
-    ", value '" <<
-    fTechnicalWithIntegerValue <<
-    "', placement " <<
-    technicalWithIntegerPlacementKindAsString ();
-
-  return s.str ();
-}
-
-void msrTechnicalWithInteger::print (ostream& os)
-{
-  os <<
-    "TechnicalWithInteger" <<
-    ", " << technicalWithIntegerKindAsString () <<
-    ", line " << fInputLineNumber <<
-    endl;
-
-  gIndenter++;
-  
-  const int fieldWidth = 14;
-  
-  os << left <<
-    setw (fieldWidth) <<
-    "value" << " : " <<
-    fTechnicalWithIntegerValue <<
-    endl <<
-    
-    setw (fieldWidth) <<
-    "placement" << " : " <<
-    technicalWithIntegerPlacementKindAsString () <<
-    endl <<
-
-    setw (fieldWidth) <<
-    "noteUplink" << " = " <<
-    fTechnicalWithIntegerNoteUplink->asShortString () <<
-    endl;
-
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-S_msrTechnicalWithFloat msrTechnicalWithFloat::create (
-  int                       inputLineNumber,
-  msrTechnicalWithFloatKind technicalWithFloatKind,
-  float                     technicalWithFloatValue,
-  msrPlacementKind          technicalWithFloatPlacementKind)
-{
-  msrTechnicalWithFloat* o =
-    new msrTechnicalWithFloat (
-      inputLineNumber,
-      technicalWithFloatKind,
-      technicalWithFloatValue,
-      technicalWithFloatPlacementKind);
-  assert (o!=0);
-  return o;
-}
-
-msrTechnicalWithFloat::msrTechnicalWithFloat (
-  int                       inputLineNumber,
-  msrTechnicalWithFloatKind technicalWithFloatKind,
-  float                     technicalWithFloatValue,
-  msrPlacementKind          technicalWithFloatPlacementKind)
-    : msrElement (inputLineNumber)
-{
-  fTechnicalWithFloatKind = technicalWithFloatKind;
-
-  fTechnicalWithFloatValue = technicalWithFloatValue;
-
-  fTechnicalWithFloatPlacementKind = technicalWithFloatPlacementKind;
-}
-
-msrTechnicalWithFloat::~msrTechnicalWithFloat ()
-{}
-
-string msrTechnicalWithFloat::technicalWithFloatKindAsString () const
-{
-  string result;
-  
-  switch (fTechnicalWithFloatKind) {
-    case msrTechnicalWithFloat::kBend:
-      result = "bend";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrTechnicalWithFloat::technicalWithFloatPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fTechnicalWithFloatPlacementKind);
-}
-
-void msrTechnicalWithFloat::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnicalWithFloat::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrTechnicalWithFloat>*
-    p =
-      dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
-        S_msrTechnicalWithFloat elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnicalWithFloat::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrTechnicalWithFloat::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnicalWithFloat::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrTechnicalWithFloat>*
-    p =
-      dynamic_cast<visitor<S_msrTechnicalWithFloat>*> (v)) {
-        S_msrTechnicalWithFloat elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnicalWithFloat::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrTechnicalWithFloat::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrTechnicalWithFloat::asString () const
-{
-  stringstream s;
-
-  s <<
-    technicalWithFloatKindAsString () <<
-    ", value '" <<
-    fTechnicalWithFloatValue <<
-    "', placement " <<
-    technicalWithFloatPlacementKindAsString ();
-
-  return s.str ();
-}
-
-void msrTechnicalWithFloat::print (ostream& os)
-{
-  os <<
-    "TechnicalWithFloat" <<
-    ", " << technicalWithFloatKindAsString () <<
-    ", line " << fInputLineNumber <<
-    endl;
-
-  gIndenter++;
-  
-  const int fieldWidth = 14;
-  
-  os << left <<
-    setw (fieldWidth) <<
-    "value" << " : " <<
-    fTechnicalWithFloatValue <<
-    endl <<
-    
-    setw (fieldWidth) <<
-    "placement" << " : " <<
-    technicalWithFloatPlacementKindAsString () <<
-    endl <<
-
-    setw (fieldWidth) <<
-    "noteUplink" << " = " <<
-    fTechnicalWithFloatNoteUplink->asShortString () <<
-    endl;
-
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-S_msrTechnicalWithString msrTechnicalWithString::create (
-  int                        inputLineNumber,
-  msrTechnicalWithStringKind technicalWithStringKind,
-  msrTechnicalTypeKind       technicalWithStringTypeKind,
-  string                     technicalWithStringValue,
-  msrPlacementKind           technicalWithStringPlacementKind)
-{
-  msrTechnicalWithString* o =
-    new msrTechnicalWithString (
-      inputLineNumber,
-      technicalWithStringKind,
-      technicalWithStringTypeKind,
-      technicalWithStringValue,
-      technicalWithStringPlacementKind);
-  assert (o!=0);
-  return o;
-}
-
-msrTechnicalWithString::msrTechnicalWithString (
-  int                        inputLineNumber,
-  msrTechnicalWithStringKind technicalWithStringKind,
-  msrTechnicalTypeKind       technicalWithStringTypeKind,
-  string                     technicalWithStringValue,
-  msrPlacementKind           technicalWithStringPlacementKind)
-    : msrElement (inputLineNumber)
-{
-  fTechnicalWithStringKind = technicalWithStringKind;
-  
-  fTechnicalWithStringTypeKind = technicalWithStringTypeKind;
-
-  fTechnicalWithStringValue = technicalWithStringValue;
-
-  fTechnicalWithStringPlacementKind = technicalWithStringPlacementKind;
-}
-
-msrTechnicalWithString::~msrTechnicalWithString ()
-{}
-
-string msrTechnicalWithString::technicalWithStringKindAsString () const
-{
-  string result;
-  
-  switch (fTechnicalWithStringKind) {
-    case msrTechnicalWithString::kHammerOn:
-      result = "HammerOn";
-      break;
-    case msrTechnicalWithString::kHandbell:
-      result = "Handbell";
-      break;
-    case msrTechnicalWithString::kOtherTechnical:
-      result = "OtherTechnical";
-      break;
-    case msrTechnicalWithString::kPluck:
-      result = "Pluck";
-      break;
-    case msrTechnicalWithString::kPullOff:
-      result = "PullOff";
-      break;
-  } // switch
-
-  result +=
-    " \"" + fTechnicalWithStringValue + "\"";
-
-  return result;
-}
-
-string msrTechnicalWithString::technicalWithStringTypeKindAsString () const
-{
-  return
-    msrTechnicalTypeKindAsString (
-      fTechnicalWithStringTypeKind);
-}
-
-string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fTechnicalWithStringPlacementKind);
-}
-
-void msrTechnicalWithString::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnicalWithString::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrTechnicalWithString>*
-    p =
-      dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
-        S_msrTechnicalWithString elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnicalWithString::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrTechnicalWithString::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrTechnicalWithString::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrTechnicalWithString>*
-    p =
-      dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
-        S_msrTechnicalWithString elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrTechnicalWithString::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrTechnicalWithString::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrTechnicalWithString::asString () const
-{
-  stringstream s;
-
-  s <<
-    technicalWithStringKindAsString () <<
-    ", " << technicalWithStringTypeKindAsString () <<
-    ", value \"" <<
-    fTechnicalWithStringValue <<
-    "\", placement " <<
-    technicalWithStringPlacementKindAsString ();
-
-  return s.str ();
-}
-
-void msrTechnicalWithString::print (ostream& os)
-{
-  os <<
-    "TechnicalWithString" <<
-    ", " << technicalWithStringKindAsString () <<
-    ", " << technicalWithStringTypeKindAsString () <<
-    ", line " << fInputLineNumber <<
-    endl;
-
-  gIndenter++;
-  
-  const int fieldWidth = 14;
-  
-  os << left <<
-    setw (fieldWidth) <<
-    "value" << " : \"" <<
-    fTechnicalWithStringValue <<
-    "\"" <<
-    endl <<
-    
-    setw (fieldWidth) <<
-    "placement" << " : " <<
-    technicalWithStringPlacementKindAsString () <<
-    endl <<
-
-    setw (fieldWidth) <<
-    "noteUplink" << " = " <<
-    fTechnicalWithStringNoteUplink->asShortString () <<
-    endl;
-
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-S_msrFermata msrFermata::create (
-  int                inputLineNumber,
-  msrFermataKind     fermataKind,
-  msrFermataTypeKind fermataTypeKind)
-{
-  msrFermata* o =
-    new msrFermata (
-      inputLineNumber,
-      fermataKind,
-      fermataTypeKind);
-  assert (o!=0);
-  return o;
-}
-
-msrFermata::msrFermata (
-    int                inputLineNumber,
-    msrFermataKind     fermataKind,
-    msrFermataTypeKind fermataTypeKind)
-    : msrArticulation (
-      inputLineNumber,
-      msrArticulation::kFermata,
-      kPlacementNone) // temporary, JMI TEMP
-{
-  fFermataKind = fermataKind;
-  fFermataTypeKind = fermataTypeKind;
-}
-
-msrFermata::~msrFermata ()
-{}
-
-void msrFermata::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrFermata::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrFermata>*
-    p =
-      dynamic_cast<visitor<S_msrFermata>*> (v)) {
-        S_msrFermata elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrFermata::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrFermata::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrFermata::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrFermata>*
-    p =
-      dynamic_cast<visitor<S_msrFermata>*> (v)) {
-        S_msrFermata elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrFermata::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrFermata::browseData (basevisitor* v)
-{}
-
-string msrFermata::fermataKindAsString (
-  msrFermataKind fermataKind)
-{
-  string result;
-  
-  switch (fermataKind) {
-    case msrFermata::kNormalFermataKind:
-      result = "fermata kind: normal";
-      break;
-    case msrFermata::kAngledFermataKind:
-      result = "fermata kind: angled";
-      break;
-    case msrFermata::kSquareFermataKind:
-      result = "fermata kind: square";
-      break;
-  } // switch
-
-  return result;
-}
-      
-string msrFermata::fermataTypeKindAsString (
-  msrFermataTypeKind fermataTypeKind)
-{
-  string result;
-  
-  switch (fermataTypeKind) {
-    case msrFermata::kFermataTypeNone:
-      result = "fermataTypeNone";
-      break;
-    case msrFermata::kFermataTypeUpright:
-      result = "fermataTypeUpright";
-      break;
-    case msrFermata::kFermataTypeInverted:
-      result = "fermataTypeInverted";
-      break;
-  } // switch
-
-  return result;
-}
-      
-ostream& operator<< (ostream& os, const S_msrFermata& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrFermata::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Fermata" <<
-    ", " <<
-    fermataKindAsString (fFermataKind) <<
-    ", " <<
-    fermataTypeKindAsString (fFermataTypeKind) <<
-    ", line " << fInputLineNumber;
-
-  return s.str ();
-}
-
-void msrFermata::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
-}
-
-//______________________________________________________________________________
 S_msrOrnament msrOrnament::create (
   int              inputLineNumber,
   msrOrnamentKind  ornamentKind,
@@ -1081,158 +243,12 @@ void msrOrnament::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrSingleTremolo msrSingleTremolo::create (
-  int              inputLineNumber,
-  int              singleTremoloMarksNumber,
-  msrPlacementKind singleTremoloPlacementKind)
-{
-  msrSingleTremolo* o =
-    new msrSingleTremolo (
-      inputLineNumber,
-      singleTremoloMarksNumber, singleTremoloPlacementKind);
-  assert (o!=0);
-  return o;
-}
-
-S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
-  S_msrNote noteUplink)
-{
-  if (gTraceOptions->fTraceNotes) {
-    gLogIOstream <<
-      "Creating a deep copy of single tremolo " <<
-      asString () <<
-      " in note '" <<
-      noteUplink->
-        asShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  msrAssert(
-    noteUplink != nullptr,
-    "noteUplink is null");
-
-  S_msrSingleTremolo
-    singleTremoloDeepCopy =
-      msrSingleTremolo::create (
-        fInputLineNumber,
-        fSingleTremoloMarksNumber,
-        fSingleTremoloPlacementKind);
-
-  singleTremoloDeepCopy->fSingleTremoloNoteUplink =
-    noteUplink;
-    
-  return singleTremoloDeepCopy;
-}
-
-msrSingleTremolo::msrSingleTremolo (
-  int              inputLineNumber,
-  int              singleTremoloMarksNumber,
-  msrPlacementKind singleTremoloPlacementKind)
-    : msrElement (inputLineNumber)
-{
-  fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
-  fSingleTremoloPlacementKind = singleTremoloPlacementKind;
-}
-
-msrSingleTremolo::~msrSingleTremolo ()
-{}
-
-string msrSingleTremolo::singleTremoloPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fSingleTremoloPlacementKind);
-}
-
-void msrSingleTremolo::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrSingleTremolo::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrSingleTremolo>*
-    p =
-      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
-        S_msrSingleTremolo elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrSingleTremolo::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrSingleTremolo::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrSingleTremolo::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrSingleTremolo>*
-    p =
-      dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
-        S_msrSingleTremolo elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrSingleTremolo::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrSingleTremolo::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrSingleTremolo::asString () const
-{
-  stringstream s;
-  
-  s <<
-    "SingleTremolo" <<
-    ", line " << fInputLineNumber <<
-    ", " << fSingleTremoloMarksNumber << " marks" <<
-    ", placement" << " = " << singleTremoloPlacementKindAsString ();
-
-  if (fSingleTremoloNoteUplink) // it may not yet be set
-    s <<
-      ", noteUplink" << " = " <<
-      fSingleTremoloNoteUplink->
-        asShortStringWithRawWholeNotes ();
-
-  return s.str ();
-}
-
-void msrSingleTremolo::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
-}
-
-//______________________________________________________________________________
 S_msrDoubleTremolo msrDoubleTremolo::create (
   int                  inputLineNumber,
   msrDoubleTremoloKind doubleTremoloKind,
   msrTremoloTypeKind   doubleTremoloTypeKind,
   int                  doubleTremoloMarksNumber,
-  msrPlacementKind     doubleTremoloPlacementKind,
-  S_msrVoice           voiceUplink)
+  msrPlacementKind     doubleTremoloPlacementKind)
 {
   msrDoubleTremolo* o =
     new msrDoubleTremolo (
@@ -1240,8 +256,7 @@ S_msrDoubleTremolo msrDoubleTremolo::create (
       doubleTremoloKind,
       doubleTremoloTypeKind,
       doubleTremoloMarksNumber,
-      doubleTremoloPlacementKind,
-      voiceUplink);
+      doubleTremoloPlacementKind);
   assert (o!=0);
   return o;
 }
@@ -1251,18 +266,9 @@ msrDoubleTremolo::msrDoubleTremolo (
   msrDoubleTremoloKind doubleTremoloKind,
   msrTremoloTypeKind   doubleTremoloTypeKind,
   int                  doubleTremoloMarksNumber,
-  msrPlacementKind     doubleTremoloPlacementKind,
-  S_msrVoice           voiceUplink)
+  msrPlacementKind     doubleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
-  // sanity check
-  msrAssert (
-    voiceUplink != nullptr,
-    "voiceUplink is null");
-    
-  // set the double tremolo voice uplink
-  fDoubleTremoloVoiceUplink = voiceUplink;
-  
   fDoubleTremoloKind          = doubleTremoloKind;
   fDoubleTremoloTypeKind      = doubleTremoloTypeKind;
   fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
@@ -1275,7 +281,8 @@ msrDoubleTremolo::msrDoubleTremolo (
 }
 
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
-  S_msrVoice containingVoice)
+  S_msrElement doubleTremoloFirstElement,
+  S_msrElement doubleTremoloSecondElement)
 {
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
@@ -1285,8 +292,11 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   
   // sanity check
   msrAssert(
-    containingVoice != nullptr,
-    "containingVoice is null");
+    doubleTremoloFirstElement != nullptr,
+    "doubleTremoloFirstElement is null");
+  msrAssert(
+    doubleTremoloSecondElement != nullptr,
+    "doubleTremoloSecondElement is null");
     
   S_msrDoubleTremolo
     newbornClone =
@@ -1295,9 +305,13 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
         fDoubleTremoloKind,
         fDoubleTremoloTypeKind,
         fDoubleTremoloMarksNumber,
-        fDoubleTremoloPlacementKind,
-        containingVoice);
+        fDoubleTremoloPlacementKind);
 
+  newbornClone->fDoubleTremoloFirstElement =
+    doubleTremoloFirstElement;
+  newbornClone->fDoubleTremoloSecondElement =
+    doubleTremoloSecondElement;
+    
   newbornClone->fDoubleTremoloSoundingWholeNotes =
     fDoubleTremoloSoundingWholeNotes;
         
@@ -3687,12 +2701,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   // single tremolo
   // ------------------------------------------------------
 
-  if (fNoteSingleTremolo) {
-    noteDeepCopy->fNoteSingleTremolo =
-      fNoteSingleTremolo->
-        createSingleTremoloDeepCopy (
-          this);
-  }
+  noteDeepCopy->fNoteSingleTremolo =
+    fNoteSingleTremolo;
 
   // tie
   // ------------------------------------------------------
@@ -4599,10 +3609,6 @@ void msrNote::appendTechnicalToNote (S_msrTechnical technical)
   
   // append the technical to the note technicals list
   fNoteTechnicals.push_back (technical);
-
-  // set technical's note uplink
-  technical->
-    setTechnicalNoteUplink (this);
 }
 
 void msrNote::appendTechnicalWithIntegerToNote (
@@ -4620,10 +3626,6 @@ void msrNote::appendTechnicalWithIntegerToNote (
   // append the technical with integer to the note technicals with integers list
   fNoteTechnicalWithIntegers.push_back (
     technicalWithInteger);
-
-  // set technical's note uplink
-  technicalWithInteger->
-    setTechnicalWithIntegerNoteUplink (this);
 }
 
 void msrNote::appendTechnicalWithFloatToNote (
@@ -4641,10 +3643,6 @@ void msrNote::appendTechnicalWithFloatToNote (
   // append the technical with float to the note technicals with floats list
   fNoteTechnicalWithFloats.push_back (
     technicalWithFloat);
-
-  // set technical's note uplink
-  technicalWithFloat->
-    setTechnicalWithFloatNoteUplink (this);
 }
 
 void msrNote::appendTechnicalWithStringToNote (
@@ -4662,10 +3660,6 @@ void msrNote::appendTechnicalWithStringToNote (
   // append the technical with string to the note technicals with strings list
   fNoteTechnicalWithStrings.push_back (
     technicalWithString);
-
-  // set technical's note uplink
-  technicalWithString->
-    setTechnicalWithStringNoteUplink (this);
 }
 
 void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
@@ -4725,10 +3719,6 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 
   // register the singleTremolo in the note
   fNoteSingleTremolo = trem;
-
-  // set singleTremolo's note uplink
-  trem->
-    setSingleTremoloNoteUplink (this);
 }
 
 void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
@@ -11994,7 +10984,19 @@ void msrMeasure::initializeMeasure ()
       endl;
   }
 
-  if (false && fMeasureNumber == "2" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 1) {
+  if (true && fMeasureNumber == "0" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 3) {
+    gLogIOstream <<
+      endl <<
+      "======================= initializeMeasure()" <<
+      endl <<
+
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink () <<
+      
+      "=======================" <<
+      endl <<
+      endl;
+      
     abort ();
   }
   
@@ -12914,9 +11916,6 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   int inputLineNumber =
     doubleTremolo->getInputLineNumber ();
   
-  // populate measure uplink
-  doubleTremolo->setDoubleTremoloMeasureUplink (this);
-
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending double tremolo '" <<
@@ -14111,21 +13110,7 @@ void msrMeasure::determineMeasureKind (
   gIndenter++;
 
   // determine the measure kind
-  if (fMeasureLength == fFullMeasureLength) {
-    // full measure
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is full" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    fMeasureKind = kFullMeasureKind;
-  }
-  
-  else if (fMeasureLength.getNumerator () == 0) { // JMI
+  if (fMeasureLength.getNumerator () == 0) { // JMI
     // empty measure
     if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
@@ -14137,6 +13122,20 @@ void msrMeasure::determineMeasureKind (
     }
 
     fMeasureKind = kEmptyMeasureKind;
+  }
+  
+  else if (fMeasureLength == fFullMeasureLength) {
+    // full measure
+    if (gTraceOptions->fTraceMeasures) {
+      gLogIOstream <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is full" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    fMeasureKind = kFullMeasureKind;
   }
   
   else if (fMeasureLength < fFullMeasureLength) {
@@ -15040,13 +14039,39 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     S_msrMeasure
       lastMeasure =
         fSegmentMeasuresList.back ();
-  
- // JMI   if (lastMeasure->getMeasureContainsMusic ()) {      
+
+    // is last measure an empty measure that was created after a repeat?
+    if (
+      lastMeasure->getMeasureCreatedAfterARepeatKind ()
+        ==
+      msrMeasure::kMeasureCreatedAfterARepeatYes
+        &&
+      lastMeasure->getMeasureLength ().getNumerator () == 0
+    ) {
+      // yes, remove it
+      if (gTraceOptions->fTraceMeasures) {
+        stringstream s;
+    
+        gLogIOstream <<
+          "Removing empty measure '" <<
+          lastMeasure->getMeasureNumber () <<
+          "' that was created after a repeat" <<
+          " in segment '" <<
+          asString () <<
+          "'";
+      }
+
+      fSegmentMeasuresList.pop_back ();
+    }
+
+    else {
+      // no, finalize it
       lastMeasure->
         finalizeMeasure (
           inputLineNumber);
- /*   }
-    
+    }
+
+    /* JMI
     else {
       if (gTraceOptions->fTraceMeasures) {
         stringstream s;
@@ -15962,13 +14987,6 @@ void msrSegment::padUpToMeasureLengthInSegment (
   }
 }
 
-string msrSegment::segmentMeasureNumbersAsString () const
-{
-  stringstream s;
-
-  return s.str ();
-}
-
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {
   int inputLineNumber =
@@ -16246,13 +15264,18 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
       endl <<
       "+++++++++++++++++ appendNoteToSegment '" <<
       fSegmentAbsoluteNumber <<
+      /* JMI
       "', score:" <<
       endl <<
       fSegmentVoiceUplink->
         getVoiceStaffUplink ()->
           getStaffPartUplink ()->
             getPartPartGroupUplink ()->
-              getPartGroupScoreUplink ()<<
+              getPartGroupScoreUplink () <<
+              */
+      "', voice:" <<
+      endl <<
+      fSegmentVoiceUplink <<
       endl <<
       endl <<
       endl;
@@ -21049,8 +20072,241 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
 }
 
 void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
-  int inputLineNumber,
-  int repeatTimes)
+  int    inputLineNumber,
+  string measureNumber,
+  int    repeatTimes)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      {
+        // finalize current measure in voice
+        finalizeCurrentMeasureInVoice (
+          inputLineNumber);
+          
+        if (
+          gTraceOptions->fTraceRepeatsDetails
+            ||
+          gTraceOptions->fTraceVoicesDetails) {
+          gLogIOstream <<
+            endl <<
+            "*********>> Current voice III \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            " contains:" <<
+            endl;
+
+          print (gLogIOstream);
+
+          gLogIOstream <<
+            "<<*********" <<
+            endl <<
+            endl;
+        }
+
+        // create the repeat
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating and appending a repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+        S_msrRepeat
+          newRepeat =
+            msrRepeat::create (
+              inputLineNumber,
+              repeatTimes,
+              this);
+
+        // create a repeat common part from the new segment
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating a repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+        
+        S_msrRepeatCommonPart
+          repeatCommonPart =
+            msrRepeatCommonPart::create (
+              inputLineNumber,
+              newRepeat);
+
+        // is there another repeat to nest newRepeat into?
+        if (fVoiceCurrentRepeat) {
+          // yes
+          // move the voice initial elements to the new repeat common part
+          if (gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Moving the initial elements in voice \"" <<
+              getVoiceName () <<
+              "\" to the new repeat common part" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+          
+          for (
+            list<S_msrElement>::iterator i = fVoiceInitialElementsList.begin ();
+            i != fVoiceInitialElementsList.end ();
+            i++) {
+            S_msrElement element = (*i);
+  
+            // append the element to the new segment
+            repeatCommonPart->
+              appendElementToRepeatCommonPart (
+                (*i));
+  
+  //            // remove it from the voic initial elements
+  // // JMI            fVoiceInitialElementsList.erase (i);
+          } // for
+  
+          fVoiceInitialElementsList.clear ();
+  
+          // move voice last segment into the repeat common part
+          if (gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Append the voice last segment to the repeat common part in voice \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+        
+          repeatCommonPart->
+            appendElementToRepeatCommonPart (
+              fVoiceLastSegment);
+        }
+        
+        else {
+          // no
+          // append the voice last segment to the new repeat common part
+          if (gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Appending the voice last segment in voice \"" <<
+              getVoiceName () <<
+              "\" to the new repeat common part" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+
+          gIndenter++;
+          
+          repeatCommonPart->
+            appendElementToRepeatCommonPart (
+            fVoiceLastSegment);
+
+          gIndenter--;
+        }
+
+        // set newRepeat's common part
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Setting repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+        newRepeat->
+          setRepeatCommonPart (
+            repeatCommonPart);
+
+        // append newRepeat to the list of initial elements
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Appending new repeat to the initial elements in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+                      
+        fVoiceInitialElementsList.push_back (
+          newRepeat);
+      
+        // set voice current repeat
+        fVoiceCurrentRepeat =
+          newRepeat;
+
+        // create a new last segment containing a new measure for the voice
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+          gLogIOstream <<
+    // JMI        "Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment for voice \"" <<
+            fVoiceName << "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+        gIndenter++;
+
+/* JMI
+        createNewLastSegmentAndANewMeasureAfterARepeat (
+          inputLineNumber,
+          fullMeasureLength);
+          */
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+
+        // append a new measure with the same number as the voice last measure
+        // to the voice,
+        // in case the barline is not at the end of the measure
+        // it will be removed if it is empty in finalizeCurrentMeasureInSegment()
+        createMeasureAndAppendItToVoice (
+          inputLineNumber,
+          measureNumber,
+          999, // measure ordinal number JMI
+          msrMeasure::kMeasureImplicitNo);
+
+        // fetch the voice's last measure
+        S_msrMeasure
+          voiceLastMeasure =
+            fetchVoiceLastMeasure (
+              inputLineNumber);
+
+        // set it as created after a repeat
+        voiceLastMeasure->
+          setMeasureCreatedAfterARepeatKind (
+            msrMeasure::kMeasureCreatedAfterARepeatYes);
+
+        if (
+          gTraceOptions->fTraceRepeatsDetails
+            ||
+          gTraceOptions->fTraceVoicesDetails) {
+          gLogIOstream <<
+            endl <<
+            "*********>> Current voice EEE \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            " contains:" <<
+            endl;
+
+          print (gLogIOstream);
+
+          gLogIOstream <<
+            "<<*********" <<
+            endl <<
+            endl;
+        }
+
+        gIndenter--;
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::createRepeatUponItsEndAndAppendItToVoiceClone (
+  int    inputLineNumber,
+  int    repeatTimes)
 {
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -24800,6 +24056,8 @@ void msrStaff::prepareForRepeatInStaff (
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -24808,6 +24066,8 @@ void msrStaff::prepareForRepeatInStaff (
       prepareForRepeatInVoice (
         inputLineNumber);
   } // for
+
+  gIndenter--;
 }
 
 void msrStaff::nestContentsIntoNewRepeatInStaff (
@@ -24833,8 +24093,9 @@ void msrStaff::nestContentsIntoNewRepeatInStaff (
 }
 
 void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
-  int inputLineNumber,
-  int repeatTimes)
+  int    inputLineNumber,
+  string measureNumber,
+  int    repeatTimes)
 {
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
@@ -24854,6 +24115,7 @@ void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
     (*i).second->
       createRepeatUponItsEndAndAppendItToVoice (
         inputLineNumber,
+        measureNumber,
         repeatTimes);
   } // for
 
@@ -26731,6 +25993,8 @@ void msrPart::prepareForRepeatInPart (
       endl;
   }
 
+  gIndenter++;
+  
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
@@ -26739,6 +26003,8 @@ void msrPart::prepareForRepeatInPart (
       prepareForRepeatInStaff (
         inputLineNumber);
   } // for
+
+  gIndenter--;
 }
 
 void msrPart::nestContentsIntoNewRepeatInPart (
@@ -26755,9 +26021,20 @@ void msrPart::nestContentsIntoNewRepeatInPart (
 }
 
 void msrPart::createRepeatUponItsEndAndAppendItToPart (
-  int inputLineNumber,
-  int repeatTimes)
+  int    inputLineNumber,
+  string measureNumber,
+  int    repeatTimes)
 {
+  if (gTraceOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Creating and appending a repeat to part \"" <<
+      getPartCombinedName () <<
+      "\"" <<
+      endl;
+  }
+
+  gIndenter++;
+  
   // create repeat and append it to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -26766,8 +26043,11 @@ void msrPart::createRepeatUponItsEndAndAppendItToPart (
     (*i).second->
       createRepeatUponItsEndAndAppendItToStaff (
         inputLineNumber,
+        measureNumber,
         repeatTimes);
   } // for
+
+  gIndenter--;
 }
 
 void msrPart::createRegularRepeatUponItsFirstEndingInPart (

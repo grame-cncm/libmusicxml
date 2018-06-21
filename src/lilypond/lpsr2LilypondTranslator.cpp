@@ -2404,16 +2404,22 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
       singleTremolo->
         getSingleTremoloMarksNumber ();
 
+/* JMI
   S_msrNote
     singleTremoloNoteUplink =
       singleTremolo->
         getSingleTremoloNoteUplink ();
+*/
 
   msrDurationKind
     singleTremoloNoteDurationKind =
+      singleTremolo->
+        getSingleTremoloGraphicDurationKind ();
+    /*
       singleTremoloNoteUplink->
         getNoteGraphicDurationKind ();
-  
+    */
+    
   /*
   The same output can be obtained by adding :N after the note,
   where N indicates the duration of the subdivision (it must be at least 8).
@@ -5839,9 +5845,16 @@ else
               inputLineNumber,
               elt->getMeasureLength ());
 
+        // only generate '\partial' at the beginning of a voice
+        if (
+          elt->getMeasureCreatedAfterARepeatKind ()
+            ==
+          msrMeasure::kMeasureCreatedAfterARepeatNo // JMI
+        ) {
         fLilypondCodeIOstream <<
           "\\partial " << upbeatDuration <<
           endl;
+        }
       }
       break;
       
@@ -5891,11 +5904,13 @@ else
         }
 
         else {
+          /* JMI 
           fLilypondCodeIOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
             measureLength.toString () <<
             ")" <<
             endl;
+    */
     
           // should we generate a break?
           if (gLilypondOptions->fBreakLinesAtIncompleteRightMeasures)
@@ -6031,10 +6046,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kUnderfullMeasureKind:
+    /* JMI
       fLilypondCodeIOstream <<
         endl <<
         "\\unset Score.measureLength" <<
         endl;
+        */
       break;
 
     case msrMeasure::kOverfullMeasureKind:
@@ -10961,6 +10978,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     "\\repeat volta " <<
     fRepeatsDescrStack.back ()->getRepeatEndingsNumber () <<
     " {";
+
+  if (gLilypondOptions->fNoteInputLineNumbers) {
+    s <<
+      " %{ " <<  elt->getInputLineNumber () << " %}";
+  }
   
   fLilypondCodeIOstream <<
     endl;

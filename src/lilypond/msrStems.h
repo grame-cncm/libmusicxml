@@ -40,8 +40,8 @@ class msrStem : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStem> create (
-      int           inputLineNumber,
-      msrStemKind   stemKind);
+      int         inputLineNumber,
+      msrStemKind stemKind);
 
   protected:
 
@@ -49,8 +49,8 @@ class msrStem : public msrElement
     // ------------------------------------------------------
 
     msrStem (
-      int           inputLineNumber,
-      msrStemKind   stemKind);
+      int         inputLineNumber,
+      msrStemKind stemKind);
       
     virtual ~msrStem ();
   
@@ -86,7 +86,7 @@ class msrStem : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrStemKind fStemKind;
+    msrStemKind           fStemKind;
 };
 typedef SMARTP<msrStem> S_msrStem;
 EXP ostream& operator<< (ostream& os, const S_msrStem& elt);

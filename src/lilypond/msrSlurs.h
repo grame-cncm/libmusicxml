@@ -80,10 +80,6 @@ class msrSlur : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                slurTypeKindAsString () const;
-
-    string                asString () const;
-
   public:
 
     // visitors
@@ -98,6 +94,10 @@ class msrSlur : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                slurTypeKindAsString () const;
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 

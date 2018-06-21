@@ -42,6 +42,8 @@
 
 #include "msrTempos.h"
 
+#include "msrRehearsals.h"
+
 #include "msrWords.h"
 
 #include "msrTranspositions.h"
@@ -50,6 +52,8 @@
 
 #include "msrStems.h"
 #include "msrBeams.h"
+
+#include "msrTechnicals.h"
 
 #include "msrBars.h"
 
@@ -64,7 +68,7 @@
 #include "msrSlurs.h"
 #include "msrLigatures.h"
 
-#include "msrRehearsals.h"
+#include "msrTremolos.h"
 
 #include "msrSlashes.h"
 
@@ -81,9 +85,6 @@ namespace MusicXML2
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
-class msrFiguredBass;
-typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
-
 class msrChord;
 typedef SMARTP<msrChord> S_msrChord;
 
@@ -98,6 +99,9 @@ typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
+
+class msrFiguredBass;
+typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 
 class msrMultipleRest;
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
@@ -123,511 +127,6 @@ typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 class msrPart;
 typedef SMARTP<msrPart> S_msrPart;
 
-
-//______________________________________________________________________________
-/*
-class msrPolyphony : public smartable
-{  
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
- 
-  public:
-
-    // fields
-    // ------------------------------------------------------
-
-    // what happens every measure
-    list<string>          fPolyphonyMeasureActivities;
-
-    // what happens to the voices
-    list<S_msrVoice>      fPolyphonyVoiceActivities;
-};
-*/
-
-//______________________________________________________________________________
-class msrTechnical : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTechnicalKind {
-      kArrow, // rich JMI
-      kDoubleTongue,
-      kDownBow,
-      kFingernails,
-      kHarmonic,
-      kHeel,
-      kHole, // rich JMI
-      kOpenString,
-      kSnapPizzicato,
-      kStopped,
-      kTap,
-      kThumbPosition,
-      kToe,
-      kTripleTongue,
-      kUpBow};
-
-    static string technicalKindAsString (
-      msrTechnicalKind technicalKind);
-      
-/* JMI
-    enum msrTechnicalAccidentalMarkKind {
-      kNatural, kSharp, kFlat};
-
-    static string technicalAccidentalMarkKindAsString (
-      msrTechnicalAccidentalMarkKind technicalAccidentalMarkKind);
-  */
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrTechnical> create (
-      int              inputLineNumber,
-      msrTechnicalKind technicalKind,
-      msrPlacementKind technicalPlacementKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTechnical (
-      int              inputLineNumber,
-      msrTechnicalKind technicalKind,
-      msrPlacementKind technicalPlacementKind);
-      
-    virtual ~msrTechnical ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrTechnicalKind      getTechnicalKind () const
-                              { return fTechnicalKind; }
-        
-    void                  setTechnicalPlacementKind (
-                            msrPlacementKind technicalPlacementKind)
-                              {
-                                fTechnicalPlacementKind =
-                                  technicalPlacementKind;
-                              }
-        
-    msrPlacementKind      getTechnicalPlacementKind () const
-                              { return fTechnicalPlacementKind; }
-
-        /* JMI
-    void                  setTechnicalAccidentalMarkKind (
-                            msrTechnicalAccidentalMarkKind
-                              technicalAccidentalMarkKind)
-                              {
-                                fTechnicalAccidentalMarkKind =
-                                  technicalAccidentalMarkKind;
-                              }
-        
-    msrTechnicalAccidentalMarkKind
-                          getTechnicalAccidentalMarkKind () const
-                              { return fTechnicalAccidentalMarkKind; }
-*/
-
-    void                  setTechnicalNoteUplink (S_msrNote note)
-                              { fTechnicalNoteUplink = note; }
-
-    S_msrNote             getTechnicalNoteUplink () const
-                              { return fTechnicalNoteUplink; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                technicalKindAsString () const;
-
-    string                technicalPlacementKindAsString () const;
-
-    string                technicalAccidentalMarkKindAsString () const;
-    
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrTechnicalKind      fTechnicalKind;
-
-    msrPlacementKind      fTechnicalPlacementKind;
-    
-// JMI    msrTechnicalAccidentalMarkKind  fTechnicalAccidentalMarkKind;
-
-    S_msrNote             fTechnicalNoteUplink;
-};
-typedef SMARTP<msrTechnical> S_msrTechnical;
-EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
-
-//______________________________________________________________________________
-class msrTechnicalWithInteger : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTechnicalWithIntegerKind {
-      kFingering,
-      kFret,
-      kString };
-
-    static string technicalWithIntegerKindAsString (
-      msrTechnicalWithIntegerKind technicalWithIntegerKind);
-                  
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrTechnicalWithInteger> create (
-      int                         inputLineNumber,
-      msrTechnicalWithIntegerKind technicalWithIntegerKind,
-      int                         technicalWithIntegerValue,
-      msrPlacementKind            technicalWithIntegerPlacementKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTechnicalWithInteger (
-      int                         inputLineNumber,
-      msrTechnicalWithIntegerKind technicalWithIntegerKind,
-      int                         technicalWithIntegerValue,
-      msrPlacementKind            technicalWithIntegerPlacementKind);
-      
-    virtual ~msrTechnicalWithInteger ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrTechnicalWithIntegerKind
-                          getTechnicalWithIntegerKind () const
-                              { return fTechnicalWithIntegerKind; }
-        
-    int                   getTechnicalWithIntegerValue () const
-                              { return fTechnicalWithIntegerValue; }
-        
-    void                  setTechnicalWithIntegerPlacementKind (
-                            msrPlacementKind
-                              technicalWithIntegerPlacementKind)
-                              {
-                                fTechnicalWithIntegerPlacementKind =
-                                  technicalWithIntegerPlacementKind;
-                              }
-        
-    msrPlacementKind      getTechnicalWithIntegerPlacementKind () const
-                              { return fTechnicalWithIntegerPlacementKind; }
-
-    void                  setTechnicalWithIntegerNoteUplink (S_msrNote note)
-                              { fTechnicalWithIntegerNoteUplink = note; }
-
-    S_msrNote             getTechnicalWithIntegerNoteUplink () const
-                              { return fTechnicalWithIntegerNoteUplink; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                technicalWithIntegerKindAsString () const;
-
-    string                technicalWithIntegerPlacementKindAsString () const;
-
-    string                technicalWithIntegerAccidentalMarkKindAsString () const;
-    
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrTechnicalWithIntegerKind     fTechnicalWithIntegerKind;
-
-    int                             fTechnicalWithIntegerValue;
-
-    msrPlacementKind                fTechnicalWithIntegerPlacementKind;
-    
-    S_msrNote                       fTechnicalWithIntegerNoteUplink;
-};
-typedef SMARTP<msrTechnicalWithInteger> S_msrTechnicalWithInteger;
-EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
-
-//______________________________________________________________________________
-class msrTechnicalWithFloat : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTechnicalWithFloatKind {
-      kBend };
-
-    static string technicalWithFloatKindAsString (
-      msrTechnicalWithFloatKind technicalWithFloatKind);
-                  
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrTechnicalWithFloat> create (
-      int                       inputLineNumber,
-      msrTechnicalWithFloatKind technicalWithFloatKind,
-      float                     technicalWithFloatValue,
-      msrPlacementKind          technicalWithFloatPlacementKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTechnicalWithFloat (
-      int                       inputLineNumber,
-      msrTechnicalWithFloatKind technicalWithFloatKind,
-      float                     technicalWithFloatValue,
-      msrPlacementKind          technicalWithFloatPlacementKind);
-      
-    virtual ~msrTechnicalWithFloat ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrTechnicalWithFloatKind
-                          getTechnicalWithFloatKind () const
-                              { return fTechnicalWithFloatKind; }
-        
-    float                 getTechnicalWithFloatValue () const
-                              { return fTechnicalWithFloatValue; }
-        
-    void                  setTechnicalWithFloatPlacementKind (
-                            msrPlacementKind
-                              technicalWithFloatPlacementKind)
-                              {
-                                fTechnicalWithFloatPlacementKind =
-                                  technicalWithFloatPlacementKind;
-                              }
-        
-    msrPlacementKind      getTechnicalWithFloatPlacementKind () const
-                              { return fTechnicalWithFloatPlacementKind; }
-
-    void                  setTechnicalWithFloatNoteUplink (S_msrNote note)
-                              { fTechnicalWithFloatNoteUplink = note; }
-
-    S_msrNote             getTechnicalWithFloatNoteUplink () const
-                              { return fTechnicalWithFloatNoteUplink; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                technicalWithFloatKindAsString () const;
-
-    string                technicalWithFloatPlacementKindAsString () const;
-
-    string                technicalWithFloatAccidentalMarkKindAsString () const;
-    
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrTechnicalWithFloatKind       fTechnicalWithFloatKind;
-
-    float                           fTechnicalWithFloatValue;
-
-    msrPlacementKind                fTechnicalWithFloatPlacementKind;
-    
-    S_msrNote                       fTechnicalWithFloatNoteUplink;
-};
-typedef SMARTP<msrTechnicalWithFloat> S_msrTechnicalWithFloat;
-EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithFloat& elt);
-
-//______________________________________________________________________________
-class msrTechnicalWithString : public msrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum msrTechnicalWithStringKind {
-      kHammerOn,
-      kHandbell,
-      kOtherTechnical,
-      kPluck,
-      kPullOff};
-
-    static string technicalWithStringKindAsString (
-      msrTechnicalWithStringKind technicalWithStringKind);
-                  
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrTechnicalWithString> create (
-      int                        inputLineNumber,
-      msrTechnicalWithStringKind technicalWithStringKind,
-      msrTechnicalTypeKind       technicalWithStringTypeKind,
-      string                     technicalWithStringValue,
-      msrPlacementKind           technicalWithStringPlacementKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrTechnicalWithString (
-      int                        inputLineNumber,
-      msrTechnicalWithStringKind technicalWithStringKind,
-      msrTechnicalTypeKind       technicalWithStringTypeKind,
-      string                     technicalWithStringValue,
-      msrPlacementKind           technicalWithStringPlacementKind);
-      
-    virtual ~msrTechnicalWithString ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrTechnicalWithStringKind
-                          getTechnicalWithStringKind () const
-                              { return fTechnicalWithStringKind; }
-
-    msrTechnicalTypeKind  getTechnicalWithStringTypeKind () const
-                              { return fTechnicalWithStringTypeKind; }
-
-    string                getTechnicalWithStringValue () const
-                              { return fTechnicalWithStringValue; }
-        
-    void                  setTechnicalWithStringPlacementKind (
-                            msrPlacementKind
-                              technicalWithStringPlacementKind)
-                              {
-                                fTechnicalWithStringPlacementKind =
-                                  technicalWithStringPlacementKind;
-                              }
-        
-    msrPlacementKind      getTechnicalWithStringPlacementKind () const
-                              { return fTechnicalWithStringPlacementKind; }
-
-    void                  setTechnicalWithStringNoteUplink (S_msrNote note)
-                              { fTechnicalWithStringNoteUplink = note; }
-
-    S_msrNote             getTechnicalWithStringNoteUplink () const
-                              { return fTechnicalWithStringNoteUplink; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                technicalWithStringKindAsString () const;
-    
-    string                technicalWithStringTypeKindAsString () const;
-
-    string                technicalWithStringPlacementKindAsString () const;
-
-    string                technicalWithStringAccidentalMarkKindAsString () const;
-    
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrTechnicalWithStringKind
-                          fTechnicalWithStringKind;
-
-    msrTechnicalTypeKind  fTechnicalWithStringTypeKind;
-
-    string                fTechnicalWithStringValue;
-
-    msrPlacementKind      fTechnicalWithStringPlacementKind;
-    
-    S_msrNote             fTechnicalWithStringNoteUplink;
-};
-typedef SMARTP<msrTechnicalWithString> S_msrTechnicalWithString;
-EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt);
 
 //______________________________________________________________________________
 class msrOrnament : public msrElement
@@ -747,183 +246,6 @@ typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
 
 //______________________________________________________________________________
-class msrFermata : public msrArticulation
-{
-  public:
-          
-    // data types
-    // ------------------------------------------------------
-
-    enum msrFermataKind {
-        kNormalFermataKind, kAngledFermataKind, kSquareFermataKind};
-
-    static string fermataKindAsString (
-      msrFermataKind fermataKind);
-
-    enum msrFermataTypeKind {
-        kFermataTypeNone,
-        kFermataTypeUpright, kFermataTypeInverted };
-
-    static string fermataTypeKindAsString (
-      msrFermataTypeKind fermataTypeKind);
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrFermata> create (
-      int                inputLineNumber,
-      msrFermataKind     fermataKind,
-      msrFermataTypeKind fermataTypeKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrFermata (
-      int                inputLineNumber,
-      msrFermataKind     fermataKind,
-      msrFermataTypeKind fermataTypeKind);
-      
-    virtual ~msrFermata ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrFermataKind        getFermataKind () const
-                              { return fFermataKind; }
-        
-    msrFermataTypeKind    getFermataTypeKind () const
-                              { return fFermataTypeKind; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrFermataKind        fFermataKind;
-    
-    msrFermataTypeKind    fFermataTypeKind;
-};
-typedef SMARTP<msrFermata> S_msrFermata;
-EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
-
-//______________________________________________________________________________
-class msrSingleTremolo : public msrElement
-{
-  public:
-    
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSingleTremolo> create (
-      int              inputLineNumber,
-      int              singleTremoloMarksNumber,
-      msrPlacementKind singleTremoloPlacementKind);
-
-    SMARTP<msrSingleTremolo> createSingleTremoloDeepCopy (
-      S_msrNote noteUplink);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSingleTremolo (
-      int              inputLineNumber,
-      int              singleTremoloMarksNumber,
-      msrPlacementKind singleTremoloPlacementKind);
-      
-    virtual ~msrSingleTremolo ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    void                  setSingleTremoloPlacementKind (
-                            msrPlacementKind
-                              SingleTremoloPlacementKind)
-                              {
-                                fSingleTremoloPlacementKind =
-                                  SingleTremoloPlacementKind;
-                              }
-        
-    int                   getSingleTremoloMarksNumber () const
-                              { return fSingleTremoloMarksNumber; }
-                
-    msrPlacementKind      getSingleTremoloPlacementKind () const
-                              { return fSingleTremoloPlacementKind; }
-        
-    void                  setSingleTremoloNoteUplink (S_msrNote note)
-                              { fSingleTremoloNoteUplink = note; }
-
-    S_msrNote             getSingleTremoloNoteUplink () const
-                              { return fSingleTremoloNoteUplink; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                singleTremoloPlacementKindAsString () const;
-    
-    string                asString () const;
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    int                   fSingleTremoloMarksNumber;
-
-    msrPlacementKind      fSingleTremoloPlacementKind;
-    
-    S_msrNote             fSingleTremoloNoteUplink;
-};
-typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
-EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
-
-//______________________________________________________________________________
 class msrDoubleTremolo : public msrElement
 {
   public:
@@ -945,15 +267,12 @@ class msrDoubleTremolo : public msrElement
       msrDoubleTremoloKind doubleTremoloKind,
       msrTremoloTypeKind   doubleTremoloTypeKind,
       int                  doubleTremoloMarksNumber,
-      msrPlacementKind     doubleTremoloPlacementKind,
-      S_msrVoice           voiceUplink);
+      msrPlacementKind     doubleTremoloPlacementKind);
 
 
     SMARTP<msrDoubleTremolo> createDoubleTremoloNewbornClone (
-      S_msrVoice containingVoice);
-
-    SMARTP<msrDoubleTremolo> createDoubleTremoloDeepCopy (
-      S_msrVoice containingVoice);
+      S_msrElement doubleTremoloFirstElement,
+      S_msrElement doubleTremoloSecondElement);
 
   protected:
 
@@ -965,8 +284,7 @@ class msrDoubleTremolo : public msrElement
       msrDoubleTremoloKind doubleTremoloKind,
       msrTremoloTypeKind   doubleTremoloTypeKind,
       int                  doubleTremoloMarksNumber,
-      msrPlacementKind     doubleTremoloPlacementKind,
-      S_msrVoice           voiceUplink);
+      msrPlacementKind     doubleTremoloPlacementKind);
       
     virtual ~msrDoubleTremolo ();
   
@@ -974,29 +292,6 @@ class msrDoubleTremolo : public msrElement
 
     // set and get
     // ------------------------------------------------------
-
-    // uplinks
-
-    // uplinks
-
-    S_msrVoice            getDoubleTremoloVoiceUplink () const
-                              {
-                                return
-                                  fDoubleTremoloVoiceUplink;
-                              }
-
-    void                  setDoubleTremoloMeasureUplink (
-                            const S_msrMeasure& measure)
-                              {
-                                fDoubleTremoloMeasureUplink =
-                                  measure;
-                              }
-                      
-    S_msrMeasure          getDoubleTremoloMeasureUplink () const
-                              {
-                                return
-                                  fDoubleTremoloMeasureUplink;
-                              }
 
     // double tremolo kind
     
@@ -1078,17 +373,8 @@ class msrDoubleTremolo : public msrElement
 
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
-        
-    // harmony
-    
-    void                  setDoubleTremoloHarmony (
-                            S_msrHarmony harmony)
-                              { fDoubleTremoloHarmony = harmony; }
-                      
-    const S_msrHarmony&   getDoubleTremoloHarmony () const
-                              { return fDoubleTremoloHarmony; };
-                      
-     // divisions
+                              
+    // sounding whole notes
      
     void                  setDoubleTremoloSoundingWholeNotes (
                             rational wholeNotes)
@@ -1133,14 +419,6 @@ class msrDoubleTremolo : public msrElement
     // services
     // ------------------------------------------------------
 
-    // strings
-
-    string                doubleTremoloPlacementKindAsString () const;
-        
-    string                asString () const;
-
-    string                asShortString () const;
-
     // tremolo first note
     
     void                  setDoubleTremoloFirstNotePositionInMeasure (
@@ -1164,17 +442,18 @@ class msrDoubleTremolo : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                doubleTremoloPlacementKindAsString () const;
+        
+    string                asString () const;
+
+    string                asShortString () const;
+
     virtual void          print (ostream& os);
 
   private:
 
     // fields
     // ------------------------------------------------------
-
-    // uplinks
-
-    S_msrVoice            fDoubleTremoloVoiceUplink;
-    S_msrMeasure          fDoubleTremoloMeasureUplink;
 
     // sounding divisions
     // the same as the displayed divisions of both members
@@ -1199,8 +478,6 @@ class msrDoubleTremolo : public msrElement
 
     string                fDoubleTremoloMeasureNumber;
     rational              fDoubleTremoloPositionInMeasure;
-    
-    S_msrHarmony          fDoubleTremoloHarmony;
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
@@ -1563,10 +840,6 @@ class msrMeasure : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
 
-    // measure kind
-    
-    string                measureKindAsString () const;
-
     // clefs
     
     void                  appendClefToMeasure (S_msrClef clef);
@@ -1800,6 +1073,8 @@ class msrMeasure : public msrElement
 
     // print
     // ------------------------------------------------------
+    
+    string                measureKindAsString () const;
 
     virtual void          print (ostream& os);
 
@@ -1938,12 +1213,6 @@ class msrSegment : public msrElement
     
     S_msrPart             fetchSegmentPartUplink () const;
 
-    // strings
-  
-    string                asString () const;
-
-    string                asShortString () const;
-
     // divisions ??? JMI
     
     void                  padUpToMeasureLengthInSegment (
@@ -1952,8 +1221,6 @@ class msrSegment : public msrElement
   
     // measures
 
-    string                segmentMeasureNumbersAsString () const;
-    
     void                  createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber,
@@ -2189,6 +1456,10 @@ class msrSegment : public msrElement
 
     // print
     // ------------------------------------------------------
+  
+    string                asString () const;
+
+    string                asShortString () const;
 
     virtual void          print (ostream& os);
 
@@ -2617,18 +1888,6 @@ class msrSyllable : public msrElement
 
     void                  appendLyricTextToSyllable (string text);
                                   
-    // as MSR string
-    string                syllableWholeNotesAsMsrString () const;
-    
-    string                syllableKindAsString () const;
-    
-    string                syllableExtendKindAsString () const;
-
-    // as string
-    string                asString () const;
-
-    string                syllableNoteUplinkAsString () const;
-
   public:
 
     // visitors
@@ -2643,6 +1902,16 @@ class msrSyllable : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                syllableNoteUplinkAsString () const;
+
+    string                syllableWholeNotesAsMsrString () const;
+    
+    string                syllableKindAsString () const;
+    
+    string                syllableExtendKindAsString () const;
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -2762,11 +2031,6 @@ Degree elements
 
     int                   harmonyDegreeAsSemitones () const;
     
-    string                harmonyDegreeKindAsString () const;
-    string                harmonyDegreeKindAsShortString () const;
-    
-    string                asString () const;
-   
   public:
 
     // visitors
@@ -2782,6 +2046,11 @@ Degree elements
     // print
     // ------------------------------------------------------
 
+    string                harmonyDegreeKindAsString () const;
+    string                harmonyDegreeKindAsShortString () const;
+    
+    string                asString () const;
+   
     virtual void          print (ostream& os);
 
   private:
@@ -2911,8 +2180,6 @@ class msrHarmony : public msrElement
                                   harmonyDegree);
                               }
     
-    string                asString () const;
-   
   public:
 
     // visitors
@@ -2928,6 +2195,8 @@ class msrHarmony : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+   
     virtual void          print (ostream& os);
 
   private:
@@ -3037,11 +2306,6 @@ class msrFigure : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                figurePrefixKindAsString () const;
-    string                figureSuffixKindAsShortString () const;
-    
-    string                asString () const;
-   
   public:
 
     // visitors
@@ -3057,6 +2321,11 @@ class msrFigure : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                figurePrefixKindAsString () const;
+    string                figureSuffixKindAsShortString () const;
+    
+    string                asString () const;
+   
     virtual void          print (ostream& os);
 
   private:
@@ -3156,8 +2425,6 @@ class msrFiguredBass : public msrElement
     void                  appendFiguredFigureToFiguredBass (
                             S_msrFigure figure);
 
-    string                asString () const;
-   
   public:
 
     // visitors
@@ -3173,6 +2440,8 @@ class msrFiguredBass : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+   
     virtual void          print (ostream& os);
 
   private:
@@ -3259,8 +2528,6 @@ class msrGlissando : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -3275,6 +2542,8 @@ class msrGlissando : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -3361,8 +2630,6 @@ class msrSlide : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -3377,6 +2644,8 @@ class msrSlide : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -4034,48 +3303,14 @@ class msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
-    // note kind
-    string                noteKindAsString () const;
-    
-    string                notePitchAsString () const;
-    string                noteDisplayPitchKindAsString () const;
-
-    string                noteDisplayOctaveAsString () const;
-    
     bool                  noteIsAPitchedRest () const;
     
     string                asShortStringWithRawWholeNotes () const;
     
-    // note print kind
-    string                notePrintKindAsString () const;
-    
-    // note head
-    string                noteHeadKindAsString () const;
-    
-    string                noteHeadFilledKindAsString () const;
-    string                noteHeadParenthesesKindAsString () const;
-
-    // note as string
-    string                asString () const;
-
-    string                asShortString () const;
-      
     // diatonic pitch
     msrDiatonicPitchKind  noteDiatonicPitchKind (
                             int inputLineNumber) const;
                             
-    string                noteDiatonicPitchKindAsString (
-                            int inputLineNumber) const;
-
-    // whole notes
-    string                noteSoundingWholeNotesAsMsrString () const;
-    string                noteDisplayWholeNotesAsMsrString () const;
-    
-    // graphic duration
-    string                noteGraphicDurationAsMsrString () const;
-    string                tupletNoteGraphicDurationAsMsrString ( // JMI
-                            int actualNotes, int normalNotes) const;
-
     // tuplet members
     void                  determineTupletMemberSoundingFromDisplayWholeNotes (
                             int actualNotes, int normalNotes);
@@ -4169,6 +3404,40 @@ class msrNote : public msrElement
     // print
     // ------------------------------------------------------
 
+    // note kind
+    string                noteKindAsString () const;
+    
+    string                notePitchAsString () const;
+    string                noteDisplayPitchKindAsString () const;
+
+    string                noteDisplayOctaveAsString () const;
+    
+    // note print kind
+    string                notePrintKindAsString () const;
+    
+    // note head
+    string                noteHeadKindAsString () const;
+    
+    string                noteHeadFilledKindAsString () const;
+    string                noteHeadParenthesesKindAsString () const;
+
+    string                noteDiatonicPitchKindAsString (
+                            int inputLineNumber) const;
+
+    // whole notes
+    string                noteSoundingWholeNotesAsMsrString () const;
+    string                noteDisplayWholeNotesAsMsrString () const;
+    
+    // graphic duration
+    string                noteGraphicDurationAsMsrString () const;
+    string                tupletNoteGraphicDurationAsMsrString ( // JMI
+                            int actualNotes, int normalNotes) const;
+
+    // note as string
+    string                asString () const;
+
+    string                asShortString () const;
+      
     virtual void          print (ostream& os);
 
   private:
@@ -4751,13 +4020,6 @@ class msrChord : public msrElement
     void                  setChordFirstNoteMeasureNumber (
                             string measureNumber);
                     
-    // as string
-    string                asStringwithRawDivisions () const;
-
-    string                asString () const;
-    
-    string                asShortString () const;
-
   public:
 
     // visitors
@@ -4772,6 +4034,12 @@ class msrChord : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asStringwithRawDivisions () const;
+
+    string                asString () const;
+    
+    string                asShortString () const;
 
     virtual void          print (ostream& os);
 
@@ -5038,8 +4306,6 @@ class msrTuplet : public msrElement
                             int containingTupletActualNotes,
                             int containingTupletNormalNotes);
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -5054,6 +4320,8 @@ class msrTuplet : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -5325,8 +4593,6 @@ class msrRepeatCommonPart : public msrElement
     void                  appendElementToRepeatCommonPart (
                             S_msrElement elem);
 
-    string                asString () const;
-                    
   public:
 
     // visitors
@@ -5342,6 +4608,8 @@ class msrRepeatCommonPart : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+                    
     virtual void          print (ostream& os);
 
   private:
@@ -5442,8 +4710,6 @@ class msrRepeatEnding : public msrElement
     // services
     // ------------------------------------------------------
   
-    string                asString () const;
-
  //  JMI void                  appendElementToRepeatEnding (S_msrElement elem);
                     
   public:
@@ -5460,6 +4726,8 @@ class msrRepeatEnding : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -5556,8 +4824,6 @@ class msrRepeat : public msrElement
     void                  addRepeatEnding (
                             S_msrRepeatEnding repeatEnding);
 
-    string                asString () const;
-    
   public:
 
     // visitors
@@ -5573,6 +4839,8 @@ class msrRepeat : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -5647,8 +4915,6 @@ class msrMeasuresRepeatPattern : public msrElement
 
     int                   measuresRepeatPatternMeasuresNumber () const;
         
-    string                asString () const;
-
   public:
 
     // visitors
@@ -5663,6 +4929,8 @@ class msrMeasuresRepeatPattern : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -5733,8 +5001,6 @@ class msrMeasuresRepeatReplicas : public msrElement
     
     int                   measuresRepeatReplicasNumber () const;
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -5749,6 +5015,8 @@ class msrMeasuresRepeatReplicas : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -5862,8 +5130,6 @@ class msrMeasuresRepeat : public msrElement
     
     int                   measuresRepeatReplicasNumber () const;
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -5878,6 +5144,8 @@ class msrMeasuresRepeat : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -5953,8 +5221,6 @@ class msrMultipleRestContents : public msrElement
 
     int                   multipleRestContentsMeasuresNumber () const;
 
-    string                asString () const;
-    
   public:
 
     // visitors
@@ -5970,6 +5236,8 @@ class msrMultipleRestContents : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -6065,8 +5333,6 @@ class msrMultipleRest : public msrElement
                                   multipleRestContentsMeasuresNumber ();
                             }
 
-    string                asString () const;
-    
   public:
 
     // visitors
@@ -6082,6 +5348,8 @@ class msrMultipleRest : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -6151,8 +5419,6 @@ class msrRepeatCoda : public msrElement
     // services
     // ------------------------------------------------------
   
-    string                asString () const;
-
  //  JMI void                  appendElementToRepeatCoda (S_msrElement elem);
                     
   public:
@@ -6169,6 +5435,8 @@ class msrRepeatCoda : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -6342,7 +5610,7 @@ class msrVoice : public msrElement
 
     // voice shortest note
     
-    rational             getVoiceShortestNoteDuration () const
+    rational              getVoiceShortestNoteDuration () const
                               { return fVoiceShortestNoteDuration; }
 
     rational              getVoiceShortestNoteTupletFactor () const
@@ -6397,16 +5665,6 @@ class msrVoice : public msrElement
 
     void                  changeVoiceIdentity ( // after a deep copy
                             int voiceNumber);
-
-    // voice kind
-
-    string                voiceKindAsString () const;
-
-    // voice numbers
-    
-    string                voiceNumberAsString () const;
-
-    string                regularVoiceStaffSequentialNumberAsString () const;
 
     // measures
      
@@ -6647,8 +5905,13 @@ class msrVoice : public msrElement
                             int inputLineNumber);
   
     void                  createRepeatUponItsEndAndAppendItToVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+  
+    void                  createRepeatUponItsEndAndAppendItToVoiceClone (
+                            int    inputLineNumber,
+                            int    repeatTimes);
   
     void                  createRegularRepeatUponItsFirstEndingInVoice (
                             int inputLineNumber,
@@ -6767,6 +6030,12 @@ class msrVoice : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                voiceKindAsString () const;
+    
+    string                voiceNumberAsString () const;
+
+    string                regularVoiceStaffSequentialNumberAsString () const;
 
     virtual void          print (ostream& os);
 
@@ -7012,10 +6281,6 @@ class msrStaff : public msrElement
     // services
     // ------------------------------------------------------
 
-    // staff number
-    
-    string                staffNumberAsString ();
-
     // staff details
     
     void                  appendStaffDetailsToStaff (
@@ -7053,8 +6318,6 @@ class msrStaff : public msrElement
 
     // voices
       
-    string                staffKindAsString () const;
-    
     S_msrVoice            createVoiceInStaffByItsNumber (
                             int                    inputLineNumber,
                             msrVoice::msrVoiceKind voiceKind,
@@ -7107,8 +6370,9 @@ class msrStaff : public msrElement
                             int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToStaff (
-                            int inputLineNumber,
-                            int repeatTimes);
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
     
     void                  createRegularRepeatUponItsFirstEndingInStaff (
                             int inputLineNumber,
@@ -7223,6 +6487,12 @@ class msrStaff : public msrElement
     // print
     // ------------------------------------------------------
 
+    // staff number
+    
+    string                staffNumberAsString ();
+
+    string                staffKindAsString () const;
+    
     virtual void          print (ostream& os);
 
     virtual void          printSummary (ostream& os);
@@ -7325,8 +6595,6 @@ class msrVoiceStaffChange : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-         
   public:
 
     // visitors
@@ -7342,6 +6610,8 @@ class msrVoiceStaffChange : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+         
     virtual void          print (ostream& os);
 
   private:
@@ -7585,8 +6855,6 @@ class msrPart : public msrElement
     void                  addAVoiceToStavesThatHaveNone (
                             int inputLineNumber);
   
-    virtual string        asString () const;
-
     // measures
 
     void                  padUpToMeasureLengthInPart (
@@ -7655,8 +6923,9 @@ class msrPart : public msrElement
                             int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToPart (
-                            int inputLineNumber,
-                            int repeatTimes);
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
     
     void                  createRegularRepeatUponItsFirstEndingInPart (
                             int inputLineNumber,
@@ -7803,6 +7072,8 @@ class msrPart : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    virtual string        asString () const;
 
     virtual void          print (ostream& os);
 
@@ -8023,13 +7294,6 @@ class msrPartGroup : public msrElement
                           getPartGroupSymbolKind () const
                               { return fPartGroupSymbolKind; }
 
-    string                partGroupSymbolKindAsString () const
-                              {
-                                return
-                                  partGroupSymbolKindAsString (
-                                    fPartGroupSymbolKind);
-                              }
-
     int                   getPartGroupSymbolDefaultX () const
                               { return fPartGroupSymbolDefaultX; }
 
@@ -8053,12 +7317,6 @@ class msrPartGroup : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                partGroupImplicitKindAsString () const;
-    
-    string                partGroupBarlineKindAsString () const;
-
-    virtual string        asString () const;
-    
     S_msrPart             appendPartToPartGroupByItsPartID (
                             int    inputLineNumber,
                             string partID);
@@ -8098,10 +7356,23 @@ class msrPartGroup : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                partGroupSymbolKindAsString () const
+                              {
+                                return
+                                  partGroupSymbolKindAsString (
+                                    fPartGroupSymbolKind);
+                              }
+
     void                  printPartGroupParts (
                             int      inputLineNumber,
                             ostream& os);
   
+    string                partGroupImplicitKindAsString () const;
+    
+    string                partGroupBarlineKindAsString () const;
+
+    virtual string        asString () const;
+    
     virtual void          print (ostream& os);
 
     virtual void          printSummary (ostream& os);

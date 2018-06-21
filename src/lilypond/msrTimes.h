@@ -87,7 +87,7 @@ class msrTimeItem : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
   
@@ -119,7 +119,7 @@ class msrTime : public msrElement
         kTimeSymbolSingleNumber,
         kTimeSymbolSenzaMisura };
 
-    static std::string timeSymbolKindAsString (
+    static string timeSymbolKindAsString (
       msrTimeSymbolKind timeSymbolKind);
       
     enum msrTimeSeparatorKind {
@@ -129,7 +129,7 @@ class msrTime : public msrElement
         kTimeSeparatorVertical,
         kTimeSeparatorAdjacent };
 
-    static std::string timeSeparatorKindAsString (
+    static string timeSeparatorKindAsString (
       msrTimeSeparatorKind timeSeparatorKind);
       
     enum msrTimeRelationKind {
@@ -141,7 +141,7 @@ class msrTime : public msrElement
         kTimeRelationSpace,
         kTimeRelationHyphen };
 
-    static std::string timeRelationKindAsString (
+    static string timeRelationKindAsString (
       msrTimeRelationKind timeRelationKind);
       
     // creation from MusicXML
@@ -205,9 +205,9 @@ class msrTime : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
 
-    std::string           asShortString () const;
+    string                asShortString () const;
 
     virtual void          print (ostream& os);
 

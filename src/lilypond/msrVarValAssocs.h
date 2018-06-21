@@ -38,7 +38,7 @@ class msrVarValAssoc : public msrElement
       kScoreInstrument,
       kMiscellaneousField };
 
-    static std::string varValAssocKindAsString (
+    static string varValAssocKindAsString (
       msrVarValAssocKind varValAssocKind);
 
     // creation from MusicXML
@@ -47,7 +47,7 @@ class msrVarValAssoc : public msrElement
     static SMARTP<msrVarValAssoc> create (
       int                inputLineNumber,
       msrVarValAssocKind varValAssocKind,
-      std::string        value);
+      string             value);
     
   protected:
 
@@ -57,7 +57,7 @@ class msrVarValAssoc : public msrElement
     msrVarValAssoc (
       int                inputLineNumber,
       msrVarValAssocKind varValAssocKind,
-      std::string        value);
+      string             value);
       
     virtual ~msrVarValAssoc ();
   
@@ -69,22 +69,15 @@ class msrVarValAssoc : public msrElement
     msrVarValAssocKind    getVarValAssocKind () const
                               { return fVarValAssocKind; }
                               
-    void                  setVariableValue (std::string value)
+    void                  setVariableValue (string value)
                               { fVariableValue = value; }
 
-    std::string           getVariableValue () const
+    string                getVariableValue () const
                               { return fVariableValue; }
 
     // services
     // ------------------------------------------------------
 
-    std::string           varValAssocKindAsString () const
-                              {
-                                return
-                                  varValAssocKindAsString (
-                                    fVarValAssocKind);
-                              }
-                              
   public:
 
     // visitors
@@ -100,6 +93,13 @@ class msrVarValAssoc : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                varValAssocKindAsString () const
+                              {
+                                return
+                                  varValAssocKindAsString (
+                                    fVarValAssocKind);
+                              }
+                              
     virtual void          print (ostream& os);
 
   private:
@@ -109,7 +109,7 @@ class msrVarValAssoc : public msrElement
 
     msrVarValAssocKind    fVarValAssocKind;
     
-    std::string           fVariableValue;
+    string                fVariableValue;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
@@ -127,7 +127,7 @@ class msrVarValsListAssoc : public msrElement
       kComposer, kArranger, kLyricist, kPoet, kTranslator,
       kSoftware };
 
-    static std::string varValsListAssocKindAsString (
+    static string varValsListAssocKindAsString (
       msrVarValsListAssocKind varValsListAssocKind);
 
     // creation from MusicXML
@@ -157,27 +157,17 @@ class msrVarValsListAssoc : public msrElement
                           getVarValsListAssocKind () const
                               { return fVarValsListAssocKind; }
                               
-    const list<std::string>&
-                          getVariableValuesList ()
+    const list<string>&   getVariableValuesList ()
                               { return fVariableValuesList; }
     
     // services
     // ------------------------------------------------------
 
-    void                  addAssocVariableValue (std::string value)
+    void                  addAssocVariableValue (string value)
                               {
                                 fVariableValuesList.push_back (value);
                               }
 
-    std::string           varValsListAssocKindAsString () const
-                              {
-                                return
-                                  varValsListAssocKindAsString (
-                                    fVarValsListAssocKind);
-                              }
-                              
-    std::string           varValsListAssocValuesAsString () const;
-    
   public:
 
     // visitors
@@ -193,6 +183,15 @@ class msrVarValsListAssoc : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                varValsListAssocKindAsString () const
+                              {
+                                return
+                                  varValsListAssocKindAsString (
+                                    fVarValsListAssocKind);
+                              }
+                              
+    string                varValsListAssocValuesAsString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -203,7 +202,7 @@ class msrVarValsListAssoc : public msrElement
     msrVarValsListAssocKind
                           fVarValsListAssocKind;
                           
-    list<std::string>     fVariableValuesList;
+    list<string>          fVariableValuesList;
 };
 typedef SMARTP<msrVarValsListAssoc> S_msrVarValsListAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValsListAssoc& elt);

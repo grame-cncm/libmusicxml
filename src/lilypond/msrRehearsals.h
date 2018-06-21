@@ -98,11 +98,11 @@ class msrRehearsal : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrRehearsalKind fRehearsalKind;
+    msrRehearsalKind      fRehearsalKind;
 
-    string           fRehearsalText;
+    string                fRehearsalText;
 
-    msrPlacementKind fRehearsalPlacementKind;
+    msrPlacementKind      fRehearsalPlacementKind;
 };
 typedef SMARTP<msrRehearsal> S_msrRehearsal;
 EXP ostream& operator<< (ostream& os, const S_msrRehearsal& elt);

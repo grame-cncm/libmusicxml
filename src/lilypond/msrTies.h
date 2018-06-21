@@ -65,9 +65,6 @@ class msrTie : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                tieKindAsString () const
-                              { return tieKindAsString (fTieKind); }
-
   public:
 
     // visitors
@@ -82,6 +79,9 @@ class msrTie : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                tieKindAsString () const
+                              { return tieKindAsString (fTieKind); }
 
     virtual void          print (ostream& os);
 

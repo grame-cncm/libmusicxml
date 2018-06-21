@@ -111,6 +111,92 @@ typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
 //______________________________________________________________________________
+class msrFermata : public msrArticulation
+{
+  public:
+          
+    // data types
+    // ------------------------------------------------------
+
+    enum msrFermataKind {
+        kNormalFermataKind, kAngledFermataKind, kSquareFermataKind};
+
+    static string fermataKindAsString (
+      msrFermataKind fermataKind);
+
+    enum msrFermataTypeKind {
+        kFermataTypeNone,
+        kFermataTypeUpright, kFermataTypeInverted };
+
+    static string fermataTypeKindAsString (
+      msrFermataTypeKind fermataTypeKind);
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFermata> create (
+      int                inputLineNumber,
+      msrFermataKind     fermataKind,
+      msrFermataTypeKind fermataTypeKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFermata (
+      int                inputLineNumber,
+      msrFermataKind     fermataKind,
+      msrFermataTypeKind fermataTypeKind);
+      
+    virtual ~msrFermata ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrFermataKind        getFermataKind () const
+                              { return fFermataKind; }
+        
+    msrFermataTypeKind    getFermataTypeKind () const
+                              { return fFermataTypeKind; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrFermataKind        fFermataKind;
+    
+    msrFermataTypeKind    fFermataTypeKind;
+};
+typedef SMARTP<msrFermata> S_msrFermata;
+EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
+
+//______________________________________________________________________________
 class msrArpeggiato : public msrArticulation
 {
   public:

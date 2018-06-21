@@ -30,7 +30,7 @@ class msrSegno : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrSegno> create (
-      int                       inputLineNumber);
+      int  inputLineNumber);
 
   protected:
 
@@ -38,7 +38,7 @@ class msrSegno : public msrElement
     // ------------------------------------------------------
 
     msrSegno (
-      int                       inputLineNumber);
+      int inputLineNumber);
       
     virtual ~msrSegno ();
   
@@ -84,7 +84,7 @@ class msrCoda : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrCoda> create (
-      int                       inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -92,7 +92,7 @@ class msrCoda : public msrElement
     // ------------------------------------------------------
 
     msrCoda (
-      int                       inputLineNumber);
+      int inputLineNumber);
       
     virtual ~msrCoda ();
   
@@ -184,212 +184,28 @@ typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
 EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
 
 //______________________________________________________________________________
-class msrPedal : public msrElement
-{
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum msrPedalTypeKind {
-      kPedalStart, kPedalContinue, kPedalChange, kPedalStop };
-      
-    static std::string pedalTypeKindAsString (
-      msrPedalTypeKind pedalTypeKind);
-      
-    enum msrPedalLineKind {
-      kPedalLineYes, kPedalLineNo};
-      
-    static std::string pedalLineKindAsString (
-      msrPedalLineKind pedalLineKind);
-      
-    enum msrPedalSignKind {
-      kPedalSignYes, kPedalSignNo};
-      
-    static std::string pedalSignKindAsString (
-      msrPedalSignKind pedalSignKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrPedal> create (
-      int              inputLineNumber,
-      msrPedalTypeKind pedalTypeKind,
-      msrPedalLineKind pedalLineKind,
-      msrPedalSignKind pedalSignKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrPedal (
-      int              inputLineNumber,
-      msrPedalTypeKind pedalTypeKind,
-      msrPedalLineKind pedalLineKind,
-      msrPedalSignKind pedalSignKind);
-      
-    virtual ~msrPedal ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-    
-    msrPedalTypeKind      getPedalTypeKind () const
-                              { return fPedalTypeKind; }
-                    
-    msrPedalLineKind      getPedalLineKind () const
-                              { return fPedalLineKind; }
-                    
-    msrPedalSignKind      getPedalSignKind () const
-                              { return fPedalSignKind; }
-                    
-    // services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    std::string           pedalTypeAsString ();
-    
-    std::string           pedalLineAsString ();
-    
-    std::string           pedalSignAsString ();
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrPedalTypeKind      fPedalTypeKind;
-    msrPedalLineKind      fPedalLineKind;
-    msrPedalSignKind      fPedalSignKind;
-};
-typedef SMARTP<msrPedal> S_msrPedal;
-EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
-
-//______________________________________________________________________________
-class msrDamp : public msrElement
-{
-  public:
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrDamp> create (
-      int inputLineNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrDamp (
-      int inputLineNumber);
-      
-    virtual ~msrDamp ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
+/*
+class msrPolyphony : public smartable
+{  
   public:
 
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
-
-  private:
+ 
+  public:
 
     // fields
     // ------------------------------------------------------
+
+    // what happens every measure
+    list<string>          fPolyphonyMeasureActivities;
+
+    // what happens to the voices
+    list<S_msrVoice>      fPolyphonyVoiceActivities;
 };
-typedef SMARTP<msrDamp> S_msrDamp;
-EXP ostream& operator<< (ostream& os, const S_msrDamp& elt);
-
-//______________________________________________________________________________
-class msrDampAll : public msrElement
-{
-  public:
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrDampAll> create (
-      int inputLineNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrDampAll (
-      int inputLineNumber);
-      
-    virtual ~msrDampAll ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-};
-typedef SMARTP<msrDampAll> S_msrDampAll;
-EXP ostream& operator<< (ostream& os, const S_msrDampAll& elt);
+*/
 
 
 } // namespace MusicXML2

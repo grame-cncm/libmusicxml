@@ -35,7 +35,7 @@ class msrDynamics : public msrElement
       kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
       k_NoDynamics };
     
-    static std::string dynamicsKindAsString (
+    static string dynamicsKindAsString (
       msrDynamicsKind dynamicsKind);
             
     // creation from MusicXML
@@ -89,9 +89,9 @@ class msrDynamics : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           dynamicsKindAsString () const;
+    string                dynamicsKindAsString () const;
     
-    std::string           dynamicsPlacementKindAsString () const;
+    string                dynamicsPlacementKindAsString () const;
 
     virtual void          print (ostream& os);
 
@@ -117,7 +117,7 @@ class msrOtherDynamics : public msrElement
 
     static SMARTP<msrOtherDynamics> create (
       int              inputLineNumber,
-      std::string      otherDynamicsString,
+      string           otherDynamicsString,
       msrPlacementKind otherDynamicsPlacementKind);
 
   protected:
@@ -127,7 +127,7 @@ class msrOtherDynamics : public msrElement
 
     msrOtherDynamics (
       int              inputLineNumber,
-      std::string      otherDynamicsString,
+      string           otherDynamicsString,
       msrPlacementKind otherDynamicsPlacementKind);
       
     virtual ~msrOtherDynamics ();
@@ -137,7 +137,7 @@ class msrOtherDynamics : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    std::string           getOtherDynamicsString () const
+    string                getOtherDynamicsString () const
                               { return fOtherDynamicsString; }
 
     msrPlacementKind      getOtherDynamicsPlacementKind () const
@@ -161,9 +161,9 @@ class msrOtherDynamics : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           otherDynamicsPlacementKindAsString () const;
+    string                otherDynamicsPlacementKindAsString () const;
 
-    std::string           asString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -172,7 +172,7 @@ class msrOtherDynamics : public msrElement
     // fields
     // ------------------------------------------------------
 
-    std::string           fOtherDynamicsString;
+    string                fOtherDynamicsString;
 
     msrPlacementKind      fOtherDynamicsPlacementKind;
 };
@@ -191,7 +191,7 @@ class msrWedge : public msrElement
       kWedgeKindNone,
       kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
     
-    static std::string wedgeKindAsString (
+    static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
       
     enum msrWedgeNienteKind {
@@ -259,7 +259,7 @@ class msrWedge : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           wedgeKindAsString ();
+    string                wedgeKindAsString ();
 
     virtual void          print (ostream& os);
 

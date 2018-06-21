@@ -2547,10 +2547,15 @@ void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
       endl;
   }
 
-  // create a double tremolo clone
-  fCurrentDoubleTremoloClone =
+  // create a double tremolo clone from the two elements
+  fCurrentDoubleTremoloClone = elt; // JMI FIX THAT
+/* JMI
     elt->createDoubleTremoloNewbornClone (
-      fCurrentVoiceClone);
+      elt->getDoubleTremoloFirstElement ()->
+        createNewBornClone (),
+      elt->getDoubleTremoloSecondElement ()
+        createNewBornClone ());
+        */
   
   fOnGoingDoubleTremolo = true;
 }
@@ -3986,7 +3991,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 
   // JMI fCurrentRepeatClone =
   fCurrentVoiceClone->
-    createRepeatUponItsEndAndAppendItToVoice ( // JMI
+    createRepeatUponItsEndAndAppendItToVoiceClone ( // JMI
       inputLineNumber,
       elt->
         getRepeatCommonPartRepeatUplink ()->

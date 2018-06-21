@@ -104,8 +104,6 @@ class msrLigature : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                ligatureKindAsString ();
-
   public:
 
     // visitors
@@ -120,6 +118,8 @@ class msrLigature : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                ligatureKindAsString ();
 
     virtual void          print (ostream& os);
 

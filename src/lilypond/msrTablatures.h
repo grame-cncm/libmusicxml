@@ -35,7 +35,7 @@ class msrFrameNote : public msrElement
       kBarreTypeNone,
       kBarreTypeStart, kBarreTypeStop };
 
-    static std::string barreTypeKindAsString (
+    static string barreTypeKindAsString (
       msrBarreTypeKind barreTypeKind);
       
 /*
@@ -104,7 +104,7 @@ class msrFrameNote : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
    
     virtual void          print (ostream& os);
 
@@ -234,7 +234,7 @@ class msrFrame : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
    
     virtual void          print (ostream& os);
 

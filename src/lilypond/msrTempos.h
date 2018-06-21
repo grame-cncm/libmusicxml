@@ -66,8 +66,6 @@ class msrTempoNote : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-
     void                  appendBeamToTempoNote (S_msrBeam beam);
 
   public:
@@ -85,9 +83,14 @@ class msrTempoNote : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     rational              fTempoNoteWholeNotes;
 

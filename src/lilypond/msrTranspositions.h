@@ -71,8 +71,6 @@ class msrOctaveShift : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                octaveShiftKindAsString () const;
-
   public:
 
     // visitors
@@ -87,6 +85,8 @@ class msrOctaveShift : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                octaveShiftKindAsString () const;
 
     virtual void          print (ostream& os);
 
@@ -156,8 +156,6 @@ class msrTranspose : public msrElement
 
     bool                  isEqualTo (S_msrTranspose otherTranspose) const;
                             
-    string                asString () const;
-
   public:
 
     // visitors
@@ -172,6 +170,8 @@ class msrTranspose : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 

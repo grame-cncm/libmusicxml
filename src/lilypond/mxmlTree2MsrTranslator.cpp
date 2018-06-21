@@ -6500,7 +6500,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   // take this measure into account
   fCurrentMeasureOrdinalNumber++;
   
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasuresDetails) {
     gLogIOstream <<
       "==> visitStart (S_measure" <<
       ", fCurrentMeasureOrdinalNumber = '" <<
@@ -11596,8 +11596,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
             msrDoubleTremolo::kNotesDoubleTremolo,
             kTremoloTypeStart,
             tremoloMarksNumber,
-            doubleTremoloPlacementKind,
-            currentVoice);
+            doubleTremoloPlacementKind);
       }
       
 /*
@@ -15998,7 +15997,14 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
 
     note->
       setNoteSingleTremolo (fCurrentSingleTremolo);
-      
+
+    // set single tremolo graphic duration kind
+    fCurrentSingleTremolo->
+      setSingleTremoloGraphicDurationKind (
+        note->
+          getNoteGraphicDurationKind ());
+
+    // forget about this single tremolo
     fCurrentSingleTremolo = nullptr;
   }
 }
@@ -17906,7 +17912,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         currentVoice->
           appendNoteToVoice (newNote);
 
-        // fCurrentSingleTremolo is handled in attachCurrentSingleTremoloToNote()
+        // fCurrentSingleTremolo is handled in
+        // attachCurrentSingleTremoloToNote()
         break;
         
       case kTremoloTypeStart:
@@ -19534,9 +19541,11 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
       msrBarline::kBarlineCategoryRepeatStart);
 
   // prepare for repeat in current part
+  /* JMI
   fCurrentPart->
     prepareForRepeatInPart (
       inputLineNumber);
+*/
 
   // append the bar line to the current part
   fCurrentPart->
@@ -19592,6 +19601,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   fCurrentPart->
     createRepeatUponItsEndAndAppendItToPart (
       inputLineNumber,
+      fCurrentMeasureNumber,
       barline->getBarlineTimes ());
 
   fOnGoingRepeat = false;

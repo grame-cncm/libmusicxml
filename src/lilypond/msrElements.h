@@ -28,6 +28,9 @@ class msrElement : public smartable
     // creation from MusicXML
     // ------------------------------------------------------
 
+    // cloning
+    // ------------------------------------------------------
+
   protected:
 
     msrElement (

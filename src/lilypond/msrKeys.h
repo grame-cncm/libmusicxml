@@ -38,7 +38,7 @@ class msrHumdrumScotKeyItem : public msrElement
     enum msrHumdrumScotKeyItemKind {
         kTraditionalKind, kHumdrumScotKind };
         
-    static std::string HumdrumScotKeyItemKindAsString (
+    static string HumdrumScotKeyItemKindAsString (
       msrHumdrumScotKeyItemKind HumdrumScotKeyItemKind);
 
     enum msrHumdrumScotKeyItemModeKind {
@@ -46,7 +46,7 @@ class msrHumdrumScotKeyItem : public msrElement
         kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
         kMixolydianMode, kAeolianMode, kLocrianMode };
 
-    static std::string HumdrumScotKeyItemModeKindAsString (
+    static string HumdrumScotKeyItemModeKindAsString (
       msrHumdrumScotKeyItemModeKind HumdrumScotKeyItemModeKind);
       
     // creation from MusicXML
@@ -109,7 +109,7 @@ class msrHumdrumScotKeyItem : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
   
@@ -139,7 +139,7 @@ class msrKey : public msrElement
     enum msrKeyKind {
         kTraditionalKind, kHumdrumScotKind };
         
-    static std::string keyKindAsString (
+    static string keyKindAsString (
       msrKeyKind keyKind);
 
     enum msrKeyModeKind {
@@ -147,7 +147,7 @@ class msrKey : public msrElement
         kIonianMode, kDorianMode, kPhrygianMode, kLydianMode,
         kMixolydianMode, kAeolianMode, kLocrianMode };
 
-    static std::string keyModeKindAsString (
+    static string keyModeKindAsString (
       msrKeyModeKind keyModeKind);
       
     // creation from MusicXML
@@ -234,7 +234,7 @@ class msrKey : public msrElement
     // print
     // ------------------------------------------------------
 
-    std::string           asString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
   

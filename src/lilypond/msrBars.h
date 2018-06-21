@@ -65,8 +65,6 @@ class msrBarCheck : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -81,6 +79,8 @@ class msrBarCheck : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 

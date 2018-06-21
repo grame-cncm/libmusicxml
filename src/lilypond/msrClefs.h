@@ -48,7 +48,7 @@ class msrClef : public msrElement
       kPercussionClef,
       kJianpuClef};
       
-    static std::string clefKindAsString (
+    static string clefKindAsString (
       msrClefKind clefKind);
       
     // creation from MusicXML
@@ -102,9 +102,9 @@ class msrClef : public msrElement
     // ------------------------------------------------------
 
     static msrClefKind    clefKindFromString (
-                            std::string theString);
+                            string theString);
                             
-    std::string           asString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
 

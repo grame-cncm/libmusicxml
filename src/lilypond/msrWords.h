@@ -112,20 +112,6 @@ class msrWords : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                wordsPlacementKindAsString () const;
-    
-    string                wordsJustifyKindAsString () const;
-    
-    string                wordsVerticalAlignmentKindAsString () const;
-    
-    string                wordsFontStyleKindAsString () const;
-    
-    string                wordsFontSizeAsString () const;
-    
-    string                wordsFontWeightKindAsString () const;
-
-    string                asString () const;
-    
   public:
 
     // visitors
@@ -141,6 +127,20 @@ class msrWords : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                wordsPlacementKindAsString () const;
+    
+    string                wordsJustifyKindAsString () const;
+    
+    string                wordsVerticalAlignmentKindAsString () const;
+    
+    string                wordsFontStyleKindAsString () const;
+    
+    string                wordsFontSizeAsString () const;
+    
+    string                wordsFontWeightKindAsString () const;
+
+    string                asString () const;
+    
     virtual void          print (ostream& os);
 
   private:

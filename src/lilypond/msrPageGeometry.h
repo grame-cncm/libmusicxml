@@ -111,19 +111,19 @@ class msrPageGeometry : public msrElement
     // ------------------------------------------------------
 
     // page height, margins and the like in centimeters are in centimeters
-    float             fPaperWidth;
-    float             fPaperHeight;
+    float                 fPaperWidth;
+    float                 fPaperHeight;
     
-    float             fTopMargin;
-    float             fBottomMargin;
-    float             fLeftMargin;
-    float             fRightMargin;
+    float                 fTopMargin;
+    float                 fBottomMargin;
+    float                 fLeftMargin;
+    float                 fRightMargin;
 
-    float             fMillimeters;
-    int               fTenths;
+    float                 fMillimeters;
+    int                   fTenths;
     
-    float             fBetweenSystemSpace;
-    float             fPageTopSpace; 
+    float                 fBetweenSystemSpace;
+    float                 fPageTopSpace; 
 };
 typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
 EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);

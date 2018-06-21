@@ -28,8 +28,8 @@ namespace MusicXML2 {
 
 //______________________________________________________________________________
 S_msrStem msrStem::create (
-  int           inputLineNumber,
-  msrStemKind   stemKind)
+  int         inputLineNumber,
+  msrStemKind stemKind)
 {
   msrStem* o =
     new msrStem (
@@ -39,8 +39,8 @@ S_msrStem msrStem::create (
 }
 
 msrStem::msrStem (
-  int           inputLineNumber,
-  msrStemKind   stemKind)
+  int         inputLineNumber,
+  msrStemKind stemKind)
     : msrElement (inputLineNumber)
 {
   fStemKind   = stemKind; 
