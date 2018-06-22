@@ -22662,6 +22662,26 @@ void msrVoice::finalizeVoice ( // JMI ???
       "\", line " << inputLineNumber <<
       endl;
   }
+
+  // is this voice totally empty? this should be rare...
+  if (
+    fVoiceInitialElementsList.size () == 0
+      &&
+    fVoiceLastSegment->getSegmentMeasuresList ().size () == 0
+    ) {
+    stringstream s;
+    
+    s <<
+      "Voice \"" <<
+      getVoiceName () <<
+      "\" is totally empty, no contents ever specified for it" <<
+      endl;
+
+    msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      s.str ());
+  }
 }
 
 void msrVoice::acceptIn (basevisitor* v)
