@@ -645,7 +645,8 @@ class msrMeasure : public msrElement
     enum msrMeasureCreatedForARepeatKind {
         kMeasureCreatedForARepeatNo,
         kMeasureCreatedForARepeatBefore,
-        kMeasureCreatedForARepeatAfter };
+        kMeasureCreatedForARepeatAfter,
+        kMeasureCreatedForARepeatPadded };
       
     static string measureCreatedForARepeatKindAsString (
       msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind);

@@ -12646,6 +12646,11 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
     // if it happens to be the first note of a chord
     appendNoteToMeasure (paddingNote);
 
+    // set this measure as being padded
+    this->
+      setMeasureCreatedForARepeatKind (
+        msrMeasure::kMeasureCreatedForARepeatPadded);
+    
     // this measure contains music
     fMeasureContainsMusic = true;
 
@@ -13399,6 +13404,10 @@ void msrMeasure::finalizeMeasure (
         case msrMeasure::kMeasureCreatedForARepeatAfter:
           // such a measure should not be padded with a rest
           break;
+
+        case msrMeasure::kMeasureCreatedForARepeatPadded:
+          // should not occur
+          break;
       } // switch
   
       determineMeasureKind (
@@ -13575,6 +13584,9 @@ string msrMeasure::measureCreatedForARepeatKindAsString (
       break;
     case msrMeasure::kMeasureCreatedForARepeatAfter:
       result = "measureCreatedForRepeatAfter";
+      break;
+    case msrMeasure::kMeasureCreatedForARepeatPadded:
+      result = "measureCreatedForARepeatPadded";
       break;
   } // switch
 
@@ -14135,6 +14147,13 @@ void msrSegment::finalizeCurrentMeasureInSegment (
             finalizeMeasure (
               inputLineNumber);
         }
+        break;
+
+      case msrMeasure::kMeasureCreatedForARepeatPadded:
+          // finalize it JMI ???
+          lastMeasure->
+            finalizeMeasure (
+              inputLineNumber);
         break;
     } // switch
 
@@ -25730,7 +25749,9 @@ void msrPart::padUpToMeasureLengthInPart (
       endl;
   }
 
-  // print the registered staves to measure length  
+  gIndenter++;
+  
+  // pad the registered staves up to measure length  
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
@@ -25740,6 +25761,8 @@ void msrPart::padUpToMeasureLengthInPart (
         inputLineNumber,
         measureLength);
   } // for
+
+  gIndenter--;
 }
 
 void msrPart::setPartMsrName (string partMsrName)
