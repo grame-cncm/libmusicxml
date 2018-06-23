@@ -6353,66 +6353,68 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
 
   if (clefKind != msrClef::k_NoClef) {
     fLilypondCodeIOstream <<
-      "\\clef ";
+      "\\clef \"";
   
     switch (clefKind) {
       case msrClef::k_NoClef:
         break;
       case msrClef::kTrebleClef:
-        fLilypondCodeIOstream << "\"treble\"";
+        fLilypondCodeIOstream << "treble";
         break;
       case msrClef::kSopranoClef:
-        fLilypondCodeIOstream << "\"soprano\"";
+        fLilypondCodeIOstream << "soprano";
         break;
       case msrClef::kMezzoSopranoClef:
-        fLilypondCodeIOstream << "\"mezzosoprano\"";
+        fLilypondCodeIOstream << "mezzosoprano";
         break;
       case msrClef::kAltoClef:
-        fLilypondCodeIOstream << "\"alto\"";
+        fLilypondCodeIOstream << "alto";
         break;
       case msrClef::kTenorClef:
-        fLilypondCodeIOstream << "\"tenor\"";
+        fLilypondCodeIOstream << "tenor";
         break;
       case msrClef::kBaritoneClef:
-        fLilypondCodeIOstream << "\"baritone\"";
+        fLilypondCodeIOstream << "baritone";
         break;
       case msrClef::kBassClef:
-        fLilypondCodeIOstream << "\"bass\"";
+        fLilypondCodeIOstream << "bass";
         break;
       case msrClef::kTrebleLine1Clef:
-        fLilypondCodeIOstream << "\"french\"";
+        fLilypondCodeIOstream << "french";
         break;
       case msrClef::kTrebleMinus15Clef:
-        fLilypondCodeIOstream << "\"treble_15\"";
+        fLilypondCodeIOstream << "treble_15";
         break;
       case msrClef::kTrebleMinus8Clef:
-        fLilypondCodeIOstream << "\"treble_8\"";
+        fLilypondCodeIOstream << "treble_8";
         break;
       case msrClef::kTreblePlus8Clef:
-        fLilypondCodeIOstream << "\"treble^8\"";
+        fLilypondCodeIOstream << "treble^8";
         break;
       case msrClef::kTreblePlus15Clef:
-        fLilypondCodeIOstream << "\"treble^15\"";
+        fLilypondCodeIOstream << "treble^15";
         break;
       case msrClef::kBassMinus15Clef:
-        fLilypondCodeIOstream << "\"bass_15\"";
+        fLilypondCodeIOstream << "bass_15";
         break;
       case msrClef::kBassMinus8Clef:
-        fLilypondCodeIOstream << "\"bass_8\"";
+        fLilypondCodeIOstream << "bass_8";
         break;
       case msrClef::kBassPlus8Clef:
-        fLilypondCodeIOstream << "\"bass^8\"";
+        fLilypondCodeIOstream << "bass^8";
         break;
       case msrClef::kBassPlus15Clef:
-        fLilypondCodeIOstream << "\"bass^15\"";
+        fLilypondCodeIOstream << "bass^15";
         break;
       case msrClef::kVarbaritoneClef:
-        fLilypondCodeIOstream << "\"varbaritone\"";
+        fLilypondCodeIOstream << "varbaritone";
         break;
       case msrClef::kTablature4Clef:
       case msrClef::kTablature5Clef:
       case msrClef::kTablature6Clef:
       case msrClef::kTablature7Clef:
+        fLilypondCodeIOstream << "tab";
+        /* JMI ???
         if (gLilypondOptions->fModernTab)
           fLilypondCodeIOstream <<
             "\"moderntab\"" <<
@@ -6423,9 +6425,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
             "\"tab\"" <<
             endl <<
             "\\tabFullNotation";
+            */
         break;
       case msrClef::kPercussionClef:
-        fLilypondCodeIOstream << "\"percussion\"";
+        fLilypondCodeIOstream << "percussion";
         break;
       case msrClef::kJianpuClef:
         fLilypondCodeIOstream << "%{jianpuClef???%}";
@@ -6433,6 +6436,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
     } // switch
   
   fLilypondCodeIOstream <<
+    "\"" <<
     endl;
   }
 }
@@ -11070,7 +11074,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       endl;
   }
 
-  fRepeatsDescrStack.back ()->incrementRepeatEndingsCounter ();
+  fRepeatsDescrStack.back ()->
+    incrementRepeatEndingsCounter ();
   
   if (elt->getRepeatEndingInternalNumber () == 1) {
     
@@ -11089,7 +11094,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         "}" <<
         endl;
     }
-    fRepeatsDescrStack.back ()->setEndOfRepeatHasBeenGenerated ();
+    fRepeatsDescrStack.back ()->
+      setEndOfRepeatHasBeenGenerated ();
 
     // first repeat ending is in charge of
     // outputting the start of the alternative
@@ -11107,8 +11113,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         "\\alternative {" <<
         endl;
     }
-
+      
     gIndenter++;
+
+    // generate the repeat ending number
+    string
+      repeatEndingNumber =
+        elt->getRepeatEndingNumber ();
+        
+    fLilypondCodeIOstream <<
+      "\\set Score.repeatCommands = #'(end-repeat (volta \"" <<
+      repeatEndingNumber <<
+      "\"))" <<
+      endl;
   }
 
   // output the start of the ending

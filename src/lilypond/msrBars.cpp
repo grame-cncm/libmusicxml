@@ -637,20 +637,32 @@ void msrBarline::print (ostream& os)
     "Barline, " <<
     barlineCategoryKindAsString (
       fBarlineCategoryKind) <<
-    ", " <<
-    barlineHasSegnoKindAsString (
-      fBarlineHasSegnoKind) <<
-    ", " <<
-    barlineHasCodaKindAsString (
-      fBarlineHasCodaKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
 
-  const int fieldWidth = 15;
+  const int fieldWidth = 20;
 
   os << left <<
+    setw (fieldWidth) <<
+    "barlineHasSegnoKind" << " : " <<
+    barlineHasSegnoKindAsString (
+      fBarlineHasSegnoKind) << " : " <<
+    endl <<
+    setw (fieldWidth) <<
+    "barlineHasCodaKind" << " : " <<
+    barlineHasCodaKindAsString (
+      fBarlineHasCodaKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "location" << " : " <<
+    barlineLocationKindAsString (fLocationKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "location" << " : " <<
+    barlineLocationKindAsString (fLocationKind) <<
+    endl <<
     setw (fieldWidth) <<
     "location" << " : " <<
     barlineLocationKindAsString (fLocationKind) <<

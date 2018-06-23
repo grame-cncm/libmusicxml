@@ -16178,12 +16178,12 @@ string msrRepeatEnding::asString () const
     ", " <<
     repeatEndingKindAsString (
       fRepeatEndingKind) <<
-    ", repeat uplink: '" <<
+    ", repeatEndingRepeatUplink: '" <<
     fRepeatEndingRepeatUplink->
       asString () <<
+    ", repeatEndingNumber: " << fRepeatEndingNumber <<
+    ", repeatEndingInternalNumber: " << fRepeatEndingInternalNumber <<
     "', line " << fInputLineNumber <<
-    ", number " << fRepeatEndingNumber <<
-    ", internal number " << fRepeatEndingInternalNumber <<
     endl;
 
   return s.str ();
@@ -16194,24 +16194,40 @@ void msrRepeatEnding::print (ostream& os)
   os <<
     endl <<
     "RepeatEnding" <<
-    ", " <<
-    repeatEndingKindAsString (
-      fRepeatEndingKind) <<
     ", line " << fInputLineNumber <<
-    ", number " << fRepeatEndingNumber <<
-    ", internal number " << fRepeatEndingInternalNumber <<
     endl;
 
   gIndenter++;
-      
-  os <<
-    "Repeat uplink: '" <<
+
+  const int fieldWidth = 27;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "repeatEndingNumber" << " : " <<
+    repeatEndingKindAsString (
+      fRepeatEndingKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "repeatEndingNumber" <<  " : " <<fRepeatEndingNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "repeatEndingInternalNumber" <<  " : " <<fRepeatEndingInternalNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "Repeat uplink: '" << " : " <<
     fRepeatEndingRepeatUplink->
       asString () <<
     endl <<
-    endl <<
-    fRepeatEndingSegment;
+    endl;
 
+  os <<
+    "RepeatEndingSegment:" <<
+    endl;
+  gIndenter++;
+  os <<
+    fRepeatEndingSegment;
+  gIndenter--;
+  
   gIndenter--;
 }
 
@@ -24036,6 +24052,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     // register clef as current staff clef
     fStaffCurrentClef = clef;
 
+/* JMI ??? should there be a staff lines number change for 00f-Basics-Clefs.xml???
     // set staff kind accordingly if relevant
     switch (clef->getClefKind ()) {
       case msrClef::kPercussionClef:
@@ -24050,6 +24067,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       default:
         ;
     } // switch
+*/
 
     // propagate clef to all voices
     for (

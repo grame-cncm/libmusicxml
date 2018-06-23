@@ -11868,6 +11868,71 @@ string msrPlacementKindAsString (
 
 // durations
 //______________________________________________________________________________
+msrDurationKind msrDurationKindFromString (
+  int    inputLineNumber,
+  string durationString)
+{
+  msrDurationKind result = k_NoDuration;
+
+  if      (durationString == "maxima") {
+    result = kMaxima;
+  }
+  else if (durationString == "long") {
+    result = kLong;
+  }
+  else if (durationString == "breve") {
+    result = kBreve;
+  } 
+  else if (durationString == "whole") {
+    result = kWhole;
+  } 
+  else if (durationString == "half") {
+    result = kHalf;
+  } 
+  else if (durationString == "quarter") {
+    result = kQuarter;
+  } 
+  else if (durationString == "eighth") {
+    result = kEighth;
+  } 
+  else if (durationString == "16th") {
+    result = k16th;
+  } 
+  else if (durationString == "32nd") {
+    result = k32nd;
+  } 
+  else if (durationString == "64th") {
+    result = k64th;
+  } 
+  else if (durationString == "128th") {
+    result = k128th;
+  } 
+  else if (durationString == "256th") {
+    result = k256th;
+  } 
+  else if (durationString == "512th") {
+    result = k512th;
+  } 
+  else if (durationString == "1024th") {
+    result = k1024th;
+  }
+  else {
+    stringstream s;
+    
+    s <<
+      "durationString \"" << durationString <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
 rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
 {
   rational result;

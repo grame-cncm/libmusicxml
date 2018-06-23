@@ -530,7 +530,8 @@ and let LilyPond decide about them.)",
     fModernTab = boolOptionsInitialValue;
   
     // options
-  
+
+  /* JMI ???
     S_optionsSubGroup
       stavesSubGroup =
         optionsSubGroup::create (
@@ -549,6 +550,7 @@ R"()",
 R"(Generate '\moderntab' instead of the default '\tab'.)",
           "modernTab",
           fModernTab));
+          */
   }
   
 

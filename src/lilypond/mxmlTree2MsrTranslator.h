@@ -1480,15 +1480,12 @@ class mxmlTree2MsrTranslator :
                                 int inputLineNumber);
 
     void                      handleRepeatStart (
-                                S_barline     elt,
                                 S_msrBarline& barline);
 
     void                      handleRepeatEnd (
-                                S_barline     elt,
                                 S_msrBarline& barline);
 
     void                      handleEndingStart (
-                                S_barline     elt,
                                 S_msrBarline& barline);
 /* JMI
     void                      handleHookedEndingStart (
@@ -1496,7 +1493,6 @@ class mxmlTree2MsrTranslator :
                                 S_msrBarline& barline);
 */
     void                      handleHookedEndingEnd (
-                                S_barline     elt,
                                 S_msrBarline& barline);
     /* JMI
     void                      handleHooklessEndingStart (
@@ -1504,7 +1500,6 @@ class mxmlTree2MsrTranslator :
                                 S_msrBarline& barline);
 */
     void                      handleHooklessEndingEnd (
-                                S_barline     elt,
                                 S_msrBarline& barline);
 
     // notes/rests handling

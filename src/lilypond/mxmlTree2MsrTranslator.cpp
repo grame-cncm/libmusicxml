@@ -1408,14 +1408,52 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   }
 
   if (fOnGoingRepeat) {
+    /* JMI
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "unterminated repeat in MusicXML data, exiting");
+      */
+    msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      "unterminated repeat in MusicXML data, adding a barline to recover");
 
     // let's recover from this error
-    // JMI
+    
+    // create an extra barline
+    S_msrBarline
+      barline =
+        msrBarline::create (
+          elt->getInputLineNumber (),
+          fCurrentBarlineHasSegnoKind,
+          fCurrentBarlineHasCodaKind,
+          fCurrentBarlineLocationKind,
+          fCurrentBarlineStyleKind,
+          fCurrentBarlineEndingTypeKind,
+          fCurrentBarlineEndingNumber,
+          fCurrentBarlineRepeatDirectionKind,
+          fCurrentBarlineRepeatWingedKind,
+          fCurrentBarlineTimes);
+  
+    if (gTraceOptions->fTraceBarlines) {
+      fLogOutputStream <<
+        "Creating an extra barline in part " <<
+        fCurrentPart->getPartCombinedName () << ":" <<
+        endl;
+        
+      gIndenter++;
+      
+      fLogOutputStream <<
+        barline;
+        
+      gIndenter--;
+    }
+
+    // handle it
+  // JMI ???  handleRepeatEnd (barline);
+    handleHooklessEndingEnd (barline);
   }
 
   // finalize the current part
@@ -3676,49 +3714,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
   */
    
   // the type contains a display duration
-  msrDurationKind beatUnitDurationKind = k_NoDuration;
-  
-  if      (beatUnitString == "maxima") {
-    beatUnitDurationKind = kMaxima; }
-  else if (beatUnitString == "long") {
-    beatUnitDurationKind = kLong; }
-  else if (beatUnitString == "breve") {
-      beatUnitDurationKind = kBreve; } 
-  else if (beatUnitString == "whole") {
-      beatUnitDurationKind = kWhole; } 
-  else if (beatUnitString == "half") {
-      beatUnitDurationKind = kHalf; } 
-  else if (beatUnitString == "quarter") {
-      beatUnitDurationKind = kQuarter; } 
-  else if (beatUnitString == "eighth") {
-      beatUnitDurationKind = kEighth; } 
-  else if (beatUnitString == "16th") {
-      beatUnitDurationKind = k16th; } 
-  else if (beatUnitString == "32nd") {
-      beatUnitDurationKind = k32nd; } 
-  else if (beatUnitString == "64th") {
-      beatUnitDurationKind = k64th; } 
-  else if (beatUnitString == "128th") {
-      beatUnitDurationKind = k128th; } 
-  else if (beatUnitString == "256th") {
-      beatUnitDurationKind = k256th; } 
-  else if (beatUnitString == "512th") {
-      beatUnitDurationKind = k512th; } 
-  else if (beatUnitString == "1024th") {
-      beatUnitDurationKind = k1024th; }
-  else {
-    stringstream s;
-    
-    s <<
-      "beat unit \"" << beatUnitString <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
-  }
+  msrDurationKind
+    beatUnitDurationKind =
+      msrDurationKindFromString (
+        elt->getInputLineNumber (),
+        beatUnitString);
 
   // there can be several <beat-unit/> in a <metronome/> markup,
   // register beat unit in in dotted durations list
@@ -3786,52 +3786,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  {
-    string noteType = elt->getValue();
-  
-    // the type contains a display duration,
-    if      (noteType == "maxima") {
-      fCurrentMetronomeDurationKind = kMaxima; }
-    else if (noteType == "long") {
-      fCurrentMetronomeDurationKind = kLong; }
-    else if (noteType == "breve") {
-        fCurrentMetronomeDurationKind = kBreve; } 
-    else if (noteType == "whole") {
-        fCurrentMetronomeDurationKind = kWhole; } 
-    else if (noteType == "half") {
-        fCurrentMetronomeDurationKind = kHalf; } 
-    else if (noteType == "quarter") {
-        fCurrentMetronomeDurationKind = kQuarter; } 
-    else if (noteType == "eighth") {
-        fCurrentMetronomeDurationKind = kEighth; } 
-    else if (noteType == "16th") {
-        fCurrentMetronomeDurationKind = k16th; } 
-    else if (noteType == "32nd") {
-        fCurrentMetronomeDurationKind = k32nd; } 
-    else if (noteType == "64th") {
-        fCurrentMetronomeDurationKind = k64th; } 
-    else if (noteType == "128th") {
-        fCurrentMetronomeDurationKind = k128th; } 
-    else if (noteType == "256th") {
-        fCurrentMetronomeDurationKind = k256th; } 
-    else if (noteType == "512th") {
-        fCurrentMetronomeDurationKind = k512th; } 
-    else if (noteType == "1024th") {
-        fCurrentMetronomeDurationKind = k1024th; }
-    else {
-      stringstream s;
-      
-      s <<
-        "metronome type \"" << noteType <<
-        "\" is unknown";
-  
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+  string noteType = elt->getValue();
+
+  // the type contains a display duration,
+  fCurrentMetronomeDurationKind =
+    msrDurationKindFromString (
+     inputLineNumber,
+     noteType);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_dot& elt )
@@ -7657,7 +7618,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineEndingNumber.size () != 0) {
     // ending start, don't know yet whether it's hooked or hookless
     // ------------------------------------------------------
-    handleEndingStart (elt, barline);
+    handleEndingStart (barline);
 
     barlineIsAlright = true;
   }
@@ -7684,7 +7645,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // repeat start
     // ------------------------------------------------------
     
-    handleRepeatStart (elt, barline);
+    handleRepeatStart (barline);
 
     barlineIsAlright = true;
   }
@@ -7711,7 +7672,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // hooked ending end
     // ------------------------------------------------------
     
-    handleHookedEndingEnd (elt, barline);
+    handleHookedEndingEnd (barline);
     
     barlineIsAlright = true;
   }
@@ -7723,7 +7684,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // repeat end
     // ------------------------------------------------------
              
-    handleRepeatEnd (elt, barline);
+    handleRepeatEnd (barline);
 
     barlineIsAlright = true;
   }
@@ -7736,7 +7697,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineEndingNumber.size () != 0) {
     // hookless ending end
     // ------------------------------------------------------
-    handleHooklessEndingEnd (elt, barline);
+    handleHooklessEndingEnd (barline);
         
     barlineIsAlright = true;
   }
@@ -8190,49 +8151,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     string noteType = elt->getValue();
   
     // the type contains a display duration,
-    if      (noteType == "maxima") {
-      fCurrentNoteGraphicDurationKind = kMaxima; }
-    else if (noteType == "long") {
-      fCurrentNoteGraphicDurationKind = kLong; }
-    else if (noteType == "longa") { // extension sauvage ???
-      fCurrentNoteGraphicDurationKind = kLong; }
-    else if (noteType == "breve") {
-        fCurrentNoteGraphicDurationKind = kBreve; } 
-    else if (noteType == "whole") {
-        fCurrentNoteGraphicDurationKind = kWhole; } 
-    else if (noteType == "half") {
-        fCurrentNoteGraphicDurationKind = kHalf; } 
-    else if (noteType == "quarter") {
-        fCurrentNoteGraphicDurationKind = kQuarter; } 
-    else if (noteType == "eighth") {
-        fCurrentNoteGraphicDurationKind = kEighth; } 
-    else if (noteType == "16th") {
-        fCurrentNoteGraphicDurationKind = k16th; } 
-    else if (noteType == "32nd") {
-        fCurrentNoteGraphicDurationKind = k32nd; } 
-    else if (noteType == "64th") {
-        fCurrentNoteGraphicDurationKind = k64th; } 
-    else if (noteType == "128th") {
-        fCurrentNoteGraphicDurationKind = k128th; } 
-    else if (noteType == "256th") {
-        fCurrentNoteGraphicDurationKind = k256th; } 
-    else if (noteType == "512th") {
-        fCurrentNoteGraphicDurationKind = k512th; } 
-    else if (noteType == "1024th") {
-        fCurrentNoteGraphicDurationKind = k1024th; }
-    else {
-      stringstream s;
-      
-      s <<
-        "note type \"" << noteType <<
-        "\" is unknown";
-  
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+    fCurrentNoteGraphicDurationKind =
+      msrDurationKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
+        noteType);
   }
 
   // size
@@ -8938,48 +8860,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
   string slashType = elt->getValue();
 
   // the type contains a display duration,
-  if      (slashType == "maxima") {
-    fCurrentSlashGraphicDurationKind = kMaxima; }
-  else if (slashType == "long") {
-    fCurrentSlashGraphicDurationKind = kLong; }
-  else if (slashType == "breve") {
-      fCurrentSlashGraphicDurationKind = kBreve; } 
-  else if (slashType == "whole") {
-      fCurrentSlashGraphicDurationKind = kWhole; } 
-  else if (slashType == "half") {
-      fCurrentSlashGraphicDurationKind = kHalf; } 
-  else if (slashType == "quarter") {
-      fCurrentSlashGraphicDurationKind = kQuarter; } 
-  else if (slashType == "eighth") {
-      fCurrentSlashGraphicDurationKind = kEighth; } 
-  else if (slashType == "16th") {
-      fCurrentSlashGraphicDurationKind = k16th; } 
-  else if (slashType == "32nd") {
-      fCurrentSlashGraphicDurationKind = k32nd; } 
-  else if (slashType == "64th") {
-      fCurrentSlashGraphicDurationKind = k64th; } 
-  else if (slashType == "128th") {
-      fCurrentSlashGraphicDurationKind = k128th; } 
-  else if (slashType == "256th") {
-      fCurrentSlashGraphicDurationKind = k256th; } 
-  else if (slashType == "512th") {
-      fCurrentSlashGraphicDurationKind = k512th; } 
-  else if (slashType == "1024th") {
-      fCurrentSlashGraphicDurationKind = k1024th; }
-  else {
-    stringstream s;
-    
-    s <<
-      "slash type \"" << slashType <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
+  fCurrentSlashGraphicDurationKind =
+    msrDurationKindFromString (
       inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+      slashType);
+        
   // size
   
   string slashTypeSize = elt->getAttributeValue ("size");
@@ -13879,6 +13764,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   string normalTypeString = elt->getValue();
 
   if (fOnGoingNote) {        
@@ -13892,51 +13780,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
         endl;
     }
 
-    // the type contains a display duration
-    fCurrentNoteNormalTypeDuration = k_NoDuration;
-    
-    if      (normalTypeString == "maxima") {
-      fCurrentNoteNormalTypeDuration = kMaxima; }
-    else if (normalTypeString == "long") {
-      fCurrentNoteNormalTypeDuration = kLong; }
-    else if (normalTypeString == "breve") {
-        fCurrentNoteNormalTypeDuration = kBreve; } 
-    else if (normalTypeString == "whole") {
-        fCurrentNoteNormalTypeDuration = kWhole; } 
-    else if (normalTypeString == "half") {
-        fCurrentNoteNormalTypeDuration = kHalf; } 
-    else if (normalTypeString == "quarter") {
-        fCurrentNoteNormalTypeDuration = kQuarter; } 
-    else if (normalTypeString == "eighth") {
-        fCurrentNoteNormalTypeDuration = kEighth; } 
-    else if (normalTypeString == "16th") {
-        fCurrentNoteNormalTypeDuration = k16th; } 
-    else if (normalTypeString == "32nd") {
-        fCurrentNoteNormalTypeDuration = k32nd; } 
-    else if (normalTypeString == "64th") {
-        fCurrentNoteNormalTypeDuration = k64th; } 
-    else if (normalTypeString == "128th") {
-        fCurrentNoteNormalTypeDuration = k128th; } 
-    else if (normalTypeString == "256th") {
-        fCurrentNoteNormalTypeDuration = k256th; } 
-    else if (normalTypeString == "512th") {
-        fCurrentNoteNormalTypeDuration = k512th; } 
-    else if (normalTypeString == "1024th") {
-        fCurrentNoteNormalTypeDuration = k1024th; }
-    else {
-      stringstream s;
-      
-      s <<
-        "normal type \"" << normalTypeString <<
-        "\" is unknown";
-  
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        __FILE__, __LINE__,
-        s.str ());
-    }
-
+    // the type contains a display duration    
+    fCurrentNoteNormalTypeDuration =
+      msrDurationKindFromString (
+        inputLineNumber,
+        normalTypeString);
+        
   /*
     // there can be several <beat-unit/> in a <metronome/> markup,
     // register beat unit in in dotted durations list
@@ -13970,7 +13819,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -17336,13 +17185,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
             fCurrentNoteSoundingWholeNotesFromDuration <<
             " while type indicates " <<
             fCurrentNoteDisplayWholeNotesFromType <<
-            ", using the former";
+            ", using the latter";
       
           msrMusicXMLWarning (
-          gXml2lyOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             s.str ());
         }
+
+        newNote->
+          setNoteSoundingWholeNotes (
+            fCurrentNoteDisplayWholeNotesFromType);
         break;
 
       case msrNote::kGraceNote:
@@ -19514,11 +19367,10 @@ void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleRepeatStart (
-  S_barline     elt,
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    elt->getInputLineNumber ();
+    barline->getInputLineNumber ();
 
   if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -19553,11 +19405,10 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleRepeatEnd (
-  S_barline     elt,
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    elt->getInputLineNumber ();
+    barline->getInputLineNumber ();
 
   if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -19606,11 +19457,10 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleEndingStart (
-  S_barline     elt,
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    elt->getInputLineNumber ();
+    barline->getInputLineNumber ();
 
   if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -19649,15 +19499,19 @@ void mxmlTree2MsrTranslator::handleEndingStart (
     }
 
     if (fOnGoingRepeatHasBeenCreated) {
+      /* JMI
       fLogOutputStream <<
         "!!!!! YESYESYES !!!!!" <<
         endl;
+        */
     }
     
-    else {    
+    else {
+      /* JMI
       fLogOutputStream <<
         "!!!!! NONONO !!!!!" <<
         endl;
+        */
 
       // create the enclosing repeat and append it to the part
       if (gTraceOptions->fTraceRepeats) {
@@ -19720,7 +19574,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
       
   currentVoice->
     createNewLastSegmentForVoice (
-      elt->getInputLineNumber ());
+      barline->getInputLineNumber ());
 */
 
 /* JMI
@@ -19737,11 +19591,10 @@ void mxmlTree2MsrTranslator::handleEndingStart (
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleHookedEndingEnd (
-  S_barline     elt,
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    elt->getInputLineNumber ();
+    barline->getInputLineNumber ();
 
   if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -19769,7 +19622,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
   if (! fOnGoingRepeat) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "met a repeat hooked ending out of context");
   }
@@ -19805,7 +19658,6 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
-  S_barline     elt,
   S_msrBarline& barline)
 {
   /*
@@ -19818,7 +19670,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   */
 
   int inputLineNumber =
-    elt->getInputLineNumber ();
+    barline->getInputLineNumber ();
   
   if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -19846,7 +19698,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   if (! fOnGoingRepeat) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "met a repeat hookless ending out of context");
   }

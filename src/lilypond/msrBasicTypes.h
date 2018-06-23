@@ -487,7 +487,12 @@ enum msrDurationKind {
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
   k_NoDuration };
 
-rational msrDurationKindAsWholeNotes (msrDurationKind durationKind);
+msrDurationKind msrDurationKindFromString (
+  int    inputLineNumber,
+  string durationString);
+  
+rational msrDurationKindAsWholeNotes (
+  msrDurationKind durationKind);
 
 msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
 
