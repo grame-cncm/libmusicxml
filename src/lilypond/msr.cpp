@@ -16203,7 +16203,7 @@ void msrRepeatEnding::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "repeatEndingNumber" << " : " <<
+    "repeatEndingKind" << " : " <<
     repeatEndingKindAsString (
       fRepeatEndingKind) <<
     endl <<
@@ -16214,9 +16214,10 @@ void msrRepeatEnding::print (ostream& os)
     "repeatEndingInternalNumber" <<  " : " <<fRepeatEndingInternalNumber <<
     endl <<
     setw (fieldWidth) <<
-    "Repeat uplink: '" << " : " <<
+    "Repeat uplink: " << " : '" <<
     fRepeatEndingRepeatUplink->
       asString () <<
+    "'" <<
     endl <<
     endl;
 

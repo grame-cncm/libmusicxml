@@ -831,6 +831,16 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     mxmlTree = xmlFile->elements ();
   }
 
+  else if (encoding.size () == 0) {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      1, // inputLineNumber,
+      __FILE__, __LINE__,
+      "% MusicXML data doesn't contain any encoding specification, exiting");
+      
+    exit (7);
+  }
+  
   else {
     // convert file data
     FILE* inputStream =

@@ -642,7 +642,7 @@ void msrBarline::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 20;
+  const int fieldWidth = 24;
 
   os << left <<
     setw (fieldWidth) <<
@@ -655,45 +655,57 @@ void msrBarline::print (ostream& os)
     barlineHasCodaKindAsString (
       fBarlineHasCodaKind) <<
     endl <<
+    
     setw (fieldWidth) <<
-    "location" << " : " <<
+    "locationKind" << " : " <<
     barlineLocationKindAsString (fLocationKind) <<
     endl <<
     setw (fieldWidth) <<
-    "location" << " : " <<
-    barlineLocationKindAsString (fLocationKind) <<
-    endl <<
-    setw (fieldWidth) <<
-    "location" << " : " <<
-    barlineLocationKindAsString (fLocationKind) <<
-    endl <<
-    setw (fieldWidth) <<
-    "style" << " : " <<
+    "styleKind" << " : " <<
     barlineStyleKindAsString (fStyleKind) <<
     endl <<
-
     setw (fieldWidth) <<
     "endingType" << " : " <<
     barlineEndingTypeKindAsString (fEndingTypeKind) <<
     endl <<
+    
     setw (fieldWidth) <<
-    "ending number" << " : " <<
+    "endingNumber" << " : " <<
+    fEndingNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "endingNumbersList" << " : " <<
     endingNumbersListAsString () <<
     endl <<
- 
+    
     setw (fieldWidth) <<
-    "repeatDirection" << " : " <<
+    "repeatDirectionKind" << " : " <<
     barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     endl <<
   
     setw (fieldWidth) <<
-    "repeatWinged" << " : " <<
+    "repeatWingedKind" << " : " <<
     barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
     endl <<
   
     setw (fieldWidth) <<
     "barlineTimes" << " : " <<
     fBarlineTimes <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "barlineCategoryKind" << " : " <<
+    barlineCategoryKindAsString (
+      fBarlineCategoryKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "barlineMeasureNumber" << " : " <<
+    fBarlineMeasureNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "barlinePositionInMeasure" << " : " <<
+    fBarlinePositionInMeasure <<
     endl;
      
   gIndenter--;

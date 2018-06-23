@@ -15,6 +15,7 @@
 #endif
 
 #include <climits>      /* INT_MIN */
+#include <regex>
 
 #include "messagesHandling.h"
 
@@ -2275,6 +2276,33 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
       endl;
   }
 
+  // is the part id a pure number?
+  string regularExpression (
+    "[[:space:]]*"
+    "[[:digit:]]+"
+    "[[:space:]]*"
+    );
+  
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (fCurrentPartID, sm, e);
+
+  if (sm.size () == 1) {
+    stringstream s;
+    
+    s <<
+      "Part name \"" << fCurrentPartID << "\"" <<
+      " is a pure number" <<
+      ", line " << inputLineNumber;
+      
+    msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      s.str ());
+  }    
+
+  // initializs fields
   fCurrentPartName = "";
   fCurrentPartNameDisplayText = "";
   

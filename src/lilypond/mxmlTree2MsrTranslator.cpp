@@ -240,7 +240,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingFrameNote = false;
 
   // barline handling
-  fOnGoingBarline      = false;
+  fOnGoingBarline = false;
   fCurrentEndingStartBarline = nullptr;
   fCurrentFigureNumber = -1;
   
@@ -692,7 +692,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_score_partwise& elt )
     }
   }
   
-  fMsrScore->getIdentification () ->
+  identification ->
     setWorkTitle (
       elt->getInputLineNumber (),
       inputSourceName);
@@ -1407,35 +1407,37 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       endl;
   }
 
-  if (fOnGoingRepeat) {
     /* JMI
+  if (fOnGoingRepeat) {
+  / *
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "unterminated repeat in MusicXML data, exiting");
-      */
+      * /
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       "unterminated repeat in MusicXML data, adding a barline to recover");
 
     // let's recover from this error
-    
+
+    /* JMI
     // create an extra barline
     S_msrBarline
       barline =
         msrBarline::create (
           elt->getInputLineNumber (),
-          fCurrentBarlineHasSegnoKind,
-          fCurrentBarlineHasCodaKind,
-          fCurrentBarlineLocationKind,
-          fCurrentBarlineStyleKind,
-          fCurrentBarlineEndingTypeKind,
-          fCurrentBarlineEndingNumber,
-          fCurrentBarlineRepeatDirectionKind,
-          fCurrentBarlineRepeatWingedKind,
-          fCurrentBarlineTimes);
+          msrBarline::kBarlineHasSegnoNo,
+          msrBarline::kBarlineHasCodaNo,
+          msrBarline::kBarlineLocationRight,
+          msrBarline::kBarlineStyleNone,
+          msrBarline::kBarlineEndingTypeStop,
+          "0", // JMI
+          msrBarline::kBarlineRepeatDirectionBackward,
+          msrBarline::kBarlineRepeatWingedNone,
+          2); // JMI
   
     if (gTraceOptions->fTraceBarlines) {
       fLogOutputStream <<
@@ -1455,6 +1457,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   // JMI ???  handleRepeatEnd (barline);
     handleHooklessEndingEnd (barline);
   }
+    */
 
   // finalize the current part
   fCurrentPart->

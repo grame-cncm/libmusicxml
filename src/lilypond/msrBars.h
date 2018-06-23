@@ -402,11 +402,12 @@ class msrBarline : public msrElement
 
     msrBarlineLocationKind
                           fLocationKind;
-    msrBarlineStyleKind
-                          fStyleKind;
+    msrBarlineStyleKind   fStyleKind;
     msrBarlineEndingTypeKind
                           fEndingTypeKind;
+                          
     string                fEndingNumber; // may be "1, 2"
+    
     msrBarlineRepeatDirectionKind
                           fRepeatDirectionKind;
     msrBarlineRepeatWingedKind

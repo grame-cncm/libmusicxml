@@ -11115,17 +11115,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     }
       
     gIndenter++;
-
-    // generate the repeat ending number
-    string
-      repeatEndingNumber =
-        elt->getRepeatEndingNumber ();
-        
-    fLilypondCodeIOstream <<
-      "\\set Score.repeatCommands = #'(end-repeat (volta \"" <<
-      repeatEndingNumber <<
-      "\"))" <<
-      endl;
   }
 
   // output the start of the ending
@@ -11158,6 +11147,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
   } // switch
 
   gIndenter++;
+
+  // generate the repeat ending number if any
+  string
+    repeatEndingNumber =
+      elt->getRepeatEndingNumber ();
+
+  if (repeatEndingNumber.size ()) {
+    fLilypondCodeIOstream <<
+      "\\set Score.repeatCommands = #'(end-repeat (volta \"" <<
+      repeatEndingNumber <<
+      "\"))" <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
@@ -11171,6 +11173,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
   gIndenter--;
 
   // output the end of the ending
+  fLilypondCodeIOstream <<
+    endl;
+
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {
