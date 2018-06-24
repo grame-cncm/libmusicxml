@@ -2693,14 +2693,14 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       harmony->
         getHarmonyBassQuarterTonesPitchKind ();
       
-  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
+  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
     s <<
       "/" <<
       msrQuarterTonesPitchKindAsString (
         gMsrOptions->
           fMsrQuarterTonesPitchesLanguageKind,
         harmonyBassQuarterTonesPitchKind);
-
+  }
 
   // print harmony degrees if any
   list<S_msrHarmonyDegree>
@@ -2710,7 +2710,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   if (harmonyDegreesList.size ()) {
     bool thereAreDegreesToBeRemoved = false;
     
-    // print degrees to be added first
+    // print degrees to be added if any first
     for (
       list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin ();
       i != harmonyDegreesList.end ();
@@ -2734,17 +2734,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
                             
       // print the harmony degree
       switch (harmonyDegreeTypeKind) {
-        case msrHarmonyDegree::kHarmonyDegreeAddType:
-          {
-            s <<
-              "." <<
-              harmonyDegreeValue <<
-              harmonyDegreeAlterationKindAsLilypondString (
-                harmonyDegreeAlterationKind);
-          }
-          break;
-          
-        case msrHarmonyDegree::kHarmonyDegreeAlterType:
+        case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
           s <<
             "." <<
             harmonyDegreeValue <<
@@ -2752,17 +2742,31 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
               harmonyDegreeAlterationKind);
           break;
           
-        case msrHarmonyDegree::kHarmonyDegreeSubtractType:
+        case msrHarmonyDegree::kHarmonyDegreeTypeAlter:
+          s <<
+            "." <<
+            harmonyDegreeValue <<
+            harmonyDegreeAlterationKindAsLilypondString (
+              harmonyDegreeAlterationKind);
+          break;
+          
+        case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
+          s <<
+            "^" <<
+            harmonyDegreeValue <<
+            harmonyDegreeAlterationKindAsLilypondString (
+              harmonyDegreeAlterationKind);
           thereAreDegreesToBeRemoved = true;
           break;
       } // switch
     } // for
     
     // then print harmony degrees to be removed if any
-    if (thereAreDegreesToBeRemoved) {
+    if (false && thereAreDegreesToBeRemoved) {
       s << "^";
 
       int counter = 0;
+      
       for (
         list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin ();
         i != harmonyDegreesList.end ();
@@ -2788,14 +2792,12 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
                               
         // print the harmony degree
         switch (harmonyDegreeTypeKind) {
-          case msrHarmonyDegree::kHarmonyDegreeAddType:
-          case msrHarmonyDegree::kHarmonyDegreeAlterType:
+          case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
+          case msrHarmonyDegree::kHarmonyDegreeTypeAlter:
             break;
             
-          case msrHarmonyDegree::kHarmonyDegreeSubtractType:
-            if (counter > 1)
-              s << ".";
-    
+          case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
+   // JMI         if (counter > 1)
             s <<
               harmonyDegreeValue <<
               harmonyDegreeAlterationKindAsLilypondString (

@@ -6425,7 +6425,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   } // for
 
   // we can now forget about the current lyric texts
-  fCurrentLyricTextsList.clear ();
+// JMIJMI  fCurrentLyricTextsList.clear ();
 
   // don't forget about fCurrentLyricTextsList here,
   // this will be done in handleLyricsForNote()
@@ -20276,13 +20276,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
 
   // check harmony degree type
   if      (degreeType == "add")
-    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeAddType;
+    fCurrentHarmonyDegreeTypeKind =
+      msrHarmonyDegree::kHarmonyDegreeTypeAdd;
     
   else if (degreeType == "alter")
-    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeAlterType;
+    fCurrentHarmonyDegreeTypeKind =
+      msrHarmonyDegree::kHarmonyDegreeTypeAlter;
     
   else if (degreeType == "subtract")
-    fCurrentHarmonyDegreeTypeKind = msrHarmonyDegree::kHarmonyDegreeSubtractType;
+    fCurrentHarmonyDegreeTypeKind =
+      msrHarmonyDegree::kHarmonyDegreeTypeSubstract;
     
   else {
       msrMusicXMLError (

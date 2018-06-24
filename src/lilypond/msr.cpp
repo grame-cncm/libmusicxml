@@ -9774,13 +9774,13 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
   } // switch
 
   switch (fHarmonyDegreeTypeKind) {
-    case msrHarmonyDegree::kHarmonyDegreeAddType:
+    case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
       result = "Add";
       break;
-    case msrHarmonyDegree::kHarmonyDegreeAlterType:
+    case msrHarmonyDegree::kHarmonyDegreeTypeAlter:
       result = "Alter";
       break;
-    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
+    case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
       result = "Subtract";
       break;
   } // switch
@@ -9835,61 +9835,6 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
   return result;
 }
 
-string msrHarmonyDegree::harmonyDegreeTypeKindAsString (
-  msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
-{
-  string result;
-
-  switch (harmonyDegreeTypeKind) {
-    case msrHarmonyDegree::kHarmonyDegreeAddType:
-      result = "HarmonyDegreeAdd";
-      break;
-    case msrHarmonyDegree::kHarmonyDegreeAlterType:
-      result = "HarmonyDegreeAlter";
-      break;
-    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
-      result = "HarmonyDegreeSubtract";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
-{
-  string result;
-  
-  switch (fHarmonyDegreeTypeKind) {
-    case msrHarmonyDegree::kHarmonyDegreeAddType:
-      result = "Add";
-      break;
-    case msrHarmonyDegree::kHarmonyDegreeAlterType:
-      result = "Alter";
-      break;
-    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
-      result = "Subtract";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrHarmonyDegree::asString () const
-{
-  stringstream s;
-
-  s <<
-    "HarmonyDegree" <<
-    ", type: " << harmonyDegreeKindAsShortString () <<
-    ", value: " << fHarmonyDegreeValue <<
-    ", alteration: " <<
-    msrAlterationKindAsString (
-      fHarmonyDegreeAlterationKind) <<
-    ", line: " << fInputLineNumber;
-
-  return s.str ();
-}
-
 void msrHarmonyDegree::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -9937,17 +9882,93 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
 void msrHarmonyDegree::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
+string msrHarmonyDegree::harmonyDegreeTypeKindAsString (
+  msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
 {
-  elt->print (os);
-  return os;
+  string result;
+
+  switch (harmonyDegreeTypeKind) {
+    case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
+      result = "harmonyDegreeTypeAdd";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeTypeAlter:
+      result = "harmonyDegreeTypeAlter";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
+      result = "harmonyDegreeTypeSubtract";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
+{
+  string result;
+  
+  switch (fHarmonyDegreeTypeKind) {
+    case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
+      result = "degreeAdd";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeTypeAlter:
+      result = "degreeAlter";
+      break;
+    case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
+      result = "degreeSubstract";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrHarmonyDegree::asString () const
+{
+  stringstream s;
+
+  s <<
+    "HarmonyDegree" <<
+    ", harmonyDegreeTypeKind: " << harmonyDegreeKindAsShortString () <<
+    ", harmonyDegreeValue: " << fHarmonyDegreeValue <<
+    ", harmonyDegreeAlterationKind: " <<
+    msrAlterationKindAsString (
+      fHarmonyDegreeAlterationKind) <<
+    ", line: " << fInputLineNumber;
+
+  return s.str ();
 }
 
 void msrHarmonyDegree::print (ostream& os)
 {  
   os <<
-    asString () <<
+    "HarmonyDegree" <<
+    ", line: " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  int fieldWidth = 28;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "harmonyDegreeTypeKind" << " : " <<
+    harmonyDegreeKindAsShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "harmonyDegreeValue" << " : " << fHarmonyDegreeValue <<
+    endl <<
+    setw (fieldWidth) <<
+    "harmonyDegreeAlterationKind" << " : " <<
+    msrAlterationKindAsString (
+      fHarmonyDegreeAlterationKind) <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -10170,56 +10191,6 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 
-string msrHarmony::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Harmony" <<
-    ", line " << fInputLineNumber <<
-    ":" <<
-    msrQuarterTonesPitchKindAsString ( // JMI XXL
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyRootQuarterTonesPitchKind) <<          
-    msrHarmonyKindAsShortString (fHarmonyKind) <<
-    ", duration: " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fHarmonySoundingWholeNotes);
-
-  if (fHarmonyKindText.size ())
-    s <<
-      " (" <<fHarmonyKindText << ")";
-
-  s << ", inversion: ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
-    s << "none";
-  else
-    s << fHarmonyInversion;
-    
-  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
-    s <<
-      "/" <<
-    msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyBassQuarterTonesPitchKind);    
-
-  if (fHarmonyDegreesList.size ()) {
-    list<S_msrHarmonyDegree>::const_iterator
-      iBegin = fHarmonyDegreesList.begin (),
-      iEnd   = fHarmonyDegreesList.end (),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-  }
-
-  return s.str ();
-}
-
 void msrHarmony::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -10278,10 +10249,54 @@ void msrHarmony::browseData (basevisitor* v)
     } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrHarmony& elt)
+string msrHarmony::asString () const
 {
-  elt->print (os);
-  return os;
+  stringstream s;
+
+  s <<
+    "Harmony" <<
+    ", line " << fInputLineNumber <<
+    ":" <<
+    msrQuarterTonesPitchKindAsString ( // JMI XXL
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyRootQuarterTonesPitchKind) <<          
+    msrHarmonyKindAsShortString (fHarmonyKind) <<
+    ", duration: " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes);
+
+  if (fHarmonyKindText.size ())
+    s <<
+      " (" <<fHarmonyKindText << ")";
+
+  s << ", inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    s << "none";
+  else
+    s << fHarmonyInversion;
+    
+  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
+    s <<
+      "/" <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyBassQuarterTonesPitchKind);    
+
+  if (fHarmonyDegreesList.size ()) {
+    list<S_msrHarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin (),
+      iEnd   = fHarmonyDegreesList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  return s.str ();
 }
 
 void msrHarmony::print (ostream& os)
@@ -10298,44 +10313,52 @@ void msrHarmony::print (ostream& os)
     
   gIndenter++;
 
-  const int fieldWidth = 15;
+  const int fieldWidth = 33;
 
   os << left <<
     setw (fieldWidth) <<
-    "HarmonyRoot" << " = " <<
+    "harmonyRootQuarterTonesPitchKind" << " : " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "HarmonyKind" << " = " <<
+    "harmonyKind" << " : " <<
     msrHarmonyKindAsString (fHarmonyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "HarmonyKindText" << " = \"" <<
+    "harmonyKindText" << " : \"" <<
     fHarmonyKindText <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "HarmonyBass" << " = " <<
+    "harmonyBassQuarterTonesPitchKind" << " : " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind) <<
     endl;
 
   os <<
-    "inversion: ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
-    os << "none";
-  else
-    os << fHarmonyInversion;
+    setw (fieldWidth) <<
+    "harmonyInversion" << " : ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
+    os <<
+      "none";
+  }
+  else {
+    os <<
+      fHarmonyInversion;
+  }
   os <<
     endl;
 
   // print harmony degrees if any
+  os << left <<
+    setw (fieldWidth) <<  
+    "Harmony degrees";
   if (fHarmonyDegreesList.size ()) {
     os <<
-      "Harmony degrees:" <<
+      ":" <<
       endl;
 
     gIndenter++;
@@ -10347,16 +10370,27 @@ void msrHarmony::print (ostream& os)
       
     for ( ; ; ) {
       os <<
-        (*i)->asString ();
+        (*i);
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
  // JMI ???   os << endl;
     
     gIndenter--;
   }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrHarmony& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________

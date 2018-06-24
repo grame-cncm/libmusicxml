@@ -1966,9 +1966,9 @@ Degree elements
 */
 
     enum msrHarmonyDegreeTypeKind {
-      kHarmonyDegreeAddType,
-      kHarmonyDegreeAlterType,
-      kHarmonyDegreeSubtractType };
+      kHarmonyDegreeTypeAdd,
+      kHarmonyDegreeTypeAlter,
+      kHarmonyDegreeTypeSubstract };
 
     static string harmonyDegreeTypeKindAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
