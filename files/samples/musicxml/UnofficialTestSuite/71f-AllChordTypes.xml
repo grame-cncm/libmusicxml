@@ -567,9 +567,14 @@
         <root>
           <root-step>C</root-step>
         </root>
-        <kind>major</kind>
+        <kind>major-13th</kind>
         <degree>
           <degree-value>1</degree-value>
+          <degree-alter>0</degree-alter>
+          <degree-type>subtract</degree-type>
+        </degree>
+        <degree>
+          <degree-value>5</degree-value>
           <degree-alter>0</degree-alter>
           <degree-type>subtract</degree-type>
         </degree>

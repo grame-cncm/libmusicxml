@@ -1375,15 +1375,14 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   }
 
   // create a harmony new born clone
-  S_msrHarmony
-    harmonyNewBornClone =
-      elt->createHarmonyNewbornClone (
-        fCurrentVoiceClone);
+  fCurrentHarmonyClone =
+    elt->createHarmonyNewbornClone (
+      fCurrentVoiceClone);
       
   if (fOnGoingNote) {
     // register the harmony in the current note clone
     fCurrentNoteClone->
-      setNoteHarmony (harmonyNewBornClone);
+      setNoteHarmony (fCurrentHarmonyClone);
 
   // don't append the harmony to the part harmony,
   // this has been done in pass2b
@@ -1392,14 +1391,33 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   else if (fOnGoingChord) {
     // register the harmony in the current chord clone
     fCurrentChordClone->
-      setChordHarmony (harmonyNewBornClone); // JMI
+      setChordHarmony (fCurrentHarmonyClone); // JMI
   }
 
   else if (fOnGoingHarmonyVoice) {
     fCurrentVoiceClone->
       appendHarmonyToVoiceClone (
-        harmonyNewBornClone);
+        fCurrentHarmonyClone);
   }
+}
+
+void msr2LpsrTranslator::visitStart (S_msrHarmonyDegree& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_msrHarmonyDegree '" <<
+      elt->asString () <<
+      "', line " << elt->getInputLineNumber () <<
+      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
+      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
+      endl;
+  }
+
+  // append the harmony degree to the current harmony clone
+  fCurrentHarmonyClone->
+    appendHarmonyDegreeToHarmony (
+      elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)

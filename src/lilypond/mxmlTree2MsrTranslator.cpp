@@ -6424,11 +6424,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       appendLyricTextToSyllable ((*i));
   } // for
 
-  // we can now forget about the current lyric texts
-// JMIJMI  fCurrentLyricTextsList.clear ();
-
   // don't forget about fCurrentLyricTextsList here,
   // this will be done in handleLyricsForNote()
+    // we can now forget about the current lyric texts
+  //  fCurrentLyricTextsList.clear ();
   
   // appendSyllableToNoteAndSetItsUplink()
   // will be called in handleLyrics(),
@@ -17982,9 +17981,6 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
         appendSyllableToNoteAndSetItsUplink (
           newNote);
     } // for
-
-    // we can now forget about the current lyric texts
-// JMI    fCurrentLyricTextsList.clear ();
 
     // forget about all of newNote's syllables
     fCurrentNoteSyllables.clear ();

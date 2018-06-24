@@ -2751,18 +2751,13 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           break;
           
         case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
-          s <<
-            "^" <<
-            harmonyDegreeValue <<
-            harmonyDegreeAlterationKindAsLilypondString (
-              harmonyDegreeAlterationKind);
           thereAreDegreesToBeRemoved = true;
           break;
       } // switch
     } // for
     
     // then print harmony degrees to be removed if any
-    if (false && thereAreDegreesToBeRemoved) {
+    if (thereAreDegreesToBeRemoved) {
       s << "^";
 
       int counter = 0;
@@ -2773,7 +2768,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
         i++) {
         counter++;
         
-        S_msrHarmonyDegree harmonyDegree = (*i);
+        S_msrHarmonyDegree
+          harmonyDegree = (*i);
   
         // get harmony degree information
         int
@@ -2798,10 +2794,11 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
             
           case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
    // JMI         if (counter > 1)
-            s <<
-              harmonyDegreeValue <<
-              harmonyDegreeAlterationKindAsLilypondString (
-                harmonyDegreeAlterationKind);
+          s <<
+      //      "^" <<
+            harmonyDegreeValue <<
+            harmonyDegreeAlterationKindAsLilypondString (
+              harmonyDegreeAlterationKind);
             break;
         } // switch
       } // for
@@ -10749,6 +10746,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kBarlineCategoryStandalone:
@@ -10804,7 +10804,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       if (gLilypondOptions->fNoteInputLineNumbers) {
         // print the barline line number as a comment
         fLilypondCodeIOstream <<
-          "%{ " << elt->getInputLineNumber () << " %} ";
+          "%{ " << inputLineNumber << " %} ";
       }
 
 /* JMI
@@ -10842,6 +10842,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       // LilyPond will take care of displaying the repeat
       break;
   } // switch
+
+  if (gLilypondOptions->fNoteInputLineNumbers) {
+    fLilypondCodeIOstream <<
+      " %{ " << inputLineNumber << " %}";
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
@@ -10981,7 +10986,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     s <<
-      " %{ " <<  elt->getInputLineNumber () << " %}";
+      " %{ " << elt->getInputLineNumber () << " %}";
   }
   
   fLilypondCodeIOstream <<

@@ -107,6 +107,7 @@ class msr2LpsrTranslator :
   // harmonies
 
   public visitor<S_msrHarmony>,
+  public visitor<S_msrHarmonyDegree>,
   
   // frames
 
@@ -323,6 +324,7 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrHarmony& elt);
     virtual void visitEnd   (S_msrHarmony& elt);
+    virtual void visitStart (S_msrHarmonyDegree& elt);
     
     virtual void visitStart (S_msrFrame& elt);
     
@@ -545,7 +547,9 @@ class msr2LpsrTranslator :
     // harmonies
     // ------------------------------------------------------    
     bool                      fOnGoingHarmonyVoice;
-    
+
+    S_msrHarmony              fCurrentHarmonyClone;
+
     list<S_msrHarmony>        fPendingHarmoniesList;
 
     // frames
