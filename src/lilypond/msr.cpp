@@ -1259,6 +1259,15 @@ void msrGraceNotes::appendChordToGraceNotes (S_msrChord chord)
 S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
   int inputLineNumber)
 {
+  if (gTraceOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "Removing last note from grace notes " <<
+      " in voice \"" <<
+      fGraceNotesVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
   // sanity check
   msrAssert (
     fGraceNotesElementsList.size () != 0,
@@ -3879,6 +3888,14 @@ void msrNote::appendScordaturaToNote (S_msrScordatura scordatura)
 
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
+  if (gTraceOptions->fTraceDynamics) {
+    gLogIOstream <<
+      "Removing first dynamics from note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+
   // sanity check
   msrAssert (
     fNoteDynamics.size () > 0,
@@ -3886,11 +3903,19 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 
   S_msrDynamics dyn = fNoteDynamics.front ();
   fNoteDynamics.pop_front ();
+  
   return dyn;
 }
 
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
+  if (gTraceOptions->fTraceDynamics) {
+    gLogIOstream <<
+      "Removing first wedge from note '" <<
+      asShortString () <<
+      endl;
+  }
+
   // sanity check
   msrAssert (
     fNoteDynamics.size () > 0,
@@ -3907,7 +3932,8 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
     gLogIOstream <<
       "Appending syllable '" <<
       syllable->asString () <<
-      "' to note " << asString () <<
+      "' to note '" << asString () <<
+      "'" <<
       endl;
   }
   
@@ -8973,11 +8999,8 @@ void msrStanza::initializeStanza ()
   }
 
   fStanzaTextPresent = false;
-}
 
-string msrStanza::getStanzaName () const
-{
-  return fStanzaName;
+  fStanzaCurrentMeasureLength = rational (0, 1);
 }
 
 msrStanza::~msrStanza ()
@@ -9119,6 +9142,18 @@ void msrStanza::appendSyllableToStanza (
         "syllable type has not been set");
       break;
   } // switch
+
+/* JMI
+  // get the syllable's sounding whole notes
+  rational
+    syllableSoundingWholeNotes =
+      syllable->
+        getSyllableNoteUplink ()->
+          getNoteSoundingWholeNotes ();
+
+  // update the stanza's current measure length
+  fStanzaCurrentMeasureLength +=syllableSoundingWholeNotes;
+  */
 }
 
 S_msrSyllable msrStanza::appendRestSyllableToStanza (
@@ -9214,6 +9249,9 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
 
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
+
+  // reset current measure length
+  fStanzaCurrentMeasureLength = rational (0, 1);
 
   gIndenter--;
   
@@ -9577,6 +9615,73 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   
   // and return it
   return syllable;
+}
+
+void msrStanza::padUpToMeasureLengthInStanza (
+  int      inputLineNumber,
+  rational measureLength)
+{
+  /* JMI
+  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Padding up to measure length '" << measureLength <<
+      "' in stanza \"" <<
+      fStanzaName <<
+      "\" in voice \"" <<
+      fStanzaVoiceUplink->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+
+  // JMI ???
+  rational
+    paddingLength =
+      measureLength - fStanzaCurrentMeasureLength;
+
+  gIndenter++;
+  
+  if (fMeasureLength < measureLength) {
+    // appending a padding rest or skip to this measure to reach measureLength
+    rational
+      missingDuration =
+        measureLength - fMeasureLength;
+    
+    // fetch the measure voice
+    S_msrVoice
+      measureVoice =
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ();
+      
+    // create a rest or a skip depending on measureVoice kind
+    S_msrNote
+      paddingNote =
+        createPaddingNoteForVoice (
+          inputLineNumber,
+          missingDuration,
+          measureVoice);
+
+    // register rest's measure length
+    paddingNote->
+      setNotePositionInMeasure (
+        fMeasureLength);
+           
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
+      gLogIOstream <<
+       "Appending rest" << paddingNote->asString () <<
+       " (missingDuration " << missingDuration <<
+       " whole notes) to skip from length '" << fMeasureLength <<
+       " to length '" << measureLength << "'"
+       " in measure '" << fMeasureNumber <<
+       "in voice \"" << measureVoice->getVoiceName () <<
+       endl;
+    }
+
+    // append the rest to the measure elements list
+    // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
+    appendNoteToMeasure (paddingNote);
+  }
+  */
 }
 
 void msrStanza::acceptIn (basevisitor* v)
@@ -12880,29 +12985,17 @@ void msrMeasure::removeNoteFromMeasure (
 {  
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Removing note:" <<
-      endl;
-
-    gIndenter++;
-    gLogIOstream <<
-      note->asShortString ();
-    gIndenter--;
-    
-    gLogIOstream <<
-      endl <<
-      " from measure '" << fMeasureNumber <<
+      "Removing note '" <<
+      note->asShortString () <<
+      "' from measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"," <<
-      endl;
-
-    gIndenter++;
-    gLogIOstream <<
       "fMeasureLastHandledNote:" <<
       endl <<
-      fMeasureLastHandledNote <<
+      fMeasureLastHandledNote->asShortString () <<
       endl;
     gIndenter--;
   }
@@ -14107,23 +14200,24 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
-      /* JMI
         // no, finalize it
         lastMeasure->
           finalizeMeasure (
             inputLineNumber);
-            */
+            /* JMI
         if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
           // yes, remove it
-          if (gTraceOptions->fTraceMeasures) {
+          if (
+            gTraceOptions->fTraceMeasures
+              ||
+            gTraceOptions->fTraceSegments
+              ||
+            gTraceOptions->fTraceRepeats) {
             stringstream s;
         
             gLogIOstream <<
               "Removing empty measure '" <<
               lastMeasure->getMeasureNumber () <<
-              "' that was created for a repeat (" <<
-                msrMeasure::measureCreatedForARepeatKindAsString (
-                  lastMeasureCreatedForARepeatKind) <<
               ") in segment '" <<
               asString () <<
               "'";
@@ -14137,13 +14231,19 @@ void msrSegment::finalizeCurrentMeasureInSegment (
             finalizeMeasure (
               inputLineNumber);
         }
+        */
         break;
 
       case msrMeasure::kMeasureCreatedForARepeatBefore:
       case msrMeasure::kMeasureCreatedForARepeatAfter:
         if (lastMeasure->getMeasureLength ().getNumerator () == 0) {
           // yes, remove it
-          if (gTraceOptions->fTraceMeasures) {
+          if (
+            gTraceOptions->fTraceMeasures
+              ||
+            gTraceOptions->fTraceSegments
+              ||
+            gTraceOptions->fTraceRepeats) {
             stringstream s;
         
             gLogIOstream <<
@@ -15599,6 +15699,18 @@ void msrSegment::removeNoteFromSegment (
   int       inputLineNumber,
   S_msrNote note)
 {  
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Removing note '" <<
+      note->asString () <<
+      "'from segment '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  gIndenter++;
+  
   if (fSegmentMeasuresList.size ()) {
     fSegmentMeasuresList.back ()->
       removeNoteFromMeasure (
@@ -15623,13 +15735,25 @@ void msrSegment::removeNoteFromSegment (
       __FILE__, __LINE__,
       s.str ());
   }
+
+  gIndenter--;
 }
 
 void msrSegment::removeElementFromSegment (
   int          inputLineNumber,
   S_msrElement element)
 {  
-  if (fSegmentMeasuresList.size ()) {
+  if (gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Removing element '" <<
+      element->asString () <<
+      "'from segment '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+ if (fSegmentMeasuresList.size ()) {
     fSegmentMeasuresList.back ()->
       removeElementFromMeasure (
         inputLineNumber,
@@ -19224,9 +19348,27 @@ void msrVoice::padUpToMeasureLengthInVoice (
       endl;
   }
 
+  gIndenter++;
+  
+  // pad up the voice's last segment
   fVoiceLastSegment->
     padUpToMeasureLengthInSegment (
       inputLineNumber, measureLength);
+      
+  // pad up the voice's stanzas
+  if (fVoiceStanzasMap.size ()) {
+    for (
+      map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
+      i != fVoiceStanzasMap.end ();
+      i++) {
+      S_msrStanza stanza = (*i).second;
+
+      stanza->padUpToMeasureLengthInStanza (
+        inputLineNumber, measureLength);
+    } // for
+  }
+
+  gIndenter--;
 }
 
 void msrVoice::appendTransposeToVoice (

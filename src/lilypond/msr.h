@@ -4418,8 +4418,9 @@ class msrStanza : public msrElement
                               { return fStanzaNumber; }
                 
     // name
-    string                getStanzaName () const;
-                                
+    string                getStanzaName () const
+                              { return fStanzaName; }
+                         
     // contents
     const vector<S_msrSyllable>&
                           getSyllables () const
@@ -4499,6 +4500,10 @@ class msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
+    void                  padUpToMeasureLengthInStanza (
+                            int      inputLineNumber,
+                            rational measureLength);
+  
   public:
 
     // visitors
@@ -4536,6 +4541,9 @@ class msrStanza : public msrElement
     vector<S_msrSyllable> fSyllables;
 
     bool                  fStanzaTextPresent;
+
+    // current measure length
+    rational              fStanzaCurrentMeasureLength;
 };
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);

@@ -218,9 +218,9 @@ indenter& indenter::operator-- (const int value)
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
 
-// JMI #ifdef DEBUG_INDENTER
+#ifdef DEBUG_INDENTER
     assert(false);
-//#endif
+#endif
   }
 
 #ifdef DEBUG_INDENTER
