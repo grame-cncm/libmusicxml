@@ -6059,6 +6059,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // forget about any previous texts met
+  fCurrentLyricTextsList.clear ();
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_text& elt ) 
@@ -6425,9 +6428,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   } // for
 
   // don't forget about fCurrentLyricTextsList here,
-  // this will be done in handleLyricsForNote()
-    // we can now forget about the current lyric texts
-  //  fCurrentLyricTextsList.clear ();
+  // this will be done in visitStart ( S_syllabic& )
   
   // appendSyllableToNoteAndSetItsUplink()
   // will be called in handleLyrics(),
@@ -7879,7 +7880,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentStanzaName = K_NO_STANZA_NAME;
 
   fCurrentSyllabic = "";
-  fCurrentLyricTextsList.clear ();
+  // don't forget about fCurrentLyricTextsList here,
+  // this will be done in visitStart ( S_syllabic& )
   fCurrentSyllableKind = msrSyllable::kSyllableNone;
 
   if (fOnGoingSyllableExtend) {

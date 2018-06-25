@@ -8588,14 +8588,6 @@ void msrSyllable::appendSyllableToNoteAndSetItsUplink (
   }
 }
 
-string msrSyllable::syllableWholeNotesAsMsrString () const
-{
-  return
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fSyllableWholeNotes);
-}
-
 void msrSyllable::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -8643,10 +8635,12 @@ void msrSyllable::acceptOut (basevisitor* v)
 void msrSyllable::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrSyllable& elt)
+string msrSyllable::syllableWholeNotesAsMsrString () const
 {
-  elt->print (os);
-  return os;
+  return
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fSyllableWholeNotes);
 }
 
 string msrSyllable::syllableKindAsString (
@@ -8848,10 +8842,11 @@ void msrSyllable::print (ostream& os)
     setw (fieldWidth) <<
     "noteUplink" << " : " <<
     syllableNoteUplinkAsString () <<      
+    endl <<
+    setw (fieldWidth) <<
+    "syllableKind" << " : " <<
+    syllableKindAsString (fSyllableKind) <<
     endl;
-
-  os <<
-    syllableKindAsString (fSyllableKind);
     
   switch (fSyllableKind) { // JMI
     case msrSyllable::kSyllableSingle:
@@ -8859,28 +8854,43 @@ void msrSyllable::print (ostream& os)
     case msrSyllable::kSyllableMiddle:
     case msrSyllable::kSyllableEnd:
     case msrSyllable::kSyllableSkip:
-      os <<
-       ", whole notes:" <<
-      syllableWholeNotesAsMsrString () <<
-      " (" << fSyllableWholeNotes << ")";
+      os << left <<
+        endl <<
+        setw (fieldWidth) <<
+       "syllableWholeNotes" << " : " <<
+        syllableWholeNotesAsMsrString () <<
+        " (" << fSyllableWholeNotes << ")";
      break;
       
     case kSyllableMeasureEnd:
+    /* JMI
       // fSyllableText contains the measure number
-      os << 
-        ", measure " << "fSyllableText ???";
+      os << left <<
+        endl <<
+        setw (fieldWidth) <<
+        "fSyllableTextsList [0]" << " : ";
+        "measure '" << fSyllableTextsList.front () << "'";
+        */
       break;
       
     case kSyllableLineBreak:
+    /* JMI
       // fSyllableText contains the measure number
-      os << 
-        ", measure " << "fSyllableText ???";
+      os << left <<
+        endl <<
+        setw (fieldWidth) <<
+        "measure '" << "fSyllableText ???" << "'";
+        */
       break;
       
     case kSyllablePageBreak:
+    /* JMI
       // fSyllableText contains the measure number JMI ???
-      os << 
-        ", measure " << "fSyllableText ???";
+      os << left <<
+        endl <<
+        setw (fieldWidth) <<
+        "measure '" << "fSyllableText ???" << "'";
+        */
       break;
       
     case kSyllableNone:
@@ -8891,6 +8901,8 @@ void msrSyllable::print (ostream& os)
         "syllable type has not been set");
       break;
   } // switch
+  os <<
+    endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -8899,6 +8911,12 @@ void msrSyllable::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSyllable& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -9774,13 +9792,13 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
   } // switch
 
   switch (fHarmonyDegreeTypeKind) {
-    case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
+    case msrHarmonyDegree::kHarmonyDegreeAddType:
       result = "Add";
       break;
-    case msrHarmonyDegree::kHarmonyDegreeTypeAlter:
+    case msrHarmonyDegree::kHarmonyDegreeAlterType:
       result = "Alter";
       break;
-    case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
+    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
       result = "Subtract";
       break;
   } // switch
@@ -9895,7 +9913,7 @@ string msrHarmonyDegree::harmonyDegreeTypeKindAsString (
       result = "harmonyDegreeTypeAlter";
       break;
     case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
-      result = "harmonyDegreeTypeSubtract";
+      result = "harmonyDegreeTypeSubstract";
       break;
   } // switch
 
@@ -9914,7 +9932,7 @@ string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
       result = "degreeAlter";
       break;
     case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
-      result = "degreeSubstract";
+      result = "degreeSubtract";
       break;
   } // switch
 
@@ -9927,9 +9945,9 @@ string msrHarmonyDegree::asString () const
 
   s <<
     "HarmonyDegree" <<
-    ", harmonyDegreeTypeKind: " << harmonyDegreeKindAsShortString () <<
-    ", harmonyDegreeValue: " << fHarmonyDegreeValue <<
-    ", harmonyDegreeAlterationKind: " <<
+    ", type: " << harmonyDegreeKindAsShortString () <<
+    ", value: " << fHarmonyDegreeValue <<
+    ", alteration: " <<
     msrAlterationKindAsString (
       fHarmonyDegreeAlterationKind) <<
     ", line: " << fInputLineNumber;
@@ -9940,29 +9958,8 @@ string msrHarmonyDegree::asString () const
 void msrHarmonyDegree::print (ostream& os)
 {  
   os <<
-    "HarmonyDegree" <<
-    ", line: " << fInputLineNumber <<
+    asString () <<
     endl;
-
-  gIndenter++;
-
-  int fieldWidth = 28;
-  
-  os << left <<
-    setw (fieldWidth) <<
-    "harmonyDegreeTypeKind" << " : " <<
-    harmonyDegreeKindAsShortString () <<
-    endl <<
-    setw (fieldWidth) <<
-    "harmonyDegreeValue" << " : " << fHarmonyDegreeValue <<
-    endl <<
-    setw (fieldWidth) <<
-    "harmonyDegreeAlterationKind" << " : " <<
-    msrAlterationKindAsString (
-      fHarmonyDegreeAlterationKind) <<
-    endl;
-
-  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
@@ -10191,6 +10188,56 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 
+string msrHarmony::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Harmony" <<
+    ", line " << fInputLineNumber <<
+    ":" <<
+    msrQuarterTonesPitchKindAsString ( // JMI XXL
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyRootQuarterTonesPitchKind) <<          
+    msrHarmonyKindAsShortString (fHarmonyKind) <<
+    ", duration: " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes);
+
+  if (fHarmonyKindText.size ())
+    s <<
+      " (" <<fHarmonyKindText << ")";
+
+  s << ", inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    s << "none";
+  else
+    s << fHarmonyInversion;
+    
+  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
+    s <<
+      "/" <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyBassQuarterTonesPitchKind);    
+
+  if (fHarmonyDegreesList.size ()) {
+    list<S_msrHarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin (),
+      iEnd   = fHarmonyDegreesList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  return s.str ();
+}
+
 void msrHarmony::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -10249,54 +10296,10 @@ void msrHarmony::browseData (basevisitor* v)
     } // for
 }
 
-string msrHarmony::asString () const
+ostream& operator<< (ostream& os, const S_msrHarmony& elt)
 {
-  stringstream s;
-
-  s <<
-    "Harmony" <<
-    ", line " << fInputLineNumber <<
-    ":" <<
-    msrQuarterTonesPitchKindAsString ( // JMI XXL
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyRootQuarterTonesPitchKind) <<          
-    msrHarmonyKindAsShortString (fHarmonyKind) <<
-    ", duration: " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fHarmonySoundingWholeNotes);
-
-  if (fHarmonyKindText.size ())
-    s <<
-      " (" <<fHarmonyKindText << ")";
-
-  s << ", inversion: ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
-    s << "none";
-  else
-    s << fHarmonyInversion;
-    
-  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
-    s <<
-      "/" <<
-    msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyBassQuarterTonesPitchKind);    
-
-  if (fHarmonyDegreesList.size ()) {
-    list<S_msrHarmonyDegree>::const_iterator
-      iBegin = fHarmonyDegreesList.begin (),
-      iEnd   = fHarmonyDegreesList.end (),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-  }
-
-  return s.str ();
+  elt->print (os);
+  return os;
 }
 
 void msrHarmony::print (ostream& os)
@@ -10313,52 +10316,44 @@ void msrHarmony::print (ostream& os)
     
   gIndenter++;
 
-  const int fieldWidth = 33;
+  const int fieldWidth = 15;
 
   os << left <<
     setw (fieldWidth) <<
-    "harmonyRootQuarterTonesPitchKind" << " : " <<
+    "HarmonyRoot" << " = " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "harmonyKind" << " : " <<
+    "HarmonyKind" << " = " <<
     msrHarmonyKindAsString (fHarmonyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "harmonyKindText" << " : \"" <<
+    "HarmonyKindText" << " = \"" <<
     fHarmonyKindText <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "harmonyBassQuarterTonesPitchKind" << " : " <<
+    "HarmonyBass" << " = " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind) <<
     endl;
 
   os <<
-    setw (fieldWidth) <<
-    "harmonyInversion" << " : ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
-    os <<
-      "none";
-  }
-  else {
-    os <<
-      fHarmonyInversion;
-  }
+    "inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+    os << "none";
+  else
+    os << fHarmonyInversion;
   os <<
     endl;
 
   // print harmony degrees if any
-  os << left <<
-    setw (fieldWidth) <<  
-    "Harmony degrees";
   if (fHarmonyDegreesList.size ()) {
     os <<
-      ":" <<
+      "Harmony degrees:" <<
       endl;
 
     gIndenter++;
@@ -10370,27 +10365,16 @@ void msrHarmony::print (ostream& os)
       
     for ( ; ; ) {
       os <<
-        (*i);
+        (*i)->asString ();
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      os << endl;
     } // for
  // JMI ???   os << endl;
     
     gIndenter--;
   }
-  else {
-    os <<
-      " : " << "none" <<
-      endl;
-  }
 
   gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_msrHarmony& elt)
-{
-  elt->print (os);
-  return os;
 }
 
 //______________________________________________________________________________

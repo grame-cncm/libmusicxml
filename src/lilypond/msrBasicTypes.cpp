@@ -12232,6 +12232,11 @@ string wholeNotesAsMsrString (
       endl;
   }
 
+  if (numerator == 0) { // JMI TEMP
+    dotsNumber = 0;
+    return "zero";
+  }
+  
   msrAssert (
     numerator > 0,
     "numerator is not positive");
@@ -12357,7 +12362,7 @@ we'll be better of using binary logarithms for the computations
   if (integralNumberOfWholeNotes) {
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
-    // 6/1 thus becomes 3\breve, hence \longa.
+    // 6/1 thus becomes 3 \breve, hence '\longa.'
     while (numerator % 2 == 0) {
       numerator /= 2;
       durationLog -= 1;
