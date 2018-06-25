@@ -17676,7 +17676,7 @@ string msrMultipleRest::asString () const
   stringstream s;
 
   s <<
-    "Multiple rest" <<
+    "MultipleRest" <<
     ", line " << fInputLineNumber <<
     ", multipleRestMeasureSoundingNotes: " <<
     fMultipleRestMeasureSoundingNotes <<
@@ -17692,27 +17692,36 @@ string msrMultipleRest::asString () const
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrMultipleRest& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrMultipleRest::print (ostream& os)
 {
   os <<
-    endl <<
-    asString () <<
+    "MultipleRest" <<
+    ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
 
-  const int fieldWidth = 24;
+  const int fieldWidth = 33;
 
+  os << left <<
+    setw (fieldWidth) <<
+    "multipleRestMeasureSoundingNotes" << " : " <<
+    fMultipleRestMeasureSoundingNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "multipleRestMeasuresNumber" << " : " <<
+    fMultipleRestMeasuresNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "multipleRestNextMeasureNumber" << " : '" <<
+    fMultipleRestNextMeasureNumber <<
+    "'" <<
+    endl;
+  
   // print the voice uplink
   os << left <<
     setw (fieldWidth) <<
-    "MultipleRestVoiceUplink" << " : " <<
+    "multipleRestVoiceUplink" << " : " <<
     "\"" <<
     fMultipleRestVoiceUplink->getVoiceName () <<
     "\"" <<
@@ -17722,7 +17731,7 @@ void msrMultipleRest::print (ostream& os)
   if (! fMultipleRestContents) {
     os << left <<
       setw (fieldWidth) <<
-      "Multiple rests contents" << " : " << "none" <<
+      "multipleRestContents" << " : " << "none" <<
       endl;
   }
 
@@ -17732,6 +17741,12 @@ void msrMultipleRest::print (ostream& os)
   }
       
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrMultipleRest& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________

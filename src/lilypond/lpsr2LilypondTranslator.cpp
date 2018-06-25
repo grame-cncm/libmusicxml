@@ -8189,13 +8189,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
                 getInhibitMultipleRestMeasuresBrowsing ();
         
           if (inhibitMultipleRestMeasuresBrowsing) {
-            if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
+            if (
+              gMsrOptions->fTraceMsrVisitors
+                ||
+              gTraceOptions->fTraceRepeats) {
               gLogIOstream <<
                 "% ==> visiting multiple rest measure is ignored" <<
                 endl;
             }
 
-          gLogIOstream <<
+          gLogIOstream << // JMI
             "% ==> returning from visitStart (S_msrNote&)" <<
             endl;
   
@@ -11533,6 +11536,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  int restMeasuresNumber =
+    elt->getMultipleRestMeasuresNumber ();
+
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
@@ -11551,6 +11560,47 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   // start counting measures
   fRemainingMultipleRestMeasuresNumber =
     elt->getMultipleRestMeasuresNumber ();
+
+  if (gLilypondOptions->fComments) {
+    fLilypondCodeIOstream << left <<
+      setw (commentFieldWidth) <<
+      "% start of multiple rest" <<
+      singularOrPlural (
+        elt->getMultipleRestMeasuresNumber (),
+        "measure",
+        "measures") <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // get multiple rest measure sounding notes
+  rational
+    multipleRestMeasureSoundingNotes =
+      elt->getMultipleRestMeasureSoundingNotes ();
+
+  // generate multiple measure rest
+  fLilypondCodeIOstream <<
+    "R" <<
+    multipleRestWholeNoteAsLilypondString (
+      inputLineNumber,
+      multipleRestMeasureSoundingNotes);
+
+  if (restMeasuresNumber > 1) {
+    fLilypondCodeIOstream <<
+      "*" <<
+      restMeasuresNumber;
+  }
+
+  if (gLilypondOptions->fNoteInputLineNumbers) {
+    // print the multiple rest line number as a comment
+    fLilypondCodeIOstream <<
+      " %{ " << inputLineNumber << " %} ";
+  }
+
+  fLilypondCodeIOstream <<    
+    " | % " <<
+    elt->getMultipleRestNextMeasureNumber () <<
+    endl;
 
   fOnGoingMultipleRestMeasures = true;
 }
@@ -11603,7 +11653,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
       endl <<
       endl;
   }
-  
+
+  /*
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
@@ -11644,6 +11695,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
     " | % " <<
     elt->getMultipleRestNextMeasureNumber () <<
     endl;
+*/
 
   fOnGoingMultipleRestMeasures = false;
 }
