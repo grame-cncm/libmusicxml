@@ -1242,7 +1242,8 @@ class msrSegment : public msrElement
 
     // clef, key, time
     
-    void                  appendClefToSegment (S_msrClef clef);
+    void                  appendClefToSegment  (S_msrClef clef);
+    void                  prependClefToSegment (S_msrClef clef);
     
     void                  appendKeyToSegment (S_msrKey key);
     

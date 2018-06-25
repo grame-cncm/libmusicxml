@@ -14361,6 +14361,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     print (gLogIOstream);
 */
 
+  // sanity check
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
 
@@ -14387,14 +14388,63 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       __FILE__, __LINE__,
       s.str ());
   }
-    
-  // sanity check
-  msrAssert (
-    fSegmentMeasuresList.size () > 0,
-    "fSegmentMeasuresList is empty");
-    
+        
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
+    appendClefToMeasure (clef);
+
+  gIndenter--;
+}
+
+void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
+{
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Prepending clef '" << clef->asString () <<
+      "' to segment " << asString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  gIndenter++;
+  
+      /* JMI
+  fetchSegmentPartUplink ()->
+    print (gLogIOstream);
+*/
+
+  // sanity check
+  if (fSegmentMeasuresList.size () == 0) {
+    stringstream s;
+
+    s <<
+      "SegmentMeasuresList is empty"  <<
+      " in segment '" <<
+      fSegmentAbsoluteNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"";
+
+    gLogIOstream <<
+      "SegmentVoiceUplink:" <<
+      endl;
+    gIndenter++;
+    gLogIOstream <<
+      fSegmentVoiceUplink <<
+      endl;
+    gIndenter--;
+    
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      clef->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+        
+  // register clef in segments's current measure
+  fSegmentMeasuresList.front ()->
     appendClefToMeasure (clef);
 
   gIndenter--;
@@ -19089,10 +19139,18 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
     clef->getInputLineNumber ());
+  
+  if (fMusicHasBeenInsertedInVoice) {
+    // append clef to last segment
+    fVoiceLastSegment->
+      appendClefToSegment (clef);
+  }
 
-  // append clef to last segment
-  fVoiceLastSegment->
-    appendClefToSegment (clef);
+  else {
+    // moving clefs to the left, thus prepend to last segment
+    fVoiceLastSegment->
+      prependClefToSegment (clef);
+  }
 }
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
@@ -23383,6 +23441,16 @@ void msrStaff::initializeStaff ()
     case msrStaff::kRythmicStaff:
       break;
   } // switch
+
+/* JMI
+  // set fStaffCurrentClef to the default treble clef,
+  // but dont append it to the staff:
+  // it's used to check for a clef change in the MusicXML data
+  fStaffCurrentClef =
+      msrClef::create (
+        0, // inputLineNumber
+        msrClef::kTrebleClef);
+*/
 
   // get the initial staff details from the part if any
   S_msrStaffDetails

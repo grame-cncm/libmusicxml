@@ -11536,6 +11536,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
 
+  // generate the code now:
+  // waiting until visitEnd (S_msrMultipleRest&)
+  // would get barlines if any generated too early
+  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -11613,6 +11617,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
       endl;
   }
     
+  /* JMI
   if (gLilypondOptions->fComments) {
     gIndenter--;
 
@@ -11654,7 +11659,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
       endl;
   }
 
-  /*
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
