@@ -232,11 +232,12 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // barline handling
   fOnGoingBarline = false;
-  fCurrentEndingStartBarline = nullptr;
-  fCurrentFigureNumber = -1;
   
+  fCurrentEndingStartBarline = nullptr;
+    
   // repeats handling
   fOnGoingRepeat = false;
+  fRepeatEndCounter = 0;
   fOnGoingRepeatHasBeenCreated = false;
 
   // MusicXML notes handling
@@ -6692,8 +6693,29 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward) {
     // repeat end
     // ------------------------------------------------------
-             
-    handleRepeatEnd (barline);
+
+    if (fRepeatEndCounter == 0 ) {
+      // this is a regular repeat end
+      handleRepeatEnd (barline);
+    }
+    else {
+      // this is the end of an implicit repeat
+      createAndPrependImplicitBarLine (
+        inputLineNumber);
+
+      if (gTraceOptions->fTraceRepeats) {
+        fLogOutputStream <<
+          "Appending an implicit repeat to part " <<
+          fCurrentPart->getPartCombinedName () <<
+          endl;
+      }
+    
+      fCurrentPart->
+        createRepeatUponItsEndAndAppendItToPart (
+          inputLineNumber,
+          fCurrentMeasureNumber,
+          barline->getBarlineTimes ());
+    }
 
     barlineIsAlright = true;
   }
@@ -18439,6 +18461,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
       barline->getBarlineTimes ());
 
   fOnGoingRepeat = false;
+  fRepeatEndCounter++;
   fOnGoingRepeatHasBeenCreated = true; // JMI
 }
 

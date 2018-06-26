@@ -163,6 +163,7 @@
       </note>
       <barline location="right">
         <ending number="1" type="stop"/>
+        <repeat direction="backward"/>
       </barline>
     </measure>
     <!--=======================================================-->

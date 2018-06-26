@@ -23219,14 +23219,19 @@ void msrVoice::print (ostream& os)
     
   os <<
     "Initial elements: ";
-  if (initialElementsNumber)
+  if (initialElementsNumber) {
     os << "(" << initialElementsNumber << ")";
-  else
+  }
+  else {
     os << "none";
+  }
   os <<
     endl;
     
   if (initialElementsNumber) {
+    os <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrElement>::const_iterator

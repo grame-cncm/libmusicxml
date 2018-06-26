@@ -55,6 +55,7 @@
       </note>
       <barline location="right">
         <ending number="1" type="stop"/>
+        <repeat direction="backward"/>
       </barline>
     </measure>
     <!--=======================================================-->
@@ -78,6 +79,9 @@
     </measure>
     <!--=======================================================-->
     <measure number="4">
+      <barline location="left">
+        <ending number="3" type="start"/>
+      </barline>
       <note>
         <pitch>
           <step>G</step>
@@ -86,6 +90,9 @@
         <duration>4</duration>
         <voice>1</voice>
       </note>
+      <barline location="right">
+        <ending number="3" type="discontinue"/>
+      </barline>
       <barline location="right">
         <bar-style>light-heavy</bar-style>
       </barline>

@@ -1331,6 +1331,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fOnGoingBarline;
+    int                       fRepeatEndCounter;
 
     S_msrBarline              fCurrentEndingStartBarline;
     
