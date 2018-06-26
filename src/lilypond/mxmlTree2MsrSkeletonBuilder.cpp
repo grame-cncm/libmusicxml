@@ -142,6 +142,13 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   // score handling
   fScoreNumberOfMeasures = 0;
 
+  // geometry handling
+  fCurrentMillimeters = -1;
+  fCurrentTenths      = -1;
+
+  // page layout
+  fOnGoingPageLayout = false;
+
   // part groups handling  
   fPartGroupsCounter = 0;
   fOnGoingPartGroupNameDisplay = false;
@@ -1719,9 +1726,617 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
       endl;
   }
 
+  S_msrIdentification
+    identification =
+      fMsrScore->getIdentification ();
+
+  string inputSourceName;
+  
+  if (
+    ! identification->getWorkTitle ()
+      &&
+    gMusicXMLOptions->fUseFilenameAsWorkTitle) {
+    inputSourceName = gXml2lyOptions->fInputSourceName;
+
+    if (inputSourceName == "-") {
+      inputSourceName = "Standard input";
+    }
+  }
+  
+  identification ->
+    setWorkTitle (
+      elt->getInputLineNumber (),
+      inputSourceName);
+
+  // register the number of measures
   fMsrScore->
     setScoreNumberOfMeasures (
       fScoreNumberOfMeasures);
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_number& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_work_number" <<
+      endl;
+  }
+
+  fMsrScore->getIdentification () ->
+    setWorkNumber (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_title& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_work_title" <<
+      endl;
+  }
+
+  string workTitle = elt->getValue ();
+
+  fMsrScore->getIdentification () ->
+    setWorkTitle (
+      elt->getInputLineNumber (),
+      workTitle);
+}
+  
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_number& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_movement_number" <<
+      endl;
+  }
+
+  fMsrScore->getIdentification () ->
+    setMovementNumber (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_title& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_movement_title" <<
+      endl;
+  }
+
+  string movementTitle = elt->getValue ();
+
+  // remove HTML entities if any // JMI option for that?
+  convertHTMLEntitiesToPlainCharacters (
+    movementTitle);
+    
+  fMsrScore->getIdentification () ->
+    setMovementTitle (
+      elt->getInputLineNumber (),
+      movementTitle);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_creator" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string creatorType = elt->getAttributeValue ("type");
+  string creatorValue = elt->getValue ();
+
+  if      (creatorType == "composer") {
+    fMsrScore->getIdentification () ->
+      addComposer (
+        inputLineNumber,
+        creatorValue);
+  }
+  
+  else if (creatorType == "arranger") {
+    fMsrScore->getIdentification () ->
+      addArranger (
+        inputLineNumber,
+        creatorValue);
+  }
+  
+  else if (creatorType == "lyricist") {
+    fMsrScore->getIdentification () ->
+      addLyricist (
+        inputLineNumber,
+        creatorValue);
+  }
+  
+  else if (creatorType == "poet") {
+    fMsrScore->getIdentification () ->
+      addPoet (
+        inputLineNumber,
+        elt->getValue ());
+  }
+  
+  else if (creatorType == "translator") {
+    fMsrScore->getIdentification () ->
+      addTranslator (
+        inputLineNumber,
+        creatorValue);
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "creator type \"" << creatorType <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_rights& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_rights" <<
+      endl;
+  }
+
+  string rightsValue = elt->getValue ();
+
+  convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
+  
+  fMsrScore->getIdentification () ->
+    addRights (
+      elt->getInputLineNumber (),
+      rightsValue);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_software" <<
+      endl;
+  }
+
+  string softwareValue = elt->getValue ();
+
+  // convert clef to upper case for analysis
+  string softwareValueToLower = softwareValue;
+  
+  transform (
+    softwareValueToLower.begin (),
+    softwareValueToLower.end (),
+    softwareValueToLower.begin (),
+    ::tolower);
+
+  if (softwareValueToLower.find ("cubase") != string::npos) {
+    fLogOutputStream <<
+      "<software /> contains 'Cubase'" <<
+      endl;
+
+    // the '-cubase' option is set by default,
+    // unless '-noCubase' is explicitly set
+    
+    if (! gMusicXMLOptions->fNoCubase) {
+      // set the '-cubase' option
+      S_optionsElement
+        cubaseOptionsElement =
+          gXml2lyOptions->
+            getOptionsHandlerUplink ()->
+              fetchOptionsElementFromMap ("cubase");
+          
+      if (
+        // combined items item?
+        S_optionsCombinedItemsItem
+          combinedItemsItem =
+            dynamic_cast<optionsCombinedItemsItem*>(&(*cubaseOptionsElement))
+        ) {
+        // handle it at once
+        fLogOutputStream <<
+          "Setting '-cubase' option" <<
+          endl;
+          
+        combinedItemsItem->
+          setCombinedItemsVariablesValue (true);
+      }
+
+      gMusicXMLOptions->fCubase = true;
+    }
+  }
+
+  fMsrScore->getIdentification () ->
+    addSoftware (
+      elt->getInputLineNumber (),
+      softwareValue);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_encoding_date& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_encoding_date" <<
+      endl;
+  }
+
+  fMsrScore->getIdentification () ->
+    setEncodingDate (
+      elt->getInputLineNumber (),
+      elt->getValue ());
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_miscellaneous_field& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_miscellaneous_field" <<
+      endl;
+  }
+
+  string miscellaneousFielValue = elt->getValue ();
+  
+  convertHTMLEntitiesToPlainCharacters (
+    miscellaneousFielValue);
+
+  fMsrScore->getIdentification () ->
+    setMiscellaneousField (
+      elt->getInputLineNumber (),
+      miscellaneousFielValue);
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_millimeters& elt )
+{ 
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_millimeters" <<
+      endl;
+  }
+
+  fCurrentMillimeters = (float)(*elt);
+  
+  fMsrScore->getPageGeometry ()->
+    setMillimeters (fCurrentMillimeters);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_tenths& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_tenths" <<
+      endl;
+  }
+
+  fCurrentTenths = (int)(*elt);
+
+  fMsrScore->getPageGeometry ()->
+    setTenths (fCurrentTenths);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_scaling" <<
+      endl;
+  }
+
+  if (gTraceOptions->fTraceGeometry) {
+    fLogOutputStream <<
+      "There are " << fCurrentTenths <<
+      " tenths for " <<  fCurrentMillimeters <<
+      " millimeters, hence the global staff size is " <<
+      fMsrScore->getPageGeometry ()->globalStaffSize () <<
+      endl;
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_margins& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_margins" <<
+      endl;
+  }
+
+  int systemDistance = (int)(*elt);
+  
+  fMsrScore->getPageGeometry ()->
+    setBetweenSystemSpace (
+      systemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_distance& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_distance" <<
+      endl;
+  }
+
+  int systemDistanceTenths = (int)(*elt);
+  
+  fMsrScore->getPageGeometry ()->
+    setBetweenSystemSpace (
+      systemDistanceTenths * fCurrentMillimeters / fCurrentTenths / 10);  
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_system_distance& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_top_system_distance" <<
+      endl;
+  }
+
+  int topSystemDistanceTenths = (int)(*elt);
+  
+  fMsrScore->getPageGeometry ()->
+    setPageTopSpace (
+      topSystemDistanceTenths * fCurrentMillimeters / fCurrentTenths / 10);  
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_system_dividers& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_dividers" <<
+      endl;
+  }
+
+  int topSystemDistance = (int)(*elt);
+  
+  fMsrScore->getPageGeometry ()->
+    setPageTopSpace (
+      topSystemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_layout& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_layout" <<
+      endl;
+  }
+
+  fOnGoingPageLayout = true;
+}
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_page_layout& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_page_layout" <<
+      endl;
+  }
+
+  fOnGoingPageLayout = false;
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_height& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_height" <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    int pageHeight = (int)(*elt);
+    
+    //fLogOutputStream << "--> pageHeight = " << pageHeight << endl;
+    fMsrScore->getPageGeometry ()->
+      setPaperHeight (
+        pageHeight * fCurrentMillimeters / fCurrentTenths / 10);  
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_page_width& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_page_width" <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    int pageWidth = (int)(*elt);
+    
+    //fLogOutputStream << "--> pageWidth = " << pageWidth << endl;
+    fMsrScore->getPageGeometry ()->
+      setPaperWidth (
+        pageWidth * fCurrentMillimeters / fCurrentTenths / 10);  
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_left_margin& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_left_margin" <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    int leftMargin = (int)(*elt);
+    
+    //fLogOutputStream << "--> leftMargin = " << leftMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setLeftMargin (
+        leftMargin * fCurrentMillimeters / fCurrentTenths / 10);  
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_right_margin& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_right_margin" <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    int rightMargin = (int)(*elt);
+    
+    //fLogOutputStream << "--> rightMargin = " << rightMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setRightMargin (
+        rightMargin * fCurrentMillimeters / fCurrentTenths / 10);  
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_top_margin& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_top_margin" <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    int topMargin = (int)(*elt);
+    
+    //fLogOutputStream << "--> topMargin = " << topMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setTopMargin (
+        topMargin * fCurrentMillimeters / fCurrentTenths / 10);  
+  }
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_bottom_margin& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_bottom_margin" <<
+      endl;
+  }
+
+  if (fOnGoingPageLayout) {
+    int bottomMargin = (int)(*elt);
+    
+    //fLogOutputStream << "--> bottomMargin = " << bottomMargin << endl;
+    fMsrScore->getPageGeometry ()->
+      setBottomMargin (
+        bottomMargin * fCurrentMillimeters / fCurrentTenths / 10);  
+  }
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit& elt )
+{
+/*
+  <credit page="1">
+    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1124" default-y="1345" font-size="12" font-weight="bold" justify="right" valign="top">Arr. Y. Nagai , K. Kobatake</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="602" default-y="73" font-size="9" halign="center" valign="bottom">Transcription donated to the public domain, 2005 by Tom Potter</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="129" default-y="244" font-size="11" valign="top">Source: "Japanese Popular Music: a collection of the popular music of Japan rendered in to the 
+staff notation", by Y. Nagai and K. Kobatake, 2nd ed., Osaka, S. Miki &amp; Co., 1892, pp. 96-97.
+
+Transcribed into Finale music notation by Tom Potter, 2005.  See http://www.daisyfield.com/music/
+Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.com/</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="607" default-y="1395" font-size="24" font-weight="bold" halign="center" valign="top">Echigo-Jishi</credit-words>
+  </credit>
+*/
+
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_credit" <<
+      endl;
+  }
+
+  int creditPageNumber =
+    elt->getAttributeIntValue ("page", 0);
+  
+  fCurrentCredit =
+    msrCredit::create (
+      elt->getInputLineNumber (),
+      creditPageNumber);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_credit_words" <<
+      endl;
+  }
+
+  string creditWordsContents =
+    elt->getValue ();
+  
+  string creditWordsFontFamily =
+    elt->getAttributeValue ("font-family");
+
+  float creditWordsFontSize =
+    elt->getAttributeFloatValue ("font-size", 0.0);
+
+  string creditWordsFontWeight =
+    elt->getAttributeValue ("font-weight"); // JMI etc
+
+  string creditWordsFontJustify =
+    elt->getAttributeValue ("justify");
+
+  string creditWordsFontHAlign =
+    elt->getAttributeValue ("halign");
+
+  string creditWordsFontVAlign =
+    elt->getAttributeValue ("valign");
+
+  string creditWordsFontXMLLanguage =
+    elt->getAttributeValue ("xml:lang");
+
+  // create the credit words
+  S_msrCreditWords
+    creditWords =
+      msrCreditWords::create (
+        elt->getInputLineNumber (),
+        creditWordsContents,
+        creditWordsFontFamily,
+        creditWordsFontSize,
+        creditWordsFontWeight,
+        creditWordsFontJustify,
+        creditWordsFontHAlign,
+        creditWordsFontVAlign,
+        creditWordsFontXMLLanguage);
+
+  // append it to the current credit
+  fCurrentCredit->
+    appendCreditWordsToCredit (
+      creditWords);
+}
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_credit& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_credit" <<
+      endl;
+  }
+
+  fMsrScore->
+    appendCreditToScore (fCurrentCredit);
+  
+  fCurrentCredit = nullptr;
 }
 
 //________________________________________________________________________

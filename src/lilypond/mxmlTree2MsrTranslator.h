@@ -22,48 +22,10 @@ namespace MusicXML2
 //________________________________________________________________________
 class mxmlTree2MsrTranslator : 
 
-  public visitor<S_processing_instruction>,
-
   // score partwise
 
   public visitor<S_score_partwise>,
 
-  // rights
-  
-  public visitor<S_work_number>,
-  public visitor<S_work_title>,
-  public visitor<S_movement_number>,
-  public visitor<S_movement_title>,
-  public visitor<S_creator>,
-  public visitor<S_rights>,
-  public visitor<S_software>,
-  public visitor<S_encoding_date>,
-  public visitor<S_miscellaneous_field>,
-  
-  // geometry
-  
-  public visitor<S_millimeters>,
-  public visitor<S_tenths>,
-  public visitor<S_scaling>,
- 
-  public visitor<S_system_distance>,
-  public visitor<S_top_system_distance>,
-  
-  // layout
-  
-  public visitor<S_page_layout>,
-  public visitor<S_page_height>,
-  public visitor<S_page_width>,
-  public visitor<S_left_margin>,
-  public visitor<S_right_margin>,
-  public visitor<S_top_margin>,
-  public visitor<S_bottom_margin>,
-
-  // credits
-  
-  public visitor<S_credit>,
-  public visitor<S_credit_words>,
-  
   // parts
     
   public visitor<S_part>,
@@ -217,11 +179,6 @@ class mxmlTree2MsrTranslator :
   public visitor<S_measure>,
   public visitor<S_print>,
   public visitor<S_system_layout>,
-  /* JMI
-  public visitor<S_part_name_display>,
-  public visitor<S_part_abbreviation_display>,
-  public visitor<S_display_text>,
-  */
   public visitor<S_measure_numbering>,
   
   // ???
@@ -474,55 +431,6 @@ class mxmlTree2MsrTranslator :
         const Sxmlelement& mxmlTree);
 
   protected:
-
-    virtual void visitStart ( S_processing_instruction& elt);
-    
-    // score partwise
-    // ------------------------------------------------------
-  
-    virtual void visitEnd   ( S_score_partwise& elt);
-
-    // rights
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_work_number& elt);
-    virtual void visitStart ( S_work_title& elt);
-    virtual void visitStart ( S_movement_number& elt);
-    virtual void visitStart ( S_movement_title& elt);
-    virtual void visitStart ( S_creator& elt);
-    virtual void visitStart ( S_rights& elt);
-    virtual void visitStart ( S_software& elt);
-    virtual void visitStart ( S_encoding_date& elt);
-    virtual void visitStart ( S_miscellaneous_field& elt);
-
-    // geometry
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_millimeters& elt);
-    virtual void visitStart ( S_tenths& elt);
-    virtual void visitEnd   ( S_scaling& elt);
-
-    virtual void visitStart ( S_system_distance& elt);
-    virtual void visitStart ( S_top_system_distance& elt);
-
-    // layout
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_page_layout& elt);
-    virtual void visitEnd   ( S_page_layout& elt);
-    virtual void visitStart ( S_page_height& elt);
-    virtual void visitStart ( S_page_width& elt);
-    virtual void visitStart ( S_left_margin& elt);
-    virtual void visitStart ( S_right_margin& elt);
-    virtual void visitStart ( S_top_margin& elt);
-    virtual void visitStart ( S_bottom_margin& elt);
-    
-    // credits
-    // ------------------------------------------------------
-
-    virtual void visitStart ( S_credit& elt);
-    virtual void visitEnd   ( S_credit& elt);
-    virtual void visitStart ( S_credit_words& elt);
         
     // parts
     // ------------------------------------------------------
@@ -739,13 +647,6 @@ class mxmlTree2MsrTranslator :
 
     virtual void visitStart ( S_print& elt);
     virtual void visitStart ( S_system_layout& elt);
-    /* JMI
-    virtual void visitStart ( S_part_name_display& elt);
-    virtual void visitEnd   ( S_part_name_display& elt);
-    virtual void visitStart ( S_part_abbreviation_display& elt);
-    virtual void visitEnd   ( S_part_abbreviation_display& elt);
-    virtual void visitStart ( S_display_text& elt);
-    */
     virtual void visitStart ( S_measure_numbering& elt);
     
     virtual void visitStart ( S_barline& elt);
@@ -1013,29 +914,12 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentDivisionsPerQuarterNote;
     S_msrDivisions            fCurrentDivisions;
-    
-    // geometry handling
-    // ------------------------------------------------------
-    
-    float                     fCurrentMillimeters;
-    int                       fCurrentTenths;
-    bool                      fOnGoingPageLayout;
 
     // print
     // ------------------------------------------------------
   
     string                    fCurrentDisplayText;             
-    
-    // credits handling
-    // ------------------------------------------------------
-    
-    S_msrCredit               fCurrentCredit;
-    
-    // part group handling
-    // ------------------------------------------------------
-
-    // nothing, this has been done in the skeleton builder (pass 2a)
-    
+        
     // part handling
     // ------------------------------------------------------
         

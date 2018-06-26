@@ -53,17 +53,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // the MSR score we're populating
   fMsrScore = scoreSkeleton;
 
-  // geometry handling
-  fCurrentMillimeters = -1;
-  fCurrentTenths      = -1;
-
   // divisions
   fCurrentDivisionsPerQuarterNote = 1;
-  
-  // geometry handling
-  fOnGoingPageLayout = false;
-
-  // part group handling
  
   // part handling
 
@@ -649,611 +640,6 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   return voice;
 }
 
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_processing_instruction" <<
-      endl;
-  }
-
-  fLogOutputStream <<
-    "S_processing_instruction -------------->" <<
-    endl;
-//  elt->print (fLogOutputStream);
-  fLogOutputStream <<
-    endl;
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitEnd ( S_score_partwise& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_score_partwise" <<
-      endl;
-  }
-
-  S_msrIdentification
-    identification =
-      fMsrScore->getIdentification ();
-
-  string inputSourceName;
-  
-  if (
-    ! identification->getWorkTitle ()
-      &&
-    gMusicXMLOptions->fUseFilenameAsWorkTitle) {
-    inputSourceName = gXml2lyOptions->fInputSourceName;
-
-    if (inputSourceName == "-") {
-      inputSourceName = "Standard input";
-    }
-  }
-  
-  identification ->
-    setWorkTitle (
-      elt->getInputLineNumber (),
-      inputSourceName);
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_work_number& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_work_number" <<
-      endl;
-  }
-
-  fMsrScore->getIdentification () ->
-    setWorkNumber (
-      elt->getInputLineNumber (),
-      elt->getValue ());
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_work_title& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_work_title" <<
-      endl;
-  }
-
-  string workTitle = elt->getValue ();
-
-  fMsrScore->getIdentification () ->
-    setWorkTitle (
-      elt->getInputLineNumber (),
-      workTitle);
-}
-  
-void mxmlTree2MsrTranslator::visitStart ( S_movement_number& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_movement_number" <<
-      endl;
-  }
-
-  fMsrScore->getIdentification () ->
-    setMovementNumber (
-      elt->getInputLineNumber (),
-      elt->getValue ());
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_movement_title& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_movement_title" <<
-      endl;
-  }
-
-  string movementTitle = elt->getValue ();
-
-  // remove HTML entities if any // JMI option for that?
-  convertHTMLEntitiesToPlainCharacters (
-    movementTitle);
-    
-  fMsrScore->getIdentification () ->
-    setMovementTitle (
-      elt->getInputLineNumber (),
-      movementTitle);
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_creator& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_creator" <<
-      endl;
-  }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string creatorType = elt->getAttributeValue ("type");
-  string creatorValue = elt->getValue ();
-
-  if      (creatorType == "composer") {
-    fMsrScore->getIdentification () ->
-      addComposer (
-        inputLineNumber,
-        creatorValue);
-  }
-  
-  else if (creatorType == "arranger") {
-    fMsrScore->getIdentification () ->
-      addArranger (
-        inputLineNumber,
-        creatorValue);
-  }
-  
-  else if (creatorType == "lyricist") {
-    fMsrScore->getIdentification () ->
-      addLyricist (
-        inputLineNumber,
-        creatorValue);
-  }
-  
-  else if (creatorType == "poet") {
-    fMsrScore->getIdentification () ->
-      addPoet (
-        inputLineNumber,
-        elt->getValue ());
-  }
-  
-  else if (creatorType == "translator") {
-    fMsrScore->getIdentification () ->
-      addTranslator (
-        inputLineNumber,
-        creatorValue);
-  }
-  
-  else {
-    stringstream s;
-
-    s <<
-      "creator type \"" << creatorType <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_rights& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_rights" <<
-      endl;
-  }
-
-  string rightsValue = elt->getValue ();
-
-  convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
-  
-  fMsrScore->getIdentification () ->
-    addRights (
-      elt->getInputLineNumber (),
-      rightsValue);
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_software& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_software" <<
-      endl;
-  }
-
-  string softwareValue = elt->getValue ();
-
-  // convert clef to upper case for analysis
-  string softwareValueToLower = softwareValue;
-  
-  transform (
-    softwareValueToLower.begin (),
-    softwareValueToLower.end (),
-    softwareValueToLower.begin (),
-    ::tolower);
-
-  if (softwareValueToLower.find ("cubase") != string::npos) {
-    fLogOutputStream <<
-      "<software /> contains 'Cubase'" <<
-      endl;
-
-    // the '-cubase' option is set by default,
-    // unless '-noCubase' is explicitly set
-    
-    if (! gMusicXMLOptions->fNoCubase) {
-      // set the '-cubase' option
-      S_optionsElement
-        cubaseOptionsElement =
-          gXml2lyOptions->
-            getOptionsHandlerUplink ()->
-              fetchOptionsElementFromMap ("cubase");
-          
-      if (
-        // combined items item?
-        S_optionsCombinedItemsItem
-          combinedItemsItem =
-            dynamic_cast<optionsCombinedItemsItem*>(&(*cubaseOptionsElement))
-        ) {
-        // handle it at once
-        fLogOutputStream <<
-          "Setting '-cubase' option" <<
-          endl;
-          
-        combinedItemsItem->
-          setCombinedItemsVariablesValue (true);
-      }
-
-      gMusicXMLOptions->fCubase = true;
-    }
-  }
-
-  fMsrScore->getIdentification () ->
-    addSoftware (
-      elt->getInputLineNumber (),
-      softwareValue);
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_encoding_date& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_encoding_date" <<
-      endl;
-  }
-
-  fMsrScore->getIdentification () ->
-    setEncodingDate (
-      elt->getInputLineNumber (),
-      elt->getValue ());
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_miscellaneous_field& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_miscellaneous_field" <<
-      endl;
-  }
-
-  string miscellaneousFielValue = elt->getValue ();
-  
-  convertHTMLEntitiesToPlainCharacters (
-    miscellaneousFielValue);
-
-  fMsrScore->getIdentification () ->
-    setMiscellaneousField (
-      elt->getInputLineNumber (),
-      miscellaneousFielValue);
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_millimeters& elt )
-{ 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_millimeters" <<
-      endl;
-  }
-
-  fCurrentMillimeters = (float)(*elt);
-  
-  fMsrScore->getPageGeometry ()->
-    setMillimeters (fCurrentMillimeters);
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_tenths& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_tenths" <<
-      endl;
-  }
-
-  fCurrentTenths = (int)(*elt);
-
-  fMsrScore->getPageGeometry ()->
-    setTenths (fCurrentTenths);
-}
-
-void mxmlTree2MsrTranslator::visitEnd ( S_scaling& elt)
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_scaling" <<
-      endl;
-  }
-
-  if (gTraceOptions->fTraceGeometry) {
-    fLogOutputStream <<
-      "There are " << fCurrentTenths <<
-      " tenths for " <<  fCurrentMillimeters <<
-      " millimeters, hence the global staff size is " <<
-      fMsrScore->getPageGeometry ()->globalStaffSize () <<
-      endl;
-  }
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_system_distance& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_system_distance" <<
-      endl;
-  }
-
-  int systemDistance = (int)(*elt);
-  
-//  fLogOutputStream << "--> systemDistance = " << systemDistance << endl;
-  fMsrScore->getPageGeometry ()->
-    setBetweenSystemSpace (
-      systemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_top_system_distance" <<
-      endl;
-  }
-
-  int topSystemDistance = (int)(*elt);
-  
-//  fLogOutputStream << "--> fTopSystemDistance = " << topSystemDistance << endl;
-    fMsrScore->getPageGeometry ()->
-    setPageTopSpace (
-      topSystemDistance * fCurrentMillimeters / fCurrentTenths / 10);  
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_page_layout& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_page_layout" <<
-      endl;
-  }
-
-  fOnGoingPageLayout = true;
-}
-void mxmlTree2MsrTranslator::visitEnd ( S_page_layout& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_page_layout" <<
-      endl;
-  }
-
-  fOnGoingPageLayout = false;
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_page_height& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_page_height" <<
-      endl;
-  }
-
-  if (fOnGoingPageLayout) {
-    int pageHeight = (int)(*elt);
-    
-    //fLogOutputStream << "--> pageHeight = " << pageHeight << endl;
-    fMsrScore->getPageGeometry ()->
-      setPaperHeight (
-        pageHeight * fCurrentMillimeters / fCurrentTenths / 10);  
-  }
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_page_width& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_page_width" <<
-      endl;
-  }
-
-  if (fOnGoingPageLayout) {
-    int pageWidth = (int)(*elt);
-    
-    //fLogOutputStream << "--> pageWidth = " << pageWidth << endl;
-    fMsrScore->getPageGeometry ()->
-      setPaperWidth (
-        pageWidth * fCurrentMillimeters / fCurrentTenths / 10);  
-  }
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_left_margin& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_left_margin" <<
-      endl;
-  }
-
-  if (fOnGoingPageLayout) {
-    int leftMargin = (int)(*elt);
-    
-    //fLogOutputStream << "--> leftMargin = " << leftMargin << endl;
-    fMsrScore->getPageGeometry ()->
-      setLeftMargin (
-        leftMargin * fCurrentMillimeters / fCurrentTenths / 10);  
-  }
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_right_margin& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_right_margin" <<
-      endl;
-  }
-
-  if (fOnGoingPageLayout) {
-    int rightMargin = (int)(*elt);
-    
-    //fLogOutputStream << "--> rightMargin = " << rightMargin << endl;
-    fMsrScore->getPageGeometry ()->
-      setRightMargin (
-        rightMargin * fCurrentMillimeters / fCurrentTenths / 10);  
-  }
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_top_margin& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_top_margin" <<
-      endl;
-  }
-
-  if (fOnGoingPageLayout) {
-    int topMargin = (int)(*elt);
-    
-    //fLogOutputStream << "--> topMargin = " << topMargin << endl;
-    fMsrScore->getPageGeometry ()->
-      setTopMargin (
-        topMargin * fCurrentMillimeters / fCurrentTenths / 10);  
-  }
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_bottom_margin" <<
-      endl;
-  }
-
-  if (fOnGoingPageLayout) {
-    int bottomMargin = (int)(*elt);
-    
-    //fLogOutputStream << "--> bottomMargin = " << bottomMargin << endl;
-    fMsrScore->getPageGeometry ()->
-      setBottomMargin (
-        bottomMargin * fCurrentMillimeters / fCurrentTenths / 10);  
-  }
-}
-
-//________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_credit& elt )
-{
-/*
-  <credit page="1">
-    <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
-  </credit>
-  <credit page="1">
-    <credit-words default-x="1124" default-y="1345" font-size="12" font-weight="bold" justify="right" valign="top">Arr. Y. Nagai , K. Kobatake</credit-words>
-  </credit>
-  <credit page="1">
-    <credit-words default-x="602" default-y="73" font-size="9" halign="center" valign="bottom">Transcription donated to the public domain, 2005 by Tom Potter</credit-words>
-  </credit>
-  <credit page="1">
-    <credit-words default-x="129" default-y="244" font-size="11" valign="top">Source: "Japanese Popular Music: a collection of the popular music of Japan rendered in to the 
-staff notation", by Y. Nagai and K. Kobatake, 2nd ed., Osaka, S. Miki &amp; Co., 1892, pp. 96-97.
-
-Transcribed into Finale music notation by Tom Potter, 2005.  See http://www.daisyfield.com/music/
-Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.com/</credit-words>
-  </credit>
-  <credit page="1">
-    <credit-words default-x="607" default-y="1395" font-size="24" font-weight="bold" halign="center" valign="top">Echigo-Jishi</credit-words>
-  </credit>
-*/
-
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_credit" <<
-      endl;
-  }
-
-  int creditPageNumber =
-    elt->getAttributeIntValue ("page", 0);
-  
-  fCurrentCredit =
-    msrCredit::create (
-      elt->getInputLineNumber (),
-      creditPageNumber);
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_credit_words& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_credit_words" <<
-      endl;
-  }
-
-  string creditWordsContents =
-    elt->getValue ();
-  
-  string creditWordsFontFamily =
-    elt->getAttributeValue ("font-family");
-
-  float creditWordsFontSize =
-    elt->getAttributeFloatValue ("font-size", 0.0);
-
-  string creditWordsFontWeight =
-    elt->getAttributeValue ("font-weight"); // JMI etc
-
-  string creditWordsFontJustify =
-    elt->getAttributeValue ("justify");
-
-  string creditWordsFontHAlign =
-    elt->getAttributeValue ("halign");
-
-  string creditWordsFontVAlign =
-    elt->getAttributeValue ("valign");
-
-  string creditWordsFontXMLLanguage =
-    elt->getAttributeValue ("xml:lang");
-
-  // create the credit words
-  S_msrCreditWords
-    creditWords =
-      msrCreditWords::create (
-        elt->getInputLineNumber (),
-        creditWordsContents,
-        creditWordsFontFamily,
-        creditWordsFontSize,
-        creditWordsFontWeight,
-        creditWordsFontJustify,
-        creditWordsFontHAlign,
-        creditWordsFontVAlign,
-        creditWordsFontXMLLanguage);
-
-  // append it to the current credit
-  fCurrentCredit->
-    appendCreditWordsToCredit (
-      creditWords);
-}
-
-void mxmlTree2MsrTranslator::visitEnd ( S_credit& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_credit" <<
-      endl;
-  }
-
-  fMsrScore->
-    appendCreditToScore (fCurrentCredit);
-  
-  fCurrentCredit = nullptr;
-}
-
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_part& elt)
 {
@@ -1423,7 +809,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 
     // let's recover from this error
 
-    /* JMI
+    / * JMI
     // create an extra barline
     S_msrBarline
       barline =
@@ -1980,26 +1366,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_mode& elt )
   }
 }
 
-/*
-        <key>
-          <key-step>C</key-step>
-          <key-alter>-2</key-alter>
-          <key-step>G</key-step>
-          <key-alter>2</key-alter>
-          <key-step>D</key-step>
-          <key-alter>-1</key-alter>
-          <key-step>B</key-step>
-          <key-alter>1</key-alter>
-          <key-step>F</key-step>
-          <key-alter>0</key-alter>
-          <key-octave number="1">2</key-octave>
-          <key-octave number="2">3</key-octave>
-          <key-octave number="3">4</key-octave>
-          <key-octave number="4">5</key-octave>
-          <key-octave number="5">6</key-octave>
-        </key>
-*/
-
 void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -2379,42 +1745,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
       "--> Start visiting S_time" <<
       endl;
   }
-
-  /* JMI
-  The time-symbol entity indicates how to display a time
-  signature.
-  
-  The normal value is the usual fractional display,
-  and is the implied symbol type if none is specified.
-  
-  Other options are the common and cut time symbols,
-  
-  as well as a
-  single number with an implied denominator.
-  
-  The note symbol indicates that the beat-type should be represented with
-  the corresponding downstem note rather than a number.
-  
-  The dotted-note symbol indicates that the beat-type should be
-  represented with a dotted downstem note that corresponds to
-  three times the beat-type value, and a numerator that is
-  one third the beats value.
-
-
-Common time, also known as  time, is a meter with four quarter-note beats per measure. It’s often symbolized by the common-time symbol: C.
-
-Cut time, also known as  or alla breve, is a meter with two half-note beats per measure. It’s often symbolized by the cut-time symbol: C barre
-  
-        <time>
-          <beats>3</beats>
-          <beat-type>4</beat-type>
-          <interchangeable>
-            <time-relation>parentheses</time-relation>
-            <beats>6</beats>
-            <beat-type>8</beat-type>
-          </interchangeable>
-        </time>
-  */
   
   fCurrentTimeStaffNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -2635,8 +1965,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
       "--> Start visiting S_time_relation" <<
       endl;
   }
-
- //             <time-relation>parentheses</time-relation>
 
   string timeRelation = elt->getValue ();
   
@@ -3153,26 +2481,6 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       endl;
   }
 
-/*
-      <direction>
-        <direction-type>
-          <octave-shift default-y="29" size="8" type="down"/>
-        </direction-type>
-        <offset>-1</offset>
-        <staff>1</staff>
-      </direction>
-
-      <direction>
-        <direction-type>
-          <octave-shift size="8" type="stop"/>
-        </direction-type>
-        <offset>-2</offset>
-        <staff>1</staff>
-      </direction>
-
-      <octave-shift type="up"/>
-*/
-  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -3369,12 +2677,6 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   // font size
 
-/*
-The
-  font-size can be one of the CSS sizes (xx-small, x-small,
-  small, medium, large, x-large, xx-large) or a numeric
-  point size.
-*/
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
   msrFontSize::msrFontSizeKind
@@ -3702,19 +3004,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
   }
 
   string beatUnitString = elt->getValue();
-
-  /*
-      <direction>
-        <direction-type>
-          <metronome>
-            <beat-unit>quarter</beat-unit>
-            <beat-unit-dot/>
-            <beat-unit>half</beat-unit>
-            <beat-unit-dot/>
-          </metronome>
-        </direction-type>
-      </direction>
-  */
    
   // the type contains a display duration
   msrDurationKind
@@ -4036,52 +3325,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-/*
-      <note>
-        <pitch>
-          <step>B</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>20</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <time-modification>
-          <actual-notes>3</actual-notes>
-          <normal-notes>2</normal-notes>
-        </time-modification>
-        <notations>
-          <tuplet number="1" type="start" />
-        </notations>
-      </note>
-
-            <metronome-note>
-              <metronome-type>quarter</metronome-type>
-              <metronome-tuplet bracket="yes" show-number="actual" type="start">
-                <actual-notes>3</actual-notes>
-                <normal-notes>2</normal-notes>
-                <normal-type>eighth</normal-type>
-              </metronome-tuplet>
-            </metronome-note>
-            <metronome-note>
-              <metronome-type>eighth</metronome-type>
-              <metronome-tuplet type="stop">
-                <actual-notes>3</actual-notes>
-                <normal-notes>2</normal-notes>
-                <normal-type>eighth</normal-type>
-              </metronome-tuplet>
-            </metronome-note>
-
-
-<!ELEMENT metronome-tuplet
-  (actual-notes, normal-notes, 
-   (normal-type, normal-dot*)?)>
-<!ATTLIST metronome-tuplet
-    type %start-stop; #REQUIRED
-    bracket %yes-no; #IMPLIED
-    show-number (actual | both | none) #IMPLIED
->
-*/
-
   // number
 
   fCurrentTupletNumber = elt->getAttributeIntValue ("number", 0);
@@ -4290,64 +3533,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       endl;
   }
 
-/*
-     <direction placement="above">
-        <direction-type>
-          <metronome default-y="20" font-family="EngraverTextT" font-size="12" halign="left" relative-x="-32">
-            <beat-unit>eighth</beat-unit>
-            <per-minute>132-144</per-minute>
-          </metronome>
-        </direction-type>
-        <sound tempo="69"/>
-      </direction>
-
-      <direction>
-        <direction-type>
-          <words>Adagio</words>
-        </direction-type>
-        <direction-type>
-          <metronome>
-            <beat-unit>long</beat-unit>
-            <per-minute>100</per-minute>
-          </metronome>
-        </direction-type>
-      </direction>
-
-http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
-
-     <direction placement="above">
-        <direction-type>
-          <metronome default-y="30" halign="left" relative-x="26">
-            <metronome-note>
-              <metronome-type>eighth</metronome-type>
-              <metronome-beam number="1">begin</metronome-beam>
-            </metronome-note>
-            <metronome-note>
-              <metronome-type>eighth</metronome-type>
-              <metronome-beam number="1">end</metronome-beam>
-            </metronome-note>
-            <metronome-relation>equals</metronome-relation>
-            <metronome-note>
-              <metronome-type>quarter</metronome-type>
-              <metronome-tuplet bracket="yes" show-number="actual" type="start">
-                <actual-notes>3</actual-notes>
-                <normal-notes>2</normal-notes>
-                <normal-type>eighth</normal-type>
-              </metronome-tuplet>
-            </metronome-note>
-            <metronome-note>
-              <metronome-type>eighth</metronome-type>
-              <metronome-tuplet type="stop">
-                <actual-notes>3</actual-notes>
-                <normal-notes>2</normal-notes>
-                <normal-type>eighth</normal-type>
-              </metronome-tuplet>
-            </metronome-note>
-          </metronome>
-        </direction-type>
-      </direction>
-*/
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -4492,22 +3677,6 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
       endl;
   }
 
-  // REMOVE JMI
-
-  /*
-        <note>
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>3</voice>
-        <type>eighth</type>
-        <stem>down</stem>
-        <staff>2</staff>
-        <beam number="1">end</beam>
-      </note>
-*/
   fCurrentStaffNumber = int(*elt);
 
   int inputLineNumber =
@@ -4781,8 +3950,6 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_lines& elt )
   }
 
   fCurrentStaffLinesNumber = (int)(*elt);
-
-// JMI           <staff-lines>0</staff-lines> cache la portee
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_staff_tuning& elt )
@@ -5008,21 +4175,6 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
       endl;
   }
 
-  /*
-        <note>
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>3</voice>
-        <type>eighth</type>
-        <stem>down</stem>
-        <staff>2</staff>
-        <beam number="1">end</beam>
-      </note>
-*/
-
   fCurrentVoiceNumber = int(*elt);
   
   int inputLineNumber =
@@ -5189,49 +4341,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
       "--> End visiting S_forward" <<
       endl;
   }
-
-/* JMI
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-*/
-
-  /* Don't do anything JMI
-
-  // change staff
-  fCurrentStaffNumber = fCurrentForwardStaffNumber;
-
-  S_msrStaff
-    staff =
-      fetchStaffFromCurrentPart ( // already done JMI
-        inputLineNumber, fCurrentStaffNumber);
-
-  // change voice
-  fCurrentVoiceNumber = fCurrentForwardVoiceNumber; // DANGER JMI
-
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  if (gTraceOptions->fTraceMeasures) {
-    fLogOutputStream <<
-      "Handling 'forward >>> " <<
-      fCurrentForwardDurationDivisions <<
-      "', thus switching to voice \"" <<
-      currentVoice->getVoiceName () <<
-      "\" in staff \"" << staff->getStaffName () << "\"" <<
-      endl;
-  }
-  
-  fCurrentPart->
-    handleForward (
-      inputLineNumber,
-      fCurrentForwardDurationDivisions,
-      fCurrentDivisionsPerQuarterNote,
-      currentVoice);
-  */
 
   fOnGoingForward = false;
 }
@@ -6872,98 +5981,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
       "--> Start visiting S_system_layout" <<
       endl;
   }
-}
 
 /* JMI
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_part_name_display& elt ) 
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_part_name_display" <<
-      endl;
-  }
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitEnd ( S_part_name_display& elt ) 
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_part_name_display" <<
-      endl;
-  }
-
-  S_msrPartNameDisplay
-    partNameDisplay =
-      msrPartNameDisplay::create (
-        elt->getInputLineNumber (),
-        fCurrentDisplayText);
-
-  fCurrentPart->
-    appendPartNameDisplayToPart (partNameDisplay);
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_part_abbreviation_display& elt ) 
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_part_abbreviation_display" <<
-      endl;
-  }
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitEnd ( S_part_abbreviation_display& elt ) 
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_part_abbreviation_display" <<
-      endl;
-  }
-
-  S_msrPartAbbreviationDisplay
-    partAbbreviationDisplay =
-      msrPartAbbreviationDisplay::create (
-        elt->getInputLineNumber (),
-        fCurrentDisplayText);
-
-  fCurrentPart->
-    appendPartAbbreviationDisplayToPart (partAbbreviationDisplay);
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_display_text& elt ) 
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_display_text" <<
-      endl;
-  }
-
-  fCurrentDisplayText = elt->getValue ();
-}
-*/
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt ) 
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_measure_numbering" <<
-      endl;
-  }
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
   string measureNumberingString = elt->getValue ();
 
-  /* JMI
+  /*  JMI
   fCurrentBarlineStyleKind =
     msrBarline::k_NoStyle; // default value
-*/
+* /
 
   if      (measureNumberingString == "none") {
  //   fCurrentBarlineStyleKind =
@@ -6984,6 +6012,18 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt )
       __FILE__, __LINE__,
       "measure-numbering \"" + measureNumberingString + "\" is unknown");
   }
+*/
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_measure_numbering" <<
+      endl;
+  }
+
+  // JMI
 }
 
 //______________________________________________________________________________
@@ -7240,43 +6280,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
       "--> Start visiting S_pedal" <<
       endl;
   }
-
-  /* start-stop-change-continue */
-  /*
-  Piano pedal marks. The line attribute is yes if pedal
-  lines are used. The sign attribute is yes if Ped and *
-  signs are used. For MusicXML 2.0 compatibility, the sign
-  attribute is yes by default if the line attribute is no,
-  and is no by default if the line attribute is yes. The
-  change and continue types are used when the line attribute
-  is yes. The change type indicates a pedal lift and retake
-  indicated with an inverted V marking. The continue type
-  allows more precise formatting across system breaks and for
-  more complex pedaling lines. The alignment attributes are
-  ignored if the line attribute is yes.
--->
-<!ELEMENT pedal EMPTY>
-<!ATTLIST pedal
-    type (start | stop | continue | change) #REQUIRED
-    line %yes-no; #IMPLIED
-    sign %yes-no; #IMPLIED
-    %print-style-align; 
->
-
-    The pedal type represents piano pedal marks. The change and continue types are used when the line attribute is yes. The change type indicates a pedal lift and retake indicated with an inverted V marking. The continue type allows more precise formatting across system breaks and for more complex pedaling lines. The alignment attributes are ignored if the line attribute is yes.
-    
-    The line attribute is yes if pedal lines are used. The change and continue types are used when the line attribute is yes.
-    
-    The sign attribute is yes if Ped and signs are used. For MusicXML 2.0 compatibility, the sign attribute is yes by default if the line attribute is no, and is no by default if the line attribute is yes. 
-
-      <direction>
-        <direction-type>
-          <pedal type="start"/>
-        </direction-type>
-      </direction>
-
-
-    */
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -9682,26 +8685,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
       "--> Start visiting S_arpeggiate" <<
       endl;
   }
-
-/*
-<!--
-  The arpeggiate element indicates that this note is part of
-  an arpeggiated chord. The number attribute can be used to
-  distinguish between two simultaneous chords arpeggiated
-  separately (different numbers) or together (same number).
-  The up-down attribute is used if there is an arrow on the
-  arpeggio sign. By default, arpeggios go from the lowest to
-  highest note.
--->
-<!ELEMENT arpeggiate EMPTY>
-<!ATTLIST arpeggiate
-    number %number-level; #IMPLIED
-    direction %up-down; #IMPLIED
-    %position; 
-    %placement;
-    %color; 
->
-*/
 
   int inputLineNumber =
     elt->getInputLineNumber ();

@@ -119,9 +119,47 @@ class mxmlTree2MsrSkeletonBuilder :
 
   public visitor<S_encoding>,
 
-  // score
+  // score partwise
 
   public visitor<S_score_partwise>,
+  
+  // rights
+  
+  public visitor<S_work_number>,
+  public visitor<S_work_title>,
+  public visitor<S_movement_number>,
+  public visitor<S_movement_title>,
+  public visitor<S_creator>,
+  public visitor<S_rights>,
+  public visitor<S_software>,
+  public visitor<S_encoding_date>,
+  public visitor<S_miscellaneous_field>,
+  
+  // geometry
+  
+  public visitor<S_millimeters>,
+  public visitor<S_tenths>,
+  public visitor<S_scaling>,
+ 
+  public visitor<S_system_margins>,
+  public visitor<S_system_distance>,
+  public visitor<S_top_system_distance>,
+  public visitor<S_system_dividers>,
+  
+  // layout
+  
+  public visitor<S_page_layout>,
+  public visitor<S_page_height>,
+  public visitor<S_page_width>,
+  public visitor<S_left_margin>,
+  public visitor<S_right_margin>,
+  public visitor<S_top_margin>,
+  public visitor<S_bottom_margin>,
+
+  // credits
+  
+  public visitor<S_credit>,
+  public visitor<S_credit_words>,
   
   // parts & part groups
   
@@ -216,12 +254,56 @@ class mxmlTree2MsrSkeletonBuilder :
 
     virtual void visitStart ( S_encoding& elt);
 
-    // score
+    // score partwise
   
     virtual void visitStart ( S_score_partwise& elt);
     virtual void visitEnd   ( S_score_partwise& elt);
     
   
+    // rights
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_work_number& elt);
+    virtual void visitStart ( S_work_title& elt);
+    virtual void visitStart ( S_movement_number& elt);
+    virtual void visitStart ( S_movement_title& elt);
+    virtual void visitStart ( S_creator& elt);
+    virtual void visitStart ( S_rights& elt);
+    virtual void visitStart ( S_software& elt);
+    virtual void visitStart ( S_encoding_date& elt);
+    virtual void visitStart ( S_miscellaneous_field& elt);
+
+    // geometry
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_millimeters& elt);
+    virtual void visitStart ( S_tenths& elt);
+    virtual void visitEnd   ( S_scaling& elt);
+
+    virtual void visitStart ( S_system_margins& elt);
+    virtual void visitStart ( S_system_distance& elt);
+    virtual void visitStart ( S_top_system_distance& elt);
+    virtual void visitStart ( S_system_dividers& elt);
+
+    // layout
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_page_layout& elt);
+    virtual void visitEnd   ( S_page_layout& elt);
+    virtual void visitStart ( S_page_height& elt);
+    virtual void visitStart ( S_page_width& elt);
+    virtual void visitStart ( S_left_margin& elt);
+    virtual void visitStart ( S_right_margin& elt);
+    virtual void visitStart ( S_top_margin& elt);
+    virtual void visitStart ( S_bottom_margin& elt);
+    
+    // credits
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_credit& elt);
+    virtual void visitEnd   ( S_credit& elt);
+    virtual void visitStart ( S_credit_words& elt);
+        
     // parts & part groups
     // ------------------------------------------------------
 
@@ -314,6 +396,18 @@ class mxmlTree2MsrSkeletonBuilder :
 
     int                       fScoreNumberOfMeasures;
 
+    // geometry handling
+    // ------------------------------------------------------
+    
+    float                     fCurrentMillimeters;
+    int                       fCurrentTenths;
+    bool                      fOnGoingPageLayout;
+
+    // credits handling
+    // ------------------------------------------------------
+    
+    S_msrCredit               fCurrentCredit;
+    
     // part groups handling
     // ------------------------------------------------------
     
