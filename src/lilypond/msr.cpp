@@ -11696,95 +11696,103 @@ void msrMeasure::setFullMeasureLengthFromTime (
       endl;
   }
 
-  if (time->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
-    
-    // this measure is senza misura
-    
-    if (
-      gTraceOptions->fTraceDivisions
-        ||
-      gTraceOptions->fTraceTimes
-        ||
-      gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        " is senza misura" <<
-        endl;
-    }
-
-    fMeasureKind = kSenzaMisuraMeasureKind;
-    
-    fFullMeasureLength =
-      rational (INT_MAX, 1);
-  }
-  
-  else {
-    
-    // this measure is con misura
-    
-    rational
-      wholeNotesPerMeasure =
-        time->
-          wholeNotesPerMeasure ();
+  switch (time->getTimeSymbolKind ()) {
+    case msrTime::kTimeSymbolCommon:
+    case msrTime::kTimeSymbolCut:
+    case msrTime::kTimeSymbolNote:
+    case msrTime::kTimeSymbolDottedNote:
+    case msrTime::kTimeSymbolSingleNumber:
+    case msrTime::kTimeSymbolNone:
+      {
+        // this measure is con misura
         
-    if (
-      gTraceOptions->fTraceDivisions
-        ||
-      gTraceOptions->fTraceTimes
-        ||
-      gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "There are " <<
-        wholeNotesPerMeasure <<
-        " whole note(s) per measure in time:" <<
-        endl;
-
-      gIndenter++;
+        rational
+          wholeNotesPerMeasure =
+            time->
+              wholeNotesPerMeasure ();
+            
+        if (
+          gTraceOptions->fTraceDivisions
+            ||
+          gTraceOptions->fTraceTimes
+            ||
+          gTraceOptions->fTraceMeasures) {
+          gLogIOstream <<
+            "There are " <<
+            wholeNotesPerMeasure <<
+            " whole note(s) per measure in time:" <<
+            endl;
+    
+          gIndenter++;
+          
+          gLogIOstream <<
+            time;
+                      
+          gIndenter--;
+    
+          gLogIOstream <<
+            "in measure '" << fMeasureNumber << "'" <<
+            ", line " << fInputLineNumber <<
+            "' in voice \"" <<
+            fMeasureSegmentUplink->
+              getSegmentVoiceUplink ()->
+                getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+    
+        // set full measure length
+        fFullMeasureLength =
+          wholeNotesPerMeasure;
+    
+        if (
+          gTraceOptions->fTraceDivisions
+            ||
+          gTraceOptions->fTraceTimes
+            ||
+          gTraceOptions->fTraceMeasures) {
+          gLogIOstream <<
+            "Measure '" << fMeasureNumber <<
+            "' in voice \"" <<
+            fMeasureSegmentUplink->
+              getSegmentVoiceUplink ()->
+                getVoiceName () <<
+            "\"" <<
+            " has full measure length " <<
+            fFullMeasureLength <<
+            " whole notes" <<
+            endl;
+        }
+      }
+      break;
+          
+    case msrTime::kTimeSymbolSenzaMisura:
+        
+      // this measure is senza misura
       
-      gLogIOstream <<
-        time;
-                  
-      gIndenter--;
-
-      gLogIOstream <<
-        "in measure '" << fMeasureNumber << "'" <<
-        ", line " << fInputLineNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        endl;
-    }
-
-    // set full measure length
-    fFullMeasureLength =
-      wholeNotesPerMeasure;
-
-    if (
-      gTraceOptions->fTraceDivisions
-        ||
-      gTraceOptions->fTraceTimes
-        ||
-      gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        " has full measure length " <<
-        fFullMeasureLength <<
-        " whole notes" <<
-        endl;
-    }
-  }
+      if (
+        gTraceOptions->fTraceDivisions
+          ||
+        gTraceOptions->fTraceTimes
+          ||
+        gTraceOptions->fTraceMeasures) {
+        gLogIOstream <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" <<
+          fMeasureSegmentUplink->
+            getSegmentVoiceUplink ()->
+              getVoiceName () <<
+          "\"" <<
+          " is senza misura" <<
+          endl;
+      }
+  
+      fMeasureKind = kSenzaMisuraMeasureKind;
+      
+      fFullMeasureLength =
+        rational (INT_MAX, 1);
+      break;
+  } // switch
 }
 
 void msrMeasure::appendTransposeToMeasure (
