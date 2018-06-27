@@ -243,15 +243,8 @@ class lpsrVarValAssoc : public lpsrElement
 
   public:
 
-    // public services
+    // services
     // ------------------------------------------------------
-
-    string                lilyPondVarValAssocKindAsString ()
-                              {
-                                return
-                                  lilyPondVarValAssocKindAsString (
-                                    fLilyPondVarValAssocKind);
-                              }
 
   public:
 
@@ -267,6 +260,13 @@ class lpsrVarValAssoc : public lpsrElement
   
     // print
     // ------------------------------------------------------
+
+    string                lilyPondVarValAssocKindAsString ()
+                              {
+                                return
+                                  lilyPondVarValAssocKindAsString (
+                                    fLilyPondVarValAssocKind);
+                              }
 
     virtual void          print (ostream& os);
 
@@ -344,15 +344,6 @@ class lpsrVarValsListAssoc : public lpsrElement
                                 fVariableValuesList.push_back (value);
                               }
 
-    string                lilyPondVarValsListAssocKindAsString ()
-                              {
-                                return
-                                  lilyPondVarValsListAssocValuesAsString (
-                                    fVarValsListAssocKind);
-                              }
-                                  
-    string                lilyPondVarValsListAssocValuesAsString () const;
-
   public:
   
     // visitors
@@ -367,6 +358,15 @@ class lpsrVarValsListAssoc : public lpsrElement
   
     // print
     // ------------------------------------------------------
+
+    string                lilyPondVarValsListAssocKindAsString ()
+                              {
+                                return
+                                  lilyPondVarValsListAssocValuesAsString (
+                                    fVarValsListAssocKind);
+                              }
+                                  
+    string                lilyPondVarValsListAssocValuesAsString () const;
 
     virtual void          print (ostream& os);
 
@@ -479,12 +479,12 @@ class lpsrSchemeVariable : public lpsrElement
 
     lpsrCommentedKind fCommentedKind;
     
-    string            fVariableName;
-    string            fVariableValue;
+    string                fVariableName;
+    string                fVariableValue;
 
-    string            fComment;
+    string                fComment;
 
-    lpsrEndlKind      fEndlKind;
+    lpsrEndlKind          fEndlKind;
     
 };
 typedef SMARTP<lpsrSchemeVariable> S_lpsrSchemeVariable;
@@ -1170,22 +1170,8 @@ class lpsrContext : public lpsrElement
     string                getContextName () const
                               { return fContextName; }
 
-    // public services
+    // services
     // ------------------------------------------------------
-
-    string                getContextTypeKindAsString () const
-                              {
-                                return
-                                  contextTypeKindAsString (
-                                    fContextTypeKind);
-                              }
-
-    string                getContextExistingKindAsString () const
-                              {
-                                return
-                                  contextExistingKindAsString (
-                                    fContextExistingKind);
-                              }
 
   public:
   
@@ -1201,6 +1187,20 @@ class lpsrContext : public lpsrElement
   
     // print
     // ------------------------------------------------------
+
+    string                getContextTypeKindAsString () const
+                              {
+                                return
+                                  contextTypeKindAsString (
+                                    fContextTypeKind);
+                              }
+
+    string                getContextExistingKindAsString () const
+                              {
+                                return
+                                  contextExistingKindAsString (
+                                    fContextExistingKind);
+                              }
 
     virtual void          print (ostream& os);
 

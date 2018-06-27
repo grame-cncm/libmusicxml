@@ -5859,13 +5859,13 @@ else
             elt->getMeasureLength ();
 
         rational
-          fullMeasureLength =
-            elt->getFullMeasureLength ();
+          measureFullLength =
+            elt->getMeasureFullLength ();
 
         // we should set the score measure length in this case
         rational
           ratioToFullLength =
-            measureLength / fullMeasureLength;
+            measureLength / measureFullLength;
         ratioToFullLength.rationalise ();
   
         if (gTraceOptions->fTraceMeasures) {
@@ -5881,7 +5881,7 @@ else
             "% measureLength" << " = " << measureLength <<
             endl <<
             setw (fieldWidth) <<
-            "% fullMeasureLength" << " = " << fullMeasureLength <<
+            "% measureFullLength" << " = " << measureFullLength <<
             endl <<
             setw (fieldWidth) <<
             "% ratioToFullLength" << " = " << ratioToFullLength <<
@@ -5936,15 +5936,17 @@ else
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
           endl <<
-          "\\cadenzaOn" <<
-          endl;
+          "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
           fLilypondCodeIOstream << " % kSenzaMisuraMeasureKind Start";
         }
-          
+
         fLilypondCodeIOstream <<
-          "\\hide Staff.TimeSignature " <<
+          endl;
+
+        fLilypondCodeIOstream <<
+          "\\once\\omit Staff.TimeSignature" <<
           endl;
 
         fOnGoingVoiceCadenza = true;
@@ -5960,7 +5962,7 @@ else
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->
-              getFullMeasureLength ()) <<
+              getMeasureFullLength ()) <<
           " | " <<
           endl;
       }
@@ -6583,6 +6585,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     timeItemsVector =
       elt->getTimeItemsVector ();
 
+/* JMI
   // is this the end of a senza misura fragment?
   if (
     fVoiceIsCurrentlySenzaMisura
@@ -6594,14 +6597,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
     fVoiceIsCurrentlySenzaMisura = false;
   }
+*/
 
   // handle the time
   if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
     // senza misura time
-    
+
+    /* JMI
     fLilypondCodeIOstream <<
       "\\omit Staff.TimeSignature" <<
       endl;
+*/
 
     fVoiceIsCurrentlySenzaMisura = true;
   }

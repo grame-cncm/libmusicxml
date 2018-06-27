@@ -2262,13 +2262,15 @@ lpsrMelismaCommand::lpsrMelismaCommand (
   lpsrMelismaKind melismaKind)
     : lpsrElement (inputLineNumber)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "--> creating lpsrMelismaCommand " <<
       melismaKindAsString (melismaKind) <<
       endl;
   }
-  
+#endif
+
   fMelismaKind = melismaKind;
 }
 
@@ -3110,22 +3112,26 @@ lpsrPaper::~lpsrPaper ()
 
 void lpsrPaper::setIndent (float val)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
       "Setting paper indent to " << val <<
       endl;
   }
+#endif
 
   fIndent = val;
 }
 
 void lpsrPaper::setShortIndent (float val)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
       "Setting paper short indent to " << val <<
       endl;
   }
+#endif
 
   fShortIndent = val;
 }
@@ -3931,6 +3937,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   fPartBlockElementsList.push_back (chordNamesContext);
 
   // sort the list if necessary
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Sorting the voices in part block for part \"" <<
@@ -3938,6 +3945,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
 /* JMI
   gLogIOstream <<
@@ -4289,6 +4297,7 @@ lpsrScoreBlock::~lpsrScoreBlock ()
 void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending part group block " <<
@@ -4296,6 +4305,7 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
        " to LPSR score" <<
        endl;
   }
+#endif
 
   fScoreBlockParallelMusicBLock->
     appendPartGroupBlockToParallelMusicBLock (
@@ -4308,6 +4318,7 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
 void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending the use of voice \"" <<
@@ -4315,6 +4326,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
        "\" to LPSR score" <<
        endl;
   }
+#endif
 
   fScoreBlockParallelMusicBLock->
     addElementToParallelMusicBLock (voiceUse);
@@ -4325,6 +4337,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
 void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending the use of stanza " <<
@@ -4332,6 +4345,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
        " to LPSR score" <<
        endl;
   }
+#endif
 
   fScoreBlockParallelMusicBLock->
     addElementToParallelMusicBLock (lyricsUse);

@@ -12806,6 +12806,7 @@ void msrChordInterval::deNormalizeInterval ()
 S_msrChordInterval msrChordInterval::intervalDifference (
   S_msrChordInterval otherChordInterval)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
     gLogIOstream <<
       endl <<
@@ -12816,6 +12817,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       "'" <<
       endl;
   }
+#endif
   
   msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
 
@@ -12831,6 +12833,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   operand2->
     normalizeInterval ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> normalized operands are '" <<
@@ -12840,6 +12843,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       "'" <<
       endl;
   }
+#endif
   
   // fetch the relative octaves
   int
@@ -12888,6 +12892,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     resultRelativeOctave--;
   }
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> permuteRelativeOctaves = " <<
@@ -12898,6 +12903,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       resultRelativeOctave <<
       endl;
   }
+#endif
   
   // compute resulting interval Kind
   switch (intervalKind1) {
@@ -14064,6 +14070,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       ;
   } // switch
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> base resultIntervalKind = '" <<
@@ -14071,6 +14078,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       "'" <<
       endl;
   }
+#endif
   
   // take interval inversion into account if relevant
   if (invertInterval) {
@@ -14095,6 +14103,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   // greater than an augmented seventh if applicable
   result->deNormalizeInterval ();
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> result = '" <<
@@ -14103,6 +14112,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       endl <<
       endl;
   }
+#endif
   
   // return it;
   return result;

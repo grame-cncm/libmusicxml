@@ -6694,6 +6694,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // repeat end
     // ------------------------------------------------------
 
+    handleRepeatEnd (barline);
+
+/* JMI
     if (fRepeatEndCounter == 0 ) {
       // this is a regular repeat end
       handleRepeatEnd (barline);
@@ -6716,6 +6719,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
           fCurrentMeasureNumber,
           barline->getBarlineTimes ());
     }
+    */
 
     barlineIsAlright = true;
   }
@@ -18334,6 +18338,7 @@ void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
     fLogOutputStream <<
       "Prepending an implicit repeat start barline at the beginning of part" <<
       fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -18451,6 +18456,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
     fLogOutputStream <<
       "Appending a repeat to part " <<
       fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -18501,6 +18507,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
         endl <<
         endl <<
         "****************** handleEndingStart" <<
+        ", line " << inputLineNumber <<
         endl <<
         fCurrentPart <<
         endl <<
@@ -18528,6 +18535,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
         fLogOutputStream <<
           "Creating a regular repeat in part " <<
           fCurrentPart->getPartCombinedName () <<
+          ", line " << inputLineNumber <<
           endl;
       }
     
@@ -18560,6 +18568,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
       fLogOutputStream <<
         "Creating a repeat enclosing everything from the beginning of part " <<
         fCurrentPart->getPartCombinedName () <<
+        ", line " << inputLineNumber <<
         endl;
     }
     
@@ -18656,6 +18665,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
     fLogOutputStream <<
       "Appending a new hooked repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   }
           
@@ -18732,6 +18742,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
     fLogOutputStream <<
       "Appending a new hookless repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   }
                 

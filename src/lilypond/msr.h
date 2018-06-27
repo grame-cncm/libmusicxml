@@ -725,17 +725,17 @@ class msrMeasure : public msrElement
                               
     // measure lengthes
     
-    void                  setFullMeasureLength (
-                            rational fullMeasureLength)
+    void                  setMeasureFullLength (
+                            rational measureFullLength)
                               {
-                                fFullMeasureLength =
-                                  fullMeasureLength;
+                                fMeasureFullLength =
+                                  measureFullLength;
                               }
 
-    rational              getFullMeasureLength () const
+    rational              getMeasureFullLength () const
                               {
                                 return
-                                  fFullMeasureLength;
+                                  fMeasureFullLength;
                               }
 
     void                  setMeasureLength (
@@ -825,7 +825,7 @@ class msrMeasure : public msrElement
 
     // lengthes
 
-    string                fullMeasureLengthAsMSRString ();
+    string                measureFullLengthAsMSRString ();
 
     string                measureLengthAsMSRString ();
 
@@ -850,7 +850,7 @@ class msrMeasure : public msrElement
 
     void                  appendTimeToMeasure (S_msrTime time);
 
-    void                  setFullMeasureLengthFromTime (
+    void                  setMeasureFullLengthFromTime (
                             S_msrTime time);
   
     void                  appendTimeToMeasureClone (S_msrTime time);
@@ -1088,7 +1088,7 @@ class msrMeasure : public msrElement
 
     // measure lengthes
     
-    rational              fFullMeasureLength;
+    rational              fMeasureFullLength;
                             // meaningfull only
                             // when there is a time signature,
                             // but not for cadenzas
@@ -5986,10 +5986,10 @@ class msrVoice : public msrElement
 
     void                  createNewLastSegmentAndANewMeasureBeforeARepeat (
                             int inputLineNumber,
-                            int fullMeasureLength);
+                            int measureFullLength);
     void                  createNewLastSegmentAndANewMeasureAfterARepeat (
                             int inputLineNumber,
-                            int fullMeasureLength);
+                            int measureFullLength);
                             
     // stanzas
 // virer catchup JMI

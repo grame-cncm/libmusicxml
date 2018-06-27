@@ -1622,9 +1622,9 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
 
   // get the full measure length
   rational
-    fullMeasureLength =
+    measureFullLength =
       fCurrentMeasureClone->
-        getFullMeasureLength ();
+        getMeasureFullLength ();
     
   if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
@@ -1644,13 +1644,13 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUnknownMeasureKind; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
     
-  if (measureLength == fullMeasureLength ) {
+  if (measureLength == measureFullLength ) {
     // this measure is full
     measureKind =
       msrMeasure::kFullMeasureKind;
   }
       
-  else if (measureLength < fullMeasureLength) {
+  else if (measureLength < measureFullLength) {
     /*
     if (fSegmentMeasuresList.size () == 1) { // JMI
       // this is the first measure in the segment
@@ -1670,7 +1670,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUpbeatMeasureKind; // JMI
   }
 
-  else if (measureLength > fullMeasureLength) {
+  else if (measureLength > measureFullLength) {
     // this measure is overfull
     measureKind =
       msrMeasure::kOverfullMeasureKind;
