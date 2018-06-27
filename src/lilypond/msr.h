@@ -6172,7 +6172,7 @@ class msrStaff : public msrElement
       kHarmonyStaff,
       kFiguredBassStaff,
       kDrumStaff,
-      kRythmicStaff};
+      kRythmicStaff };
 
     static string staffKindAsString (
       msrStaffKind staffKind);

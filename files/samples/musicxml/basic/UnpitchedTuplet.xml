@@ -38,7 +38,7 @@
     <lyric-font font-family="FreeSerif" font-size="11"/>
     </defaults>
   <credit page="1">
-    <credit-words default-x="534.623" default-y="1461.3" justify="center" valign="top" font-family="Times New Roman" font-size="24">Percussion</credit-words>
+    <credit-words default-x="534.623" default-y="1461.3" justify="center" valign="top" font-family="Times New Roman" font-size="24">Unpitched tuplet</credit-words>
     </credit>
   <part-list>
     <score-part id="P4">

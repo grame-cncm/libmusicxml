@@ -178,25 +178,25 @@ Usage:
         indenter&     idtr)
         : fOutput (str),
           fIndenter (idtr)
-        {}
+          {}
 
       // flush
       void flush ()
-      {
-        fOutput.flush ();
-      }
+          {
+            fOutput.flush ();
+          }
     
       // When we sync the stream with fOutput:
       // 1) output the indentation then the buffer
       // 2) reset the buffer
       // 3) flush the actual output stream we are using.
       virtual int sync ()
-      {
-        fOutput << fIndenter << str ();
-        str ("");
-        fOutput.flush ();
-        return 0;
-      }
+          {
+            fOutput << fIndenter << str ();
+            str ("");
+            fOutput.flush ();
+            return 0;
+          }
   };
 
   private:
@@ -216,24 +216,27 @@ Usage:
 
     // destructor
     virtual ~indentedOstream ()
-    {};
+        {};
 
     // flush
     void flush ()
-    {
-      fIndentedStreamBuf.flush ();
-    }
+        {
+          fIndentedStreamBuf.flush ();
+        }
     
     // global variables for general use
     static indentedOstream
                           gOutputIndentedOstream; 
     static indentedOstream
                           gLogIndentedOstream; 
+    static indentedOstream
+                          gNullIndentedOstream; 
 };
 
 // useful shortcut macros
 #define gOutputIOstream indentedOstream::gOutputIndentedOstream
 #define gLogIOstream    indentedOstream::gLogIndentedOstream
+#define gNullIOstream   indentedOstream::gNullIndentedOstream
 
 //______________________________________________________________________________
 struct stringQuoteEscaper

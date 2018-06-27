@@ -327,6 +327,34 @@ indentedOstream indentedOstream::gOutputIndentedOstream (
 indentedOstream indentedOstream::gLogIndentedOstream (
   cerr, indenter::gIndenter);
 
+// code taken from:
+// http://comp.lang.cpp.moderated.narkive.com/fylLGJgp/redirect-output-to-dev-null
+template<typename Ch, typename Traits = std::char_traits<Ch> >
+struct basic_nullbuf : std::basic_streambuf<Ch, Traits>
+{
+  typedef std::basic_streambuf<Ch, Traits> base_type;
+  typedef typename base_type::int_type int_type;
+  typedef typename base_type::traits_type traits_type;
+  
+  virtual int_type overflow (int_type c) {
+    return traits_type::not_eof (c);
+  }
+};
+
+// convenient typedefs
+typedef basic_nullbuf <char>    nullbuf;
+//typedef basic_nullbuf <wchar_t> wnullbuf;
+
+// buffers and streams
+nullbuf  cnull_obj;
+//wnullbuf wcnull_obj;
+
+std::ostream  cnull  (& cnull_obj);
+//std::wostream wcnull (& wcnull_obj);
+
+indentedOstream indentedOstream::gNullIndentedOstream (
+  cnull, indenter::gIndenter);
+
 //______________________________________________________________________________
 string replicateString (
   string str,
