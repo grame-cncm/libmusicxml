@@ -8667,6 +8667,84 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
+  // print the note glissandos with text if any
+  if (noteGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (
+      i=noteGlissandos.begin ();
+      i!=noteGlissandos.end ();
+      i++) {
+      S_msrGlissando glissando = (*i);
+        
+      switch (glissando->getGlissandoTypeKind ()) {
+        case msrGlissando::kGlissandoTypeNone:
+          break;
+          
+        case msrGlissando::kGlissandoTypeStart:
+          {
+            string
+              glissandoTextValue =
+                glissando->getGlissandoTextValue ();
+                
+            if (glissandoTextValue.size ()) {
+              // generate the glissando text on itself
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once\\override Glissando.details.glissando-text = \"" <<
+                glissandoTextValue <<
+                "\"" <<
+                endl <<
+                "\\glissandoTextOn" <<
+                endl;
+            }
+          }
+          break;
+          
+        case msrGlissando::kGlissandoTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the note slides with text if any
+  if (noteSlides.size ()) {
+    list<S_msrSlide>::const_iterator i;
+    for (
+      i=noteSlides.begin ();
+      i!=noteSlides.end ();
+      i++) {
+      S_msrSlide slide = (*i);
+        
+      switch (slide->getSlideTypeKind ()) {
+        case msrSlide::kSlideTypeNone:
+          break;
+          
+        case msrSlide::kSlideTypeStart:
+          {
+            string
+              slideTextValue =
+                slide->getSlideTextValue ();
+                
+            if (slideTextValue.size ()) {
+              // generate the slide text on itself
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once\\override Glissando.details.glissando-text = \"" <<
+                slideTextValue <<
+                "\"" <<
+                endl <<
+                "\\glissandoTextOn" <<
+                endl;
+            }
+          }
+          break;
+          
+        case msrSlide::kSlideTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
   // print the note spanners if any
   const list<S_msrSpanner>&
     noteSpanners =
@@ -9461,7 +9539,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrGlissando::kGlissandoTypeStart:
           // generate the glissando itself
           fLilypondCodeIOstream <<
-            "\\glissando ";
+            "\\glissando " <<
+            "\\glissandoTextOff ";
           break;
           
         case msrGlissando::kGlissandoTypeStop:
@@ -9490,7 +9569,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrSlide::kSlideTypeStart:
           // generate the glissando itself
           fLilypondCodeIOstream <<
-            "\\glissando ";
+            "\\glissando " <<
+            "\\glissandoTextOff ";
           break;
           
         case msrSlide::kSlideTypeStop:

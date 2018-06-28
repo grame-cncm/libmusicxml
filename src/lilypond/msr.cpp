@@ -8202,14 +8202,16 @@ S_msrGlissando msrGlissando::create (
   int                  inputLineNumber,
   int                  glissandoNumber,
   msrGlissandoTypeKind glissandoTypeKind,
-  msrLineTypeKind      glissandoLineTypeKind)
+  msrLineTypeKind      glissandoLineTypeKind,
+  string               glissandoTextValue)
 {
   msrGlissando* o =
     new msrGlissando (
       inputLineNumber,
       glissandoNumber,
       glissandoTypeKind,
-      glissandoLineTypeKind);
+      glissandoLineTypeKind,
+      glissandoTextValue);
   assert(o!=0);
   return o;
 }
@@ -8218,13 +8220,16 @@ msrGlissando::msrGlissando (
   int                  inputLineNumber,
   int                  glissandoNumber,
   msrGlissandoTypeKind glissandoTypeKind,
-  msrLineTypeKind      glissandoLineTypeKind)
+  msrLineTypeKind      glissandoLineTypeKind,
+  string               glissandoTextValue)
     : msrElement (inputLineNumber)
 {  
   fGlissandoNumber = glissandoNumber;
   
   fGlissandoTypeKind     = glissandoTypeKind;
   fGlissandoLineTypeKind = glissandoLineTypeKind;
+
+  fGlissandoTextValue = glissandoTextValue;
 }
 
 msrGlissando::~msrGlissando ()
@@ -8248,7 +8253,8 @@ S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
         fInputLineNumber,
         fGlissandoNumber,
         fGlissandoTypeKind,
-        fGlissandoLineTypeKind);
+        fGlissandoLineTypeKind,
+        fGlissandoTextValue);
 
   return newbornClone;
 }
@@ -8332,19 +8338,50 @@ string msrGlissando::asString () const
 
   s <<
     "Glissando" <<
-    ", number " << fGlissandoNumber <<
+    ", fGlissandoNumber " << fGlissandoNumber <<
     ", " << glissandoTypeKindAsString (
       fGlissandoTypeKind) <<
     ", " << msrLineTypeKindAsString (
       fGlissandoLineTypeKind) <<
-    ", line " << fInputLineNumber;
+    ", \"" << fGlissandoTextValue <<
+    "\", line " << fInputLineNumber;
         
   return s.str ();
 }
 
 void msrGlissando::print (ostream& os)
 {
-  os << asString () << endl;
+  os <<
+    "Glissando" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "glissandoNumber " <<
+    fGlissandoNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "glissandoTypeKind" <<
+    glissandoTypeKindAsString (
+      fGlissandoTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "glissandoLineTypeKind" <<
+    msrLineTypeKindAsString (
+      fGlissandoLineTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "fGlissandoTextValue" << " : \"" <<
+    fGlissandoTextValue <<
+     "\"" <<
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -8352,14 +8389,16 @@ S_msrSlide msrSlide::create (
   int              inputLineNumber,
   int              slideNumber,
   msrSlideTypeKind slideTypeKind,
-  msrLineTypeKind  slideLineTypeKind)
+  msrLineTypeKind  slideLineTypeKind,
+  string           slideTextValue)
 {
   msrSlide* o =
     new msrSlide (
       inputLineNumber,
       slideNumber,
       slideTypeKind,
-      slideLineTypeKind);
+      slideLineTypeKind,
+      slideTextValue);
   assert(o!=0);
   return o;
 }
@@ -8368,13 +8407,16 @@ msrSlide::msrSlide (
   int              inputLineNumber,
   int              slideNumber,
   msrSlideTypeKind slideTypeKind,
-  msrLineTypeKind  slideLineTypeKind)
+  msrLineTypeKind  slideLineTypeKind,
+  string           slideTextValue)
     : msrElement (inputLineNumber)
 {  
   fSlideNumber = slideNumber;
   
   fSlideTypeKind     = slideTypeKind;
   fSlideLineTypeKind = slideLineTypeKind;
+
+  fSlideTextValue = slideTextValue;
 }
 
 msrSlide::~msrSlide ()
@@ -8398,7 +8440,8 @@ S_msrSlide msrSlide::createSlideNewbornClone ()
         fInputLineNumber,
         fSlideNumber,
         fSlideTypeKind,
-        fSlideLineTypeKind);
+        fSlideLineTypeKind,
+        fSlideTextValue);
 
   return newbornClone;
 }
@@ -8482,19 +8525,50 @@ string msrSlide::asString () const
 
   s <<
     "Slide" <<
-    ", number " << fSlideNumber <<
+    ", fSlideNumber " << fSlideNumber <<
     ", " << slideTypeKindAsString (
       fSlideTypeKind) <<
     ", " << msrLineTypeKindAsString (
       fSlideLineTypeKind) <<
-    ", line " << fInputLineNumber;
+    ", \"" << fSlideTextValue <<
+    "\", line " << fInputLineNumber;
         
   return s.str ();
 }
 
 void msrSlide::print (ostream& os)
 {
-  os << asString () << endl;
+  os <<
+    "Slide" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "slideNumber " <<
+    fSlideNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "slideTypeKind" <<
+    slideTypeKindAsString (
+      fSlideTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "slideLineTypeKind" <<
+    msrLineTypeKindAsString (
+      fSlideLineTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "slideTextValue" << " : \"" <<
+    fSlideTextValue <<
+     "\"" <<
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________

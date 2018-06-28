@@ -13352,6 +13352,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // glissando text, i.e. the text along it
+  string glissandoTextValue = elt->getValue ();
+
   // number
 
   int glissandoNumber = elt->getAttributeIntValue ("number", 0);
@@ -13424,6 +13427,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
       "glissandoLineType: " <<
       msrLineTypeKindAsString (
         glissandoLineTypeKind) <<
+      "glissandoTextValue: " <<
+      glissandoTextValue <<
       endl;
   }
 
@@ -13434,7 +13439,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
         inputLineNumber,
         glissandoNumber,
         glissandoTypeKind,
-        glissandoLineTypeKind);
+        glissandoLineTypeKind,
+        glissandoTextValue);
 
   // register glissando in this visitor
   if (
@@ -13462,6 +13468,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  // slide text, i.e. the text along it
+  string slideTextValue = elt->getValue ();
 
   // number
 
@@ -13545,7 +13554,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
         inputLineNumber,
         slideNumber,
         slideTypeKind,
-        slideLineTypeKind);
+        slideLineTypeKind,
+        slideTextValue);
     
   // register glissando in this visitor
   if (

@@ -2517,6 +2517,12 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
     fCurrentChordClone->
       appendGlissandoToChord (elt);
   }
+
+  if (elt->getGlissandoTextValue ().size ()) {
+    fLpsrScore->
+      // this score needs the 'glissandoWithText' Scheme function
+      addGlissandoWithTextSchemeFunctionsToScore ();
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrGlissando& elt)

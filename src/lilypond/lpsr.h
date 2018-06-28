@@ -2539,28 +2539,38 @@ class lpsrScore : public lpsrElement
     void                  setGlobalStaffSize (float size);
 
     // files includes
+    // ---------------------
+
     void                  setJianpuFileIncludeIsNeeded ();
                         
     bool                  getJianpuFileIncludeIsNeeded () const
                               { return fJianpuFileIncludeIsNeeded; }
 
     // Scheme modules
+    // ---------------------
+
     void                  setScmAndAccregSchemeModulesAreNeeded ();
                         
     bool                  getScmAndAccregSchemeModulesAreNeeded () const
                               { return fScmAndAccregSchemeModulesAreNeeded; }
 
     // Scheme functions
+    // ---------------------
+    
+    // custom short bar lines
     void                  setCustomShortBarLineSchemeFunctionIsNeeded ();
                         
     bool                  getCustomShortBarLineSchemeFunctionIsNeeded () const
                               { return fCustomShortBarLineSchemeFunctionIsNeeded; }
-    
+
+    // tongue
     void                  setTongueSchemeFunctionIsNeeded ();
                         
     bool                  getTongueSchemeFunctionIsNeeded () const
                               { return fTongueSchemeFunctionIsNeeded; }
-    
+
+
+    // editorial accidentals
     void                  setEditorialAccidentalSchemeFunctionIsNeeded ();
                         
     bool                  getEditorialAccidentalSchemeFunctionIsNeeded () const
@@ -2568,7 +2578,8 @@ class lpsrScore : public lpsrElement
                                 return
                                   fEditorialAccidentalSchemeFunctionIsNeeded;
                               }
-    
+
+    // dynamics
     void                  setDynamicsSchemeFunctionIsNeeded ();
                         
     bool                  getDynamicsSchemeFunctionIsNeeded () const
@@ -2576,7 +2587,8 @@ class lpsrScore : public lpsrElement
                                 return
                                   fDynamicsSchemeFunctionIsNeeded;
                               }
-    
+
+    // tuplets curved brackets
     void                  setTupletsCurvedBracketsSchemeFunctionIsNeeded ();
 
     bool                  getTupletsCurvedBracketsSchemeFunctionIsNeeded () const
@@ -2584,7 +2596,8 @@ class lpsrScore : public lpsrElement
                                 return
                                   fTupletsCurvedBracketsSchemeFunctionIsNeeded;
                               }
-    
+
+    // after
     void                  setAfterSchemeFunctionIsNeeded ();
 
     bool                  getAfterSchemeFunctionIsNeeded () const
@@ -2592,10 +2605,14 @@ class lpsrScore : public lpsrElement
                                 return
                                   fAfterSchemeFunctionIsNeeded;
                               }
-    
+
+    // tempo relationships
     void                  setTempoRelationshipSchemeFunctionIsNeeded ();
                         
-    // markups
+    // glissando with text
+    void                  setGlissandoWithTextSchemeFunctionIsNeeded ();
+                        
+    // damps
     void                  setDampMarkupIsNeeded ();
                         
     void                  setDampAllMarkupIsNeeded ();
@@ -2633,6 +2650,8 @@ class lpsrScore : public lpsrElement
                             S_msrStanza stanza)
                               { fScoreElements.push_back (stanza); }
 
+    void                  addGlissandoWithTextSchemeFunctionsToScore ();
+
   private:
   
     // private services
@@ -2651,7 +2670,7 @@ class lpsrScore : public lpsrElement
     void                  addDateAndTimeSchemeFunctionsToScore ();
     
     void                  addPointAndClickOffSchemeFunctionsToScore ();
-    
+        
     void                  addCustomShortBarLineSchemeFunctionToScore ();
 
     void                  addTongueSchemeFunctionToScore ();
@@ -2665,7 +2684,7 @@ class lpsrScore : public lpsrElement
     void                  addAfterSchemeFunctionToScore ();
     
     void                  addTempoRelationshipSchemeFunctionToScore ();
-
+    
     // markups
     
     void                  addDampMarkupToScore ();
@@ -2748,6 +2767,7 @@ class lpsrScore : public lpsrElement
     bool                  fTupletsCurvedBracketsSchemeFunctionIsNeeded;
     bool                  fAfterSchemeFunctionIsNeeded;
     bool                  fTempoRelationshipSchemeFunctionIsNeeded;
+    bool                  fGlissandoWithTextSchemeFunctionIsNeeded;
 
     // markups
     bool                  fDampMarkupIsNeeded;

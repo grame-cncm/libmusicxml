@@ -2483,7 +2483,8 @@ class msrGlissando : public msrElement
       int                  inputLineNumber,
       int                  glissandoNumber,
       msrGlissandoTypeKind glissandoTypeKind,
-      msrLineTypeKind      glissandoLineTypeKind);
+      msrLineTypeKind      glissandoLineTypeKind,
+      string               glissandoTextValue);
 
     SMARTP<msrGlissando> createGlissandoNewbornClone ();
 
@@ -2498,7 +2499,8 @@ class msrGlissando : public msrElement
       int                  inputLineNumber,
       int                  glissandoNumber,
       msrGlissandoTypeKind glissandoTypeKind,
-      msrLineTypeKind      glissandoLineTypeKind);
+      msrLineTypeKind      glissandoLineTypeKind,
+      string               glissandoTextValue);
       
     virtual ~msrGlissando ();
   
@@ -2515,6 +2517,9 @@ class msrGlissando : public msrElement
             
     msrLineTypeKind       getGlissandoLineTypeKind () const
                               { return fGlissandoLineTypeKind; }
+            
+    string                getGlissandoTextValue () const
+                              { return fGlissandoTextValue; }
             
     // measure uplink
     void                  setGlissandoMeasureUplink (
@@ -2559,6 +2564,8 @@ class msrGlissando : public msrElement
     msrGlissandoTypeKind  fGlissandoTypeKind;
                           
     msrLineTypeKind       fGlissandoLineTypeKind;
+    
+    string                fGlissandoTextValue;
 };
 typedef SMARTP<msrGlissando> S_msrGlissando;
 EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
@@ -2585,7 +2592,8 @@ class msrSlide : public msrElement
       int              inputLineNumber,
       int              slideNumber,
       msrSlideTypeKind slideTypeKind,
-      msrLineTypeKind  slideLineTypeKind);
+      msrLineTypeKind  slideLineTypeKind,
+      string           slideTextValue);
 
     SMARTP<msrSlide> createSlideNewbornClone ();
 
@@ -2600,7 +2608,8 @@ class msrSlide : public msrElement
       int              inputLineNumber,
       int              slideNumber,
       msrSlideTypeKind slideTypeKind,
-      msrLineTypeKind  slideLineTypeKind);
+      msrLineTypeKind  slideLineTypeKind,
+      string           slideTextValue);
       
     virtual ~msrSlide ();
   
@@ -2617,6 +2626,9 @@ class msrSlide : public msrElement
             
     msrLineTypeKind       getSlideLineTypeKind () const
                               { return fSlideLineTypeKind; }
+            
+    string                getSlideTextValue () const
+                              { return fSlideTextValue; }
             
     // measure uplink
     void                  setSlideMeasureUplink (
@@ -2661,6 +2673,8 @@ class msrSlide : public msrElement
     msrSlideTypeKind      fSlideTypeKind;
                           
     msrLineTypeKind       fSlideLineTypeKind;
+
+    string                fSlideTextValue;
 };
 typedef SMARTP<msrSlide> S_msrSlide;
 EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
