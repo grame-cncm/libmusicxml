@@ -54,6 +54,7 @@ void populateMsrSkeletonFromMxmlTree (
     
   clock_t startClock = clock ();
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -70,6 +71,7 @@ void populateMsrSkeletonFromMxmlTree (
       separator <<
       endl;
   }
+#endif
   
   // create an mxmlTree2MsrTranslator
   mxmlTree2MsrTranslator
@@ -160,6 +162,7 @@ void displayMSRPopulatedScoreSummary (
     
   clock_t startClock = clock ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -175,6 +178,7 @@ void displayMSRPopulatedScoreSummary (
       endl <<
       endl;
   }
+#endif
    
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor

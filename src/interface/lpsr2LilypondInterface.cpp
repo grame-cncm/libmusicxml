@@ -46,6 +46,7 @@ void generateLilypondCodeFromLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     logIOstream <<
       endl <<
@@ -57,6 +58,7 @@ void generateLilypondCodeFromLpsrScore (
       separator <<
       endl;
   }
+#endif
 
   // create an lpsr2LilypondTranslator
   lpsr2LilypondTranslator

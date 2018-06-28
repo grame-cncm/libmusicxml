@@ -9015,7 +9015,6 @@ void msrSyllable::print (ostream& os)
     case msrSyllable::kSyllableEnd:
     case msrSyllable::kSyllableSkip:
       os << left <<
-        endl <<
         setw (fieldWidth) <<
        "syllableWholeNotes" << " : " <<
         syllableWholeNotesAsMsrString () <<
@@ -19105,7 +19104,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     S_msrStanza stanza = (*i).second;
 
     voiceDeepCopy->
-      addStanzaToVoiceWithoutCatchUp (
+      addStanzaToVoiceWithoutCatchUp ( // JMI
         stanza->
           createStanzaDeepCopy (
             voiceDeepCopy));

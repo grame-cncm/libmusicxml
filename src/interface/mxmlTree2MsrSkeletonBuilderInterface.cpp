@@ -50,6 +50,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     
   clock_t startClock = clock ();
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -66,6 +67,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       separator <<
       endl;
   }
+#endif
   
   // create an mxmlTree2MsrSkeletonBuilder
   mxmlTree2MsrSkeletonBuilder
@@ -163,6 +165,7 @@ void displayMsrSkeletonSummary (
     
   clock_t startClock = clock ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -177,6 +180,7 @@ void displayMsrSkeletonSummary (
       separator <<
       endl;
   }
+#endif
    
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor

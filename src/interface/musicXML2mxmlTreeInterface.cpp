@@ -717,6 +717,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   string fileNameAsString = fileName;
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -732,6 +733,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl <<
       endl;
   }
+#endif
 
   // has the input file name a ".mxl" suffix?    
   size_t
@@ -762,6 +764,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     return Sxmlelement (0);
   }
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -775,10 +778,12 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl <<
       endl;
   }
+#endif
   
   // get the xmlDecl
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -786,17 +791,17 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl <<
       endl;
     xmlDecl->print (logIOstream);
-  }
 
-  if (gTraceOptions->fTraceEncoding) {
     displayXMLDeclaration (
       xmlDecl,
       logIOstream);
   }
+#endif
   
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -804,13 +809,12 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl <<
       endl;
     docType->print (logIOstream);
-  }
 
-  if (gTraceOptions->fTraceEncoding) {
     displayDocumentType (
       docType,
       logIOstream);
   }
+#endif
 
   // get the encoding type
   string encoding = xmlDecl->getEncoding ();
@@ -882,6 +886,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 {
   clock_t startClock = clock ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -896,6 +901,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       separator <<
       endl;
   }
+#endif
 
   // read the input MusicXML data
   xmlreader r;
@@ -907,6 +913,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     return Sxmlelement (0);
   }
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       "!!!!! xmlFile contents from stream:" <<
@@ -915,10 +922,12 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     logIOstream <<
       endl;
   }
+#endif
   
   // get the xmlDecl
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -926,17 +935,17 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl <<
       endl;
     xmlDecl->print (logIOstream);
-  }
 
-  if (gTraceOptions->fTraceEncoding) {
     displayXMLDeclaration (
       xmlDecl,
       logIOstream);
   }
+#endif
 
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -944,13 +953,12 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl <<
       endl;
     docType->print (logIOstream);
-  }
 
-  if (gTraceOptions->fTraceEncoding) {
     displayDocumentType (
       docType,
       logIOstream);
   }
+#endif
   
   // get the encoding type
   string encoding = xmlDecl->getEncoding ();
@@ -1009,6 +1017,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 {
   clock_t startClock = clock ();
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -1023,6 +1032,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
       separator <<
       endl;
   }
+#endif
   
   xmlreader r;
   

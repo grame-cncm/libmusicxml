@@ -47,6 +47,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     
   clock_t startClock = clock ();
       
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
@@ -61,7 +62,8 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       separator <<
       endl;
   }
-  
+#endif
+ 
   // create an msr2LpsrTranslator
   msr2LpsrTranslator
     translator (

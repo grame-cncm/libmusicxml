@@ -5992,18 +5992,15 @@ class msrVoice : public msrElement
                             int measureFullLength);
                             
     // stanzas
-// virer catchup JMI
+
     S_msrStanza           addStanzaToVoiceByItsNumber (
                             int    inputLineNumber,
                             string stanzaNumber);
 
-    void                  addStanzaToVoiceWithoutCatchUp (
+    void                  addStanzaToVoiceWithoutCatchUp ( // JMI
                             S_msrStanza stanza);
 
     void                  addStanzaToVoice (
-                            S_msrStanza stanza);
-
-    void                  addStanzaToVoiceWithCatchUp (
                             S_msrStanza stanza);
 
     S_msrStanza           createStanzaInVoiceIfNotYetDone (
