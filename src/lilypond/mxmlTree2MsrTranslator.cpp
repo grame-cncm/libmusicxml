@@ -5124,6 +5124,11 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     // for notes without lyrics
   }
 
+
+  // forget about any previous texts met,
+  // in case there are <text> occurrences without <syllabic> around them
+  fCurrentLyricTextsList.clear ();
+
   fCurrentStanzaHasText = false;
 
   fCurrentNoteHasStanza = true;
