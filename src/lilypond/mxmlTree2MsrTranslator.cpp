@@ -15940,6 +15940,10 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
           
+                // append syllable to current note's syllables list
+                fCurrentNoteSyllables.push_back (
+                  syllable);
+
                 // append syllable to stanza
                 stanza->
                   appendSyllableToStanza (syllable);
@@ -16044,6 +16048,10 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
                       fCurrentNoteSoundingWholeNotesFromDuration,
                       stanza);
           
+                // append syllable to current note's syllables list
+                fCurrentNoteSyllables.push_back (
+                  syllable);
+
                 // append syllable to stanza
                 stanza->
                   appendSyllableToStanza (syllable);
@@ -16932,11 +16940,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     }
   }
 
-  // lyrics if any have to be handled in all cases
-  handleLyricsForNote (
-    voice,
-    newNote);
-
   // register newNote as the last met note for this voice
   /*
   map<S_msrVoice, S_msrNote>::iterator
@@ -17005,8 +17008,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 #endif
   
   // attach the pending elements, if any, to newNote
-  // only now because <lyric> follows <glissando> in MusicXML
+  // only now because <lyric> follows <glissando> and <slide> in MusicXML
   attachPendingElementsToNote (newNote);
+
+  // lyrics if any have to be handled in all cases
+  // only now because attachPendingElementsToNote()
+  // may append skip syllables to the notes
+  handleLyricsForNote (
+    voice,
+    newNote);
 
   fOnGoingNote = false;
 }

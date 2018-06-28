@@ -6371,6 +6371,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           "%{ " << elt->getInputLineNumber () << " %} ";
       } 
     }
+
+    if (gLilypondOptions->fNoteInputLineNumbers) {
+      fLilypondCodeIOstream <<
+        "%{ " << elt->getInputLineNumber () << " %} ";
+    }
   }
 }
 

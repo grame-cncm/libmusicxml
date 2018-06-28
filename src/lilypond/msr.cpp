@@ -11337,6 +11337,26 @@ void msrMeasure::initializeMeasure ()
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
 
+
+  // fetch the staff
+  S_msrStaff
+    staff =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceStaffUplink ();
+
+  // get the staff time
+  S_msrTime
+    time =
+      staff->
+        getStaffCurrentTime ();
+        
+  // set the measure full length if relevant
+  if (time) {
+    setMeasureFullLengthFromTime (
+      time);
+    }
+
   // measure doesn't contain music yet
   fMeasureContainsMusic = false;
 }
@@ -14124,7 +14144,7 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "fulMeasureLength" << " : ";
+    "measureFullLength" << " : ";
     
     // fetch the staff
     S_msrStaff
