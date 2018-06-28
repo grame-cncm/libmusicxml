@@ -5245,7 +5245,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
       endl;
   }
 #endif
-    
+
+  fCurrentNoteHasLyrics = true;
   fCurrentStanzaHasText = true;
 
 #ifdef TRACE_OPTIONS
@@ -6986,6 +6987,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteNormalNotes = -1;
 
   // lyrics
+
+  fCurrentNoteHasLyrics = false;
   
   fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
   fCurrentStanzaName = K_NO_STANZA_NAME;
@@ -15894,6 +15897,19 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
               voice->
                 getVoiceStanzasMap ();
                     
+#ifdef TRACE_OPTIONS
+              if (gTraceOptions->fTraceGlissandos) {
+                fLogOutputStream <<
+                  "--> attachPendingGlissandosToNote()"
+                  ", voiceStanzasMap.size () = " <<
+                  voiceStanzasMap.size () <<
+                  ", fCurrentNoteHasLyrics = " <<
+                  booleanAsString (fCurrentNoteHasLyrics) <<
+                  ", line " << inputLineNumber <<
+                  endl;
+              }
+#endif
+
           if (voiceStanzasMap.size ()) {
             // there are lyrics in this voice
             if (! fCurrentNoteHasLyrics) {
@@ -15961,6 +15977,82 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
       note->
         appendSlideToNote (slide);
         
+      // take care of no lyrics on kSlideTypeStop
+      switch (slide->getSlideTypeKind ()) {
+        case msrSlide::kSlideTypeNone:
+        case msrSlide::kSlideTypeStart:
+          break;
+          
+        case msrSlide::kSlideTypeStop:
+          int inputLineNumber =
+            slide->getInputLineNumber ();
+            
+          // fetch the voice
+          S_msrVoice
+            voice =
+              fetchVoiceFromCurrentPart (
+                inputLineNumber,
+                fCurrentNoteStaffNumber,
+                fCurrentNoteVoiceNumber);
+              
+          // get the voice's stanzas map
+          const map<string, S_msrStanza>&
+            voiceStanzasMap =
+              voice->
+                getVoiceStanzasMap ();
+                    
+#ifdef TRACE_OPTIONS
+              if (gTraceOptions->fTraceSlides) {
+                fLogOutputStream <<
+                  "--> attachPendingSlidesToNote()"
+                  ", voiceStanzasMap.size () = " <<
+                  voiceStanzasMap.size () <<
+                  ", fCurrentNoteHasLyrics = " <<
+                  booleanAsString (fCurrentNoteHasLyrics) <<
+                  ", line " << inputLineNumber <<
+                  endl;
+              }
+#endif
+
+          if (voiceStanzasMap.size ()) {
+            // there are lyrics in this voice
+            if (! fCurrentNoteHasLyrics) {
+              // append a skip to lyrics the same duration as the note
+#ifdef TRACE_OPTIONS
+              if (gTraceOptions->fTraceSlides) {
+                fLogOutputStream <<
+                  "Attaching a skip syllable to note '" <<
+                  note->asString () <<
+                  "' that has a slide stop and no lyrics " <<
+                  ", line " << inputLineNumber <<
+                  endl;
+              }
+#endif
+
+              for (
+                map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
+                i != voiceStanzasMap.end ();
+                i++) {
+                S_msrStanza stanza = (*i).second;
+                // create a skip syllable
+                S_msrSyllable
+                  syllable =
+                    msrSyllable::create (
+                      inputLineNumber,
+                      msrSyllable::kSyllableSkip,
+                      msrSyllable::kSyllableExtendNone, // fCurrentSyllableExtendKind, // JMI
+                      fCurrentNoteSoundingWholeNotesFromDuration,
+                      stanza);
+          
+                // append syllable to stanza
+                stanza->
+                  appendSyllableToStanza (syllable);
+              } // for
+            }
+          }
+          break;
+      } // switch
+
       fPendingSlides.pop_front ();
     } // while
   }
@@ -16912,6 +17004,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 #endif
   
+  // attach the pending elements, if any, to newNote
+  // only now because <lyric> follows <glissando> in MusicXML
+  attachPendingElementsToNote (newNote);
+
   fOnGoingNote = false;
 }
 
@@ -17085,9 +17181,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     }
 #endif
 
-    // attach the pending elements, if any, to newNote
-    attachPendingElementsToNote (newNote);
-
+    // append newNote to the current grace notes
     fCurrentGraceNotes->
       appendNoteToGraceNotes (newNote);
   }
@@ -17182,10 +17276,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // this is the first note after the grace notes,
       // forget about the latter
       fCurrentGraceNotes = nullptr;
-  
-    // attach the pending elements, if any, to the note
-    attachPendingElementsToNote (newNote);
-  
+    
     // append newNote to the current voice
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceNotes) {
@@ -17252,10 +17343,6 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
 {
   int inputLineNumber =
     newNote->getInputLineNumber ();
-
-  // an <lyric/> markup may have no <text/> inside it
-  fCurrentNoteHasLyrics =
-    fCurrentLyricTextsList.size () > 0;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
@@ -17907,9 +17994,6 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
       endl;
   }
 #endif
-
-  // attach the pending elements, if any, to the note
-  attachPendingElementsToNote (note);
 
   // is there an ongoing chord?
   if (! fOnGoingChord) {
