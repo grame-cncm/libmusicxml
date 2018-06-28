@@ -1243,8 +1243,9 @@ class mxmlTree2MsrTranslator :
     string                    fCurrentStanzaNumber;
     string                    fCurrentStanzaName;
     
-    bool                      fCurrentNoteHasStanza;
     bool                      fCurrentNoteHasLyrics;
+    bool                      fASkipSyllableHasBeenGeneratedForcurrentNote;
+
     bool                      fCurrentStanzaHasText;
 
     list<S_msrSyllable>       fCurrentNoteSyllables;

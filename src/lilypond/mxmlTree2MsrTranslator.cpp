@@ -193,6 +193,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fFirstSyllableInLigatureKind = msrSyllable::kSyllableNone;
 
   fCurrentNoteHasLyrics = false;
+  fASkipSyllableHasBeenGeneratedForcurrentNote = false;
   fLastHandledNoteInVoiceHasLyrics = false;
 
   // scordatura handling
@@ -5176,8 +5177,6 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 
   fCurrentStanzaHasText = false;
 
-  fCurrentNoteHasStanza = true;
-
   fOnGoingLyric = true;
 }
 
@@ -5613,8 +5612,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
   // DON'T register current note as having lyrics,
   // it's only the case when there are <text/> inside the <lyric/>:
-  // the latter may contain only an <extend/> markup
-  fCurrentNoteHasStanza = true;
+  // the latter may contain only an <extend/> markup,
 
   fOnGoingLyric = false;
 }
@@ -6989,6 +6987,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   // lyrics
 
   fCurrentNoteHasLyrics = false;
+  fASkipSyllableHasBeenGeneratedForcurrentNote = false;
   
   fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
   fCurrentStanzaName = K_NO_STANZA_NAME;
@@ -7006,9 +7005,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
     fCurrentSyllableExtendKind =
       msrSyllable::kSyllableExtendNone;
   }
-
-  // assume this note hasn't got any stanzas until S_lyric is met
-  fCurrentNoteHasStanza = false;
 
   // stems
   
@@ -15948,6 +15944,8 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
                 stanza->
                   appendSyllableToStanza (syllable);
               } // for
+
+              fASkipSyllableHasBeenGeneratedForcurrentNote = true;
             }
           }
           break;
@@ -16056,6 +16054,8 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
                 stanza->
                   appendSyllableToStanza (syllable);
               } // for
+
+              fASkipSyllableHasBeenGeneratedForcurrentNote = true;
             }
           }
           break;
@@ -17388,11 +17388,18 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       booleanAsString (
         fOnGoingSyllableExtend) <<
       endl <<
+
       setw (fieldWidth) <<
       "fCurrentNoteHasLyrics" << " = " <<
       booleanAsString (
         fCurrentNoteHasLyrics) <<
       endl <<
+      setw (fieldWidth) <<
+      "fASkipSyllableHasBeenGeneratedForcurrentNote" << " = " <<
+      booleanAsString (
+        fASkipSyllableHasBeenGeneratedForcurrentNote) <<
+      endl <<
+
       setw (fieldWidth) <<
       "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
       endl <<
@@ -17448,7 +17455,8 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     // don't create a skip for chord note members except the first
     // nor for grace notes
 
-    bool doCreateASkipSyllable = false;
+    bool doCreateASkipSyllable =
+      ! fASkipSyllableHasBeenGeneratedForcurrentNote;
     
     switch (fCurrentSyllableExtendKind) {
       case msrSyllable::kSyllableExtendSingle:
@@ -17456,12 +17464,12 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       case msrSyllable::kSyllableExtendStart:
         break;
       case msrSyllable::kSyllableExtendContinue:
-        doCreateASkipSyllable = true;
+ //       doCreateASkipSyllable = true; // JMI
         break;
       case msrSyllable::kSyllableExtendStop:
         break;
       case msrSyllable::kSyllableExtendNone:
-        doCreateASkipSyllable = true;
+  //      doCreateASkipSyllable = true; // JMI
         break;
     } // switch
 
