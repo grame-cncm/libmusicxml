@@ -126,11 +126,13 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
     getMsrScore ()->
       setInhibitMeasuresRepeatReplicasBrowsing ();
 
+/* JMI
   // inhibit the browsing of multiple rest replicas,
   // since Lilypond only needs the measure number
   fVisitedLpsrScore->
     getMsrScore ()->
       setInhibitMultipleRestMeasuresBrowsing ();
+*/
 
   // header handling
   fOnGoingHeader = false;
@@ -8240,6 +8242,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     case msrNote::kRestNote:
       // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRest&)
       if (fOnGoingMultipleRestMeasures) {
+        /*
         if (elt->getNoteOccupiesAFullMeasure ()) {
           bool inhibitMultipleRestMeasuresBrowsing =
             fVisitedLpsrScore->
@@ -8267,6 +8270,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           return;
           }
         }
+        */
+
+#ifdef TRACE_OPTIONS
+        if (
+          gMsrOptions->fTraceMsrVisitors
+            ||
+          gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "% ==> visiting multiple rest measure is ignored" <<
+            endl;
+        }
+#endif
+
+        return;
       }
       break;
     default:
@@ -10903,12 +10920,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kBarlineCategoryStandalone:
-    /* JMI
-      fLilypondCodeIOstream <<
-        endl <<
-        endl;
-        */
-      
       switch (elt->getBarlineStyleKind ()) {
         case msrBarline::kBarlineStyleNone:
           break;
@@ -10958,11 +10969,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           "%{ " << inputLineNumber << " %} ";
       }
 
-/* JMI
       fLilypondCodeIOstream <<
-        endl <<
         endl;
-*/
 
       switch (elt->getBarlineHasSegnoKind ()) {
         case msrBarline::kBarlineHasSegnoYes:

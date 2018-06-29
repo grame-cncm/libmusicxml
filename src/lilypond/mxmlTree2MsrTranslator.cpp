@@ -15918,6 +15918,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
 
           if (voiceStanzasMap.size ()) {
             // there are lyrics in this voice
+            /* JMI
             if (! fCurrentNoteHasLyrics) {
               // append a skip to lyrics the same duration as the note
 #ifdef TRACE_OPTIONS
@@ -15957,6 +15958,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
 
               fASkipSyllableHasBeenGeneratedForcurrentNote = true;
             }
+            */
           }
           break;
       } // switch
@@ -16028,6 +16030,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
 
           if (voiceStanzasMap.size ()) {
             // there are lyrics in this voice
+            /* JMI
             if (! fCurrentNoteHasLyrics) {
               // append a skip to lyrics the same duration as the note
 #ifdef TRACE_OPTIONS
@@ -16067,6 +16070,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
 
               fASkipSyllableHasBeenGeneratedForcurrentNote = true;
             }
+            */
           }
           break;
       } // switch
@@ -17466,7 +17470,8 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     // nor for grace notes
 
     bool doCreateASkipSyllable =
-      ! fASkipSyllableHasBeenGeneratedForcurrentNote;
+     // ! fASkipSyllableHasBeenGeneratedForcurrentNote; JMI
+      ! fCurrentNoteHasLyrics;
     
     switch (fCurrentSyllableExtendKind) {
       case msrSyllable::kSyllableExtendSingle:
@@ -18971,7 +18976,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   fCurrentPart->
     appendBarlineToPart (barline);
 
-  // prepend an implicit bar line  to the part if needed
+  // prepend an implicit bar line to the part if needed
   if (! fOnGoingRepeat) {
     createAndPrependImplicitBarLine (
       inputLineNumber);
