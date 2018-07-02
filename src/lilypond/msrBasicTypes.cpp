@@ -109,6 +109,61 @@ ostream& operator<< (ostream& os, msrDottedDuration elt)
   return os;
 }
 
+// tuplet factors
+//______________________________________________________________________________
+msrTupletFactor::msrTupletFactor ()
+{
+  fTupletActualNotes = -1;
+  fTupletNormalNotes = -1;
+}
+
+msrTupletFactor::msrTupletFactor (
+  int tupletActualNotes,
+  int tupletNormalNotes)
+{
+  fTupletActualNotes = tupletActualNotes;
+  fTupletNormalNotes = tupletNormalNotes;
+}
+
+msrTupletFactor::msrTupletFactor (
+  rational rationalTupletFactor)
+{
+  fTupletActualNotes = rationalTupletFactor.getNumerator ();
+  fTupletNormalNotes = rationalTupletFactor.getDenominator ();
+}
+
+string msrTupletFactor::asString () const
+{
+  stringstream s;
+
+  s <<
+    "'" <<
+    "tupletActualNotes: " << fTupletActualNotes <<
+    ", tupletNormalNotes" << " = " << fTupletNormalNotes <<
+    "'";
+  
+  return s.str ();
+}
+
+void msrTupletFactor::print (ostream& os)
+{
+  const int fieldWidth = 11;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "tupletActualNotes" << " = " << fTupletActualNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "tupletNormalNotes" << " = " << fTupletNormalNotes <<
+    endl;
+};
+
+ostream& operator<< (ostream& os, msrTupletFactor elt)
+{
+  elt.print (os);
+  return os;
+}
+
 // intervals
 //______________________________________________________________________________
 int msrIntervalKindAsSemiTones (
@@ -12274,9 +12329,8 @@ string wholeNotesAsMsrString (
       endl;
   }
 
-
 /*
-augmentation dots add half the preceding increment to the duration:
+augmentation dots add half the preceding duration or increment to the duration:
 they constitue a series of frations or the form '(2^n-1) / 2^n',
 starting with 3/2, 7/4, 15/8,
 that tends towards 2 while always remaining less than two.

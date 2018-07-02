@@ -14510,8 +14510,9 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
         fCurrentTupletLineShapeKind,
         fCurrentTupletShowNumberKind,
         fCurrentTupletShowTypeKind,
-        fCurrentNoteActualNotes,
-        fCurrentNoteNormalNotes,
+        msrTupletFactor (
+          fCurrentNoteActualNotes,
+          fCurrentNoteNormalNotes),
         memberNotesSoundingWholeNotes,
         memberNotesDisplayWholeNotes,
         firstNote->getNotePositionInMeasure ());
@@ -17454,7 +17455,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       S_msrSyllable
         syllable = (*i);
         
-      // set syllables note uplink to newNote
+      // set syllable note uplink to newNote
       syllable->
         appendSyllableToNoteAndSetItsUplink (
           newNote);
@@ -17517,6 +17518,11 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
                 fCurrentSyllableExtendKind,
                 fCurrentNoteSoundingWholeNotesFromDuration,
                 stanza);
+    
+          // set syllable note uplink to newNote
+          syllable->
+            appendSyllableToNoteAndSetItsUplink (
+              newNote);
     
           // append syllable to stanza
           stanza->
@@ -19096,6 +19102,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
       fLogOutputStream <<
         "Prepending an implicit barline ahead of part " <<
         fCurrentPart->getPartCombinedName () <<
+        ", line " << inputLineNumber <<
         endl;
     }
 #endif

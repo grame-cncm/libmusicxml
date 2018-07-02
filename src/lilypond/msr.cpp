@@ -7058,8 +7058,11 @@ S_msrTuplet msrTuplet::create (
   msrTupletLineShapeKind  tupletLineShapeKind,
   msrTupletShowNumberKind tupletShowNumberKind,
   msrTupletShowTypeKind   tupletShowTypeKind,
+  msrTupletFactor         tupletFactor,
+  /*
   int                     tupletActualNotes,
   int                     tupletNormalNotes,
+  */
   rational                memberNotesSoundingWholeNotes,
   rational                memberNotesDisplayWholeNotes,
   rational                notePositionInMeasure)
@@ -7072,8 +7075,11 @@ S_msrTuplet msrTuplet::create (
       tupletLineShapeKind,
       tupletShowNumberKind,
       tupletShowTypeKind,
+      tupletFactor,
+      /*
       tupletActualNotes,
       tupletNormalNotes,
+      */
       memberNotesSoundingWholeNotes,
       memberNotesDisplayWholeNotes,
       notePositionInMeasure);
@@ -7088,8 +7094,11 @@ msrTuplet::msrTuplet (
   msrTupletLineShapeKind  tupletLineShapeKind,
   msrTupletShowNumberKind tupletShowNumberKind,
   msrTupletShowTypeKind   tupletShowTypeKind,
+  msrTupletFactor         tupletFactor,
+  /*
   int                     tupletActualNotes,
   int                     tupletNormalNotes,
+  */
   rational                memberNotesSoundingWholeNotes,
   rational                memberNotesDisplayWholeNotes,
   rational                notePositionInMeasure)
@@ -7102,8 +7111,9 @@ msrTuplet::msrTuplet (
   fTupletShowNumberKind = tupletShowNumberKind;
   fTupletShowTypeKind   = tupletShowTypeKind;
 
-  fTupletActualNotes = tupletActualNotes;
-  fTupletNormalNotes = tupletNormalNotes;
+  fTupletFactor = tupletFactor;
+//  fTupletActualNotes = tupletActualNotes;
+//  fTupletNormalNotes = tupletNormalNotes;
 
   fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
@@ -7138,8 +7148,9 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
         fTupletLineShapeKind,
         fTupletShowNumberKind,
         fTupletShowTypeKind,
-        fTupletActualNotes,
-        fTupletNormalNotes,
+        fTupletFactor,
+      //  fTupletActualNotes = tupletActualNotes;
+      //  fTupletNormalNotes = tupletNormalNotes;
         fMemberNotesSoundingWholeNotes,
         fMemberNotesDisplayWholeNotes,
         fTupletPositionInMeasure);
@@ -7794,8 +7805,11 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
 */
 
 void msrTuplet::unapplySoundingFactorToTupletMembers (
+  const msrTupletFactor& containingTupletFactor)
+  /*
   int containingTupletActualNotes,
   int containingTupletNormalNotes)
+  */
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
@@ -7806,15 +7820,21 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
     gIndenter++;
     
     gLogIOstream <<
+      "% fTupletFactor = " << fTupletFactor.asString () <<
+      /*
       "% fTupletActualNotes = " <<
       fTupletActualNotes <<
       ", fTupletNormalNotes = " <<
       fTupletNormalNotes <<
+      */
       endl <<
+      "% containingTupletFactor = " << containingTupletFactor.asString () <<
+      /*
       "% containingTupletActualNotes = " <<
       containingTupletActualNotes <<
       ", containingTupletNormalNotes = " <<
       containingTupletNormalNotes <<
+      */
       endl <<
       endl;
 
@@ -7822,10 +7842,17 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   }
 #endif
 
+  fTupletFactor.fTupletActualNotes /=
+    containingTupletFactor.fTupletActualNotes;
+  fTupletFactor.fTupletNormalNotes /=
+    containingTupletFactor.fTupletNormalNotes;
+
+    /*
   fTupletActualNotes /=
     containingTupletActualNotes;
   fTupletNormalNotes /=
     containingTupletNormalNotes;
+    */
 }
 
 void msrTuplet::acceptIn (basevisitor* v)
@@ -7896,8 +7923,8 @@ string msrTuplet::asString () const
 
   s <<
     "Tuplet " <<
-    fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingWholeNotes << " sound whole notes" <<
+    fTupletFactor.asString () <<
+    " " << fTupletSoundingWholeNotes << " tupletSoundingWholeNotes" <<
     " @meas "<<
     fTupletMeasureNumber <<
     ":";
@@ -8027,7 +8054,7 @@ void msrTuplet::print (ostream& os)
 {
   os <<
     "Tuplet " <<
-    fTupletActualNotes << "/" << fTupletNormalNotes <<
+    fTupletFactor.asString () <<
     ", " <<
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
@@ -8111,7 +8138,7 @@ void msrTuplet::printShort (ostream& os)
 {
   os <<
     "Tuplet " <<
-    fTupletActualNotes << "/" << fTupletNormalNotes <<
+    fTupletFactor.asString () <<
     ", " <<
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
@@ -8871,10 +8898,43 @@ void msrSyllable::browseData (basevisitor* v)
 
 string msrSyllable::syllableWholeNotesAsMsrString () const
 {
-  return
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fSyllableWholeNotes);
+  string result;
+
+  if (fSyllableNoteUplink) { // JMI
+    switch (fSyllableNoteUplink->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+      case msrNote::kRestNote:
+      case msrNote::kUnpitchedNote:
+      case msrNote::kStandaloneNote:
+      case msrNote::kDoubleTremoloMemberNote:
+      case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
+      case msrNote::kChordMemberNote:
+        result =
+          wholeNotesAsMsrString (
+            fInputLineNumber,
+            fSyllableWholeNotes);
+        break;
+        
+      case msrNote::kSkipNote:
+      case msrNote::kTupletMemberNote:
+      case msrNote::kTupletMemberUnpitchedNote:
+        result =
+          fSyllableNoteUplink->
+    // JMI        noteSoundingWholeNotesAsMsrString ();
+            noteDisplayWholeNotesAsMsrString ();
+        break;
+    } // switch
+  }
+
+  else {
+    result =
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+          fSyllableWholeNotes);
+  }
+      
+  return result;
 }
 
 string msrSyllable::syllableKindAsString (
@@ -9044,7 +9104,6 @@ string msrSyllable::asString () const
 
   return s.str ();
 }
-
 
 void msrSyllable::print (ostream& os)
 {  
@@ -11378,7 +11437,7 @@ void msrMeasure::initializeMeasure ()
   }
 #endif
 
-  if (true && fMeasureNumber == "0" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 3) {
+  if (false && fMeasureNumber == "0" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 3) {
     gLogIOstream <<
       endl <<
       "======================= initializeMeasure()" <<

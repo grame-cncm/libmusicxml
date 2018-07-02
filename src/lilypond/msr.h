@@ -4205,8 +4205,11 @@ class msrTuplet : public msrElement
       msrTupletLineShapeKind  tupletLineShapeKind,
       msrTupletShowNumberKind tupletShowNumberKind,
       msrTupletShowTypeKind   tupletShowTypeKind,
+      msrTupletFactor         tupletFactor,
+      /*
       int                     tupletActualNotes,
       int                     tupletNormalNotes,
+      */
       rational                memberNotesSoundingWholeNotes,
       rational                memberNotesDisplayWholeNotes,
       rational                notePositionInMeasure); // JMI
@@ -4227,8 +4230,11 @@ class msrTuplet : public msrElement
       msrTupletLineShapeKind  tupletLineShapeKind,
       msrTupletShowNumberKind tupletShowNumberKind,
       msrTupletShowTypeKind   tupletShowTypeKind,
+      msrTupletFactor         tupletFactor,
+      /*
       int                     tupletActualNotes,
       int                     tupletNormalNotes,
+      */
       rational                memberNotesSoundingWholeNotes,
       rational                memberNotesDisplayWholeNotes,
       rational                notePositionInMeasure);
@@ -4257,10 +4263,16 @@ class msrTuplet : public msrElement
     msrTupletShowTypeKind getTupletShowTypeKind () const
                               { return fTupletShowTypeKind; }
 
+    const msrTupletFactor&
+                          getTupletFactor ()
+                              { return fTupletFactor; }
+
+/* JMI
     int                   getTupletActualNotes () const
                               { return fTupletActualNotes; }
     int                   getTupletNormalNotes () const
                               { return fTupletNormalNotes; }
+    */
     
     rational              getMemberNotesSoundingWholeNotes () const
                               { return fMemberNotesSoundingWholeNotes; }
@@ -4316,8 +4328,11 @@ class msrTuplet : public msrElement
  // JMI   void                  applyDisplayFactorToTupletMembers ();
     
     void                  unapplySoundingFactorToTupletMembers (
+                            const msrTupletFactor& containingTupletFactor);
+                            /*
                             int containingTupletActualNotes,
                             int containingTupletNormalNotes);
+                            */
 
   public:
 
@@ -4359,9 +4374,10 @@ class msrTuplet : public msrElement
                           fTupletShowNumberKind;
               
     msrTupletShowTypeKind fTupletShowTypeKind;
-              
-    int                   fTupletActualNotes;
-    int                   fTupletNormalNotes;
+
+    msrTupletFactor       fTupletFactor;
+//    int                   fTupletActualNotes;
+ //   int                   fTupletNormalNotes;
 
     rational              fMemberNotesSoundingWholeNotes;
     rational              fMemberNotesDisplayWholeNotes;

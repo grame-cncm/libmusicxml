@@ -631,6 +631,77 @@ class msrDottedDuration
 EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
 
 //______________________________________________________________________________
+class msrTupletFactor
+{
+// JMI  protected:
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTupletFactor ();
+
+    msrTupletFactor (
+      int tupletActualNotes,
+      int tupletNormalNotes);
+
+    msrTupletFactor (
+      rational rationalTupletFactor);
+
+// JMI    virtual ~msrTupletFactor ();
+  
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+/* JMI
+    msrDurationKind       getDuration () const
+                              { return fDuration; }
+                              
+    int                   getDotsNumber () const
+                              { return fDotsNumber; }
+*/
+                              
+    // services
+    // ------------------------------------------------------
+
+    rational              asRational () const
+                            {
+                              return
+                                rational (
+                                  fTupletActualNotes,
+                                  fTupletNormalNotes);
+                            }
+
+    // visitors
+    // ------------------------------------------------------
+
+/* JMI
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
+
+  public:
+  
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os);
+ 
+  public:
+  
+    // fields
+    // ------------------------------------------------------
+
+    int                   fTupletActualNotes;
+    int                   fTupletNormalNotes;
+};
+EXP ostream& operator<< (ostream& os, msrTupletFactor elt);
+
+//______________________________________________________________________________
 class msrChordInterval;
 typedef SMARTP<msrChordInterval> S_msrChordInterval;
 

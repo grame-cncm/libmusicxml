@@ -623,7 +623,8 @@ instead of keeping the on the same line as the current measure.)",
   {
     // variables
     
-    fRepeatBrackets = boolOptionsInitialValue;
+    fRepeatBrackets      = boolOptionsInitialValue;
+    fIgnoreRepeatNumbers = boolOptionsInitialValue;
   
     // options
   
@@ -641,8 +642,16 @@ R"()",
     repeatsSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
+          "irn", "ignoreRepeatNumbers",
+R"(Ignore repeats numbers and let LilyPond determine them.)",
+          "ignoreRepeatNumbers",
+          fIgnoreRepeatNumbers));
+
+    repeatsSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
           "rbracks", "repeatBrackets",
-R"(Generate repeats with brackets instead of regular bar lines)",
+R"(Generate repeats with brackets instead of regular bar lines.)",
           "repeatBrackets",
           fRepeatBrackets));
   }
@@ -1025,6 +1034,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   
   clone->fRepeatBrackets =
     fRepeatBrackets;
+  clone->fIgnoreRepeatNumbers =
+    fIgnoreRepeatNumbers;
 
   
   // ornaments
@@ -1299,6 +1310,9 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    setw (fieldWidth) << "ignoreRepeatNumbers" << " : " <<
+    booleanAsString (fIgnoreRepeatNumbers) <<
+    endl <<
     setw (fieldWidth) << "repeatBrackets" << " : " <<
     booleanAsString (fRepeatBrackets) <<
     endl;

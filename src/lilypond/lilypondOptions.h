@@ -309,7 +309,8 @@ class lilypondOptions : public optionsGroup
 
     // repeats
     // --------------------------------------
-    
+
+    bool                  fIgnoreRepeatNumbers; // and let LilyPond do the job
     bool                  fRepeatBrackets;
 
     // ornaments

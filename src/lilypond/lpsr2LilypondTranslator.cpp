@@ -1506,7 +1506,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           notePitchAsLilypondString (note);
       }
       
-      // print the note (display) duration
+      // print the note display duration
       fLilypondCodeIOstream <<
         durationAsLilypondString (
           inputLineNumber,
@@ -6292,7 +6292,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
            
         case msrSyllable::kSyllableMeasureEnd:
           fLilypondCodeIOstream <<
-            "%{ measure end, line " <<
+            "| %{ measure end, line " <<
             elt->getInputLineNumber () <<
             " %}" <<
             endl;
@@ -10545,9 +10545,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
     elt->
       unapplySoundingFactorToTupletMembers (
         containingTuplet->
+          getTupletFactor ());
+          /* JMI
+        containingTuplet->
           getTupletActualNotes (),
         containingTuplet->
           getTupletNormalNotes ());
+          */
   }
 
   if (gLilypondOptions->fIndentTuplets) {
@@ -10659,9 +10663,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
 
   fLilypondCodeIOstream <<
     "\\tuplet " <<
+    elt->getTupletFactor ().asRational () <<
+  /*
     elt->getTupletActualNotes () <<
     "/" <<
-    elt->getTupletNormalNotes () << " { ";
+    elt->getTupletNormalNotes () <<
+    */
+    " { ";
 
   fTupletsStack.push (elt);
 
