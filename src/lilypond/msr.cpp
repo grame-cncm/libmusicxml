@@ -23551,8 +23551,13 @@ void msrVoice::appendRepeatEndingToVoice (
               */
             break;
           case msrRepeatEnding::kHooklessEnding:
+            createNewLastSegmentAndANewMeasureAfterARepeat (
+              inputLineNumber,
+              1); // JMI measureFullLength);
+          /*
             createNewLastSegmentForVoice (
               inputLineNumber);
+              */
             break;
         } // switch
 

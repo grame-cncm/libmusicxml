@@ -11300,8 +11300,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 
   fRepeatsDescrStack.back ()->
     incrementRepeatEndingsCounter ();
-  
-  if (elt->getRepeatEndingInternalNumber () == 1) {
+
+  int
+    repeatEndingInternalNumber =
+      elt->getRepeatEndingInternalNumber ();
+      
+  if (repeatEndingInternalNumber == 1) {
     
     gIndenter--;
     
@@ -11378,11 +11382,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       elt->getRepeatEndingNumber ();
 
   if (repeatEndingNumber.size ()) {
-    fLilypondCodeIOstream <<
-      "\\set Score.repeatCommands = #'(end-repeat (volta \"" <<
-      repeatEndingNumber <<
-      "\"))" <<
-      endl;
+    if (repeatEndingInternalNumber == 1) {
+      fLilypondCodeIOstream <<
+        "\\set Score.repeatCommands = #'((volta \"" <<
+        repeatEndingNumber <<
+        "\"))" <<
+        endl;
+    }
+    else {
+      fLilypondCodeIOstream <<
+        "\\set Score.repeatCommands = #'(end-repeat (volta \"" <<
+        repeatEndingNumber <<
+        "\"))" <<
+        endl;
+    }
   }
 }
 
