@@ -4963,7 +4963,7 @@ void msrNote::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  const int fieldWidth = 29;
+  const int fieldWidth = 30;
     
   {
     // print sounding and displayed whole notes
@@ -5034,8 +5034,52 @@ void msrNote::print (ostream& os)
     os <<
       endl;
 
-    // note print kind
+    // short cuts for efficiency
+    os << left <<
+      setw (fieldWidth) <<
+      "noteIsARest" << " : " <<
+      booleanAsString (fNoteIsARest) <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteIsUnpitched" << " : " <<
+      booleanAsString (fNoteIsUnpitched) <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteIsACueNote" << " : " <<
+      booleanAsString (fNoteIsACueNote) <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteIsAGraceNote" << " : " <<
+      booleanAsString (fNoteIsAGraceNote) <<
+      endl;
 
+    // chord member?
+    os << left <<
+      setw (fieldWidth) <<
+      "noteBelongsToAChord" << " : " <<
+      booleanAsString (fNoteBelongsToAChord) <<
+      endl;
+
+    // tuplet member?
+    os << left <<
+      setw (fieldWidth) <<
+      "noteBelongsToATuplet" << " : " <<
+      booleanAsString (fNoteBelongsToATuplet) <<
+      endl;
+
+    // multiple rest member?
+    os << left <<
+      setw (fieldWidth) <<
+      "noteBelongsToAMultipleRest" << " : " <<
+      booleanAsString (fNoteBelongsToAMultipleRest) <<
+      endl;
+    os << left <<
+      setw (fieldWidth) <<
+      "noteMultipleRestSequenceNumber" << " : " <<
+      fNoteMultipleRestSequenceNumber <<
+      endl;
+
+    // note print kind
     os << left <<
       setw (fieldWidth) <<
      "notePrintKind" << " : " <<
@@ -5209,7 +5253,7 @@ void msrNote::print (ostream& os)
         {
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotes" << " = \"" <<
+            "noteSoundingWholeNotes" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl;
@@ -8604,6 +8648,7 @@ S_msrSyllable msrSyllable::create (
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
+  msrTupletFactor       syllableTupletFactor,
   S_msrStanza           syllableStanzaUplink)
 {
   msrSyllable* o =
@@ -8612,6 +8657,7 @@ S_msrSyllable msrSyllable::create (
       syllableKind,
       syllableExtendKind,
       syllableWholeNotes,
+      syllableTupletFactor,
       syllableStanzaUplink);
   assert(o!=0);
 
@@ -8623,6 +8669,7 @@ msrSyllable::msrSyllable (
   msrSyllableKind       syllableKind,
   msrSyllableExtendKind syllableExtendKind,
   rational              syllableWholeNotes,
+  msrTupletFactor       syllableTupletFactor,
   S_msrStanza           syllableStanzaUplink)
     : msrElement (inputLineNumber)
 {
@@ -8637,12 +8684,14 @@ msrSyllable::msrSyllable (
     
   fSyllableKind = syllableKind;
   
-  fSyllableWholeNotes = syllableWholeNotes;
-
   fSyllableExtendKind = syllableExtendKind;
   
   // fSyllableNoteUplink will be set
   // by appendSyllableToNoteAndSetItsUplink () later
+
+  fSyllableWholeNotes = syllableWholeNotes;
+
+  fSyllableTupletFactor = syllableTupletFactor;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
@@ -8687,6 +8736,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableKind,
         fSyllableExtendKind,
         fSyllableWholeNotes,
+        fSyllableTupletFactor,
         fSyllableStanzaUplink);
     
   // append the lyric texts to the syllable clone
@@ -8733,6 +8783,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fSyllableKind,
         fSyllableExtendKind,
         fSyllableWholeNotes,
+        fSyllableTupletFactor,
         fSyllableStanzaUplink);
       
   // append the lyric texts to the syllable deep copy
@@ -8919,10 +8970,20 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
       case msrNote::kSkipNote:
       case msrNote::kTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
-        result =
-          fSyllableNoteUplink->
-    // JMI        noteSoundingWholeNotesAsMsrString ();
-            noteDisplayWholeNotesAsMsrString ();
+        {
+          stringstream s;
+
+          s <<
+            fSyllableNoteUplink->
+      // JMI        noteSoundingWholeNotesAsMsrString () <<
+              noteDisplayWholeNotesAsMsrString () <<
+            "*" <<
+            fSyllableTupletFactor.fTupletNormalNotes <<
+            "/" <<
+            fSyllableTupletFactor.fTupletActualNotes;
+
+          result = s.str ();
+        }
         break;
     } // switch
   }
@@ -9040,6 +9101,7 @@ string msrSyllable::asString () const
     ", whole notes:" <<
     syllableWholeNotesAsMsrString () <<
     " (" << fSyllableWholeNotes << ")" <<
+    ", syllableTupletFactor: " << fSyllableTupletFactor <<
     ", line " << fInputLineNumber <<
     ", texts list: ";
     
@@ -9151,7 +9213,11 @@ void msrSyllable::print (ostream& os)
         setw (fieldWidth) <<
        "syllableWholeNotes" << " : " <<
         syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")";
+        " (" << fSyllableWholeNotes << ")" <<
+        endl <<
+        setw (fieldWidth) <<
+       "syllableTupletFactor" << " : " <<
+        fSyllableTupletFactor;
      break;
       
     case kSyllableMeasureEnd:
@@ -9455,6 +9521,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
         msrSyllable::kSyllableSkip, // JMI ??? kSyllableRest,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
+        msrTupletFactor (),
         this);
 
   // append syllable to this stanza
@@ -9491,6 +9558,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
         msrSyllable::kSyllableSkip,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
+        msrTupletFactor (),
         this);
 
   // append syllable to this stanza
@@ -9525,6 +9593,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
         msrSyllable::kSyllableMeasureEnd,
         msrSyllable::kSyllableExtendNone,
         0, // wholeNotes
+        msrTupletFactor (),
         this);
 
   // append syllable to this stanza
@@ -9568,6 +9637,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
         syllableKind,
         msrSyllable::kSyllableExtendNone,
         wholeNotes,
+        msrTupletFactor (),
         this);
 
   // append syllable to this stanza
@@ -9601,7 +9671,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllableLineBreak,
         msrSyllable::kSyllableExtendNone,
-        0,
+        0, // whole notes
+        msrTupletFactor (),
         this);
 
   // append syllable to this stanza
@@ -9871,7 +9942,8 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
         msrSyllable::kSyllableLineBreak,
  // JMI  nextMeasureNumber,
         msrSyllable::kSyllableExtendNone,
-        0,  // wholeNotes
+        0, // whole notes
+        msrTupletFactor (),
         this);
         
   // append syllable to this stanza
@@ -9907,7 +9979,8 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
         msrSyllable::kSyllablePageBreak,
  // JMI  nextMeasureNumber,
         msrSyllable::kSyllableExtendNone,
-        0,  // wholeNotes
+        0, // whole notes
+        msrTupletFactor (),
         this);
         
   // append syllable to this stanza

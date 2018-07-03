@@ -5584,6 +5584,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentSyllableKind,
         fCurrentSyllableExtendKind,
         fCurrentNoteSoundingWholeNotesFromDuration,
+        msrTupletFactor (
+          fCurrentNoteActualNotes,
+          fCurrentNoteNormalNotes),
         stanza);
 
   // append the lyric texts to the syllable
@@ -16227,7 +16230,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentNoteDisplayWholeNotesFromType +=
             wholeNotesIncrement;
 
-          wholeNotesIncrement * rational (1, 2);
+          wholeNotesIncrement *= rational (1, 2);
     
           dots--;
 
@@ -16239,6 +16242,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
               endl <<
               "fCurrentNoteDisplayWholeNotesFromType = " <<
               fCurrentNoteDisplayWholeNotesFromType <<
+              endl <<
+              "wholeNotesIncrement = " <<
+              wholeNotesIncrement <<
               endl <<
               "dots = " <<
               dots <<
@@ -17517,6 +17523,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
                 msrSyllable::kSyllableSkip,
                 fCurrentSyllableExtendKind,
                 fCurrentNoteSoundingWholeNotesFromDuration,
+                msrTupletFactor (
+                  fCurrentNoteActualNotes,
+                  fCurrentNoteNormalNotes),
                 stanza);
     
           // set syllable note uplink to newNote

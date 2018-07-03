@@ -162,7 +162,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fOnGoingMultipleRestMeasures = false;
 
   // measures
-  fMeasuresCounter = 0;
+  fCurrentVoiceMeasuresCounter = -1;
   
   // durations
   fLastMetWholeNotes = rational (0, 1);
@@ -773,6 +773,17 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       lilypondRelativeOctave (note);
   }
 
+  // generate the skip duration
+  s <<
+    durationAsLilypondString (
+      note->getInputLineNumber (),
+      note->
+        getNoteSoundingWholeNotes ());
+
+  // generate the '\rest'
+  s <<
+    "\\rest ";
+
   return s.str ();
 }
 
@@ -1227,11 +1238,20 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           note->noteIsAPitchedRest ();
   
         if (noteIsAPitchedRest) {
+          // pitched rest
           fLilypondCodeIOstream <<
             pitchedRestAsLilypondString (note);
+
+          // this note is the new relative octave reference
+          // (the display quarter tone pitch and octave
+          // have been copied to the note octave
+          // in the msrNote::msrNote () constructor,
+          // since the note octave is used in relative code generation)
+          fRelativeOctaveReference = note;
         }
   
         else {
+          // unpitched rest
           // get the note sounding whole notes
           rational
             noteSoundingWholeNotes =
@@ -1252,21 +1272,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 inputLineNumber,
                 noteSoundingWholeNotes);
           }
-        }
-            
-        // is the rest pitched?
-        if (noteIsAPitchedRest) {
-          fLilypondCodeIOstream <<
-            "\\rest ";
 
-          // this note is the new relative octave reference
-          // (the display quarter tone pitch and octave
-          // have been copied to the note octave
-          // in the msrNote::msrNote () constructor,
-          // since the note octave is used in relative code generation)
-          fRelativeOctaveReference = note;
-        }
-        else {
           // an unpitched rest is no relative octave reference,
           // the preceding one is kept
         }
@@ -5358,6 +5364,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       break;
   } // switch
 
+  // reset current voice measures counter
+  fCurrentVoiceMeasuresCounter = 0; // none have been met
+  
   // force durations to be displayed explicitly
   // at the beginning of the voice
   fLastMetWholeNotes = rational (0, 1);
@@ -5771,8 +5780,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 #endif
 
-  // take this measure into account
-  fMeasuresCounter++;
+  // take this measure into account for counting
+  switch (elt->getMeasureKind ()) {
+    case msrMeasure::kUnknownMeasureKind:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kFullMeasureKind:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kUpbeatMeasureKind:
+      // keep fCurrentVoiceMeasuresCounter at 0
+      break;
+    case msrMeasure::kUnderfullMeasureKind:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kOverfullMeasureKind:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kSenzaMisuraMeasureKind:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kEmptyMeasureKind:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+  } // switch
   
   // force durations to be displayed explicitly
   // at the beginning of the measure
@@ -6129,7 +6160,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
 
   if (gLilypondOptions->fSeparatorLineEveryNMeasures > 0) {
     if (
-      fMeasuresCounter
+      fCurrentVoiceMeasuresCounter
         %
       gLilypondOptions->fSeparatorLineEveryNMeasures
         ==
@@ -6291,26 +6322,42 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
            
         case msrSyllable::kSyllableMeasureEnd:
+      // JMI      "| " <<
+          if (gLilypondOptions->fNoteInputLineNumbers) {
+            // print the measure end line number as a comment
+            fLilypondCodeIOstream <<
+              "%{ measure end, line " <<
+              elt->getInputLineNumber () <<
+              " %}";
+          }
+
           fLilypondCodeIOstream <<
-            "| %{ measure end, line " <<
-            elt->getInputLineNumber () <<
-            " %}" <<
             endl;
           break;
     
         case msrSyllable::kSyllableLineBreak:
+          if (gLilypondOptions->fNoteInputLineNumbers) {
+            // print the measure end line number as a comment
+            fLilypondCodeIOstream <<
+              "%{ line break, line " <<
+              elt->getInputLineNumber () <<
+              " %}";
+          }
+
           fLilypondCodeIOstream <<
-            "%{ line break, line " <<
-            elt->getInputLineNumber () <<
-            " %}" <<
             endl;
           break;
     
         case msrSyllable::kSyllablePageBreak:
+          if (gLilypondOptions->fNoteInputLineNumbers) {
+            // print the measure end line number as a comment
+            fLilypondCodeIOstream <<
+              "%{ page break, line " <<
+              elt->getInputLineNumber () <<
+              " %}";
+          }
+
           fLilypondCodeIOstream <<
-            "%{ page break, line " <<
-            elt->getInputLineNumber () <<
-            " %}" <<
             endl;
           break;
     
@@ -11062,8 +11109,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
       endl;
   }
 
+  // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
   fLilypondCodeIOstream <<
-    "\\barNumberCheck #" << elt->getNextBarNumber () <<
+    "\\barNumberCheck #" <<
+    fCurrentVoiceMeasuresCounter <<
+    // JMI elt->getNextBarNumber () <<
     endl;
 }
 

@@ -1826,6 +1826,7 @@ class msrSyllable : public msrElement
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
+      msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUplink);
 
     SMARTP<msrSyllable> createSyllableNewbornClone (
@@ -1844,6 +1845,7 @@ class msrSyllable : public msrElement
       msrSyllableKind       syllableKind,
       msrSyllableExtendKind syllableExtendKind,
       rational              syllableWholeNotes,
+      msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUplink);
         
     virtual ~msrSyllable ();
@@ -1853,10 +1855,13 @@ class msrSyllable : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    // syllable whole notes
-    rational              getSyllableWholeNotes () const
-                              { return fSyllableWholeNotes; }
-                              
+    // uplinks
+    S_msrNote             getSyllableNoteUplink () const
+                              { return fSyllableNoteUplink; }
+
+    S_msrStanza           getSyllableStanzaUplink () const
+                              { return fSyllableStanzaUplink; }
+
     // syllable kind and contents
     msrSyllableKind       getSyllableKind () const
                               { return fSyllableKind; }
@@ -1867,12 +1872,13 @@ class msrSyllable : public msrElement
     msrSyllableExtendKind getSyllableExtendKind () const
                               { return fSyllableExtendKind; }
 
-    // uplinks
-    S_msrNote             getSyllableNoteUplink () const
-                              { return fSyllableNoteUplink; }
-
-    S_msrStanza           getSyllableStanzaUplink () const
-                              { return fSyllableStanzaUplink; }
+    // syllable whole notes
+    rational              getSyllableWholeNotes () const
+                              { return fSyllableWholeNotes; }
+                              
+    // syllable tuplet factor
+    msrTupletFactor       getSyllableTupletFactor () const
+                              { return fSyllableTupletFactor; }
 
     // services
     // ------------------------------------------------------
@@ -1923,14 +1929,16 @@ class msrSyllable : public msrElement
     S_msrNote             fSyllableNoteUplink;
     S_msrStanza           fSyllableStanzaUplink;
   
-    // syllable whole notes
-    rational              fSyllableWholeNotes;
-
     // syllable kind and contents
     msrSyllableKind       fSyllableKind;
     list<string>          fSyllableTextsList;
     msrSyllableExtendKind fSyllableExtendKind;
 
+    // syllable whole notes
+    rational              fSyllableWholeNotes;
+
+    // syllable tuplet factor
+    msrTupletFactor       fSyllableTupletFactor;
 };
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
@@ -3499,6 +3507,7 @@ class msrNote : public msrElement
     bool                  fNoteIsACueNote;
     bool                  fNoteIsAGraceNote;
     
+   // note octave shift
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???
 
     // note print kind
