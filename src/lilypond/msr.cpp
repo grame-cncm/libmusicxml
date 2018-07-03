@@ -11510,7 +11510,18 @@ void msrMeasure::initializeMeasure ()
   }
 #endif
 
-  if (false && fMeasureNumber == "0" && fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 3) {
+  static int counter = 0;
+  
+  counter++;
+      
+  if (
+    false &&
+    fMeasureNumber == "11"
+      &&
+    fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 4
+      &&
+    counter == 1
+    ) {
     gLogIOstream <<
       endl <<
       "======================= initializeMeasure()" <<
@@ -11522,7 +11533,7 @@ void msrMeasure::initializeMeasure ()
       "=======================" <<
       endl <<
       endl;
-      
+
     abort ();
   }
   
@@ -14381,9 +14392,19 @@ void msrMeasure::print (ostream& os)
     "nextMeasureNumber" << " : '" <<
     fNextMeasureNumber << "'" <<
     endl;
-  gIndenter--;
 
-  if (fMeasureElementsList.size ()) {
+  int
+    measureElementsListSize =
+      fMeasureElementsList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "fMeasureElementsList" << " : " <<
+    singularOrPlural (
+      measureElementsListSize, "element", "elements") <<
+    endl;
+
+  if (measureElementsListSize) {
     os <<
       endl;
     
@@ -14401,6 +14422,8 @@ void msrMeasure::print (ostream& os)
     
     gIndenter--;
   }
+
+  gIndenter--;
 } 
 
 ostream& operator<< (ostream& os, const S_msrMeasure& elt)
@@ -23517,13 +23540,21 @@ void msrVoice::appendRepeatEndingToVoice (
         }
 #endif
 
-            /* JMI
-        createNewLastSegmentAndANewMeasureAfterARepeat (
-          inputLineNumber,
-          measureFullLength);
-          */
-        createNewLastSegmentForVoice (
-          inputLineNumber);
+        switch (repeatEndingKind) { // JMI
+          case msrRepeatEnding::kHookedEnding:
+            createNewLastSegmentForVoice (
+              inputLineNumber);
+/* JMI ???
+            createNewLastSegmentAndANewMeasureAfterARepeat (
+              inputLineNumber,
+              1); // JMI measureFullLength);
+              */
+            break;
+          case msrRepeatEnding::kHooklessEnding:
+            createNewLastSegmentForVoice (
+              inputLineNumber);
+            break;
+        } // switch
 
         gIndenter--;
       }
@@ -31069,4 +31100,12 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
     fNoteSlurs.push_back (slur);
   }
   */
+
+/*
+   int
+    segmentMeasuresListSize =
+      fSegmentMeasuresList.size ();
+
+  if (segmentMeasuresListSize == 0) {
+*/
 
