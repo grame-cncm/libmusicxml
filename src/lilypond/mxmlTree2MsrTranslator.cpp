@@ -16856,6 +16856,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fPendingFiguredBass = false;
   }
 
+  // handling voices current chord map if needed
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingChord) {
       // newNote is the first note after the chord in voice
@@ -16870,6 +16871,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
               fCurrentNoteVoiceNumber));
 
       if (it == fVoicesCurrentChordMap.end ()) {
+        /* JMI
         // fetch current voice
         S_msrVoice
           currentVoice =
@@ -16920,37 +16922,40 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
+          */
+      }
+
+      else {
+        // forget about this chord
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceChords) {
+          fLogOutputStream <<
+            "Forgetting about current chord '" <<
+       //     (*it).second->asString () <<
+            "staff " << (*it).first.first <<
+            ", voice " <<  (*it).first.second <<
+            /*
+            "' in staff " <<
+            (*it).first.first <<
+            "' in voice " <<
+            (*it).first.second <<
+            */
+            /*
+            "' in voice " <<
+            (*it).first->getVoiceName () <<
+            */
+            endl;
         }
-
-      // forget about this chord
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceChords) {
-        fLogOutputStream <<
-          "Forgetting about current chord '" <<
-     //     (*it).second->asString () <<
-          "staff " << (*it).first.first <<
-          ", voice " <<  (*it).first.second <<
-          /*
-          "' in staff " <<
-          (*it).first.first <<
-          "' in voice " <<
-          (*it).first.second <<
-          */
-          /*
-          "' in voice " <<
-          (*it).first->getVoiceName () <<
-          */
-          endl;
-      }
 #endif
-
-      fVoicesCurrentChordMap.erase (it);
-      
+  
+        fVoicesCurrentChordMap.erase (it);
+        
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceChords) {
-        printVoicesCurrentChordMap ();
-      }
+        if (gTraceOptions->fTraceChords) {
+          printVoicesCurrentChordMap ();
+        }
 #endif
+      }
 
       if (fCurrentDoubleTremolo) {
         // forget about a double tremolo containing a chord
