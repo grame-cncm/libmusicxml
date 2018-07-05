@@ -7413,12 +7413,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         case msrTempo::kTempoParenthesizedYes:
           fLilypondCodeIOstream <<
             "\\tempo";
-        
+
+        /* JMI
           if (tempoWords) {
             fLilypondCodeIOstream <<
               " \"" << tempoWords->getWordsContents () << "\"";
           }
-    
+   */ 
           fLilypondCodeIOstream <<
             " " <<
             "\\markup {" <<
@@ -7438,6 +7439,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
             
           gIndenter++;
           
+          if (tempoWords) {
+            fLilypondCodeIOstream <<
+              " \"" << tempoWords->getWordsContents () << "\"";
+          }
+
           fLilypondCodeIOstream <<
             "\\smaller \\general-align #Y #DOWN \\note #\"" <<
             dottedDurationAsLilypondStringWithoutBackSlash (
