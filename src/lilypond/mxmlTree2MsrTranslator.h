@@ -1683,10 +1683,14 @@ class mxmlTree2MsrTranslator :
 
     bool                      fCurrentNoteBelongsToAChord;
 
+/* JMI
  //    map<S_msrVoice, S_msrChord> // seems buggy, so
     // we use a pair containing the staff and voice numbers:
     map<pair<int, int>, S_msrChord>
                               fVoicesCurrentChordMap;
+                              */
+                              
+    S_msrChord                fCurrentChord;
     bool                      fOnGoingChord;
     
     S_msrChord                createChordFromItsFirstNote (
@@ -1694,12 +1698,15 @@ class mxmlTree2MsrTranslator :
                                 S_msrVoice voice,
                                 S_msrNote  chordFirstNote);
 
+/* JMI
     void                      registerVoiceCurrentChordInMap (
                                 int        inputLineNumber,
                                 S_msrVoice voice,
                                 S_msrChord chord);
                                 
     void                      printVoicesCurrentChordMap ();
+ */
+    void                      printCurrentChord ();
                                 
     // tuplets handling
     // ------------------------------------------------------

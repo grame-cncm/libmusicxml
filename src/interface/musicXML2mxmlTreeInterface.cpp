@@ -41,7 +41,7 @@ using namespace std;
 namespace MusicXML2
 {
 
-#define TRACE_OPTIONS 0
+#define TRACE_OPTIONS 1
 
 //_______________________________________________________________________________
 void displayXMLDeclaration (
@@ -408,6 +408,7 @@ FILE* convertFileDataEncoding (
   stringstream s;
 
   s <<
+  /* JMI
     "sed 's/" <<
     currentEncoding <<
     "/" <<
@@ -415,14 +416,22 @@ FILE* convertFileDataEncoding (
     "/' " <<
     fileName <<
     " | " <<
+    */
     "iconv" <<
     " -f " << currentEncoding <<
     " -t " << desiredEncoding <<
-    " -";
+    " " <<
+    fileName <<
+    " | " <<
+    "sed 's/" <<
+    currentEncoding <<
+    "/" <<
+    desiredEncoding <<
+    "/'";
 
-  if (true) {
+  if (false) {
     s <<
-    " | tee ConvertedFileData_" <<
+    " > ConvertedFileData_" <<
       baseName (fileName) << "_" <<
       desiredEncoding << ".xml";
   }
