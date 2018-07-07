@@ -257,7 +257,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingNote = false;
 
   // note context
-  fCurrentNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
+  fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fThereIsAStaffChange = false;
+  
   fCurrentNoteVoiceNumber = K_NO_VOICE_NUMBER;
 
   // technicals handling
@@ -595,11 +598,13 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   int voiceDisplayingStaffNumber = K_NO_VOICE_NUMBER;
     // there may be no <staff /> markups
 
-  if (fPartVoiceNumberToDisplayingStaffNumberMap.count (voiceNumber))
+  if (fPartVoiceNumberToDisplayingStaffNumberMap.count (voiceNumber)) {
     voiceDisplayingStaffNumber =
       fPartVoiceNumberToDisplayingStaffNumberMap [
         voiceNumber];
+  }
 
+/* JMI
   if (
     voiceDisplayingStaffNumber != K_NO_VOICE_NUMBER
       &&
@@ -607,7 +612,25 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
     // voice 'voiceNumber' changes
     // from staff 'voiceDisplayingStaffNumber'
     // to staff 'staffNumber'
+*/
 
+  // is there a staff change?
+  if (fCurrentNoteStaffNumber != fPreviousNoteStaffNumber) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
+      fLogOutputStream <<
+        "--> staff change 1" <<
+        ", fPreviousNoteStaffNumber = " << fPreviousNoteStaffNumber <<
+        ", fCurrentNoteStaffNumber = " << fCurrentNoteStaffNumber <<
+        endl <<
+        ", in staff \"" <<
+        staff->getStaffName() <<
+        "\"" <<
+        endl;      
+    }
+#endif
+
+/* JMI
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
       fLogOutputStream <<
@@ -617,6 +640,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
         endl;
     }
 #endif
+*/
 
     // create the voice staff change
     S_msrVoiceStaffChange
@@ -3728,8 +3752,9 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
   if (gTraceOptions->fTraceStaves) {
     fLogOutputStream <<
       "--> S_staff, fCurrentStaffNumber = " <<
-      fCurrentStaffNumber << endl <<
-    "--> S_staff, current staff name  = " <<
+      fCurrentStaffNumber <<
+      endl <<
+      "--> S_staff, current staff name  = " <<
       staff->getStaffName() <<
       endl;
   }
@@ -3741,7 +3766,35 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
   
   else if (fOnGoingNote) {
     // regular staff indication in note/rest
-    fCurrentNoteStaffNumber = fCurrentStaffNumber; // JMI
+
+    // save previous note staff number
+    fPreviousNoteStaffNumber = fCurrentNoteStaffNumber;
+
+    // is there a staff change?
+    if (fCurrentStaffNumber != fPreviousNoteStaffNumber) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
+        fLogOutputStream <<
+          "--> staff change 2" <<
+          ", fPreviousNoteStaffNumber = " << fPreviousNoteStaffNumber <<
+          ", fCurrentStaffNumber = " << fCurrentStaffNumber <<
+          endl <<
+          ", in staff \"" <<
+          staff->getStaffName() <<
+          "\"" <<
+          endl;      
+      }
+#endif
+      fThereIsAStaffChange = true;
+      
+      // keep the previous note staff number
+      fCurrentNoteStaffNumber = fPreviousNoteStaffNumber;
+    }
+
+    else {
+      // use 'new' note staff number
+      fCurrentNoteStaffNumber = fCurrentStaffNumber;
+    }
   }
   
   else if (fOnGoingDirection) {
@@ -4272,6 +4325,9 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
       "--> Start visiting S_backup" <<
       endl;
   }
+
+  // reset staff change detection
+  fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER; // JMI
 
   // handle the pending tuplets if any
   handleTupletsPendingOnTupletsStack (
@@ -7033,9 +7089,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   
   fCurrentLigatureKind = msrLigature::kLigatureNone;
 
-  // staff and voice
+  // staff
   
   fCurrentNoteStaffNumber = 1; // it may be absent
+  fThereIsAStaffChange = false;
+  
+  // voice
+  
   fCurrentNoteVoiceNumber = 1; // it may be absent
 
   // print-object
@@ -16343,10 +16403,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       }
 #endif
   } // switch
-
-  // store voice and staff numbers in MusicXML note data
-  fCurrentNoteStaffNumber = fCurrentStaffNumber;
-  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
   // fetch the staff
   S_msrStaff

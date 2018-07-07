@@ -1225,7 +1225,6 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fOnGoingLyric;
-    // the last sysllabic spec met (single, begin, middle or end)
     string                    fCurrentSyllabic;
     msrSyllable::msrSyllableKind
                               fCurrentSyllableKind;
@@ -1233,7 +1232,6 @@ class mxmlTree2MsrTranslator :
                               fFirstSyllableInSlurKind;
     msrSyllable::msrSyllableKind
                               fFirstSyllableInLigatureKind;
-    // the last lyric fragment met
     list<string>              fCurrentLyricTextsList;
     
     msrSyllable::msrSyllableExtendKind
@@ -1391,7 +1389,7 @@ class mxmlTree2MsrTranslator :
     // notes/rests handling
     // ------------------------------------------------------
 
-    // map<S_msrVoice, S_msrNote> seems buggy, so
+    // map<S_msrVoice, S_msrNote> seems buggy in g++ 4.9.x, so
     // we use a pair containing the staff and voice numbers:
     map<pair<int, int>, S_msrNote>
                               fVoicesLastMetNoteMap;
@@ -1469,8 +1467,12 @@ class mxmlTree2MsrTranslator :
     string                    fCurrentStealTimePrevious;
     string                    fCurrentMakeTime;
 
-    // note context
+    // staff
     int                       fCurrentNoteStaffNumber;
+    int                       fPreviousNoteStaffNumber;
+    bool                      fThereIsAStaffChange;
+
+    // voice
     int                       fCurrentNoteVoiceNumber;
 
     // elements attached to the note
@@ -1692,7 +1694,7 @@ class mxmlTree2MsrTranslator :
     bool                      fCurrentNoteBelongsToAChord;
 
 /* JMI
- //    map<S_msrVoice, S_msrChord> // seems buggy, so
+ //    map<S_msrVoice, S_msrChord> // seems buggy in g++ 4.9.x, so
     // we use a pair containing the staff and voice numbers:
     map<pair<int, int>, S_msrChord>
                               fVoicesCurrentChordMap;
@@ -1772,7 +1774,7 @@ class mxmlTree2MsrTranslator :
     void                      handleTupletsPendingOnTupletsStack (
                                 int inputLineNumber);
 
-    // map<S_msrVoice, S_msrTuplet> seems buggy, so
+    // map<S_msrVoice, S_msrTuplet> seems buggy in g++ 4.9.x, so
     // we use a pair containing the staff and voice numbers:
 //     map<S_msrVoice, S_msrTuplet>
     map<pair<int, int>, S_msrTuplet>
