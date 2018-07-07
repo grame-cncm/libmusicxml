@@ -6877,7 +6877,7 @@ string msrChord::asShortString () const
 void msrChord::print (ostream& os)
 {
   rational
-    measureFullLength =
+    chordMeasureFullLength =
       fChordMeasureUplink
         ? 
           fChordMeasureUplink->
@@ -6885,19 +6885,32 @@ void msrChord::print (ostream& os)
         : rational (0, 1); // JMI
     
   os <<
-    "Chord: " <<
+    "Chord, " <<
     singularOrPlural (
       fChordNotesVector.size (), "note", "notes") <<
-    ", " <<
-    fChordSoundingWholeNotes << " sound whole notes" <<
-    ", " <<
-    fChordDisplayWholeNotes << " disp whole notes" <<
-    ", measure '"<<
-    getChordMeasureNumber () <<
-    "':" <<
-    fChordPositionInMeasure <<
-    ", measureFullLength: " <<
-    measureFullLength;
+    ", line " << fInputLineNumber <<
+    endl;
+    
+  gIndenter++;
+
+  const int fieldWidth = 35;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "chordSoundingWholeNotes" << " : " << fChordSoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordDisplayWholeNotes" << " : " << fChordDisplayWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordMeasureNumber" << " : " << fChordMeasureNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordPositionInMeasure" << " : " << fChordPositionInMeasure <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordMeasureFullLength" << " : " << chordMeasureFullLength <<
+    endl;
 
   // print simplified position in measure if relevant
 // JMI  if (fChordMeasureUplink) {
@@ -6912,41 +6925,37 @@ void msrChord::print (ostream& os)
         !=
       fChordPositionInMeasure.getNumerator ()) {
       // print rationalized rational view
-      os <<
-        " ( = " << chordPositionBis << ")";
+      os << left <<
+        setw (fieldWidth) <<
+        "fChordPositionInMeasure" << " : " << chordPositionBis <<
+        endl;
     }
 
-  if (fChordIsFirstChordInADoubleTremolo)
-    os <<
-      ", chord is first chord in a double tremolo";
-      
-  if (fChordIsSecondChordInADoubleTremolo)
-    os <<
-      ", chord is second chord in a double tremolo";
-      
+  os << left <<
+    setw (fieldWidth) <<
+    "chordIsFirstChordInADoubleTremolo" << " : " <<
+    booleanAsString (fChordIsFirstChordInADoubleTremolo) <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordIsSecondChordInADoubleTremolo" << " : " <<
+    booleanAsString (fChordIsSecondChordInADoubleTremolo) <<
+    endl;
+
   os <<
     endl;
     
-  gIndenter++;
-  
   // print the member notes if any
   if (fChordNotesVector.size ()) {
-    vector<S_msrNote>::const_iterator i;
-    for (i=fChordNotesVector.begin (); i!=fChordNotesVector.end (); i++) {
-      os << (*i);
-    } // for
-
-/* JMI   vector<S_msrNote>::const_iterator
+    vector<S_msrNote>::const_iterator
       iBegin = fChordNotesVector.begin (),
       iEnd   = fChordNotesVector.end (),
       i      = iBegin;
+      
     for ( ; ; ) {
-   //   os << (*i)->notePitchAsString (); JMI
       os << (*i);
       if (++i == iEnd) break;
- //     os << endl;
+      os << endl;
     } // for
-    */
   }
   
   // print the articulations if any
@@ -6989,7 +6998,7 @@ void msrChord::print (ostream& os)
     } // for
   }
 
-  // print the slidess if any
+  // print the slides if any
   if (fChordSlides.size ()) {
     list<S_msrSlide>::const_iterator i;
     for (i=fChordSlides.begin (); i!=fChordSlides.end (); i++) {
@@ -7009,6 +7018,14 @@ void msrChord::print (ostream& os)
   if (fChordOtherDynamics.size ()) {
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
+      os << (*i);
+    } // for
+  }
+
+  // print the stems if any
+  if (fChordStems.size ()) {
+    list<S_msrStem>::const_iterator i;
+    for (i=fChordStems.begin (); i!=fChordStems.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7090,6 +7107,9 @@ void msrChord::print (ostream& os)
       
     gIndenter--;
   }
+
+  os <<
+    endl;
 
   gIndenter--;
 }

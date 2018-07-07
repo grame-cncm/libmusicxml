@@ -10096,6 +10096,44 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
    } // for
   }
 
+  // should stem direction be generated?
+  const list<S_msrStem>&
+    chordStems =
+      elt->getChordStems ();
+  
+  if (chordStems.size ()) {
+   list<S_msrStem>::const_iterator
+      iBegin = chordStems.begin (),
+      iEnd   = chordStems.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      S_msrStem stem = (*i);
+
+      switch (stem->getStemKind ()) {
+        case msrStem::kStemNone:
+          fLilypondCodeIOstream << "\\stemNeutral ";
+          break;
+        case msrStem::kStemUp:
+          fLilypondCodeIOstream << "\\stemUp ";
+          break;
+        case msrStem::kStemDown:
+          fLilypondCodeIOstream << "\\stemDown ";
+          break;
+        case msrStem::kStemDouble: // JMI ???
+          break;
+      } // switch
+        
+      if (++i == iEnd) break;
+      fLilypondCodeIOstream <<
+        " ";
+    } // for
+    
+    fLilypondCodeIOstream <<
+      " ";
+  }
+
+  // generate the start of the chord
   fLilypondCodeIOstream <<
     "<";
 
@@ -10113,6 +10151,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   int chordInputLineNumber =
     elt->getInputLineNumber ();
     
+  // generate the end of the chord
   fLilypondCodeIOstream <<
     ">";
 

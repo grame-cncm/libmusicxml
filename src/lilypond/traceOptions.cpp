@@ -201,6 +201,9 @@ debugging information to standard error for the specified measures.)",
     fTraceNotes = boolOptionsInitialValue;
     fTraceNotesDetails = boolOptionsInitialValue;
     
+    // stems
+    fTraceStems = boolOptionsInitialValue;
+
     // beams
     fTraceBeams = boolOptionsInitialValue;
     
@@ -547,6 +550,15 @@ This option implies '-tnnotes, -traceNotes'.)",
           "traceNotesDetails",
           fTraceNotesDetails,
           fTraceNotes,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tstems", "traceStems",
+R"(Stems)",
+          "traceStems",
+          fTraceStems,
           fTracePasses));
       
     specificTraceSubGroup->
@@ -921,6 +933,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   clone->fTraceNotes = true;
   clone->fTraceNotesDetails = true;
     
+  // stems
+  clone->fTraceStems = true;
+
   // beams
   clone->fTraceBeams = true;
     
@@ -1216,6 +1231,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "traceNotesDetails" << " : " <<
     booleanAsString (fTraceNotesDetails) <<
+    endl <<
+    
+    // stems
+    setw (fieldWidth) << "traceStems" << " : " <<
+    booleanAsString (fTraceStems) <<
     endl <<
     
     // beams

@@ -3790,6 +3790,11 @@ class msrChord : public msrElement
                           getChordNotesVector () const
                               { return fChordNotesVector; }
 
+    // stems
+    const list<S_msrStem>&
+                          getChordStems () const
+                              { return fChordStems; }
+
     // beams
     const list<S_msrBeam>&
                           getChordBeams () const
@@ -4011,6 +4016,12 @@ class msrChord : public msrElement
                                 fChordSlurs.push_back (slur);
                               }
                       
+    // stems
+    void                  appendStemToChord (S_msrStem stem)
+                              {
+                                fChordStems.push_back (stem);
+                              }
+
     // beams
     void                  appendBeamToChord (S_msrBeam beam)
                               {
@@ -4088,6 +4099,9 @@ class msrChord : public msrElement
     string                fChordMeasureNumber;
     rational              fChordPositionInMeasure;
 
+    // stems
+    list<S_msrStem>       fChordStems;
+    
     // beams
     list<S_msrBeam>       fChordBeams;
     

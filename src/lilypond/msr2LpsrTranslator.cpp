@@ -3505,12 +3505,10 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
     fCurrentNoteClone->
       setNoteStem (elt);
   }
-  /* JMI
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addStemToChord (elt);
+      appendStemToChord (elt);
   }
-  */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStem& elt)

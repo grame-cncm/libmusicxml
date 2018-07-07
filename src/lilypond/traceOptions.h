@@ -146,6 +146,9 @@ class traceOptions : public optionsGroup
     bool                  fTraceNotes;
     bool                  fTraceNotesDetails;
 
+    // stems
+    bool                  fTraceStems;
+
     // beams
     bool                  fTraceBeams;
 

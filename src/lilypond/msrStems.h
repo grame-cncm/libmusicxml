@@ -59,7 +59,8 @@ class msrStem : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrStemKind getStemKind () const { return fStemKind; }
+    msrStemKind           getStemKind () const
+                              { return fStemKind; }
 
     // services
     // ------------------------------------------------------
@@ -78,6 +79,8 @@ class msrStem : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 

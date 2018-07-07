@@ -96,12 +96,6 @@ void msrStem::acceptOut (basevisitor* v)
 void msrStem::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrStem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrStem::stemKindAsString (
   msrStemKind stemKind)
 {
@@ -125,17 +119,30 @@ string msrStem::stemKindAsString (
   return result;
 }
 
+string msrStem::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Stem" <<
+    ", fStemKind: " <<
+    stemKindAsString (fStemKind) <<
+    ", line " << fInputLineNumber;
+        
+  return s.str ();
+}
+
 void msrStem::print (ostream& os)
 {
-  gIndenter++;
-  
   os <<
-    "Stem" " " <<
-    stemKindAsString (fStemKind) <<
-    ", line " << fInputLineNumber <<
+    asString () <<
     endl;
+}
 
-  gIndenter--;
+ostream& operator<< (ostream& os, const S_msrStem& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

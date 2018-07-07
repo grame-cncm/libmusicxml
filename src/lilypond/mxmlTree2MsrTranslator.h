@@ -1643,6 +1643,14 @@ class mxmlTree2MsrTranslator :
     void                      copyNoteSpannersToChord (
                                 S_msrNote note, S_msrChord chord);
 
+    // stems handling
+    // ------------------------------------------------------
+
+    vector<S_msrStem>         fPendingStems; // stack JMI ???
+
+    void                      copyNoteStemToChord (
+                                S_msrNote note, S_msrChord chord);
+
     // beams handling
     // ------------------------------------------------------
 
