@@ -25,8 +25,11 @@
 #include "xmlfile.h"
 #include "xmlreader.h"
 
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "generalOptions.h"
-#include "traceOptions.h"
 #include "musicXMLOptions.h"
 
 #include "messagesHandling.h"
@@ -40,8 +43,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-
-#define TRACE_OPTIONS 1
 
 //_______________________________________________________________________________
 void displayXMLDeclaration (
@@ -227,9 +228,10 @@ string uncompressMXLFile (
 
         if (inputStream.eof ()) break;
               
-        if (TRACE_OPTIONS) {
+#ifdef TRACE_OPTIONS
+        {
           logIOstream <<
-            "currentLine:" <<
+            "*** currentLine:" <<
             endl;
 
           gIndenter++;
@@ -240,6 +242,7 @@ string uncompressMXLFile (
             
           gIndenter--;
         }
+#endif
 
         /*
         user@lilydev: ~/libmusicxml-git/files/samples/musicxml > unzip -l UnofficialTestSuite/90a-Compressed-MusicXML.mxl
@@ -271,6 +274,7 @@ string uncompressMXLFile (
         regex_match (currentLine, sm, e);
   
         if (sm.size ()) {
+#ifdef TRACE_OPTIONS
           if (TRACE_OPTIONS) {
             logIOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
@@ -288,6 +292,7 @@ string uncompressMXLFile (
               endl <<
               endl;
           }
+#endif
   
           string stringFromLine = sm [1];
               

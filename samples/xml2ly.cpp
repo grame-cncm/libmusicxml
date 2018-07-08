@@ -20,7 +20,10 @@
 
 #include "utilities.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
@@ -43,7 +46,6 @@ using namespace std;
 
 using namespace MusicXML2;
 
-#define TRACE_OPTIONS 0
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
@@ -59,10 +61,11 @@ vector<string> handleOptionsAndArguments (
         decipherOptionsAndArguments (
           argc, argv);
 
-  if (TRACE_OPTIONS) {
+#ifdef TRACE_OPTIONS
+  {
     // print the options values
     logIndentedOutputStream <<
-      "Options values:" <<
+      "*** Options values:" <<
       endl;
 
     gIndenter++;
@@ -76,6 +79,7 @@ vector<string> handleOptionsAndArguments (
 
     gIndenter--;
   }
+#endif
   
   return argumentsVector;
 }
@@ -364,12 +368,14 @@ int main (int argc, char *argv[])
         gLogIOstream);
 
   // print the resulting options
-  if (TRACE_OPTIONS) {
+#ifdef TRACE_OPTIONS
+  {
     gLogIOstream <<
       optionsHandler <<
       endl <<
       endl;
   }
+#endif
 
   string
     inputSourceName =

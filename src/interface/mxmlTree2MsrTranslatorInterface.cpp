@@ -22,7 +22,9 @@
 
 #include "versions.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
 
 #include "mxmlTree2MsrTranslatorInterface.h"
 
