@@ -33,7 +33,7 @@ set (STRVERS "v.3.00")
 set (SSTRVERS "3.00")
 
 if(UNIX)
-#  add_definitions(-Wall -DGCC -std=c++11 -Wno-overloaded-virtual)
+#  add_definitions(-Wall -DGCC -std=c++11 -O3 -Wno-overloaded-virtual)
   add_definitions(-Wall -DGCC -std=c++11 -DTRACE_OPTIONS -ggdb3 -Wno-overloaded-virtual)
 endif(UNIX)
 

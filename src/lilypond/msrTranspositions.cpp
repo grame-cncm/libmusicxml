@@ -20,8 +20,11 @@
 
 #include "msrTranspositions.h"
 
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
-#include "traceOptions.h"
 
 
 using namespace std;
@@ -178,6 +181,7 @@ msrTranspose::msrTranspose (
   fTransposeOctaveChange = transposeOctaveChange;
   fTransposeDouble       = transposeDouble;
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTranspositions) {
     gLogIOstream <<
       "Creating transpose '" <<
@@ -185,6 +189,7 @@ msrTranspose::msrTranspose (
       "'" <<
       endl;
   }
+#endif
 }
 
 msrTranspose::~msrTranspose ()

@@ -20,7 +20,10 @@
 
 #include "msrDivisions.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 #include "xml2lyOptionsHandling.h"
 
@@ -45,6 +48,7 @@ S_msrDivisions msrDivisions::create (
 
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
+#ifdef TRACE_OPTIONS
  if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "Creating a newborn clone of divisions '" <<
@@ -52,6 +56,7 @@ S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
       "'" <<
       endl;
   }
+#endif
 
   S_msrDivisions
     newbornClone =
@@ -76,6 +81,7 @@ msrDivisions::msrDivisions (
 
 void msrDivisions::initializeDivisions ()
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
   gLogIOstream <<
     "Initializing divisions" <<
@@ -83,6 +89,7 @@ void msrDivisions::initializeDivisions ()
     ", line " << fInputLineNumber <<
     endl;
   }
+#endif
 
   gIndenter++;
   
@@ -137,9 +144,11 @@ void msrDivisions::initializeDivisions ()
   }
 
   // print the durations divisions if needed
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
     printDurationKindsDivisions (gLogIOstream);
   }
+#endif
 
   gIndenter--;
 }
@@ -246,6 +255,7 @@ string msrDivisions::divisionsAsMsrString (
 
   const int fieldWidth = 22;
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
      "--> divisionsAsMsrString ():" <<
@@ -257,6 +267,7 @@ string msrDivisions::divisionsAsMsrString (
       "divisions" << " = " << divisions <<
       endl;
   }
+#endif
     
   msrDurationKind baseDurationKind          = k1024th;
   int             baseDurationDivisions = -1;
@@ -294,6 +305,7 @@ string msrDivisions::divisionsAsMsrString (
       result =
         msrDurationKindAsString (baseDurationKind);
       
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceDivisions) {
         gLogIOstream <<
             gTab << setw (fieldWidth) <<
@@ -308,6 +320,7 @@ string msrDivisions::divisionsAsMsrString (
           endl <<
           endl;
       }
+#endif
 
       break;
     }
@@ -327,6 +340,7 @@ string msrDivisions::divisionsAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
         gTab << setw (fieldWidth) <<
@@ -343,6 +357,7 @@ string msrDivisions::divisionsAsMsrString (
         endl <<
         endl;
     }
+#endif
 
     if (remainingDivisions < nextDivisionsInList) {
       // the suffix is a multiplication factor
@@ -351,6 +366,7 @@ string msrDivisions::divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceDivisions) { // JMI
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
@@ -364,6 +380,7 @@ string msrDivisions::divisionsAsMsrString (
           endl <<
           endl;
       }
+#endif
       
       result +=
         "*" + r.toString ();
@@ -377,6 +394,7 @@ string msrDivisions::divisionsAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceDivisions) {
           gLogIOstream <<
             gTab << setw (fieldWidth) <<
@@ -396,11 +414,13 @@ string msrDivisions::divisionsAsMsrString (
             endl <<
             endl;
         }
+#endif
           
         if (dotsNumber > 5 )
           break; // JMI
       } // while
   
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceDivisions) {
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
@@ -420,6 +440,7 @@ string msrDivisions::divisionsAsMsrString (
           endl <<
           endl;
       }
+#endif
           
       if (remainingDivisions - nextDivisionsInList == 0) {
         // the suffix is composed of dots
@@ -431,12 +452,14 @@ string msrDivisions::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
       endl;
   }
+#endif
   
   return result;
 }
@@ -454,6 +477,7 @@ string msrDivisions::wholeNotesAsMsrString (
 
   const int fieldWidth = 22;
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
     gLogIOstream << left <<
       endl <<
@@ -467,6 +491,7 @@ string msrDivisions::wholeNotesAsMsrString (
       endl <<
       endl;
   }
+#endif
 
   // are there 0 whole notes?
   if (wholeNotes.getNumerator () == 0)
@@ -480,11 +505,13 @@ string msrDivisions::wholeNotesAsMsrString (
       /
     wholeNotes.getDenominator ();      
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
     gLogIOstream << left <<
       gTab << "divisions" << " = " << divisions <<
       endl;
   }
+#endif
     
   msrDurationKind baseDurationKind          = k1024th;
   int             baseDurationDivisions = -1;
@@ -522,6 +549,7 @@ string msrDivisions::wholeNotesAsMsrString (
       result =
         msrDurationKindAsString (baseDurationKind);
       
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceDivisions) {
         gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
@@ -540,6 +568,7 @@ string msrDivisions::wholeNotesAsMsrString (
           endl <<
           endl;
       }
+#endif
       break;
     }
         
@@ -558,6 +587,7 @@ string msrDivisions::wholeNotesAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceDivisions) {
       gLogIOstream << left <<
         gTab << setw (fieldWidth) <<
@@ -574,6 +604,7 @@ string msrDivisions::wholeNotesAsMsrString (
         endl <<
         endl;
     }
+#endif
 
     if (remainingDivisions < nextDivisionsInList) {
       // the suffix is a multiplication factor
@@ -582,6 +613,7 @@ string msrDivisions::wholeNotesAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceDivisions) {
         gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
@@ -595,6 +627,7 @@ string msrDivisions::wholeNotesAsMsrString (
           endl <<
         endl;
       }
+#endif
       
       result +=
         "*" + r.toString ();
@@ -608,6 +641,7 @@ string msrDivisions::wholeNotesAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceDivisions) {
           gLogIOstream << left <<
             gTab << setw (fieldWidth) <<
@@ -627,11 +661,13 @@ string msrDivisions::wholeNotesAsMsrString (
             endl <<
             endl;
         }
+#endif
           
         if (dotsNumber > 5 )
           break; // JMI
       } // while
   
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceDivisions) {
         gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
@@ -651,6 +687,7 @@ string msrDivisions::wholeNotesAsMsrString (
           endl <<
           endl;
       }
+#endif
           
       if (remainingDivisions - nextDivisionsInList == 0) {
         // the suffix is composed of dots
@@ -662,12 +699,14 @@ string msrDivisions::wholeNotesAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "<-- wholeNotesAsMsrString (): returns " << result <<
       endl <<
       endl;
   }
+#endif
   
   return result;
 }

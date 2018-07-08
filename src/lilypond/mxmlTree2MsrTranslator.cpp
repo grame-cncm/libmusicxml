@@ -27,7 +27,10 @@
 
 #include "msr.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 
@@ -3475,6 +3478,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
     }
   }
   
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -3491,6 +3495,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
         fCurrentTempoTupletShowNumberKind) <<
       endl;
   }
+#endif
 
   fOnGoingMetronomeTuplet = true;
 }
@@ -4347,16 +4352,19 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceMeasures
       ||
-    gTraceOptions->fTraceLyrics) {
+    gTraceOptions->fTraceLyrics
+    ) {
     fLogOutputStream <<
       "Handling 'backup <<< " << fCurrentBackupDurationDivisions <<
       " divisions >>>" <<
       "', line " << inputLineNumber <<
       endl;
   }
+#endif
 
   fCurrentPart->
     handleBackup (
@@ -4807,6 +4815,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
       }
     }
   
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceNotesDetails
         ||
@@ -4822,6 +4831,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
           slurLineTypeKind) <<
         endl;
     }
+#endif
 
     S_msrSlur
       slur =
@@ -12823,6 +12833,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
   if (fOnGoingNote) {
     fCurrentNoteActualNotes = actualNotes;
     
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceNotesDetails
         ||
@@ -12832,6 +12843,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
         fCurrentNoteActualNotes <<
         endl;
     }
+#endif
   
     // notes inside a tuplet have no <tuplet/> markup
     // and 2 actual notes indicate a double tremolo
@@ -12847,6 +12859,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
   else if (fOnGoingMetronomeNote) {
     fCurrentMetronomeNoteActualNotes = actualNotes;
     
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceTempos
         ||
@@ -12856,6 +12869,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
         fCurrentMetronomeNoteActualNotes <<
         endl;
     }
+#endif
   }
 
   else {
@@ -12886,6 +12900,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
   if (fOnGoingNote) {
     fCurrentNoteNormalNotes = normalNotes;
     
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceNotesDetails
         ||
@@ -12895,6 +12910,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
         fCurrentNoteNormalNotes <<
         endl;
     }
+#endif
   
     // notes inside a tuplet have no <tuplet/> markup
     // and 1 actual note indicates a double tremolo
@@ -12910,6 +12926,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
   else if (fOnGoingMetronomeNote) {
     fCurrentMetronomeNoteNormalNotes = normalNotes;
     
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceTempos
         ||
@@ -12919,6 +12936,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
         fCurrentMetronomeNoteNormalNotes <<
         endl;
     }
+#endif
   }
 
   else {
@@ -12950,6 +12968,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
   string normalTypeString = elt->getValue();
 
   if (fOnGoingNote) {        
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceNotesDetails
         ||
@@ -12959,6 +12978,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
         normalTypeString <<
         endl;
     }
+#endif
 
     // the type contains a display duration    
     fCurrentNoteNormalTypeDuration =
@@ -12979,6 +12999,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
   else if (fOnGoingMetronomeNote) { // JMI ???
     fCurrentMetronomeNoteNormalType = normalTypeString;
     
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceTempos
         ||
@@ -12988,6 +13009,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
         fCurrentMetronomeNoteNormalType <<
         endl;
     }
+#endif
+
   }
 
   else {
@@ -13239,6 +13262,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     }
   }  
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13260,6 +13284,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
         fCurrentTupletShowTypeKind) <<
       endl;
   }
+#endif
 
   fCurrentNoteBelongsToATuplet = true;
 }
@@ -13333,6 +13358,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
       "met a tuplet number out of context");
   }
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13342,6 +13368,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
       tupletNumberValue <<
       endl;
   }
+#endif
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
@@ -13369,6 +13396,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       "met a tuplet number out of context");
   }
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13378,6 +13406,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       tupletTypeValue <<
       endl;
   }
+#endif
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
@@ -13477,6 +13506,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
     }
   }
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13494,6 +13524,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
       glissandoTextValue <<
       endl;
   }
+#endif
 
   // create glissando
   S_msrGlissando
@@ -13506,6 +13537,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
         glissandoTextValue);
 
   // register glissando in this visitor
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13516,6 +13548,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
       "' to the glissandos pending list" <<
       endl;
   }
+#endif
       
   fPendingGlissandos.push_back (glissando);
 }
@@ -13594,6 +13627,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
     }
   }
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13609,6 +13643,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
         slideLineTypeKind) <<
       endl;
   }
+#endif
 
   // create slide
   S_msrSlide
@@ -13621,6 +13656,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
         slideTextValue);
     
   // register glissando in this visitor
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
       ||
@@ -13631,6 +13667,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
       "' to the slides pending list" <<
       endl;
   }
+#endif
       
   fPendingSlides.push_back (slide);    
 }
@@ -13976,17 +14013,20 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
     i!=noteTechnicals.end ();
     i++) {
 
-    if (
+#ifdef TRACE_OPTIONS
+  if (
     gTraceOptions->fTraceNotesDetails
       ||
-    gTraceOptions->fTraceTechnicals) {
-      fLogOutputStream <<
-        "Copying technical '" <<
-        (*i)->technicalKindAsString () <<
-        "' from note " << note->asString () <<
-        " to chord" <<
-        endl;
+    gTraceOptions->fTraceTechnicals
+    ) {
+    fLogOutputStream <<
+      "Copying technical '" <<
+      (*i)->technicalKindAsString () <<
+      "' from note " << note->asString () <<
+      " to chord" <<
+      endl;
     }
+#endif
     
     chord->appendTechnicalToChord ((*i));
   } // for      
@@ -14009,17 +14049,20 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
     i!=noteTechnicalWithIntegers.end ();
     i++) {
 
-    if (
+#ifdef TRACE_OPTIONS
+  if (
     gTraceOptions->fTraceNotesDetails
       ||
-    gTraceOptions->fTraceTechnicals) {
-      fLogOutputStream <<
-        "Copying technical '" <<
-        (*i)->technicalWithIntegerKindAsString () <<
-        "' from note " << note->asString () <<
-        " to chord" <<
-        endl;
+    gTraceOptions->fTraceTechnicals
+    ) {
+    fLogOutputStream <<
+      "Copying technical '" <<
+      (*i)->technicalWithIntegerKindAsString () <<
+      "' from note " << note->asString () <<
+      " to chord" <<
+      endl;
     }
+#endif
 
     chord->appendTechnicalWithIntegerToChord ((*i));
   } // for      
@@ -14042,10 +14085,12 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
     i!=noteTechnicalWithFloats.end ();
     i++) {
 
+#ifdef TRACE_OPTIONS
     if (
-    gTraceOptions->fTraceNotesDetails
-      ||
-    gTraceOptions->fTraceTechnicals) {
+      gTraceOptions->fTraceNotesDetails
+        ||
+      gTraceOptions->fTraceTechnicals
+      ) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithFloatKindAsString () <<
@@ -14053,6 +14098,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
         " to chord" <<
         endl;
     }
+#endif
 
     chord->appendTechnicalWithFloatToChord ((*i));
   } // for      
@@ -14075,10 +14121,12 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
     i!=noteTechnicalWithStrings.end ();
     i++) {
 
+#ifdef TRACE_OPTIONS
     if (
-    gTraceOptions->fTraceTechnicals
-      ||
-    gTraceOptions->fTraceChords) {
+      gTraceOptions->fTraceTechnicals
+        ||
+      gTraceOptions->fTraceChords
+      ) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -14086,6 +14134,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
         " to chord" <<
         endl;
     }
+#endif
 
     chord->appendTechnicalWithStringToChord ((*i));
   } // for      
@@ -14108,6 +14157,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
     i!=noteOrnaments.end ();
     i++) {
 
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceOrnaments
         ||
@@ -14119,6 +14169,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
         " to chord" <<
         endl;
     }
+#endif
 
     chord->
       appendOrnamentToChord ((*i));
@@ -14142,6 +14193,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
     i!=noteSpanners.end ();
     i++) {
 
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceSpanners
         ||
@@ -14153,6 +14205,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
         " to chord" <<
         endl;
     }
+#endif
 
     chord->
       appendSpannerToChord ((*i));
@@ -18341,12 +18394,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         fCurrentNoteNormalNotes);
   }
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotes
       ||
     gTraceOptions->fTraceChords
       ||
-      gTraceOptions->fTraceTuplets) {
+      gTraceOptions->fTraceTuplets
+    ) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
@@ -18354,6 +18409,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         asShortStringWithRawWholeNotes () <<
       endl;
   }
+#endif
 
   if (fCurrentNoteIsARest)
     msrMusicXMLError (
@@ -18452,12 +18508,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     }
 
     // add chord to the current tuplet instead of tupletLastNote
+#ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceNotes
         ||
       gTraceOptions->fTraceChords
         ||
-      gTraceOptions->fTraceTuplets) {
+      gTraceOptions->fTraceTuplets
+      ) {
       fLogOutputStream <<
         "Adding chord '" <<
         fCurrentChord->asString () <<
@@ -18466,6 +18524,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         "', line " << inputLineNumber <<
         endl;
     }
+#endif
 
     currentTuplet->
       addChordToTuplet (fCurrentChord);
@@ -18530,12 +18589,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotes
       ||
     gTraceOptions->fTraceChords
       ||
-      gTraceOptions->fTraceTuplets) {
+      gTraceOptions->fTraceTuplets
+    ) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in grace notes" <<
       ", newChordNote: " <<
@@ -18543,6 +18604,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
         asShortStringWithRawWholeNotes () <<
       endl;
   }
+#endif
 
   if (fCurrentNoteIsARest)
     msrMusicXMLError (

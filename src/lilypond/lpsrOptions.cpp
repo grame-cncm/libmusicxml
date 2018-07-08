@@ -15,7 +15,9 @@
 
 #include "utilities.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
 
 #include "lpsrOptions.h"
 
@@ -287,14 +289,16 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
           "traceLpsrVisitors",
           fTraceLpsrVisitors));
   
+#ifdef TRACE_OPTIONS
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "lpsr", "displayLpsr",
+          "dlpsr", "displayLpsr",
 R"(Write the contents of the LPSR data to standard error.)",
           "displayLpsr",
           fDisplayLpsr,
           gTraceOptions->fTracePasses));
+#endif
   
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -529,11 +533,13 @@ S_optionsItem lpsrOptions::handleOptionsItem (
       pitchesLanguageItem =
         dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = pitchesLanguageItem;
@@ -545,11 +551,13 @@ S_optionsItem lpsrOptions::handleOptionsItem (
       LpsrChordsLanguageItem =
         dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = LpsrChordsLanguageItem;
@@ -572,11 +580,13 @@ void lpsrOptions::handleOptionsItemValue (
     // theString contains the language name:     
     // is it in the pitches languages map?
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
         endl;
     }
+#endif
 
     map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
       it =
@@ -626,11 +636,13 @@ void lpsrOptions::handleOptionsItemValue (
     // theString contains the language name:     
     // is it in the chords languages map?
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;
     }
+#endif
 
     map<string, lpsrChordsLanguageKind>::const_iterator
       it =

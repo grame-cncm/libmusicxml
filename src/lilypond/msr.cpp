@@ -19,7 +19,10 @@
 
 #include "msr.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 
@@ -6619,11 +6622,11 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
-    i != fChordArticulations.end ();
+    list<S_msrSpanner>::const_iterator i = fChordSpanners.begin ();
+    i != fChordSpanners.end ();
     i++ ) {
     // browse the spanner
-    msrBrowser<msrArticulation> browser (v);
+    msrBrowser<msrSpanner> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -17973,7 +17976,13 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
     score->getInhibitMeasuresRepeatReplicasBrowsing ();
 
   if (inhibitMeasuresRepeatReplicasBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
+    if (
+      gMsrOptions->fTraceMsrVisitors
+#ifdef TRACE_OPTIONS
+        ||
+      gTraceOptions->fTraceRepeats
+#endif
+    ) {
       gLogIOstream <<
         "% ==> visiting measure repeat replicas is inhibited" <<
         endl;
@@ -26961,13 +26970,15 @@ msrVoiceStaffChange::~msrVoiceStaffChange ()
 
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
- if (gTraceOptions->fTraceStaffTuning) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff change '" <<
       asString () <<
       "'" <<
       endl;
   }
+#endif
 
  S_msrVoiceStaffChange
     newbornClone =

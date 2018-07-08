@@ -20,8 +20,11 @@
 
 #include "msrInstruments.h"
 
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
-#include "traceOptions.h"
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -391,12 +394,14 @@ msrHarpPedalsTuning::~msrHarpPedalsTuning ()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
   }
+#endif
   
   S_msrHarpPedalsTuning
     newbornClone = 0; // JMI
@@ -406,12 +411,14 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       asString () <<
       endl;
   }
+#endif
   
   S_msrHarpPedalsTuning
     harpPedalsTuningDeepCopy = 0; // JMI

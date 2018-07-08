@@ -19,7 +19,10 @@
 
 #include "msrKeys.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 #include "messagesHandling.h"
@@ -45,12 +48,14 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
+#endif
 
   fKeyDiatonicPitchKind = k_NoDiatonicPitch;
   fKeyAlterationKind    = k_NoAlteration;
@@ -78,6 +83,7 @@ bool msrHumdrumScotKeyItem::isEqualTo (
 void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   msrDiatonicPitchKind diatonicPitchKind)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
@@ -85,6 +91,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
       "'" <<
       endl;
   }
+#endif
   
   fKeyDiatonicPitchKind = diatonicPitchKind;
 }
@@ -92,6 +99,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
 void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   msrAlterationKind alterationKind)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
@@ -99,12 +107,14 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
       "'" <<
       endl;
   }
+#endif
   
   fKeyAlterationKind = alterationKind;
 }
 
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
@@ -112,6 +122,7 @@ void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
       "'" <<
       endl;
   }
+#endif
   
   fKeyOctave = keyOctave;
 }
@@ -313,6 +324,7 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
 void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Append item '" <<
@@ -321,6 +333,7 @@ void msrKey::appendHumdrumScotKeyItem (
       "'" <<
       endl;
     }
+#endif
 
   // have key items octaves been specified?
   if (item->getKeyItemOctave () >= 0)

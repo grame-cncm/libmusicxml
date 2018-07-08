@@ -17,7 +17,10 @@
 #include <iomanip>      // setw, setprecision, ...
 #include <cmath>
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "lilypondOptions.h"
 
@@ -5454,12 +5457,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
       endl;
   }
 
+/* JMI
   fLilypondCodeIOstream <<
     endl <<
     "\\change Staff=\"" <<
     elt->getNewStaff ()->getStaffName () <<
     "\"" <<
     endl;
+    */
 }
 
 //________________________________________________________________________
@@ -5483,8 +5488,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
         "%{ " << elt->asString () << " %}" <<
         endl;
     }
-  }
 #endif
+  }
   
   else if (fOnGoingChord) { // JMI
     /*
@@ -7734,30 +7739,33 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       break;
   } // switch
 */
-      
-  switch (elt->getFermataTypeKind ()) {
-    case msrFermata::kFermataTypeNone:
-      // no placement needed
-      break;
-    case msrFermata::kFermataTypeUpright:
-      // no placement needed
-      break;
-    case msrFermata::kFermataTypeInverted:
-      fLilypondCodeIOstream << "_";
-      break;
-  } // switch
 
-  switch (elt->getFermataKind ()) {
-    case msrFermata::kNormalFermataKind:
-      fLilypondCodeIOstream << "\\fermata ";
-      break;
-    case msrFermata::kAngledFermataKind:
-      fLilypondCodeIOstream << "\\shortfermata ";
-      break;
-    case msrFermata::kSquareFermataKind:
-      fLilypondCodeIOstream << "\\longfermata ";
-      break;
-  } // switch
+  // don't generate fermatas for chord member notes
+  if (false && fOnGoingNote) { // JMI
+    switch (elt->getFermataTypeKind ()) {
+      case msrFermata::kFermataTypeNone:
+        // no placement needed
+        break;
+      case msrFermata::kFermataTypeUpright:
+        // no placement needed
+        break;
+      case msrFermata::kFermataTypeInverted:
+        fLilypondCodeIOstream << "_";
+        break;
+    } // switch
+  
+    switch (elt->getFermataKind ()) {
+      case msrFermata::kNormalFermataKind:
+        fLilypondCodeIOstream << "\\fermata ";
+        break;
+      case msrFermata::kAngledFermataKind:
+        fLilypondCodeIOstream << "\\shortfermata ";
+        break;
+      case msrFermata::kSquareFermataKind:
+        fLilypondCodeIOstream << "\\longfermata ";
+        break;
+    } // switch
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)

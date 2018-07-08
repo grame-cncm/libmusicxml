@@ -21,7 +21,10 @@
 
 #include "messagesHandling.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 
 #include "optionsBasicTypes.h"
 
@@ -3453,6 +3456,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
   int   argc,
   char* argv[])
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     // print the options elements map  
     fOptionsHandlerLogIOstream <<
@@ -3488,6 +3492,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     fOptionsHandlerLogIOstream <<
       endl;
   }
+#endif
 
   // fetch program name
   fProgramName = string (argv [0]);
@@ -3504,6 +3509,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
     string currentElement = string (argv [n]);
     
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       // print current element
       fOptionsHandlerLogIOstream <<
@@ -3511,6 +3517,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         ": " <<currentElement << " "<<
         endl;
     }
+#endif
 
     // handle current element
     if (currentElement [0] == '-') {
@@ -3518,12 +3525,14 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       
       if (currentElement.size () == 1) {
         // this is the stdin indicator
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "'" << currentElement <<
               "' is the '-' stdin indicator" <<
             endl;
         }
+#endif
         
         fArgumentsVector.push_back (currentElement);
 
@@ -3551,32 +3560,38 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
             // it is a double-dashed option
             currentOptionName =
               elementTrailer.substr (1, string::npos);
-            
+          
+#ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceOptions) {
               fOptionsHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
             }
+#endif
           }
           else {
             // it is a single-dashed option
             currentOptionName =
               elementTrailer; //.substr (1, string::npos);
-            
+
+#ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceOptions) {
               fOptionsHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
             }
+#endif
           }
         }
         
         else {
+#ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions) {
             fOptionsHandlerLogIOstream <<
               "'-' is the minimal single-dashed option" <<
               endl;
           }
+#endif
         }
 
         // handle the options item name
@@ -3597,6 +3612,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
   unsigned int argumentsVectorSize =
     fArgumentsVector.size ();
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     // print the arguments vector
     fOptionsHandlerLogIOstream <<
@@ -3615,6 +3631,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       gIndenter--;
     }
   }
+#endif
 
   // exit if there are no arguments
   if (argumentsVectorSize == 0) {
@@ -3641,6 +3658,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 void optionsHandler::handleOptionsItemName (
   string optionsItemName)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     fOptionsHandlerLogIOstream <<
       "==> handleOptionsItemName (), optionsItemName = \"" <<
@@ -3648,6 +3666,7 @@ void optionsHandler::handleOptionsItemName (
       "\"" <<
       endl;
   }
+#endif
 
   // is optionsItemName known in options elements map?
   S_optionsElement
@@ -3707,11 +3726,13 @@ void optionsHandler::handleOptionsItemName (
           dynamic_cast<optionsHandler*>(&(*optionsElement))
       ) {
       // print the option handler help or help summary
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsHandler'" <<
           endl;
       }
+#endif
       
       if (
         optionsItemName ==
@@ -3742,11 +3763,13 @@ void optionsHandler::handleOptionsItemName (
         group =
           dynamic_cast<optionsGroup*>(&(*optionsElement))
       ) {
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsGroup'" <<
           endl;
       }
+#endif
 
       // print the help
       fOptionsHandlerLogIOstream <<
@@ -3769,11 +3792,13 @@ void optionsHandler::handleOptionsItemName (
         subGroup =
           dynamic_cast<optionsSubGroup*>(&(*optionsElement))
       ) {
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsSubGroup'" <<
           endl;
       }
+#endif
 
       // get the options group uplink
       S_optionsGroup
@@ -3807,11 +3832,13 @@ void optionsHandler::handleOptionsItemName (
         item =
           dynamic_cast<optionsItem*>(&(*optionsElement))
       ) {
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsItem'" <<
           endl;
       }
+#endif
 
       if (
         // help usage item?
@@ -3819,11 +3846,13 @@ void optionsHandler::handleOptionsItemName (
           helpUsageItem =
             dynamic_cast<optionsHelpUsageItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsHelpUsageItem'" <<
             endl;
         }
+#endif
   
         // handle it at once
         helpUsageItem->
@@ -3840,11 +3869,13 @@ void optionsHandler::handleOptionsItemName (
           helpSummaryItem =
             dynamic_cast<optionsHelpSummaryItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsHelpSummaryItem'" <<
             endl;
         }
+#endif
   
         // handle it at once
         printHelpSummary (
@@ -3860,11 +3891,13 @@ void optionsHandler::handleOptionsItemName (
           combinedItemsItem =
             dynamic_cast<optionsCombinedItemsItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsCombinedItemsItem'" <<
             endl;
         }
+#endif
   
         // handle it at once
         combinedItemsItem->
@@ -3877,11 +3910,13 @@ void optionsHandler::handleOptionsItemName (
           booleanItem =
             dynamic_cast<optionsBooleanItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsBooleanItem'" <<
             endl;
         }
+#endif
   
         // handle it at once
         booleanItem->
@@ -3894,11 +3929,13 @@ void optionsHandler::handleOptionsItemName (
           twoBooleansItem =
             dynamic_cast<optionsTwoBooleansItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsTwoBooleansItem'" <<
             endl;
         }
+#endif
   
         // handle it at once
         twoBooleansItem->
@@ -3911,11 +3948,13 @@ void optionsHandler::handleOptionsItemName (
           threeBooleansItem =
             dynamic_cast<optionsThreeBooleansItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsThreeBooleansItem'" <<
             endl;
         }
+#endif
   
         // handle it at once
         threeBooleansItem->
@@ -3928,11 +3967,13 @@ void optionsHandler::handleOptionsItemName (
           itemHelpItem =
             dynamic_cast<optionsItemHelpItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsItemHelpItem'" <<
             endl;
         }
+#endif
   
         // wait until the value is met
         fPendingOptionsItem = itemHelpItem;
@@ -3944,11 +3985,13 @@ void optionsHandler::handleOptionsItemName (
           integerItem =
             dynamic_cast<optionsIntegerItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsIntegerItem'" <<
             endl;
         }
+#endif
   
         // wait until the value is met
         fPendingOptionsItem = integerItem;
@@ -3960,11 +4003,13 @@ void optionsHandler::handleOptionsItemName (
           floatItem =
             dynamic_cast<optionsFloatItem*>(&(*optionsElement))
         ) {              
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsFloatItem'" <<
             endl;
         }
+#endif
   
         // wait until the value is met
         fPendingOptionsItem = floatItem;
@@ -3976,11 +4021,13 @@ void optionsHandler::handleOptionsItemName (
           stringItem =
             dynamic_cast<optionsStringItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsStringItem'" <<
             endl;
         }
+#endif
   
         // wait until the value is met
         fPendingOptionsItem = stringItem;
@@ -3992,11 +4039,13 @@ void optionsHandler::handleOptionsItemName (
           rationalItem =
             dynamic_cast<optionsRationalItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsRationalItem'" <<
             endl;
         }
+#endif
   
         // wait until the value is met
         fPendingOptionsItem = rationalItem;
@@ -4008,11 +4057,13 @@ void optionsHandler::handleOptionsItemName (
           numbersSetItem =
             dynamic_cast<optionsNumbersSetItem*>(&(*optionsElement))
         ) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsNumbersSetItem'" <<
             endl;
         }
+#endif
   
         // wait until the value is met
         fPendingOptionsItem = numbersSetItem;
@@ -4022,12 +4073,14 @@ void optionsHandler::handleOptionsItemName (
         // optionsElement is of another type,
         // let the optionsGroup handle it
 
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "==> fPendingOptionsItem is of another type" <<
             ", let the optionsGroup handle it" <<
             endl;
         }
+#endif
       
         S_optionsGroup
           group =
@@ -4059,6 +4112,7 @@ void optionsHandler::handleOptionsItemName (
 void optionsHandler::handleOptionsItemValueOrArgument (
   string theString)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     fOptionsHandlerLogIOstream <<
       "==> handleOptionsItemValueOrArgument ()" <<
@@ -4096,6 +4150,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
     gIndenter--;
   }
+#endif
 
   if (fPendingOptionsItem) {
     // theString is the value for the pending options item
@@ -4191,6 +4246,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       regex_match (theString, sm, e);
 
       if (sm.size ()) {
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
           fOptionsHandlerLogIOstream <<
             "There are " << sm.size () << " matches" <<
@@ -4207,6 +4263,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
           fOptionsHandlerLogIOstream <<
             endl;
         }
+#endif
       }
      
       else {
@@ -4245,12 +4302,14 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         rationalValue =
           rational (numerator, denominator);     
 
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         fOptionsHandlerLogIOstream << // JMI
           "rationalValue = " <<
           rationalValue <<
           endl;
       }
+#endif
 
       rationalItem->
         setRationalItemVariableValue (
@@ -4280,12 +4339,14 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       // fPendingOptionsItem is of another type,
       // let the optionsGroup handle it
 
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         fOptionsHandlerLogIOstream <<
           "==> fPendingOptionsItem is of another type" <<
           ", let the optionsGroup handle it" <<
           endl;
       }
+#endif
       
       S_optionsGroup
         group =

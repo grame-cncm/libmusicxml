@@ -21,7 +21,10 @@
 
 #include "msr2Summary.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 
@@ -3608,12 +3611,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
   
+#ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotes
       ||
     gTraceOptions->fTraceStaves
       ||
-    gTraceOptions->fTraceVoices) {
+    gTraceOptions->fTraceVoices
+    ) {
     fLogOutputStream <<
       "--> S_note, fCurrentNoteStaffNumber = " <<
       fCurrentNoteStaffNumber <<
@@ -3628,6 +3633,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       voice->getVoiceName() <<
       endl;
   }
+#endif
 
   // are there harmonies attached to the current note?
   if (fThereAreHarmoniesToBeAttachedToCurrentNote) {

@@ -20,7 +20,10 @@
 
 #include "xml2lyOptionsHandling.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
@@ -325,8 +328,10 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   initializeXml2lyOptionsHandling (
     this);
     
+#ifdef TRACE_OPTIONS
   initializeTraceOptionsHandling (
     this);
+#endif
     
   initializeGeneralOptionsHandling (
     this);
@@ -346,7 +351,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   initializeExtraOptionsHandling (
     this);
 
-
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     // print the options handler initial state
     fOptionsHandlerLogIOstream <<
@@ -363,12 +368,14 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
     
     gIndenter--;
   }
+#endif
 
   // register options handler in itself,
   // so that the 'global' help options can be handled
   this->
     registerOptionsHandlerInItself ();
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     fOptionsHandlerLogIOstream <<
       "xml2lyOptionsHandler help:" <<
@@ -378,6 +385,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
       printHelp (
         fOptionsHandlerLogIOstream);
   }
+#endif
 }
 
 void xml2lyOptionsHandler::checkOptionsAndArguments ()
@@ -385,7 +393,8 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   unsigned int argumentsNumber =
     fArgumentsVector.size ();
 
-  if (gTraceOptions->fTraceOptions) {    
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
     if (argumentsNumber > 0) {
       fOptionsHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
@@ -417,6 +426,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
         endl;
     }
   }
+#endif
 
   // input source name
   // ------------------------------------------------------
@@ -807,6 +817,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 {
   S_optionsItem result;
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
       "---> Handling options item '" <<
@@ -814,6 +825,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       "'" <<
       endl;
   }
+#endif
 
   if (
     // version item?
@@ -821,11 +833,13 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       versionItem =
         dynamic_cast<xml2lyOptionsVersionItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsVersionItem'" <<
         endl;
     }
+#endif
 
     // handle it at once
     versionItem->
@@ -841,11 +855,13 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       aboutItem =
         dynamic_cast<xml2lyOptionsAboutItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAboutItem'" <<
         endl;
     }
+#endif
 
     // handle it at once
     aboutItem->
@@ -861,11 +877,13 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       contactItem =
         dynamic_cast<xml2lyOptionsContactItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsContactItem'" <<
         endl;
     }
+#endif
 
     // handle it at once
     contactItem->

@@ -19,7 +19,10 @@
 
 #include "extraOptions.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "lpsrOptions.h"
 
 
@@ -583,11 +586,13 @@ S_optionsItem extraOptions::handleOptionsItem (
       showAllChordsStructuresItem =
         dynamic_cast<optionsShowAllChordsStructuresItem*>(&(*item))
   ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsStructuresItem'" <<
         endl;
     }
+#endif
 
     // handle it at once
     showAllChordsStructuresItem->
@@ -603,11 +608,13 @@ S_optionsItem extraOptions::handleOptionsItem (
       showAllChordsContentsItem =
         dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = showAllChordsContentsItem;
@@ -619,11 +626,13 @@ S_optionsItem extraOptions::handleOptionsItem (
       showChordDetailsItem =
         dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = showChordDetailsItem;
@@ -635,11 +644,13 @@ S_optionsItem extraOptions::handleOptionsItem (
       showChordAnalysisItem =
         dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = showChordAnalysisItem;
@@ -662,12 +673,14 @@ void extraOptions::handleOptionsItemValue (
     // theString contains the pitch name in the current language
     // is it in the accidental styles map?
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
         ", theString = \"" << theString << "\"" << 
         endl;
     }
+#endif
 
     // fetch the semitones pitch from theString
     msrSemiTonesPitchKind
@@ -757,12 +770,14 @@ void extraOptions::handleOptionsItemValue (
     // theString contains the pitch name in the current language
     // is it in the accidental styles map?
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
         ", theString = \"" << theString << "\"" << 
         endl;
     }
+#endif
 
     // decipher theString with a regular expression
     string regularExpression (
@@ -777,6 +792,7 @@ void extraOptions::handleOptionsItemValue (
 
     regex_match (theString, sm, e);
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
@@ -785,8 +801,10 @@ void extraOptions::handleOptionsItemValue (
         "'" <<
         endl;
     }
+#endif
 
     if (sm.size ()) {
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         os <<
           sm.size () << " elements: ";
@@ -797,6 +815,7 @@ void extraOptions::handleOptionsItemValue (
         os <<
           endl;
       }
+#endif
     }
     
     else {
@@ -820,12 +839,14 @@ void extraOptions::handleOptionsItemValue (
       rootName    = sm [1],
       harmonyName = sm [2];
       
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "--> rootName = \"" << rootName << "\", " <<
         "--> harmonyName = \"" << harmonyName << "\"" <<
         endl;
     }
+#endif
 
     // fetch the semitones pitch from rootName
     msrSemiTonesPitchKind
@@ -921,12 +942,14 @@ void extraOptions::handleOptionsItemValue (
     // theString contains the pitch name in the current language
     // is it in the accidental styles map?
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
         ", theString = \"" << theString << "\"" << 
         endl;
     }
+#endif
 
     // decipher theString with a regular expression
     string regularExpression (
@@ -943,6 +966,7 @@ void extraOptions::handleOptionsItemValue (
 
     regex_match (theString, sm, e);
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
@@ -951,8 +975,10 @@ void extraOptions::handleOptionsItemValue (
         "'" <<
         endl;
     }
+#endif
 
     if (sm.size ()) {
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         os <<
           sm.size () << " elements: ";
@@ -963,6 +989,7 @@ void extraOptions::handleOptionsItemValue (
         os <<
           endl;
       }
+#endif
     }
     
     else {
@@ -996,6 +1023,7 @@ void extraOptions::handleOptionsItemValue (
 
     s >> inversion;
     
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "--> rootName = \"" << rootName << "\", " <<
@@ -1003,6 +1031,7 @@ void extraOptions::handleOptionsItemValue (
         "--> inversion = " << inversion <<
         endl;
     }
+#endif
 
     // fetch the semitones pitch from rootName
     msrSemiTonesPitchKind

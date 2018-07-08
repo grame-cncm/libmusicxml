@@ -34,7 +34,11 @@
 #include "msrBasicTypes.h"
 
 #include "generalOptions.h"
-#include "traceOptions.h"
+
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 

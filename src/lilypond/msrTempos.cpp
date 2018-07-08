@@ -20,8 +20,11 @@
 
 #include "msrTempos.h"
 
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
-#include "traceOptions.h"
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -236,6 +239,7 @@ msrTempoTuplet::msrTempoTuplet (
   
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos){
     gLogIOstream <<
       "Creating tempo tuplet '" <<
@@ -243,6 +247,7 @@ msrTempoTuplet::msrTempoTuplet (
       "'" <<
       endl;
   }
+#endif
 }
 
 msrTempoTuplet::~msrTempoTuplet ()
@@ -307,6 +312,7 @@ string msrTempoTuplet::tempoTupletShowNumberKindAsString (
 
 void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
       "Adding tempoNote '" <<
@@ -317,6 +323,7 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
       "'" <<
       endl;
   }
+#endif
 
   fTempoTupletElements.push_back (tempoNote);
 
@@ -335,6 +342,7 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 /*
 void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
       "Adding tempoTuplet '" <<
@@ -344,6 +352,7 @@ void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
       "'" <<
       endl;
   }
+#endif
 
   // register tempoTuplet in elements list
   fTempoTupletElements.push_back (tempoTuplet);
@@ -374,6 +383,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
   int            inputLineNumber,
   S_msrTempoNote tempoNote)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
       "Removing first tempoNote '" <<
@@ -383,6 +393,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       "'" <<
       endl;
   }
+#endif
 
   if (fTempoTupletElements.size ()) {
     S_msrElement
@@ -446,6 +457,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
 /* JMI
 void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
       "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
@@ -463,12 +475,14 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 
     gIndenter--;
   }
+#endif
 }
 
 void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   int containingTempoTupletActualNotes,
   int containingTempoTupletNormalNotes)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos) {
     gLogIOstream <<
       "unapplySoundingFactorToTempoTupletMembers ()" <<
@@ -491,6 +505,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
 
     gIndenter--;
   }
+#endif
 
   fTempoTupletActualNotes /=
     containingTempoTupletActualNotes;
@@ -783,6 +798,7 @@ msrTempoRelationshipElements::~msrTempoRelationshipElements ()
 void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
   S_msrElement element)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos){
     gLogIOstream <<
       "Adding element '" <<
@@ -790,6 +806,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
       "' to tempo relationship" <<
       endl;
   }
+#endif
   
   fTempoRelationshipElementsList.push_back (element);
 }

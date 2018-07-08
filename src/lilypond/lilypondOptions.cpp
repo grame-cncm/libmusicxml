@@ -17,7 +17,9 @@
 
 #include "utilities.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
 
 #include "lilypondOptions.h"
 
@@ -1440,11 +1442,13 @@ S_optionsItem lilypondOptions::handleOptionsItem (
       accidentalStyleItem =
         dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = accidentalStyleItem;
@@ -1456,11 +1460,13 @@ S_optionsItem lilypondOptions::handleOptionsItem (
       midiTempoItem =
         dynamic_cast<optionsMidiTempoItem*>(&(*item))
     ) {
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
     }
+#endif
 
     // wait until the value is met
     result = midiTempoItem;
@@ -1483,11 +1489,13 @@ void lilypondOptions::handleOptionsItemValue (
     // theString contains the language name:     
     // is it in the accidental styles map?
     
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
     }
+#endif
 
     map<string, lpsrAccidentalStyleKind>::const_iterator
       it =
@@ -1535,11 +1543,13 @@ void lilypondOptions::handleOptionsItemValue (
     // theString contains the midi tempo specification
     // decipher it to extract duration and perSecond values
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
     }
+#endif
 
     string regularExpression (
       "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
@@ -1551,6 +1561,7 @@ void lilypondOptions::handleOptionsItemValue (
 
     regex_match (theString, sm, e);
 
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
@@ -1559,6 +1570,7 @@ void lilypondOptions::handleOptionsItemValue (
         "'" <<
         endl;
     }
+#endif
   
     if (sm.size ()) {
       for (unsigned i = 0; i < sm.size (); ++i) {
@@ -1595,6 +1607,7 @@ void lilypondOptions::handleOptionsItemValue (
       s >> midiTempoPerSecond;
     }
     
+#ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
         "midiTempoDuration  = " <<
@@ -1609,6 +1622,7 @@ void lilypondOptions::handleOptionsItemValue (
         pair<string, int> (
           midiTempoDuration, midiTempoPerSecond));
     }
+#endif
   }
 }
 

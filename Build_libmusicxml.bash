@@ -85,6 +85,7 @@ if [ $CMAKE -eq 1 ]; then # run cmake after filenames changes
   echo
   cmake .
   echo
+  exit
 fi
 
 
@@ -96,6 +97,7 @@ if [ $CLEAN -eq 1 ]; then # make everything
   echo
   make clean
   echo
+  exit
 fi
 
 

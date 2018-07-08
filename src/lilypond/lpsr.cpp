@@ -20,7 +20,10 @@
 
 #include "lpsr.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
 

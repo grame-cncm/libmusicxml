@@ -19,8 +19,11 @@
 
 #include "msrTimes.h"
 
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
-#include "traceOptions.h"
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -48,12 +51,14 @@ msrTimeItem::msrTimeItem (
 {
   fTimeBeatValue = -1;
   
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
+#endif
 }
 
 msrTimeItem::~msrTimeItem ()
@@ -93,6 +98,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Append beat number '" <<
@@ -101,6 +107,7 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
       "'" <<
       endl;
     }
+#endif
 
   fTimeBeatsNumbersVector.insert (
     fTimeBeatsNumbersVector.end (),
@@ -314,6 +321,7 @@ msrTime::~msrTime ()
 void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Append item '" <<
@@ -323,6 +331,7 @@ void msrTime::appendTimeItem (
       "'" <<
       endl;
     }
+#endif
 
   if (! fTimeItemsVector.size ()) {
     // this is the first item inserted

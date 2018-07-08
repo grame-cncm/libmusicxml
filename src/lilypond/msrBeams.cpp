@@ -19,7 +19,10 @@
 
 #include "msrBeams.h"
 
-#include "traceOptions.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -49,6 +52,7 @@ msrBeam::msrBeam (
   fBeamNumber = number;
   fBeamKind   = beamKind; 
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBeams) {
     gLogIOstream <<
       "Creating beam '" <<
@@ -56,6 +60,7 @@ msrBeam::msrBeam (
       "'" <<
       endl;
   }
+#endif
 }
 
 msrBeam::~msrBeam ()
