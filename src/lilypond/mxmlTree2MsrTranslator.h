@@ -1465,6 +1465,7 @@ class mxmlTree2MsrTranslator :
 
     // staff
     // notes always keep their initial staff number
+    bool                      fCurrentNoteHasAStaff;
     int                       fCurrentNoteStaffNumber;
 
     // staff changes
@@ -1475,6 +1476,7 @@ class mxmlTree2MsrTranslator :
     int                       fInitialNoteStaffNumberToBeUsed;
     int                       fPreviousNoteStaffNumberToBeUsed;
     int                       fCurrentNoteStaffNumberToBeUsed;
+    
     bool                      fThereIsAStaffChange;
 
     // voice

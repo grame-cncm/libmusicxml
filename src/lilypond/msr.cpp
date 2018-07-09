@@ -4963,10 +4963,9 @@ void msrNote::print (ostream& os)
   // print the note itself and its positionInMeasure
   os <<
     asString () <<
-    ", line " << fInputLineNumber <<
     endl;
 
-  const int fieldWidth = 30;
+  const int fieldWidth = 34;
     
   {
     // print sounding and displayed whole notes
@@ -4985,6 +4984,9 @@ void msrNote::print (ostream& os)
           "noteSoundingWholeNotes" << " : " <<
           fNoteSoundingWholeNotes <<
           endl <<
+          setw (fieldWidth) <<
+          "noteDisplayWholeNotes" << " : " <<
+          fNoteDisplayWholeNotes <<
           setw (fieldWidth) <<
           "noteDisplayWholeNotes" << " : " <<
           fNoteDisplayWholeNotes <<
@@ -5256,7 +5258,7 @@ void msrNote::print (ostream& os)
         {
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotes" << " : \"" <<
+            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl;
@@ -5267,7 +5269,7 @@ void msrNote::print (ostream& os)
         {
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotes" << " : \"" <<
+            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl;
@@ -5278,17 +5280,17 @@ void msrNote::print (ostream& os)
         {
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotes" << " : \"" <<
+            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteDisplayWholeNotes" << " : \"" <<
+            "noteDisplayWholeNotesAsMsrString" << " : \"" <<
             noteDisplayWholeNotesAsMsrString () <<
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteGraphicDuration" << " : \"" <<
+            "noteGraphicDurationAsMsrString" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -5299,17 +5301,17 @@ void msrNote::print (ostream& os)
         {
           os << left <<
             setw (fieldWidth) <<
-            "noteSoundingWholeNotes" << " : \"" <<
+            "noteSoundingWholeNotesAsMsrString" << " : \"" <<
             noteSoundingWholeNotesAsMsrString () <<
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteDisplayWholeNotes" << " : \"" <<
+            "noteDisplayWholeNotesAsMsrString" << " : \"" <<
             noteDisplayWholeNotesAsMsrString () <<
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteGraphicDuration" << " : \"" <<
+            "noteGraphicDurationAsMsrString" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -5327,7 +5329,7 @@ void msrNote::print (ostream& os)
         {
           os << left <<
             setw (fieldWidth) <<
-            "noteGraphicDuration" << " : \"" <<
+            "noteGraphicDurationAsMsrString" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -5352,7 +5354,7 @@ void msrNote::print (ostream& os)
             endl <<
               */
             setw (fieldWidth) <<
-            "noteTupletNoteSoundingWholeNotes" << " : \"" <<
+            "noteTupletNoteSoundingWholeNotesAsMsrString" << " : \"" <<
             wholeNotesAsMsrString (
               fInputLineNumber,
               getNoteTupletUplink ()->
@@ -5360,7 +5362,7 @@ void msrNote::print (ostream& os)
             "\"" <<
             endl <<
             setw (fieldWidth) <<
-            "noteGraphicDuration" << " : \"" <<
+            "noteGraphicDurationAsMsrString" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
             "\"" <<
             endl;
@@ -23926,7 +23928,7 @@ void msrVoice::removeNoteFromVoice (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Removing first chord note '" <<
+      "Removing note '" <<
       note->asShortString () <<
       "' from voice \"" << getVoiceName () << "\"" <<
       endl;

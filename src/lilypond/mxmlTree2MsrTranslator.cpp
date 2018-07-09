@@ -260,7 +260,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingNote = false;
 
   // staff
-  fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
+  fCurrentNoteHasAStaff   = false;
+  fCurrentNoteStaffNumber = K_NO_STAFF_NUMBER;
 
   // staff change  
   fInitialNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
@@ -402,11 +403,17 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentNoteCautionaryAccidentalKind =
     msrNote::kNoteCautionaryAccidentalNo; // default value
         
-  // staff and voice
-  
-  fCurrentNoteStaffNumber = 1; // may be absent
-  fCurrentNoteVoiceNumber = 1; // may be absent
+  // staff number
+  fCurrentNoteHasAStaff   = false;
+  fCurrentNoteStaffNumber = 1; // it may be absent
+  fCurrentNoteHasAStaff   = false;
 
+  fThereIsAStaffChange    = false;
+
+  // voice number
+  fCurrentNoteVoiceNumber = 1; // it may be absent
+
+  // time modification
   fCurrentNoteHasATimeModification = false;
 
   // tuplets
@@ -602,10 +609,12 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
       __FILE__, __LINE__,
       s.str ());
   }
-    
+
+    /* JMI
   // fetch registered voice displaying staff number
-  int voiceDisplayingStaffNumber = K_NO_VOICE_NUMBER;
-    // there may be no <staff /> markups
+  int voiceDisplayingStaffNumber = 1; //K_NO_VOICE_NUMBER; JMI
+    // default, there may be no <staff /> markups
+    */
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
@@ -3705,6 +3714,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
   else if (fOnGoingNote) {
     // regular staff indication in note/rest
     fCurrentNoteStaffNumber = fCurrentStaffNumber;
+    fCurrentNoteHasAStaff   = true;
 
     // set previous note staff member to be used if relevant
     if (fInitialNoteStaffNumberToBeUsed == K_NO_STAFF_NUMBER) {
@@ -3723,6 +3733,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
         "--> staff change ?" <<
         ", fCurrentNoteStaffNumber = " <<
         fCurrentNoteStaffNumber <<
+        ", fCurrentNoteHasAStaff = " <<
+        booleanAsString (fCurrentNoteHasAStaff) <<
         ", fInitialNoteStaffNumberToBeUsed = " <<
         fInitialNoteStaffNumberToBeUsed <<
         ", fPreviousNoteStaffNumberToBeUsed = " <<
@@ -6995,16 +7007,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentDisplayOctave                 = K_NO_OCTAVE;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
-  
-  // staff
-  
-  fCurrentNoteStaffNumber = 1; // it may be absent
-  fThereIsAStaffChange = false;
-  
-  // voice
-  
-  fCurrentNoteVoiceNumber = 1; // it may be absent
-
+    
   // note head
   
   fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
@@ -7012,10 +7015,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
   
   // assuming staff number 1, unless S_staff states otherwise afterwards
-  fCurrentStaffNumber = 1;
+  fCurrentStaffNumber = 1; // JMI
 
   // assuming voice number 1, unless S_voice states otherwise afterwards
-  fCurrentVoiceNumber = 1;
+  fCurrentVoiceNumber = 1; // JMI
 
   // tuplets
   
@@ -13749,9 +13752,8 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
     fLogOutputStream <<
-      "--> creating a chord from its first note " <<
+      "--> creating a chord from its first note '" <<
       chordFirstNote->asShortString () <<
-      " occurring at line " << firstNoteInputLineNumber <<
       ", in voice \"" << voice->getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -16477,19 +16479,59 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       "fCurrentNoteDisplayWholeNotesFromType" << " = " << 
       fCurrentNoteDisplayWholeNotesFromType <<
       endl <<
+      
       setw (fieldWidth) <<
       "fCurrentNoteIsARest" << " = " << 
       booleanAsString (fCurrentNoteIsARest) <<
       endl <<
+      
       setw (fieldWidth) <<
       "fCurrentDivisionsPerQuarterNote" << " = " <<
       fCurrentDivisionsPerQuarterNote <<
       endl <<
+      
       setw (fieldWidth) <<
       "fCurrentNotePrintKind" << " = " <<
       msrNote::notePrintKindAsString (
         fCurrentNotePrintKind) <<
       endl <<
+
+      setw (fieldWidth) <<
+      "fCurrentStaffNumber =" << " = " <<
+      fCurrentStaffNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteStaffNumber" << " = " <<
+      fCurrentNoteStaffNumber <<
+      endl <<
+      
+      setw (fieldWidth) <<
+      "fInitialNoteStaffNumberToBeUsed" << " = " <<
+      fInitialNoteStaffNumberToBeUsed <<
+      endl <<
+      setw (fieldWidth) <<
+      "fPreviousNoteStaffNumberToBeUsed" << " = " <<
+      fPreviousNoteStaffNumberToBeUsed <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteStaffNumberToBeUsed" << " = " <<
+      fCurrentNoteStaffNumberToBeUsed <<
+      endl <<
+
+      setw (fieldWidth) <<
+      "fThereIsAStaffChange" << " = " << 
+      booleanAsString (fThereIsAStaffChange) <<
+      endl <<
+
+      setw (fieldWidth) <<
+      "fCurrentVoiceNumber" << " = " <<
+      fCurrentVoiceNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteVoiceNumber" << " = " <<
+      fCurrentNoteVoiceNumber <<
+      endl <<
+      
       setw (fieldWidth) <<
       "inputLineNumber" << " = " <<
       inputLineNumber <<
@@ -17121,6 +17163,20 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
   else {
     // no, use regular fCurrentNoteStaffNumber
+
+    // was there a <staff/> in this note?
+    /* JMI
+    if (
+      fCurrentNoteStaffNumber == K_NO_STAFF_NUMBER
+        &&
+      fInitialNoteStaffNumberToBeUsed == K_NO_STAFF_NUMBER
+      ) {
+      */
+    if (! fCurrentNoteHasAStaff) {
+      fInitialNoteStaffNumberToBeUsed  = 1;
+      // default, there may be no <staff/> markups
+    }
+    
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
@@ -17806,6 +17862,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
             chordFirstNote->asShortString () <<
             ", line " << inputLineNumber <<
             ", from voice \"" << currentVoice->getVoiceName () << "\"" <<
+            ", line " << inputLineNumber <<
             endl;
         }
 #endif

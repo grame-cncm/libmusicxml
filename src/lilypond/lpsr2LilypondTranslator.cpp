@@ -1633,7 +1633,7 @@ void lpsr2LilypondTranslator::writeNoteArticulationAsLilyponString (
       
     case msrArticulation::kFermata:
       // this is handled in visitStart (S_msrFermata&)
-      doGeneratePlacement = false;
+      doGeneratePlacement = true;
       break;
       
     case msrArticulation::kArpeggiato:
@@ -1730,7 +1730,51 @@ void lpsr2LilypondTranslator::writeNoteArticulationAsLilyponString (
       break;
       
     case msrArticulation::kFermata:
-      // this is handled in visitStart (S_msrFermata&)
+      if (
+        // fermata?
+        S_msrFermata
+          fermata =
+            dynamic_cast<msrFermata*>(&(*articulation))
+        ) {
+        switch (fermata->getFermataTypeKind ()) {
+          case msrFermata::kFermataTypeNone:
+            // no placement needed
+            break;
+          case msrFermata::kFermataTypeUpright:
+            // no placement needed
+            break;
+          case msrFermata::kFermataTypeInverted:
+            fLilypondCodeIOstream << "_";
+            break;
+        } // switch
+      
+        switch (fermata->getFermataKind ()) {
+          case msrFermata::kNormalFermataKind:
+            fLilypondCodeIOstream << "\\fermata ";
+            break;
+          case msrFermata::kAngledFermataKind:
+            fLilypondCodeIOstream << "\\shortfermata ";
+            break;
+          case msrFermata::kSquareFermataKind:
+            fLilypondCodeIOstream << "\\longfermata ";
+            break;
+        } // switch
+      }
+      else {
+        stringstream s;
+    
+        s <<
+          "note articulation '" <<
+          articulation->asString () <<
+          "'has 'fermata' kind, but is not of type S_msrFermata" <<
+          ", line " << articulation->getInputLineNumber ();
+          
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          articulation->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
       break;
       
     case msrArticulation::kArpeggiato:
@@ -1828,7 +1872,51 @@ void lpsr2LilypondTranslator::writeChordArticulationAsLilyponString (
       break;
       
     case msrArticulation::kFermata:
-      // this is handled in visitStart (S_msrFermata&)
+      if (
+        // fermata?
+        S_msrFermata
+          fermata =
+            dynamic_cast<msrFermata*>(&(*articulation))
+        ) {
+        switch (fermata->getFermataTypeKind ()) {
+          case msrFermata::kFermataTypeNone:
+            // no placement needed
+            break;
+          case msrFermata::kFermataTypeUpright:
+            // no placement needed
+            break;
+          case msrFermata::kFermataTypeInverted:
+            fLilypondCodeIOstream << "_";
+            break;
+        } // switch
+      
+        switch (fermata->getFermataKind ()) {
+          case msrFermata::kNormalFermataKind:
+            fLilypondCodeIOstream << "\\fermata ";
+            break;
+          case msrFermata::kAngledFermataKind:
+            fLilypondCodeIOstream << "\\shortfermata ";
+            break;
+          case msrFermata::kSquareFermataKind:
+            fLilypondCodeIOstream << "\\longfermata ";
+            break;
+        } // switch
+      }
+      else {
+        stringstream s;
+    
+        s <<
+          "chord articulation '" <<
+          articulation->asString () <<
+          "'has 'fermata' kind, but is not of type S_msrFermata" <<
+          ", line " << articulation->getInputLineNumber ();
+          
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          articulation->getInputLineNumber (),
+          __FILE__, __LINE__,
+          s.str ());
+      }
       break;
       
     case msrArticulation::kArpeggiato:
@@ -5236,7 +5324,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
     "\\override Staff.StaffSymbol.line-count = " <<
     linesNumber <<
     endl <<
-    " \\startStaff" <<
+    "\\startStaff" <<
     endl;
 }
 
@@ -7744,7 +7832,6 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       fLilypondCodeIOstream << "_";
       break;
   } // switch
-*/
 
   // don't generate fermatas for chord member notes
   if (false && fOnGoingNote) { // JMI
@@ -7772,6 +7859,7 @@ Articulations can be attached to rests as well as notes but they cannot be attac
         break;
     } // switch
   }
+*/
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
