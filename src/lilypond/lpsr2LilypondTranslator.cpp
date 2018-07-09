@@ -5457,14 +5457,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
       endl;
   }
 
-/* JMI
   fLilypondCodeIOstream <<
     endl <<
     "\\change Staff=\"" <<
     elt->getNewStaff ()->getStaffName () <<
-    "\"" <<
+    "\"";
+
+  if (gLilypondOptions->fNoteInputLineNumbers) {
+    // print the staff change line number as a comment
+    fLilypondCodeIOstream <<
+      "%{ " << elt->getInputLineNumber () << " %} ";
+  }
+
+  fLilypondCodeIOstream <<
     endl;
-    */
 }
 
 //________________________________________________________________________

@@ -998,7 +998,7 @@ class mxmlTree2MsrTranslator :
 
     // a voice may change staff, hence:
     map<int, S_msrVoice>      fPartVoiceNumberToVoiceMap;
-    map<int, int>             fPartVoiceNumberToDisplayingStaffNumberMap;
+ // JMI   map<int, int>             fPartVoiceNumberToDisplayingStaffNumberMap;
 
     // voice handling
     // ------------------------------------------------------

@@ -16201,10 +16201,10 @@ void msrSegment::appendVoiceStaffChangeToSegment (
       ||
     gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Append voice staff change " <<
+      "Appending voice staff change '" <<
       voiceStaffChange->asString () <<
-      " to segment " <<
-      " \"" << asString () << "\"" <<
+      "' to segment \"" << asString () << "\"" <<
+      ", line " << voiceStaffChange->getInputLineNumber () <<
       endl;
   }
 #endif
@@ -20522,23 +20522,28 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendVoiceStaffChangeToVoice (
   S_msrVoiceStaffChange voiceStaffChange)
 {
+  int inputLineNumber =
+    voiceStaffChange->getInputLineNumber ();
+    
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Append voice staff change " <<
+      "Appending voice staff change '" <<
       voiceStaffChange->asString () <<
-      " to voice " <<
+      "' to voice " <<
       " \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
-    voiceStaffChange->getInputLineNumber ());
+    inputLineNumber);
 
   fVoiceLastSegment->
-    appendVoiceStaffChangeToSegment (voiceStaffChange);
+    appendVoiceStaffChangeToSegment (
+      voiceStaffChange);
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
