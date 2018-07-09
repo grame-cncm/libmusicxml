@@ -71,8 +71,9 @@ void traceOptions::initializeTraceOptions (
     
     fTracePasses = boolOptionsInitialValue;
     
-    fDisplayOptionsValues = boolOptionsInitialValue;
-    fTraceOptions         = boolOptionsInitialValue;
+    fTraceOptions          = boolOptionsInitialValue;
+    fDisplayOptionsValues  = boolOptionsInitialValue;
+    fDisplayOptionsHandler = boolOptionsInitialValue;
     
     // fTraceDetailedMeasureNumbersSet is empty
     
@@ -92,6 +93,15 @@ R"()",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
+            "topts", "traceOptions",
+R"(Write a trace of options handling to standard error.
+This option should best appear first.)",
+            "traceOptions",
+            fTraceOptions));
+    
+      traceAndDisplaySubGroup->
+        appendOptionsItem (
+          optionsBooleanItem::create (
             "t", "traceTrace",
 R"(Write a trace of the trace activity to standard error.)",
             "traceTrace",
@@ -108,11 +118,10 @@ R"(Write the chosen options values to standard error.)",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
-            "topts", "traceOptions",
-R"(Write a trace of options handling to standard error.
-This option should best appear first.)",
-            "traceOptions",
-            fTraceOptions));
+            "doh", "displayOptionsHandler",
+R"(Write the contents of the options handler to standard error.)",
+            "displayOptionsHandler",
+            fDisplayOptionsHandler));
     
       traceAndDisplaySubGroup->
         appendOptionsItem (

@@ -1468,8 +1468,16 @@ class mxmlTree2MsrTranslator :
     string                    fCurrentMakeTime;
 
     // staff
+    // notes always keep their initial staff number
     int                       fCurrentNoteStaffNumber;
-    int                       fPreviousNoteStaffNumber;
+
+    // staff changes
+    // we keep track of which staff number is to be used
+    // for the previous and current notes:
+    // a staff change occurs when they are different,
+    // but fCurrentNoteStaffNumber keeps its value in that case
+    int                       fPreviousNoteStaffNumberToBeUsed;
+    int                       fCurrentNoteStaffNumberToBeUsed;
     bool                      fThereIsAStaffChange;
 
     // voice

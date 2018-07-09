@@ -79,11 +79,6 @@ class generalOptions : public optionsGroup
     string                fCommandLineWithShortOptions;
 
 
-    // display
-    // --------------------------------------
-  
-    bool                  fDisplayOptionsValues;
-
     // warning and error handling
     // --------------------------------------
       

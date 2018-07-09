@@ -284,7 +284,7 @@ R"()",
     CPUUsageSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "cpu", "displayCPUusage",
+          "dcpuu", "displayCpuUsage",
 R"(Write information about CPU usage to standard error.)",
           "displayCPUusage",
           fDisplayCPUusage));

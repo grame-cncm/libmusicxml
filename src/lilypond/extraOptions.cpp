@@ -759,6 +759,9 @@ void extraOptions::handleOptionsItemValue (
     printAllChordsContents (
       os,
       semiTonesPitchKind);
+
+  // exit
+  exit (23);
   }
   
   else if (
@@ -931,6 +934,9 @@ void extraOptions::handleOptionsItemValue (
       os,
       semiTonesPitchKind,
       harmonyKind);
+
+    // exit
+    exit (23);
   }
   
   else if (
@@ -1132,6 +1138,9 @@ void extraOptions::handleOptionsItemValue (
       semiTonesPitchKind,
       harmonyKind,
       inversion);
+      
+    // exit
+    exit (23);
   }
 }
 

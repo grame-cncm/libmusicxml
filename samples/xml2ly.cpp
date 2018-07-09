@@ -61,8 +61,9 @@ vector<string> handleOptionsAndArguments (
         decipherOptionsAndArguments (
           argc, argv);
 
+/* JMI
 #ifdef TRACE_OPTIONS
-  {
+  if (gTraceOptions->fDisplayOptionsValues) {
     // print the options values
     logIndentedOutputStream <<
       "*** Options values:" <<
@@ -80,6 +81,7 @@ vector<string> handleOptionsAndArguments (
     gIndenter--;
   }
 #endif
+  */
   
   return argumentsVector;
 }
@@ -367,15 +369,17 @@ int main (int argc, char *argv[])
         argc, argv,
         gLogIOstream);
 
+/* JMI
   // print the resulting options
 #ifdef TRACE_OPTIONS
-  {
+  if (gTraceOptions->fDisplayOptionsHandler) {
     gLogIOstream <<
       optionsHandler <<
       endl <<
       endl;
   }
 #endif
+*/
 
   string
     inputSourceName =

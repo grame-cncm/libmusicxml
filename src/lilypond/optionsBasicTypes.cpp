@@ -303,6 +303,8 @@ void optionsItem::print (ostream& os) const
 
   optionsElement::printElementEssentials (
     os, fieldWidth);
+
+  gIndenter--;
 }
 
 void optionsItem::printOptionsValues (
@@ -654,39 +656,41 @@ void optionsCombinedItemsItem::print (ostream& os) const
     setw (fieldWidth) <<
     "fOptionsCombinedItemsList" << " : ";
 
-    if (! fOptionsCombinedItemsList.size ()) {
-      os <<
-        "none";
-    }
-      
-    else {
-      os <<
-        endl;
+  if (! fOptionsCombinedItemsList.size ()) {
+    os <<
+      "none";
+  }
+    
+  else {
+    os <<
+      endl;
 
     gIndenter++;
 
     os <<
         "'";
-        
-      list<S_optionsItem>::const_iterator
-        iBegin = fOptionsCombinedItemsList.begin (),
-        iEnd   = fOptionsCombinedItemsList.end (),
-        i      = iBegin;
-        
-      for ( ; ; ) {
-        os << (*i);
-        if (++i == iEnd) break;
-        os << " ";
-      } // for
-    
-      os <<
-        "'";
-    }
+      
+    list<S_optionsItem>::const_iterator
+      iBegin = fOptionsCombinedItemsList.begin (),
+      iEnd   = fOptionsCombinedItemsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  
+    os <<
+      "'";
 
     gIndenter--;
-    
-    os <<
-      endl;
+  }
+
+  gIndenter--;
+  
+  os <<
+    endl;
 }
 
 void optionsCombinedItemsItem::printHelp (ostream& os) const
@@ -1178,6 +1182,8 @@ void optionsValuedItem::print (ostream& os) const
 
   printValuedItemEssentials (
     os, fieldWidth);
+
+  gIndenter--;
 }
 
 void optionsValuedItem::printHelp (ostream& os) const
@@ -1512,6 +1518,8 @@ void optionsStringItem::print (ostream& os) const
     "fOptionsStringItemVariable" << " : " <<
     fOptionsStringItemVariable <<
     endl;
+
+  gIndenter--;
 }
 
 void optionsStringItem::printOptionsValues (
@@ -1600,6 +1608,8 @@ void optionsRationalItem::print (ostream& os) const
     "fOptionsRationalItemVariable" << " : " <<
     fOptionsRationalItemVariable <<
     endl;
+
+  gIndenter--;
 }
 
 void optionsRationalItem::printOptionsValues (
@@ -1683,32 +1693,34 @@ void optionsNumbersSetItem::print (ostream& os) const
     "fOptionsNumbersSetItemVariable" << " : " <<
     endl;
 
-    if (! fOptionsNumbersSetItemVariable.size ()) {
-      os <<
-        "none";
-    }
-      
-    else {
-      os <<
-        "'";
-        
-      set<int>::const_iterator
-        iBegin = fOptionsNumbersSetItemVariable.begin (),
-        iEnd   = fOptionsNumbersSetItemVariable.end (),
-        i      = iBegin;
-        
-      for ( ; ; ) {
-        os << (*i);
-        if (++i == iEnd) break;
-        os << " ";
-      } // for
-    
-      os <<
-        "'";
-    }
-
+  if (! fOptionsNumbersSetItemVariable.size ()) {
     os <<
-      endl;
+      "none";
+  }
+    
+  else {
+    os <<
+      "'";
+      
+    set<int>::const_iterator
+      iBegin = fOptionsNumbersSetItemVariable.begin (),
+      iEnd   = fOptionsNumbersSetItemVariable.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  
+    os <<
+      "'";
+  }
+
+  os <<
+    endl;
+
+  gIndenter--;
 }
 
 void optionsNumbersSetItem::printOptionsValues (
@@ -3475,7 +3487,9 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         fOptionsHandlerLogIOstream <<
           (*i).first << "-->" <<
           endl;
+          
         gIndenter++;
+        
         (*i).second->
           printHeader (
             fOptionsHandlerLogIOstream);
@@ -3484,11 +3498,13 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         
         fOptionsHandlerLogIOstream <<
           endl;
+          
         gIndenter--;
       } // for
       
       gIndenter--;
     }
+    
     fOptionsHandlerLogIOstream <<
       endl;
   }
@@ -4167,6 +4183,9 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         theString);
 
       fPendingOptionsItem = nullptr;
+
+      // exit
+      exit (23);
       }
     
     else if (
