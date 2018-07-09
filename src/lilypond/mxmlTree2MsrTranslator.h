@@ -996,10 +996,6 @@ class mxmlTree2MsrTranslator :
                                 int            inputLineNumber,
                                 int            staffNumber);
 
-    // a voice may change staff, hence:
-    map<int, S_msrVoice>      fPartVoiceNumberToVoiceMap;
- // JMI   map<int, int>             fPartVoiceNumberToDisplayingStaffNumberMap;
-
     // voice handling
     // ------------------------------------------------------
     
@@ -1476,6 +1472,7 @@ class mxmlTree2MsrTranslator :
     // for the previous and current notes:
     // a staff change occurs when they are different,
     // but fCurrentNoteStaffNumber keeps its value in that case
+    int                       fInitialNoteStaffNumberToBeUsed;
     int                       fPreviousNoteStaffNumberToBeUsed;
     int                       fCurrentNoteStaffNumberToBeUsed;
     bool                      fThereIsAStaffChange;
