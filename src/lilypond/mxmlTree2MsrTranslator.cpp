@@ -5555,7 +5555,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // fetch stanzaNumber in current voice
@@ -10587,7 +10587,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           currentVoice =
             fetchVoiceFromCurrentPart (
               inputLineNumber,
-              fCurrentNoteStaffNumber,
+              fCurrentSequenceStaffNumber,
               fCurrentNoteVoiceNumber);
 
         // create a double tremolo start
@@ -14697,7 +14697,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   // for chords in tuplets handling
 // JMI  fLastHandledTupletInVoiceMap [currentVoice] = tuplet;
   fLastHandledTupletInVoiceMap [
-    make_pair(fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+    make_pair (
+      fCurrentSequenceStaffNumber, fCurrentNoteVoiceNumber)
     ] =
     tuplet;
 
@@ -14734,7 +14735,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // get tuplet from top of tuplet stack
@@ -15302,7 +15303,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
       voice =
         fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
-          fCurrentNoteStaffNumber,
+          fCurrentSequenceStaffNumber,
           fCurrentNoteVoiceNumber);
 
     while (fPendingTempos.size ()) {
@@ -15338,7 +15339,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
       voice =
         fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
-          fCurrentNoteStaffNumber,
+          fCurrentSequenceStaffNumber,
           fCurrentNoteVoiceNumber);
 
     while (fPendingRehearsals.size ()) {
@@ -15458,7 +15459,7 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
       voice =
         fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
-          fCurrentNoteStaffNumber,
+          fCurrentSequenceStaffNumber,
           fCurrentNoteVoiceNumber);
 
     while (fPendingOctaveShifts.size ()) {
@@ -16021,7 +16022,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
             voice =
               fetchVoiceFromCurrentPart (
                 inputLineNumber,
-                fCurrentNoteStaffNumber,
+                fCurrentSequenceStaffNumber,
                 fCurrentNoteVoiceNumber);
               
           // get the voice's stanzas map
@@ -16133,7 +16134,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
             voice =
               fetchVoiceFromCurrentPart (
                 inputLineNumber,
-                fCurrentNoteStaffNumber,
+                fCurrentSequenceStaffNumber,
                 fCurrentNoteVoiceNumber);
               
           // get the voice's stanzas map
@@ -16407,7 +16408,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     staff =
       fetchStaffFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber);
+        fCurrentSequenceStaffNumber);
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
@@ -16415,8 +16416,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       "--> fCurrentNoteVoiceNumber        = " <<
       fCurrentNoteVoiceNumber <<
       endl <<
-      "--> S_voice, fCurrentNoteStaffNumber = " <<
-      fCurrentNoteStaffNumber <<
+      "--> S_voice, fCurrentSequenceStaffNumber = " <<
+      fCurrentSequenceStaffNumber <<
       endl <<
       "--> S_voice, current staff name  = " <<
       staff->getStaffName() <<
@@ -16429,7 +16430,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     voice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 */
 
@@ -17127,7 +17128,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 #endif
   
   fVoicesLastMetNoteMap [
-    make_pair(fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+    make_pair (
+      fCurrentSequenceStaffNumber, fCurrentNoteVoiceNumber)
     ] =
       newNote;
 
@@ -17721,7 +17723,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber, // JMI fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
 #ifdef TRACE_OPTIONS
@@ -17759,7 +17761,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       chordFirstNote =
   //      fVoicesLastMetNoteMap [currentVoice];
         fVoicesLastMetNoteMap [
-          make_pair (fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+          make_pair (
+            fCurrentSequenceStaffNumber, fCurrentNoteVoiceNumber)
           ];
       /*
         currentVoice->
@@ -18476,7 +18479,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // should a chord be created?
@@ -18510,7 +18513,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
     currentTuplet =
       fLastHandledTupletInVoiceMap [
-        make_pair(fCurrentNoteStaffNumber, fCurrentNoteVoiceNumber)
+        make_pair (
+          fCurrentSequenceStaffNumber, fCurrentNoteVoiceNumber)
       ];
     
     // remove and fetch tupletLastNote from the current tuplet,
@@ -18671,7 +18675,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // should a chord be created?
@@ -18819,7 +18823,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // handle tuplets pending on the tuplet stack
