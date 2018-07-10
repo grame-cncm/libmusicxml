@@ -1465,20 +1465,18 @@ class mxmlTree2MsrTranslator :
 
     // staff
     // notes always keep their initial staff number
-    bool                      fCurrentNoteHasAStaff;
     int                       fCurrentNoteStaffNumber;
+    int                       fPreviousNoteStaffNumber;
 
     // staff changes
+    // MusicXMl contains sequences of elements on one and the same staff,
+    // until a <backup/> markup may change the latter;
     // we keep track of which staff number is to be used
     // for the previous and current notes:
     // a staff change occurs when they are different,
     // but fCurrentNoteStaffNumber keeps its value in that case
-    int                       fCurrentChordFirstNoteStaffNumber;
-    int                       fPreviousNoteStaffNumberToBeUsed;
-    int                       fCurrentNoteStaffNumberToBeUsed;
+    int                       fCurrentSequenceStaffNumber;
     
-    bool                      fThereIsAStaffChange;
-
     // voice
     int                       fCurrentNoteVoiceNumber;
 
