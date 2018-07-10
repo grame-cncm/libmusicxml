@@ -6629,7 +6629,7 @@ class msrVoiceStaffChange : public msrElement
 
     static SMARTP<msrVoiceStaffChange> create (
       int        inputLineNumber,
-      S_msrStaff newStaff);
+      S_msrStaff staffToChangeTo);
 
     SMARTP<msrVoiceStaffChange> createStaffChangeNewbornClone ();
 
@@ -6640,7 +6640,7 @@ class msrVoiceStaffChange : public msrElement
 
     msrVoiceStaffChange (
       int        inputLineNumber,
-      S_msrStaff newStaff);
+      S_msrStaff staffToChangeTo);
       
     virtual ~msrVoiceStaffChange ();
   
@@ -6649,8 +6649,8 @@ class msrVoiceStaffChange : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrStaff            getNewStaff () const
-                              { return fNewStaff; }
+    S_msrStaff            getStaffToChangeTo () const
+                              { return fStaffToChangeTo; }
                         
     // services
     // ------------------------------------------------------
@@ -6679,7 +6679,7 @@ class msrVoiceStaffChange : public msrElement
     // fields
     // ------------------------------------------------------
 
-    S_msrStaff            fNewStaff;
+    S_msrStaff            fStaffToChangeTo;
 };
 typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 EXP ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt);

@@ -264,9 +264,9 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentNoteStaffNumber = K_NO_STAFF_NUMBER;
 
   // staff change  
-  fInitialNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
-  fPreviousNoteStaffNumberToBeUsed = K_NO_STAFF_NUMBER;
-  fCurrentNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
+  fCurrentChordFirstNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fPreviousNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
+  fCurrentNoteStaffNumberToBeUsed   = K_NO_STAFF_NUMBER;
   
   fThereIsAStaffChange = false;
 
@@ -724,9 +724,9 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentTime = nullptr;
 
   // staff change  
-  fInitialNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
-  fPreviousNoteStaffNumberToBeUsed = K_NO_STAFF_NUMBER;
-  fCurrentNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
+  fCurrentChordFirstNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fPreviousNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
+  fCurrentNoteStaffNumberToBeUsed   = K_NO_STAFF_NUMBER;
   
   fThereIsAStaffChange = false;
 
@@ -3716,9 +3716,9 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
     fCurrentNoteStaffNumber = fCurrentStaffNumber;
     fCurrentNoteHasAStaff   = true;
 
-    // set previous note staff member to be used if relevant
-    if (fInitialNoteStaffNumberToBeUsed == K_NO_STAFF_NUMBER) {
-      fInitialNoteStaffNumberToBeUsed = fCurrentNoteStaffNumber;
+    // set chord first note staff number to be used if relevant
+    if (fCurrentChordFirstNoteStaffNumber == K_NO_STAFF_NUMBER) {
+      fCurrentChordFirstNoteStaffNumber = fCurrentNoteStaffNumber;
     }
     
     // save previous note staff number to be used
@@ -3730,18 +3730,17 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
     // is there a staff change?
     if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
       fLogOutputStream <<
-        "--> staff change ?" <<
+        "--> staff change?" <<
         ", fCurrentNoteStaffNumber = " <<
         fCurrentNoteStaffNumber <<
         ", fCurrentNoteHasAStaff = " <<
         booleanAsString (fCurrentNoteHasAStaff) <<
-        ", fInitialNoteStaffNumberToBeUsed = " <<
-        fInitialNoteStaffNumberToBeUsed <<
+        ", fCurrentChordFirstNoteStaffNumber = " <<
+        fCurrentChordFirstNoteStaffNumber <<
         ", fPreviousNoteStaffNumberToBeUsed = " <<
         fPreviousNoteStaffNumberToBeUsed <<
         ", fCurrentNoteStaffNumberToBeUsed = " <<
         fCurrentNoteStaffNumberToBeUsed <<
-        endl <<
  // JMI       ", in voice \"" <<
  //       currentVoice->getVoiceName() <<
  //       "\"" <<
@@ -3757,7 +3756,9 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
         fLogOutputStream <<
-          "--> staff change 1" <<
+          "There is a staff change" <<
+          ", fCurrentChordFirstNoteStaffNumber = " <<
+          fCurrentChordFirstNoteStaffNumber <<
           ", fPreviousNoteStaffNumberToBeUsed = " << fPreviousNoteStaffNumberToBeUsed <<
           ", fCurrentStaffNumber = " << fCurrentStaffNumber <<
           endl <<
@@ -4306,8 +4307,8 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
   }
 
   // reset staff change detection
-  fInitialNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
-  fPreviousNoteStaffNumberToBeUsed = K_NO_STAFF_NUMBER;
+  fCurrentChordFirstNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fPreviousNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
  // JMI fCurrentNoteStaffNumberToBeUsed  = K_NO_STAFF_NUMBER;
 
   // handle the pending tuplets if any
@@ -16506,8 +16507,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       endl <<
       
       setw (fieldWidth) <<
-      "fInitialNoteStaffNumberToBeUsed" << " = " <<
-      fInitialNoteStaffNumberToBeUsed <<
+      "fCurrentChordFirstNoteStaffNumber" << " = " <<
+      fCurrentChordFirstNoteStaffNumber <<
       endl <<
       setw (fieldWidth) <<
       "fPreviousNoteStaffNumberToBeUsed" << " = " <<
@@ -17038,7 +17039,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // handling voices current chord map if needed
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingChord) {
-      // newNote is the first note after the chord in voice JMI ???
+      // newNote is the first note after the chord in voice
+      // JMI ???
     }
 
     if (fCurrentDoubleTremolo) {
@@ -17158,7 +17160,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fInitialNoteStaffNumberToBeUsed, // JMI fPreviousNoteStaffNumberToBeUsed,
+        fCurrentChordFirstNoteStaffNumber,
         fCurrentNoteVoiceNumber);
   }
   else {
@@ -17169,18 +17171,18 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     if (
       fCurrentNoteStaffNumber == K_NO_STAFF_NUMBER
         &&
-      fInitialNoteStaffNumberToBeUsed == K_NO_STAFF_NUMBER
+      fCurrentChordFirstNoteStaffNumber == K_NO_STAFF_NUMBER
       ) {
       */
     if (! fCurrentNoteHasAStaff) {
-      fInitialNoteStaffNumberToBeUsed  = 1;
+      fCurrentChordFirstNoteStaffNumber  = 1;
       // default, there may be no <staff/> markups
     }
     
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fInitialNoteStaffNumberToBeUsed, // JMI fCurrentNoteStaffNumber,
+        fCurrentChordFirstNoteStaffNumber,
         fCurrentNoteVoiceNumber);
   }
     
@@ -17867,14 +17869,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         }
 #endif
     
-        if (false) { // JMI
+        if (true) { // JMI
           fLogOutputStream <<
             endl << endl <<
-            "&&&&&&&&&&&&&&&&&& currentVoice (" <<
-            currentVoice->getVoiceName () <<
-            ") contents &&&&&&&&&&&&&&&&&&" <<
+            "&&&&&&&&&&&&&&&&&& fCurrentPart contents &&&&&&&&&&&&&&&&&&" <<
             endl <<
-            currentVoice <<
+            fCurrentPart <<
             endl << endl;
         }
         

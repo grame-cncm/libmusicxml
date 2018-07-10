@@ -1473,7 +1473,7 @@ class mxmlTree2MsrTranslator :
     // for the previous and current notes:
     // a staff change occurs when they are different,
     // but fCurrentNoteStaffNumber keeps its value in that case
-    int                       fInitialNoteStaffNumberToBeUsed;
+    int                       fCurrentChordFirstNoteStaffNumber;
     int                       fPreviousNoteStaffNumberToBeUsed;
     int                       fCurrentNoteStaffNumberToBeUsed;
     

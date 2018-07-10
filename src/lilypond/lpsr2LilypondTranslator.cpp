@@ -5548,7 +5548,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
   fLilypondCodeIOstream <<
     endl <<
     "\\change Staff=\"" <<
-    elt->getNewStaff ()->getStaffName () <<
+    elt->getStaffToChangeTo ()->getStaffName () <<
     "\"";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {

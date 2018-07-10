@@ -26955,21 +26955,21 @@ void msrStaff::printSummary (ostream& os)
 //______________________________________________________________________________
 S_msrVoiceStaffChange msrVoiceStaffChange::create (
   int        inputLineNumber,
-  S_msrStaff newStaff)
+  S_msrStaff staffToChangeTo)
 {
   msrVoiceStaffChange* o =
     new msrVoiceStaffChange (
-      inputLineNumber, newStaff);
+      inputLineNumber, staffToChangeTo);
   assert(o!=0);
   return o;
 }
 
 msrVoiceStaffChange::msrVoiceStaffChange (
   int        inputLineNumber,
-  S_msrStaff newStaff)
+  S_msrStaff staffToChangeTo)
     : msrElement (inputLineNumber)
 {
-  fNewStaff = newStaff;
+  fStaffToChangeTo = staffToChangeTo;
 }
 
 msrVoiceStaffChange::~msrVoiceStaffChange ()
@@ -26991,7 +26991,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
     newbornClone =
       msrVoiceStaffChange::create (
         fInputLineNumber,
-        fNewStaff);
+        fStaffToChangeTo);
   
   return newbornClone;
 }
@@ -27051,7 +27051,7 @@ string msrVoiceStaffChange::asString () const
     "VoiceStaffChange" <<
     ", line " << fInputLineNumber <<
     ", " <<
-    "newStaff: \"" << fNewStaff->getStaffName () << "\"";
+    "staffToChangeTo: \"" << fStaffToChangeTo->getStaffName () << "\"";
     
   return s.str ();
 }
