@@ -16725,7 +16725,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
   
 #ifdef TRACE_OPTIONS
@@ -17208,7 +17208,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
   
 #ifdef TRACE_OPTIONS
@@ -17726,7 +17726,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
 #ifdef TRACE_OPTIONS
