@@ -4495,12 +4495,12 @@ string msrNote::asShortStringWithRawWholeNotes () const
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
-        "???";
+        "noNoteKind";
       break;
       
     case msrNote::kRestNote:
       s <<
-        "R" <<
+        "restNote" <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
@@ -4512,7 +4512,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kSkipNote:
       s <<
-        "S" <<
+        "skipNote" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -4524,7 +4524,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kUnpitchedNote:
       s <<
         notePitchAsString () <<
-        "U" <<
+        "unpitchedNote" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -4535,7 +4535,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kStandaloneNote:
       s <<
-        "'" <<
+        "standaloneNote '" <<
         notePitchAsString () <<
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
@@ -4549,7 +4549,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "'" <<
+        "doubleTremoloMemberNote '" <<
         notePitchAsString () <<
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
@@ -4562,9 +4562,21 @@ string msrNote::asShortStringWithRawWholeNotes () const
       break;
       
     case msrNote::kGraceNote:
+      s <<
+        "graceNote '" <<
+        notePitchAsString () <<
+        "' " <<
+        noteGraphicDurationAsMsrString () <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << "."; // JMI
+      } // for
+      break;
+
     case msrNote::kGraceChordMemberNote:
       s <<
-        "'" <<
+        "graceChordMemberNote '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
@@ -4577,7 +4589,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kChordMemberNote:
       s <<
-        "'" <<
+        "chordMemberNote '" <<
         notePitchAsString () <<
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
@@ -4590,7 +4602,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberNote:
       s <<
-        "'" <<
+        "tupletMemberNote '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString ();
@@ -4610,7 +4622,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
-        "TU " <<
+        "tupletMemberUnpitchedNote " <<
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -4633,34 +4645,36 @@ string msrNote::asShortString () const
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
-        "note kind: unknown" <<
+        "noNoteKind" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kRestNote:
       s <<
-        "Rest" <<
+        "restNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
-        "Skip" <<
+        "skipNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kUnpitchedNote:
       s <<
-        "Unpitched" <<
+        "unpitchedNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kStandaloneNote:
       s <<
+        "standaloneNote" <<
+        ":" <<
         notePitchAsString () <<
         " " <<
         noteSoundingWholeNotesAsMsrString () <<
@@ -4669,6 +4683,7 @@ string msrNote::asShortString () const
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
+        "doubleTremoloMemberNote" <<
         notePitchAsString () <<
         " " <<
         noteSoundingWholeNotesAsMsrString () <<
@@ -4676,9 +4691,22 @@ string msrNote::asShortString () const
       break;
       
     case msrNote::kGraceNote:
-    case msrNote::kGraceChordMemberNote:
+       s <<
+         "graceNote" <<
+       notePitchAsString () <<
+        " " <<
+        noteGraphicDurationAsMsrString () <<
+        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        
+      for (int i = 0; i < fNoteDotsNumber; i++) {
+        s << "."; // JMI
+      } // for
+      break;
+
+   case msrNote::kGraceChordMemberNote:
       s <<
-        notePitchAsString () <<
+         "graceChordMemberNote" <<
+       notePitchAsString () <<
         " " <<
         noteGraphicDurationAsMsrString () <<
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -4690,6 +4718,7 @@ string msrNote::asShortString () const
       
     case msrNote::kChordMemberNote:
       s <<
+        "chordMemberNote" <<
         notePitchAsString () <<
         " " <<
         ", " <<
@@ -4699,6 +4728,7 @@ string msrNote::asShortString () const
       
     case msrNote::kTupletMemberNote:
       s <<
+        "tupletMemberNote" <<
         notePitchAsString () <<
         " " <<
         ", whole notes: " <<
@@ -4722,6 +4752,7 @@ string msrNote::asShortString () const
       
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
+        "tupletMemberUnpitchedNote" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
@@ -14118,19 +14149,19 @@ void msrMeasure::finalizeMeasure (
       break;
   } // switch
 
-  // is there a single note or rest occupying the whole measure?
+  // is there a single note or rest occupying the full measure?
   if (fMeasureLongestNote) {
     if (
       fMeasureLongestNote-> getNoteSoundingWholeNotes ()
         ==
-      fMeasureLength
+      fMeasureFullLength
     ) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
           "Note '" <<
           fMeasureLongestNote->asShortString () <<
-          "' occupied measure '" <<
+          "' occupies measure '" <<
           fMeasureNumber <<
           "' fully in segment '" <<
           fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
