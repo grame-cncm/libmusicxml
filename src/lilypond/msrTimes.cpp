@@ -556,6 +556,50 @@ string msrTime::timeRelationKindAsString (
   return result;
 }
 
+string msrTime::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Time, " << 
+    ", timeSymbolKind: " <<
+    timeSymbolKindAsString (fTimeSymbolKind) <<
+    ", timeIsCompound: " <<
+    booleanAsString (
+      fTimeIsCompound) <<
+    ", " <<
+    singularOrPlural (
+      fTimeItemsVector.size (), "item", "items") <<
+    ", line " << fInputLineNumber;
+
+  if (fTimeItemsVector.size ()) {
+    s <<
+      ", ";
+
+    vector<S_msrTimeItem>::const_iterator
+      iBegin = fTimeItemsVector.begin (),
+      iEnd   = fTimeItemsVector.end (),
+      i      = iBegin;
+  
+    for ( ; ; ) {
+      s << (*i)->asString ();
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+  }
+  else {
+    if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "time  items vector is empty");
+    }
+  }
+
+  return s.str ();
+}
+
 string msrTime::asShortString () const
 {
   /* JMI
@@ -577,56 +621,6 @@ string msrTime::asShortString () const
   */
 
   return asString ();
-}
-
-string msrTime::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Time, " << 
-    ", timeSymbolKind: " <<
-    timeSymbolKindAsString (fTimeSymbolKind) <<
-    ", compound: " <<
-    booleanAsString (
-      fTimeIsCompound) <<
-    ", " <<
-    singularOrPlural (
-      fTimeItemsVector.size (), "item", "items") <<
-    ", line " << fInputLineNumber;
-
-  if (fTimeItemsVector.size ()) {
-    s <<
-      ", ";
-
-    vector<S_msrTimeItem>::const_iterator
-      iBegin = fTimeItemsVector.begin (),
-      iEnd   = fTimeItemsVector.end (),
-      i      = iBegin;
-  
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << ", ";
-    } // for
-  }
-  else {
-    if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        fInputLineNumber,
-        __FILE__, __LINE__,
-        "time  items vector is empty");
-    }
-  }
-
-  return s.str ();
-}
-
-ostream& operator<< (ostream& os, const S_msrTime& elt)
-{
-  elt->print (os);
-  return os;
 }
 
 void msrTime::print (ostream& os)
@@ -670,6 +664,12 @@ void msrTime::print (ostream& os)
         " none" <<
         endl;
     }
+}
+
+ostream& operator<< (ostream& os, const S_msrTime& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

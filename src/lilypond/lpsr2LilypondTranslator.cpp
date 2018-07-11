@@ -11202,6 +11202,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       // should not occur, since
       // LilyPond will take care of displaying the repeat
       break;
+
+    case msrBarline::k_NoBarlineCategory:
+      {
+        stringstream s;
+    
+        s <<
+          "barline catetory has not been set" <<
+          ", line " << elt->getInputLineNumber ();
+          
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
   } // switch
 
   if (gLilypondOptions->fNoteInputLineNumbers) {

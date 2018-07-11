@@ -6669,8 +6669,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
   // is there a pending tuplet?
   if (fTupletsStack.size ()) { // JMI
-    // finalize the tuplet, for it to be create
-    // before the barline
+    // finalize the tuplet,
+    // for it to be created before the barline
     finalizeTupletAndPopItFromTupletsStack (
       inputLineNumber);
   }
@@ -6680,6 +6680,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     barline =
       msrBarline::create (
         inputLineNumber,
+        msrBarline::k_NoBarlineCategory, // will be set below
         fCurrentBarlineHasSegnoKind,
         fCurrentBarlineHasCodaKind,
         fCurrentBarlineLocationKind,
@@ -6693,7 +6694,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBarlines) {
     fLogOutputStream <<
-      "Creating a barline in part " <<
+      "Creating barline in part " <<
       fCurrentPart->getPartCombinedName () << ":" <<
       endl;
       
@@ -18917,6 +18918,7 @@ void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
     implicitBarline =
       msrBarline::create (
         inputLineNumber,
+        msrBarline::kBarlineCategoryRepeatStart,
         msrBarline::kBarlineHasSegnoNo,
         msrBarline::kBarlineHasCodaNo,
         msrBarline::kBarlineLocationLeft,
@@ -18926,11 +18928,6 @@ void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
         msrBarline::kBarlineRepeatDirectionForward,
         fCurrentBarlineRepeatWingedKind,
         fCurrentBarlineTimes);
-
-  // set the implicit barline category
-  implicitBarline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryRepeatStart);
 
   // prepend the implicit barline to the voice
   gIndenter++;

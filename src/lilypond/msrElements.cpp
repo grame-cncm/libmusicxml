@@ -96,15 +96,15 @@ string msrElement::asShortString () const
   return asString ();
 }
 
+void msrElement::print (ostream& os)
+{
+  os << asString () << endl;
+}
+
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {
   elt->print (os);
   return os;
-}
-
-void msrElement::print (ostream& os)
-{
-  os << asString () << endl;
 }
 
 

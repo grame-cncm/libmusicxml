@@ -102,18 +102,6 @@ void msrBarCheck::setNextBarNumber (string number)
   fNextBarNumber = number;
 }
 
-string msrBarCheck::asString () const
-{
-  stringstream s;
-
-  s <<
-    "BarCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"" <<
-    ", line " << fInputLineNumber;
-
-  return s.str ();
-}
-
 void msrBarCheck::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -161,10 +149,16 @@ void msrBarCheck::acceptOut (basevisitor* v)
 void msrBarCheck::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
+string msrBarCheck::asString () const
 {
-  elt->print (os);
-  return os;
+  stringstream s;
+
+  s <<
+    "BarCheck" <<
+    ", next bar number = \"" << fNextBarNumber << "\"" <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
 }
 
 void msrBarCheck::print (ostream& os)
@@ -172,6 +166,12 @@ void msrBarCheck::print (ostream& os)
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -196,17 +196,6 @@ msrBarNumberCheck::msrBarNumberCheck (
 
 msrBarNumberCheck::~msrBarNumberCheck ()
 {}
-
-string msrBarNumberCheck::asString () const
-{
-  stringstream s;
-
-  s <<
-    "BarNumberCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"";
-
-  return s.str ();
-}
 
 void msrBarNumberCheck::acceptIn (basevisitor* v)
 {
@@ -255,10 +244,15 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
 void msrBarNumberCheck::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
+string msrBarNumberCheck::asString () const
 {
-  elt->print (os);
-  return os;
+  stringstream s;
+
+  s <<
+    "BarNumberCheck" <<
+    ", next bar number = \"" << fNextBarNumber << "\"";
+
+  return s.str ();
 }
 
 void msrBarNumberCheck::print (ostream& os)
@@ -268,9 +262,16 @@ void msrBarNumberCheck::print (ostream& os)
     endl;
 }
 
+ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrBarline msrBarline::create (
   int                           inputLineNumber,
+  msrBarlineCategoryKind        barlineCategoryKind,
   msrBarlineHasSegnoKind        barlineHasSegnoKind,
   msrBarlineHasCodaKind         barlineHasCodaKind,
   msrBarlineLocationKind        locationKind,
@@ -284,6 +285,7 @@ S_msrBarline msrBarline::create (
   msrBarline* o =
     new msrBarline (
       inputLineNumber,
+      barlineCategoryKind,
       barlineHasSegnoKind, barlineHasCodaKind,
       locationKind, styleKind,
       endingTypeKind, endingNumber,
@@ -295,6 +297,7 @@ S_msrBarline msrBarline::create (
 
 msrBarline::msrBarline (
   int                           inputLineNumber,
+  msrBarlineCategoryKind        barlineCategoryKind,
   msrBarlineHasSegnoKind        barlineHasSegnoKind,
   msrBarlineHasCodaKind         barlineHasCodaKind,
   msrBarlineLocationKind        locationKind,
@@ -306,6 +309,8 @@ msrBarline::msrBarline (
   int                           barlineTimes)
     : msrElement (inputLineNumber)
 {
+  fBarlineCategoryKind = barlineCategoryKind;
+  
   fBarlineHasSegnoKind = barlineHasSegnoKind;
   fBarlineHasCodaKind  = barlineHasCodaKind;
   
@@ -377,12 +382,6 @@ void msrBarline::acceptOut (basevisitor* v)
 void msrBarline::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrBarline& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrBarline::barlineLocationKindAsString (
   msrBarlineLocationKind barlineLocationKind)
 {
@@ -412,6 +411,9 @@ string msrBarline::barlineCategoryKindAsString (
   string result;
   
   switch (barlineCategoryKind) {
+    case k_NoBarlineCategory:
+      result = "noBarlineCategory";
+      break;
     case kBarlineCategoryStandalone:
       result = "barlineCategoryStandalone";
       break;
@@ -657,7 +659,7 @@ void msrBarline::print (ostream& os)
     setw (fieldWidth) <<
     "barlineHasSegnoKind" << " : " <<
     barlineHasSegnoKindAsString (
-      fBarlineHasSegnoKind) << " : " <<
+      fBarlineHasSegnoKind) <<
     endl <<
     setw (fieldWidth) <<
     "barlineHasCodaKind" << " : " <<
@@ -718,6 +720,12 @@ void msrBarline::print (ostream& os)
     endl;
      
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrBarline& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

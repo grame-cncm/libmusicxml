@@ -12196,9 +12196,7 @@ void msrMeasure::setMeasureFullLengthFromTime (
       ||
     gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Setting measure full measure length from time '" <<
-      time->asShortString () <<
-      "', line " << fInputLineNumber <<
+      "Setting measure full measure length from time:" <<
       endl;
 
     gIndenter++;
@@ -12215,6 +12213,7 @@ void msrMeasure::setMeasureFullLengthFromTime (
         getSegmentVoiceUplink ()->
           getVoiceName () <<
       "\"" <<
+      ", line " << fInputLineNumber <<
       endl;
   }
 #endif
@@ -14414,8 +14413,9 @@ void msrMeasure::print (ostream& os)
 
   os <<
     setw (fieldWidth) <<
-    "nextMeasureNumber" << " : '" <<
-    fNextMeasureNumber << "'" <<
+    "nextMeasureNumber" << " : \"" <<
+    fNextMeasureNumber <<
+    "\"" <<
     endl;
 
   int
@@ -19435,6 +19435,8 @@ void msrVoice::createMeasureAndAppendItToVoice (
   }
 #endif
 
+  gIndenter++;
+  
   if (! fVoiceLastSegment) {
     // create the voice last segment if not yet done // JMI
     createNewLastSegmentForVoice (
@@ -19477,6 +19479,8 @@ void msrVoice::createMeasureAndAppendItToVoice (
     case msrVoice::kFiguredBassVoice:
       break;
   } // switch
+
+  gIndenter--;
 }
 
 void msrVoice::setNextMeasureNumberInVoice (
