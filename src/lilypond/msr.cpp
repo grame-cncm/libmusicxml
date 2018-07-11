@@ -14826,11 +14826,15 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
         // no, finalize it
+        /* JMI
         lastMeasure->
           finalizeMeasure (
             inputLineNumber);
-            /* JMI
-        if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
+            */
+
+        // is the last measure empty?
+ //       if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
+        if (lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ???
           // yes, remove it
 #ifdef TRACE_OPTIONS
           if (
@@ -14852,13 +14856,13 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     
           fSegmentMeasuresList.pop_back ();
         }
+        
         else {
           // no, finalize it
           lastMeasure->
             finalizeMeasure (
               inputLineNumber);
         }
-        */
         break;
 
       case msrMeasure::kMeasureCreatedForARepeatBefore:

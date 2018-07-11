@@ -15340,7 +15340,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
       voice =
         fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
-          fCurrentSequenceStaffNumber,
+          fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber);
 
     while (fPendingRehearsals.size ()) {
@@ -15441,7 +15441,7 @@ void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
+void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToNote (
   S_msrNote note)
 {
  // attach the pending octave shifts if any to the note
@@ -15455,13 +15455,15 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
     }
 #endif
 
-    // fetch the voice
+/* JMI
+    // fetch the voice ??? JMI
     S_msrVoice
       voice =
         fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
-          fCurrentSequenceStaffNumber,
+          fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber);
+*/
 
     while (fPendingOctaveShifts.size ()) {
       S_msrOctaveShift
@@ -16230,8 +16232,8 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   // attach the pending scordaturas, if any, to the note
   attachPendingScordaturasToNote (note);
 
-  // attach the pending octave shifts, if any, to the note's voice
-  attachPendingOctaveShiftsToTheVoiceOfNote (note);
+  // attach the pending octave shifts, if any, to the note
+  attachPendingOctaveShiftsToNote (note);
 
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);

@@ -1167,7 +1167,7 @@ class mxmlTree2MsrTranslator :
     // (they precede the note in MusicXML and
     // may occur when no current voice exists)
     list<S_msrOctaveShift>    fPendingOctaveShifts;
-    void                      attachPendingOctaveShiftsToTheVoiceOfNote (
+    void                      attachPendingOctaveShiftsToNote (
                                 S_msrNote note);
 
     // scordatura handling
