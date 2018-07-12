@@ -267,6 +267,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
 
   // cross staff chords
+  fCurrentChordStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentChordIsCrossStaves = false;
     
   // voice
@@ -13786,6 +13787,14 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     chordFirstNote, chord);
 
   // register the chord as non cross staves
+  fCurrentChordStaffNumber =
+    chordFirstNote->
+      getNoteMeasureUplink ()->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceStaffUplink ()->
+              getStaffNumber ();
+    
   fCurrentChordIsCrossStaves = false;
 
   return chord;
