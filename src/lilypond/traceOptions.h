@@ -173,6 +173,7 @@ class traceOptions : public optionsGroup
 
     // chords
     bool                  fTraceChords;
+    bool                  fTraceChordsDetails;
 
     // tuplets
     bool                  fTraceTuplets;

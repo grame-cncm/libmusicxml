@@ -1632,7 +1632,6 @@ void lpsr2LilypondTranslator::writeNoteArticulationAsLilyponString (
       break;
       
     case msrArticulation::kFermata:
-      // this is handled in visitStart (S_msrFermata&)
       doGeneratePlacement = true;
       break;
       
@@ -7544,11 +7543,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           }
 
           fLilypondCodeIOstream <<
-            "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+    // JMI        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+            "\\smaller \\general-align #Y #DOWN \\note {" <<
             dottedDurationAsLilypondStringWithoutBackSlash (
               inputLineNumber,
               tempoBeatUnit) <<
-            "\" #UP" <<
+            "} #UP" <<
+      //      "\" #UP" <<
             endl <<
             "=" <<
             endl <<
@@ -9203,8 +9204,52 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         i++) {
         S_msrArticulation articulation = (*i);
         switch (articulation->getArticulationKind ()) {
-          case msrArticulation::kFermata:
-            // this is handled in visitStart (S_msrFermata&)
+          case msrArticulation::kFermata: // handle this better JMI
+            if (
+              // fermata?
+              S_msrFermata
+                fermata =
+                  dynamic_cast<msrFermata*>(&(*articulation))
+              ) {
+              switch (fermata->getFermataTypeKind ()) {
+                case msrFermata::kFermataTypeNone:
+                  // no placement needed
+                  break;
+                case msrFermata::kFermataTypeUpright:
+                  // no placement needed
+                  break;
+                case msrFermata::kFermataTypeInverted:
+                  fLilypondCodeIOstream << "_";
+                  break;
+              } // switch
+            
+              switch (fermata->getFermataKind ()) {
+                case msrFermata::kNormalFermataKind:
+                  fLilypondCodeIOstream << "\\fermata ";
+                  break;
+                case msrFermata::kAngledFermataKind:
+                  fLilypondCodeIOstream << "\\shortfermata ";
+                  break;
+                case msrFermata::kSquareFermataKind:
+                  fLilypondCodeIOstream << "\\longfermata ";
+                  break;
+              } // switch
+            }
+            else {
+              stringstream s;
+          
+              s <<
+                "note articulation '" <<
+                articulation->asString () <<
+                "'has 'fermata' kind, but is not of type S_msrFermata" <<
+                ", line " << articulation->getInputLineNumber ();
+                
+              msrInternalError (
+                gXml2lyOptions->fInputSourceName,
+                articulation->getInputLineNumber (),
+                __FILE__, __LINE__,
+                s.str ());
+            }
             break;
             
           default:

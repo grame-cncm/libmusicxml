@@ -236,6 +236,7 @@ debugging information to standard error for the specified measures.)",
     
     // chords
     fTraceChords = boolOptionsInitialValue;
+    fTraceChordsDetails = boolOptionsInitialValue;
     
     // tuplets
     fTraceTuplets = boolOptionsInitialValue;
@@ -644,6 +645,16 @@ R"(Chords)",
       
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "tchordsd", "traceChordsDetails",
+R"(Chords details)",
+          "traceChordsDetails",
+          fTraceChordsDetails,
+          fTraceChords,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsTwoBooleansItem::create (
           "ttups", "traceTuplets",
 R"(Tuplets)",
@@ -968,6 +979,7 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
 
   // chords
   clone->fTraceChords = true;
+  clone->fTraceChordsDetails = true;
     
   // tuplets
   clone->fTraceTuplets = true;
@@ -1285,6 +1297,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // chords
     setw (fieldWidth) << "traceChords" << " : " <<
     booleanAsString (fTraceChords) <<
+    endl <<
+    setw (fieldWidth) << "traceChordsDetails" << " : " <<
+    booleanAsString (fTraceChordsDetails) <<
     endl <<
     
     // tuplets

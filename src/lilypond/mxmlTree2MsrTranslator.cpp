@@ -4642,10 +4642,11 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             s <<
               "only one slur nesting level is meaningfull";
             
-            msrMusicXMLError (
+      //      msrMusicXMLError ( // JMI
+            msrMusicXMLWarning (
               gXml2lyOptions->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
+      //        __FILE__, __LINE__,
               s.str ());
           }
       } // switch
@@ -5555,7 +5556,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // fetch stanzaNumber in current voice
@@ -10588,7 +10589,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           currentVoice =
             fetchVoiceFromCurrentPart (
               inputLineNumber,
-              fCurrentSequenceStaffNumber,
+              fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
               fCurrentNoteVoiceNumber);
 
         // create a double tremolo start
@@ -14699,7 +14700,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
 // JMI  fLastHandledTupletInVoiceMap [currentVoice] = tuplet;
   fLastHandledTupletInVoiceMap [
     make_pair (
-      fCurrentSequenceStaffNumber, fCurrentNoteVoiceNumber)
+      fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
+      fCurrentNoteVoiceNumber)
     ] =
     tuplet;
 
@@ -14736,7 +14738,7 @@ void mxmlTree2MsrTranslator::finalizeTupletAndPopItFromTupletsStack (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // get tuplet from top of tuplet stack
@@ -15304,7 +15306,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
       voice =
         fetchVoiceFromCurrentPart (
           note->getInputLineNumber (),
-          fCurrentSequenceStaffNumber,
+          fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
           fCurrentNoteVoiceNumber);
 
     while (fPendingTempos.size ()) {
@@ -16025,7 +16027,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
             voice =
               fetchVoiceFromCurrentPart (
                 inputLineNumber,
-                fCurrentSequenceStaffNumber,
+                fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
                 fCurrentNoteVoiceNumber);
               
           // get the voice's stanzas map
@@ -16137,7 +16139,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
             voice =
               fetchVoiceFromCurrentPart (
                 inputLineNumber,
-                fCurrentSequenceStaffNumber,
+                fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
                 fCurrentNoteVoiceNumber);
               
           // get the voice's stanzas map
@@ -16411,7 +16413,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     staff =
       fetchStaffFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber);
+        fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber
+        );
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
@@ -16725,7 +16728,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
   
 #ifdef TRACE_OPTIONS
@@ -16756,37 +16759,56 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   if (fCurrentNoteStaffNumber != fPreviousNoteStaffNumber) {
     // yes
 
-    // fetch staff to change to
-    S_msrStaff
-      staffToChangeTo =
-        fetchStaffFromCurrentPart (
-          inputLineNumber,
-          fCurrentNoteStaffNumber);
+    // is newNote a chord member note?
+    if (fCurrentNoteBelongsToAChord) {
+      // yes
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
-      fLogOutputStream <<
-        "*** There is staff change in voice \"" <<
-        currentVoice->getVoiceName () <<
-        "\"" <<
-        " from staff " << fPreviousNoteStaffNumber <<
-        " to staff " << fCurrentNoteStaffNumber <<
-        ", \"" << staffToChangeTo->getStaffName () << "\"" <<
-        endl;
+      // LilyPond doesn't support cross staff chords,
+      // so place newNote in its 'official' staff
     }
-#endif
+    
+    else {
+      // no
 
-    // create the voice staff change
-    S_msrVoiceStaffChange
-      voiceStaffChange =
-        msrVoiceStaffChange::create (
-          inputLineNumber,
-          staffToChangeTo);
+      // a staff change is necessary
+      // to remain in this staff and not use the note's one
 
-    // append it to the current voice before the note itself
-    currentVoice->
-      appendVoiceStaffChangeToVoice (
-        voiceStaffChange);
+      // fetch staff to change to
+      S_msrStaff
+        staffToChangeTo =
+          fetchStaffFromCurrentPart (
+            inputLineNumber,
+            fCurrentNoteStaffNumber);
+  
+  #ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+        fLogOutputStream <<
+          "*** There is staff change in voice \"" <<
+          currentVoice->getVoiceName () <<
+          "\"" <<
+          " from staff " << fPreviousNoteStaffNumber <<
+          " to staff " << fCurrentNoteStaffNumber <<
+          ", \"" << staffToChangeTo->getStaffName () << "\"" <<
+          endl;
+      }
+  #endif
+  
+      // create the voice staff change
+      S_msrVoiceStaffChange
+        voiceStaffChange =
+          msrVoiceStaffChange::create (
+            inputLineNumber,
+            staffToChangeTo);
+  
+      // append it to the current voice before the note itself
+      currentVoice->
+        appendVoiceStaffChangeToVoice (
+          voiceStaffChange);
+
+      // the actual note staff is already stored in newNote,
+      // now fake its belonging to the current sequence staff
+      fCurrentNoteStaffNumber = fCurrentSequenceStaffNumber;
+    }
   }
 
   // handle note
@@ -17863,14 +17885,21 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         }
 #endif
     
-        if (true) { // JMI
+#ifdef TRACE_OPTIONS
+        if (
+          gTraceOptions->fTraceNotesDetails
+            ||
+          gTraceOptions->fTraceChordsDetails
+        ) {
           fLogOutputStream <<
             endl << endl <<
             "&&&&&&&&&&&&&&&&&& fCurrentPart contents &&&&&&&&&&&&&&&&&&" <<
             endl <<
             fCurrentPart <<
-            endl << endl;
+            endl <<
+            endl;
         }
+#endif
         
         currentVoice->
           removeNoteFromVoice (
