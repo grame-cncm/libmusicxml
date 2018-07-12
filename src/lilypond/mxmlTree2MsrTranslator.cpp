@@ -268,7 +268,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // cross staff chords
   fCurrentChordStaffNumber = K_NO_STAFF_NUMBER;
-  fCurrentChordIsCrossStaves = false;
+  fCurrentNoteIsCrossStaves = false;
     
   // voice
   fCurrentNoteVoiceNumber = K_NO_VOICE_NUMBER;
@@ -759,7 +759,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
 
   // cross staff chords
-  fCurrentChordIsCrossStaves = false;
+  fCurrentNoteIsCrossStaves = false;
     
   // get this part's staves map
   map<int, S_msrStaff>
@@ -2105,79 +2105,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_transpose& elt )
       "--> Start visiting S_transpose" <<
       endl;
   }
-
-  /*
-  https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-transpose.htm
-
-  If the part is being encoded for a transposing instrument
-  in written vs. concert pitch, the transposition must be
-  encoded in the transpose element. The transpose element
-  represents what must be added to the written pitch to get
-  the correct sounding pitch.
-
-  The transposition is represented by chromatic steps
-  (required) and three optional elements: diatonic pitch
-  steps, octave changes, and doubling an octave down.
-  
-  The chromatic and octave-change elements are numeric values
-  added to the encoded pitch data to create the sounding
-  pitch.
-  
-  The diatonic element is also numeric and allows
-  for correct spelling of enharmonic transpositions.
-
-  The optional number attribute refers to staff numbers, 
-  from top to bottom on the system. If absent, the
-  transposition applies to all staves in the part. Per-staff 
-  transposition is most often used in parts that represent
-  multiple instruments. 
--->
-<!ELEMENT transpose
-  (diatonic?, chromatic, octave-change?, double?)>
-<!ATTLIST transpose
-    number CDATA #IMPLIED
->
-<!ELEMENT diatonic (#PCDATA)>
-<!ELEMENT chromatic (#PCDATA)>
-<!ELEMENT octave-change (#PCDATA)>
-<!ELEMENT double EMPTY>
-        
-
-The diatonic element specifies the number of pitch steps needed to go from written to sounding pitch. This allows for correct spelling of enharmonic transpositions
-
-The chromatic element represents the number of semitones needed to get from written to sounding pitch. This value does not include octave-change values; the values for both elements need to be added to the written pitch to get the correct sounding pitch.
-
-The octave-change element indicates how many octaves to add to get from written pitch to sounding pitch.
-
-If the double element is present, it indicates that the music is doubled one octave down from what is currently written (as is the case for mixed cello / bass parts in orchestral literature).
-
-        <transpose>
-          <diatonic>0</diatonic>
-          <chromatic>0</chromatic>
-          <octave-change>1</octave-change>
-        </transpose>
-
-    <transpose>
-      <diatonic>-1</diatonic>
-      <chromatic>-2</chromatic>
-      <double/>
-    </transpose>
-
-English horn (F):
-
-        <transpose>
-          <diatonic>-4</diatonic>
-          <chromatic>-7</chromatic>
-        </transpose>
-
-Oboe d'amore (A):
-
-        <transpose>
-          <diatonic>-2</diatonic>
-          <chromatic>-3</chromatic>
-        </transpose>
-
-  */
 
   fCurrentTransposeNumber = elt->getAttributeIntValue ("number", 0);
   
@@ -13795,8 +13722,6 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
             getVoiceStaffUplink ()->
               getStaffNumber ();
     
-  fCurrentChordIsCrossStaves = false;
-
   return chord;
 }
 
@@ -16794,6 +16719,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // yes, newNote is a chord member note
       fCurrentStaffChangeKind = kStaffChangeChordMemberNote;
 
+      // register the note as cross sta
+      fCurrentNoteIsCrossStaves = true;
+
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         fLogOutputStream <<
@@ -17819,18 +17747,41 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       staffNumberToUse = fCurrentNoteStaffNumber;
       break;
     case kStaffChangeChordMemberNote:
-      if (fCurrentChordIsCrossStaves) {
-        staffNumberToUse = fCurrentNoteStaffNumber;
+      if (fCurrentNoteIsCrossStaves) {
+        staffNumberToUse = fCurrentNoteStaffNumber; // keep it!
       }
       else {
-        staffNumberToUse = fCurrentSequenceStaffNumber;
+        staffNumberToUse = fCurrentChordStaffNumber;
       }
       break;
     case kStaffChangeOtherNote:
       staffNumberToUse = fCurrentNoteStaffNumber;
       break;
   } // switch
-     
+          
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceChords
+    ) {
+    fLogOutputStream << // JMI
+      endl <<
+      "***==> fCurrentSequenceStaffNumber = " <<
+      fCurrentSequenceStaffNumber <<
+      ", fCurrentChordStaffNumber = " <<
+      fCurrentChordStaffNumber <<
+      ", fPreviousNoteStaffNumber = " <<
+      fPreviousNoteStaffNumber <<
+      ", fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
+      ", staffNumberToUse = " <<
+      staffNumberToUse <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   S_msrVoice
     currentVoice =
       fetchVoiceFromCurrentPart (
@@ -17838,6 +17789,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         staffNumberToUse,
         fCurrentNoteVoiceNumber);
 
+    // sanity check JMI ???
+    msrAssert (
+      currentVoice != nullptr,
+      "currentVoice is null");
+    
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
     fLogOutputStream <<
@@ -17882,11 +17838,6 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   if (! fOnGoingChord) {
     // newChordNote is the second note of the chord to be created
 
-    // sanity check JMI ???
-    msrAssert (
-      currentVoice != nullptr,
-      "currentVoice is null");
-    
     // fetch this chord's first note,
     // i.e the last handled note for this voice
 
@@ -18017,28 +17968,28 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
         
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceNotes
-      ||
-    gTraceOptions->fTraceChords
-      ||
-    gTraceOptions->fTraceStaves
-      ||
-    gTraceOptions->fTraceMeasures
-      ||
-    gTraceOptions->fTraceLyrics
-    ) {
-    fLogOutputStream << // JMI
-      endl <<
-      "***==> fCurrentSequenceStaffNumber = " <<
-      fCurrentSequenceStaffNumber <<
-      ", fPreviousNoteStaffNumber = " <<
-      fPreviousNoteStaffNumber <<
-      ", fCurrentNoteStaffNumber = " <<
-      fCurrentNoteStaffNumber <<
-      "', line " << inputLineNumber <<
-      endl;
-  }
+        if (
+          gTraceOptions->fTraceNotes
+            ||
+          gTraceOptions->fTraceChords
+            ||
+          gTraceOptions->fTraceStaves
+            ||
+          gTraceOptions->fTraceMeasures
+            ||
+          gTraceOptions->fTraceLyrics
+          ) {
+          fLogOutputStream << // JMI
+            endl <<
+            "***==> fCurrentSequenceStaffNumber = " <<
+            fCurrentSequenceStaffNumber <<
+            ", fPreviousNoteStaffNumber = " <<
+            fPreviousNoteStaffNumber <<
+            ", fCurrentNoteStaffNumber = " <<
+            fCurrentNoteStaffNumber <<
+            "', line " << inputLineNumber <<
+            endl;
+        }
 #endif
 
         currentVoice->

@@ -1479,7 +1479,7 @@ class mxmlTree2MsrTranslator :
 
     // cross staff chords
     int                       fCurrentChordStaffNumber;
-    bool                      fCurrentChordIsCrossStaves;
+    bool                      fCurrentNoteIsCrossStaves;
 
     enum staffChangeKind {
         k_NoStaffChange,
