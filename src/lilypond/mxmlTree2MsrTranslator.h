@@ -1476,6 +1476,16 @@ class mxmlTree2MsrTranslator :
     // a staff change occurs when they are different,
     // but fCurrentNoteStaffNumber keeps its value in that case
     int                       fCurrentSequenceStaffNumber;
+
+    // cross staff chords
+    bool                      fCurrentChordIsCrossStaves;
+
+    enum staffChangeKind {
+        k_NoStaffChange,
+        kStaffChangeChordMemberNote,
+        kStaffChangeOtherNote };
+        
+    staffChangeKind           fCurrentStaffChangeKind;
     
     // voice
     int                       fCurrentNoteVoiceNumber;

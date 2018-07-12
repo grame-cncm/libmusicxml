@@ -261,12 +261,14 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // staff
   fCurrentNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
 
   // staff change  
   fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
-  
-  fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
-  
+
+  // cross staff chords
+  fCurrentChordIsCrossStaves = false;
+    
   // voice
   fCurrentNoteVoiceNumber = K_NO_VOICE_NUMBER;
 
@@ -748,13 +750,16 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   // no time has been defined yet
   fCurrentTime = nullptr;
 
-  // staff change  
-  fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
-
-  // staff number
+  // staff numbers
   fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
   
+  // staff change  
+  fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
+
+  // cross staff chords
+  fCurrentChordIsCrossStaves = false;
+    
   // get this part's staves map
   map<int, S_msrStaff>
     partStavesMap =
@@ -13779,7 +13784,10 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   // copy firstNote's elements if any to the chord
   copyNoteElementsToChord (
     chordFirstNote, chord);
-    
+
+  // register the chord as non cross staves
+  fCurrentChordIsCrossStaves = false;
+
   return chord;
 }
 
@@ -16756,42 +16764,65 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 #endif
 
   // is there a staff change?
-  if (fCurrentNoteStaffNumber != fPreviousNoteStaffNumber) {
-    // yes
+  fCurrentStaffChangeKind = k_NoStaffChange;
+  
+  if (
+    fCurrentNoteStaffNumber != fPreviousNoteStaffNumber
+      &&
+    fPreviousNoteStaffNumber != K_NO_STAFF_NUMBER
+  ) {
+    // yes, there is a staff change
 
+    // fetch staff to change to
+    S_msrStaff
+      staffToChangeTo =
+        fetchStaffFromCurrentPart (
+          inputLineNumber,
+          fCurrentNoteStaffNumber);
+  
     // is newNote a chord member note?
     if (fCurrentNoteBelongsToAChord) {
-      // yes
+      // yes, newNote is a chord member note
+      fCurrentStaffChangeKind = kStaffChangeChordMemberNote;
 
-      // LilyPond doesn't support cross staff chords,
-      // so place newNote in its 'official' staff
-    }
-    
-    else {
-      // no
-
-      // a staff change is necessary
-      // to remain in this staff and not use the note's one
-
-      // fetch staff to change to
-      S_msrStaff
-        staffToChangeTo =
-          fetchStaffFromCurrentPart (
-            inputLineNumber,
-            fCurrentNoteStaffNumber);
-  
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         fLogOutputStream <<
-          "*** There is staff change in voice \"" <<
+          "*** There is staff change for a chord member note in voice \"" <<
           currentVoice->getVoiceName () <<
           "\"" <<
           " from staff " << fPreviousNoteStaffNumber <<
           " to staff " << fCurrentNoteStaffNumber <<
           ", \"" << staffToChangeTo->getStaffName () << "\"" <<
+          ", line " << inputLineNumber <<
           endl;
       }
-  #endif
+#endif
+  
+      // LilyPond doesn't support cross staff chords,
+      // so place newNote in its 'official' staff
+    }
+    
+    else {
+      // no, newNote is another note
+      fCurrentStaffChangeKind = kStaffChangeOtherNote;
+
+      // a staff change is necessary
+      // to remain in this staff and not use the note's one
+
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+        fLogOutputStream <<
+          "*** There is staff change for a note in voice \"" <<
+          currentVoice->getVoiceName () <<
+          "\"" <<
+          " from staff " << fPreviousNoteStaffNumber <<
+          " to staff " << fCurrentNoteStaffNumber <<
+          ", \"" << staffToChangeTo->getStaffName () << "\"" <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+#endif
   
       // create the voice staff change
       S_msrVoiceStaffChange
@@ -16800,8 +16831,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
             inputLineNumber,
             staffToChangeTo);
   
-      // append it to the current voice before the note itself
-      currentVoice->
+      // fetch current sequence voice
+      S_msrVoice
+        currentSequenceVoice =
+          fetchVoiceFromCurrentPart (
+            inputLineNumber,
+            fCurrentSequenceStaffNumber,
+            fCurrentNoteVoiceNumber);
+    
+      // append it to the current sequence voice
+      // before the note itself is appended
+      currentSequenceVoice->
         appendVoiceStaffChangeToVoice (
           voiceStaffChange);
 
@@ -17226,17 +17266,35 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   // fetch current voice
+  int staffNumberToUse;
+  
+  switch (fCurrentStaffChangeKind) {
+    case k_NoStaffChange:
+      staffNumberToUse = fCurrentNoteStaffNumber;
+      break;
+    case kStaffChangeChordMemberNote:
+      staffNumberToUse = fCurrentSequenceStaffNumber;
+      break;
+    case kStaffChangeOtherNote:
+      staffNumberToUse = fCurrentNoteStaffNumber;
+      break;
+  } // switch
+     
   S_msrVoice
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        staffNumberToUse,
         fCurrentNoteVoiceNumber);
   
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {    
     fLogOutputStream <<
-      "Handling standalone, double tremolo or grace note or rest:" <<
+      "Handling a standalone, double tremolo or grace note or rest" <<
+      ", currentVoice = \"" <<
+      currentVoice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      ":" <<
       endl;
 
     gIndenter++;
@@ -17263,8 +17321,9 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       fLogOutputStream <<
         endl <<
         "======================= handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest" <<
+        ", line " << inputLineNumber <<
         endl;
-      currentVoice->print (fLogOutputStream);
+      fCurrentPart->print (fLogOutputStream);
       fLogOutputStream <<
         "=======================" <<
         endl <<
@@ -17744,24 +17803,71 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   }
 
   // fetch current voice
+  int staffNumberToUse;
+  
+  switch (fCurrentStaffChangeKind) {
+    case k_NoStaffChange:
+      staffNumberToUse = fCurrentNoteStaffNumber;
+      break;
+    case kStaffChangeChordMemberNote:
+      if (fCurrentChordIsCrossStaves) {
+        staffNumberToUse = fCurrentNoteStaffNumber;
+      }
+      else {
+        staffNumberToUse = fCurrentSequenceStaffNumber;
+      }
+      break;
+    case kStaffChangeOtherNote:
+      staffNumberToUse = fCurrentNoteStaffNumber;
+      break;
+  } // switch
+     
   S_msrVoice
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
+        staffNumberToUse,
         fCurrentNoteVoiceNumber);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
     fLogOutputStream <<
-      "Current voice is " <<
+      "Handling a chord member note" <<
+      ", currentVoice = \"" <<
       currentVoice->getVoiceName () <<
-      ", fOnGoingChord = " <<
+      "\", fOnGoingChord = " <<
       booleanAsString (fOnGoingChord) <<
       ", line " << inputLineNumber <<
       endl;
   }  
 #endif
+
+  if (true) {
+    fLogOutputStream <<
+      endl <<
+      "======================= handleNoteBelongingToAChord" <<
+      ", line " << inputLineNumber <<
+      endl;
+    fCurrentPart->print (fLogOutputStream);
+    fLogOutputStream <<
+      "=======================" <<
+      endl <<
+      endl;
+
+/* JMI
+    if (fCurrentGraceNotes) {
+      fLogOutputStream <<
+        fCurrentGraceNotes;
+    }
+    else {
+//       fLogOutputStream <<
+//         "fCurrentGraceNotes is NULL"; // JMI
+    }
+*/
+
+    fLogOutputStream <<
+      endl;
+  }
 
   // should a chord be created?
   if (! fOnGoingChord) {
@@ -17901,6 +18007,31 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         }
 #endif
         
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceChords
+      ||
+    gTraceOptions->fTraceStaves
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTraceLyrics
+    ) {
+    fLogOutputStream << // JMI
+      endl <<
+      "***==> fCurrentSequenceStaffNumber = " <<
+      fCurrentSequenceStaffNumber <<
+      ", fPreviousNoteStaffNumber = " <<
+      fPreviousNoteStaffNumber <<
+      ", fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
         currentVoice->
           removeNoteFromVoice (
             inputLineNumber,

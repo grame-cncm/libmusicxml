@@ -5550,7 +5550,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     elt->getStaffToChangeTo ()->getStaffName () <<
     "\"";
 
-  if (gLilypondOptions->fNoteInputLineNumbers) {
+  if (true || gLilypondOptions->fNoteInputLineNumbers) { // JMI
     // print the staff change line number as a comment
     fLilypondCodeIOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
@@ -7544,7 +7544,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 
           fLilypondCodeIOstream <<
     // JMI        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
-            "\\smaller \\general-align #Y #DOWN \\note {" <<
+            " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
             dottedDurationAsLilypondStringWithoutBackSlash (
               inputLineNumber,
               tempoBeatUnit) <<
