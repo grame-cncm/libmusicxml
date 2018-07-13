@@ -3831,7 +3831,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 
   fCurrentStaffDetailsStaffSize = 0;
   
-  fCurrentStaffLinesNumber = -1;
+  fCurrentStaffLinesNumber = 5; // default value
   
   fCurrentStaffDetailsCapo = 0;
 
@@ -5671,6 +5671,9 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       fCurrentMeasureOrdinalNumber,
       measureImplicitKind);
 
+  // reset staff change detection
+//  fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER; // JMI
+  
 /* JMI
   // is this measure number in the debug set?
 #ifdef TRACE_OPTIONS
@@ -21021,19 +21024,19 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
 
     fLogOutputStream << left <<
       setw (fieldWidth) <<
-      "CurrentStaffLinesNumber" << " = " <<
+      "fCurrentStaffLinesNumber" << " = " <<
       fCurrentStaffLinesNumber <<
       endl <<
       setw (fieldWidth) <<
-      "StaffDetailsStaffNumber" << " = " <<
+      "fStaffDetailsStaffNumber" << " = " <<
       fStaffDetailsStaffNumber <<
       endl <<
       setw (fieldWidth) <<
-      "CurrentStaffDetailsCapo" << " = " <<
+      "fCurrentStaffDetailsCapo" << " = " <<
       fCurrentStaffDetailsCapo <<
       endl <<
       setw (fieldWidth) <<
-      "CurrentStaffDetailsStaffSize" << " = " <<
+      "fCurrentStaffDetailsStaffSize" << " = " <<
       fCurrentStaffDetailsStaffSize <<
       endl;
   }

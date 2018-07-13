@@ -5313,18 +5313,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
 
   // fetch staff lines number
   int
-    linesNumber =
+    staffLinesNumber =
       elt->getStaffLinesNumber ();
 
-  fLilypondCodeIOstream <<
-    endl <<
-    "\\stopStaff " <<
-    endl <<
-    "\\override Staff.StaffSymbol.line-count = " <<
-    linesNumber <<
-    endl <<
-    "\\startStaff" <<
-    endl;
+  if (staffLinesNumber != 5) { // handle current staff lines number??? JMI
+    fLilypondCodeIOstream <<
+      endl <<
+      "\\stopStaff " <<
+      endl <<
+      "\\override Staff.StaffSymbol.line-count = " <<
+      staffLinesNumber <<
+      endl <<
+      "\\startStaff" <<
+      endl;
+  }
 }
 
 //________________________________________________________________________

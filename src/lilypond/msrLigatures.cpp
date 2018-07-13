@@ -22,6 +22,8 @@
 
 #include "msrOptions.h"
 
+#include "messagesHandling.h"
+
 
 using namespace std;
 
@@ -70,6 +72,11 @@ msrLigature::~msrLigature ()
 void msrLigature::setLigatureOtherEndSidelink (
   S_msrLigature otherEndSideLink)
 {
+  // sanity check
+  msrAssert (
+    otherEndSideLink != nullptr,
+    "otherEndSideLink is null");
+    
   // set the two-way sidelink between both ends of the spanner
   fLigatureOtherEndSidelink =
     otherEndSideLink;
@@ -77,6 +84,54 @@ void msrLigature::setLigatureOtherEndSidelink (
   otherEndSideLink->fLigatureOtherEndSidelink =
     this;
 }
+
+void msrLigature::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrLigature::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrLigature>*
+    p =
+      dynamic_cast<visitor<S_msrLigature>*> (v)) {
+        S_msrLigature elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrLigature::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrLigature::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrLigature::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrLigature>*
+    p =
+      dynamic_cast<visitor<S_msrLigature>*> (v)) {
+        S_msrLigature elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrLigature::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+
+void msrLigature::browseData (basevisitor* v)
+{}
 
 string msrLigature::ligatureKindAsString (
   msrLigatureKind ligatureKind)
@@ -133,60 +188,6 @@ string msrLigature::ligatureKindAsString ()
   return ligatureKindAsString (fLigatureKind);
 }
 
-void msrLigature::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrLigature::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrLigature>*
-    p =
-      dynamic_cast<visitor<S_msrLigature>*> (v)) {
-        S_msrLigature elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrLigature::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrLigature::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrLigature::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrLigature>*
-    p =
-      dynamic_cast<visitor<S_msrLigature>*> (v)) {
-        S_msrLigature elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrLigature::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-
-void msrLigature::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrLigature& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrLigature::print (ostream& os)
 {
   os <<
@@ -216,6 +217,12 @@ void msrLigature::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrLigature& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 
