@@ -18951,6 +18951,10 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Handling tuplets pending on tuplet stack" <<
+      ", fCurrentSequenceStaffNumber = " <<
+      fCurrentSequenceStaffNumber <<
+      ", fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
       ", line: " << inputLineNumber <<
       endl;
   }
@@ -18966,7 +18970,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
     currentVoice =
       fetchVoiceFromCurrentPart (
         inputLineNumber,
-        fCurrentSequenceStaffNumber,
+        fCurrentNoteStaffNumber, // JMI fCurrentSequenceStaffNumber,
         fCurrentNoteVoiceNumber);
 
   // handle tuplets pending on the tuplet stack
