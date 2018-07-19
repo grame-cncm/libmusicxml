@@ -2545,11 +2545,28 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
     durationToUse +=
       1 + (singleTremoloNoteDurationKind - kEighth);
   
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceTremolos) {
+        fLogOutputStream <<
+          "singleTremoloDurationAsLilypondString()" <<
+          ", line " << singleTremolo->getInputLineNumber () <<
+          ", " <<
+          singularOrPlural (
+            singleTremoloMarksNumber, "mark", "marks") <<
+          ", singleTremoloNoteDurationKind : " <<
+          singleTremoloNoteDurationKind <<
+          ", durationToUse : " <<
+          durationToUse <<
+          endl;
+      }
+#endif
+
   stringstream s;
 
   s <<
     ":" <<
-    int (pow (2, durationToUse + 2)) <<
+ // JMI   int (pow (2, durationToUse + 2)) <<
+      int (1 << (durationToUse + 2)) <<
     " ";
     
   return s.str ();
@@ -4120,12 +4137,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
-        /* JMI
           fLilypondCodeIOstream <<
             endl <<
             "\\with {" <<
             endl;
-            */
           break;
       } // switch
 
@@ -4190,24 +4205,22 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
-        /* JMI
           fLilypondCodeIOstream <<
             endl <<
             "}" <<
             endl;
-            */
           break;
       } // switch
 
       if (gLilypondOptions->fComments) {
         fLilypondCodeIOstream << left <<
           setw (commentFieldWidth) <<
-          "<<" << "% part group " <<
+          " <<" << "% part group " <<
           partGroup->getPartGroupCombinedName ();
       }
       else {
         fLilypondCodeIOstream <<
-          "<<";
+          " <<";
       }
           
       fLilypondCodeIOstream <<
@@ -4327,7 +4340,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
       fLilypondCodeIOstream << left <<
         setw (commentFieldWidth) <<
         "\\new PianoStaff" <<
-        "% part " << part->getPartCombinedName ();
+        " % part " << part->getPartCombinedName ();
     }
     else {
       fLilypondCodeIOstream <<

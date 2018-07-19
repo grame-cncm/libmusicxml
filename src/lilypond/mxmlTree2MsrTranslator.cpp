@@ -5672,7 +5672,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       measureImplicitKind);
 
   // reset staff change detection
-//  fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER; // JMI
+  fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
+  fPreviousNoteStaffNumber    = K_NO_STAFF_NUMBER;
   
 /* JMI
   // is this measure number in the debug set?
@@ -6381,7 +6382,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   string sign = elt->getAttributeValue ("sign");
     
-  msrPedal::msrPedalSignKind pedalSignKind = msrPedal::kPedalSignNo;
+  msrPedal::msrPedalSignKind
+    pedalSignKind =
+      msrPedal::kPedalSignNo;
 
   if       (sign == "yes") {
     pedalSignKind = msrPedal::kPedalSignYes;
@@ -16726,7 +16729,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentNoteIsCrossStaves = true;
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+      if (
+        gTraceOptions->fTraceStaves
+          ||
+        gTraceOptions->fTraceVoices
+      ) {
         fLogOutputStream <<
           "*** There is staff change for a chord member note in voice \"" <<
           currentVoice->getVoiceName () <<
@@ -16751,7 +16758,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // to remain in this staff and not use the note's one
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+      if (
+        gTraceOptions->fTraceStaves
+          ||
+        gTraceOptions->fTraceVoices
+      ) {
         fLogOutputStream <<
           "*** There is staff change for a note in voice \"" <<
           currentVoice->getVoiceName () <<
@@ -17257,7 +17268,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       endl <<
       setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
 
-    if (true) {
+    if (gTraceOptions->fTraceNotesDetails) {
       fLogOutputStream <<
         endl <<
         "======================= handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest" <<
@@ -17810,7 +17821,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   }  
 #endif
 
-  if (true) {
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceNotesDetails
+      ||
+    gTraceOptions->fTraceChordsDetails
+  ) {
     fLogOutputStream <<
       endl <<
       "======================= handleNoteBelongingToAChord" <<
@@ -17836,6 +17852,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     fLogOutputStream <<
       endl;
   }
+#endif
 
   // should a chord be created?
   if (! fOnGoingChord) {

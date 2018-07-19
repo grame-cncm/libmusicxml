@@ -376,10 +376,13 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   fDoubleTremoloElementsDuration =
     rational (
       1,
+      /* JMI
       int (
         pow (
           2,
           fDoubleTremoloMarksNumber + 2)));
+          */
+      1 << (fDoubleTremoloMarksNumber + 2));
 
   // set note's sounding whole notes
   note->
@@ -3770,9 +3773,9 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
-      "Adding singleTremolo " << trem->asString () <<
-      " to note " << asShortString () <<
-      ", line " << trem->getInputLineNumber () <<
+      "Adding singleTremolo '" << trem->asString () <<
+      "' to note '" << asShortString () <<
+      "', line " << trem->getInputLineNumber () <<
       endl;
   }
 #endif
@@ -5015,9 +5018,6 @@ void msrNote::print (ostream& os)
           "noteSoundingWholeNotes" << " : " <<
           fNoteSoundingWholeNotes <<
           endl <<
-          setw (fieldWidth) <<
-          "noteDisplayWholeNotes" << " : " <<
-          fNoteDisplayWholeNotes <<
           setw (fieldWidth) <<
           "noteDisplayWholeNotes" << " : " <<
           fNoteDisplayWholeNotes <<
