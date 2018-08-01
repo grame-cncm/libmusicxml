@@ -4241,14 +4241,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       "\\set PianoStaff.connectArpeggios = ##t" <<
       endl;
   }
-
-  if (partGroupSymbolKind == msrPartGroup::kPartGroupSymbolSquare) { // JMI
-    gIndenter++;
-    fLilypondCodeIOstream <<
-      "systemStartDelimiter = #'SystemStartSquare" <<
-      endl;
-    gIndenter--;
-  }
        
   fLilypondCodeIOstream <<
     endl;
@@ -6060,11 +6052,18 @@ else
 #endif
 
         if (ratioToFullLength == rational (1, 1)) {
-          msrInternalError (
+          stringstream s;
+  
+          s <<
+            "underfull measure '" << measureNumber <<
+            "' is actually the full measure length";
+            
+     // JMI       msrInternalError (
+          msrInternalWarning (
             gXml2lyOptions->fInputSourceName,
             inputLineNumber,
-            __FILE__, __LINE__,
-            "underfull measure is actually the full measure length");
+    // JMI        __FILE__, __LINE__,
+            s.str ());
         }
 
         else {
@@ -11268,13 +11267,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         stringstream s;
     
         s <<
-          "barline catetory has not been set" <<
+          "barline category has not been set" <<
           ", line " << elt->getInputLineNumber ();
           
-        msrInternalError (
+  // JMI      msrInternalError (
+        msrInternalWarning (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
-          __FILE__, __LINE__,
+  // JMI        __FILE__, __LINE__,
           s.str ());
       }
       break;

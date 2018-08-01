@@ -1470,11 +1470,11 @@ class mxmlTree2MsrTranslator :
 
     // staff changes
     // MusicXMl contains sequences of elements on one and the same staff,
-    // until a <backup/> markup may change the latter;
-    // we keep track of which staff number is to be used
+    // until a <backup/> or <forward/> markup may change the latter;
+    // we keep track of the current sequence staff number
     // for the previous and current notes:
     // a staff change occurs when they are different,
-    // but fCurrentNoteStaffNumber keeps its value in that case
+    // but the note itself keeps its staff number in that case
     int                       fCurrentSequenceStaffNumber;
 
     // cross staff chords

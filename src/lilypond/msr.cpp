@@ -14178,6 +14178,33 @@ void msrMeasure::finalizeMeasure (
   }
 
   gIndenter--;
+
+  if (true && fMeasureNumber == "16") { // JMI
+    gLogIOstream <<
+      endl <<
+      endl <<
+      endl <<
+      "+++++++++++++++++ finalizeMeasure '" <<
+      fMeasureNumber <<
+      /* JMI
+      "', score:" <<
+      endl <<
+      fSegmentVoiceUplink->
+        getVoiceStaffUplink ()->
+          getStaffPartUplink ()->
+            getPartPartGroupUplink ()->
+              getPartGroupScoreUplink () <<
+              */
+      "', voice:" <<
+      endl <<
+      fMeasureSegmentUplink->getSegmentVoiceUplink () <<
+      endl <<
+      endl <<
+      ", line " << inputLineNumber <<
+      endl;
+
+  //  abort ();
+  }
 }
 
 void msrMeasure::acceptIn (basevisitor* v)
@@ -14852,17 +14879,11 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     // is last measure an empty measure that was created for a repeat?
     msrMeasure::msrMeasureCreatedForARepeatKind
       lastMeasureCreatedForARepeatKind =
-        lastMeasure->getMeasureCreatedForARepeatKind ();
+        lastMeasure->
+          getMeasureCreatedForARepeatKind ();
         
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
-        // no, finalize it
-        /* JMI
-        lastMeasure->
-          finalizeMeasure (
-            inputLineNumber);
-            */
-
         // is the last measure empty?
  //       if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
         if (lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ???
@@ -16599,7 +16620,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     gLogIOstream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
-      "'" <<
+      "', line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -16642,6 +16663,33 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     gIndenter--;
   }
 #endif
+
+  if (false) { // JMI
+    gLogIOstream <<
+      endl <<
+      endl <<
+      endl <<
+      "+++++++++++++++++ removeLastMeasureFromSegment '" <<
+      fSegmentAbsoluteNumber <<
+      /* JMI
+      "', score:" <<
+      endl <<
+      fSegmentVoiceUplink->
+        getVoiceStaffUplink ()->
+          getStaffPartUplink ()->
+            getPartPartGroupUplink ()->
+              getPartGroupScoreUplink () <<
+              */
+      "', voice:" <<
+      endl <<
+      fSegmentVoiceUplink <<
+      endl <<
+      endl <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    abort ();
+  }
 
   fSegmentMeasuresList.pop_back ();
   
@@ -22163,7 +22211,7 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Move the voice initial elements to the repeat common part in voice \"" <<
+            "Moving the voice initial elements to the repeat common part in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -22185,6 +22233,13 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
         
         // empty the initial elements list
         fVoiceInitialElementsList.resize (0);
+
+/* JMI
+        // finalize the voice's last segement
+        fVoiceLastSegment->
+          finalizeCurrentMeasureInSegment (
+            inputLineNumber);
+        */
         
         // move voice last segment into the repeat common part
 #ifdef TRACE_OPTIONS
