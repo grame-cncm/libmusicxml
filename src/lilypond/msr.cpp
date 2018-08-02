@@ -14512,7 +14512,7 @@ void msrMeasure::print (ostream& os)
     }
     else {
       os <<
-        "IRRELEVANT";
+        "*** no time signature known ***";
     }
     os <<
       endl;
