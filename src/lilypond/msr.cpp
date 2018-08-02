@@ -19750,20 +19750,27 @@ void msrVoice::createNewLastSegmentAndANewMeasureBeforeARepeat (
   finalizeCurrentMeasureInVoice (
     inputLineNumber);
 
-  // create the segment
+  // create the new voice last segment
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+  if (
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceSegments
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTraceRepeats
+  ) {
     gLogIOstream <<
-      "Creating a new segment containing a new measure '" <<
+      "Creating a new last segment containing a new measure '" <<
       fVoiceCurrentMeasureNumber <<
-      "'for voice \"" <<
+      "' before a repeat for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // create the new voice last segment
   fVoiceLastSegment =
     msrSegment::create (
       inputLineNumber,
@@ -19773,6 +19780,20 @@ void msrVoice::createNewLastSegmentAndANewMeasureBeforeARepeat (
     fVoiceFirstSegment = fVoiceLastSegment;
   }
 
+  // create a measure
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Creating measure '" << fVoiceCurrentMeasureNumber <<
+      "' in segment " << asString () <<
+      ", in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   // create the new measure with number newMeasureMeasureNumber
   S_msrMeasure
     newMeasure =
@@ -19781,14 +19802,19 @@ void msrVoice::createNewLastSegmentAndANewMeasureBeforeARepeat (
         fVoiceCurrentMeasureNumber,
         fVoiceLastSegment);
 
-  // set it's full measure length
-  newMeasure->setMeasureFullLength (
-    measureFullLength);
-    
+  // set 'first in segment' kind
+  newMeasure->
+    setMeasureFirstInSegmentKind (
+      msrMeasure::kMeasureFirstInSegmentYes);
+  
   // set it as being created before a repeat
   newMeasure->
     setMeasureCreatedForARepeatKind (
       msrMeasure::kMeasureCreatedForARepeatBefore);
+    
+  // set it's full measure length
+  newMeasure->setMeasureFullLength (
+    measureFullLength);
     
   // append new measure to new voice last segment
   fVoiceLastSegment->
@@ -19815,9 +19841,9 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Creating a new segment containing a new measure '" <<
+      "Creating a new last segment containing a new measure '" <<
       fVoiceCurrentMeasureNumber <<
-      "'for voice \"" <<
+      "' after a repeat for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -19835,6 +19861,26 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
   }
 
   // create the new measure with number newMeasureMeasureNumber
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceSegments
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTraceRepeats
+  ) {
+    gLogIOstream <<
+      "Creating a new last segment containing a new measure '" <<
+      fVoiceCurrentMeasureNumber <<
+      "' after a repeat for voice \"" <<
+      getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   S_msrMeasure
     newMeasure =
       msrMeasure::create (
@@ -19842,14 +19888,19 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
         fVoiceCurrentMeasureNumber,
         fVoiceLastSegment);
 
-  // set it's full measure length
-  newMeasure->setMeasureFullLength (
-    measureFullLength);
-    
+  // set 'first in segment' kind
+  newMeasure->
+    setMeasureFirstInSegmentKind (
+      msrMeasure::kMeasureFirstInSegmentYes);
+  
   // set it as being created after a repeat
   newMeasure->
     setMeasureCreatedForARepeatKind (
       msrMeasure::kMeasureCreatedForARepeatAfter);
+    
+  // set it's full measure length
+  newMeasure->setMeasureFullLength (
+    measureFullLength);
     
   // append new measure to new voice last segment
   fVoiceLastSegment->
