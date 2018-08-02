@@ -4005,6 +4005,9 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
       endl;
   }
     
+  fLilypondCodeIOstream <<
+    endl;
+
   if (fNumberOfPartGroupBlocks) {
     gIndenter--;
     
@@ -6029,7 +6032,7 @@ else
         ratioToFullLength.rationalise ();
   
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceMeasuresDetails) {
           const int fieldWidth = 27;
           
           fLilypondCodeIOstream << left <<
@@ -11429,20 +11432,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
       " %{ " << elt->getInputLineNumber () << " %}";
   }
   
-  fLilypondCodeIOstream <<
-    endl;
-
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
-      s.str () << "% start of repeat" <<
-      endl;
+      s.str () << "% start of repeat";
   }
   else {
     fLilypondCodeIOstream <<
-      s.str () <<
-      endl;
+      s.str ();
   }
+
+  fLilypondCodeIOstream <<
+    endl;
 
   gIndenter++;
 
@@ -11484,6 +11485,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     }
     else {
       fLilypondCodeIOstream <<
+        endl <<
         "}" <<
         endl <<
         endl;
@@ -11542,6 +11544,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     }
     else {
       fLilypondCodeIOstream <<
+        endl <<
         "}" <<
         endl;
     }

@@ -636,6 +636,7 @@ class msrMeasure : public msrElement
       msrMeasureImplicitKind measureImplicitKind);
 
     enum msrMeasureFirstInSegmentKind {
+        kMeasureFirstInSegmentUnknown,
         kMeasureFirstInSegmentYes,
         kMeasureFirstInSegmentNo };
       

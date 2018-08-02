@@ -11597,7 +11597,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureKind = kUnknownMeasureKind;
 
   // measure 'first in segment' kind
-  fMeasureFirstInSegmentKind = kMeasureFirstInSegmentNo;
+  fMeasureFirstInSegmentKind = kMeasureFirstInSegmentUnknown;
 
   // measure 'created for a repeat' kind
   fMeasureCreatedForARepeatKind = kMeasureCreatedForARepeatNo;
@@ -13892,6 +13892,22 @@ void msrMeasure::determineMeasureKind (
   else if (fMeasureLength < fMeasureFullLength) {
     //  incomplete measure
     switch (fMeasureFirstInSegmentKind) {
+      case msrMeasure::kMeasureFirstInSegmentUnknown:
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceMeasures) {
+          gLogIOstream <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is of kind '" <<
+          measureKindAsString (fMeasureKind) <<
+          "', line " << inputLineNumber <<
+          endl;
+        }
+#endif
+    
+        fMeasureKind = kUpbeatMeasureKind;
+        break;
+        
       case msrMeasure::kMeasureFirstInSegmentYes:
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures) {
@@ -14330,6 +14346,9 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   string result;
 
   switch (measureFirstInSegmentKind) {
+    case msrMeasure::kMeasureFirstInSegmentUnknown:
+      result = "measureFirstInSegmentUnknown";
+      break;
     case msrMeasure::kMeasureFirstInSegmentYes:
       result = "measureFirstInSegmentYes";
       break;
@@ -22636,6 +22655,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           nextMeasureAfterMeasuresRepeat =
             voiceLastSegmentMeasureList.back ();
 
+// BOFBOFBOF
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
