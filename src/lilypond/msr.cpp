@@ -1299,6 +1299,16 @@ S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
     fGraceNotesElementsList.size () != 0,
     "fGraceNotesElementsList.size () == 0");
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Removing last note from grace notes '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   S_msrNote result;
 
   if (
@@ -3846,7 +3856,17 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
         ligature->getInputLineNumber (),
         s.str ());
         
-      // rmeove 'ligature start'
+      // remove 'ligature start'
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceLigatures) {
+        gLogIOstream <<
+          "Removing last ligature (start) for note '" <<
+          asShortString () <<
+          "'" <<
+          endl;
+      }
+#endif
+
       fNoteLigatures.pop_back ();
 
       // don't register 'ligature stop'
@@ -3893,6 +3913,15 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
         s.str ());
         
       // rmeove 'pedal start'
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTracePedals) {
+        gLogIOstream <<
+          "Removing last pedal (start) for note '" <<
+          asShortString () <<
+          "'" <<
+          endl;
+      }
+#endif
       fNotePedals.pop_back ();
 
       // don't register 'pedal stop'
@@ -14778,10 +14807,10 @@ void msrSegment::createMeasureAndAppendItToSegment (
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
-      ", line " << inputLineNumber <<
-      ", measure is " <<
+      ", measureFirstInSegmentKind: " <<
       msrMeasure::measureFirstInSegmentKindAsString (
         measureFirstInSegmentKind) <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -22655,8 +22684,25 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           nextMeasureAfterMeasuresRepeat =
             voiceLastSegmentMeasureList.back ();
 
-// BOFBOFBOF
+// BOFBOFBOF JMI
         // remove the next measure from the last segment's measure list
+#ifdef TRACE_OPTIONS
+        if (
+          gTraceOptions->fTraceMeasures
+            ||
+          gTraceOptions->fTraceRepeats
+            ||
+          gTraceOptions->fTraceSegments
+            ||
+          gTraceOptions->fTraceVoices
+          ) {
+          gLogIOstream <<
+            "Removing last measure in last segment in voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+        }
+#endif
+
         voiceLastSegmentMeasureList.pop_back ();
 
         // create the measure repeat replicas contents
