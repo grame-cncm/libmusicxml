@@ -57,15 +57,6 @@
         <instrument-name>Cantus</instrument-name>
       </score-instrument>
     </score-part>
-    <score-part id="P2">
-      <part-name print-object="no">Cantus 2 and Tenor</part-name>
-      <score-instrument id="P2-I4">
-        <instrument-name>Cantus 2</instrument-name>
-      </score-instrument>
-      <score-instrument id="P2-I3">
-        <instrument-name>Tenor</instrument-name>
-      </score-instrument>
-    </score-part>
     <part-group number="1" type="stop"/>
   </part-list>
   <!--=========================================================-->
@@ -140,111 +131,6 @@
         <voice>1</voice>
         <type>eighth</type>
         <stem default-y="-20">down</stem>
-      </note>
-    </measure>
-  </part>
-  <!--=========================================================-->
-  <part id="P2">
-    <measure number="1" width="216">
-      <attributes>
-        <divisions>8</divisions>
-        <key>
-          <fifths>-1</fifths>
-          <mode>major</mode>
-        </key>
-        <instruments>2</instruments>
-        <clef>
-          <sign>F</sign>
-          <line>4</line>
-        </clef>
-        <staff-details print-object="no" print-spacing="yes"/>
-      </attributes>
-      <sound tempo="60"/>
-      <attributes>
-        <time>
-          <beats>3</beats>
-          <beat-type>4</beat-type>
-        </time>
-      </attributes>
-      <attributes>
-        <staff-details print-object="yes"/>
-      </attributes>
-      <direction placement="above">
-        <direction-type>
-          <words default-y="17" relative-x="-67">(CT.)</words>
-        </direction-type>
-      </direction>
-      <print new-system="no"/>
-      <direction placement="above">
-        <direction-type>
-          <bracket default-y="20" line-end="down" line-type="solid" number="1" type="start"/>
-        </direction-type>
-        <offset>1</offset>
-      </direction>
-      <note default-x="17">
-        <pitch>
-          <step>A</step>
-          <octave>2</octave>
-        </pitch>
-        <duration>8</duration>
-        <instrument id="P2-I4"/>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem default-y="1">up</stem>
-      </note>
-      <direction placement="above">
-        <direction-type>
-          <bracket default-y="35" line-end="down" number="1" type="stop"/>
-        </direction-type>
-        <offset>4</offset>
-      </direction>
-      <note default-x="57">
-        <pitch>
-          <step>A</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>12</duration>
-        <instrument id="P2-I4"/>
-        <voice>1</voice>
-        <type>quarter</type>
-        <dot/>
-        <stem default-y="26">up</stem>
-      </note>
-      <note default-x="115">
-        <pitch>
-          <step>F</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>4</duration>
-        <instrument id="P2-I4"/>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem default-y="20">up</stem>
-      </note>
-      <backup>
-        <duration>24</duration>
-      </backup>
-      <note default-x="13">
-        <pitch>
-          <step>C</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>8</duration>
-        <instrument id="P2-I3"/>
-        <voice>2</voice>
-        <type>quarter</type>
-        <stem default-y="-57.5">down</stem>
-      </note>
-      <note default-x="57">
-        <pitch>
-          <step>D</step>
-          <octave>3</octave>
-        </pitch>
-        <duration>16</duration>
-        <instrument id="P2-I3"/>
-        <voice>2</voice>
-        <type>half</type>
-        <stem default-y="-55.5">down</stem>
       </note>
     </measure>
   </part>

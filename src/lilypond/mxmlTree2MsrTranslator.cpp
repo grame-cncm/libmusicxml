@@ -15705,15 +15705,6 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
   if (fPendingLigatures.size ()) {
     bool delayAttachment = false;
         
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceLigatures) {
-      fLogOutputStream <<
-        "Attaching pending ligatures to note " <<
-        note->asString () <<
-        endl;
-    }
-#endif
-
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsLigatures) {
         fLogOutputStream <<
@@ -15745,7 +15736,94 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     }
     
     if (! delayAttachment) {
-      while (fPendingLigatures.size ()) {
+      // append ligatures to note only if they belong to a suitable voice,
+      // i.e. above goes to voice 1 or 3, and below to voice 2 or 4
+      
+      list<S_msrLigature>::iterator
+        iBegin = fPendingLigatures.begin (),
+        iEnd   = fPendingLigatures.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+  //    list<S_msrLigature>::iterator i;
+  //    for (i=fPendingLigatures.begin (); i!=fPendingLigatures.end (); i++) {
+        S_msrLigature
+          ligature = (*i);
+
+        // fetch ligatures placement kind
+        msrPlacementKind
+          ligaturePlacementKind =
+            ligature->
+              getLigaturePlacementKind ();
+
+        // fetch note's voice
+        S_msrVoice
+          noteVoice =
+            note->
+              getNoteMeasureUplink ()->
+                getMeasureSegmentUplink ()->
+                  getSegmentVoiceUplink ();
+
+        // handle ligature placement kind
+        switch (ligaturePlacementKind) {
+          case msrPlacementKind::kPlacementNone:
+            break;
+            
+          case msrPlacementKind::kPlacementAbove:
+            switch (noteVoice->getRegularVoiceStaffSequentialNumber ()) {
+              case 1:
+              case 3:
+#ifdef TRACE_OPTIONS
+                if (gTraceOptions->fTraceLigatures) {
+                  fLogOutputStream <<
+                    "Attaching pending ligatures to note '" <<
+                    note->asString () <<
+                    "' in voice \"" <<
+                    noteVoice->getVoiceName () <<
+                    "\"" <<
+                    ", line " << ligature->getInputLineNumber () <<
+                    endl;
+                }
+#endif
+
+                note->appendLigatureToNote (ligature);
+                fPendingLigatures.pop_front ();
+                break;
+              default:
+                ;
+            } // switch
+            break;
+            
+          case msrPlacementKind::kPlacementBelow:
+            switch (noteVoice->getRegularVoiceStaffSequentialNumber ()) {
+              case 2:
+              case 4:
+#ifdef TRACE_OPTIONS
+                if (gTraceOptions->fTraceLigatures) {
+                  fLogOutputStream <<
+                    "Attaching pending ligatures to note '" <<
+                    note->asString () <<
+                    "' in voice \"" <<
+                    noteVoice->getVoiceName () <<
+                    "\"" <<
+                    ", line " << ligature->getInputLineNumber () <<
+                    endl;
+                }
+#endif
+
+                note->appendLigatureToNote (ligature);
+                fPendingLigatures.pop_front ();
+                break;
+              default:
+                ;
+            } // switch
+            break;
+        } // switch
+
+        if (++i == iEnd) break;
+      } // for
+
+      
+  /*    while (fPendingLigatures.size ()) {
         S_msrLigature
           ligature =
             fPendingLigatures.front ();
@@ -15753,6 +15831,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
         note->appendLigatureToNote (ligature);
         fPendingLigatures.pop_front ();
       } // while
+ */
     }
   }
 }

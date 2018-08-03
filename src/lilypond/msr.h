@@ -2730,7 +2730,7 @@ class msrNote : public msrElement
       kNoteAccidentalSharpDown, kNoteAccidentalSharpUp,
       kNoteAccidentalNaturalDown, kNoteAccidentalNaturalUp,
       kNoteAccidentalFlatDown, kNoteAccidentalFlatUp,kNoteAccidentalTripleSharp, kNoteAccidentalTripleFlat,
-      kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp, kNoteAccidentalSlashFlat, kNoteAccidentaldoubleSlashFlat,
+      kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp, kNoteAccidentalSlashFlat,kNoteAccidentaldoubleSlashFlat,
       kNoteAccidentalSharp_1, kNoteAccidentalSharp_2, kNoteAccidentalSharp_3, kNoteAccidentalSharp_5, kNoteAccidentalFlat_1, kNoteAccidentalFlat_2, kNoteAccidentalFlat_3, kNoteAccidentalFlat_4, kNoteAccidentalSori, kNoteAccidentalKoron };
   
     string noteAccidentalKindAsString (

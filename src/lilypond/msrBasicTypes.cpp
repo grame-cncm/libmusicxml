@@ -11920,7 +11920,7 @@ string msrPlacementKindAsString (
     case msrPlacementKind::kPlacementBelow:
       result = "placementBelow";
       break;
-    } // switch
+  } // switch
 
   return result;
 }

@@ -774,7 +774,7 @@ R"(Slurs)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tligatures", "traceLigatures",
+          "tligs", "traceLigatures",
 R"(Ligatures)",
           "traceLigatures",
           fTraceLigatures,
