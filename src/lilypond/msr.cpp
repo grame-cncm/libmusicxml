@@ -21375,16 +21375,26 @@ void msrVoice::prepareForRepeatInVoice (
       // is there a voice last segment?
       if (fVoiceLastSegment) {
         
+        // fetch last segment's measures list
+        list<S_msrMeasure>&
+          voiceLastSegmentMeasuresList =
+            fVoiceLastSegment->
+              getSegmentMeasuresListToModify ();
+              
         // are there measures in the voice last segment?
-        if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
-          
+        if (voiceLastSegmentMeasuresList.size ()) {
+
+          // fetch last measure in the last segment
+          S_msrMeasure
+            lastMeasureInLastSegment =
+              voiceLastSegmentMeasuresList.back ();
+       
           // fetch last measure's full measure length
           int measureFullLength =
-            fVoiceLastSegment->
-              getSegmentMeasuresList ().back ()->
-                getMeasureFullLength ();
-                
-          // finalize current measure in voice
+            lastMeasureInLastSegment->
+              getMeasureFullLength ();
+
+          // finalize current measure in voice JMI lastMeasureInLastSegment ???
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
   
@@ -21411,6 +21421,29 @@ void msrVoice::prepareForRepeatInVoice (
           }
 #endif
   
+          // remove last measure in last segment
+#ifdef TRACE_OPTIONS
+          if (
+            gTraceOptions->fTraceMeasures
+              ||
+            gTraceOptions->fTraceSegments
+              ||
+            gTraceOptions->fTraceRepeats) {
+            stringstream s;
+        
+            gLogIOstream <<
+              "Removing last measure '" <<
+              lastMeasureInLastSegment->getMeasureNumber () <<
+              ") in last segment '" <<
+              asString () <<
+              "' in voice \"" <<
+              getVoiceName () <<
+              "\"";
+          }
+#endif
+      
+          voiceLastSegmentMeasuresList.pop_back ();
+
           // move current last segment to the list of initial elements
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceRepeats) {
@@ -21426,25 +21459,33 @@ void msrVoice::prepareForRepeatInVoice (
           fVoiceInitialElementsList.push_back (
             fVoiceLastSegment);
   
-          // create a new last segment containing a new measure for the voice
+          // create a new last segment containing lastMeasureInLastSegment for the voice
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
             gLogIOstream <<
-              "Creating a new last segment containing a new measure for voice \"" <<
+              "Creating a new last segment containing  measure '" <<
+              lastMeasureInLastSegment->getMeasureNumber () <<
+              "' for voice \"" <<
               fVoiceName << "\"" <<
               ", line " << inputLineNumber <<
               endl;
           }
 #endif
-  
-if (true)
+
+
+  /* JMI
+if (false)
           createNewLastSegmentAndANewMeasureBeforeARepeat (
             inputLineNumber,
             measureFullLength);
 else
-          createNewLastSegmentForVoice (
-            inputLineNumber);
-  
+*/
+          createNewLastSegmentFromFirstMeasureForVoice (
+            inputLineNumber,
+            lastMeasureInLastSegment);
+
+          
+
 #ifdef TRACE_OPTIONS
           if (
             gTraceOptions->fTraceRepeatsDetails
