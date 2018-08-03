@@ -15736,6 +15736,17 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     }
     
     if (! delayAttachment) {
+      int numberOfLigatures = fPendingLigatures.size ();
+
+      if (numberOfLigatures > 1)
+        fLogOutputStream <<
+          "There are " << numberOfLigatures << " pending ligatures";
+      else
+        fLogOutputStream <<
+          "There is 1 pending ligature";
+      fLogOutputStream <<
+        endl;
+
       // append ligatures to note only if they belong to a suitable voice,
       // i.e. above goes to voice 1 or 3, and below to voice 2 or 4
       
@@ -15746,6 +15757,9 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
       for ( ; ; ) {
   //    list<S_msrLigature>::iterator i;
   //    for (i=fPendingLigatures.begin (); i!=fPendingLigatures.end (); i++) {
+
+     //   if (i == iEnd) break;
+        
         S_msrLigature
           ligature = (*i);
 
@@ -15786,7 +15800,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #endif
 
                 note->appendLigatureToNote (ligature);
-                fPendingLigatures.pop_front ();
+                i = fPendingLigatures.erase (i);
                 break;
               default:
                 ;
@@ -15811,7 +15825,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #endif
 
                 note->appendLigatureToNote (ligature);
-                fPendingLigatures.pop_front ();
+                i = fPendingLigatures.erase (i);
                 break;
               default:
                 ;

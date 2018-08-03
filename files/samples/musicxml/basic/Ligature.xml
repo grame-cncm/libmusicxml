@@ -48,16 +48,12 @@
     <credit-words default-x="840" default-y="1940" font-size="12" font-weight="bold" justify="center" valign="top">Magnificat secundi toni</credit-words>
   </credit>
   <part-list>
-    <part-group number="1" type="start">
-      <group-barline>yes</group-barline>
-    </part-group>
     <score-part id="P1">
       <part-name print-object="no">Cantus</part-name>
       <score-instrument id="P1-I5">
         <instrument-name>Cantus</instrument-name>
       </score-instrument>
     </score-part>
-    <part-group number="1" type="stop"/>
   </part-list>
   <!--=========================================================-->
   <part id="P1">
