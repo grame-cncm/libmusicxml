@@ -15861,7 +15861,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #ifdef TRACE_OPTIONS
                 if (gTraceOptions->fTraceLigatures) {
                   fLogOutputStream <<
-                    "Attaching pending ligatures to note '" <<
+                    "Attaching pending ligature above to note '" <<
                     note->asString () <<
                     "' in voice \"" <<
                     noteVoice->getVoiceName () <<
@@ -15886,7 +15886,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #ifdef TRACE_OPTIONS
                 if (gTraceOptions->fTraceLigatures) {
                   fLogOutputStream <<
-                    "Attaching pending ligatures to note '" <<
+                    "Attaching pending ligature below to note '" <<
                     note->asString () <<
                     "' in voice \"" <<
                     noteVoice->getVoiceName () <<

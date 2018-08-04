@@ -29085,6 +29085,7 @@ void msrPart::print (ostream& os)
     singularOrPlural (
       fPartStavesMap.size (), "staff", "staves") <<
     ")" <<
+    ", line " << fInputLineNumber <<
     endl;
     
   gIndenter++;
@@ -30133,6 +30134,7 @@ void msrPartGroup::print (ostream& os)
     singularOrPlural (
       fPartGroupPartsMap.size (), "part", "parts") <<
     ")" <<
+    ", line " << fInputLineNumber <<
     endl;
     
   gIndenter++;

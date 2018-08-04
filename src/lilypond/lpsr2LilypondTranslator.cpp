@@ -4140,10 +4140,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
-          fLilypondCodeIOstream <<
-            endl <<
-            "\\with {" <<
-            endl;
+          if (partGroupName.size ()) {
+            fLilypondCodeIOstream <<
+              endl <<
+              "\\with {" <<
+              " % kPartGroupImplicitNo " << // JMI
+              partGroupName <<
+              endl;
+          }
           break;
       } // switch
 
@@ -4208,10 +4212,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
-          fLilypondCodeIOstream <<
-            endl <<
-            "}" <<
-            endl;
+          if (partGroupName.size ()) {
+            fLilypondCodeIOstream <<
+              endl <<
+              "}" <<
+              endl;
+          }
           break;
       } // switch
 
