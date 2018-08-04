@@ -5956,6 +5956,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fLilypondCodeIOstream <<
       endl <<
       "\\cadenzaOff" <<
+ // JMI     " \\undo \\omit Staff.TimeSignature" <<
       endl <<
       "\\bar \"|\" "; // JMI ???
 
@@ -6097,7 +6098,8 @@ else
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
           endl <<
-          "\\cadenzaOn ";
+          "\\cadenzaOn" <<
+          " \\omit Staff.TimeSignature";
 
         if (gLilypondOptions->fComments) {
           fLilypondCodeIOstream << " % kOverfullMeasureKind Start";
@@ -6236,6 +6238,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       fLilypondCodeIOstream <<
         endl <<
         "\\cadenzaOff" <<
+      " \\undo \\omit Staff.TimeSignature" <<
         endl <<
         "\\bar \"|\" " << // JMI ???
         endl;

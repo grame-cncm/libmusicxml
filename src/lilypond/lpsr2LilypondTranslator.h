@@ -809,7 +809,7 @@ class lpsr2LilypondTranslator :
 
     // time
     // ------------------------------------------------------
-    bool                  fVoiceIsCurrentlySenzaMisura;
+    bool                  fVoiceIsCurrentlySenzaMisura; // JMI
     bool                  fOnGoingVoiceCadenza;
     
     // staves

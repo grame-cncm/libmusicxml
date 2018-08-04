@@ -79,6 +79,11 @@
 namespace MusicXML2 
 {
 
+/*
+  This file declares classes that cannot be placed in 'individual' headers
+  due to mutual dependancies
+*/
+ 
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
 

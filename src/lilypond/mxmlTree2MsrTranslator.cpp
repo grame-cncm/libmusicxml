@@ -897,6 +897,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
   // time is crucially needed for measures management,
   // we cannot stay without any
   if (! fCurrentTime) {
+    /* JMI
     // create the default 4/4 time
     fCurrentTime =
       msrTime::createFourQuartersTime (
@@ -905,6 +906,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
     // register time in staff
     fCurrentPart->
       appendTimeToPart (fCurrentTime);
+      */
   }
 }
 
