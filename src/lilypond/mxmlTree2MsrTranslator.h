@@ -1823,7 +1823,8 @@ class mxmlTree2MsrTranslator :
     // ligatures handling
     // ------------------------------------------------------
 
-    S_msrLigature             fCurrentLigatureStart;
+    S_msrLigature             fCurrentLigatureStartAbove;
+    S_msrLigature             fCurrentLigatureStartBelow;
 
     string                    fCurrentLigaturePlacement;
     msrLigature::msrLigatureKind

@@ -4886,19 +4886,91 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   switch (fCurrentLigatureKind) {
     case msrLigature::kLigatureStart:
       // remember this wavy line spanner start
-      fCurrentLigatureStart = ligature;
+      switch (fCurrentDirectionPlacementKind) {
+        case msrPlacementKind::kPlacementNone:
+          {
+            stringstream s;
+    
+            s <<
+              "Bracket start met with no placement";
+    
+            msrMusicXMLError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+          
+        case msrPlacementKind::kPlacementAbove:
+          fCurrentLigatureStartAbove = ligature;
+          break;
+          
+        case msrPlacementKind::kPlacementBelow:
+          fCurrentLigatureStartBelow = ligature;
+          break;
+      } // switch
       break;
+      
     case msrLigature::kLigatureStop:
       // set spanner two-way sidelinks
       // between both ends of the wavy line spanner
-      ligature->
-        setLigatureOtherEndSidelink (
-          fCurrentLigatureStart);
-      // forget this wavy line spanner start
-      fCurrentLigatureStart = nullptr;
+
+      switch (fCurrentDirectionPlacementKind) {
+        case msrPlacementKind::kPlacementNone:
+          break;
+          
+        case msrPlacementKind::kPlacementAbove:
+          if (! fCurrentLigatureStartAbove) {
+            stringstream s;
+    
+            s <<
+              "Bracket stop above met with no corresponding bracket start";
+    
+            msrMusicXMLError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          else {
+            ligature->
+              setLigatureOtherEndSidelink (
+                fCurrentLigatureStartAbove);
+          }
+              
+          // forget this wavy line spanner start
+          fCurrentLigatureStartAbove = nullptr;
+          break;
+          
+        case msrPlacementKind::kPlacementBelow:
+          if (! fCurrentLigatureStartBelow) {
+            stringstream s;
+    
+            s <<
+              "Bracket stop below met with no corresponding bracket start";
+    
+            msrMusicXMLError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          else {
+            ligature->
+              setLigatureOtherEndSidelink (
+                fCurrentLigatureStartBelow);
+          }
+              
+          // forget this wavy line spanner start
+          fCurrentLigatureStartBelow = nullptr;
+          break;
+      } // switch
       break;
+      
     case msrLigature::kLigatureContinue:
       break;
+      
     case msrLigature::kLigatureNone:
       // JMI ???
       break;
@@ -16882,7 +16954,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
             inputLineNumber,
             fCurrentSequenceStaffNumber,
             fCurrentNoteVoiceNumber);
-    
+
+      // sanity check
+      msrAssert (
+        currentSequenceVoice != nullptr,
+        "currentSequenceVoice is null");
+        
       // append it to the current sequence voice
       // before the note itself is appended
       currentSequenceVoice->
