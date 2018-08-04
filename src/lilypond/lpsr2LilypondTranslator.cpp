@@ -1268,12 +1268,22 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 inputLineNumber,
                 noteSoundingWholeNotes);
           }
+          
           else {
             fLilypondCodeIOstream <<
               "r" <<
               durationAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
+
+            if (fOnGoingVoiceCadenza) { // JMI
+              if (noteSoundingWholeNotes != rational (1, 1)) {
+                fLilypondCodeIOstream << // JMI
+                  "*" <<
+                  noteSoundingWholeNotes <<
+                  "";
+              }
+            }
           }
 
           // an unpitched rest is no relative octave reference,
