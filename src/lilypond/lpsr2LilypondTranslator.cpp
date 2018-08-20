@@ -881,6 +881,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
               " . " <<
               ligatureEndEdgeHeight <<
               ")" <<
+              " %{ " <<
+              ligature->getInputLineNumber () <<
+              " %}" <<
               endl;
           }
           

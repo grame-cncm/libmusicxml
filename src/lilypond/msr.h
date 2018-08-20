@@ -3082,6 +3082,10 @@ class msrNote : public msrElement
     bool                  getNoteBelongsToAChord () const
                               { return fNoteBelongsToAChord; }
 
+    // grace notes
+    bool                  getNoteIsAGraceNote () const
+                              { return fNoteIsAGraceNote; }
+
     // harmony
     void                  setNoteHarmony (
                             S_msrHarmony harmony);

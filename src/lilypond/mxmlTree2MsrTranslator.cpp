@@ -4788,7 +4788,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   else {
 
     // inner ligature notes may miss the "continue" type:
-    // let' complain on ligature notes outside of ligatures 
+    // let's complain on ligature notes outside of ligatures 
     if (! fOnGoingLigature)
       if (ligatureType.size ()) {
         stringstream s;
@@ -4887,7 +4887,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
   switch (fCurrentLigatureKind) {
     case msrLigature::kLigatureStart:
-      // remember this wavy line spanner start
+      // remember this ligature spanner start
       switch (fCurrentDirectionPlacementKind) {
         case msrPlacementKind::kPlacementNone:
           {
@@ -4916,7 +4916,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
       
     case msrLigature::kLigatureStop:
       // set spanner two-way sidelinks
-      // between both ends of the wavy line spanner
+      // between both ends of the ligature spanner
 
       switch (fCurrentDirectionPlacementKind) {
         case msrPlacementKind::kPlacementNone:
@@ -4941,7 +4941,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
                 fCurrentLigatureStartAbove);
           }
               
-          // forget this wavy line spanner start
+          // forget this ligature spanner start
           fCurrentLigatureStartAbove = nullptr;
           break;
           
@@ -4964,7 +4964,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
                 fCurrentLigatureStartBelow);
           }
               
-          // forget this wavy line spanner start
+          // forget this ligature spanner start
           fCurrentLigatureStartBelow = nullptr;
           break;
       } // switch
@@ -13793,14 +13793,38 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   copyNoteElementsToChord (
     chordFirstNote, chord);
 
-  // register the chord as non cross staves
-  fCurrentChordStaffNumber =
-    chordFirstNote->
-      getNoteMeasureUplink ()->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceStaffUplink ()->
-              getStaffNumber ();
+#ifdef TRACE_OPTIONS
+  if (false && gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
+    fLogOutputStream << // JMI
+      endl <<
+      endl <<
+      "++++++++++++++++ chordFirstNote =" <<
+      endl <<
+      endl <<
+      chordFirstNote <<
+      endl <<
+      "+++++++++++++++++" <<
+      endl <<
+      endl <<
+      "++++++++++++++++ chordFirstNote->getNoteMeasureUplink () =" <<
+      chordFirstNote->
+        getNoteMeasureUplink () <<
+      endl <<
+      endl;
+  }
+#endif
+
+  // grace notes cannot be cross staff
+  if (! chordFirstNote->getNoteIsAGraceNote ()) { // JMI
+    // register the chord as non cross staves
+    fCurrentChordStaffNumber =
+      chordFirstNote->
+        getNoteMeasureUplink ()->
+          getMeasureSegmentUplink ()->
+            getSegmentVoiceUplink ()->
+              getVoiceStaffUplink ()->
+                getStaffNumber ();
+  }
     
   return chord;
 }
