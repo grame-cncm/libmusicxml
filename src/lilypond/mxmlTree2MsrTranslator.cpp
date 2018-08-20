@@ -4229,19 +4229,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
       ||
     gTraceOptions->fTraceChords
       ||
-    gTraceOptions->fTraceStaves
-      ||
     gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceStaves
       ||
     gTraceOptions->fTraceLyrics
     ) {
-    // reset staff change detection
-    fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
-
-    // reset notes staff numbers
-    fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
-    fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
-
     fLogOutputStream <<
       "Handling 'backup <<< " << fCurrentBackupDurationDivisions <<
       " divisions >>>" <<
@@ -4253,6 +4248,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
       endl;
   }
 #endif
+
+  // reset staff change detection
+  fCurrentSequenceStaffNumber = K_NO_STAFF_NUMBER;
+
+  // reset notes staff numbers
+  fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
 
   fCurrentPart->
     handleBackup (
@@ -4280,10 +4282,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
       </forward>
   */
 
-/* JMI
   int inputLineNumber =
     elt->getInputLineNumber ();
-*/
 
   // the <staff /> element is present only
   // in case of a staff change
@@ -4293,13 +4293,40 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   // in case of a voice change
   fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceChords
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceStaves
+      ||
+    gTraceOptions->fTraceLyrics
+    ) {
+    fLogOutputStream <<
+      "Handling 'forward <<< " << fCurrentBackupDurationDivisions <<
+      " divisions >>>" <<
+      ", fCurrentForwardStaffNumber = " <<
+      fCurrentForwardStaffNumber <<
+      ", fCurrentForwardVoiceNumber = " <<
+      fCurrentForwardVoiceNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   // the staff number should be positive
   if (fCurrentForwardStaffNumber <= 0) {
     stringstream s;
 
     s <<
       "staff number " << fCurrentForwardStaffNumber <<
-      " is not positive";
+      " is not positive" <<
+      ", line " << inputLineNumber;
       
     msrAssert (false, s.str ());
   }
