@@ -26981,11 +26981,9 @@ string msrStaff::staffKindAsString () const
 void msrStaff::print (ostream& os)
 {
   os <<
-    "Staff" " " << getStaffName () <<
+    "Staff " << getStaffName () <<
     ", " << staffKindAsString () <<
-    ", (number '" <<
-    fStaffNumber <<
-    "', " <<
+    ", " <<
     singularOrPlural (
       fStaffAllVoicesMap.size (), "voice", "voices") <<
     ", " <<
@@ -27001,6 +26999,10 @@ void msrStaff::print (ostream& os)
   const int fieldwidth = 28;
   
   os <<
+    setw (fieldwidth) <<
+    "staffNumber" << " : " <<
+    fStaffNumber <<
+    endl <<
     setw (fieldwidth) <<
     "staffPartUplink" << " : " <<
     fStaffPartUplink->getPartCombinedName () <<
@@ -27322,6 +27324,8 @@ void msrVoiceStaffChange::print (ostream& os)
 }
 
 //______________________________________________________________________________ 
+int msrPart::gPartsCounter = 0;
+
 S_msrPart msrPart::create (
   int            inputLineNumber,
   string         partID,
@@ -27354,7 +27358,10 @@ msrPart::msrPart (
     partPartGroupUplink != nullptr,
     "partPartGroupUplink is null");
     */
-    
+
+  // set part number
+  fPartAbsoluteNumber = ++gPartsCounter;
+  
   // set part's part group uplink
   fPartPartGroupUplink = partPartGroupUplink;
 
@@ -27384,10 +27391,10 @@ void msrPart::initializePart ()
   else {
     // coin the name from the argument
     fPartMsrName =
-      "P_"+stringNumbersToEnglishWords (fPartID);
+      "Part_"+stringNumbersToEnglishWords (fPartID);
   }
   
-  // initialize part number of measures
+  // initialize part's number of measures
   fPartNumberOfMeasures = 0;
   
   // initialize part measure length high tide
@@ -29071,16 +29078,10 @@ void msrPart::browseData (basevisitor* v)
       
 }
 
-ostream& operator<< (ostream& os, const S_msrPart& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrPart::print (ostream& os)
 {
   os <<
-    "Part" << " " << getPartCombinedName () <<
+    "Part" << " " << fPartMsrName <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size (), "staff", "staves") <<
@@ -29108,39 +29109,49 @@ void msrPart::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "PartMsrName" << " : \"" <<
+    "partID" << " : \"" <<
+    fPartID << "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "partMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartName" << " : \"" <<
+    "partAbsoluteNumber" << " : " <<
+    fPartAbsoluteNumber <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "partName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartNameDisplayText" << " : \"" <<
+    "partNameDisplayText" << " : \"" <<
     fPartNameDisplayText << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartAbbrevation" << " : \"" <<
+    "partAbbrevation" << " : \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartAbbreviationDisplayText" << " : \"" <<
+    "partAbbreviationDisplayText" << " : \"" <<
     fPartAbbreviationDisplayText << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-     "PartInstrumentName" << " : \"" <<
+    "partInstrumentName" << " : \"" <<
     fPartInstrumentName << "\"" <<
     endl <<    
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << " : \"" <<
+    "partInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartNumberOfMeasures" << " : " <<
+    "partNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
     endl <<
     endl;
@@ -29212,7 +29223,7 @@ void msrPart::print (ostream& os)
 void msrPart::printSummary (ostream& os)
 {
   os <<
-    "Part" << " " << getPartCombinedName () <<
+    "Part" << " " << fPartMsrName <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size (), "staff", "staves") <<
@@ -29229,6 +29240,11 @@ void msrPart::printSummary (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
+    "partID" << " : \"" <<
+    fPartID << "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
     "PartMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
@@ -29237,6 +29253,12 @@ void msrPart::printSummary (ostream& os)
     "PartName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
+
+    setw (fieldWidth) <<
+    "partAbsoluteNumber" << " : " <<
+    fPartAbsoluteNumber <<
+    endl <<
+
     setw (fieldWidth) <<
     "PartNameDisplayText" << " : \"" <<
     fPartNameDisplayText << "\"" <<
@@ -29301,6 +29323,12 @@ void msrPart::printSummary (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrPart& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________

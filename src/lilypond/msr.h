@@ -6756,25 +6756,10 @@ class msrPart : public msrElement
     S_msrPartGroup        getPartPartGroupUplink () const
                               { return fPartPartGroupUplink; }
               
-    // staves map
+    // part absolute number
     
-    const map<int, S_msrStaff>&
-                          getPartStavesMap ()
-                              { return fPartStavesMap; }
-
-    // clef, key, time
-    
-    S_msrClef             getPartCurrentClef () const
-                              { return fPartCurrentClef; };
-
-    S_msrKey              getPartCurrentKey  () const
-                              { return fPartCurrentKey; };
-
-    void                  setPartCurrentTime (S_msrTime time)
-                              { fPartCurrentTime = time; };
-
-    S_msrTime             getPartCurrentTime () const
-                              { return fPartCurrentTime; };
+    int                   getPartAbsoluteNumber () const
+                              { return fPartAbsoluteNumber; }
 
     // ID and name
     
@@ -6914,10 +6899,30 @@ class msrPart : public msrElement
     S_msrVoice            getPartFiguredBassVoice () const
                               { return fPartFiguredBassVoice; }
                   
+    // clef, key, time
+    
+    S_msrClef             getPartCurrentClef () const
+                              { return fPartCurrentClef; };
+
+    S_msrKey              getPartCurrentKey  () const
+                              { return fPartCurrentKey; };
+
+    void                  setPartCurrentTime (S_msrTime time)
+                              { fPartCurrentTime = time; };
+
+    S_msrTime             getPartCurrentTime () const
+                              { return fPartCurrentTime; };
+
     // transpose
 
     S_msrTranspose        getPartCurrentTranspose () const
                               { return fPartCurrentTranspose; };
+
+    // staves map
+    
+    const map<int, S_msrStaff>&
+                          getPartStavesMap ()
+                              { return fPartStavesMap; }
 
     // services
     // ------------------------------------------------------
@@ -6931,20 +6936,6 @@ class msrPart : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
   
-    // clef, key, time
-    
-    void                  appendClefToPart (S_msrClef clef);
-    
-    void                  appendKeyToPart (S_msrKey  key);
-    
-    void                  appendTimeToPart (S_msrTime time);
-    void                  appendTimeToPartClone (S_msrTime time);
-
-    // transpose
-
-    void                  appendTransposeToPart (
-                            S_msrTranspose transpose);
-
     // part name display
 
     void                  appendPartNameDisplayToPart (
@@ -6972,6 +6963,20 @@ class msrPart : public msrElement
     void                  setNextMeasureNumberInPart (
                             int    inputLineNumber,
                             string nextMeasureNumber);
+
+    // clef, key, time
+    
+    void                  appendClefToPart (S_msrClef clef);
+    
+    void                  appendKeyToPart (S_msrKey  key);
+    
+    void                  appendTimeToPart (S_msrTime time);
+    void                  appendTimeToPartClone (S_msrTime time);
+
+    // transpose
+
+    void                  appendTransposeToPart (
+                            S_msrTranspose transpose);
 
     // staff details
 
@@ -7173,6 +7178,10 @@ class msrPart : public msrElement
     string                fPartAbbreviation;
     string                fPartAbbreviationDisplayText;
 
+    // part absolute number
+    
+    int                   fPartAbsoluteNumber;
+
     // part instrument names
     
     string                fPartInstrumentName;
@@ -7210,6 +7219,10 @@ class msrPart : public msrElement
     // the registered staves map
     
     map<int, S_msrStaff>  fPartStavesMap;
+
+    // counter
+    
+    static int            gPartsCounter;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
