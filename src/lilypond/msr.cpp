@@ -10148,6 +10148,28 @@ void msrStanza::padUpToMeasureLengthInStanza (
   */
 }
 
+void msrStanza::appendPaddingNoteToStanza (
+  int inputLineNumber,
+  int divisions)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Apending padding note of " << divisions <<
+      " divisions in stanza \"" <<
+      fStanzaName <<
+      "\" in voice \"" <<
+      fStanzaVoiceUplink->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+  
+  gIndenter--;
+}
+
 void msrStanza::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -13411,6 +13433,28 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
   gIndenter--;
 }
 
+void msrMeasure::appendPaddingNoteToMeasure (
+  int inputLineNumber,
+  int divisions)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending padding note of " << divisions <<
+      " divisions to measure " <<
+      fMeasureNumber <<
+      "' in segment " <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+  
+  gIndenter--;
+}
+
 void msrMeasure::appendGraceNotesToMeasure (
   S_msrGraceNotes graceNotes)
 {
@@ -16044,6 +16088,28 @@ void msrSegment::padUpToMeasureLengthInSegment (
       padUpToMeasureLengthInMeasure (
         inputLineNumber, measureLength);
   }
+}
+
+void msrSegment::appendPaddingNoteToSegment (
+  int inputLineNumber,
+  int divisions)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appendding padding tote of " << divisions <<
+      " divisions to segment '" <<
+      fSegmentAbsoluteNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+  
+  gIndenter--;
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -20475,6 +20541,45 @@ void msrVoice::padUpToMeasureLengthInVoice (
 
       stanza->padUpToMeasureLengthInStanza (
         inputLineNumber, measureLength);
+    } // for
+  }
+
+  gIndenter--;
+}
+
+void msrVoice::appendPaddingNoteToVoice (
+  int inputLineNumber,
+  int divisions)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending padding padding note of " << divisions <<
+      " divisions to voice \"" <<
+      getVoiceName () <<
+      "\", divisions = " << divisions <<
+      ",line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+  
+  // pad up the voice's last segment
+  fVoiceLastSegment->
+    appendPaddingNoteToSegment (
+      inputLineNumber, divisions);
+      
+  // pad up the voice's stanzas
+  if (fVoiceStanzasMap.size ()) {
+    for (
+      map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
+      i != fVoiceStanzasMap.end ();
+      i++) {
+      S_msrStanza stanza = (*i).second;
+
+      stanza->appendPaddingNoteToStanza (
+        inputLineNumber, divisions);
     } // for
   }
 
@@ -25541,9 +25646,9 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
       "Fetching voice number " <<
       voiceNumber <<
      " in staff \"" << getStaffName () <<
-      "\", line " << inputLineNumber <<
-      " in part " <<
+      "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif

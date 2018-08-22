@@ -844,6 +844,10 @@ class msrMeasure : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
 
+    void                  appendPaddingNoteToMeasure (
+                            int inputLineNumber,
+                            int divisions);
+  
     // clefs
     
     void                  appendClefToMeasure (S_msrClef clef);
@@ -1222,6 +1226,10 @@ class msrSegment : public msrElement
     void                  padUpToMeasureLengthInSegment (
                             int      inputLineNumber,
                             rational measureLength);
+  
+    void                  appendPaddingNoteToSegment (
+                            int inputLineNumber,
+                            int divisions);
   
     // measures
 
@@ -4568,6 +4576,10 @@ class msrStanza : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
   
+    void                  appendPaddingNoteToStanza (
+                            int inputLineNumber,
+                            int divisions);
+  
   public:
 
     // visitors
@@ -5755,6 +5767,10 @@ class msrVoice : public msrElement
     void                  padUpToMeasureLengthInVoice (
                             int      inputLineNumber,
                             rational measureLength);
+  
+    void                  appendPaddingNoteToVoice ( // for forward
+                            int inputLineNumber,
+                            int divisions);
   
     // clef, key, time
     

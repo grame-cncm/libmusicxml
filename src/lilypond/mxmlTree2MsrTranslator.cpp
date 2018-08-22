@@ -329,8 +329,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // forward handling
   fCurrentForwardDurationDivisions = 1;
+  
   fCurrentForwardStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentForwardVoiceNumber = K_NO_VOICE_NUMBER;
+  
   fOnGoingForward = false;
 }
 
@@ -3633,10 +3635,10 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
       endl;
   }
 
-  fCurrentStaffNumber = int(*elt);
-
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  fCurrentStaffNumber = int(*elt);
 
   // the staff number should be positive
   if (fCurrentStaffNumber <= 0) {
@@ -4138,27 +4140,17 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
       endl;
   }
 
-  fCurrentVoiceNumber = int(*elt);
-  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-/* JMI
-  // the voice number should be in the 1..4 range
-  if (fCurrentVoiceNumber < 1 || fCurrentVoiceNumber > 4) {
-    stringstream s;
-
-    s <<
-      "voice number " << fCurrentVoiceNumber <<
-      " is not in the 1..4 range";
-      
-    msrAssert (false, s.str ());
-  }
-  */
+  fCurrentVoiceNumber = int(*elt);
+  
+  // the voice number can be out of 1..4 range
   
   if (fOnGoingForward) {
     fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
+/* JMI
     S_msrVoice
       voice =
         fetchVoiceFromCurrentPart (
@@ -4176,6 +4168,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
         endl;
     }
 #endif
+*/
   }
   
   else if (fOnGoingNote) {
@@ -4282,9 +4275,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
       </forward>
   */
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
+//* JMI ???
   // the <staff /> element is present only
   // in case of a staff change
   fCurrentForwardStaffNumber = fCurrentStaffNumber;
@@ -4292,6 +4283,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   // the <voice /> element is present only
   // in case of a voice change
   fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
+//*/
+
+  fOnGoingForward = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_forward" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (
@@ -4331,28 +4337,30 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
     msrAssert (false, s.str ());
   }
 
-  /* Don't do anything JMI
-  S_msrStaff
-    staff =
-      fetchStaffFromCurrentPart (
-        inputLineNumber, fCurrentStaffNumber);
+  // fetch the voice to be forwarded
+  S_msrVoice
+    voiceToBeForwarded =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentForwardStaffNumber,
+        fCurrentForwardVoiceNumber);
 
-  
+  // sanity check
+  msrAssert (
+    voiceToBeForwarded != nullptr,
+    "voiceToBeForwarded is null");
+
+  // append a padding note to the voice to be forwarded
+  voiceToBeForwarded ->
+    appendPaddingNoteToVoice (
+      inputLineNumber,
+      fCurrentForwardDurationDivisions);
+
+/* JMI ???  
   // handle the pending tuplets if any
   handleTupletsPendingOnTupletsStack (
     elt->getInputLineNumber ());  
   */
-
-  fOnGoingForward = true;
-}
-
-void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_forward" <<
-      endl;
-  }
 
   fOnGoingForward = false;
 }
