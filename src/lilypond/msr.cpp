@@ -4901,7 +4901,7 @@ string msrNote::asString () const
       s <<
         "graceChordMemberNote "<<
         notePitchAsString () <<
-        " " <<
+//        " " <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -4915,7 +4915,7 @@ string msrNote::asString () const
       s <<
         "chordMemberNote "<<
         notePitchAsString () <<
-        " " <<
+ //       " " <<
  // JMI       ", " << fNoteSoundingWholeNotes << " sound whole notes, " <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
