@@ -846,7 +846,8 @@ class msrMeasure : public msrElement
 
     void                  appendPaddingNoteToMeasure (
                             int inputLineNumber,
-                            int divisions);
+                            int divisions,
+                            int divisionsPerQuarterNote);
   
     // clefs
     
@@ -1229,7 +1230,8 @@ class msrSegment : public msrElement
   
     void                  appendPaddingNoteToSegment (
                             int inputLineNumber,
-                            int divisions);
+                            int divisions,
+                            int divisionsPerQuarterNote);
   
     // measures
 
@@ -4578,7 +4580,8 @@ class msrStanza : public msrElement
   
     void                  appendPaddingNoteToStanza (
                             int inputLineNumber,
-                            int divisions);
+                            int divisions,
+                            int divisionsPerQuarterNote);
   
   public:
 
@@ -5770,7 +5773,8 @@ class msrVoice : public msrElement
   
     void                  appendPaddingNoteToVoice ( // for forward
                             int inputLineNumber,
-                            int divisions);
+                            int divisions,
+                            int divisionsPerQuarterNote);
   
     // clef, key, time
     
@@ -7119,14 +7123,6 @@ class msrPart : public msrElement
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
-
-    // forward
-    
-    void                  handleForward (
-                            int        inputLineNumber,
-                            int        divisions,
-                            int        divisionsPerQuarterNote,
-                            S_msrVoice voice);
 
     // LilyPond issue 34
 

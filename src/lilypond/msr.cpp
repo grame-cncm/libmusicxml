@@ -10150,7 +10150,8 @@ void msrStanza::padUpToMeasureLengthInStanza (
 
 void msrStanza::appendPaddingNoteToStanza (
   int inputLineNumber,
-  int divisions)
+  int divisions,
+  int divisionsPerQuarterNote)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
@@ -13415,7 +13416,7 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
     // if it happens to be the first note of a chord
     appendNoteToMeasure (paddingNote);
 
-    // set this measure as being padded
+    // set this measure as being padded // JMI
     this->
       setMeasureCreatedForARepeatKind (
         msrMeasure::kMeasureCreatedForARepeatPadded);
@@ -13435,7 +13436,8 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
 
 void msrMeasure::appendPaddingNoteToMeasure (
   int inputLineNumber,
-  int divisions)
+  int divisions,
+  int divisionsPerQuarterNote)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
@@ -13452,6 +13454,44 @@ void msrMeasure::appendPaddingNoteToMeasure (
 
   gIndenter++;
   
+  // fetch the measure voice
+  S_msrVoice
+    measureVoice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+    
+  // compute the forward step length
+  rational
+    forwardStepLength =
+      rational (
+        divisions,
+        divisionsPerQuarterNote * 4); // hence a whole note    
+  
+  // create a rest or a skip depending on measureVoice kind
+  S_msrNote
+    paddingNote =
+      createPaddingNoteForVoice (
+        inputLineNumber,
+        forwardStepLength,
+        measureVoice);
+
+  // register rest's measure length
+  paddingNote->
+    setNotePositionInMeasure (
+      fMeasureLength);
+
+  // append the rest to the measure elements list
+  // only now to make it possible to remove it afterwards
+  // if it happens to be the first note of a chord
+  appendNoteToMeasure (paddingNote);
+
+/* JMI
+  // set this measure as being padded JMI ???
+  this->
+    setMeasureCreatedForARepeatKind (
+      msrMeasure::kMeasureCreatedForARepeatPadded);
+    */
+    
   gIndenter--;
 }
 
@@ -16092,7 +16132,8 @@ void msrSegment::padUpToMeasureLengthInSegment (
 
 void msrSegment::appendPaddingNoteToSegment (
   int inputLineNumber,
-  int divisions)
+  int divisions,
+  int divisionsPerQuarterNote)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
@@ -16108,6 +16149,15 @@ void msrSegment::appendPaddingNoteToSegment (
 #endif
 
   gIndenter++;
+
+  if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
+    // append a padding note to the segment's last measure
+    fSegmentMeasuresList.back ()->
+      appendPaddingNoteToMeasure (
+        inputLineNumber,
+        divisions,
+        divisionsPerQuarterNote);
+  }
   
   gIndenter--;
 }
@@ -20549,7 +20599,8 @@ void msrVoice::padUpToMeasureLengthInVoice (
 
 void msrVoice::appendPaddingNoteToVoice (
   int inputLineNumber,
-  int divisions)
+  int divisions,
+  int divisionsPerQuarterNote)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
@@ -20568,7 +20619,9 @@ void msrVoice::appendPaddingNoteToVoice (
   // pad up the voice's last segment
   fVoiceLastSegment->
     appendPaddingNoteToSegment (
-      inputLineNumber, divisions);
+      inputLineNumber,
+      divisions,
+      divisionsPerQuarterNote);
       
   // pad up the voice's stanzas
   if (fVoiceStanzasMap.size ()) {
@@ -20579,7 +20632,9 @@ void msrVoice::appendPaddingNoteToVoice (
       S_msrStanza stanza = (*i).second;
 
       stanza->appendPaddingNoteToStanza (
-        inputLineNumber, divisions);
+        inputLineNumber,
+        divisions,
+        divisionsPerQuarterNote);
     } // for
   }
 
@@ -28788,118 +28843,6 @@ void msrPart:: handleBackup (
     inputLineNumber,
     measurePosition);
 }
-
-void msrPart:: handleForward (
-  int        inputLineNumber,
-  int        divisions,
-  int        divisionsPerQuarterNote,
-  S_msrVoice voice)
-{
-#ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceParts
-      ||
-    gTraceOptions->fTraceDivisions
-      ||
-    gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Handling forward, divisions = '" <<
-      divisions <<
-      " in voice \"" << voice->getVoiceName () << "\"" <<
-      "' in part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-/* Don't do anything... JMI
-  // compute the backup step length
-  rational
-    forwardStepLength =
-      rational (
-        divisions,
-        divisionsPerQuarterNote * 4); // hence a whole note    
-  
-  // determine the measure position 'divisions' backward
-  rational
-    measurePosition =
-      forwardStepLength; // + what ??? JMI
-
-  measurePosition.rationalise ();
-
-  // bring the voice forward to that measure position
-  padUpToMeasureLengthInPart (
-    inputLineNumber,
-    measurePosition);
-    */
-}
-
-/* JMI
-void msrPart::appendSkipGraceNotesToVoicesClones ( // JMI ???
-  S_msrVoice      graceNotesOriginVoice,
-  S_msrGraceNotes skipGraceNotes)
-{
-  int inputLineNumber =
-    skipGraceNotes->getInputLineNumber ();
-
-  rational
-    graceNotesOriginVoiceMeasureLength =
-      graceNotesOriginVoice->
-        getVoiceLastSegment ()->
-          getSegmentMeasuresList ().back ()->
-            getMeasureLength ();
-        
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
-    gLogIOstream <<
-      "appendSkipGraceNotesToVoicesClones () in " <<
-      getPartCombinedName () <<
-      ", graceNotesOriginVoiceMeasureLength = " <<
-      graceNotesOriginVoiceMeasureLength <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  for (
-    map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin ();
-    i!=fPartStavesMap.end ();
-    i++) {
-
-    map<int, S_msrVoice>
-      staffAllVoicesMap =
-        (*i).second->
-          getStaffAllVoicesMap ();
-          
-    for (
-      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
-      j!=staffAllVoicesMap.end ();
-      j++) {
-
-      S_msrVoice voice = (*j).second;
-      
-      if (voice != graceNotesOriginVoice) {
-        voice->
-          appendAFirstMeasureToVoiceIfNotYetDone ( // JMI
-            inputLineNumber);
-            
-        // bring voice to the same measure length as graceNotesOriginVoice
-        voice->
-          padUpToMeasureLengthInVoice (
-            inputLineNumber,
-            graceNotesOriginVoiceMeasureLength);
-        
-        // append skip grace notes to voice
-        voice->
-          appendGraceNotesToVoice (
-            skipGraceNotes);
-      }
-    } // for
-
-  } // for
-}
-*/
 
 void msrPart::prependSkipGraceNotesToVoicesClones (
   S_msrVoice      graceNotesOriginVoice,

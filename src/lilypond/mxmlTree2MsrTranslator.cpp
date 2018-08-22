@@ -4354,7 +4354,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
   voiceToBeForwarded ->
     appendPaddingNoteToVoice (
       inputLineNumber,
-      fCurrentForwardDurationDivisions);
+      fCurrentForwardDurationDivisions,
+      fCurrentDivisionsPerQuarterNote);
 
 /* JMI ???  
   // handle the pending tuplets if any
