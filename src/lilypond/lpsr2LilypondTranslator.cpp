@@ -385,7 +385,7 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -579,7 +579,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     ! fRelativeOctaveReference;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<

@@ -1475,7 +1475,7 @@ class mxmlTree2MsrTranslator :
     // for the previous and current notes:
     // a staff change occurs when they are different,
     // but the note itself keeps its staff number in that case
-    int                       fCurrentSequenceStaffNumber;
+    int                       fCurrentStaffNumberToInsertInto;
 
     // cross staff chords
     int                       fCurrentChordStaffNumber;

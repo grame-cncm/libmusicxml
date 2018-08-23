@@ -16435,10 +16435,14 @@ void msrSegment::appendVoiceStaffChangeToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
+  gIndenter++;
+  
   fSegmentMeasuresList.back ()->
     appendVoiceStaffChangeToMeasure (
       voiceStaffChange);
+
+  gIndenter--;
 }
 
 void msrSegment::appendNoteToSegment (S_msrNote note)
@@ -20889,9 +20893,14 @@ void msrVoice::appendVoiceStaffChangeToVoice (
   appendAFirstMeasureToVoiceIfNotYetDone (
     inputLineNumber);
 
+  gIndenter++;
+
+  // append voice staff change to voice's last segment
   fVoiceLastSegment->
     appendVoiceStaffChangeToSegment (
       voiceStaffChange);
+
+  gIndenter--;
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
