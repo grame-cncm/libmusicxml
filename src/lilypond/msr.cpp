@@ -20609,7 +20609,7 @@ void msrVoice::appendPaddingNoteToVoice (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending padding padding note of " << divisions <<
+      "Appending padding note of " << divisions <<
       " divisions to voice \"" <<
       getVoiceName () <<
       "\", divisions = " << divisions <<

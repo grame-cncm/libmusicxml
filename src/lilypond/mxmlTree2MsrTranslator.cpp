@@ -263,8 +263,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
   fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
 
-  // staff change  
-  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
+  // staff change detection
+  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
 
   // cross staff chords
   fCurrentChordStaffNumber = K_NO_STAFF_NUMBER;
@@ -410,6 +410,9 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
   // current note voice number
   fCurrentNoteVoiceNumber = 1; // default value, it may be absent
+
+  // staff change detection
+ // fCurrentStaffNumberToInsertInto = 1; JMI ???
 
   // time modification
   fCurrentNoteHasATimeModification = false;
@@ -725,8 +728,8 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
   
-  // staff change  
-  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
+  // staff change detection
+  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
 
   // cross staff chords
   fCurrentNoteIsCrossStaves = false;
@@ -4210,12 +4213,12 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   }
 #endif
 
-  // reset staff change detection
-  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
-
   // reset notes staff numbers
   fPreviousNoteStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentNoteStaffNumber  = K_NO_STAFF_NUMBER;
+
+  // reset staff change detection
+  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
 
   fCurrentPart->
     handleBackup (
@@ -4324,6 +4327,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
       inputLineNumber,
       fCurrentForwardDurationDivisions,
       fCurrentDivisionsPerQuarterNote);
+
+  // reset staff change detection
+  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
 
 /* JMI ???  
   // handle the pending tuplets if any
@@ -5175,7 +5181,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceLyrics) {
         fLogOutputStream <<
-          "lyric name is empty, using \"" <<
+          "Lyric name is empty, using \"" <<
           K_NO_STANZA_NAME <<
           "\" by default" <<
           endl;
@@ -5751,7 +5757,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
   // reset staff change detection
   fPreviousNoteStaffNumber        = K_NO_STAFF_NUMBER;
-  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
+  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
   
 /* JMI
   // is this measure number in the debug set?
@@ -16907,7 +16913,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     currentNotesVoice != nullptr,
     "currentNotesVoice is null");
         
-  // set current staff number to be used if needed
+  // set current staff number to insert into if needed JMI ???
   if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
@@ -16925,6 +16931,21 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fCurrentStaffNumberToInsertInto = fCurrentNoteStaffNumber;
   }
     
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
+    fLogOutputStream <<
+      "==> fetching voice to insert into" <<
+      ", fCurrentStaffNumberToInsertInto = " <<
+      fCurrentStaffNumberToInsertInto <<
+      ", fPreviousNoteStaffNumber = " <<
+      fPreviousNoteStaffNumber <<
+      ", fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
+      ", line " << inputLineNumber <<
+      endl;      
+  }
+#endif
+
   // fetch voice to insert into
   S_msrVoice
     voiceToInsertInto =
@@ -18010,7 +18031,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   
   switch (fCurrentStaffChangeKind) {
     case k_NoStaffChange:
-      staffNumberToUse = fCurrentNoteStaffNumber;
+      staffNumberToUse = fCurrentStaffNumberToInsertInto; // JMI fCurrentNoteStaffNumber;
       break;
     case kStaffChangeChordMemberNote:
       if (fCurrentNoteIsCrossStaves) {
@@ -19219,6 +19240,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   }
 #endif
 
+/* superfluous JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -19226,6 +19248,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
         inputLineNumber,
         fCurrentStaffNumberToInsertInto, // JMI fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
+*/
 
   // handle tuplets pending on the tuplet stack
   while (fTupletsStack.size ()) {
