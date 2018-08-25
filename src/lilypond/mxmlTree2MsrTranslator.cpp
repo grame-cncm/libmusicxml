@@ -17028,7 +17028,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       }
 #endif
   
-      // LilyPond doesn't support cross staff chords,
+      fCurrentStaffChangeKind = kStaffChangeChordMemberNote;
+
+      // LilyPond doesn't support cross staff chords, JMI
       // so place newNote in its 'official' staff
     }
     
@@ -18035,14 +18037,17 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       break;
     case kStaffChangeChordMemberNote:
       if (fCurrentNoteIsCrossStaves) {
-        staffNumberToUse = fCurrentNoteStaffNumber; // keep it!
+        staffNumberToUse = fCurrentStaffNumberToInsertInto;
+    // JMI    staffNumberToUse = fCurrentNoteStaffNumber; // keep it!
       }
       else {
-        staffNumberToUse = fCurrentChordStaffNumber;
+   //   JMI   staffNumberToUse = fCurrentChordStaffNumber;
+        staffNumberToUse = fCurrentStaffNumberToInsertInto;
       }
       break;
     case kStaffChangeOtherNote:
-      staffNumberToUse = fCurrentNoteStaffNumber;
+      staffNumberToUse = fCurrentStaffNumberToInsertInto;
+     // JMI staffNumberToUse = fCurrentNoteStaffNumber;
       break;
   } // switch
           

@@ -13708,9 +13708,10 @@ void msrMeasure::removeNoteFromMeasure (
       endl <<
       fMeasureLastHandledNote->asShortString () <<
       endl;
-    gIndenter--;
   }
 #endif
+
+  gIndenter++;
 
   for (
     list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
@@ -13765,6 +13766,8 @@ void msrMeasure::removeNoteFromMeasure (
     endl <<
     endl;
     
+  gIndenter--;
+
   stringstream s;
 
   s <<
