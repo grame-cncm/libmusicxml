@@ -4101,18 +4101,18 @@ void lpsrPartBlock::print (ostream& os)
   const int fieldWidth = 28;
 
   os << left <<
-    setw (fieldWidth) << string ("(") + "PartName" << " = \"" <<
-    fPart->getPartName () << "\")" <<
+    setw (fieldWidth) << string ("") + "partName" << " = \"" <<
+    fPart->getPartName () << "\"" <<
     endl <<
-    setw (fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
-    fPart->getPartAbbreviation () << "\")" <<
+    setw (fieldWidth) << string ("") + "partAbbreviation" << " = \"" <<
+    fPart->getPartAbbreviation () << "\"" <<
     endl <<
 
-    setw (fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
+    setw (fieldWidth) << "partBlockInstrumentName" << " = \"" <<
     fPartBlockInstrumentName <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
+    setw (fieldWidth) << "partBlockShortInstrumentName" << " = \"" <<
     fPartBlockShortInstrumentName <<
     "\"" <<
     endl;
