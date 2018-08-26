@@ -4329,7 +4329,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
       fCurrentDivisionsPerQuarterNote);
 
   // reset staff change detection
-  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
+ // fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
+  fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
 
 /* JMI ???  
   // handle the pending tuplets if any
