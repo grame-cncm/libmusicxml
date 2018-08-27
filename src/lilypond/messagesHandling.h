@@ -13,7 +13,8 @@
 #ifndef __messagesHandling__
 #define __messagesHandling__
 
-#include "iomanip" // for 'setw()'
+#include <iomanip> // for 'setw()'
+#include <set>     // for 'setw()'
 
 
 namespace MusicXML2 
@@ -103,6 +104,11 @@ void msrStreamsWarning (
   int         sourceCodeLineNumber,
   std::string message);
 
+//______________________________________________________________________________
+extern std::set<int> gWarningsInputLineNumbers;
+extern std::set<int> gErrorsInputLineNumbers;
+
+void displayWarningsAndErrorsInputLineNumbers ();
 
 }
 

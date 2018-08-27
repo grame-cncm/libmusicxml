@@ -495,6 +495,11 @@ int main (int argc, char *argv[])
     inputSourceName,
     outputFileName);
 
+  // display the input line numbers for which messages have been issued
+  // ------------------------------------------------------
+
+  displayWarningsAndErrorsInputLineNumbers ();
+
   // print timing information
   // ------------------------------------------------------
 

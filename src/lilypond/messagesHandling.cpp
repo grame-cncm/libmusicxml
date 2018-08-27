@@ -50,6 +50,8 @@ void msrWarning (
       "*** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
+
+    gWarningsInputLineNumbers.insert (inputLineNumber);
   }
 }
 
@@ -108,6 +110,8 @@ void msrError (
       inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl <<
       endl;
+
+    gErrorsInputLineNumbers.insert (inputLineNumber);
   }
 }
 
@@ -233,5 +237,61 @@ void msrStreamsWarning (
   abort ();
 }
 
+//______________________________________________________________________________
+std::set<int> gWarningsInputLineNumbers;
+std::set<int> gErrorsInputLineNumbers;
+
+void displayWarningsAndErrorsInputLineNumbers ()
+{
+  int warningsInputLineNumbersSize =
+    gWarningsInputLineNumbers.size ();
+    
+  if (warningsInputLineNumbersSize) {
+    gLogIOstream <<
+      endl <<
+      "Warning message(s) were issued for input " <<
+      singularOrPluralWithoutNumber (
+        warningsInputLineNumbersSize, "line", "lines") <<
+      " ";
+      
+    set<int>::const_iterator
+      iBegin = gWarningsInputLineNumbers.begin (),
+      iEnd   = gWarningsInputLineNumbers.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogIOstream << (*i);
+      if (++i == iEnd) break;
+      gLogIOstream << ", ";
+    } // for
+
+    gLogIOstream <<
+      endl;
+  }
+  
+  int errorsInputLineNumbersSize =
+    gErrorsInputLineNumbers.size ();
+
+  if (errorsInputLineNumbersSize) {
+    gLogIOstream <<
+      endl <<
+      "Error message(s) were issued for input " <<
+      singularOrPluralWithoutNumber (
+        errorsInputLineNumbersSize, "line", "lines") <<
+      " ";
+      
+    set<int>::const_iterator
+      iBegin = gErrorsInputLineNumbers.begin (),
+      iEnd   = gErrorsInputLineNumbers.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogIOstream << (*i);
+      if (++i == iEnd) break;
+      gLogIOstream << ", ";
+    } // for
+
+    gLogIOstream <<
+      endl;
+  }
+}
 
 }
