@@ -1386,9 +1386,11 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           // we need the explicit duration in all cases,
           // regardless of gGeneralOptions->fAllDurations
           fLilypondCodeIOstream <<
+          /* JMI TOO MUCH
             wholeNotesAsLilypondString (
               inputLineNumber,
               noteSoundingWholeNotes) <<
+              */
             "*" <<
             gLilypondOptions->fDelayedOrnamentsFraction;
         
