@@ -15053,7 +15053,6 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         break;
 
       case msrMeasure::kMeasureCreatedForARepeatBefore:
-      case msrMeasure::kMeasureCreatedForARepeatAfter:
         if (lastMeasure->getMeasureLength ().getNumerator () == 0) {
           // yes, remove it
 #ifdef TRACE_OPTIONS
@@ -15085,6 +15084,13 @@ void msrSegment::finalizeCurrentMeasureInSegment (
             finalizeMeasure (
               inputLineNumber);
         }
+        break;
+
+      case msrMeasure::kMeasureCreatedForARepeatAfter:
+        // finalize it
+        lastMeasure->
+          finalizeMeasure (
+            inputLineNumber);
         break;
 
       case msrMeasure::kMeasureCreatedForARepeatPadded:
@@ -21567,6 +21573,7 @@ void msrVoice::prepareForRepeatInVoice (
               getMeasureFullLength ();
 
           // finalize current measure in voice JMI lastMeasureInLastSegment ???
+          // this may remove it if it is empty
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
   
@@ -21614,7 +21621,22 @@ void msrVoice::prepareForRepeatInVoice (
           }
 #endif
       
-          voiceLastSegmentMeasuresList.pop_back ();
+          if (voiceLastSegmentMeasuresList.size ()) {
+            voiceLastSegmentMeasuresList.pop_back ();
+          }
+          else {
+            stringstream s;
+        
+            s <<
+              "cannot remove last measure from voice's last segement" <<
+              " since fVoiceInitialElementsList is empty";
+        
+            msrInternalError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
 
           // move current last segment to the list of initial elements
 #ifdef TRACE_OPTIONS

@@ -779,28 +779,28 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   }
 #endif
 
-    /* JMI
   if (fOnGoingRepeat) {
-  / *
+    /*
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "unterminated repeat in MusicXML data, exiting");
-      * /
+    */
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
-      "unterminated repeat in MusicXML data, adding a barline to recover");
+      "unterminated repeat in MusicXML data, ignoring the repeat altogether");
 
+    /* JMI
     // let's recover from this error
 
-    / * JMI
     // create an extra barline
     S_msrBarline
       barline =
         msrBarline::create (
           elt->getInputLineNumber (),
+          msrBarline::kBarlineCategoryRepeatEnd, // JMI
           msrBarline::kBarlineHasSegnoNo,
           msrBarline::kBarlineHasCodaNo,
           msrBarline::kBarlineLocationRight,
@@ -830,8 +830,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     // handle it
   // JMI ???  handleRepeatEnd (barline);
     handleHooklessEndingEnd (barline);
+  */
   }
-    */
 
   // finalize the current part
   fCurrentPart->
@@ -5705,9 +5705,17 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
   // implicit
 
-  // Measures with an implicit attribute set to "yes"
-  // never display a measure number,
-  // regardless of the measure-numbering setting.
+/*
+  Measures with an implicit attribute set to "yes"
+  never display a measure number,
+  regardless of the measure-numbering setting.
+  * 
+  The implicit attribute is set to "yes" for measures where
+  the measure number should never appear, such as pickup
+  measures and the last half of mid-measure repeats. The
+  value is "no" if not specified.
+*/
+
   string
     implicit =
       elt->getAttributeValue ("implicit");
