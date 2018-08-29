@@ -18,7 +18,7 @@
 #include <string.h>
 #endif
 
-#include "libmusicxml.h"
+#include "musicxml2guido.h"
 
 using namespace std;
 using namespace MusicXML2;
