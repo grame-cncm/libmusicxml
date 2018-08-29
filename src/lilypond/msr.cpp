@@ -5299,7 +5299,7 @@ void msrNote::print (ostream& os)
         "note is followed by graceNotes" <<
         endl;
 
-     gIndenter--;
+    gIndenter--;
   }
   
   {
@@ -5535,6 +5535,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5558,6 +5559,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5581,6 +5583,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5604,6 +5607,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5627,6 +5631,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5650,6 +5655,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5673,6 +5679,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5696,6 +5703,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5719,6 +5727,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5742,6 +5751,7 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5755,6 +5765,7 @@ void msrNote::print (ostream& os)
     gIndenter++;
     os << fNoteSingleTremolo;
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5769,6 +5780,7 @@ void msrNote::print (ostream& os)
     os <<
       fNoteTie;
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5792,6 +5804,7 @@ void msrNote::print (ostream& os)
     } // for
 
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5815,6 +5828,7 @@ void msrNote::print (ostream& os)
     } // for
 
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5838,6 +5852,7 @@ void msrNote::print (ostream& os)
     } // for
 
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5861,6 +5876,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5884,6 +5900,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5907,6 +5924,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
   
@@ -5930,6 +5948,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5953,6 +5972,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5976,6 +5996,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -5999,6 +6020,7 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -6022,11 +6044,13 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
     gIndenter--;
   }
 
   // print the scordaturas if any
   if (fNoteScordaturas.size ()) {
+    gIndenter++;
     os <<
       "Note scordaturas:" <<
       endl;
@@ -6044,6 +6068,8 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    
+    gIndenter--;
   }
 
   // print the harmony if any
@@ -6058,6 +6084,7 @@ void msrNote::print (ostream& os)
       fNoteHarmony <<
       endl;
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -6073,6 +6100,7 @@ void msrNote::print (ostream& os)
       fNoteFrame <<
       endl;
     gIndenter--;
+    
     gIndenter--;
   }
 
@@ -6088,6 +6116,7 @@ void msrNote::print (ostream& os)
       fNoteFiguredBass <<
       endl;
     gIndenter--;
+    
     gIndenter--;
   }
 }
@@ -7698,53 +7727,6 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
         __FILE__, __LINE__,
         "removeLastNoteFromTuplet () expects a note as the last tuplet element");
     }
-
-/* JMI
-    for (
-      list<S_msrElement>::iterator i=fTupletElementsList.begin ();
-      i!=fTupletElementsList.end ();
-      ++i) {
-      if ((*i) == note) {
-        // found note, erase it
-        fTupletElementsList.erase (i);
-        
-        // account for note duration
-        fTupletSoundingWholeNotes -=
-          note->getNoteSoundingWholeNotes ();
-        fTupletSoundingWholeNotes.rationalise ();
-
-        fTupletDisplayWholeNotes -= // JMI
-          note->getNoteDisplayWholeNotes ();  
-        fTupletDisplayWholeNotes.rationalise ();
-
-        // don't update measure number nor position in measure: // JMI
-        // they have not been set yet
-  
-        // return from function
-        return;
-      }
-    } // for
-
-    stringstream s;
-
-    s <<
-      "cannot remove note " <<
-      note <<
-      " from tuplet " << asString () <<
-      "' in voice \"" <<
-      fTupletMeasureUplink->
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-      "\"," <<
-      " since it has not been found";
-
-    msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  */
   }
   
   else {
@@ -8111,73 +8093,6 @@ string msrTuplet::asString () const
   
   return s.str ();
 }
-
-/* JMI
-string msrTuplet::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Tuplet " <<
-    fTupletActualNotes << "/" << fTupletNormalNotes <<
-    " " << fTupletSoundingWholeNotes << " sound whole notes" <<
-    " @meas "<<
-    fTupletMeasureNumber <<
-    ":";
-
-  if (fTupletPositionInMeasure.getNumerator () < 0)
-    s << "?";
-  else
-    s << fTupletPositionInMeasure;
-  
-  s << "[[";
-
-  if (fTupletElementsList.size ()) {
-    list<S_msrElement>::const_iterator
-      iBegin = fTupletElementsList.begin (),
-      iEnd   = fTupletElementsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      
-      if (
-        S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-        ) {    
-        s <<
-          note->asShortStringWithRawWholeNotes ();
-      }
-    
-      else if (
-        S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
-        ) {
-        s <<
-          chord->asString ();
-      }
-      
-      else if (
-        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
-        ) {
-        s <<
-          tuplet->asString ();
-      }
-      
-      else {
-        msrInternalError (
-          gXml2lyOptions->fInputSourceName,
-          fInputLineNumber,
-          __FILE__, __LINE__,
-          "tuplet member should be a note, a chord or another tuplet");
-      }
-  
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-  }
-
-  s << "]]";
-  
-  return s.str ();
-}
-*/
 
 void msrTuplet::print (ostream& os)
 {
@@ -9263,8 +9178,16 @@ void msrSyllable::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 19;
+  const int fieldWidth = 21;
   os << left <<
+    setw (fieldWidth) <<
+    "syllableStanzaUplink" << " : " <<
+    fSyllableStanzaUplink->getStanzaName () <<
+    endl <<
+    setw (fieldWidth) <<
+    "syllableNoteUplink" << " : " <<
+    syllableNoteUplinkAsString () <<      
+    endl <<
     setw (fieldWidth) <<
     "syllableExtendKind" << " : " <<
     syllableExtendKindAsString (
@@ -9278,10 +9201,6 @@ void msrSyllable::print (ostream& os)
       os);
 
   os << left <<
-    endl <<
-    setw (fieldWidth) <<
-    "noteUplink" << " : " <<
-    syllableNoteUplinkAsString () <<      
     endl <<
     setw (fieldWidth) <<
     "syllableKind" << " : " <<
@@ -9345,12 +9264,6 @@ void msrSyllable::print (ostream& os)
       break;
   } // switch
   os <<
-    endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "Stanza" << " : " <<
-    fSyllableStanzaUplink->getStanzaName () <<
     endl;
 
   gIndenter--;
@@ -10167,6 +10080,8 @@ void msrStanza::appendPaddingNoteToStanza (
 #endif
 
   gIndenter++;
+
+  // JMI TO DO ???
   
   gIndenter--;
 }
@@ -10350,53 +10265,6 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 */
 
   int result = -1;
-
-/*
-  switch (fHarmonyDegreeAlteration) {
-    case kDoubleFlat:
-      result = "DoubleFlat";
-      break;
-    case kSesquiFlat:
-      result = "SesquiFlat";
-      break;
-    case kFlat:
-      result = "Flat";
-      break;
-    case kSemiFlat:
-      result = "SemiFlat";
-      break;
-    case kNatural:
-      result = "Natural";
-      break;
-    case kSemiSharp:
-      result = "SemiSharp";
-      break;
-    case kSharp:
-      result = "Sharp";
-      break;
-    case kSesquiSharp:
-      result = "SesquiSharp";
-      break;
-    case kDoubleSharp:
-      result = "DoubleSharp";
-      break;
-    case k_NoAlteration:
-      result = "alteration???";
-      break;
-  } // switch
-
-  switch (fHarmonyDegreeTypeKind) {
-    case msrHarmonyDegree::kHarmonyDegreeAddType:
-      result = "Add";
-      break;
-    case msrHarmonyDegree::kHarmonyDegreeAlterType:
-      result = "Alter";
-      break;
-    case msrHarmonyDegree::kHarmonyDegreeSubtractType:
-      result = "Subtract";
-      break;
-  } // switch
-*/
 
   // determine the value for an unaltered degree value
   switch (fHarmonyDegreeValue) {
@@ -27098,7 +26966,7 @@ void msrStaff::browseData (basevisitor* v)
       msrBrowser<msrStaffTuning> browser (v);
       browser.browse (*(*i));
     } // for
-    gIndenter--;
+ //   gInfgdenter--;
   }
 */
 
@@ -31441,78 +31309,5 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
 
 
  
-*/
-
-/* JMI
-  bool doAddSlurToNote = true;
-  
-  if (fNoteSlurs.size ()) {
-    // this notes has several slurs attached to it
-    S_msrSlur previousSlur = fNoteSlurs.back ();
-
-    switch (previousSlur->getSlurKind ()) {
-      case msrSlur::kRegularSlurStart:
-      case msrSlur::kPhrasingSlurStart:
-        break;
-      case msrSlur::kSlurContinue:
-        break;
-      case msrSlur::kRegularSlurStop:
-      case msrSlur::kPhrasingSlurStop:
-        switch (previousSlur->getSlurKind ()) {
-          case msrSlur::kRegularSlurStart:
-          case msrSlur::kPhrasingSlurStart:
-            {
-            / *
-              Only the  first note of the chord should get the slur notation.
-              Some applications print out the slur for all notes,
-              i.e. a stop and a start in sequqnce:
-              these should be ignored
-              * /
-              stringstream s;
-              
-              s <<
-                "a 'slur start' is immediately followed by a 'slur stop'," <<
-                endl <<
-                "ignoring both of them at line " <<
-                slur->getInputLineNumber ();
-                
-              msrMusicXMLWarning (
-                gXml2lyOptions->fInputSourceName,
-                slur->getInputLineNumber (),
-                s.str ());
-                
-              // rmeove the 'slur start'
-              fNoteSlurs.pop_back ();
-        
-              // don't register 'slur stop'
-              doAddSlurToNote = false;
-            }
-            break;
-          case msrSlur::kSlurContinue:
-            break;
-          case msrSlur::kRegularSlurStop:
-            break;
-          case msrSlur::kPhrasingSlurStop:
-            break;
-          case msrSlur::k_NoSlur:
-            break;
-        } // switch
-        break;
-      case msrSlur::k_NoSlur:
-        break;
-    } // switch
-  }
-
-  if (doAddSlurToNote) {
-    fNoteSlurs.push_back (slur);
-  }
-  */
-
-/*
-   int
-    segmentMeasuresListSize =
-      fSegmentMeasuresList.size ();
-
-  if (segmentMeasuresListSize == 0) {
 */
 

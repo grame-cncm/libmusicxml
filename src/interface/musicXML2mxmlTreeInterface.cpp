@@ -16,10 +16,17 @@
 
 #include <stdio.h> // for popen()
 #include <string.h> // for strlen()
-#include <unistd.h> // for pipe(), fork(), ...
 #include <regex>
 
 #include <iomanip> // for setw()
+
+#ifdef LINUX_KEY_WORD   
+  #include <unistd.h> // for pipe(), fork(), ...
+#elif WINDOWS_KEY_WORD    
+  // windows code goes here
+#else     
+  // platform not supported
+#endif
 
 #include "xml.h"
 #include "xmlfile.h"
@@ -524,6 +531,9 @@ SXMLFile convertStreamDataEncoding (
     gIndenter--;
   }
 
+
+#ifdef LINUX_KEY_WORD   
+
   /*
   setup 2 pipes for the communication between parent and child,
   see
@@ -719,6 +729,15 @@ SXMLFile convertStreamDataEncoding (
 
   // both parent and child processses
   return result;
+
+
+#elif WINDOWS_KEY_WORD    
+  // windows code goes here
+
+  
+#else     
+  // platform not supported
+#endif
 }
 
 //_______________________________________________________________________________
@@ -980,16 +999,15 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // should the encoding be converted to UTF-8?
   string desiredEncoding = "UTF-8";
   
-  if (encoding == desiredEncoding) {
-    logIOstream <<
-      "% MusicXML data uses \"" <<
-      desiredEncoding <<
-      "\" encoding" <<
-      ", desired encoding is \"" << desiredEncoding << "\"" <<
-      endl;
-  }
+  logIOstream <<
+    "% MusicXML data uses \"" <<
+    desiredEncoding <<
+    "\" encoding" <<
+    ", desired encoding is \"" << desiredEncoding << "\"" <<
+    endl;
 
-  else {
+  if (encoding != desiredEncoding) {
+    /* JMI convertStreamDataEncoding is OS specific, don't use it yet
     // register encoding as the desired one prior to printing
     xmlDecl->setEncoding (desiredEncoding);
 
@@ -1005,6 +1023,14 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     if (! xmlFile) {
       return Sxmlelement (0);
     }
+    */
+    
+    logIOstream <<
+      "% You may wish to convert the input data to \"" <<
+      desiredEncoding <<
+      "\" encoding prior to running xml2ly" <<
+      ", with iconv for example " <<
+      endl;
   }
 
   clock_t endClock = clock ();
