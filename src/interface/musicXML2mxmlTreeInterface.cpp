@@ -14,7 +14,6 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <stdio.h> // for popen()
 #include <string.h> // for strlen()
 #include <regex>
 
@@ -22,6 +21,7 @@
 
 #ifdef LINUX_KEY_WORD   
   #include <unistd.h> // for pipe(), fork(), ...
+  #include <stdio.h> // for popen()
 #elif WINDOWS_KEY_WORD    
   // windows code goes here
 #else     
@@ -135,6 +135,8 @@ string uncompressMXLFile (
     
   string uncompressedFileName;
 
+
+#ifdef LINUX_KEY_WORD   
   {
     // build shell command to list the contents of the uncompress file
     stringstream s1;
@@ -161,8 +163,8 @@ string uncompressMXLFile (
       
       gIndenter--;
     }
-  
-    // create a stream to receive the result of listContentsShellCommand
+
+      // create a stream to receive the result of listContentsShellCommand
     FILE* inputStream =
       popen (
         listContentsShellCommand.c_str (),
@@ -406,6 +408,14 @@ string uncompressMXLFile (
     }
   }
 
+
+#elif WINDOWS_KEY_WORD    
+  // windows code goes here
+#else     
+  // platform not supported
+#endif
+
+
   return uncompressedFileName;
 }
 
@@ -469,8 +479,12 @@ FILE* convertFileDataEncoding (
     gIndenter--;
   }
 
+  FILE* inputStream = nullptr;
+
+
+#ifdef LINUX_KEY_WORD   
   // create a stream to receive the result of shellCommand
-  FILE* inputStream =
+  inputStream =
     popen (
       shellCommand.c_str (),
       "r");
@@ -482,6 +496,14 @@ FILE* convertFileDataEncoding (
       __FILE__, __LINE__,
       "Cannot read the input stream with 'popen ()'");
   }
+
+
+#elif WINDOWS_KEY_WORD    
+  // windows code goes here
+#else     
+  // platform not supported
+#endif
+
 
   return inputStream;
 }
@@ -777,6 +799,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
  // JMI  if (posInString != fileNameAsString.npos) {
     // yes, this is a compressed file
 
+    /* JMI OS dependent
     string uncompressedFileName =
       uncompressMXLFile (
         fileNameAsString,
@@ -785,6 +808,16 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     // the incompressed file in /tmp will be handled
     // instead of the compressed one 
     fileName = uncompressedFileName.c_str ();
+    */
+
+    logIOstream <<
+      "### You should uncompress MusicXML compressed file \"" <<
+      fileNameAsString <<
+      "\" prior to running xml2ly" <<
+      ", for example with unzip; exiting" <<
+      endl;
+
+    exit (333);
   }
 
   // read the input MusicXML data from the file
@@ -869,16 +902,24 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
   else if (encoding.size () == 0) {
+    stringstream s;
+    
+    s <<
+      "### MusicXML data in file \"" <<
+      fileNameAsString <<
+      "\" doesn't contain any encoding specification; exiting";
+          
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
-      "% MusicXML data doesn't contain any encoding specification, exiting");
+      s.str ());
       
-    exit (7);
+    exit (777);
   }
   
   else {
+    /* JMI OS dependent
     // convert file data
     FILE* inputStream =
       convertFileDataEncoding (
@@ -896,6 +937,18 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   
     // register encoding as the desired one after re-reading the file
     xmlDecl->setEncoding (desiredEncoding);
+    */
+
+    logIOstream <<
+      "### You should convert file \"" <<
+      fileName <<
+      "\" to \"" <<
+      desiredEncoding <<
+      "\" encoding prior to running xml2ly" <<
+      ", for example with iconv; exiting" <<
+      endl;
+
+    exit (555);
   }
  
   clock_t endClock = clock ();
@@ -1026,11 +1079,13 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     */
     
     logIOstream <<
-      "% You may wish to convert the input data to \"" <<
+      "### You should convert the stream input data to \"" <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", with iconv for example " <<
+      ", for example with iconv; exiting" <<
       endl;
+
+    exit (444);
   }
 
   clock_t endClock = clock ();

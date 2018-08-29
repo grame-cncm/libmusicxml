@@ -2959,9 +2959,9 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceGraceNotes) {
         fLogOutputStream <<
-          "Creating a skip clone of grace notes " <<
+          "Creating a skip clone of grace notes '" <<
           elt->asShortString () <<
-          " to work around LilyPond issue 34" <<
+          "' to work around LilyPond issue 34" <<
           endl;
       }
 #endif
