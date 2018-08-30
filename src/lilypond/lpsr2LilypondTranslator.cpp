@@ -1332,9 +1332,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 inputLineNumber,
                 noteSoundingWholeNotes);
 
-/* JMI
             if (fOnGoingVoiceCadenza) { // JMI
               if (noteSoundingWholeNotes != rational (1, 1)) {
+                /* JMI
                 // force the generation of the duration if needed
                 if (! gLilypondOptions->fAllDurations) {
                   fLilypondCodeIOstream << // JMI
@@ -1342,15 +1342,15 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                       inputLineNumber,
                       noteSoundingWholeNotes);
                 }
-
+                */
+                
                 // generate the multiplying factor
                 fLilypondCodeIOstream << // JMI
-      //            "*" <<
+                  "*" <<
                   noteSoundingWholeNotes <<
                   "";
               }
             }
-            */
           }
 
           // an unpitched rest is no relative octave reference,
