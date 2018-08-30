@@ -19,13 +19,11 @@
 
 #include <iomanip> // for setw()
 
-#ifdef LINUX_KEY_WORD   
+#ifdef WIN32
+  // JMI
+#else
   #include <unistd.h> // for pipe(), fork(), ...
   #include <stdio.h> // for popen()
-#elif WINDOWS_KEY_WORD    
-  // windows code goes here
-#else     
-  // platform not supported
 #endif
 
 #include "xml.h"
@@ -135,8 +133,9 @@ string uncompressMXLFile (
     
   string uncompressedFileName;
 
-
-#ifdef LINUX_KEY_WORD   
+#ifdef WIN32
+  // JMI
+#else
   {
     // build shell command to list the contents of the uncompress file
     stringstream s1;
@@ -407,14 +406,7 @@ string uncompressMXLFile (
         s.str ());
     }
   }
-
-
-#elif WINDOWS_KEY_WORD    
-  // windows code goes here
-#else     
-  // platform not supported
 #endif
-
 
   return uncompressedFileName;
 }
@@ -481,8 +473,9 @@ FILE* convertFileDataEncoding (
 
   FILE* inputStream = nullptr;
 
-
-#ifdef LINUX_KEY_WORD   
+#ifdef WIN32
+  // JMI
+#else
   // create a stream to receive the result of shellCommand
   inputStream =
     popen (
@@ -496,14 +489,7 @@ FILE* convertFileDataEncoding (
       __FILE__, __LINE__,
       "Cannot read the input stream with 'popen ()'");
   }
-
-
-#elif WINDOWS_KEY_WORD    
-  // windows code goes here
-#else     
-  // platform not supported
 #endif
-
 
   return inputStream;
 }
@@ -517,6 +503,9 @@ SXMLFile convertStreamDataEncoding (
 {
   SXMLFile result = nullptr;
   
+#ifdef WIN32
+  // JMI
+#else
   // build shell command
   stringstream s;
 
@@ -552,9 +541,6 @@ SXMLFile convertStreamDataEncoding (
     
     gIndenter--;
   }
-
-
-#ifdef LINUX_KEY_WORD   
 
   /*
   setup 2 pipes for the communication between parent and child,
@@ -749,17 +735,10 @@ SXMLFile convertStreamDataEncoding (
       break;
     } // switch
 
-  // both parent and child processses
-  return result;
-
-
-#elif WINDOWS_KEY_WORD    
-  // windows code goes here
-
-  
-#else     
-  // platform not supported
+  // both parent and child processses JMI
 #endif
+
+  return result;
 }
 
 //_______________________________________________________________________________

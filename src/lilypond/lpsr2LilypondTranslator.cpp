@@ -808,36 +808,84 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       i!=noteLigatures.end ();
       i++) {
       S_msrLigature ligature = (*i);
-      
+
       switch (ligature->getLigatureKind ()) {
         case msrLigature::kLigatureNone:
           break;
           
         case msrLigature::kLigatureStart:
           {
-            // compute ligature start edge height
-            string ligatureStartEdgeHeight;
+            /*
+              the edge height is relative to the voice,
+              i.e. a positive value points down in voices 1 and 3
+              and it points up in voices 2 and 4,
+            */
+            
+            // fetch note's voice
+            S_msrVoice
+              noteVoice =
+                note->
+                  getNoteMeasureUplink ()->
+                    getMeasureSegmentUplink ()->
+                      getSegmentVoiceUplink ();
+
+            // determine vertical flipping factor
+            int ligatureVerticalFlippingFactor = 0;
                 
+            switch (noteVoice->getRegularVoiceStaffSequentialNumber ()) {
+              case 1:
+              case 3:
+                ligatureVerticalFlippingFactor = 1;
+                break;
+              case 2:
+              case 4:
+                ligatureVerticalFlippingFactor = -1;
+                break;
+              default:
+                ;
+            } // switch
+
+#ifdef TRACE_OPTIONS
+            if (gTraceOptions->fTraceLigatures) {
+              fLogOutputStream <<
+                "Ligature vertical flipping factore for note '" <<
+                note->asString () <<
+                "' in voice \"" <<
+                noteVoice->getVoiceName () <<
+                "\" is " <<
+                ligatureVerticalFlippingFactor <<
+                ", line " << ligature->getInputLineNumber () <<
+                endl;
+            }
+#endif
+
+            // compute ligature start edge height
+            const float edgeHeightAbsValue = 0.75;
+            
+            float       ligatureStartEdgeHeight;
+
             switch (ligature->getLigatureLineEndKind ()) {
               case msrLigature::kLigatureLineEndUp:
-                ligatureStartEdgeHeight = "-0.7";
+                ligatureStartEdgeHeight =
+                  - ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
               case msrLigature::kLigatureLineEndDown:
-                ligatureStartEdgeHeight = "0.7";
+                ligatureStartEdgeHeight =
+                  ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
               case msrLigature::kLigatureLineEndBoth: // JMI
-                ligatureStartEdgeHeight = "-0.7";
+                  - ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
-              case msrLigature::kLigatureLineEndArrow:
+              case msrLigature::kLigatureLineEndArrow: // JMI
                 fLilypondCodeIOstream <<
                   "%{ligatureLineEndArrow???%} ";
                 break;
                 
               case msrLigature::kLigatureLineEndNone:
-                ligatureStartEdgeHeight = "0";
+                ligatureStartEdgeHeight = 0;
                 break;
             } // switch
 
@@ -848,28 +896,31 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                   getLigatureOtherEndSidelink ();
 
             // compute ligature end edge height
-            string ligatureEndEdgeHeight;
+            float ligatureEndEdgeHeight;
                 
             switch (ligatureOtherEnd->getLigatureLineEndKind ()) {
               case msrLigature::kLigatureLineEndUp:
-                ligatureEndEdgeHeight = "-0.7";
+                ligatureEndEdgeHeight =
+                  - ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
               case msrLigature::kLigatureLineEndDown:
-                ligatureEndEdgeHeight = "0.7";
+                ligatureEndEdgeHeight =
+                  ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
               case msrLigature::kLigatureLineEndBoth: // JMI
-                ligatureEndEdgeHeight = "-0.7";
+                ligatureEndEdgeHeight =
+                  - ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
-              case msrLigature::kLigatureLineEndArrow:
+              case msrLigature::kLigatureLineEndArrow: // JMI
                 fLilypondCodeIOstream <<
                   "%{ligatureLineEndArrow???%} ";
                 break;
                 
               case msrLigature::kLigatureLineEndNone:
-                ligatureEndEdgeHeight = "0";
+                ligatureEndEdgeHeight = 0;
                 break;
             } // switch
 
@@ -877,8 +928,10 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             fLilypondCodeIOstream <<
               endl <<
               "\\once \\override Staff.LigatureBracket.edge-height = #'(" <<
+              setprecision (2) <<
               ligatureStartEdgeHeight <<
               " . " <<
+              setprecision (2) <<
               ligatureEndEdgeHeight <<
               ")" <<
               " %{ " <<

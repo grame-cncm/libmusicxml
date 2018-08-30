@@ -14,7 +14,11 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include "unistd.h"
+#ifdef WIN32
+  // JMI
+#else
+  #include "unistd.h"
+#endif
 
 #include <iostream>
 #include <sstream>

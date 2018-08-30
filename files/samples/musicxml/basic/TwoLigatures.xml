@@ -127,82 +127,6 @@
           <words default-y="37" relative-x="-46">Chorus</words>
         </direction-type>
       </direction>
-      <note default-x="70">
-        <pitch>
-          <step>C</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>none</stem>
-        <lyric default-y="-64" justify="left" number="1" relative-x="-18">
-          <syllabic>begin</syllabic>
-          <text>Ma</text>
-        </lyric>
-      </note>
-      <note default-x="95">
-        <pitch>
-          <step>D</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>none</stem>
-        <lyric default-y="-64" justify="left" number="1" relative-x="-12">
-          <syllabic>middle</syllabic>
-          <text>gni</text>
-        </lyric>
-      </note>
-      <note default-x="119">
-        <pitch>
-          <step>C</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>none</stem>
-        <notations>
-          <slur number="1" placement="above" type="start"/>
-        </notations>
-        <lyric default-y="-64" justify="left" number="1">
-          <syllabic>middle</syllabic>
-          <text>fi</text>
-        </lyric>
-      </note>
-      <note default-x="143">
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>none</stem>
-        <notations>
-          <slur number="1" type="stop"/>
-        </notations>
-      </note>
-      <note default-x="170">
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>none</stem>
-        <lyric default-y="-64" justify="left" number="1" relative-x="-6">
-          <syllabic>end</syllabic>
-          <text>cat</text>
-        </lyric>
-      </note>
-    </measure>
-    <!--=======================================================-->
-    <measure number="2" width="168">
-      <print new-system="no"/>
       <note default-x="13">
         <pitch>
           <step>C</step>
@@ -288,16 +212,6 @@
         </clef>
         <staff-details print-object="no" print-spacing="yes"/>
       </attributes>
-      <sound tempo="60"/>
-      <note>
-        <rest measure="yes"/>
-        <duration>40</duration>
-        <voice>1</voice>
-      </note>
-    </measure>
-    <!--=======================================================-->
-    <measure number="2" width="168">
-      <print new-system="no"/>
       <direction placement="below">
         <direction-type>
           <bracket default-y="-55" line-end="up" line-type="solid" number="1" relative-x="-6" type="start"/>
