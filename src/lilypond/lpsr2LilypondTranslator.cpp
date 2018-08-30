@@ -9226,7 +9226,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the note line number as a comment
     fLilypondCodeIOstream <<
-      "%{ " << elt->getInputLineNumber () << " %} ";
+      "%{ " << elt->getInputLineNumber () << " %} " <<
+      endl; // JMI
   }
   
   fOnGoingNote = true;

@@ -14179,7 +14179,7 @@ void msrMeasure::finalizeMeasure (
 
   gIndenter--;
 
-  if (true && fMeasureNumber == "16") { // JMI
+  if (false && fMeasureNumber == "16") { // JMI
     gLogIOstream <<
       endl <<
       endl <<

@@ -1207,6 +1207,7 @@ string makeSingleWordFromString (const string& theString)
 #ifdef WIN32
   // JMI
 #else
+/* JMI
 IConv::IConv (const char* to, const char* from) 
   : fIconvDescriptor (iconv_open (to, from))
 {
@@ -1458,6 +1459,7 @@ bool IConv::convert (std::string& input, std::string& output)
   // return boolean result
   return iconvResult != (size_t)(-1);
 }
+*/
 #endif
 
 //______________________________________________________________________________
