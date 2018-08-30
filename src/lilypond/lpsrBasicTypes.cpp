@@ -185,16 +185,16 @@ string wholeNotesAsLilypondString (
       endl;
   }
 
-/*
-augmentation dots add half the preceding increment to the duration:
-they constitue a series of frations or the form '(2^n-1) / 2^n',
-starting with 3/2, 7/4, 15/8,
-that tends towards 2 while always remaining less than two.
-
-with MusicXML's limitation to 1024th of a whole note,
-with LilyPond's limitation to 128th of a whole note,
-valid numerators are:
-*/
+  /*
+    augmentation dots add half the preceding increment to the duration:
+    they constitue a series of frations or the form '(2^n-1) / 2^n',
+    starting with 3/2, 7/4, 15/8,
+    that tends towards 2 while always remaining less than two.
+    
+    with MusicXML's limitation to 1024th of a whole note,
+    with LilyPond's limitation to 128th of a whole note,
+    valid numerators are:
+  */
 
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
@@ -242,60 +242,82 @@ valid numerators are:
       endl;
   }
 
-/*
-valid denominators are powers of 2
-
-the rational representing a dotted duration has to be brought
-to a value less than two, as explained above
-
-this is done by changing it denominator in the resulting string:
-
- whole notes        string
-     3/1              \breve.
-     3/2              1.
-     3/4              2.
-     3/8              4.
-
-     7/1              \longa..
-     7/2              \breve..
-     7/4              1..
-     7/8              2..         
-
-since such resulting denominators can be fractions of wholes notes
-as well as multiple thereof,
-we'll be better of using binary logarithms for the computations
-
-*/
+  /*
+    valid denominators are powers of 2
+    
+    the rational representing a dotted duration has to be brought
+    to a value less than two, as explained above
+    
+    this is done by changing it denominator in the resulting string:
+    
+     whole notes        string
+         3/1              \breve.
+         3/2              1.
+         3/4              2.
+         3/8              4.
+    
+         7/1              \longa..
+         7/2              \breve..
+         7/4              1..
+         7/8              2..         
+    
+    since such resulting denominators can be fractions of wholes notes
+    as well as multiple thereof,
+    we'll be better of using binary logarithms for the computations
+  */
 
   int durationLog = lpsrDurationBinaryLogarithm (denominator);
 
-/* JMI
   if (durationLog == INT_MIN) {
-    stringstream s;
-        
-    s <<
-      "denominator " << denominator <<
-      " is no power of two between 1 and 128" <<
- //     " is no power of two between 1 and 1024" <<
-      ", whole notes duration " <<
-      numerator << "/" << denominator;
-
-    if (rationalHasBeenSimplified) {
+     string result;
+    
+    {
+      string durationToUse = "64"; // JMI
+  
+      stringstream s;
+      
       s <<
-        " (" << numerator << "/" << denominator << ")" <<
-      endl;
+        durationToUse <<
+        "*" <<
+        durationToUse <<
+        "/" <<
+        numerator;
+  
+      result = s.str ();
     }
 
-    s <<
-      " cannot be represented as a LilyPond string";
+    {
+      stringstream s;
+          
+      s <<
+        "denominator " << denominator <<
+        " is no power of two between 1 and 128" <<
+   //     " is no power of 2 between 1 and 1024" <<
+        ", whole notes duration " <<
+        numerator << "/" << denominator;
+  
+      if (rationalHasBeenSimplified) {
+        s <<
+          " (" << numerator << "/" << denominator << ")" <<
+        endl;
+      }
+  
+      s <<
+        " cannot be represented as a dotted power of 2" <<
+        ", " <<
+        result <<
+        " will be used";
+  
+   //   msrMusicXMLError ( JMI
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+    //    __FILE__, __LINE__,
+        s.str ());
+    }
 
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
+    return result;
   }
-*/
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
