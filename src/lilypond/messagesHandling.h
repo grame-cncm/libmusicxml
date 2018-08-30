@@ -16,6 +16,8 @@
 #include <iomanip> // for 'setw()'
 #include <set>     // for 'setw()'
 
+#include "exports.h"
+
 
 namespace MusicXML2 
 {
@@ -108,7 +110,7 @@ void msrStreamsWarning (
 extern std::set<int> gWarningsInputLineNumbers;
 extern std::set<int> gErrorsInputLineNumbers;
 
-void displayWarningsAndErrorsInputLineNumbers ();
+EXP void displayWarningsAndErrorsInputLineNumbers ();
 
 }
 
