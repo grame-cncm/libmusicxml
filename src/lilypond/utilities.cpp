@@ -1204,7 +1204,9 @@ string makeSingleWordFromString (const string& theString)
 }
 
 //______________________________________________________________________________
-/* JMI
+#ifdef WIN32
+  // JMI
+#else
 IConv::IConv (const char* to, const char* from) 
   : fIconvDescriptor (iconv_open (to, from))
 {
@@ -1456,9 +1458,12 @@ bool IConv::convert (std::string& input, std::string& output)
   // return boolean result
   return iconvResult != (size_t)(-1);
 }
-*/
+#endif
 
 //______________________________________________________________________________
+#ifdef WIN32
+  // JMI
+#else
 inline IFdStreambuf::IFdStreambuf(int fd)
 :
   d_fd (fd)
@@ -1475,9 +1480,12 @@ inline int IFdStreambuf::underflow ()
   
   return static_cast<unsigned char> (*gptr ());
 }
-
+#endif
 
 //______________________________________________________________________________
+#ifdef WIN32
+  // JMI
+#else
 S_IFdNStreambuf IFdNStreambuf::create ()
 {
   IFdNStreambuf* o =
@@ -1564,8 +1572,12 @@ std::streamsize IFdNStreambuf::xsgetn (char *dest, std::streamsize n)
 
   return nread;
 }
+#endif
 
 //______________________________________________________________________________
+#ifdef WIN32
+  // JMI
+#else
 OFdnStreambuf::OFdnStreambuf ()
   :
     d_bufsize (0),
@@ -1616,11 +1628,15 @@ int OFdnStreambuf::overflow (int c)
   }
   return c;
 }
+#endif
 
 
 }
 
 /* JMI
+#ifdef WIN32
+  // JMI
+#else
 
 int main(int argc, char **argv)
 {
@@ -1743,4 +1759,5 @@ int main(int argc, char **argv)
       endl <<
       endl;
   }
+#endif
 */

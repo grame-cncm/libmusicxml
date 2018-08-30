@@ -28,7 +28,12 @@
 #include <algorithm>
 
 #include <string.h> 
-//#include <iconv.h> 
+
+#ifdef WIN32
+  // JMI
+#else
+  #include <iconv.h> 
+#endif
 
 #include "smartpointer.h"
 #include "basevisitor.h"
@@ -424,7 +429,9 @@ std::string baseName (const std::string &filename);
 std::string makeSingleWordFromString (const std::string& theString);
 
 //______________________________________________________________________________
-/* JMI
+#ifdef WIN32
+  // JMI
+#else
 class IConv {
   // see https://stackoverflow.com/questions/8104154/iconv-only-works-once
 
@@ -448,9 +455,12 @@ class IConv {
     size_t                fOutputBufferSize;
     char*                 fOutputBuffer;
 };
-*/
+#endif
 
 //______________________________________________________________________________
+#ifdef WIN32
+  // JMI
+#else
 // see: http://www.icce.rug.nl/documents/cplusplus/
 class IFdStreambuf: public std::streambuf, public smartable
 {
@@ -468,8 +478,12 @@ class IFdStreambuf: public std::streambuf, public smartable
     int                   underflow ();
 };
 typedef SMARTP<IFdStreambuf> S_IFdStreambuf;
+#endif
 
 //______________________________________________________________________________
+#ifdef WIN32
+  // JMI
+#else
 // see: http://www.icce.rug.nl/documents/cplusplus/
 class IFdNStreambuf: public std::streambuf, public smartable
 {
@@ -502,8 +516,12 @@ class IFdNStreambuf: public std::streambuf, public smartable
                           xsgetn (char *dest, std::streamsize n);
 };
 typedef SMARTP<IFdNStreambuf> S_IFdNStreambuf;
+#endif
 
 //______________________________________________________________________________
+#ifdef WIN32
+  // JMI
+#else
 // see: http://www.icce.rug.nl/documents/cplusplus/
 class OFdnStreambuf: public std::streambuf, public smartable
 {
@@ -528,6 +546,7 @@ class OFdnStreambuf: public std::streambuf, public smartable
     virtual int           overflow (int c);
 };
 typedef SMARTP<OFdnStreambuf> S_OFdnStreambuf;
+#endif
 
 
 } // namespace MusicXML2
