@@ -11,7 +11,7 @@
 */
 
 #ifndef __msrStavesDetails__
-#define __StavesDetails__
+#define __msrStavesDetails__
 
 #include <list>
 
