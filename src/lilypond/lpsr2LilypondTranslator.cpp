@@ -1210,7 +1210,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         fLilypondCodeIOstream << "\\tweak style #'triangle ";
         break;
       case msrNote::kNoteHeadDiamond:
-        fLilypondCodeIOstream << "\\tweak style #'diamond ";
+   // JMI     fLilypondCodeIOstream << "\\tweak style #'diamond ";
+        fLilypondCodeIOstream << "\\harmonic ";
         break;
       case msrNote::kNoteHeadSquare:
         fLilypondCodeIOstream << "\\tweak style #'la ";
@@ -4222,9 +4223,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           if (partGroupName.size ()) {
             fLilypondCodeIOstream <<
               endl <<
+              "\\new StaffGroup" <<
+              endl <<
               "\\with {" <<
-              " % kPartGroupImplicitNo " << // JMI
-              partGroupName <<
               endl;
           }
           break;
@@ -4879,7 +4880,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
 
     case msrStaff::kDrumStaff:
       staffContextName = "\\context DrumStaff";
-      voiceContextName = "DrumVoiceVoice";
+      voiceContextName = "DrumVoice";
         // the "DrumVoice" alias exists, use it
       break;
       
@@ -7584,7 +7585,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  S_msrWords tempoWords = elt->getTempoWords ();
+  const list<S_msrWords>&
+    tempoWordsList =
+      elt->getTempoWordsList ();
+  
+  int tempoWordsListSize = tempoWordsList.size ();
   
   msrDottedDuration tempoBeatUnit  = elt->getTempoBeatUnit ();
   string            tempoPerMinute = elt->getTempoPerMinute ();
@@ -7615,16 +7620,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
           fLilypondCodeIOstream <<
-            "\\tempo";
-
-        /* JMI
-          if (tempoWords) {
-            fLilypondCodeIOstream <<
-              " \"" << tempoWords->getWordsContents () << "\"";
-          }
-   */ 
-          fLilypondCodeIOstream <<
-            " " <<
+            "\\tempo " <<
             "\\markup {" <<
             endl;
     
@@ -7641,10 +7637,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
             endl;
             
           gIndenter++;
-          
-          if (tempoWords) {
-            fLilypondCodeIOstream <<
-              " \"" << tempoWords->getWordsContents () << "\"";
+  
+          if (tempoWordsListSize) {
+            list<S_msrWords>::const_iterator
+              iBegin = tempoWordsList.begin (),
+              iEnd   = tempoWordsList.end (),
+              i      = iBegin;
+              
+            for ( ; ; ) {
+              S_msrWords words = (*i);
+        
+              fLilypondCodeIOstream <<
+                "\"" << words->getWordsContents () << "\"";
+                
+              if (++i == iEnd) break;
+              
+              fLilypondCodeIOstream <<
+                " ";
+            } // for
           }
 
           fLilypondCodeIOstream <<
@@ -7678,38 +7688,66 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           fLilypondCodeIOstream <<
             "}" <<
             endl;
-          break;
+        break;
 
-        case msrTempo::kTempoParenthesizedNo:
-          fLilypondCodeIOstream <<
-            "\\tempo";
+      case msrTempo::kTempoParenthesizedNo:
+        fLilypondCodeIOstream <<
+          "\\tempo ";
         
-          if (tempoWords) {
+        if (tempoWordsListSize) {
+          list<S_msrWords>::const_iterator
+            iBegin = tempoWordsList.begin (),
+            iEnd   = tempoWordsList.end (),
+            i      = iBegin;
+            
+          for ( ; ; ) {
+            S_msrWords words = (*i);
+      
             fLilypondCodeIOstream <<
-              " \"" << tempoWords->getWordsContents () << "\"";
-          }
-    
-          fLilypondCodeIOstream <<
-            " " <<
-            dottedDurationAsLilypondString (
-              inputLineNumber,
-              tempoBeatUnit) <<
-            " = " <<
-            tempoPerMinute;
+              "\"" << words->getWordsContents () << "\"";
+              
+            if (++i == iEnd) break;
+            
+            fLilypondCodeIOstream <<
+              " ";
+          } // for
+        }
+  
+        fLilypondCodeIOstream <<
+          " " <<
+          dottedDurationAsLilypondString (
+            inputLineNumber,
+            tempoBeatUnit) <<
+          " = " <<
+          tempoPerMinute;
 
-          fLilypondCodeIOstream <<
-            endl;
-          break;
+        fLilypondCodeIOstream <<
+          endl;
+        break;
       } // switch
       break;
 
     case msrTempo::kTempoBeatUnitsEquivalence:
       fLilypondCodeIOstream <<
-        "\\tempo";
+        "\\tempo ";
     
-      if (tempoWords) {
-        fLilypondCodeIOstream <<
-          " \"" << tempoWords->getWordsContents () << "\"";
+      if (tempoWordsListSize) {
+        list<S_msrWords>::const_iterator
+          iBegin = tempoWordsList.begin (),
+          iEnd   = tempoWordsList.end (),
+          i      = iBegin;
+          
+        for ( ; ; ) {
+          S_msrWords words = (*i);
+    
+          fLilypondCodeIOstream <<
+            "\"" << words->getWordsContents () << "\"";
+            
+          if (++i == iEnd) break;
+          
+          fLilypondCodeIOstream <<
+            " ";
+        } // for
       }
 
       fLilypondCodeIOstream <<
@@ -7776,16 +7814,29 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       fLilypondCodeIOstream <<
         "}" <<
         endl;
-        
       break;
       
     case msrTempo::kTempoNotesRelationShip:
       fLilypondCodeIOstream <<
         "\\tempoRelationship #\"";
 
-      if (tempoWords) {
-        fLilypondCodeIOstream <<
-          tempoWords->getWordsContents ();
+      if (tempoWordsListSize) {
+        list<S_msrWords>::const_iterator
+          iBegin = tempoWordsList.begin (),
+          iEnd   = tempoWordsList.end (),
+          i      = iBegin;
+          
+        for ( ; ; ) {
+          S_msrWords words = (*i);
+    
+          fLilypondCodeIOstream <<
+            "\"" << words->getWordsContents () << "\"";
+            
+          if (++i == iEnd) break;
+          
+          fLilypondCodeIOstream <<
+            " ";
+        } // for
       }
 
       fLilypondCodeIOstream <<

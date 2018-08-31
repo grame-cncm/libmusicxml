@@ -138,12 +138,6 @@ string msrTempoNote::asString () const
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrTempoNote& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrTempoNote::print (ostream& os)
 {  
   os <<
@@ -192,6 +186,12 @@ void msrTempoNote::print (ostream& os)
     }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTempoNote& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -570,12 +570,6 @@ void msrTempoTuplet::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrTempoTuplet& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTempoTuplet::asString () const
 {
   stringstream s;
@@ -768,6 +762,12 @@ void msrTempoTuplet::print (ostream& os)
   gIndenter--;
 }
 
+ostream& operator<< (ostream& os, const S_msrTempoTuplet& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrTempoRelationshipElements msrTempoRelationshipElements::create (
   int      inputLineNumber,
@@ -882,12 +882,6 @@ string msrTempoRelationshipElements::asString () const
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTempoRelationshipElements::tempoRelationshipElementsKindAsString (
   msrTempoRelationshipElementsKind tempoRelationshipElementsKind)
 {
@@ -954,10 +948,15 @@ void msrTempoRelationshipElements::print (ostream& os)
   gIndenter--;
 }
 
+ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
   int               inputLineNumber,
-  S_msrWords        tempoWords,
   msrDottedDuration tempoBeatUnit,
   string            tempoPerMinute,
   msrTempoParenthesizedKind
@@ -967,7 +966,6 @@ S_msrTempo msrTempo::create (
   msrTempo* o =
     new msrTempo (
       inputLineNumber,
-      tempoWords,
       tempoBeatUnit,
       tempoPerMinute,
       tempoParenthesizedKind,
@@ -978,7 +976,6 @@ S_msrTempo msrTempo::create (
 
 S_msrTempo msrTempo::create (
   int               inputLineNumber,
-  S_msrWords        tempoWords,
   msrDottedDuration tempoBeatUnit,
   msrDottedDuration tempoEquivalentBeatUnit,
   msrTempoParenthesizedKind
@@ -988,7 +985,6 @@ S_msrTempo msrTempo::create (
   msrTempo* o =
     new msrTempo (
       inputLineNumber,
-      tempoWords,
       tempoBeatUnit,
       tempoEquivalentBeatUnit,
       tempoParenthesizedKind,
@@ -999,7 +995,6 @@ S_msrTempo msrTempo::create (
 
 S_msrTempo msrTempo::create (
   int               inputLineNumber,
-  S_msrWords        tempoWords,
   S_msrTempoRelationshipElements
                     tempoRelationLeftElements,
   S_msrTempoRelationshipElements
@@ -1011,7 +1006,6 @@ S_msrTempo msrTempo::create (
   msrTempo* o =
     new msrTempo (
       inputLineNumber,
-      tempoWords,
       tempoRelationLeftElements,
       tempoRelationRightElements,
       tempoParenthesizedKind,
@@ -1022,7 +1016,6 @@ S_msrTempo msrTempo::create (
 
 msrTempo::msrTempo (
   int               inputLineNumber,
-  S_msrWords        tempoWords,
   msrDottedDuration tempoBeatUnit,
   string            tempoPerMinute,
   msrTempoParenthesizedKind
@@ -1033,9 +1026,7 @@ msrTempo::msrTempo (
       fTempoEquivalentBeatUnit ()
 {
   fTempoKind = kTempoBeatUnitsPerMinute;
-  
-  fTempoWords = tempoWords;
-  
+    
   fTempoPerMinute = tempoPerMinute;
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
@@ -1045,7 +1036,6 @@ msrTempo::msrTempo (
 
 msrTempo::msrTempo (
   int               inputLineNumber,
-  S_msrWords        tempoWords,
   msrDottedDuration tempoBeatUnit,
   msrDottedDuration tempoEquivalentBeatUnit,
   msrTempoParenthesizedKind
@@ -1057,8 +1047,6 @@ msrTempo::msrTempo (
 {
   fTempoKind = kTempoBeatUnitsEquivalence;
   
-  fTempoWords = tempoWords;
-
   fTempoPerMinute = "";
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
@@ -1068,7 +1056,6 @@ msrTempo::msrTempo (
 
 msrTempo::msrTempo (
   int               inputLineNumber,
-  S_msrWords        tempoWords,
   S_msrTempoRelationshipElements
                     tempoRelationLeftElements,
   S_msrTempoRelationshipElements
@@ -1080,8 +1067,6 @@ msrTempo::msrTempo (
 {
   fTempoKind = kTempoNotesRelationShip;
   
-  fTempoWords = tempoWords;
-
   fTempoPerMinute = "";
 
   fTempoRelationLeftElements =
@@ -1236,18 +1221,11 @@ string msrTempo::asString () const
   s <<
     "Tempo" <<
     ", tempoKind = \"" << tempoKindAsString (fTempoKind) << "\"" <<
-    ", tempoWords = \"" << fTempoWords << "\"" <<
     ", " << fTempoBeatUnit << " = " << fTempoPerMinute <<
     ", fTempoParenthesizedKind = "  <<
     tempoParenthesizedAsString (fTempoParenthesizedKind);
 
   return s.str ();
-}
-
-ostream& operator<< (ostream& os, const S_msrTempo& elt)
-{
-  elt->print (os);
-  return os;
 }
 
 void msrTempo::print (ostream& os)
@@ -1270,16 +1248,22 @@ void msrTempo::print (ostream& os)
     setw (fieldWidth) <<
     "tempoWords";
     
-  if (fTempoWords) {
+  if (fPendingWordsList.size ()) {
     os <<
-      ":" <<
       endl;
       
     gIndenter++;
-    
-    os <<
-      fTempoWords;
-      
+          
+    list<S_msrWords>::const_iterator
+      iBegin = fPendingWordsList.begin (),
+      iEnd   = fPendingWordsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
     gIndenter--;
   }
   else {
@@ -1350,6 +1334,12 @@ void msrTempo::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrTempo& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

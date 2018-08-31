@@ -148,6 +148,15 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree,
         gLogIOstream);
 
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter value after pass 2a: "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+
+    gIndenter.resetToZero ();
+  }
+
   if (! mScore) {
     gLogIOstream <<
       "### Conversion from MusicCML to an MSR skeleton failed ###" <<
@@ -170,6 +179,15 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
     mxmlTree,
     scoreSkeleton,
     gLogIOstream);
+
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter value after pass 2b: "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+
+    gIndenter.resetToZero ();
+  }
 }
 
 //_______________________________________________________________________________
@@ -185,6 +203,15 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
         gMsrOptions,
         gLpsrOptions,
         gLogIOstream);
+  }
+
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter value after pass 3: "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+
+    gIndenter.resetToZero ();
   }
 
   if (! lpScore) {
@@ -279,6 +306,15 @@ void convertLpsrScoreToLilypondCode_Pass4 (
           
       outFileStream.close ();
     }
+  }
+
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter value after pass 4: "<< gIndenter.getIndent () << " ###" <<
+      endl <<
+      endl;
+
+    gIndenter.resetToZero ();
   }
 }
 

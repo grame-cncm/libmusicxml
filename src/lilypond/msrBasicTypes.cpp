@@ -12269,7 +12269,7 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-#define DEBUG_WHOLE_NOTES 1
+#define DEBUG_WHOLE_NOTES 0
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<

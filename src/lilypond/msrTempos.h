@@ -208,8 +208,6 @@ class msrTempoTuplet : public msrElement
                             int containingTempoTupletNormalNotes);
 */
 
-    string                asString () const;
-
   public:
 
     // visitors
@@ -224,6 +222,8 @@ class msrTempoTuplet : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -370,7 +370,6 @@ class msrTempo : public msrElement
 
     static SMARTP<msrTempo> create (
       int               inputLineNumber,
-      S_msrWords        tempoWords,
       msrDottedDuration tempoBeatUnit,
       string            tempoPerMinute,
       msrTempoParenthesizedKind
@@ -379,7 +378,6 @@ class msrTempo : public msrElement
 
     static SMARTP<msrTempo> create (
       int               inputLineNumber,
-      S_msrWords        tempoWords,
       msrDottedDuration tempoBeatUnit,
       msrDottedDuration tempoEquivalentBeatUnit,
       msrTempoParenthesizedKind
@@ -388,7 +386,6 @@ class msrTempo : public msrElement
 
     static SMARTP<msrTempo> create (
       int               inputLineNumber,
-      S_msrWords        tempoWords,
       S_msrTempoRelationshipElements
                         tempoRelationLeftElements,
       S_msrTempoRelationshipElements
@@ -404,7 +401,6 @@ class msrTempo : public msrElement
 
     msrTempo (
       int               inputLineNumber,
-      S_msrWords        tempoWords,
       msrDottedDuration tempoBeatUnit,
       string            tempoPerMinute,
       msrTempoParenthesizedKind
@@ -413,7 +409,6 @@ class msrTempo : public msrElement
       
     msrTempo (
       int               inputLineNumber,
-      S_msrWords        tempoWords,
       msrDottedDuration tempoBeatUnit,
       msrDottedDuration tempoEquivalentBeatUnit,
       msrTempoParenthesizedKind
@@ -422,7 +417,6 @@ class msrTempo : public msrElement
       
     msrTempo (
       int               inputLineNumber,
-      S_msrWords        tempoWords,
       S_msrTempoRelationshipElements
                         tempoRelationLeftElements,
       S_msrTempoRelationshipElements
@@ -441,12 +435,10 @@ class msrTempo : public msrElement
     msrTempoKind          getTempoKind () const
                               { return fTempoKind; }
 
-    void                  setTempoWords (S_msrWords tempoWords) // JMI
-                              { fTempoWords = tempoWords; }
-
-    S_msrWords            getTempoWords () const
-                              { return fTempoWords; }
-
+    const list<S_msrWords>&
+                          getTempoWordsList () const
+                              { return fPendingWordsList; }
+    
     msrDottedDuration     getTempoBeatUnit () const
                               { return fTempoBeatUnit; }
 
@@ -466,8 +458,11 @@ class msrTempo : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                asString () const;
-    
+    void                  appendWordsToTempo (S_msrWords tempoWords)
+                              {
+                                fPendingWordsList.push_back (tempoWords);
+                              }
+
   public:
 
     // visitors
@@ -483,6 +478,8 @@ class msrTempo : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -492,8 +489,8 @@ class msrTempo : public msrElement
 
     msrTempoKind          fTempoKind;
     
-    S_msrWords            fTempoWords;
-    
+    list<S_msrWords>      fPendingWordsList;
+
     msrDottedDuration     fTempoBeatUnit;
     
     string                fTempoPerMinute; // '90' or '132-156' for example

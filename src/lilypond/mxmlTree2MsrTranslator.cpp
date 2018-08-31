@@ -3498,7 +3498,59 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       s.str ());    
   }
 
-  // handle metrenome words if any
+  // create the tempo
+  S_msrTempo tempo;
+    
+  switch (tempoKind) {
+    case msrTempo::k_NoTempoKind:
+      break;
+
+    case msrTempo::kTempoBeatUnitsPerMinute:
+      {
+        msrDottedDuration
+          beatUnits =
+            fCurrentMetronomeBeatUnitsVector [0];
+  
+        tempo =
+          msrTempo::create (
+            inputLineNumber,
+            beatUnits,
+            fCurrentMetrenomePerMinute,
+            fCurrentMetronomeParenthesedKind,
+            fCurrentDirectionPlacementKind);
+        }
+      break;
+
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      {
+        msrDottedDuration
+          beatUnits =
+            fCurrentMetronomeBeatUnitsVector [0];
+  
+        tempo =
+          msrTempo::create (
+            inputLineNumber,
+            beatUnits,
+            fCurrentMetronomeBeatUnitsVector [1],
+            fCurrentMetronomeParenthesedKind,
+            fCurrentDirectionPlacementKind);
+      }
+      break;
+
+    case msrTempo::kTempoNotesRelationShip:
+      {
+      }
+      tempo =
+        msrTempo::create (
+          inputLineNumber,
+          fCurrentMetronomeRelationLeftElements,
+          fCurrentMetronomeRelationRightElements,
+          fCurrentMetronomeParenthesedKind,
+          fCurrentDirectionPlacementKind);
+      break;
+  } // switch
+
+  // append metrenome words to tempo if any
   S_msrWords tempoWords;
 
   int pendingWordsSize = fPendingWords.size ();
@@ -3518,68 +3570,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         s.str ());
     }
 
-    // handling only the first of the pending words
-    tempoWords =
-      fPendingWords.front ();
+    while (fPendingWords.size ()) {
+      S_msrWords
+        words =
+          fPendingWords.front ();
 
-    // forget about this words
-    fPendingWords.pop_front ();
+      // append the words to the temp
+      tempo->appendWordsToTempo (
+        words);
+        
+       // remove it from the list
+      fPendingWords.pop_front ();
+    } // while
   }
-
-  // create the tempo
-  S_msrTempo tempo;
-    
-  switch (tempoKind) {
-    case msrTempo::k_NoTempoKind:
-      break;
-
-    case msrTempo::kTempoBeatUnitsPerMinute:
-      {
-        msrDottedDuration
-          beatUnits =
-            fCurrentMetronomeBeatUnitsVector [0];
-  
-        tempo =
-          msrTempo::create (
-            inputLineNumber,
-            tempoWords,
-            beatUnits,
-            fCurrentMetrenomePerMinute,
-            fCurrentMetronomeParenthesedKind,
-            fCurrentDirectionPlacementKind);
-        }
-      break;
-
-    case msrTempo::kTempoBeatUnitsEquivalence:
-      {
-        msrDottedDuration
-          beatUnits =
-            fCurrentMetronomeBeatUnitsVector [0];
-  
-        tempo =
-          msrTempo::create (
-            inputLineNumber,
-            tempoWords,
-            beatUnits,
-            fCurrentMetronomeBeatUnitsVector [1],
-            fCurrentMetronomeParenthesedKind,
-            fCurrentDirectionPlacementKind);
-      }
-      break;
-
-    case msrTempo::kTempoNotesRelationShip:
-      {
-      }
-      tempo =
-        msrTempo::create (
-          inputLineNumber,
-          tempoWords,
-          fCurrentMetronomeRelationLeftElements,
-          fCurrentMetronomeRelationRightElements,
-          fCurrentMetronomeParenthesedKind,
-          fCurrentDirectionPlacementKind);
-      break;
-  } // switch
 
   // append the tempo to the pending tempos list
   fPendingTempos.push_back (tempo);
