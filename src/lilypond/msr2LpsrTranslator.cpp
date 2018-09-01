@@ -3531,14 +3531,20 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
     fLogOutputStream <<
       "--> Start visiting msrBeam" <<
       ", line " << elt->getInputLineNumber () <<
+// JMI      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
+// JMI      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
       endl;
   }
 
+  // a beam may be present at the same time
+  // in a note and the chord the latter belongs to
+  
   if (fOnGoingNote) {
     fCurrentNoteClone->
       appendBeamToNote (elt);
   }
-  else if (fOnGoingChord) {
+
+  if (fOnGoingChord) {
     fCurrentChordClone->
       appendBeamToChord (elt);
   }

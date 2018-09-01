@@ -14441,6 +14441,22 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
     chord->
       appendBeamToChord ((*i));
   } // for      
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
+    fLogOutputStream <<
+      "==> AFTER Copying beams to chord:" <<
+      endl;
+
+    gIndenter++;
+    
+    fLogOutputStream <<
+      chord <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
 }
 
 //______________________________________________________________________________
@@ -15789,6 +15805,66 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
+  S_msrNote note)
+{
+  // attach the pending beams if any to the note
+  if (fPendingBeams.size ()) {
+    bool delayAttachment = false;
+        
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceBeams) {
+      fLogOutputStream <<
+        "Attaching pending beams to note " <<
+        note->asString () <<
+        endl;
+    }
+#endif
+
+    if (fCurrentNoteIsARest) {
+      if (gMsrOptions->fDelayRestsBeams) {
+        fLogOutputStream <<
+          "Delaying beam attached to a rest until next note" <<
+          endl;
+
+        delayAttachment = true;
+      }
+      
+      else {
+        stringstream s;
+
+        int numberOfBeams = fPendingBeams.size ();
+
+        if (numberOfBeams > 1)
+          s <<
+            "there are " << numberOfBeams << " beams";
+        else
+          s <<
+            "there is 1 beam";
+        s <<
+          " attached to a rest";
+          
+        msrMusicXMLWarning (
+          gXml2lyOptions->fInputSourceName,
+          note->getInputLineNumber (),
+          s.str ());
+      }
+    }
+    
+    if (! delayAttachment) {
+      while (fPendingBeams.size ()) {
+        S_msrBeam
+          beam =
+            fPendingBeams.front ();
+            
+        note->appendBeamToNote (beam);
+        fPendingBeams.pop_front ();
+      } // while
+    }
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::attachPendingSlursToNote (
   S_msrNote note)
 {
@@ -16439,6 +16515,9 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   
   // attach the pending words, if any, to the note
   attachPendingWordsToNote (note);
+
+  // attach the pending beams, if any, to the note
+  attachPendingBeamsToNote (note);
 
   // attach the pending slurs, if any, to the note
   attachPendingSlursToNote (note);
@@ -17217,7 +17296,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // attach the beams if any to the note
   if (fPendingBeams.size ()) {
     for (
-      vector<S_msrBeam>::const_iterator i=fPendingBeams.begin ();
+      list<S_msrBeam>::const_iterator i=fPendingBeams.begin ();
       i!=fPendingBeams.end ();
       i++) {
       newNote->

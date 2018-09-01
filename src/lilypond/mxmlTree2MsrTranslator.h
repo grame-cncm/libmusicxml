@@ -1672,8 +1672,10 @@ class mxmlTree2MsrTranslator :
     // beams handling
     // ------------------------------------------------------
 
-    vector<S_msrBeam>         fPendingBeams; // stack JMI ???
+    list<S_msrBeam>           fPendingBeams;
 
+    void                      attachPendingBeamsToNote (
+                                S_msrNote note);
     void                      copyNoteBeamsToChord (
                                 S_msrNote note, S_msrChord chord);
 

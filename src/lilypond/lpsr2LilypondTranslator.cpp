@@ -9770,6 +9770,51 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
+  // print the note beams if any,
+  // unless the note is chord member
+  if (! elt->getNoteBelongsToAChord ()) {
+    const list<S_msrBeam>&
+      noteBeams =
+        elt->getNoteBeams ();
+        
+    if (noteBeams.size ()) {
+      list<S_msrBeam>::const_iterator i;
+      for (
+        i=noteBeams.begin ();
+        i!=noteBeams.end ();
+        i++) {
+        S_msrBeam beam = (*i);
+
+        // LilyPond will take care of multiple beams automatically,
+        // so we need only generate code for the first number (level)
+        switch (beam->getBeamKind ()) {
+          
+          case msrBeam::kBeginBeam:
+            if (beam->getBeamNumber () == 1)
+              fLilypondCodeIOstream << "[ ";
+            break;
+            
+          case msrBeam::kContinueBeam:
+            break;
+            
+          case msrBeam::kEndBeam:
+            if (beam->getBeamNumber () == 1)
+              fLilypondCodeIOstream << "] ";
+            break;
+            
+          case msrBeam::kForwardHookBeam:
+            break;
+            
+          case msrBeam::kBackwardHookBeam:
+            break;
+            
+          case msrBeam::k_NoBeam:
+            break;
+        } // switch
+      } // for
+    }
+  }
+
   // print the note slurs if any,
   // unless the note is chord member
   if (! elt->getNoteBelongsToAChord ()) {
@@ -10170,6 +10215,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
       endl;
   }
 
+/* JMI
   // LilyPond will take care of multiple beams automatically,
   // so we need only generate code for the first number (level)
   switch (elt->getBeamKind ()) {
@@ -10195,7 +10241,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
       
     case msrBeam::k_NoBeam:
       break;
-  } // switch      
+  } // switch
+*/    
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBeam& elt)
@@ -10700,22 +10747,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     } // for
   }
 
-  // print the chord beams if any
-  list<S_msrBeam>
-    chordBeams =
-      elt->getChordBeams ();
-      
-  if (chordBeams.size ()) {
-    list<S_msrBeam>::const_iterator i;
-    for (
-      i=chordBeams.begin ();
-      i!=chordBeams.end ();
-      i++) {
-      fLilypondCodeIOstream <<
-        "] ";
-    } // for
-  }
-
   // print the chord words if any
   list<S_msrWords>
     chordWords =
@@ -10752,6 +10783,67 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         quoteStringIfNonAlpha (wordsContents) <<
         " } ";
     } // for
+  }
+
+/*
+  // print the chord beams if any
+  list<S_msrBeam>
+    chordBeams =
+      elt->getChordBeams ();
+      
+  if (chordBeams.size ()) {
+    list<S_msrBeam>::const_iterator i;
+    for (
+      i=chordBeams.begin ();
+      i!=chordBeams.end ();
+      i++) {
+      fLilypondCodeIOstream <<
+        "] ";
+    } // for
+  }
+*/
+
+  // print the chord beams if any
+  list<S_msrBeam>
+    chordBeams =
+      elt->getChordBeams ();
+      
+  if (chordBeams.size ()) {
+    list<S_msrBeam>::const_iterator i;
+    for (
+      i=chordBeams.begin ();
+      i!=chordBeams.end ();
+      i++) {
+
+      S_msrBeam beam = (*i);
+      
+      // LilyPond will take care of multiple beams automatically,
+      // so we need only generate code for the first number (level)
+      switch (beam->getBeamKind ()) {
+        
+        case msrBeam::kBeginBeam:
+          if (beam->getBeamNumber () == 1)
+            fLilypondCodeIOstream << "[ ";
+          break;
+          
+        case msrBeam::kContinueBeam:
+          break;
+          
+        case msrBeam::kEndBeam:
+          if (beam->getBeamNumber () == 1)
+            fLilypondCodeIOstream << "] ";
+          break;
+          
+        case msrBeam::kForwardHookBeam:
+          break;
+          
+        case msrBeam::kBackwardHookBeam:
+          break;
+          
+        case msrBeam::k_NoBeam:
+          break;
+      } // switch      
+      } // for
   }
 
   // print the chord slurs if any

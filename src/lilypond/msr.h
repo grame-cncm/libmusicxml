@@ -4043,10 +4043,7 @@ class msrChord : public msrElement
                               }
 
     // beams
-    void                  appendBeamToChord (S_msrBeam beam)
-                              {
-                                fChordBeams.push_back (beam);
-                              }
+    void                  appendBeamToChord (S_msrBeam beam);
 
     // ligatures
     void                  appendLigatureToChord (S_msrLigature ligature)

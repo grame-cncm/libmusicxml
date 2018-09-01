@@ -5437,15 +5437,15 @@ void msrNote::print (ostream& os)
   }
 
   // print the syllables associated to this note if any
+  os <<
+    setw (fieldWidth) <<
+    "noteSyllables";
   if (fNoteSyllables.size ()) {
     gIndenter++;
 
     os <<
-      "Note syllables:" <<
       endl;
-      
-    gIndenter++;
-    
+          
     list<S_msrSyllable>::const_iterator
       iBegin = fNoteSyllables.begin (),
       iEnd   = fNoteSyllables.end (),
@@ -5487,9 +5487,12 @@ void msrNote::print (ostream& os)
  // JMI   os <<
   //    endl;
 
-    gIndenter--;    
-
     gIndenter--;
+  }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
   }
 
 /* JMI
@@ -5503,30 +5506,46 @@ void msrNote::print (ostream& os)
 */
 
   // print the octave shift if any
+  os <<
+    setw (fieldWidth) <<
+    "noteOctaveShift";
   if (fNoteOctaveShift) {
     gIndenter++;
     os <<
       fNoteOctaveShift;
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the stem if any
+  os <<
+    setw (fieldWidth) <<
+    "noteStem";
   if (fNoteStem) {
     gIndenter++;
     os <<
       fNoteStem;
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
     
   // print the beams if any
+  os <<
+    setw (fieldWidth) <<
+    "noteBeams";
   if (fNoteBeams.size ()) {
     gIndenter++;
     os <<
-      "Note beams:" <<
       endl;
       
-    gIndenter++;
-
     list<S_msrBeam>::const_iterator
       iBegin = fNoteBeams.begin (),
       iEnd   = fNoteBeams.end (),
@@ -5536,21 +5555,24 @@ void msrNote::print (ostream& os)
       if (++i == iEnd) break;
       // no endl here;
     } // for
-        
+            
     gIndenter--;
-    
-    gIndenter--;
+  }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
   }
   
   // print the articulations if any
+  os <<
+    setw (fieldWidth) <<
+    "noteArticulations";
   if (fNoteArticulations.size ()) {
     gIndenter++;
     os <<
-      "Note articulations:" <<
       endl;
       
-    gIndenter++;
-
     list<S_msrArticulation>::const_iterator
       iBegin = fNoteArticulations.begin (),
       iEnd   = fNoteArticulations.end (),
@@ -5560,17 +5582,22 @@ void msrNote::print (ostream& os)
       if (++i == iEnd) break;
       // no endl here;
     } // for
-        
+            
     gIndenter--;
-    
-    gIndenter--;
+  }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
   }
   
   // print the spanners if any
+  os <<
+    setw (fieldWidth) <<
+    "noteSpanners";
   if (fNoteSpanners.size ()) {
     gIndenter++;
     os <<
-      "Note spanners:" <<
       endl;
       
     gIndenter++;
@@ -5589,12 +5616,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the technicals if any
+  os <<
+    setw (fieldWidth) <<
+    "noteTechnicals";
   if (fNoteTechnicals.size ()) {
     gIndenter++;
     os <<
-      "Note technicals:" <<
       endl;
       
     gIndenter++;
@@ -5613,12 +5647,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the technicals with integer if any
+  os <<
+    setw (fieldWidth) <<
+    "noteTechnicalWithIntegers";
   if (fNoteTechnicalWithIntegers.size ()) {
     gIndenter++;
     os <<
-      "Note technicals with integers:" <<
       endl;
       
     gIndenter++;
@@ -5637,12 +5678,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the technicals with float if any
+  os <<
+    setw (fieldWidth) <<
+    "noteTechnicalWithFloats";
   if (fNoteTechnicalWithFloats.size ()) {
     gIndenter++;
     os <<
-      "Note technicals with integers:" <<
       endl;
       
     gIndenter++;
@@ -5661,12 +5709,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the technicals with string if any
+  os <<
+    setw (fieldWidth) <<
+    "noteTechnicalWithStrings";
   if (fNoteTechnicalWithStrings.size ()) {
     gIndenter++;
     os <<
-      "Note technicals with strings:" <<
       endl;
       
     gIndenter++;
@@ -5685,12 +5740,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the ornaments if any
+  os <<
+    setw (fieldWidth) <<
+    "noteOrnaments";
   if (fNoteOrnaments.size ()) {
     gIndenter++;
     os <<
-      "Note ornaments:" <<
       endl;
       
     gIndenter++;
@@ -5709,12 +5771,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the glissandos if any
+  os <<
+    setw (fieldWidth) <<
+    "noteGlissandos";
   if (fNoteGlissandos.size ()) {
     gIndenter++;
     os <<
-      "Note glissandos:" <<
       endl;
       
     gIndenter++;
@@ -5733,8 +5802,16 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the slides if any
+  os <<
+    setw (fieldWidth) <<
+    "noteSlides";
   if (fNoteSlides.size ()) {
     gIndenter++;
     os <<
@@ -5757,12 +5834,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the singleTremolo if any
+  os <<
+    setw (fieldWidth) <<
+    "noteSingleTremolo";
   if (fNoteSingleTremolo) {
     gIndenter++;
     os <<
-      "Note single tremolos:" <<
       endl;
       
     gIndenter++;
@@ -5771,12 +5855,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the tie if any
+  os <<
+    setw (fieldWidth) <<
+    "noteTie";
   if (fNoteTie) {
     gIndenter++;
     os <<
-      "Note tie:" <<
       endl;
       
     gIndenter++;
@@ -5786,12 +5877,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the dynamics if any
+  os <<
+    setw (fieldWidth) <<
+    "noteDynamics";
   if (fNoteDynamics.size ()) {
     gIndenter++;
     os <<
-      "Note dynamics:" <<
       endl;
       
     gIndenter++;
@@ -5810,12 +5908,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the other dynamics if any
+  os <<
+    setw (fieldWidth) <<
+    "noteOtherDynamics";
   if (fNoteOtherDynamics.size ()) {
     gIndenter++;
     os <<
-      "Note other dynamics:" <<
       endl;
       
     gIndenter++;
@@ -5834,8 +5939,16 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the words if any
+  os <<
+    setw (fieldWidth) <<
+    "noteWords";
   if (fNoteWords.size ()) {
     gIndenter++;
     os <<
@@ -5858,8 +5971,16 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the slurs if any
+  os <<
+    setw (fieldWidth) <<
+    "noteSlurs";
   if (fNoteSlurs.size ()) {
     gIndenter++;
     os <<
@@ -5882,8 +6003,16 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the ligatures if any
+  os <<
+    setw (fieldWidth) <<
+    "noteLigatures";
   if (fNoteLigatures.size ()) {
     gIndenter++;
     os <<
@@ -5906,8 +6035,16 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the pedals if any
+  os <<
+    setw (fieldWidth) <<
+    "notePedals";
   if (fNotePedals.size ()) {
     gIndenter++;
     os <<
@@ -5930,12 +6067,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
   
   // print the slashes if any
+  os <<
+    setw (fieldWidth) <<
+    "noteSlashes";
   if (fNoteSlashes.size ()) {
     gIndenter++;
     os <<
-      "Note slashes:" <<
       endl;
       
     gIndenter++;
@@ -5954,12 +6098,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the wedges if any
+  os <<
+    setw (fieldWidth) <<
+    "noteWedges";
   if (fNoteWedges.size ()) {
     gIndenter++;
     os <<
-      "Note wedges:" <<
       endl;
       
     gIndenter++;
@@ -5978,12 +6129,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the eyeglasses if any
+  os <<
+    setw (fieldWidth) <<
+    "noteEyeGlasses";
   if (fNoteEyeGlasses.size ()) {
     gIndenter++;
     os <<
-      "Note eyeGlasses:" <<
       endl;
       
     gIndenter++;
@@ -6002,12 +6160,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the damps if any
+  os <<
+    setw (fieldWidth) <<
+    "noteDamps";
   if (fNoteDamps.size ()) {
     gIndenter++;
     os <<
-      "Note damps:" <<
       endl;
       
     gIndenter++;
@@ -6026,12 +6191,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the damps alls if any
+  os <<
+    setw (fieldWidth) <<
+    "noteDampAlls";
   if (fNoteDampAlls.size ()) {
     gIndenter++;
     os <<
-      "Note damp alls:" <<
       endl;
       
     gIndenter++;
@@ -6050,12 +6222,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the scordaturas if any
+  os <<
+    setw (fieldWidth) <<
+    "noteScordaturas";
   if (fNoteScordaturas.size ()) {
     gIndenter++;
     os <<
-      "Note scordaturas:" <<
       endl;
       
     gIndenter++;
@@ -6074,12 +6253,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the harmony if any
+  os <<
+    setw (fieldWidth) <<
+    "noteHarmony";
   if (fNoteHarmony) {
     gIndenter++;
     os <<
-      "Note harmony:" <<
       endl;
       
     gIndenter++;
@@ -6090,12 +6276,19 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the frame if any
+  os <<
+    setw (fieldWidth) <<
+    "noteFrame";
   if (fNoteFrame) {
     gIndenter++;
     os <<
-      "Note frame:" <<
       endl;
       
     gIndenter++;
@@ -6106,8 +6299,16 @@ void msrNote::print (ostream& os)
     
     gIndenter--;
   }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
+  }
 
   // print the figured bass if any
+  os <<
+    setw (fieldWidth) <<
+    "noteFiguredBass";
   if (fNoteFiguredBass) {
     gIndenter++;
     os <<
@@ -6121,6 +6322,11 @@ void msrNote::print (ostream& os)
     gIndenter--;
     
     gIndenter--;
+  }
+  else {
+    os << " : " <<
+      "none" <<
+      endl;
   }
 }
 
@@ -6651,6 +6857,21 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   fChordSlides.push_back (slide);
 }
 
+void msrChord::appendBeamToChord (S_msrBeam beam)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
+    gLogIOstream <<
+      "Appending beam '" <<
+      beam->asString () <<
+      "' to chord" <<
+      endl;
+  }
+#endif
+
+  fChordBeams.push_back (beam);
+}
+
 void msrChord::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -7128,11 +7349,24 @@ void msrChord::print (ostream& os)
   }
 
   // print the beams if any
+  os <<
+    setw (fieldWidth) <<
+    "chordBeams" <<
+    endl;
   if (fChordBeams.size ()) {
+    gIndenter++;
+
     list<S_msrBeam>::const_iterator i;
     for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
       os << (*i);
     } // for
+    
+  gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+    endl;
   }
 
   // print the words if any

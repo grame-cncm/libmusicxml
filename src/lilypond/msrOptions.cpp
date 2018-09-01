@@ -500,6 +500,7 @@ which may be global to the score.)",
     
     fDelayRestsDynamics  = boolOptionsInitialValue;
     fDelayRestsWords     = boolOptionsInitialValue; // JMI
+    fDelayRestsBeams     = boolOptionsInitialValue; // JMI
     fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
     fDelayRestsLigatures = boolOptionsInitialValue; // JMI
     fDelayRestsPedals    = boolOptionsInitialValue; // JMI
@@ -533,6 +534,14 @@ R"(dynamics)",
 R"(words)",
           "delayRestsWords",
           fDelayRestsWords));
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "drbeams", "delayRestsBeams",
+R"(beams)",
+          "delayRestsBeams",
+          fDelayRestsBeams));
 
     notesSubGroup->
       appendOptionsItem (
