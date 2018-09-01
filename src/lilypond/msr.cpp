@@ -5203,7 +5203,7 @@ void msrNote::print (ostream& os)
       stringstream s;
 
       s <<
-        "note measure number is empty in note '" <<
+        "noteMeasureNumber is empty in note '" <<
         this->asString () <<
         "'";
       
@@ -5437,62 +5437,66 @@ void msrNote::print (ostream& os)
   }
 
   // print the syllables associated to this note if any
-  os <<
-    setw (fieldWidth) <<
-    "noteSyllables";
-  if (fNoteSyllables.size ()) {
-    gIndenter++;
+  int noteSyllablesSize = fNoteSyllables.size ();
 
+  if (noteSyllablesSize > 0 || gTraceOptions->fTraceNotesDetails) {
     os <<
-      endl;
-          
-    list<S_msrSyllable>::const_iterator
-      iBegin = fNoteSyllables.begin (),
-      iEnd   = fNoteSyllables.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      S_msrSyllable
-        syllable = (*i);
-
+      setw (fieldWidth) <<
+      "noteSyllables";
+    if (noteSyllablesSize) {
+      gIndenter++;
+  
       os <<
-        syllable;
-        
-/* JMI
-      os <<
-        syllable->syllableKindAsString () <<
-        ", " <<
-        syllable->syllableExtendKindAsString () <<
-        " : ";
-
-      msrSyllable::writeTextsList (
-        syllable->getSyllableTextsList (),
-        os);
-
-      os <<
-        ", stanza " <<
-        syllable->
-          getSyllableStanzaUplink ()->
-            getStanzaNumber () <<
-        ", line " << syllable->getInputLineNumber () <<
-        ", noteUpLink: " <<
-        syllable->
-          getSyllableNoteUplink ()->
-            asShortString ();
-*/
+        endl;
             
-      if (++i == iEnd) break;
-      // no endl here
-    } // for
-
- // JMI   os <<
-  //    endl;
-
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
+      list<S_msrSyllable>::const_iterator
+        iBegin = fNoteSyllables.begin (),
+        iEnd   = fNoteSyllables.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        S_msrSyllable
+          syllable = (*i);
+  
+        os <<
+          syllable;
+          
+  /* JMI
+        os <<
+          syllable->syllableKindAsString () <<
+          ", " <<
+          syllable->syllableExtendKindAsString () <<
+          " : ";
+  
+        msrSyllable::writeTextsList (
+          syllable->getSyllableTextsList (),
+          os);
+  
+        os <<
+          ", stanza " <<
+          syllable->
+            getSyllableStanzaUplink ()->
+              getStanzaNumber () <<
+          ", line " << syllable->getInputLineNumber () <<
+          ", noteUpLink: " <<
+          syllable->
+            getSyllableNoteUplink ()->
+              asShortString ();
+  */
+              
+        if (++i == iEnd) break;
+        // no endl here
+      } // for
+  
+   // JMI   os <<
+    //    endl;
+  
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
   }
 
 /* JMI
@@ -5506,19 +5510,21 @@ void msrNote::print (ostream& os)
 */
 
   // print the octave shift if any
-  os <<
-    setw (fieldWidth) <<
-    "noteOctaveShift";
-  if (fNoteOctaveShift) {
-    gIndenter++;
+  if (fNoteOctaveShift || gTraceOptions->fTraceNotesDetails) {
     os <<
-      fNoteOctaveShift;
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
+      setw (fieldWidth) <<
+      "noteOctaveShift";
+    if (fNoteOctaveShift) {
+      gIndenter++;
+      os <<
+        fNoteOctaveShift;
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
   }
 
   // print the stem if any
