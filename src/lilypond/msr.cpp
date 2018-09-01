@@ -4826,9 +4826,12 @@ string msrNote::asString () const
       if (fNoteOccupiesAFullMeasure) {
         s <<
           "R" <<
-          multipleRestWholeNoteAsMsrString (
+          /* JMI
+          multipleRestWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes);
+            */
+          noteSoundingWholeNotesAsMsrString ();
       }
       else {
         s <<
@@ -24663,7 +24666,7 @@ void msrVoice::print (ostream& os)
 
   // print the voice last appended note
   os <<
-    setw (fieldWidth) << "voiceLastAppendedNote" << " : ";
+    setw (fieldWidth) << "voiceLastAppendedNote";
   if (fVoiceLastAppendedNote) {
     os <<
       endl;
@@ -24671,13 +24674,13 @@ void msrVoice::print (ostream& os)
     gIndenter++;
 
     os <<
-      fVoiceLastAppendedNote;
+      fVoiceLastAppendedNote->asString ();
 
     gIndenter--;
   }
   else {
     os <<
-      "none" <<
+      " : " << "none" <<
       endl;
   }
   os <<

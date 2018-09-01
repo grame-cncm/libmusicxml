@@ -509,7 +509,7 @@ string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
 
-string multipleRestWholeNoteAsMsrString (
+string multipleRestWholeNotesAsMsrString (
   int      inputLineNumber, // JMI
   rational wholeNotes);
 

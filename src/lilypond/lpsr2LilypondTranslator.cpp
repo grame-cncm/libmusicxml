@@ -1321,7 +1321,12 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           if (note->getNoteOccupiesAFullMeasure ()) {
             fLilypondCodeIOstream <<
               "R" <<
+              /* JMI
               multipleRestWholeNoteAsLilypondString (
+                inputLineNumber,
+                noteSoundingWholeNotes);
+                */
+              wholeNotesAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
           }
