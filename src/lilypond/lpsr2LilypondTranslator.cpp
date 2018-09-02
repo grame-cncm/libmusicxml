@@ -6247,7 +6247,22 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   string
     nextMeasureNumber =
       elt->getNextMeasureNumber ();
-    
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    fLogOutputStream <<
+      endl <<
+      "% <!--=== measure '" << measureNumber <<
+      ", nextMeasureNumber = '" << nextMeasureNumber << "'" <<
+      ", fOnGoingMultipleRestMeasures = '" <<
+      booleanAsString (
+        fOnGoingMultipleRestMeasures) <<
+      "'" <<
+      "', line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
+#endif
+
   // get measure kind
   msrMeasure::msrMeasureKind
     measureKind =
@@ -6263,125 +6278,128 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       endl;
   }
 
-  // handle the measure
-  switch (measureKind) {
-    case msrMeasure::kUnknownMeasureKind:
-      break;
-      
-    case msrMeasure::kFullMeasureKind:
-      {
-        bool doGenerateBarCheck = true;
+ // JMI if (true || ! fOnGoingMultipleRestMeasures)
+  {
+    // handle the measure
+    switch (measureKind) {
+      case msrMeasure::kUnknownMeasureKind:
+        break;
         
-        if (fRemainingMultipleRestMeasuresNumber > 0) {
-          // account for this measure
-          fRemainingMultipleRestMeasuresNumber--;
-
-          // the bar check will be generated upon visitEnd (S_msrMultipleRest&)
-          doGenerateBarCheck = false;
-        }
-
-        if (doGenerateBarCheck) {
-          fLilypondCodeIOstream <<
-            "|";
-    
-          if (nextMeasureNumber.size ()) {
-            fLilypondCodeIOstream <<
-              " % " <<
-              nextMeasureNumber;
-          }
+      case msrMeasure::kFullMeasureKind:
+        {
+          bool doGenerateBarCheck = true;
           
-          fLilypondCodeIOstream <<
-            endl;
-        }
-      }
-      break;
-      
-    case msrMeasure::kUpbeatMeasureKind:
-      fLilypondCodeIOstream <<
-        "|";
-
-      if (nextMeasureNumber.size ()) {
-        fLilypondCodeIOstream <<
-          " % " <<
-          nextMeasureNumber;
-      }
-      
-      fLilypondCodeIOstream <<
-        endl;
-      break;
-      
-    case msrMeasure::kUnderfullMeasureKind:
-    /* JMI
-      fLilypondCodeIOstream <<
-        endl <<
-        "\\unset Score.measureLength" <<
-        endl;
-        */
-      break;
-
-    case msrMeasure::kOverfullMeasureKind:
-      fLilypondCodeIOstream <<
-        endl <<
-        "\\cadenzaOff" <<
-      " \\undo \\omit Staff.TimeSignature" <<
-        endl <<
-        "\\bar \"|\" " << // JMI ???
-        endl;
-
-      fOnGoingVoiceCadenza = false;
-      
-/* JMI
-      gIndenter--;
-      fLilypondCodeIOstream <<
-        "}" <<
-        endl <<
-        "\\bar \"|\"" <<
-        endl;
-        */
-      break;
-
-    case msrMeasure::kSenzaMisuraMeasureKind:
-      fLilypondCodeIOstream <<
-        endl <<
-        "\\cadenzaOff" <<
-        endl <<
-        "\\bar \"|\"" << // JMI ???
-        endl;
-
-      fOnGoingVoiceCadenza = false;
-      break;
-
-    case msrMeasure::kEmptyMeasureKind:
-      break;
-  } // switch
-    
-  if (gLilypondOptions->fComments) {
-    gIndenter--;
-
-    fLilypondCodeIOstream << left <<
-      setw (commentFieldWidth) <<
-      "% end of measure " <<
-      measureNumber <<
-      ", line " << inputLineNumber <<
-      endl <<
-      endl;      
-  }
-
-  if (gLilypondOptions->fSeparatorLineEveryNMeasures > 0) {
-    if (
-      fCurrentVoiceMeasuresCounter
-        %
-      gLilypondOptions->fSeparatorLineEveryNMeasures
-        ==
-      0)
-      fLilypondCodeIOstream <<
-        endl <<
-        "% ============================= " <<
-        endl <<
-        endl;
-  }
+          if (fRemainingMultipleRestMeasuresNumber > 0) {
+            // account for this measure
+            fRemainingMultipleRestMeasuresNumber--;
   
-  fSegmentNotesAndChordsCountersStack.pop ();
+            // the bar check will be generated upon visitEnd (S_msrMultipleRest&)
+            doGenerateBarCheck = false;
+          }
+  
+          if (doGenerateBarCheck) {
+            fLilypondCodeIOstream <<
+              "|";
+      
+            if (nextMeasureNumber.size ()) {
+              fLilypondCodeIOstream <<
+                " % " <<
+                nextMeasureNumber;
+            }
+            
+            fLilypondCodeIOstream <<
+              endl;
+          }
+        }
+        break;
+        
+      case msrMeasure::kUpbeatMeasureKind:
+        fLilypondCodeIOstream <<
+          "|";
+  
+        if (nextMeasureNumber.size ()) {
+          fLilypondCodeIOstream <<
+            " % " <<
+            nextMeasureNumber;
+        }
+        
+        fLilypondCodeIOstream <<
+          endl;
+        break;
+        
+      case msrMeasure::kUnderfullMeasureKind:
+      /* JMI
+        fLilypondCodeIOstream <<
+          endl <<
+          "\\unset Score.measureLength" <<
+          endl;
+          */
+        break;
+  
+      case msrMeasure::kOverfullMeasureKind:
+        fLilypondCodeIOstream <<
+          endl <<
+          "\\cadenzaOff" <<
+        " \\undo \\omit Staff.TimeSignature" <<
+          endl <<
+          "\\bar \"|\" " << // JMI ???
+          endl;
+  
+        fOnGoingVoiceCadenza = false;
+        
+  /* JMI
+        gIndenter--;
+        fLilypondCodeIOstream <<
+          "}" <<
+          endl <<
+          "\\bar \"|\"" <<
+          endl;
+          */
+        break;
+  
+      case msrMeasure::kSenzaMisuraMeasureKind:
+        fLilypondCodeIOstream <<
+          endl <<
+          "\\cadenzaOff" <<
+          endl <<
+          "\\bar \"|\"" << // JMI ???
+          endl;
+  
+        fOnGoingVoiceCadenza = false;
+        break;
+  
+      case msrMeasure::kEmptyMeasureKind:
+        break;
+    } // switch
+      
+    if (gLilypondOptions->fComments) {
+      gIndenter--;
+  
+      fLilypondCodeIOstream << left <<
+        setw (commentFieldWidth) <<
+        "% end of measure " <<
+        measureNumber <<
+        ", line " << inputLineNumber <<
+        endl <<
+        endl;      
+    }
+  
+    if (gLilypondOptions->fSeparatorLineEveryNMeasures > 0) {
+      if (
+        fCurrentVoiceMeasuresCounter
+          %
+        gLilypondOptions->fSeparatorLineEveryNMeasures
+          ==
+        0)
+        fLilypondCodeIOstream <<
+          endl <<
+          "% ============================= " <<
+          endl <<
+          endl;
+    }
+    
+    fSegmentNotesAndChordsCountersStack.pop ();
+  }
 }
 
 //________________________________________________________________________
@@ -12296,10 +12314,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       " %{ " << inputLineNumber << " %} ";
   }
 
+  // wait until all measures have be visited
+  // before the bar check is generated
+  /* JMI
   fLilypondCodeIOstream <<    
     " | % " <<
     elt->getMultipleRestNextMeasureNumber () <<
     endl;
+*/
 
   fOnGoingMultipleRestMeasures = true;
 }
@@ -12312,6 +12334,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
       endl;
   }
     
+  // now we can generate the bar check
+  fLilypondCodeIOstream <<    
+    " | % " <<
+    elt->getMultipleRestNextMeasureNumber () <<
+    endl;
+
   /* JMI
   if (gLilypondOptions->fComments) {
     gIndenter--;
