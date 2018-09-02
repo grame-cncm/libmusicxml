@@ -12316,12 +12316,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
 
   // wait until all measures have be visited
   // before the bar check is generated
-  /* JMI
-  fLilypondCodeIOstream <<    
-    " | % " <<
-    elt->getMultipleRestNextMeasureNumber () <<
-    endl;
-*/
 
   fOnGoingMultipleRestMeasures = true;
 }
