@@ -445,9 +445,6 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
         endl <<
         endl;
 
-      printHelpSummary (
-        fOptionsHandlerLogIOstream);
-
       exit (1);
       break;
   } //  switch

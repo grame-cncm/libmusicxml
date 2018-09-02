@@ -3101,7 +3101,7 @@ void optionsHandler::printHelp (ostream& os) const
     gIndenter.indentMultiLineString (
       fOptionHandlerPreamble) <<
       endl;
-    
+
   // print the options handler help header and element names
   os <<
     fOptionsHandlerHelpHeader <<
