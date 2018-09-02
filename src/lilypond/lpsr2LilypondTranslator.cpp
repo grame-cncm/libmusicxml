@@ -9352,6 +9352,136 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     }
   }
   
+  // print the note words if any,
+  // which should precede the articulations in LilyPond
+  const list<S_msrWords>&
+    noteWords =
+      elt->getNoteWords ();
+
+  if (noteWords.size ()) {
+    list<S_msrWords>::const_iterator i;
+    for (
+      i=noteWords.begin ();
+      i!=noteWords.end ();
+      i++) {
+      msrPlacementKind
+        wordsPlacementKind =
+          (*i)->getWordsPlacementKind ();
+    
+      string wordsContents =
+        (*i)->getWordsContents ();
+
+      msrFontStyleKind
+        wordsFontStyleKind =
+          (*i)->getWordsFontStyleKind ();
+        
+      S_msrFontSize
+        wordsFontSize =
+          (*i)->getWordsFontSize ();
+        
+      msrFontWeightKind
+        wordsFontWeightKind =
+          (*i)->getWordsFontWeightKind ();
+
+      string markup;
+      
+      {
+        // create markup apart to have its length available
+        stringstream s;
+        
+        switch (wordsPlacementKind) {
+          case kPlacementNone:
+            s << "^";
+            break;
+          case kPlacementAbove:
+            s << "^";
+            break;
+          case kPlacementBelow:
+            s << "_";
+            break;
+        } // switch
+      
+        s <<
+          "\\markup" << " { ";
+
+        switch (wordsFontStyleKind) {
+          case kFontStyleNone:
+            break;
+          case kFontStyleNormal:
+            // LilyPond produces 'normal style' text by default
+            break;
+          case KFontStyleItalic:
+            s <<
+              "\\italic ";
+            break;
+        } // switch
+
+        switch (wordsFontWeightKind) {
+          case kFontWeightNone:
+            break;
+          case kFontWeightNormal:
+            // LilyPond produces 'normal weight' text by default
+            break;
+          case kFontWeightBold:
+            s <<
+              "\\bold ";
+            break;
+        } // switch
+
+        switch (wordsFontSize->getFontSizeKind ()) {
+          case msrFontSize::kFontSizeNone:
+            break;
+          case msrFontSize::kFontSizeXXSmall:
+            s <<
+              "\\tiny ";
+            break;
+          case msrFontSize::kFontSizeXSmall:
+            s <<
+              "\\smaller ";
+            break;
+          case msrFontSize::kFontSizeSmall:
+            s <<
+              "\\small ";
+            break;
+          case msrFontSize::kFontSizeMedium:
+            s <<
+              "\\normalsize ";
+            break;
+          case msrFontSize::kFontSizeLarge:
+            s <<
+              "\\large ";
+            break;
+          case msrFontSize::kFontSizeXLarge:
+            s <<
+              "\\larger ";
+            break;
+          case msrFontSize::kFontSizeXXLarge:
+            s <<
+              "\\huge ";
+            break;
+          case msrFontSize::kFontSizeNumeric:
+          /* JMI
+            s <<
+              "%{ " <<
+              wordsFontSize->getFontNumericSize () <<
+              " points %} ";
+              */
+            break;
+        } // switch
+
+        s <<
+ // JMI         quoteStringIfNonAlpha (wordsContents) <<
+          "\"" << wordsContents << "\"" <<
+          " } ";
+
+        markup = s.str ();
+        }
+
+      fLilypondCodeIOstream <<
+        markup;
+    } // for
+  }
+
   // print the note articulations if any
   if (! fOnGoingChord) {
     const list<S_msrArticulation>&
@@ -9639,135 +9769,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
       } // for
     }
-  }
-
-  // print the note words if any
-  const list<S_msrWords>&
-    noteWords =
-      elt->getNoteWords ();
-
-  if (noteWords.size ()) {
-    list<S_msrWords>::const_iterator i;
-    for (
-      i=noteWords.begin ();
-      i!=noteWords.end ();
-      i++) {
-      msrPlacementKind
-        wordsPlacementKind =
-          (*i)->getWordsPlacementKind ();
-    
-      string wordsContents =
-        (*i)->getWordsContents ();
-
-      msrFontStyleKind
-        wordsFontStyleKind =
-          (*i)->getWordsFontStyleKind ();
-        
-      S_msrFontSize
-        wordsFontSize =
-          (*i)->getWordsFontSize ();
-        
-      msrFontWeightKind
-        wordsFontWeightKind =
-          (*i)->getWordsFontWeightKind ();
-
-      string markup;
-      
-      {
-        // create markup apart to have its length available
-        stringstream s;
-        
-        switch (wordsPlacementKind) {
-          case kPlacementNone:
-            s << "^";
-            break;
-          case kPlacementAbove:
-            s << "^";
-            break;
-          case kPlacementBelow:
-            s << "_";
-            break;
-        } // switch
-      
-        s <<
-          "\\markup" << " { ";
-
-        switch (wordsFontStyleKind) {
-          case kFontStyleNone:
-            break;
-          case kFontStyleNormal:
-            // LilyPond produces 'normal style' text by default
-            break;
-          case KFontStyleItalic:
-            s <<
-              "\\italic ";
-            break;
-        } // switch
-
-        switch (wordsFontWeightKind) {
-          case kFontWeightNone:
-            break;
-          case kFontWeightNormal:
-            // LilyPond produces 'normal weight' text by default
-            break;
-          case kFontWeightBold:
-            s <<
-              "\\bold ";
-            break;
-        } // switch
-
-        switch (wordsFontSize->getFontSizeKind ()) {
-          case msrFontSize::kFontSizeNone:
-            break;
-          case msrFontSize::kFontSizeXXSmall:
-            s <<
-              "\\tiny ";
-            break;
-          case msrFontSize::kFontSizeXSmall:
-            s <<
-              "\\smaller ";
-            break;
-          case msrFontSize::kFontSizeSmall:
-            s <<
-              "\\small ";
-            break;
-          case msrFontSize::kFontSizeMedium:
-            s <<
-              "\\normalsize ";
-            break;
-          case msrFontSize::kFontSizeLarge:
-            s <<
-              "\\large ";
-            break;
-          case msrFontSize::kFontSizeXLarge:
-            s <<
-              "\\larger ";
-            break;
-          case msrFontSize::kFontSizeXXLarge:
-            s <<
-              "\\huge ";
-            break;
-          case msrFontSize::kFontSizeNumeric:
-          /* JMI
-            s <<
-              "%{ " <<
-              wordsFontSize->getFontNumericSize () <<
-              " points %} ";
-              */
-            break;
-        } // switch
-
-        s <<
- // JMI         quoteStringIfNonAlpha (wordsContents) <<
-          "\"" << wordsContents << "\"" <<
-          " } ";
-
-        markup = s.str ();
-        }
-
-      fLilypondCodeIOstream <<
-        markup;
-    } // for
   }
 
   // print the note beams if any,
