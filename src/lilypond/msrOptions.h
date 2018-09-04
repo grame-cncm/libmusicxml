@@ -249,6 +249,7 @@ class msrOptions : public optionsGroup
     bool                  fDisplayPartGroups;
     
     bool                  fDisplayMsr;
+    bool                  fDisplayMsrDetails;
     
     bool                  fDisplayMsrSummary;
 

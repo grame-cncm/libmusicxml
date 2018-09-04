@@ -97,6 +97,7 @@
         <type>quarter</type>
         </note>
       <note print-object="no">
+        <rest/>
         <duration>4</duration>
         <voice>1</voice>
         <type>whole</type>

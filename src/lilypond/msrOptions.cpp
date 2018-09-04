@@ -304,6 +304,7 @@ void msrOptions::initializeMsrOptions (
     fDisplayPartGroups = boolOptionsInitialValue;
     
     fDisplayMsr        = boolOptionsInitialValue;
+    fDisplayMsrDetails = boolOptionsInitialValue;
   
     fDisplayMsrSummary = boolOptionsInitialValue;
   
@@ -350,6 +351,18 @@ R"(Write the structure of the part groups to standard error.)",
           "dmsr", "displayMsr",
 R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
+          fDisplayMsr,
+          gTraceOptions->fTracePasses));
+#endif
+          
+#ifdef TRACE_OPTIONS
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        optionsThreeBooleansItem::create (
+          "dmsrd", "displayMsrDetails",
+R"(Write the contents of the MSR data to standard error.)",
+          "displayMsrDetails",
+          fDisplayMsrDetails,
           fDisplayMsr,
           gTraceOptions->fTracePasses));
 #endif
@@ -703,6 +716,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   clone->fDisplayMsr =
     fDisplayMsr;
+  clone->fDisplayMsrDetails =
+    fDisplayMsrDetails;
 
   clone->fDisplayMsrSummary =
     fDisplayMsrSummary;
@@ -819,6 +834,9 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "displayMsr" << " : " <<
     booleanAsString (fDisplayMsr) <<
+    endl <<
+    setw (fieldWidth) << "displayMsrDetails" << " : " <<
+    booleanAsString (fDisplayMsrDetails) <<
     endl <<
 
     setw (fieldWidth) << "displayMsrSummary" << " : " <<

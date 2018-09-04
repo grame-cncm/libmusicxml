@@ -6891,7 +6891,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       case msrBarline::kBarlineStyleShort:
       case msrBarline::kBarlineStyleNone:
         barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
+          setBarlineCategory (
+            msrBarline::kBarlineCategoryStandalone);
               
         // append the bar line to the current part
 #ifdef TRACE_OPTIONS

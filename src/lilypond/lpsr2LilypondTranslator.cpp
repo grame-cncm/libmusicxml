@@ -6361,21 +6361,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
-        " \\undo \\omit Staff.TimeSignature" <<
-          endl <<
-          "\\bar \"|\" " << // JMI ???
+          " \\undo \\omit Staff.TimeSignature" <<
           endl;
   
         fOnGoingVoiceCadenza = false;
-        
-  /* JMI
-        gIndenter--;
-        fLilypondCodeIOstream <<
-          "}" <<
-          endl <<
-          "\\bar \"|\"" <<
-          endl;
-          */
         break;
   
       case msrMeasure::kSenzaMisuraMeasureKind:

@@ -210,12 +210,6 @@ void msrOrnament::acceptOut (basevisitor* v)
 void msrOrnament::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrOrnament& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrOrnament::print (ostream& os)
 {
   os <<
@@ -243,6 +237,12 @@ void msrOrnament::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrOrnament& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -740,12 +740,6 @@ void msrDoubleTremolo::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrDoubleTremolo::asShortString () const
 {
   stringstream s;
@@ -935,6 +929,12 @@ void msrDoubleTremolo::print (ostream& os)
   gIndenter--;
 }
 
+ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrSpanner msrSpanner::create (
   int                inputLineNumber,
@@ -1075,12 +1075,6 @@ void msrSpanner::acceptOut (basevisitor* v)
 void msrSpanner::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrSpanner& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrSpanner::print (ostream& os)
 {
   os <<
@@ -1114,6 +1108,12 @@ void msrSpanner::print (ostream& os)
   gIndenter--;
     
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSpanner& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -1388,12 +1388,6 @@ void msrGraceNotes::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrGraceNotes& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrGraceNotes::asShortString () const
 {
   stringstream s;
@@ -1460,6 +1454,12 @@ void msrGraceNotes::print (ostream& os)
       "*** no grace notes elements ***" <<
       endl;
   }
+}
+
+ostream& operator<< (ostream& os, const S_msrGraceNotes& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -1590,12 +1590,6 @@ void msrAfterGraceNotesContents::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrAfterGraceNotesContents::asShortString () const
 {
   stringstream s;
@@ -1649,6 +1643,12 @@ void msrAfterGraceNotesContents::print (ostream& os)
   }
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -1811,12 +1811,6 @@ void msrAfterGraceNotes::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrAfterGraceNotes::asShortString () const
 {
   stringstream s;
@@ -1856,6 +1850,12 @@ void msrAfterGraceNotes::print (ostream& os)
     fAfterGraceNotesContents;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -5010,12 +5010,6 @@ string msrNote::asString () const
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrNote& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrNote::print (ostream& os)
 {
   rational
@@ -5313,8 +5307,6 @@ void msrNote::print (ostream& os)
     // print whole notes durations as MSR string
     switch (fNoteKind) {
       case msrNote::k_NoNoteKind:
-        {
-        }
         break;
         
       case msrNote::kRestNote:
@@ -5439,7 +5431,9 @@ void msrNote::print (ostream& os)
   // print the syllables associated to this note if any
   int noteSyllablesSize = fNoteSyllables.size ();
 
-  if (noteSyllablesSize > 0 || gTraceOptions->fTraceNotesDetails) {
+  if (noteSyllablesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
+    gIndenter++;
+
     os <<
       setw (fieldWidth) <<
       "noteSyllables";
@@ -5497,6 +5491,8 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
+
+    gIndenter--;
   }
 
 /* JMI
@@ -5510,7 +5506,9 @@ void msrNote::print (ostream& os)
 */
 
   // print the octave shift if any
-  if (fNoteOctaveShift || gTraceOptions->fTraceNotesDetails) {
+  if (fNoteOctaveShift || gMsrOptions->fDisplayMsrDetails) {
+    gIndenter++;
+
     os <<
       setw (fieldWidth) <<
       "noteOctaveShift";
@@ -5525,815 +5523,1029 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
+
+    gIndenter--;
   }
 
   // print the stem if any
-  os <<
-    setw (fieldWidth) <<
-    "noteStem";
-  if (fNoteStem) {
+  if (fNoteStem || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      fNoteStem;
+      setw (fieldWidth) <<
+      "noteStem";
+    if (fNoteStem) {
+      gIndenter++;
+      os <<
+        fNoteStem;
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
     
   // print the beams if any
-  os <<
-    setw (fieldWidth) <<
-    "noteBeams";
-  if (fNoteBeams.size ()) {
+  int noteBeamsSize = fNoteSyllables.size ();
+
+  if (noteBeamsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
-      
-    list<S_msrBeam>::const_iterator
-      iBegin = fNoteBeams.begin (),
-      iEnd   = fNoteBeams.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-            
+      setw (fieldWidth) <<
+      "noteBeams";
+    if (fNoteBeams.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      list<S_msrBeam>::const_iterator
+        iBegin = fNoteBeams.begin (),
+        iEnd   = fNoteBeams.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+              
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the articulations if any
-  os <<
-    setw (fieldWidth) <<
-    "noteArticulations";
-  if (fNoteArticulations.size ()) {
+  int noteArticulationsSize = fNoteArticulations.size ();
+
+  if (noteArticulationsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
-      
-    list<S_msrArticulation>::const_iterator
-      iBegin = fNoteArticulations.begin (),
-      iEnd   = fNoteArticulations.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-            
+      setw (fieldWidth) <<
+      "noteArticulations";
+    if (fNoteArticulations.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      list<S_msrArticulation>::const_iterator
+        iBegin = fNoteArticulations.begin (),
+        iEnd   = fNoteArticulations.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+              
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the spanners if any
-  os <<
-    setw (fieldWidth) <<
-    "noteSpanners";
-  if (fNoteSpanners.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteSpannersSize = fNoteSpanners.size ();
+
+  if (noteSpannersSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrSpanner>::const_iterator
-      iBegin = fNoteSpanners.begin (),
-      iEnd   = fNoteSpanners.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteSpanners";
+    if (fNoteSpanners.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrSpanner>::const_iterator
+        iBegin = fNoteSpanners.begin (),
+        iEnd   = fNoteSpanners.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+ 
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
-  }
+ }
   
   // print the technicals if any
-  os <<
-    setw (fieldWidth) <<
-    "noteTechnicals";
-  if (fNoteTechnicals.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteTechnicalsSize = fNoteTechnicals.size ();
+
+  if (noteTechnicalsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrTechnical>::const_iterator
-      iBegin = fNoteTechnicals.begin (),
-      iEnd   = fNoteTechnicals.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteTechnicals";
+    if (fNoteTechnicals.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrTechnical>::const_iterator
+        iBegin = fNoteTechnicals.begin (),
+        iEnd   = fNoteTechnicals.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+ 
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
-  }
+ }
   
   // print the technicals with integer if any
-  os <<
-    setw (fieldWidth) <<
-    "noteTechnicalWithIntegers";
-  if (fNoteTechnicalWithIntegers.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
+
+  if (noteTechnicalWithIntegersSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrTechnicalWithInteger>::const_iterator
-      iBegin = fNoteTechnicalWithIntegers.begin (),
-      iEnd   = fNoteTechnicalWithIntegers.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteTechnicalWithIntegers";
+    if (fNoteTechnicalWithIntegers.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrTechnicalWithInteger>::const_iterator
+        iBegin = fNoteTechnicalWithIntegers.begin (),
+        iEnd   = fNoteTechnicalWithIntegers.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the technicals with float if any
-  os <<
-    setw (fieldWidth) <<
-    "noteTechnicalWithFloats";
-  if (fNoteTechnicalWithFloats.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
+
+  if (noteTechnicalWithFloatsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrTechnicalWithFloat>::const_iterator
-      iBegin = fNoteTechnicalWithFloats.begin (),
-      iEnd   = fNoteTechnicalWithFloats.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteTechnicalWithFloats";
+    if (fNoteTechnicalWithFloats.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrTechnicalWithFloat>::const_iterator
+        iBegin = fNoteTechnicalWithFloats.begin (),
+        iEnd   = fNoteTechnicalWithFloats.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the technicals with string if any
-  os <<
-    setw (fieldWidth) <<
-    "noteTechnicalWithStrings";
-  if (fNoteTechnicalWithStrings.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
+
+  if (noteTechnicalWithStringsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrTechnicalWithString>::const_iterator
-      iBegin = fNoteTechnicalWithStrings.begin (),
-      iEnd   = fNoteTechnicalWithStrings.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteTechnicalWithStrings";
+    if (fNoteTechnicalWithStrings.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrTechnicalWithString>::const_iterator
+        iBegin = fNoteTechnicalWithStrings.begin (),
+        iEnd   = fNoteTechnicalWithStrings.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the ornaments if any
-  os <<
-    setw (fieldWidth) <<
-    "noteOrnaments";
-  if (fNoteOrnaments.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteOrnamentsSize = fNoteOrnaments.size ();
+
+  if (noteOrnamentsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrOrnament>::const_iterator
-      iBegin = fNoteOrnaments.begin (),
-      iEnd   = fNoteOrnaments.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteOrnaments";
+    if (fNoteOrnaments.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrOrnament>::const_iterator
+        iBegin = fNoteOrnaments.begin (),
+        iEnd   = fNoteOrnaments.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the glissandos if any
-  os <<
-    setw (fieldWidth) <<
-    "noteGlissandos";
-  if (fNoteGlissandos.size ()) {
-    gIndenter++;
-    os <<
-      endl;
-      
+  int noteGlissandosSize = fNoteGlissandos.size ();
+
+  if (noteGlissandosSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrGlissando>::const_iterator
-      iBegin = fNoteGlissandos.begin (),
-      iEnd   = fNoteGlissandos.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteGlissandos";
+    if (fNoteGlissandos.size ()) {
+      gIndenter++;
+      os <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrGlissando>::const_iterator
+        iBegin = fNoteGlissandos.begin (),
+        iEnd   = fNoteGlissandos.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the slides if any
-  os <<
-    setw (fieldWidth) <<
-    "noteSlides";
-  if (fNoteSlides.size ()) {
-    gIndenter++;
-    os <<
-      "Note slides:" <<
-      endl;
-      
+  int noteSlidesSize = fNoteSlides.size ();
+
+  if (noteSlidesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
 
-    list<S_msrSlide>::const_iterator
-      iBegin = fNoteSlides.begin (),
-      iEnd   = fNoteSlides.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+    os <<
+      setw (fieldWidth) <<
+      "noteSlides";
+    if (fNoteSlides.size ()) {
+      gIndenter++;
+      os <<
+        "Note slides:" <<
+        endl;
         
+      gIndenter++;
+  
+      list<S_msrSlide>::const_iterator
+        iBegin = fNoteSlides.begin (),
+        iEnd   = fNoteSlides.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+          
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the singleTremolo if any
-  os <<
-    setw (fieldWidth) <<
-    "noteSingleTremolo";
-  if (fNoteSingleTremolo) {
+  if (fNoteSingleTremolo || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteSingleTremolo";
+    if (fNoteSingleTremolo) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
+      os << fNoteSingleTremolo;
+      gIndenter--;
       
-    gIndenter++;
-    os << fNoteSingleTremolo;
-    gIndenter--;
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
     
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
-  }
-  
-  // print the tie if any
-  os <<
-    setw (fieldWidth) <<
-    "noteTie";
-  if (fNoteTie) {
-    gIndenter++;
+    // print the tie if any
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteTie";
+    if (fNoteTie) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
+      os <<
+        fNoteTie;
+      gIndenter--;
       
-    gIndenter++;
-    os <<
-      fNoteTie;
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the dynamics if any
-  os <<
-    setw (fieldWidth) <<
-    "noteDynamics";
-  if (fNoteDynamics.size ()) {
+  int noteDynamicsSize = fNoteDynamics.size ();
+
+  if (noteDynamicsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteDynamics";
+    if (fNoteDynamics.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrDynamics>::const_iterator
-      iBegin = fNoteDynamics.begin (),
-      iEnd   = fNoteDynamics.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+      list<S_msrDynamics>::const_iterator
+        iBegin = fNoteDynamics.begin (),
+        iEnd   = fNoteDynamics.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+  
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
 
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the other dynamics if any
-  os <<
-    setw (fieldWidth) <<
-    "noteOtherDynamics";
-  if (fNoteOtherDynamics.size ()) {
+  int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
+
+  if (noteOtherDynamicsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteOtherDynamics";
+    if (fNoteOtherDynamics.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrOtherDynamics>::const_iterator
-      iBegin = fNoteOtherDynamics.begin (),
-      iEnd   = fNoteOtherDynamics.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+      list<S_msrOtherDynamics>::const_iterator
+        iBegin = fNoteOtherDynamics.begin (),
+        iEnd   = fNoteOtherDynamics.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+  
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
 
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the words if any
-  os <<
-    setw (fieldWidth) <<
-    "noteWords";
-  if (fNoteWords.size ()) {
+  int noteWordsSize = fNoteWords.size ();
+
+  if (noteWordsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      "Note words:" <<
-      endl;
+      setw (fieldWidth) <<
+      "noteWords";
+    if (fNoteWords.size ()) {
+      gIndenter++;
+      os <<
+        "Note words:" <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrWords>::const_iterator
-      iBegin = fNoteWords.begin (),
-      iEnd   = fNoteWords.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+      list<S_msrWords>::const_iterator
+        iBegin = fNoteWords.begin (),
+        iEnd   = fNoteWords.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+  
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
 
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the slurs if any
-  os <<
-    setw (fieldWidth) <<
-    "noteSlurs";
-  if (fNoteSlurs.size ()) {
+  int noteSlursSize = fNoteSlurs.size ();
+
+  if (noteSlursSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      "Note slurs:" <<
-      endl;
+      setw (fieldWidth) <<
+      "noteSlurs";
+    if (fNoteSlurs.size ()) {
+      gIndenter++;
+      os <<
+        "Note slurs:" <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrSlur>::const_iterator
-      iBegin = fNoteSlurs.begin (),
-      iEnd   = fNoteSlurs.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrSlur>::const_iterator
+        iBegin = fNoteSlurs.begin (),
+        iEnd   = fNoteSlurs.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the ligatures if any
-  os <<
-    setw (fieldWidth) <<
-    "noteLigatures";
-  if (fNoteLigatures.size ()) {
+  int noteLigaturesSize = fNoteLigatures.size ();
+
+  if (noteLigaturesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      "Note ligatures:" <<
-      endl;
+      setw (fieldWidth) <<
+      "noteLigatures";
+    if (fNoteLigatures.size ()) {
+      gIndenter++;
+      os <<
+        "Note ligatures:" <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrLigature>::const_iterator
-      iBegin = fNoteLigatures.begin (),
-      iEnd   = fNoteLigatures.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrLigature>::const_iterator
+        iBegin = fNoteLigatures.begin (),
+        iEnd   = fNoteLigatures.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the pedals if any
-  os <<
-    setw (fieldWidth) <<
-    "notePedals";
-  if (fNotePedals.size ()) {
+  int notePedalsSize = fNotePedals.size ();
+
+  if (notePedalsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      "Note pedals:" <<
-      endl;
+      setw (fieldWidth) <<
+      "notePedals";
+    if (fNotePedals.size ()) {
+      gIndenter++;
+      os <<
+        "Note pedals:" <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrPedal>::const_iterator
-      iBegin = fNotePedals.begin (),
-      iEnd   = fNotePedals.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrPedal>::const_iterator
+        iBegin = fNotePedals.begin (),
+        iEnd   = fNotePedals.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
   
   // print the slashes if any
-  os <<
-    setw (fieldWidth) <<
-    "noteSlashes";
-  if (fNoteSlashes.size ()) {
+  int noteSlashesSize = fNoteSlashes.size ();
+
+  if (noteSlashesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteSlashes";
+    if (fNoteSlashes.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrSlash>::const_iterator
-      iBegin = fNoteSlashes.begin (),
-      iEnd   = fNoteSlashes.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
+      list<S_msrSlash>::const_iterator
+        iBegin = fNoteSlashes.begin (),
+        iEnd   = fNoteSlashes.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
     
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the wedges if any
-  os <<
-    setw (fieldWidth) <<
-    "noteWedges";
-  if (fNoteWedges.size ()) {
+  int noteWedgesSize = fNoteWedges.size ();
+
+  if (noteWedgesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteWedges";
+    if (fNoteWedges.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrWedge>::const_iterator
-      iBegin = fNoteWedges.begin (),
-      iEnd   = fNoteWedges.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrWedge>::const_iterator
+        iBegin = fNoteWedges.begin (),
+        iEnd   = fNoteWedges.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the eyeglasses if any
-  os <<
-    setw (fieldWidth) <<
-    "noteEyeGlasses";
-  if (fNoteEyeGlasses.size ()) {
+  int noteEyeGlassesSize = fNoteEyeGlasses.size ();
+
+  if (noteEyeGlassesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteEyeGlasses";
+    if (fNoteEyeGlasses.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrEyeGlasses>::const_iterator
-      iBegin = fNoteEyeGlasses.begin (),
-      iEnd   = fNoteEyeGlasses.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrEyeGlasses>::const_iterator
+        iBegin = fNoteEyeGlasses.begin (),
+        iEnd   = fNoteEyeGlasses.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the damps if any
-  os <<
-    setw (fieldWidth) <<
-    "noteDamps";
-  if (fNoteDamps.size ()) {
+  int noteDampsSize = fNoteDamps.size ();
+
+  if (noteDampsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteDamps";
+    if (fNoteDamps.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrDamp>::const_iterator
-      iBegin = fNoteDamps.begin (),
-      iEnd   = fNoteDamps.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrDamp>::const_iterator
+        iBegin = fNoteDamps.begin (),
+        iEnd   = fNoteDamps.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
-  // print the damps alls if any
-  os <<
-    setw (fieldWidth) <<
-    "noteDampAlls";
-  if (fNoteDampAlls.size ()) {
+  // print the dampAlls if any
+  int noteDampAllsSize = fNoteDampAlls.size ();
+
+  if (noteDampAllsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteDampAlls";
+    if (fNoteDampAlls.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrDampAll>::const_iterator
-      iBegin = fNoteDampAlls.begin (),
-      iEnd   = fNoteDampAlls.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrDampAll>::const_iterator
+        iBegin = fNoteDampAlls.begin (),
+        iEnd   = fNoteDampAlls.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the scordaturas if any
-  os <<
-    setw (fieldWidth) <<
-    "noteScordaturas";
-  if (fNoteScordaturas.size ()) {
+  int noteScordaturasSize = fNoteScordaturas.size ();
+
+  if (noteScordaturasSize > 0 || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteScordaturas";
+    if (fNoteScordaturas.size ()) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
       
-    gIndenter++;
-    
-    list<S_msrScordatura>::const_iterator
-      iBegin = fNoteScordaturas.begin (),
-      iEnd   = fNoteScordaturas.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      // no endl here;
-    } // for
-    
+      list<S_msrScordatura>::const_iterator
+        iBegin = fNoteScordaturas.begin (),
+        iEnd   = fNoteScordaturas.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+      
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the harmony if any
-  os <<
-    setw (fieldWidth) <<
-    "noteHarmony";
-  if (fNoteHarmony) {
+  if (fNoteHarmony || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteHarmony";
+    if (fNoteHarmony) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
+      os <<
+        fNoteHarmony <<
+        endl;
+      gIndenter--;
       
-    gIndenter++;
-    os <<
-      fNoteHarmony <<
-      endl;
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the frame if any
-  os <<
-    setw (fieldWidth) <<
-    "noteFrame";
-  if (fNoteFrame) {
+  if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      endl;
+      setw (fieldWidth) <<
+      "noteFrame";
+    if (fNoteFrame) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
+      os <<
+        fNoteFrame <<
+        endl;
+      gIndenter--;
       
-    gIndenter++;
-    os <<
-      fNoteFrame <<
-      endl;
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
-    
-    gIndenter--;
-  }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
   }
 
   // print the figured bass if any
-  os <<
-    setw (fieldWidth) <<
-    "noteFiguredBass";
-  if (fNoteFiguredBass) {
+  if (fNoteFiguredBass || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;
+
     os <<
-      "Note figures bass:" <<
-      endl;
+      setw (fieldWidth) <<
+      "noteFiguredBass";
+    if (fNoteFiguredBass) {
+      gIndenter++;
+      os <<
+        "Note figures bass:" <<
+        endl;
+        
+      gIndenter++;
+      os <<
+        fNoteFiguredBass <<
+        endl;
+      gIndenter--;
       
-    gIndenter++;
-    os <<
-      fNoteFiguredBass <<
-      endl;
-    gIndenter--;
-    
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+
     gIndenter--;
   }
-  else {
-    os << " : " <<
-      "none" <<
-      endl;
-  }
+}
+
+ostream& operator<< (ostream& os, const S_msrNote& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -7063,13 +7275,6 @@ void msrChord::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrChord& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-
 /* JMI
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
@@ -7449,6 +7654,12 @@ void msrChord::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChord& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -8265,12 +8476,6 @@ void msrTuplet::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrTuplet& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrTuplet::asString () const
 {
   stringstream s;
@@ -8511,6 +8716,12 @@ void msrTuplet::printShort (ostream& os)
   }
 }
 
+ostream& operator<< (ostream& os, const S_msrTuplet& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrGlissando msrGlissando::create (
   int                  inputLineNumber,
@@ -8640,12 +8851,6 @@ void msrGlissando::acceptOut (basevisitor* v)
 void msrGlissando::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrGlissando& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrGlissando::asString () const
 {
   stringstream s;
@@ -8696,6 +8901,12 @@ void msrGlissando::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrGlissando& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -8827,12 +9038,6 @@ void msrSlide::acceptOut (basevisitor* v)
 void msrSlide::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrSlide& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrSlide::asString () const
 {
   stringstream s;
@@ -8883,6 +9088,12 @@ void msrSlide::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSlide& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -10402,12 +10613,6 @@ void msrStanza::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrStanza& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrStanza::print (ostream& os)
 {
   os <<
@@ -10442,6 +10647,12 @@ void msrStanza::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrStanza& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -11007,12 +11218,6 @@ void msrHarmony::browseData (basevisitor* v)
     } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrHarmony& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrHarmony::print (ostream& os)
 {  
   os <<
@@ -11086,6 +11291,12 @@ void msrHarmony::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrHarmony& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -11349,12 +11560,6 @@ void msrFigure::acceptOut (basevisitor* v)
 void msrFigure::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrFigure& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrFigure::print (ostream& os)
 {  
   os <<
@@ -11368,6 +11573,12 @@ void msrFigure::print (ostream& os)
       fFigureSuffixKind) <<
      ", line " << fInputLineNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrFigure& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -11632,12 +11843,6 @@ void msrFiguredBass::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrFiguredBass& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrFiguredBass::print (ostream& os)
 {  
   os <<
@@ -11669,6 +11874,12 @@ void msrFiguredBass::print (ostream& os)
 
     gIndenter--;
   }
+}
+
+ostream& operator<< (ostream& os, const S_msrFiguredBass& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -17100,12 +17311,6 @@ string msrSegment::asShortString () const
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrSegment& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrSegment::print (ostream& os)
 {  
   os <<
@@ -17147,6 +17352,12 @@ void msrSegment::print (ostream& os)
   }
     
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSegment& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -17246,12 +17457,6 @@ void msrRepeatCommonPart::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrRepeatCommonPart::appendElementToRepeatCommonPart (
   S_msrElement elem)
 {
@@ -17338,6 +17543,12 @@ void msrRepeatCommonPart::print (ostream& os)
   }
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -17442,12 +17653,6 @@ void msrRepeatEnding::browseData (basevisitor* v)
   browser.browse (*fRepeatEndingSegment);
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrRepeatEnding::repeatEndingKindAsString (
   msrRepeatEndingKind repeatEndingKind)
 {
@@ -17526,6 +17731,12 @@ void msrRepeatEnding::print (ostream& os)
   gIndenter--;
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -17702,12 +17913,6 @@ void msrRepeat::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeat& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrRepeat::asString () const
 {
   stringstream s;
@@ -17801,6 +18006,12 @@ void msrRepeat::print (ostream& os)
  // JMI os << endl;
       
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeat& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -17929,12 +18140,6 @@ void msrMeasuresRepeatPattern::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrMeasuresRepeatPattern::asString () const
 {
   stringstream s;
@@ -17985,6 +18190,12 @@ void msrMeasuresRepeatPattern::print (ostream& os)
   }
       
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -18113,12 +18324,6 @@ void msrMeasuresRepeatReplicas::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrMeasuresRepeatReplicas::asString () const
 {
   stringstream s;
@@ -18169,6 +18374,12 @@ void msrMeasuresRepeatReplicas::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -18371,12 +18582,6 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrMeasuresRepeat::asString () const
 {
   stringstream s;
@@ -18451,6 +18656,12 @@ void msrMeasuresRepeat::print (ostream& os)
   }
       
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -18599,12 +18810,6 @@ void msrMultipleRestContents::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrMultipleRestContents::asString () const
 {
   stringstream s;
@@ -18655,6 +18860,12 @@ void msrMultipleRestContents::print (ostream& os)
   }
       
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -19109,12 +19320,6 @@ void msrRepeatCoda::browseData (basevisitor* v)
   browser.browse (*fRepeatCodaSegment);
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrRepeatCoda::asString () const
 {
   stringstream s;
@@ -19140,6 +19345,12 @@ void msrRepeatCoda::print (ostream& os)
     fRepeatCodaSegment;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________ 
@@ -24810,12 +25021,6 @@ string msrVoice::voiceKindAsString () const
   return voiceKindAsString (fVoiceKind);
 }
       
-ostream& operator<< (ostream& os, const S_msrVoice& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrVoice::print (ostream& os)
 {
   os <<
@@ -25014,6 +25219,12 @@ void msrVoice::print (ostream& os)
   }
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrVoice& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -27242,13 +27453,6 @@ void msrStaff::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrStaff& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-
 string msrStaff::staffKindAsString (
   msrStaffKind staffKind)
 {
@@ -27511,6 +27715,12 @@ void msrStaff::printSummary (ostream& os)
     endl;
 }
 
+ostream& operator<< (ostream& os, const S_msrStaff& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrVoiceStaffChange msrVoiceStaffChange::create (
   int        inputLineNumber,
@@ -27615,17 +27825,17 @@ string msrVoiceStaffChange::asString () const
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrVoiceStaffChange::print (ostream& os)
 {
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________ 
@@ -30458,12 +30668,6 @@ void msrPartGroup::print (ostream& os)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
-{
-  elt->print (os);
-  return os;
-}
-          
 void msrPartGroup::printSummary (ostream& os)
 {
   os <<
@@ -30531,6 +30735,12 @@ void msrPartGroup::printSummary (ostream& os)
   gIndenter--;
 }
 
+ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
+{
+  elt->print (os);
+  return os;
+}
+          
 //______________________________________________________________________________
 S_msrScore msrScore::create (
   int inputLineNumber)
@@ -30850,12 +31060,6 @@ void msrScore::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrScore& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrScore::print (ostream& os)
 {
   os <<
@@ -31066,6 +31270,12 @@ void msrScore::printSummary (ostream& os)
   }
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrScore& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
