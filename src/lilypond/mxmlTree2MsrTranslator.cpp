@@ -16487,7 +16487,7 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   S_msrNote note)
 {
   // attach the pending tempos, if any, to the note's voice
-  attachPendingTemposToTheVoiceOfNote (note);
+ // JMI attachPendingTemposToTheVoiceOfNote (note);
 
   // attach the pending rehearsals, if any, to the note's voice
   attachPendingRehearsalsToTheVoiceOfNote (note);
@@ -17824,6 +17824,10 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // this is the first note after the grace notes,
       // forget about the latter
       fCurrentGraceNotes = nullptr;
+
+    // attach pending tempos if anu to the voice of note,
+    // priot to the note itself
+    attachPendingTemposToTheVoiceOfNote (newNote);
     
     // append newNote to the current voice
 #ifdef TRACE_OPTIONS
