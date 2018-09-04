@@ -628,6 +628,11 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
 
+    // names
+
+    string                nameAsLilypondString (
+                            string name);
+                              
     // variable-value associations
 
     string                lpsrVarValAssocKindAsLilypondString (

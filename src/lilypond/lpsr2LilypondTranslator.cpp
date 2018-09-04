@@ -3205,7 +3205,7 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
      
   list<string> chunksList;
 
-  splitStringContainingEndOfLines (
+  splitRegularStringContainingEndOfLines (
     theString,
     chunksList);
 
@@ -3231,6 +3231,7 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
 
     s <<
       " } } " <<
+      "% " << chunksList.size () << " chunk(s)" << 
       endl;
   }
 
@@ -3263,6 +3264,26 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)
   // to help copy/paste it
   fLilypondCodeIOstream <<
     endl;
+}
+
+    // names
+
+string lpsr2LilypondTranslator::nameAsLilypondString (
+  string name)
+{
+  string result;
+
+  size_t endOfLineFound = name.find ("\n");
+
+  if (endOfLineFound != string::npos) {
+    result =
+      generateMultilineName (name);
+  }
+  else {
+    result = "\"" + name + "\"";
+  }
+
+  return result;
 }
 
 string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
@@ -4240,9 +4261,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
       if (partGroupName.size ()) {
         fLilypondCodeIOstream <<
-          "instrumentName = \"" <<
-          partGroupName <<
-          "\"" <<
+          "instrumentName = " <<
+          nameAsLilypondString (partGroupName) <<
           endl;
       }
       if (partGroupAbbreviation.size ()) {
@@ -4602,7 +4622,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   
       // does the name contain hexadecimal end of lines?
       std::size_t found =
-        partName.find ("&#xd");
+    // JMI    partName.find ("&#xd");
+        partName.find ("\n");
   
       if (found == string::npos) {
         // no, escape quotes if any and generate the result

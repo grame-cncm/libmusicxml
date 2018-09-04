@@ -417,7 +417,11 @@ std::string escapeQuotes (std::string s);
 void convertHTMLEntitiesToPlainCharacters (std::string& s);
 
 //______________________________________________________________________________
-void splitStringContainingEndOfLines (
+void splitRegularStringContainingEndOfLines (
+  std::string             theString,
+  std::list<std::string>& chunksList);
+
+void splitHTMLStringContainingEndOfLines ( // JMI
   std::string             theString,
   std::list<std::string>& chunksList);
 
