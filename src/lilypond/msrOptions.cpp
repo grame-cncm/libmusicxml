@@ -360,7 +360,7 @@ R"(Write the contents of the MSR data to standard error.)",
       appendOptionsItem (
         optionsThreeBooleansItem::create (
           "dmsrd", "displayMsrDetails",
-R"(Write the contents of the MSR data to standard error.)",
+R"(Write the contents of the MSR data with more details to standard error.)",
           "displayMsrDetails",
           fDisplayMsrDetails,
           fDisplayMsr,
