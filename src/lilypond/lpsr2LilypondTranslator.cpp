@@ -4268,7 +4268,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       if (partGroupAbbreviation.size ()) {
         fLilypondCodeIOstream <<
           "shortInstrumentName = \"" <<
-          partGroupAbbreviation <<
+          nameAsLilypondString (partGroupAbbreviation) <<
           "\"" <<
           endl;
       }
