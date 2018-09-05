@@ -8,7 +8,12 @@ eltname := '[-a-zA-Z0-9_.:]*'
 SRC := $(wildcard *.cpp) 
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
 
-all : $(elts) elements.h typedefs.h factory.cpp
+.PHONY: current
+
+all : current $(elts) elements.h typedefs.h factory.cpp
+
+current:
+	@[ -d current ] || (echo "Error: you must create an alias named 'current' that links to the version you want to use."; false)
 
 $(elts) : $(schema)
 	grep "<xs:element" $(schema) | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $(elts)
