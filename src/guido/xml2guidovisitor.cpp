@@ -256,7 +256,6 @@ namespace MusicXML2
                         stringstream s;
                         s << "dy="<< HalfSpaceDistance;
                         tag2->add (guidoparam::create(s.str().c_str(), false));
-                        //cout<<"\t";tag2->print(cout);cout<<endl;
                     }
                 }else if (defaultGuidoStaffDistance) {
                     stringstream s;

@@ -628,7 +628,7 @@ namespace MusicXML2
                 }
                 if (fIgnoreWedgeWithOffset)
                 {
-                    cout<<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
+                    cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
                     return;         // FIXME: Ignoring Offset wedges à la Verovio
                 }
 
@@ -746,7 +746,6 @@ namespace MusicXML2
                         auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
                         if (voiceInTimePosition != timePos4measure->second.end()) {
                             auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                            //cout<<" TimePosition is="<< *minXPos;
                             if (intens_xpos != *minXPos) {
                                 int intensDx = (intens_relative_x/10)*2;
                                 // apply default-x ONLY if it exists
@@ -760,7 +759,6 @@ namespace MusicXML2
                                 stringstream s;
                                 s << "dx=" << intensDx ;
                                 tag->add (guidoparam::create(s.str(), false));
-                                //cout << " Dx="<<intensDx<<endl;
                             }
                         }else {
                             cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
@@ -1051,9 +1049,7 @@ namespace MusicXML2
             
             std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
-
-            //cout<<"\t\tCreated clef "<<param <<" fCurrentStaffIndex="<<fCurrentStaffIndex<<" fCurrentVoicePosition="<<fCurrentVoicePosition.toString()<<" "<<staffClefMap.size()<<endl;
-            
+			
             /// Search again for other clefs:
             iter++;
             iter = elt->find(k_clef, iter);
@@ -1314,8 +1310,6 @@ namespace MusicXML2
             /// OR using \beam(...)
             //Sguidoelement tag = guidotag::create("beam");
             //push (tag);
-            
-            //cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
         }
         
         if (beams.empty() && fBeamStack.empty() && notevisitor::getType()!=kRest)
@@ -1352,9 +1346,7 @@ namespace MusicXML2
                 
                 /// OR using \beam(...)
                 //pop();
-                
-                //cout<<"Beam END "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
-                
+				
                 fBeamStack.pop();
             }
         }
@@ -2056,9 +2048,6 @@ namespace MusicXML2
         string name = noteName(nv);
         guidonoteduration dur = noteDuration(nv);
         
-        //if (fMeasNum==47)
-        //    cout<<"\tNEWNOTE "<<name<<" dur="<<dur.fNum<<"/"<<dur.fDenom<" "<<endl;
-        
         Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
         
         /// Force Accidental if accidental XML tag is present
@@ -2074,7 +2063,6 @@ namespace MusicXML2
         bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
-        //cout<<"newNote : measure "<<measureNum<<" measure in timePosition?"<<( timePos4measure != timePositions.end() ? 1: 0 )<< " pos:"<<posInMeasure.getNumerator()<<"/"<<posInMeasure.getDenominator() <<endl;
         if ( (nv.fNotehead
              || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
             &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
@@ -2105,7 +2093,6 @@ namespace MusicXML2
                         s << "dx=" << noteDx ;
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         noteFormat = true;
-                        //cout<<"\t\t Measure="<<measureNum<<" pos:"<<posInMeasure.getNumerator()<<"/"<<posInMeasure.getDenominator()<<" staff="<<fCurrentStaff<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos<< " dX="<<noteDx <<endl;
                     }
                 }
             }
@@ -2165,8 +2152,6 @@ namespace MusicXML2
         {
             // Check out clef for position and voice
             std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition, fMeasNum);
-            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" VoicePosition="<<fCurrentVoicePosition.toString()<<" staff="<<fCurrentStaffIndex<<" clef: "<< thisClef<< " "<<staffClefMap.size()<<endl;
-            
             float restformatDy = nv.getRestFormatDy(thisClef);
             if (restformatDy!=0.0)
             {
@@ -2216,12 +2201,10 @@ namespace MusicXML2
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
             //////// Track all voice default-x parameters, as positions in measures
-            //cout<<"TIMEPOS CANDIDATE: Measure "<< fMeasNum<<" Staff:"<< fTargetStaff<< " VOICE="<< notevisitor::getVoice() <<" TimePosition Insert:"<<fCurrentVoicePosition.toString()<<" default_x="<<notevisitor::x_default<< " SCAN???? "<< scanVoice << " fNotesOnly??? "<<fNotesOnly <<endl;
 
             if (true) {     // had fNotesOnly
                 int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
                 auto timePos4measure = timePositions.find(measureNum);
-                //cout<<"TIMEPOS CANDIDATE: Measure "<< measureNum<<" Staff:"<< fTargetStaff<< " VOICE="<< notevisitor::getVoice() <<" TimePosition Insert:"<<fCurrentVoicePosition.toString()<<" default_x="<<notevisitor::x_default<< " SCAN???? "<< scanVoice <<endl;
                 if (notevisitor::x_default != -1) {
                     if ( timePos4measure !=  timePositions.end())
                     {
@@ -2240,7 +2223,6 @@ namespace MusicXML2
                         inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
                         timePositions.insert(std::make_pair(measureNum, inner));
                     }
-                    //cout<<"TIMEPOSADD: Measure "<< measureNum<<" Staff:"<< fTargetStaff <<" TimePosition Insert:"<<fCurrentVoicePosition.toString()<<" with default-x="<<notevisitor::x_default<<endl;
                 }
             }
             
@@ -2258,15 +2240,10 @@ namespace MusicXML2
             checkStem (notevisitor::fStem);
         
         checkGrace(*this);
-        
         checkSlurBegin (notevisitor::getSlur());
-        
         checkBeamBegin (notevisitor::getBeam());
-        
         checkTupletBegin(notevisitor::getTuplet(), *this, elt);
-        
         checkLyricBegin (notevisitor::getLyric());
-        
         checkWavyTrillBegin(*this);
         
         pendingPops += checkFermata(*this);
