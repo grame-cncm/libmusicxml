@@ -95,7 +95,7 @@ void xmlelement::setValue (float value)
 long xmlelement::add (const Sxmlattribute& attr)
 { 
 	fAttributes.push_back(attr);
-	return fAttributes.size()-1;
+	return long(fAttributes.size()-1);
 }
 
 //______________________________________________________________________________

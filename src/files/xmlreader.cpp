@@ -30,7 +30,7 @@ bool readbuffer (const char * buffer, reader * r);
 }
 
 #if 0
-#define debug(str,val)	cout << str << " - " << val << endl
+#define debug(str,val)	cerr << str << " - " << val << endl
 #else
 #define debug(str,val)
 #endif

@@ -15,4 +15,7 @@ branches:
   - dev
   - master
 
-script: make -C build
+script: 
+   - make -C build
+   - sudo make -C build/linux install
+   - make -C validation

@@ -13,21 +13,53 @@
 
 #include <stdlib.h>
 #include <string.h>
+#ifndef WIN32
+#include <signal.h>
+#include <string.h>
+#endif
+
 #include "libmusicxml.h"
 
 using namespace std;
 using namespace MusicXML2;
 
-void usage() {
+static void usage() {
 	cerr << "usage: musicxml2guido [options]  <musicxml file>" << endl;
 	cerr << "       reads stdin when <musicxml file> is '-'" << endl;
 	cerr << "       option: --autobars don't generates barlines" << endl;
 	exit(1);
 }
 
+#ifndef WIN32
+
+static void _sigaction(int signal, siginfo_t *si, void *arg)
+{
+    cerr << "Signal #" << signal << " catched!" << endl;
+    exit(-2);
+}
+
+static void catchsigs()
+{
+	struct sigaction sa;
+
+    memset(&sa, 0, sizeof(struct sigaction));
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = _sigaction;
+    sa.sa_flags   = SA_SIGINFO;
+    sigaction(SIGSEGV, &sa, NULL);
+    sigaction(SIGILL, &sa, NULL);
+    sigaction(SIGFPE, &sa, NULL);
+}
+
+#else
+static void catchsigs()	{}
+#endif
+
 //_______________________________________________________________________________
 int main(int argc, char *argv[]) 
 {
+	catchsigs();
+
 	bool generateBars = true;
 	char * file = argv[1];
 	if (argc == 3) {

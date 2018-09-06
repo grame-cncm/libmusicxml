@@ -125,7 +125,7 @@ namespace MusicXML2
     
     void xml2guidovisitor::flushPartGroup (std::string partID)
     {
-        //cout<< "Entering flushPartGroup with ID "<<partID<<endl;
+        //cerr<< "Entering flushPartGroup with ID "<<partID<<endl;
         /// Add groupings (accolade and barformat)
         // search if this part ID exists in any grouping
         // Guido Limitation: One \accol tag per staff ONLY (for nested definitions)
@@ -152,8 +152,6 @@ namespace MusicXML2
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformatParams, false));
                 add (tag4);
-                
-                //cout<<"\t Added BarFormat "<<barformatParams<<endl;
             }
             
             /// Make sure that this group pattern won't be visited next time
@@ -298,8 +296,7 @@ namespace MusicXML2
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformat.str(), false));
                 add (tag4);
-                //cout<<"\tAdded MULTI barlineformat "<< barformatParams <<endl;
-                
+				
                 fCurrentAccoladeIndex = rangeEnd;
             }else {
                 
@@ -312,7 +309,6 @@ namespace MusicXML2
                     Sguidoelement tag4 = guidotag::create("barFormat");
                     tag4->add (guidoparam::create(barformat.str(), false));
                     add (tag4);
-                    //cout<<"\tAdded SINGLE barlineformat "<< barformatParams <<endl;
                 }
             }
             
@@ -325,7 +321,6 @@ namespace MusicXML2
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
             pv.staffClefMap = staffClefMap;
             pv.timePositions = timePositions;
-            //cout<<"Browing targetStaff="<<targetStaff<<" fCurrentStaffIndex:"<<fCurrentStaffIndex<<" targetVoice:"<<targetVoice<<endl;
             browser.browse(*elt);
             pop();
             currentTimeSign = pv.getTimeSign();
@@ -386,7 +381,6 @@ namespace MusicXML2
             posy = posy * ymultiplier;
             stringstream s;
             s << "dy=" << posy << "hs";
-            //cout<< elt->getName()<<" XML Pos: "<< elt->getAttributeFloatValue("default-y", 0)<<" Guido Pos: "<< posy<<endl;
             tag->add (guidoparam::create(s.str(), false));
         }
     }

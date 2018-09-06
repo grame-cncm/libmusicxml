@@ -60,7 +60,7 @@ help :
 	@echo 
 	@echo "Platform targets to build the libmusicxml library are:"	
 	@echo "   macos     build the library for macos"	
-	@echo "   macc++11  build the library for macos, linked to libc"	
+#	@echo "   macc++11  build the library for macos, linked to libc"	
 	@echo "   windows   build 32 and 64 bits library for windows"
 	@echo "   linux     build the library for linux"
 	@echo "   android   build a static library for Android"	
@@ -84,11 +84,11 @@ js:
 
 macos : $(MACX)/libmusicxml2.xcodeproj libmusicxml2.framework libmusicxml2.tgz
 
-libmusicxml2.framework :  $(MACX)/libmusicxml2.xcodeproj $(MACX)/Release/libmusicxml2.framework
+libmusicxml2.framework :  $(MACX)/libmusicxml2.xcodeproj maclib
 	rm -rf libmusicxml2.framework
 	cp -R macos/Release/libmusicxml2.framework .
 
-$(MACX)/Release/libmusicxml2.framework :
+maclib :
 	xcodebuild -jobs 8 -project $(MACX)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
 
 $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
@@ -98,14 +98,14 @@ $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
 libmusicxml2.tgz : libmusicxml2.framework
 	tar czf libmusicxml2.tgz libmusicxml2.framework
 
-macc++11:
-	[ -d macc++11 ] || mkdir macc++11
-	cd macc++11 && cmake .. -G Xcode -DC++11=yes  -Wno-dev
-	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
-	cp macc++11/Release/libmusicxml2.*.dylib macc++11
-
-macc++11/Release/libmusicxml2.dylib:
-	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
+# macc++11:
+# 	[ -d macc++11 ] || mkdir macc++11
+# 	cd macc++11 && cmake .. -G Xcode -DC++11=yes  -Wno-dev
+# 	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
+# 	cp macc++11/Release/libmusicxml2.*.dylib macc++11
+# 
+# macc++11/Release/libmusicxml2.dylib:
+# 	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
 
 #===============================================================
 # building the library for iOS
