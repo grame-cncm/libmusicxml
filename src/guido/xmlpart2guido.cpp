@@ -1778,7 +1778,6 @@ namespace MusicXML2
                     if ((*i)->getAttributeValue("type") == "start") {
                         fWavyTrillOpened = true;
                     }
-                    }
                 }
             }
             else {
