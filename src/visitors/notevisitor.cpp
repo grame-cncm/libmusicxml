@@ -64,13 +64,9 @@ void notevisitor::reset ()
 	fBreathMark = (void*)0;
     fThisSNote = (void*)0;
 	fTimeModification.set(1,1);
-#ifdef VC6
+
 	fStep = "";
 	fInstrument = "";
-#else
-	fStep.clear();
-	fInstrument.clear();
-#endif
 	fTied.clear();
 	fSlur.clear();
 	fBeam.clear();
