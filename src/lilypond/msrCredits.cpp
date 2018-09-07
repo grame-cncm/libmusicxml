@@ -127,12 +127,6 @@ void msrCreditWords::acceptOut (basevisitor* v)
 void msrCreditWords::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrCreditWords& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrCreditWords::print (ostream& os)
 {
   os <<
@@ -141,51 +135,56 @@ void msrCreditWords::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 26;
+  const int fieldWidth = 27;
   
   os <<
     setw (fieldWidth) <<
-    "creditWordsContents" << " = \"" <<
+    "creditWordsContents" << " : \"" <<
     fCreditWordsContents <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontFamily" << " = \"" <<
+    "creditWordsFontFamily" << " : \"" <<
     fCreditWordsFontFamily <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontSize" << " = " <<
+    "creditWordsFontSize" << " : " <<
     fCreditWordsFontSize <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontWeight" << " = \"" <<
+    "creditWordsFontWeight" << " : \"" <<
     fCreditWordsFontWeight <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontJustify" << " = \"" <<
+    "creditWordsFontJustify" << " : \"" <<
     fCreditWordsFontJustify <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontHAlign" << " = \"" <<
+    "creditWordsFontHAlign" << " : \"" <<
     fCreditWordsFontHAlign <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontVAlign" << " = \"" <<
+    "creditWordsFontVAlign" << " : \"" <<
     fCreditWordsFontVAlign <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontXMLLanguage" << " = \"" <<
+    "creditWordsFontXMLLanguage" << " : \"" <<
     fCreditWordsFontXMLLanguage <<
     "\"" <<
-    endl <<
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrCreditWords& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -272,12 +271,6 @@ void msrCredit::browseData (basevisitor* v)
   } // for
 }
 
-ostream& operator<< (ostream& os, const S_msrCredit& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrCredit::asString () const
 {
   stringstream s;
@@ -318,8 +311,7 @@ void msrCredit::print (ostream& os)
   gIndenter++;
   
   os <<
-    "fCreditPageNumber" << " = " << fCreditPageNumber <<
-    endl <<
+    "fCreditPageNumber" << " : " << fCreditPageNumber <<
     endl;
 
   if (fCreditWordsList.size ()) {
@@ -336,6 +328,12 @@ void msrCredit::print (ostream& os)
   }
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrCredit& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

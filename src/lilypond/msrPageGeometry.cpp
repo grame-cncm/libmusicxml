@@ -243,7 +243,7 @@ void msrPageGeometry::print (ostream& os) {
   
   gIndenter++;
   
-  const int fieldWidth = 15;
+  const int fieldWidth = 13;
 
   if (fPaperWidth > 0) {
     os << left <<
@@ -268,7 +268,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fTopMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "topMargin" << " = " <<
+      "topMargin" << " : " <<
       setprecision (2) << fTopMargin << " cm" <<
       endl;
 
@@ -278,7 +278,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fBottomMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "bottomMargin" << " = " <<
+      "bottomMargin" << " : " <<
       setprecision (2) << fBottomMargin << " cm" <<
       endl;
 
@@ -288,7 +288,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fLeftMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "leftMargin" << " = " <<
+      "leftMargin" << " : " <<
       setprecision (2) << fLeftMargin << " cm" <<
       endl;
 
@@ -298,7 +298,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fRightMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "rightMargin" << " = " <<
+      "rightMargin" << " ; " <<
       setprecision (2) << fRightMargin << " cm" <<
       endl;
 
@@ -309,7 +309,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fMillimeters > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "millimeters" << " = " <<
+      "millimeters" << " : " <<
       setprecision (2) << fMillimeters <<
       endl;
 
@@ -319,7 +319,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fTenths > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "tenths" << " = " <<
+      "tenths" << " : " <<
       setprecision (2) << fTenths <<
       endl;
 

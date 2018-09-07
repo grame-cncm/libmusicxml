@@ -581,6 +581,7 @@ class msr2LpsrTranslator :
     // multiple rests
     // ------------------------------------------------------
 
+    S_msrMultipleRest         fCurrentMultipleRestClone; // JMI
     S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
 
     // segments

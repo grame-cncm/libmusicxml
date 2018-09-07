@@ -90,16 +90,6 @@ S_msrScore msrScore::createScoreNewbornClone ()
       msrScore::create (
         fInputLineNumber);
 
-/* JMI
-  for (
-    list<S_msrPartGroup>::const_iterator i = fCreditsList.begin ();
-    i != fCreditsList.end ();
-    i++) {
-    // append the credit to the clone
-    appendCreditToScore (*i);
-  } // for
-*/
-
   // number of measures
   newbornClone->fScoreNumberOfMeasures =
     fScoreNumberOfMeasures;
@@ -416,7 +406,15 @@ void msrScore::print (ostream& os)
   }
 
   // print the credits if any
-  if (fCreditsList.size ()) {
+  int creditsListSize = fCreditsList.size ();
+
+  os <<
+    "CreditsList" <<
+    endl <<
+    endl;
+  if (creditsListSize) {
+    gIndenter++;
+
     list<S_msrCredit>::const_iterator
       iBegin = fCreditsList.begin (),
       iEnd   = fCreditsList.end (),
@@ -426,7 +424,16 @@ void msrScore::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+
+    gIndenter--;
   }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+  os <<
+    endl;
 
   // print the part groups if any
   if (partGroupsListSize) {
@@ -437,7 +444,7 @@ void msrScore::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << endl;
+      // no endl here
     } // for
   }
   else {

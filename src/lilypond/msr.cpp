@@ -17516,7 +17516,7 @@ void msrRepeatCommonPart::print (ostream& os)
     fRepeatCommonPartElementsList.size ();
     
   os <<
-    "Elements: ";
+    "repeatCommonPartElementsList: ";
   if (elementsNumber)
     os << "(" << elementsNumber << ")";
   else
