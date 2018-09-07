@@ -28,10 +28,8 @@ ANDROID := android
 LINUX := linux
 
 # default generator for windows
-GENERATOR = "Visual Studio 14 2015"
+GENERATOR = Visual Studio 14 2015
 
-C++11 ?= no
-CMAKEOPT ?= -DC++11=$(C++11)
 TOOLS := RandomMusic readunrolled xml2midi xmlfactory xmlread xmlversion countnotes partsummary xml2guido xmlclone xmliter xmltranspose
 
 all :
@@ -144,11 +142,11 @@ libmusicxml264.dll : win64/Release/libmusicxml264.dll
 	cp win64/Release/libmusicxml264.lib .
 
 win64/Release/libmusicxml264.dll : win64/libmusicxml2.sln
-	cmake --build win34 --config Release -- /maxcpucount:4
+	cmake --build win64 --config Release -- /maxcpucount:4
 
 win64/libmusicxml2.sln : CMakeLists.txt
 	[ -d win64 ] || mkdir win64
-	cd win64 && cmake .. -G "$(GENERATOR) Win64" $(CMAKEOPT) -DMIDIEXPORT=yes
+	cd win64 && cmake .. -G "$(GENERATOR) Win64" $(CMAKEOPT)
 
 #===============================================================
 # building the library on linux
@@ -164,7 +162,7 @@ libmusicxml2.so :  $(OUTDIR)/Makefile
 	
 linux/Makefile : CMakeLists.txt
 	[ -d linux ] || mkdir linux
-	cd linux && cmake .. -G "Unix Makefiles" -DMIDIEXPORT=yes
+	cd linux && cmake .. -G "Unix Makefiles" 
 
 #===============================================================
 # building the library for Android
