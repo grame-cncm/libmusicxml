@@ -436,7 +436,8 @@ R"(In the options below:
       "neapolitan", "italian", "french", "german"
     Jazz-specific chords:
       "pedal", "power", "tristan", "minmaj9", "domsus4", "domaug5",
-      "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11")",
+      "dommin9", "domaug9dim5", "domaug9aug5", "domaug11", "maj7aug11"
+)",
           optionsSubGroup::kAlwaysShowDescription,
           this);
   

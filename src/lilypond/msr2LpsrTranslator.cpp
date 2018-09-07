@@ -4186,7 +4186,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 
   // set last segment as the measure repeat pattern segment
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMultipleRests) {
     fLogOutputStream <<
       "Setting current last segment as measure repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4225,7 +4225,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
   // create a measures repeat and append it to voice clone
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasureRepeats) {
     fLogOutputStream <<
       "Appending a measures repeat to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<

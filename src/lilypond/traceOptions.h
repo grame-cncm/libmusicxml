@@ -121,6 +121,9 @@ class traceOptions : public optionsGroup
     // tempos
     bool                  fTraceTempos;
 
+    // rehearsals
+    bool                  fTraceRehearsals;
+
     // transpositions
     bool                  fTraceTranspositions;
 
@@ -135,9 +138,15 @@ class traceOptions : public optionsGroup
     bool                  fTraceBarlines;
     bool                  fTraceBarlinesDetails;
 
+    // multiple rests
+    bool                  fTraceMultipleRests;
+
     // repeats
     bool                  fTraceRepeats;
     bool                  fTraceRepeatsDetails;
+
+    // rmeasure repeats
+    bool                  fTraceMeasureRepeats;
 
     // slashes
     bool                  fTraceSlashes;

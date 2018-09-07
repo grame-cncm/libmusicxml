@@ -130,30 +130,6 @@
         <voice>1</voice>
         </note>
       </measure>
-    <measure number="4" width="137.35">
-      <note>
-        <rest/>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        </note>
-      <note>
-        <rest/>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        </note>
-      <note default-x="94.81" default-y="-35.00">
-        <pitch>
-          <step>G</step>
-          <octave>3</octave>
-          </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>up</stem>
-        </note>
-      </measure>
     <measure number="5" width="143.01">
       <note default-x="12.00" default-y="-25.00">
         <pitch>

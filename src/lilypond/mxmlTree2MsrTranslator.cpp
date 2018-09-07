@@ -5859,7 +5859,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   // so that the necessary staves/voices have been created
   if (fOnGoingMultipleRest) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceRepeats) {
+    if (gTraceOptions->fTraceMultipleRests) {
       fLogOutputStream <<
         "--> onGoingMultipleRest" <<
         endl <<
@@ -5918,7 +5918,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     }
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceRepeats) {
+    if (gTraceOptions->fTraceMultipleRests) {
       fLogOutputStream <<
         "<-- onGoingMultipleRest" <<
         endl <<
@@ -19966,7 +19966,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
 
   // create a rehearsal
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRehearsals) {
     fLogOutputStream <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
       " in part " <<
