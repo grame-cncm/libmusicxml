@@ -33,11 +33,9 @@ if(APPLE)
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s")
+		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (libtype STATIC)
-#	else ()
-#		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
 	endif()
 
 #########################################
@@ -102,25 +100,28 @@ endif()
 
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
-			FRAMEWORK ${FMWK}
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
-			FRAMEWORK_VERSION ${VERSION}
 			PUBLIC_HEADER "${COREH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+)
+if (APPLE AND NOT IOS)
+set_target_properties (${target} PROPERTIES 
+			FRAMEWORK ${FMWK}
+			FRAMEWORK_VERSION ${VERSION}
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
 			MACOSX_FRAMEWORK_IDENTIFIER ${target}
-			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-
+endif()
 
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmlread xmltranspose)
 
-if(NOT APPLE OR NOT IOS )
+if(NOT IOS )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
@@ -131,6 +132,7 @@ endif()
 
 #######################################
 # install setup
+if (NOT IOS)
 install ( TARGETS ${target} ${TOOLS} 
 	RUNTIME DESTINATION bin 
     	LIBRARY DESTINATION /usr/lib 
@@ -138,3 +140,4 @@ install ( TARGETS ${target} ${TOOLS}
     	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
     	PUBLIC_HEADER DESTINATION include/libmusicxml
 )
+endif()
