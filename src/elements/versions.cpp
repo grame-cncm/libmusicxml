@@ -21,8 +21,5 @@ const char*	versions::libVersionStr()			{ return "3.12"; }
 float		versions::xml2guidoVersion()		{ return 2.2; }
 const char*	versions::xml2guidoVersionStr()		{ return "2.2"; }
 
-//float		versions::xml2antescofoVersion()	{ return 0; }
-//const char*	versions::xml2antescofoVersionStr()	{ return "0"; }
-
 }
 
