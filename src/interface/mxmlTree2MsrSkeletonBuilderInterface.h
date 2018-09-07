@@ -48,10 +48,12 @@ EXP void displayMsrSkeleton (
   indentedOstream& logIOstream);
 
 //_______________________________________________________________________________
+/* JMI
 EXP void displayMsrSkeletonSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);
+*/
 
 
 /*! @} */

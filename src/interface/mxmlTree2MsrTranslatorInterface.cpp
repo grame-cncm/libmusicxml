@@ -31,6 +31,7 @@
 #include "mxmlTree2MsrTranslator.h"
 
 #include "msr2Summary.h"
+#include "msr2Names.h"
 
 using namespace std;
 
@@ -98,14 +99,6 @@ void populateMsrSkeletonFromMxmlTree (
   if (msrOpts->fDisplayMsr) {
     // display the MSR
     displayMSRPopulatedScore (
-      msrOpts,
-      scoreSkeleton,
-      logIOstream);
-  }
-
-  if (msrOpts->fDisplayMsrSummary) {
-    // display the MSR summary
-    displayMSRPopulatedScoreSummary (
       msrOpts,
       scoreSkeleton,
       logIOstream);
@@ -197,6 +190,57 @@ void displayMSRPopulatedScoreSummary (
   timing::gTiming.appendTimingItem (
     "",
     "display MSR summary",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
+//_______________________________________________________________________________
+void displayMSRPopulatedScoreNames (
+  S_msrOptions&    msrOpts,
+  S_msrScore       mScore,
+  indentedOstream& logIOstream)
+{
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+    
+  clock_t startClock = clock ();
+  
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTracePasses) {
+    string separator =
+      "%--------------------------------------------------------------";
+    
+    logIOstream <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      "Optional pass: outputting the names in the MSR" <<
+      endl <<
+      separator <<
+      endl <<
+      endl;
+  }
+#endif
+   
+  // create an msr2NamesVisitor visitor
+  msr2NamesVisitor
+    namesVisitor (
+      msrOpts,
+      logIOstream);
+
+  namesVisitor.printNamesFromMsrScore (
+    mScore);
+  
+  clock_t endClock = clock ();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "",
+    "display MSR names",
     timingItem::kOptional,
     startClock,
     endClock);

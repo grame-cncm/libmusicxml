@@ -104,14 +104,6 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       logIOstream);
   }
 
-  if (msrOpts->fDisplayMsrSummary) {
-    // display the MSR skeleton summary
-    displayMsrSkeletonSummary (
-      msrOpts,
-      scoreSkeleton,
-      logIOstream);
-  }
-
   return scoreSkeleton;
 }
 
@@ -154,6 +146,7 @@ void displayMsrSkeleton (
     endClock);
 }
 
+/* JMI
 //_______________________________________________________________________________
 void displayMsrSkeletonSummary (
   S_msrOptions&    msrOpts,
@@ -203,6 +196,7 @@ void displayMsrSkeletonSummary (
     startClock,
     endClock);
 }
+*/
 
 
 }

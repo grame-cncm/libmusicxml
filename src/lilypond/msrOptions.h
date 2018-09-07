@@ -252,6 +252,7 @@ class msrOptions : public optionsGroup
     bool                  fDisplayMsrDetails;
     
     bool                  fDisplayMsrSummary;
+    bool                  fDisplayMsrNames;
 
     
     // languages
@@ -271,6 +272,12 @@ class msrOptions : public optionsGroup
     // --------------------------------------
     
     bool                  fCreateVoicesStaffRelativeNumbers;
+
+    
+    // repeats
+    // --------------------------------------
+    
+    bool                  fCreateImplicitInitialRepeatBarline;
 
     
     // notes

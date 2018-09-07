@@ -123,39 +123,128 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 
   gIndenter++;
   
+  const int fieldWidth = 3;
+
   fMsrSummaryOutputStream <<
-    fPartGroupsCounter << " part groups" <<
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fPartGroupsCounter,
+      "part group",
+      "part groups") <<
     endl <<
-    fPartsCounter << " parts" <<
+    
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fPartsCounter,
+      "part",
+      "parts") <<
     endl <<
-    fStavesCounter << " staves" <<
+    
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fStavesCounter,
+      "stave",
+      "staves") <<
     endl <<
-    fVoicesCounter << " voices" <<
-    endl <<
-    fStanzasCounter << " stanzas" <<
-    endl <<
-    elt->getScoreNumberOfMeasures () << " measures" <<
+    
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fVoicesCounter,
+      "voice",
+      "voices") <<
     endl <<
 
-    fScoreUnpitchedNotesCounter << " standalone notes" <<
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fStanzasCounter,
+      "stanza",
+      "stanzas") <<
     endl <<
-    fScoreStandaloneNotesCounter << " standalone notes" <<
+
     endl <<
-    fScoreRestNotesCounter << " rest notes" <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      elt->getScoreNumberOfMeasures (),
+      "measure",
+      "measures") <<
     endl <<
-    fScoreSkipNotesCounter << " skip notes" <<
+
     endl <<
-    fScoreDoubleTremoloNotesCounter << " double tremolo notes" <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreStandaloneNotesCounter,
+      "standalone note",
+      "standalone notes") <<
     endl <<
-    fScoreGraceNotesCounter << " grace notes" <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreRestNotesCounter,
+      "rest note",
+      "rest notes") <<
     endl <<
-    fScoreChordNotesCounter << " chord notes" <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreSkipNotesCounter,
+      "skip note",
+      "skip notes") <<
     endl <<
-    fScoreTupletNotesCounter << " tuplet notes" <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreUnpitchedNotesCounter,
+      "unpitched note",
+      "unpitched notes") <<
     endl <<
-    fScoreChordsCounter << " chords" <<
+
     endl <<
-    fScoreTupletsCounter << " tuplets" <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreChordsCounter,
+      "chord",
+      "chords") <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreChordNotesCounter,
+      "chord note",
+      "chord notes") <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreTupletsCounter,
+      "tuplet",
+      "tuplets") <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreTupletNotesCounter,
+      "tuplet note",
+      "tuplet notes") <<
+    endl <<
+
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreGraceNotesCounter,
+      "grace note",
+      "grace notes") <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPlural (
+      fScoreDoubleTremoloNotesCounter,
+      "double tremolo note",
+      "double tremolo notes") <<
+    endl <<
     endl;
 
   gIndenter--;
@@ -189,50 +278,50 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
   
   fMsrSummaryOutputStream << left <<
     setw (fieldWidth) <<
-    "PartGroupAbsoluteNumber" << " : \"" <<
+    "partGroupAbsoluteNumber" << " : \"" <<
     elt->getPartGroupAbsoluteNumber  () << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupName" << " : \"" <<
+    "partGroupName" << " : \"" <<
     elt->getPartGroupName  () << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupNameDisplayText" << " : \"" <<
+    "partGroupNameDisplayText" << " : \"" <<
     elt->getPartGroupNameDisplayText  () << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupAccidentalText" << " : \"" <<
+    "partGroupAccidentalText" << " : \"" <<
     elt->getPartGroupAccidentalText  () << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupAbbrevation" << " : \"" <<
+    "partGroupAbbrevation" << " : \"" <<
     elt->getPartGroupAbbreviation  () << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupSymbolKind" << " : " <<
+    "partGroupSymbolKind" << " : " <<
     msrPartGroup::partGroupSymbolKindAsString (
       elt->getPartGroupSymbolKind  ()) <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupSymbolDefaultX" << " : " <<
+    "partGroupSymbolDefaultX" << " : " <<
     elt->getPartGroupSymbolDefaultX  () <<
     endl <<
     
     setw (fieldWidth) <<
-    "fPartGroupBarline" << " : \"" <<
+    "partGroupBarline" << " : \"" <<
     msrPartGroup::partGroupBarlineKindAsString (
       elt->getPartGroupBarlineKind ()) <<
     "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupInstrumentName" << " : \"" <<
+    "partGroupInstrumentName" << " : \"" <<
       elt->getPartGroupInstrumentName () << "\"" <<
     endl <<
     endl;
@@ -276,36 +365,39 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   fMsrSummaryOutputStream << left <<
     setw (fieldWidth) <<
-    "PartID" << " : \"" <<
+    "partID" << " : \"" <<
     elt->getPartID () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartMsrName" << " : \"" <<
+    "partMsrName" << " : \"" <<
     elt->getPartMsrName () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartName" << " : \"" <<
+    "partName" << " : \"" <<
     elt->getPartName  () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartAbbrevation" << " : \"" <<
+    "partAbbrevation" << " : \"" <<
     elt->getPartAbbreviation () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartInstrumentName" << " : \"" <<
+    "partInstrumentName" << " : \"" <<
     elt->getPartInstrumentName () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartInstrumentAbbreviation" << " : \"" <<
+    "partInstrumentAbbreviation" << " : \"" <<
     elt->getPartInstrumentAbbreviation () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartNumberOfMeasures" << " : " <<
+    "partNumberOfMeasures" << " : " <<
     elt->getPartNumberOfMeasures () <<
     endl <<
-    endl;
-
-  fMsrSummaryOutputStream <<
     endl;
 }
 
@@ -344,20 +436,24 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   
-  const int fieldWidth = 17;
+  const int fieldWidth = 27;
 
   // print the staff number
   fMsrSummaryOutputStream << left <<
     setw (fieldWidth) <<
-    "StaffNumber" << " : " <<
+    "staffNumber" << " : " <<
     elt->getStaffNumber () <<
-    endl;
+    endl <<
 
-/* JMI
-  fMsrSummaryOutputStream <<
-    "StaffInstrumentName: \"" <<
-    elt->getStaffInstrumentName () << "\"" << endl;
-*/
+    setw (fieldWidth) <<
+   "staffInstrumentName" << ": \"" <<
+    elt->getStaffInstrumentName () << "\"" <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "staffInstrumentAbbreviation" << ": \"" <<
+    elt->getStaffInstrumentAbbreviation () << "\"" <<
+    endl;
 
   fMsrSummaryOutputStream <<
     endl;
@@ -401,19 +497,19 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
   gIndenter++;
 
-  const int fieldWidth = 30;
+  const int fieldWidth = 34;
   
   fMsrSummaryOutputStream << left <<
     setw (fieldWidth) <<
-    "VoiceNumber" << " : " <<
+    "voiceNumber" << " : " <<
     elt->getVoiceNumber () <<
     endl <<
     setw (fieldWidth) <<
-    "RegularVoiceStaffSequentialNumber" << " : " <<
+    "regularVoiceStaffSequentialNumber" << " : " <<
     elt->getRegularVoiceStaffSequentialNumber () <<
     endl <<
     setw (fieldWidth) <<
-    "VoiceActualNotesCounter" << " : " <<
+    "noiceActualNotesCounter" << " : " <<
     elt->getVoiceActualNotesCounter () <<
     endl <<
     setw (fieldWidth) <<
@@ -421,7 +517,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     elt->getVoiceActualHarmoniesCounter () <<
     endl <<
     setw (fieldWidth) <<
-    "MusicHasBeenInsertedInVoice" << " : " <<
+    "musicHasBeenInsertedInVoice" << " : " <<
     booleanAsString (
       elt->getMusicHasBeenInsertedInVoice ()) <<
     endl;
@@ -464,9 +560,11 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
       "syllable", "syllables");
 
   if (! elt->getStanzaTextPresent ())
-    fMsrSummaryOutputStream << " (No actual text)";
+    fMsrSummaryOutputStream << " (no actual text)";
     
-  fMsrSummaryOutputStream << endl << endl;
+  fMsrSummaryOutputStream <<
+    endl <<
+    endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
@@ -940,27 +1038,6 @@ void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 }
 
 //________________________________________________________________________
-/* JMI
-void msr2SummaryVisitor::visitStart (S_msrComment& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fMsrSummaryOutputStream <<
-      "--> Start visiting msrComment" <<
-      endl;
-  }
-}
-
-void msr2SummaryVisitor::visitEnd (S_msrComment& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fMsrSummaryOutputStream <<
-      "--> End visiting msrComment" <<
-      endl;
-  }
-}
-*/
-
-//________________________________________________________________________
 void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -975,13 +1052,18 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
   
   gIndenter++;
   
+  const int fieldWidth = 16;
+
   fMsrSummaryOutputStream <<
-    "variable kind : " <<
+    setw (fieldWidth) <<
+    "varValAssocKind" << " : " <<
     "\"" <<
     elt->varValAssocKindAsString () <<
     "\"" <<
     endl <<
-    "variable value: " <<
+
+    setw (fieldWidth) <<
+    "variableValue" << " : " <<
     "\"" << elt->getVariableValue () << "\"" <<
     endl <<
     endl;
@@ -1013,17 +1095,18 @@ void msr2SummaryVisitor::visitStart (S_msrVarValsListAssoc& elt)
   
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const int fieldWidth = 21;
   
   fMsrSummaryOutputStream << left <<
     setw (fieldWidth) <<
-    "variable kind" << " : " <<
+    "varValsListAssocKind" << " : " <<
     "\"" <<
     elt->varValsListAssocKindAsString () <<
     "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "variable values" << " : " <<
+    "varValsListAssocValues" << " : " <<
     "'" << elt->varValsListAssocValuesAsString () << "'" <<
     endl <<
     endl;

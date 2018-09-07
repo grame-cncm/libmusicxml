@@ -22211,6 +22211,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         // is there another repeat to nest newRepeat into?
         if (fVoiceCurrentRepeat) {
           // yes
+          
           // move the voice initial elements to the new repeat common part
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceRepeats) {
@@ -22259,6 +22260,36 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         
         else {
           // no
+
+          // move the voice initial elements to the new repeat common part
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Moving the initial elements in voice \"" <<
+              getVoiceName () <<
+              "\" to the new repeat common part" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+#endif
+          
+          for (
+            list<S_msrElement>::iterator i = fVoiceInitialElementsList.begin ();
+            i != fVoiceInitialElementsList.end ();
+            i++) {
+            S_msrElement element = (*i);
+  
+            // append the element to the new segment
+            repeatCommonPart->
+              appendElementToRepeatCommonPart (
+                (*i));
+  
+  //            // remove it from the voic initial elements
+  // // JMI            fVoiceInitialElementsList.erase (i);
+          } // for
+  
+          fVoiceInitialElementsList.clear ();
+  
           // append the voice last segment to the new repeat common part
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceRepeats) {
@@ -25065,7 +25096,7 @@ void msrVoice::print (ostream& os)
 
   // print the harmony voice name if any
   os << left <<
-    setw (fieldWidth) << "HarmonyVoice" << " : ";
+    setw (fieldWidth) << "harmonyVoiceForRegularVoice" << " : ";
   if (fHarmonyVoiceForRegularVoice) {    
     os <<
       fHarmonyVoiceForRegularVoice->getVoiceName ();
@@ -27535,7 +27566,7 @@ void msrStaff::print (ostream& os)
   else {
     os << left <<
       setw (fieldwidth) <<
-      "staff details" << " : " << "none";
+      "staffStaffDetails" << " : " << "none";
   }
   os <<
     endl;
@@ -27642,11 +27673,10 @@ void msrStaff::printSummary (ostream& os)
 
   gIndenter++;
 
-/* JMI
   os <<
     "StaffInstrumentName: \"" <<
-    fStaffInstrumentName << "\"" << endl;
-*/
+    fStaffInstrumentName << "\"" <<
+    endl;
 
 /* JMI
   if (fStaffTuningsList.size ()) {
@@ -29648,12 +29678,12 @@ void msrPart::printSummary (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "PartMsrName" << " : \"" <<
+    "partMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartName" << " : \"" <<
+    "partName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
 
@@ -29663,30 +29693,30 @@ void msrPart::printSummary (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "PartNameDisplayText" << " : \"" <<
+    "partNameDisplayText" << " : \"" <<
     fPartNameDisplayText << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartAbbrevation" << " : \"" <<
+    "partAbbrevation" << " : \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartAbbreviationDisplayText" << " : \"" <<
+    "partAbbreviationDisplayText" << " : \"" <<
     fPartAbbreviationDisplayText << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-     "PartInstrumentName" << " : \"" <<
+    "partInstrumentName" << " : \"" <<
     fPartInstrumentName << "\"" <<
     endl <<    
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << " : \"" <<
+    "partInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartNumberOfMeasures" << " : " <<
+    "partNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
     endl <<
     endl;
@@ -29694,7 +29724,7 @@ void msrPart::printSummary (ostream& os)
   // print the staves
   if (fPartStavesMap.size ()) {
     os << 
-      "Part staves" <<
+      "partStavesMap" <<
       endl;
               
     gIndenter++;
@@ -29716,7 +29746,7 @@ void msrPart::printSummary (ostream& os)
   // print the figured bass staff if any // JMI
   if (fPartFiguredBassStaff) {
     os <<
-      "Figured bass staff" <<
+      "partFiguredBassStaff" <<
       endl;
             
     gIndenter++;
@@ -30684,12 +30714,12 @@ void msrPartGroup::printSummary (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "PartGroupName" << " : \"" <<
+    "partGroupName" << " : \"" <<
     fPartGroupName <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartGroupAbbrevation" << " : \"" <<
+    "partGroupAbbrevation" << " : \"" <<
     fPartGroupAbbreviation <<
     "\"" <<
     endl <<
@@ -30698,20 +30728,20 @@ void msrPartGroup::printSummary (ostream& os)
     fPartGroupSymbolDefaultX <<
       endl <<
     setw (fieldWidth) <<
-    "fPartGroupSymbolKind" << " : \"" <<
+    "partGroupSymbolKind" << " : \"" <<
     partGroupSymbolKindAsString (
       fPartGroupSymbolKind) <<
     "\"" <<
     endl <<
     
     setw (fieldWidth) <<
-    "PartGroupImplicit" << " : " <<
+    "partGroupImplicit" << " : " <<
     partGroupImplicitKindAsString (
       fPartGroupImplicitKind) <<
     endl <<
 
     setw (fieldWidth) <<
-    "PartGroupBarline" << " : " <<
+    "partGroupBarline" << " : " <<
     partGroupBarlineKindAsString (
       fPartGroupBarlineKind) <<
     endl;

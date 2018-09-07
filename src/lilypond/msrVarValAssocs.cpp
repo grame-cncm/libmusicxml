@@ -20,6 +20,10 @@
 
 #include "msrVarValAssocs.h"
 
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -54,36 +58,21 @@ msrVarValAssoc::msrVarValAssoc (
 msrVarValAssoc::~msrVarValAssoc ()
 {}
 
-string msrVarValAssoc::varValAssocKindAsString (
-  msrVarValAssocKind varValAssocKind)
+void msrVarValAssoc::setVariableValue (string value)
 {
-  string result;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Setting the value of varValAssoc \"" <<
+      varValAssocKindAsString (fVarValAssocKind) <<
+      "\" to '" <<
+      value <<
+      "', line " << fInputLineNumber <<
+      endl;
+  }
+#endif
 
-  switch (varValAssocKind) {
-    case msrVarValAssoc::kWorkNumber:
-      result = "workNumber";
-      break;
-    case msrVarValAssoc::kWorkTitle:
-      result = "workTitle";
-      break;
-    case msrVarValAssoc::kMovementNumber:
-      result = "movementNumber";
-      break;
-    case msrVarValAssoc::kMovementTitle:
-      result = "movementTitle";
-      break;
-    case msrVarValAssoc::kEncodingDate:
-      result = "encodingDate";
-      break;
-    case msrVarValAssoc::kScoreInstrument:
-      result = "scoreInstrument";
-      break;
-    case msrVarValAssoc::kMiscellaneousField:
-      result = "miscellaneousField";
-      break;
-  } // switch
-  
-  return result;
+  fVariableValue = value;
 }
 
 void msrVarValAssoc::acceptIn (basevisitor* v)
@@ -133,9 +122,36 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
 void msrVarValAssoc::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt) {
-  elt->print (os);
-  return os;
+string msrVarValAssoc::varValAssocKindAsString (
+  msrVarValAssocKind varValAssocKind)
+{
+  string result;
+
+  switch (varValAssocKind) {
+    case msrVarValAssoc::kWorkNumber:
+      result = "workNumber";
+      break;
+    case msrVarValAssoc::kWorkTitle:
+      result = "workTitle";
+      break;
+    case msrVarValAssoc::kMovementNumber:
+      result = "movementNumber";
+      break;
+    case msrVarValAssoc::kMovementTitle:
+      result = "movementTitle";
+      break;
+    case msrVarValAssoc::kEncodingDate:
+      result = "encodingDate";
+      break;
+    case msrVarValAssoc::kScoreInstrument:
+      result = "scoreInstrument";
+      break;
+    case msrVarValAssoc::kMiscellaneousField:
+      result = "miscellaneousField";
+      break;
+  } // switch
+  
+  return result;
 }
 
 void msrVarValAssoc::print (ostream& os)
@@ -169,6 +185,11 @@ void msrVarValAssoc::print (ostream& os)
   gIndenter--;
 }
 
+ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt) {
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 S_msrVarValsListAssoc msrVarValsListAssoc::create (
   int                inputLineNumber,
@@ -191,6 +212,53 @@ msrVarValsListAssoc::msrVarValsListAssoc (
 }
 
 msrVarValsListAssoc::~msrVarValsListAssoc ()
+{}
+
+void msrVarValsListAssoc::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrVarValsListAssoc::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
+        S_msrVarValsListAssoc elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrVarValsListAssoc::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrVarValsListAssoc::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrVarValsListAssoc::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
+        S_msrVarValsListAssoc elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrVarValsListAssoc::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrVarValsListAssoc::browseData (basevisitor* v)
 {}
 
 string msrVarValsListAssoc::varValsListAssocKindAsString (
@@ -247,58 +315,6 @@ string msrVarValsListAssoc::varValsListAssocValuesAsString () const
   return s.str ();
 }
 
-void msrVarValsListAssoc::acceptIn (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrVarValsListAssoc::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_msrVarValsListAssoc>*
-    p =
-      dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
-        S_msrVarValsListAssoc elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrVarValsListAssoc::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void msrVarValsListAssoc::acceptOut (basevisitor* v)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrVarValsListAssoc::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrVarValsListAssoc>*
-    p =
-      dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
-        S_msrVarValsListAssoc elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrVarValsListAssoc::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void msrVarValsListAssoc::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_msrVarValsListAssoc& elt) {
-  elt->print (os);
-  return os;
-}
-
 void msrVarValsListAssoc::print (ostream& os)
 {
   os <<
@@ -340,6 +356,11 @@ void msrVarValsListAssoc::print (ostream& os)
   gIndenter--;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrVarValsListAssoc& elt) {
+  elt->print (os);
+  return os;
 }
 
 

@@ -92,6 +92,9 @@ class traceOptions : public optionsGroup
     // score
     bool                  fTraceScore; // JMI ???
 
+    // varValAssocs
+    bool                  fTraceVarValAssocs;
+
     // part groups
     bool                  fTracePartGroups;
     bool                  fTracePartGroupsDetails;

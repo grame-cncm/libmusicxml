@@ -19534,7 +19534,11 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
     appendBarlineToPart (barline);
 
   // prepend an implicit bar line to the part if needed
-  if (! fOnGoingRepeat) {
+  if (
+    ! fOnGoingRepeat
+      &&
+    gMsrOptions->fCreateImplicitInitialRepeatBarline
+  ) {
     createAndPrependImplicitBarLine (
       inputLineNumber);
    }

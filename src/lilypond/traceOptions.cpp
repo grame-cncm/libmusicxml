@@ -155,6 +155,9 @@ debugging information to standard error for the specified measures.)",
     // geometry
     fTraceGeometry = boolOptionsInitialValue;
   
+    // varValAssocs
+    fTraceVarValAssocs = boolOptionsInitialValue;
+
     // part groups
     fTracePartGroups = boolOptionsInitialValue;
     fTracePartGroupsDetails = boolOptionsInitialValue;
@@ -327,7 +330,19 @@ R"(Encoding)",
           fTraceEncoding,
           fTracePasses));
       
-    specificTraceSubGroup->
+    // varValAssocs
+    bool                  fTraceVarValAssocs;
+
+     specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tvvas", "traceVarValAssocs",
+R"(VarValAssocs)",
+          "traceVarValAssocs",
+          fTraceVarValAssocs,
+          fTracePasses));
+      
+   specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
           "tdivs", "traceDivisions",
@@ -898,6 +913,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // geometry
   clone->fTraceGeometry = true;
 
+  // varValAssocs
+  bool                  fTraceVarValAssocs;
+
   // part groups
   clone->fTracePartGroups = true;
   clone->fTracePartGroupsDetails = true;
@@ -1151,6 +1169,12 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // geometry
     setw (fieldWidth) << "traceGeometry" << " : " <<
     booleanAsString (fTraceGeometry) <<
+    endl <<
+      
+    // varValAssocs
+    // geometry
+    setw (fieldWidth) << "traceVarValAssocs" << " : " <<
+    booleanAsString (fTraceVarValAssocs) <<
     endl <<
       
     // part groups

@@ -53,6 +53,12 @@ EXP void displayMSRPopulatedScoreSummary (
   S_msrScore       mScore,
   indentedOstream& logIOstream);
 
+//______________________________________________________________________________
+EXP void displayMSRPopulatedScoreNames (
+  S_msrOptions&    msrOpts,
+  S_msrScore       mScore,
+  indentedOstream& logIOstream);
+
 
 } // namespace MusicXML2
 

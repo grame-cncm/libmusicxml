@@ -180,13 +180,6 @@ float msrPageGeometry::globalStaffSize () const
   }
     
   return staffSize;
-  
-  /* JMI ???
-  if (fMillimeters > 0)
-    return fMillimeters * 72.27 / 25.4;
-  else
-    return 20.0; // LilyPond default
-    */
 }
 
 void msrPageGeometry::acceptIn (basevisitor* v)
@@ -234,45 +227,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
 }
 
 void msrPageGeometry::browseData (basevisitor* v)
-{
-  /* JMI
-  if (fPaperWidth) {
-    // browse identification
-    msrBrowser<fPaperWidth> browser (v);
-    browser.browse (*fPaperWidth);
-  }
-
-  if (fPaperHeight) {
-    // browse identification
-    msrBrowser<fPaperWidth> browser (v);
-    browser.browse (*fPaperHeight);
-  }
-
-  if (fTopMargin) {
-    // browse identification
-    msrBrowser<fPaperWidth> browser (v);
-    browser.browse (*fTopMargin);
-  }
-
-  if (fBottomMargin) {
-    // browse identification
-    msrBrowser<fPaperWidth> browser (v);
-    browser.browse (*fPaperWidth);
-  }
-
-  if (fLeftMargin) {
-    // browse identification
-    msrBrowser<fPaperWidth> browser (v);
-    browser.browse (*fPaperWidth);
-  }
-
-  if (fRightMargin) {
-    // browse identification
-    msrBrowser<fPaperWidth> browser (v);
-    browser.browse (*fRightMargin);
-  }
-  */
-}
+{}
 
 ostream& operator<< (ostream& os, const S_msrPageGeometry& elt) {
   elt->print (os);
@@ -288,12 +243,12 @@ void msrPageGeometry::print (ostream& os) {
   
   gIndenter++;
   
-  const int fieldWidth = 12;
+  const int fieldWidth = 15;
 
   if (fPaperWidth > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "PaperWidth" << " = " <<
+      "paperWidth" << " : " <<
       setprecision (2) << fPaperWidth << " cm" <<
       endl;
 
@@ -303,7 +258,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fPaperHeight > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "PaperHeight" << " = " <<
+      "paperHeight" << " : " <<
       setprecision (2) << fPaperHeight << " cm" <<
       endl;
 
@@ -313,7 +268,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fTopMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "TopMargin" << " = " <<
+      "topMargin" << " = " <<
       setprecision (2) << fTopMargin << " cm" <<
       endl;
 
@@ -323,7 +278,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fBottomMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "BottomMargin" << " = " <<
+      "bottomMargin" << " = " <<
       setprecision (2) << fBottomMargin << " cm" <<
       endl;
 
@@ -333,7 +288,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fLeftMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "LeftMargin" << " = " <<
+      "leftMargin" << " = " <<
       setprecision (2) << fLeftMargin << " cm" <<
       endl;
 
@@ -343,7 +298,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fRightMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "RightMargin" << " = " <<
+      "rightMargin" << " = " <<
       setprecision (2) << fRightMargin << " cm" <<
       endl;
 
@@ -354,7 +309,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fMillimeters > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "Millimeters" << " = " <<
+      "millimeters" << " = " <<
       setprecision (2) << fMillimeters <<
       endl;
 
@@ -364,7 +319,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fTenths > 0) {
     os << left <<
       setw (fieldWidth) <<
-      "Tenths" << " = " <<
+      "tenths" << " = " <<
       setprecision (2) << fTenths <<
       endl;
 
@@ -385,7 +340,7 @@ void msrPageGeometry::print (ostream& os) {
   gIndenter--;
 }
 
-/*
+/* JMI
   if (fBetweenSystemSpace > 0) {
     os <<
       "between-system-space = " <<

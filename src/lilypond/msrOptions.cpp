@@ -307,6 +307,7 @@ void msrOptions::initializeMsrOptions (
     fDisplayMsrDetails = boolOptionsInitialValue;
   
     fDisplayMsrSummary = boolOptionsInitialValue;
+    fDisplayMsrNames   = boolOptionsInitialValue;
   
     // options
   
@@ -370,11 +371,20 @@ R"(Write the contents of the MSR data with more details to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "dsum", "displayMsrSummary", // JMI
+          "dmsum", "displayMsrSummary",
 R"(Only write a summary of the MSR to standard error.
 This implies that no LilyPond code is generated.)",
           "displayMsrSummary",
           fDisplayMsrSummary));
+          
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "dmnames", "displayMsrNames",
+R"(Only write a view of the names in the MSR to standard error.
+This implies that no LilyPond code is generated.)",
+          "displayMsrNames",
+          fDisplayMsrNames));
   }
 
   
@@ -502,6 +512,38 @@ By default, the voice numbers found are used,
 which may be global to the score.)",
           "createVoicesStaffRelativeNumbers",
           fCreateVoicesStaffRelativeNumbers));
+  }
+
+
+    // repeats
+    // --------------------------------------
+
+  {
+    // variables
+    
+    fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
+      
+    // options
+  
+    S_optionsSubGroup repeatsSubGroup =
+      optionsSubGroup::create (
+        "Repeats",
+        "hmsrr", "helpMsrRepeats",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+  
+    appendOptionsSubGroup (repeatsSubGroup);
+
+    repeatsSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "ciirb", "createImplicitInitialRepeatBarline",
+R"(Create an implicit repeat barline at the beginning of the stave
+in case there is none, as is usual in scores.
+By default, no such barline is added.)",
+          "createImplicitInitialRepeatBarline",
+          fCreateImplicitInitialRepeatBarline));
   }
 
 
@@ -721,6 +763,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   clone->fDisplayMsrSummary =
     fDisplayMsrSummary;
+  clone->fDisplayMsrNames =
+    fDisplayMsrNames;
 
 
   // languages
@@ -742,6 +786,13 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   
   clone->fCreateVoicesStaffRelativeNumbers =
     fCreateVoicesStaffRelativeNumbers;
+
+
+  // repeats
+  // --------------------------------------
+  
+  clone->fCreateImplicitInitialRepeatBarline =
+    fCreateImplicitInitialRepeatBarline;
 
 
   // notes
@@ -809,6 +860,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
+
   
   // trace and display
   // --------------------------------------
@@ -841,9 +893,14 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "displayMsrSummary" << " : " <<
     booleanAsString (fDisplayMsrSummary) <<
+    endl << 
+
+    setw (fieldWidth) << "displayMsrNames" << " : " <<
+    booleanAsString (fDisplayMsrNames) <<
     endl;    
 
   gIndenter--;
+
 
   // languages
   // --------------------------------------
@@ -862,6 +919,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
 
   // parts
   // --------------------------------------
@@ -896,6 +954,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   gIndenter--;
 
+
   // voices
   // --------------------------------------
   
@@ -912,6 +971,25 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
+
+  // repeats
+  // --------------------------------------
+  
+  gLogIOstream <<
+    "Repeats:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "createImplicitInitialRepeatBarline" << " : " <<
+    booleanAsString (fCreateImplicitInitialRepeatBarline) <<
+    endl;
+
+  gIndenter--;
+
 
   // notes
   // --------------------------------------
@@ -952,6 +1030,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
    
   // lyrics
   // --------------------------------------
@@ -969,6 +1048,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   gIndenter--;
 
+
   // harmonies
   // --------------------------------------
   
@@ -984,6 +1064,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
   
   gIndenter--;
+
   
   // figured bass
   // --------------------------------------

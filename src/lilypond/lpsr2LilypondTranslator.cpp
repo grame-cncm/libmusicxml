@@ -7631,9 +7631,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     tempoParenthesizedKind =
       elt->getTempoParenthesizedKind ();
       
-  fLilypondCodeIOstream <<
-    endl;
-
   switch (elt->getTempoPlacementKind ()) {
     case msrPlacementKind::kPlacementNone:
       break;

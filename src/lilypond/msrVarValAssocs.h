@@ -69,8 +69,7 @@ class msrVarValAssoc : public msrElement
     msrVarValAssocKind    getVarValAssocKind () const
                               { return fVarValAssocKind; }
                               
-    void                  setVariableValue (string value)
-                              { fVariableValue = value; }
+    void                  setVariableValue (string value);
 
     string                getVariableValue () const
                               { return fVariableValue; }

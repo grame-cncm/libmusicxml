@@ -352,6 +352,33 @@ void convertMusicXMLToLilypond (
   if (gGeneralOptions->fExit2b)
     return;
     
+
+  // display the score summary if requested
+  // ------------------------------------------------------
+
+  if (gMsrOptions->fDisplayMsrSummary) {
+    // display the score summary
+    displayMSRPopulatedScoreSummary (
+      gMsrOptions,
+      mScore,
+      gLogIOstream);
+
+    exit (444);
+  }
+
+  // display the score names if requested
+  // ------------------------------------------------------
+
+  if (gMsrOptions->fDisplayMsrNames) {
+    // display the score name
+    displayMSRPopulatedScoreNames (
+      gMsrOptions,
+      mScore,
+      gLogIOstream);
+
+    exit (555);
+  }
+
   // create the LPSR from the MSR (pass 3)
   // ------------------------------------------------------
 

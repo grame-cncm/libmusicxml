@@ -194,12 +194,6 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
   }
 }
 
-ostream& operator<< (ostream& os, const S_lpsrParallelMusicBLock& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void lpsrParallelMusicBLock::print (ostream& os)
 {
   os <<
@@ -220,6 +214,12 @@ void lpsrParallelMusicBLock::print (ostream& os)
   } // for
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrParallelMusicBLock& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -295,12 +295,6 @@ void lpsrComment::acceptOut (basevisitor* v)
 void lpsrComment::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrComment& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void lpsrComment::print (ostream& os)
 {
   os <<
@@ -318,6 +312,12 @@ void lpsrComment::print (ostream& os)
       endl;
   
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrComment& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -390,17 +390,17 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 void lpsrBarNumberCheck::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrBarNumberCheck& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void lpsrBarNumberCheck::print (ostream& os)
 {
   os <<
     "BarNumberCheck" << " " << fNextBarNumber <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrBarNumberCheck& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
