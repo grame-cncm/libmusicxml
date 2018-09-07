@@ -9,12 +9,14 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.11)
-set (STRVERS "v.3.11")
-set (SSTRVERS "3.11")
+set (VERSION 3.1.2)
+set (STRVERS "v.3.12")
+set (SSTRVERS "3.12")
+set (SOVERS 3)
+
 
 #######################################
-option ( C++11 	"C++11 support" on )
+set (CMAKE_CXX_STANDARD 11)
 
 
 if(UNIX)
@@ -29,42 +31,23 @@ set (libtype SHARED)
 #########################################
 if(APPLE)
 	if ( IOS )
-		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
-		
-		#set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
-		#set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s x86_64 i386")
-		#set (CMAKE_OSX_SYSROOT "iphoneos")
+		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
 		set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s")
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (libtype STATIC)
-	else ()
-		if ( C++11 )
-			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
-			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-			#set (FMWK "false")
-		else()
-			message (STATUS "Generates project without C++11 - Use -DC++11=yes to change.")
-		endif()
-		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
+#	else ()
+#		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
 	endif()
 
 #########################################
 # windows specific part
 #########################################
 elseif(WIN32)
- add_definitions(-DWINVER=0x0400 -DWIN32)
- if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-  add_definitions(-DVC6)
- elseif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 8 2005")
-  add_definitions(-DVC2005)
- endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-
-#########################################
-# assume linux host
-#########################################
-else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	add_definitions(-DWINVER=0x0400 -DWIN32)
+	if(MSVC)
+		add_definitions(-DMSVC)
+	endif()
 endif()
 
 
@@ -99,18 +82,18 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 #######################################
 # set library target
 if(APPLE)
-	if (IOS OR C++11)
+	if (IOS)
 		set(target musicxml2)
 	else()
 		set(target libmusicxml2)
 	endif()
-elseif(MSVC)
+elseif (MSVC)
 	set(target libmusicxml2)
 else()
 	set(target musicxml2)
 endif()
 
-if(MSVC OR MINGW)
+if(WIN32 OR MSYS)
 	enable_language(RC)
 	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
 else()
@@ -121,6 +104,7 @@ add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
 			FRAMEWORK ${FMWK}
 			VERSION ${VERSION}
+			SOVERSION ${SOVERS}
 			FRAMEWORK_VERSION ${VERSION}
 			PUBLIC_HEADER "${COREH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
@@ -129,9 +113,7 @@ set_target_properties (${target} PROPERTIES
 			MACOSX_FRAMEWORK_IDENTIFIER ${target}
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-#if ( IOS )
-#	set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )
-#endif()
+
 
 #######################################
 # set sample targets
@@ -149,12 +131,10 @@ endif()
 
 #######################################
 # install setup
-if(NOT APPLE)
 install ( TARGETS ${target} ${TOOLS} 
 	RUNTIME DESTINATION bin 
     	LIBRARY DESTINATION /usr/lib 
     	ARCHIVE DESTINATION lib 
-#    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
+    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
     	PUBLIC_HEADER DESTINATION include/libmusicxml
 )
-endif()
