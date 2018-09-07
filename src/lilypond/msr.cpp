@@ -21889,10 +21889,12 @@ void msrVoice::prepareForRepeatInVoice (
             lastMeasureInLastSegment =
               voiceLastSegmentMeasuresList.back ();
        
+          /* JMI
           // fetch last measure's full measure length
           int measureFullLength =
             lastMeasureInLastSegment->
               getMeasureFullLength ();
+              */
 
           // finalize current measure in voice JMI lastMeasureInLastSegment ???
           // this may remove it if it is empty
@@ -30772,6 +30774,7 @@ ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
 }
           
 //______________________________________________________________________________
+/*
 S_msrScore msrScore::create (
   int inputLineNumber)
 {
@@ -30834,7 +30837,7 @@ S_msrScore msrScore::createScoreNewbornClone ()
       msrScore::create (
         fInputLineNumber);
 
-/* JMI
+// * JMI
   for (
     list<S_msrPartGroup>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
@@ -30842,7 +30845,7 @@ S_msrScore msrScore::createScoreNewbornClone ()
     // append the credit to the clone
     appendCreditToScore (*i);
   } // for
-*/
+// * /
 
   // number of measures
   newbornClone->fScoreNumberOfMeasures =
@@ -30987,7 +30990,7 @@ void msrScore::collectScorePartsList (
   } // for
 }
 
-/*
+/ *
 S_msrPartGroup msrScore::fetchScorePartGroup (
   int partGroupNumber)
 {
@@ -30999,7 +31002,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 
   return result;
 }
-*/
+* //
 
 void msrScore::acceptIn (basevisitor* v)
 {
@@ -31307,6 +31310,7 @@ ostream& operator<< (ostream& os, const S_msrScore& elt)
   elt->print (os);
   return os;
 }
+*/
 
 //______________________________________________________________________________
 void initializeMSR ()

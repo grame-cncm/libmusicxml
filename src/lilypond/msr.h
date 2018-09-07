@@ -72,6 +72,8 @@
 
 #include "msrSlashes.h"
 
+#include "msrScores.h"
+
 #include "msrMidi.h"
 
 #include "generalOptions.h"
@@ -7529,6 +7531,7 @@ typedef SMARTP<msrPartGroup> S_msrPartGroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
 
 //______________________________________________________________________________
+/*
 class msrScore : public msrElement
 {
   public:
@@ -7722,6 +7725,7 @@ class msrScore : public msrElement
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
+*/
 
 //______________________________________________________________________________
 void EXP initializeMSR ();
