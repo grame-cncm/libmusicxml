@@ -1,5 +1,6 @@
 
-schema 		:= current/musicxml.xsd
+CURRENT 	?= current
+schema 		:= $(CURRENT)/musicxml.xsd
 template	:= ../src/elements/templates
 
 elts  	:= elements.txt
@@ -8,12 +9,12 @@ eltname := '[-a-zA-Z0-9_.:]*'
 SRC := $(wildcard *.cpp) 
 OBJ = $(patsubst %.cpp, %.o, $(SRC))
 
-.PHONY: current
+.PHONY: $(CURRENT)
 
-all : current $(elts) elements.h typedefs.h factory.cpp
+all : $(CURRENT) $(elts) elements.h typedefs.h factory.cpp
 
-current:
-	@[ -d current ] || (echo "Error: you must create an alias named 'current' that links to the version you want to use."; false)
+$(CURRENT):
+	@[ -d $(CURRENT) ] || (echo "Error: \n   you must create an alias named '$(CURRENT)' that links to the version you want to use.\n   or invoke make with CURRENT='your_target_folder'"; false)
 
 $(elts) : $(schema)
 	grep "<xs:element" $(schema) | sed -e 's/^.*name="//' | sed -e 's/"..*//' | sort -u > $(elts)
