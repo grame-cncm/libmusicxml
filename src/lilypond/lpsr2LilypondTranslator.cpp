@@ -4268,9 +4268,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       }
       if (partGroupAbbreviation.size ()) {
         fLilypondCodeIOstream <<
-          "shortInstrumentName = \"" <<
+          "shortInstrumentName = " <<
           nameAsLilypondString (partGroupAbbreviation) <<
-          "\"" <<
           endl;
       }
             
@@ -4473,9 +4472,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     
     if (partAbbreviation.size ()) {
       fLilypondCodeIOstream <<
-        "shortInstrumentName = \"" <<
-        partAbbreviation <<
-        "\"" <<
+        "shortInstrumentName = " <<
+       nameAsLilypondString (partAbbreviation) <<
         endl;
     }
     
@@ -4668,9 +4666,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       if (found == string::npos) {
         // no, merely generate the name
         fLilypondCodeIOstream <<
-          "\"" <<
-          partAbbreviation <<
-          "\"" <<
+          nameAsLilypondString (partAbbreviation) <<
           endl;
       }
   
@@ -7602,9 +7598,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
     elt->getPartAbbreviationDisplayValue ();
 
   fLilypondCodeIOstream <<
-    "\\set Staff.shortInstrumentName = \"" <<
-    partAbbreviationDisplayValue <<
-    "\"" <<
+    "\\set Staff.shortInstrumentName = " <<
+    nameAsLilypondString (partAbbreviationDisplayValue) <<
     endl;
 }
 

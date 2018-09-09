@@ -5991,6 +5991,10 @@ class msrVoice : public msrElement
     
     void                  prepareForRepeatInVoice (
                             int inputLineNumber);
+                            
+    void                  prepareForRepeatInVoiceClone (
+                            int inputLineNumber,
+                            int repeatTimes);
   
     void                  nestContentsIntoNewRepeatInVoice (
                             int inputLineNumber);
@@ -6042,7 +6046,7 @@ class msrVoice : public msrElement
   
     void                  appendMultipleRestCloneToVoice (
                             int               inputLineNumber,
-                            S_msrMultipleRest multipleRest);
+                            S_msrMultipleRest multipleRestClone);
   
     // measures repeats
     
@@ -6210,6 +6214,7 @@ class msrVoice : public msrElement
     // fVoiceCurrentRepeat is null or
     // the last msrRepeat in fVoiceInitialElementsList
     S_msrRepeat           fVoiceCurrentRepeat;
+    S_msrRepeatCommonPart fVoiceCurrentRepeatCommonPart;
 
     // fVoiceCurrentMeasuresRepeat is null
     // or the last msrMeasuresRepeat created with its repeated measure,

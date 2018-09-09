@@ -3996,8 +3996,9 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       inputLineNumber);
       */
   fCurrentVoiceClone->
-    prepareForRepeatInVoice (
-      inputLineNumber);
+    prepareForRepeatInVoiceClone (
+      inputLineNumber,
+      elt->getRepeatTimes ());
 
 /* JMI
   // create a repeat clone
