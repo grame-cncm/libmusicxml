@@ -876,6 +876,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 break;
                 
               case msrLigature::kLigatureLineEndBoth: // JMI
+                ligatureStartEdgeHeight =
                   - ligatureVerticalFlippingFactor * edgeHeightAbsValue;
                 break;
                 
@@ -6122,6 +6123,7 @@ else
   
           case msrMeasure::kMeasureCreatedForARepeatBefore:
           case msrMeasure::kMeasureCreatedForARepeatAfter:
+          case msrMeasure::kMeasureCreatedForARepeatPadded:
             // such a measure does not need a \partial
             break;
         } // switch

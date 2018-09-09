@@ -13846,7 +13846,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     chordFirstNote, chord);
 
 #ifdef TRACE_OPTIONS
-  if (false && gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
+  if (false && (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes)) {
     fLogOutputStream << // JMI
       endl <<
       endl <<
@@ -13943,7 +13943,7 @@ void mxmlTree2MsrTranslator::printVoicesCurrentChordMap ()
     for ( ; ; ) {
       gIndenter++;
 
-      /* JMI
+      / * JMI
       S_msrVoice voice = (*i).first;
       S_msrChord chord = (*i).second;
     * /
@@ -13954,12 +13954,12 @@ void mxmlTree2MsrTranslator::printVoicesCurrentChordMap ()
         ":" <<
         endl;
 
-//* JMI
+// * JMI
       S_msrChord chord = (*i).second;
 
       fLogOutputStream <<
         chord;
-//* /
+// * /
         
       gIndenter--;
 

@@ -3990,8 +3990,13 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   }
 #endif
 
+/* JMI ???
   fCurrentPartClone->
     prepareForRepeatInPart (
+      inputLineNumber);
+      */
+  fCurrentVoiceClone->
+    prepareForRepeatInVoice (
       inputLineNumber);
 
 /* JMI
@@ -4295,6 +4300,20 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRest& elt)
       "--> Start visiting msrMultipleRest" <<
       endl;
   }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMultipleRests) {
+    fLogOutputStream <<
+      "Preparing for multiple rest in voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fCurrentVoiceClone->
+    prepareForMultipleRestInVoiceClone (
+      elt->getInputLineNumber ());
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
@@ -4304,7 +4323,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       "--> End visiting msrMultipleRest" <<
       endl;
   }
-  
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // create the multiple rest clone
   S_msrMultipleRest
     multipleRestClone =
@@ -4319,7 +4341,12 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // create a new last segment to collect the remainder of the voice,
   // containing the next, yet incomplete, measure
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+  if (
+    gTraceOptions->fTraceMultipleRests
+      ||
+    gTraceOptions->fTraceSegments
+      ||
+    gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment for the remainder of voice \"" <<
       fCurrentVoiceClone->getVoiceName () << "\"" <<
@@ -4329,12 +4356,19 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
 
   fCurrentVoiceClone->
     createNewLastSegmentForVoice (
-      elt->getInputLineNumber ());
+      inputLineNumber);
 
+/* JMI ???
   // append the multiple rest clone to the current part clone
   fCurrentPartClone->
     appendMultipleRestCloneToPart (
-      elt->getInputLineNumber (), // JMI ???
+      inputLineNumber, // JMI ???
+      multipleRestClone);
+      */
+  // append the multiple rest clone to the current voice clone
+  fCurrentVoiceClone->
+    appendMultipleRestCloneToVoice (
+      inputLineNumber, // JMI ???
       multipleRestClone);
       
   // forget about the current multiple rest contents clone
@@ -4352,8 +4386,9 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 
   gIndenter++;
 
+/* JMI
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMultipleRests) {
     fLogOutputStream <<
       "Preparing for multiple rest in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4365,11 +4400,12 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
   fCurrentVoiceClone->
     prepareForMultipleRestInVoiceClone (
       elt->getInputLineNumber ());
+*/
 
       /* JMI
   // create a new last segment to collect the multiple rest contents
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+  if (fTraceMultipleRests || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment for a multiple rest contents for voice \"" <<
       fCurrentVoiceClone->getVoiceName () << "\"" <<
@@ -4400,7 +4436,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
   // set last segment as the multiple rest contents segment
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMultipleRests) {
     fLogOutputStream <<
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<

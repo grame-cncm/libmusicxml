@@ -1053,7 +1053,7 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   clone->fTraceGeometry = true;
 
   // varValAssocs
-  bool                  fTraceVarValAssocs;
+  clone->fTraceVarValAssocs = true;
 
   // part groups
   clone->fTracePartGroups = true;

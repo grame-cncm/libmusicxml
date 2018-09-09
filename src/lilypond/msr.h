@@ -6037,12 +6037,12 @@ class msrVoice : public msrElement
     void                  appendMeasuresRepeatReplicaToVoice (
                             int       inputLineNumber);
 
+    void                  prepareForMultipleRestInVoiceClone (
+                            int inputLineNumber);
+  
     void                  appendMultipleRestCloneToVoice (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
-  
-    void                  prepareForMultipleRestInVoiceClone (
-                            int inputLineNumber);
   
     // measures repeats
     
@@ -6192,6 +6192,8 @@ class msrVoice : public msrElement
     // because it is not a mere S_msrElement, but a S_msrSegment
     list<S_msrElement>    fVoiceInitialElementsList;
     S_msrSegment          fVoiceLastSegment;
+    // it should be saved sometimes
+    S_msrSegment          fSaveVoiceLastSegment;
 
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
