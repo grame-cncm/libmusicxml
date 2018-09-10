@@ -891,15 +891,17 @@ void msrPartGroup::print (ostream& os)
    os << left <<
     setw (fieldWidth) <<
     "partGroupPartGroupUplink" << " : ";
-  if (fPartGroupPartGroupUplink)
+  if (fPartGroupPartGroupUplink) {
     os <<
       "\"" <<
       fPartGroupPartGroupUplink->
         getPartGroupCombinedName () <<
       "\"";
-  else
+  }
+  else {
     os <<
     "none";
+  }
   os <<
     endl;
 

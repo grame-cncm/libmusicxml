@@ -3586,8 +3586,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
 
   // append the tempo to the pending tempos list
   fPendingTempos.push_back (tempo);
-  
-  // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
 
 //________________________________________________________________________
@@ -4411,11 +4409,12 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
     
   }
 
-  if (fCurrentTieKind != msrTie::kTieNone)
+  if (fCurrentTieKind != msrTie::kTieNone) {
     fCurrentTie =
       msrTie::create (
         elt->getInputLineNumber (),
         fCurrentTieKind);
+  }
 }
 
 //________________________________________________________________________
@@ -4672,7 +4671,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     else {
       // inner slur notes may miss the "continue" type:
       // let' complain only on slur notes outside of slurs 
-      if (! fOnGoingSlur)
+      if (! fOnGoingSlur) {
         if (fCurrentSlurType.size ()) {
           stringstream s;
           
@@ -4686,6 +4685,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             __FILE__, __LINE__,
             s.str ());
         }
+      }
     }
 
     // line-type
@@ -4803,7 +4803,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
     // inner ligature notes may miss the "continue" type:
     // let's complain on ligature notes outside of ligatures 
-    if (! fOnGoingLigature)
+    if (! fOnGoingLigature) {
       if (ligatureType.size ()) {
         stringstream s;
         
@@ -4817,6 +4817,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
           __FILE__, __LINE__,
           s.str ());
       }
+    }
   }
   
   // line-end
@@ -7381,12 +7382,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     }
   
     else {
-      if (noteTypeSize.size ())
+      if (noteTypeSize.size ()) {
         msrMusicXMLError (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
             "note type size \"" + noteTypeSize + "\" is unknown");
+      }
     }
   }
   
@@ -8087,12 +8089,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
   }
 
   else {
-    if (slashTypeSize.size ())
+    if (slashTypeSize.size ()) {
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
           "slash type size \"" + slashTypeSize + "\" is unknown");
+    }
   }
 
 #ifdef TRACE_OPTIONS
@@ -13723,12 +13726,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
   }
 
   else {
-    if (restMeasure.size ())
+    if (restMeasure.size ()) {
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
         "rest measure \"" + restMeasure + "\" is unknown");
+    }
   }
 }
 
@@ -15655,12 +15659,14 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
 
         int numberOfDynamics = fPendingDynamics.size ();
 
-        if (numberOfDynamics > 1)
+        if (numberOfDynamics > 1) {
           s <<
             "there are " << numberOfDynamics << " dynamics";
-        else
+        }
+        else {
           s <<
             "there is 1 dynamics";
+        }
         s <<
           " attached to a rest";
           
@@ -15715,12 +15721,14 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
 
         int numberOfOtherDynamics = fPendingOtherDynamics.size ();
 
-        if (numberOfOtherDynamics > 1)
+        if (numberOfOtherDynamics > 1) {
           s <<
             "there are " << numberOfOtherDynamics << " other dynamics";
-        else
+        }
+        else {
           s <<
             "there is 1 other dynamics";
+        }
         s <<
           " attached to a rest";
           
@@ -15775,12 +15783,14 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
 
         int numberOfWords = fPendingWords.size ();
 
-        if (numberOfWords > 1)
+        if (numberOfWords > 1) {
           s <<
             "there are " << numberOfWords << " words";
-        else
+        }
+        else {
           s <<
             "there is 1 word";
+        }
         s <<
           " attached to a rest";
           
@@ -15836,12 +15846,14 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
 
         int numberOfBeams = fPendingBeams.size ();
 
-        if (numberOfBeams > 1)
+        if (numberOfBeams > 1) {
           s <<
             "there are " << numberOfBeams << " beams";
-        else
+        }
+        else {
           s <<
             "there is 1 beam";
+        }
         s <<
           " attached to a rest";
           
@@ -15896,12 +15908,14 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
 
         int numberOfSlurs = fPendingSlurs.size ();
 
-        if (numberOfSlurs > 1)
+        if (numberOfSlurs > 1) {
           s <<
             "there are " << numberOfSlurs << " slurs";
-        else
+        }
+        else {
           s <<
             "there is 1 slur";
+        }
         s <<
           " attached to a rest";
           
@@ -15947,12 +15961,14 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 
         int numberOfLigatures = fPendingLigatures.size ();
 
-        if (numberOfLigatures > 1)
+        if (numberOfLigatures > 1) {
           s <<
             "there are " << numberOfLigatures << " ligatures";
-        else
+        }
+        else {
           s <<
             "there is 1 ligature";
+        }
         s <<
           " attached to a rest";
           
@@ -15966,12 +15982,14 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     if (! delayAttachment) {
       int numberOfLigatures = fPendingLigatures.size ();
 
-      if (numberOfLigatures > 1)
+      if (numberOfLigatures > 1) {
         fLogOutputStream <<
           "There are " << numberOfLigatures << " pending ligatures";
-      else
+      }
+      else {
         fLogOutputStream <<
           "There is 1 pending ligature";
+      }
       fLogOutputStream <<
         endl;
 
@@ -16109,12 +16127,14 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
 
         int numberOfPedals = fPendingPedals.size ();
 
-        if (numberOfPedals > 1)
+        if (numberOfPedals > 1) {
           s <<
             "there are " << numberOfPedals << " pedals";
-        else
+        }
+        else {
           s <<
             "there is 1 pedal";
+        }
         s <<
           " attached to a rest";
           
@@ -16169,12 +16189,14 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
 
         int numberOfSlashes = fPendingSlashes.size ();
 
-        if (numberOfSlashes > 1)
+        if (numberOfSlashes > 1) {
           s <<
             "there are " << numberOfSlashes << " slashes";
-        else
+        }
+        else {
           s <<
             "there is 1 slash";
+        }
         s <<
           " attached to a rest";
           
@@ -16229,12 +16251,14 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
 
         int numberOfWedges = fPendingWedges.size ();
 
-        if (numberOfWedges > 1)
+        if (numberOfWedges > 1) {
           s <<
             "there are " << numberOfWedges << " wedges";
-        else
+        }
+        else {
           s <<
             "there is 1 wedge";
+        }
         s <<
           " attached to a rest";
           
@@ -17290,9 +17314,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
   
   // set its stem if any
-  if (fCurrentStem)
+  if (fCurrentStem) {
     newNote->
       setNoteStem (fCurrentStem);
+  }
 
   // attach the beams if any to the note
   if (fPendingBeams.size ()) {
@@ -17582,19 +17607,21 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
   else {
     // standalone or unpitched note or rest
-    if (fCurrentNoteIsARest)
+    if (fCurrentNoteIsARest) {
       newNote->
         setNoteKind (
           msrNote::kRestNote);
+    }
     else if (fCurrentNoteIsUnpitched) {
       newNote->
         setNoteKind (
           msrNote::kUnpitchedNote);
     }
-    else
+    else {
       newNote->
         setNoteKind (
           msrNote::kStandaloneNote);
+    }
   }
 
   // fetch current voice
@@ -17664,9 +17691,13 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 #endif
 
-  // handle the pending tuplets if any ??? JMI XXL
-  handleTupletsPendingOnTupletsStack (
-    inputLineNumber);
+  // handle the pending tuplets if any,
+  // unless the current note is a grace note,
+  // i.e. it is attached to a tuplet member note JMI
+  if (! fCurrentNoteIsAGraceNote) {
+    handleTupletsPendingOnTupletsStack (
+      inputLineNumber);
+  }
 
   if (fCurrentNoteIsAGraceNote) {
     if (! fCurrentGraceNotes) {
@@ -17697,9 +17728,10 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           currentVoice->
             getVoiceLastAppendedNote ();
           
-      if (lastHandledNoteInVoice)
+      if (lastHandledNoteInVoice) {
         lastHandledNoteInVoice->
           setNoteIsFollowedByGraceNotes ();
+      }
 */
       
       // append the grace notes to the current voice
@@ -17714,9 +17746,10 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         currentVoice->
           getVoiceLastAppendedNote ();
           
-    if (lastHandledNoteInVoice)
+    if (lastHandledNoteInVoice) {
       lastHandledNoteInVoice->
         setNoteIsFollowedByGraceNotes ();
+    }
 
     // append newNote to the current grace notes
 #ifdef TRACE_OPTIONS
@@ -17821,10 +17854,11 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else {
     // standalone note or rest
 
-    if (fCurrentGraceNotes)
+    if (fCurrentGraceNotes) {
       // this is the first note after the grace notes,
       // forget about the latter
       fCurrentGraceNotes = nullptr;
+    }
 
     // attach pending tempos if anu to the voice of note,
     // priot to the note itself
@@ -17847,7 +17881,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     currentVoice->
       appendNoteToVoice (newNote);
 
-    if (false) // XXL, syllable sans fSyllableNote assigne JMI
+    if (false) { // XXL, syllable sans fSyllableNote assigne JMI
       fLogOutputStream <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<
@@ -17856,6 +17890,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         endl <<
         currentVoice <<
         endl << endl;
+    }
   }
 
   // take care of slurs JMI ???
@@ -18985,12 +19020,13 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 #endif
 
-  if (fCurrentNoteIsARest)
+  if (fCurrentNoteIsARest) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
+  }
 
   // fetch current voice
   S_msrVoice
@@ -19182,12 +19218,13 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
   }
 #endif
 
-  if (fCurrentNoteIsARest)
+  if (fCurrentNoteIsARest) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
+  }
 
   // fetch current voice
   S_msrVoice
@@ -19244,7 +19281,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
         currentVoice,
         chordFirstNote);
     
-    if (false)
+    if (false) {
       fLogOutputStream <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<
@@ -19254,6 +19291,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
         currentVoice <<
         endl <<
         endl;
+    }
 
     if (fCurrentGraceNotes) {
       // append current chord to current grace notes

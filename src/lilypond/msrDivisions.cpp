@@ -416,8 +416,9 @@ string msrDivisions::divisionsAsMsrString (
         }
 #endif
           
-        if (dotsNumber > 5 )
+        if (dotsNumber > 5 ) {
           break; // JMI
+        }
       } // while
   
 #ifdef TRACE_OPTIONS
@@ -663,8 +664,9 @@ string msrDivisions::wholeNotesAsMsrString (
         }
 #endif
           
-        if (dotsNumber > 5 )
+        if (dotsNumber > 5 ) {
           break; // JMI
+        }
       } // while
   
 #ifdef TRACE_OPTIONS

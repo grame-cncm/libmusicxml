@@ -635,10 +635,12 @@ string msrTempoTuplet::asString () const
     fTempoTupletMeasureNumber <<
     ":";
 
-  if (fTempoTupletPositionInMeasure.getNumerator () < 0)
+  if (fTempoTupletPositionInMeasure.getNumerator () < 0) {
     s << "?";
-  else
+  }
+  else {
     s << fTempoTupletPositionInMeasure;
+  }
   
   s << "[[";
 
@@ -727,10 +729,12 @@ void msrTempoTuplet::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fTempoTupletPositionInMeasure.getNumerator () < 0)
+  if (fTempoTupletPositionInMeasure.getNumerator () < 0) {
     os << "???)";
-  else
+  }
+  else {
     os << fTempoTupletPositionInMeasure << ")";
+  }
   os <<
     endl;
     */

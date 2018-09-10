@@ -131,20 +131,24 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   // compute the maximum value
   int maxValue = -1;
   
-  if (scorePartGroupNamesMaxLength > maxValue)
+  if (scorePartGroupNamesMaxLength > maxValue) {
     maxValue = scorePartGroupNamesMaxLength;
+  }
   
-  if (scorePartNamesMaxLength > maxValue)
+  if (scorePartNamesMaxLength > maxValue) {
     maxValue = scorePartNamesMaxLength;
+  }
   
-  if (scoreInstrumentNamesMaxLength > maxValue)
+  if (scoreInstrumentNamesMaxLength > maxValue) {
     maxValue = scoreInstrumentNamesMaxLength;
+  }
   
   // compute the maximum short value
   int maxShortValue = -1;
   
-  if (scoreInstrumentAbbreviationsMaxLength > maxShortValue)
+  if (scoreInstrumentAbbreviationsMaxLength > maxShortValue) {
     maxShortValue = scoreInstrumentAbbreviationsMaxLength;
+  }
 
   // get the paper width
   float paperWidth = pageGeometry->getPaperWidth ();
@@ -295,10 +299,11 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 
 
   // is Jianpu notation to be generated?
-  if (gLilypondOptions->fJianpu)
+  if (gLilypondOptions->fJianpu) {
     fLpsrScore->
       // this score needs the 'jianpu file include' Scheme function
       setJianpuFileIncludeIsNeeded ();
+  }
 
 /* JMI
   // push it onto this visitors's stack,
@@ -394,10 +399,11 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   fPartGroupBlocksStack.top ();
 
   // the stack should now be empty
-  if (fPartGroupBlocksStack.size ())
+  if (fPartGroupBlocksStack.size ()) {
     msrInternalError (
       1,
       "the partGroup block stack is not exmpty at the end of the visit");
+  }
    */ 
 }
 
@@ -997,18 +1003,22 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       
         // don't set instrument name nor short instrument name // JMI
         // if the staff belongs to a piano part where they're already set
-        if (! partName.size ())
+        if (! partName.size ()) {
           staffBlockInstrumentName = partName;
-        if (! partAbbreviation.size ())
+        }
+        if (! partAbbreviation.size ()) {
           staffBlockShortInstrumentName = partAbbreviation;
+        }
       
-        if (staffBlockInstrumentName.size ())
+        if (staffBlockInstrumentName.size ()) {
           fCurrentStaffBlock->
             setStaffBlockInstrumentName (staffBlockInstrumentName);
+        }
             
-        if (staffBlockShortInstrumentName.size ())
+        if (staffBlockShortInstrumentName.size ()) {
           fCurrentStaffBlock->
             setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
+        }
               
         // append the staff block to the current part block
         fCurrentPartBlock->
@@ -3086,9 +3096,10 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // register clone in this tranlastors' voice notes map
   fVoiceNotesMap [elt] = fCurrentNoteClone; // JMI XXL
   
-  if (! fFirstNoteCloneInVoice)
+  if (! fFirstNoteCloneInVoice) {
     fFirstNoteCloneInVoice =
       fCurrentNoteClone;
+  }
 
   // can we optimize graceNotes into afterGraceNotes?
   if (

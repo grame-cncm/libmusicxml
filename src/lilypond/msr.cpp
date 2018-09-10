@@ -2081,12 +2081,14 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
-      if (fNoteGraphicDurationKind != k_NoDuration)
+      if (fNoteGraphicDurationKind != k_NoDuration) {
         gLogIOstream <<
           msrDurationKindAsString (
             fNoteGraphicDurationKind);
-      else
+      }
+      else {
         gLogIOstream << "none";
+      }
 
     gLogIOstream <<
       endl <<
@@ -4465,8 +4467,9 @@ string msrNote::notePitchAsString () const
 {
   stringstream s;
   
-  if (fNoteIsUnpitched)
+  if (fNoteIsUnpitched) {
     s << "unpitched ";
+  }
   else {
     s <<
       msrQuarterTonesPitchKindAsString (
@@ -4777,9 +4780,10 @@ string msrNote::asShortString () const
             fNoteTupletUplink->getTupletNormalNotes ());
             */
 
-      if (! fNoteIsARest)
+      if (! fNoteIsARest) {
         s <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+      }
       break;
       
     case msrNote::kTupletMemberUnpitchedNote:
@@ -4970,29 +4974,35 @@ string msrNote::asString () const
   s <<
     ", line " << fInputLineNumber;
 
-  if (fNoteOccupiesAFullMeasure)
+  if (fNoteOccupiesAFullMeasure) {
     s <<
       ", full measure";
+  }
 
-  if (fNoteTrillOrnament)
+  if (fNoteTrillOrnament) {
     s <<
       ", has a trill ornament";
+  }
   
-  if (fNoteDashesOrnament)
+  if (fNoteDashesOrnament) {
     s <<
       ", has a dashes ornament";
+  }
   
-  if (fNoteWavyLineSpannerStart)
+  if (fNoteWavyLineSpannerStart) {
     s <<
       ", has a wavy line spanner start";
+  }
   
-  if (fNoteWavyLineSpannerStop)
+  if (fNoteWavyLineSpannerStop) {
     s <<
       ", has a wavy line spanner stop";
+  }
   
-  if (fNoteIsFollowedByGraceNotes)
+  if (fNoteIsFollowedByGraceNotes) {
     s <<
       ", followed by grace notes";
+  }
   
   if (fNoteTie) {
     s <<
@@ -5187,12 +5197,14 @@ void msrNote::print (ostream& os)
     os << left <<
       setw (fieldWidth) <<
       "noteMeasureNumber" << " : ";
-    if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER)
+    if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER) {
       os <<
         "unknown";
-    else if (fNoteMeasureNumber.size ())
+    }
+    else if (fNoteMeasureNumber.size ()) {
       os <<
         fNoteMeasureNumber;
+    }
     else {
       stringstream s;
 
@@ -5249,52 +5261,62 @@ void msrNote::print (ostream& os)
     
     gIndenter++;
 
-    if (fNoteIsStemless)
+    if (fNoteIsStemless) {
       os <<
         "note  is stemless" <<
         endl;
+    }
   
-    if (fNoteIsFirstNoteInADoubleTremolo)
+    if (fNoteIsFirstNoteInADoubleTremolo) {
       os <<
         "first note in a double tremolo" <<
         endl;
-    if (fNoteIsSecondNoteInADoubleTremolo)
+    }
+    if (fNoteIsSecondNoteInADoubleTremolo) {
       os <<
         "second note in a double tremolo" <<
         endl;
+    }
   
-    if (fNoteTrillOrnament)
+    if (fNoteTrillOrnament) {
       os <<
         "note has a trill ornament" <<
         endl;
+    }
         
-    if (fNoteDashesOrnament)
+    if (fNoteDashesOrnament) {
       os <<
         "note has a dashes ornament" <<
         endl;
+    }
           
-    if (fNoteDelayedTurnOrnament)
+    if (fNoteDelayedTurnOrnament) {
       os <<
         "note has a delayed turn ornament" <<
         endl;
-    if (fNoteDelayedInvertedTurnOrnament)
+    }
+    if (fNoteDelayedInvertedTurnOrnament) {
       os <<
         "note has a delayed inverted turn ornament" <<
         endl;
+    }
 
-    if (fNoteWavyLineSpannerStart)
+    if (fNoteWavyLineSpannerStart) {
       os <<
         "note has a wavy line spanner start" <<
         endl;
-    if (fNoteWavyLineSpannerStop)
+    }
+    if (fNoteWavyLineSpannerStop) {
       os <<
         "note has a wavy line spanner stop" <<
         endl;
+    }
         
-    if (fNoteIsFollowedByGraceNotes)
+    if (fNoteIsFollowedByGraceNotes) {
       os <<
         "note is followed by graceNotes" <<
         endl;
+    }
 
     gIndenter--;
   }
@@ -8488,10 +8510,12 @@ string msrTuplet::asString () const
     fTupletMeasureNumber <<
     ":";
 
-  if (fTupletPositionInMeasure.getNumerator () < 0)
+  if (fTupletPositionInMeasure.getNumerator () < 0) {
     s << "?";
-  else
+  }
+  else {
     s << fTupletPositionInMeasure;
+  }
   
   s << "[[";
 
@@ -8597,10 +8621,12 @@ void msrTuplet::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fTupletPositionInMeasure.getNumerator () < 0)
+  if (fTupletPositionInMeasure.getNumerator () < 0) {
     os << "???)";
-  else
+  }
+  else {
     os << fTupletPositionInMeasure << ")";
+  }
   os <<
     endl;
     */
@@ -8681,10 +8707,12 @@ void msrTuplet::printShort (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fTupletPositionInMeasure.getNumerator () < 0)
+  if (fTupletPositionInMeasure.getNumerator () < 0) {
     os << "???)";
-  else
+  }
+  else {
     os << fTupletPositionInMeasure << ")";
+  }
   os <<
     endl;
     */
@@ -9535,10 +9563,12 @@ string msrSyllable::syllableNoteUplinkAsString () const
 {
   string result;
 
-  if (fSyllableNoteUplink)
+  if (fSyllableNoteUplink) {
     result = fSyllableNoteUplink->asString ();
-  else
+  }
+  else {
     result = "none";
+  }
 
   return result;
 }
@@ -11127,22 +11157,26 @@ string msrHarmony::asString () const
       fInputLineNumber,
       fHarmonySoundingWholeNotes);
 
-  if (fHarmonyKindText.size ())
+  if (fHarmonyKindText.size ()) {
     s <<
       " (" <<fHarmonyKindText << ")";
+  }
 
   s << ", inversion: ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
     s << "none";
-  else
+  }
+  else {
     s << fHarmonyInversion;
+  }
     
-  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
+  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
     s <<
       "/" <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyBassQuarterTonesPitchKind);    
+      fHarmonyBassQuarterTonesPitchKind);
+  }  
 
   if (fHarmonyDegreesList.size ()) {
     list<S_msrHarmonyDegree>::const_iterator
@@ -11207,7 +11241,7 @@ void msrHarmony::acceptOut (basevisitor* v)
 void msrHarmony::browseData (basevisitor* v)
 {
   // browse harmony degrees if any
-  if (fHarmonyDegreesList.size ())
+  if (fHarmonyDegreesList.size ()) {
     for (
       list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin ();
       i != fHarmonyDegreesList.end ();
@@ -11216,6 +11250,7 @@ void msrHarmony::browseData (basevisitor* v)
       msrBrowser<msrHarmonyDegree> browser (v);
       browser.browse (*(*i));
     } // for
+  }
 }
 
 void msrHarmony::print (ostream& os)
@@ -11502,12 +11537,13 @@ string msrFigure::asString () const
       fFigureSuffixKind);
 
 /* JMI
-  if (fFigurePartUplink) // JMI ???
+  if (fFigurePartUplink) { // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
         fInputLineNumber,
         fFigureSoundingWholeNotes);
+  }
 */
 
   return s.str ();
@@ -11776,12 +11812,13 @@ string msrFiguredBass::asString () const
   }
 
 /* JMI
-  if (fFiguredBassPartUplink) // JMI ???
+  if (fFiguredBassPartUplink) { // JMI ???
     s <<
       ":" <<
       wholeNotesAsMsrString (
         fInputLineNumber,
         fFiguredBassSoundingWholeNotes);
+  }
 */
 
   return s.str ();
@@ -17517,10 +17554,12 @@ void msrRepeatCommonPart::print (ostream& os)
     
   os <<
     "repeatCommonPartElementsList: ";
-  if (elementsNumber)
+  if (elementsNumber) {
     os << "(" << elementsNumber << ")";
-  else
+  }
+  else {
     os << "none";
+  }
   os <<
     endl;
     
@@ -17959,8 +17998,9 @@ void msrRepeat::print (ostream& os)
   // print the repeat common segment
   os <<
     "Common segment: ";
-  if (! fRepeatCommonSegment)
+  if (! fRepeatCommonSegment) {
     os << "none";
+  }
   os << endl;
 
   if (fRepeatCommonSegment) {
@@ -17979,11 +18019,14 @@ void msrRepeat::print (ostream& os)
     
   os <<
     "Repeat endings: ";
-  if (endingsNumber)
+  if (endingsNumber) {
     os << "(" << endingsNumber << ")";
-  else
+  }
+  else {
     os << "none";
-  os << endl;
+  }
+  os <<
+    endl;
     
   if (endingsNumber) {
     gIndenter++;
@@ -18071,12 +18114,14 @@ int msrMeasuresRepeatPattern::measuresRepeatPatternMeasuresNumber () const
 {
   int result;
 
-  if (fMeasuresRepeatPatternSegment)
+  if (fMeasuresRepeatPatternSegment) {
     result =
       fMeasuresRepeatPatternSegment->
       getSegmentMeasuresList ().size ();
-  else
+  }
+  else {
     result = 0;
+  }
 
   return result;
 }
@@ -18255,12 +18300,14 @@ int msrMeasuresRepeatReplicas::measuresRepeatReplicasMeasuresNumber () const
 {
   int result;
 
-  if (fMeasuresRepeatReplicasSegment)
+  if (fMeasuresRepeatReplicasSegment) {
     result =
       fMeasuresRepeatReplicasSegment->
       getSegmentMeasuresList ().size ();
-  else
+  }
+  else {
     result = 0;
+  }
 
   return result;
 }
@@ -18741,12 +18788,14 @@ int msrMultipleRestContents::multipleRestContentsMeasuresNumber () const
 {
   int result;
 
-  if (fMultipleRestContentsSegment)
+  if (fMultipleRestContentsSegment) {
     result =
       fMultipleRestContentsSegment->
       getSegmentMeasuresList ().size ();
-  else
+  }
+  else {
     result = 0;
+  }
 
   return result;
 }
@@ -19815,9 +19864,10 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fRegularVoiceStaffSequentialNumber;
 
   // voice name
-  if (false) // JMI
-  voiceDeepCopy->fVoiceName =
-    fVoiceName;
+  if (false) { // JMI
+    voiceDeepCopy->fVoiceName =
+      fVoiceName;
+  }
 
 /* JMI
   // set voice name // JMI
@@ -21036,7 +21086,8 @@ void msrVoice::appendPartAbbreviationDisplayToVoice (
     partAbbreviationDisplay->getInputLineNumber ());
 
   fVoiceLastSegment->
-    appendPartAbbreviationDisplayToSegment (partAbbreviationDisplay);
+    appendPartAbbreviationDisplayToSegment (
+      partAbbreviationDisplay);
 }
 
 void msrVoice::appendStaffDetailsToVoice (
@@ -21061,7 +21112,10 @@ void msrVoice::appendStaffDetailsToVoice (
   appendAFirstMeasureToVoiceIfNotYetDone (
     staffDetails->getInputLineNumber ());
 
-  if (fVoiceLastSegment) fVoiceLastSegment->appendStaffDetailsToSegment (staffDetails);
+  if (fVoiceLastSegment) {
+    fVoiceLastSegment->
+      appendStaffDetailsToSegment (staffDetails);
+  }
 }
 
 /* JMI
@@ -21494,12 +21548,16 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
   }
 #endif
 
+  gIndenter++;
+  
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
     tuplet->getInputLineNumber ());
 
   fVoiceLastSegment->
     appendTupletToSegment (tuplet);
+
+  gIndenter--;
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -21992,11 +22050,13 @@ void msrVoice::prepareForRepeatInVoice (
 #endif
 
   /* JMI
-if (false)
+if (false) {
           createNewLastSegmentAndANewMeasureBeforeARepeat (
             inputLineNumber,
             measureFullLength);
-else
+}
+else {
+}
 */
           createNewLastSegmentFromFirstMeasureForVoice (
             inputLineNumber,
@@ -22178,11 +22238,13 @@ void msrVoice::prepareForRepeatInVoiceClone (
 #endif
 
   /* JMI
-if (false)
+if (false) {
           createNewLastSegmentAndANewMeasureBeforeARepeat (
             inputLineNumber,
             measureFullLength);
-else
+            }
+else {
+}
 */
           createNewLastSegmentFromFirstMeasureForVoice (
             inputLineNumber,
@@ -24436,10 +24498,14 @@ void msrVoice::appendMultipleRestCloneToVoice (
           // re-install the saved last segment as the current last segment
           fVoiceLastSegment = fSaveVoiceLastSegment;
           fSaveVoiceLastSegment = nullptr;
-          
+
+          /* JMI
           // append multiple rest segment to the list of initial elements // JMI
           fVoiceInitialElementsList.push_back (
             multipleRestSegment);
+            */
+       //   // append multiple rest segment to the repeat common part
+          
         }
         
         else {
@@ -25941,8 +26007,9 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 
       switch (voice->getVoiceKind ()) {
         case msrVoice::kRegularVoice:
-          if (voice->getMusicHasBeenInsertedInVoice ())
+          if (voice->getMusicHasBeenInsertedInVoice ()) {
             result++;
+          }
           break;
           
         case msrVoice::kHarmonyVoice: // JMI
@@ -28505,19 +28572,22 @@ string msrPart::getPartCombinedName () const
 {
   stringstream s;
 
-  if (! fPartMsrName.size ())
+  if (! fPartMsrName.size ()) {
     s <<
       "[empty name]";
-  else
+  }
+  else {
     s <<
       "\"" << fPartMsrName << "\"";
+  }
 
   s <<
     " (partID \"" << fPartID << "\"";
 
-  if (fPartName.size ())
+  if (fPartName.size ()) {
     s <<
       ", partName \"" << fPartName << "\"";
+  }
 
   s <<
     ")";
@@ -29915,13 +29985,13 @@ void msrPart::print (ostream& os)
           break;
           
         case msrStaff::kHarmonyStaff:
-    // JMI      if (gMsrOptions->fShowHarmonyVoices)
+    // JMI      if (gMsrOptions->fShowHarmonyVoices) {}
           os <<
             staff;
           break;
           
         case msrStaff::kFiguredBassStaff:
-    // JMI      if (gMsrOptions->fShowFiguredBassVoices)
+    // JMI      if (gMsrOptions->fShowFiguredBassVoices) {}
           os <<
             staff;
           break;

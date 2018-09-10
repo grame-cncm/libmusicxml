@@ -12621,9 +12621,10 @@ string multipleRestWholeNotesAsMsrString (
       inputLineNumber,
       denominatorAsFraction);
 
-  if (numberOfWholeNotes != 1)
+  if (numberOfWholeNotes != 1) {
     s <<
       "*" << numberOfWholeNotes;
+  }
 
   return s.str ();
 }

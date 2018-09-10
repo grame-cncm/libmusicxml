@@ -197,8 +197,9 @@ msrTranspose::~msrTranspose ()
 
 bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 {
-  if (! otherTranspose)
+  if (! otherTranspose) {
     return false;
+  }
     
   return
     fTransposeDiatonic ==

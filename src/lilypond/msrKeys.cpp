@@ -69,8 +69,9 @@ bool msrHumdrumScotKeyItem::isEqualTo (
   S_msrHumdrumScotKeyItem
     otherHumdrumScotKeyItem) const
 {
-  if (! otherHumdrumScotKeyItem)
+  if (! otherHumdrumScotKeyItem) {
     return false;
+  }
     
   return
     fKeyDiatonicPitchKind == otherHumdrumScotKeyItem->fKeyDiatonicPitchKind
@@ -266,8 +267,9 @@ msrKey::~msrKey ()
 
 bool msrKey::isEqualTo (S_msrKey otherKey) const
 {
-  if (! otherKey)
+  if (! otherKey) {
     return false;
+  }
     
   if (
     ! (
@@ -336,8 +338,9 @@ void msrKey::appendHumdrumScotKeyItem (
 #endif
 
   // have key items octaves been specified?
-  if (item->getKeyItemOctave () >= 0)
+  if (item->getKeyItemOctave () >= 0) {
     fKeyItemsOctavesAreSpecified = true;
+  }
 
   // append the item to the vector
   fHumdrumScotKeyItemsVector.insert (

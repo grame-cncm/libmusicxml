@@ -882,10 +882,12 @@ void lpsrVarValAssoc::print (ostream& os)
     setw (fieldWidth) <<
    "unit" << " : ";
     
-  if (fUnit.size ())
+  if (fUnit.size ()) {
     os << "\"" << fUnit << "\"";
-  else
+  }
+  else {
     os << "none";
+  }
   os <<
     endl;
   
@@ -893,10 +895,12 @@ void lpsrVarValAssoc::print (ostream& os)
     setw (fieldWidth) <<
    "comment" << " : ";
 
-  if (fComment.size ())
+  if (fComment.size ()) {
     os << "\"" << fComment << "\"";
-  else
+  }
+  else {
     os << "none";
+  }
   os <<
     endl;
 
@@ -1831,8 +1835,9 @@ void lpsrContext::print (ostream& os)
     contextExistingKindAsString (
       fContextExistingKind);
     
-  if (fContextName.size ())
+  if (fContextName.size ()) {
     os << " " << fContextName;
+  }
   os <<
     endl;
   
@@ -2599,22 +2604,30 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
 
   if (fWorkNumber) {
     int length = fWorkNumber->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
   
   if (fWorkTitle) {
     int length = fWorkTitle->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
     
   if (fMovementNumber) {
     int length = fMovementNumber->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
     
   if (fMovementTitle) {
     int length = fMovementTitle->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
     
   if (fRights) {
@@ -2625,7 +2638,9 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
-      if (length > result) result = length;
+      if (length > result) {
+        result = length;
+      }
     } // for
   }
     
@@ -2637,7 +2652,9 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
-      if (length > result) result = length;
+      if (length > result){
+        result = length;
+      }
     } // for
   }
     
@@ -2649,7 +2666,9 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
-      if (length > result) result = length;
+      if (length > result) {
+        result = length;
+      }
     } // for
   }
     
@@ -2661,7 +2680,9 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
-      if (length > result) result = length;
+      if (length > result) {
+        result = length;
+      }
     } // for
   }
     
@@ -2673,7 +2694,9 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
-      if (length > result) result = length;
+      if (length > result) {
+        result = length;
+      }
     } // for
   }
     
@@ -2685,23 +2708,31 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
-      if (length > result) result = length;
+      if (length > result) {
+        result = length;
+      }
     } // for
   }
     
   if (fScoreInstrument) {
     int length = fScoreInstrument->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
   
   if (fEncodingDate) {
     int length = fEncodingDate->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
   
   if (fMiscellaneousField) {
     int length = fMiscellaneousField->lilyPondVarValAssocKindAsString ().size ();
-    if (length > result) result = length;
+    if (length > result) {
+      result = length;
+    }
   }
   
   return result;
@@ -4558,10 +4589,11 @@ lpsrScore::lpsrScore (
       gTab <<
       gGeneralOptions->fCommandLineWithLongOptions;
   
-    if (longAndShortOptionsDiffer)
+    if (longAndShortOptionsDiffer) {
       s <<
         endl <<
         "% or:";
+    }
     
     fCommandLineLongOptionsComment =
       lpsrComment::create (

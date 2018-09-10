@@ -1266,8 +1266,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
      endl <<
     setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
         
-  if (! fTraceDetailedMeasureNumbersSet.size ())
+  if (! fTraceDetailedMeasureNumbersSet.size ()) {
     gLogIOstream << "none";
+  }
     
   else {
     gLogIOstream <<

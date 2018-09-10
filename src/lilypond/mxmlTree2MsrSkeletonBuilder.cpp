@@ -1519,12 +1519,14 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
                 partGroupsDescrStackTop->getStopPosition ();
 
             int firstCommonPosision = startOne;
-            if (startTwo > startOne)
+            if (startTwo > startOne) {
               firstCommonPosision = startTwo;
+            }
               
             int lastCommonPosision = stopOne;
-            if (stopTwo < stopOne)
+            if (stopTwo < stopOne) {
               lastCommonPosision = stopTwo;
+            }
               
             stringstream s;
               
@@ -2775,12 +2777,18 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
     </score-part>
 */
 
-  if (fOnGoingPartGroupNameDisplay)
-    fCurrentPartGroupNameDisplayText = elt->getValue ();
-  else if (fOnGoingPartNameDisplay)
-    fCurrentPartNameDisplayText = elt->getValue ();
-  else if (fOnGoingPartAbbreviationDisplay)
-    fCurrentPartAbbreviationDisplayText = elt->getValue ();
+  if (fOnGoingPartGroupNameDisplay) {
+    fCurrentPartGroupNameDisplayText =
+      elt->getValue ();
+  }
+  else if (fOnGoingPartNameDisplay) {
+    fCurrentPartNameDisplayText =
+      elt->getValue ();
+  }
+  else if (fOnGoingPartAbbreviationDisplay) {
+    fCurrentPartAbbreviationDisplayText =
+      elt->getValue ();
+  }
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,

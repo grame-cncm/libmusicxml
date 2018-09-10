@@ -456,11 +456,12 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
 
-  if (emptyIdentification)
+  if (emptyIdentification) {
     os <<
       " " << "nothing specified" <<
       endl <<
       endl;
+  }
   
   gIndenter--;
 }

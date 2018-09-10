@@ -1893,8 +1893,9 @@ S_optionsElement optionsSubGroup::fetchOptionElement (
     result =
       (*i)->fetchOptionElement (optiontElementName);
       
-    if (result != 0)
+    if (result != 0) {
       break;
+    }
   } // for
 
   return result;
@@ -2361,8 +2362,9 @@ S_optionsElement optionsGroup::fetchOptionElement (
     result =
       (*i)->fetchOptionElement (optiontElementName);
       
-    if (result != 0)
+    if (result != 0) {
       break;
+    }
   } // for
 
   return result;
@@ -2984,22 +2986,26 @@ void optionsHandler::registerOptionsNamesInHandler (
     fOptionsElementsMap [optionLongName] =
       optionsElement;
     
-    if (optionLongNameSize > fMaximumLongNameWidth)
+    if (optionLongNameSize > fMaximumLongNameWidth) {
       fMaximumLongNameWidth = optionLongNameSize;
+    }
     
-    if (optionLongNameSize > fMaximumDisplayNameWidth)
+    if (optionLongNameSize > fMaximumDisplayNameWidth) {
       fMaximumDisplayNameWidth = optionLongNameSize;
+    }
   }
   
   if (optionShortNameSize) {
     fOptionsElementsMap [optionShortName] =
       optionsElement;
     
-    if (optionShortNameSize > fMaximumShortNameWidth)
+    if (optionShortNameSize > fMaximumShortNameWidth) {
       fMaximumShortNameWidth = optionShortNameSize;
+    }
     
-    if (optionShortNameSize > fMaximumDisplayNameWidth)
+    if (optionShortNameSize > fMaximumDisplayNameWidth) {
       fMaximumDisplayNameWidth = optionShortNameSize;
+    }
   }
 }
 
@@ -3457,8 +3463,9 @@ S_optionsElement optionsHandler::fetchOptionElement (
     result =
       (*i)->fetchOptionElement (optiontElementName);
       
-    if (result != 0)
+    if (result != 0) {
       break;
+    }
   } // for
 
   return result;
@@ -3723,10 +3730,12 @@ void optionsHandler::handleOptionsItemName (
 
     // replace empty option element name if any by the other one,
     // since they can't both be empty
-    if (! shortNameToBeUsed.size ())
+    if (! shortNameToBeUsed.size ()) {
       shortNameToBeUsed = longNameToBeUsed;
-    if (! longNameToBeUsed.size ())
+    }
+    if (! longNameToBeUsed.size ()) {
       longNameToBeUsed = shortNameToBeUsed;
+    }
 
     // register option element names in command line strings
     fCommandLineWithShortOptions +=

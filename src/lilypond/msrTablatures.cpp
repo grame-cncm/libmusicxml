@@ -399,7 +399,7 @@ void msrFrame::acceptOut (basevisitor* v)
 void msrFrame::browseData (basevisitor* v)
 {
   // browse frame notes if any
-  if (fFrameFrameNotesList.size ())
+  if (fFrameFrameNotesList.size ()) {
     for (
       list<S_msrFrameNote>::const_iterator i = fFrameFrameNotesList.begin ();
       i != fFrameFrameNotesList.end ();
@@ -408,6 +408,7 @@ void msrFrame::browseData (basevisitor* v)
       msrBrowser<msrFrameNote> browser (v);
       browser.browse (*(*i));
     } // for
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrFrame& elt)

@@ -529,9 +529,10 @@ string multipleRestWholeNoteAsLilypondString (
       inputLineNumber,
       denominatorAsFraction);
 
-  if (numberOfWholeNotes != 1)
+  if (numberOfWholeNotes != 1) {
     s <<
       "*" << numberOfWholeNotes;
+  }
 
   return s.str ();
 }
@@ -736,11 +737,13 @@ string existingLpsrAccidentalStyleKinds ()
       gLogIOstream <<
         (*i).first <<
         endl;
-      if ((*i).second != kDefaultStyle)
+      if ((*i).second != kDefaultStyle) {
         s << (*i).first;
+      }
       if (++i == iEnd) break;
-      if ((*i).second != kDefaultStyle)
+      if ((*i).second != kDefaultStyle) {
         s << " ";
+      }
     } // for
   }
 
@@ -798,11 +801,13 @@ string existingLpsrChordsLanguageKinds ()
       iEnd   = gLpsrChordsLanguageKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      if ((*i).second != k_IgnatzekChords)
+      if ((*i).second != k_IgnatzekChords) {
         s << (*i).first;
+      }
       if (++i == iEnd) break;
-      if ((*i).second != k_IgnatzekChords)
+      if ((*i).second != k_IgnatzekChords) {
         s << " ";
+      }
     } // for
   }
   

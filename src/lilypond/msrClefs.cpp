@@ -76,8 +76,9 @@ bool msrClef::clefIsAPercussionClef () const
 
 bool msrClef::isEqualTo (S_msrClef otherClef) const
 {
-  if (! otherClef)
+  if (! otherClef) {
     return false;
+  }
     
   return fClefKind == otherClef->fClefKind;
 }

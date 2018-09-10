@@ -66,8 +66,9 @@ msrTimeItem::~msrTimeItem ()
 
 bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 {  
-  if (! otherTimeItem)
+  if (! otherTimeItem) {
     return false;
+  }
     
   if (
     ! (
@@ -211,10 +212,11 @@ string msrTimeItem::asString () const
         s <<
           fTimeBeatsNumbersVector [i];
   
-        if (i != vectorSize - 1)
+        if (i != vectorSize - 1) {
           s <<
             " ";
-        } // for
+        }
+      } // for
 
       s <<
         ", beat value: " << fTimeBeatValue;
@@ -257,8 +259,9 @@ msrTime::msrTime (
 
 bool msrTime::isEqualTo (S_msrTime otherTime) const
 {
-  if (! otherTime)
+  if (! otherTime) {
     return false;
+  }
     
   if (
     ! (

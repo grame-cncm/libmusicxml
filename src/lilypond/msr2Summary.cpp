@@ -559,8 +559,10 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
       syllablesSize,
       "syllable", "syllables");
 
-  if (! elt->getStanzaTextPresent ())
-    fMsrSummaryOutputStream << " (no actual text)";
+  if (! elt->getStanzaTextPresent ()) {
+    fMsrSummaryOutputStream <<
+      " (no actual text)";
+  }
     
   fMsrSummaryOutputStream <<
     endl <<

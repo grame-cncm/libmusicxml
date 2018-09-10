@@ -157,8 +157,9 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fIgnoreErrors)
+  if (! gGeneralOptions->fIgnoreErrors) {
     exit (16);
+  }
 }
 
 //______________________________________________________________________________

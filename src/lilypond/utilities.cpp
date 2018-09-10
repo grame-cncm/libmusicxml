@@ -510,8 +510,9 @@ string int2EnglishWord (int n)
 //______________________________________________________________________________
 string stringNumbersToEnglishWords (string str)
 {
-  if (! str.size ())
+  if (! str.size ()) {
     return "NONE";
+  }
   
   enum workState {
     kInitialState, kWorkingOnDigits, kWorkingOnNonDigits };
@@ -581,19 +582,21 @@ int consumeDecimalNumber (
   string::const_iterator cursor = theStringIterator;
   int    number = 0;
 
-  if (! isdigit (*cursor))
+  if (! isdigit (*cursor)) {
     gLogIOstream <<
       "consumeDecimalNumber (" << *cursor <<
       "), " << *cursor << " is no decimal digit!" <<
       endl;
+    }
 
   while (isdigit (*cursor)) {
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> consumeDecimalNumber: cursor = |" <<
         *cursor <<
         "|" <<
         endl;
+    }
 
     number = number*10 + (*cursor-'0');
     
@@ -602,12 +605,13 @@ int consumeDecimalNumber (
 
   remainingStringIterator = cursor;
 
-  if (debugMode)
+  if (debugMode) {
     gLogIOstream <<
       "--> consumeDecimalNumber: number = " << number <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
       endl;
+  }
 
   return number;
 }
@@ -621,21 +625,23 @@ set<int> decipherNumbersSetSpecification (
 
   set<int> selectedNumbers;
   
-  if (debugMode)
+  if (debugMode) {
     gLogIOstream <<
       "--> decipherNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
+  }
 
   string::const_iterator
     cursor = theString.begin ();
 
   while (1) {
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> decipherNumbersSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
+    }
 
     int negated = 0;
 
@@ -652,12 +658,14 @@ set<int> decipherNumbersSetSpecification (
     if (*cursor == '-') {
       cursor++;
 
-      if (debugMode)
+      if (debugMode) {
         gLogIOstream <<
           "--> decipherNumbersSpecification after '-' : cursor = |" <<
           *cursor <<
           "|" <<
-          endl << endl;
+          endl <<
+          endl;
+      }
   
       intervalEndNumber =
         consumeDecimalNumber (cursor, cursor, debugMode);
@@ -667,38 +675,45 @@ set<int> decipherNumbersSetSpecification (
       intervalEndNumber = intervalStartNumber;
     }
 
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
         ", intervalEndNumber = " << intervalEndNumber <<
         ": *cursor = |" << *cursor << "|" <<
         endl;
+    }
 
     for (int i = intervalStartNumber; i <= intervalEndNumber; i ++) {
-      if (negated)
+      if (negated) {
         selectedNumbers.erase (i);
-      else
+      }
+      else {
         selectedNumbers.insert (i);
+      }
     } // for
 
     if (*cursor != ',') {
-      if (debugMode)
+      if (debugMode) {
         gLogIOstream <<
           "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
-          endl << endl;
+          endl <<
+          endl;
+      }
       break; 
     }
 
     cursor++;
 
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> decipherNumbersSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
-        << endl << endl;
+        << endl << 
+        endl;
+    }
   } // while 
 
   if (* cursor != '\0') {
@@ -718,11 +733,12 @@ list<int> extractNumbersFromString (
 {
   list<int> foundNumbers;
 
-  if (debugMode)
+  if (debugMode) {
     gLogIOstream <<
       "--> extractNumbersFromString, theString = |" << theString <<
       "|" <<
       endl;
+  }
 
   string::const_iterator
     cursor = theString.begin ();
@@ -731,11 +747,12 @@ list<int> extractNumbersFromString (
     if (cursor == theString.end ())
       break;
       
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> extractNumbersFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
+    }
 
     if (isdigit (*cursor)) {
       // consume a decimal number
@@ -766,11 +783,12 @@ pair<string, string> extractNamesPairFromString (
   string name1;
   string name2;
 
-  if (debugMode)
+  if (debugMode) {
     gLogIOstream <<
       "--> extractNamesPairFromString, theString = |" << theString <<
       "|" <<
       endl;
+  }
 
   string::const_iterator
     cursor = theString.begin ();
@@ -780,11 +798,12 @@ pair<string, string> extractNamesPairFromString (
     if (cursor == theString.end ())
       break;
       
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
+    }
 
     if ((*cursor) == separator) {
       // found the separator
@@ -820,11 +839,12 @@ pair<string, string> extractNamesPairFromString (
     if (cursor == theString.end ())
       break;
       
-    if (debugMode)
+    if (debugMode) {
       gLogIOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
+    }
 
     if ((*cursor) == '=') {
       // found the separator
@@ -885,10 +905,12 @@ string quoteStringIfNonAlpha (
     }
   } // for
 
-  if (stringShouldBeQuoted)
+  if (stringShouldBeQuoted) {
     return "\"" + result + "\"";
-  else
+  }
+  else {
     return result;
+  }
 }
 
 //______________________________________________________________________________
@@ -941,12 +963,14 @@ string singularOrPlural (
   s <<
     number << " ";
   
-  if (number <= 1)
+  if (number <= 1) {
     s <<
       singularName;
-  else
+  }
+  else {
     s <<
       pluralName;
+  }
       
   return s.str ();
 }
@@ -956,12 +980,14 @@ string singularOrPluralWithoutNumber (
 {
   stringstream s;
 
-  if (number <= 1)
+  if (number <= 1) {
     s <<
       singularName;
-  else
+  }
+  else {
     s <<
       pluralName;
+  }
       
   return s.str ();
 }
@@ -1587,8 +1613,9 @@ inline IFdStreambuf::IFdStreambuf(int fd)
 
 inline int IFdStreambuf::underflow ()
 {
-  if (read (d_fd, d_buffer, 1) <= 0)
+  if (read (d_fd, d_buffer, 1) <= 0) {
     return EOF;
+  }
 
   setg (d_buffer, d_buffer, d_buffer + 1);
   
@@ -1649,13 +1676,15 @@ void IFdNStreambuf::open(int fd, size_t bufsize)
 
 int IFdNStreambuf::underflow()
 {
-  if (gptr() < egptr ())
+  if (gptr() < egptr ()) {
     return *gptr ();
+  }
 
   int nread = read (d_fd, d_buffer, d_bufsize);
 
-  if (nread <= 0)
+  if (nread <= 0) {
     return EOF;
+  }
 
   setg (d_buffer, d_buffer, d_buffer + nread);
   
@@ -1674,8 +1703,9 @@ std::streamsize IFdNStreambuf::xsgetn (char *dest, std::streamsize n)
 
     int avail = in_avail();
 
-    if (avail > n)
+    if (avail > n) {
       avail = n;
+    }
 
     memcpy (dest + nread, gptr(), avail);
     gbump (avail);
