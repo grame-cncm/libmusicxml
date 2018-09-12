@@ -63,7 +63,7 @@ void msrVarValAssoc::setVariableValue (string value)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
-      "Setting the value of varValAssoc \"" <<
+      "Setting the value of marVarValAssoc \"" <<
       varValAssocKindAsString (fVarValAssocKind) <<
       "\" to '" <<
       value <<
@@ -271,7 +271,7 @@ string msrVarValsListAssoc::varValsListAssocKindAsString (
       result = "rights";
       break;
     case msrVarValsListAssoc::kComposer:
-      result = "kcomposer";
+      result = "composer";
       break;
     case msrVarValsListAssoc::kArranger:
       result = "arranger";

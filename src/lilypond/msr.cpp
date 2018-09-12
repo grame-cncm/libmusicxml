@@ -2755,6 +2755,12 @@ S_msrNote msrNote::createNoteDeepCopy (
     } // for
   }
   
+  // grace notes
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteGraceNotes =
+    fNoteGraceNotes;
+
   // single tremolo
   // ------------------------------------------------------
 
@@ -3780,6 +3786,22 @@ void msrNote::appendSlideToNote (S_msrSlide slide)
   fNoteSlides.push_back (slide);
 }
 
+void msrNote::setNoteGraceNotes (S_msrGraceNotes graceNotes)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "Adding graceNotes '" << graceNotes->asString () <<
+      "' to note '" << asShortString () <<
+      "', line " << graceNotes->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the grace notes in the note
+  fNoteGraceNotes = graceNotes;
+}
+
 void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OPTIONS
@@ -4276,6 +4298,14 @@ void msrNote::browseData (basevisitor* v)
     gIndenter--;
   }
   
+  // browse the grace notes if any
+  if (fNoteGraceNotes) {
+    // browse the grace notes
+    msrBrowser<msrGraceNotes> browser (v);
+    browser.browse (*fNoteGraceNotes);
+  }
+  
+  // browse the single tremolo if any
   if (fNoteSingleTremolo) {
     // browse the singleTremolo
     msrBrowser<msrSingleTremolo> browser (v);
@@ -4971,9 +5001,6 @@ string msrNote::asString () const
       break;
   } // switch
 
-  s <<
-    ", line " << fInputLineNumber;
-
   if (fNoteOccupiesAFullMeasure) {
     s <<
       ", full measure";
@@ -5015,8 +5042,9 @@ string msrNote::asString () const
   }
 
   s <<
-    " ===]";
-  
+    " ===]" <<
+    ", line " << fInputLineNumber;
+
   return s.str ();
 }
 
@@ -5954,6 +5982,31 @@ void msrNote::print (ostream& os)
     gIndenter--;
   }
   
+  // print the grace notes if any
+  if (fNoteGraceNotes || gMsrOptions->fDisplayMsrDetails) {
+    gIndenter++;
+
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotes";
+    if (fNoteGraceNotes) {
+      gIndenter++;
+      os <<
+        endl;
+        
+      gIndenter++;
+      os << fNoteGraceNotes;
+      gIndenter--;
+      
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+    
   // print the singleTremolo if any
   if (fNoteSingleTremolo || gMsrOptions->fDisplayMsrDetails) {
     gIndenter++;

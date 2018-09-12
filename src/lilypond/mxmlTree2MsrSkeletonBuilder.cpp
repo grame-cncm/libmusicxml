@@ -1808,11 +1808,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
     }
   }
   
-  identification ->
-    setWorkTitle (
-      elt->getInputLineNumber (),
-      inputSourceName);
-
   // register the number of measures
   fMsrScore->
     setScoreNumberOfMeasures (
@@ -1842,12 +1837,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_title& elt )
       endl;
   }
 
-  string workTitle = elt->getValue ();
-
   fMsrScore->getIdentification () ->
     setWorkTitle (
       elt->getInputLineNumber (),
-      workTitle);
+      elt->getValue ());
 }
   
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_number& elt )

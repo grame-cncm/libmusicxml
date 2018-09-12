@@ -17734,10 +17734,12 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       }
 */
       
-      // append the grace notes to the current voice
+      // append the grace notes to the current voice // NO JMI
+      // *
       currentVoice->
         appendGraceNotesToVoice (
           fCurrentGraceNotes);
+        //  * /
     }
 
     // register that last handled note if any is followed by grace notes JMI ???
@@ -17855,14 +17857,23 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     // standalone note or rest
 
     if (fCurrentGraceNotes) {
-      // this is the first note after the grace notes,
-      // forget about the latter
+      // this is the first note after the grace notes
+
+      // attach the current grace notes to this note
+
+      newNote->
+        setNoteGraceNotes (
+          fCurrentGraceNotes);
+
+      // forget about the current grace notes
       fCurrentGraceNotes = nullptr;
     }
 
-    // attach pending tempos if anu to the voice of note,
+/* YES JMI
+    // attach pending tempos if any to the voice of note,
     // priot to the note itself
     attachPendingTemposToTheVoiceOfNote (newNote);
+    */
     
     // append newNote to the current voice
 #ifdef TRACE_OPTIONS

@@ -1582,8 +1582,6 @@ class msrGraceNotes : public msrElement
                             int inputLineNumber);
 
 
-    string                asShortString () const;
-    
   public:
 
     // visitors
@@ -1599,6 +1597,8 @@ class msrGraceNotes : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asShortString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -1676,9 +1676,6 @@ class msrAfterGraceNotesContents : public msrElement
     void                  appendNoteToAfterGraceNotesContents (
                             S_msrNote note);
 
-    // strings
-    string                asShortString () const;
-    
   public:
 
     // visitors
@@ -1694,6 +1691,8 @@ class msrAfterGraceNotesContents : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asShortString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -1766,9 +1765,6 @@ class msrAfterGraceNotes : public msrElement
     // notes
     void                  appendNoteToAfterGraceNotesContents (
                             S_msrNote note);
-
-    // strings
-    string                asShortString () const;
     
   public:
 
@@ -1785,6 +1781,8 @@ class msrAfterGraceNotes : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asShortString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -3192,6 +3190,13 @@ class msrNote : public msrElement
                           getNoteSlides () const
                               { return fNoteSlides; }
         
+    // grace notes
+    void                  setNoteGraceNotes (
+                            S_msrGraceNotes graceNotes);
+
+    S_msrGraceNotes       getNoteGraceNotes () const
+                              { return fNoteGraceNotes; }
+
     // singleTremolo
     void                  setNoteSingleTremolo (
                             S_msrSingleTremolo trem);
@@ -3630,6 +3635,11 @@ class msrNote : public msrElement
 
     list<S_msrSlide>      fNoteSlides;
     
+    // grace notes
+    // ------------------------------------------------------
+
+    S_msrGraceNotes       fNoteGraceNotes;
+
     // single tremolo
     // ------------------------------------------------------
 
@@ -4160,9 +4170,6 @@ class msrChord : public msrElement
 
     // slides
     list<S_msrSlide>      fChordSlides;
-
-    // single tremolo
-    S_msrSingleTremolo    fNoteSingleTremolo;
     
     // ties
     S_msrTie              fChordTie;

@@ -3345,8 +3345,10 @@ string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
   string result;
   
   switch (lilyPondVarValsListAssocKind) {
+    // MusicXML informations
+
     case lpsrVarValsListAssoc::kRights:
-      result = "copyright";
+      result = "rights";
       break;
     case lpsrVarValsListAssoc::kComposer:
       result = "composer";
@@ -3362,6 +3364,36 @@ string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
       break;
     case lpsrVarValsListAssoc::kSoftware:
       result = "software";
+      break;
+      
+    // LilyPond informations
+
+    case lpsrVarValsListAssoc::kDedication:
+      result = "dedication";
+      break;
+
+    case lpsrVarValsListAssoc::kTitle:
+      result = "title";
+      break;
+    case lpsrVarValsListAssoc::kSubTitle:
+      result = "subTitle";
+      break;
+    case lpsrVarValsListAssoc::kSubSubTitle:
+      result = "subSubTitle";
+      break;
+      
+    case lpsrVarValsListAssoc::kInstrument:
+      result = "instrument";
+      break;
+    case lpsrVarValsListAssoc::kMeter:
+      result = "meter";
+      break;
+      
+    case lpsrVarValsListAssoc::kTagline:
+      result = "tagline";
+      break;
+    case lpsrVarValsListAssoc::kCopyright:
+      result = "copyright";
       break;
   } // switch
 

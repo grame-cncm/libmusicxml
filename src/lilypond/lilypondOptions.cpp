@@ -249,6 +249,55 @@ lilypondOptions::~lilypondOptions ()
 void lilypondOptions::initializeLilypondOptions (
   bool boolOptionsInitialValue)
 {
+  // identification
+  // --------------------------------------
+
+  {
+    // variables
+
+/* JMI
+    // MusicXML informations
+    string                fRights,
+    string                fComposer;
+    string                fArranger;
+    string                fPoet;
+    string                fLyricist;
+    string                fSoftware;
+      
+    // LilyPond informations
+    string                fDedication;
+    string                fTitle;
+    string                fSubTitle;
+    string                fSubSubTitle;
+    string                fInstrument;
+    string                fMeter;
+    string                fTagline;
+    string                fCopyright;
+*/
+
+    S_optionsSubGroup
+      identificationSubGroup =
+        optionsSubGroup::create (
+          "Identification",
+          "hlilyid", "helpLilypondIdentification",
+R"(These options can be used to enforce values in the generated LilyPond code,
+thus overriding the ones that may be present in the MSR data.)",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (identificationSubGroup);
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "rights", "",
+R"(Set the 'rights' in the LilyPond code.)",
+          "string",
+          "rights",
+          fRights));
+  }
+  
+
   // time
   // --------------------------------------
 
@@ -261,7 +310,7 @@ void lilypondOptions::initializeLilypondOptions (
       timeSubGroup =
         optionsSubGroup::create (
           "Time",
-          "hlilyti", "helpLilypondtime",
+          "hlilyti", "helpLilypondTime",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -945,6 +994,42 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
       fOptionsHandlerUplink);
 
 
+  // identification
+  // --------------------------------------
+
+  // MusicXML informations
+  clone->fRights =
+    fRights;
+  clone->fComposer =
+    fComposer;
+  clone->fArranger =
+    fArranger;
+  clone->fPoet =
+    fPoet;
+  clone->fLyricist =
+    fLyricist;
+  clone->fSoftware =
+    fSoftware;
+    
+  // LilyPond informations
+  clone->fDedication =
+    fDedication;
+  clone->fTitle =
+    fTitle;
+  clone->fSubTitle =
+    fSubTitle;
+  clone->fSubSubTitle =
+    fSubSubTitle;
+  clone->fInstrument =
+    fInstrument;
+  clone->fMeter =
+    fMeter;
+  clone->fTagline =
+    fTagline;
+  clone->fCopyright =
+    fCopyright;
+
+
   // time
   // --------------------------------------
   
@@ -1140,6 +1225,70 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter++;
   
+  // identification
+  // --------------------------------------
+  gLogIOstream <<
+    "Time:" <<
+    endl;
+
+  gIndenter++;
+
+  // MusicXML informations
+  gLogIOstream << left <<
+    setw (fieldWidth) << "rights" << " : " <<
+      fRights <<
+      endl <<
+
+    setw (fieldWidth) << "composer" << " : " <<
+      fComposer <<
+      endl <<
+    setw (fieldWidth) << "arranger" << " : " <<
+      fArranger <<
+      endl <<
+    setw (fieldWidth) << "poet" << " : " <<
+      fPoet <<
+      endl <<
+    setw (fieldWidth) << "lyricist" << " : " <<
+      fLyricist <<
+      endl <<
+
+    setw (fieldWidth) << "software" << " : " <<
+      fSoftware <<
+      endl <<
+
+  // LilyPond informations
+
+    setw (fieldWidth) << "dedication" << " : " <<
+      fDedication <<
+      endl <<
+
+    setw (fieldWidth) << "title" << " : " <<
+      fTitle <<
+      endl <<
+    setw (fieldWidth) << "subTitle" << " : " <<
+      fSubTitle <<
+      endl <<
+    setw (fieldWidth) << "subSubTitle" << " : " <<
+      fSubSubTitle <<
+      endl <<
+    setw (fieldWidth) << "instrument" << " : " <<
+      fInstrument <<
+      endl <<
+    setw (fieldWidth) << "meter" << " : " <<
+      fMeter <<
+      endl <<
+
+    setw (fieldWidth) << "tagline" << " : " <<
+      fTagline <<
+      endl <<
+
+    setw (fieldWidth) << "copyright" << " : " <<
+      fCopyright <<
+      endl;
+
+  gIndenter--;
+
+
   // time
   // --------------------------------------
   gLogIOstream <<
@@ -1154,6 +1303,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl;
 
   gIndenter--;
+
   
   // notes
   // --------------------------------------
@@ -1201,6 +1351,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl;
 
   gIndenter--;
+
   
   // bars
   // --------------------------------------
@@ -1216,6 +1367,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
 
   // line breaks
   // --------------------------------------
@@ -1239,6 +1391,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl;
 
   gIndenter--;
+
   
   // page breaks
   // --------------------------------------
@@ -1254,6 +1407,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
   
   // staves
   // --------------------------------------
@@ -1269,6 +1423,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
   
   // chords
   // --------------------------------------
@@ -1286,6 +1441,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     
   gIndenter--;
 
+
   // tuplets
   // --------------------------------------
 
@@ -1301,6 +1457,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     endl;
     
   gIndenter--;
+
 
   // repeats
   // --------------------------------------
@@ -1321,6 +1478,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     
   gIndenter--;
 
+
   // ornaments
   // --------------------------------------
 
@@ -1337,6 +1495,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
 
+
   // fonts
   // --------------------------------------
 
@@ -1352,6 +1511,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
 
   // code generation
   // --------------------------------------
@@ -1385,6 +1545,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
 
+
   // score notation
   // --------------------------------------
     
@@ -1402,6 +1563,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl;
 */
   gIndenter--;
+
   
   // midi
   // --------------------------------------

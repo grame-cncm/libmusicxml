@@ -248,6 +248,27 @@ class lilypondOptions : public optionsGroup
 
   public:
 
+    // identification
+    // --------------------------------------
+
+    // MusicXML informations
+    string                fRights;
+    string                fComposer;
+    string                fArranger;
+    string                fPoet;
+    string                fLyricist;
+    string                fSoftware;
+      
+    // LilyPond informations
+    string                fDedication;
+    string                fTitle;
+    string                fSubTitle;
+    string                fSubSubTitle;
+    string                fInstrument;
+    string                fMeter;
+    string                fTagline;
+    string                fCopyright;
+      
     // time
     // --------------------------------------
     

@@ -35,72 +35,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-//_______________________________________________________________________________
-S_lpsrElement lpsrElement::create (
-  int            inputLineNumber)
-{
-  lpsrElement* o =
-    new lpsrElement (
-      inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-lpsrElement::lpsrElement (
-  int            inputLineNumber)
-    : msrElement (inputLineNumber)
-{}
-
-lpsrElement::~lpsrElement ()
-{}
-
-void lpsrElement::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrElement::acceptIn ()" <<
-      endl;
-  }
-  
-  if (visitor<S_lpsrElement>*
-    p =
-      dynamic_cast<visitor<S_lpsrElement>*> (v)) {
-        S_lpsrElement elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrElement::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrElement::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrElement::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrElement>*
-    p =
-      dynamic_cast<visitor<S_lpsrElement>*> (v)) {
-        S_lpsrElement elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrElement::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrElement::browseData (basevisitor* v)
-{}
-
 //______________________________________________________________________________
 S_lpsrParallelMusicBLock lpsrParallelMusicBLock::create (
   int                       inputLineNumber,
@@ -578,791 +512,6 @@ void lpsrNewLyricsBlock::print (ostream& os)
     fStanza->getStanzaName () << " " <<
     fVoice->getVoiceName () <<
     endl;
-}
-
-//______________________________________________________________________________
-string const lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit    = "";
-string const lpsrVarValAssoc::g_LilyPondVarValAssocNoComment = "";
-
-S_lpsrVarValAssoc lpsrVarValAssoc::create (
-  int                     inputLineNumber,
-  lpsrCommentedKind       commentedKind,
-  lpsrBackSlashKind       backSlashKind,
-  lpsrVarValAssocKind
-                          lilyPondVarValAssocKind,
-  lpsrVarValSeparatorKind varValSeparatorKind,
-  lpsrQuotesKind          quotesKind,
-  string                  value, 
-  string                  unit,
-  string                  comment,
-  lpsrEndlKind            endlKind)
-{
-  lpsrVarValAssoc* o =
-    new lpsrVarValAssoc(
-      inputLineNumber,
-      commentedKind,
-      backSlashKind,
-      lilyPondVarValAssocKind,
-      varValSeparatorKind, 
-      quotesKind,
-      value,
-      unit,
-      comment,
-      endlKind);
-  assert(o!=0);
-  return o;
-}
-
-lpsrVarValAssoc::lpsrVarValAssoc (
-  int                     inputLineNumber,
-  lpsrCommentedKind       commentedKind,
-  lpsrBackSlashKind       backSlashKind,
-  lpsrVarValAssocKind
-                          lilyPondVarValAssocKind,
-  lpsrVarValSeparatorKind varValSeparatorKind,
-  lpsrQuotesKind          quotesKind,
-  string                  value, 
-  string                  unit,
-  string                  comment,
-  lpsrEndlKind            endlKind)
-    : lpsrElement (inputLineNumber)
-{
-  fBackSlashKind       = backSlashKind;
-  fLilyPondVarValAssocKind = lilyPondVarValAssocKind;
-  fVarValSeparatorKind = varValSeparatorKind;
-  fQuotesKind          = quotesKind;
-  fVariableValue       = value;
-  fCommentedKind       = commentedKind;
-  fUnit                = unit;
-  fComment             = comment;
-  fEndlKind            = endlKind;
-}
-
-lpsrVarValAssoc::~lpsrVarValAssoc ()
-{}
-
-string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
-  lpsrVarValAssocKind lilyPondVarValAssocKind)
-{
-  string result;
-
-  switch (lilyPondVarValAssocKind) {
-    case lpsrVarValAssoc::kVersion:
-      result = "version";
-      break;
-    case lpsrVarValAssoc::kWorkNumber:
-      result = "workNumber";
-      break;
-    case lpsrVarValAssoc::kWorkTitle:
-      result = "workTitle";
-      break;
-    case lpsrVarValAssoc::kMovementNumber:
-      result = "movementNumber";
-      break;
-    case lpsrVarValAssoc::kMovementTitle:
-      result = "movementTitle";
-      break;
-    case lpsrVarValAssoc::kEncodingDate:
-      result = "encodingDate";
-      break;
-    case lpsrVarValAssoc::kScoreInstrument:
-      result = "scoreInstrument";
-      break;
-    case lpsrVarValAssoc::kMiscellaneousField:
-      result = "miscellaneousField";
-      break;
-    case lpsrVarValAssoc::kMyBreak:
-      result = "myBreak";
-      break;
-    case lpsrVarValAssoc::kMyPageBreak:
-      result = "myPageBreak";
-      break;
-    case lpsrVarValAssoc::kGlobal:
-      result = "global";
-      break;
-  } // switch
-  
-  return result;
-}
-
-string lpsrVarValAssoc::commentedKindAsString (
-  lpsrCommentedKind commentedKind)
-{
-  string result;
-
-  switch (commentedKind) {
-    case lpsrVarValAssoc::kCommented:
-      result = "commented";
-      break;
-    case lpsrVarValAssoc::kUncommented:
-      result = "uncommented";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsrVarValAssoc::backSlashKindAsString (
-  lpsrBackSlashKind backSlashKind)
-{
-  string result;
-
-  switch (backSlashKind) {
-    case lpsrVarValAssoc::kWithBackSlash:
-      result = "with backSlash";
-      break;
-    case lpsrVarValAssoc::kWithoutBackSlash:
-      result = "without backSlash";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsrVarValAssoc::varValSeparatorKindAsString (
-  lpsrVarValSeparatorKind varValSeparatorKind)
-{
-  string result;
-
-  switch (varValSeparatorKind) {
-    case lpsrVarValAssoc::kSpace:
-      result = "space";
-      break;
-    case lpsrVarValAssoc::kEqualSign:
-      result = "equal";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsrVarValAssoc::quotesKindAsString (
-  lpsrQuotesKind quotesKind)
-{
-  string result;
-
-  switch (quotesKind) {
-    case lpsrVarValAssoc::kQuotesAroundValue:
-      result = "quotes";
-      break;
-    case lpsrVarValAssoc::kNoQuotesAroundValue:
-      result = "noQuotes";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsrVarValAssoc::endlKindAsString (
-  lpsrEndlKind endlKind)
-{
-  string result;
-
-  switch (endlKind) {
-    case lpsrVarValAssoc::kWithEndl:
-      result = "with end line";
-      break;
-    case lpsrVarValAssoc::kWithEndlTwice:
-      result = "with end line twice";
-      break;
-    case lpsrVarValAssoc::kWithoutEndl:
-      result = "without end line";
-      break;
-  } // switch
-
-  return result;
-}
-
-void lpsrVarValAssoc::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValAssoc::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrVarValAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
-        S_lpsrVarValAssoc elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrVarValAssoc::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValAssoc::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrVarValAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
-        S_lpsrVarValAssoc elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrVarValAssoc::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
-  assoc->print (os);
-  return os;
-}
-
-void lpsrVarValAssoc::print (ostream& os)
-{
-  os <<
-    "LPSR VarValAssoc" <<
-    endl;
-  
-  gIndenter++;
-
-  // escape quotes if any
-  string variableValue;
-
-  for_each (
-    fVariableValue.begin (),
-    fVariableValue.end (),
-    stringQuoteEscaper (variableValue));
-
-  const int fieldWidth = 16;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "assoc kind" << " : " <<
-    lilyPondVarValAssocKindAsString () <<
-    endl <<
-  
-    setw (fieldWidth) <<
-    "assoc value" << " : \"" <<
-    variableValue <<
-    "\"" <<
-    endl <<
-  
-    setw (fieldWidth) <<
-   "commented kind" << " : " <<
-    commentedKindAsString (
-      fCommentedKind) <<
-    endl <<
-
-    setw (fieldWidth) <<
-   "back slash kind" << " : " <<
-    backSlashKindAsString (
-      fBackSlashKind) <<
-    endl <<
-
-    setw (fieldWidth) <<
-   "separator kind" << " : " <<
-    varValSeparatorKindAsString (
-      fVarValSeparatorKind) <<
-    endl <<
-
-    setw (fieldWidth) <<
-   "quotes kind" << " : " <<
-    quotesKindAsString (
-      fQuotesKind) <<
-    endl <<
-
-    setw (fieldWidth) <<
-   "unit" << " : ";
-    
-  if (fUnit.size ()) {
-    os << "\"" << fUnit << "\"";
-  }
-  else {
-    os << "none";
-  }
-  os <<
-    endl;
-  
-  os <<
-    setw (fieldWidth) <<
-   "comment" << " : ";
-
-  if (fComment.size ()) {
-    os << "\"" << fComment << "\"";
-  }
-  else {
-    os << "none";
-  }
-  os <<
-    endl;
-
-  os <<
-    setw (fieldWidth) <<
-   "endl kind" << " : " <<
-    endlKindAsString (
-      fEndlKind) <<
-    endl;
-  
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-S_lpsrVarValsListAssoc lpsrVarValsListAssoc::create (
-  int                      inputLineNumber,
-  lpsrVarValsListAssocKind varValsListAssocKind)
-{
-  lpsrVarValsListAssoc* o =
-    new lpsrVarValsListAssoc (
-      inputLineNumber,
-      varValsListAssocKind);
-  assert(o!=0);
-  return o;
-}
-
-lpsrVarValsListAssoc::lpsrVarValsListAssoc (
-  int                      inputLineNumber,
-  lpsrVarValsListAssocKind varValsListAssocKind)
-    : lpsrElement (inputLineNumber)
-{
-  fVarValsListAssocKind = varValsListAssocKind;
-}
-
-lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
-{}
-
-string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
-  lpsrVarValsListAssocKind varValsListAssocKind)
-{
-  string result;
-
-  switch (varValsListAssocKind) {
-    case lpsrVarValsListAssoc::kRights:
-      result = "rights";
-      break;
-    case lpsrVarValsListAssoc::kComposer:
-      result = "composer";
-      break;
-    case lpsrVarValsListAssoc::kArranger:
-      result = "arranger";
-      break;
-    case lpsrVarValsListAssoc::kPoet:
-      result = "poet";
-      break;
-    case lpsrVarValsListAssoc::kLyricist:
-      result = "lyricist";
-      break;
-    case lpsrVarValsListAssoc::kSoftware:
-      result = "software";
-      break;
-  } // switch
-  
-  return result;
-}
-
-string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString () const
-{
-  stringstream s;
-  
-  list<string>::const_iterator
-    iBegin = fVariableValuesList.begin (),
-    iEnd   = fVariableValuesList.end (),
-    i      = iBegin;
-
-  s << "[";
-  for ( ; ; ) {
-    s << "\"" << (*i) << "\"";
-    if (++i == iEnd) break;
-    s << ", ";
-  } // for
-  s << "]";
-  
-  return s.str ();
-}
-
-void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrVarValsListAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
-        S_lpsrVarValsListAssoc elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrVarValsListAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
-        S_lpsrVarValsListAssoc elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrVarValsListAssoc::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& assoc) {
-  assoc->print (os);
-  return os;
-}
-
-void lpsrVarValsListAssoc::print (ostream& os)
-{
-  os <<
-    "LPSR VarValsListAssoc" <<
-    endl;
-  
-  gIndenter++;
-
-  const int fieldWidth = 16;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "assoc kind" << " : " <<
-    lilyPondVarValsListAssocKindAsString () <<
-    endl <<
-        
-    "variable values" << " : " <<
-    endl;
-
-  gIndenter++;
-  
-  list<string>::const_iterator
-    iBegin = fVariableValuesList.begin (),
-    iEnd   = fVariableValuesList.end (),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    os << "\"" << (*i) << "\"";
-    if (++i == iEnd) break;
-    os << endl;
-  } // for
-  
-  os <<
-    endl;
-
-  gIndenter--;
-  
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-string const lpsrSchemeVariable::g_SchemeVariableNoUnit    = "";
-string const lpsrSchemeVariable::g_SchemeVariableNoComment = "";
-
-S_lpsrSchemeVariable lpsrSchemeVariable::create (
-  int               inputLineNumber,
-  lpsrCommentedKind commentedKind,
-  string            variableName,
-  string            value, 
-  string            comment,
-  lpsrEndlKind      endlKind)
-{
-  lpsrSchemeVariable* o =
-    new lpsrSchemeVariable (
-      inputLineNumber,
-      commentedKind, variableName, value, comment, endlKind);
-  assert(o!=0);
-  return o;
-}
-
-lpsrSchemeVariable::lpsrSchemeVariable (
-  int               inputLineNumber,
-  lpsrCommentedKind commentedKind,
-  string            variableName,
-  string            value, 
-  string            comment,
-  lpsrEndlKind      endlKind)
-    : lpsrElement (inputLineNumber)
-{
-  fCommentedKind = commentedKind;
-
-  fVariableName  = variableName;
-  fVariableValue = value;
-
-  fComment       = comment;
-  
-  fEndlKind      = endlKind;
-}
-
-lpsrSchemeVariable::~lpsrSchemeVariable ()
-{}
-
-string lpsrSchemeVariable::commentedKindAsString (
-  lpsrCommentedKind commentedKind)
-{
-  string result;
-
-  switch (commentedKind) {
-    case lpsrVarValAssoc::kCommented:
-      result = "commented";
-      break;
-    case lpsrVarValAssoc::kUncommented:
-      result = "uncommented";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsrSchemeVariable::endlKindAsString (
-  lpsrEndlKind endlKind)
-{
-  string result;
-
-  switch (endlKind) {
-    case lpsrVarValAssoc::kWithEndl:
-      result = "with end line";
-      break;
-    case lpsrVarValAssoc::kWithEndlTwice:
-      result = "with end line twice";
-      break;
-    case lpsrVarValAssoc::kWithoutEndl:
-      result = "without end line";
-      break;
-  } // switch
-
-  return result;
-}
-
-void lpsrSchemeVariable::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrSchemeVariable::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrSchemeVariable>*
-    p =
-      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
-        S_lpsrSchemeVariable elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrSchemeVariable::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrSchemeVariable::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrSchemeVariable>*
-    p =
-      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
-        S_lpsrSchemeVariable elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrSchemeVariable::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& assoc)
-{
-  assoc->print (os);
-  return os;
-}
-
-void lpsrSchemeVariable::print (ostream& os)
-{
-  os <<
-    "SchemeVariable" <<
-    endl;
-
-  gIndenter++;
-
-  // escape quotes if any
-  string variableName;
-  string variableValue;
-
-  for_each (
-    fVariableName.begin (),
-    fVariableName.end (),
-    stringQuoteEscaper (variableName));
-  for_each (
-    fVariableValue.begin (),
-    fVariableValue.end (),
-    stringQuoteEscaper (variableValue));
-
-  // print resulting strings
-  const int fieldWidth = 15;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "variable name" <<
-    " : \"" << variableName << "\"" <<
-    endl <<
-    setw (fieldWidth) <<
-    "variable value" <<
-    " : \"" << variableValue << "\"" <<
-    endl <<
-
-    setw (fieldWidth) <<
-    "commented kind" << " : " <<
-    commentedKindAsString (fCommentedKind) <<
-    endl <<
-
-  // backSlashKindAsString ??? JMI
-  // varValSeparatorKindAsString ??? JMI
-  // quotesKindAsString ??? JMI
-  
-    setw (fieldWidth) <<
-    "endl kind" << " : " <<
-    endlKindAsString (fEndlKind) <<
-    endl;
-  
-  gIndenter--;
-}
-
-//______________________________________________________________________________
-S_lpsrSchemeFunction lpsrSchemeFunction::create (
-  int    inputLineNumber,
-  string functionName,
-  string functionDescription,
-  string functionCode)
-{
-  lpsrSchemeFunction* o =
-    new lpsrSchemeFunction (
-      inputLineNumber,
-      functionName, functionDescription, functionCode);
-  assert(o!=0);
-  return o;
-}
-
-lpsrSchemeFunction::lpsrSchemeFunction (
-  int    inputLineNumber,
-  string functionName,
-  string functionDescription,
-  string functionCode)
-    : lpsrElement (inputLineNumber)
-{
-  fFunctionName        = functionName;
-  fFunctionDescription = functionDescription;
-  fFunctionCode        = functionCode;
-  }
-
-lpsrSchemeFunction::~lpsrSchemeFunction ()
-{}
-
-void lpsrSchemeFunction::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrSchemeFunction::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrSchemeFunction>*
-    p =
-      dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
-        S_lpsrSchemeFunction elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrSchemeFunction::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrSchemeFunction::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrSchemeFunction>*
-    p =
-      dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
-        S_lpsrSchemeFunction elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrSchemeFunction::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& assoc)
-{
-  assoc->print (os);
-  return os;
-}
-
-void lpsrSchemeFunction::print (ostream& os)
-{
-  os <<
-    "SchemeFunction" <<
-    endl;
-
-  gIndenter++;
-
-  // print resulting strings
-  os <<
-    "function name : \"" << fFunctionName << "\"" <<
-    endl <<
-    "function description: \"" << fFunctionDescription << "\"" <<
-    endl <<
-    "function code: \"" << fFunctionCode << "\"" <<
-    endl;
-
-  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2512,6 +1661,17 @@ void lpsrHeader::addRights (
   int    inputLineNumber,
   string value)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding right \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fRights) {
     fRights =
       lpsrVarValsListAssoc::create (
@@ -2527,6 +1687,17 @@ void lpsrHeader::addComposer (
   int    inputLineNumber,
   string value)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding composer \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fComposers) {
     fComposers =
       lpsrVarValsListAssoc::create (
@@ -2542,6 +1713,17 @@ void lpsrHeader::addArranger (
   int    inputLineNumber,
   string value)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding arranger \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fArrangers) {
     fArrangers =
       lpsrVarValsListAssoc::create (
@@ -2557,6 +1739,17 @@ void lpsrHeader::addLyricist (
   int    inputLineNumber,
   string value)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding lyricist \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fLyricists) {
     fLyricists =
       lpsrVarValsListAssoc::create (
@@ -2572,6 +1765,17 @@ void lpsrHeader::addPoet (
   int    inputLineNumber,
   string value)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding poet \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fPoets) {
     fPoets =
       lpsrVarValsListAssoc::create (
@@ -2587,6 +1791,17 @@ void lpsrHeader::addSoftware (
   int    inputLineNumber,
   string value)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding software \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
   if (! fSoftwares) {
     fSoftwares =
       lpsrVarValsListAssoc::create (
@@ -2603,28 +1818,36 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   int result = 0;
 
   if (fWorkNumber) {
-    int length = fWorkNumber->lilyPondVarValAssocKindAsString ().size ();
+    int length =
+      fWorkNumber->
+        lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
   }
   
   if (fWorkTitle) {
-    int length = fWorkTitle->lilyPondVarValAssocKindAsString ().size ();
+    int length =
+      fWorkTitle->
+        lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
   }
     
   if (fMovementNumber) {
-    int length = fMovementNumber->lilyPondVarValAssocKindAsString ().size ();
+    int length =
+      fMovementNumber->
+        lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
   }
     
   if (fMovementTitle) {
-    int length = fMovementTitle->lilyPondVarValAssocKindAsString ().size ();
+    int length =
+      fMovementTitle->
+        lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
