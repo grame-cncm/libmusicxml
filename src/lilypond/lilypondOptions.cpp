@@ -349,7 +349,7 @@ R"(Set 'instrument' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "meter", "",
-R"(Set 'subsubtitle' in the \header.)",
+R"(Set 'meter' in the \header.)",
           "string",
           "meter",
           fMeter));
