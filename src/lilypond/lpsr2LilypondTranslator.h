@@ -647,6 +647,9 @@ class lpsr2LilypondTranslator :
                             S_lpsrVarValsListAssoc varValsListAssoc,
                             ostream&               os);
 
+    string                lpsrVarValAssocAsLilypondString (
+                            S_lpsrVarValAssoc lpsrVarValAssoc);
+
     // whole notes
     // JMI
                             

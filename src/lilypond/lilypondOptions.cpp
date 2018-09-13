@@ -287,6 +287,8 @@ thus overriding the ones that may be present in the MSR data.)",
   
     appendOptionsSubGroup (identificationSubGroup);
 
+    // MusicXML informations
+
     identificationSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
@@ -295,6 +297,35 @@ R"(Set the 'rights' in the LilyPond code.)",
           "string",
           "rights",
           fRights));
+
+    // LilyPond informations
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "title", "",
+R"(Set 'title' in the \header.)",
+          "string",
+          "title",
+          fTitle));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "subTitle", "",
+R"(Set 'subtitle' in the \header.)",
+          "string",
+          "subTitle",
+          fSubTitle));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "subSubTitle", "",
+R"(Set 'subsubtitle' in the \header.)",
+          "string",
+          "subSubTitle",
+          fSubSubTitle));
   }
   
 

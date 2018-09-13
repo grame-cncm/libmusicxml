@@ -3300,42 +3300,95 @@ string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
   string result;
   
   switch (lilyPondVarValAssocKind) {
-    case lpsrVarValAssoc::kVersion:
-      fLilypondCodeIOstream << "version";
+    // library
+
+    case lpsrVarValAssoc::kLibraryVersion:
+      result = "version";
       break;
-    case lpsrVarValAssoc::kWorkNumber:
-      fLilypondCodeIOstream << "workNumber";
+      
+    // MusicXML informations
+
+    case lpsrVarValAssoc::kMusicXMLWorkNumber:
+      result = "workNumber";
       break;
-    case lpsrVarValAssoc::kWorkTitle:
-      fLilypondCodeIOstream << "title";
+    case lpsrVarValAssoc::kMusicXMLWorkTitle:
+      result = "title";
       break;
-    case lpsrVarValAssoc::kMovementNumber:
-      fLilypondCodeIOstream << "movementNumber";
+    case lpsrVarValAssoc::kMusicXMLMovementNumber:
+      result = "movementNumber";
       break;
-    case lpsrVarValAssoc::kMovementTitle:
-      fLilypondCodeIOstream << "subtitle";
+    case lpsrVarValAssoc::kMusicXMLMovementTitle:
+      result = "subtitle";
       break;
-    case lpsrVarValAssoc::kEncodingDate:
-      fLilypondCodeIOstream << "encodingDate";
+    case lpsrVarValAssoc::kMusicXMLEncodingDate:
+      result = "encodingDate";
       break;
-    case lpsrVarValAssoc::kScoreInstrument:
-      fLilypondCodeIOstream << "scoreInstrument";
+    case lpsrVarValAssoc::kMusicXMLScoreInstrument:
+      result = "scoreInstrument";
       break;
-    case lpsrVarValAssoc::kMiscellaneousField:
-      fLilypondCodeIOstream << "miscellaneousField";
+    case lpsrVarValAssoc::kMusicXMLMiscellaneousField:
+      result = "miscellaneousField";
       break;
-    case lpsrVarValAssoc::kMyBreak:
-      fLilypondCodeIOstream << "myBreak";
+      
+    // LilyPond informations
+    
+    case lpsrVarValAssoc::kLilypondDedication:
+      result = "dedication";
       break;
-    case lpsrVarValAssoc::kMyPageBreak:
-      fLilypondCodeIOstream << "myPageBreak";
+
+    case lpsrVarValAssoc::kLilypondTitle:
+      result = "title";
       break;
-    case lpsrVarValAssoc::kGlobal:
-      fLilypondCodeIOstream << "global";
+    case lpsrVarValAssoc::kLilypondSubTitle:
+      result = "subtitle";
+      break;
+    case lpsrVarValAssoc::kLilypondSubSubTitle:
+      result = "subsubtitle";
+      break;
+      
+    case lpsrVarValAssoc::kLilypondInstrument:
+      result = "instrument";
+      break;
+    case lpsrVarValAssoc::kLilypondMeter:
+      result = "meter";
+      break;
+      
+    case lpsrVarValAssoc::kLilypondTagline:
+      result = "tagline";
+      break;
+    case lpsrVarValAssoc::kLilypondCopyright:
+      result = "copyright";
+      break;
+
+    case lpsrVarValAssoc::kLilypondMyBreak:
+      result = "myBreak";
+      break;
+    case lpsrVarValAssoc::kLilypondMyPageBreak:
+      result = "myPageBreak";
+      break;
+    case lpsrVarValAssoc::kLilypondGlobal:
+      result = "global";
       break;
   } // switch
 
   return result;
+}
+
+string lpsr2LilypondTranslator::lpsrVarValAssocAsLilypondString (
+  S_lpsrVarValAssoc lpsrVarValAssoc)
+{
+  stringstream s;
+
+  s <<
+    lpsrVarValAssocKindAsLilypondString (
+      lpsrVarValAssoc->
+        getLilyPondVarValAssocKind ()) <<
+    " = \"" <<
+      lpsrVarValAssoc->
+        getVariableValue () <<
+    "\"";
+
+  return s.str ();
 }
 
 string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
@@ -3347,55 +3400,25 @@ string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
   switch (lilyPondVarValsListAssocKind) {
     // MusicXML informations
 
-    case lpsrVarValsListAssoc::kRights:
+    case lpsrVarValsListAssoc::kMusicXMLRights:
       result = "rights";
       break;
-    case lpsrVarValsListAssoc::kComposer:
+    case lpsrVarValsListAssoc::kMusicXMLComposer:
       result = "composer";
       break;
-    case lpsrVarValsListAssoc::kArranger:
+    case lpsrVarValsListAssoc::kMusicXMLArranger:
       result = "arranger";
       break;
-    case lpsrVarValsListAssoc::kPoet:
+    case lpsrVarValsListAssoc::kMusicXMLPoet:
       result = "poet";
       break;
-    case lpsrVarValsListAssoc::kLyricist:
+    case lpsrVarValsListAssoc::kMusicXMLLyricist:
       result = "lyricist";
       break;
-    case lpsrVarValsListAssoc::kSoftware:
+    case lpsrVarValsListAssoc::kMusicXMLSoftware:
       result = "software";
       break;
-      
-    // LilyPond informations
-
-    case lpsrVarValsListAssoc::kDedication:
-      result = "dedication";
-      break;
-
-    case lpsrVarValsListAssoc::kTitle:
-      result = "title";
-      break;
-    case lpsrVarValsListAssoc::kSubTitle:
-      result = "subTitle";
-      break;
-    case lpsrVarValsListAssoc::kSubSubTitle:
-      result = "subSubTitle";
-      break;
-      
-    case lpsrVarValsListAssoc::kInstrument:
-      result = "instrument";
-      break;
-    case lpsrVarValsListAssoc::kMeter:
-      result = "meter";
-      break;
-      
-    case lpsrVarValsListAssoc::kTagline:
-      result = "tagline";
-      break;
-    case lpsrVarValsListAssoc::kCopyright:
-      result = "copyright";
-      break;
-  } // switch
+    } // switch
 
   return result;
 }
@@ -3685,6 +3708,40 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 
   gIndenter++;
 
+  // generate header elements
+  S_lpsrVarValAssoc
+    lilypondTitle =
+      elt->getLilypondTitle ();
+
+  if (lilypondTitle) {
+    fLilypondCodeIOstream <<
+      lpsrVarValAssocAsLilypondString (
+        lilypondTitle) <<
+      endl;
+  }
+  
+  S_lpsrVarValAssoc
+    lilypondSubTitle =
+      elt->getLilypondSubTitle ();
+
+  if (lilypondSubTitle) {
+    fLilypondCodeIOstream <<
+      lpsrVarValAssocAsLilypondString (
+        lilypondSubTitle) <<
+      endl;
+  }
+  
+  S_lpsrVarValAssoc
+    lilypondSubSubTitle =
+      elt->getLilypondSubSubTitle ();
+
+  if (lilypondSubSubTitle) {
+    fLilypondCodeIOstream <<
+      lpsrVarValAssocAsLilypondString (
+        lilypondSubSubTitle) <<
+      endl;
+  }
+  
   fOnGoingHeader = true;
 }
 
