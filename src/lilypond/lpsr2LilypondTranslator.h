@@ -648,7 +648,8 @@ class lpsr2LilypondTranslator :
                             ostream&               os);
 
     string                lpsrVarValAssocAsLilypondString (
-                            S_lpsrVarValAssoc lpsrVarValAssoc);
+                            S_lpsrVarValAssoc lpsrVarValAssoc,
+                            int               fieldNameWidth);
 
     // whole notes
     // JMI

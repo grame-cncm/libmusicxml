@@ -303,6 +303,15 @@ R"(Set the 'rights' in the LilyPond code.)",
     identificationSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
+          "dedication", "",
+R"(Set 'dedication' in the \header.)",
+          "string",
+          "dedication",
+          fDedication));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
           "title", "",
 R"(Set 'title' in the \header.)",
           "string",
@@ -312,7 +321,7 @@ R"(Set 'title' in the \header.)",
     identificationSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
-          "subTitle", "",
+          "sTitle", "subTitle",
 R"(Set 'subtitle' in the \header.)",
           "string",
           "subTitle",
@@ -321,11 +330,47 @@ R"(Set 'subtitle' in the \header.)",
     identificationSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
-          "subSubTitle", "",
+          "ssTitle", "subSubTitle",
 R"(Set 'subsubtitle' in the \header.)",
           "string",
           "subSubTitle",
           fSubSubTitle));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "instrument", "",
+R"(Set 'instrument' in the \header.)",
+          "string",
+          "instrument",
+          fInstrument));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "meter", "",
+R"(Set 'subsubtitle' in the \header.)",
+          "string",
+          "meter",
+          fMeter));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "tagline", "",
+R"(Set 'tagline' in the \header.)",
+          "string",
+          "tagline",
+          fTagline));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "copyright", "",
+R"(Set 'copyright' in the \header.)",
+          "string",
+          "copyright",
+          fCopyright));
   }
   
 

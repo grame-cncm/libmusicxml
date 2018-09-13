@@ -3375,11 +3375,13 @@ string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
 }
 
 string lpsr2LilypondTranslator::lpsrVarValAssocAsLilypondString (
-  S_lpsrVarValAssoc lpsrVarValAssoc)
+  S_lpsrVarValAssoc lpsrVarValAssoc,
+  int               fieldNameWidth)
 {
   stringstream s;
 
-  s <<
+  s << left <<
+    setw (fieldNameWidth) <<
     lpsrVarValAssocKindAsLilypondString (
       lpsrVarValAssoc->
         getLilyPondVarValAssocKind ()) <<
@@ -3709,39 +3711,114 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   gIndenter++;
 
   // generate header elements
-  S_lpsrVarValAssoc
-    lilypondTitle =
-      elt->getLilypondTitle ();
 
-  if (lilypondTitle) {
-    fLilypondCodeIOstream <<
-      lpsrVarValAssocAsLilypondString (
-        lilypondTitle) <<
-      endl;
+  int fieldNameWidth =
+    elt->maxLilypondVariablesNamesLength ();
+    
+  {
+    S_lpsrVarValAssoc
+      lilypondDedication =
+        elt->getLilypondDedication ();
+  
+    if (lilypondDedication) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondDedication,
+          fieldNameWidth) <<
+        endl;
+    }
+  }
+
+  {
+    S_lpsrVarValAssoc
+      lilypondTitle =
+        elt->getLilypondTitle ();
+  
+    if (lilypondTitle) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondTitle,
+          fieldNameWidth) <<
+        endl;
+    }
+    
+    S_lpsrVarValAssoc
+      lilypondSubTitle =
+        elt->getLilypondSubTitle ();
+  
+    if (lilypondSubTitle) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondSubTitle,
+          fieldNameWidth) <<
+        endl;
+    }
+    
+    S_lpsrVarValAssoc
+      lilypondSubSubTitle =
+        elt->getLilypondSubSubTitle ();
+  
+    if (lilypondSubSubTitle) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondSubSubTitle,
+          fieldNameWidth) <<
+        endl;
+    }
   }
   
-  S_lpsrVarValAssoc
-    lilypondSubTitle =
-      elt->getLilypondSubTitle ();
-
-  if (lilypondSubTitle) {
-    fLilypondCodeIOstream <<
-      lpsrVarValAssocAsLilypondString (
-        lilypondSubTitle) <<
-      endl;
-  }
+  {
+    S_lpsrVarValAssoc
+      lilypondInstrument =
+        elt->getLilypondInstrument ();
   
-  S_lpsrVarValAssoc
-    lilypondSubSubTitle =
-      elt->getLilypondSubSubTitle ();
-
-  if (lilypondSubSubTitle) {
-    fLilypondCodeIOstream <<
-      lpsrVarValAssocAsLilypondString (
-        lilypondSubSubTitle) <<
-      endl;
-  }
+    if (lilypondInstrument) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondInstrument,
+          fieldNameWidth) <<
+        endl;
+    }
+    
+    S_lpsrVarValAssoc
+      lilypondMeter =
+        elt->getLilypondMeter ();
   
+    if (lilypondMeter) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondMeter,
+          fieldNameWidth) <<
+        endl;
+    }
+  }
+    
+  {
+    S_lpsrVarValAssoc
+      lilypondCopyright =
+        elt->getLilypondCopyright ();
+  
+    if (lilypondCopyright) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondCopyright,
+          fieldNameWidth) <<
+        endl;
+    }
+    
+    S_lpsrVarValAssoc
+      lilypondTagline =
+        elt->getLilypondTagline ();
+  
+    if (lilypondTagline) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondTagline,
+          fieldNameWidth) <<
+        endl;
+    }
+  }
+    
   fOnGoingHeader = true;
 }
 
