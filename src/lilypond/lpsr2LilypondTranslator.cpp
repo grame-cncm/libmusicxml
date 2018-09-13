@@ -5263,6 +5263,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
 }
 
 //________________________________________________________________________
+/* JMI
 void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -5289,6 +5290,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
       endl;
   }
 }
+*/
 
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrScore& elt)
