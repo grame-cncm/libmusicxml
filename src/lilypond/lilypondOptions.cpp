@@ -281,7 +281,8 @@ void lilypondOptions::initializeLilypondOptions (
           "Identification",
           "hlilyid", "helpLilypondIdentification",
 R"(These options can be used to enforce values in the generated LilyPond code,
-thus overriding the ones that may be present in the MSR data.)",
+thus overriding the ones that may be present in the MSR data.
+)",
         optionsSubGroup::kAlwaysShowDescription,
         this);
   
@@ -304,7 +305,7 @@ R"(Set the 'rights' in the LilyPond code.)",
       appendOptionsItem (
         optionsStringItem::create (
           "dedication", "",
-R"(Set 'dedication' in the \header.)",
+R"(Set 'dedication' to 'string' in the \header.)",
           "string",
           "dedication",
           fDedication));
@@ -313,7 +314,7 @@ R"(Set 'dedication' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "title", "",
-R"(Set 'title' in the \header.)",
+R"(Set 'title' to 'string' in the \header.)",
           "string",
           "title",
           fTitle));
@@ -322,7 +323,7 @@ R"(Set 'title' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "sTitle", "subTitle",
-R"(Set 'subtitle' in the \header.)",
+R"(Set 'subtitle' to 'string' in the \header.)",
           "string",
           "subTitle",
           fSubTitle));
@@ -331,7 +332,7 @@ R"(Set 'subtitle' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "ssTitle", "subSubTitle",
-R"(Set 'subsubtitle' in the \header.)",
+R"(Set 'subsubtitle' to 'string' in the \header.)",
           "string",
           "subSubTitle",
           fSubSubTitle));
@@ -340,7 +341,7 @@ R"(Set 'subsubtitle' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "instrument", "",
-R"(Set 'instrument' in the \header.)",
+R"(Set 'instrument' to 'string' in the \header.)",
           "string",
           "instrument",
           fInstrument));
@@ -349,7 +350,7 @@ R"(Set 'instrument' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "meter", "",
-R"(Set 'meter' in the \header.)",
+R"(Set 'meter' to 'string' in the \header.)",
           "string",
           "meter",
           fMeter));
@@ -358,7 +359,7 @@ R"(Set 'meter' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "tagline", "",
-R"(Set 'tagline' in the \header.)",
+R"(Set 'tagline' to 'string' in the \header.)",
           "string",
           "tagline",
           fTagline));
@@ -367,7 +368,7 @@ R"(Set 'tagline' in the \header.)",
       appendOptionsItem (
         optionsStringItem::create (
           "copyright", "",
-R"(Set 'copyright' in the \header.)",
+R"(Set 'copyright' to 'string' in the \header.)",
           "string",
           "copyright",
           fCopyright));

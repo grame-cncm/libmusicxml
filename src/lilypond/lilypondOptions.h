@@ -189,6 +189,31 @@ class lilypondOptions : public optionsGroup
     static string scoreNotationKindAsString (
       scoreNotationKind notationKind);
 
+    enum {
+      workNumber
+workTitle
+movementNumber,
+movementTitle,
+scoreInstrument
+miscellaneousField
+
+partGroupName
+partGroupNameDisplayText
+partGroupAbbrevation
+partGroupInstrumentName
+
+partID
+partMsrName
+partName
+partAbbrevation
+partInstrumentName
+partInstrumentAbbreviation
+
+staffInstrumentName
+staffInstrumentAbbreviation
+};
+
+
   public:
 
     // creation
@@ -268,7 +293,47 @@ class lilypondOptions : public optionsGroup
     string                fMeter;
     string                fTagline;
     string                fCopyright;
-      
+
+    
+    // names
+    // --------------------------------------
+/*
+workNumber
+workTitle
+movementNumber,
+movementTitle,
+scoreInstrument
+miscellaneousField
+
+partGroupName
+partGroupNameDisplayText
+partGroupAbbrevation
+partGroupInstrumentName
+
+partID
+partMsrName
+partName
+partAbbrevation
+partInstrumentName
+partInstrumentAbbreviation
+
+staffInstrumentName
+staffInstrumentAbbreviation
+
+
+
+pickDedication
+pickTitle
+pickSubTitle
+pickSubSubTitle
+
+pickInstrument
+
+pickTagline
+pickCopyright
+
+*/
+    
     // time
     // --------------------------------------
     
@@ -294,10 +359,12 @@ class lilypondOptions : public optionsGroup
 
     bool                  fNoteInputLineNumbers;
 
+
     // bars
     // --------------------------------------
     
     bool                  fShowAllBarNumbers;
+
     
     // line breaks
     // --------------------------------------
@@ -308,25 +375,30 @@ class lilypondOptions : public optionsGroup
     
     int                   fSeparatorLineEveryNMeasures;
 
+
     // page breaks
     // --------------------------------------
     
     bool                  fIgnorePageBreaks;
+
     
     // staves
     // --------------------------------------
     
     bool                  fModernTab;
 
+
     // chords
     // --------------------------------------
     
     bool                  fConnectArpeggios;
 
+
     // tuplets
     // --------------------------------------
     
     bool                  fIndentTuplets;
+
 
     // repeats
     // --------------------------------------
@@ -334,15 +406,18 @@ class lilypondOptions : public optionsGroup
     bool                  fIgnoreRepeatNumbers; // and let LilyPond do the job
     bool                  fRepeatBrackets;
 
+
     // ornaments
     // --------------------------------------
 
     rational              fDelayedOrnamentsFraction;
 
+
     // fonts
     // --------------------------------------
 
     bool                  fJazzFonts;
+
 
     // code generation
     // --------------------------------------
@@ -361,11 +436,13 @@ class lilypondOptions : public optionsGroup
 
     bool                  fPointAndClickOff;
 
+
     // score notation
     // --------------------------------------
 
  // JMI   scoreNotationKind     fScoreNotationKind;
     bool                  fJianpu;
+
     
     // midi
     // --------------------------------------
