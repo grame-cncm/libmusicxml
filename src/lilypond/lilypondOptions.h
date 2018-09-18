@@ -189,6 +189,7 @@ class lilypondOptions : public optionsGroup
     static string scoreNotationKindAsString (
       scoreNotationKind notationKind);
 
+/*
     enum {
       workNumber
 workTitle
@@ -212,7 +213,7 @@ partInstrumentAbbreviation
 staffInstrumentName
 staffInstrumentAbbreviation
 };
-
+*/
 
   public:
 
