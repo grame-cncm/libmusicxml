@@ -35,6 +35,19 @@ namespace MusicXML2
     }
     
     
+    int musicxmlQuery::getStavesForFirstPart() {
+        
+        return stavesInPart.begin()->second;
+    }
+    
+    int musicxmlQuery::getTotalStaves() {
+        int totalStaves = 0;
+        for (auto&& e : stavesInPart) {
+            totalStaves += e.second;
+        }
+        return totalStaves;
+    }
+
     /// Instance methods:
     int  musicxmlQuery::getTransposeInstrumentChromatic () {
         // The chromatic element, representing the number of chromatic steps to add to the written pitch, is the one required element. The diatonic, octave-change, and double elements are optional elements.
@@ -110,6 +123,18 @@ namespace MusicXML2
     {
         //cout<< " Rehearsal Mark \""<< elt->getValue() <<"\" at beat-pos "<<beatCum<<endl;
     }
-
-
+    
+    //________________________________________________________________________
+    void musicxmlQuery::visitStart ( S_part& elt)
+    {
+        currentPart = elt->getAttributeValue("id");
+        stavesInPart[currentPart] = 1;
+    }
+    
+    //________________________________________________________________________
+    void musicxmlQuery::visitStart ( S_staves& elt)
+    {
+        stavesInPart[currentPart] = int(*elt);
+    }
+    
 }
