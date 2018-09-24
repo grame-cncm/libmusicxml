@@ -409,10 +409,11 @@ void msrScore::print (ostream& os)
   int creditsListSize = fCreditsList.size ();
 
   os <<
-    "CreditsList" <<
-    endl <<
-    endl;
+    setw (fieldWidth) <<
+    "CreditsList";
   if (creditsListSize) {
+    os <<
+      endl;
     gIndenter++;
 
     list<S_msrCredit>::const_iterator

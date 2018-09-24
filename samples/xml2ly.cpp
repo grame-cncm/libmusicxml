@@ -191,6 +191,29 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
 }
 
 //_______________________________________________________________________________
+void displayMsrScore_OptionalPass (
+  S_msrScore   mScore,
+  S_msrOptions msrOpts)
+{
+  // display the MSR
+  displayMSRPopulatedScore (
+    msrOpts,
+    mScore,
+    gLogIOstream);
+
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter value after MSR score dispaly: "<<
+      gIndenter.getIndent () <<
+      " ###" <<
+      endl <<
+      endl;
+
+    gIndenter.resetToZero ();
+  }
+}
+
+//_______________________________________________________________________________
 S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
   S_msrScore mScore)
 {
@@ -207,7 +230,9 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
 
   if (gIndenter != 0) {
     gLogIOstream <<
-      "### gIndenter value after pass 3: "<< gIndenter.getIndent () << " ###" <<
+      "### gIndenter value after pass 3: "<<
+      gIndenter.getIndent () <<
+      " ###" <<
       endl <<
       endl;
 
@@ -224,6 +249,31 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
   }
 
   return lpScore;
+}
+
+//_______________________________________________________________________________
+void displayLpsrScore_OptionalPass (
+  S_lpsrScore   lpScore,
+  S_msrOptions  msrOpts,
+  S_lpsrOptions lpsrOpts)
+{
+  // display it
+  displayLpsrScore (
+    lpScore,
+    msrOpts,
+    lpsrOpts,
+    gLogIOstream);
+
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter value after LPSR score dispaly: "<<
+      gIndenter.getIndent () <<
+      " ###" <<
+      endl <<
+      endl;
+
+    gIndenter.resetToZero ();
+  }
 }
 
 //_______________________________________________________________________________
@@ -330,6 +380,7 @@ void convertMusicXMLToLilypond (
     mxmlTree =
       convertMusicXMLToMxmlTree_Pass1 (
         inputSourceName);
+
       
   // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
@@ -341,6 +392,7 @@ void convertMusicXMLToLilypond (
 
   if (gGeneralOptions->fExit2a)
     return;
+
     
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
@@ -352,6 +404,16 @@ void convertMusicXMLToLilypond (
   if (gGeneralOptions->fExit2b)
     return;
     
+
+  // display the MSR score summary if requested
+  // ------------------------------------------------------
+
+  if (gMsrOptions->fDisplayMsr) {
+    displayMsrScore_OptionalPass (
+      mScore,
+      gMsrOptions);
+  }
+
 
   // display the score summary if requested
   // ------------------------------------------------------
@@ -366,6 +428,7 @@ void convertMusicXMLToLilypond (
     exit (444);
   }
 
+
   // display the score names if requested
   // ------------------------------------------------------
 
@@ -379,6 +442,7 @@ void convertMusicXMLToLilypond (
     exit (555);
   }
 
+
   // create the LPSR from the MSR (pass 3)
   // ------------------------------------------------------
 
@@ -389,6 +453,18 @@ void convertMusicXMLToLilypond (
 
   if (gGeneralOptions->fExit3)
     return;
+
+
+  // display the LPSR score if requested
+  // ------------------------------------------------------
+
+  if (gLpsrOptions->fDisplayLpsr) {
+    displayLpsrScore_OptionalPass (
+      lpScore,
+      gMsrOptions,
+      gLpsrOptions);
+  }
+
     
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------

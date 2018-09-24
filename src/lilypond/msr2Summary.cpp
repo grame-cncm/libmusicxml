@@ -56,7 +56,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
   fScoreRestNotesCounter          = 0;
   fScoreSkipNotesCounter          = 0;
   fScoreDoubleTremoloNotesCounter = 0;
-  fScoreGraceNotesCounter         = 0;
+  fScoreGraceNotesGroupCounter    = 0;
   
   // chords
   fScoreChordNotesCounter         = 0;
@@ -234,9 +234,9 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 
     setw (fieldWidth) <<
     singularOrPlural (
-      fScoreGraceNotesCounter,
-      "grace note",
-      "grace notes") <<
+      fScoreGraceNotesGroupCounter,
+      "grace note gropu",
+      "grace notes groups") <<
     endl <<
 
     setw (fieldWidth) <<
@@ -771,19 +771,19 @@ void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 }
 
 //________________________________________________________________________
-void msr2SummaryVisitor::visitStart (S_msrGraceNotes& elt)
+void msr2SummaryVisitor::visitStart (S_msrGraceNotesGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> Start visiting msrGraceNotes" << endl;
+      "--> Start visiting msrGraceNotesGroup" << endl;
   }
 }
 
-void msr2SummaryVisitor::visitEnd (S_msrGraceNotes& elt)
+void msr2SummaryVisitor::visitEnd (S_msrGraceNotesGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
-      "--> End visiting msrGraceNotes" << endl;
+      "--> End visiting msrGraceNotesGroup" << endl;
   }
 }
 
@@ -819,7 +819,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       break;
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
-      fScoreGraceNotesCounter++;
+      fScoreGraceNotesGroupCounter++;
       break;
     case msrNote::kChordMemberNote:
       fScoreChordNotesCounter++;

@@ -34,52 +34,15 @@ class msr2NamesVisitor :
   // staves
 
   public visitor<S_msrStaff>,
+
+  // voices
   
   public visitor<S_msrVoice>,
 
-  // lyrics
-
-  public visitor<S_msrStanza>,
-  public visitor<S_msrSyllable>,
+  // varValAssocs
   
-  public visitor<S_msrClef>,
-  public visitor<S_msrKey>,
-  public visitor<S_msrTime>,
-  public visitor<S_msrTempo>,
-  
-  public visitor<S_msrSegment>,
-    
-  public visitor<S_msrArticulation>,
-
-  public visitor<S_msrDynamics>,
-  public visitor<S_msrWedge>,
-  
-  public visitor<S_msrGraceNotes>,
-  
-  public visitor<S_msrNote>,
-  
-  public visitor<S_msrStem>,
-  public visitor<S_msrBeam>,
-    
-  public visitor<S_msrChord>,
-  
-  public visitor<S_msrTuplet>,
-  
-  public visitor<S_msrSlur>,
-  
-  public visitor<S_msrBarline>,
-  public visitor<S_msrBarNumberCheck>,
-  public visitor<S_msrLineBreak>,
-  
-  public visitor<S_msrRepeat>,
-    
   public visitor<S_msrVarValAssoc>,
-  public visitor<S_msrVarValsListAssoc>,
-  
-  public visitor<S_msrPageGeometry>,
-  public visitor<S_msrLayout>,
-  
-  public visitor<S_msrMidi>
+  public visitor<S_msrVarValsListAssoc>
 
 {
   public:

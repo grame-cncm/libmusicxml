@@ -93,15 +93,6 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     lpScore =
       translator.getLpsrScore ();
 
-  // display it
-  if (lpsrOpts->fDisplayLpsr) {
-    displayLpsrScore (
-      lpScore,
-      msrOpts,
-      lpsrOpts,
-      logIOstream);
-  }
-
   // return it
   return lpScore;
 }

@@ -54,7 +54,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrDynamics>,
   public visitor<S_msrWedge>,
   
-  public visitor<S_msrGraceNotes>,
+  public visitor<S_msrGraceNotesGroup>,
   
   public visitor<S_msrNote>,
   
@@ -140,8 +140,8 @@ class msr2SummaryVisitor :
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
-    virtual void visitStart (S_msrGraceNotes& elt);
-    virtual void visitEnd   (S_msrGraceNotes& elt);
+    virtual void visitStart (S_msrGraceNotesGroup& elt);
+    virtual void visitEnd   (S_msrGraceNotesGroup& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
@@ -232,7 +232,7 @@ class msr2SummaryVisitor :
     int                   fScoreRestNotesCounter;
     int                   fScoreSkipNotesCounter;
     int                   fScoreDoubleTremoloNotesCounter;
-    int                   fScoreGraceNotesCounter;
+    int                   fScoreGraceNotesGroupCounter;
 
     // chords
     // ------------------------------------------------------

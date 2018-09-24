@@ -80,18 +80,6 @@
         <pan>0</pan>
       </midi-instrument>
     </score-part>
-    <score-part id="P2">
-      <part-name print-object="no">MusicXML Part</part-name>
-      <score-instrument id="P2-I2">
-        <instrument-name>MusicXML Default 2</instrument-name>
-      </score-instrument>
-      <midi-instrument id="P2-I2">
-        <midi-channel>2</midi-channel>
-        <midi-program>1</midi-program>
-        <volume>79</volume>
-        <pan>0</pan>
-      </midi-instrument>
-    </score-part>
   </part-list>
   <!--=========================================================-->
   <part id="P1">
@@ -171,37 +159,6 @@
         <voice>1</voice>
         <type>eighth</type>
         <stem default-y="-55">down</stem>
-        <notations>
-          <ornaments>
-            <trill-mark default-x="8" default-y="5" placement="above"/>
-          </ornaments>
-        </notations>
-      </note>
-      <note default-x="307">
-        <grace/>
-        <pitch>
-          <step>A</step>
-          <octave>4</octave>
-        </pitch>
-        <voice>1</voice>
-        <type>16th</type>
-        <dot/>
-        <stem default-y="-2">up</stem>
-        <beam number="1">begin</beam>
-        <beam number="2">begin</beam>
-      </note>
-      <note default-x="326">
-        <grace/>
-        <pitch>
-          <step>B</step>
-          <octave>4</octave>
-        </pitch>
-        <voice>1</voice>
-        <type>16th</type>
-        <dot/>
-        <stem default-y="1">up</stem>
-        <beam number="1">end</beam>
-        <beam number="2">end</beam>
       </note>
       <note default-x="346">
         <pitch>
@@ -216,129 +173,6 @@
       <note default-x="432">
         <rest/>
         <duration>8</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-      </note>
-    </measure>
-  </part>
-  <!--=========================================================-->
-  <part id="P2">
-    <measure number="1" width="518">
-      <print>
-        <staff-layout number="1">
-          <staff-distance>65</staff-distance>
-        </staff-layout>
-        <measure-numbering>none</measure-numbering>
-      </print>
-      <attributes>
-        <divisions>4</divisions>
-        <key>
-          <fifths>0</fifths>
-          <mode>major</mode>
-        </key>
-        <time symbol="common">
-          <beats>4</beats>
-          <beat-type>4</beat-type>
-        </time>
-        <clef>
-          <sign>G</sign>
-          <line>2</line>
-        </clef>
-      </attributes>
-      <sound tempo="120"/>
-      <note default-x="85">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="117">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="150">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="183">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="215">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="248">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="281">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="313">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>1</duration>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="346">
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>4</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem default-y="-50.5">down</stem>
-      </note>
-      <note default-x="432">
-        <rest/>
-        <duration>4</duration>
         <voice>1</voice>
         <type>quarter</type>
       </note>

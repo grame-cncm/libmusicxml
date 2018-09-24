@@ -237,6 +237,9 @@ debugging information to standard error for the specified measures.)",
     // ornaments
     fTraceOrnaments = boolOptionsInitialValue;
 
+    // dynamics
+    fTraceGraceDynamics = boolOptionsInitialValue;
+
     // spanners
     fTraceSpanners = boolOptionsInitialValue;
 
@@ -713,6 +716,17 @@ R"(Ornaments)",
           fTraceOrnaments,
           fTracePasses));
       
+    // dynamics
+    
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tdyns", "traceGraceDynamics",
+R"(Dynamics)",
+          "traceGraceDynamics",
+          fTraceGraceDynamics,
+          fTracePasses));
+      
     // spanners
     
     specificTraceSubGroup->
@@ -1134,6 +1148,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // ornaments
   clone->fTraceOrnaments = true;
   
+  // dynamics
+  clone->fTraceGraceDynamics = true;
+  
   // spanners
   clone->fTraceSpanners = true;
   
@@ -1465,6 +1482,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // ornaments
     setw (fieldWidth) << "traceOrnaments" << " : " <<
     booleanAsString (fTraceOrnaments) <<
+    endl <<
+    
+    // dynamics
+    setw (fieldWidth) << "traceGraceDynamics" << " : " <<
+    booleanAsString (fTraceGraceDynamics) <<
     endl <<
     
     // spanners

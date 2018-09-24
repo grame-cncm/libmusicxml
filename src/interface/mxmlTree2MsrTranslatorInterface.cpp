@@ -95,14 +95,6 @@ void populateMsrSkeletonFromMxmlTree (
     timingItem::kMandatory,
     startClock,
     endClock);
-
-  if (msrOpts->fDisplayMsr) {
-    // display the MSR
-    displayMSRPopulatedScore (
-      msrOpts,
-      scoreSkeleton,
-      logIOstream);
-  }
 }
 
 //_______________________________________________________________________________

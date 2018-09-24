@@ -263,10 +263,10 @@ class lpsr2LilypondTranslator :
     
   // grace notes
 
-  public visitor<S_msrGraceNotes>,
+  public visitor<S_msrGraceNotesGroup>,
   
-  public visitor<S_msrAfterGraceNotes>,
-  public visitor<S_msrAfterGraceNotesContents>,
+  public visitor<S_msrAfterGraceNotesGroup>,
+  public visitor<S_msrAfterGraceNotesGroupContents>,
   
   // notes
 
@@ -540,13 +540,13 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
-    virtual void visitStart (S_msrGraceNotes& elt);
-    virtual void visitEnd   (S_msrGraceNotes& elt);
+    virtual void visitStart (S_msrGraceNotesGroup& elt);
+    virtual void visitEnd   (S_msrGraceNotesGroup& elt);
 
-    virtual void visitStart (S_msrAfterGraceNotes& elt);
-    virtual void visitEnd   (S_msrAfterGraceNotes& elt);
-    virtual void visitStart (S_msrAfterGraceNotesContents& elt);
-    virtual void visitEnd   (S_msrAfterGraceNotesContents& elt);
+    virtual void visitStart (S_msrAfterGraceNotesGroup& elt);
+    virtual void visitEnd   (S_msrAfterGraceNotesGroup& elt);
+    virtual void visitStart (S_msrAfterGraceNotesGroupContents& elt);
+    virtual void visitEnd   (S_msrAfterGraceNotesGroupContents& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
@@ -643,9 +643,8 @@ class lpsr2LilypondTranslator :
                             lpsrVarValsListAssoc::lpsrVarValsListAssocKind
                               lilyPondVarValsListAssocKind);
 
-    void                  writeLpsrVarValsListAssocValuesAsLilypondString (
-                            S_lpsrVarValsListAssoc varValsListAssoc,
-                            ostream&               os);
+    void                  generateLpsrVarValsListAssocValues (
+                            S_lpsrVarValsListAssoc varValsListAssoc);
 
     string                lpsrVarValAssocAsLilypondString (
                             S_lpsrVarValAssoc lpsrVarValAssoc,
@@ -694,16 +693,19 @@ class lpsr2LilypondTranslator :
     
     string                pitchedRestAsLilypondString (S_msrNote note);
 
-    void                  printNoteAsLilypondString (S_msrNote note);
+    void                  generateNoteBeams (S_msrNote note);
+    void                  generateNoteSlurs (S_msrNote note);
+
+    void                  generateNote (S_msrNote note);
 
     // articulations
 
     msrDirectionKind      fCurrentArpeggioDirectionKind;
     
-    void                  writeNoteArticulationAsLilyponString (
+    void                  generateNoteArticulation (
                             S_msrArticulation articulation);
 
-    void                  writeChordArticulationAsLilyponString (
+    void                  generateChordArticulation (
                             S_msrArticulation articulation);
 
     // technicals
@@ -738,6 +740,11 @@ class lpsr2LilypondTranslator :
 
     void                  generateCodeForSpannerAfterNote (
                             S_msrSpanner spanner);
+
+    // grace notes
+    
+    void                  generateGraceNotesGroup (
+                            S_msrGraceNotesGroup graceNotesGroup);
 
     // tremolos
     
@@ -877,6 +884,8 @@ class lpsr2LilypondTranslator :
     list<int>             fPendingChordMemberNotesStringNumbers;
     bool                  fOnGoingChord;
     
+    void                  generateChord (S_msrChord chord);
+
     // tuplets
     // ------------------------------------------------------
 // JMI     S_msrTuplet          fCurrentMsrTupletClone;

@@ -982,6 +982,11 @@ msrSpanner::~msrSpanner ()
 void msrSpanner::setSpannerOtherEndSidelink (
   S_msrSpanner otherEndSideLink)
 {
+  // sanity check
+  msrAssert (
+    otherEndSideLink != nullptr,
+    "otherEndSideLink is null");
+    
   // set the two-way sidelink between both ends of the spanner
   fSpannerOtherEndSidelink =
     otherEndSideLink;
@@ -1117,55 +1122,61 @@ ostream& operator<< (ostream& os, const S_msrSpanner& elt)
 }
 
 //______________________________________________________________________________
-S_msrGraceNotes msrGraceNotes::create (
-  int        inputLineNumber,
-  bool       gracenoteIsSlashed,
-  S_msrVoice graceNotesVoiceUplink)
+S_msrGraceNotesGroup msrGraceNotesGroup::create (
+  int                    inputLineNumber,
+  msrGraceNotesGroupKind graceNotesGroupKind,
+  bool                   graceNotesGroupIsSlashed,
+  S_msrVoice             graceNotesGroupVoiceUplink)
 {
-  msrGraceNotes* o =
-    new msrGraceNotes (
+  msrGraceNotesGroup* o =
+    new msrGraceNotesGroup (
       inputLineNumber,
-      gracenoteIsSlashed,
-      graceNotesVoiceUplink);
+      graceNotesGroupKind,
+      graceNotesGroupIsSlashed,
+      graceNotesGroupVoiceUplink);
   assert(o!=0);
 
   return o;
 }
 
-msrGraceNotes::msrGraceNotes (
-  int        inputLineNumber,
-  bool       gracenoteIsSlashed,
-  S_msrVoice graceNotesVoiceUplink)
+msrGraceNotesGroup::msrGraceNotesGroup (
+  int                    inputLineNumber,
+  msrGraceNotesGroupKind graceNotesGroupKind,
+  bool                   graceNotesGroupIsSlashed,
+  S_msrVoice             graceNotesGroupVoiceUplink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    graceNotesVoiceUplink != nullptr,
-    "graceNotesVoiceUplink is null");
+    graceNotesGroupVoiceUplink != nullptr,
+    "graceNotesGroupVoiceUplink is null");
 
-  fGraceNotesVoiceUplink =
-    graceNotesVoiceUplink;    
-    
-  fGraceNotesIsSlashed = gracenoteIsSlashed;
+  fGraceNotesGroupVoiceUplink =
+    graceNotesGroupVoiceUplink;    
 
-  fGraceNotesIsTied = false;
+  fGraceNotesGroupKind = graceNotesGroupKind;
+  
+  fGraceNotesGroupIsSlashed = graceNotesGroupIsSlashed;
+
+  fGraceNotesGroupIsTied = false;
 
   // grace notes are followed by notes
   // unless they are last in a measure
-  fGraceNotesIsFollowedByNotes = true;
+  fGraceNotesGroupIsFollowedByNotes = true;
 }
 
-msrGraceNotes::~msrGraceNotes ()
+msrGraceNotesGroup::~msrGraceNotesGroup ()
 {}
 
-S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
+S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Creating a newborn clone of grace notes" <<
+      "Creating a newborn clone of grace notes group '" <<
       asShortString () <<
+      "'" <<
       endl;
   }
 #endif
@@ -1175,58 +1186,78 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
     containingVoice != nullptr,
     "containingVoice is null");
     
-  S_msrGraceNotes
+  S_msrGraceNotesGroup
     newbornClone =
-      msrGraceNotes::create (
+      msrGraceNotesGroup::create (
         fInputLineNumber,
-        fGraceNotesIsSlashed,
+        fGraceNotesGroupKind,
+        fGraceNotesGroupIsSlashed,
         containingVoice);
 
-  newbornClone->fGraceNotesIsTied =
-    fGraceNotesIsTied;
+  newbornClone->fGraceNotesGroupIsTied =
+    fGraceNotesGroupIsTied;
     
-  newbornClone->fGraceNotesIsFollowedByNotes =
-    fGraceNotesIsFollowedByNotes;
+  newbornClone->fGraceNotesGroupIsFollowedByNotes =
+    fGraceNotesGroupIsFollowedByNotes;
     
   return newbornClone;
 }
 
-S_msrPart msrGraceNotes::graceNotesPartUplink () const
+S_msrPart msrGraceNotesGroup::graceNotesGroupPartUplink () const
 {
   return
-    fGraceNotesVoiceUplink->
+    fGraceNotesGroupVoiceUplink->
       fetchVoicePartUplink ();
 }
 
-S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
+string msrGraceNotesGroup::graceNotesGroupKindAsString (
+  msrGraceNotesGroupKind graceNotesGroupKind)
+{
+  string result;
+  
+  switch (graceNotesGroupKind) {
+    case msrGraceNotesGroup::kGraceNotesGroupBefore:
+      result = "graceNotesGroupBefore";
+      break;
+    case msrGraceNotesGroup::kGraceNotesGroupAfter:
+      result = "graceNotesGroupAfter";
+      break;
+  } // switch
+
+  return result;
+}
+
+S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Creating a skip clone of grace notes" <<
+      "Creating a skip clone of grace notes group '" <<
       asShortString () <<
+      "'" <<
       endl;
   }
 #endif
   
-  S_msrGraceNotes
+  S_msrGraceNotesGroup
     clone =
-      msrGraceNotes::create (
+      msrGraceNotesGroup::create (
         fInputLineNumber,
-        fGraceNotesIsSlashed,
+        fGraceNotesGroupKind,
+        fGraceNotesGroupIsSlashed,
         containingVoice);
 
-  clone->fGraceNotesIsTied =
-    fGraceNotesIsTied;
+  clone->fGraceNotesGroupIsTied =
+    fGraceNotesGroupIsTied;
     
-  clone->fGraceNotesIsFollowedByNotes =
-    fGraceNotesIsFollowedByNotes;
+  clone->fGraceNotesGroupIsFollowedByNotes =
+    fGraceNotesGroupIsFollowedByNotes;
     
   // populating the clone with skips
   for (
-    list<S_msrElement>::const_iterator i=fGraceNotesElementsList.begin ();
-    i!=fGraceNotesElementsList.end ();
+    list<S_msrElement>::const_iterator i=fGraceNotesGroupElementsList.begin ();
+    i!=fGraceNotesGroupElementsList.end ();
     i++) {      
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
@@ -1244,7 +1275,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 
       // append it to the grace notes
       clone->
-        appendNoteToGraceNotes (skip);
+        appendNoteToGraceNotesGroup (skip);
     }
   
     else if (
@@ -1265,30 +1296,59 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
   return clone;
 }
 
-void msrGraceNotes::appendNoteToGraceNotes (S_msrNote note)
+void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 {
-  fGraceNotesElementsList.push_back (note);
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "Appending note '" <<
+      note->asShortString () <<
+      "' to grace notes group" <<
+      asShortString () <<
+      " in voice \"" <<
+      fGraceNotesGroupVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fGraceNotesGroupElementsList.push_back (note);
 
   // is this grace note tied?
   if (note->getNoteTie ()) {
-    fGraceNotesIsTied = true;
+    fGraceNotesGroupIsTied = true;
   }
 }
 
-void msrGraceNotes::appendChordToGraceNotes (S_msrChord chord)
+void msrGraceNotesGroup::appendChordToGraceNotesGroup (S_msrChord chord)
 {
-  fGraceNotesElementsList.push_back (chord);
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "Appending chord '" <<
+      chord->asShortString () <<
+      "' to grace notes group '" <<
+      asShortString () <<
+      "' in voice \"" <<
+      fGraceNotesGroupVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fGraceNotesGroupElementsList.push_back (chord);
 }
 
-S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
+S_msrNote msrGraceNotesGroup::removeLastNoteFromGraceNotesGroup (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Removing last note from grace notes " <<
-      " in voice \"" <<
-      fGraceNotesVoiceUplink->getVoiceName () <<
+      "Removing last note from grace notes group '" <<
+      asShortString () <<
+      "' in voice \"" <<
+      fGraceNotesGroupVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -1296,11 +1356,11 @@ S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
 
   // sanity check
   msrAssert (
-    fGraceNotesElementsList.size () != 0,
-    "fGraceNotesElementsList.size () == 0");
+    fGraceNotesGroupElementsList.size () != 0,
+    "fGraceNotesGroupElementsList.size () == 0");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Removing last note from grace notes '" <<
       asString () <<
@@ -1312,7 +1372,7 @@ S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
   S_msrNote result;
 
   if (
-    S_msrNote note = dynamic_cast<msrNote*>(&(*fGraceNotesElementsList.back ()))
+    S_msrNote note = dynamic_cast<msrNote*>(&(*fGraceNotesGroupElementsList.back ()))
     ) {
     result = note;
   }
@@ -1322,65 +1382,77 @@ S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
       gXml2lyOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
-      "removeLastNoteFromGraceNotes (): grace notes element should be a note");
+      "removeLastNoteFromGraceNotesGroup (): grace notes group element should be a note");
   }   
 
-  fGraceNotesElementsList.pop_back ();
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "This last note from grace notes '" <<
+      asString () <<
+      "' turns out to be '" <<
+      result->asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  fGraceNotesGroupElementsList.pop_back ();
 
   return result;
 }
 
-void msrGraceNotes::acceptIn (basevisitor* v)
+void msrGraceNotesGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrGraceNotes::acceptIn ()" <<
+      "% ==> msrGraceNotesGroup::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_msrGraceNotes>*
+  if (visitor<S_msrGraceNotesGroup>*
     p =
-      dynamic_cast<visitor<S_msrGraceNotes>*> (v)) {
-        S_msrGraceNotes elem = this;
+      dynamic_cast<visitor<S_msrGraceNotesGroup>*> (v)) {
+        S_msrGraceNotesGroup elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrGraceNotes::visitStart ()" <<
+            "% ==> Launching msrGraceNotesGroup::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrGraceNotes::acceptOut (basevisitor* v)
+void msrGraceNotesGroup::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrGraceNotes::acceptOut ()" <<
+      "% ==> msrGraceNotesGroup::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrGraceNotes>*
+  if (visitor<S_msrGraceNotesGroup>*
     p =
-      dynamic_cast<visitor<S_msrGraceNotes>*> (v)) {
-        S_msrGraceNotes elem = this;
+      dynamic_cast<visitor<S_msrGraceNotesGroup>*> (v)) {
+        S_msrGraceNotesGroup elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrGraceNotes::visitEnd ()" <<
+            "% ==> Launching msrGraceNotesGroup::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrGraceNotes::browseData (basevisitor* v)
+void msrGraceNotesGroup::browseData (basevisitor* v)
 {
   list<S_msrElement>::const_iterator i;
 
   for (
-    i=fGraceNotesElementsList.begin ();
-    i!=fGraceNotesElementsList.end ();
+    i=fGraceNotesGroupElementsList.begin ();
+    i!=fGraceNotesGroupElementsList.end ();
     i++) {
     // browse the element (note or chord)
     msrBrowser<msrElement> browser (v);
@@ -1388,126 +1460,177 @@ void msrGraceNotes::browseData (basevisitor* v)
   } // for
 }
 
-string msrGraceNotes::asShortString () const
+string msrGraceNotesGroup::asShortString () const
 {
   stringstream s;
 
   s <<
-    "GraceNotes " <<
-    "fGraceNotesMeasureNumber \"" << fGraceNotesMeasureNumber <<
-    "\", ";
+    "GraceNotesGroup" <<
+    ", graceNotesGroupKind \"" <<
+    graceNotesGroupKindAsString (
+      fGraceNotesGroupKind) <<
+    ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
+    "\", line " << fInputLineNumber << " ";
 
-  if (fGraceNotesElementsList.size ()) {
+  if (fGraceNotesGroupElementsList.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fGraceNotesElementsList.begin (),
-      iEnd   = fGraceNotesElementsList.end (),
+      iBegin = fGraceNotesGroupElementsList.begin (),
+      iEnd   = fGraceNotesGroupElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i)->asShortString ();
       if (++i == iEnd) break;
-      s << " ";
+      s << ", ";
     } // for
   }
   
   return s.str ();
 }
 
-void msrGraceNotes::print (ostream& os)
+string msrGraceNotesGroup::asString () const
+{
+  stringstream s;
+
+  s <<
+    "GraceNotesGroup" <<
+    ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
+    ", graceNotesGroupMeasureNumber \"" << fGraceNotesGroupMeasureNumber <<
+    "\", line " << fInputLineNumber << " ";
+
+  if (fGraceNotesGroupElementsList.size ()) {
+    list<S_msrElement>::const_iterator
+      iBegin = fGraceNotesGroupElementsList.begin (),
+      iEnd   = fGraceNotesGroupElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i)->asString ();
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+  }
+  
+  return s.str ();
+}
+
+void msrGraceNotesGroup::print (ostream& os)
 {
   os <<
-    "GraceNotes" <<
+    "GraceNotesGroup" <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
-      fGraceNotesElementsList.size (), "element", "elementss") <<
-    ", slashed: " <<
-    booleanAsString (fGraceNotesIsSlashed) <<
-    ", tied: " <<
-    booleanAsString (fGraceNotesIsTied) <<
-    ", followedByNotes: " <<
-    booleanAsString (fGraceNotesIsFollowedByNotes) <<
-    ", fGraceNotesMeasureNumber: \"" <<
-    fGraceNotesMeasureNumber <<
-    "\"";
+      fGraceNotesGroupElementsList.size (), "element", "elements") <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 33;
   
-  if (fGraceNotesElementsList.size ()) {
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupIsSlashed" << " : " <<
+    booleanAsString (fGraceNotesGroupIsSlashed) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "graceNotesGroupIsTied" << " : " <<
+    booleanAsString (fGraceNotesGroupIsTied) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "graceNotesGroupIsFollowedByNotes" << " : " <<
+    booleanAsString (fGraceNotesGroupIsFollowedByNotes) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "graceNotesGroupMeasureNumber" << " : " <<
+    fGraceNotesGroupMeasureNumber <<
+    endl;
+  
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupElementsList";
+  if (fGraceNotesGroupElementsList.size ()) {
     os <<
       endl;
       
     gIndenter++;
   
     list<S_msrElement>::const_iterator
-      iBegin = fGraceNotesElementsList.begin (),
-      iEnd   = fGraceNotesElementsList.end (),
+      iBegin = fGraceNotesGroupElementsList.begin (),
+      iEnd   = fGraceNotesGroupElementsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << endl;
+      // no endl here
     } // for
   
     gIndenter--;
   }
   else {
     os <<
-      "*** no grace notes elements ***" <<
+       " : " <<
+       "none" <<
       endl;
   }
+
+  gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrGraceNotes& elt)
+ostream& operator<< (ostream& os, const S_msrGraceNotesGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrAfterGraceNotesContents msrAfterGraceNotesContents::create (
+S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::create (
   int        inputLineNumber,
-  S_msrVoice afterGraceNotesContentsVoiceUplink)
+  S_msrVoice afterGraceNotesGroupContentsVoiceUplink)
 {
-  msrAfterGraceNotesContents* o =
-    new msrAfterGraceNotesContents (
+  msrAfterGraceNotesGroupContents* o =
+    new msrAfterGraceNotesGroupContents (
       inputLineNumber,
-      afterGraceNotesContentsVoiceUplink);
+      afterGraceNotesGroupContentsVoiceUplink);
   assert(o!=0);
 
   return o;
 }
 
-msrAfterGraceNotesContents::msrAfterGraceNotesContents (
+msrAfterGraceNotesGroupContents::msrAfterGraceNotesGroupContents (
   int        inputLineNumber,
-  S_msrVoice afterGraceNotesContentsVoiceUplink)
+  S_msrVoice afterGraceNotesGroupContentsVoiceUplink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    afterGraceNotesContentsVoiceUplink != nullptr,
-    "afterGraceNotesContentsVoiceUplink is null");
+    afterGraceNotesGroupContentsVoiceUplink != nullptr,
+    "afterGraceNotesGroupContentsVoiceUplink is null");
   
   // set after notes contents's voice uplink
-  fAfterGraceNotesContentsVoiceUplink =
-    afterGraceNotesContentsVoiceUplink;
+  fAfterGraceNotesGroupContentsVoiceUplink =
+    afterGraceNotesGroupContentsVoiceUplink;
 }
 
-msrAfterGraceNotesContents::~msrAfterGraceNotesContents ()
+msrAfterGraceNotesGroupContents::~msrAfterGraceNotesGroupContents ()
 {}
 
-S_msrPart msrAfterGraceNotesContents::fetchAfterGraceNotesContentsPartUplink () const
+S_msrPart msrAfterGraceNotesGroupContents::fetchAfterGraceNotesGroupContentsPartUplink () const
 {
   return
-    fAfterGraceNotesContentsVoiceUplink->
+    fAfterGraceNotesGroupContentsVoiceUplink->
       fetchVoicePartUplink ();
 }
 
-S_msrAfterGraceNotesContents msrAfterGraceNotesContents::createAfterGraceNotesContentsNewbornClone (
+S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGraceNotesGroupContentsNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Creating a newborn clone of after grace notes" <<
+      "Creating a newborn clone of after grace notes group" <<
       endl;
   }
 #endif
@@ -1517,72 +1640,72 @@ S_msrAfterGraceNotesContents msrAfterGraceNotesContents::createAfterGraceNotesCo
     containingVoice != nullptr,
     "containingVoice is null");
         
-  S_msrAfterGraceNotesContents
+  S_msrAfterGraceNotesGroupContents
     newbornClone =
-      msrAfterGraceNotesContents::create (
+      msrAfterGraceNotesGroupContents::create (
         fInputLineNumber,
         containingVoice);
     
   return newbornClone;
 }
 
-void msrAfterGraceNotesContents::appendNoteToAfterGraceNotesContents (
+void msrAfterGraceNotesGroupContents::appendNoteToAfterGraceNotesGroupContents (
   S_msrNote note)
 {
-  fAfterGraceNotesContentsNotesList.push_back (note);
+  fAfterGraceNotesGroupContentsNotesList.push_back (note);
 }
 
-void msrAfterGraceNotesContents::acceptIn (basevisitor* v)
+void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotesContents::acceptIn ()" <<
+      "% ==> msrAfterGraceNotesGroupContents::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_msrAfterGraceNotesContents>*
+  if (visitor<S_msrAfterGraceNotesGroupContents>*
     p =
-      dynamic_cast<visitor<S_msrAfterGraceNotesContents>*> (v)) {
-        S_msrAfterGraceNotesContents elem = this;
+      dynamic_cast<visitor<S_msrAfterGraceNotesGroupContents>*> (v)) {
+        S_msrAfterGraceNotesGroupContents elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotesContents::visitStart ()" <<
+            "% ==> Launching msrAfterGraceNotesGroupContents::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrAfterGraceNotesContents::acceptOut (basevisitor* v)
+void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotesContents::acceptOut ()" <<
+      "% ==> msrAfterGraceNotesGroupContents::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrAfterGraceNotesContents>*
+  if (visitor<S_msrAfterGraceNotesGroupContents>*
     p =
-      dynamic_cast<visitor<S_msrAfterGraceNotesContents>*> (v)) {
-        S_msrAfterGraceNotesContents elem = this;
+      dynamic_cast<visitor<S_msrAfterGraceNotesGroupContents>*> (v)) {
+        S_msrAfterGraceNotesGroupContents elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotesContents::visitEnd ()" <<
+            "% ==> Launching msrAfterGraceNotesGroupContents::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrAfterGraceNotesContents::browseData (basevisitor* v)
+void msrAfterGraceNotesGroupContents::browseData (basevisitor* v)
 {
   list<S_msrNote>::const_iterator i;
 
   for (
-    i=fAfterGraceNotesContentsNotesList.begin ();
-    i!=fAfterGraceNotesContentsNotesList.end ();
+    i=fAfterGraceNotesGroupContentsNotesList.begin ();
+    i!=fAfterGraceNotesGroupContentsNotesList.end ();
     i++) {
     // browse the note
     msrBrowser<msrNote> browser (v);
@@ -1590,21 +1713,21 @@ void msrAfterGraceNotesContents::browseData (basevisitor* v)
   } // for
 }
 
-string msrAfterGraceNotesContents::asShortString () const
+string msrAfterGraceNotesGroupContents::asShortString () const
 {
   stringstream s;
 
   s <<
-    "AfterGraceNotesContents" <<
+    "AfterGraceNotesGroupContents" <<
     ", " <<
     singularOrPlural (
-      fAfterGraceNotesContentsNotesList.size (), "note", "notes");
+      fAfterGraceNotesGroupContentsNotesList.size (), "note", "notes");
 
 
-  if (fAfterGraceNotesContentsNotesList.size ()) {
+  if (fAfterGraceNotesGroupContentsNotesList.size ()) {
     list<S_msrNote>::const_iterator
-      iBegin = fAfterGraceNotesContentsNotesList.begin (),
-      iEnd   = fAfterGraceNotesContentsNotesList.end (),
+      iBegin = fAfterGraceNotesGroupContentsNotesList.begin (),
+      iEnd   = fAfterGraceNotesGroupContentsNotesList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -1617,22 +1740,22 @@ string msrAfterGraceNotesContents::asShortString () const
   return s.str ();
 }
 
-void msrAfterGraceNotesContents::print (ostream& os)
+void msrAfterGraceNotesGroupContents::print (ostream& os)
 {
   os <<
-    "AfterGraceNotesContents" <<
+    "AfterGraceNotesGroupContents" <<
     ", " <<
     singularOrPlural (
-      fAfterGraceNotesContentsNotesList.size (), "note", "notes") <<
+      fAfterGraceNotesGroupContentsNotesList.size (), "note", "notes") <<
     ", line " << fInputLineNumber <<
     endl;
   
   gIndenter++;
 
-  if (fAfterGraceNotesContentsNotesList.size ()) {
+  if (fAfterGraceNotesGroupContentsNotesList.size ()) {
     list<S_msrNote>::const_iterator
-      iBegin = fAfterGraceNotesContentsNotesList.begin (),
-      iEnd   = fAfterGraceNotesContentsNotesList.end (),
+      iBegin = fAfterGraceNotesGroupContentsNotesList.begin (),
+      iEnd   = fAfterGraceNotesGroupContentsNotesList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -1645,78 +1768,80 @@ void msrAfterGraceNotesContents::print (ostream& os)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt)
+ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroupContents& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrAfterGraceNotes msrAfterGraceNotes::create (
+S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::create (
   int          inputLineNumber,
-  S_msrElement afterGraceNotesElement,
-  bool         aftergracenoteIsSlashed,
-  S_msrVoice   afterGraceNotesVoiceUplink)
+  S_msrElement afterGraceNotesGroupElement,
+  bool         afterGraceNotesGroupIsSlashed,
+  S_msrVoice   afterGraceNotesGroupVoiceUplink)
 {
-  msrAfterGraceNotes* o =
-    new msrAfterGraceNotes (
+  msrAfterGraceNotesGroup* o =
+    new msrAfterGraceNotesGroup (
       inputLineNumber,
-      afterGraceNotesElement,
-      aftergracenoteIsSlashed,
-      afterGraceNotesVoiceUplink);
+      afterGraceNotesGroupElement,
+      afterGraceNotesGroupIsSlashed,
+      afterGraceNotesGroupVoiceUplink);
   assert(o!=0);
 
   return o;
 }
 
-msrAfterGraceNotes::msrAfterGraceNotes (
+msrAfterGraceNotesGroup::msrAfterGraceNotesGroup (
   int          inputLineNumber,
-  S_msrElement afterGraceNotesElement,
-  bool         aftergracenoteIsSlashed,
-  S_msrVoice   afterGraceNotesVoiceUplink)
+  S_msrElement afterGraceNotesGroupElement,
+  bool         afterGraceNotesGroupIsSlashed,
+  S_msrVoice   afterGraceNotesGroupVoiceUplink)
     : msrElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
-    afterGraceNotesVoiceUplink != nullptr,
-    "afterGraceNotesVoiceUplink is null");
+    afterGraceNotesGroupVoiceUplink != nullptr,
+    "afterGraceNotesGroupVoiceUplink is null");
   
-  // set gracenote's voice uplink
-  fAfterGraceNotesVoiceUplink =
-    afterGraceNotesVoiceUplink;
+  // set after gracenotes group voice uplink
+  fAfterGraceNotesGroupVoiceUplink =
+    afterGraceNotesGroupVoiceUplink;
 
-  // pupulate this after grace notes
-  fAfterGraceNotesElement =
-    afterGraceNotesElement;
+  // pupulate this after grace notes group
+  fAfterGraceNotesGroupElement =
+    afterGraceNotesGroupElement;
     
-  fAfterGraceNotesIsSlashed =
-    aftergracenoteIsSlashed;
+  fAfterGraceNotesGroupIsSlashed =
+    afterGraceNotesGroupIsSlashed;
 
   // create the after grace notes contents
-  fAfterGraceNotesContents =
-    msrAfterGraceNotesContents::create (
+  fAfterGraceNotesGroupContents =
+    msrAfterGraceNotesGroupContents::create (
       inputLineNumber,
-      afterGraceNotesVoiceUplink);
+      afterGraceNotesGroupVoiceUplink);
 }
 
-msrAfterGraceNotes::~msrAfterGraceNotes ()
+msrAfterGraceNotesGroup::~msrAfterGraceNotesGroup ()
 {}
 
-S_msrPart msrAfterGraceNotes::fetchAfterGraceNotesPartUplink () const
+S_msrPart msrAfterGraceNotesGroup::fetchAfterGraceNotesGroupPartUplink () const
 {
   return
-    fAfterGraceNotesVoiceUplink->
+    fAfterGraceNotesGroupVoiceUplink->
       fetchVoicePartUplink ();
 }
 
-S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
+S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNewbornClone (
   S_msrNote  noteClone,
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Creating a newborn clone of after grace notes" <<
+      "Creating a newborn clone of after grace notes group '" <<
+      asShortString () <<
+      "'" <<
       endl;
   }
 #endif
@@ -1731,128 +1856,129 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
     containingVoice != nullptr,
     "containingVoice is null");
         
-  S_msrAfterGraceNotes
+  S_msrAfterGraceNotesGroup
     newbornClone =
-      msrAfterGraceNotes::create (
+      msrAfterGraceNotesGroup::create (
         fInputLineNumber,
         noteClone,
-        fAfterGraceNotesIsSlashed,
+        fAfterGraceNotesGroupIsSlashed,
         containingVoice);
   
   return newbornClone;
 }
 
-void msrAfterGraceNotes::appendNoteToAfterGraceNotesContents (
+void msrAfterGraceNotesGroup::appendNoteToAfterGraceNotesGroupContents (
   S_msrNote note)
 {
-  fAfterGraceNotesContents->
-    appendNoteToAfterGraceNotesContents (
+  fAfterGraceNotesGroupContents->
+    appendNoteToAfterGraceNotesGroupContents (
       note);
 }
 
-void msrAfterGraceNotes::acceptIn (basevisitor* v)
+void msrAfterGraceNotesGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotes::acceptIn ()" <<
+      "% ==> msrAfterGraceNotesGroup::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_msrAfterGraceNotes>*
+  if (visitor<S_msrAfterGraceNotesGroup>*
     p =
-      dynamic_cast<visitor<S_msrAfterGraceNotes>*> (v)) {
-        S_msrAfterGraceNotes elem = this;
+      dynamic_cast<visitor<S_msrAfterGraceNotesGroup>*> (v)) {
+        S_msrAfterGraceNotesGroup elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotes::visitStart ()" <<
+            "% ==> Launching msrAfterGraceNotesGroup::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrAfterGraceNotes::acceptOut (basevisitor* v)
+void msrAfterGraceNotesGroup::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrAfterGraceNotes::acceptOut ()" <<
+      "% ==> msrAfterGraceNotesGroup::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrAfterGraceNotes>*
+  if (visitor<S_msrAfterGraceNotesGroup>*
     p =
-      dynamic_cast<visitor<S_msrAfterGraceNotes>*> (v)) {
-        S_msrAfterGraceNotes elem = this;
+      dynamic_cast<visitor<S_msrAfterGraceNotesGroup>*> (v)) {
+        S_msrAfterGraceNotesGroup elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrAfterGraceNotes::visitEnd ()" <<
+            "% ==> Launching msrAfterGraceNotesGroup::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrAfterGraceNotes::browseData (basevisitor* v)
+void msrAfterGraceNotesGroup::browseData (basevisitor* v)
 {
-  list<S_msrNote>::const_iterator i;
-
   {
-    // browse the afterGraceNotes note
+    // browse the afterGraceNotesGroup note
     msrBrowser<msrElement> browser (v);
-    browser.browse (*fAfterGraceNotesElement);
+    browser.browse (*fAfterGraceNotesGroupElement);
   }
 
   {
-    // browse the afterGraceNotesContents
-    msrBrowser<msrAfterGraceNotesContents> browser (v);
-    browser.browse (*fAfterGraceNotesContents);
+    // browse the afterGraceNotesGroupContents
+    msrBrowser<msrAfterGraceNotesGroupContents> browser (v);
+    browser.browse (*fAfterGraceNotesGroupContents);
   }
 }
 
-string msrAfterGraceNotes::asShortString () const
+string msrAfterGraceNotesGroup::asShortString () const
 {
   stringstream s;
 
   s <<
-    "AfterGraceNotes " <<
-    ", AfterGraceNotesElement: " <<
-    "JMI ???fAfterGraceNotesElement->asShortString ()" <<
-    ", fAfterGraceNotesContents: " <<
-    fAfterGraceNotesContents->asShortString ();
+    "AfterGraceNotesGroup " <<
+    ", AfterGraceNotesGroupElement: " <<
+    "JMI ???fAfterGraceNotesGroupElement->asShortString ()" <<
+    ", fAfterGraceNotesGroupContents: " <<
+    fAfterGraceNotesGroupContents->asShortString ();
 
   return s.str ();
 }
 
-void msrAfterGraceNotes::print (ostream& os)
+void msrAfterGraceNotesGroup::print (ostream& os)
 {
   os <<
-    "AfterGraceNotes" <<
+    "AfterGraceNotesGroup" <<
     ", line " << fInputLineNumber <<
-    ", slashed: " <<
-    booleanAsString (fAfterGraceNotesIsSlashed) <<
     endl;
   
   gIndenter++;
 
-  // print the afterGraceNotes element
+  // print the afterGraceNotesGroup element
   os <<
     "Element:" <<
     endl;
   gIndenter++;
   os <<
-    fAfterGraceNotesElement;
+    fAfterGraceNotesGroupElement;
   gIndenter--;
 
-  // print the afterGraceNotes contents
   os <<
-    fAfterGraceNotesContents;
+    "afterGraceNotesGroupIsSlashed: " <<
+    booleanAsString (fAfterGraceNotesGroupIsSlashed) <<
+    endl;
+
+  // print the afterGraceNotesGroup contents
+  os <<
+    fAfterGraceNotesGroupContents;
 
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt)
+ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroup& elt)
 {
   elt->print (os);
   return os;
@@ -2222,11 +2348,28 @@ void msrNote::initializeNote ()
   fNoteIsFirstNoteInADoubleTremolo  = false;
   fNoteIsSecondNoteInADoubleTremolo = false;
   
-  fNoteIsFollowedByGraceNotes = false;
+  fNoteIsFollowedByGraceNotesGroup = false;
 }
 
 msrNote::~msrNote ()
 {}
+
+void msrNote::setNoteKind (msrNoteKind noteKind)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Setting the kind of note '" <<
+      asString () <<
+      "' to '" <<
+      noteKindAsString (noteKind) <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  fNoteKind = noteKind;
+}
 
 void msrNote::setNoteSoundingWholeNotes (
   rational wholeNotes)
@@ -2260,9 +2403,9 @@ S_msrNote msrNote::createNoteNewbornClone (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
-      "Creating a newborn clone of note " <<
+      "Creating a newborn clone of note '" <<
       asString () <<
-      " in part " <<
+      "' in part " <<
       containingPart->
         getPartCombinedName () << 
       endl;
@@ -2467,8 +2610,8 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   newbornClone->fNoteTrillOrnament =
     fNoteTrillOrnament;
-  newbornClone->fNoteIsFollowedByGraceNotes =
-    fNoteIsFollowedByGraceNotes;
+  newbornClone->fNoteIsFollowedByGraceNotesGroup =
+    fNoteIsFollowedByGraceNotesGroup;
 
   newbornClone->fNoteDashesOrnament =
     fNoteDashesOrnament;
@@ -2758,8 +2901,18 @@ S_msrNote msrNote::createNoteDeepCopy (
   // grace notes
   // ------------------------------------------------------
 
-  noteDeepCopy->fNoteGraceNotes =
-    fNoteGraceNotes;
+  noteDeepCopy->fNoteGraceNotesGroupBefore =
+    fNoteGraceNotesGroupBefore;
+  noteDeepCopy->fNoteGraceNotesGroupAfter =
+    fNoteGraceNotesGroupAfter;
+
+/* JMI
+  // after grace notes
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteAfterGraceNotesGroup =
+    fNoteAfterGraceNotesGroup;
+*/
 
   // single tremolo
   // ------------------------------------------------------
@@ -2973,8 +3126,8 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteTrillOrnament =
     fNoteTrillOrnament;
-  noteDeepCopy->fNoteIsFollowedByGraceNotes =
-    fNoteIsFollowedByGraceNotes;
+  noteDeepCopy->fNoteIsFollowedByGraceNotesGroup =
+    fNoteIsFollowedByGraceNotesGroup;
 
   noteDeepCopy->fNoteDashesOrnament =
     fNoteDashesOrnament;
@@ -3619,11 +3772,35 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 
 void msrNote::appendBeamToNote (S_msrBeam beam)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Adding beam '" <<
+      beam->asShortString () <<
+      "' to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   fNoteBeams.push_back (beam);
 }
 
 void msrNote::appendArticulationToNote (S_msrArticulation art)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceArticulations || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Adding articulation '" <<
+      art->asShortString () <<
+      "' to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   fNoteArticulations.push_back (art);
 }
 
@@ -3743,6 +3920,18 @@ void msrNote::appendTechnicalWithStringToNote (
 
 void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOrnaments || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Adding ornament '" <<
+      ornament->asShortString () <<
+      "' to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   // append the ornament to the note ornaments list
   fNoteOrnaments.push_back (ornament);
 
@@ -3773,39 +3962,99 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 }
 
 void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
-
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGlissandos || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Adding glissando '" <<
+      glissando->asShortString () <<
+      "' to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   // append the glissando to the note glissandos list
   fNoteGlissandos.push_back (glissando);
 }
 
 void msrNote::appendSlideToNote (S_msrSlide slide)
-
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceSlides || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Adding slide '" <<
+      slide->asShortString () <<
+      "' to note '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   // append the slide to the note glissandos list
   fNoteSlides.push_back (slide);
 }
 
-void msrNote::setNoteGraceNotes (S_msrGraceNotes graceNotes)
+void msrNote::setNoteGraceNotesGroupBefore (S_msrGraceNotesGroup graceNotesGroupBefore)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
-      "Adding graceNotes '" << graceNotes->asString () <<
-      "' to note '" << asShortString () <<
-      "', line " << graceNotes->getInputLineNumber () <<
+      "Attaching grace notes group '" <<
+      graceNotesGroupBefore->asString () <<
+      "' before note '" <<
+      asShortString () <<
+      "', line " << graceNotesGroupBefore->getInputLineNumber () <<
       endl;
   }
 #endif
 
   // register the grace notes in the note
-  fNoteGraceNotes = graceNotes;
+  fNoteGraceNotesGroupBefore = graceNotesGroupBefore;
 }
+
+void msrNote::setNoteGraceNotesGroupAfter (S_msrGraceNotesGroup graceNotesGroupAfter)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Attaching grace notes group '" <<
+      graceNotesGroupAfter->asString () <<
+      "' after note '" <<
+      asShortString () <<
+      "', line " << graceNotesGroupAfter->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the grace notes in the note
+  fNoteGraceNotesGroupAfter = graceNotesGroupAfter;
+}
+
+/* JMI
+void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesGroup)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Attaching afterGraceNotesGroup '" << afterGraceNotesGroup->asString () <<
+      "' to note '" << asShortString () <<
+      "', line " << afterGraceNotesGroup->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  // register the grace notes in the note
+  fNoteAfterGraceNotesGroup = afterGraceNotesGroup;
+}
+*/
 
 void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding singleTremolo '" << trem->asString () <<
       "' to note '" << asShortString () <<
@@ -3820,6 +4069,18 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 
 void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGraceDynamics || gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Attaching dynamics '" <<
+      dynamics->asString () <<
+      "' to note '" <<
+      asShortString () <<
+      "', line " << dynamics->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
   fNoteDynamics.push_back (dynamics);
 }
 void msrNote::appendOtherDynamicsToNote (S_msrOtherDynamics otherDynamics)
@@ -3835,7 +4096,7 @@ void msrNote::appendWordsToNote (S_msrWords words)
 void msrNote::appendSlurToNote (S_msrSlur slur)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSlurs) {
+  if (gTraceOptions->fTraceSlurs || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding slur '" << slur <<
       "' to note '" << asString () << "'" <<
@@ -3849,7 +4110,7 @@ void msrNote::appendSlurToNote (S_msrSlur slur)
 void msrNote::appendLigatureToNote (S_msrLigature ligature)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLigatures) {
+  if (gTraceOptions->fTraceLigatures || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending ligature " << ligature << " to note " << asString () <<
        endl;
@@ -3907,7 +4168,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
 void msrNote::appendPedalToNote (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePedals) {
+  if (gTraceOptions->fTracePedals || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending pedal " << pedal << " to note " << asString () <<
        endl;
@@ -3962,7 +4223,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
 void msrNote::appendSlashToNote (S_msrSlash slash)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSlashes) {
+  if (gTraceOptions->fTraceSlashes || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending slash '" <<
       slash <<
@@ -4004,7 +4265,7 @@ void msrNote::appendScordaturaToNote (S_msrScordatura scordatura)
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDynamics) {
+  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Removing first dynamics from note '" <<
       asShortString () <<
@@ -4027,7 +4288,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDynamics) {
+  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Removing first wedge from note '" <<
       asShortString () <<
@@ -4048,7 +4309,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending syllable '" <<
       syllable->asString () <<
@@ -4298,11 +4559,18 @@ void msrNote::browseData (basevisitor* v)
     gIndenter--;
   }
   
-  // browse the grace notes if any
-  if (fNoteGraceNotes) {
-    // browse the grace notes
-    msrBrowser<msrGraceNotes> browser (v);
-    browser.browse (*fNoteGraceNotes);
+  // browse the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore) {
+    // browse the grace notes group
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fNoteGraceNotesGroupBefore);
+  }
+  
+  // browse the after grace notes group after if any
+  if (fNoteGraceNotesGroupAfter) {
+    // browse the after grace notes grup
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fNoteGraceNotesGroupAfter);
   }
   
   // browse the single tremolo if any
@@ -4566,7 +4834,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kRestNote:
       s <<
         "restNote" <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -4738,30 +5006,26 @@ string msrNote::asShortString () const
       
     case msrNote::kStandaloneNote:
       s <<
-        "standaloneNote" <<
-        ":" <<
+        "standaloneNote '" <<
         notePitchAsString () <<
-        " " <<
         noteSoundingWholeNotesAsMsrString () <<
-        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "doubleTremoloMemberNote" <<
+        "doubleTremoloMemberNote '" <<
         notePitchAsString () <<
-        " " <<
         noteSoundingWholeNotesAsMsrString () <<
-        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kGraceNote:
-       s <<
-         "graceNote" <<
-       notePitchAsString () <<
-        " " <<
+      s <<
+        "graceNote '" <<
+        notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -4770,11 +5034,10 @@ string msrNote::asShortString () const
 
    case msrNote::kGraceChordMemberNote:
       s <<
-         "graceChordMemberNote" <<
+         "graceChordMemberNote '" <<
        notePitchAsString () <<
-        " " <<
         noteGraphicDurationAsMsrString () <<
-        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -4783,24 +5046,22 @@ string msrNote::asShortString () const
       
     case msrNote::kChordMemberNote:
       s <<
-        "chordMemberNote" <<
+        "chordMemberNote '" <<
         notePitchAsString () <<
-        " " <<
-        ", " <<
         noteSoundingWholeNotesAsMsrString () <<
-        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kTupletMemberNote:
       s <<
         "tupletMemberNote" <<
+        ":" <<
         notePitchAsString () <<
-        " " <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " display";
         /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -4906,28 +5167,25 @@ string msrNote::asString () const
       s <<
         "standaloneNote '"<<
         notePitchAsString () <<
-        " " <<
         noteSoundingWholeNotesAsMsrString () <<
         "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "doubleTremoloMemberNote "<<
+        "doubleTremoloMemberNote '"<<
         notePitchAsString () <<
-        " " <<
         noteSoundingWholeNotesAsMsrString () <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kGraceNote:
       s <<
-        "graceNote "<<
+        "graceNote '"<<
         notePitchAsString () <<
-        " " <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -4936,12 +5194,12 @@ string msrNote::asString () const
 
     case msrNote::kGraceChordMemberNote:
       s <<
-        "graceChordMemberNote "<<
+        "graceChordMemberNote '"<<
         notePitchAsString () <<
 //        " " <<
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -4950,19 +5208,17 @@ string msrNote::asString () const
       
     case msrNote::kChordMemberNote:
       s <<
-        "chordMemberNote "<<
+        "chordMemberNote '"<<
         notePitchAsString () <<
- //       " " <<
+        noteSoundingWholeNotesAsMsrString () <<
  // JMI       ", " << fNoteSoundingWholeNotes << " sound whole notes, " <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kTupletMemberNote:
       s <<
-        "tupletMemberNote "<<
+        "tupletMemberNote '"<<
         notePitchAsString () <<
-        " " <<
-        ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
         fNoteDisplayWholeNotes <<
@@ -5026,9 +5282,9 @@ string msrNote::asString () const
       ", has a wavy line spanner stop";
   }
   
-  if (fNoteIsFollowedByGraceNotes) {
+  if (fNoteIsFollowedByGraceNotesGroup) {
     s <<
-      ", followed by grace notes";
+      ", followed by grace notes group";
   }
   
   if (fNoteTie) {
@@ -5063,12 +5319,12 @@ void msrNote::print (ostream& os)
     asString () <<
     endl;
 
+  gIndenter++;
+
   const int fieldWidth = 34;
     
   {
     // print sounding and displayed whole notes
-    gIndenter++;
-
     switch (fNoteKind) {
       case msrNote::k_NoNoteKind:
       case msrNote::kRestNote:
@@ -5278,8 +5534,6 @@ void msrNote::print (ostream& os)
   
     os <<
       endl ;
-      
-    gIndenter--;
   }
 
   {
@@ -5287,72 +5541,106 @@ void msrNote::print (ostream& os)
 
     stringstream s;
     
-    gIndenter++;
-
-    if (fNoteIsStemless) {
+    if (fNoteIsStemless || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note  is stemless" <<
+        setw (fieldWidth) <<
+        "noteIsStemless" <<
+        " : " <<
+        booleanAsString (
+          fNoteIsStemless) <<
         endl;
     }
   
-    if (fNoteIsFirstNoteInADoubleTremolo) {
+    if (fNoteIsFirstNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "first note in a double tremolo" <<
+        setw (fieldWidth) <<
+        "noteIsFirstNoteInADoubleTremolo" <<
+        " : " <<
+        booleanAsString (
+          fNoteIsFirstNoteInADoubleTremolo) <<
         endl;
     }
-    if (fNoteIsSecondNoteInADoubleTremolo) {
+    if (fNoteIsSecondNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "second note in a double tremolo" <<
+        setw (fieldWidth) <<
+        "noteIsSecondNoteInADoubleTremolo" <<
+        " : " <<
+        booleanAsString (
+          fNoteIsSecondNoteInADoubleTremolo) <<
         endl;
     }
   
-    if (fNoteTrillOrnament) {
+    if (fNoteTrillOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note has a trill ornament" <<
+        setw (fieldWidth) <<
+        "noteTrillOrnament" <<
+        " : " <<
+        booleanAsString (
+          fNoteTrillOrnament) <<
         endl;
     }
         
-    if (fNoteDashesOrnament) {
+    if (fNoteDashesOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note has a dashes ornament" <<
+        setw (fieldWidth) <<
+        "noteDashesOrnament" <<
+        " : " <<
+        booleanAsString (
+          fNoteDashesOrnament) <<
         endl;
     }
           
-    if (fNoteDelayedTurnOrnament) {
+    if (fNoteDelayedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note has a delayed turn ornament" <<
+        setw (fieldWidth) <<
+        "noteDelayedTurnOrnament" <<
+        " : " <<
+        booleanAsString (
+          fNoteDelayedTurnOrnament) <<
         endl;
     }
-    if (fNoteDelayedInvertedTurnOrnament) {
+    if (fNoteDelayedInvertedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note has a delayed inverted turn ornament" <<
+        setw (fieldWidth) <<
+        "noteDelayedInvertedTurnOrnament" <<
+        " : " <<
+        booleanAsString (
+          fNoteDelayedInvertedTurnOrnament) <<
         endl;
     }
 
-    if (fNoteWavyLineSpannerStart) {
+    if (fNoteWavyLineSpannerStart || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note has a wavy line spanner start" <<
+        setw (fieldWidth) <<
+        "noteWavyLineSpannerStart" <<
+        " : " <<
+        booleanAsString (
+          fNoteWavyLineSpannerStart) <<
         endl;
     }
-    if (fNoteWavyLineSpannerStop) {
+    if (fNoteWavyLineSpannerStop || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note has a wavy line spanner stop" <<
+        setw (fieldWidth) <<
+        "noteWavyLineSpannerStop" <<
+        " : " <<
+        booleanAsString (
+          fNoteWavyLineSpannerStop) <<
         endl;
     }
         
-    if (fNoteIsFollowedByGraceNotes) {
+    if (fNoteIsFollowedByGraceNotesGroup || gMsrOptions->fDisplayMsrDetails) {
       os <<
-        "note is followed by graceNotes" <<
+        setw (fieldWidth) <<
+        "noteIsFollowedByGraceNotesGroup" <<
+        " : " <<
+        booleanAsString (
+          fNoteIsFollowedByGraceNotesGroup) <<
         endl;
     }
-
-    gIndenter--;
   }
   
   {
     // note MSR strings
-
-    gIndenter++;
     
     // print whole notes durations as MSR string
     switch (fNoteKind) {
@@ -5473,25 +5761,21 @@ void msrNote::print (ostream& os)
             endl;
         }
         break;
-      } // switch
-  
-    gIndenter--;
+    } // switch
   }
 
   // print the syllables associated to this note if any
   int noteSyllablesSize = fNoteSyllables.size ();
 
   if (noteSyllablesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteSyllables";
     if (noteSyllablesSize) {
-      gIndenter++;
-  
       os <<
         endl;
+
+      gIndenter++;
             
       list<S_msrSyllable>::const_iterator
         iBegin = fNoteSyllables.begin (),
@@ -5541,31 +5825,30 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
 /* JMI
   // print the note's voice uplink JMI
-  gIndenter++;
   os <<
     "NoteVoiceUplink" " = " <<
     fNoteMeasureUplink->fetchMeasureVoiceUplink () <<
     endl;
-  gIndenter--;
 */
 
   // print the octave shift if any
   if (fNoteOctaveShift || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteOctaveShift";
     if (fNoteOctaveShift) {
+      os <<
+        endl;
+
       gIndenter++;
+        
       os <<
         fNoteOctaveShift;
+        
       gIndenter--;
     }
     else {
@@ -5573,21 +5856,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the stem if any
   if (fNoteStem || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteStem";
     if (fNoteStem) {
+      os <<
+        endl;
       gIndenter++;
+        
       os <<
         fNoteStem;
+
       gIndenter--;
     }
     else {
@@ -5595,23 +5878,20 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
     
   // print the beams if any
-  int noteBeamsSize = fNoteSyllables.size ();
+  int noteBeamsSize = fNoteBeams.size ();
 
   if (noteBeamsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteBeams";
     if (fNoteBeams.size ()) {
-      gIndenter++;
       os <<
         endl;
+
+      gIndenter++;
         
       list<S_msrBeam>::const_iterator
         iBegin = fNoteBeams.begin (),
@@ -5630,23 +5910,20 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the articulations if any
   int noteArticulationsSize = fNoteArticulations.size ();
 
   if (noteArticulationsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteArticulations";
     if (fNoteArticulations.size ()) {
-      gIndenter++;
       os <<
         endl;
+
+      gIndenter++;
         
       list<S_msrArticulation>::const_iterator
         iBegin = fNoteArticulations.begin (),
@@ -5665,26 +5942,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the spanners if any
   int noteSpannersSize = fNoteSpanners.size ();
 
   if (noteSpannersSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteSpanners";
     if (fNoteSpanners.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrSpanner>::const_iterator
         iBegin = fNoteSpanners.begin (),
         iEnd   = fNoteSpanners.end (),
@@ -5694,9 +5966,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5704,26 +5974,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
- 
-    gIndenter--;
- }
+  }
   
   // print the technicals if any
   int noteTechnicalsSize = fNoteTechnicals.size ();
 
   if (noteTechnicalsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteTechnicals";
     if (fNoteTechnicals.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrTechnical>::const_iterator
         iBegin = fNoteTechnicals.begin (),
         iEnd   = fNoteTechnicals.end (),
@@ -5733,9 +5998,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5743,26 +6006,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
- 
-    gIndenter--;
- }
+  }
   
   // print the technicals with integer if any
   int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
 
   if (noteTechnicalWithIntegersSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithIntegers";
     if (fNoteTechnicalWithIntegers.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrTechnicalWithInteger>::const_iterator
         iBegin = fNoteTechnicalWithIntegers.begin (),
         iEnd   = fNoteTechnicalWithIntegers.end (),
@@ -5772,9 +6030,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5782,26 +6038,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the technicals with float if any
   int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
 
   if (noteTechnicalWithFloatsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithFloats";
     if (fNoteTechnicalWithFloats.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrTechnicalWithFloat>::const_iterator
         iBegin = fNoteTechnicalWithFloats.begin (),
         iEnd   = fNoteTechnicalWithFloats.end (),
@@ -5811,9 +6062,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5821,26 +6070,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the technicals with string if any
   int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
 
   if (noteTechnicalWithStringsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteTechnicalWithStrings";
     if (fNoteTechnicalWithStrings.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrTechnicalWithString>::const_iterator
         iBegin = fNoteTechnicalWithStrings.begin (),
         iEnd   = fNoteTechnicalWithStrings.end (),
@@ -5850,9 +6094,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5860,26 +6102,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the ornaments if any
   int noteOrnamentsSize = fNoteOrnaments.size ();
 
   if (noteOrnamentsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteOrnaments";
     if (fNoteOrnaments.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrOrnament>::const_iterator
         iBegin = fNoteOrnaments.begin (),
         iEnd   = fNoteOrnaments.end (),
@@ -5889,9 +6126,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5899,26 +6134,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the glissandos if any
   int noteGlissandosSize = fNoteGlissandos.size ();
 
   if (noteGlissandosSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteGlissandos";
     if (fNoteGlissandos.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrGlissando>::const_iterator
         iBegin = fNoteGlissandos.begin (),
         iEnd   = fNoteGlissandos.end (),
@@ -5928,9 +6158,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
-      gIndenter--;
-      
+                
       gIndenter--;
     }
     else {
@@ -5938,27 +6166,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the slides if any
   int noteSlidesSize = fNoteSlides.size ();
 
   if (noteSlidesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteSlides";
     if (fNoteSlides.size ()) {
-      gIndenter++;
       os <<
-        "Note slides:" <<
         endl;
-        
+
       gIndenter++;
-  
+          
       list<S_msrSlide>::const_iterator
         iBegin = fNoteSlides.begin (),
         iEnd   = fNoteSlides.end (),
@@ -5968,8 +6190,28 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-          
+                
       gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+  
+  // print the grace notes group before if any
+  if (fNoteGraceNotesGroupBefore || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNotesGroupBefore";
+    if (fNoteGraceNotesGroupBefore) {
+      os <<
+        endl;
+
+      gIndenter++;
+        
+      os << fNoteGraceNotesGroupBefore;
       
       gIndenter--;
     }
@@ -5978,25 +6220,20 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
-  
-  // print the grace notes if any
-  if (fNoteGraceNotes || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
+    
+  // print the after grace group notes after if any
+  if (fNoteGraceNotesGroupAfter || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteGraceNotes";
-    if (fNoteGraceNotes) {
-      gIndenter++;
+      "noteGraceNotesGroupAfter";
+    if (fNoteGraceNotesGroupAfter) {
       os <<
         endl;
-        
+
       gIndenter++;
-      os << fNoteGraceNotes;
-      gIndenter--;
+        
+      os << fNoteGraceNotesGroupAfter;
       
       gIndenter--;
     }
@@ -6009,19 +6246,16 @@ void msrNote::print (ostream& os)
     
   // print the singleTremolo if any
   if (fNoteSingleTremolo || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteSingleTremolo";
     if (fNoteSingleTremolo) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
+        
       os << fNoteSingleTremolo;
-      gIndenter--;
       
       gIndenter--;
     }
@@ -6030,20 +6264,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
+  }
     
-    // print the tie if any
+  // print the tie if any
+  if (fNoteTie || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteTie";
     if (fNoteTie) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
+        
       os <<
         fNoteTie;
-      gIndenter--;
       
       gIndenter--;
     }
@@ -6052,26 +6287,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the dynamics if any
   int noteDynamicsSize = fNoteDynamics.size ();
 
   if (noteDynamicsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteDynamics";
     if (fNoteDynamics.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrDynamics>::const_iterator
         iBegin = fNoteDynamics.begin (),
         iEnd   = fNoteDynamics.end (),
@@ -6081,8 +6311,6 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-  
-      gIndenter--;
       
       gIndenter--;
     }
@@ -6091,26 +6319,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the other dynamics if any
   int noteOtherDynamicsSize = fNoteOtherDynamics.size ();
 
   if (noteOtherDynamicsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteOtherDynamics";
     if (fNoteOtherDynamics.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrOtherDynamics>::const_iterator
         iBegin = fNoteOtherDynamics.begin (),
         iEnd   = fNoteOtherDynamics.end (),
@@ -6120,9 +6343,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-  
-      gIndenter--;
-      
+        
       gIndenter--;
     }
     else {
@@ -6130,27 +6351,20 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the words if any
   int noteWordsSize = fNoteWords.size ();
 
   if (noteWordsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteWords";
     if (fNoteWords.size ()) {
       gIndenter++;
-      os <<
-        "Note words:" <<
+            os <<
         endl;
-        
-      gIndenter++;
-      
+
       list<S_msrWords>::const_iterator
         iBegin = fNoteWords.begin (),
         iEnd   = fNoteWords.end (),
@@ -6160,9 +6374,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-  
-      gIndenter--;
-      
+        
       gIndenter--;
     }
     else {
@@ -6170,27 +6382,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the slurs if any
   int noteSlursSize = fNoteSlurs.size ();
 
   if (noteSlursSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteSlurs";
     if (fNoteSlurs.size ()) {
-      gIndenter++;
       os <<
-        "Note slurs:" <<
         endl;
-        
+
       gIndenter++;
-      
+        
       list<S_msrSlur>::const_iterator
         iBegin = fNoteSlurs.begin (),
         iEnd   = fNoteSlurs.end (),
@@ -6202,35 +6408,27 @@ void msrNote::print (ostream& os)
       } // for
       
       gIndenter--;
-      
-      gIndenter--;
     }
     else {
       os << " : " <<
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the ligatures if any
   int noteLigaturesSize = fNoteLigatures.size ();
 
   if (noteLigaturesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteLigatures";
     if (fNoteLigatures.size ()) {
-      gIndenter++;
       os <<
-        "Note ligatures:" <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrLigature>::const_iterator
         iBegin = fNoteLigatures.begin (),
         iEnd   = fNoteLigatures.end (),
@@ -6240,9 +6438,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6250,27 +6446,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the pedals if any
   int notePedalsSize = fNotePedals.size ();
 
   if (notePedalsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "notePedals";
     if (fNotePedals.size ()) {
-      gIndenter++;
       os <<
-        "Note pedals:" <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrPedal>::const_iterator
         iBegin = fNotePedals.begin (),
         iEnd   = fNotePedals.end (),
@@ -6282,34 +6472,27 @@ void msrNote::print (ostream& os)
       } // for
       
       gIndenter--;
-      
-      gIndenter--;
     }
     else {
       os << " : " <<
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
   
   // print the slashes if any
   int noteSlashesSize = fNoteSlashes.size ();
 
   if (noteSlashesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteSlashes";
     if (fNoteSlashes.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+        
       list<S_msrSlash>::const_iterator
         iBegin = fNoteSlashes.begin (),
         iEnd   = fNoteSlashes.end (),
@@ -6319,9 +6502,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6329,26 +6510,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-    
-    gIndenter--;
-  }
+      }
 
   // print the wedges if any
   int noteWedgesSize = fNoteWedges.size ();
 
   if (noteWedgesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteWedges";
     if (fNoteWedges.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrWedge>::const_iterator
         iBegin = fNoteWedges.begin (),
         iEnd   = fNoteWedges.end (),
@@ -6358,9 +6534,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6368,26 +6542,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the eyeglasses if any
   int noteEyeGlassesSize = fNoteEyeGlasses.size ();
 
   if (noteEyeGlassesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteEyeGlasses";
     if (fNoteEyeGlasses.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrEyeGlasses>::const_iterator
         iBegin = fNoteEyeGlasses.begin (),
         iEnd   = fNoteEyeGlasses.end (),
@@ -6397,9 +6566,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6407,26 +6574,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the damps if any
   int noteDampsSize = fNoteDamps.size ();
 
   if (noteDampsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteDamps";
     if (fNoteDamps.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrDamp>::const_iterator
         iBegin = fNoteDamps.begin (),
         iEnd   = fNoteDamps.end (),
@@ -6436,9 +6598,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6446,26 +6606,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the dampAlls if any
   int noteDampAllsSize = fNoteDampAlls.size ();
 
   if (noteDampAllsSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteDampAlls";
     if (fNoteDampAlls.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrDampAll>::const_iterator
         iBegin = fNoteDampAlls.begin (),
         iEnd   = fNoteDampAlls.end (),
@@ -6475,9 +6630,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6485,26 +6638,21 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the scordaturas if any
   int noteScordaturasSize = fNoteScordaturas.size ();
 
   if (noteScordaturasSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteScordaturas";
     if (fNoteScordaturas.size ()) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
-      
+              
       list<S_msrScordatura>::const_iterator
         iBegin = fNoteScordaturas.begin (),
         iEnd   = fNoteScordaturas.end (),
@@ -6514,9 +6662,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
-      gIndenter--;
-      
+            
       gIndenter--;
     }
     else {
@@ -6524,28 +6670,23 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the harmony if any
   if (fNoteHarmony || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteHarmony";
     if (fNoteHarmony) {
       gIndenter++;
+      
       os <<
         endl;
-        
-      gIndenter++;
+
       os <<
         fNoteHarmony <<
         endl;
-      gIndenter--;
-      
+        
       gIndenter--;
     }
     else {
@@ -6553,27 +6694,22 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the frame if any
   if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteFrame";
     if (fNoteFrame) {
-      gIndenter++;
       os <<
         endl;
-        
+
       gIndenter++;
+        
       os <<
         fNoteFrame <<
         endl;
-      gIndenter--;
       
       gIndenter--;
     }
@@ -6582,28 +6718,22 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
 
   // print the figured bass if any
   if (fNoteFiguredBass || gMsrOptions->fDisplayMsrDetails) {
-    gIndenter++;
-
     os <<
       setw (fieldWidth) <<
       "noteFiguredBass";
     if (fNoteFiguredBass) {
-      gIndenter++;
       os <<
-        "Note figures bass:" <<
         endl;
-        
+
       gIndenter++;
+        
       os <<
         fNoteFiguredBass <<
         endl;
-      gIndenter--;
       
       gIndenter--;
     }
@@ -6612,9 +6742,9 @@ void msrNote::print (ostream& os)
         "none" <<
         endl;
     }
-
-    gIndenter--;
   }
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
@@ -7549,17 +7679,34 @@ void msrChord::print (ostream& os)
     endl;
     
   // print the member notes if any
-  if (fChordNotesVector.size ()) {
-    vector<S_msrNote>::const_iterator
-      iBegin = fChordNotesVector.begin (),
-      iEnd   = fChordNotesVector.end (),
-      i      = iBegin;
+  int chordNotesVectorSize = fChordNotesVector.size ();
+  
+  if (chordNotesVectorSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordNotes";
+    if (chordNotesVectorSize) {
+      os <<
+        endl;
+      gIndenter++;
       
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
+      vector<S_msrNote>::const_iterator
+        iBegin = fChordNotesVector.begin (),
+        iEnd   = fChordNotesVector.end (),
+        i      = iBegin;
+        
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os << ":" << "none" <<
+      endl;
+    }
   }
   
   // print the articulations if any
@@ -7635,24 +7782,29 @@ void msrChord::print (ostream& os)
   }
 
   // print the beams if any
-  os <<
-    setw (fieldWidth) <<
-    "chordBeams" <<
-    endl;
-  if (fChordBeams.size ()) {
-    gIndenter++;
-
-    list<S_msrBeam>::const_iterator i;
-    for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
-      os << (*i);
-    } // for
-    
-  gIndenter--;
-  }
-  else {
+  int chordBeamsSize = fChordBeams.size ();
+  
+  if (chordBeamsSize || gMsrOptions->fDisplayMsrDetails) {
     os <<
-      " : " << "none" <<
-    endl;
+      setw (fieldWidth) <<
+      "chordBeams";
+    if (chordBeamsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrBeam>::const_iterator i;
+      for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the words if any
@@ -7696,9 +7848,10 @@ void msrChord::print (ostream& os)
   }
 
   // print the harmony if any
-  if (fChordHarmony) {
+  if (fChordHarmony || gMsrOptions->fDisplayMsrDetails) {
     os <<
-      "Chord harmony: " <<
+      setw (fieldWidth) <<
+      "chordHarmony" << " : " <<
       endl;
         
     gIndenter++;
@@ -7711,9 +7864,10 @@ void msrChord::print (ostream& os)
   }
 
   // print the figured bass if any
-  if (fChordFiguredBass) {
+  if (fChordFiguredBass || gMsrOptions->fDisplayMsrDetails) {
     os <<
-      "Chord fibured bass: " <<
+      setw (fieldWidth) <<
+      "chordFiguredBass" << " : " <<
       endl;
         
     gIndenter++;
@@ -8276,6 +8430,18 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       __FILE__, __LINE__,
       s.str ());
   }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "This last note from grace notes '" <<
+      asString () <<
+      "' turns out to be '" <<
+      result->asShortString () <<
+      "'" <<
+      endl;
+  }
+#endif
 
   return result;
 }
@@ -13907,6 +14073,7 @@ void msrMeasure::appendPaddingNoteToMeasure (
   gIndenter--;
 }
 
+/* JMI
 void msrMeasure::appendGraceNotesToMeasure (
   S_msrGraceNotes graceNotes)
 {
@@ -14010,6 +14177,7 @@ void msrMeasure::prependAfterGraceNotesToMeasure (
   // this measure contains music
   fMeasureContainsMusic = true;
 }
+*/
 
 void msrMeasure::appendTempoToMeasure (
   S_msrTempo tempo)
@@ -17009,6 +17177,7 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // JMI
     appendTupletToMeasure (tuplet);
 }
 
+/* JMI
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 {
@@ -17058,6 +17227,7 @@ void msrSegment::prependAfterGraceNotesToSegment (
   fSegmentMeasuresList.front ()->
     prependAfterGraceNotesToMeasure (afterGraceNotes); // JMI
 }
+*/
 
 void msrSegment::prependOtherElementToSegment (S_msrElement elem)
 {
@@ -21453,17 +21623,10 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending note '" <<
+      note->asShortString () <<
+      "' to voice clone \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
       endl;
-
-    gIndenter++;
-    
-    gLogIOstream <<
-      note <<
-        "' to voice clone \"" << getVoiceName () << "\"" <<
-        ", line " << inputLineNumber <<
-        endl;
-
-    gIndenter--;
   }
 #endif
 
@@ -21615,6 +21778,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
   fMusicHasBeenInsertedInVoice = true;
 }
 
+/* JMI
 void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
 #ifdef TRACE_OPTIONS
@@ -21651,7 +21815,7 @@ void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
   }
 #endif
 
-/* JMI
+/ * JMI
   gLogIOstream <<
     endl <<
     "======================= prependGraceNotesToVoice" <<
@@ -21661,7 +21825,7 @@ void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
     "=======================" <<
     endl <<
     endl;
-  */
+  * /
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -21732,6 +21896,7 @@ void msrVoice::prependAfterGraceNotesToVoice (
 
   fMusicHasBeenInsertedInVoice = true;
 }
+*/
 
 void msrVoice::appendSyllableToVoice (
   int           inputLineNumber,
@@ -29648,6 +29813,7 @@ void msrPart:: handleBackup (
     measurePosition);
 }
 
+/* JMI
 void msrPart::prependSkipGraceNotesToVoicesClones (
   S_msrVoice      graceNotesOriginVoice,
   S_msrGraceNotes skipGraceNotes)
@@ -29711,6 +29877,7 @@ void msrPart::prependSkipGraceNotesToVoicesClones (
 
   } // for
 }
+*/
 
 void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)

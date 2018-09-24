@@ -632,16 +632,17 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_part& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_score_part" <<
+      "--> Start visiting S_part" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string partID = elt->getAttributeValue ("id");
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceParts || gTraceOptions->fTracePasses) {
@@ -757,9 +758,13 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
 
 void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_part" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -783,13 +788,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     /*
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "unterminated repeat in MusicXML data, exiting");
     */
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       "unterminated repeat in MusicXML data, ignoring the repeat altogether");
 
     /* JMI
@@ -799,7 +804,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
     S_msrBarline
       barline =
         msrBarline::create (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           msrBarline::kBarlineCategoryRepeatEnd, // JMI
           msrBarline::kBarlineHasSegnoNo,
           msrBarline::kBarlineHasCodaNo,
@@ -836,7 +841,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
   // finalize the current part
   fCurrentPart->
     finalizePart (
-      elt->getInputLineNumber ());
+      inputLineNumber);
 }
 
 //________________________________________________________________________
@@ -845,15 +850,20 @@ void mxmlTree2MsrTranslator::visitStart (S_attributes& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_attributes" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_attributes" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -861,7 +871,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
   if (! fCurrentDivisions) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "no <divisions/> markup found in MusicXML data, exiting");
   }
@@ -874,7 +884,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
     // create the default 4/4 time
     fCurrentTime =
       msrTime::createFourQuartersTime (
-        elt->getInputLineNumber ());
+        inputLineNumber);
         
     // register time in staff
     fCurrentPart->
@@ -886,21 +896,23 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_divisions" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
     
   fCurrentDivisionsPerQuarterNote = (int)(*elt);
   
   if (
     fCurrentDivisionsPerQuarterNote < 1
       ||
-    fCurrentDivisionsPerQuarterNote > 16383) {
+    fCurrentDivisionsPerQuarterNote > 16383
+  ) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
@@ -943,6 +955,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_clef& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_clef" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -964,6 +977,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_sign& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sign" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -975,6 +989,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_line& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_line" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -983,9 +998,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_line& elt )
   
 void mxmlTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_clef_octave_change" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -1000,7 +1019,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());    
   }
@@ -1008,14 +1027,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
   
 void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_clef" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // convert clef to upper case for analysis
   transform (
@@ -1064,7 +1084,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());    
     }
@@ -1132,7 +1152,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());    
     }
@@ -1261,7 +1281,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_key& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_clef" <<
+      "--> Start visiting S_key" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -1288,6 +1309,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_cancel& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_cancel" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -1299,6 +1321,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fifths& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fifths" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -1309,9 +1332,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_fifths& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_mode& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_mode" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -1352,7 +1379,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mode& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -1360,14 +1387,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_mode& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_key_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   if (fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
@@ -1409,14 +1437,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_key_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   if (! fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
@@ -1459,14 +1488,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_key_octave& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_key_octave" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   int keyOctave = (int)(*elt);
 
@@ -1537,14 +1567,15 @@ If the cancel attribute is
 
 void mxmlTree2MsrTranslator::visitEnd ( S_key& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_key" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // handle key
   S_msrKey key;
@@ -1732,9 +1763,13 @@ S_msrKey mxmlTree2MsrTranslator::handleHumdrumScotKey (
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
 {  
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_time" <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
@@ -1773,7 +1808,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -1789,6 +1824,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beats& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beats" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -1797,15 +1833,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_beats& elt )
   
 void mxmlTree2MsrTranslator::visitStart ( S_beat_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beat_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   int beatType = (int)(*elt);
 
   // extract the numbers list from the beat type
@@ -1856,6 +1893,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_senza_misura& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_senza_misura" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -1864,14 +1902,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_senza_misura& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_interchangeable" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string interchangeableSymbol =
     elt->getAttributeValue ("symbol");
@@ -1952,9 +1991,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_time_relation" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -1991,7 +2034,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -2000,14 +2043,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_time& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_time" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // create the time
   fCurrentTime =
@@ -2062,6 +2106,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_instruments& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_time" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2078,6 +2123,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_transpose& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_transpose" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2094,6 +2140,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_diatonic& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_diatonic" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2105,6 +2152,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_chromatic& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_chromatic" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2116,6 +2164,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_octave_change& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting octave_change" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2127,6 +2176,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_double& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting double" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2135,14 +2185,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_double& elt )
  
 void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_transpose" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // bring the transpose chromatic value in the -11..+11 interval
   if (fCurrentTransposeChromatic < -11) {
@@ -2229,9 +2280,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_direction" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -2255,7 +2310,7 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());    
   }
@@ -2271,6 +2326,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_direction" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2289,7 +2345,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
           
         msrMusicXMLWarning (
           gXml2lyOptions->fInputSourceName,
-          elt->getInputLineNumber (),
+          inputLineNumber,
           s.str ());
       }
 
@@ -2315,6 +2371,7 @@ void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_direction_type" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2324,36 +2381,15 @@ void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_offset" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-/*
-<!--
-  An offset is represented in terms of divisions, and
-  indicates where the direction will appear relative to
-  the current musical location. This affects the visual
-  appearance of the direction. If the sound attribute is
-  "yes", then the offset affects playback too. If the sound
-  attribute is "no", then any sound associated with the
-  direction takes effect at the current location. The sound
-  attribute is "no" by default for compatibility with earlier
-  versions of the MusicXML format. If an element within a
-  direction includes a default-x attribute, the offset value
-  will be ignored when determining the appearance of that
-  element.
--->
-<!ELEMENT offset (#PCDATA)>
-<!ATTLIST offset
-    sound %yes-no; #IMPLIED
->
-
-<offset sound="yes">2048</offset>
-*/
-
-//  int offsetDivisions = (int)(*elt);
 
   // sound
   
@@ -2377,7 +2413,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -2394,14 +2430,15 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_octave_shift" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // size
   
@@ -2485,7 +2522,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   S_msrOctaveShift
     octaveShift =
       msrOctaveShift::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         octaveShiftKind,
         octaveShiftSize);
 
@@ -2496,18 +2533,19 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_words" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
 /*
   <words default-y="-73" font-style="italic" relative-x="5">cresc.</words>
 */
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string wordsValue = elt->getValue ();
 
@@ -2722,7 +2760,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
     S_msrWords
       words =
         msrWords::create (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           fCurrentDirectionPlacementKind,
           wordsValue,
           justifyKind,
@@ -2741,6 +2779,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_registration& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accordion_registration" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2768,6 +2807,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_high& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accordion_high" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2778,10 +2818,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_high& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accordion_middle" <<
-      endl;
+       ", line " << inputLineNumber <<
+     endl;
   }
 
   fCurrentAccordionMiddle = (int)(*elt);
@@ -2796,7 +2840,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
     
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       s.str ());
 
     fCurrentAccordionMiddle = 1;
@@ -2810,6 +2854,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_low& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accordion_low" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2820,15 +2865,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_low& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_accordion_registration& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_accordion_registration" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // An accordion-registration element needs to have 
   // at least one of the child elements present
 
@@ -2861,6 +2907,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction_type& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_direction_type" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2870,9 +2917,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction_type& elt)
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -2892,7 +2943,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -2918,9 +2969,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   
 void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
 { 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beat_unit" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -2930,7 +2985,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
   msrDurationKind
     beatUnitDurationKind =
       msrDurationKindFromString (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         beatUnitString);
 
   // there can be several <beat-unit/> in a <metronome/> markup,
@@ -2943,9 +2998,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beat_unit_dot" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -2960,7 +3019,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
 
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -2971,6 +3030,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_per_minute& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_per_minute" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2982,6 +3042,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_note& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome_note" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -2990,14 +3051,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_note& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string noteType = elt->getValue();
 
@@ -3013,6 +3075,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_dot& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome_dot" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3021,14 +3084,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_dot& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome_beam" <<
-      endl;
+      ", line " << inputLineNumber <<
+     endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // value
   
@@ -3123,15 +3187,16 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
 
 void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_metronome_note" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // convert metronome note duration into whole notes
   fCurrentMetronomeNoteWholeNotesFromMetronomeType =
     msrDurationKindAsWholeNotes (
@@ -3212,9 +3277,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome_relation" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -3233,7 +3302,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
 
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -3241,15 +3310,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_metronome_tuplet" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // number
 
   fCurrentTupletNumber = elt->getAttributeIntValue ("number", 0);
@@ -3379,6 +3449,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_dot& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_normal_dot" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3387,14 +3458,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_dot& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_metronome_tuplet" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   switch (fCurrentTempoTupletTypeKind) {
     case msrTempoTuplet::kTempoTupletTypeNone:
@@ -3404,7 +3476,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
       // create metronome tuplet
       fCurrentMetronomeTuplet =
         msrTempoTuplet::create (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           fCurrentTempoTupletNumber,
           fCurrentTempoTupletBracketKind,
           fCurrentTempoTupletShowNumberKind,
@@ -3456,14 +3528,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_metronome" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // fCurrentMetronomeParenthesedKind ??? JMI
 
@@ -3594,6 +3667,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staves& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_direction" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -3601,14 +3675,15 @@ void mxmlTree2MsrTranslator::visitStart (S_staves& elt)
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   fCurrentStaffNumber = int(*elt);
 
@@ -3675,14 +3750,15 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_details" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // number
 
@@ -3814,7 +3890,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
   // create the staff details
   fCurrentStaffDetails =
     msrStaffDetails::create (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       fCurrentStaffTypeKind,
       fCurrentShowFretsKind,
       fCurrentPrintObjectKind,
@@ -3825,9 +3901,13 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 
 void mxmlTree2MsrTranslator::visitStart (S_staff_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -3870,7 +3950,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_type& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());      
   }
@@ -3881,6 +3961,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_lines& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_lines" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3892,6 +3973,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_tuning& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_tuning" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3906,16 +3988,20 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_tuning& elt )
     
 void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuning_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string tuningStep = elt->getValue();
 
   checkStep (
-    elt->getInputLineNumber (),
+    inputLineNumber,
     tuningStep);
 
   msrDiatonicPitchKind
@@ -3936,7 +4022,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -3944,9 +4030,13 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
 
 void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuning_octave" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -3965,7 +4055,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -3973,9 +4063,13 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
 
 void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuning_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -3995,7 +4089,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -4013,7 +4107,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -4021,15 +4115,16 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
 
 void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_staff_tuning" <<
-      endl;
+       ", line " << inputLineNumber <<
+     endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // fetch relevant staff
   S_msrStaff
     staff =
@@ -4106,14 +4201,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_details" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   fCurrentVoiceNumber = int(*elt);
   
@@ -4164,29 +4260,34 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_backup" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   // handle the pending tuplets if any
   handleTupletsPendingOnTupletsStack (
-    elt->getInputLineNumber ());
+    inputLineNumber);
   
   fOnGoingBackup = true;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_backup" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (
@@ -4236,6 +4337,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_forward" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4262,14 +4364,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_forward" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (
@@ -4336,7 +4439,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 /* JMI ???  
   // handle the pending tuplets if any
   handleTupletsPendingOnTupletsStack (
-    elt->getInputLineNumber ());  
+    inputLineNumber);  
   */
 
   fOnGoingForward = false;
@@ -4345,16 +4448,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tied" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
 // <tied orientation="over" type="start"/>
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string tiedType =
     elt->getAttributeValue ("type");
@@ -4412,7 +4516,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
   if (fCurrentTieKind != msrTie::kTieNone) {
     fCurrentTie =
       msrTie::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentTieKind);
   }
 }
@@ -4500,14 +4604,15 @@ void mxmlTree2MsrTranslator::displayTupletsStack (
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_slur" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSlurs) {
@@ -4767,14 +4872,15 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bracket" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // number
   
@@ -4997,14 +5103,15 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_wedge" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // type
   
@@ -5135,14 +5242,15 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
       </note>
   */
   
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_lyric" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // number
 
@@ -5224,14 +5332,15 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_syllabic" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   fCurrentSyllabic = elt->getValue();
   
@@ -5267,9 +5376,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_text& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_text" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -5282,7 +5395,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   if (gTraceOptions->fTraceLyrics) {
     fLogOutputStream <<
       "textValue = \""<< textValue << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -5298,7 +5411,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
 
     fLogOutputStream << left <<
       setw (fieldWidth) <<
-      "line " << " = " << elt->getInputLineNumber () <<
+      "line " << " = " << inputLineNumber <<
       endl <<
       setw (fieldWidth) <<
       "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
@@ -5332,6 +5445,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_elision& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_elision" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5349,15 +5463,18 @@ void mxmlTree2MsrTranslator::visitStart ( S_elision& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_extend& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_extend" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string extendType =
     elt->getAttributeValue ("type");
-
 
   if (fOnGoingLyric) {
     fCurrentSyllableExtendKind =
@@ -5385,7 +5502,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
         
         msrMusicXMLError (
           gXml2lyOptions->fInputSourceName,
-          elt->getInputLineNumber (),
+          inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
@@ -5401,14 +5518,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_lyric" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   if (fCurrentSyllableKind == msrSyllable::kSyllableNone) {
     // syllabic is not mandatory...
@@ -5665,14 +5783,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // take this measure into account
   fCurrentMeasureOrdinalNumber++;
@@ -5796,19 +5915,24 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
 void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_measure" <<
-      endl;
-  }
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_measure" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   // is there a current grace notes?
-  if (fCurrentGraceNotes) {
+  if (fCurrentGraceNotesGroup) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceNotes) {
+    if (
+      gTraceOptions->fTraceGraceNotes
+        ||
+      gTraceOptions->fTraceNotes
+    ) {
       fLogOutputStream <<
         endl <<
         endl <<
@@ -5830,13 +5954,74 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     }
 #endif
 
-    // set current grace notes as not followed by notes
-    fCurrentGraceNotes->
-      setGraceNotesIsFollowedByNotes (false);
-      
-    // forget about these grace notes,
-    // thus forcing grace notes at the end of this measure to remain it it
-    fCurrentGraceNotes = nullptr;
+    // attach these grace notes group as an after grace notes group
+    // to the last note met in its voice
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          inputLineNumber,
+          fCurrentStaffNumberToInsertInto,
+          fCurrentNoteVoiceNumber);
+
+    // fetch note to attach to
+    S_msrNote
+      noteToAttachTo =
+      /* JMI
+      // JMI might prove not precise enough???
+  //      fVoicesLastMetNoteMap [currentVoice];
+        fVoicesLastMetNoteMap [
+          make_pair (
+            fCurrentStaffNumberToInsertInto,
+            fCurrentNoteVoiceNumber)
+          ];
+      */
+        voice->
+          getVoiceLastAppendedNote (); // ??? JMI
+          
+    
+    if (! noteToAttachTo) {
+      stringstream s;
+
+      s <<
+        "cannot find voice to insert after grace notes group into: " <<
+        "chordFirstNote is null" <<
+        ", fCurrentStaffNumberToInsertInto = " << fCurrentStaffNumberToInsertInto <<
+        endl <<
+        ", fCurrentNoteVoiceNumber = " << fCurrentNoteVoiceNumber;
+        
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+
+/* JMI
+    // create an after grace notes group
+    S_msrAfterGraceNotesGroup
+      afterGraceNotesGroup =
+        msrAfterGraceNotesGroup::create (
+          inputLineNumber,
+          noteToAttachTo,
+          fCurrentGraceNotesGroup->getGraceNotesGroupIsSlashed (),
+          voice);
+*/
+
+    // set the grace notes group's kind to 'after'
+    fCurrentGraceNotesGroup->
+      setGraceNotesGroupKind (
+        msrGraceNotesGroup::kGraceNotesGroupAfter);
+    
+    // attach it to the note
+    noteToAttachTo->
+      setNoteGraceNotesGroupAfter (
+// JMI        afterGraceNotesGroup);
+        fCurrentGraceNotesGroup);
+        
+    // forget about this grace notes grpi[],
+    fCurrentGraceNotesGroup = nullptr;
   }
   
   if (fCurrentATupletStopIsPending) {
@@ -5951,14 +6136,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_print& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_print" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
 /* JMI
   const int staffSpacing =
@@ -6112,6 +6298,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_layout" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6153,7 +6340,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure_numbering" <<
-      endl;
+       ", line " << elt->getInputLineNumber () <<
+     endl;
   }
 
   // JMI
@@ -6162,9 +6350,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_barline& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_barline" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -6225,7 +6417,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
         
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -6237,9 +6429,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bar_style" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -6295,7 +6491,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "bar-style \"" + barStyle + "\" is unknown");
   }
@@ -6304,16 +6500,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_segno& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_segno" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   if (fOnGoingDirectionType) {
-    int inputLineNumber =
-      elt->getInputLineNumber ();
-      
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -6341,16 +6538,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_coda& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_coda" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   if (fOnGoingDirectionType) {
-    int inputLineNumber =
-      elt->getInputLineNumber ();
-      
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -6377,16 +6575,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_eyeglasses" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   if (fOnGoingDirectionType) {
-    int inputLineNumber =
-      elt->getInputLineNumber ();
-      
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -6408,14 +6607,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pedal" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // type
   
@@ -6507,7 +6707,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   if (fOnGoingDirectionType) {
     int inputLineNumber =
-      elt->getInputLineNumber ();
+      inputLineNumber;
       
     // fetch current voice
     S_msrVoice
@@ -6534,14 +6734,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_ending& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ending" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // number
 
@@ -6599,14 +6800,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_repeat" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // direction
 
@@ -6695,14 +6897,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_barline" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // is there a pending tuplet?
   if (fTupletsStack.size ()) { // JMI
@@ -6988,9 +7191,13 @@ The discontinue value is typically used for the last ending in a set, where ther
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_note& elt ) 
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_note" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -7141,7 +7348,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -7153,16 +7360,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_step& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string step = elt->getValue();
   
   checkStep (
-    elt->getInputLineNumber (),
+    inputLineNumber,
     step);
 
   fCurrentNoteDiatonicPitchKind =
@@ -7171,9 +7382,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_step& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -7192,7 +7407,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -7203,6 +7418,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_octave& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_octave" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7211,9 +7427,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_octave& elt)
 
 void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_duration" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -7312,7 +7532,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -7325,6 +7545,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_instrument& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_instrument" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7339,6 +7560,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_dot& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_dot" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7347,18 +7569,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_dot& elt )
        
 void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
 /*
  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
 */
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   {
     string noteType = elt->getValue();
@@ -7411,14 +7634,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_notehead" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   {
     string noteHead = elt->getValue();
@@ -7545,14 +7769,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accidental" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // value
 
@@ -7712,14 +7937,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
 
 void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_stem" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string        stem = elt->getValue();
 
@@ -7759,14 +7985,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beam" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // value
   
@@ -7824,6 +8051,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_style& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure_style" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -7833,6 +8061,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_beat_repeat" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7852,7 +8081,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -7861,9 +8090,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
        
 void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_measure_repeat" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -7876,8 +8109,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   optional number attribute specifies the staff number from
   top to bottom on the system, as with clef.
 */
-
-  int inputLineNumber = elt->getInputLineNumber ();
   
   fCurrentMeasuresRepeatMeasuresNumber = (int)(*elt);
 
@@ -7928,13 +8159,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
        
 void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_multiple_rest" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber = elt->getInputLineNumber ();
   
   fCurrentMultipleRestMeasuresNumber = (int)(*elt);
 
@@ -7975,14 +8208,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
        
 void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_slash" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // type
   
@@ -8059,19 +8293,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_slash_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_slash_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-/*
- Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
-*/
-
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string slashType = elt->getValue();
 
@@ -8118,6 +8348,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_dot& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_slash_dot" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8126,16 +8357,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash_dot& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_slash& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_slash" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   S_msrSlash
     slash =
       msrSlash::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentSlashTypeKind,
         fCurrentSlashUseDotsKind,
         fCurrentSlashUseStemsKind);
@@ -8149,20 +8384,22 @@ void mxmlTree2MsrTranslator::visitStart ( S_articulations& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_articulations" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accent" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -8203,15 +8440,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_breath_mark" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8242,7 +8480,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kBreathMark,
         placementKind);
       
@@ -8251,15 +8489,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_caesura" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8290,7 +8529,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kCaesura,
         placementKind);
       
@@ -8299,15 +8538,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_spiccato" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8338,7 +8578,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kSpiccato,
         placementKind);
       
@@ -8347,15 +8587,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staccato" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8386,7 +8627,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kStaccato,
         placementKind);
       
@@ -8395,15 +8636,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staccatissimo" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8434,7 +8676,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kStaccatissimo,
         placementKind);
       
@@ -8443,15 +8685,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_stress" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8482,7 +8725,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kStress,
         placementKind);
       
@@ -8491,15 +8734,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+   int inputLineNumber =
+    elt->getInputLineNumber ();
+
+ if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_unstress" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8530,7 +8774,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kUnstress,
         placementKind);
       
@@ -8539,14 +8783,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_detached_legato" <<
-      endl;
-  }
-
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+ if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_detached_legato" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
     
   // placement
   
@@ -8578,7 +8823,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kDetachedLegato,
         placementKind);
       
@@ -8587,15 +8832,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_strong_accent" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8627,7 +8873,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kStrongAccent,
         placementKind);
       
@@ -8636,15 +8882,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tenuto" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8676,7 +8923,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kTenuto,
         placementKind);
       
@@ -8685,15 +8932,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_doit" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8724,7 +8972,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kDoit,
         placementKind);
       
@@ -8733,15 +8981,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_falloff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8772,7 +9021,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kFalloff,
         placementKind);
       
@@ -8781,15 +9030,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_plop" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8820,7 +9070,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kPlop,
         placementKind);
       
@@ -8829,15 +9079,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_scoop" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -8868,7 +9119,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrArticulation::kScoop,
         placementKind);
       
@@ -8880,6 +9131,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_articulations& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_articulations" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8889,14 +9141,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_articulations& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_arpeggiate" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -8968,33 +9221,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_non_arpeggiate" << // JMI
+      ", line " << inputLineNumber <<
       endl;
   }
 
-/*
-<!-- 
-  The non-arpeggiate element indicates that this note is at
-  the top or bottom of a bracket indicating to not arpeggiate
-  these notes. Since this does not involve playback, it is
-  only used on the top or bottom notes, not on each note
-  as for the arpeggiate element.
--->
-<!ELEMENT non-arpeggiate EMPTY>
-<!ATTLIST non-arpeggiate
-    type %top-bottom; #REQUIRED
-    number %number-level; #IMPLIED
-    %position; 
-    %placement;
-    %color; 
->
-*/
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // placement
   
   string placementString = elt->getAttributeValue ("placement");
@@ -9074,6 +9310,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_technical& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_technical" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -9085,6 +9322,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_technical& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_technical" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -9093,15 +9331,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_technical& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_arrow& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_arrow" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement = elt->getAttributeValue ("placement");
 
   msrPlacementKind
@@ -9141,6 +9380,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bend_alter& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bend_alter" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -9152,20 +9392,22 @@ void mxmlTree2MsrTranslator::visitStart ( S_bend& elt ) // JMI
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bend" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bend" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string placement = elt->getAttributeValue ("placement");
 
@@ -9204,15 +9446,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_double_tongue" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9250,15 +9493,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_down_bow& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_down_bow" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9296,15 +9540,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_down_bow& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fingering" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   int fingeringValue = (int)(*elt);
 
   if (fOnGoingTechnical) {
@@ -9356,7 +9601,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());    
   }
@@ -9364,15 +9609,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fingernails" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9410,14 +9656,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fret" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   int fretValue = (int)(*elt);
 
@@ -9470,7 +9717,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -9478,14 +9725,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_hammer_on" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // type
   
@@ -9554,15 +9802,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_handbell" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string handBellValue = elt->getValue ();
 
   // placement
@@ -9606,15 +9855,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_harmonic& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_harmonic" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9652,15 +9902,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmonic& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_heel& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_heel" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9698,14 +9949,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_heel& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_hole& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_hole" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
     
   string
     placement =
@@ -9744,15 +9996,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_hole& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_open_string& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_open_string" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9790,15 +10043,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_open_string& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_other_technical" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string otherTechnicalValue = elt->getValue ();
     
   string
@@ -9840,15 +10094,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pluck" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string pluckValue = elt->getValue ();
     
   string
@@ -9890,15 +10145,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pull_off" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string pullOffValue = elt->getValue ();
     
   // type
@@ -9968,15 +10224,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_snap_pizzicato" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10014,15 +10271,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_stopped& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_stopped" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10060,9 +10318,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_stopped& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_string" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -10074,9 +10336,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
           </technical>
         </notations>
 */
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string stringValue = elt->getValue();
 
@@ -10150,7 +10409,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -10158,15 +10417,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tap" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10204,15 +10464,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_thumb_position& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_thumb_position" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10250,15 +10511,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_thumb_position& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_toe& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_toe" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10296,15 +10558,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_toe& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_triple_tongue" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10342,15 +10605,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_up_bow& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_up_bow" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -10389,15 +10653,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_up_bow& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fermata" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string fermataTextValue = elt->getValue ();
 
   // kind
@@ -10478,20 +10743,22 @@ void mxmlTree2MsrTranslator::visitStart ( S_ornaments& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ornaments" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
 {   
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting tremolo" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // value (tremolo marks number)
   
@@ -10734,14 +11001,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_trill_mark" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
  // type : upright inverted  (Binchois20.xml) JMI
 
@@ -10775,7 +11043,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentTrill,
         ornamentPlacementKind);
       
@@ -10784,14 +11052,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_dashes" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
  // type : upright inverted  (Binchois20.xml) JMI
 
@@ -10869,9 +11138,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_wavy_line" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -10886,9 +11159,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
     %trill-sound; 
 >
  */
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // number
 
@@ -10965,17 +11235,33 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       // remember this wavy line spanner start
       fCurrentWavyLineSpannerStart = spanner;
       break;
+      
     case kSpannerTypeStop:
       // set spanner two-way sidelinks
       // between both ends of the wavy line spanner
+      if (! fCurrentWavyLineSpannerStart) {
+        stringstream s;
+        
+        s <<
+          "wavy-line stop met without corresponding start";
+        
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());    
+      }
+      
       spanner->
         setSpannerOtherEndSidelink (
           fCurrentWavyLineSpannerStart);
       // forget this wavy line spanner start
       fCurrentWavyLineSpannerStart = nullptr;
       break;
+      
     case kSpannerTypeContinue:
       break;
+      
     case k_NoSpannerType:
       // JMI ???
       break;
@@ -10984,14 +11270,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_turn" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11006,7 +11293,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
   else if (placement == "below")
     ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
-    
+  
     stringstream s;
     
     s <<
@@ -11023,7 +11310,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentTurn,
         ornamentPlacementKind);
       
@@ -11032,14 +11319,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_inverted_turn" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11071,7 +11359,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentInvertedTurn,
         ornamentPlacementKind);
       
@@ -11080,14 +11368,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_delayed_turn" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11119,7 +11408,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentDelayedTurn,
         ornamentPlacementKind);
       
@@ -11128,14 +11417,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_delayed_inverted_turn" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11167,7 +11457,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentDelayedInvertedTurn,
         ornamentPlacementKind);
       
@@ -11176,14 +11466,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_vertical_turn" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11215,7 +11506,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentVerticalTurn,
         ornamentPlacementKind);
       
@@ -11224,14 +11515,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_mordent" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11263,7 +11555,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentMordent,
         ornamentPlacementKind);
       
@@ -11272,14 +11564,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_inverted_mordent" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11311,7 +11604,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentInvertedMordent,
         ornamentPlacementKind);
       
@@ -11320,14 +11613,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_schleifer" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11359,7 +11653,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentSchleifer,
         ornamentPlacementKind);
       
@@ -11368,14 +11662,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_shake" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11407,7 +11702,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentShake,
         ornamentPlacementKind);
       
@@ -11416,14 +11711,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accidental_mark" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string accidentalMark = elt->getValue ();
 
@@ -11501,7 +11797,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   S_msrOrnament
     ornament =
       msrOrnament::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrOrnament::kOrnamentAccidentalMark,
         ornamentPlacementKind);
       
@@ -11517,6 +11813,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_ornaments& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_ornaments" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -11524,14 +11821,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_ornaments& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart( S_f& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_f" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // placement
   
@@ -11563,7 +11861,7 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
   S_msrDynamics
     dynamics =
       msrDynamics::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         msrDynamics::kF,
         dynamicsPlacementKind);
         
@@ -11571,15 +11869,16 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11616,15 +11915,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11661,15 +11961,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ffff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11706,15 +12007,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fffff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11751,15 +12053,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ffffff" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11797,15 +12100,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_p& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_p" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11842,15 +12146,16 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11887,15 +12192,16 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ppp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11932,15 +12238,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pppp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -11977,15 +12284,16 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_ppppp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12022,15 +12330,16 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pppppp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12069,15 +12378,16 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_mf" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12114,15 +12424,16 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_mp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12160,15 +12471,16 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12205,15 +12517,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
 }
 void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_fz" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12251,15 +12564,16 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_rf" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12297,15 +12611,16 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sf" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12343,15 +12658,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_rfz" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12388,15 +12704,16 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sfz" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12433,15 +12750,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sfp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12478,15 +12796,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sfpp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12523,15 +12842,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+ if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sffz" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -12569,15 +12889,16 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_other_dynamics" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   string otherDynamicsValue = elt->getValue ();
 
   string placement =
@@ -12608,7 +12929,7 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         otherDynamicsValue,
         otherDynamicsPlacementKind);
         
@@ -12634,9 +12955,13 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
 /*
 void mxmlTree2MsrTranslator::visitStart( S_damper_pedal& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_damper_pedal" <<
+      ", line " << inputLineNumber <<
       endl;
 
   string damperPedalValue = elt->getValue ();
@@ -12667,7 +12992,7 @@ void mxmlTree2MsrTranslator::visitStart( S_damper_pedal& elt)
         "\" should be between 0 and 100";
         
       msrMusicXMLError (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         s.str ());
     }
 
@@ -12677,7 +13002,7 @@ void mxmlTree2MsrTranslator::visitStart( S_damper_pedal& elt)
 / * JMI
     if (damperPedalValue.size ()) {
       msrMusicXMLError (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         "unknown damper pedal \"" +
           damperPedalValue +
           "\", should be 'yes', 'no' or a number from 0 to 100");
@@ -12689,17 +13014,21 @@ void mxmlTree2MsrTranslator::visitStart( S_damper_pedal& elt)
   S_msrDamperPedal
     damperPedal =
       msrDamperPedal::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         otherDynamicsValue);
         
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_soft_pedal" <<
-      endl;
+       ", line " << inputLineNumber <<
+     endl;
   }
 
   string softPedalValue = elt->getValue ();
@@ -12707,7 +13036,7 @@ void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         otherDynamicsValue);
         
   fPendingOtherDynamics.push_back(otherDynamics);
@@ -12715,9 +13044,13 @@ void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sostenuto_pedal" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -12726,7 +13059,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         otherDynamicsValue);
         
   fPendingOtherDynamics.push_back(otherDynamics);
@@ -12739,6 +13072,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_cue& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_cue" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
  
@@ -12748,9 +13082,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_cue& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_grace" <<
+      ", line " << inputLineNumber <<
       endl;
   }
  
@@ -12773,7 +13111,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
     if (slash.size ()) {
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         "grace slash \"" + slash + "\" unknown, should be 'yes' or 'no'");
     }
@@ -12808,6 +13146,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_chord& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_chord" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12826,6 +13165,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_modification& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_time_modification" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12837,9 +13177,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_modification& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_actual_notes" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -12896,7 +13240,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -12904,9 +13248,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_normal_notes" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -12963,7 +13311,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -12971,14 +13319,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_normal_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   string normalTypeString = elt->getValue();
 
@@ -13046,14 +13395,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuplet" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // number
 
@@ -13309,6 +13659,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_actual& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuplet_actual" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13320,6 +13671,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_tuplet_actual& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_tuplet_actual" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13331,6 +13683,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_normal& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuplet_normal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13342,6 +13695,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_tuplet_normal& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_tuplet_normal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13350,9 +13704,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_tuplet_normal& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuplet_number" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -13368,7 +13726,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "met a tuplet number out of context");
   }
@@ -13388,9 +13746,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuplet_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -13406,7 +13768,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "met a tuplet number out of context");
   }
@@ -13426,9 +13788,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tuplet_dot" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -13441,7 +13807,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "met a tuplet dot out of context");
   }
@@ -13450,14 +13816,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_glissando" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // glissando text, i.e. the text along it
   string glissandoTextValue = elt->getValue ();
@@ -13571,14 +13938,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 {
+  int inputLineNumber =
+    inputLineNumber;
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_slide" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 
   // slide text, i.e. the text along it
   string slideTextValue = elt->getValue ();
@@ -13690,9 +14058,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_rest" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -13729,7 +14101,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
     if (restMeasure.size ()) {
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         "rest measure \"" + restMeasure + "\" is unknown");
     }
@@ -13739,16 +14111,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_display_step& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_display_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string displayStep = elt->getValue();
   
   checkStep (
-    elt->getInputLineNumber (),
+    inputLineNumber,
     displayStep);
 
   fCurrentDisplayDiatonicPitchKind =
@@ -13765,6 +14141,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_display_octave& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_display_octave" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13776,15 +14153,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_unpitched& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_unpitched" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
-/*
-        <unpitched>
-          <display-step>E</display-step>
-          <display-octave>5</display-octave>
-        </unpitched>
-*/
   fCurrentNoteIsUnpitched = true;
   
  // fCurrentNoteDiatonicPitch = // JMI
@@ -13913,7 +14285,7 @@ void mxmlTree2MsrTranslator::registerVoiceCurrentChordInMap (
       chord;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -16569,9 +16941,13 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_note" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -16591,9 +16967,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
   // determine quarter tones note pitch
   fCurrentNoteQuarterTonesPitchKind =
     quarterTonesPitchKindFromDiatonicPitchAndAlteration (
@@ -17219,10 +17592,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     }
     
     else if (fCurrentNoteIsAGraceNote) {
-    
+
+      fLogOutputStream <<
+        "FOO" <<
+        endl;
+        
       // note is the second, third, ..., member of a chord
       // that is a part of grace notes
-      handleNoteBelongingToAChordInGraceNotes (
+      handleNoteBelongingToAChordInAGraceNotesGroup (
         newNote);
       
     }
@@ -17477,7 +17854,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     S_msrFiguredBass
       figuredBass =
         msrFiguredBass::create (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           fCurrentPart,
           fCurrentFiguredBassSoundingWholeNotes,
           fCurrentFiguredBassParenthesesKind);
@@ -17659,11 +18036,11 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       endl <<
       setw (fieldWidth) << "fCurrentNoteIsAGraceNote" << " : " <<
       booleanAsString (fCurrentNoteIsAGraceNote) <<
-      endl <<
-      setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
+      endl;
 
     if (gTraceOptions->fTraceNotesDetails) {
       fLogOutputStream <<
+        setw (fieldWidth) << "fCurrentGraceNotesGroup" << " : " <<
         endl <<
         "======================= handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest" <<
         ", line " << inputLineNumber <<
@@ -17674,9 +18051,9 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         endl <<
         endl;
   
-      if (fCurrentGraceNotes) {
+      if (fCurrentGraceNotesGroup) {
         fLogOutputStream <<
-          fCurrentGraceNotes;
+          fCurrentGraceNotesGroup;
       }
       else {
  //       fLogOutputStream <<
@@ -17700,7 +18077,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   if (fCurrentNoteIsAGraceNote) {
-    if (! fCurrentGraceNotes) {
+    if (! fCurrentGraceNotesGroup) {
       // this is the first grace note in grace notes
 
 #ifdef TRACE_OPTIONS
@@ -17715,9 +18092,10 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 #endif
 
       // create grace notes
-      fCurrentGraceNotes =
-        msrGraceNotes::create (
+      fCurrentGraceNotesGroup =
+        msrGraceNotesGroup::create (
           inputLineNumber,
+          msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
           fCurrentGraceIsSlashed,
           currentVoice);
 
@@ -17735,11 +18113,11 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 */
       
       // append the grace notes to the current voice // NO JMI
-      // *
+      /*
       currentVoice->
         appendGraceNotesToVoice (
           fCurrentGraceNotes);
-        //  * /
+        //  */
     }
 
     // register that last handled note if any is followed by grace notes JMI ???
@@ -17750,7 +18128,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           
     if (lastHandledNoteInVoice) {
       lastHandledNoteInVoice->
-        setNoteIsFollowedByGraceNotes ();
+        setNoteIsFollowedByGraceNotesGroup ();
     }
 
     // append newNote to the current grace notes
@@ -17760,14 +18138,15 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         "Appending note " <<
         newNote->asString () <<
         " to grace notes in voice \"" <<
-        currentVoice->getVoiceName () << "\"" <<
+        currentVoice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
         endl;
     }
 #endif
 
     // append newNote to the current grace notes
-    fCurrentGraceNotes->
-      appendNoteToGraceNotes (newNote);
+    fCurrentGraceNotesGroup->
+      appendNoteToGraceNotesGroup (newNote);
   }
 
   else if (fCurrentTremoloTypeKind != k_NoTremoloType) {
@@ -17856,17 +18235,25 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else {
     // standalone note or rest
 
-    if (fCurrentGraceNotes) {
+    if (fCurrentGraceNotesGroup) {
       // this is the first note after the grace notes
 
       // attach the current grace notes to this note
-
-      newNote->
-        setNoteGraceNotes (
-          fCurrentGraceNotes);
+      switch (fCurrentGraceNotesGroup->getGraceNotesGroupKind ()) {
+        case msrGraceNotesGroup::kGraceNotesGroupBefore:
+          newNote->
+            setNoteGraceNotesGroupBefore (
+              fCurrentGraceNotesGroup);
+          break;
+        case msrGraceNotesGroup::kGraceNotesGroupAfter:
+          newNote->
+            setNoteGraceNotesGroupAfter (
+              fCurrentGraceNotesGroup);
+          break;
+      } // switch
 
       // forget about the current grace notes
-      fCurrentGraceNotes = nullptr;
+      fCurrentGraceNotesGroup = nullptr;
     }
 
 /* YES JMI
@@ -18576,7 +18963,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     newChordNote, fCurrentChord);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -19000,9 +19387,15 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  // set new note kind as a chord member
-  newChordNote->
-    setNoteKind (msrNote::kChordMemberNote);
+  // set new note kind as a chord or grace chord member // JMI
+//  if (fCurrentNoteIsAGraceNote) {
+ //   newChordNote->
+ //     setNoteKind (msrNote::kGraceChordMemberNote);
+ // }
+//  else {
+    newChordNote->
+      setNoteKind (msrNote::kChordMemberNote);
+ // }
 
   // apply tuplet sounding factor to note
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -19187,14 +19580,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     newChordNote, fCurrentChord);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
+void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
   S_msrNote newChordNote)
 {
   /*
@@ -19208,9 +19601,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  // set new note kind as a chord member
+  // set new note kind as a grace chord member
   newChordNote->
-    setNoteKind (msrNote::kChordMemberNote);
+    setNoteKind (msrNote::kGraceChordMemberNote);
 
 #ifdef TRACE_OPTIONS
   if (
@@ -19218,7 +19611,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
       ||
     gTraceOptions->fTraceChords
       ||
-      gTraceOptions->fTraceTuplets
+    gTraceOptions->fTraceGraceNotes
     ) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in grace notes" <<
@@ -19251,11 +19644,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
 
     S_msrNote chordFirstNote;
 
-    if (fCurrentGraceNotes) {
+    if (fCurrentGraceNotesGroup) {
       // the first note of the chord is currently the last one of fCurrentGraceNotes
       chordFirstNote =
-        fCurrentGraceNotes->
-          removeLastNoteFromGraceNotes (
+        fCurrentGraceNotesGroup->
+          removeLastNoteFromGraceNotesGroup (
             inputLineNumber);
     }
 
@@ -19304,10 +19697,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
         endl;
     }
 
-    if (fCurrentGraceNotes) {
+    if (fCurrentGraceNotesGroup) {
       // append current chord to current grace notes
-      fCurrentGraceNotes->
-        appendChordToGraceNotes (
+      fCurrentGraceNotesGroup->
+        appendChordToGraceNotesGroup (
           fCurrentChord);
     }
     else {
@@ -19362,7 +19755,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
     newChordNote, fCurrentChord);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChordsDetails) {
     printCurrentChord ();
   }
 #endif
@@ -19925,9 +20318,13 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_rehearsal" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -19970,9 +20367,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
   string rehearsalEnclosure = 
     elt->getAttributeValue ("enclosure");
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
   msrRehearsal::msrRehearsalKind
     rehearsalKind =
       msrRehearsal::kNone; // default value
@@ -20039,15 +20433,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_harmony" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   fHarmonyVoicesCounter++;
   
-  fCurrentHarmonyInputLineNumber       = elt->getInputLineNumber ();
+  fCurrentHarmonyInputLineNumber       = inputLineNumber;
   fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlterationKind    = kNatural;
   fCurrentHarmonyKind                  = k_NoHarmony;
@@ -20061,16 +20459,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_root_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string step = elt->getValue ();
 
   checkStep (
-    elt->getInputLineNumber (),
+    inputLineNumber,
     step);
      
   fCurrentHarmonyRootDiatonicPitchKind =
@@ -20080,9 +20482,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_root_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20101,7 +20507,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -20109,15 +20515,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_kind" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // harmony kind
   // ----------------------------------
 
@@ -20215,7 +20622,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
     else {
       msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         "empty harmony kind, replaced by 'major'");
 
       fCurrentHarmonyKind = kMajorHarmony; 
@@ -20336,6 +20743,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inversion& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bass_step" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -20349,16 +20757,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_inversion& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_bass_step& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bass_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string step = elt->getValue();
   
   checkStep (
-    elt->getInputLineNumber (),
+    inputLineNumber,
     step);
 
   fCurrentHarmonyBassDiatonicPitchKind =
@@ -20368,9 +20780,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_step& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_bass_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20389,7 +20805,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -20400,6 +20816,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_degree" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -20409,7 +20826,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_value& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_degree_value" <<
-      endl;
+       ", line " << elt->getInputLineNumber () <<
+     endl;
   }
 
   fCurrentHarmonyDegreeValue = (int)(*elt);
@@ -20417,9 +20835,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_value& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_degree_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20438,7 +20860,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -20446,9 +20868,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_degree_type" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20470,7 +20896,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
   else {
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         "harmony degree-type \"" + degreeType + "\" is unknown");
   }
@@ -20478,9 +20904,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_degree& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_degree" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20488,7 +20918,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_degree& elt )
   S_msrHarmonyDegree
     harmonyDegree =
       msrHarmonyDegree::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentHarmonyDegreeValue,
         fCurrentHarmonyDegreeAlterationKind,
         fCurrentHarmonyDegreeTypeKind);
@@ -20500,15 +20930,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_degree& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_harmony" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
   // convert root diatonic pitch to a quarter tone pitch
   fCurrentHarmonyRootQuarterTonesPitchKind =
     quarterTonesPitchKindFromDiatonicPitchAndAlteration (
@@ -20665,9 +21096,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_frame" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20723,7 +21158,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -20736,6 +21171,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_strings& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_frame_strings" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -20747,6 +21183,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_frets& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_frame_frets" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -20758,6 +21195,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_first_fret& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_first_fret" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -20777,32 +21215,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_frame_note" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
-
-/*
-<!--
-  The frame-note element represents each note included in
-  the frame. The definitions for string, fret, and fingering
-  are found in the common.mod file. An open string will
-  have a fret value of 0, while a muted string will not be
-  associated with a frame-note element.
--->
-<!ELEMENT frame-note (string, fret, fingering?, barre?)>
-
-<!-- 
-  The barre element indicates placing a finger over 
-  multiple strings on a single fret. The type is "start" 
-  for the lowest pitched string (e.g., the string with 
-  the highest MusicXML number) and is "stop" for the 
-  highest pitched string.
--->
-<!ELEMENT barre EMPTY>
-<!ATTLIST barre
-    type %start-stop; #REQUIRED
-    %color;
->
-*/
 
   fCurrentFrameNoteStringNumber = -1;
   fCurrentFrameNoteFretNumber = -1;
@@ -20814,56 +21229,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_barre" <<
+      ", line " << inputLineNumber <<
       endl;
   }
-
-/*
-<!-- 
-  The barre element indicates placing a finger over 
-  multiple strings on a single fret. The type is "start" 
-  for the lowest pitched string (e.g., the string with 
-  the highest MusicXML number) and is "stop" for the 
-  highest pitched string.
--->
-<!ELEMENT barre EMPTY>
-<!ATTLIST barre
-    type %start-stop; #REQUIRED
-    %color;
->
-
-      <frame default-y="93" halign="center" unplayed="x" valign="top">
-          <frame-strings>6</frame-strings>
-          <frame-frets>5</frame-frets>
-          <first-fret location="right" text="12fr.">12</first-fret>
-          <frame-note>
-            <string>5</string>
-            <fret>12</fret>
-            <barre type="start"/>
-          </frame-note>
-          <frame-note>
-            <string>4</string>
-            <fret>14</fret>
-            <barre type="start"/>
-          </frame-note>
-          <frame-note>
-            <string>3</string>
-            <fret>14</fret>
-          </frame-note>
-          <frame-note>
-            <string>2</string>
-            <fret>14</fret>
-            <barre type="stop"/>
-          </frame-note>
-          <frame-note>
-            <string>1</string>
-            <fret>12</fret>
-            <barre type="stop"/>
-          </frame-note>
-        </frame>
-*/
  
   string barreType = elt->getAttributeValue ("type");
     
@@ -20882,7 +21256,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }  
@@ -20890,9 +21264,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_frame_note" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20900,7 +21278,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
   S_msrFrameNote
     frameNote =
       msrFrameNote::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentFrameNoteStringNumber,
         fCurrentFrameNoteFretNumber,
         fCurrentFrameNoteFingering,
@@ -20914,9 +21292,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_frame& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_frame" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20924,7 +21306,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame& elt )
   S_msrFrame
     frame =
       msrFrame::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentFrameStrings,
         fCurrentFrameFrets,
         fCurrentFrameFirstFret);
@@ -20955,9 +21337,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_figured_bass" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -20984,7 +21370,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -21008,15 +21394,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_figure& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_figure" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_prefix& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_prefix" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21055,7 +21446,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_prefix& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());    
   }
@@ -21064,9 +21455,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_prefix& elt )
 
 void mxmlTree2MsrTranslator::visitStart ( S_figure_number& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_figure_number" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21081,16 +21476,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_figure_number& elt )
 
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       s.str ());
   }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_suffix& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_suffix" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21132,7 +21531,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_suffix& elt )
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());    
   }
@@ -21140,15 +21539,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_suffix& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_figure& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_figure" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // create the figure
   S_msrFigure
     figure =
@@ -21166,16 +21566,20 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figure& elt )
 
 void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_figured_bass" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   if (! fPendingFiguredBassFigures.size ()) {
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       "figured-bass has no figures contents");
   }
 
@@ -21185,9 +21589,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_harp_pedals& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_harp_pedals" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21264,7 +21672,7 @@ void mxmlTree2MsrTranslator::visitStart (S_harp_pedals& elt )
     
   fCurrentHarpPedalsTuning =
     msrHarpPedalsTuning::create (
-      elt->getInputLineNumber ());
+      inputLineNumber);
 
 
   // add it to the current part
@@ -21278,22 +21686,27 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_tuning& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pedal_tuning" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
     
 void mxmlTree2MsrTranslator::visitStart (S_pedal_step& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pedal_step" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   string tuningStep = elt->getValue();
 
   checkStep (
-    elt->getInputLineNumber (),
+    inputLineNumber,
     tuningStep);
 
   fCurrentHarpPedalDiatonicPitchKind =
@@ -21303,9 +21716,13 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_step& elt )
 
 void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_pedal_alter" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21324,7 +21741,7 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
@@ -21332,15 +21749,16 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
 
 void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_pedal_tuning" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // create a harp pedals tuning
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceStaffTuning) {
@@ -21378,16 +21796,17 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
 
 void mxmlTree2MsrTranslator::visitStart( S_damp& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_damp" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  if (fOnGoingDirectionType) {
-    int inputLineNumber =
-      elt->getInputLineNumber ();
-      
+  if (fOnGoingDirectionType) {      
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -21409,16 +21828,17 @@ void mxmlTree2MsrTranslator::visitStart( S_damp& elt)
 
 void mxmlTree2MsrTranslator::visitStart( S_damp_all& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_damp_all" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  if (fOnGoingDirectionType) {
-    int inputLineNumber =
-      elt->getInputLineNumber ();
-      
+  if (fOnGoingDirectionType) {      
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -21444,6 +21864,7 @@ void mxmlTree2MsrTranslator::visitStart (S_capo& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_capo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -21455,6 +21876,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_size& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_staff_size" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -21464,9 +21886,13 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_size& elt )
 
 void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_staff_details" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21511,7 +21937,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
     S_msrStaff
       staff =
         fetchStaffFromCurrentPart (
-          elt->getInputLineNumber (),
+          inputLineNumber,
           fStaffDetailsStaffNumber);
     
     staff->
@@ -21526,9 +21952,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_scordatura& elt )
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_scordatura" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -21555,7 +21985,7 @@ void mxmlTree2MsrTranslator::visitStart (S_scordatura& elt )
 
   fCurrentScordatura =
     msrScordatura::create (
-      elt->getInputLineNumber ());
+      inputLineNumber);
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
@@ -21563,6 +21993,7 @@ void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_accord" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -21584,16 +22015,20 @@ void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
 
 void mxmlTree2MsrTranslator::visitEnd (S_accord& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_accord" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
   S_msrStringTuning
     stringTuning =
       msrStringTuning::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         fCurrentStringTuningNumber,
         fCurrentStringTuningDiatonicPitchKind,
         fCurrentStringTuningAlterationKind,
@@ -21609,6 +22044,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_scordatura" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -21625,6 +22061,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_sound" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -21634,6 +22071,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_sound& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_sound" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -21644,16 +22082,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_instrument_sound& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_instrument_sound" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
-
-/*
-      <score-instrument id="P1-I1">
-        <instrument-name>ARIA Player</instrument-name>
-        <instrument-sound>wind.reed.oboe</instrument-sound>
-        <virtual-instrument/>
-      </score-instrument>
-*/
 }
 
 //______________________________________________________________________________
@@ -21662,33 +22093,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_virtual_instrument& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_virtual_instrument" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
-
-/* JMI
-<!ELEMENT score-instrument
-  (instrument-name, instrument-abbreviation?,
-   instrument-sound?, (solo | ensemble)?,
-   virtual-instrument?)>
-<!ATTLIST score-instrument
-    id ID #REQUIRED
->
-<!ELEMENT instrument-name (#PCDATA)>
-<!ELEMENT instrument-abbreviation (#PCDATA)>
-<!ELEMENT instrument-sound (#PCDATA)>
-<!ELEMENT solo EMPTY>
-<!ELEMENT ensemble (#PCDATA)>
-<!ELEMENT virtual-instrument
-  (virtual-library?, virtual-name?)>
-<!ELEMENT virtual-library (#PCDATA)>
-<!ELEMENT virtual-name (#PCDATA)>
-
-      <score-instrument id="P1-I1">
-        <instrument-name>ARIA Player</instrument-name>
-        <instrument-sound>wind.reed.oboe</instrument-sound>
-        <virtual-instrument/>
-      </score-instrument>
-*/
 }
 
 //______________________________________________________________________________
@@ -21697,6 +22104,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_device& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_midi_device" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -21711,6 +22119,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_midi_instrument" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 

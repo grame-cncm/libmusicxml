@@ -100,11 +100,11 @@ typedef SMARTP<msrChord> S_msrChord;
 class msrTuplet;
 typedef SMARTP<msrTuplet> S_msrTuplet;
 
-class msrGraceNotes;
-typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
+class msrGraceNotesGroup;
+typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
 
-class msrAfterGraceNotes;
-typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
+class msrAfterGraceNotesGroup;
+typedef SMARTP<msrAfterGraceNotesGroup> S_msrAfterGraceNotesGroup;
 
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
@@ -998,7 +998,8 @@ class msrMeasure : public msrElement
                             S_msrFiguredBass figuredBass);
 
     // grace notes
-    
+
+    /* JMI
     void                  appendGraceNotesToMeasure (
                             S_msrGraceNotes graceNotes);
 
@@ -1010,6 +1011,7 @@ class msrMeasure : public msrElement
 
     void                  prependAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
+                            */
                             
     // segno
     
@@ -1425,7 +1427,8 @@ class msrSegment : public msrElement
     void                  appendDampAllToSegment (S_msrDampAll dampAll);
 
     // grace notes
-    
+
+    /* JMI
     void                  appendGraceNotesToSegment (
                             S_msrGraceNotes graceNotes);
 
@@ -1437,6 +1440,7 @@ class msrSegment : public msrElement
 
     void                  prependAfterGraceNotesToSegment (
                             S_msrAfterGraceNotes afterGraceNotes);
+                            */
 
     // other elements
     
@@ -1507,25 +1511,36 @@ typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
 
 //______________________________________________________________________________
-class msrGraceNotes : public msrElement
+class msrGraceNotesGroup : public msrElement
 {
   public:
         
+    // data types
+    // ------------------------------------------------------
+
+    enum msrGraceNotesGroupKind {
+      kGraceNotesGroupBefore,
+      kGraceNotesGroupAfter };
+
+    static string graceNotesGroupKindAsString (
+      msrGraceNotesGroupKind graceNotesGroupKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrGraceNotes> create (
-      int        inputLineNumber,
-      bool       slashed,
-      S_msrVoice graceNotesVoiceUplink);
+    static SMARTP<msrGraceNotesGroup> create (
+      int                    inputLineNumber,
+      msrGraceNotesGroupKind graceNotesGroupKind,
+      bool                   graceNotesGroupIsSlashed,
+      S_msrVoice             graceNotesGroupVoiceUplink);
     
-    SMARTP<msrGraceNotes> createGraceNotesNewbornClone (
+    SMARTP<msrGraceNotesGroup> createGraceNotesGroupNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrGraceNotes> createSkipGraceNotesClone (
+    SMARTP<msrGraceNotesGroup> createSkipGraceNotesGroupClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrGraceNotes> createGraceNotesDeepCopy (
+    SMARTP<msrGraceNotesGroup> createGraceNotesGroupDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -1533,52 +1548,61 @@ class msrGraceNotes : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrGraceNotes (
-      int        inputLineNumber,
-      bool       gracenoteIsSlashed,
-      S_msrVoice graceNotesVoiceUplink);
+    msrGraceNotesGroup (
+      int                    inputLineNumber,
+      msrGraceNotesGroupKind graceNotesGroupKind,
+      bool                   graceNotesGroupIsSlashed,
+      S_msrVoice             graceNotesGroupVoiceUplink);
       
-    virtual ~msrGraceNotes ();
+    virtual ~msrGraceNotesGroup ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
                               
-    list<S_msrElement>&   getGraceNotesElementsList ()
-                              { return fGraceNotesElementsList; }
+    msrGraceNotesGroupKind
+                          getGraceNotesGroupKind () const
+                              { return fGraceNotesGroupKind; }
 
-    bool                  getGraceNotesIsSlashed () const
-                              { return fGraceNotesIsSlashed; }
+    void                  setGraceNotesGroupKind (
+                            msrGraceNotesGroupKind graceNotesGroupKind)
+                              { fGraceNotesGroupKind = graceNotesGroupKind; }
 
-    bool                  getGraceNotesIsTied () const
-                              { return fGraceNotesIsTied; }
+    list<S_msrElement>&   getGraceNotesGroupElementsList ()
+                              { return fGraceNotesGroupElementsList; }
 
-    void                  setGraceNotesIsFollowedByNotes (bool value)
-                              { fGraceNotesIsFollowedByNotes = value; }
+    bool                  getGraceNotesGroupIsSlashed () const
+                              { return fGraceNotesGroupIsSlashed; }
 
-    bool                  getGraceNotesIsFollowedByNotes () const
-                              { return fGraceNotesIsFollowedByNotes; }
+    bool                  getGraceNotesGroupIsTied () const
+                              { return fGraceNotesGroupIsTied; }
 
-    void                  setGraceNotesMeasureNumber (
-                            string graceNotesMeasureNumber)
+    void                  setGraceNotesGroupIsFollowedByNotes (bool value)
+                              { fGraceNotesGroupIsFollowedByNotes = value; }
+
+    bool                  getGraceNotesGroupIsFollowedByNotes () const
+                              { return fGraceNotesGroupIsFollowedByNotes; }
+
+    void                  setGraceNotesGroupMeasureNumber (
+                            string graceNotesGroupMeasureNumber)
                               {
-                                fGraceNotesMeasureNumber =
-                                  graceNotesMeasureNumber;
+                                fGraceNotesGroupMeasureNumber =
+                                  graceNotesGroupMeasureNumber;
                               }
                               
-    string                getGraceNotesMeasureNumber () const
-                              { return fGraceNotesMeasureNumber; }
+    string                getGraceNotesGroupMeasureNumber () const
+                              { return fGraceNotesGroupMeasureNumber; }
 
     // services
     // ------------------------------------------------------
 
-    S_msrPart             graceNotesPartUplink () const;
+    S_msrPart             graceNotesGroupPartUplink () const;
 
-    void                  appendNoteToGraceNotes (S_msrNote note);
-    void                  appendChordToGraceNotes (S_msrChord chord);
+    void                  appendNoteToGraceNotesGroup (S_msrNote note);
+    void                  appendChordToGraceNotesGroup (S_msrChord chord);
 
-    S_msrNote             removeLastNoteFromGraceNotes (
+    S_msrNote             removeLastNoteFromGraceNotesGroup (
                             int inputLineNumber);
 
 
@@ -1598,6 +1622,7 @@ class msrGraceNotes : public msrElement
     // ------------------------------------------------------
 
     string                asShortString () const;
+    string                asString () const;
     
     virtual void          print (ostream& os);
 
@@ -1607,40 +1632,43 @@ class msrGraceNotes : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrVoice            fGraceNotesVoiceUplink;
+    S_msrVoice            fGraceNotesGroupVoiceUplink;
 
-    list<S_msrElement>    fGraceNotesElementsList;
+    msrGraceNotesGroupKind
+                          fGraceNotesGroupKind;
+                          
+    list<S_msrElement>    fGraceNotesGroupElementsList;
 
-    bool                  fGraceNotesIsSlashed;
-    bool                  fGraceNotesIsTied;
+    bool                  fGraceNotesGroupIsSlashed;
+    bool                  fGraceNotesGroupIsTied;
 
-    bool                  fGraceNotesIsFollowedByNotes;
+    bool                  fGraceNotesGroupIsFollowedByNotes;
 
     // LilyPond issue 34 may lead to add skip grace notes to voices
     // other than the one containing these grace notes:
     // the measure number is needed to create the first measure
     // in case the grace notes are at the beginning of the voice
-    string                fGraceNotesMeasureNumber;
+    string                fGraceNotesGroupMeasureNumber; // JMI ???
 };
-typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
-EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
+typedef SMARTP<msrGraceNotesGroup> S_msrGraceNotesGroup;
+EXP ostream& operator<< (ostream& os, const S_msrGraceNotesGroup& elt);
 
 //______________________________________________________________________________
-class msrAfterGraceNotesContents : public msrElement
+class msrAfterGraceNotesGroupContents : public msrElement
 {
   public:
         
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrAfterGraceNotesContents> create (
+    static SMARTP<msrAfterGraceNotesGroupContents> create (
       int        inputLineNumber,
-      S_msrVoice afterGraceNotesContentsVoiceUplink);
+      S_msrVoice afterGraceNotesGroupContentsVoiceUplink);
     
-    SMARTP<msrAfterGraceNotesContents> createAfterGraceNotesContentsNewbornClone (
+    SMARTP<msrAfterGraceNotesGroupContents> createAfterGraceNotesGroupContentsNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrVoice> createAfterGraceNotesContentsDeepCopy (
+    SMARTP<msrVoice> createAfterGraceNotesGroupContentsDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -1648,11 +1676,11 @@ class msrAfterGraceNotesContents : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrAfterGraceNotesContents (
+    msrAfterGraceNotesGroupContents (
       int        inputLineNumber,
-      S_msrVoice afterGraceNotesContentsVoiceUplink);
+      S_msrVoice afterGraceNotesGroupContentsVoiceUplink);
       
-    virtual ~msrAfterGraceNotesContents ();
+    virtual ~msrAfterGraceNotesGroupContents ();
   
   public:
 
@@ -1660,20 +1688,20 @@ class msrAfterGraceNotesContents : public msrElement
     // ------------------------------------------------------
                               
     const list<S_msrNote>&
-                          getAfterGraceNotesContentsNotesList ()
+                          getAfterGraceNotesGroupContentsNotesList ()
                               {
                                 return
-                                  fAfterGraceNotesContentsNotesList;
+                                  fAfterGraceNotesGroupContentsNotesList;
                               }
 
     // services
     // ------------------------------------------------------
 
     // uplinks
-    S_msrPart             fetchAfterGraceNotesContentsPartUplink () const;
+    S_msrPart             fetchAfterGraceNotesGroupContentsPartUplink () const;
 
     // notes
-    void                  appendNoteToAfterGraceNotesContents (
+    void                  appendNoteToAfterGraceNotesGroupContents (
                             S_msrNote note);
 
   public:
@@ -1701,33 +1729,33 @@ class msrAfterGraceNotesContents : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrVoice            fAfterGraceNotesContentsVoiceUplink;
+    S_msrVoice            fAfterGraceNotesGroupContentsVoiceUplink;
 
     // the notes list
-    list<S_msrNote>       fAfterGraceNotesContentsNotesList;
+    list<S_msrNote>       fAfterGraceNotesGroupContentsNotesList;
 };
-typedef SMARTP<msrAfterGraceNotesContents> S_msrAfterGraceNotesContents;
-EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt);
+typedef SMARTP<msrAfterGraceNotesGroupContents> S_msrAfterGraceNotesGroupContents;
+EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroupContents& elt);
 
 //______________________________________________________________________________
-class msrAfterGraceNotes : public msrElement
+class msrAfterGraceNotesGroup : public msrElement
 {
   public:
         
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrAfterGraceNotes> create (
+    static SMARTP<msrAfterGraceNotesGroup> create (
       int          inputLineNumber,
-      S_msrElement afterGraceNotesElement,
-      bool         aftergracenoteIsSlashed,
-      S_msrVoice   afterGraceNotesVoiceUplink);
+      S_msrElement afterGraceNotesGroupElement,
+      bool         afterGraceNotesGroupIsSlashed,
+      S_msrVoice   afterGraceNotesGroupVoiceUplink);
     
-    SMARTP<msrAfterGraceNotes> createAfterGraceNotesNewbornClone (
+    SMARTP<msrAfterGraceNotesGroup> createAfterGraceNotesGroupNewbornClone (
       S_msrNote  noteClone,
       S_msrVoice containingVoice);
 
-    SMARTP<msrVoice> createAfterGraceNotesDeepCopy (
+    SMARTP<msrVoice> createAfterGraceNotesGroupDeepCopy (
       S_msrNote  noteClone,
       S_msrVoice containingVoice);
 
@@ -1736,34 +1764,34 @@ class msrAfterGraceNotes : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrAfterGraceNotes (
+    msrAfterGraceNotesGroup (
       int          inputLineNumber,
-      S_msrElement afterGraceNotesElement,
-      bool         aftergracenoteIsSlashed,
-      S_msrVoice   afterGraceNotesVoiceUplink);
+      S_msrElement afterGraceNotesGroupElement,
+      bool         afterGraceNotesGroupIsSlashed,
+      S_msrVoice   afterGraceNotesGroupVoiceUplink);
       
-    virtual ~msrAfterGraceNotes ();
+    virtual ~msrAfterGraceNotesGroup ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
                               
-    S_msrElement          getAfterGraceNotesElement () const
-                              { return fAfterGraceNotesElement; }
+    S_msrElement          getAfterGraceNotesGroupElement () const
+                              { return fAfterGraceNotesGroupElement; }
 
-    S_msrAfterGraceNotesContents
-                          getAfterGraceNotesContents () const
-                              { return fAfterGraceNotesContents; }
+    S_msrAfterGraceNotesGroupContents
+                          getAfterGraceNotesGroupContents () const
+                              { return fAfterGraceNotesGroupContents; }
 
     // services
     // ------------------------------------------------------
 
     // uplinks
-    S_msrPart             fetchAfterGraceNotesPartUplink () const;
+    S_msrPart             fetchAfterGraceNotesGroupPartUplink () const;
 
     // notes
-    void                  appendNoteToAfterGraceNotesContents (
+    void                  appendNoteToAfterGraceNotesGroupContents (
                             S_msrNote note);
     
   public:
@@ -1791,17 +1819,17 @@ class msrAfterGraceNotes : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrVoice            fAfterGraceNotesVoiceUplink;
+    S_msrVoice            fAfterGraceNotesGroupVoiceUplink;
 
-    S_msrElement          fAfterGraceNotesElement;
+    S_msrElement          fAfterGraceNotesGroupElement;
 
-    bool                  fAfterGraceNotesIsSlashed;
+    bool                  fAfterGraceNotesGroupIsSlashed;
 
-    S_msrAfterGraceNotesContents
-                          fAfterGraceNotesContents;
+    S_msrAfterGraceNotesGroupContents
+                          fAfterGraceNotesGroupContents;
 };
-typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
-EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);
+typedef SMARTP<msrAfterGraceNotesGroup> S_msrAfterGraceNotesGroup;
+EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroup& elt);
 
 //______________________________________________________________________________
 class msrStanza;
@@ -2928,8 +2956,7 @@ class msrNote : public msrElement
 
     // note kind
     
-    void                  setNoteKind (msrNoteKind noteKind)
-                              { fNoteKind = noteKind; }
+    void                  setNoteKind (msrNoteKind noteKind);
 
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
@@ -3191,11 +3218,27 @@ class msrNote : public msrElement
                               { return fNoteSlides; }
         
     // grace notes
-    void                  setNoteGraceNotes (
-                            S_msrGraceNotes graceNotes);
+    void                  setNoteGraceNotesGroupBefore (
+                            S_msrGraceNotesGroup graceNotesGroupBefore);
 
-    S_msrGraceNotes       getNoteGraceNotes () const
-                              { return fNoteGraceNotes; }
+    S_msrGraceNotesGroup  getNoteGraceNotesGroupBefore () const
+                              { return fNoteGraceNotesGroupBefore; }
+
+    void                  setNoteGraceNotesGroupAfter (
+                            S_msrGraceNotesGroup graceNotesGroupAfter);
+
+    S_msrGraceNotesGroup  getNoteGraceNotesGroupAfter () const
+                              { return fNoteGraceNotesGroupAfter; }
+
+    // after grace notes
+    /* JMI
+    void                  setNoteAfterGraceNotesGroup (
+                            S_msrAfterGraceNotesGroup afterGraceNotesGroup);
+
+    S_msrAfterGraceNotesGroup
+                          getNoteAfterGraceNotesGroup () const
+                              { return fNoteAfterGraceNotesGroup; }
+                            */
 
     // singleTremolo
     void                  setNoteSingleTremolo (
@@ -3344,11 +3387,11 @@ class msrNote : public msrElement
     S_msrSpanner          getNoteWavyLineSpannerStop () const
                               { return fNoteWavyLineSpannerStop; }
                   
-    void                  setNoteIsFollowedByGraceNotes ()
-                              { fNoteIsFollowedByGraceNotes = true; }
+    void                  setNoteIsFollowedByGraceNotesGroup ()
+                              { fNoteIsFollowedByGraceNotesGroup = true; }
 
-    bool                  getNoteIsFollowedByGraceNotes () const
-                              { return fNoteIsFollowedByGraceNotes; }
+    bool                  getNoteIsFollowedByGraceNotesGroup () const
+                              { return fNoteIsFollowedByGraceNotesGroup; }
                   
     // services
     // ------------------------------------------------------
@@ -3638,7 +3681,10 @@ class msrNote : public msrElement
     // grace notes
     // ------------------------------------------------------
 
-    S_msrGraceNotes       fNoteGraceNotes;
+    S_msrGraceNotesGroup  fNoteGraceNotesGroupBefore;
+  // JMI  S_msrAfterGraceNotesGroup
+    S_msrGraceNotesGroup
+                          fNoteGraceNotesGroupAfter;
 
     // single tremolo
     // ------------------------------------------------------
@@ -3748,7 +3794,7 @@ class msrNote : public msrElement
     // this is useful
     // as well as to produce a nice \aftergrace in LilyPond 
     S_msrOrnament         fNoteTrillOrnament;
-    bool                  fNoteIsFollowedByGraceNotes;
+    bool                  fNoteIsFollowedByGraceNotesGroup;
 
     // this is useful to produce a text spanner in LilyPond
     S_msrOrnament         fNoteDashesOrnament;
@@ -5898,7 +5944,8 @@ class msrVoice : public msrElement
                             S_msrFiguredBass figuredBass);
 
     // grace notes
-    
+
+    /*
     void                  appendGraceNotesToVoice (
                             S_msrGraceNotes graceNotes);
 
@@ -5910,6 +5957,7 @@ class msrVoice : public msrElement
 
     void                  prependAfterGraceNotesToVoice (
                             S_msrAfterGraceNotes afterGraceNotes);
+                            */
 
     // lyrics
     
@@ -7141,6 +7189,7 @@ class msrPart : public msrElement
 
     // LilyPond issue 34
 
+/*
     void                  appendSkipGraceNotesToVoicesClones ( // JMI ???
                             S_msrVoice      graceNotesOriginVoice,
                             S_msrGraceNotes skipGraceNotes);
@@ -7148,6 +7197,7 @@ class msrPart : public msrElement
     void                  prependSkipGraceNotesToVoicesClones (
                             S_msrVoice      graceNotesOriginVoice,
                             S_msrGraceNotes skipGraceNotes);
+                            */
                             
     // finalization
 

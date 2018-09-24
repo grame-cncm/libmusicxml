@@ -174,7 +174,7 @@ class msr2LpsrTranslator :
   
   // grace notes
 
-  public visitor<S_msrGraceNotes>,
+  public visitor<S_msrGraceNotesGroup>,
   
   // notes
 
@@ -384,8 +384,8 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrWedge& elt);
     virtual void visitEnd   (S_msrWedge& elt);
 
-    virtual void visitStart (S_msrGraceNotes& elt);
-    virtual void visitEnd   (S_msrGraceNotes& elt);
+    virtual void visitStart (S_msrGraceNotesGroup& elt);
+    virtual void visitEnd   (S_msrGraceNotesGroup& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
@@ -478,26 +478,32 @@ class msr2LpsrTranslator :
                      
     indentedOstream&          fLogOutputStream;
 
+
     // the MSR score we're visiting
     // ------------------------------------------------------
     S_msrScore                fVisitedMsrScore;
+
 
     // the LPSR score we're building
     // ------------------------------------------------------
     S_lpsrScore               fLpsrScore;
 
+
     // it's header
     // ------------------------------------------------------
     S_lpsrHeader              fLpsrScoreHeader;
 
+
     // score
     // ------------------------------------------------------
     S_msrScore                fCurrentMsrScoreClone;
+
     
     // identification
     // ------------------------------------------------------
     bool                      fOnGoingIdentification;
     S_msrIdentification       fCurrentIdentification;
+
 
     // header
     // ------------------------------------------------------
@@ -515,6 +521,7 @@ class msr2LpsrTranslator :
     // credits
     // ------------------------------------------------------
     S_msrCredit               fCurrentCredit;
+
     
     // part groups
     // ------------------------------------------------------
@@ -522,15 +529,19 @@ class msr2LpsrTranslator :
 
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
+
     
     // parts
     // ------------------------------------------------------
     S_msrPart                 fCurrentPartClone;
     S_lpsrPartBlock           fCurrentPartBlock;
 
+
     // staff details
+    // ------------------------------------------------------
 
     S_msrStaffTuning          fCurrentStaffTuningClone;
+
     
     // staves
     // ------------------------------------------------------
@@ -539,10 +550,12 @@ class msr2LpsrTranslator :
     // prevent clef, key and time from being handled twice
     bool                      fOnGoingStaff;
 
+
     // voices
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
     map<S_msrNote, S_msrNote> fVoiceNotesMap;
+
 
     // harmonies
     // ------------------------------------------------------    
@@ -552,16 +565,19 @@ class msr2LpsrTranslator :
 
     list<S_msrHarmony>        fPendingHarmoniesList;
 
+
     // frames
     // ------------------------------------------------------    
  //   bool                      fOnGoingFramesVoice; JMI
     
  //   list<S_msrFrame>          fPendingFramesList; // JMI
 
+
     // figured bass
     // ------------------------------------------------------    
     bool                      fOnGoingFiguredBassVoice;
     S_msrFiguredBass          fCurrentFiguredBass;
+
     
     // repeats
     // ------------------------------------------------------
@@ -569,6 +585,7 @@ class msr2LpsrTranslator :
     bool                      fOnGoingRepeat;
     S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
+
 
     // measure repeats
     // ------------------------------------------------------
@@ -584,11 +601,13 @@ class msr2LpsrTranslator :
     S_msrMultipleRest         fCurrentMultipleRestClone; // JMI
     S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
 
+
     // segments
     // ------------------------------------------------------
     // segments can be imbedded in others,
     // the current segment clone is the one at the top of the stack
     stack<S_msrSegment>       fCurrentSegmentClonesStack;
+
     
     // measures
     // ------------------------------------------------------
@@ -606,12 +625,19 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrBarCheck             fLastBarCheck;
 
+
     // notes
     // ------------------------------------------------------
     bool                      fOnGoingNote;
+
+    // fCurrentNoteClone is not used for grace notes,
+    // which are visited while the note they're attached to
+    // is being visited too
     S_msrNote                 fCurrentNoteClone;
+    
+    // to help workaround LilyPond issue 34
     S_msrNote                 fFirstNoteCloneInVoice;
-                                // to help workaround LilyPond issue 34
+
 
     // glissandos
     // ------------------------------------------------------
@@ -625,28 +651,34 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
     bool                      fOnGoingDoubleTremolo;
+
     
     // stems
     // ------------------------------------------------------
     S_msrStem                 fCurrentStem;
+
     
     // grace notes
     // ------------------------------------------------------
-    S_msrGraceNotes           fCurrentGraceNotesClone;
+    S_msrGraceNotesGroup      fCurrentGraceNotesGroupClone;
+    S_msrNote                 fCurrentGraceNoteClone;
+    bool                      fOnGoingGraceNotesGroup;
 
     // afterGraceNotes optimisation
-    S_msrAfterGraceNotes      fPendingAfterGraceNotes;
-    S_msrElement              fCurrentAfterGraceNotesElement;
+    S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
+    S_msrElement              fCurrentAfterGraceNotesGroupElement;
     
-    void                      prependSkipGraceNotesToPartOtherVoices (
-                                S_msrPart       fCurrentPartClone,
-                                S_msrVoice      fCurrentVoiceClone,
-                                S_msrGraceNotes skipGraceNotes);
+    void                      prependSkipGraceNotesGroupToPartOtherVoices (
+                                S_msrPart            partClone,
+                                S_msrVoice           voiceClone,
+                                S_msrGraceNotesGroup skipGraceNotesGroup);
+
     
     // chords
     // ------------------------------------------------------
     bool                      fOnGoingChord;
     S_msrChord                fCurrentChordClone;
+
     
     // tuplets
     // ------------------------------------------------------
@@ -654,15 +686,18 @@ class msr2LpsrTranslator :
  //   bool                      fOnGoingTuplet;
     stack<S_msrTuplet>        fTupletClonesStack;
 
+
     // stanzas
     // ------------------------------------------------------
     S_msrStanza               fCurrentStanzaClone;
     bool                      fOnGoingStanza;
 
+
     // syllables
     // ------------------------------------------------------
     S_msrSyllable             fCurrentSyllableClone;
     bool                      fOnGoingSyllableExtend;
+
 
     // part groups block
     // the current partGroup command is the top of the stack

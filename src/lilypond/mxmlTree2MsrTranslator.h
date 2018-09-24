@@ -1513,14 +1513,14 @@ class mxmlTree2MsrTranslator :
     void                      handleNoteBelongingToAChordInATuplet (
                                 S_msrNote newChordNote);
 
-    void                      handleNoteBelongingToAChordInGraceNotes (
+    void                      handleNoteBelongingToAChordInAGraceNotesGroup (
                                 S_msrNote newChordNote);
 
     // grace notes handling
     // ------------------------------------------------------
     
     bool                      fCurrentGraceIsSlashed;
-    S_msrGraceNotes           fCurrentGraceNotes;
+    S_msrGraceNotesGroup      fCurrentGraceNotesGroup;
 
     // articulations handling
     // ------------------------------------------------------

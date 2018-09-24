@@ -174,6 +174,9 @@ class traceOptions : public optionsGroup
     // ornaments
     bool                  fTraceOrnaments;
 
+    // dynamics
+    bool                  fTraceGraceDynamics;
+
     // spanners
     bool                  fTraceSpanners;
 
