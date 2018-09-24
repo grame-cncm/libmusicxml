@@ -3256,6 +3256,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrScore" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -3269,6 +3270,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrScore" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3498,6 +3500,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrVarValAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3599,6 +3602,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrVarValAssoc& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrVarValAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -3609,6 +3613,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValsListAssoc& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrVarValsListAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3645,6 +3650,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrVarValsListAssoc& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrVarValsListAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -3655,6 +3661,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrSchemeVariable" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3692,6 +3699,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrSchemeVariable" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -3702,6 +3710,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrHeader" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3832,6 +3841,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrHeader" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -3846,6 +3856,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrPaper" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4099,6 +4110,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrPaper" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
       
@@ -4113,6 +4125,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrLayout" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4147,6 +4160,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrLayout" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4210,6 +4224,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrScoreBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4235,6 +4250,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrScoreBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4263,6 +4279,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusicBLock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrParallelMusicBLock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -4297,6 +4314,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrParallelMusicBLock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
     
@@ -4337,6 +4355,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       "% --> Start visiting lpsrPartGroupBlock for '" <<
       partGroup->asShortString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4559,6 +4578,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrPartGroupBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4611,6 +4631,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrPartBlock for '" <<
       part->asShortString () <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4698,6 +4719,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrPartBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4733,6 +4755,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrStaffBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -4972,6 +4995,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrStaffBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5004,6 +5028,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrNewStaffgroupBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5019,6 +5044,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrNewStaffgroupBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5035,6 +5061,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrNewStaffBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5046,6 +5073,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrNewStaffBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5059,6 +5087,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrUseVoiceCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5176,6 +5205,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrUseVoiceCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5186,6 +5216,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrNewLyricsBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5229,6 +5260,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrNewLyricsBlock" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5243,6 +5275,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrVariableUseCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5254,6 +5287,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrVariableUseCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5266,6 +5300,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrChordNamesContext" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5313,6 +5348,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrChordNamesContext& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrChordNamesContext" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5323,6 +5359,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrFiguredBassContext" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5370,6 +5407,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrFiguredBassContext& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrFiguredBassContext" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5380,6 +5418,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBarCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrBarCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5391,6 +5430,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrBarCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5404,6 +5444,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrMelismaCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5422,6 +5463,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrMelismaCommand" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5433,6 +5475,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrScore& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrScore" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5442,6 +5485,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrScore" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5452,6 +5496,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCredit& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrCredit" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5461,6 +5506,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCredit& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrCredit" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5470,6 +5516,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCreditWords& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrCreditWords" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5479,6 +5526,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCreditWords& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrCreditWords" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5489,6 +5537,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartGroup& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrPartGroup" <<
+      ", line " << elt->getInputLineNumber () <<
       elt->getPartGroupCombinedName () <<
       endl;
   }
@@ -5500,6 +5549,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
     fLilypondCodeIOstream <<
       "% --> End visiting msrPartGroup" <<
       elt->getPartGroupCombinedName () <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -5515,6 +5565,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
     fLilypondCodeIOstream <<
       "% --> Start visiting msrPart" <<
       partCombinedName <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5540,6 +5591,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
     fLilypondCodeIOstream <<
       "% --> End visiting msrPart" <<
       elt->getPartCombinedName () <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5554,6 +5606,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaff& elt)
       "% --> Start visiting msrStaff \"" <<
       elt->getStaffName () <<
       "\"" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -5567,6 +5620,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
       "% --> End visiting msrStaff \"" <<
       elt->getStaffName () <<
       "\"" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -5651,6 +5705,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       "% --> Start visiting msrVoice \"" <<
       elt->getVoiceName () <<
       "\"" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5792,6 +5847,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       "% --> End visiting msrVoice \"" <<
       elt->getVoiceName () <<
       "\"" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -5862,6 +5918,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     fLilypondCodeIOstream <<
       "% --> Start visiting msrVoiceStaffChange '" <<
       elt->asString () << "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5892,6 +5949,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
       ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
       ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -5941,6 +5999,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFrame& elt)
       "% --> Start visiting msrHarmony '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -5967,6 +6026,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
       "% --> Start visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6014,6 +6074,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       "% --> Start visiting msrFigure '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6118,6 +6179,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
       "% --> End visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6622,6 +6684,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
       "% --> Start visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6649,6 +6712,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
       "% --> End visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6675,6 +6739,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       "% --> Start visiting msrSyllable '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6869,6 +6934,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSyllable& elt)
       "% --> End visiting msrSyllable '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -6881,6 +6947,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
       "% --> Start visiting msrClef '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -6987,6 +7054,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
       "% --> End visiting msrClef '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -6999,6 +7067,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
       "% --> Start visiting msrKey '" <<
       elt->asString () <<
       "'" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7095,6 +7164,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrKey& elt)
       "% --> End visiting msrKey '" <<
       elt->asString () <<
       "'"  <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -7106,6 +7176,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTime " <<
       elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7278,6 +7349,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
     fLilypondCodeIOstream <<
       "% --> End visiting msrTime " <<
       elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -7288,6 +7360,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTranspose& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTranspose" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7764,6 +7837,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTranspose" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -7774,6 +7848,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartNameDisplay& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrPartNameDisplay" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7801,6 +7876,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrPartAbbreviationDisplay" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -7819,6 +7895,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTempo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8101,6 +8178,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempoRelationshipElements& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTempoRelationshipElements" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8116,6 +8194,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTempoRelationshipElements& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTempoRelationshipElements" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8132,6 +8211,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempoNote& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTempoNote" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8148,6 +8228,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempoTuplet& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTempoTuplet" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8163,6 +8244,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTempoTuplet& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTempoTuplet" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8175,6 +8257,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTempo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8185,6 +8268,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArticulation& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrArticulation" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8197,6 +8281,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArticulation& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrArticulation" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8207,6 +8292,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrFermata" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8261,6 +8347,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrFermata" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8271,6 +8358,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrArpeggiato" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8283,6 +8371,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrArpeggiato" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8293,6 +8382,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrNonArpeggiato" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8305,6 +8395,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrNonArpeggiato" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8315,6 +8406,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnical& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTechnical" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8327,6 +8419,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnical& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTechnical" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8339,6 +8432,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
       "% --> Start visiting msrTechnicalWithInteger" <<
       ", fOnGoingChord = " <<
       booleanAsString (fOnGoingChord) <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8351,6 +8445,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTechnicalWithInteger" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8363,6 +8458,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithFloat& elt)
       "% --> Start visiting msrTechnicalWithFloat" <<
       ", fOnGoingChord = " <<
       booleanAsString (fOnGoingChord) <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8375,6 +8471,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithFloat& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTechnicalWithFloat" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8385,6 +8482,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTechnicalWithString" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8397,6 +8495,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTechnicalWithString" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8407,6 +8506,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOrnament& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrOrnament" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8419,6 +8519,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOrnament& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrOrnament" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8429,6 +8530,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrGlissando& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrGlissando" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8441,6 +8543,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrGlissando& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrGlissando" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8451,6 +8554,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSlide& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrSlide" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8463,6 +8567,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSlide& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrSlide" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8473,6 +8578,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSingleTremolo& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrSingleTremolo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8485,6 +8591,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrSingleTremolo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8495,6 +8602,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrDoubleTremolo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8542,6 +8650,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrDoubleTremolo" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8558,6 +8667,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDynamics& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrDynamics" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8567,6 +8677,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDynamics& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrDynamics" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8577,6 +8688,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOtherDynamics& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrOtherDynamics" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8586,6 +8698,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrOtherDynamics" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8596,6 +8709,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrWords& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrWords" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8605,6 +8719,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWords& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrWords" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8615,6 +8730,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSlur& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrSlur" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8624,6 +8740,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSlur& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrSlur" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8634,6 +8751,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLigature& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrLigature" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8643,6 +8761,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLigature& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrLigature" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8653,6 +8772,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrWedge& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrWedge" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8662,6 +8782,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWedge& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrWedge" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8888,6 +9009,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotesGroup& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrGraceNotesGroup" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8897,6 +9019,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrGraceNotesGroup" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8907,6 +9030,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesGroup& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrAfterGraceNotesGroup" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8920,6 +9044,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesGroupContents& elt
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrAfterGraceNotesGroupContents" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8937,6 +9062,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesGroupContents& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrAfterGraceNotesGroupContents" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -8949,6 +9075,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesGroup& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrAfterGraceNotesGroup" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -8961,6 +9088,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "% --> Start visiting " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
       " note" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -9748,6 +9876,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       "% --> End visiting " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
       " note" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -10572,6 +10701,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrOctaveShift" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -10581,6 +10711,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrOctaveShift" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -10591,6 +10722,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrAccordionRegistration" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -10639,6 +10771,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrHarpPedalsTuning" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -10681,6 +10814,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStem& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrStem" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -10690,6 +10824,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStem& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrStem" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -10700,6 +10835,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrBeam" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -10709,6 +10845,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBeam& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrBeam" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -10952,20 +11089,21 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
 
   fOnGoingChord = true;
 
-  // generate the chord notes KOF
+  // generate the chord notes KOF JMI
 
 
 
-
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondCodeIOstream <<
-      "% --> End visiting msrChord" <<
-      endl;
-  }
 
   int chordInputLineNumber =
     chord->getInputLineNumber ();
     
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrChord" << // JMI KOF
+      ", line " << chordInputLineNumber <<
+      endl;
+  }
+
   // generate the end of the chord
   fLilypondCodeIOstream <<
     ">";
@@ -11463,6 +11601,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrChord" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -11704,6 +11843,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrChord" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12223,6 +12363,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTuplet" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12381,6 +12522,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTuplet" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12419,6 +12561,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTie" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
   
@@ -12440,6 +12583,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTie& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTie" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12450,6 +12594,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegno& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrSegno" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12463,6 +12608,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrCoda" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12477,6 +12623,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting eyeGlasses" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12489,6 +12636,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting scordatura" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12555,6 +12703,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting pedal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
       
@@ -12589,6 +12738,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDamp& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting damp" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12601,6 +12751,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDampAll& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting dampAll" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12615,6 +12766,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
     fLilypondCodeIOstream <<
       endl <<
       "% --> Start visiting msrBarline" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12735,6 +12887,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
     fLilypondCodeIOstream <<
       endl <<
       "% --> End visiting msrBarline" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12745,6 +12898,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrBarCheck" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
       
@@ -12762,6 +12916,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrBarCheck" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12772,6 +12927,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrBarNumberCheck" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12788,6 +12944,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrBarNumberCheck" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12798,6 +12955,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrLineBreak" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12812,6 +12970,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLineBreak& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrLineBreak" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12822,6 +12981,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPageBreak& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrPageBreak" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12836,6 +12996,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPageBreak& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrPageBreak" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12846,6 +13007,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrRepeat" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12903,6 +13065,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrRepeat" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -12941,6 +13104,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrRepeatCommonPart" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12950,6 +13114,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrRepeatCommonPart" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -12960,6 +13125,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrRepeatEnding" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13072,6 +13238,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrRepeatEnding" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13151,6 +13318,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrComment& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrComment" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13167,6 +13335,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrComment& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrComment" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -13177,6 +13346,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeFunction& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrSchemeFunction" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13196,6 +13366,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrSchemeFunction" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -13206,6 +13377,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrRehearsal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13270,6 +13442,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrRehearsal" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
@@ -13280,6 +13453,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrMeasuresRepeat" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13341,6 +13515,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrMeasuresRepeat" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13432,6 +13607,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrMultipleRest" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13511,6 +13687,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrMultipleRest" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
     
@@ -13633,6 +13810,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrMidi" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
@@ -13682,6 +13860,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrMidi" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 }
