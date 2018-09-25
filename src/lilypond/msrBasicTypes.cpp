@@ -18,7 +18,7 @@
 #include <sstream>
 #include <cassert>
 
-#include <climits>      /* INT_MIN, INT_MAX */
+#include <climits>      // INT_MIN, INT_MAX
 
 #include <vector>
 #include <map>

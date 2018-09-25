@@ -17,7 +17,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <climits>      /* INT_MIN, INT_MAX */
+#include <climits>      // INT_MIN, INT_MAX
 
 #include "utilities.h"
 

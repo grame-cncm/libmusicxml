@@ -1267,6 +1267,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         skip =
           msrNote::createSkipNote (
             note->            getInputLineNumber (),
+            note->            getNoteMeasureNumber (),
             note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
             note->            getNoteDisplayWholeNotes (),
             note->            getNoteDotsNumber (),
@@ -1987,6 +1988,7 @@ ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroup& elt)
 //______________________________________________________________________________
 S_msrNote msrNote::create (
   int                        inputLineNumber,
+  string                     noteMeasureNumber,
   
   msrNoteKind                noteKind,
 
@@ -2019,6 +2021,7 @@ S_msrNote msrNote::create (
   msrNote * o =
     new msrNote (
       inputLineNumber,
+      noteMeasureNumber,
       
       noteKind,
       
@@ -2054,6 +2057,7 @@ S_msrNote msrNote::create (
 
 msrNote::msrNote (
   int                        inputLineNumber,
+  string                     noteMeasureNumber,
   
   msrNoteKind                noteKind,
 
@@ -2084,6 +2088,8 @@ msrNote::msrNote (
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
   : msrElement (inputLineNumber)
 {
+  fNoteMeasureNumber = noteMeasureNumber;
+  
   // basic note description
   fNoteKind = noteKind;
 
@@ -2331,7 +2337,6 @@ void msrNote::initializeNote ()
   // note measure information
   // ------------------------------------------------------
 
-  fNoteMeasureNumber     = K_NO_MEASURE_NUMBER;
   fNotePositionInMeasure = K_NO_POSITION_MEASURE_NUMBER;
   
   fNoteOccupiesAFullMeasure = false;
@@ -2357,7 +2362,15 @@ msrNote::~msrNote ()
 void msrNote::setNoteKind (msrNoteKind noteKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceChords
+      ||
+    gTraceOptions->fTraceTuplets
+      ||
+    gTraceOptions->fTraceGraceNotes
+  ) {
     gLogIOstream <<
       "Setting the kind of note '" <<
       asString () <<
@@ -2421,6 +2434,7 @@ S_msrNote msrNote::createNoteNewbornClone (
     newbornClone =
       msrNote::create (
         fInputLineNumber,
+        fNoteMeasureNumber,
         
         fNoteKind,
         
@@ -2666,6 +2680,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy =
       msrNote::create (
         fInputLineNumber,
+        fNoteMeasureNumber,
         
         fNoteKind,
         
@@ -3157,6 +3172,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
 S_msrNote msrNote::createRestNote (
   int       inputLineNumber,
+  string    noteMeasureNumber,
   rational  soundingWholeNotes,
   rational  displayWholeNotes,
   int       dotsNumber,
@@ -3166,6 +3182,7 @@ S_msrNote msrNote::createRestNote (
   msrNote * o =
     new msrNote (
       inputLineNumber,
+      noteMeasureNumber,
       
       kRestNote, // noteKind
       
@@ -3201,6 +3218,7 @@ S_msrNote msrNote::createRestNote (
 
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
+  string    noteMeasureNumber,
   rational  soundingWholeNotes,
   rational  displayWholeNotes,
   int       dotsNumber,
@@ -3210,6 +3228,7 @@ S_msrNote msrNote::createSkipNote (
   msrNote * o =
     new msrNote (
       inputLineNumber,
+      noteMeasureNumber,
       
       kSkipNote, // noteKind
       
@@ -3330,6 +3349,10 @@ string msrNote::noteKindAsString (
       
     case msrNote::kTupletMemberNote:
       result = "tupletMemberNote";
+      break;
+      
+    case msrNote::kGraceTupletMemberNote:
+      result = "graceTupletMemberNote";
       break;
       
     case msrNote::kTupletMemberUnpitchedNote:
@@ -3701,7 +3724,7 @@ void msrNote::setNoteBelongsToAChord ()
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting note '" <<
-      asShortStringWithRawWholeNotes () <<
+      asShortString () <<
       "' to belong to a chord"
       ", line " << fInputLineNumber <<
       endl;
@@ -3709,7 +3732,6 @@ void msrNote::setNoteBelongsToAChord ()
 #endif
 
   fNoteBelongsToAChord = true;
-  fNoteKind = msrNote::kChordMemberNote;
 }
 
 void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
@@ -4953,6 +4975,26 @@ string msrNote::asShortStringWithRawWholeNotes () const
         " disp";
       break;
       
+    case msrNote::kGraceTupletMemberNote:
+      s <<
+        "graceTupletMemberNote '" <<
+        notePitchAsString () <<
+        "' " <<
+        noteGraphicDurationAsMsrString ();
+
+      if (! fNoteIsARest) {
+        s <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+      }
+      
+      s <<
+        ", whole notes: " <<
+        fNoteSoundingWholeNotes <<
+        " sound, " <<
+        fNoteDisplayWholeNotes <<
+        " disp";
+      break;
+      
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
         "tupletMemberUnpitchedNote " <<
@@ -5055,6 +5097,30 @@ string msrNote::asShortString () const
     case msrNote::kTupletMemberNote:
       s <<
         "tupletMemberNote" <<
+        ":" <<
+        notePitchAsString () <<
+        ", whole notes: " <<
+        fNoteSoundingWholeNotes <<
+        " sounding, " <<
+        fNoteDisplayWholeNotes <<
+        " display";
+        /* JMI
+        notePartUplink ()->
+          tupletSoundingWholeNotesAsMsrString (
+            fInputLineNumber,
+            fNoteSoundingWholeNotes,
+            fNoteTupletUplink->getTupletActualNotes (),
+            fNoteTupletUplink->getTupletNormalNotes ());
+            */
+
+      if (! fNoteIsARest) {
+        s <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+      }
+      break;
+    case msrNote::kGraceTupletMemberNote:
+      s <<
+        "graceTupletMemberNote" <<
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
@@ -5238,6 +5304,29 @@ string msrNote::asString () const
       }
       break;
       
+    case msrNote::kGraceTupletMemberNote:
+      s <<
+        "graceTupletMemberNote '"<<
+        notePitchAsString () <<
+        fNoteSoundingWholeNotes <<
+        " sound, " <<
+        fNoteDisplayWholeNotes <<
+        " disp";
+/* JMI
+        notePartUplink ()->
+          tupletSoundingWholeNotesAsMsrString (
+            fInputLineNumber,
+            fNoteSoundingWholeNotes,
+            fNoteTupletUplink->getTupletActualNotes (),
+            fNoteTupletUplink->getTupletNormalNotes ())
+            */
+
+      if (! fNoteIsARest) {
+        s <<
+        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+      }
+      break;
+      
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
         "tupletMemberUnpitchedNote "<<
@@ -5354,6 +5443,7 @@ void msrNote::print (ostream& os)
         break;
   
       case msrNote::kTupletMemberNote:
+      case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
         os <<
           setw (fieldWidth) <<
@@ -5736,6 +5826,7 @@ void msrNote::print (ostream& os)
         break;
         
       case msrNote::kTupletMemberNote:
+      case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
         {
           os << left <<
@@ -6933,11 +7024,6 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   // mark note as being the first one in the chord
   note->setNoteBelongsToAChord ();
   
-  // populate note's measure number
-  note->
-    setNoteMeasureNumber (
-      fChordMeasureNumber);
-
   // populate note's position in measure // JMI
   note->
     setNotePositionInMeasure (
@@ -6950,7 +7036,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding another note '" <<
-      note->asShortStringWithRawWholeNotes () <<
+      note->asShortString () <<
       "' to chord '" <<
       asString () <<
       "'" <<
@@ -6962,10 +7048,6 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
   
   note->setNoteBelongsToAChord ();
   
-  // populate note's measure number
-  note->setNoteMeasureNumber (
-    fChordMeasureNumber);
-
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fChordPositionInMeasure);
@@ -6977,18 +7059,6 @@ void msrChord::setChordFirstNotePositionInMeasure (
   if (fChordNotesVector.size ()) { // JMI
     fChordNotesVector.front ()->
       setNotePositionInMeasure (positionInMeasure);
-  }
-  else {
-    // exit (44); JMI
- }
-}
-                    
-void msrChord::setChordFirstNoteMeasureNumber (
-  string measureNumber)
-{
-  if (fChordNotesVector.size ()) { // JMI
-    fChordNotesVector.front ()->
-      setNoteMeasureNumber (measureNumber);
   }
   else {
     // exit (44); JMI
@@ -7894,6 +7964,7 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
   int                     inputLineNumber,
+  string                  tupletMeasureNumber,
   int                     tupletNumber,
   msrTupletBracketKind    tupletBracketKind,
   msrTupletLineShapeKind  tupletLineShapeKind,
@@ -7911,6 +7982,7 @@ S_msrTuplet msrTuplet::create (
   msrTuplet* o =
     new msrTuplet (
       inputLineNumber,
+      tupletMeasureNumber,
       tupletNumber,
       tupletBracketKind,
       tupletLineShapeKind,
@@ -7930,6 +8002,7 @@ S_msrTuplet msrTuplet::create (
 
 msrTuplet::msrTuplet (
   int                     inputLineNumber,
+  string                  tupletMeasureNumber,
   int                     tupletNumber,
   msrTupletBracketKind    tupletBracketKind,
   msrTupletLineShapeKind  tupletLineShapeKind,
@@ -7944,7 +8017,9 @@ msrTuplet::msrTuplet (
   rational                memberNotesDisplayWholeNotes,
   rational                notePositionInMeasure)
     : msrElement (inputLineNumber)
-{  
+{
+  fTupletMeasureNumber = tupletMeasureNumber;
+  
   fTupletNumber = tupletNumber;
   
   fTupletBracketKind    = tupletBracketKind;
@@ -7984,6 +8059,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
     newbornClone =
       msrTuplet::create (
         fInputLineNumber,
+        fTupletMeasureNumber,
         fTupletNumber,
         fTupletBracketKind,
         fTupletLineShapeKind,
@@ -8114,7 +8190,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding note '" <<
-      note->asShortStringWithRawWholeNotes () <<
+      note->asShortString () <<
       // the information is missing to display it the normal way
       "' to tuplet '" <<
       asString () <<
@@ -8138,10 +8214,6 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
     note->getNoteDisplayWholeNotes ();  
   fTupletDisplayWholeNotes.rationalise ();
     
-  // populate note's measure number
-  note->setNoteMeasureNumber (
-    fTupletMeasureNumber);
-
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fTupletPositionInMeasure);
@@ -8221,12 +8293,9 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
     tuplet->getTupletDisplayWholeNotes ();  
     */
 
-  // don't populate tuplet's measure number nor position in measure,
-  // this will be done in setTupletMeasureNumber ()
+  // don't populate tuplet's position in measure,
+  // this will be done in setTupletMeasureNumber () JMI ???
   /* JMI
-  tuplet->setTupletMeasureNumber (
-    fTupletMeasureNumber);
-
   // populate tuplet's position in measure
   tuplet->setTupletPositionInMeasure (
     fTupletPositionInMeasure);
@@ -8446,47 +8515,9 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   return result;
 }
 
-void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
+void msrTuplet::setTupletMeasureNumber (string measureNumber)
 {
   fTupletMeasureNumber = measureNumber;
-
-  // propagate measure number to the tuplets elements
-  for (
-    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
-    i != fTupletElementsList.end ();
-    i++ ) {
-    // set tuplet element measure number
-
-  //  SMARTP<msrNote>* note = dynamic_cast<SMARTP<msrNote>*>(&(*tupletMember));
-
-  // BON   SMARTP<msrNote> note = dynamic_cast<msrNote*>(&(*tupletMember));
-
-    if (
-      S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-      ) {
-      note->setNoteMeasureNumber (measureNumber);
-    }
-  
-    else if (
-      S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
-      ) {
-      chord->setChordMeasureNumber (measureNumber);
-    }
-    
-    else if (
-      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
-      ) {
-      tuplet->setTupletMeasureNumber (measureNumber);
-    }
-    
-    else {
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        fInputLineNumber,
-        __FILE__, __LINE__,
-        "tuplet member should be a note, a chord or another tuplet");
-    }
-  } // for
 }
 
 rational msrTuplet::setTupletPositionInMeasure (
@@ -8749,7 +8780,7 @@ string msrTuplet::asString () const
         S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
         ) {    
         s <<
-          note->asShortStringWithRawWholeNotes ();
+          note->asShortString ();
       }
     
       else if (
@@ -9670,6 +9701,7 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
         
       case msrNote::kSkipNote:
       case msrNote::kTupletMemberNote:
+      case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
         {
           stringstream s;
@@ -13098,10 +13130,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   note->
     setNoteMeasureUplink (this);
 
-  // register note measure number
-  note->
-    setNoteMeasureNumber (fMeasureNumber);
-  
   // register note measure position in measure
   rational
     noteMeasurePosition =
@@ -13209,10 +13237,6 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     note->setNoteMeasureUplink (
       this);
 
-    // register note measure number
-    note->setNoteMeasureNumber (
-      fMeasureNumber);
-    
     // register note measure position
     rational
       noteMeasurePosition =
@@ -13524,11 +13548,6 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     setChordPositionInMeasure (
       fMeasureLength);
 
-  // copy measure number to first note, that was created beforehand
-  chord->
-    setChordFirstNoteMeasureNumber (
-      fMeasureNumber);
-  
   // copy measure position in measure to first note, that was created beforehand
   chord->
     setChordFirstNotePositionInMeasure (
@@ -13585,10 +13604,6 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
 
   // populate measure uplink
   tuplet->setTupletMeasureUplink (this);
-
-  // register tuplet measure number
-  tuplet->
-    setTupletMeasureNumber (fMeasureNumber);
 
   /* JMI ???
   // register tuplet measure position in measure
@@ -13866,6 +13881,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
       paddingNote =
         msrNote::createRestNote (
           inputLineNumber,
+          fMeasureNumber,
           duration,
           duration,
           0, // dots number JMI ???
@@ -13880,6 +13896,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
       paddingNote =
         msrNote::createSkipNote (
           inputLineNumber,
+          fMeasureNumber,
           duration,
           duration,
           0, // dots number JMI ???
@@ -21582,6 +21599,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
       
     case msrNote::kTupletMemberNote:
+    case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
       // register actual note
       fVoiceActualNotesCounter++;
@@ -21679,6 +21697,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
       
     case msrNote::kTupletMemberNote:
+    case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
       // register actual note
       fVoiceActualNotesCounter++;
@@ -25722,7 +25741,8 @@ void msrVoice::print (ostream& os)
 
   // print the voice last appended note
   os <<
-    setw (fieldWidth) << "voiceLastAppendedNote";
+    setw (fieldWidth) <<
+    "voiceLastAppendedNote";
   if (fVoiceLastAppendedNote) {
     os <<
       endl;

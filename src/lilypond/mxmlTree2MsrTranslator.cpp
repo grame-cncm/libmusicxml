@@ -15,9 +15,9 @@
 #endif
 
 #include <sstream>
-#include <climits>      /* INT_MIN */
+#include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
-#include <algorithm>    /* for_each */
+#include <algorithm>    // for_each
 
 #include "xml_tree_browser.h"
 
@@ -6705,10 +6705,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     }
   }
   
-  if (fOnGoingDirectionType) {
-    int inputLineNumber =
-      inputLineNumber;
-      
+  if (fOnGoingDirectionType) {      
     // fetch current voice
     S_msrVoice
       currentVoice =
@@ -13939,7 +13936,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 {
   int inputLineNumber =
-    inputLineNumber;
+    elt->getInputLineNumber ();
 
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
@@ -14207,7 +14204,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     fLogOutputStream <<
       "Adding first note " <<
       chordFirstNote->
-        asShortStringWithRawWholeNotes() <<
+        asShortString () <<
       ", line " << inputLineNumber <<
       ", to new chord" <<
       endl;
@@ -14822,7 +14819,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
     fLogOutputStream <<
-      "==> AFTER Copying beams to chord:" <<
+      "==> AFTER copying beams to chord:" <<
       endl;
 
     gIndenter++;
@@ -15103,7 +15100,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
       fCurrentNoteNormalNotes <<
       "' tuplet with first note " <<
       firstNote->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
       endl;
   }
 #endif
@@ -15123,6 +15120,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
     tuplet =
       msrTuplet::create (
         firstNote->getInputLineNumber (),
+        fCurrentMeasureNumber,
         fCurrentTupletNumber,
         fCurrentTupletBracketKind,
         fCurrentTupletLineShapeKind,
@@ -15142,7 +15140,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
     fLogOutputStream <<
       "Adding first note " <<
       firstNote->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
       " to tuplet '" <<
       tuplet->asString () <<
        "'" <<
@@ -17323,6 +17321,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote =
       msrNote::create (
         inputLineNumber,
+        fCurrentMeasureNumber,
         
         msrNote::k_NoNoteKind,
           // will be set by 'setNoteKind()' when it becomes known later
@@ -17648,6 +17647,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         break;
 
       case msrNote::kTupletMemberNote:
+      case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
         break;
 
@@ -18458,7 +18458,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
               ||
             fCurrentNoteIsAGraceNote
           )
-        ) {
+      ) {
         // get the current voice's stanzas map
         const map<string, S_msrStanza>&
           voiceStanzasMap =
@@ -18531,7 +18531,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     
   // set newChordNote kind as a chord member
   newChordNote->
-    setNoteKind (msrNote::kChordMemberNote);
+    setNoteKind (
+      msrNote::kChordMemberNote);
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
@@ -18806,7 +18807,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
           gTraceOptions->fTraceMeasures
             ||
           gTraceOptions->fTraceLyrics
-          ) {
+        ) {
           fLogOutputStream << // JMI
             endl <<
             "***==> fCurrentStaffNumberToInsertInto = " <<
@@ -18911,6 +18912,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kTupletMemberNote:
+      case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
         break;
   
@@ -18982,7 +18984,7 @@ void mxmlTree2MsrTranslator::handlePendingTupletStopIfAny (
       fLogOutputStream <<
         "--> kTupletTypeStart: handling pending tuplet stop, note '" <<
         note->
-          asShortStringWithRawWholeNotes () <<
+          asShortString () <<
         "', line " << inputLineNumber <<
         endl;
     }
@@ -19027,7 +19029,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
       "Handling a note belonging to a tuplet" <<
       ", note: " <<
       note->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -19047,7 +19049,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           fLogOutputStream <<
             "--> kTupletTypeStart: note = '" <<
             note->
-              asShortStringWithRawWholeNotes () <<
+              asShortString () <<
             "', line " << inputLineNumber <<
             endl;
         }
@@ -19065,7 +19067,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             fLogOutputStream <<
               "--> kTupletTypeStart: handling pending tuplet stop, note '" <<
               note->
-                asShortStringWithRawWholeNotes () <<
+                asShortString () <<
               "', line " << inputLineNumber <<
               endl;
           }
@@ -19103,7 +19105,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             fLogOutputStream <<
               "--> kTupletTypeContinue: adding tuplet member note '" <<
               note->
-                asShortStringWithRawWholeNotes () <<
+                asShortString () <<
               "' to stack top tuplet '" <<
               currentTuplet->asString () <<
               "', line " << inputLineNumber <<
@@ -19138,7 +19140,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             endl <<
             "tuplet member note '" <<
             note->
-              asShortStringWithRawWholeNotes () <<
+              asShortString () <<
             "' cannot be added, tuplets stack is empty";
 
           msrInternalError (
@@ -19162,7 +19164,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 endl <<
                 "tuplet member note '" <<
                 note->
-                  asShortStringWithRawWholeNotes () <<
+                  asShortString () <<
                 "' cannot be added, tuplets stack is empty";
     
               msrInternalError (
@@ -19187,7 +19189,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding outer-most tuplet member note '" <<
                   note->
-                    asShortStringWithRawWholeNotes () <<
+                    asShortString () <<
                   "' to stack top tuplet '" <<
                   currentTuplet->asString () <<
                   "', line " << inputLineNumber <<
@@ -19281,7 +19283,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                 fLogOutputStream <<
                   "--> kTupletTypeStop: adding nested tuplet member note '" <<
                   note->
-                    asShortStringWithRawWholeNotes () <<
+                    asShortString () <<
                   "' to stack top tuplet '" <<
                   currentTuplet->asString () <<
                   "', line " << inputLineNumber <<
@@ -19326,7 +19328,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
           fLogOutputStream <<
             "--> kTupletTypeStartAndStopInARow: note = '" <<
             note->
-              asShortStringWithRawWholeNotes () <<
+              asShortString () <<
             "', line " << inputLineNumber <<
             endl;
         }
@@ -19387,15 +19389,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
     
-  // set new note kind as a chord or grace chord member // JMI
-//  if (fCurrentNoteIsAGraceNote) {
- //   newChordNote->
- //     setNoteKind (msrNote::kGraceChordMemberNote);
- // }
-//  else {
-    newChordNote->
-      setNoteKind (msrNote::kChordMemberNote);
- // }
+  // set new note kind as a chord or grace chord member
+  newChordNote->
+    setNoteKind (
+      msrNote::kChordMemberNote);
 
   // apply tuplet sounding factor to note
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
@@ -19419,7 +19416,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
       newChordNote->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
       endl;
   }
 #endif
@@ -19564,7 +19561,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
       ", line " << inputLineNumber <<
       " to current chord in voice " <<
       currentVoice->getVoiceName () <<
@@ -19603,7 +19600,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     
   // set new note kind as a grace chord member
   newChordNote->
-    setNoteKind (msrNote::kGraceChordMemberNote);
+    setNoteKind (
+      msrNote::kGraceChordMemberNote);
 
 #ifdef TRACE_OPTIONS
   if (
@@ -19615,9 +19613,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     ) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in grace notes" <<
-      ", newChordNote: " <<
+      ", newChordNote is '" <<
       newChordNote->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
+      "'" <<
       endl;
   }
 #endif
@@ -19678,6 +19677,28 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
       }
     }
        
+#ifdef TRACE_OPTIONS
+    if (
+      gTraceOptions->fTraceNotes
+        ||
+      gTraceOptions->fTraceChords
+        ||
+      gTraceOptions->fTraceGraceNotes
+    ) {
+      fLogOutputStream <<
+        "The grace notes chord's first note is '" <<
+        chordFirstNote->
+          asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    // set the first note's kind as grace chord member
+    chordFirstNote->
+      setNoteKind (
+        msrNote::kGraceChordMemberNote);
+        
     // create the current chord from its first note
     fCurrentChord =
       createChordFromItsFirstNote (
@@ -19739,7 +19760,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
-        asShortStringWithRawWholeNotes () <<
+        asShortString () <<
       ", line " << inputLineNumber <<
       " to current chord in voice " <<
       currentVoice->getVoiceName () <<

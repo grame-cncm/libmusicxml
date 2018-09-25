@@ -15,7 +15,7 @@
 #include <list>
 #include <algorithm>
 #include <iomanip>      // setw, setprecision, ...
-#include <climits>      /* INT_MIN, INT_MAX * /
+#include <climits>      // INT_MIN, INT_MAX
 
 #include "version.h"
 

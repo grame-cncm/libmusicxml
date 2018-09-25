@@ -2760,6 +2760,7 @@ class msrNote : public msrElement
       kChordMemberNote,
       kGraceChordMemberNote,
       kTupletMemberNote,
+      kGraceTupletMemberNote,
       kTupletMemberUnpitchedNote };
       
     static string noteKindAsString (
@@ -2834,6 +2835,7 @@ class msrNote : public msrElement
 
     static SMARTP<msrNote> create (
       int                        inputLineNumber,
+      string                     noteMeasureNumber,
       
       msrNoteKind                noteKind,
     
@@ -2874,6 +2876,7 @@ class msrNote : public msrElement
 
     static SMARTP<msrNote> createRestNote (
       int       inputLineNumber,
+      string    noteMeasureNumber,
       rational  soundingWholeNotes,
       rational  displayWholeNotes,
       int       dotsNumber,
@@ -2882,6 +2885,7 @@ class msrNote : public msrElement
     
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
+      string    noteMeasureNumber,
       rational  soundingWholeNotes,
       rational  displayWholeNotes,
       int       dotsNumber,
@@ -2895,6 +2899,7 @@ class msrNote : public msrElement
 
     msrNote (
       int                        inputLineNumber,
+      string                     noteMeasureNumber,
       
       msrNoteKind                noteKind,
     
@@ -4127,9 +4132,6 @@ class msrChord : public msrElement
     void                  setChordFirstNotePositionInMeasure (
                             rational position);
                     
-    void                  setChordFirstNoteMeasureNumber (
-                            string measureNumber);
-                    
   public:
 
     // visitors
@@ -4297,6 +4299,7 @@ class msrTuplet : public msrElement
 
     static SMARTP<msrTuplet> create (
       int                     inputLineNumber,
+      string                  tupletMeasureNumber,
       int                     tupletNumber,
       msrTupletBracketKind    tupletBracketKind,
       msrTupletLineShapeKind  tupletLineShapeKind,
@@ -4322,6 +4325,7 @@ class msrTuplet : public msrElement
 
     msrTuplet (
       int                     inputLineNumber,
+      string                  tupletMeasureNumber,
       int                     tupletNumber,
       msrTupletBracketKind    tupletBracketKind,
       msrTupletLineShapeKind  tupletLineShapeKind,
@@ -4397,7 +4401,7 @@ class msrTuplet : public msrElement
     // measure number
     void                  setTupletMeasureNumber (string measureNumber);
 
-    string                   getTupletMeasureNumber () const
+    string                getTupletMeasureNumber () const
                               { return fTupletMeasureNumber; }
  
     // position in measure

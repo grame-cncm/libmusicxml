@@ -15,8 +15,8 @@
 #endif
 
 #include <sstream>
-#include <climits>      /* INT_MIN */
-#include <algorithm>    /* for_each */
+#include <climits>      // INT_MIN, INT_MAX
+#include <algorithm>    // for_each
 
 #include "conversions.h"
 
@@ -3203,6 +3203,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // but as the current grace note clone instead
   switch (elt->getNoteKind ()) {
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
+    case msrNote::kGraceTupletMemberNote:
       fCurrentGraceNoteClone = noteClone;
       break;
       
@@ -3261,7 +3263,33 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       ", line " << inputLineNumber <<
       endl;
   }
-    
+
+  fLogOutputStream <<
+    "FAA fCurrentNoteClone = " <<
+    endl;
+  if (fCurrentNoteClone) {
+    fLogOutputStream <<
+      fCurrentNoteClone;
+  }
+  else {
+    fLogOutputStream <<
+      "nullptr" <<
+      endl;
+  }
+  
+  fLogOutputStream <<
+    "FAA fCurrentGraceNoteClone = " <<
+    endl;
+  if (fCurrentGraceNoteClone) {
+    fLogOutputStream <<
+      fCurrentGraceNoteClone;
+  }
+  else {
+    fLogOutputStream <<
+      "nullptr" <<
+      endl;
+  }
+   
   switch (elt->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
@@ -3521,9 +3549,30 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
 
     case msrNote::kGraceChordMemberNote:
+      if (fOnGoingChord) {
+        fCurrentChordClone->
+          addAnotherNoteToChord (
+            fCurrentGraceNoteClone);
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "msr2LpsrTranslator:::visitEnd (S_msrNote& elt): chord member note " <<
+          elt->asString () <<
+          " appears outside of a chord";
+
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+        }
       break;
       
     case msrNote::kTupletMemberNote:
+    case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes) {

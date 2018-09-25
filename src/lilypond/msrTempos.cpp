@@ -655,7 +655,7 @@ string msrTempoTuplet::asString () const
         S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
         ) {    
         s <<
-          note->asShortStringWithRawWholeNotes ();
+          note->asShortString ();
       }
     
       else if (

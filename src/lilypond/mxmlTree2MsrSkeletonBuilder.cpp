@@ -14,7 +14,7 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <climits>      /* INT_MIN */
+#include <climits>      // INT_MIN, INT_MAX
 #include <regex>
 
 #include "messagesHandling.h"
