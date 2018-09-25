@@ -4019,7 +4019,8 @@ void msrNote::appendSlideToNote (S_msrSlide slide)
   fNoteSlides.push_back (slide);
 }
 
-void msrNote::setNoteGraceNotesGroupBefore (S_msrGraceNotesGroup graceNotesGroupBefore)
+void msrNote::setNoteGraceNotesGroupBefore (
+  S_msrGraceNotesGroup graceNotesGroupBefore)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
@@ -4037,7 +4038,8 @@ void msrNote::setNoteGraceNotesGroupBefore (S_msrGraceNotesGroup graceNotesGroup
   fNoteGraceNotesGroupBefore = graceNotesGroupBefore;
 }
 
-void msrNote::setNoteGraceNotesGroupAfter (S_msrGraceNotesGroup graceNotesGroupAfter)
+void msrNote::setNoteGraceNotesGroupAfter (
+  S_msrGraceNotesGroup graceNotesGroupAfter)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
@@ -8941,7 +8943,7 @@ void msrTuplet::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      // no endl here
+      os << endl;
     } // for
     
     gIndenter--;
