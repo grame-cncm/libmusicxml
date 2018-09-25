@@ -14214,6 +14214,11 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   chord->
     addFirstNoteToChord (chordFirstNote);
 
+  // set chord first note's kind
+  chordFirstNote->
+    setNoteKind (
+      msrNote::kChordMemberNote);
+
   // copy firstNote's elements if any to the chord
   copyNoteElementsToChord (
     chordFirstNote, chord);
@@ -15134,6 +15139,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
         firstNote->getNotePositionInMeasure ());
 
   // add note as first note of the stack top tuplet
+  tuplet->addNoteToTuplet (firstNote);
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     // only after addNoteToTuplet() has set the note's tuplet uplink
@@ -15148,8 +15155,6 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   }
 #endif
       
-  tuplet->addNoteToTuplet (firstNote);
-
   // register tuplet in this visitor
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {

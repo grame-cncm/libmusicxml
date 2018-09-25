@@ -1090,6 +1090,8 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
     
     string                measureKindAsString () const;
+    
+    string                asShortString () const;
 
     virtual void          print (ostream& os);
 

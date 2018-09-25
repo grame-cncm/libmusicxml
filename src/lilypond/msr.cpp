@@ -5411,7 +5411,55 @@ void msrNote::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 34;
-    
+
+  if (fNoteMeasureUplink || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteMeasureUplink";
+      
+    if (fNoteMeasureUplink) {
+      os <<
+        endl;
+      gIndenter++;
+      
+      os <<
+        fNoteMeasureUplink->asShortString ();
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none";
+    }
+
+    os <<
+      endl;
+  }
+  
+  if (fNoteTupletUplink || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteTupletUplink";
+      
+    if (fNoteMeasureUplink) {
+      os <<
+        endl;
+      gIndenter++;
+
+      os <<
+        fNoteTupletUplink->asShortString ();
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none";
+    }
+
+    os <<
+      endl;
+  }
+
   {
     // print sounding and displayed whole notes
     switch (fNoteKind) {
@@ -15072,7 +15120,7 @@ string msrMeasure::measureFirstInSegmentKindAsString (
 
   return result;
 }
-      
+
 string msrMeasure::measureCreatedForARepeatKindAsString (
   msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind)
 {
@@ -15102,10 +15150,33 @@ string msrMeasure::measureKindAsString () const
     measureKindAsString (fMeasureKind);
 }
 
+string msrMeasure::asShortString () const
+{
+  stringstream s;
+  
+  s <<
+    "Measure '" << fMeasureNumber <<
+    "', " << measureKindAsString () <<
+/* JMI
+    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
+    ", measureLengthAsMSRString: " <<
+    measureLengthAsMSRString () <<
+    ", measureFullLengthAsMSRString: " <<
+    measureFullLengthAsMSRString () <<
+    ", " << fMeasureFullLength << " per full measure" <<
+    */
+    ", " <<
+    singularOrPlural (
+      fMeasureElementsList.size (), "element", "elements") <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  return s.str ();
+}
+      
 void msrMeasure::print (ostream& os)
 {
   os <<
-    endl <<
     "Measure '" << fMeasureNumber <<
     "', " << measureKindAsString () <<
 /* JMI
@@ -17624,7 +17695,7 @@ void msrSegment::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      os << endl;
     } // for
   }
     

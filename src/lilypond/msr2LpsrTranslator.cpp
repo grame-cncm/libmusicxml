@@ -3264,30 +3264,32 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
-  fLogOutputStream <<
-    "FAA fCurrentNoteClone = " <<
-    endl;
-  if (fCurrentNoteClone) {
+  if (gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
-      fCurrentNoteClone;
-  }
-  else {
-    fLogOutputStream <<
-      "nullptr" <<
+      "FAA fCurrentNoteClone = " <<
       endl;
-  }
-  
-  fLogOutputStream <<
-    "FAA fCurrentGraceNoteClone = " <<
-    endl;
-  if (fCurrentGraceNoteClone) {
+    if (fCurrentNoteClone) {
+      fLogOutputStream <<
+        fCurrentNoteClone;
+    }
+    else {
+      fLogOutputStream <<
+        "nullptr" <<
+        endl;
+    }
+    
     fLogOutputStream <<
-      fCurrentGraceNoteClone;
-  }
-  else {
-    fLogOutputStream <<
-      "nullptr" <<
+      "FAA fCurrentGraceNoteClone = " <<
       endl;
+    if (fCurrentGraceNoteClone) {
+      fLogOutputStream <<
+        fCurrentGraceNoteClone;
+    }
+    else {
+      fLogOutputStream <<
+        "nullptr" <<
+        endl;
+    }
   }
    
   switch (elt->getNoteKind ()) {
