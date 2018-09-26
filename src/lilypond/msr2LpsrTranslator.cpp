@@ -1451,8 +1451,8 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
       fCurrentVoiceClone);
       
   if (fOnGoingNote) {
-    // register the harmony in the current note clone
-    fCurrentNoteClone->
+    // register the harmony in the current non-grace note clone
+    fCurrentNonGraceNoteClone->
       setNoteHarmony (fCurrentHarmonyClone);
 
   // don't append the harmony to the part harmony,
@@ -1516,8 +1516,8 @@ void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
   }
 
   if (fOnGoingNote) {
-    // register the frame in the current note clone
-    fCurrentNoteClone->
+    // register the frame in the current non-grace note clone
+    fCurrentNonGraceNoteClone->
       setNoteFrame (elt);
   }
 }  
@@ -1541,8 +1541,8 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
         fCurrentPartClone);
   
   if (fOnGoingNote) {
-    // register the figured bass in the current note clone
-    fCurrentNoteClone->
+    // register the figured bass in the current non-grace note clone
+    fCurrentNonGraceNoteClone->
       setNoteFiguredBass (fCurrentFiguredBass);
 
   // don't append the figured bass to the part figured bass,
@@ -1957,10 +1957,10 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   }
   
   else if (fOnGoingNote) { // JMI
-    // visiting a syllable as attached to a note
+    // visiting a syllable as attached to a non-grace note
     fCurrentSyllableClone->
       appendSyllableToNoteAndSetItsUplink (
-        fCurrentNoteClone);
+        fCurrentNonGraceNoteClone);
   }
 
 /* JMI
@@ -2221,7 +2221,7 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2253,7 +2253,7 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
   // a fermata is an articulation
   
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2275,7 +2275,7 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
   // an arpeggiato is an articulation
   
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
   }
   else if (fOnGoingChord) {
@@ -2297,7 +2297,7 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
   // an nonArpeggiato is an articulation
   
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
   }
   else if (fOnGoingChord) {
@@ -2317,7 +2317,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendTechnicalToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2387,7 +2387,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendTechnicalWithIntegerToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2417,7 +2417,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithFloat& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendTechnicalWithFloatToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2447,7 +2447,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendTechnicalWithStringToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2488,7 +2488,7 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendOrnamentToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2529,7 +2529,7 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
   } // switch
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendSpannerToNote (elt);
   }
   
@@ -2560,7 +2560,7 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendGlissandoToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2596,7 +2596,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendSlideToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2626,7 +2626,7 @@ void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       setNoteSingleTremolo (elt);
   }
   else if (fOnGoingChord) {
@@ -2699,7 +2699,7 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendDynamicsToNote (elt);
 
     // is this a non LilyPond native dynamics?
@@ -2754,7 +2754,7 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendOtherDynamicsToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2784,7 +2784,7 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendWordsToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2822,16 +2822,16 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
 
   if (fOnGoingNote) {
     // don't add slurs to chord member notes except the first one
-    switch (fCurrentNoteClone->getNoteKind ()) {
+    switch (fCurrentNonGraceNoteClone->getNoteKind ()) {
       case msrNote::kChordMemberNote:
-        if (fCurrentNoteClone->getNoteIsAChordsFirstMemberNote ()) {
-          fCurrentNoteClone->
+        if (fCurrentNonGraceNoteClone->getNoteIsAChordsFirstMemberNote ()) {
+          fCurrentNonGraceNoteClone->
             appendSlurToNote (elt);
         }
         break;
         
       default:
-        fCurrentNoteClone->
+        fCurrentNonGraceNoteClone->
           appendSlurToNote (elt);
     } // switch
   }
@@ -2863,7 +2863,7 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendLigatureToNote (elt);
   }
   else if (fOnGoingChord) {
@@ -2893,7 +2893,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendSlashToNote (elt);
   }
   
@@ -2914,7 +2914,7 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendWedgeToNote (elt);
   }
   
@@ -2957,7 +2957,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
         "Creating a clone of grace notes group '" << 
         elt->asShortString () <<
         "' and attaching it to clone note '" <<
-        fCurrentNoteClone->asShortString () <<
+        fCurrentNonGraceNoteClone->asShortString () <<
         "'" << 
         endl;
       }
@@ -2974,12 +2974,12 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     
     switch (elt->getGraceNotesGroupKind ()) {
       case msrGraceNotesGroup::kGraceNotesGroupBefore:
-        fCurrentNoteClone->
+        fCurrentNonGraceNoteClone->
           setNoteGraceNotesGroupBefore (
             fCurrentGraceNotesGroupClone);
         break;
       case msrGraceNotesGroup::kGraceNotesGroupAfter:
-        fCurrentNoteClone->
+        fCurrentNonGraceNoteClone->
           setNoteGraceNotesGroupAfter (
             fCurrentGraceNotesGroupClone);
         break;
@@ -2990,8 +2990,17 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   fLogOutputStream <<
     "+++++++++++++++++++++++++ 1" <<
     endl <<
-    "fCurrentNoteClone:" <<
-    fCurrentNoteClone <<
+    "fCurrentNonGraceNoteClone:";
+
+  if (fCurrentNonGraceNoteClone) {
+    fLogOutputStream <<
+      fCurrentNonGraceNoteClone;
+  }
+  else {
+    fLogOutputStream <<
+      "nullprt";
+  }
+  fLogOutputStream <<
     endl;
 
   fOnGoingGraceNotesGroup = true;
@@ -3001,9 +3010,9 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     // there is at least a note before these grace notes in the voice
     
     if (
-      fCurrentNoteClone->getNoteTrillOrnament ()
+      fCurrentNonGraceNoteClone->getNoteTrillOrnament ()
         &&
-      fCurrentNoteClone->getNoteIsFollowedByGraceNotesGroup ()) {
+      fCurrentNonGraceNoteClone->getNoteIsFollowedByGraceNotesGroup ()) {
       // fPendingAfterGraceNotesGroup already contains
       // the afterGraceNotesGroup to use
       
@@ -3019,7 +3028,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // attach the current after grace notes clone to the current note clone
       if (fOnGoingNote) { // JMI
-        fCurrentNoteClone->
+        fCurrentNonGraceNoteClone->
           setNoteAfterGraceNotesGroup (
             fPendingAfterGraceNotesGroup);
       }
@@ -3041,7 +3050,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // attach it to the current note clone
       if (fOnGoingNote) { // JMI
-        fCurrentNoteClone->
+        fCurrentNonGraceNoteClone->
           setNoteGraceNotesGroup (
             fCurrentGraceNotesGroupClone);
       }
@@ -3122,7 +3131,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #endif
       
       if (fOnGoingNote) { // JMI
-        fCurrentNoteClone->
+        fCurrentNonGraceNoteClone->
           setNoteAfterGraceNotesGroup (
             fPendingAfterGraceNotesGroup);
       }
@@ -3143,8 +3152,17 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   fLogOutputStream <<
     "+++++++++++++++++++++++++ 2" <<
     endl <<
-    "fCurrentNoteClone:" <<
-    fCurrentNoteClone <<
+    "fCurrentNonGraceNoteClone:";
+
+  if (fCurrentNonGraceNoteClone) {
+    fLogOutputStream <<
+      fCurrentNonGraceNoteClone;
+  }
+  else {
+    fLogOutputStream <<
+      "nullprt";
+  }
+  fLogOutputStream <<
     endl;
 
   // forget about these grace notes
@@ -3202,6 +3220,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // don't register grace notes as the current note clone,
   // but as the current grace note clone instead
   switch (elt->getNoteKind ()) {
+    
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
@@ -3209,11 +3228,11 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       break;
       
     default:
-      fCurrentNoteClone = noteClone;
+      fCurrentNonGraceNoteClone = noteClone;
 
       if (! fFirstNoteCloneInVoice) {
         fFirstNoteCloneInVoice =
-          fCurrentNoteClone;
+          fCurrentNonGraceNoteClone;
       }
 
       fOnGoingNote = true;
@@ -3240,13 +3259,13 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     fPendingAfterGraceNotesGroup =
       msrAfterGraceNotesGroup::create (
         inputLineNumber,
-        fCurrentNoteClone,
+        fCurrentNonGraceNoteClone,
         false, // aftergracenoteIsSlashed, may be updated later
         fCurrentVoiceClone);
 
     // register current afterGraceNotesGroup element
     fCurrentAfterGraceNotesGroupElement =
-      fCurrentNoteClone;
+      fCurrentNonGraceNoteClone;
   }
 */
 }
@@ -3266,11 +3285,11 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
   if (gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
-      "FAA fCurrentNoteClone = " <<
+      "FAA fCurrentNonGraceNoteClone = " <<
       endl;
-    if (fCurrentNoteClone) {
+    if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
-        fCurrentNoteClone;
+        fCurrentNonGraceNoteClone;
     }
     else {
       fLogOutputStream <<
@@ -3302,7 +3321,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending rest note clone '" <<
-          fCurrentNoteClone->asShortString () << "' to voice clone " <<
+          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3310,7 +3329,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
-          fCurrentNoteClone);
+          fCurrentNonGraceNoteClone);
       break;
       
     case msrNote::kSkipNote: // JMI
@@ -3318,7 +3337,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending skip note clone '" <<
-          fCurrentNoteClone->asShortString () << "' to voice clone " <<
+          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3326,7 +3345,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
-          fCurrentNoteClone);
+          fCurrentNonGraceNoteClone);
       break;
       
     case msrNote::kUnpitchedNote:
@@ -3334,7 +3353,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending unpitched note clone '" <<
-          fCurrentNoteClone->asShortString () << "' to voice clone " <<
+          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3342,7 +3361,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
-          fCurrentNoteClone);
+          fCurrentNonGraceNoteClone);
       break;
       
     case msrNote::kStandaloneNote:
@@ -3350,7 +3369,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending standalone note clone '" <<
-          fCurrentNoteClone->asShortString () << "' to voice clone " <<
+          fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3358,19 +3377,19 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
-          fCurrentNoteClone);
+          fCurrentNonGraceNoteClone);
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       if (fOnGoingDoubleTremolo) {
         
-        if (fCurrentNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
+        if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
-              fCurrentNoteClone->asString () <<
-              "', line " << fCurrentNoteClone->getInputLineNumber () <<
+              fCurrentNonGraceNoteClone->asString () <<
+              "', line " << fCurrentNonGraceNoteClone->getInputLineNumber () <<
               ", as double tremolo first element" <<
               " in voice \"" <<
               fCurrentVoiceClone->getVoiceName () <<
@@ -3381,16 +3400,16 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
               
           fCurrentDoubleTremoloClone->
             setDoubleTremoloNoteFirstElement (
-              fCurrentNoteClone);
+              fCurrentNonGraceNoteClone);
         }
         
-        else if (fCurrentNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
+        else if (fCurrentNonGraceNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
-              fCurrentNoteClone->asString () <<
-              "', line " << fCurrentNoteClone->getInputLineNumber () <<
+              fCurrentNonGraceNoteClone->asString () <<
+              "', line " << fCurrentNonGraceNoteClone->getInputLineNumber () <<
               ", as double tremolo second element" <<
               " in voice \"" <<
               fCurrentVoiceClone->getVoiceName () <<
@@ -3401,14 +3420,14 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
               
           fCurrentDoubleTremoloClone->
             setDoubleTremoloNoteSecondElement (
-              fCurrentNoteClone);
+              fCurrentNonGraceNoteClone);
         }
         
         else {
           stringstream s;
 
           s <<
-            "note '" << fCurrentNoteClone->asShortString () <<
+            "note '" << fCurrentNonGraceNoteClone->asShortString () <<
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
@@ -3423,7 +3442,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
 
         s <<
-          "double tremolo note '" << fCurrentNoteClone->asShortString () <<
+          "double tremolo note '" << fCurrentNonGraceNoteClone->asShortString () <<
           "' met outside of a double tremolo";
 
         msrInternalError (
@@ -3445,7 +3464,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
 
         s <<
-          "grace note '" << fCurrentNoteClone->asShortString () <<
+          "grace note '" << fCurrentNonGraceNoteClone->asShortString () <<
           "' met outside of grace notes";
 
         msrInternalError (
@@ -3479,7 +3498,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
-            fCurrentNoteClone->asShortString () <<
+            fCurrentNonGraceNoteClone->asShortString () <<
             "' to the grace notes in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
@@ -3488,7 +3507,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   
         fCurrentGraceNotesClone->
           appendNoteToGraceNotes (
-            fCurrentNoteClone);
+            fCurrentNonGraceNoteClone);
       }
 
       else if (fPendingAfterGraceNotes) {
@@ -3496,7 +3515,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
-            fCurrentNoteClone->asShortString () <<
+            fCurrentNonGraceNoteClone->asShortString () <<
             "' to the after grace notes in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
@@ -3505,7 +3524,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   
         fPendingAfterGraceNotes->
           appendNoteToAfterGraceNotesContents (
-            fCurrentNoteClone);
+            fCurrentNonGraceNoteClone);
       }
       
       else {
@@ -3531,7 +3550,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
-            fCurrentNoteClone);
+            fCurrentNonGraceNoteClone);
       }
       
       else {
@@ -3580,19 +3599,20 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending note clone '" <<
-          fCurrentNoteClone->asShortString () << "'' to voice clone " <<
+          fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
 #endif
           
       fTupletClonesStack.top ()->
-        addNoteToTuplet (fCurrentNoteClone);
+        addNoteToTuplet (
+          fCurrentNonGraceNoteClone);
       break;
   } // switch
 
   // handle editorial accidentals
-  switch (fCurrentNoteClone->getNoteEditorialAccidentalKind ()) {
+  switch (fCurrentNonGraceNoteClone->getNoteEditorialAccidentalKind ()) {
     case msrNote::kNoteEditorialAccidentalYes:
       fLpsrScore->
         // this score needs the 'editorial accidental' Scheme function
@@ -3603,7 +3623,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   } // switch
   
   // handle cautionary accidentals
-  switch (fCurrentNoteClone->getNoteCautionaryAccidentalKind ()) {
+  switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
     case msrNote::kNoteCautionaryAccidentalYes:
       break;
     case msrNote::kNoteCautionaryAccidentalNo:
@@ -3661,7 +3681,7 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     setNoteOctaveShift (elt);
 }
 
@@ -3720,7 +3740,7 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
   }
 
   if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       setNoteStem (elt);
   }
   else if (fOnGoingChord) {
@@ -3759,7 +3779,7 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
       appendBeamToNote (elt);
   }
   else if (fOnGoingNote) {
-    fCurrentNoteClone->
+    fCurrentNonGraceNoteClone->
       appendBeamToNote (elt);
   }
 
@@ -3968,7 +3988,7 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     setNoteTie (elt);
 }
 
@@ -4019,7 +4039,7 @@ void msr2LpsrTranslator::visitStart (S_msrEyeGlasses& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     appendEyeGlassesToNote (elt);
 }
 
@@ -4032,7 +4052,7 @@ void msr2LpsrTranslator::visitStart (S_msrScordatura& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     appendScordaturaToNote (elt);
 }
 
@@ -4045,7 +4065,7 @@ void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     appendPedalToNote (elt);
 }
 
@@ -4058,7 +4078,7 @@ void msr2LpsrTranslator::visitStart (S_msrDamp& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     appendDampToNote (elt);
 
   fLpsrScore->
@@ -4075,7 +4095,7 @@ void msr2LpsrTranslator::visitStart (S_msrDampAll& elt)
       endl;
   }
 
-  fCurrentNoteClone->
+  fCurrentNonGraceNoteClone->
     appendDampAllToNote (elt);
 
   fLpsrScore->

@@ -630,10 +630,10 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     bool                      fOnGoingNote;
 
-    // fCurrentNoteClone is not used for grace notes,
+    // fCurrentNonGraceNoteClone is not used for grace notes,
     // which are visited while the note they're attached to
     // is being visited too
-    S_msrNote                 fCurrentNoteClone;
+    S_msrNote                 fCurrentNonGraceNoteClone;
     
     // to help workaround LilyPond issue 34
     S_msrNote                 fFirstNoteCloneInVoice;

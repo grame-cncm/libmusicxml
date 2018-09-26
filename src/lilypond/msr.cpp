@@ -5505,12 +5505,21 @@ void msrNote::print (ostream& os)
           fNoteDisplayWholeNotes <<
           endl <<
           setw (fieldWidth) <<
-          "tupletSoundingWholeNotes" << " : " <<
-          wholeNotesAsMsrString (
-            fInputLineNumber,
-            getNoteTupletUplink ()->
-              getTupletSoundingWholeNotes ()) <<
-          endl;
+          "tupletSoundingWholeNotes" << " : ";
+
+          if (fNoteTupletUplink) {
+            os <<
+              wholeNotesAsMsrString (
+                fInputLineNumber,
+                getNoteTupletUplink ()->
+                  getTupletSoundingWholeNotes ());
+          }
+          else {
+            os <<
+              "*** unknown yet ***";
+          }
+          os <<
+            endl;
         break;
       } // switch
 
@@ -5888,13 +5897,25 @@ void msrNote::print (ostream& os)
             endl <<
               */
             setw (fieldWidth) <<
-            "noteTupletNoteSoundingWholeNotesAsMsrString" << " : \"" <<
-            wholeNotesAsMsrString (
-              fInputLineNumber,
-              getNoteTupletUplink ()->
-                getTupletSoundingWholeNotes ()) <<
+            "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
+
+          if (fNoteTupletUplink) {
+            os <<
             "\"" <<
-            endl <<
+              wholeNotesAsMsrString (
+                fInputLineNumber,
+                getNoteTupletUplink ()->
+                  getTupletSoundingWholeNotes ()) <<
+              "\"";
+          }
+          else {
+            os <<
+              "*** unknown yet ***";
+          }
+          os <<
+            endl;
+
+          os <<
             setw (fieldWidth) <<
             "noteGraphicDurationAsMsrString" << " : \"" <<
             noteGraphicDurationAsMsrString () <<
