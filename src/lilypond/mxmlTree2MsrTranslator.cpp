@@ -5925,8 +5925,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
       endl;
   }
 
-  // is there a current grace notes?
-  if (fCurrentGraceNotesGroup) {
+  // is there a pending grace notes group?
+  if (fPendingGraceNotesGroup) {
 #ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceGraceNotes
@@ -5998,8 +5998,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
         s.str ());
     }
 
-    // set the grace notes group's kind to 'after'
-    fCurrentGraceNotesGroup->
+    // set the pending grace notes group's kind to 'after'
+    fPendingGraceNotesGroup->
       setGraceNotesGroupKind (
         msrGraceNotesGroup::kGraceNotesGroupAfter);
     
@@ -6007,10 +6007,10 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     noteToAttachTo->
       setNoteGraceNotesGroupAfter (
 // JMI        afterGraceNotesGroup);
-        fCurrentGraceNotesGroup);
+        fPendingGraceNotesGroup);
         
     // forget about this grace notes group
-    fCurrentGraceNotesGroup = nullptr;
+    fPendingGraceNotesGroup = nullptr;
   }
   
   if (fCurrentATupletStopIsPending) {
@@ -17874,6 +17874,28 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fPendingFiguredBass = false;
   }
 
+  // handling the pending grace notes group if any
+  if (fPendingGraceNotesGroup && ! fCurrentNoteIsAGraceNote) {
+    // this is the first note after the grace notes group
+
+    // attach the current grace notes to this note
+    switch (fPendingGraceNotesGroup->getGraceNotesGroupKind ()) {
+      case msrGraceNotesGroup::kGraceNotesGroupBefore:
+        newNote->
+          setNoteGraceNotesGroupBefore (
+            fPendingGraceNotesGroup);
+        break;
+      case msrGraceNotesGroup::kGraceNotesGroupAfter:
+        newNote->
+          setNoteGraceNotesGroupAfter (
+            fPendingGraceNotesGroup);
+        break;
+    } // switch
+
+    // forget about the pending grace notes
+    fPendingGraceNotesGroup = nullptr;
+  }
+  
   // handling voices current chord map if needed
   if (! fCurrentNoteBelongsToAChord) {
     if (fOnGoingChord) {
@@ -18046,7 +18068,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
     if (gTraceOptions->fTraceNotesDetails) {
       fLogOutputStream <<
-        setw (fieldWidth) << "fCurrentGraceNotesGroup" << " : " <<
+        setw (fieldWidth) << "fPendingGraceNotesGroup" << " : " <<
         endl <<
         "======================= handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest" <<
         ", line " << inputLineNumber <<
@@ -18057,9 +18079,9 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         endl <<
         endl;
   
-      if (fCurrentGraceNotesGroup) {
+      if (fPendingGraceNotesGroup) {
         fLogOutputStream <<
-          fCurrentGraceNotesGroup;
+          fPendingGraceNotesGroup;
       }
       else {
  //       fLogOutputStream <<
@@ -18083,7 +18105,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   if (fCurrentNoteIsAGraceNote) {
-    if (! fCurrentGraceNotesGroup) {
+    if (! fPendingGraceNotesGroup) {
       // this is the first grace note in grace notes
 
 #ifdef TRACE_OPTIONS
@@ -18097,8 +18119,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       }
 #endif
 
-      // create grace notes
-      fCurrentGraceNotesGroup =
+      // create grace notes group
+      fPendingGraceNotesGroup =
         msrGraceNotesGroup::create (
           inputLineNumber,
           msrGraceNotesGroup::kGraceNotesGroupBefore, // default value
@@ -18150,152 +18172,128 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     }
 #endif
 
-    // append newNote to the current grace notes
-    fCurrentGraceNotesGroup->
+    // append newNote to the pending grace notes group
+    fPendingGraceNotesGroup->
       appendNoteToGraceNotesGroup (newNote);
   }
 
-  else {
-    if (fCurrentGraceNotesGroup) {
-      // this is the first note after the grace notes
+  else if (fCurrentTremoloTypeKind != k_NoTremoloType) {
+    // newNote belongs to a tremolo
 
-      // attach the current grace notes to this note
-      switch (fCurrentGraceNotesGroup->getGraceNotesGroupKind ()) {
-        case msrGraceNotesGroup::kGraceNotesGroupBefore:
-          newNote->
-            setNoteGraceNotesGroupBefore (
-              fCurrentGraceNotesGroup);
-          break;
-        case msrGraceNotesGroup::kGraceNotesGroupAfter:
-          newNote->
-            setNoteGraceNotesGroupAfter (
-              fCurrentGraceNotesGroup);
-          break;
-      } // switch
-
-      // forget about the current grace notes
-      fCurrentGraceNotesGroup = nullptr;
-    }
-  
-    if (fCurrentTremoloTypeKind != k_NoTremoloType) {
-      // newNote belongs to a tremolo
-  
-      switch (fCurrentTremoloTypeKind) {
-        case k_NoTremoloType:
-          // just to avoid a compiler message
-          break;
-          
-        case kTremoloTypeSingle:
-          // append newNote to the current voice
-  #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceNotes) {
-            fLogOutputStream <<
-              "Appending standalone " <<
-              newNote->asString () <<
-              ", line " << newNote->getInputLineNumber () <<
-              ", to voice \"" <<
-              currentVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-  #endif
-      
-          currentVoice->
-            appendNoteToVoice (newNote);
-  
-          // fCurrentSingleTremolo is handled in
-          // attachCurrentSingleTremoloToNote()
-          break;
-          
-        case kTremoloTypeStart:
-          // register newNote as first element of the current double tremolo
-  #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceNotes) {
-            fLogOutputStream <<
-              "Setting standalone note '" <<
-              newNote->asString () <<
-              "', line " << newNote->getInputLineNumber () <<
-              ", as double tremolo first element" <<
-              " in voice \"" <<
-              currentVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-  #endif
-  
-          fCurrentDoubleTremolo->
-            setDoubleTremoloNoteFirstElement (
-              newNote);
-          break;
-  
-        case kTremoloTypeStop:
-          // register newNote as second element of the current double tremolo
-  #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceNotes) {
-            fLogOutputStream <<
-              "Setting standalone note '" <<
-              newNote->asString () <<
-              "', line " << newNote->getInputLineNumber () <<
-              ", as double tremolo second element" <<
-              " in voice \"" <<
-              currentVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-  #endif
-  
-          fCurrentDoubleTremolo->
-            setDoubleTremoloNoteSecondElement (
-              newNote);
-  
-          // append current double tremolo to current voice
-          currentVoice->
-            appendDoubleTremoloToVoice (
-              fCurrentDoubleTremolo);
-  
-          // forget about the current double tremolo
-         // fCurrentDoubleTremolo = 0; // JMI not if there's a chord in the double tremolo XXL BOF
-          break;
-      } // switch
-    }
-  
+    switch (fCurrentTremoloTypeKind) {
+      case k_NoTremoloType:
+        // just to avoid a compiler message
+        break;
+        
+      case kTremoloTypeSingle:
+        // append newNote to the current voice
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceNotes) {
+          fLogOutputStream <<
+            "Appending standalone " <<
+            newNote->asString () <<
+            ", line " << newNote->getInputLineNumber () <<
+            ", to voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+#endif
     
-    else {
-      // standalone note or rest
+        currentVoice->
+          appendNoteToVoice (newNote);
+
+        // fCurrentSingleTremolo is handled in
+        // attachCurrentSingleTremoloToNote()
+        break;
+        
+      case kTremoloTypeStart:
+        // register newNote as first element of the current double tremolo
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceNotes) {
+          fLogOutputStream <<
+            "Setting standalone note '" <<
+            newNote->asString () <<
+            "', line " << newNote->getInputLineNumber () <<
+            ", as double tremolo first element" <<
+            " in voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+#endif
+
+        fCurrentDoubleTremolo->
+          setDoubleTremoloNoteFirstElement (
+            newNote);
+        break;
+
+      case kTremoloTypeStop:
+        // register newNote as second element of the current double tremolo
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceNotes) {
+          fLogOutputStream <<
+            "Setting standalone note '" <<
+            newNote->asString () <<
+            "', line " << newNote->getInputLineNumber () <<
+            ", as double tremolo second element" <<
+            " in voice \"" <<
+            currentVoice->getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+#endif
+
+        fCurrentDoubleTremolo->
+          setDoubleTremoloNoteSecondElement (
+            newNote);
+
+        // append current double tremolo to current voice
+        currentVoice->
+          appendDoubleTremoloToVoice (
+            fCurrentDoubleTremolo);
+
+        // forget about the current double tremolo
+       // fCurrentDoubleTremolo = 0; // JMI not if there's a chord in the double tremolo XXL BOF
+        break;
+    } // switch
+  }
   
-  /* YES JMI
-      // attach pending tempos if any to the voice of note,
-      // priot to the note itself
-      attachPendingTemposToTheVoiceOfNote (newNote);
-      */
-      
-      // append newNote to the current voice
-  #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceNotes) {
-        fLogOutputStream <<
-          "Appending standalone " <<
-          newNote->asString () <<
-          ", line " << newNote->getInputLineNumber () <<
-          ", to voice \"" <<
-          currentVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-      }
-  #endif
-  
-      currentVoice->
-        appendNoteToVoice (newNote);
-  
-      if (false) { // XXL, syllable sans fSyllableNote assigne JMI
-        fLogOutputStream <<
-          endl << endl <<
-          "&&&&&&&&&&&&&&&&&& currentVoice (" <<
-          currentVoice->getVoiceName () <<
-          ") contents &&&&&&&&&&&&&&&&&&" <<
-          endl <<
-          currentVoice <<
-          endl << endl;
-      }
+  else {
+    // standalone note or rest
+
+/* YES JMI
+    // attach pending tempos if any to the voice of note,
+    // priot to the note itself
+    attachPendingTemposToTheVoiceOfNote (newNote);
+    */
+    
+    // append newNote to the current voice
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes) {
+      fLogOutputStream <<
+        "Appending standalone " <<
+        newNote->asString () <<
+        ", line " << newNote->getInputLineNumber () <<
+        ", to voice \"" <<
+        currentVoice->getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+    currentVoice->
+      appendNoteToVoice (newNote);
+
+    if (false) { // XXL, syllable sans fSyllableNote assigne JMI
+      fLogOutputStream <<
+        endl << endl <<
+        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+        currentVoice->getVoiceName () <<
+        ") contents &&&&&&&&&&&&&&&&&&" <<
+        endl <<
+        currentVoice <<
+        endl << endl;
     }
   }
 
@@ -19049,27 +19047,6 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     // JMI
   }
 
-  if (fCurrentGraceNotesGroup) {
-    // this is the first note after the grace notes
-
-    // attach the current grace notes to this note
-    switch (fCurrentGraceNotesGroup->getGraceNotesGroupKind ()) {
-      case msrGraceNotesGroup::kGraceNotesGroupBefore:
-        note->
-          setNoteGraceNotesGroupBefore (
-            fCurrentGraceNotesGroup);
-        break;
-      case msrGraceNotesGroup::kGraceNotesGroupAfter:
-        note->
-          setNoteGraceNotesGroupAfter (
-            fCurrentGraceNotesGroup);
-        break;
-    } // switch
-
-    // forget about the current grace notes
-    fCurrentGraceNotesGroup = nullptr;
-  }
-  
   switch (fCurrentTupletTypeKind) {
     case msrTuplet::kTupletTypeStart:
       {
@@ -19672,10 +19649,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 
     S_msrNote chordFirstNote;
 
-    if (fCurrentGraceNotesGroup) {
-      // the first note of the chord is currently the last one of fCurrentGraceNotes
+    if (fPendingGraceNotesGroup) {
+      // the first note of the chord is currently the last one of fPendingGraceNotesGroup
       chordFirstNote =
-        fCurrentGraceNotesGroup->
+        fPendingGraceNotesGroup->
           removeLastNoteFromGraceNotesGroup (
             inputLineNumber);
     }
@@ -19747,14 +19724,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
         endl;
     }
 
-    if (fCurrentGraceNotesGroup) {
-      // append current chord to current grace notes
-      fCurrentGraceNotesGroup->
+    if (fPendingGraceNotesGroup) {
+      // append current chord to pending grace notes
+      fPendingGraceNotesGroup->
         appendChordToGraceNotesGroup (
           fCurrentChord);
     }
     else {
-      // append current chord to current voice JMI ???
+      // append current chord to pending voice JMI ???
       currentVoice->
         appendChordToVoice (
           fCurrentChord);

@@ -1565,7 +1565,7 @@ void msrGraceNotesGroup::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      // no endl here
+      os << endl;
     } // for
   
     gIndenter--;
