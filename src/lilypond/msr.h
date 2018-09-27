@@ -999,13 +999,13 @@ class msrMeasure : public msrElement
 
     // grace notes
 
+    void                  addGraceNotesGroupAheadOfMeasure (
+                            S_msrGraceNotesGroup graceNotesGroup);
+    
     /* JMI
     void                  appendGraceNotesToMeasure (
                             S_msrGraceNotes graceNotes);
 
-    void                  prependGraceNotesToMeasure (
-                            S_msrGraceNotes graceNotes);
-    
     void                  appendAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
 
@@ -1430,13 +1430,13 @@ class msrSegment : public msrElement
 
     // grace notes
 
+    void                  addGraceNotesGroupAheadOfSegmentIfNeeded (
+                            S_msrGraceNotesGroup graceNotesGroup);
+    
     /* JMI
     void                  appendGraceNotesToSegment (
                             S_msrGraceNotes graceNotes);
 
-    void                  prependGraceNotesToSegment (
-                            S_msrGraceNotes graceNotes);
-    
     void                  appendAfterGraceNotesToSegment (
                             S_msrAfterGraceNotes afterGraceNotes);
 
@@ -1563,6 +1563,16 @@ class msrGraceNotesGroup : public msrElement
     // set and get
     // ------------------------------------------------------
                               
+    S_msrVoice            getGraceNotesGroupVoiceUplink () const
+                              { return fGraceNotesGroupVoiceUplink; }
+                              
+    void                  setGraceNotesGroupNoteUplink (
+                            S_msrNote note)
+                              { fGraceNotesGroupNoteUplink = note; }
+
+    S_msrNote             getGraceNotesGroupNoteUplink () const
+                              { return fGraceNotesGroupNoteUplink; }
+
     msrGraceNotesGroupKind
                           getGraceNotesGroupKind () const
                               { return fGraceNotesGroupKind; }
@@ -1599,7 +1609,7 @@ class msrGraceNotesGroup : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart             graceNotesGroupPartUplink () const;
+    S_msrPart             fetchGraceNotesGroupPartUplink () const;
 
     void                  appendNoteToGraceNotesGroup (S_msrNote note);
     void                  appendChordToGraceNotesGroup (S_msrChord chord);
@@ -1635,6 +1645,7 @@ class msrGraceNotesGroup : public msrElement
 
     // uplinks
     S_msrVoice            fGraceNotesGroupVoiceUplink;
+    S_msrNote             fGraceNotesGroupNoteUplink;
 
     msrGraceNotesGroupKind
                           fGraceNotesGroupKind;
@@ -5748,6 +5759,11 @@ class msrVoice : public msrElement
     S_msrSegment          getVoiceLastSegment () const
                               { return fVoiceLastSegment; }
 
+    // voice first note
+
+    S_msrNote             getVoiceFirstNote () const
+                              { return fVoiceFirstNote; }
+
     // voice last appended note
 
     S_msrNote             getVoiceLastAppendedNote () const
@@ -5951,11 +5967,11 @@ class msrVoice : public msrElement
 
     // grace notes
 
+    void                  addGraceNotesGroupAheadOfVoiceIfNeeded (
+                            S_msrGraceNotesGroup graceNotesGroup);
+
     /*
     void                  appendGraceNotesToVoice (
-                            S_msrGraceNotes graceNotes);
-
-    void                  prependGraceNotesToVoice (
                             S_msrGraceNotes graceNotes);
 
     void                  appendAfterGraceNotesToVoice (
@@ -6193,6 +6209,8 @@ class msrVoice : public msrElement
 
     string                regularVoiceStaffSequentialNumberAsString () const;
 
+    string                asShortString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -6249,16 +6267,21 @@ class msrVoice : public msrElement
 
     // voice internal handling
     
+    list<S_msrElement>    fVoiceInitialElementsList;
+
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,
     // it is thus logically the end of the latter,
     // and is created implicitly for every voice.
     // Is is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
-    list<S_msrElement>    fVoiceInitialElementsList;
     S_msrSegment          fVoiceLastSegment;
     // it should be saved sometimes
     S_msrSegment          fSaveVoiceLastSegment;
+
+    // fVoiceFirstNote is used to work around LilyPond issue 34,
+    // i.e. to add a skip grace notes group to the first note if needed
+    S_msrNote             fVoiceFirstNote;
 
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
@@ -7195,14 +7218,15 @@ class msrPart : public msrElement
 
     // LilyPond issue 34
 
+    void                  addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+                            S_msrVoice           graceNotesGroupOriginVoice,
+                            S_msrGraceNotesGroup skipGraceNotesGroup);
+
 /*
     void                  appendSkipGraceNotesToVoicesClones ( // JMI ???
                             S_msrVoice      graceNotesOriginVoice,
                             S_msrGraceNotes skipGraceNotes);
                             
-    void                  prependSkipGraceNotesToVoicesClones (
-                            S_msrVoice      graceNotesOriginVoice,
-                            S_msrGraceNotes skipGraceNotes);
                             */
                             
     // finalization

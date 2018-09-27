@@ -1203,7 +1203,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createGraceNotesGroupNewbornClone (
   return newbornClone;
 }
 
-S_msrPart msrGraceNotesGroup::graceNotesGroupPartUplink () const
+S_msrPart msrGraceNotesGroup::fetchGraceNotesGroupPartUplink () const
 {
   return
     fGraceNotesGroupVoiceUplink->
@@ -1261,7 +1261,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
     i++) {      
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-      ) {
+    ) {
       // create skip with same duration as note
       S_msrNote
         skip =
@@ -1281,8 +1281,27 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
   
     else if (
       S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
-      ) {
-      // JMI ???
+    ) {
+      // fetch the chord's first note
+      S_msrNote
+        chordFirstNote =
+          chord->getChordNotesVector () [0];
+          
+      // create skip with same duration as chord
+      S_msrNote
+        skip =
+          msrNote::createSkipNote (
+            note->            getInputLineNumber (),
+            note->            getNoteMeasureNumber (),
+            note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            note->            getNoteDisplayWholeNotes (),
+            note->            getNoteDotsNumber (),
+            containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
+            containingVoice-> getVoiceNumber ());
+
+      // append it to the grace notes
+      clone->
+        appendNoteToGraceNotesGroup (skip);
     }
     
     else {
@@ -1528,6 +1547,39 @@ void msrGraceNotesGroup::print (ostream& os)
   const int fieldWidth = 33;
   
   os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupVoiceUplink" << " : ";
+    if (fGraceNotesGroupVoiceUplink) {
+      os <<
+        fGraceNotesGroupVoiceUplink->asShortString ();
+    }
+    else {
+      os <<
+        "none";
+    }
+  os <<
+    endl;
+    
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupNoteUplink" << " : ";
+    if (fGraceNotesGroupNoteUplink) {
+      os <<
+        fGraceNotesGroupNoteUplink->asShortString ();
+    }
+    else {
+      os <<
+        "none";
+    }
+  os <<
+    endl;
+    
+  os <<
+    setw (fieldWidth) <<
+    "graceNotesGroupIsSlashed" << " : " <<
+    booleanAsString (fGraceNotesGroupIsSlashed) <<
+    endl <<
+    
     setw (fieldWidth) <<
     "graceNotesGroupIsSlashed" << " : " <<
     booleanAsString (fGraceNotesGroupIsSlashed) <<
@@ -4034,8 +4086,13 @@ void msrNote::setNoteGraceNotesGroupBefore (
   }
 #endif
 
-  // register the grace notes in the note
+  // register the before grace notes group in the note
   fNoteGraceNotesGroupBefore = graceNotesGroupBefore;
+
+  // setup the grace notes group's note uplink
+  graceNotesGroupBefore->
+    setGraceNotesGroupNoteUplink (
+      this);
 }
 
 void msrNote::setNoteGraceNotesGroupAfter (
@@ -4053,8 +4110,13 @@ void msrNote::setNoteGraceNotesGroupAfter (
   }
 #endif
 
-  // register the grace notes in the note
+  // register the after grace notes group in the note
   fNoteGraceNotesGroupAfter = graceNotesGroupAfter;
+
+  // setup the grace notes group's note uplink
+  graceNotesGroupAfter->
+    setGraceNotesGroupNoteUplink (
+      this);
 }
 
 /* JMI
@@ -14161,23 +14223,8 @@ void msrMeasure::appendPaddingNoteToMeasure (
   gIndenter--;
 }
 
-/* JMI
-void msrMeasure::appendGraceNotesToMeasure (
-  S_msrGraceNotes graceNotes)
-{
-  fMeasureElementsList.push_back (graceNotes);
-
-  // set graceNotes' measure number
-  graceNotes->
-    setGraceNotesMeasureNumber (
-      this->getMeasureNumber ());
-    
-  // this measure contains music
-  fMeasureContainsMusic = true;
-}
-  
-void msrMeasure::prependGraceNotesToMeasure (
-  S_msrGraceNotes graceNotes)
+void msrMeasure::addGraceNotesGroupAheadOfMeasure (
+  S_msrGraceNotesGroup graceNotesGroup)
 {
   // in order to work around LilyPond issue 34,
   // we need to insert the skip grace notes
@@ -14204,15 +14251,31 @@ void msrMeasure::prependGraceNotesToMeasure (
     }
     
     else {
-       // insert graceNotes before (*i) in the list
+       // insert graceNotesGroup before (*i) in the list
        // JMI what about further such occurrences???
+       /* JMI
       fMeasureElementsList.insert (
-        i, graceNotes);
-
+        i, graceNotesGroup);
+*/
       break;
     }
   } // for
 
+  // this measure contains music
+  fMeasureContainsMusic = true;
+}
+  
+/* JMI
+void msrMeasure::appendGraceNotesToMeasure (
+  S_msrGraceNotes graceNotes)
+{
+  fMeasureElementsList.push_back (graceNotes);
+
+  // set graceNotes' measure number
+  graceNotes->
+    setGraceNotesMeasureNumber (
+      this->getMeasureNumber ());
+    
   // this measure contains music
   fMeasureContainsMusic = true;
 }
@@ -17288,6 +17351,19 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // JMI
     appendTupletToMeasure (tuplet);
 }
 
+void msrSegment::addGraceNotesGroupAheadOfSegmentIfNeeded (
+  S_msrGraceNotesGroup graceNotesGroup)
+
+{
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  fSegmentMeasuresList.front ()->
+    addGraceNotesGroupAheadOfMeasure (graceNotesGroup);
+}
+
 /* JMI
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
@@ -17299,19 +17375,6 @@ void msrSegment::appendGraceNotesToSegment (
     
   fSegmentMeasuresList.back ()->
     appendGraceNotesToMeasure (graceNotes);
-}
-
-void msrSegment::prependGraceNotesToSegment (
-  S_msrGraceNotes graceNotes)
-
-{
-  // sanity check
-  msrAssert (
-    fSegmentMeasuresList.size () > 0,
-    "fSegmentMeasuresList is empty");
-    
-  fSegmentMeasuresList.front ()->
-    prependGraceNotesToMeasure (graceNotes); // JMI
 }
 
 void msrSegment::appendAfterGraceNotesToSegment (
@@ -21701,6 +21764,19 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
   } // switch
   
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    inputLineNumber);
+
+  // append the note to the last segment
+  fVoiceLastSegment->
+    appendNoteToSegment (note);
+
+  // is this note the first one in this voice?
+  if (! fVoiceFirstNote) {
+    fVoiceFirstNote = note;
+  }
+  
   // is this note the shortest one in this voice?
   rational
     noteSoundingWholeNotes =
@@ -21714,14 +21790,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
     fVoiceShortestNoteDuration = noteDisplayWholeNotes;
   }
-
-  // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNotYetDone (
-    inputLineNumber);
-
-  // append the note to the last segment
-  fVoiceLastSegment->
-    appendNoteToSegment (note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -21803,6 +21871,11 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
 
+  // is this note the first one in this voice?
+  if (! fVoiceFirstNote) {
+    fVoiceFirstNote = note;
+  }
+  
   // is this note the shortest one in this voice?
   rational
     noteSoundingWholeNotes =
@@ -21912,23 +21985,25 @@ void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 
   fMusicHasBeenInsertedInVoice = true;
 }
+*/
 
-void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
+void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
+  S_msrGraceNotesGroup graceNotesGroup)
 {
   int inputLineNumber =
-    graceNotes->getInputLineNumber ();
+    graceNotesGroup->getInputLineNumber ();
   
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Prepending grace notes '" <<
-      graceNotes->asString () <<
+      graceNotesGroup->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
 
-/ * JMI
+/* JMI
   gLogIOstream <<
     endl <<
     "======================= prependGraceNotesToVoice" <<
@@ -21938,14 +22013,14 @@ void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
     "=======================" <<
     endl <<
     endl;
-  * /
+  */
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
-    graceNotes->getInputLineNumber ());
+    graceNotesGroup->getInputLineNumber ());
 
   if (! fVoiceFirstSegment) {
-    // these graceNotes appear at the beginning of the voice:
+    // these graceNotesGroup appears at the beginning of the voice:
     // create a first segment
     createNewLastSegmentForVoice (
       inputLineNumber);
@@ -21954,18 +22029,20 @@ void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
     // the create the first measure
     createMeasureAndAppendItToVoice (
       inputLineNumber,
-      graceNotes->
-        getGraceNotesMeasureNumber (),
+      graceNotesGroup->
+        getGraceNotesGroupMeasureNumber (),
       1, //    measureOrdinalNumber,
       msrMeasure::kMeasureImplicitNo);
   }
   
   fVoiceFirstSegment->
-    prependGraceNotesToSegment (graceNotes);
+    addGraceNotesGroupAheadOfSegmentIfNeeded (
+      graceNotesGroup);
 
   fMusicHasBeenInsertedInVoice = true;
 }
 
+/* JMI
 void msrVoice::appendAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
@@ -25745,6 +25822,16 @@ string msrVoice::voiceKindAsString () const
   return voiceKindAsString (fVoiceKind);
 }
       
+string msrVoice::asShortString () const
+{
+  stringstream s;
+
+  s <<
+    "Voice \"" << getVoiceName ();
+
+  return s.str ();
+}
+         
 void msrVoice::print (ostream& os)
 {
   os <<
@@ -25833,6 +25920,29 @@ void msrVoice::print (ostream& os)
   os <<
     endl;
 
+  // print this voice's first note
+  os <<
+    setw (fieldWidth) <<
+    "voiceFirstNote";
+  if (fVoiceFirstNote) {
+    os <<
+      endl;
+
+    gIndenter++;
+
+    os <<
+      fVoiceFirstNote->asString ();
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
+  os <<
+    endl;
+  
   // print the voice last appended note
   os <<
     setw (fieldWidth) <<
@@ -29927,28 +30037,33 @@ void msrPart:: handleBackup (
     measurePosition);
 }
 
-/* JMI
-void msrPart::prependSkipGraceNotesToVoicesClones (
-  S_msrVoice      graceNotesOriginVoice,
-  S_msrGraceNotes skipGraceNotes)
+void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+  S_msrVoice           graceNotesGroupOriginVoice,
+  S_msrGraceNotesGroup skipGraceNotesGroup)
 {
   int inputLineNumber =
-    skipGraceNotes->getInputLineNumber ();
+    skipGraceNotesGroup->getInputLineNumber ();
 
   rational
-    graceNotesOriginVoiceMeasureLength =
-      graceNotesOriginVoice->
+    graceNotesGroupOriginVoiceMeasureLength =
+      graceNotesGroupOriginVoice->
         getVoiceLastSegment ()->
           getSegmentMeasuresList ().back ()->
             getMeasureLength ();
         
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
+  if (
+    gTraceOptions->fTraceMeasures
+      ||
+    gTraceOptions->fTraceGraceNotes
+      ||
+    gTraceOptions->fTraceParts
+    ) {
     gLogIOstream <<
-      "prependSkipGraceNotesToVoicesClones () in " <<
+      "addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded () in " <<
       getPartCombinedName () <<
-      ", graceNotesOriginVoiceMeasureLength = " <<
-      graceNotesOriginVoiceMeasureLength <<
+      ", graceNotesGroupOriginVoiceMeasureLength = " <<
+      graceNotesGroupOriginVoiceMeasureLength <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -29967,31 +30082,30 @@ void msrPart::prependSkipGraceNotesToVoicesClones (
     for (
       map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
       j!=staffAllVoicesMap.end ();
-      j++) {
+      j++
+    ) {
 
       S_msrVoice voice = (*j).second;
       
-      if (voice != graceNotesOriginVoice) {
+      if (voice != graceNotesGroupOriginVoice) {
         voice->
           appendAFirstMeasureToVoiceIfNotYetDone ( // JMI
             inputLineNumber);
             
-        // bring voice to the same measure length as graceNotesOriginVoice
+        // bring voice to the same measure length as graceNotesGroupOriginVoice
         voice->
           padUpToMeasureLengthInVoice (
             inputLineNumber,
-            graceNotesOriginVoiceMeasureLength);
+            graceNotesGroupOriginVoiceMeasureLength);
         
-        // append skip grace notes to voice
+        // add skip grace notes group ahead of voice
         voice->
-          prependGraceNotesToVoice (
-            skipGraceNotes);
+          addGraceNotesGroupAheadOfVoiceIfNeeded (
+            skipGraceNotesGroup);
       }
     } // for
-
   } // for
 }
-*/
 
 void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)

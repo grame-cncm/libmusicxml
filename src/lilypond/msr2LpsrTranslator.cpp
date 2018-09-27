@@ -3003,8 +3003,48 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   fLogOutputStream <<
     endl;
 
+  // get the note this grace notes group is attached to
+  S_msrNote
+    noteNotesGroupIsAttachedTo =
+      elt->
+        getGraceNotesGroupNoteUplink ();
+         
   fOnGoingGraceNotesGroup = true;
+
+  // is noteNotesGroupIsAttachedTo the first one in its voice?
+  if (noteNotesGroupIsAttachedTo == fFirstNoteCloneInVoice ) {
+    // bug 34 in LilyPond should be worked around by creating
+    // skip grace notes in the other voices of the part
   
+    // create skip graceNotesGroup clone
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceGraceNotes) {
+        fLogOutputStream <<
+          "Creating a skip clone of grace notes group '" <<
+          elt->asShortString () <<
+          "' to work around LilyPond issue 34" <<
+          endl;
+      }
+#endif
+
+    // create the skip grace notes group
+    S_msrGraceNotesGroup
+      skipGraceNotesGroup =
+        elt->
+          createSkipGraceNotesGroupClone (
+            fCurrentVoiceClone);
+
+  /* JMI KOF
+    // add it ahead of the other voices in the part if needed
+    fCurrentPartClone->
+      addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+        fCurrentVoiceClone,
+        skipGraceNotesGroup);
+        */
+  }
+
+
+
     /* JMI
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
