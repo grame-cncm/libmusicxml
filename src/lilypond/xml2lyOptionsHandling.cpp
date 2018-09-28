@@ -598,7 +598,7 @@ xml2lyOptions::xml2lyOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "xml2ly",
-    "hx", "helpXml2ly",
+    "hx", "help-xml2ly",
 R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
@@ -647,7 +647,7 @@ void xml2lyOptions::initializeXml2lyOptions ()
       versionSubGroup =
         optionsSubGroup::create (
           "Version",
-          "hxv", "helpXml2lyVersion",
+          "hxv", "help-xml2ly-version",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -674,7 +674,7 @@ R"(Display xml2ly's version number and history and exit.)"));
       aboutSubGroup =
         optionsSubGroup::create (
           "About",
-          "hxa", "helpXml2lyAbout",
+          "hxa", "help-xml2ly-about",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -701,7 +701,7 @@ R"(Display information about xml2ly and exit.)"));
       contactSubGroup =
         optionsSubGroup::create (
           "Contact",
-          "hxc", "helpXml2lyContact",
+          "hxc", "help-ml2ly-contact",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -730,7 +730,7 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
       outputFileSubGroup =
         optionsSubGroup::create (
           "Output file",
-          "hxof", "helpXml2lyOutputFile",
+          "hxof", "help-xml2ly-output-file",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -740,7 +740,7 @@ R"()",
     outputFileSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
-          "o", "outputFileName",
+          "o", "output-filename",
 R"(Write LilyPond code to file 'fileName' instead of standard output.)",
           "fileName",
           "outputFileName",
@@ -749,7 +749,7 @@ R"(Write LilyPond code to file 'fileName' instead of standard output.)",
     outputFileSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "ao", "autoOutputFileName",
+          "aof", "auto-output-filename",
 R"(This option can only be used when reading from a file.
 Write LilyPond code to a file in the current working directory.
 The file name is derived from that of the input file,

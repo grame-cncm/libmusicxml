@@ -40,7 +40,7 @@ generalOptions::generalOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "General",
-    "hg", "helpGeneral",
+    "hg", "help-general",
 R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
@@ -182,7 +182,7 @@ void generalOptions::initializeGeneralOptions (
       helpGeneralOptionsHelpSubGroup =
         optionsSubGroup::create (
           "Options help",
-          "hgoh", "helpGeneralOptionsHelp",
+          "hgoh", "help-general-options-help",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -192,19 +192,19 @@ R"()",
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsHelpUsageItem::create (
-          "ho", "helpOptions",
+          "ho", "help-options",
 R"(Print options usage help.)"));
 
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsHelpSummaryItem::create (
-          "hs", "helpSummary",
+          "hs", "help-summary",
 R"(Display a help summary and exit.)"));
   
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsItemHelpItem::create (
-        "ih", "itemHelp",
+        "ih", "item-help",
 R"(Print help about 'itemName'.)",
         "itemName"));
   }
@@ -226,7 +226,7 @@ R"(Print help about 'itemName'.)",
       warningAndErrorHandlingSubGroup =
         optionsSubGroup::create (
           "Warnings and errors",
-          "hwae", "helpWarningsAndErrors",
+          "hwae", "help-warnings-and-errors",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -244,7 +244,7 @@ R"(Don't issue any warning or error messages.)",
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "i", "ignoreErrors",
+          "i", "ignore-errors",
 R"(Ignore errors and proceed.)",
           "ignoreErrors",
           fIgnoreErrors));
@@ -252,7 +252,7 @@ R"(Ignore errors and proceed.)",
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "aoe", "abortOnErrors",
+          "aoe", "abort-on-errors",
 R"(Abort execution on errors instead of gracefully exiting.
 This is useful when debugging xml2ly.)",
           "abortOnErrors",
@@ -274,7 +274,7 @@ This is useful when debugging xml2ly.)",
       CPUUsageSubGroup =
         optionsSubGroup::create (
           "CPU usage",
-          "hgcpu", "helpGeneralCPUUsage",
+          "hgcpu", "help-general-cpu-usage",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -284,7 +284,7 @@ R"()",
     CPUUsageSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "dcpuu", "displayCpuUsage",
+          "dcpuu", "display-cpu-usage",
 R"(Write information about CPU usage to standard error.)",
           "displayCPUusage",
           fDisplayCPUusage));
@@ -303,18 +303,18 @@ R"(Write information about CPU usage to standard error.)",
       exitAfterSomePassesSubGroup =
         optionsSubGroup::create (
           "Exit after some passes",
-          "hge", "helpGeneralExit",
+          "hge", "help-general-exit",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (exitAfterSomePassesSubGroup);
         
-    // '-exit2a' is hidden...
+    // '-exit-2a' is hidden...
     S_optionsBooleanItem
       exit2aOptionsBooleanItem =
         optionsBooleanItem::create (
-          "e2a", "exit2a",
+          "e2a", "exit-2a",
 R"(Exit after pass 2a, i.e. after conversion
 of the MusicXML tree to an MSR skeleton.)",
           "exit2a",
@@ -326,11 +326,11 @@ of the MusicXML tree to an MSR skeleton.)",
       appendOptionsItem (
         exit2aOptionsBooleanItem);
 
-    // '-exit2b' is hidden...
+    // '-exit-2b' is hidden...
     S_optionsBooleanItem
       exit2bOptionsBooleanItem =
         optionsBooleanItem::create (
-          "e2b", "exit2b",
+          "e2b", "exit-2b",
 R"(Exit after pass 2b, i.e. after conversion
 of the MusicXML tree to MSR.)",
           "exit2b",
@@ -342,11 +342,11 @@ of the MusicXML tree to MSR.)",
       appendOptionsItem (
         exit2bOptionsBooleanItem);
 
-    // '-exit3' is hidden...
+    // '-exit-3' is hidden...
     S_optionsBooleanItem
       exit3OptionsBooleanItem =
         optionsBooleanItem::create (
-          "e3", "exit3",
+          "e3", "exit-3",
 R"(Exit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
           "exit3",

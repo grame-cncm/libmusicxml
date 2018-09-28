@@ -41,7 +41,7 @@ traceOptions::traceOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "Trace",
-    "ht", "helpTrace",
+    "ht", "help-trace",
 R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
@@ -83,7 +83,7 @@ void traceOptions::initializeTraceOptions (
         traceAndDisplaySubGroup =
           optionsSubGroup::create (
             "Trace and display",
-            "htd", "helpTraceDansDisplay",
+            "htd", "help-trace-and-display",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -93,7 +93,7 @@ R"()",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
-            "topts", "traceOptions",
+            "topts", "trace-options",
 R"(Write a trace of options handling to standard error.
 This option should best appear first.)",
             "traceOptions",
@@ -102,7 +102,7 @@ This option should best appear first.)",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
-            "t", "traceTrace",
+            "t", "trace-trace",
 R"(Write a trace of the trace activity to standard error.)",
             "traceTrace",
             fTracePasses));
@@ -110,7 +110,7 @@ R"(Write a trace of the trace activity to standard error.)",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
-            "dov", "displayOptionsValues",
+            "dov", "display-options-values",
 R"(Write the chosen options values to standard error.)",
             "displayOptionsValues",
             fDisplayOptionsValues));
@@ -118,7 +118,7 @@ R"(Write the chosen options values to standard error.)",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
-            "doh", "displayOptionsHandler",
+            "doh", "display-options-handler",
 R"(Write the contents of the options handler to standard error.)",
             "displayOptionsHandler",
             fDisplayOptionsHandler));
@@ -126,7 +126,7 @@ R"(Write the contents of the options handler to standard error.)",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsNumbersSetItem::create (
-            "tdetail", "traceDetailed",
+            "tdetail", "trace-detailed",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval
 and 0 applies to the '<part-list>' and anacrusis if present.
@@ -318,7 +318,7 @@ debugging information to standard error for the specified measures.)",
       specificTraceSubGroup =
         optionsSubGroup::create (
           "Specific trace",
-          "hst", "helpSpecificTrace",
+          "hst", "help-specific-trace",
 R"(Note: the options in this group imply '-t, -traceTrace'.)",
         optionsSubGroup::kHideDescriptionByDefault,
         this);
@@ -330,7 +330,7 @@ R"(Note: the options in this group imply '-t, -traceTrace'.)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "tpasses", "tracePasses",
+          "tpasses", "trace-passes",
 R"(Passes)",
           "tracePasses",
           fTracePasses));
@@ -340,7 +340,7 @@ R"(Passes)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tenc", "traceEncoding",
+          "tenc", "trace-encoding",
 R"(Encoding)",
           "traceEncoding",
           fTraceEncoding,
@@ -351,7 +351,7 @@ R"(Encoding)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tvvas", "traceVarValAssocs",
+          "tvvas", "trace-varv-val-assocs",
 R"(VarValAssocs)",
           "traceVarValAssocs",
           fTraceVarValAssocs,
@@ -362,7 +362,7 @@ R"(VarValAssocs)",
    specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tdivs", "traceDivisions",
+          "tdivs", "trace-divisions",
 R"(Divisions)",
           "traceDivisions",
           fTraceDivisions,
@@ -373,7 +373,7 @@ R"(Divisions)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tgeom", "traceGeometry",
+          "tgeom", "trace-geometry",
 R"(Geometry)",
           "traceGeometry",
           fTraceGeometry,
@@ -384,7 +384,7 @@ R"(Geometry)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tpgrps", "tracePartGroups",
+          "tpgrps", "trace-partgroups",
 R"(Part groups)",
           "tracePartGroups",
           fTracePartGroups,
@@ -393,7 +393,7 @@ R"(Part groups)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tpgrpsd", "tracePartGroupsDetails",
+          "tpgrpsd", "trace-partgroups-details",
 R"(Part groups with more details.
 This option implies '-tpgrps, -tracePartGroups'.)",
           "tracePartGroupsDetails",
@@ -406,7 +406,7 @@ This option implies '-tpgrps, -tracePartGroups'.)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tparts", "traceParts",
+          "tparts", "trace-parts",
 R"(Parts)",
           "traceParts",
           fTraceParts,
@@ -417,7 +417,7 @@ R"(Parts)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tstaves", "traceStaves",
+          "tstaves", "trace-staves",
 R"(Staves)",
           "traceStaves",
           fTraceStaves,
@@ -428,7 +428,7 @@ R"(Staves)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tvoices", "traceVoices",
+          "tvoices", "trace-voices",
 R"(Voices)",
           "traceVoices",
           fTraceVoices,
@@ -437,7 +437,7 @@ R"(Voices)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tvoicesd", "traceVoicesDetails",
+          "tvoicesd", "trace-voices-details",
 R"(Voices with more details (quite verbose)..
 This option implies '-tvdetails, -traceVoicesDetails'.)",
           "traceVoicesDetails",
@@ -450,7 +450,7 @@ This option implies '-tvdetails, -traceVoicesDetails'.)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tclefs", "traceClefs",
+          "tclefs", "trace-clefs",
 R"(Clefs)",
           "traceClefs",
           fTraceClefs,
@@ -461,7 +461,7 @@ R"(Clefs)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tkeys", "traceKeys",
+          "tkeys", "trace-keys",
 R"(Keys)",
           "traceKeys",
           fTraceKeys,
@@ -472,7 +472,7 @@ R"(Keys)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "ttimes", "traceTimes",
+          "ttimes", "trace-times",
 R"(Times)",
           "traceTimes",
           fTraceTimes,
@@ -483,7 +483,7 @@ R"(Times)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "ttempos", "traceTempos",
+          "ttempos", "trace-tempos",
 R"(Tempos)",
           "traceTempos",
           fTraceTempos,
@@ -494,7 +494,7 @@ R"(Tempos)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "trehears", "traceRehearsals",
+          "trehears", "trace-rehearsals",
 R"(Rehearsals)",
           "traceRehearsals",
           fTraceRehearsals,
@@ -505,7 +505,7 @@ R"(Rehearsals)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "ttransps", "traceTranspositions",
+          "ttransps", "trace-transpositions",
 R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
           "traceTranspositions",
           fTraceTranspositions,
@@ -516,7 +516,7 @@ R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "toctshifts", "traceOctaveShifts",
+          "toctshifts", "trace-octaves-shifts",
 R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
           "traceOctaveShifts",
           fTraceOctaveShifts,
@@ -527,7 +527,7 @@ R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tsegs", "traceSegments",
+          "tsegs", "trace-segments",
 R"(Voices segments)",
           "traceSegments",
           fTraceSegments,
@@ -536,7 +536,7 @@ R"(Voices segments)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tsegsd", "traceSegmentsDetails",
+          "tsegsd", "trace-segments-details",
 R"(Voices segments details)",
           "traceSegments",
           fTraceSegmentsDetails,
@@ -548,7 +548,7 @@ R"(Voices segments details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tbars", "traceBarlines",
+          "tbars", "trace-barlines",
 R"(Barlines)",
           "traceBarlines",
           fTraceBarlines,
@@ -557,7 +557,7 @@ R"(Barlines)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tbarsd", "traceBarlinesDetails",
+          "tbarsd", "trace-barlines-details",
 R"(Barlines details)",
           "traceBarlinesDetails",
           fTraceBarlinesDetails,
@@ -569,7 +569,7 @@ R"(Barlines details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tmrests", "traceMultipleRests",
+          "tmrests", "trace-multiple-rests",
 R"(Multiple rests)",
           "traceMultipleRests",
           fTraceMultipleRests,
@@ -580,7 +580,7 @@ R"(Multiple rests)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "treps", "traceRepeats",
+          "treps", "trace-repeats",
 R"(Repeats)",
           "traceRepeats",
           fTraceRepeats,
@@ -589,7 +589,7 @@ R"(Repeats)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "trepsd", "traceRepeatsDetails",
+          "trepsd", "trace-repeats-details",
 R"(Repeats details)",
           "traceRepeats",
           fTraceRepeatsDetails,
@@ -601,7 +601,7 @@ R"(Repeats details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tmreps", "traceMeasureRepeats",
+          "tmreps", "trace-measure-repeats",
 R"(Measure repeats)",
           "traceMeasureRepeats",
           fTraceMeasureRepeats,
@@ -612,7 +612,7 @@ R"(Measure repeats)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tslashes", "traceSlashes",
+          "tslashes", "trace-slashes",
 R"(Slashes)",
           "traceSlashes",
           fTraceSlashes,
@@ -623,7 +623,7 @@ R"(Slashes)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tmeas", "traceMeasures",
+          "tmeas", "trace-measures",
 R"(Measures)",
           "traceMeasures",
           fTraceMeasures,
@@ -632,7 +632,7 @@ R"(Measures)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tmeasd", "traceMeasuresDetails",
+          "tmeasd", "trace-measures-details",
 R"(Measures details)",
           "traceMeasures",
           fTraceMeasuresDetails,
@@ -644,7 +644,7 @@ R"(Measures details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tnotes", "traceNotes",
+          "tnotes", "trace-notes",
 R"(Notes)",
           "traceNotes",
           fTraceNotes,
@@ -653,7 +653,7 @@ R"(Notes)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tnotesd", "traceNotesDetails",
+          "tnotesd", "trace-notes-details",
 R"(Notes with more details, including divisions handling (quite verbose)..
 This option implies '-tnnotes, -traceNotes'.)",
           "traceNotesDetails",
@@ -666,7 +666,7 @@ This option implies '-tnnotes, -traceNotes'.)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tstems", "traceStems",
+          "tstems", "trace-stems",
 R"(Stems)",
           "traceStems",
           fTraceStems,
@@ -677,7 +677,7 @@ R"(Stems)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tbeams", "traceBeams",
+          "tbeams", "trace-beams",
 R"(Beams)",
           "traceBeams",
           fTraceBeams,
@@ -688,7 +688,7 @@ R"(Beams)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tarts", "traceArticulations",
+          "tarts", "trace-articulations",
 R"(Articulations)",
           "traceArticulations",
           fTraceArticulations,
@@ -699,7 +699,7 @@ R"(Articulations)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "ttechs", "traceTechnicals",
+          "ttechs", "trace-technicals",
 R"(Technicals)",
           "traceTechnicals",
           fTraceTechnicals,
@@ -710,7 +710,7 @@ R"(Technicals)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "torns", "traceOrnaments",
+          "torns", "trace-ornaments",
 R"(Ornaments)",
           "traceOrnaments",
           fTraceOrnaments,
@@ -721,7 +721,7 @@ R"(Ornaments)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tdyns", "traceGraceDynamics",
+          "tdyns", "trace-graceDynamics",
 R"(Dynamics)",
           "traceGraceDynamics",
           fTraceGraceDynamics,
@@ -732,7 +732,7 @@ R"(Dynamics)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tspans", "traceSpanners",
+          "tspans", "trace-spanners",
 R"(Spanners)",
           "traceSpanners",
           fTraceSpanners,
@@ -743,7 +743,7 @@ R"(Spanners)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "twords", "traceWords",
+          "twords", "trace-words",
 R"(Words)",
           "traceWords",
           fTraceWords,
@@ -754,7 +754,7 @@ R"(Words)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "ttrems", "traceTremolos",
+          "ttrems", "trace-tremolos",
 R"(Tremolos)",
           "traceTremolos",
           fTraceTremolos,
@@ -765,7 +765,7 @@ R"(Tremolos)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tchords", "traceChords",
+          "tchords", "trace-chords",
 R"(Chords)",
           "traceChords",
           fTraceChords,
@@ -774,7 +774,7 @@ R"(Chords)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tchordsd", "traceChordsDetails",
+          "tchordsd", "trace-chords-details",
 R"(Chords details)",
           "traceChordsDetails",
           fTraceChordsDetails,
@@ -786,7 +786,7 @@ R"(Chords details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "ttups", "traceTuplets",
+          "ttups", "trace-tuplets",
 R"(Tuplets)",
           "traceTuplets",
           fTraceTuplets,
@@ -795,7 +795,7 @@ R"(Tuplets)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "ttupsd", "traceTupletsDetails",
+          "ttupsd", "trace-tuplets-details",
 R"(Tuplets details)",
           "traceTupletsDetails",
           fTraceTupletsDetails,
@@ -807,7 +807,7 @@ R"(Tuplets details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tgliss", "traceGlissandos",
+          "tgliss", "trace-glissandos",
 R"(Glissandos)",
           "traceGlissandos",
           fTraceGlissandos,
@@ -818,7 +818,7 @@ R"(Glissandos)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tslides", "traceSlides",
+          "tslides", "trace-slides",
 R"(Slides)",
           "traceSlides",
           fTraceSlides,
@@ -829,7 +829,7 @@ R"(Slides)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tgraces", "traceGraceNotes",
+          "tgraces", "trace-gracenotes",
 R"(Grace notes)",
           "traceGraceNotes",
           fTraceGraceNotes,
@@ -840,7 +840,7 @@ R"(Grace notes)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tlyrics", "traceLyrics",
+          "tlyrics", "trace-lyrics",
 R"(Lyrics in MusicXML, stanzas in MSR)",
           "traceLyrics",
           fTraceLyrics,
@@ -849,7 +849,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tlyricsd", "traceLyricsDetails",
+          "tlyricsd", "trace-lyrics-details",
 R"(Lyrics in MusicXML, stanzas in MSR)",
           "traceLyricsDetails",
           fTraceLyricsDetails,
@@ -860,7 +860,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tharms", "traceHarmonies",
+          "tharms", "trace-harmonies",
 R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
           "traceHarmonies",
           fTraceHarmonies,
@@ -871,7 +871,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tFrames", "traceFrames",
+          "tFrames", "trace-frames",
 R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
           "traceFrames",
           fTraceFrames,
@@ -882,7 +882,7 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tfigbass", "traceFiguredBass",
+          "tfigbass", "trace-figuredbass",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
           "traceFiguredBass",
           fTraceFiguredBass,
@@ -893,7 +893,7 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tcredits", "traceCredits",
+          "tcredits", "trace-credits",
 R"(Credits)",
           "traceCredits",
           fTraceCredits,
@@ -904,7 +904,7 @@ R"(Credits)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tdynamics", "traceDynamics",
+          "tdynamics", "trace-cynamics",
 R"(Dynamics)",
           "traceDynamics",
           fTraceDynamics,
@@ -915,7 +915,7 @@ R"(Dynamics)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tslurs", "traceSlurs",
+          "tslurs", "trace-slurs",
 R"(Slurs)",
           "fTraceSlurs",
           fTraceSlurs,
@@ -937,7 +937,7 @@ R"(Ligatures)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "twedges", "traceWedges",
+          "twedges", "trace-wedges",
 R"(Wedges)",
           "traceWedges",
           fTraceWedges,
@@ -948,7 +948,7 @@ R"(Wedges)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tpedals", "tracePedals",
+          "tpedals", "trace-pedals",
 R"(Pedals)",
           "tracePedals",
           fTracePedals,
@@ -959,7 +959,7 @@ R"(Pedals)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "traceStaffTuning", "",
+          "trace-staff-tuning", "",
 R"(Staff tuning)",
           "traceStaffTuning",
           fTraceStaffTuning,
@@ -970,7 +970,7 @@ R"(Staff tuning)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "traceScordaturas", "",
+          "trace-scordaturas", "",
 R"(Scordaturas)",
           "traceScordaturas",
           fTraceScordaturas,
@@ -992,7 +992,7 @@ R"(Harp pedals tuning)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tec", "traceExtraChords",
+          "tec", "trace-extra-chords",
 R"(Extra chords handling)",
           "traceExtraChords",
           fTraceExtraChords,
