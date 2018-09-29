@@ -40,7 +40,7 @@ generalOptions::generalOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "General",
-    "hg", "help-general",
+    "hg", "help=general",
 R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
@@ -182,7 +182,7 @@ void generalOptions::initializeGeneralOptions (
       helpGeneralOptionsHelpSubGroup =
         optionsSubGroup::create (
           "Options help",
-          "hgoh", "help-general-options-help",
+          "hgoh", "help=general-options-help",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -192,13 +192,13 @@ R"()",
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsHelpUsageItem::create (
-          "ho", "help-options",
+          "ho", "help=options",
 R"(Print options usage help.)"));
 
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsHelpSummaryItem::create (
-          "hs", "help-summary",
+          "hs", "help=summary",
 R"(Display a help summary and exit.)"));
   
     helpGeneralOptionsHelpSubGroup->
@@ -226,7 +226,7 @@ R"(Print help about 'itemName'.)",
       warningAndErrorHandlingSubGroup =
         optionsSubGroup::create (
           "Warnings and errors",
-          "hwae", "help-warnings-and-errors",
+          "hwae", "help=warnings-and-errors",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -274,7 +274,7 @@ This is useful when debugging xml2ly.)",
       CPUUsageSubGroup =
         optionsSubGroup::create (
           "CPU usage",
-          "hgcpu", "help-general-cpu-usage",
+          "hgcpu", "help=general-cpu-usage",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -303,7 +303,7 @@ R"(Write information about CPU usage to standard error.)",
       exitAfterSomePassesSubGroup =
         optionsSubGroup::create (
           "Exit after some passes",
-          "hge", "help-general-exit",
+          "hge", "help=general-exit",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);

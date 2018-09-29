@@ -41,7 +41,7 @@ traceOptions::traceOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "Trace",
-    "ht", "help-trace",
+    "ht", "help=trace",
 R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
@@ -83,7 +83,7 @@ void traceOptions::initializeTraceOptions (
         traceAndDisplaySubGroup =
           optionsSubGroup::create (
             "Trace and display",
-            "htd", "help-trace-and-display",
+            "htd", "help=trace-and-display",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -318,7 +318,7 @@ debugging information to standard error for the specified measures.)",
       specificTraceSubGroup =
         optionsSubGroup::create (
           "Specific trace",
-          "hst", "help-specific-trace",
+          "hst", "help=specific-trace",
 R"(Note: the options in this group imply '-t, -traceTrace'.)",
         optionsSubGroup::kHideDescriptionByDefault,
         this);
@@ -882,7 +882,7 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tfigbass", "trace-figuredbass",
+          "tfigbass", "trace-figured-bass",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
           "traceFiguredBass",
           fTraceFiguredBass,

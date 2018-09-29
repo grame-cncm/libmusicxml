@@ -224,7 +224,7 @@ lpsrOptions::lpsrOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "LPSR",
-    "hlpsr", "helpLPSR",
+    "hlpsr", "help=lpsr",
 R"(These options control the way LPSR data is handled.)",
     optionsHandler)
 {
@@ -266,7 +266,7 @@ void lpsrOptions::initializeLpsrOptions (
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
           "Trace and display",
-          "hlpsrtd", "helpLpsrTraceAndDisplay",
+          "hlpsrtd", "help-lpsr-trace-and-display",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -276,7 +276,7 @@ R"()",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "tlpsr", "traceLpsr",
+          "tlpsr", "trace-lpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
           "traceLpsr",
           fTraceLpsr));
@@ -284,7 +284,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "tlpsrv", "traceLpsrVisitors",
+          "tlpsrv", "trace-lpsr-visitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
           "traceLpsrVisitors",
           fTraceLpsrVisitors));
@@ -293,7 +293,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "dlpsr", "displayLpsr",
+          "dlpsr", "display-lpsr",
 R"(Write the contents of the LPSR data to standard error.)",
           "displayLpsr",
           fDisplayLpsr,
@@ -303,7 +303,7 @@ R"(Write the contents of the LPSR data to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "tsf", "traceSchemeFunctions",
+          "tsf", "trace-scheme-functions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
           "traceSchemeFunctions",
           fTraceSchemeFunctions));
@@ -343,7 +343,7 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
       languagesSubGroup =
         optionsSubGroup::create (
           "Languages",
-          "hlpsrl", "helpLpsrlanguages",
+          "hlpsrl", "help-lpsr-languages",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -353,7 +353,7 @@ R"()",
     languagesSubGroup->
       appendOptionsItem (
         optionsLpsrPitchesLanguageItem::create (
-          "lppl", "lpsrPitchesLanguage",
+          "lppl", "lpsr-pitches-language",
 R"(Use 'language' to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The 12 LilyPond pitches languages are available:
@@ -361,20 +361,20 @@ nederlands, catalan, deutsch, english, espanol, français,
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
           "language",
-          "lpsrPitchesLanguage",
+          "lpsrPitchesanguage",
           fLpsrQuarterTonesPitchesLanguageKind));
   
     languagesSubGroup->
       appendOptionsItem (
         optionsLpsrChordsLanguageItem::create (
-          "lpcl", "lpsrChordsLanguage",
+          "lpcl", "lpsr-chords-language",
 R"(Use 'language' to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
 The 4 LilyPond chords languages are available:
 german, semiGerman, italian and french.
 The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
           "language",
-          "lpsrChordsLanguage",
+          "lpsr-chords-language",
           fLpsrChordsLanguageKind));
   }
 }

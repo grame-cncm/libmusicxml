@@ -309,8 +309,8 @@ Usage:
     xml2ly [options] [MusicXMLFile|-] [options] 
 )",
 R"(
-Options '-h, -help' print the full help,
-while '-hs, -helpSummary' only print a help summary.)",
+Option '-h, -help' prints the full help,
+while '-hs, -helpSummary' only prints a help summary.)",
     ios
     )
 {
@@ -598,7 +598,7 @@ xml2lyOptions::xml2lyOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "xml2ly",
-    "hx", "help-xml2ly",
+    "hx", "help=xml2ly",
 R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
@@ -647,7 +647,7 @@ void xml2lyOptions::initializeXml2lyOptions ()
       versionSubGroup =
         optionsSubGroup::create (
           "Version",
-          "hxv", "help-xml2ly-version",
+          "hxv", "help=xml2ly-version",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -674,7 +674,7 @@ R"(Display xml2ly's version number and history and exit.)"));
       aboutSubGroup =
         optionsSubGroup::create (
           "About",
-          "hxa", "help-xml2ly-about",
+          "hxa", "help=xml2ly-about",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -701,7 +701,7 @@ R"(Display information about xml2ly and exit.)"));
       contactSubGroup =
         optionsSubGroup::create (
           "Contact",
-          "hxc", "help-ml2ly-contact",
+          "hxc", "help=xml2ly-contact",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -730,7 +730,7 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
       outputFileSubGroup =
         optionsSubGroup::create (
           "Output file",
-          "hxof", "help-xml2ly-output-file",
+          "hxof", "help=xml2ly-output-file",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);

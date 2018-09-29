@@ -362,7 +362,7 @@ extraOptions::extraOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "Extra",
-    "he", "helpExtra",
+    "he", "help=extra",
 R"(These options provide features not related to translation from MusicXML to LilyPond.)",
     optionsHandler)
 {
@@ -395,7 +395,7 @@ void extraOptions::initializeExtraOptions (
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
           "Chords structures",
-          "hecs", "helpExtraChordStructures",
+          "hecs", "help-extra-chord-structures",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -405,7 +405,7 @@ R"()",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsShowAllChordsStructuresItem::create (
-          "sacs", "showAllChordsStructures",
+          "sacs", "show-all-chords-structures",
 R"(Write all known chords structures to standard output.)"));
   }
   
@@ -421,13 +421,13 @@ R"(Write all known chords structures to standard output.)"));
       workSubGroup =
         optionsSubGroup::create (
           "Chords contents",
-          "hecc", "helpExtraChordsContents",
+          "hecc", "help-extra-chords-contents",
 R"(In the options below:
-  'rootDiatonicPitch' should belong to the names available in
+  ROOT_DIATONIC_PITCH should belong to the names available in
   the selected MSR pitches language, "nederlands" by default.
   Other languages can be chosen with the '-mpl, -msrPitchesLanguage' option.
 
-  'harmonyName' should be one of:
+  HARMONY_NAME should be one of:
     MusicXML chords:
       "maj", "min", "aug", "dim", "dom",
       "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
@@ -446,7 +446,7 @@ R"(In the options below:
     workSubGroup->
       appendOptionsItem (
         optionsShowAllChordsContentsItem::create (
-          "sacc", "showAllChordsContents",
+          "sacc", "show-all-chords-contents",
 R"(Write all chords contents for the given diatonic (semitones) pitch
 in the current language to standard output.)",
           "pitch",
@@ -466,7 +466,7 @@ in the current language to standard output.)",
       workSubGroup =
         optionsSubGroup::create (
           "Chord details",
-          "hecd", "helpExtraChordsetails",
+          "hecd", "help-extra-chords-details",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -476,21 +476,21 @@ R"()",
     workSubGroup->
       appendOptionsItem (
         optionsShowChordDetailsItem::create (
-          "scd", "showChordDetails",
+          "scd", "show-chord-details",
 R"(Write the details of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 
-'chordSpecification' can be:
-  'rootDiatonicPitch harmonyName'
+CHORD_SPEC can be:
+  'ROOT_DIATONIC_PITCH HARMONY_NAME'
 or
-  "rootDiatonicPitch = harmonyName"
+  "ROOT_DIATONIC_PITCH = HARMONY_NAME"
   
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   xml2ly -showChordDetails "bes ${HARMONY}" .)",
-          "chordSpecification",
+          "CHORD_SPEC",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
   }
@@ -506,7 +506,7 @@ Using double quotes allows for shell variables substitutions, as in:
       workSubGroup =
         optionsSubGroup::create (
           "Chord analysis",
-          "heca", "helpExtraChordsAnalysis",
+          "heca", "help-extra-chords-analysis",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -516,21 +516,21 @@ R"()",
     workSubGroup->
       appendOptionsItem (
         optionsShowChordAnalysisItem::create (
-          "sca", "showChordAnalysis",
+          "sca", "show-chord-analysis",
 R"(Write an analysis of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 
-'chordSpecification' can be:
-  'rootDiatonicPitch harmonyName'
+CHORD_SPEC can be:
+  'ROOT_DIATONIC_PITCH HARMONY_NAME'
 or
-  "rootDiatonicPitch = harmonyName"
+  "ROOT_DIATONIC_PITCH = HARMONY_NAME"
   
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   xml2ly -showChordAnalysis "bes ${HARMONY}" .)",
-          "chordSpecification",
+          "CHORD_SPEC",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
   }

@@ -42,7 +42,7 @@ musicXMLOptions::musicXMLOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "MusicXML",
-    "hmxml", "helpMusicXML",
+    "hmxml", "help=musicxml",
 R"(These options control the way MusicXML data is translated.)",
     optionsHandler)
 {
@@ -77,7 +77,7 @@ void musicXMLOptions::initializeMusicXMLOptions (
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
           "Trace and display",
-          "hmxmltd", "helpMusicXMLTraceAndDisplay",
+          "hmxmltd", "help-musicxml-trace-and-display",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -87,7 +87,7 @@ R"()",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "tmxmltv", "traceMusicXMLTreeVisitors",
+          "tmxmltv", "trace-musicxml-tree-visitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
           "traceMusicXMLTreeVisitors",
           fTraceMusicXMLTreeVisitors));
@@ -107,7 +107,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
       workSubGroup =
         optionsSubGroup::create (
           "Work",
-          "hmxmlw", "helpMusicXMLWork",
+          "hmxmlw", "help-musicxml-work",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -117,7 +117,7 @@ R"()",
     workSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "ufawt", "useFilenameAsWorkTitle",
+          "ufawt", "use-filename-as-work-title",
 R"(Use the file name as work title if there is none in the MusicXML data.
 Standard input (-) becomes 'Standard input' in that case.)",
           "useFilenameAsWorkTitle",
@@ -148,7 +148,7 @@ Standard input (-) becomes 'Standard input' in that case.)",
       clefsKeysTimesSubGroup =
         optionsSubGroup::create (
           "Clefs, keys, times",
-          "hmxmlckt", "helpMusicXMLClefsKeysTimes",
+          "hmxmlckt", "help-musicxml-clefs-keys-times",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -158,7 +158,7 @@ R"()",
 
     ignoreRedundantClefsItem =
         optionsBooleanItem::create (
-          "irc", "ignoreRedundantClefs",
+          "irc", "ignore-redundant-clefs",
 R"(Ignore clefs that are the same as the current one.)",
           "ignoreRedundantClefs",
           fIgnoreRedundantClefs);
@@ -169,7 +169,7 @@ R"(Ignore clefs that are the same as the current one.)",
   
     ignoreRedundantKeysItem =
         optionsBooleanItem::create (
-          "irk", "ignoreRedundantKeys",
+          "irk", "ignore-redundant-keys",
 R"(Ignore keys that are the same as the current one.)",
           "ignoreRedundantKeys",
           fIgnoreRedundantKeys);
@@ -180,7 +180,7 @@ R"(Ignore keys that are the same as the current one.)",
 
     ignoreRedundantTimesItem =
         optionsBooleanItem::create (
-          "irt", "ignoreRedundantTimes",
+          "irt", "ignore-redundant-times",
 R"(Ignore times that are the same as the current one.)",
           "ignoreRedundantTimes",
           fIgnoreRedundantTimes);
@@ -193,7 +193,7 @@ R"(Ignore times that are the same as the current one.)",
     S_optionsBooleanItem
       loopOptionsBooleanItem =
         optionsBooleanItem::create (
-          "loop", "loopToMusicXML",
+          "loop", "loop-to-musicxml",
 R"(Close the loop, generating a MusicXML file from the MSR. 
 The file name receives a '_loop' suffix. Currently under development.)",
           "loopToMusicXML",
@@ -222,7 +222,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
       combinedOptionsSubGroup =
         optionsSubGroup::create (
           "Combined options",
-          "hmxmlco", "helpMusicXMLCombinedOptions",
+          "hmxmlco", "help-musicxml-combined-options",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
