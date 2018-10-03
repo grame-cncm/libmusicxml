@@ -2,6 +2,7 @@ MusicXML Library
 
 ----------------------------------------------------------------------------------------------------
 Version 3.12
+- fix bugs in guido printer
 - includes improved xml2guido converter
 - update to MusicXML 3.1
 
