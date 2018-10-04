@@ -100,6 +100,11 @@ validate:
 	$(MAKE) validxml
 	$(MAKE) validgmn
 
+lvalidate: 
+	@echo Validating version $(version) with $(VERSION) $(tmp)
+	$(MAKE) validlily
+
+
 validxml: $(validxml)
 
 validgmn: $(validgmn)
