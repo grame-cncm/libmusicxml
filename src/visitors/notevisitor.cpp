@@ -11,7 +11,7 @@
 */
 
 #include <iostream>
-
+#include <sstream>
 #include "notevisitor.h"
 
 //#define PRINTNOTE
@@ -30,9 +30,9 @@ ostream& operator<< (ostream& os, const notevisitor& elt)
 
 //________________________________________________________________________
 notevisitor::notevisitor() 
-  : fInNote(false)
+	: fInNote(false)
 { 
-  reset();
+	reset();
 }
 
 //________________________________________________________________________
@@ -55,6 +55,7 @@ void notevisitor::reset ()
     fTenuto		= (void*)0;
     fTrill		= (void*)0;
 	fTurn		= (void*)0;
+    fTremolo    = (void*)0;
     fInvertedTurn = (void*)0;
     fAccidentalMark = (void*)0;
     fMordent	= (void*)0;
@@ -63,13 +64,9 @@ void notevisitor::reset ()
 	fBreathMark = (void*)0;
     fThisSNote = (void*)0;
 	fTimeModification.set(1,1);
-#ifdef VC6
+
 	fStep = "";
 	fInstrument = "";
-#else
-	fStep.clear();
-	fInstrument.clear();
-#endif
 	fTied.clear();
 	fSlur.clear();
 	fBeam.clear();
@@ -81,69 +78,68 @@ void notevisitor::reset ()
     fLyricText="";
     fGraphicType="";
     fAccidental = "";
+    fCautionary = "";
 }
 
 //________________________________________________________________________
 string notevisitor::i2step(int i)
 {
-  switch (i) {
-    case notevisitor::A:  return "A";
-    case notevisitor::B:  return "B";
-    case notevisitor::C:  return "C";
-    case notevisitor::D:  return "D";
-    case notevisitor::E:  return "E";
-    case notevisitor::F:  return "F";
-    case notevisitor::G:  return "G";
-  }
-  return "";
+	switch (i) {
+		case notevisitor::A:	return "A";
+		case notevisitor::B:	return "B";
+		case notevisitor::C:	return "C";
+		case notevisitor::D:	return "D";
+		case notevisitor::E:	return "E";
+		case notevisitor::F:	return "F";
+		case notevisitor::G:	return "G";
+	}
+	return "";
 }
 
 //________________________________________________________________________
 int notevisitor::step2i(const std::string& step)
 {
-  if (step.size() != 1) return -1;
-  switch (step[0]) {
-    case 'A': return notevisitor::A;
-    case 'B': return notevisitor::B;
-    case 'C': return notevisitor::C;
-    case 'D': return notevisitor::D;
-    case 'E': return notevisitor::E;
-    case 'F': return notevisitor::F;
-    case 'G': return notevisitor::G;
-  }
-  return -1;
+	if (step.size() != 1) return -1;
+	switch (step[0]) {
+		case 'A':	return notevisitor::A;
+		case 'B':	return notevisitor::B;
+		case 'C':	return notevisitor::C;
+		case 'D':	return notevisitor::D;
+		case 'E':	return notevisitor::E;
+		case 'F':	return notevisitor::F;
+		case 'G':	return notevisitor::G;
+	}
+	return -1;
 }
 
 //________________________________________________________________________
 float notevisitor::getMidiPitch() const
 {
     if (fType == kPitched) {
-    int step = step2i(getStep());
-    if (step >= 0) {
-      short step2pitch [] = { 0, 2, 4, 5, 7, 9, 11 };
-      float pitch = (getOctave() * 12.f) + step2pitch[step];
-      return pitch + getAlter();
-    }
-  }
+		int step = step2i(getStep());
+		if (step >= 0) {
+			short step2pitch [] = { 0, 2, 4, 5, 7, 9, 11 };
+			float pitch = (getOctave() * 12.f) + step2pitch[step];
+			return pitch + getAlter();
+		}
+	}
     return -1;
 }
 
 //________________________________________________________________________
 void notevisitor::visitStart ( S_time_modification& elt )
 {
-  fTimeModification.set ( 
-    elt->getIntValue(k_normal_notes,1), 
-    elt->getIntValue(k_actual_notes,1) );
+	fTimeModification.set ( elt->getIntValue(k_normal_notes,1), elt->getIntValue(k_actual_notes,1));
 }
 
 //________________________________________________________________________
 void notevisitor::visitStart ( S_tie& elt )
 {
-  const string& value = elt->getAttributeValue("type");
-  fTie = StartStop::type(fTie | StartStop::xml(value));
+	const string& value = elt->getAttributeValue("type");
+	fTie = StartStop::type(fTie | StartStop::xml(value));
 /*
-  if (value == "start") fTie |= kTieStart;
-  else if (value == "stop") fTie |= kTieStop; 
+	if (value == "start") fTie |= kTieStart;
+	else if (value == "stop") fTie |= kTieStop;	
 */
 }
 
@@ -193,7 +189,18 @@ void notevisitor::print (ostream& out) const
         
         /// Get content information:
         fSyllabic = elt->getValue(k_syllabic);
-        fLyricText = elt->getValue(k_text);
+        
+        /// Browse inside and take into account elision which translates to "~"
+        auto lyrText = elt->find(k_text);
+        stringstream lyrStream;
+        while (lyrText != elt->end()) {
+            lyrStream << lyrText->getValue();
+            if (elt->find(k_elision, lyrText) != elt->end()) {
+                lyrStream << "~";
+            }
+            lyrText = elt->find(k_text, lyrText++);
+        }        
+        fLyricText = lyrStream.str();
     }
     
 //________________________________________________________________________
@@ -203,6 +210,11 @@ void notevisitor::visitStart ( S_note& elt )
 	reset();
 	fDynamics = elt->getAttributeLongValue("dynamics", kUndefinedDynamics);
     fAccidental = elt->getValue(k_accidental);
+    if (!fAccidental.empty()) {
+        auto accidental = elt->find(k_accidental);
+        fCautionary = accidental->getAttributeValue("cautionary");
+    }
+    
     fThisSNote = elt;
     x_default = elt->getAttributeIntValue("default-x", -1);
 }
@@ -211,34 +223,46 @@ void notevisitor::visitStart ( S_note& elt )
 void notevisitor::visitEnd ( S_note& elt )
 {
 #ifdef PRINTNOTE
-	cout << *this << endl;
+	cerr << *this << endl;
 #endif
 }
-
-//________________________________________________________________________
-void notevisitor::print (ostream& out) const
-{
-    if (isGrace()) out << "grace ";
-    if (isCue())   out << "cue ";
-    int type = getType();
-    if (type == kUndefinedType)
-      out << "type undefined";
-    else if (type == kUnpitched) {
-      out << "unpitched note - duration " << getDuration() << " ";
-    }
-    else if (type == kRest) {
-      out << "rest - duration " << getDuration() << " ";
-    }
-    else if (type == kPitched) {
-      out << "note " << getStep();
-      int alter = int(getAlter());
-      float diff = getAlter() - alter;
-      if (diff >= 0.5) alter++; 
-      else if (diff <= -0.5) alter--; 
-      while (alter < 0) { out << 'b'; alter++; }
-      while (alter > 0) { out << '#'; alter--; }
-      out << getOctave() << " (" << getMidiPitch() << ")";
-      out << " - duration " << getDuration() << " ";
+    
+    //________________________________________________________________________
+    std::string notevisitor::getNoteheadType () const
+    {
+        if (fNotehead)
+        {
+            std::stringstream noteHeadGuidoType;
+            
+            if (fNotehead->getAttributeValue("parantheses")=="yes")
+            {
+                noteHeadGuidoType << "(";
+            }
+            
+            std::string noteHeadXML = fNotehead->getValue();
+            if (noteHeadXML == "diamond")
+                noteHeadGuidoType << "diamond";
+            else if (noteHeadXML == "inverted triangle")
+                noteHeadGuidoType << "reversedTriangle";
+            else if (noteHeadXML == "x")
+                noteHeadGuidoType << "x";
+            else if (noteHeadXML == "triangle")
+                noteHeadGuidoType << "triangle";
+            else if (noteHeadXML == "square")
+                noteHeadGuidoType << "square";
+            else if (noteHeadXML == "square")
+                noteHeadGuidoType << "square";
+            else
+                noteHeadGuidoType << "";
+            
+            if (fNotehead->getAttributeValue("parantheses")=="yes")
+            {
+                noteHeadGuidoType << ")";
+            }
+            
+            return noteHeadGuidoType.str();
+        }else
+            return "";
     }
     
     //________________________________________________________________________
@@ -259,7 +283,10 @@ void notevisitor::print (ostream& out) const
                 case 'A':
                     switch (display_octave) {
                         case 4:
-                            restFormatDy = -1.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -1.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 11.0;
                             break;
                         case 5:
                             restFormatDy = 6.0;
@@ -271,11 +298,15 @@ void notevisitor::print (ostream& out) const
                             else if (fCurClef == "F")
                                 restFormatDy = 4.0;
                             break;
+                            
+                        case 2:
+                            if (fCurClef == "G")
+                                restFormatDy = -15.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -3.0;
+                            break;
                         
                         // treating F clef directly!
-                        case 2:
-                            restFormatDy = -3.0;
-                            break;
                         case 1:
                             restFormatDy = -10.0;
                             break;
@@ -289,7 +320,11 @@ void notevisitor::print (ostream& out) const
                 case 'B':
                     switch (display_octave) {
                         case 4:
-                            restFormatDy = 0.0;
+                            if (fCurClef == "G")
+                                restFormatDy = 0.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 12.0;
+                            
                             break;
                         case 5:
                             restFormatDy = 7.0;
@@ -301,10 +336,14 @@ void notevisitor::print (ostream& out) const
                             else if (fCurClef == "F")
                                 restFormatDy = 5.0;
                             break;
-                        // F clef:
+                            
                         case 2:
-                            restFormatDy = -2.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -14.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -2.0;
                             break;
+                        // F clef:
                         case 1:
                             restFormatDy = -9.0;
                             break;
@@ -323,18 +362,27 @@ void notevisitor::print (ostream& out) const
                                 restFormatDy = 6.0;
                             break;
                         case 5:
-                            restFormatDy = 1.0;
+                            if (fCurClef == "G")
+                                restFormatDy = 1.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 13.0;
                             break;
                         case 6:
                             restFormatDy = 8.0;
                             break;
-                        // F clef:
                         case 3:
-                            restFormatDy = -1.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -13.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -1.0;
                             break;
                         case 2:
-                            restFormatDy = -8.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -20.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -8.0;
                             break;
+                        // F clef:
                         default:
                             restFormatDy = 0.0;
                             break;
@@ -352,13 +400,22 @@ void notevisitor::print (ostream& out) const
                         case 5:
                             restFormatDy = 2.0;
                             break;
-                        // F clef:
+                        case 6:
+                            restFormatDy = 9.0;
+                            break;
                         case 3:
-                            restFormatDy = 0.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -12.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 0.0;
                             break;
                         case 2:
-                            restFormatDy = -7.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -19.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -7.0;
                             break;
+                        // F clef:
                             
                         default:
                             restFormatDy = 0.0;
@@ -379,13 +436,19 @@ void notevisitor::print (ostream& out) const
                         case 6:
                             restFormatDy = 10.0;
                             break;
-                        // F clef:
                         case 3:
-                            restFormatDy = 1.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -11.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 1.0;
                             break;
                         case 2:
-                            restFormatDy = -6.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -18.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -6.0;
                             break;
+                        // F clef:
                         default:
                             restFormatDy = 0.0;
                             break;
@@ -402,13 +465,19 @@ void notevisitor::print (ostream& out) const
                         case 5:
                             restFormatDy = 4.0;
                             break;
-                        // F clef:
                         case 3:
-                            restFormatDy = 2.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -10.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 2.0;
                             break;
                         case 2:
-                            restFormatDy = -5.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -17.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -5.0;
                             break;
+                        // F clef:
                             
                         default:
                             restFormatDy = 0.0;
@@ -419,18 +488,27 @@ void notevisitor::print (ostream& out) const
                     switch (display_octave) {
                         // G clef:
                         case 4:
-                            restFormatDy = -2.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -2.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 10.0;
                             break;
                         case 5:
                             restFormatDy = 5.0;
                             break;
-                        // F clef:
                         case 3:
-                            restFormatDy = 3.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -9.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = 3.0;
                             break;
                         case 2:
-                            restFormatDy = -4.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -22.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -4.0;
                             break;
+                        // F clef:
                         default:
                             restFormatDy = 0.0;
                             break;
@@ -443,8 +521,6 @@ void notevisitor::print (ostream& out) const
             
             // Got it reversed for F clef
             restFormatDy = -1.0 * restFormatDy;
-            
-            //cout<<"resFormat "<<display_step<<display_octave<<" on clef "<<fCurClef<<" gives "<<restFormatDy<<endl;
         }
         
         return restFormatDy;

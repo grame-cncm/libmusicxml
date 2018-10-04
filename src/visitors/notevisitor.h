@@ -13,8 +13,6 @@
 #ifndef __noteVisitor__
 #define __noteVisitor__
 
-#include <stdlib.h>
-
 #include <ostream>
 #include <string>
 #include <sstream>
@@ -69,6 +67,7 @@ class EXP notevisitor :
 	public visitor<S_voice>,
     public visitor<S_lyric>,
     public visitor<S_turn>,
+    public visitor<S_tremolo>,
     public visitor<S_inverted_turn>,
     public visitor<S_trill_mark>,
     public visitor<S_wavy_line>,
@@ -89,11 +88,13 @@ class EXP notevisitor :
         S_inverted_mordent		fInvertedMordent;
         S_mordent		fMordent;
         S_turn		fTurn;
+        S_tremolo        fTremolo;
         S_inverted_turn fInvertedTurn;
         S_accidental_mark fAccidentalMark;
         S_notehead fNotehead;
         std::string fGraphicType;
         std::string fAccidental;
+        std::string fCautionary;
 
 		enum	  { C, D, E, F, G, A, B, last=B, diatonicSteps=last };
 		enum type { kUndefinedType, kPitched, kUnpitched, kRest };
@@ -201,6 +202,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_voice& elt )			{ fVoice = int(*elt); }
         virtual void visitStart( S_lyric& elt );
         virtual void visitStart( S_turn& elt )    { fTurn = elt; }
+        virtual void visitStart( S_tremolo& elt )    { fTremolo = elt; }
         virtual void visitStart( S_trill_mark& elt )    { fTrill = elt; }
         virtual void visitStart( S_wavy_line& elt )    { fWaveLine.push_back(elt); }
         virtual void visitStart( S_accidental_mark& elt )    { fAccidentalMark = elt; }
