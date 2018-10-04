@@ -10,7 +10,7 @@
  research@grame.fr
  */
 
-#ifdef VC6
+#ifdef MSVC
 # pragma warning (disable : 4786)
 #endif
 
@@ -31,11 +31,13 @@ namespace MusicXML2
 {
     
     //______________________________________________________________________________
-    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar) :
+    xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0)
-    {}
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0), defaultGuidoStaffDistance(1)
+    {
+        timePositions.clear();
+    }
     
     //______________________________________________________________________________
     Sguidoelement xml2guidovisitor::convert (const Sxmlelement& xml)
@@ -89,29 +91,41 @@ namespace MusicXML2
     void xml2guidovisitor::flushPartHeader ( partHeader& header )
     {
         if ( (header.visited==false) && header.fPartName.size()) {
-            Sguidoelement tag = guidotag::create("instr");
-            stringstream s1, s2;
-            string instr = header.fPartName;
-            size_t offset = instr.size() * 2;
             
-            s1 << "dx=-" << offset << "hs";
+            // As of Guido 1.64, we won't use derived dx/dy for \instr but use "\auto<autoInstrPos="on">" instead
+            stringstream s1, s2, s0;
+            
+            Sguidoelement autoTag = guidotag::create("auto");
+            s0 << "autoInstrPos=\"on\"";
+            autoTag->add (guidoparam::create(s0.str(), false));
+            add(autoTag);
+            
+            Sguidoelement tag = guidotag::create("instr");
+            string instr = header.fPartName;
+            
+            //int offset = instr.size() * 2;
+            /* removed as of GuidoLib 1.64
+             s1 << "dx=-" << offset << "hs";
+             tag->add (guidoparam::create(s1.str(), false));
+             tag->add (guidoparam::create("dy=-5hs", false));
+             */
             tag->add (guidoparam::create(instr));
-            tag->add (guidoparam::create(s1.str(), false));
-            tag->add (guidoparam::create("dy=-5hs", false));
             add (tag);
             
-            tag = guidotag::create("systemFormat");
+            
+            /*tag = guidotag::create("systemFormat");
             tag->add (guidoparam::create(""));
             s2 << "dx=" << offset << "hs";
             tag->add (guidoparam::create(s2.str(), false));
-            add (tag);
+            
+            add (tag);*/
             header.visited = true;
         }
     }
     
     void xml2guidovisitor::flushPartGroup (std::string partID)
     {
-        //cout<< "Entering flushPartGroup with ID "<<partID<<endl;
+        //cerr<< "Entering flushPartGroup with ID "<<partID<<endl;
         /// Add groupings (accolade and barformat)
         // search if this part ID exists in any grouping
         // Guido Limitation: One \accol tag per staff ONLY (for nested definitions)
@@ -138,8 +152,6 @@ namespace MusicXML2
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformatParams, false));
                 add (tag4);
-                
-                //cout<<"\t Added BarFormat "<<barformatParams<<endl;
             }
             
             /// Make sure that this group pattern won't be visited next time
@@ -154,6 +166,24 @@ namespace MusicXML2
         start(chord);
     }
     
+    void xml2guidovisitor::visitStart( S_defaults& elt)
+    {
+        defaultStaffDistance = elt->getIntValue(k_staff_distance, 0);
+        
+        // Convert to HS
+        /// Guido's default staff-distance seems to be 10HS or 50 tenths
+        if (defaultStaffDistance > 0) {
+            float xmlDistance = defaultStaffDistance - 50.0;
+            float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+            if (HalfSpaceDistance < 0.0) {
+                defaultGuidoStaffDistance = HalfSpaceDistance;
+            }else
+                defaultGuidoStaffDistance = 0;
+        }else {
+            defaultGuidoStaffDistance = 0;
+        }
+    }
+    
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_movement_title& elt )		{ fHeader.fTitle = elt; }
     void xml2guidovisitor::visitStart ( S_creator& elt )			{ fHeader.fCreators.push_back(elt); }
@@ -163,6 +193,16 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xml2guidovisitor::visitStart ( S_part& elt )
     {
+        // Filter out score-part here
+        if (fPartNum != 0) {
+            std::stringstream s;
+            s << "P"<<fPartNum;
+            std::string thisPart = elt->getAttributeValue("id");
+            if ( thisPart != s.str() ) {
+                return;
+            }
+        }
+        
         partsummary ps;
         xml_tree_browser browser(&ps);
         browser.browse(*elt);
@@ -173,7 +213,7 @@ namespace MusicXML2
         rational currentTimeSign (0,1);
         
         staffClefMap.clear();
-        timePositions.clear();
+        //timePositions.clear();
         
         // browse the parts voice by voice: allows to describe voices that spans over several staves
         for (unsigned int i = 0; i < voices->size(); i++) {
@@ -186,6 +226,8 @@ namespace MusicXML2
                 notesOnly = false;
                 targetStaff = mainstaff;
                 fCurrentStaffIndex++;
+                /// Clear timePositions so that we only track voices on a specific Staff
+                timePositions.clear();
             }
             
             Sguidoelement seq = guidoseq::create();
@@ -194,17 +236,31 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("staff");
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
-            
+                        
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
             int stafflines = elt->getIntValue(k_staff_lines, 0);
             
-            if ((previousStaffHasLyrics)||stafflines)
+            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
                 if (previousStaffHasLyrics)
                 {
                     tag2->add (guidoparam::create("dy=-5", false));
+                }else if (ps.fStaffDistances.size()> (targetStaff-1)) {
+                    
+                    if (ps.fStaffDistances[targetStaff-1] > 0) {
+                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;
+                        float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+                    
+                        stringstream s;
+                        s << "dy="<< HalfSpaceDistance;
+                        tag2->add (guidoparam::create(s.str().c_str(), false));
+                    }
+                }else if (defaultGuidoStaffDistance) {
+                    stringstream s;
+                    s << "dy="<< defaultGuidoStaffDistance;
+                    tag2->add (guidoparam::create(s.str().c_str(), false));
                 }
                 
                 if (stafflines>0)
@@ -239,8 +295,7 @@ namespace MusicXML2
                 Sguidoelement tag4 = guidotag::create("barFormat");
                 tag4->add (guidoparam::create(barformat.str(), false));
                 add (tag4);
-                //cout<<"\tAdded MULTI barlineformat "<< barformatParams <<endl;
-                
+				
                 fCurrentAccoladeIndex = rangeEnd;
             }else {
                 
@@ -253,19 +308,18 @@ namespace MusicXML2
                     Sguidoelement tag4 = guidotag::create("barFormat");
                     tag4->add (guidoparam::create(barformat.str(), false));
                     add (tag4);
-                    //cout<<"\tAdded SINGLE barlineformat "<< barformatParams <<endl;
                 }
             }
             
             ////
             
+            //// Browse XML and convert
             xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars);
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
             pv.initialize(seq, targetStaff, fCurrentStaffIndex, targetVoice, notesOnly, currentTimeSign);
             pv.staffClefMap = staffClefMap;
             pv.timePositions = timePositions;
-            //cout<<"Browing targetStaff="<<targetStaff<<" fCurrentStaffIndex:"<<fCurrentStaffIndex<<" targetVoice:"<<targetVoice<<endl;
             browser.browse(*elt);
             pop();
             currentTimeSign = pv.getTimeSign();
@@ -326,7 +380,6 @@ namespace MusicXML2
             posy = posy * ymultiplier;
             stringstream s;
             s << "dy=" << posy << "hs";
-            //cout<< elt->getName()<<" XML Pos: "<< elt->getAttributeFloatValue("default-y", 0)<<" Guido Pos: "<< posy<<endl;
             tag->add (guidoparam::create(s.str(), false));
         }
     }

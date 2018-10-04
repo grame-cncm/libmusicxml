@@ -94,7 +94,8 @@ class EXP xmlpart2guido :
     
     bool isProcessingChord;
 	
-	S_measure	fCurrentMeasure;  
+	S_measure	fCurrentMeasure;
+    S_part      fCurrentPart;
 
 	bool	fNotesOnly;				// a flag to generate notes only (used for several voices on the same staff)
 	bool	fSkipDirection;			// a flag to skip direction elements (for notes only mode or due to different staff)
@@ -117,7 +118,7 @@ class EXP xmlpart2guido :
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
 	void start (Sguidoelement& elt)		{ fStack.push(elt); }
-	void add  (Sguidoelement& elt)		{ fStack.top()->add(elt); }
+	void add  (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
 	void addDelayed (Sguidoelement elt, long offset);	// adding elements to the delayed elements
 	void checkDelayed (long time);						// checks the delayed elements for ready elements 
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
@@ -129,7 +130,6 @@ class EXP xmlpart2guido :
 
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
-    void generateOrnaments(const notevisitor& note);            // generates ornaments for Guido from XML accidental-mark
     
 	std::vector<Sxmlelement>  getChord ( const S_note& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
@@ -210,6 +210,11 @@ class EXP xmlpart2guido :
     
     std::map<int, float> fStaffDistance;
     
+    int checkDynamics(rational posInMeasure);
+    S_dynamics fDynamics;
+    
+    bool fIgnoreWedgeWithOffset;
+    
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}
@@ -220,9 +225,10 @@ class EXP xmlpart2guido :
 		const rational& getTimeSign () const		{ return fCurrentTimeSign; }
         bool fHasLyrics;
         bool hasLyrics() const {return fHasLyrics;}
-    std::multimap<int, std::pair< rational, string > > staffClefMap;
-    
-    std::string getClef(int staffIndex, rational pos);
+//    std::multimap<int, std::pair< rational, string > > staffClefMap;
+    std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
+
+    std::string getClef(int staffIndex, rational pos, int measureNum);
 
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;

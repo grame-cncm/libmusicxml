@@ -29,8 +29,6 @@
 #include "partlistvisitor.h"
 
 
-#include "musicxml2guido.h"
-
 namespace MusicXML2 
 {
 
@@ -61,7 +59,7 @@ class EXP xml2guidovisitor :
 	public visitor<S_score_partwise>,
 	public visitor<S_movement_title>,
 	public visitor<S_creator>,
-	//public visitor<S_part_name>,
+	public visitor<S_defaults>,
 	public visitor<S_part>
 {
 	// the guido elements stack
@@ -74,7 +72,7 @@ class EXP xml2guidovisitor :
 	int				fCurrentStaffIndex;		// the index of the current guido staff
 
 	void start (Sguidoelement& elt)		{ fStack.push(elt); }
-	void add (Sguidoelement& elt)		{ fStack.top()->add(elt); }
+	void add (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
 	void pop ()							{ fStack.pop(); }
 
@@ -88,7 +86,7 @@ class EXP xml2guidovisitor :
 		virtual void visitStart( S_movement_title& elt);
 		virtual void visitStart( S_creator& elt);
 		//virtual void visitStart( S_score_part& elt);
-		//virtual void visitStart( S_part_name& elt);
+		virtual void visitStart( S_defaults& elt);
 		virtual void visitStart( S_part& elt);
 
 		Sguidoelement& current ()				{ return fStack.top(); }
@@ -97,15 +95,21 @@ class EXP xml2guidovisitor :
     
     int  fCurrentAccoladeIndex;
     
-    /// multimap containing <staff-num, position, clef type>
-    std::multimap<int, std::pair< rational, string > > staffClefMap;
+    int  fPartNum;  // 0 (default) to parse all score-parts. 1 for "P1" only, etc.
     
+    int defaultStaffDistance;   // xml staff-distance value in defaults
+    int defaultGuidoStaffDistance;  // the above converted to Guido value
+    
+    /// multimap containing <staff-num, measureNum, position, clef type>
+    //std::multimap<int, std::pair< rational, string > > staffClefMap;
+    std::multimap<int,  std::pair< int, std::pair< rational, string > > > staffClefMap;
+
     /// Containing default-x positions on a fCurrentVoicePosition (rational) of measure(int)
     std::map< int, std::map< rational, std::vector<int> > > timePositions;
 
 
     public:
-				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true);
+				 xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar=true, int partNum = 0);
 		virtual ~xml2guidovisitor() {}
 
 		Sguidoelement convert (const Sxmlelement& xml);
