@@ -13,7 +13,7 @@
 #ifndef __libmusicxml__
 #define __libmusicxml__
 
-#ifdef VC6
+#ifdef MSVC
 # pragma warning (disable : 4786)
 #endif
 
@@ -25,7 +25,7 @@
 
 namespace MusicXML2 
 {
-enum xmlErr { kNoErr, kInvalidFile };
+enum xmlErr { kNoErr, kInvalidFile, kUnsupported };
 
 #ifdef __cplusplus
 extern "C" {
@@ -98,6 +98,19 @@ EXP xmlErr			musicxmlfd2guido	(FILE* fd, bool generateBars, std::ostream& out);
 	\return an error code (\c kNoErr when success)
 */
 EXP xmlErr			musicxmlstring2guido(const char *buff, bool generateBars, std::ostream& out);
+
+/*!
+ \brief Converts a MusicXML representation to the Guido format ONLY on asked Part number ID
+ 
+ Courtesy of Antescofo
+ 
+ \param buff a string containing MusicXML code
+ \param generateBars a boolean to force barlines generation
+ \param out the output stream
+ \return an error code (\c kNoErr when success)
+ */
+EXP xmlErr			musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, int partFilter, std::ostream& out);
+
 /*! @} */
 
 
