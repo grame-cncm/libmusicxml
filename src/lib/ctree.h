@@ -31,117 +31,89 @@ namespace MusicXML2
 //______________________________________________________________________________
 template <typename T> class EXP treeIterator : public std::iterator<std::input_iterator_tag, T>
 {
-  protected:
-  
-    typedef typename std::vector<T>::iterator nodes_iterator;
-    typedef std::pair<nodes_iterator, T>      state;
+	protected:
+		typedef typename std::vector<T>::iterator nodes_iterator;
+		typedef std::pair<nodes_iterator, T> state;
 
-    std::stack<state> fStack;
-    T                 fRootElement;
-    nodes_iterator    fCurrentIterator;
+		std::stack<state>	fStack;
+		T					fRootElement;
+		nodes_iterator		fCurrentIterator;
 
-  public:
-  
-    treeIterator () {}
-    
-    treeIterator (const T& t, bool end=false)
-    {
-      fRootElement = t;
-      if (end) fCurrentIterator = t->elements().end();
-      else forward_down (t);
-    }
-    
-    treeIterator (const treeIterator& a)
-      { *this = a; }
-   
-    virtual ~treeIterator() {}
-    
-    T operator  *() const { return *fCurrentIterator; }
-    T operator ->() const { return *fCurrentIterator; } 
-    
-    //________________________________________________________________________
-    T getParent() const
-      { return fStack.size() ? fStack.top().second : fRootElement; }
-    
-    //________________________________________________________________________
-    // current element has sub-elements: go down to sub-elements first      
-    virtual void forward_down (const T& t) {
-      fCurrentIterator = t->elements().begin();
-      
-      if (fCurrentIterator != t->elements ().end())
-        fStack.push (make_pair (fCurrentIterator+1, t));
-    }
+	public:
+				 treeIterator() {}
+				 treeIterator(const T& t, bool end=false) {
+					 fRootElement = t;
+					 if (end) fCurrentIterator = t->elements().end();
+					 else forward_down (t);
+				 }
+				 treeIterator(const treeIterator& a)  { *this = a; }
+		virtual ~treeIterator() {}
+		
+		T operator  *() const	{ return *fCurrentIterator; }
+		T operator ->() const	{ return *fCurrentIterator; } 
+		
+		//________________________________________________________________________
+		T getParent() const		{ return fStack.size() ? fStack.top().second : fRootElement; }
+		
+		//________________________________________________________________________
+		// current element has sub-elements: go down to sub-elements first			
+		virtual void forward_down(const T& t) {
+			fCurrentIterator = t->elements().begin();
+			if (fCurrentIterator != t->elements().end())
+				fStack.push( make_pair(fCurrentIterator+1, t));
+		}
 
-    //________________________________________________________________________
-    // current element is empty: go up to parent element
-    // and possibly down to neighbor element
-    void forward_up () {
-      while (fStack.size ()) {
-        state s = fStack.top ();
-        fStack.pop ();
+		//________________________________________________________________________
+		// current element is empty: go up to parent element and possibly down to neighbor element
+		void forward_up() {
+			while (fStack.size()) {
+				state s = fStack.top();
+				fStack.pop();
 
-        fCurrentIterator = s.first;
-        if (fCurrentIterator != s.second->elements().end()) {
-          fStack.push (make_pair( fCurrentIterator+1, s.second));
-          return;
-        }
-      }
-    }
-    
-    //________________________________________________________________________
-    // move the iterator forward
-    void forward () {
-      if ((*fCurrentIterator)->size())
-        forward_down (*fCurrentIterator);
-      else
-        forward_up ();
-    }
-    treeIterator& operator ++()   { forward(); return *this; }
-    treeIterator& operator ++(int)  { forward(); return *this; }
+				fCurrentIterator = s.first;
+				if (fCurrentIterator != s.second->elements().end()) {
+					fStack.push( make_pair(fCurrentIterator+1, s.second));
+					return;
+				}
+			}
+		}
+		
+		//________________________________________________________________________
+		// move the iterator forward
+		void forward() {
+			if ((*fCurrentIterator)->size()) forward_down(*fCurrentIterator);
+			else forward_up();
+		}
+		treeIterator& operator ++()		{ forward(); return *this; }
+		treeIterator& operator ++(int)	{ forward(); return *this; }
 
-    //________________________________________________________________________
-    treeIterator& erase () {
-      T parent = getParent();
-      
-      fCurrentIterator =
-        parent->elements().erase(fCurrentIterator);
-      
-      if (fStack.size()) fStack.pop ();
-      
-      if (fCurrentIterator != parent->elements( ).end()) {
-        fStack.push (make_pair( fCurrentIterator+1, parent));
-      }
-      else
-        forward_up();
-        
-      return *this; 
-    }
+		//________________________________________________________________________
+		treeIterator& erase() {
+			T parent = getParent();
+			fCurrentIterator = parent->elements().erase(fCurrentIterator);
+			if (fStack.size()) fStack.pop();
+			if (fCurrentIterator != parent->elements().end()) {
+				fStack.push( make_pair(fCurrentIterator+1, parent));
+			}
+			else forward_up();
+			return *this; 
+		}
 
-    //________________________________________________________________________
-    treeIterator& insert (const T& value) {
-      T parent = getParent();
-      
-      fCurrentIterator =
-        parent->elements().insert(fCurrentIterator, value);
-      
-      if (fStack.size()) fStack.pop ();
-      
-      fStack.push (make_pair(fCurrentIterator+1, parent));
-      
-      return *this;
-    }
+		//________________________________________________________________________
+		treeIterator& insert(const T& value) {
+			T parent = getParent();
+			fCurrentIterator = parent->elements().insert(fCurrentIterator, value);
+			if (fStack.size()) fStack.pop();
+			fStack.push( make_pair(fCurrentIterator+1, parent));
+			return *this;
+		}
 
-    //________________________________________________________________________
-    bool operator ==(const treeIterator& i) const   { 
-      // we check that the iterators have the same parent
-      // (due to an iterator compatibility issue with visual c++)
-      return
-        getParent() == i.getParent()
-          ? ( fCurrentIterator==i.fCurrentIterator )
-          : false;
-    }
-    bool operator !=(const treeIterator& i) const
-      { return !(*this == i); }
+		//________________________________________________________________________
+		bool operator ==(const treeIterator& i) const		{ 
+			// we check that the iterators have the same parent (due to iterator compatibility issue with visual c++)
+			return getParent() == i.getParent() ?  ( fCurrentIterator==i.fCurrentIterator ) : false;
+		}
+		bool operator !=(const treeIterator& i) const		{ return !(*this == i); }
 };
 
 /*!

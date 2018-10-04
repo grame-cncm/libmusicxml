@@ -28,29 +28,29 @@ namespace MusicXML2
 \brief key element data
 */
 class EXP clefvisitor : 
-  public visitor<S_clef>,
-  public visitor<S_sign>,
-  public visitor<S_line>,
-  public visitor<S_clef_octave_change>
+	public visitor<S_clef>,
+	public visitor<S_sign>,
+	public visitor<S_line>,
+	public visitor<S_clef_octave_change>
 {
-  protected:
-    void reset();
-    virtual void visitStart ( S_clef& elt );
-    virtual void visitStart ( S_sign& elt );
-    virtual void visitStart ( S_line& elt );
-    virtual void visitStart ( S_clef_octave_change& elt );
+	protected:
+			    void reset();
+		virtual void visitStart ( S_clef& elt );
+		virtual void visitStart ( S_sign& elt );
+		virtual void visitStart ( S_line& elt );
+		virtual void visitStart ( S_clef_octave_change& elt );
 
-  public:
-    enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
-    enum { kNoNumber = -1 };
-    
-    clefvisitor() { reset(); }
-    virtual ~clefvisitor() {}
+	public:
+		enum { kStandardLine, kTrebleStdLine=2, kBassStdLine=4, kCStdLine=3, kTabStdLine=5 };
+		enum { kNoNumber = -1 };
+		
+				 clefvisitor() { reset(); }
+		virtual ~clefvisitor() {}
 
-    std::string fSign;
-    int         fLine;
-    int         fOctaveChange;
-    int         fNumber;
+		std::string	fSign;
+		int			fLine;
+		int			fOctaveChange;
+		int			fNumber;
 };
 
 

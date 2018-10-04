@@ -15,15 +15,11 @@
 
 // warning: this is NOT a thread safe implementation
 template <typename T> class singleton {
-  
-  public:
-  
-    static T& instance ()
-      {
-        static T theSingleInstance;
-        
-        return theSingleInstance;
-      }
+	public:
+		static T& instance () {
+			static T theSingleInstance;
+			return theSingleInstance;
+		}
 };
 
 

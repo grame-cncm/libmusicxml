@@ -15,8 +15,7 @@
 #endif
 
 #include <iostream>
-#include <cmath>
-//#include <math.h>
+#include <math.h>
 
 #include "factory.h"
 #include "transposition.h"

@@ -15,7 +15,6 @@
 
 #include <string>
 #include <map>
-
 #include "functor.h"
 #include "singleton.h"
 #include "xml.h"
@@ -28,21 +27,16 @@ namespace MusicXML2
 @{
 */
 
-class EXP factory : public singleton<factory>
-{
+class EXP factory : public singleton<factory>{
 
-  std::map<std::string, functor<Sxmlelement>*>  fMap;
-  
-  std::map<int, const char*>                    fType2Name;
-  
-  public:
-  
-    factory();
+	std::map<std::string, functor<Sxmlelement>*> fMap;
+	std::map<int, const char*>	fType2Name;
+	public:
+				 factory();
+		virtual ~factory() {}
 
-    virtual ~factory() {}
-
-    Sxmlelement create (const std::string& elt) const;  
-    Sxmlelement create (int type)               const;  
+		Sxmlelement create(const std::string& elt) const;	
+		Sxmlelement create(int type) const;	
 };
 
 }
