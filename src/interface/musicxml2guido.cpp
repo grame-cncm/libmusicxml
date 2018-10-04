@@ -10,86 +10,85 @@
   research@grame.fr
 */
 
-#ifdef VC6
+#ifdef MSVC
 # pragma warning (disable : 4786)
 #endif
 
 #include <iostream>
-
+#include "libmusicxml.h"
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
 #include "xml2guidovisitor.h"
 
-#include "versions.h"
-
 using namespace std;
 
 namespace MusicXML2 
 {
-  
-//_______________________________________________________________________________
-int         musicxml2guidoVersion()    { return 200; }
-const char* musicxml2guidoVersionStr() { return "2.0.0"; }
 
 //_______________________________________________________________________________
-static xmlErr xml2guido (
-  SXMLFile& xmlfile, bool generateBars, ostream& out, const char* file) 
+static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, int partFilter, ostream& out, const char* file)
 {
-  Sxmlelement st = xmlfile->elements();
-  if (st) {
-    xml2guidovisitor v(true, true, generateBars);
-    Sguidoelement gmn = v.convert(st);
-    if (file) {
-      out << "(*\n  gmn code converted from '" << file << "'"
-        << "\n  using libmusicxml v." << musicxmllibVersionStr();
+	Sxmlelement st = xmlfile->elements();
+	if (st) {
+		if (st->getName() == "score-timewise") return kUnsupported;
+		
+		xml2guidovisitor v(true, true, generateBars, partFilter);
+		Sguidoelement gmn = v.convert(st);
+		if (file) {
+			out << "(*\n  gmn code converted from '" << file << "'"
+				<< "\n  using libmusicxml v." << musicxmllibVersionStr();
+		}
+		else out << "(*\n  gmn code converted using libmusicxml v." << musicxmllibVersionStr();
+		out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
+			<< "\n*)" << endl;
+		out << gmn << endl;
+		return kNoErr;
+	}
+	return kInvalidFile;
+}
+
+//_______________________________________________________________________________
+EXP xmlErr musicxmlfile2guido(const char *file, bool generateBars, ostream& out) 
+{
+	xmlreader r;
+	SXMLFile xmlfile;
+	xmlfile = r.read(file);
+	if (xmlfile) {
+		return xml2guido(xmlfile, generateBars, 0, out, file);
+	}
+	return kInvalidFile;
+}
+
+//_______________________________________________________________________________
+EXP xmlErr musicxmlfd2guido(FILE * fd, bool generateBars, ostream& out) 
+{
+	xmlreader r;
+	SXMLFile xmlfile;
+	xmlfile = r.read(fd);
+	if (xmlfile) {
+		return xml2guido(xmlfile, generateBars, 0, out, 0);
+	}
+	return kInvalidFile;
+}
+
+//_______________________________________________________________________________
+    //  partFilter: 0 to get all parts, 1 to get only "P1", etc.
+EXP xmlErr musicxmlstring2guido(const char * buffer, bool generateBars, ostream& out)
+    {
+        return musicxmlstring2guidoOnPart(buffer, generateBars, 0, out);
     }
-    else out << "(*\n  gmn code converted using libmusicxml v." << musicxmllibVersionStr();
-    out << "\n  and the embedded xml2guido converter v." << musicxml2guidoVersionStr()
-      << "\n*)" << endl;
-    out << gmn << endl;
-    return kNoErr;
-  }
-  return kInvalidFile;
-}
 
-//_______________________________________________________________________________
-EXP xmlErr musicxmlfile2guido (
-  const char *file, bool generateBars, ostream& out) 
+EXP xmlErr musicxmlstring2guidoOnPart(const char * buffer, bool generateBars, int partFilter, std::ostream& out)
 {
-  xmlreader r;
-  SXMLFile xmlfile;
-  xmlfile = r.read(file);
-  if (xmlfile) {
-    return xml2guido(xmlfile, generateBars, out, file);
-  }
-  return kInvalidFile;
+	xmlreader r;
+	SXMLFile xmlfile;
+	xmlfile = r.readbuff(buffer);
+	if (xmlfile) {
+		return xml2guido(xmlfile, generateBars, partFilter, out, 0);
+	}
+	return kInvalidFile;
 }
-
-//_______________________________________________________________________________
-EXP xmlErr musicxmlfd2guido (
-  FILE * fd, bool generateBars, ostream& out) 
-{
-  xmlreader r;
-  SXMLFile xmlfile;
-  xmlfile = r.read(fd);
-  if (xmlfile) {
-    return xml2guido(xmlfile, generateBars, out, 0);
-  }
-  return kInvalidFile;
-}
-
-//_______________________________________________________________________________
-EXP xmlErr musicxmlstring2guido (
-  const char * buffer, bool generateBars, ostream& out) 
-{
-  xmlreader r;
-  SXMLFile xmlfile;
-  xmlfile = r.readbuff(buffer);
-  if (xmlfile) {
-    return xml2guido(xmlfile, generateBars, out, 0);
-  }
-  return kInvalidFile;
-}
+    
 
 }
