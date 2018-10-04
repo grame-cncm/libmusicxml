@@ -1,0 +1,39 @@
+#!/bin/sh
+# 
+# libmusicxml project
+# version management tool
+#
+
+if [ $# -ne 1 ]
+then
+	echo "usage: version version_num"
+	echo "       version_num format: n.n"
+	exit 1
+fi
+
+
+ROOT=.
+VERSION=$1
+
+echo "moving version number to $VERSION"
+CMAKE=$ROOT/build/CMakeLists.txt
+echo " updating $CMAKE"
+sed "s/VERSION *[1-9]\.[0-9][0-9]+/VERSION $VERSION/" $CMAKE \
+	| sed "s/v\.[1-9]\.[0-9][0-9]+/v.$VERSION/" \
+	| sed "s/\"[1-9]\.[0-9][0-9]+\"/\"$VERSION\"/"  > TMP$$ 
+mv -f TMP$$ $CMAKE
+
+DOXY=$ROOT/doc/Doxyfile
+echo " updating $DOXY  (regenerate doc)"
+sed "s/^\(PROJECT_NUMBER[ 	]*= *\)[0-9]*\.[0-9]*/\1$VERSION/" $DOXY  > TMP$$
+mv -f TMP$$ $DOXY
+
+PKG=$ROOT/packages/Makefile
+echo " updating $PKG"
+sed "s/\(VERSION *:= *\)[0-9]*\.[0-9]*/\1$VERSION/" $PKG > TMP$$
+mv -f TMP$$ $PKG
+
+echo "==> change manually info.plist, rc files in win32 folder and AndroiManifest"
+open -t $ROOT/src/elements/versions.cpp $ROOT/win32/libmusicxml/libmusicxml.rc
+
+exit 0

@@ -23,12 +23,12 @@ int yyline = 1;
 #ifdef __cplusplus
 extern "C" {
 #endif
-int   yyparse (void);
-void  yyerror(const char *s);
-int   libmxmlwrap();
-bool  readfile   (const char * file, reader * r);
-bool  readstream (FILE * file, reader * r);
-bool  readbuffer (const char * buffer, reader * r);
+int		yyparse (void);
+void	yyerror(const char *s);
+int		libmxmlwrap();
+bool	readfile   (const char * file, reader * r);
+bool	readstream (FILE * file, reader * r);
+bool	readbuffer (const char * buffer, reader * r);
 #ifdef __cplusplus
 }
 #endif
@@ -39,9 +39,9 @@ extern int libmxmllineno;
 extern FILE * libmxmlin;
 
 #define YYERROR_VERBOSE
-#define ERROR(str)  { yyerror((const char*)str); YYABORT; }
-#define MAXLEN  1024
-#define VLEN  256
+#define ERROR(str)	{ yyerror(str); YYABORT; }
+#define MAXLEN	1024
+#define VLEN	256
 char attributeName[MAXLEN];
 char attributeVal[MAXLEN];
 
@@ -247,7 +247,7 @@ bool readstream (FILE * fd, reader * r)
   return ret==0;
 }
 
-void  yyerror (const char *s)  { gReader->error (s, libmxmllineno); }
+void	yyerror(const char *s)	{ gReader->error (s, libmxmllineno); }
 
 #ifdef MAIN
 

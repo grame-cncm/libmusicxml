@@ -127,12 +127,12 @@
 #line 1 "xml.y"
 
 /* 
-  Basic xml grammar definition
-  This is a basic definition of the xml grammar necessary to cover 
-  the MusicXML format. It is a simplified form based on the XML document
-  grammar as defined in 
-  "XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
-  O'Reilly, June 2002, pp:366--371
+	Basic xml grammar definition
+	This is a basic definition of the xml grammar necessary to cover 
+	the MusicXML format. It is a simplified form based on the XML document
+	grammar as defined in 
+	"XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
+	O'Reilly, June 2002, pp:366--371
 */
 
 
@@ -150,25 +150,25 @@ int yyline = 1;
 #ifdef __cplusplus
 extern "C" {
 #endif
-int   yyparse (void);
-void  yyerror(const char *s);
-int   libmxmlwrap();
-bool  readfile   (const char * file, reader * r);
-bool  readstream (FILE * file, reader * r);
-bool  readbuffer (const char * buffer, reader * r);
+int		yyparse (void);
+void	yyerror(const char *s);
+int		libmxmlwrap();
+bool	readfile   (const char * file, reader * r);
+bool	readstream (FILE * file, reader * r);
+bool	readbuffer (const char * buffer, reader * r);
 #ifdef __cplusplus
 }
 #endif
 
-int   yylex (void);
+int		yylex (void);
 extern char * libmxmltext;
 extern int libmxmllineno;
 extern FILE * libmxmlin;
 
 #define YYERROR_VERBOSE
-#define ERROR(str)  { yyerror((const char*)str); YYABORT; }
-#define MAXLEN  1024
-#define VLEN  256
+#define ERROR(str)	{ yyerror(str); YYABORT; }
+#define MAXLEN	1024
+#define VLEN	256
 char attributeName[MAXLEN];
 char attributeVal[MAXLEN];
 
@@ -184,32 +184,32 @@ char doctypeSys[MAXLEN];
 reader * gReader;
 
 static void init (reader * r) {
-  gReader = r;
-  xmlStandalone = -1;
-  eltName[0]    = 0;
-  attributeName[0] = 0;
-  attributeVal[0] = 0;
-  xmlversion[0]   = 0;
-  xmlencoding[0]  = 0;
-  doctypeStart[0] = 0;
-  doctypePub[0] = 0;
-  doctypeSys[0] = 0;
+	gReader = r;
+	xmlStandalone = -1;
+	eltName[0]		= 0;
+	attributeName[0] = 0;
+	attributeVal[0] = 0;
+	xmlversion[0]   = 0;
+	xmlencoding[0]  = 0;
+	doctypeStart[0]	= 0;
+	doctypePub[0]	= 0;
+	doctypeSys[0]	= 0;
 }
 
 static char * unquote (char * text) {
-  int n = strlen(text);
-  if (n > 0) {
-    text[n-1]=0;
-    return &text[1];
-  }
-  return text;
+	int n = strlen(text);
+	if (n > 0) {
+		text[n-1]=0;
+		return &text[1];
+	}
+	return text;
 }
 
 static void store (char * dst, const char * text) {
-  strcpy (dst, text);
+	strcpy (dst, text);
 }
 
-int   libmxmlwrap()   { return(1); }
+int		libmxmlwrap()		{ return(1); }
 
 
 
@@ -459,16 +459,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   62
+#define YYLAST   57
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  24
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  31
+#define YYNNTS  30
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  49
+#define YYNRULES  46
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  85
+#define YYNSTATES  81
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -515,41 +515,40 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     7,    10,    14,    18,    20,    22,    24,
-      28,    34,    38,    42,    48,    50,    52,    56,    58,    60,
-      62,    66,    67,    69,    71,    73,    75,    77,    79,    82,
-      84,    87,    88,    93,    94,    96,    98,   101,   106,   111,
-     116,   118,   120,   127,   129,   135,   139,   141,   143,   144
+       0,     0,     3,     7,    10,    14,    16,    18,    20,    24,
+      30,    34,    38,    44,    46,    48,    52,    54,    56,    58,
+      62,    63,    65,    67,    69,    71,    73,    75,    78,    79,
+      84,    85,    87,    89,    92,    97,   102,   107,   109,   111,
+     118,   120,   126,   130,   132,   134,   135
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      25,     0,    -1,    26,    27,    54,    -1,    43,    49,    -1,
-      43,    41,    49,    -1,    28,    37,    29,    -1,    30,    -1,
-      39,    -1,    40,    -1,    19,    31,    20,    -1,    19,    31,
-      18,    36,    20,    -1,    21,    32,    20,    -1,    19,    31,
-      22,    -1,    19,    31,    18,    36,    22,    -1,    15,    -1,
-      15,    -1,    34,    23,    35,    -1,    15,    -1,    17,    -1,
-      33,    -1,    36,    18,    33,    -1,    -1,    38,    -1,    42,
-      -1,    16,    -1,    14,    -1,    13,    -1,    40,    -1,    41,
-      40,    -1,    27,    -1,    42,    27,    -1,    -1,     3,    45,
-      44,     9,    -1,    -1,    46,    -1,    47,    -1,    46,    47,
-      -1,    18,     4,    23,    17,    -1,    18,     5,    23,    17,
-      -1,    18,     6,    23,    48,    -1,     7,    -1,     8,    -1,
-      10,    18,    50,    18,    51,    20,    -1,    15,    -1,    11,
-      18,    52,    18,    53,    -1,    12,    18,    53,    -1,    17,
-      -1,    17,    -1,    -1,    18,    -1
+      25,     0,    -1,    26,    27,    53,    -1,    42,    48,    -1,
+      28,    37,    29,    -1,    30,    -1,    39,    -1,    40,    -1,
+      19,    31,    20,    -1,    19,    31,    18,    36,    20,    -1,
+      21,    32,    20,    -1,    19,    31,    22,    -1,    19,    31,
+      18,    36,    22,    -1,    15,    -1,    15,    -1,    34,    23,
+      35,    -1,    15,    -1,    17,    -1,    33,    -1,    36,    18,
+      33,    -1,    -1,    38,    -1,    41,    -1,    16,    -1,    14,
+      -1,    13,    -1,    27,    -1,    41,    27,    -1,    -1,     3,
+      44,    43,     9,    -1,    -1,    45,    -1,    46,    -1,    45,
+      46,    -1,    18,     4,    23,    17,    -1,    18,     5,    23,
+      17,    -1,    18,     6,    23,    47,    -1,     7,    -1,     8,
+      -1,    10,    18,    49,    18,    50,    20,    -1,    15,    -1,
+      11,    18,    51,    18,    52,    -1,    12,    18,    52,    -1,
+      17,    -1,    17,    -1,    -1,    18,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   101,   101,   103,   104,   106,   107,   108,   109,   111,
-     112,   114,   116,   120,   125,   131,   136,   141,   143,   145,
-     146,   148,   149,   150,   152,   154,   156,   158,   159,   161,
-     162,   164,   165,   170,   171,   172,   173,   175,   177,   179,
-     181,   181,   183,   185,   187,   189,   192,   194,   196,   197
+       0,   101,   101,   103,   105,   106,   107,   108,   110,   111,
+     113,   115,   116,   118,   119,   121,   122,   123,   125,   126,
+     128,   129,   130,   132,   134,   135,   137,   138,   141,   142,
+     144,   145,   146,   147,   149,   150,   151,   152,   152,   154,
+     155,   156,   157,   158,   159,   161,   162
 };
 #endif
 
@@ -564,9 +563,9 @@ static const char *const yytname[] =
   "ENDXMLS", "ENDXMLE", "EQ", "$accept", "document", "prolog", "element",
   "eltstart", "eltstop", "emptyelt", "eltname", "endname", "attribute",
   "attrname", "value", "attributes", "data", "cdata", "procinstr",
-  "comment", "comments", "elements", "xmldecl", "decl", "versiondec",
-  "encodingdec", "stdalonedec", "bool", "doctype", "startname", "id",
-  "publitteral", "syslitteral", "misc", 0
+  "comment", "elements", "xmldecl", "decl", "versiondec", "encodingdec",
+  "stdalonedec", "bool", "doctype", "startname", "id", "publitteral",
+  "syslitteral", "misc", 0
 };
 #endif
 
@@ -584,21 +583,21 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    24,    25,    26,    26,    27,    27,    27,    27,    28,
-      28,    29,    30,    30,    31,    32,    33,    34,    35,    36,
-      36,    37,    37,    37,    38,    39,    40,    41,    41,    42,
-      42,    43,    43,    44,    44,    44,    44,    45,    46,    47,
-      48,    48,    49,    50,    51,    51,    52,    53,    54,    54
+       0,    24,    25,    26,    27,    27,    27,    27,    28,    28,
+      29,    30,    30,    31,    32,    33,    34,    35,    36,    36,
+      37,    37,    37,    38,    39,    40,    41,    41,    42,    42,
+      43,    43,    43,    43,    44,    45,    46,    47,    47,    48,
+      49,    50,    50,    51,    52,    53,    53
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     2,     3,     3,     1,     1,     1,     3,
-       5,     3,     3,     5,     1,     1,     3,     1,     1,     1,
-       3,     0,     1,     1,     1,     1,     1,     1,     2,     1,
-       2,     0,     4,     0,     1,     1,     2,     4,     4,     4,
-       1,     1,     6,     1,     5,     3,     1,     1,     0,     1
+       0,     2,     3,     2,     3,     1,     1,     1,     3,     5,
+       3,     3,     5,     1,     1,     3,     1,     1,     1,     3,
+       0,     1,     1,     1,     1,     1,     1,     2,     0,     4,
+       0,     1,     1,     2,     4,     4,     4,     1,     1,     6,
+       1,     5,     3,     1,     1,     0,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -606,49 +605,47 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-      31,     0,     0,     0,     0,     0,    33,     1,    26,    25,
-       0,    48,    21,     6,     7,     8,     0,    27,     0,     3,
-       0,     0,     0,    34,    35,    14,     0,    49,     2,    24,
-      29,     0,    22,    23,     0,    28,     4,     0,     0,     0,
-      32,     0,    36,     0,     9,    12,     0,     5,    30,    43,
-       0,    37,     0,     0,    17,    19,     0,     0,    15,     0,
-       0,    38,    40,    41,    39,     0,     0,    10,    13,    11,
-       0,     0,     0,    18,    16,    20,     0,     0,    42,    46,
-       0,    47,    45,     0,    44
+      28,     0,     0,     0,     0,     0,    30,     1,    25,    24,
+       0,    45,    20,     5,     6,     7,     0,     3,     0,     0,
+       0,    31,    32,    13,     0,    46,     2,    23,    26,     0,
+      21,    22,     0,     0,     0,     0,    29,     0,    33,     0,
+       8,    11,     0,     4,    27,    40,     0,    34,     0,     0,
+      16,    18,     0,     0,    14,     0,     0,    35,    37,    38,
+      36,     0,     0,     9,    12,    10,     0,     0,     0,    17,
+      15,    19,     0,     0,    39,    43,     0,    44,    42,     0,
+      41
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,    11,    12,    47,    13,    26,    59,    55,
-      56,    74,    57,    31,    32,    14,    15,    18,    33,     4,
-      22,     6,    23,    24,    64,    19,    50,    72,    80,    82,
-      28
+      -1,     2,     3,    11,    12,    43,    13,    24,    55,    51,
+      52,    70,    53,    29,    30,    14,    15,    31,     4,    20,
+       6,    21,    22,    60,    17,    46,    68,    76,    78,    26
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -44
+#define YYPACT_NINF -38
 static const yytype_int8 yypact[] =
 {
-       1,    -8,    19,    -7,     7,    20,    11,   -44,   -44,   -44,
-      15,    13,   -11,   -44,   -44,   -44,    14,   -44,     7,   -44,
-      10,    17,    25,    21,   -44,   -44,    -9,   -44,   -44,   -44,
-     -44,    22,   -44,    -7,    23,   -44,   -44,    24,    12,    26,
-     -44,    30,   -44,    27,   -44,   -44,    29,   -44,   -44,   -44,
-      28,   -44,    31,    18,   -44,   -44,    32,    -4,   -44,    33,
-      16,   -44,   -44,   -44,   -44,    34,    27,   -44,   -44,   -44,
-      36,    38,    37,   -44,   -44,   -44,    35,    41,   -44,   -44,
-      42,   -44,   -44,    41,   -44
+      -2,   -14,    10,    -7,     5,    13,     4,   -38,   -38,   -38,
+      12,    11,   -11,   -38,   -38,   -38,    17,   -38,     7,    15,
+      19,    18,   -38,   -38,    -9,   -38,   -38,   -38,   -38,    20,
+     -38,    -7,    22,    21,     8,     9,   -38,    27,   -38,    24,
+     -38,   -38,    25,   -38,   -38,   -38,    26,   -38,    28,    16,
+     -38,   -38,    23,    -4,   -38,    29,    14,   -38,   -38,   -38,
+     -38,    30,    24,   -38,   -38,   -38,    32,    33,    34,   -38,
+     -38,   -38,    31,    35,   -38,   -38,    37,   -38,   -38,    35,
+     -38
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -44,   -44,   -44,   -12,   -44,   -44,   -44,   -44,   -44,   -29,
-     -44,   -44,   -44,   -44,   -44,   -44,    -3,   -44,   -44,   -44,
-     -44,   -44,   -44,    39,   -44,    43,   -44,   -44,   -44,   -43,
-     -44
+     -38,   -38,   -38,   -12,   -38,   -38,   -38,   -38,   -38,   -28,
+     -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,
+     -38,   -38,    36,   -38,   -38,   -38,   -38,   -38,   -37,   -38
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -658,39 +655,37 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      30,    17,     8,     9,     1,    29,     8,     9,    10,    43,
-       5,    44,    10,    45,    66,    35,    67,    16,    68,     7,
-       8,    48,    38,    39,    20,    62,    63,    70,    71,    21,
-      25,    27,    34,    37,    40,    52,    39,    75,    49,    41,
-      84,    51,    54,    46,    58,     0,    60,     0,    61,    53,
-       0,    73,    79,    69,    76,    65,    77,    78,    81,     0,
-      83,    36,    42
+      28,     1,     8,     9,     5,    27,     8,     9,    10,    39,
+       7,    40,    10,    41,    62,    16,    63,    18,    64,    44,
+      34,    35,    19,    58,    59,    66,    67,    23,    36,    25,
+      33,    48,    49,    35,    71,    32,    37,    45,    47,    50,
+      54,    42,    80,     0,    56,    57,    61,    69,    75,    65,
+      72,    73,    77,     0,    74,    79,     0,    38
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,     4,    13,    14,     3,    16,    13,    14,    19,    18,
-      18,    20,    19,    22,    18,    18,    20,    10,    22,     0,
-      13,    33,     5,     6,     4,     7,     8,    11,    12,    18,
-      15,    18,    18,    23,     9,    23,     6,    66,    15,    18,
-      83,    17,    15,    21,    15,    -1,    18,    -1,    17,    23,
-      -1,    17,    17,    20,    18,    23,    18,    20,    17,    -1,
-      18,    18,    23
+      12,     3,    13,    14,    18,    16,    13,    14,    19,    18,
+       0,    20,    19,    22,    18,    10,    20,     4,    22,    31,
+       5,     6,    18,     7,     8,    11,    12,    15,     9,    18,
+      23,    23,    23,     6,    62,    18,    18,    15,    17,    15,
+      15,    21,    79,    -1,    18,    17,    23,    17,    17,    20,
+      18,    18,    17,    -1,    20,    18,    -1,    21
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    25,    26,    43,    18,    45,     0,    13,    14,
-      19,    27,    28,    30,    39,    40,    10,    40,    41,    49,
-       4,    18,    44,    46,    47,    15,    31,    18,    54,    16,
-      27,    37,    38,    42,    18,    40,    49,    23,     5,     6,
-       9,    18,    47,    18,    20,    22,    21,    29,    27,    15,
-      50,    17,    23,    23,    15,    33,    34,    36,    15,    32,
-      18,    17,     7,     8,    48,    23,    18,    20,    22,    20,
-      11,    12,    51,    17,    35,    33,    18,    18,    20,    17,
-      52,    17,    53,    18,    53
+       0,     3,    25,    26,    42,    18,    44,     0,    13,    14,
+      19,    27,    28,    30,    39,    40,    10,    48,     4,    18,
+      43,    45,    46,    15,    31,    18,    53,    16,    27,    37,
+      38,    41,    18,    23,     5,     6,     9,    18,    46,    18,
+      20,    22,    21,    29,    27,    15,    49,    17,    23,    23,
+      15,    33,    34,    36,    15,    32,    18,    17,     7,     8,
+      47,    23,    18,    20,    22,    20,    11,    12,    50,    17,
+      35,    33,    18,    18,    20,    17,    51,    17,    52,    18,
+      52
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1504,123 +1499,104 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 12:
+        case 11:
+#line 115 "xml.y"
+    { if (!gReader->endElement(eltName)) ERROR("end element error") ;}
+    break;
+
+  case 12:
 #line 116 "xml.y"
-    {
-        	if (!gReader->endElement (eltName))
-          		ERROR("end element error")
-      		;}
+    { if (!gReader->endElement(eltName)) ERROR("end element error") ;}
     break;
 
   case 13:
-#line 120 "xml.y"
-    {
-			if (!gReader->endElement (eltName))
-				ERROR("end element error")
-			;}
+#line 118 "xml.y"
+    { store(eltName, libmxmltext); if (!gReader->newElement(libmxmltext)) ERROR("element error") ;}
     break;
 
   case 14:
-#line 125 "xml.y"
-    {
-			  store(eltName, libmxmltext);
-			  if (!gReader->newElement (libmxmltext))
-				ERROR("element error")
-			;}
+#line 119 "xml.y"
+    { if (!gReader->endElement(libmxmltext)) ERROR("end element error") ;}
     break;
 
   case 15:
-#line 131 "xml.y"
-    {
-			  if (!gReader->endElement (libmxmltext))
-				ERROR("end element error")
-			;}
+#line 121 "xml.y"
+    { if (!gReader->newAttribute (attributeName, attributeVal)) ERROR("attribute error") ;}
     break;
 
   case 16:
-#line 136 "xml.y"
-    {
-			  if (!gReader->newAttribute (attributeName, attributeVal))
-				ERROR("attribute error")
-			;}
-    break;
-
-  case 17:
-#line 141 "xml.y"
+#line 122 "xml.y"
     { store(attributeName, libmxmltext); ;}
     break;
 
-  case 18:
-#line 143 "xml.y"
-    { store(attributeVal, unquote (libmxmltext)); ;}
+  case 17:
+#line 123 "xml.y"
+    { store(attributeVal, unquote(libmxmltext)); ;}
     break;
 
-  case 24:
-#line 152 "xml.y"
+  case 23:
+#line 132 "xml.y"
     { gReader->setValue (libmxmltext); ;}
     break;
 
-  case 25:
-#line 154 "xml.y"
+  case 24:
+#line 134 "xml.y"
     { gReader->newProcessingInstruction (libmxmltext); ;}
     break;
 
-  case 26:
-#line 156 "xml.y"
+  case 25:
+#line 135 "xml.y"
     { gReader->newComment (libmxmltext); ;}
     break;
 
-  case 32:
-#line 165 "xml.y"
-    {
-      		if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone))
-        		ERROR("xmlDecl error")
-			;}
+  case 29:
+#line 142 "xml.y"
+    { if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone)) ERROR("xmlDecl error") ;}
     break;
 
-  case 37:
-#line 175 "xml.y"
-    { store (xmlversion, unquote (libmxmltext)); ;}
+  case 34:
+#line 149 "xml.y"
+    { store(xmlversion, unquote(libmxmltext)); ;}
     break;
 
-  case 38:
-#line 177 "xml.y"
-    { store (xmlencoding, unquote (libmxmltext)); ;}
+  case 35:
+#line 150 "xml.y"
+    { store(xmlencoding, unquote(libmxmltext)); ;}
     break;
 
-  case 39:
-#line 179 "xml.y"
+  case 36:
+#line 151 "xml.y"
     { xmlStandalone = yylval; ;}
     break;
 
-  case 43:
-#line 185 "xml.y"
+  case 40:
+#line 155 "xml.y"
     { store(doctypeStart, libmxmltext); ;}
     break;
 
-  case 44:
-#line 188 "xml.y"
+  case 41:
+#line 156 "xml.y"
     { gReader->docType (doctypeStart, true, doctypePub, doctypeSys); ;}
     break;
 
-  case 45:
-#line 190 "xml.y"
+  case 42:
+#line 157 "xml.y"
     { gReader->docType (doctypeStart, false, doctypePub, doctypeSys); ;}
     break;
 
-  case 46:
-#line 192 "xml.y"
+  case 43:
+#line 158 "xml.y"
     { store(doctypePub, unquote(libmxmltext)); ;}
     break;
 
-  case 47:
-#line 194 "xml.y"
+  case 44:
+#line 159 "xml.y"
     { store(doctypeSys, unquote(libmxmltext)); ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1624 "xmlparse.cpp"
+#line 1600 "xmlparse.cpp"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1834,100 +1810,100 @@ yyreturn:
 }
 
 
-#line 200 "xml.y"
+#line 165 "xml.y"
 
 
-#define yy_delete_buffer  libmxml_delete_buffer
-#define yy_scan_string    libmxml_scan_string
+#define yy_delete_buffer	libmxml_delete_buffer
+#define yy_scan_string		libmxml_scan_string
 
 bool readbuffer (const char * buffer, reader * r) 
 {
-  if (!buffer) return false;    // error for empty buffers
+	if (!buffer) return false;		// error for empty buffers
 
-  init(r);
-  YY_BUFFER_STATE b;
+	init(r);
+	YY_BUFFER_STATE b;
     // Copy string into new buffer and Switch buffers
     b = yy_scan_string (buffer);
     // Parse the string
-  int ret = yyparse();
+	int ret = yyparse();
     // Delete the new buffer
-  yy_delete_buffer(b);
-  BEGIN(INITIAL);
-  return ret==0;
+	yy_delete_buffer(b);
+	BEGIN(INITIAL);
+ 	return ret==0;
 }
 
 bool readfile (const char * file, reader * r) 
 {
-  FILE * fd = fopen (file, "r");
-  if (!fd) {
-    cerr << "can't open file " << file << endl;
-    return false;
-  }
-  init(r);
-  libmxmlrestart(fd);
-  libmxmlin = fd;
-  int ret = yyparse();
-  fclose (fd);
-  BEGIN(INITIAL);
-  return ret==0;
+	FILE * fd = fopen (file, "r");
+	if (!fd) {
+		cerr << "can't open file " << file << endl;
+		return false;
+	}
+	init(r);
+	libmxmlrestart(fd);
+	libmxmlin = fd;
+ 	int ret = yyparse();
+ 	fclose (fd);
+	BEGIN(INITIAL);
+ 	return ret==0;
 }
 
 bool readstream (FILE * fd, reader * r) 
 {
-  if (!fd) return false;
-  init(r);
-  libmxmlrestart(fd);
-  libmxmlin = fd;
-  int ret = yyparse();
-  BEGIN(INITIAL);
-  return ret==0;
+	if (!fd) return false;
+	init(r);
+	libmxmlrestart(fd);
+	libmxmlin = fd;
+ 	int ret = yyparse();
+	BEGIN(INITIAL);
+ 	return ret==0;
 }
 
-void  yyerror (const char *s)  { gReader->error (s, libmxmllineno); }
+void	yyerror(const char *s)	{ gReader->error (s, libmxmllineno); }
 
 #ifdef MAIN
 
 class testreader : public reader
 { 
-  public:
-    bool  xmlDecl (const char* version, const char *encoding, bool standalone) {
-      cout << "xmlDecl: " << version << " " << encoding << " " << standalone << endl;
-      return true;
-    }
-    bool  docType (const char* start, bool status, const char *pub, const char *sys) {
-      cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
-      return true;
-    }
+	public:
+		bool	xmlDecl (const char* version, const char *encoding, bool standalone) {
+			cout << "xmlDecl: " << version << " " << encoding << " " << standalone << endl;
+			return true;
+		}
+		bool	docType (const char* start, bool status, const char *pub, const char *sys) {
+			cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
+			return true;
+		}
 
-    bool  newElement (const char* eltName) {
-      cout << "newElement: " << eltName << endl;
-      return true;
-    }
-    bool  newAttribute (const char* eltName, const char *val) {
-      cout << "    newAttribute: " << eltName << "=" << val << endl;
-      return true;
-    }
-    void  setValue (const char* value) {
-      cout << "  -> value: " << value << endl;
-    }
-    bool  endElement (const char* eltName) {
-      cout << "endElement: " << eltName << endl;
-      return true;
-    }
-    void  error (const char* s, int lineno) {
-      cerr << s << " on line " << lineno << endl;
-    }
+		bool	newElement (const char* eltName) {
+			cout << "newElement: " << eltName << endl;
+			return true;
+		}
+		bool	newAttribute (const char* eltName, const char *val) {
+			cout << "    newAttribute: " << eltName << "=" << val << endl;
+			return true;
+		}
+		void	setValue (const char* value) {
+			cout << "  -> value: " << value << endl;
+		}
+		bool	endElement (const char* eltName) {
+			cout << "endElement: " << eltName << endl;
+			return true;
+		}
+		void	error (const char* s, int lineno) {
+			cerr << s  << " on line " << lineno << endl;
+		}
 
 };
 
 
 int main (int argc, char * argv[])
 {
-  if (argc > 1) {
-    testreader r;
-    return readfile (argv[1], &r) ? 0 : 1;
-  }
-  return 0;
+	if (argc > 1) {
+		testreader r;
+		return readfile (argv[1], &r) ? 0 : 1;
+	}
+ 	return 0;
 }
 #endif
 

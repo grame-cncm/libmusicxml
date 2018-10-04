@@ -11,7 +11,6 @@
 */
 
 #include <iostream>
-
 #include "xmlvisitor.h"
 
 using namespace std;
@@ -22,62 +21,59 @@ namespace MusicXML2
 //______________________________________________________________________________
 ostream& operator<< (ostream& os, const xmlendl& endl)
 {
-  endl.print(os);
-  return os;
+    endl.print(os);
+    return os;
 }
 
 //______________________________________________________________________________
-void xmlendl::print (std::ostream& os) const
-{ 
-  int i = fIndent;
-  os << std::endl;
-  while (i-- > 0)  os << "    ";
+void xmlendl::print(std::ostream& os) const { 
+	int i = fIndent;
+    os << std::endl;
+    while (i-- > 0)  os << "    ";
 }
 
 //______________________________________________________________________________
 void xmlvisitor::visitStart ( S_comment& elt ) 
 {
-  fOut <<  fendl << "<!--" << elt->getValue() << "-->";
+	fOut <<  fendl << "<!--" << elt->getValue() << "-->";
 }
 
 //______________________________________________________________________________
 void xmlvisitor::visitStart ( S_processing_instruction& elt ) 
 {
-  fOut <<  fendl << "<?" << elt->getValue() << "?>";
+	fOut <<  fendl << "<?" << elt->getValue() << "?>";
 }
 
 //______________________________________________________________________________
 void xmlvisitor::visitStart ( Sxmlelement& elt ) 
 {
-  fOut <<  fendl << "<" << elt->getName();
-  
-  // print the element attributes first
-  vector<Sxmlattribute>::const_iterator attr; 
-  for (attr = elt->attributes().begin(); attr != elt->attributes().end(); attr++)
-    fOut << " " << (*attr)->getName() << "=\"" << (*attr)->getValue() << "\"";
-          
-  if (elt->empty()) {
-    fOut << "/>"; // element is empty, we can direclty close it
-  }
-  else {
-    fOut << ">";
-    if (!elt->getValue().empty())
-      fOut << elt->getValue();
-    if (elt->size())
-      fendl++;
-  }
+	fOut <<  fendl << "<" << elt->getName();
+	// print the element attributes first
+	vector<Sxmlattribute>::const_iterator attr; 
+	for (attr = elt->attributes().begin(); attr != elt->attributes().end(); attr++)
+		fOut << " " << (*attr)->getName() << "=\"" << (*attr)->getValue() << "\"";				
+	if (elt->empty()) {
+		fOut << "/>";	// element is empty, we can direclty close it
+	}
+	else {
+		fOut << ">";
+		if (!elt->getValue().empty())
+			fOut << elt->getValue();
+		if (elt->size())
+			fendl++;
+	}
 }
 
 //______________________________________________________________________________
 void xmlvisitor::visitEnd ( Sxmlelement& elt ) 
 {
-  if (! elt->empty()) {
-    if (elt->size()) {
-      fendl--;
-      cout << fendl;
-    }
-    fOut << "</" << elt->getName() << ">";
-  }
+	if (!elt->empty()) {
+		if (elt->size()) {
+			fendl--;
+			fOut << fendl;
+		}
+		fOut << "</" << elt->getName() << ">";
+	}
 }
 
 }

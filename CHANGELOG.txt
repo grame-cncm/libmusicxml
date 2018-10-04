@@ -1,5 +1,19 @@
 MusicXML Library
 
+----------------------------------------------------------------------------------------------------
+Version 3.11
+- specific MacoS version, compiled using C++11
+- xml2guido enhancement: visitors for lyrics, staves, articulation on chord, rehearsal markup  (with enclosure) and XML attributes. We now use Attributes to generate Clef, Key and Meter to avoid GuidoGR multiple clef generation error in presence of multiple voices.
+
+----------------------------------------------------------------------------------------------------
+Version 3.10
+- transpose operation corrected and improved:
+	remove accidental elements
+	removes stem information
+	generate support elements for stems and accidentals
+- new export to IRCAM antescofo format
+- xml2guido generates positions by default (version 2.10)
+
 Version 3.00
 - update to MusicXML version 3
 

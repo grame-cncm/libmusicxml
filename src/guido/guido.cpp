@@ -37,6 +37,7 @@ Sguidonote guidonote::create(unsigned short voice, string name, char oct, guidon
 Sguidoseq guidoseq::create()			{ guidoseq* o = new guidoseq(); assert(o!=0); return o;}
 Sguidochord guidochord::create()		{ guidochord* o = new guidochord(); assert(o!=0); return o;}
 Sguidotag guidotag::create(string name)	{ guidotag* o = new guidotag(name); assert(o!=0); return o;}
+Sguidotag guidotag::create(string name, string sep)	{ guidotag* o = new guidotag(name, sep); assert(o!=0); return o;}
 
 //______________________________________________________________________________
 guidonotestatus* guidonotestatus::fInstances[kMaxInstances] = { 0 };
@@ -119,6 +120,7 @@ void guidoelement::print(ostream& os)
     bool isChord = dynamic_cast<const guidochord *>(this) != 0;
     bool prevNote = false;
     bool prevSeq = false;
+    bool prevEnclosedTag = false;
     // print the optional contained elements
     if (!fElements.empty()) {
         os << fStartList;
@@ -128,20 +130,54 @@ void guidoelement::print(ostream& os)
             seq.cast((guidoelement *)(*ielt));
             Sguidonote note;
             note.cast((guidoelement *)(*ielt));
-
+            Sguidotag tag;
+            tag.cast((guidoelement *)(*ielt));
+            bool beginTag = false, endTag = false;
+            if (tag)
+            {
+                if (tag->fName.find("End") != std::string::npos)
+                {
+                    endTag = true;
+                }else if (tag->fName.find("Begin") != std::string::npos)
+                {
+                    beginTag = true;
+                }
+            }
+            
+            // special treatment for Chord Separator
             if (isChord) {
                 if (note) {
-                    os << (prevNote ? ", " : " ");
+                    os << (prevEnclosedTag || prevNote ? ", " : " ");
                     prevNote = true;
+                    prevEnclosedTag = false;
                 }
                 else if (seq) {
                     os << (prevSeq ? ", " : " ");
                     prevSeq = true;
+                }else if (tag) {
+                    if (beginTag)
+                    {
+                        // happens BEFORE a note. So it should be closed by a separator if in the middle
+                        os << ( (prevNote||prevSeq) ? ", " : " ");
+                        // but it should NOT be followed next time by a separator!
+                        prevNote = false;
+                        
+                    }else if (endTag)
+                    {
+                        // this happens AFTER a note. So it should be preceded by a " ". It should be followed by a ',' if next is note!
+                        os << " ";
+                            
+                    }else {
+                        // A regular enclosing tag like \tag(...) . This SHOULD be followed by a ',' if next is note!
+                        os << ( (prevNote||prevSeq||prevEnclosedTag) ? ", " : " ");
+                        prevEnclosedTag = true;
+                    }
                 }
                 else os << " ";
+                
             }
             else os << " ";
-            os << *ielt;            
+            os << *ielt;
         }
        os << fEndList;
     }
@@ -181,13 +217,14 @@ void guidonote::set (unsigned short voice, string name, char octave, guidonotedu
 			}
 		}
     }
-	if (!status || (*status != dur)) {
+    //// AC Note 20/02/2017: Not generating Durations, causes problems on multi-voice scores with Pickup measures!
+	//if (!status || (*status != dur)) {
         if (dur.fNum != 1) {
             s << "*" << (int)dur.fNum;
         }
         s << "/" << (int)dur.fDenom;
         if (status) *status = dur;
-    }
+    //}
     while (dots-- > 0)
         s << ".";
     s >> fName;
@@ -220,6 +257,8 @@ guidochord::~guidochord() {}
 //______________________________________________________________________________
 guidotag::guidotag(string name) : guidoelement("\\"+name) 
 	{ fStartList="("; fEndList=")"; }
+guidotag::guidotag(string name, string sep) : guidoelement("\\"+name,sep)
+    { fStartList="("; fEndList=")"; }
 guidotag::~guidotag() {}
 
 }

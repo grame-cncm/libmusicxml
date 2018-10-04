@@ -41,15 +41,112 @@ typedef musicxmlfactory* TFactory;
 
 
 /*!
-  \brief Gives the library version number.
-  \return the library version number as an integer (e.g. version 1.0.0 is returned as 100)
+	\brief Gives the library version number.
+	\return the library version number as a float value
 */
-EXP int           musicxmllibVersion();
+EXP float				musicxmllibVersion();
 /*!
-  \brief Gives the library version as a string.
-  \return a string
+	\brief Gives the library version as a string.
+	\return a string
 */
-EXP const char*   musicxmllibVersionStr();
+EXP const char*		musicxmllibVersionStr();
+
+
+/*!
+\addtogroup Converting MusicXML to Guido Music Notation format
+
+The library includes a high level API to convert from the MusicXML format to the
+Guido Music Notation (GMN) format. For more information about this format, 
+see  http://guidolib.sourceforge.net
+@{
+*/
+
+/*!
+	\brief Gives the guido converter version number.
+	\return a version number as a float value
+*/
+EXP float				musicxml2guidoVersion();
+/*!
+	\brief Gives the guido converter version as a string.
+	\return a string
+*/
+EXP	const char*		musicxml2guidoVersionStr();
+
+/*!
+	\brief Converts a MusicXML representation to the Guido format.
+	\param file a file name 
+	\param generateBars a boolean to force barlines generation
+	\param out the output stream
+	\return an error code (\c kNoErr when success)
+*/
+EXP xmlErr			musicxmlfile2guido	(const char *file, bool generateBars, std::ostream& out);
+
+/*!
+	\brief Converts a MusicXML representation to the Guido format.
+	\param fd a file descriptor 
+	\param generateBars a boolean to force barlines generation
+	\param out the output stream
+	\return an error code (\c kNoErr when success)
+*/
+EXP xmlErr			musicxmlfd2guido	(FILE* fd, bool generateBars, std::ostream& out);
+
+/*!
+	\brief Converts a MusicXML representation to the Guido format.
+	\param buff a string containing MusicXML code
+	\param generateBars a boolean to force barlines generation
+	\param out the output stream
+	\return an error code (\c kNoErr when success)
+*/
+EXP xmlErr			musicxmlstring2guido(const char *buff, bool generateBars, std::ostream& out);
+/*! @} */
+
+
+/*
+\addtogroup Converting MusicXML to Antescofo Music Notation format
+
+The library includes a high level API to convert from the MusicXML format to the
+Antescofo Score Notation format. For more information about this format, 
+see  http://repmus.ircam.fr/antescofo
+@{
+*/
+
+/*
+	\brief Gives the Antescofo converter version number.
+	\return a version number as an integer (e.g. version 1.0.0 is returned as 100)
+
+EXP int				musicxml2antescofoVersion();
+	\brief Gives the Antescofo converter version as a string.
+	\return a string
+EXP	const char*		musicxml2antescofoVersionStr();
+*/
+
+/*!
+	\brief Converts a MusicXML representation to the Antescofo format.
+	\param file a file name 
+	\param generateBars a boolean to force barlines generation
+	\param out the output stream
+	\return an error code (\c kNoErr when success)
+EXP xmlErr			musicxmlfile2antescofo	(const char *file, bool generateBars, std::ostream& out);
+*/
+
+/*!
+	\brief Converts a MusicXML representation to the Antescofo format.
+	\param fd a file descriptor 
+	\param generateBars a boolean to force barlines generation
+	\param out the output stream
+	\return an error code (\c kNoErr when success)
+*/
+EXP xmlErr			musicxmlfd2antescofo	(FILE* fd, bool generateBars, std::ostream& out);
+
+/*!
+	\brief Converts a MusicXML representation to the Antescofo format.
+	\param buff a string containing MusicXML code
+	\param generateBars a boolean to force barlines generation
+	\param out the output stream
+	\return an error code (\c kNoErr when success)
+*/
+EXP xmlErr			musicxmlstring2antescofo(const char *buff, bool generateBars, std::ostream& out);
+/*! @} */
 
 
 /*!

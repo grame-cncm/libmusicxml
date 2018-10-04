@@ -15,6 +15,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "exports.h"
 #include "smartpointer.h"
@@ -82,6 +83,7 @@ class EXP guidoelement : public smartable {
 		std::string 	getStart () const				{ return fStartList; }
 		std::string 	getEnd () const					{ return fEndList; }
 		std::string 	getSep () const					{ return fSep; }
+        void            setEnd (std::string end) 		{ fEndList=end; }
         std::vector<Sguidoelement>& elements()		{ return fElements; }
 		const std::vector<Sguidoelement>& elements() const 	{ return fElements; }
         const std::vector<Sguidoparam>& parameters() const 	{ return fParams; }
@@ -240,8 +242,11 @@ typedef SMARTP<guidochord> Sguidochord;
 class EXP guidotag : public guidoelement {
 	public:
         static SMARTP<guidotag> create(std::string name);
+    static SMARTP<guidotag> create(std::string name, std::string sep);
+
 	protected:
-		guidotag(std::string name);
+        guidotag(std::string name);
+        guidotag(std::string name, std::string sep);
 		virtual ~guidotag();
 };
 typedef SMARTP<guidotag> Sguidotag;
