@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrTranspositions__
-#define __msrTranspositions__
+#ifndef ___msrTranspositions___
+#define ___msrTranspositions___
 
 #include "msrElements.h"
 

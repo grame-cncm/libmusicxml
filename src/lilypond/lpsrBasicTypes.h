@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrBasicTypes__
-#define __lpsrBasicTypes__
+#ifndef ___lpsrBasicTypes___
+#define ___lpsrBasicTypes___
 
 #include <list>
 #include <map>

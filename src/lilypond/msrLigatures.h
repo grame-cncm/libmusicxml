@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrLigatures__
-#define __msrLigatures__
+#ifndef ___msrLigatures___
+#define ___msrLigatures___
 
 #include "msrElements.h"
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrStaves__
-#define __lpsrStaves__
+#ifndef ___lpsrStaves___
+#define ___lpsrStaves___
 
 #include <iostream>
 

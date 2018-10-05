@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrOptions__
-#define __lpsrOptions__
+#ifndef ___lpsrOptions___
+#define ___lpsrOptions___
 
 #include "lpsrBasicTypes.h"
 #include "optionsBasicTypes.h"
@@ -239,8 +239,12 @@ class lpsrOptions : public optionsGroup
     
     bool                  fDisplayLpsr;
     
-    // Scheme functions
     bool                  fTraceSchemeFunctions;
+
+    // lyrics vs words
+    // --------------------------------------
+
+    bool                  fAddWordsFromTheLyrics;
 
     // languages
     // --------------------------------------

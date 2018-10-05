@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrLyrics__
-#define __lpsrLyrics__
+#ifndef ___lpsrLyrics___
+#define ___lpsrLyrics___
 
 #include "lpsrElements.h"
 

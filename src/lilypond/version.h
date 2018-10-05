@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __version__
-#define __version__
+#ifndef ___version___
+#define ___version___
 
 #include <string>
 #include <list>

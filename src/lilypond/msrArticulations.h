@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrArticulations__
-#define __msrArticulations__
+#ifndef ___msrArticulations___
+#define ___msrArticulations___
 
 #include "msrElements.h"
 

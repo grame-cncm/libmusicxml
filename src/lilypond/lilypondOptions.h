@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lilypondOptions__
-#define __lilypondOptions__
+#ifndef ___lilypondOptions___
+#define ___lilypondOptions___
 
 #include <set>
 
@@ -287,6 +287,8 @@ staffInstrumentAbbreviation
       
     // LilyPond informations
     string                fDedication;
+    string                fPiece;
+    string                fOpus;
     string                fTitle;
     string                fSubTitle;
     string                fSubSubTitle;
@@ -423,6 +425,8 @@ pickCopyright
     // code generation
     // --------------------------------------
 
+    bool                  fXml2lyInfos;
+    
     bool                  fComments;
 
     bool                  fGlobal;
@@ -436,6 +440,8 @@ pickCopyright
     bool                  fLilypondCompileDate;
 
     bool                  fPointAndClickOff;
+    
+    bool                  fWhiteNoteHeads;
 
 
     // score notation

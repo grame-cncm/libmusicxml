@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrStavesDetails__
-#define __msrStavesDetails__
+#ifndef ___msrStavesDetails___
+#define ___msrStavesDetails___
 
 #include <list>
 

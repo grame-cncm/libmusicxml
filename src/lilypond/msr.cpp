@@ -6038,10 +6038,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here
       } // for
-  
-   // JMI   os <<
-    //    endl;
-  
+    
       gIndenter--;
     }
     else {
@@ -6050,14 +6047,6 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-
-/* JMI
-  // print the note's voice uplink JMI
-  os <<
-    "NoteVoiceUplink" " = " <<
-    fNoteMeasureUplink->fetchMeasureVoiceUplink () <<
-    endl;
-*/
 
   // print the octave shift if any
   if (fNoteOctaveShift || gMsrOptions->fDisplayMsrDetails) {
@@ -7670,6 +7659,17 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+  if (fChordGraceNotesGroupBefore) {
+    // browse the grace notes group before
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fChordGraceNotesGroupBefore);
+  }
+  if (fChordGraceNotesGroupAfter) {
+    // browse the grace notes group after
+    msrBrowser<msrGraceNotesGroup> browser (v);
+    browser.browse (*fChordGraceNotesGroupAfter);
+  }
+
   if (fChordHarmony) {
     // browse the harmony
     msrBrowser<msrHarmony> browser (v);
@@ -8048,6 +8048,36 @@ void msrChord::print (ostream& os)
     for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
       os << (*i);
     } // for
+  }
+
+  // print the grace notes groups if any
+  if (fChordGraceNotesGroupBefore || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupBefore" << " : " <<
+      endl;
+        
+    gIndenter++;
+
+    os <<
+      fChordGraceNotesGroupBefore->asString () <<
+      endl;
+      
+    gIndenter--;
+  }
+  if (fChordGraceNotesGroupAfter || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGraceNotesGroupAfter" << " : " <<
+      endl;
+        
+    gIndenter++;
+
+    os <<
+      fChordGraceNotesGroupAfter->asString () <<
+      endl;
+      
+    gIndenter--;
   }
 
   // print the harmony if any
@@ -9552,7 +9582,7 @@ msrSyllable::msrSyllable (
   fSyllableExtendKind = syllableExtendKind;
   
   // fSyllableNoteUplink will be set
-  // by appendSyllableToNoteAndSetItsUplink () later
+  // by appendSyllableToNoteAndSetItsNoteUplink () later
 
   fSyllableWholeNotes = syllableWholeNotes;
 
@@ -9670,28 +9700,6 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   return syllableDeepCopy;
 }
 
-void msrSyllable::writeTextsList (
-  const list<string>& textsList,
-  ostream&            os)
-{
-  os << "[";
-
-  if (textsList.size ()) {
-    list<string>::const_iterator
-      iBegin = textsList.begin (),
-      iEnd   = textsList.end (),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      os << "\"" << quoteStringIfNonAlpha (*i) << "\"";
-      if (++i == iEnd) break;
-      os << ", ";
-    } // for
-  }
-
-  os << "]";
-} 
-
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
 #ifdef TRACE_OPTIONS
@@ -9710,7 +9718,7 @@ void msrSyllable::appendLyricTextToSyllable (string text)
     text);
 }
 
-void msrSyllable::appendSyllableToNoteAndSetItsUplink (
+void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
   S_msrNote note)
 {
   // sanity check
@@ -9956,6 +9964,48 @@ string msrSyllable::syllableNoteUplinkAsString () const
 
   return result;
 }
+
+string msrSyllable::syllableTextsListAsString () const
+{
+  stringstream s;
+  
+  if (fSyllableTextsList.size ()) {
+    list<string>::const_iterator
+      iBegin = fSyllableTextsList.begin (),
+      iEnd   = fSyllableTextsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s << "\"" << quoteStringIfNonAlpha (*i) << "\"";
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
+  }
+
+  return s.str ();
+} 
+
+void msrSyllable::writeTextsList (
+  const list<string>& textsList,
+  ostream&            os)
+{
+  os << "[";
+
+  if (textsList.size ()) {
+    list<string>::const_iterator
+      iBegin = textsList.begin (),
+      iEnd   = textsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << "\"" << quoteStringIfNonAlpha (*i) << "\"";
+      if (++i == iEnd) break;
+      os << ", ";
+    } // for
+  }
+
+  os << "]";
+} 
 
 string msrSyllable::asString () const
 {
@@ -14223,6 +14273,7 @@ void msrMeasure::appendPaddingNoteToMeasure (
   gIndenter--;
 }
 
+/* JMI
 void msrMeasure::addGraceNotesGroupAheadOfMeasure (
   S_msrGraceNotesGroup graceNotesGroup)
 {
@@ -14253,10 +14304,10 @@ void msrMeasure::addGraceNotesGroupAheadOfMeasure (
     else {
        // insert graceNotesGroup before (*i) in the list
        // JMI what about further such occurrences???
-       /* JMI
+       / * JMI
       fMeasureElementsList.insert (
         i, graceNotesGroup);
-*/
+* /
       break;
     }
   } // for
@@ -14265,7 +14316,6 @@ void msrMeasure::addGraceNotesGroupAheadOfMeasure (
   fMeasureContainsMusic = true;
 }
   
-/* JMI
 void msrMeasure::appendGraceNotesToMeasure (
   S_msrGraceNotes graceNotes)
 {
@@ -17351,6 +17401,7 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // JMI
     appendTupletToMeasure (tuplet);
 }
 
+/* JMI
 void msrSegment::addGraceNotesGroupAheadOfSegmentIfNeeded (
   S_msrGraceNotesGroup graceNotesGroup)
 
@@ -17364,7 +17415,6 @@ void msrSegment::addGraceNotesGroupAheadOfSegmentIfNeeded (
     addGraceNotesGroupAheadOfMeasure (graceNotesGroup);
 }
 
-/* JMI
 void msrSegment::appendGraceNotesToSegment (
   S_msrGraceNotes graceNotes)
 {
@@ -22035,8 +22085,9 @@ void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
       msrMeasure::kMeasureImplicitNo);
   }
   
-  fVoiceFirstSegment->
-    addGraceNotesGroupAheadOfSegmentIfNeeded (
+  // such grace notes groups should be attached to the voice's first note
+  fVoiceFirstNote->
+    setNoteGraceNotesGroupBefore (
       graceNotesGroup);
 
   fMusicHasBeenInsertedInVoice = true;
@@ -25930,7 +25981,7 @@ void msrVoice::print (ostream& os)
 
     gIndenter++;
 
-    os <<
+    os << gTab <<
       fVoiceFirstNote->asString ();
 
     gIndenter--;
@@ -25953,7 +26004,7 @@ void msrVoice::print (ostream& os)
 
     gIndenter++;
 
-    os <<
+    os << gTab <<
       fVoiceLastAppendedNote->asString ();
 
     gIndenter--;
@@ -30091,12 +30142,14 @@ void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
         voice->
           appendAFirstMeasureToVoiceIfNotYetDone ( // JMI
             inputLineNumber);
-            
+
+            /* JMI
         // bring voice to the same measure length as graceNotesGroupOriginVoice
         voice->
           padUpToMeasureLengthInVoice (
             inputLineNumber,
             graceNotesGroupOriginVoiceMeasureLength);
+        */
         
         // add skip grace notes group ahead of voice
         voice->

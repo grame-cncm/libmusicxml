@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrVarValAssocs__
-#define __lpsrVarValAssocs__
+#ifndef ___lpsrVarValAssocs___
+#define ___lpsrVarValAssocs___
 
 #include <string>
 #include <list>
@@ -52,6 +52,7 @@ class lpsrVarValAssoc : public lpsrElement
       // LilyPond informations
       
       kLilypondDedication,
+      kLilypondPiece, kLilypondOpus,
       kLilypondTitle, kLilypondSubTitle, kLilypondSubSubTitle,
       kLilypondInstrument, kLilypondMeter, 
       kLilypondTagline, kLilypondCopyright,

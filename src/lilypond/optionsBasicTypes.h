@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __optionsBasicTypes__
-#define __optionsBasicTypes__
+#ifndef ___optionsBasicTypes___
+#define ___optionsBasicTypes___
 
 #include "list"
 #include "vector"

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrVarValAssocs__
-#define __msrVarValAssocs__
+#ifndef ___msrVarValAssocs___
+#define ___msrVarValAssocs___
 
 #include <list>
 

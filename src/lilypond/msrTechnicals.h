@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrTechnicals__
-#define __msrTechnicals__
+#ifndef ___msrTechnicals___
+#define ___msrTechnicals___
 
 #include "msrElements.h"
 

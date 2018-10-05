@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrHeaders__
-#define __lpsrHeaders__
+#ifndef ___lpsrHeaders___
+#define ___lpsrHeaders___
 
 #include "lpsrVarValAssocs.h"
 
@@ -156,6 +156,20 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getLilypondDedication () const
                               { return fLilypondDedication; }
+
+    void                  setLilypondPiece (
+                            int    inputLineNumber,
+                            string val);
+
+    S_lpsrVarValAssoc     getLilypondPiece () const
+                              { return fLilypondPiece; }
+
+    void                  setLilypondOpus (
+                            int    inputLineNumber,
+                            string val);
+
+    S_lpsrVarValAssoc     getLilypondOpus () const
+                              { return fLilypondOpus; }
 
     void                  setLilypondTitle (
                             int    inputLineNumber,
@@ -302,6 +316,9 @@ class lpsrHeader : public lpsrElement
 
     // centered
     S_lpsrVarValAssoc     fLilypondDedication;
+    
+    S_lpsrVarValAssoc     fLilypondPiece;
+    S_lpsrVarValAssoc     fLilypondOpus;
     
     S_lpsrVarValAssoc     fLilypondTitle;
     S_lpsrVarValAssoc     fLilypondSubTitle;

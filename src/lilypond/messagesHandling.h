@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __messagesHandling__
-#define __messagesHandling__
+#ifndef ___messagesHandling___
+#define ___messagesHandling___
 
 #include <iomanip> // for 'setw()'
 #include <set>     // for 'setw()'

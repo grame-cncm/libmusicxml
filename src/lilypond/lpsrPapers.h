@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrPapers__
-#define __lpsrPapers__
+#ifndef ___lpsrPapers___
+#define ___lpsrPapers___
 
 #include <string>
 #include <iostream>

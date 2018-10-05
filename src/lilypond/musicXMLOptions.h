@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __musicXMLOptions__
-#define __musicXMLOptions__
+#ifndef ___musicXMLOptions___
+#define ___musicXMLOptions___
 
 #include "optionsBasicTypes.h"
 #include "exports.h"

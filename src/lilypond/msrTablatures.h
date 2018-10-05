@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrTablatures__
-#define __msrTablatures__
+#ifndef ___msrTablatures___
+#define ___msrTablatures___
 
 #include <list>
 

@@ -136,6 +136,13 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
       result = "dedication";
       break;
 
+    case lpsrVarValAssoc::kLilypondPiece:
+      result = "piece";
+      break;
+    case lpsrVarValAssoc::kLilypondOpus:
+      result = "opus";
+      break;
+
     case lpsrVarValAssoc::kLilypondTitle:
       result = "title";
       break;

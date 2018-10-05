@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrMidi__
-#define __msrMidi__
+#ifndef ___msrMidi___
+#define ___msrMidi___
 
 #include "msrElements.h"
 

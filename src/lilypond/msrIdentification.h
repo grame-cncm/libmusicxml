@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrIdentification__
-#define __msrIdentification__
+#ifndef ___msrIdentification___
+#define ___msrIdentification___
 
 #include "msrElements.h"
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrComments__
-#define __lpsrComments__
+#ifndef ___lpsrComments___
+#define ___lpsrComments___
 
 #include "lpsrElements.h"
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrTimes__
-#define __msrTimes__
+#ifndef ___msrTimes___
+#define ___msrTimes___
 
 #include "msrElements.h"
 

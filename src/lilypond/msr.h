@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msr__
-#define __msr__
+#ifndef ___msr___
+#define ___msr___
 
 #include "typedefs.h"
 #include "tree_browser.h"
@@ -999,10 +999,10 @@ class msrMeasure : public msrElement
 
     // grace notes
 
+    /* JMI
     void                  addGraceNotesGroupAheadOfMeasure (
                             S_msrGraceNotesGroup graceNotesGroup);
     
-    /* JMI
     void                  appendGraceNotesToMeasure (
                             S_msrGraceNotes graceNotes);
 
@@ -1430,10 +1430,10 @@ class msrSegment : public msrElement
 
     // grace notes
 
+    /* JMI
     void                  addGraceNotesGroupAheadOfSegmentIfNeeded (
                             S_msrGraceNotesGroup graceNotesGroup);
     
-    /* JMI
     void                  appendGraceNotesToSegment (
                             S_msrGraceNotes graceNotes);
 
@@ -1942,13 +1942,8 @@ class msrSyllable : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendSyllableToNoteAndSetItsUplink (
+    void                  appendSyllableToNoteAndSetItsNoteUplink (
                             S_msrNote note);
-
-    // texts lists
-    static void           writeTextsList (
-                            const list<string>& textsList,
-                            ostream&            os);
 
     void                  appendLyricTextToSyllable (string text);
                                   
@@ -1974,6 +1969,12 @@ class msrSyllable : public msrElement
     string                syllableKindAsString () const;
     
     string                syllableExtendKindAsString () const;
+    
+    string                syllableTextsListAsString () const;
+
+    static void           writeTextsList (
+                            const list<string>& textsList,
+                            ostream&            os);
 
     string                asString () const;
 
@@ -4000,6 +4001,28 @@ class msrChord : public msrElement
     S_msrTie              getChordTie () const
                               { return fChordTie; }
 
+    // grace notes
+    void                  setChordGraceNotesGroupBefore (
+                            S_msrGraceNotesGroup graceNotesGroupBefore)
+                              {
+                                fChordGraceNotesGroupBefore =
+                                  graceNotesGroupBefore;
+                              }
+
+    S_msrGraceNotesGroup  getChordGraceNotesGroupBefore () const
+                              { return fChordGraceNotesGroupBefore; }
+
+    void                  setChordGraceNotesGroupAfter (
+                            S_msrGraceNotesGroup graceNotesGroupAfter)
+                              {
+                                fChordGraceNotesGroupAfter =
+                                  graceNotesGroupAfter;
+                              }
+
+    S_msrGraceNotesGroup  getChordGraceNotesGroupAfter () const
+                              { return fChordGraceNotesGroupAfter; }
+
+
     // harmony
     void                  setChordHarmony (
                             S_msrHarmony harmony)
@@ -4257,6 +4280,10 @@ class msrChord : public msrElement
 
     // pedals
     list<S_msrPedal>      fChordPedals;
+
+    // grace notes
+    S_msrGraceNotesGroup  fChordGraceNotesGroupBefore;
+    S_msrGraceNotesGroup  fChordGraceNotesGroupAfter;
 
     // harmony
     S_msrHarmony          fChordHarmony;

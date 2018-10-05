@@ -309,6 +309,39 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
           fTraceSchemeFunctions));
   }
 
+
+  // lyrics vs words
+  // --------------------------------------
+
+  {
+    // variables
+    
+    fAddWordsFromTheLyrics = boolOptionsInitialValue;
+    
+    // options
+  
+    S_optionsSubGroup
+      traceAndDisplaySubGroup =
+        optionsSubGroup::create (
+          "Lyrics vs words",
+          "hlyrsvswords", "help-lyrics-vs-words",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (traceAndDisplaySubGroup);
+        
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "awftl", "add-words-from-the-lyrics",
+R"(Add words with the lyrics contents, keeping the latter untouched.
+This may come in handy when MusicXML data has been obtained from scanned images.)",
+          "addWordsFromTheLyrics",
+          fAddWordsFromTheLyrics));
+  }
+  
+
   // languages
   // --------------------------------------
 
@@ -404,11 +437,14 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   clone->fDisplayLpsr =
     true;
 
+  clone->fTraceSchemeFunctions =
+    true;
+
     
-  // Scheme functions
+  // lyrics vs words
   // --------------------------------------
 
-  clone->fTraceSchemeFunctions =
+  clone->fAddWordsFromTheLyrics =
     true;
 
   
@@ -487,15 +523,31 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     booleanAsString (fDisplayLpsr) <<
     endl <<
     
-    // Scheme functions
     setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
     booleanAsString (fTraceSchemeFunctions) <<
     endl;
 
   gIndenter--;
   
+  // lyrics vs words
+  // --------------------------------------
+  
+  gLogIOstream <<
+    "Lyrics vs words:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
+    booleanAsString (fAddWordsFromTheLyrics) <<
+    endl;
+
+  gIndenter--;
+
   // languages
   // --------------------------------------
+  
   gLogIOstream <<
     "Languages:" <<
     endl;

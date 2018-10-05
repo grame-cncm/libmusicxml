@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrElements__
-#define __msrElements__
+#ifndef ___msrElements___
+#define ___msrElements___
 
 #include "typedefs.h"
 #include "tree_browser.h"

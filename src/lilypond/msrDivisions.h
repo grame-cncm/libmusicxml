@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrDivisions__
-#define __msrDivisions__
+#ifndef ___msrDivisions___
+#define ___msrDivisions___
 
 #include <list>
 

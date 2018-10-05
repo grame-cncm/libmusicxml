@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrPartGroups__
-#define __msrPartGroups__
+#ifndef ___msrPartGroups___
+#define ___msrPartGroups___
 
 #include "msr.h" // TEMP
 #include "msrScores.h" // TEMP

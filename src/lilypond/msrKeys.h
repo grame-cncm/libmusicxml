@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrKeys__
-#define __msrKeys__
+#ifndef ___msrKeys___
+#define ___msrKeys___
 
 #include <list>
 

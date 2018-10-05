@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrPartNamesDisplays__
-#define __msrPartNamesDisplays__
+#ifndef ___msrPartNamesDisplays___
+#define ___msrPartNamesDisplays___
 
 #include "msrElements.h"
 

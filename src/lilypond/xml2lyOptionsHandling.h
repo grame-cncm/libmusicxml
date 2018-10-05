@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __xml2lyOptionsHandling__
-#define __xml2lyOptionsHandling__
+#ifndef ___xml2lyOptionsHandling___
+#define ___xml2lyOptionsHandling___
 
 #include "exports.h"
 #include "optionsBasicTypes.h"
