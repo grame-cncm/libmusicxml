@@ -871,11 +871,15 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   string desiredEncoding = "UTF-8";
   
   if (encoding == desiredEncoding) {
-    logIOstream <<
-      "% MusicXML data uses \"" <<
-      desiredEncoding <<
-      "\" encoding" <<
-      endl;
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTracePasses) {
+      logIOstream <<
+        "% MusicXML data uses \"" <<
+        desiredEncoding <<
+        "\" encoding" <<
+        endl;
+    }
+#endif
 
     mxmlTree = xmlFile->elements ();
   }

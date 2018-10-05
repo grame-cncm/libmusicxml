@@ -307,6 +307,16 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   fLpsrScoreHeader =
     fLpsrScore-> getHeader();
 
+  // is there a rights option?
+  if (gLilypondOptions->fRights.size ()) {
+    // define rights
+    
+    fLpsrScoreHeader->
+      addRights (
+        inputLineNumber,
+        gLilypondOptions->fRights);
+  }
+
   // is there a composer option?
   if (gLilypondOptions->fComposer.size ()) {
     // define composer
@@ -315,6 +325,46 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
       addComposer (
         inputLineNumber,
         gLilypondOptions->fComposer);
+  }
+
+  // is there an arranger option?
+  if (gLilypondOptions->fArranger.size ()) {
+    // define arranger
+    
+    fLpsrScoreHeader->
+      addArranger (
+        inputLineNumber,
+        gLilypondOptions->fArranger);
+  }
+
+  // is there a poet option?
+  if (gLilypondOptions->fPoet.size ()) {
+    // define poet
+    
+    fLpsrScoreHeader->
+      addPoet (
+        inputLineNumber,
+        gLilypondOptions->fPoet);
+  }
+
+  // is there a lyricist option?
+  if (gLilypondOptions->fLyricist.size ()) {
+    // define lyricist
+    
+    fLpsrScoreHeader->
+      addLyricist (
+        inputLineNumber,
+        gLilypondOptions->fLyricist);
+  }
+
+  // is there a software option?
+  if (gLilypondOptions->fSoftware.size ()) {
+    // define software
+    
+    fLpsrScoreHeader->
+      addSoftware (
+        inputLineNumber,
+        gLilypondOptions->fSoftware);
   }
 
   // is the Scheme function 'whiteNoteHeads' to be generated?
