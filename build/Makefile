@@ -45,7 +45,7 @@ endif
 
 C++11 ?= no
 CMAKEOPT ?= -DC++11=$(C++11)
-TOOLS := RandomMusic readunrolled xml2midi xmlfactory xmlread xmlversion countnotes partsummary xml2guido xmlclone xmliter xmltranspose
+TOOLS := xml2midi xmlread xml2guido xml2ly
 
 all :
 	make $(TARGET)
