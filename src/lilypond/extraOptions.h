@@ -326,8 +326,10 @@ class extraOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkExtraOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
 
+  public:
+  
     // services
     // ------------------------------------------------------
 

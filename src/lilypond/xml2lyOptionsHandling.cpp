@@ -325,9 +325,6 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   // initialize options handling
   // ------------------------------------------------------
 
-  initializeXml2lyOptionsHandling (
-    this);
-    
 #ifdef TRACE_OPTIONS
   initializeTraceOptionsHandling (
     this);
@@ -351,6 +348,9 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   initializeExtraOptionsHandling (
     this);
 
+  initializeXml2lyOptionsHandling (
+    this);
+    
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     // print the options handler initial state
@@ -522,6 +522,42 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     fCommandLineWithLongOptions;
 }
 
+//______________________________________________________________________________
+void xml2lyOptions::checkOptionsConsistency ()
+{
+  // check options consistency
+  // ------------------------------------------------------
+
+  gLogIOstream <<
+    "xml2lyOptions::checkOptionsConsistency ()" <<
+    endl;
+    
+  gTraceOptions-> // fQuiet should be taken into account first
+    checkOptionsConsistency ();
+  
+  gGeneralOptions->
+    checkOptionsConsistency ();
+  
+  gMusicXMLOptions->
+    checkOptionsConsistency ();
+  
+  gMsrOptions->
+    checkOptionsConsistency ();
+  
+  gLpsrOptions->
+    checkOptionsConsistency ();
+  
+  gLilypondOptions->
+    checkOptionsConsistency ();
+  
+  gExtraOptions->
+    checkOptionsConsistency ();
+  
+  gXml2lyOptions->
+    checkOptionsConsistency ();
+}
+
+//______________________________________________________________________________
 void xml2lyOptionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
@@ -914,6 +950,8 @@ void initializeXml2lyOptionsHandling (
   gXml2lyOptions = xml2lyOptions::create (
     optionsHandler);
   assert (gXml2lyOptions != 0);
+
+  
 }
 
 

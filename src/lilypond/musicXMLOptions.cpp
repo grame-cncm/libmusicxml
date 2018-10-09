@@ -312,6 +312,11 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   return clone;
 }  
 
+void musicXMLOptions::checkOptionsConsistency ()
+{
+  // JMI
+}
+
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {  
   gLogIOstream <<

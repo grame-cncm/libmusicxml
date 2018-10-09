@@ -407,6 +407,11 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   return clone;
 }
 
+void generalOptions::checkOptionsConsistency ()
+{
+  // JMI
+}
+
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {  
   gLogIOstream <<
@@ -509,6 +514,9 @@ void initializeGeneralOptionsHandling (
 
   gGeneralOptions =
     gGeneralOptionsUserChoices;
+
+  gGeneralOptions->
+    checkOptionsConsistency ();
 }
 
 

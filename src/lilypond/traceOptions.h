@@ -59,7 +59,17 @@ class traceOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkTraceOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setAllTraceOptions (
+                            bool boolOptionsInitialValue);
+
+  public:
 
     // services
     // ------------------------------------------------------

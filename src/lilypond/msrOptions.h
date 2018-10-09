@@ -222,8 +222,9 @@ class msrOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkMsrOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
 
+  public:
 
     // services
     // ------------------------------------------------------

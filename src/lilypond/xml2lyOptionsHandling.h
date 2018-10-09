@@ -258,7 +258,9 @@ class xml2lyOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkXml2lyOptionsConsistency () const;
+    void                  checkOptionsConsistency ();
+
+  public:
 
     // services
     // ------------------------------------------------------

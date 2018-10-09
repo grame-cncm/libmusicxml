@@ -214,7 +214,9 @@ class lpsrOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkLpsrOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
+
+  public:
 
     // services
     // ------------------------------------------------------

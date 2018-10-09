@@ -2399,6 +2399,9 @@ void optionsGroup::handleOptionsItemValue (
     endl;
 }
 
+void optionsGroup::checkOptionsConsistency ()
+{}
+
 void optionsGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;

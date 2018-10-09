@@ -56,7 +56,9 @@ class musicXMLOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkMusicXMLOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
+
+  public:
 
     // services
     // ------------------------------------------------------

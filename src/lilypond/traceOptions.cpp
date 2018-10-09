@@ -1219,6 +1219,222 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   return clone;
 }
 
+void traceOptions::setAllTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  // trace and display
+
+  fTracePasses = boolOptionsInitialValue;
+  
+  fTraceOptions          = boolOptionsInitialValue;
+  fDisplayOptionsValues  = boolOptionsInitialValue;
+  fDisplayOptionsHandler = boolOptionsInitialValue;
+
+  // specific trace    
+
+    // encoding
+    fTraceEncoding = boolOptionsInitialValue;
+
+    // divisions
+    fTraceDivisions = boolOptionsInitialValue;
+  
+    // geometry
+    fTraceGeometry = boolOptionsInitialValue;
+  
+    // varValAssocs
+    fTraceVarValAssocs = boolOptionsInitialValue;
+
+    // part groups
+    fTracePartGroups = boolOptionsInitialValue;
+    fTracePartGroupsDetails = boolOptionsInitialValue;
+    
+    // parts
+    fTraceParts = boolOptionsInitialValue;
+    
+    // staves
+    fTraceStaves = boolOptionsInitialValue;
+    
+    // voices
+    fTraceVoices = boolOptionsInitialValue;
+    fTraceVoicesDetails = boolOptionsInitialValue;
+  
+    // clefs
+    fTraceClefs = boolOptionsInitialValue;
+    
+    // keys
+    fTraceKeys  = boolOptionsInitialValue;
+    
+    // times
+    fTraceTimes = boolOptionsInitialValue;
+
+    // tempos
+    fTraceTempos = boolOptionsInitialValue;
+  
+    // rehearsals
+    fTraceRehearsals = boolOptionsInitialValue;
+
+    // transpositions
+    fTraceTranspositions = boolOptionsInitialValue;
+  
+    // octave shifts
+    fTraceOctaveShifts = boolOptionsInitialValue;
+
+    // segments
+    fTraceSegments = boolOptionsInitialValue;
+    fTraceSegmentsDetails = boolOptionsInitialValue;
+    
+    // barlines
+    fTraceBarlines = boolOptionsInitialValue;
+    fTraceBarlinesDetails = boolOptionsInitialValue;
+
+    // multiple rests
+    fTraceMultipleRests = boolOptionsInitialValue;
+
+    // repeats
+    fTraceRepeats = boolOptionsInitialValue;
+    fTraceRepeatsDetails = boolOptionsInitialValue;
+  
+    // measure repeats
+    fTraceMeasureRepeats = boolOptionsInitialValue;
+  
+    // slashes
+    fTraceSlashes = boolOptionsInitialValue;
+
+    // measures
+    fTraceMeasures = boolOptionsInitialValue;
+    fTraceMeasuresDetails = boolOptionsInitialValue;
+  
+    // notes
+    fTraceNotes = boolOptionsInitialValue;
+    fTraceNotesDetails = boolOptionsInitialValue;
+    
+    // stems
+    fTraceStems = boolOptionsInitialValue;
+
+    // beams
+    fTraceBeams = boolOptionsInitialValue;
+    
+    // articulations
+    fTraceArticulations = boolOptionsInitialValue;
+    
+    // technicals
+    fTraceTechnicals = boolOptionsInitialValue;
+    
+    // ornaments
+    fTraceOrnaments = boolOptionsInitialValue;
+
+    // dynamics
+    fTraceGraceDynamics = boolOptionsInitialValue;
+
+    // spanners
+    fTraceSpanners = boolOptionsInitialValue;
+
+    // words
+    fTraceWords = boolOptionsInitialValue;
+    
+    // tremolos
+    fTraceTremolos = boolOptionsInitialValue;
+    
+    // chords
+    fTraceChords = boolOptionsInitialValue;
+    fTraceChordsDetails = boolOptionsInitialValue;
+    
+    // tuplets
+    fTraceTuplets = boolOptionsInitialValue;
+    fTraceTupletsDetails = boolOptionsInitialValue;
+    
+    // glissandos
+    fTraceGlissandos = boolOptionsInitialValue;
+    
+    // slides
+    fTraceSlides = boolOptionsInitialValue;
+    
+    // grace notes
+    fTraceGraceNotes = boolOptionsInitialValue;
+  
+    // lyrics
+    fTraceLyrics        = boolOptionsInitialValue;
+    fTraceLyricsDetails = boolOptionsInitialValue;
+  
+    // harmonies
+    fTraceHarmonies = boolOptionsInitialValue;
+  
+    // frames
+    fTraceFrames = boolOptionsInitialValue;
+
+    // figured bass
+    fTraceFiguredBass = boolOptionsInitialValue;
+      
+    // credits
+    fTraceCredits = boolOptionsInitialValue;
+      
+    // dynamics
+    fTraceDynamics = boolOptionsInitialValue;
+
+    // slurs
+    fTraceSlurs = boolOptionsInitialValue;
+
+    // ligatures
+    fTraceLigatures = boolOptionsInitialValue;
+
+    // pedals
+    fTracePedals = boolOptionsInitialValue;
+
+    // wedges
+    fTraceWedges = boolOptionsInitialValue;
+
+    // staff tuning
+    fTraceStaffTuning = boolOptionsInitialValue;
+    
+    // scordaturas
+    fTraceScordaturas = boolOptionsInitialValue;
+    
+    // harp pedals tuning
+    fTraceHarpPedalsTuning = boolOptionsInitialValue;
+    
+    // extra chords
+    fTraceExtraChords = boolOptionsInitialValue;
+    
+    // msrStreams
+    fTraceMsrStreams = boolOptionsInitialValue;
+
+
+  fTraceDynamics = boolOptionsInitialValue;
+  fTraceWords = boolOptionsInitialValue;
+  fTraceSlurs = boolOptionsInitialValue;
+  fTraceLigatures = boolOptionsInitialValue;
+  fTracePedals = boolOptionsInitialValue;
+  fTraceWedges = boolOptionsInitialValue;
+  
+  fTraceStaffTuning = boolOptionsInitialValue;
+  fTraceScordaturas = boolOptionsInitialValue;
+  
+
+  /* STUFF not yet handled JMI */
+
+  fTraceScore = boolOptionsInitialValue;
+
+
+  fTraceMidi = boolOptionsInitialValue;  
+}
+
+//______________________________________________________________________________
+void traceOptions::checkOptionsConsistency ()
+{
+  if (gGeneralOptions->fQuiet) {
+    // disable all trace options
+    gLogIOstream <<
+      "disable all trace options" <<
+      endl;
+      
+    gTraceOptions->
+      setAllTraceOptions (false);
+
+   // JMI gLogIOstream = indentedOstream::gNullIndentedOstream;
+  }
+}
+
+//______________________________________________________________________________
 void traceOptions::printTraceOptionsValues (int fieldWidth)
 {  
   gLogIOstream <<
