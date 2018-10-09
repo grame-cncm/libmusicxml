@@ -48,6 +48,18 @@ lpsrHeader::lpsrHeader (
       gLilypondOptions->fDedication);
   }
   
+  if (gLilypondOptions->fPiece.size ()) {
+    setLilypondPiece (
+      inputLineNumber,
+      gLilypondOptions->fPiece);
+  }
+  
+  if (gLilypondOptions->fOpus.size ()) {
+    setLilypondOpus (
+      inputLineNumber,
+      gLilypondOptions->fOpus);
+  }
+  
   if (gLilypondOptions->fTitle.size ()) {
     setLilypondTitle (
       inputLineNumber,
@@ -100,6 +112,42 @@ void lpsrHeader::setLilypondDedication (
       lpsrVarValAssoc::kUncommented,
       lpsrVarValAssoc::kWithoutBackSlash,
       lpsrVarValAssoc::kLilypondDedication,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      val,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
+}
+
+void lpsrHeader::setLilypondPiece (
+  int    inputLineNumber,
+  string val)
+{
+  fLilypondPiece =
+    lpsrVarValAssoc::create (
+      inputLineNumber,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kLilypondPiece,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      val,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
+}
+
+void lpsrHeader::setLilypondOpus (
+  int    inputLineNumber,
+  string val)
+{
+  fLilypondOpus =
+    lpsrVarValAssoc::create (
+      inputLineNumber,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kLilypondOpus,
       lpsrVarValAssoc::kEqualSign,
       lpsrVarValAssoc::kQuotesAroundValue,
       val,
@@ -668,6 +716,24 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   if (fLilypondDedication) {
     int length =
       fLilypondDedication->
+        lilyPondVarValAssocKindAsString ().size ();
+    if (length > result) {
+      result = length;
+    }
+  }
+
+  if (fLilypondPiece) {
+    int length =
+      fLilypondPiece->
+        lilyPondVarValAssocKindAsString ().size ();
+    if (length > result) {
+      result = length;
+    }
+  }
+
+  if (fLilypondOpus) {
+    int length =
+      fLilypondOpus->
         lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrBeams__
-#define __msrBeams__
+#ifndef ___msrBeams___
+#define ___msrBeams___
 
 #include "msrElements.h"
 

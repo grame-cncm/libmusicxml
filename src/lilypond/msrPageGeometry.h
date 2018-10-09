@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrPageGeometry__
-#define __msrPageGeometry__
+#ifndef ___msrPageGeometry___
+#define ___msrPageGeometry___
 
 #include "msrElements.h"
 

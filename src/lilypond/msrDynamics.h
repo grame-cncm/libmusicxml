@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrDynamics__
-#define __msrDynamics__
+#ifndef ___msrDynamics___
+#define ___msrDynamics___
 
 #include "msrElements.h"
 

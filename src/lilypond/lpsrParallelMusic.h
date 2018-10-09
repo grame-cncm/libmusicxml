@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrParallelMusic__
-#define __lpsrParallelMusic__
+#ifndef ___lpsrParallelMusic___
+#define ___lpsrParallelMusic___
 /*
 #include <sstream>
 #include <vector>

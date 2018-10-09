@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __extraOptions__
-#define __extraOptions__
+#ifndef ___extraOptions___
+#define ___extraOptions___
 
 #include "optionsBasicTypes.h"
 

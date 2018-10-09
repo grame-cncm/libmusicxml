@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsr2LilypondTranslator__
-#define __lpsr2LilypondTranslator__
+#ifndef ___lpsr2LilypondTranslator___
+#define ___lpsr2LilypondTranslator___
 
 #include "msrOptions.h"
 #include "lpsrOptions.h"

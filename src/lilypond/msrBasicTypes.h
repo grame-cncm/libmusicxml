@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrBasicTypes__
-#define __msrBasicTypes__
+#ifndef ___msrBasicTypes___
+#define ___msrBasicTypes___
 
 #include <vector>
 #include <map>

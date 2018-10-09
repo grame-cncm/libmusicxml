@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrBars__
-#define __msrBars__
+#ifndef ___msrBars___
+#define ___msrBars___
 
 #include <list>
 

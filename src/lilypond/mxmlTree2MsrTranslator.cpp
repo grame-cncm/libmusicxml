@@ -5761,7 +5761,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   // don't forget about fCurrentLyricTextsList here,
   // this will be done in visitStart ( S_syllabic& )
   
-  // appendSyllableToNoteAndSetItsUplink()
+  // appendSyllableToNoteAndSetItsNoteUplink()
   // will be called in handleLyrics(),
   // after the note has been created
     
@@ -14993,6 +14993,55 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  S_msrGraceNotesGroup
+    graceNotesGroupBefore =
+      note->
+        getNoteGraceNotesGroupBefore ();
+                          
+  if (graceNotesGroupBefore) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
+      fLogOutputStream <<
+        "Copying grace notes group before '" <<
+        graceNotesGroupBefore->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord '" << chord->asString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    chord->
+      setChordGraceNotesGroupBefore (graceNotesGroupBefore);
+  }
+   
+  S_msrGraceNotesGroup
+    graceNotesGroupAfter =
+      note->
+        getNoteGraceNotesGroupAfter ();
+                          
+  if (graceNotesGroupAfter) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
+      fLogOutputStream <<
+        "Copying grace notes group after '" <<
+        graceNotesGroupAfter->asShortString () <<
+        "' from note " << note->asString () <<
+        " to chord '" << chord->asString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    chord->
+      setChordGraceNotesGroupAfter (graceNotesGroupAfter);
+  }   
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteHarmonyToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -15072,6 +15121,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);
+
+  // copy note's grace notes groups if any to the chord
+  copyNoteGraceNotesGroupsToChord (note, chord);
 
   // copy note's harmony if any to the chord
   copyNoteHarmonyToChord (note, chord);
@@ -18017,7 +18069,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
 #ifdef TRACE_OPTIONS
-  if (true || gTraceOptions->fTraceChords) { // JMI
+  if (gTraceOptions->fTraceChords) { // JMI
     fLogOutputStream <<
       "handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest(), newNote = " <<
       endl;
@@ -18424,7 +18476,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
         
       // set syllable note uplink to newNote
       syllable->
-        appendSyllableToNoteAndSetItsUplink (
+        appendSyllableToNoteAndSetItsNoteUplink (
           newNote);
     } // for
 
@@ -18491,7 +18543,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     
           // set syllable note uplink to newNote
           syllable->
-            appendSyllableToNoteAndSetItsUplink (
+            appendSyllableToNoteAndSetItsNoteUplink (
               newNote);
     
           // append syllable to stanza

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrArpeggiatos__
-#define __msrArpeggiatos__
+#ifndef ___msrArpeggiatos___
+#define ___msrArpeggiatos___
 
 #include "msrElements.h"
 

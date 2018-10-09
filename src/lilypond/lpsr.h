@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsr__
-#define __lpsr__
+#ifndef ___lpsr___
+#define ___lpsr___
 
 #include <sstream>
 #include <vector>

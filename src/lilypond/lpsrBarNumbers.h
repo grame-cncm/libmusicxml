@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrBarNumbers__
-#define __lpsrBarNumbers__
+#ifndef ___lpsrBarNumbers___
+#define ___lpsrBarNumbers___
 
 #include <iostream>
 

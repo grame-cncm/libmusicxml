@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrOptions__
-#define __msrOptions__
+#ifndef ___msrOptions___
+#define ___msrOptions___
 
 //#include "exports.h"
 

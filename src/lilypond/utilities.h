@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __utilities__
-#define __utilities__
+#ifndef ___utilities___
+#define ___utilities___
 
 #include <string>
 #include <cassert>

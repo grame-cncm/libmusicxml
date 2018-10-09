@@ -228,7 +228,7 @@ lilypondOptions::lilypondOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "LilyPond",
-    "hlp", "help=lilypond",
+    "h=lp", "help=lilypond",
 R"(These options control which LilyPond code is generated.)",
     optionsHandler)
 {
@@ -255,31 +255,11 @@ void lilypondOptions::initializeLilypondOptions (
   {
     // variables
 
-/* JMI
-    // MusicXML informations
-    string                fRights,
-    string                fComposer;
-    string                fArranger;
-    string                fPoet;
-    string                fLyricist;
-    string                fSoftware;
-      
-    // LilyPond informations
-    string                fDedication;
-    string                fTitle;
-    string                fSubTitle;
-    string                fSubSubTitle;
-    string                fInstrument;
-    string                fMeter;
-    string                fTagline;
-    string                fCopyright;
-*/
-
     S_optionsSubGroup
       identificationSubGroup =
         optionsSubGroup::create (
           "Identification",
-          "hlilyid", "help-lilypond-identification",
+          "hlpi", "help-lilypond-identification",
 R"(These options can be used to enforce values in the generated LilyPond code,
 thus overriding the ones that may be present in the MSR data.
 )",
@@ -299,6 +279,51 @@ R"(Set the 'rights' in the LilyPond code.)",
           "rights",
           fRights));
 
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "composer", "",
+R"(Set the 'composer' in the LilyPond code.)",
+          "STRING",
+          "composer",
+          fComposer));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "arranger", "",
+R"(Set the 'arranger' in the LilyPond code.)",
+          "STRING",
+          "arranger",
+          fArranger));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "poet", "",
+R"(Set the 'poet' in the LilyPond code.)",
+          "STRING",
+          "poet",
+          fPoet));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "lyricist", "",
+R"(Set the 'lyricist' in the LilyPond code.)",
+          "STRING",
+          "lyricist",
+          fLyricist));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "software", "",
+R"(Set the 'software' in the LilyPond code.)",
+          "STRING",
+          "software",
+          fSoftware));
+
     // LilyPond informations
 
     identificationSubGroup->
@@ -309,6 +334,24 @@ R"(Set 'dedication' to STRING in the \header.)",
           "STRING",
           "dedication",
           fDedication));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "piece", "",
+R"(Set 'piece' to STRING in the \header.)",
+          "STRING",
+          "piece",
+          fPiece));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "opus", "",
+R"(Set 'opus' to STRING in the \header.)",
+          "STRING",
+          "opus",
+          fOpus));
 
     identificationSubGroup->
       appendOptionsItem (
@@ -387,7 +430,7 @@ R"(Set 'copyright' to STRING in the \header.)",
       timeSubGroup =
         optionsSubGroup::create (
           "Time",
-          "hlilyti", "help-lilypond-time",
+          "hlpti", "help-lilypond-time",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -430,7 +473,7 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
       notesSubGroup =
         optionsSubGroup::create (
           "Notes",
-          "hlilyn", "help-lilypond-notes",
+          "hlpn", "help-lilypond-notes",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -544,7 +587,7 @@ This is useful when debugging xml2ly.)",
       barsSubGroup =
         optionsSubGroup::create (
           "Bars",
-          "hlilyb", "help-lilypond-bars",
+          "hlpb", "help-lilypond-bars",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -579,7 +622,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
       lineBreaksSubGroup =
         optionsSubGroup::create (
           "Line breaks",
-          "hlilylb", "help-lilypond-line-breaks",
+          "hlplb", "help-lilypond-line-breaks",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -631,7 +674,7 @@ Nothing special is done by default.)",
       pageBreaksSubGroup =
         optionsSubGroup::create (
           "Page breaks",
-          "hlilypb", "help-lilypond-page-breaks",
+          "hlppb", "help-lilypond-page-breaks",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -664,7 +707,7 @@ and let LilyPond decide about them.)",
       stavesSubGroup =
         optionsSubGroup::create (
           "Staves",
-          "hlilys", "helpLilypondStaves",
+          "hlps", "helpLilypondStaves",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -696,7 +739,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
       chordsSubGroup =
         optionsSubGroup::create (
           "Chords",
-          "hlilych", "help-lilypond-chordss",
+          "hlpc", "help-lilypond-chordss",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -727,7 +770,7 @@ R"(Connect arpeggios across piano staves.)",
       tupletsSubGroup =
         optionsSubGroup::create (
           "Tuplets",
-          "hlilytu", "help-lilypond-tuplets",
+          "hlpt", "help-lilypond-tuplets",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -760,7 +803,7 @@ instead of keeping the on the same line as the current measure.)",
       repeatsSubGroup =
         optionsSubGroup::create (
           "Repeats",
-          "hlilyr", "help-lilypond-repeats",
+          "hlpr", "help-lilypond-repeats",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -798,7 +841,7 @@ R"(Generate repeats with brackets instead of regular bar lines.)",
       ornamentsSubGroup =
         optionsSubGroup::create (
           "Ornaments",
-          "hlilyo", "help-lilypond-ornaments",
+          "hlpo", "help-lilypond-ornaments",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -858,6 +901,8 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
   {
     // variables  
   
+    fXml2lyInfos         = boolOptionsInitialValue;
+    
     fComments            = boolOptionsInitialValue;
   
     fGlobal              = boolOptionsInitialValue;
@@ -871,6 +916,8 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
     fLilypondCompileDate = boolOptionsInitialValue;
     
     fPointAndClickOff    = boolOptionsInitialValue;
+    
+    fWhiteNoteHeads      = boolOptionsInitialValue;
   
     // options
   
@@ -878,12 +925,20 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
       codeGenerationSubGroup =
         optionsSubGroup::create (
           "Code generation",
-          "hlilycg", "help-lilypond-code-generation",
+          "hlpcg", "help-lilypond-code-generation",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (codeGenerationSubGroup);
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "xi", "xml2ly-infos",
+R"(Generate initial comments showing the compilation date and options.)",
+          "xml2lyInfos",
+          fXml2lyInfos));
 
     codeGenerationSubGroup->
       appendOptionsItem (
@@ -946,6 +1001,15 @@ R"(Generate \pointAndClickOff at the beginning of the LilyPond code
 to reduce the size of the resulting PDF file.)",
           "pointAndClickOff",
           fPointAndClickOff));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "wnh", "white-note-heads",
+R"(Generate Scheme function 'whiteNoteHeads'
+at the beginning of the LilyPond code.)",
+          "whiteNoteHeads",
+          fWhiteNoteHeads));
   } 
       
     
@@ -966,7 +1030,7 @@ to reduce the size of the resulting PDF file.)",
       scoreNotationSubGroup =
         optionsSubGroup::create (
           "Score notation",
-          "hlilysn", "help-lilypond-score-notation",
+          "hlpsn", "help-lilypond-score-notation",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -1006,7 +1070,7 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
       midiSubGroup =
         optionsSubGroup::create (
           "Midi",
-          "hlilym", "help-lilypond-midi",
+          "hlpm", "help-lilypond-midi",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -1091,6 +1155,10 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   // LilyPond informations
   clone->fDedication =
     fDedication;
+  clone->fPiece =
+    fPiece;
+  clone->fOpus =
+    fOpus;
   clone->fTitle =
     fTitle;
   clone->fSubTitle =
@@ -1227,8 +1295,11 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fNoLilypondLyrics =
     fNoLilypondLyrics;
     
-  clone->fLilypondCompileDate =
-    fLilypondCompileDate;
+  clone->fPointAndClickOff =
+    fPointAndClickOff;
+
+  clone->fWhiteNoteHeads =
+    fWhiteNoteHeads;
 
     
   // score notation
@@ -1337,6 +1408,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "dedication" << " : " <<
       fDedication <<
+      endl <<
+
+    setw (fieldWidth) << "piece" << " : " <<
+      fPiece <<
+      endl <<
+    setw (fieldWidth) << "opus" << " : " <<
+      fOpus <<
       endl <<
 
     setw (fieldWidth) << "title" << " : " <<
@@ -1608,6 +1686,10 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       booleanAsString (fGlobal) <<
       endl <<
     
+    setw (fieldWidth) << "displayMusic" << " : " <<
+      booleanAsString (fDisplayMusic) <<
+      endl <<
+    
     setw (fieldWidth) << "noLilypondCode" << " : " <<
       booleanAsString (fNoLilypondCode) <<
       endl <<
@@ -1618,6 +1700,14 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     
     setw (fieldWidth) << "lilypondCompileDate" << " : " <<
       booleanAsString (fLilypondCompileDate) <<
+      endl <<
+    
+    setw (fieldWidth) << "pointAndClickOff" << " : " <<
+      booleanAsString (fPointAndClickOff) <<
+      endl <<
+    
+    setw (fieldWidth) << "whiteNoteHeads" << " : " <<
+      booleanAsString (fWhiteNoteHeads) <<
       endl;
 
   gIndenter--;

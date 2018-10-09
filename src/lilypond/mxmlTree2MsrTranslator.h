@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __mxmlTree2MsrTranslator__
-#define __mxmlTree2MsrTranslator__
+#ifndef ___mxmlTree2MsrTranslator___
+#define ___mxmlTree2MsrTranslator___
 
 #include "typedefs.h"
 
@@ -1595,6 +1595,9 @@ class mxmlTree2MsrTranslator :
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
                                 
+    void                      copyNoteGraceNotesGroupsToChord (
+                                S_msrNote note, S_msrChord chord);
+       
     void                      copyNoteHarmonyToChord (
                                 S_msrNote note, S_msrChord chord);
        

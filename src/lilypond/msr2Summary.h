@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msr2Summary__
-#define __msr2Summary__
+#ifndef ___msr2Summary___
+#define ___msr2Summary___
 
 #include "msr.h"
 

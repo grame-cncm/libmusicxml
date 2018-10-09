@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrScores__
-#define __lpsrScores__
+#ifndef ___lpsrScores___
+#define ___lpsrScores___
 
 /*
 #include <sstream>
@@ -276,6 +276,10 @@ class lpsrScore : public lpsrElement
                         
     void                  setDampAllMarkupIsNeeded ();
 
+    // white note heads
+    void                  setWhiteNoteHeadsIsNeeded ();
+
+
   public:
   
     // public services
@@ -348,6 +352,10 @@ class lpsrScore : public lpsrElement
     
     void                  addDampMarkupToScore ();
     void                  addDampAllMarkupToScore ();
+
+    // white note heads
+
+    void                  addWhiteNoteHeadsToScore ();
 
   public:
   
@@ -431,6 +439,9 @@ class lpsrScore : public lpsrElement
     // markups
     bool                  fDampMarkupIsNeeded;
     bool                  fDampAllMarkupIsNeeded;
+
+    // white note heads
+    bool                  fWhiteNoteHeadsIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;

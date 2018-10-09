@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrContexts__
-#define __lpsrContexts__
+#ifndef ___lpsrContexts___
+#define ___lpsrContexts___
 
 #include <iostream>
 #include <string>

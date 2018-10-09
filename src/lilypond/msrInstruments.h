@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrInstruments__
-#define __msrInstruments__
+#ifndef ___msrInstruments___
+#define ___msrInstruments___
 
 #include <list>
 

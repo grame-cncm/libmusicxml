@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __generalOptions__
-#define __generalOptions__
+#ifndef ___generalOptions___
+#define ___generalOptions___
 
 #include <set>
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrCredits__
-#define __msrCredits__
+#ifndef ___msrCredits___
+#define ___msrCredits___
 
 #include "msrElements.h"
 

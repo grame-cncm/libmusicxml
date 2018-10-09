@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrVoices__
-#define __lpsrVoices__
+#ifndef ___lpsrVoices___
+#define ___lpsrVoices___
 
 #include <iostream>
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __traceOptions__
-#define __traceOptions__
+#ifndef ___traceOptions___
+#define ___traceOptions___
 
 #include <set>
 

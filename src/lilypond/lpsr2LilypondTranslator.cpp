@@ -1349,9 +1349,10 @@ void lpsr2LilypondTranslator::generateNote (
                 inputLineNumber,
                 noteSoundingWholeNotes);
 
+/* JMI BOF
             if (fOnGoingVoiceCadenza) { // JMI
               if (noteSoundingWholeNotes != rational (1, 1)) {
-                /* JMI
+                / * JMI
                 // force the generation of the duration if needed
                 if (! gLilypondOptions->fAllDurations) {
                   fLilypondCodeIOstream << // JMI
@@ -1359,7 +1360,7 @@ void lpsr2LilypondTranslator::generateNote (
                       inputLineNumber,
                       noteSoundingWholeNotes);
                 }
-                */
+                * /
                 
                 // generate the multiplying factor
                 fLilypondCodeIOstream << // JMI
@@ -1368,6 +1369,7 @@ void lpsr2LilypondTranslator::generateNote (
                   "";
               }
             }
+                  */
           }
 
           // an unpitched rest is no relative octave reference,
@@ -3417,6 +3419,13 @@ string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
       result = "dedication";
       break;
 
+    case lpsrVarValAssoc::kLilypondPiece:
+      result = "piece";
+      break;
+    case lpsrVarValAssoc::kLilypondOpus:
+      result = "opus";
+      break;
+
     case lpsrVarValAssoc::kLilypondTitle:
       result = "title";
       break;
@@ -3799,6 +3808,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
   int fieldNameWidth =
     elt->maxLilypondVariablesNamesLength ();
     
+  // MusicXML informations JMI ???
+  
+  // LilyPond informations
+
   {
     S_lpsrVarValAssoc
       lilypondDedication =
@@ -3808,6 +3821,34 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
       fLilypondCodeIOstream <<
         lpsrVarValAssocAsLilypondString (
           lilypondDedication,
+          fieldNameWidth) <<
+        endl;
+    }
+  }
+
+  {
+    S_lpsrVarValAssoc
+      lilypondPiece =
+        elt->getLilypondPiece ();
+  
+    if (lilypondPiece) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondPiece,
+          fieldNameWidth) <<
+        endl;
+    }
+  }
+
+  {
+    S_lpsrVarValAssoc
+      lilypondOpus =
+        elt->getLilypondOpus ();
+  
+    if (lilypondOpus) {
+      fLilypondCodeIOstream <<
+        lpsrVarValAssocAsLilypondString (
+          lilypondOpus,
           fieldNameWidth) <<
         endl;
     }
@@ -6699,7 +6740,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
-          " \\undo \\omit Staff.TimeSignature" <<
+          " \\undo \\omit Staff.TimeSignature |" <<
           endl;
   
         fOnGoingVoiceCadenza = false;

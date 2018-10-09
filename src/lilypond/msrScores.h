@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrScores__
-#define __msrScores__
+#ifndef ___msrScores___
+#define ___msrScores___
 
 #include <iostream>
 

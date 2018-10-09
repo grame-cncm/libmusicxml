@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrRehearsals__
-#define __msrRehearsals__
+#ifndef ___msrRehearsals___
+#define ___msrRehearsals___
 
 #include "msrElements.h"
 

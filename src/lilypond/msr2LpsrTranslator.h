@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msr2LpsrTranslator__
-#define __msr2LpsrTranslator__
+#ifndef ___msr2LpsrTranslator___
+#define ___msr2LpsrTranslator___
 
 #include <map>
 #include <vector>
@@ -637,6 +637,9 @@ class msr2LpsrTranslator :
     
     // to help workaround LilyPond issue 34
     S_msrNote                 fFirstNoteCloneInVoice;
+    S_msrNote                 fFirstNoteCloneInVoiceOriginal;
+
+    S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 
 
     // glissandos

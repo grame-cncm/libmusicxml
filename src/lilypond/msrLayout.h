@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrLayout__
-#define __msrLayout__
+#ifndef ___msrLayout___
+#define ___msrLayout___
 
 #include "msrElements.h"
 

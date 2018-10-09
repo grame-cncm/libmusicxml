@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrTies__
-#define __msrTies__
+#ifndef ___msrTies___
+#define ___msrTies___
 
 #include "msrElements.h"
 

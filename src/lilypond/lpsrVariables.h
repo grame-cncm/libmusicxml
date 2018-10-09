@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrVariables__
-#define __lpsrVariables__
+#ifndef ___lpsrVariables___
+#define ___lpsrVariables___
 
 #include <string>
 

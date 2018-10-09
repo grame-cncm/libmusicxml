@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrStems__
-#define __msrStems__
+#ifndef ___msrStems___
+#define ___msrStems___
 
 #include "msrElements.h"
 

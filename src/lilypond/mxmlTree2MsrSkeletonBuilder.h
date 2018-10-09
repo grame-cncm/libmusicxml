@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __mxmlTree2MsrSkeletonBuilder__
-#define __mxmlTree2MsrSkeletonBuilder__
+#ifndef ___mxmlTree2MsrSkeletonBuilder___
+#define ___mxmlTree2MsrSkeletonBuilder___
 
 
 namespace MusicXML2

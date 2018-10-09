@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrTempos__
-#define __msrTempos__
+#ifndef ___msrTempos___
+#define ___msrTempos___
 
 #include <list>
 

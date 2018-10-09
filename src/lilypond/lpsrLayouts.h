@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrLayouts__
-#define __lpsrLayouts__
+#ifndef ___lpsrLayouts___
+#define ___lpsrLayouts___
 
 #include "lpsrVarValAssocs.h"
 

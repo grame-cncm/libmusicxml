@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __lpsrPartGroups__
-#define __lpsrPartGroups__
+#ifndef ___lpsrPartGroups___
+#define ___lpsrPartGroups___
 
 #include "lpsrElements.h"
 
