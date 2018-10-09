@@ -37,6 +37,7 @@ Sguidonote guidonote::create(unsigned short voice, string name, char oct, guidon
 Sguidoseq guidoseq::create()			{ guidoseq* o = new guidoseq(); assert(o!=0); return o;}
 Sguidochord guidochord::create()		{ guidochord* o = new guidochord(); assert(o!=0); return o;}
 Sguidotag guidotag::create(string name)	{ guidotag* o = new guidotag(name); assert(o!=0); return o;}
+Sguidotag guidotag::create(string name, string sep)	{ guidotag* o = new guidotag(name, sep); assert(o!=0); return o;}
 
 //______________________________________________________________________________
 guidonotestatus* guidonotestatus::fInstances[kMaxInstances] = { 0 };
@@ -95,18 +96,27 @@ long guidoelement::add (Sguidoparam param) {
 	return fParams.size()-1;
 }
 
-//______________________________________________________________________________
-void guidoelement::print(ostream& os)
-{
-    os << fName;
 
-    // print the optional parameters section
+static string add_escape(const char* str)
+{
+	string out;
+	while (*str) {
+		if (*str == '"') out += '\\';
+		out += *str++;
+	}
+	return out;
+}
+
+//______________________________________________________________________________
+// print the optional parameters section
+void guidoelement::printparams(ostream& os) const
+{
     if (!fParams.empty()) {
         os << "<";
         vector<Sguidoparam>::const_iterator param;
         for (param = fParams.begin(); param != fParams.end(); ) {
             if ((*param)->quote())
-				os << "\"" << (*param)->get() << "\"";
+				os << "\"" << add_escape((*param)->get().c_str()) << "\"";
 			else
 				os << (*param)->get();
             if (++param != fParams.end())
@@ -114,38 +124,39 @@ void guidoelement::print(ostream& os)
         }
         os << ">";
     }
+}
 
-    bool isSeq = dynamic_cast<const guidoseq *>(this) != 0;
-    bool isChord = dynamic_cast<const guidochord *>(this) != 0;
-    bool prevNote = false;
-    bool prevSeq = false;
-    // print the optional contained elements
+//______________________________________________________________________________
+// print a chord
+// note that a score is a chord of sequences
+void guidochord::print(ostream& os) const
+{
+	os << fStartList;
+	int n = countNotes();
+	const char* seqsep = "";
+	for (auto e: fElements) {
+		const char* sep = (e->isNote() && --n) ? ", " : " ";
+		os << seqsep  << e << sep;
+		if (e->isSeq()) seqsep = ", \n";
+	}
+	os << fEndList;
+}
+
+//______________________________________________________________________________
+void guidoelement::print(ostream& os) const
+{
+    os << fName;
+	printparams (os);
+	
+    // print the enclosed elements
     if (!fElements.empty()) {
         os << fStartList;
-        vector<Sguidoelement>::const_iterator ielt;
-        for (ielt = fElements.begin(); ielt != fElements.end(); ielt++) {
-            Sguidoseq seq;
-            seq.cast((guidoelement *)(*ielt));
-            Sguidonote note;
-            note.cast((guidoelement *)(*ielt));
-
-            if (isChord) {
-                if (note) {
-                    os << (prevNote ? ", " : " ");
-                    prevNote = true;
-                }
-                else if (seq) {
-                    os << (prevSeq ? ", " : " ");
-                    prevSeq = true;
-                }
-                else os << " ";
-            }
-            else os << " ";
-            os << *ielt;            
-        }
-       os << fEndList;
-    }
-	if (isSeq) os << std::endl;
+		string sep = " ";
+		for (auto e: fElements) {
+			os << sep << e;
+		}
+		os << fEndList << endl;
+	}
 }
 
 //______________________________________________________________________________
@@ -181,13 +192,14 @@ void guidonote::set (unsigned short voice, string name, char octave, guidonotedu
 			}
 		}
     }
-	if (!status || (*status != dur)) {
+    //// AC Note 20/02/2017: Not generating Durations, causes problems on multi-voice scores with Pickup measures!
+	//if (!status || (*status != dur)) {
         if (dur.fNum != 1) {
             s << "*" << (int)dur.fNum;
         }
         s << "/" << (int)dur.fDenom;
         if (status) *status = dur;
-    }
+    //}
     while (dots-- > 0)
         s << ".";
     s >> fName;
@@ -196,6 +208,14 @@ void guidonote::set (unsigned short voice, string name, char octave, guidonotedu
 //______________________________________________________________________________
 guidoelement::guidoelement(string name, string sep) : fName(name), fSep(sep) {}
 guidoelement::~guidoelement() {}
+int guidoelement::countNotes () const {
+	int count = 0;
+	for (auto e: fElements) {
+		if (e->isNote()) count++;
+		else count += e->countNotes();
+	}
+	return count;
+}
 
 //______________________________________________________________________________
 guidoparam::guidoparam(string value, bool quote) : fValue(value), fQuote(quote) {}
@@ -220,6 +240,8 @@ guidochord::~guidochord() {}
 //______________________________________________________________________________
 guidotag::guidotag(string name) : guidoelement("\\"+name) 
 	{ fStartList="("; fEndList=")"; }
+guidotag::guidotag(string name, string sep) : guidoelement("\\"+name,sep)
+    { fStartList="("; fEndList=")"; }
 guidotag::~guidotag() {}
 
 }

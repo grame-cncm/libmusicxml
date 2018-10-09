@@ -3528,6 +3528,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
+#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
       "FAA fCurrentNonGraceNoteClone = " <<
@@ -3555,7 +3556,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         endl;
     }
   }
-   
+#endif
+
   switch (elt->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:

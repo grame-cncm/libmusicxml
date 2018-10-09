@@ -13,6 +13,10 @@
 
 #include <stdlib.h>
 #include <iostream>
+#ifndef WIN32
+#include <signal.h>
+#include <string.h>
+#endif
 
 #include "xml.h"
 #include "xmlfile.h"
@@ -22,6 +26,31 @@ using namespace std;
 using namespace MusicXML2;
 
 //#define STRREAD
+
+#ifndef WIN32
+
+static void _sigaction(int signal, siginfo_t *si, void *arg)
+{
+    cerr << "Signal #" << signal << " catched!" << endl;
+    exit(-2);
+}
+
+static void catchsigs()
+{
+	struct sigaction sa;
+
+    memset(&sa, 0, sizeof(struct sigaction));
+    sigemptyset(&sa.sa_mask);
+    sa.sa_sigaction = _sigaction;
+    sa.sa_flags   = SA_SIGINFO;
+    sigaction(SIGSEGV, &sa, NULL);
+    sigaction(SIGILL, &sa, NULL);
+    sigaction(SIGFPE, &sa, NULL);
+}
+
+#else
+static void catchsigs()	{}
+#endif
 
 //_______________________________________________________________________________
 #ifdef STRREAD
@@ -43,6 +72,8 @@ static char * read(const char* file)
 //_______________________________________________________________________________
 int main(int argc, char *argv[]) 
 {
+	catchsigs();
+	
 	for (int i=1; i<argc; i++) {
 		xmlreader r;
 #ifdef STRREAD
@@ -56,6 +87,7 @@ int main(int argc, char *argv[])
 			file->print(cout);
 			cout << endl;
 		}
+		else return -1;		// likely a syntax error
 	}
 	return 0;
 }

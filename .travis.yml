@@ -1,31 +1,18 @@
-dist: trusty
-sudo: required
+os: linux
+dist: xenial
 language: cpp
-compiler: gcc
-
-matrix:
-  include:
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+compiler: clang
 
 before_install:
-    - eval "${MATRIX_EVAL}"
-    
+  - sudo apt-get -qq update
+
+branches:
+  except:
+  - lilypond
+
 branches:
   only:
   - dev
-  - lilypond
   - master
 
-script: 
-    - cd cmake && cmake . && make -j 2
-    - cd ../validation && make read XMLREAD=../cmake/xmlread -j 2
-
+script: make -C build

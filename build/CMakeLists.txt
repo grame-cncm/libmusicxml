@@ -28,38 +28,49 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.00)
-set (STRVERS "v.3.00")
-set (SSTRVERS "3.00")
+set (VERSION 3.11)
+set (STRVERS "v.3.11")
+set (SSTRVERS "3.11")
+
+#######################################
+set (CMAKE_CXX_STANDARD 11)
 
 if(UNIX)
-#  add_definitions(-Wall -DGCC -std=c++11 -O3 -Wno-overloaded-virtual)
- add_definitions(-Wall -DGCC -std=c++11 -DTRACE_OPTIONS -ggdb3 -Wno-overloaded-virtual)
-endif(UNIX)
+	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -Wno-overloaded-virtual)
+endif()
 
+set (FMWK "true")
 set (libtype SHARED)
-if(APPLE)
-  if ( IOS STREQUAL "yes" )
-    message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
-    set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-    set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
-    set (CMAKE_OSX_SYSROOT "iphoneos5.1")
-    set (libtype STATIC)
-  else ()
-#    set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
-    set (CMAKE_OSX_ARCHITECTURES "x86_64")
-    set (CMAKE_C++_FLAGS -mmacosx-version-min=10.4)
-  endif()
-endif(APPLE)
 
-if(WIN32)
+#########################################
+# mac os specific part
+#########################################
+if(APPLE)
+	if ( IOS )
+		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
+		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
+#		set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
+		set (CMAKE_OSX_SYSROOT "iphoneos")
+		set (libtype STATIC)
+	endif()
+
+#########################################
+# windows specific part
+#########################################
+elseif(WIN32)
  add_definitions(-DWINVER=0x0400 -DWIN32)
  if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
   add_definitions(-DVC6)
  elseif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 8 2005")
   add_definitions(-DVC2005)
  endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-endif(WIN32)
+
+#########################################
+# assume linux host
+#########################################
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 
 
 #######################################
@@ -103,6 +114,11 @@ if(APPLE)
   else()
     set(target libmusicxml2)
   endif()
+	if (IOS)
+		set(target musicxml2)
+	else()
+		set(target libmusicxml2)
+	endif()
 elseif(MSVC)
   set(target libmusicxml2)
 else()
@@ -133,23 +149,24 @@ endif()
 # set sample targets
 #set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly msrStreamsExample xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xml2ly xmltranspose)
 
+if(NOT APPLE OR NOT IOS )
 foreach(sample ${SAMPLES})
   add_executable( ${sample} ${LXMLSAMPLES}/${sample}.cpp )
   target_link_libraries( ${sample} ${target})
   add_dependencies(${sample} ${target})
 endforeach(sample)
+endif()
 
 
 #######################################
 # install setup
 if(NOT APPLE)
 install ( TARGETS ${target} ${TOOLS} 
-  RUNTIME DESTINATION bin 
-      LIBRARY DESTINATION lib 
-      ARCHIVE DESTINATION lib 
-      FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
-      PUBLIC_HEADER DESTINATION include/libmusicxml
+	RUNTIME DESTINATION bin 
+    	LIBRARY DESTINATION /usr/lib 
+    	ARCHIVE DESTINATION lib 
+#    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
+    	PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 endif()

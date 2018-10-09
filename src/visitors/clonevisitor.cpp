@@ -10,12 +10,11 @@
   research@grame.fr
 */
 
-#ifdef VC6
+#ifdef MSVC
 # pragma warning (disable : 4786)
 #endif
 
 #include <iostream>
-
 #include "clonevisitor.h"
 
 using namespace std;
@@ -24,65 +23,50 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-void clonevisitor::copyAttributes (
-  const Sxmlelement& src, Sxmlelement& dst)
+void clonevisitor::copyAttributes (const Sxmlelement& src, Sxmlelement& dst )
 {
-  vector<Sxmlattribute> attr = src->attributes();
-  vector<Sxmlattribute>::const_iterator iter;
-  
-  for (iter=attr.begin(); iter != attr.end(); iter++) {
-    Sxmlattribute attrcopy = xmlattribute::create ();
-    
-    attrcopy->setName  ((*iter)->getName());
-    attrcopy->setValue ((*iter)->getValue());
-    
-    dst->add( attrcopy );
-  } // for
+	vector<Sxmlattribute> attr = src->attributes();
+	vector<Sxmlattribute>::const_iterator iter;
+	for (iter=attr.begin(); iter != attr.end(); iter++) {
+		Sxmlattribute attrcopy = xmlattribute::create();
+		attrcopy->setName( (*iter)->getName());
+		attrcopy->setValue( (*iter)->getValue());
+		dst->add( attrcopy );
+	}
 }
 
 //______________________________________________________________________________
 Sxmlelement clonevisitor::copy (const Sxmlelement& src)
 {
-  Sxmlelement copy =
-    xmlelement::create (src->getInputLineNumber());
-    
-  if (copy) {
-    copy->setName  (src->getName());
-    copy->setValue (src->getValue());
-    
-    copyAttributes (src, copy);
-  }
-  return copy;
+	Sxmlelement copy = xmlelement::create(src->getInputLineNumber());
+	if (copy) {
+		copy->setName( src->getName());
+		copy->setValue( src->getValue());
+		copyAttributes (src, copy);
+	}
+	return copy;
 }
 
 //______________________________________________________________________________
 void clonevisitor::visitStart ( Sxmlelement& elt )
 {
-  if (! fClone) return;
-  
-  Sxmlelement copy =
-    xmlelement::create(elt->getInputLineNumber());
-  
-  copy->setName  (elt->getName());
-  copy->setValue (elt->getValue());
-  
-  copyAttributes (elt, copy);
-  fLastCopy = copy;
-  
-  if (fStack.empty())
-    fStack.push(copy);
-  else
-    fStack.top()->push (copy);
-  
-  if (!elt->empty()) fStack.push(copy);
+	if (!fClone) return;
+	Sxmlelement copy = xmlelement::create(elt->getInputLineNumber());
+	copy->setName( elt->getName());
+	copy->setValue( elt->getValue());
+	copyAttributes (elt, copy);
+	fLastCopy = copy;
+	if (fStack.empty())
+		fStack.push(copy);
+	else fStack.top()->push(copy);
+	if (!elt->empty()) fStack.push(copy);
 }
 
 //______________________________________________________________________________
 void clonevisitor::visitEnd ( Sxmlelement& elt )
 {
-  if (! fClone) return;
-  
-  if (! elt->empty()) fStack.pop ();
+	if (!fClone) return;
+	if (!elt->empty()) fStack.pop();
 }
 
 }

@@ -15,7 +15,6 @@
 
 #include <stack>
 #include <stdio.h>
-
 #include "exports.h"
 #include "xmlfile.h"
 #include "reader.h"
@@ -25,37 +24,28 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 class EXP xmlreader : public reader
-{
-  private:
-  
-    std::stack<Sxmlelement> fStack;
-    SXMLFile                fFile;
+{ 
+	std::stack<Sxmlelement>	fStack;
+	SXMLFile				fFile;
 
-  public:
-  
-    xmlreader() {}
-    virtual ~xmlreader() {}
-    
-    SXMLFile readbuff(const char* file);
-    SXMLFile read(const char* file);
-    SXMLFile read(FILE* file);
+	public:
+				 xmlreader() {}
+		virtual ~xmlreader() {}
+		
+		SXMLFile readbuff(const char* file);
+		SXMLFile read(const char* file);
+		SXMLFile read(FILE* file);
 
-    bool  xmlDecl (const char* version, const char *encoding, int standalone);
-    bool  docType (const char* start, bool status, const char *pub, const char *sys);
+		bool	xmlDecl (const char* version, const char *encoding, int standalone);
+		bool	docType (const char* start, bool status, const char *pub, const char *sys);
 
-    void  newComment (const char* comment);
-    
-    void  newProcessingInstruction (const char* pi);
-    
-    bool  newElement (const char* eltName);
-    
-    bool  newAttribute (const char* eltName, const char *val);
-    
-    void  setValue (const char* value);
-    
-    bool  endElement (const char* eltName);
-    
-    void  error (const char* s, int lineno);
+		void	newComment (const char* comment);
+		void	newProcessingInstruction (const char* pi);
+		bool	newElement (const char* eltName);
+		bool	newAttribute (const char* eltName, const char *val);
+		void	setValue (const char* value);
+		bool	endElement (const char* eltName);
+		void	error (const char* s, int lineno);
 };
 
 }

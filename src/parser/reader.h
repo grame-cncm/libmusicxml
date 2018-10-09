@@ -15,34 +15,20 @@
 
 class reader
 { 
-  public:
-  
-    reader() {}
-    virtual ~reader() {};
-    
-    virtual bool  xmlDecl (
-                    const char* version,
-                    const char *encoding,
-                    int standalone) = 0;
-    virtual bool  docType (
-                    const char* start,
-                    bool status,
-                    const char *pub,
-                    const char *sys) = 0;
+	public:
+				 reader() {}
+		virtual ~reader() {};
+		
+		virtual bool	xmlDecl (const char* version, const char *encoding, int standalone) = 0;
+		virtual bool	docType (const char* start, bool status, const char *pub, const char *sys) = 0;
 
-    virtual void  newComment (const char* comment) {}
-    
-    virtual void  newProcessingInstruction (const char* pi) {}
-    
-    virtual bool  newElement (const char* eltName) = 0;
-    
-    virtual bool  newAttribute (const char* eltName, const char *val) = 0;
-    
-    virtual void  setValue (const char* value) = 0;
-    
-    virtual bool  endElement (const char* eltName) = 0;
-    
-    virtual void  error (const char* s, int lineno) = 0;
+		virtual void	newComment (const char* comment) {}
+		virtual void	newProcessingInstruction (const char* pi) {}
+		virtual bool	newElement (const char* eltName) = 0;
+		virtual bool	newAttribute (const char* eltName, const char *val) = 0;
+		virtual void	setValue (const char* value) = 0;
+		virtual bool	endElement (const char* eltName) = 0;
+		virtual void	error (const char* s, int lineno) = 0;
 };
 
 

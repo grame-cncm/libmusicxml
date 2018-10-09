@@ -1,0 +1,86 @@
+(*
+  gmn code converted from 'BeetAnGeSample.xml'
+  using libmusicxml v.3.1.1
+  and the embedded xml2guido converter v.2.1.0
+*)
+{ [ \staff<1> \composer<"Ludwig van Beethoven", dy=4hs> \instr<"Voice", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<-3> \meter<"3/4", autoBarlines="off"> \clef<"g2"> _ \stemsDown b& b& \bar 
+   (* meas. 2 *)  b&/4. c2/8 \beam( d e&) \bar 
+   (* meas. 3 *)  e&/4 \stemsUp g1/8 _ \beam( a& g) \bar 
+   (* meas. 4 *)  \beam( f a&) \stemsDown c2/4 c \bar 
+   (* meas. 5 *)  \stemsUp f1 \stemsDown b&/4. c2/8 \bar 
+   (* meas. 6 *)  b&1/4 \stemsUp a \beam( a&/8 b&) \bar 
+   (* meas. 7 *)  a&/4 g \stemsDown \beam( e&2/8 d) \bar 
+   (* meas. 8 *)  \slurBegin:1 d/4 \beam( c/8 \slurEnd:1 b&1) \stemsUp \beam( a& f) \bar 
+   (* meas. 9 *)  e&/4 _ _ \bar 
+   (* meas. 10 *)  _*3/4 \bar 
+   (* meas. 11 *)  _/4 \stemsDown b& b& \bar 
+   (* meas. 12 *)  b&/4. c2/8 \beam( d e&) \bar 
+   (* meas. 13 *)  e&/4 \stemsUp g1/8 _ \beam( a& g) \bar 
+   (* meas. 14 *)  \beam( f a&) \stemsDown c2/4 c \bar 
+   (* meas. 15 *)  \stemsUp f1 \stemsDown b&/4. c2/8 ]
+, [ \staff<2> \instr<"Piano", dx=-10hs, dy=-5hs> \systemFormat<"", dx=10hs> 
+   (* meas. 1 *)  \key<-3> \meter<"3/4", autoBarlines="off"> \clef<"g2"> \intens<"p", dy=-4.2hs> \stemsUp { b&0, e&1, g, b& } \stemsDown \slurBegin:1 b& \stemsUp a& \slurEnd:1 \bar 
+   (* meas. 2 *)  g { g0, e&1, g } _ \bar 
+   (* meas. 3 *)  _ { g0, c1, e&, g } _/8 { g0, e&1, g } \bar 
+   (* meas. 4 *)  \slurBegin:1 \beam( f a&) c2/4 \slurEnd:1 c \bar 
+   (* meas. 5 *)  empty \slurBegin:3 b&1/4. c2/8 \bar 
+   (* meas. 6 *)  b&1/4 a \slurEnd:3 \slurBegin:2 \beam( a&/8 b&) \slurEnd:2 \bar 
+   (* meas. 7 *)  \slurBegin:1<curve="down"> { f/4, a& } g \slurEnd:1 \crescBegin \beam( { e&/8, b&, e&2 } { e&1, b&, d2 }) \crescEnd \bar 
+   (* meas. 8 *)  \dimBegin \slurBegin:1 { e&1/4, b&, d2 } \beam( { e&1/8, a&, c2 } \slurEnd:1 \dimEnd { e&1, g, b& } { d, f, a& } { a&0, d1, f }) \bar 
+   (* meas. 9 *)  { g0/4, e&1 } \grace( \slurBegin:1 b&/8 \dimBegin \stemsDown) b&2/4. \slurEnd:1 \dimEnd e&/8 \bar 
+   (* meas. 10 *)  d/4 \stemsUp \grace( \slurBegin:1 b&1/8 \dimBegin \stemsDown) b&2/4. \slurEnd:1 \dimEnd \slurBegin:1 d/8 \bar 
+   (* meas. 11 *)  \stemsUp \beam( f { f1, a& } \slurEnd:1 \slurBegin:1<curve="down"> { f, a& } { e, g } { g, b& } { f, a& }) \slurEnd:1 \bar 
+   (* meas. 12 *)  { e&, g } _ \beam( { b&0, g1 } _/16 { b&0, g1 }) { b&0/8, g1 } _ \bar 
+   (* meas. 13 *)  _/4 \beam( { e&/8, g } _/16 { e&, g }) \beam( { e&/8, a&, e&2 } { e&1, g }) \bar 
+   (* meas. 14 *)  { c, f } _ \beam( { c, f } _/16 { c, f }) { c/8, e&, f, c2 } _ \bar 
+   (* meas. 15 *)  { d1, f } _ \beam( { f, b& } _/16 { f, b& }) { g/8, b& } _ ]
+, [ \staff<2> 
+   (* meas. 1 *)  empty*3/4 \bar 
+   (* meas. 2 *)  empty \bar 
+   (* meas. 3 *)  empty \bar 
+   (* meas. 4 *)  \stemsDown c/4 { c, f } \slurBegin:1<curve="down"> { c, e& \tieBegin, f } \bar 
+   (* meas. 5 *)  \stemsUp { d, f \tieEnd } \slurEnd:1 \stemsDown f g \bar 
+   (* meas. 6 *)  { e&/2, g& } f/4 \bar 
+   (* meas. 7 *)  empty*3/4 \bar 
+   (* meas. 8 *)  empty \bar 
+   (* meas. 9 *)  empty \bar 
+   (* meas. 10 *)  empty \bar 
+   (* meas. 11 *)  empty \bar 
+   (* meas. 12 *)  empty \bar 
+   (* meas. 13 *)  empty \bar 
+   (* meas. 14 *)  empty \bar 
+   (* meas. 15 *)  empty ]
+, [ \staff<3> 
+   (* meas. 1 *)  \key<-3> \meter<"3/4", autoBarlines="off"> \clef<"f4"> \stemsUp { e&-1, e&0 } \clef<"g2"> \slurBegin:1<curve="down"> g1 f \slurEnd:1 \bar 
+   (* meas. 2 *)  e& \clef<"f4"> { e&-1, e&0 } _ \bar 
+   (* meas. 3 *)  _ { c-1, c0 } _/8 { b&-2, b&-1 } \bar 
+   (* meas. 4 *)  { a&-2/4, a&-1 } \slurBegin:2<curve="down"> { a&-2, a&-1 } { a-2, a-1 } \bar 
+   (* meas. 5 *)  { b&-2, b&-1 } \slurEnd:2 \stemsDown \slurBegin:1 d0 e& \bar 
+   (* meas. 6 *)  \stemsUp c c1 \slurEnd:1 empty \bar 
+   (* meas. 7 *)  \slurBegin:1 b&0 e&1 \slurEnd:1 empty \bar 
+   (* meas. 8 *)  \stemsDown { a&-1, e&0, a& } \stemsUp \beam( { a&-1/8, e&0, a& } { b&-1, e&0, b& } { b&-1, b&0 } { b&-2, b&-1 }) \bar 
+   (* meas. 9 *)  { e&/4, e&0 } \stemsDown { e&/2, g, b&, e&1 } \bar 
+   (* meas. 10 *)  { e&0/4, f, a&, d1 } { e&0/4., f., a&., b&., d1. } \slurBegin:2 d/8 \bar 
+   (* meas. 11 *)  \beam( f { f0, a& } \slurEnd:2 \slurBegin:1 { f, a& } { e, g } { g, b& } { f, a& }) \slurEnd:1 \bar 
+   (* meas. 12 *)  { e&, g } _ \beam( e& _/16 e&) \stemsUp e&-1/8 _ \bar 
+   (* meas. 13 *)  _/4 \stemsDown \beam( c1/8 _/16 c) \stemsUp \beam( c0/8 b&-1) \bar 
+   (* meas. 14 *)  a& _ \stemsDown \beam( a&0 _/16 { a&-1, a&0 }) { a-1/4, a0 } \bar 
+   (* meas. 15 *)  { b&-1/8, b&0 } _ \beam( { d, b& } _/16 { d, b& }) { e&/8, b& } _ ]
+, [ \staff<3> 
+   (* meas. 1 *)  empty*3/4 \bar 
+   (* meas. 2 *)  empty \bar 
+   (* meas. 3 *)  empty \bar 
+   (* meas. 4 *)  empty \bar 
+   (* meas. 5 *)  empty \bar 
+   (* meas. 6 *)  \stemsDown c0/2 { d/4, b&, d1 } \bar 
+   (* meas. 7 *)  e&0/2 { g-1/4, e&0, g } \bar 
+   (* meas. 8 *)  empty*3/4 \bar 
+   (* meas. 9 *)  empty \bar 
+   (* meas. 10 *)  empty \bar 
+   (* meas. 11 *)  empty \bar 
+   (* meas. 12 *)  empty \bar 
+   (* meas. 13 *)  empty \bar 
+   (* meas. 14 *)  empty \bar 
+   (* meas. 15 *)  empty ]
+ }

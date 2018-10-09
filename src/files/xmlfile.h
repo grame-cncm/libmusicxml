@@ -24,40 +24,21 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 class EXP TXMLDecl {
-  private:
-  
-    std::string           fVersion;
-    std::string           fEncoding;
-    int                   fStandalone;
+	std::string fVersion;
+	std::string fEncoding;
+	int			fStandalone;
 
-  public:
-  
-    enum { kundefined=-1, kNo, kYes };
+	public:
+		enum { kundefined=-1, kNo, kYes };
+				 TXMLDecl (const std::string version, const std::string encoding, int stdalone=kundefined) 
+						: fVersion(version), fEncoding(encoding), fStandalone(stdalone) {}
+		virtual ~TXMLDecl() {}
 
-    TXMLDecl (
-      const std::string version,
-      const std::string encoding,
-      int stdalone=kundefined) 
-        : fVersion(version),
-          fEncoding(encoding),
-          fStandalone(stdalone)
-      {}
-      
-    virtual ~TXMLDecl () {}
-
-    void                  setEncoding (std::string encoding)
-                              { fEncoding = encoding; }
-    
-    std::string           getVersion ()
-                              { return fVersion; }
-                              
-    std::string           getEncoding ()
-                              { return fEncoding; }
-                              
-    int                   getStandalone ()
-                              { return fStandalone; }
-
-    void                  print (std::ostream& s);
+		void 		setEncoding (std::string encoding)	{ fEncoding = encoding; }
+		std::string	getVersion () const					{ return fVersion; }
+		std::string	getEncoding () const				{ return fEncoding; }
+		int			getStandalone () const				{ return fStandalone; }
+		void print (std::ostream& s);
 };
 typedef SMARTP<TXMLDecl> SXMLDecl;
 
@@ -71,34 +52,15 @@ class EXP TDocType {
     std::string fSysLitteral;
 
   public:
-  
-    TDocType (const std::string start);
-    TDocType (
-      const std::string start,
-      bool pub,
-      const std::string publit,
-      const std::string syslit) 
-      : fStartElement(start),
-          fPublic(pub),
-          fPubLitteral(publit),
-          fSysLitteral(syslit)
-      {}
-      
-    virtual ~TDocType()
-      {}
+    		 TDocType (const std::string start);
+    		 TDocType ( const std::string start, bool pub, const std::string publit, const std::string syslit) 
+      				: fStartElement(start), fPublic(pub), fPubLitteral(publit), fSysLitteral(syslit) {}
+    virtual ~TDocType() {}
 
-    std::string           getStartElement ()
-                              { return fStartElement; }
-                              
-    bool                  getPublic ()
-                              { return fPublic; }
-                              
-    std::string           getPubLitteral ()
-                              { return fPubLitteral; }
-    
-    std::string           getSysLitteral ()
-                              { return fSysLitteral; }
-
+    std::string           getStartElement ()	{ return fStartElement; }
+    bool                  getPublic ()			{ return fPublic; }
+    std::string           getPubLitteral ()		{ return fPubLitteral; }
+    std::string           getSysLitteral ()		{ return fSysLitteral; }
     void                  print (std::ostream& s);
 };
 typedef SMARTP<TDocType> SDocType;
@@ -107,43 +69,27 @@ typedef SMARTP<TDocType> SDocType;
 class EXP TXMLFile : public smartable
 {
   private:
-  
     TXMLDecl*             fXMLDecl;
     TDocType*             fDocType;
     Sxmlelement           fXMLTree;
   
   protected:
-  
-    TXMLFile ()
-      : fXMLDecl(0), fDocType(0)
-      {}
-      
-    virtual ~TXMLFile ()
-      { delete fXMLDecl; delete fDocType; }
+			 TXMLFile () : fXMLDecl(0), fDocType(0) {}
+    virtual ~TXMLFile () { delete fXMLDecl; delete fDocType; }
     
   public:
-  
     static SMARTP<TXMLFile> create();
 
   public:
-  
-    TXMLDecl*             getXMLDecl ()
-                              { return fXMLDecl; }
-    TDocType*             getDocType ()
-                              { return fDocType; }
-    
-    Sxmlelement           elements () { return fXMLTree; }
-    
-    void                  set (Sxmlelement root)
-                              { fXMLTree = root; }
-      
-    void                  set (TXMLDecl * dec)
-                              { fXMLDecl = dec; }
-      
-    void                  set (TDocType * dt)
-                              { fDocType = dt; }
-      
-    void                  print (std::ostream& s);
+    TXMLDecl* 		getXMLDecl ()			{ return fXMLDecl; }
+    TDocType* 		getDocType ()			{ return fDocType; }
+    Sxmlelement		elements () 			{ return fXMLTree; }
+
+    void 			set (Sxmlelement root)	{ fXMLTree = root; }
+    void 			set (TXMLDecl * dec)	{ fXMLDecl = dec; }
+    void 			set (TDocType * dt)		{ fDocType = dt; }
+
+    void 			print (std::ostream& s);
 };
 typedef SMARTP<TXMLFile> SXMLFile;
 

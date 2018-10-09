@@ -23,12 +23,12 @@ int yyline = 1;
 #ifdef __cplusplus
 extern "C" {
 #endif
-int   yyparse (void);
-void  yyerror(const char *s);
-int   libmxmlwrap();
-bool  readfile   (const char * file, reader * r);
-bool  readstream (FILE * file, reader * r);
-bool  readbuffer (const char * buffer, reader * r);
+//int		yyparse (void);
+void	yyerror(const char *s);
+int		libmxmlwrap();
+bool	readfile   (const char * file, reader * r);
+bool	readstream (FILE * file, reader * r);
+bool	readbuffer (const char * buffer, reader * r);
 #ifdef __cplusplus
 }
 #endif
@@ -39,9 +39,9 @@ extern int libmxmllineno;
 extern FILE * libmxmlin;
 
 #define YYERROR_VERBOSE
-#define ERROR(str)  { yyerror((const char*)str); YYABORT; }
-#define MAXLEN  1024
-#define VLEN  256
+#define ERROR(str)	{ yyerror(str); YYABORT; }
+#define MAXLEN	1024
+#define VLEN	256
 char attributeName[MAXLEN];
 char attributeVal[MAXLEN];
 
@@ -57,34 +57,32 @@ char doctypeSys[MAXLEN];
 reader * gReader;
 
 static void init (reader * r) {
-  gReader = r;
-  xmlStandalone = -1;
-  eltName[0]    = 0;
-  attributeName[0] = 0;
-  attributeVal[0] = 0;
-  xmlversion[0]   = 0;
-  xmlencoding[0]  = 0;
-  doctypeStart[0] = 0;
-  doctypePub[0] = 0;
-  doctypeSys[0] = 0;
-
-  libmxmllineno = 1; // JMI
+	gReader = r;
+	xmlStandalone = -1;
+	eltName[0]		= 0;
+	attributeName[0] = 0;
+	attributeVal[0] = 0;
+	xmlversion[0]   = 0;
+	xmlencoding[0]  = 0;
+	doctypeStart[0]	= 0;
+	doctypePub[0]	= 0;
+	doctypeSys[0]	= 0;
 }
 
 static char * unquote (char * text) {
-  int n = strlen(text);
-  if (n > 0) {
-    text[n-1]=0;
-    return &text[1];
-  }
-  return text;
+	int n = strlen(text);
+	if (n > 0) {
+		text[n-1]=0;
+		return &text[1];
+	}
+	return text;
 }
 
 static void store (char * dst, const char * text) {
-  strcpy (dst, text);
+	strcpy (dst, text);
 }
 
-int   libmxmlwrap()   { return(1); }
+int		libmxmlwrap()		{ return(1); }
 
 %}
 
@@ -100,197 +98,166 @@ int   libmxmlwrap()   { return(1); }
 %%              /* beginning of rules section */
 
 
-document:   prolog element misc
+document	: prolog element misc ;
 
-prolog  : xmldecl doctype
-    |   xmldecl comments doctype
+prolog  	: xmldecl doctype
+    		| xmldecl comments doctype
 
-element : eltstart data eltstop
-    |   emptyelt 
-    |   procinstr
-    |   comment
+element		: eltstart data eltstop
+			| emptyelt 
+			| procinstr ;
+			| comment ;
 
-eltstart: LT eltname GT
-    |   LT eltname SPACE attributes GT
+eltstart	: LT eltname GT
+			| LT eltname SPACE attributes GT ;
 
-eltstop : ENDXMLS endname GT
+eltstop		: ENDXMLS endname GT;
 
-emptyelt: LT eltname ENDXMLE  {
-          if (!gReader->endElement (eltName))
-              ERROR("end element error")
-          }
-    |   LT eltname SPACE attributes ENDXMLE {
-      if (!gReader->endElement (eltName))
-        ERROR("end element error")
-      }
+emptyelt	: LT eltname ENDXMLE					{ if (!gReader->endElement(eltName)) ERROR("end element error") }
+			| LT eltname SPACE attributes ENDXMLE   { if (!gReader->endElement(eltName)) ERROR("end element error") }
 
-eltname : NAME  {
-        store(eltName, libmxmltext);
-        if (!gReader->newElement (libmxmltext))
-        ERROR("element error")
-      }
+eltname		: NAME							{ store(eltName, libmxmltext); if (!gReader->newElement(libmxmltext)) ERROR("element error") }
+endname		: NAME							{ if (!gReader->endElement(libmxmltext)) ERROR("end element error") }
 
-endname:  NAME  {
-        if (!gReader->endElement (libmxmltext))
-        ERROR("end element error")
-      }
+attribute	: attrname EQ value				{ if (!gReader->newAttribute (attributeName, attributeVal)) ERROR("attribute error") }
+attrname	: NAME							{ store(attributeName, libmxmltext); }
+value		: QUOTEDSTR						{ store(attributeVal, unquote(libmxmltext)); }
 
-attribute:  attrname EQ value {
-        if (!gReader->newAttribute (attributeName, attributeVal))
-        ERROR("attribute error")
-      }
+attributes  : attribute	
+			| attributes SPACE attribute;
 
-attrname: NAME    { store(attributeName, libmxmltext); }
+data		: /* empty */
+			| cdata
+			| elements ;
 
-value   : QUOTEDSTR { store(attributeVal, unquote (libmxmltext)); }
+cdata		: DATA							{ gReader->setValue (libmxmltext); }
 
-attributes  : attribute 
-      | attributes SPACE attribute;
+procinstr	: PI							{ gReader->newProcessingInstruction (libmxmltext); }
+comment		: COMMENT						{ gReader->newComment (libmxmltext); }
 
-data    : /* empty */
-    | cdata
-    | elements ;
+comments 	:  comment
+     		|  comments comment;
 
-cdata   : DATA  { gReader->setValue (libmxmltext); }
+elements	: element
+			| elements element;
 
-procinstr : PI    { gReader->newProcessingInstruction (libmxmltext); }
 
-comment  :  COMMENT { gReader->newComment (libmxmltext); }
+xmldecl		: /* empty */
+			| XMLDECL versiondec decl ENDXMLDECL { if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone)) ERROR("xmlDecl error") }
 
-comments :  comment
-     |  comments comment;
+decl		: /* empty */
+			| encodingdec 
+			| stdalonedec
+			| encodingdec stdalonedec ;
 
-elements :  element
-     |  elements element;
+versiondec	: SPACE VERSION EQ QUOTEDSTR 		{ store(xmlversion, unquote(libmxmltext)); }
+encodingdec	: SPACE ENCODING EQ QUOTEDSTR 		{ store(xmlencoding, unquote(libmxmltext)); }
+stdalonedec	: SPACE STANDALONE EQ bool  		{ xmlStandalone = yylval; }
+bool		: YES | NO ;
 
-xmldecl :   /* empty */
-    |   XMLDECL versiondec decl ENDXMLDECL  {
-          if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone))
-            ERROR("xmlDecl error")
-      }
+doctype		: DOCTYPE SPACE startname SPACE id GT
+startname	: NAME 							{ store(doctypeStart, libmxmltext); }
+id			: PUBLIC SPACE publitteral SPACE syslitteral	{ gReader->docType (doctypeStart, true, doctypePub, doctypeSys); }
+			| SYSTEM SPACE syslitteral						{ gReader->docType (doctypeStart, false, doctypePub, doctypeSys); }
+publitteral : QUOTEDSTR 						{ store(doctypePub, unquote(libmxmltext)); }
+syslitteral : QUOTEDSTR 						{ store(doctypeSys, unquote(libmxmltext)); }
 
-decl    : /* empty */
-    |   encodingdec 
-    | stdalonedec
-    | encodingdec stdalonedec ;
-
-versiondec: SPACE VERSION EQ QUOTEDSTR    { store (xmlversion, unquote (libmxmltext)); }
-
-encodingdec: SPACE ENCODING EQ QUOTEDSTR  { store (xmlencoding, unquote (libmxmltext)); }
-
-stdalonedec: SPACE STANDALONE EQ bool   { xmlStandalone = yylval; }
-
-bool    : YES | NO ;
-
-doctype : DOCTYPE SPACE startname SPACE id GT
-
-startname:  NAME              { store(doctypeStart, libmxmltext); }
-
-id    : PUBLIC SPACE publitteral SPACE syslitteral
-                { gReader->docType (doctypeStart, true, doctypePub, doctypeSys); }
-    | SYSTEM SPACE syslitteral
-              { gReader->docType (doctypeStart, false, doctypePub, doctypeSys); }
-
-publitteral:  QUOTEDSTR { store(doctypePub, unquote(libmxmltext)); }
-
-syslitteral:  QUOTEDSTR { store(doctypeSys, unquote(libmxmltext)); }
-
-misc    : /* empty */
-    | SPACE ;
+misc		: /* empty */
+			| SPACE ;
 
 
 %%
 
-#define yy_delete_buffer  libmxml_delete_buffer
-#define yy_scan_string    libmxml_scan_string
+#define yy_delete_buffer	libmxml_delete_buffer
+#define yy_scan_string		libmxml_scan_string
 
 bool readbuffer (const char * buffer, reader * r) 
 {
-  if (!buffer) return false;    // error for empty buffers
+	if (!buffer) return false;		// error for empty buffers
 
-  init(r);
-  YY_BUFFER_STATE b;
+	init(r);
+	YY_BUFFER_STATE b;
     // Copy string into new buffer and Switch buffers
     b = yy_scan_string (buffer);
     // Parse the string
-  int ret = yyparse();
+	int ret = yyparse();
     // Delete the new buffer
-  yy_delete_buffer(b);
-  BEGIN(INITIAL);
-  return ret==0;
+	yy_delete_buffer(b);
+	BEGIN(INITIAL);
+ 	return ret==0;
 }
 
 bool readfile (const char * file, reader * r) 
 {
-  FILE * fd = fopen (file, "r");
-  if (!fd) {
-    cerr << "can't open file " << file << endl;
-    return false;
-  }
-  init(r);
-  libmxmlrestart(fd);
-  libmxmlin = fd;
-  int ret = yyparse();
-  fclose (fd);
-  BEGIN(INITIAL);
-  return ret==0;
+	FILE * fd = fopen (file, "r");
+	if (!fd) {
+		cerr << "can't open file " << file << endl;
+		return false;
+	}
+	init(r);
+	libmxmlrestart(fd);
+	libmxmlin = fd;
+ 	int ret = yyparse();
+ 	fclose (fd);
+	BEGIN(INITIAL);
+ 	return ret==0;
 }
 
 bool readstream (FILE * fd, reader * r) 
 {
-  if (!fd) return false;
-  init(r);
-  libmxmlrestart(fd);
-  libmxmlin = fd;
-  int ret = yyparse();
-  BEGIN(INITIAL);
-  return ret==0;
+	if (!fd) return false;
+	init(r);
+	libmxmlrestart(fd);
+	libmxmlin = fd;
+ 	int ret = yyparse();
+	BEGIN(INITIAL);
+ 	return ret==0;
 }
 
-void  yyerror (const char *s)  { gReader->error (s, libmxmllineno); }
+void	yyerror(const char *s)	{ gReader->error (s, libmxmllineno); }
 
 #ifdef MAIN
 
 class testreader : public reader
 { 
-  public:
-    bool  xmlDecl (const char* version, const char *encoding, bool standalone) {
-      cout << "xmlDecl: " << version << " " << encoding << " " << standalone << endl;
-      return true;
-    }
-    bool  docType (const char* start, bool status, const char *pub, const char *sys) {
-      cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
-      return true;
-    }
+	public:
+		bool	xmlDecl (const char* version, const char *encoding, bool standalone) {
+			cout << "xmlDecl: " << version << " " << encoding << " " << standalone << endl;
+			return true;
+		}
+		bool	docType (const char* start, bool status, const char *pub, const char *sys) {
+			cout << "docType: " << start << " " << (status ? "PUBLIC" : "SYSTEM") << " " << pub << " " << sys << endl;
+			return true;
+		}
 
-    bool  newElement (const char* eltName) {
-      cout << "newElement: " << eltName << endl;
-      return true;
-    }
-    bool  newAttribute (const char* eltName, const char *val) {
-      cout << "    newAttribute: " << eltName << "=" << val << endl;
-      return true;
-    }
-    void  setValue (const char* value) {
-      cout << "  -> value: " << value << endl;
-    }
-    bool  endElement (const char* eltName) {
-      cout << "endElement: " << eltName << endl;
-      return true;
-    }
-    void  error (const char* s, int lineno) {
-      cerr << s << " on line " << lineno << endl;
-    }
+		bool	newElement (const char* eltName) {
+			cout << "newElement: " << eltName << endl;
+			return true;
+		}
+		bool	newAttribute (const char* eltName, const char *val) {
+			cout << "    newAttribute: " << eltName << "=" << val << endl;
+			return true;
+		}
+		void	setValue (const char* value) {
+			cout << "  -> value: " << value << endl;
+		}
+		bool	endElement (const char* eltName) {
+			cout << "endElement: " << eltName << endl;
+			return true;
+		}
+		void	error (const char* s, int lineno) {
+			cerr << s  << " on line " << lineno << endl;
+		}
 
 };
 
 
 int main (int argc, char * argv[])
 {
-  if (argc > 1) {
-    testreader r;
-    return readfile (argv[1], &r) ? 0 : 1;
-  }
-  return 0;
+	if (argc > 1) {
+		testreader r;
+		return readfile (argv[1], &r) ? 0 : 1;
+	}
+ 	return 0;
 }
 #endif
