@@ -142,12 +142,12 @@ win32/libmusicxml2.sln : CMakeLists.txt
 	cd win32 && cmake .. -G "$(MSVC)" $(CMAKEOPT)
 
 
-win64 : win64/libmusicxml2.sln libmusicxml264.dll libmusicxml264.lib 
+win64 : win64/libmusicxml2.sln libmusicxml2-64.dll libmusicxml2-64.lib 
 
-libmusicxml264.lib : libmusicxml264.dll
-libmusicxml264.dll : win64/Release/libmusicxml264.dll
-	cp win64/Release/libmusicxml264.dll .
-	cp win64/Release/libmusicxml264.lib .
+libmusicxml2-64.lib : libmusicxml2-64.dll
+libmusicxml2-64.dll : win64/Release/libmusicxml2.dll
+	cp win64/Release/libmusicxml2.dll libmusicxml2-64.dll
+	cp win64/Release/libmusicxml2.lib libmusicxml2-64.lib
 
 win64/Release/libmusicxml264.dll : win64/libmusicxml2.sln
 	cmake --build win64 --config Release -- /maxcpucount:4 
