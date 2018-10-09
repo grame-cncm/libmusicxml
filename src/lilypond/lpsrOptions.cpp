@@ -494,6 +494,11 @@ bool lpsrOptions::setLpsrChordsLanguage (string language)
   return true;
 }
 
+void lpsrOptions::checkOptionsConsistency ()
+{
+  // JMI
+}
+
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
   gLogIOstream <<

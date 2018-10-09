@@ -258,7 +258,9 @@ staffInstrumentAbbreviation
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkLilypondOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
+
+  public:
 
     // services
     // ------------------------------------------------------

@@ -1286,6 +1286,15 @@ class optionsGroup : public optionsElement
     string                getOptionsGroupHelpHeader () const
                               { return fOptionsGroupHelpHeader; }
                               
+  public:
+
+    // consistency check
+    // ------------------------------------------------------
+
+    void                  checkOptionsConsistency ();
+
+  public:
+  
     // services
     // ------------------------------------------------------
                               

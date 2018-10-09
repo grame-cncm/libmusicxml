@@ -29,11 +29,13 @@
 
 #include <string.h> 
 
+/* JMI
 #ifdef WIN32
   // JMI
 #else
   #include <iconv.h> 
 #endif
+*/
 
 #include "smartpointer.h"
 #include "basevisitor.h"
@@ -433,6 +435,7 @@ std::string baseName (const std::string &filename);
 std::string makeSingleWordFromString (const std::string& theString);
 
 //______________________________________________________________________________
+/* JMI
 #ifdef WIN32
   // JMI
 #else
@@ -460,6 +463,7 @@ class IConv {
     char*                 fOutputBuffer;
 };
 #endif
+*/
 
 //______________________________________________________________________________
 #ifdef WIN32

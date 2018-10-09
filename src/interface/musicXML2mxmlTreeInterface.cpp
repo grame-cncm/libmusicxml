@@ -495,6 +495,7 @@ FILE* convertFileDataEncoding (
 }
 
 //_______________________________________________________________________________
+  /* JMI
 SXMLFile convertStreamDataEncoding (
   SXMLFile         xmlFile,
   string           currentEncoding,
@@ -542,11 +543,11 @@ SXMLFile convertStreamDataEncoding (
     gIndenter--;
   }
 
-  /*
+  / *
   setup 2 pipes for the communication between parent and child,
   see
   https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
-  */
+  * /
   
   // in a pipe, pipe[0] is for read and  pipe[1] is for write
   #define READ_FD  0
@@ -588,11 +589,11 @@ SXMLFile convertStreamDataEncoding (
           endl <<
           "'fork ()' failed" <<
           endl <<
-          /* JMI
+          / * JMI
           inputSourceName << ":" << inputLineNumber << ": " <<message <<
           endl <<
           baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-          */
+          * /
           endl;
       }
       
@@ -740,6 +741,7 @@ SXMLFile convertStreamDataEncoding (
 
   return result;
 }
+*/
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (

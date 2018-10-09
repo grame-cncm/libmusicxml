@@ -1345,6 +1345,11 @@ bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
 } 
 */
 
+void lilypondOptions::checkOptionsConsistency ()
+{
+  // JMI
+}
+
 string lilypondOptions::scoreNotationKindAsString (
   scoreNotationKind notationKind)
 {

@@ -350,10 +350,10 @@ typedef basic_nullbuf <char>    nullbuf;
 //typedef basic_nullbuf <wchar_t> wnullbuf;
 
 // buffers and streams
-nullbuf  cnull_obj;
+nullbuf cnull_obj;
 //wnullbuf wcnull_obj;
 
-std::ostream  cnull  (& cnull_obj);
+std::ostream cnull  (& cnull_obj);
 //std::wostream wcnull (& wcnull_obj);
 
 indentedOstream indentedOstream::gNullIndentedOstream (
@@ -1342,10 +1342,11 @@ string makeSingleWordFromString (const string& theString)
 }
 
 //______________________________________________________________________________
+/* JMI
 #ifdef WIN32
   // JMI
 #else
-/* JMI
+/ * JMI
 IConv::IConv (const char* to, const char* from) 
   : fIconvDescriptor (iconv_open (to, from))
 {
@@ -1597,8 +1598,9 @@ bool IConv::convert (std::string& input, std::string& output)
   // return boolean result
   return iconvResult != (size_t)(-1);
 }
-*/
+* /
 #endif
+*/
 
 //______________________________________________________________________________
 #ifdef WIN32

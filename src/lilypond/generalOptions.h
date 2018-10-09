@@ -59,7 +59,9 @@ class generalOptions : public optionsGroup
     // consistency check
     // ------------------------------------------------------
 
-    void                  checkGeneralOptionsConsistency () const;
+    virtual void          checkOptionsConsistency ();
+
+  public:
 
     // services
     // ------------------------------------------------------
