@@ -17,7 +17,7 @@ validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validlily 	    = $(patsubst %.ly, %.outly, $(lilyout))
 validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
-validlilysvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
+validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
 
 XML2GUIDO ?= xml2guido
 XML2LY    ?= xml2ly
@@ -138,9 +138,9 @@ $(version)/lilypond/%.ly: ../%.xml
 
 #########################################################################
 # rules for lilypond with svg backend
-$(version)/lilysvg/%.svg: $(version)/gmn/%.gmn
+$(version)/lilysvg/%.svg: $(version)/lilypond/%.ly
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	lilypond -dbackend=svg $<  > $@
+	lilypond -dbackend=svg -s -o $(@D)/$(*F) $<  #$@ $< 
 
 #########################################################################
 # rules for xml output validation
