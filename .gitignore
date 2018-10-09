@@ -15,4 +15,6 @@ packages/libmusicxml-*
 doc/html
 doc/latex
 libmusicxml.js
+validation/3.*
+
 
