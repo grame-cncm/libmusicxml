@@ -36,7 +36,7 @@ set (SSTRVERS "3.11")
 set (CMAKE_CXX_STANDARD 11)
 
 if(UNIX)
-	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
+	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -Wno-overloaded-virtual)
 endif()
 
 set (FMWK "true")
