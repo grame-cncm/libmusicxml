@@ -30,21 +30,6 @@ LINUX := linux
 MSVC   ?= "Visual Studio 14 2015"
 MSVC64 := $(MSVC) Win64
 
-# try to detect Visual Studio version used
-# ifeq ($(TARGET), windows)
-#  MSVC ?= C:\Program Files (x86)\Microsoft Visual Studio 12.0
-#  ifneq ($(wildcard "$(MSVC)"), "") 
-#   WIN32VS ?= Visual Studio 12 2013
-#   WIN64VS ?= $(WIN32VS) Win64
-#   endif
-#  else
-#  MSVC := C:\Program Files (x86)\Microsoft Visual Studio 10.0
-#  ifneq ($(wildcard "$(MSVC)"), "") 
-#   WIN32VS ?= Visual Studio 10
-#   WIN64VS ?= $(WIN32VS) Win64
-#  endif
-# endif
-
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xml2ly
 
@@ -91,7 +76,7 @@ libmusicxml2.framework :  $(MACX)/libmusicxml2.xcodeproj maclib
 	cp -R macos/Release/libmusicxml2.framework .
 
 maclib :
-	xcodebuild -jobs 8 -project $(MACX)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
+	xcodebuild -jobs 6 -project $(MACX)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
 
 $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(MACX) ] || mkdir $(MACX)
@@ -181,6 +166,13 @@ $(OUTDIR)/Makefile : CMakeLists.txt
 android :
 	ndk-build -C android -j 4
 	cp -f android/libs/armeabi/libmusicxml2.so android/
+
+#===============================================================
+# src code formatting
+#===============================================================
+format :
+	find ../src -path ../src/parser -prune -o -iname '*.cpp' -execdir clang-format -i -style=file {} \;
+	find ../src -path ../src/parser -prune -o -iname '*.h' -execdir clang-format -i -style=file {} \;
 
 #===============================================================
 # install
