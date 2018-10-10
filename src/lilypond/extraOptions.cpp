@@ -558,11 +558,18 @@ S_extraOptions extraOptions::createCloneWithDetailedTrace ()
   return clone;
 }  
 
+//______________________________________________________________________________
+void extraOptions::enforceQuietness ()
+{
+}
+
+//______________________________________________________________________________
 void extraOptions::checkOptionsConsistency ()
 {
   // JMI
 }
 
+//______________________________________________________________________________
 void extraOptions::printExtraOptionsValues (int fieldWidth)
 {  
   gLogIOstream <<

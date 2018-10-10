@@ -853,11 +853,25 @@ bool msrOptions::setMsrQuarterTonesPitchesLanguage (string language)
   return true;
 }
 
+//______________________________________________________________________________
+void msrOptions::enforceQuietness ()
+{
+  fTraceMsr = false;
+  fTraceMsrVisitors = false;
+  fDisplayPartGroups = false;
+  fDisplayMsr = false;
+  fDisplayMsrDetails = false;
+  fDisplayMsrSummary = false;
+  fDisplayMsrNames = false;
+}
+
+//______________________________________________________________________________
 void msrOptions::checkOptionsConsistency ()
 {
   // JMI
 }
 
+//______________________________________________________________________________
 void msrOptions::printMsrOptionsValues (int fieldWidth)
 {
   gLogIOstream <<

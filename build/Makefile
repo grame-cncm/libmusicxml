@@ -27,7 +27,7 @@ MACX ?= macos
 IOS  := ios
 ANDROID := android
 LINUX   := linux
-MSVC   ?= "Visual Studio 14 2015"
+MSVC   ?= Visual Studio 14 2015
 MSVC64 := $(MSVC) Win64
 
 CMAKEOPT ?= 

@@ -102,9 +102,9 @@ This option should best appear first.)",
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
-            "t", "trace-trace",
-R"(Write a trace of the trace activity to standard error.)",
-            "traceTrace",
+            "t", "trace-passes",
+R"(Write a trace of the passes to standard error.)",
+            "tracePasses",
             fTracePasses));
     
       traceAndDisplaySubGroup->
@@ -135,7 +135,7 @@ since MusicXML measure numbers are arbitrary strings.
 Generate a detailed trace of the activity and print additional
 debugging information to standard error for the specified measures.)",
             "measureNumbersSet",
-            "traceDetailed",
+            "traceDetailedMeasureNumbersSet",
             fTraceDetailedMeasureNumbersSet));
   }
 
@@ -319,21 +319,11 @@ debugging information to standard error for the specified measures.)",
         optionsSubGroup::create (
           "Specific trace",
           "hst", "help=specific-trace",
-R"(Note: the options in this group imply '-t, -traceTrace'.)",
+R"(Note: the options in this group imply '-t, -trace-passes'.)",
         optionsSubGroup::kHideDescriptionByDefault,
         this);
   
     appendOptionsSubGroup (specificTraceSubGroup);
-
-    // passes
-    
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tpasses", "trace-passes",
-R"(Passes)",
-          "tracePasses",
-          fTracePasses));
 
     // encoding
     
@@ -1419,19 +1409,15 @@ void traceOptions::setAllTraceOptions (
 }
 
 //______________________________________________________________________________
+void traceOptions::enforceQuietness ()
+{
+  setAllTraceOptions (false);
+}
+
+//______________________________________________________________________________
 void traceOptions::checkOptionsConsistency ()
 {
-  if (gGeneralOptions->fQuiet) {
-    // disable all trace options
-    gLogIOstream <<
-      "disable all trace options" <<
-      endl;
-      
-    gTraceOptions->
-      setAllTraceOptions (false);
-
-   // JMI gLogIOstream = indentedOstream::gNullIndentedOstream;
-  }
+  // JMI
 }
 
 //______________________________________________________________________________
@@ -1443,7 +1429,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-/*
+/* JMI
   // command line
   // --------------------------------------
 
@@ -1494,7 +1480,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "traceTrace" << " : " <<
+    setw (fieldWidth) << "tracePasses" << " : " <<
     booleanAsString (fTracePasses) <<
      endl <<
     setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
