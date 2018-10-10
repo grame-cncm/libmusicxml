@@ -60,28 +60,6 @@ vector<string> handleOptionsAndArguments (
       optionsHandler->
         decipherOptionsAndArguments (
           argc, argv);
-
-/* JMI
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fDisplayOptionsValues) {
-    // print the options values
-    logIndentedOutputStream <<
-      "*** Options values:" <<
-      endl;
-
-    gIndenter++;
-    
-    optionsHandler->
-      printAllOptionsValues (
-        logIndentedOutputStream);
-        
-    logIndentedOutputStream <<
-      endl;
-
-    gIndenter--;
-  }
-#endif
-  */
   
   return argumentsVector;
 }
@@ -477,13 +455,6 @@ void convertMusicXMLToLilypond (
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
-  /* JMI
-  cerr << "argc = " << argc << endl;
-  for (int i = 0; i < argc ; i++ ) {
-    cerr << "argv[ " << i << "] = " << argv[i] << endl;
-  }
-  */
-
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 

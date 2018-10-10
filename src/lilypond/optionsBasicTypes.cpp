@@ -23,6 +23,7 @@
 
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "generalOptions.h"
 #endif
 
 
@@ -3479,7 +3480,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
   char* argv[])
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options elements map  
     fOptionsHandlerLogIOstream <<
       "Options elements map (" <<
@@ -3536,7 +3537,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     string currentElement = string (argv [n]);
     
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       // print current element
       fOptionsHandlerLogIOstream <<
         "Command line element " << n <<
@@ -3552,7 +3553,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       if (currentElement.size () == 1) {
         // this is the stdin indicator
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "'" << currentElement <<
               "' is the '-' stdin indicator" <<
@@ -3588,7 +3589,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
               elementTrailer.substr (1, string::npos);
           
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceOptions) {
+            if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
               fOptionsHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
@@ -3601,7 +3602,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
               elementTrailer; //.substr (1, string::npos);
 
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceOptions) {
+            if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
               fOptionsHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
@@ -3612,7 +3613,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         
         else {
 #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceOptions) {
+          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             fOptionsHandlerLogIOstream <<
               "'-' is the minimal single-dashed option" <<
               endl;
@@ -3639,7 +3640,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     fArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the arguments vector
     fOptionsHandlerLogIOstream <<
       "Arguments vector (" <<
@@ -3685,7 +3686,7 @@ void optionsHandler::handleOptionsItemName (
   string optionsItemName)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fOptionsHandlerLogIOstream <<
       "==> handleOptionsItemName (), optionsItemName = \"" <<
       optionsItemName <<
@@ -3755,7 +3756,7 @@ void optionsHandler::handleOptionsItemName (
       ) {
       // print the option handler help or help summary
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsHandler'" <<
           endl;
@@ -3792,7 +3793,7 @@ void optionsHandler::handleOptionsItemName (
           dynamic_cast<optionsGroup*>(&(*optionsElement))
       ) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsGroup'" <<
           endl;
@@ -3821,7 +3822,7 @@ void optionsHandler::handleOptionsItemName (
           dynamic_cast<optionsSubGroup*>(&(*optionsElement))
       ) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsSubGroup'" <<
           endl;
@@ -3861,7 +3862,7 @@ void optionsHandler::handleOptionsItemName (
           dynamic_cast<optionsItem*>(&(*optionsElement))
       ) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fOptionsHandlerLogIOstream <<
           "==> optionsElement is of type 'optionsItem'" <<
           endl;
@@ -3875,7 +3876,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsHelpUsageItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsHelpUsageItem'" <<
             endl;
@@ -3898,7 +3899,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsHelpSummaryItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsHelpSummaryItem'" <<
             endl;
@@ -3920,7 +3921,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsCombinedItemsItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsCombinedItemsItem'" <<
             endl;
@@ -3939,7 +3940,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsBooleanItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsBooleanItem'" <<
             endl;
@@ -3958,7 +3959,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsTwoBooleansItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsTwoBooleansItem'" <<
             endl;
@@ -3977,7 +3978,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsThreeBooleansItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsThreeBooleansItem'" <<
             endl;
@@ -3996,7 +3997,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsItemHelpItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsItemHelpItem'" <<
             endl;
@@ -4014,7 +4015,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsIntegerItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsIntegerItem'" <<
             endl;
@@ -4032,7 +4033,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsFloatItem*>(&(*optionsElement))
         ) {              
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsFloatItem'" <<
             endl;
@@ -4050,7 +4051,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsStringItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsStringItem'" <<
             endl;
@@ -4068,7 +4069,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsRationalItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsRationalItem'" <<
             endl;
@@ -4086,7 +4087,7 @@ void optionsHandler::handleOptionsItemName (
             dynamic_cast<optionsNumbersSetItem*>(&(*optionsElement))
         ) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> optionsElement is of type 'optionsNumbersSetItem'" <<
             endl;
@@ -4102,7 +4103,7 @@ void optionsHandler::handleOptionsItemName (
         // let the optionsGroup handle it
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "==> fPendingOptionsItem is of another type" <<
             ", let the optionsGroup handle it" <<
@@ -4141,7 +4142,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
   string theString)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fOptionsHandlerLogIOstream <<
       "==> handleOptionsItemValueOrArgument ()" <<
       endl;
@@ -4278,7 +4279,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
       if (sm.size ()) {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions) {
+        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
             "There are " << sm.size () << " matches" <<
             " for rational string '" << theString <<
@@ -4334,7 +4335,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
           rational (numerator, denominator);     
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fOptionsHandlerLogIOstream << // JMI
           "rationalValue = " <<
           rationalValue <<
@@ -4371,7 +4372,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       // let the optionsGroup handle it
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
         fOptionsHandlerLogIOstream <<
           "==> fPendingOptionsItem is of another type" <<
           ", let the optionsGroup handle it" <<
