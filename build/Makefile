@@ -70,31 +70,21 @@ js:
 #===============================================================
 # building the library on Mac OS X
 #===============================================================
-.PHONY : libmusicxml2.framework
-
-macos : libmusicxml2.framework libmusicxml2.tgz
-
-libmusicxml2.framework : $(MACX)/libmusicxml2.xcodeproj
+macos : $(MACX)/libmusicxml2.xcodeproj
 	cmake --build $(MACX) --config Release -- -jobs 4
 	rm -rf libmusicxml2.framework
 	cp -R $(MACX)/Release/libmusicxml2.framework .
+	tar czf libmusicxml2.tgz libmusicxml2.framework
 
 $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
 	@[ -d $(MACX) ] || mkdir $(MACX)
 	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
 
-libmusicxml2.tgz : libmusicxml2.framework
-	tar czf libmusicxml2.tgz libmusicxml2.framework
-
 
 #===============================================================
 # building the library for iOS
 #===============================================================
-.PHONY : libmusicxml2.a
-
-$(IOS) : libmusicxml2.a
-
-libmusicxml2.a : $(IOS)/libmusicxml2.xcodeproj
+$(IOS) : $(IOS)/libmusicxml2.xcodeproj
 	cmake --build $(MACX) --config Release -- -jobs 4
 	cp $(IOS)/Release-iphoneos/libmusicxml2.a .
 
@@ -106,13 +96,10 @@ $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 #===============================================================
 # building the library on windows
 #===============================================================
-.PHONY : msys win32 win64 win32/Release/libmusicxml2.dll win64/Release/libmusicxml264.dll
 
 #===============================================================
 # using msys
-msys : msys/Makefile msys/libmusicxml2.so
-
-msys/libmusicxml2.so :
+msys : msys/Makefile
 	make -C msys
 
 msys/Makefile : CMakeLists.txt
@@ -125,29 +112,20 @@ windows :
 	make win32
 	make win64
 
-win32 : win32/libmusicxml2.sln libmusicxml2.dll 
-
-libmusicxml2.dll : win32/Release/libmusicxml2.dll
+win32 : win32/libmusicxml2.sln 
+	cmake --build win32 --config Release -- /maxcpucount:4
 	cp win32/Release/libmusicxml2.dll .
 	cp win32/Release/libmusicxml2.lib .
-
-win32/Release/libmusicxml2.dll : win32/libmusicxml2.sln
-	cmake --build win32 --config Release -- /maxcpucount:4
 
 win32/libmusicxml2.sln : CMakeLists.txt
 	[ -d win32 ] || mkdir win32
 	cd win32 && cmake .. -G "$(MSVC)" $(CMAKEOPT)
 
 
-win64 : win64/libmusicxml2.sln libmusicxml2-64.dll libmusicxml2-64.lib 
-
-libmusicxml2-64.lib : libmusicxml2-64.dll
-libmusicxml2-64.dll : win64/Release/libmusicxml2.dll
+win64 : win64/libmusicxml2.sln 
+	cmake --build win64 --config Release -- /maxcpucount:4 
 	cp win64/Release/libmusicxml2.dll libmusicxml2-64.dll
 	cp win64/Release/libmusicxml2.lib libmusicxml2-64.lib
-
-win64/Release/libmusicxml264.dll : win64/libmusicxml2.sln
-	cmake --build win64 --config Release -- /maxcpucount:4 
 
 win64/libmusicxml2.sln : CMakeLists.txt
 	[ -d win64 ] || mkdir win64
@@ -156,15 +134,11 @@ win64/libmusicxml2.sln : CMakeLists.txt
 #===============================================================
 # building the library on linux
 #===============================================================
-.PHONY : linux libmusicxml2.so
-
-linux : libmusicxml2.so
-
-libmusicxml2.so :  $(OUTDIR)/Makefile 
+linux : linux/Makefile
 	make -C linux
 	rm -rf libmusicxml2*.so*
 	cp -R linux/libmusicxml2*.so* .
-	
+
 linux/Makefile : CMakeLists.txt
 	[ -d linux ] || mkdir linux
 	cd linux && cmake .. -G "Unix Makefiles" 
