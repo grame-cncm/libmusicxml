@@ -16,6 +16,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 #include <cmath>
+#include <string>
 
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
