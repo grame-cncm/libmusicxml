@@ -2,7 +2,8 @@
 # Makefile for testing the libmusicxml library
 #
 
-system	 := $(shell uname -s)
+system := $(shell uname -s)
+system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
@@ -122,7 +123,7 @@ $(version)/read/%.xml: ../%.xml
 # rules for xml2guido
 $(version)/gmn/%.gmn: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2GUIDO) $<  > $@
+	$(XML2GUIDO) $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for guido2svg
@@ -140,7 +141,7 @@ $(version)/lilypond/%.ly: ../%.xml
 # rules for lilypond with svg backend
 $(version)/lilysvg/%.svg: $(version)/lilypond/%.ly
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	lilypond -dbackend=svg -s -o $(@D)/$(*F) $<  #$@ $< 
+	guido2svg $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml output validation

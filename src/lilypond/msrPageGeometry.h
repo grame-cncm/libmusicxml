@@ -53,7 +53,7 @@ class msrPageGeometry : public msrElement
     void    setTenths             (int val)   { fTenths = val; }
 
     float   getMillimeters        () const    { return fMillimeters; }
-    float   getTenths             () const    { return fTenths; }
+    float   getTenths             () const    { return float(fTenths); }
 
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     void    setPaperHeight        (float val) { fPaperHeight = val; }
