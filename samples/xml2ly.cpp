@@ -127,10 +127,18 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
         gLogIOstream);
 
   if (gIndenter != 0) {
-    gLogIOstream <<
-      "### gIndenter value after pass 2a: "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after pass 2a: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
 
     gIndenter.resetToZero ();
   }
@@ -159,10 +167,18 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
     gLogIOstream);
 
   if (gIndenter != 0) {
-    gLogIOstream <<
-      "### gIndenter value after pass 2b: "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after pass 2b: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
 
     gIndenter.resetToZero ();
   }
@@ -180,12 +196,18 @@ void displayMsrScore_OptionalPass (
     gLogIOstream);
 
   if (gIndenter != 0) {
-    gLogIOstream <<
-      "### gIndenter value after MSR score dispaly: "<<
-      gIndenter.getIndent () <<
-      " ###" <<
-      endl <<
-      endl;
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after MSR score display: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
 
     gIndenter.resetToZero ();
   }
@@ -207,12 +229,18 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
   }
 
   if (gIndenter != 0) {
-    gLogIOstream <<
-      "### gIndenter value after pass 3: "<<
-      gIndenter.getIndent () <<
-      " ###" <<
-      endl <<
-      endl;
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after pass 3: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
 
     gIndenter.resetToZero ();
   }
@@ -243,12 +271,18 @@ void displayLpsrScore_OptionalPass (
     gLogIOstream);
 
   if (gIndenter != 0) {
-    gLogIOstream <<
-      "### gIndenter value after LPSR score dispaly: "<<
-      gIndenter.getIndent () <<
-      " ###" <<
-      endl <<
-      endl;
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after LPSR score display: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
 
     gIndenter.resetToZero ();
   }
@@ -337,10 +371,18 @@ void convertLpsrScoreToLilypondCode_Pass4 (
   }
 
   if (gIndenter != 0) {
-    gLogIOstream <<
-      "### gIndenter value after pass 4: "<< gIndenter.getIndent () << " ###" <<
-      endl <<
-      endl;
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after pass 4: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
 
     gIndenter.resetToZero ();
   }
@@ -594,6 +636,7 @@ int main (int argc, char *argv[])
       endl;
   }
 #endif
+
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------

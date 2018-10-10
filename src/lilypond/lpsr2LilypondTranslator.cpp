@@ -9311,7 +9311,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "\\afterGrace { ";
   }
   
-  // print the note's grace notes before if any
+  // print the note's grace notes before if any,
+  // but not ??? JMI
   S_msrGraceNotesGroup
     noteGraceNotesGroupBefore =
       elt->getNoteGraceNotesGroupBefore ();

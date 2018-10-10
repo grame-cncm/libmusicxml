@@ -75,9 +75,6 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
 
-  logIOstream <<
-    endl;
-
   clock_t endClock = clock ();
 
   // register time spent

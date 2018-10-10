@@ -1347,9 +1347,7 @@ bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
 
 //______________________________________________________________________________
 void lilypondOptions::enforceQuietness ()
-{
-  fXml2lyInfos = false;
-}
+{}
 
 //______________________________________________________________________________
 void lilypondOptions::checkOptionsConsistency ()
