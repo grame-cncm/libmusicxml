@@ -20,7 +20,7 @@ set (CMAKE_CXX_STANDARD 11)
 
 
 if(UNIX)
-	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
+	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -Wno-overloaded-virtual)
 endif()
 
 set (FMWK "true")
@@ -118,8 +118,8 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xmlread xmltranspose)
+set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (TOOLS  xml2guido xml2ly xmlread xmltranspose)
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})
