@@ -118,7 +118,7 @@ class EXP xmlpart2guido :
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
 	void start (Sguidoelement& elt)		{ fStack.push(elt); }
-	void add  (Sguidoelement& elt)		{ fStack.top()->add(elt); }
+	void add  (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
 	void addDelayed (Sguidoelement elt, long offset);	// adding elements to the delayed elements
 	void checkDelayed (long time);						// checks the delayed elements for ready elements 
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }

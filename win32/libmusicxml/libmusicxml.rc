@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Français (France) resources
+// Franï¿½ais (France) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
 #ifdef _WIN32
@@ -85,7 +85,7 @@ BEGIN
     END
 END
 
-#endif    // Français (France) resources
+#endif    // Franï¿½ais (France) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

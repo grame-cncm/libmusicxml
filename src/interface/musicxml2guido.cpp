@@ -31,6 +31,8 @@ static xmlErr xml2guido(SXMLFile& xmlfile, bool generateBars, int partFilter, os
 {
 	Sxmlelement st = xmlfile->elements();
 	if (st) {
+		if (st->getName() == "score-timewise") return kUnsupported;
+		
 		xml2guidovisitor v(true, true, generateBars, partFilter);
 		Sguidoelement gmn = v.convert(st);
 		if (file) {

@@ -5,7 +5,7 @@ UnitCount=63
 Type=3
 Ver=1
 ObjFiles=
-Includes=../../src/elements;../../src/files;../../src/guido;../../src/lib;../../src/parser;../../src/visitors
+Includes=../../src/elements;../../src/files;../../src/guido;../../src/lilypond;../../src/lib;../../src/parser;../../src/visitors
 Libs=
 PrivateResource=
 ResourceIncludes=
@@ -20,7 +20,7 @@ ObjectOutput=obj
 OverrideOutput=1
 OverrideOutputName=libmusicxml2.dll
 HostApplication=
-Folders=elements,files,guido,lib,operations,parser,visitors
+Folders=elements,files,guido,lilypond,lib,operations,parser,visitors
 CommandLine=
 UseCustomMakefile=0
 CustomMakefile=
@@ -677,3 +677,24 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+[Unit64]
+FileName=..\..\src\lilypond\lilypond.cpp
+CompileCpp=1
+Folder=lilypond
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit65]
+FileName=..\..\src\lilypond\xml2lilypondvisitor.cpp
+CompileCpp=1
+Folder=lilypond
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit17]

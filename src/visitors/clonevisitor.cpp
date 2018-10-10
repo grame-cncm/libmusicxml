@@ -38,7 +38,7 @@ void clonevisitor::copyAttributes (const Sxmlelement& src, Sxmlelement& dst )
 //______________________________________________________________________________
 Sxmlelement clonevisitor::copy (const Sxmlelement& src)
 {
-	Sxmlelement copy = xmlelement::create();
+	Sxmlelement copy = xmlelement::create(src->getInputLineNumber());
 	if (copy) {
 		copy->setName( src->getName());
 		copy->setValue( src->getValue());
@@ -51,7 +51,7 @@ Sxmlelement clonevisitor::copy (const Sxmlelement& src)
 void clonevisitor::visitStart ( Sxmlelement& elt )
 {
 	if (!fClone) return;
-	Sxmlelement copy = xmlelement::create();
+	Sxmlelement copy = xmlelement::create(elt->getInputLineNumber());
 	copy->setName( elt->getName());
 	copy->setValue( elt->getValue());
 	copyAttributes (elt, copy);

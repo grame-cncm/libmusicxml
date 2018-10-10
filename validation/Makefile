@@ -8,87 +8,116 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
 
-readout	:= $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
-gmnout	:= $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
-svgout	:= $(patsubst ../%.xml, $(version)/svg/%.svg, $(xmlfiles))
+readout	 := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
+gmnout	 := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
+lilyout	 := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
+guidosvg := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
+lilysvg  := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
-validsvg 	    = $(patsubst %.svg, %.outsvg, $(svgout))
+validlily 	    = $(patsubst %.ly, %.outly, $(lilyout))
+validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
+validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
 
-ifeq ($(system), MINGW)
- XML2GUIDO ?= ./xml2guido.exe
- XMLREAD   ?= ./xmlread.exe
-else
- XML2GUIDO ?= xml2guido
- XMLREAD   ?= xmlread
-endif
-WINTOOLS := xml2guido.exe xmlread.exe
-WINPATH  := ../build/win64/release
+XML2GUIDO ?= xml2guido
+XML2LY    ?= xml2ly
+XMLREAD   ?= xmlread
+MAKE      ?= make
 
 .PHONY: read guido
+.DELETE_ON_ERROR:
 
 all:
-	make read
-	make guido
+	$(MAKE) read
+	$(MAKE) guido
 
 trace:
 	@echo $(validxml)
 
 help:
-	@echo "Makefile for testing the library output."
+	@echo "Makefile for testing the libmusicxml library output."
 	@echo "Testing is based on the xml files located in the 'files' folder." 
 	@echo "Available targets are:"
-	@echo " 'all' (default): call the read and guido targets."
-	@echo " 'read'     : reads the set of xml files and writes the corresponding output"
-	@echo " 'guido'    : converts the set of xml files to guido"
-	@echo " 'gmn2svg'  : converts the output of guido target to svg"
-	@echo "            Output files are written to a VERSION folder, "
-	@echo "            where VERSION is taken from the libmusicxmlversion.txt file"
-	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files)" 
-	@echo "              with the one in VERSION folder"
-	@echo "             (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox,"
-	@echo "              otherwise please change the Makefile)"
-	@echo " 'win64'    : windows specific target: copy the exe and dll files to the validation folder"
+	@echo "  'all' (default): call the 'read' and 'guido' targets."
+	@echo "  'read'     : reads the set of xml files and writes the corresponding output"
+	@echo "  'guido'    : converts the set of xml files to guido"
+	@echo "  'lily'     : converts the set of xml files to lilypond"
+	@echo "  'guidosvg' : converts the output of 'guido' target to svg"
+	@echo "  'lilysvg'  : converts the output of 'lily' target to svg"
+	@echo "Output files are written to the $(version) folder, "
+	@echo "where $(version) is taken from the libmusicxmlversion.txt file that you can freely change."
+	@echo 
+	@echo "Validation target:"
+	@echo "  'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in 'another_version' folder"
+#	@echo "  (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox, otherwise please change the Makefile)"
+	@echo 
+	@echo "Options:"
+	@echo "  'XML2GUIDO=/path/to/xml2guido"
+	@echo "  'XML2LY=/path/to/xml2ly"
+	@echo "  'XMLREAD=/path/to/xmlread"
+	@echo "when the above variables are not specified, the tools are taken from the current PATH env."
 
 #########################################################################
 read: 
 	@which $(XMLREAD) > /dev/null || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
-	make doread
+	$(MAKE) doread
 
 doread: $(readout)
 
 #########################################################################
 guido: 
 	@which $(XML2GUIDO) > /dev/null || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
-	make doguido
+	$(MAKE) doguido
 
 doguido: $(gmnout)
 
 #########################################################################
-gmn2svg: 
-	@which guido2svg > /dev/null || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
-	make guido
-	make dogmn2svg
+lily: 
+	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
+	$(MAKE) dolily
 
-dogmn2svg: $(svgout)
+dolily: $(lilyout)
+
+#########################################################################
+guidosvg: 
+	@which guido2svg || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
+	$(MAKE) guido
+	$(MAKE) doguidosvg
+
+doguidosvg: $(guidosvg)
+
+#########################################################################
+lilysvg: 
+	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
+	$(MAKE) lily
+	$(MAKE) dolilysvg
+
+dolilysvg: $(lilysvg)
 
 #########################################################################
 validate: 
-	@echo Validating version $(version) with $(VERSION)
-	make validxml
-	make validgmn
+	@echo Validating version $(version) with $(VERSION) $(tmp)
+	$(MAKE) validxml
+	$(MAKE) validgmn
+
+lvalidate: 
+	@echo Validating version $(version) with $(VERSION) $(tmp)
+	$(MAKE) validlily
+
 
 validxml: $(validxml)
 
 validgmn: $(validgmn)
+
+validlily: $(validlily)
 
 
 #########################################################################
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XMLREAD) $<  > $@ || (rm $@ ; false; )
+	$(XMLREAD) $<  > $@
 
 #########################################################################
 # rules for xml2guido
@@ -98,31 +127,35 @@ $(version)/gmn/%.gmn: ../%.xml
 
 #########################################################################
 # rules for guido2svg
-$(version)/svg/%.svg: $(version)/gmn/%.gmn
+$(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	guido2svg $<  > $@
+
+#########################################################################
+# rules for xml2ly
+$(version)/lilypond/%.ly: ../%.xml
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	$(XML2LY) -q $< | grep -v "^% on ..* CET" > $@
+
+#########################################################################
+# rules for lilypond with svg backend
+$(version)/lilysvg/%.svg: $(version)/lilypond/%.ly
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	guido2svg $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml output validation
 %.outxml: %.xml
-	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outgmn: %.gmn
-	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
-#########################################################################
-# windows specific stuff
-win64: $(WINTOOLS) libmusicxml2.dll
-
-xml2guido.exe: $(WINPATH)/xml2guido.exe
-	cp $(WINPATH)/xml2guido.exe .
-	
-xmlread.exe: $(WINPATH)/xmlread.exe
-	cp $(WINPATH)/xmlread.exe .
-
-libmusicxml2.dll: $(WINPATH)/libmusicxml2.dll
-	cp $(WINPATH)/libmusicxml2.dll .
+%.outly: %.ly
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
+	@[ -f  $(tmp) ] || echo $< : new file
+	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)

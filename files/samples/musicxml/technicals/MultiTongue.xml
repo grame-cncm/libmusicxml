@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN"
+                                "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+  <movement-title>MusicXML notations (attached to note)</movement-title>
+  <identification/>
+  <part-list>
+    <score-part id="P1">
+      <part-name></part-name>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <!-- General Notation elements (no spanners, which are tested separately):
+         fermata | arpeggiate | non-arpeggiate | accidental-mark -->
+    <measure number="1">
+      <attributes>
+        <divisions>1</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <note>
+        <pitch>
+          <step>C</step><octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <notations>
+          <technical><double-tongue/></technical>
+        </notations>
+        <lyric number="1"><text>dbl.tng.</text></lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step><octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <notations>
+          <technical><triple-tongue/></technical>
+        </notations>
+        <lyric number="1"><text>trpl.tng.</text></lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step><octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <notations>
+          <technical><stopped/></technical>
+        </notations>
+        <lyric number="1"><text>stopped</text></lyric>
+      </note>
+      <note>
+        <pitch>
+          <step>C</step><octave>5</octave>
+        </pitch>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <notations>
+          <technical><snap-pizzicato/></technical>
+        </notations>
+        <lyric number="1"><text>snp.pizz.</text></lyric>
+      </note>
+    </measure>
+
+  </part>
+</score-partwise>

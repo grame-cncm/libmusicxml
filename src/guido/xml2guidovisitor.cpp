@@ -34,7 +34,7 @@ namespace MusicXML2
     xml2guidovisitor::xml2guidovisitor(bool generateComments, bool generateStem, bool generateBar, int partNum) :
     fGenerateComments(generateComments), fGenerateStem(generateStem),
     fGenerateBars(generateBar), fGeneratePositions(true),
-    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0)
+    fCurrentStaffIndex(0), previousStaffHasLyrics(false), fCurrentAccoladeIndex(0), fPartNum(partNum), defaultStaffDistance(0), defaultGuidoStaffDistance(1)
     {
         timePositions.clear();
     }

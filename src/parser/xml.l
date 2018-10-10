@@ -77,7 +77,7 @@ space		[ \t]
 S			[ \t\x0a\x0d]
 firstchar	[a-zA-Z_]
 namechar	[-a-zA-Z0-9_.:]
-anychar		[^<>]
+anychar		[^<]
 valchar		[^<>&"']
 quote		['"]
 anything	[^-]
@@ -92,9 +92,9 @@ anything	[^-]
 %%
 
 
-{S}*"<!--"					{ BEGIN COMMENTSECT; }
-<COMMENTSECT>"-->"			{ BEGIN 0; }
-<COMMENTSECT>[^-]*|"-"		{ return COMMENT; }
+{S}*"<!--"						{ BEGIN COMMENTSECT; }
+<COMMENTSECT>"-->"				{ BEGIN 0; }
+<COMMENTSECT>([^-]|"-"[^-])*	{ return COMMENT; }
 
 
 {S}*"<?xml"						{ BEGIN XMLSECT; return XMLDECL; }

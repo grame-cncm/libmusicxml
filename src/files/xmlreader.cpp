@@ -63,7 +63,8 @@ void xmlreader::newComment (const char* comment)
 {
 	Sxmlelement elt = factory::instance().create("comment");
 	elt->setValue(comment);
-	fStack.top()->push(elt);
+	// comments outside the xml hierarchy are lost
+	if (fStack.size()) fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________
@@ -71,7 +72,8 @@ void xmlreader::newProcessingInstruction (const char* pi)
 {
 	Sxmlelement elt = factory::instance().create("pi");
 	elt->setValue(pi);
-	fStack.top()->push(elt);
+	// processing instructions outside the xml hierarchy are lost
+	if (fStack.size()) fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________

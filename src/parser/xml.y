@@ -1,11 +1,11 @@
 %{
 /* 
-	Basic xml grammar definition
-	This is a basic definition of the xml grammar necessary to cover 
-	the MusicXML format. It is a simplified form based on the XML document
-	grammar as defined in 
-	"XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
-	O'Reilly, June 2002, pp:366--371
+  Basic xml grammar definition
+  This is a basic definition of the xml grammar necessary to cover 
+  the MusicXML format. It is a simplified form based on the XML document
+  grammar as defined in 
+  "XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
+  O'Reilly, June 2002, pp:366--371
 */
 
 
@@ -23,7 +23,7 @@ int yyline = 1;
 #ifdef __cplusplus
 extern "C" {
 #endif
-int		yyparse (void);
+//int		yyparse (void);
 void	yyerror(const char *s);
 int		libmxmlwrap();
 bool	readfile   (const char * file, reader * r);
@@ -33,7 +33,7 @@ bool	readbuffer (const char * buffer, reader * r);
 }
 #endif
 
-int		yylex (void);
+int   yylex (void);
 extern char * libmxmltext;
 extern int libmxmllineno;
 extern FILE * libmxmlin;
@@ -95,12 +95,13 @@ int		libmxmlwrap()		{ return(1); }
 %token LT GT ENDXMLS ENDXMLE EQ
 
 
-%%      				/* beginning of rules section */
+%%              /* beginning of rules section */
 
 
 document	: prolog element misc ;
 
-prolog		: xmldecl doctype;
+prolog  	: xmldecl doctype
+    		| xmldecl comments doctype
 
 element		: eltstart data eltstop
 			| emptyelt 
@@ -133,6 +134,9 @@ cdata		: DATA							{ gReader->setValue (libmxmltext); }
 
 procinstr	: PI							{ gReader->newProcessingInstruction (libmxmltext); }
 comment		: COMMENT						{ gReader->newComment (libmxmltext); }
+
+comments 	:  comment
+     		|  comments comment;
 
 elements	: element
 			| elements element;

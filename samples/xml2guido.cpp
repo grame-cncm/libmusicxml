@@ -76,8 +76,10 @@ int main(int argc, char *argv[])
 		err = musicxmlfd2guido(stdin, generateBars, cout);
 	else
 		err = musicxmlfile2guido(file, generateBars, cout);
-	if (err) {
-		cout << "conversion failed" << endl;
+	if (err == kUnsupported)
+		cerr << "unsupported xml format" << endl;
+	else if (err == kUnsupported) {
+		cerr << "conversion failed" << endl;
 		return -1;
 	}
 	return 0;
