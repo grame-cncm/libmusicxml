@@ -24,6 +24,8 @@
   #include "traceOptions.h"
 #endif
 
+#include "traceOptions.h"
+
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
