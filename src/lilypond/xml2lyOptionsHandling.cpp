@@ -525,8 +525,10 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 //______________________________________________________________________________
 void xml2lyOptionsHandler::enforceOptionsHandlerQuietness ()
 {
+#ifdef TRACE_OPTIONS
   gTraceOptions->
     enforceQuietness ();
+#endif
   
   gGeneralOptions->
     enforceQuietness ();
