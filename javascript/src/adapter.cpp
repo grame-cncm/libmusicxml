@@ -16,6 +16,10 @@
 
 #include "adapter.h"
 #include "libmusicxml.h"
+#include "xml.h"
+#include "xmlreader.h"
+#include "xml_tree_browser.h"
+#include "transposition.h"
 
 using namespace std;
 using namespace MusicXML2;
@@ -32,4 +36,18 @@ string	libMusicXMLAdapter::string2guido(const std::string& buff, bool generateBa
 {
 	stringstream sstr;
 	return ::musicxmlstring2guido (buff.c_str(), generateBars, sstr) ? "" : sstr.str();
+}
+
+string	libMusicXMLAdapter::xmlStringTranspose(const std::string& buff, int interval)
+{
+	std::ostringstream oss2;
+    xmlreader r;
+    SXMLFile xmlfile;
+    xmlfile = r.readbuff(buff.c_str());
+    Sxmlelement elts = xmlfile->elements();
+    transposition t(interval);
+    xml_tree_browser tb(&t);
+    tb.browse(*elts);
+    xmlfile->print(oss2);
+    return oss2.str();
 }

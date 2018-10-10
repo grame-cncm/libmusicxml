@@ -1,9 +1,17 @@
-subprojects := elements interface files lib parser visitors guido lilypond operations
+
+system	 := $(shell uname -s)
+
+subprojects := elements interface files lib parser visitors guido operations
 
 SRC = $(wildcard *.cpp) $(wildcard */*.cpp)
 OBJ = $(SRC:.cpp=.o)
-LIB = ../linux/libmusicxml2.a
-CXXFLAGS := -g -O3 -Wall -Wuninitialized $(addprefix -I../src/, $(subprojects))
+ifeq ($(system), Darwin)
+LIB = -F../build -framework libmusicxml2 -lc++
+else
+LIB = -L../build -lmusicxml2
+endif
+CXXFLAGS := -stdlib=libc++ -O3 -Wall -Wno-overloaded-virtual -Wuninitialized $(addprefix -I../src/, $(subprojects))
+INSTALLDIR := $(HOME)/bin
 
 applications := xmlversion countnotes xmlread xmlclone xmliter xml2guido xml2midi readunrolled randomMusic xmltranspose partsummary
 
@@ -23,9 +31,6 @@ xmliter : xmliter.cpp
 
 xml2guido: xml2guido.cpp 
 	gcc $(CXXFLAGS) xml2guido.cpp $(LIB) -o xml2guido
-
-xml2lilypond: xml2lilypond.cpp 
-	gcc $(CXXFLAGS) xml2lilypond.cpp $(LIB) -lstdc++ -o xml2lilypond
 
 xml2midi: xml2midi.cpp 
 	gcc $(CXXFLAGS) xml2midi.cpp $(LIB) -o xml2midi

@@ -34,6 +34,8 @@ EMSCRIPTEN_BINDINGS(EngineAdapter) {
 			.function("musicxml2guidoVersion", &libMusicXMLAdapter::musicxml2guidoVersion)
 			.function("musicxml2guidoVersionStr", &libMusicXMLAdapter::musicxml2guidoVersionStr)
 
-			.function("string2guido", select_overload<std::string (const std::string&, bool)>(&libMusicXMLAdapter::string2guido));
+			.function("string2guido", select_overload<std::string (const std::string&, bool)>(&libMusicXMLAdapter::string2guido))
+
+			.function("xmlStringTranspose", select_overload<std::string (const std::string&, int)>(&libMusicXMLAdapter::xmlStringTranspose));
 }
 
