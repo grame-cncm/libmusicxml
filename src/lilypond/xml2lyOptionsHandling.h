@@ -205,6 +205,13 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     void                  initializeOptionsHandler ();
 
   public:
+
+    // quiet mode
+    // ------------------------------------------------------
+
+    void                  enforceOptionsHandlerQuietness ();
+
+  public:
   
     // services
     // ------------------------------------------------------
@@ -252,6 +259,13 @@ class xml2lyOptions : public optionsGroup
       S_optionsHandler optionsHandler);
   
     virtual ~xml2lyOptions ();
+
+  public:
+
+    // quiet mode
+    // ------------------------------------------------------
+
+    void                  enforceQuietness ();
 
   public:
 

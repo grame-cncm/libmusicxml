@@ -56,6 +56,13 @@ class generalOptions : public optionsGroup
 
   public:
 
+    // quiet mode
+    // ------------------------------------------------------
+
+    void                  enforceQuietness ();
+
+  public:
+
     // consistency check
     // ------------------------------------------------------
 

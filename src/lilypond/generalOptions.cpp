@@ -407,11 +407,19 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   return clone;
 }
 
+//______________________________________________________________________________
+void generalOptions::enforceQuietness ()
+{
+  fDisplayCPUusage = false;
+}
+
+//______________________________________________________________________________
 void generalOptions::checkOptionsConsistency ()
 {
   // JMI
 }
 
+//______________________________________________________________________________
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {  
   gLogIOstream <<

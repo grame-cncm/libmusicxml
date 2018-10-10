@@ -494,11 +494,22 @@ bool lpsrOptions::setLpsrChordsLanguage (string language)
   return true;
 }
 
+//______________________________________________________________________________
+void lpsrOptions::enforceQuietness ()
+{
+  fTraceLpsr = false;
+  fTraceLpsrVisitors = false;
+  fDisplayLpsr = false;
+  fTraceSchemeFunctions = false;
+}
+
+//______________________________________________________________________________
 void lpsrOptions::checkOptionsConsistency ()
 {
   // JMI
 }
 
+//______________________________________________________________________________
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
   gLogIOstream <<

@@ -525,16 +525,45 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 }
 
 //______________________________________________________________________________
+void xml2lyOptionsHandler::enforceOptionsHandlerQuietness ()
+{
+  gTraceOptions->
+    enforceQuietness ();
+  
+  gGeneralOptions->
+    enforceQuietness ();
+  
+  gMusicXMLOptions->
+    enforceQuietness ();
+  
+  gMsrOptions->
+    enforceQuietness ();
+  
+  gLpsrOptions->
+    enforceQuietness ();
+  
+  gLilypondOptions->
+    enforceQuietness ();
+  
+  gExtraOptions->
+    enforceQuietness ();
+  
+  gXml2lyOptions->
+    enforceQuietness ();
+}
+
+//______________________________________________________________________________
+void xml2lyOptions::enforceQuietness ()
+{}
+
+//______________________________________________________________________________
 void xml2lyOptions::checkOptionsConsistency ()
 {
-  // check options consistency
-  // ------------------------------------------------------
-
   gLogIOstream <<
     "xml2lyOptions::checkOptionsConsistency ()" <<
     endl;
     
-  gTraceOptions-> // fQuiet should be taken into account first
+  gTraceOptions->
     checkOptionsConsistency ();
   
   gGeneralOptions->

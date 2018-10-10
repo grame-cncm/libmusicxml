@@ -255,6 +255,13 @@ staffInstrumentAbbreviation
  
   public:
 
+    // quiet mode
+    // ------------------------------------------------------
+
+    void                  enforceQuietness ();
+
+  public:
+
     // consistency check
     // ------------------------------------------------------
 

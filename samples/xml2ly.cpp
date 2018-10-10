@@ -532,6 +532,15 @@ int main (int argc, char *argv[])
     outputFileNameSize =
       outputFileName.size ();
 
+  // has quiet mode been requested?
+  // ------------------------------------------------------
+
+  if (gGeneralOptions->fQuiet) {
+    // disable all trace and display options
+    optionsHandler->
+      enforceOptionsHandlerQuietness ();
+  }
+
   // welcome message
   // ------------------------------------------------------
 

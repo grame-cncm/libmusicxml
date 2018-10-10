@@ -1345,11 +1345,19 @@ bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
 } 
 */
 
+//______________________________________________________________________________
+void lilypondOptions::enforceQuietness ()
+{
+  fXml2lyInfos = false;
+}
+
+//______________________________________________________________________________
 void lilypondOptions::checkOptionsConsistency ()
 {
   // JMI
 }
 
+//______________________________________________________________________________
 string lilypondOptions::scoreNotationKindAsString (
   scoreNotationKind notationKind)
 {
