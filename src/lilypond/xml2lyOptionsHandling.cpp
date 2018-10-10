@@ -561,9 +561,10 @@ void xml2lyOptions::checkOptionsConsistency ()
     "xml2lyOptions::checkOptionsConsistency ()" <<
     endl;
     
+#ifdef TRACE_OPTIONS
   gTraceOptions->
     checkOptionsConsistency ();
-  
+#endif
   gGeneralOptions->
     checkOptionsConsistency ();
   

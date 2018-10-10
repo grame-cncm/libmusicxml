@@ -2,7 +2,7 @@
 # 
 #
 
-.PHONY : macos ios macc++11 android
+.PHONY : macos ios msys win32 win64 linux android
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
@@ -26,24 +26,9 @@ OUT  := libmusicxml2.framework libmusicxml2.a
 MACX ?= macos
 IOS  := ios
 ANDROID := android
-LINUX := linux
-MSVC   ?= "Visual Studio 14 2015"
+LINUX   := linux
+MSVC   ?= Visual Studio 14 2015
 MSVC64 := $(MSVC) Win64
-
-# try to detect Visual Studio version used
-# ifeq ($(TARGET), windows)
-#  MSVC ?= C:\Program Files (x86)\Microsoft Visual Studio 12.0
-#  ifneq ($(wildcard "$(MSVC)"), "") 
-#   WIN32VS ?= Visual Studio 12 2013
-#   WIN64VS ?= $(WIN32VS) Win64
-#   endif
-#  else
-#  MSVC := C:\Program Files (x86)\Microsoft Visual Studio 10.0
-#  ifneq ($(wildcard "$(MSVC)"), "") 
-#   WIN32VS ?= Visual Studio 10
-#   WIN64VS ?= $(WIN32VS) Win64
-#  endif
-# endif
 
 CMAKEOPT ?= 
 TOOLS := xml2midi xmlread xml2guido xml2ly
@@ -65,8 +50,10 @@ help :
 	@echo "   linux     build the library for linux"
 	@echo "   android   build a static library for Android"	
 	@echo "   ios       build a static library for iOS"	
+	@echo "   msys      build on Windows using MSys"	
 	@echo "   js        build a javascript library"	
 	@echo "the platform targets is automatically evaluated by the default target."	
+	@echo 	
 	@echo "Misc:"
 	@echo "   install   install the tools to ~/bin"	
 	@echo 
@@ -77,24 +64,23 @@ help :
 # building the javascript library
 #===============================================================
 js:
-	make -j 4 -C ../javascript/build 
+	make -j 4 -C ../javascript/build
+	make -j 4 -C ../javascript/build WASM=yes
 
 #===============================================================
 # building the library on Mac OS X
 #===============================================================
-.PHONY : $(OUTDIR)/Release/libmusicxml2.framework $(IOS)/Release-iphoneos/libmusicxml2.a
+.PHONY : libmusicxml2.framework
 
-macos : $(MACX)/libmusicxml2.xcodeproj libmusicxml2.framework libmusicxml2.tgz
+macos : libmusicxml2.framework libmusicxml2.tgz
 
-libmusicxml2.framework :  $(MACX)/libmusicxml2.xcodeproj maclib
+libmusicxml2.framework : $(MACX)/libmusicxml2.xcodeproj
+	cmake --build $(MACX) --config Release -- -jobs 4
 	rm -rf libmusicxml2.framework
-	cp -R macos/Release/libmusicxml2.framework .
-
-maclib :
-	xcodebuild -jobs 8 -project $(MACX)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
+	cp -R $(MACX)/Release/libmusicxml2.framework .
 
 $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
-	[ -d $(MACX) ] || mkdir $(MACX)
+	@[ -d $(MACX) ] || mkdir $(MACX)
 	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
 
 libmusicxml2.tgz : libmusicxml2.framework
@@ -104,38 +90,49 @@ libmusicxml2.tgz : libmusicxml2.framework
 #===============================================================
 # building the library for iOS
 #===============================================================
-$(IOS) : $(IOS)/libmusicxml2.xcodeproj libmusicxml2.a
+.PHONY : libmusicxml2.a
 
-libmusicxml2.a : $(IOS)/libmusicxml2.xcodeproj $(IOS)/Release-iphoneos/libmusicxml2.a
+$(IOS) : libmusicxml2.a
+
+libmusicxml2.a : $(IOS)/libmusicxml2.xcodeproj
+	cmake --build $(MACX) --config Release -- -jobs 4
 	cp $(IOS)/Release-iphoneos/libmusicxml2.a .
 
-$(IOS)/Release-iphoneos/libmusicxml2.a :
-	xcodebuild -jobs 8 -project $(IOS)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
- 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(IOS) ] || mkdir $(IOS)
-	cd $(IOS) && cmake .. -G Xcode -DMIDIEXPORT=no -DIOS=yes
+	cd $(IOS) && cmake .. -G Xcode -DIOS=yes
 
 
 #===============================================================
 # building the library on windows
 #===============================================================
-.PHONY : win32 win64 win32/Release/libmusicxml2.dll win64/Release/libmusicxml264.dll
+.PHONY : msys win32 win64 win32/Release/libmusicxml2.dll win64/Release/libmusicxml264.dll
 
+#===============================================================
+# using msys
+msys : msys/Makefile msys/libmusicxml2.so
+
+msys/libmusicxml2.so :
+	make -C msys
+
+msys/Makefile : CMakeLists.txt
+	[ -d msys ] || mkdir msys
+	cd msys && cmake .. -G "MSYS Makefiles"  $(CMAKEOPT)
+
+#===============================================================
+# using visual studio
 windows :
 	make win32
 	make win64
 
-win32 : win32/libmusicxml2.sln libmusicxml2.dll libmusicxml2.lib 
-
-libmusicxml2.lib : libmusicxml2.dll
+win32 : win32/libmusicxml2.sln libmusicxml2.dll 
 
 libmusicxml2.dll : win32/Release/libmusicxml2.dll
 	cp win32/Release/libmusicxml2.dll .
 	cp win32/Release/libmusicxml2.lib .
 
 win32/Release/libmusicxml2.dll : win32/libmusicxml2.sln
-	cmake --build win32 --config Release -- /maxcpucount:4 
+	cmake --build win32 --config Release -- /maxcpucount:4
 
 win32/libmusicxml2.sln : CMakeLists.txt
 	[ -d win32 ] || mkdir win32
@@ -154,33 +151,36 @@ win64/Release/libmusicxml264.dll : win64/libmusicxml2.sln
 
 win64/libmusicxml2.sln : CMakeLists.txt
 	[ -d win64 ] || mkdir win64
-	cd win64 && cmake .. -G "$(MSVC)" $(CMAKEOPT)
+	cd win64 && cmake .. -G "$(MSVC64)" $(CMAKEOPT)
 
 #===============================================================
 # building the library on linux
 #===============================================================
-.PHONY : $(LINUX) libmusicxml2.so
+.PHONY : linux libmusicxml2.so
 
-linux : $(OUTDIR)/Makefile libmusicxml2.so
+linux : libmusicxml2.so
 
-libmusicxml2.so :  $(OUTDIR)/Makefile  $(OUTDIR)/libmusicxml2.so
+libmusicxml2.so :  $(OUTDIR)/Makefile 
+	make -C linux
 	rm -rf libmusicxml2*.so*
-	make -C $(OUTDIR)
-	cp -R $(OUTDIR)/libmusicxml2*.so* .
-
-$(OUTDIR)/libmusicxml2.so : 
-	make -C $(OUTDIR)
+	cp -R linux/libmusicxml2*.so* .
 	
-$(OUTDIR)/Makefile : CMakeLists.txt
-	[ -d $(OUTDIR) ] || mkdir $(OUTDIR)
-	cd $(OUTDIR) && cmake .. -G "Unix Makefiles" -DMIDIEXPORT=yes
+linux/Makefile : CMakeLists.txt
+	[ -d linux ] || mkdir linux
+	cd linux && cmake .. -G "Unix Makefiles" 
 
 #===============================================================
 # building the library for Android
 #===============================================================
 android :
 	ndk-build -C android -j 4
-	cp -f android/libs/armeabi/libmusicxml2.so android/
+
+#===============================================================
+# src code formatting
+#===============================================================
+format :
+	find ../src -path ../src/parser -prune -o -iname '*.cpp' -execdir clang-format -i -style=file {} \;
+	find ../src -path ../src/parser -prune -o -iname '*.h' -execdir clang-format -i -style=file {} \;
 
 #===============================================================
 # install

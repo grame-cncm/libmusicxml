@@ -28,9 +28,10 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.11)
-set (STRVERS "v.3.11")
-set (SSTRVERS "3.11")
+set (VERSION 3.1.2)
+set (STRVERS "v.3.12")
+set (SSTRVERS "3.12")
+set (SOVERS 3)
 
 #######################################
 set (CMAKE_CXX_STANDARD 11)
@@ -58,18 +59,10 @@ if(APPLE)
 # windows specific part
 #########################################
 elseif(WIN32)
- add_definitions(-DWINVER=0x0400 -DWIN32)
- if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-  add_definitions(-DVC6)
- elseif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 8 2005")
-  add_definitions(-DVC2005)
- endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-
-#########################################
-# assume linux host
-#########################################
-else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	add_definitions(-DWINVER=0x0400 -DWIN32)
+	if(MSVC)
+		add_definitions(-DMSVC)
+	endif()
 endif()
 
 
@@ -109,23 +102,18 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 #######################################
 # set library target
 if(APPLE)
-  if (IOS STREQUAL "yes")
+  if (IOS)
     set(target musicxml2)
   else()
     set(target libmusicxml2)
   endif()
-	if (IOS)
-		set(target musicxml2)
-	else()
-		set(target libmusicxml2)
-	endif()
 elseif(MSVC)
   set(target libmusicxml2)
 else()
   set(target musicxml2)
 endif()
 
-if(MSVC)
+if(WIN32 OR MSYS)
   enable_language(RC)
   set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
 else()
@@ -134,20 +122,24 @@ endif()
 
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
-      VERSION ${VERSION}
-      FRAMEWORK_VERSION ${VERSION}
-      PUBLIC_HEADER "${COREH}"
-      DEFINE_SYMBOL LIBMUSICXML_EXPORTS
-      MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
-      MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
+			VERSION ${VERSION}
+			SOVERSION ${SOVERS}
+			PUBLIC_HEADER "${COREH}"
+			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-if ( IOS STREQUAL "no" )
-  set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )
+if (APPLE AND NOT IOS)
+set_target_properties (${target} PROPERTIES 
+			FRAMEWORK ${FMWK}
+			FRAMEWORK_VERSION ${VERSION}
+			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
+			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
+			MACOSX_FRAMEWORK_IDENTIFIER ${target}
+)
 endif()
 
 #######################################
 # set sample targets
-#set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly msrStreamsExample xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 
 if(NOT APPLE OR NOT IOS )
