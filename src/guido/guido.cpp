@@ -135,7 +135,10 @@ void guidochord::print(ostream& os) const
 	int n = countNotes();
 	const char* seqsep = "";
 	for (auto e: fElements) {
-		const char* sep = (e->isNote() && --n) ? ", " : " ";
+		// checking for elements separator
+		// sequences (i.e. score) are handled as chords
+		// that's why there are special cases for seq
+		const char* sep = ((e->isNote() || (!e->isSeq() && e->countNotes())) && --n) ? ", " : " ";
 		os << seqsep  << e << sep;
 		if (e->isSeq()) seqsep = ", \n";
 	}
