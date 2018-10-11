@@ -1334,6 +1334,10 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 
   fGraceNotesGroupElementsList.push_back (note);
 
+  // register note's grace notes groups uplink
+  note->
+    setNoteGraceNotesGroupUplink (this);
+
   // is this grace note tied?
   if (note->getNoteTie ()) {
     fGraceNotesGroupIsTied = true;
@@ -3213,7 +3217,11 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   /* JMI
-  
+
+    S_msrTuplet           fNoteChordUplink;
+
+    S_msrGraceNotesGroup  fNoteGraceNoteGroupUplink;
+
     S_msrTuplet           fNoteTupletUplink;
 
     S_msrMeasure          fNoteMeasureUplink;
@@ -5500,12 +5508,60 @@ void msrNote::print (ostream& os)
       endl;
   }
   
+  if (fNoteChordUplink || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteChordUplink";
+      
+    if (fNoteChordUplink) {
+      os <<
+        endl;
+      gIndenter++;
+
+      os <<
+        fNoteChordUplink->asShortString ();
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none";
+    }
+
+    os <<
+      endl;
+  }
+
+  if (fNoteGraceNotesGroupUplink || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNoteGroupUplink";
+      
+    if (fNoteGraceNotesGroupUplink) {
+      os <<
+        endl;
+      gIndenter++;
+
+      os <<
+        fNoteGraceNotesGroupUplink->asShortString ();
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none";
+    }
+
+    os <<
+      endl;
+  }
+
   if (fNoteTupletUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteTupletUplink";
       
-    if (fNoteMeasureUplink) {
+    if (fNoteTupletUplink) {
       os <<
         endl;
       gIndenter++;
@@ -7123,7 +7179,9 @@ string msrChord::chordGraphicDurationAsMsrString () const
 }
 */
 
-void msrChord::addFirstNoteToChord (S_msrNote note)
+void msrChord::addFirstNoteToChord (
+  S_msrNote  note,
+  S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
@@ -7140,19 +7198,37 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   // append note to chord notes
   fChordNotesVector.push_back (note);
 
+  // register note's chord uplink
+  note->
+    setNoteChordUplink (this);
+
   // mark note as belonging to a chord
-  note->setNoteIsAChordsFirstMemberNote ();
-  
-  // mark note as being the first one in the chord
   note->setNoteBelongsToAChord ();
   
+  // mark note as being the first one in the chord
+  note->setNoteIsAChordsFirstMemberNote ();
+          
+  // is note the first one in this voice?
+  if (! voice->getVoiceFirstNote ()) {
+    voice->
+      registerNoteAsVoiceFirstNote (note);
+  }
+    
+  // register note as the last appended one into this voice
+  /* JMI
+  voice->
+    registerNoteAsVoiceLastAppendedNote (note);
+    */
+
   // populate note's position in measure // JMI
   note->
     setNotePositionInMeasure (
       fChordPositionInMeasure);
 }
 
-void msrChord::addAnotherNoteToChord (S_msrNote note)
+void msrChord::addAnotherNoteToChord (
+  S_msrNote  note,
+  S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
@@ -7168,8 +7244,19 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 
   fChordNotesVector.push_back (note);
   
+  // register note's chord uplink
+  note->
+    setNoteChordUplink (this);
+
+  // mark note as belonging to a chord
   note->setNoteBelongsToAChord ();
-  
+
+/* JMI
+  // register note as the last appended one into this voice
+  voice->
+    registerNoteAsVoiceLastAppendedNote (note);
+    */
+
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fChordPositionInMeasure);
@@ -8347,7 +8434,9 @@ string msrTuplet::tupletShowTypeKindAsString (
   return result;
 }
       
-void msrTuplet::addNoteToTuplet (S_msrNote note)
+void msrTuplet::addNoteToTuplet (
+  S_msrNote  note,
+  S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
@@ -8376,7 +8465,21 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();  
   fTupletDisplayWholeNotes.rationalise ();
-    
+
+/* JMIJMI
+  if (voice) { // JMI ???
+    // get the tuplet's first note
+    S_msrNote
+      tupletFirstNote = fTupletElementsList.front ();
+  
+    // is tupletFirstNote the first one in this voice?
+    if (! voice->getVoiceFirstNote ()) {
+      voice->
+        registerNoteAsVoiceFirstNote (tupletFirstNote); // JMI
+    }
+  }
+      */
+      
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fTupletPositionInMeasure);
@@ -15304,8 +15407,7 @@ string msrMeasure::asShortString () const
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
-    ", line " << fInputLineNumber <<
-    endl;
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }
@@ -21182,6 +21284,200 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
   gIndenter--;
 }
 
+S_msrNote msrVoice::fetchVoiceFirstNoteForLilypondIssue34 () const
+{
+  S_msrNote result;
+
+  if (fVoiceFirstSegment) {
+    // get the segment's measures list
+    const list<S_msrMeasure>&
+      firstSegmentMeasuresList =
+        fVoiceFirstSegment->
+          getSegmentMeasuresList ();
+
+    if (firstSegmentMeasuresList.size ()) {
+      // get the segment's first measure
+      S_msrMeasure
+        firstMeasure =
+          firstSegmentMeasuresList.front ();
+
+      // get the first measure's elements list
+      const list<S_msrElement>&
+        firstMeasureElementsList =
+          firstMeasure->
+            getMeasureElementsList ();
+
+      // fetch the first note in the first measure to which
+      // a grace notes group can be attached
+      // i.e. one not in a grace notes group itself,
+      // possibly inside a chord or tuplet
+
+      if (firstMeasureElementsList.size ()) {
+        list<S_msrElement>::const_iterator
+          iBegin = firstMeasureElementsList.begin (),
+          iEnd   = firstMeasureElementsList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          
+          if (
+            S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
+            ) {    
+            result = note;
+            break;
+          }
+        
+          else if (
+            S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
+            ) {
+            // get the chord's notes vector
+            const vector<S_msrNote>&
+              chordNotesVector =
+                chord->
+                  getChordNotesVector ();
+                    
+            if (chordNotesVector.size () > 0) {
+              // return the chord's first note
+              result = chordNotesVector [0];
+            }
+            break;
+          }
+          
+          else if (
+            S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
+            ) {
+            // get the tuplet's elements list
+            const list<S_msrElement>&
+              tupletElementsList =
+                tuplet->getTupletElementsList ();
+
+            if (tupletElementsList.size ()) {
+              list<S_msrElement>::const_iterator
+                iBegin = tupletElementsList.begin (),
+                iEnd   = tupletElementsList.end (),
+                i      = iBegin;
+              for ( ; ; ) {
+      
+            /* JMIJMI
+                if (
+                  S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
+                  ) {    
+                  result = note;
+                  break;
+                }
+              
+                else if (
+                  S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
+                  ) {
+                  // get the chord's notes vector
+                  const vector<S_msrNote>&
+                    chordNotesVector =
+                      chord->
+                        getChordNotesVector ();
+                          
+                  if (chordNotesVector.size () > 0) {
+                    // return the chord's first note
+                    result = chordNotesVector [0];
+                  }
+                  break;
+                }
+              */
+
+                if (++i == iEnd) break;
+              } // for
+            }
+
+            result = nullptr; // JMI
+            break;
+          }
+          
+          else {
+            msrInternalError (
+              gXml2lyOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              "tuplet member should be a note, a chord or another tuplet");
+          }
+      
+          if (++i == iEnd) break;
+        } // for
+      }
+    }
+  }
+
+  return result;
+}
+
+void msrVoice::registerNoteAsVoiceFirstNote (S_msrNote note)
+{
+  // is the first note in this voice already known?
+  if (! fVoiceFirstNote) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Register note '" <<
+        note->asShortString () <<
+        "' a first one in voice \"" <<
+        getVoiceName () <<
+        "\"";
+    }
+#endif
+
+    fVoiceFirstNote = note;
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "Cannot register note '" <<
+      note->asShortString () <<
+      "' a first one in voice \"" <<
+      getVoiceName () <<
+      "\", since it is already known as '" <<
+      fVoiceFirstNote->asShortString () <<
+      "'";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      note->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  
+  // is note the shortest one in this voice?
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      note->getNoteDisplayWholeNotes (); // JMI
+      
+  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+  }
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
+}
+
+void msrVoice::registerNoteAsVoiceLastAppendedNote (S_msrNote note)
+{
+  fVoiceLastAppendedNote = note;
+  
+  // is note the shortest one in this voice?
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      note->getNoteDisplayWholeNotes (); // JMI
+      
+  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+  }
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
+}
+
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
@@ -21824,7 +22120,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // is this note the first one in this voice?
   if (! fVoiceFirstNote) {
-    fVoiceFirstNote = note;
+    registerNoteAsVoiceFirstNote (note);
   }
   
   // is this note the shortest one in this voice?
@@ -21923,7 +22219,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
 
   // is this note the first one in this voice?
   if (! fVoiceFirstNote) {
-    fVoiceFirstNote = note;
+    registerNoteAsVoiceFirstNote (note);
   }
   
   // is this note the shortest one in this voice?
@@ -21986,6 +22282,65 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   fVoiceLastSegment->
     appendChordToSegment (chord);
 
+  // get the chord's notes vector
+  const vector<S_msrNote>&
+    chordNotesVector =
+      chord->
+        getChordNotesVector ();
+
+  int chordNotesVectorSize =
+    chordNotesVector.size ();
+
+  if (chordNotesVectorSize > 0) {
+    {
+      // get the chord's first note
+      S_msrNote
+        chordFirstNote = chordNotesVector [0];
+    
+      // is chordFirstNote the first one in this voice?
+      if (! fVoiceFirstNote) {
+        registerNoteAsVoiceFirstNote (chordFirstNote);
+      }
+      
+      // is chordFirstNote the shortest one in this voice?
+      rational
+        noteSoundingWholeNotes =
+          chordFirstNote->getNoteSoundingWholeNotes (),
+        noteDisplayWholeNotes =
+          chordFirstNote->getNoteDisplayWholeNotes (); // JMI
+          
+      if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+      }
+      if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+      }
+    }
+    
+    {
+      // get the chord's last note
+      S_msrNote
+        chordLastNote = chordNotesVector [chordNotesVectorSize - 1];
+    
+      // is chordLastNote the shortest one in this voice?
+      rational
+        noteSoundingWholeNotes =
+          chordLastNote->getNoteSoundingWholeNotes (),
+        noteDisplayWholeNotes =
+          chordLastNote->getNoteDisplayWholeNotes (); // JMI
+          
+      if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+      }
+      if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+      }
+  
+      // register chordLastNote as the last appended one into this voice
+      fVoiceLastAppendedNote = chordLastNote;
+    }
+  }
+  
   fMusicHasBeenInsertedInVoice = true;
 }
 
@@ -22037,7 +22392,7 @@ void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 }
 */
 
-void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
+void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
   S_msrGraceNotesGroup graceNotesGroup)
 {
   int inputLineNumber =
@@ -22046,9 +22401,9 @@ void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Prepending grace notes '" <<
+      "Adding grace notes '" <<
       graceNotesGroup->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "' ahead of voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -22085,10 +22440,48 @@ void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
       msrMeasure::kMeasureImplicitNo);
   }
   
-  // such grace notes groups should be attached to the voice's first note
-  fVoiceFirstNote->
-    setNoteGraceNotesGroupBefore (
-      graceNotesGroup);
+  // such grace notes groups should be attached to the voice's first note,
+  // or to the first chord if the latter belongs to such
+
+  // get the voice first note's chord uplink
+  S_msrChord
+    firstNoteChordUplink =
+      fVoiceFirstNote->
+        getNoteChordUplink ();
+      
+  if (firstNoteChordUplink) {
+#ifdef TRACE_OPTIONS
+    gLogIOstream <<
+      "Attaching grace notes before '" <<
+      graceNotesGroup->asString () <<
+      "' to the first chord of voice \"" << getVoiceName () <<
+      "\", i.e. '" <<
+      firstNoteChordUplink->asShortString () <<
+      "'" <<
+      endl;
+#endif
+
+    firstNoteChordUplink->
+      setChordGraceNotesGroupBefore (
+        graceNotesGroup);
+  }
+  
+  else {
+#ifdef TRACE_OPTIONS
+    gLogIOstream <<
+      "Attaching grace notes before '" <<
+      graceNotesGroup->asString () <<
+      "' to the first note of voice \"" << getVoiceName () <<
+      "\", i.e. '" <<
+      fVoiceFirstNote->asShortString () <<
+      "'" <<
+      endl;
+#endif
+
+    fVoiceFirstNote->
+      setNoteGraceNotesGroupBefore (
+        graceNotesGroup);
+  }
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -30088,7 +30481,7 @@ void msrPart:: handleBackup (
     measurePosition);
 }
 
-void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   S_msrVoice           graceNotesGroupOriginVoice,
   S_msrGraceNotesGroup skipGraceNotesGroup)
 {
@@ -30111,7 +30504,7 @@ void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
     gTraceOptions->fTraceParts
     ) {
     gLogIOstream <<
-      "addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded () in " <<
+      "addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded () in " <<
       getPartCombinedName () <<
       ", graceNotesGroupOriginVoiceMeasureLength = " <<
       graceNotesGroupOriginVoiceMeasureLength <<
@@ -30153,7 +30546,7 @@ void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
         
         // add skip grace notes group ahead of voice
         voice->
-          addGraceNotesGroupAheadOfVoiceIfNeeded (
+          addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
             skipGraceNotesGroup);
       }
     } // for

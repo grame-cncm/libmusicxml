@@ -9264,6 +9264,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       }
       break;
 
+    case msrNote::kSkipNote:
+      if (elt->getNoteGraceNotesGroupUplink ()) {
+#ifdef TRACE_OPTIONS
+        if (
+          gMsrOptions->fTraceMsrVisitors
+            ||
+          gTraceOptions->fTraceNotes
+        ) {
+          gLogIOstream <<
+            "% ==> start visiting skip notes is ignored" <<
+            endl;
+        }
+#endif
+  
+          return;
+      }
+      break;
+      
     case msrNote::kGraceNote:
 #ifdef TRACE_OPTIONS
         if (
@@ -10058,6 +10076,24 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
+    case msrNote::kSkipNote:
+      if (elt->getNoteGraceNotesGroupUplink ()) {
+#ifdef TRACE_OPTIONS
+        if (
+          gMsrOptions->fTraceMsrVisitors
+            ||
+          gTraceOptions->fTraceNotes
+        ) {
+          gLogIOstream <<
+            "% ==> end visiting skip notes is ignored" <<
+            endl;
+        }
+#endif
+
+        return;
+      }
+      break;
+      
     case msrNote::kGraceNote:
 #ifdef TRACE_OPTIONS
         if (
@@ -11769,6 +11805,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     return;
   }
 #endif
+  
+  // print the chord's grace notes before if any,
+  // but not ??? JMI
+  S_msrGraceNotesGroup
+    chordGraceNotesGroupBefore =
+      elt->getChordGraceNotesGroupBefore ();
+
+  gLogIOstream <<
+    "% chordGraceNotesGroupBefore = ";
+  if (chordGraceNotesGroupBefore) {
+    gLogIOstream <<
+      chordGraceNotesGroupBefore;
+  }
+  else {
+    gLogIOstream <<
+      "nullptr";
+  }
+  gLogIOstream <<
+    endl;
+
+  if (chordGraceNotesGroupBefore) {
+    generateGraceNotesGroup (
+      chordGraceNotesGroupBefore);
+  }
   
   // print the chord glissandos styles if any
   const list<S_msrGlissando>&

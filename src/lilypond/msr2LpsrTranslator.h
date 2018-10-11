@@ -670,11 +670,13 @@ class msr2LpsrTranslator :
     // afterGraceNotes optimisation
     S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
     S_msrElement              fCurrentAfterGraceNotesGroupElement;
-    
+
+    /* JMI
     void                      prependSkipGraceNotesGroupToPartOtherVoices (
                                 S_msrPart            partClone,
                                 S_msrVoice           voiceClone,
                                 S_msrGraceNotesGroup skipGraceNotesGroup);
+                                */
 
     
     // chords

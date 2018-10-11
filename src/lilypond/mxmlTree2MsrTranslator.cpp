@@ -14201,7 +14201,8 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 #endif
       
   chord->
-    addFirstNoteToChord (chordFirstNote);
+    addFirstNoteToChord (
+      chordFirstNote, voice);
 
   // set chord first note's kind
   chordFirstNote->
@@ -15180,7 +15181,10 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
         firstNote->getNotePositionInMeasure ());
 
   // add note as first note of the stack top tuplet
-  tuplet->addNoteToTuplet (firstNote);
+  tuplet->
+    addNoteToTuplet (
+      firstNote,
+      nullptr /* JMI */);
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
@@ -19016,7 +19020,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
   // add newChordNote to current chord
   fCurrentChord->
-    addAnotherNoteToChord (newChordNote);
+    addAnotherNoteToChord (
+      newChordNote, currentVoice);
 
   // copy newChordNote's elements if any to the current chord
   copyNoteElementsToChord (
@@ -19172,7 +19177,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 #endif
   
           currentTuplet->
-            addNoteToTuplet (note);
+            addNoteToTuplet (
+              note,
+              nullptr /* JMI */);
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceTupletsDetails) {
@@ -19256,7 +19263,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 #endif
           
               currentTuplet->
-                addNoteToTuplet (note);
+                addNoteToTuplet (
+                  note,
+                  nullptr /* JMI */);
 
 #ifdef TRACE_OPTIONS
               if (gTraceOptions->fTraceTupletsDetails) {
@@ -19350,7 +19359,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 #endif
           
               currentTuplet->
-                addNoteToTuplet (note);
+                addNoteToTuplet (
+                  note,
+                  nullptr /* JMI */);
                 
 
 #ifdef TRACE_OPTIONS
@@ -19628,7 +19639,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 #endif
 
   fCurrentChord->
-    addAnotherNoteToChord (newChordNote);
+    addAnotherNoteToChord (
+      newChordNote, currentVoice);
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (
@@ -19827,7 +19839,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 #endif
 
   fCurrentChord->
-    addAnotherNoteToChord (newChordNote);
+    addAnotherNoteToChord (
+      newChordNote, currentVoice);
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (

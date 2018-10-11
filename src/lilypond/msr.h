@@ -2965,6 +2965,22 @@ class msrNote : public msrElement
     S_msrMeasure          getNoteMeasureUplink () const
                               { return fNoteMeasureUplink; }
 
+    // chord uplink
+    void                  setNoteChordUplink (
+                            const S_msrChord& chord)
+                              { fNoteChordUplink = chord; }
+                      
+    S_msrChord            getNoteChordUplink () const
+                              { return fNoteChordUplink; }
+
+    // grace notes group uplink
+    void                  setNoteGraceNotesGroupUplink (
+                            const S_msrGraceNotesGroup& graceNotesGroup)
+                              { fNoteGraceNotesGroupUplink = graceNotesGroup; }
+                      
+    S_msrGraceNotesGroup  getNoteGraceNotesGroupUplink () const
+                              { return fNoteGraceNotesGroupUplink; }
+
     // tuplet uplink
     void                  setNoteTupletUplink (
                             const S_msrTuplet& tuplet)
@@ -3561,6 +3577,10 @@ class msrNote : public msrElement
     // uplinks
     // ------------------------------------------------------
 
+    S_msrChord            fNoteChordUplink;
+
+    S_msrGraceNotesGroup  fNoteGraceNotesGroupUplink;
+    
     S_msrTuplet           fNoteTupletUplink;
 
     S_msrMeasure          fNoteMeasureUplink;
@@ -4072,8 +4092,14 @@ class msrChord : public msrElement
     string                chordDisplayWholeNotesAsMsrString ();
  // JMI   string                chordGraphicDurationAsMsrString () const;
 
-    void                  addFirstNoteToChord (S_msrNote note);
-    void                  addAnotherNoteToChord (S_msrNote note);
+    // notes
+    void                  addFirstNoteToChord (
+                            S_msrNote  note,
+                            S_msrVoice voice);
+                            
+    void                  addAnotherNoteToChord (
+                            S_msrNote note,
+                            S_msrVoice voice);
 
     // articulations
     void                  appendArticulationToChord (S_msrArticulation art);
@@ -4455,8 +4481,12 @@ class msrTuplet : public msrElement
     // services
     // ------------------------------------------------------
 
-    void                  addNoteToTuplet (S_msrNote note);
+    void                  addNoteToTuplet (
+                            S_msrNote  note,
+                            S_msrVoice voice);
+                          
     void                  addChordToTuplet (S_msrChord chord);
+    
     void                  addTupletToTuplet (S_msrTuplet tuplet);
     
     void                  addTupletToTupletClone (S_msrTuplet tuplet);
@@ -5887,7 +5917,15 @@ class msrVoice : public msrElement
     
     void                  appendTimeToVoice (S_msrTime time);
     void                  appendTimeToVoiceClone (S_msrTime time);
+
+    // first and last appended notes, for msrChord
     
+    S_msrNote             fetchVoiceFirstNoteForLilypondIssue34 () const;
+
+    void                  registerNoteAsVoiceFirstNote (S_msrNote note);
+
+    void                  registerNoteAsVoiceLastAppendedNote (S_msrNote note);
+
     // harmonies
 
     S_msrVoice            createHarmonyVoiceForRegularVoice (
@@ -5994,7 +6032,7 @@ class msrVoice : public msrElement
 
     // grace notes
 
-    void                  addGraceNotesGroupAheadOfVoiceIfNeeded (
+    void                  addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
                             S_msrGraceNotesGroup graceNotesGroup);
 
     /*
@@ -7245,7 +7283,7 @@ class msrPart : public msrElement
 
     // LilyPond issue 34
 
-    void                  addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+    void                  addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
                             S_msrVoice           graceNotesGroupOriginVoice,
                             S_msrGraceNotesGroup skipGraceNotesGroup);
 
