@@ -15,8 +15,9 @@
 
 #include <set>
 
-#include "optionsBasicTypes.h"
 #include "exports.h"
+
+#include "optionsBasicTypes.h"
 
 
 namespace MusicXML2 

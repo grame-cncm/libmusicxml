@@ -26,6 +26,8 @@
 #include "msrBasicTypes.h"
 #include "lpsrBasicTypes.h"
 
+#include "setTraceOptionsIfDesired.h"
+
 
 namespace MusicXML2 
 {

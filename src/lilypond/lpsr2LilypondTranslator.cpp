@@ -18,6 +18,7 @@
 #include <cmath>
 #include <string>
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -451,11 +452,6 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
   int               inputLineNumber,
   S_msrStringTuning stringTuning)
 {
-  int
-    getStringTuningNumber =
-      stringTuning->
-        getStringTuningNumber ();
-
   msrDiatonicPitchKind
     stringTuningDiatonicPitchKind =
       stringTuning->
@@ -481,6 +477,11 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceScordaturas) {
+    int
+      getStringTuningNumber =
+        stringTuning->
+          getStringTuningNumber ();
+
     fLilypondCodeIOstream <<
       endl <<
       "%getStringTuningNumber = " <<
@@ -573,9 +574,6 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   int noteAbsoluteOctave =
     note->getNoteOctave ();
     
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
-
   // should an absolute octave be generated?
   bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
@@ -584,7 +582,10 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
-    const int fieldWidth = 28;
+    int noteAbsoluteDisplayOctave =
+      note->getNoteDisplayOctave ();
+  
+      const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
       endl <<
@@ -724,14 +725,14 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   int noteAbsoluteOctave =
     note->getNoteOctave ();
     
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
-
   // should an absolute octave be generated?
   bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
+
+  int noteAbsoluteDisplayOctave =
+    note->getNoteDisplayOctave ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {

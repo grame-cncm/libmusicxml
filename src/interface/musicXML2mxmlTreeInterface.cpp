@@ -30,9 +30,11 @@
 #include "xmlfile.h"
 #include "xmlreader.h"
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
+
 
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
@@ -283,7 +285,7 @@ string uncompressMXLFile (
   
         if (sm.size ()) {
 #ifdef TRACE_OPTIONS
-          if (TRACE_OPTIONS) {
+          if (gTraceOptions->fTracePasses) { // JMI ???
             logIOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
@@ -845,10 +847,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 #endif
   
+#ifdef TRACE_OPTIONS
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
-#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -1013,10 +1015,10 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 #endif
 
+#ifdef TRACE_OPTIONS
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
-#ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
