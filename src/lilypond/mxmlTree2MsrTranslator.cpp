@@ -17643,9 +17643,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     
     else if (fCurrentNoteIsAGraceNote) {
 
+/* JMI
       fLogOutputStream <<
         "FOO" <<
         endl;
+        */
         
       // note is the second, third, ..., member of a chord
       // that is a part of grace notes

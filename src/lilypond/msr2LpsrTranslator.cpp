@@ -3105,21 +3105,25 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   //  }
   }
 
-  fLogOutputStream <<
-    "+++++++++++++++++++++++++ 1" <<
-    endl <<
-    "fCurrentNonGraceNoteClone:";
-
-  if (fCurrentNonGraceNoteClone) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     fLogOutputStream <<
-      fCurrentNonGraceNoteClone;
-  }
-  else {
+      "+++++++++++++++++++++++++ 1" <<
+      endl <<
+      "fCurrentNonGraceNoteClone:";
+  
+    if (fCurrentNonGraceNoteClone) {
+      fLogOutputStream <<
+        fCurrentNonGraceNoteClone;
+    }
+    else {
+      fLogOutputStream <<
+        "nullptr";
+    }
     fLogOutputStream <<
-      "nullptr";
+      endl;
   }
-  fLogOutputStream <<
-    endl;
+#endif
 
   // get the note this grace notes group is attached to
   S_msrNote
@@ -3225,8 +3229,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
         createSkipGraceNotesGroupClone (
           fCurrentVoiceClone);
   }
-
-
+}
 
     /* JMI
   if (fFirstNoteCloneInVoice) {
@@ -3361,7 +3364,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     }
   }
 */
-}
+
 
 void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 {
@@ -3372,21 +3375,25 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       endl;
   }
 
-  fLogOutputStream <<
-    "+++++++++++++++++++++++++ 2" <<
-    endl <<
-    "fCurrentNonGraceNoteClone:";
-
-  if (fCurrentNonGraceNoteClone) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     fLogOutputStream <<
-      fCurrentNonGraceNoteClone;
-  }
-  else {
+      "+++++++++++++++++++++++++ 2" <<
+      endl <<
+      "fCurrentNonGraceNoteClone:";
+  
+    if (fCurrentNonGraceNoteClone) {
+      fLogOutputStream <<
+        fCurrentNonGraceNoteClone;
+    }
+    else {
+      fLogOutputStream <<
+        "nullptr";
+    }
     fLogOutputStream <<
-      "nullptr";
+      endl;
   }
-  fLogOutputStream <<
-    endl;
+#endif
 
   // forget about these grace notes
   fCurrentGraceNotesGroupClone = nullptr;

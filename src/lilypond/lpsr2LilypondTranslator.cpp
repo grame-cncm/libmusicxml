@@ -6045,7 +6045,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     elt->getStaffToChangeTo ()->getStaffName () <<
     "\"";
 
-  if (true || gLilypondOptions->fNoteInputLineNumbers) { // JMI
+  if (gLilypondOptions->fNoteInputLineNumbers) { // JMI
     // print the staff change line number as a comment
     fLilypondCodeIOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
@@ -6680,7 +6680,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       endl;
   }
 
- // JMI if (true || ! fOnGoingMultipleRestMeasures) {}
+ // JMI if (! fOnGoingMultipleRestMeasures) {}
   {
     // handle the measure
     switch (measureKind) {
@@ -11813,6 +11813,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     chordGraceNotesGroupBefore =
       elt->getChordGraceNotesGroupBefore ();
 
+/* JMI
   gLogIOstream <<
     "% chordGraceNotesGroupBefore = ";
   if (chordGraceNotesGroupBefore) {
@@ -11825,6 +11826,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   }
   gLogIOstream <<
     endl;
+*/
 
   if (chordGraceNotesGroupBefore) {
     generateGraceNotesGroup (

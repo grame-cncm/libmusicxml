@@ -141,7 +141,7 @@ $(version)/lilypond/%.ly: ../%.xml
 # rules for lilypond with svg backend
 $(version)/lilysvg/%.svg: $(version)/lilypond/%.ly
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	guido2svg $<  > $@ || (rm $@ ; false; )
+	lilypond $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml output validation

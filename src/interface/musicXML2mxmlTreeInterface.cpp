@@ -414,338 +414,6 @@ string uncompressMXLFile (
 }
 
 //_______________________________________________________________________________
-FILE* convertFileDataEncoding (
-  string           fileName,
-  string           currentEncoding,
-  string           desiredEncoding,
-  indentedOstream& logIOstream)
-{
-  // build shell command
-  stringstream s;
-
-  s <<
-  /* JMI
-    "sed 's/" <<
-    currentEncoding <<
-    "/" <<
-    desiredEncoding <<
-    "/' " <<
-    fileName <<
-    " | " <<
-    */
-    "iconv" <<
-    " -f " << currentEncoding <<
-    " -t " << desiredEncoding <<
-    " " <<
-    fileName <<
-    " | " <<
-    "sed 's/" <<
-    currentEncoding <<
-    "/" <<
-    desiredEncoding <<
-    "/'";
-
-  if (false) {
-    s <<
-    " > ConvertedFileData_" <<
-      baseName (fileName) << "_" <<
-      desiredEncoding << ".xml";
-  }
-
-  string shellCommand = s.str ();
-            
-  if (true) {
-    logIOstream <<
-      "Converting file MusicXML data from \"" <<
-      currentEncoding <<
-      "\" to " <<
-      desiredEncoding <<
-      "\" with command:" <<
-      endl;
-
-    gIndenter++;
-    
-    logIOstream <<
-      shellCommand <<
-      endl <<
-      endl;
-    
-    gIndenter--;
-  }
-
-  FILE* inputStream = nullptr;
-
-#ifdef WIN32
-  // JMI
-#else
-  // create a stream to receive the result of shellCommand
-  inputStream =
-    popen (
-      shellCommand.c_str (),
-      "r");
-
-  if (inputStream == nullptr) {
-    msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      0, // inputLineNumber
-      __FILE__, __LINE__,
-      "Cannot read the input stream with 'popen ()'");
-  }
-#endif
-
-  return inputStream;
-}
-
-//_______________________________________________________________________________
-  /* JMI
-SXMLFile convertStreamDataEncoding (
-  SXMLFile         xmlFile,
-  string           currentEncoding,
-  string           desiredEncoding,
-  indentedOstream& logIOstream)
-{
-  SXMLFile result = nullptr;
-  
-#ifdef WIN32
-  // JMI
-#else
-  // build shell command
-  stringstream s;
-
-  s <<
-    "iconv" <<
-    " -f " << currentEncoding <<
-    " -t " << desiredEncoding <<
-    " -" <<
-    " -";
-
-  if (true) {
-    s <<
-    " | tee StreamData_" << desiredEncoding << ".xml";
-  }
-
-  string shellCommand = s.str ();
-            
-  if (true) {
-    logIOstream <<
-      "Converting stream MusicXML data from \"" <<
-      currentEncoding <<
-      "\" to \"" <<
-      desiredEncoding <<
-      "\" with iconv command:" <<
-      endl;
-
-    gIndenter++;
-    
-    logIOstream <<
-      shellCommand <<
-      endl <<
-      endl;
-    
-    gIndenter--;
-  }
-
-  / *
-  setup 2 pipes for the communication between parent and child,
-  see
-  https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
-  * /
-  
-  // in a pipe, pipe[0] is for read and  pipe[1] is for write
-  #define READ_FD  0
-  #define WRITE_FD 1
-
-  // create the 2 pipes
-  int parentToChildFds [2];
-  int childToParentFds [2];
-
-  pipe (parentToChildFds); // where the parent is going to write to
-  if (true) {
-    logIOstream <<
-      "pipe parentToChildFds contains:" <<
-      gTab <<
-      "read: " << parentToChildFds [READ_FD] <<
-      gTab <<
-      "write: " << parentToChildFds [WRITE_FD] <<
-      endl;
-  }
-
-  pipe (childToParentFds);  // where the child is going to read from
-  if (true) {
-    logIOstream <<
-      "pipe childToParentFds contains:" <<
-      gTab <<
-      "read: " << childToParentFds [READ_FD] <<
-      gTab <<
-      "write: " << childToParentFds [WRITE_FD] <<
-      endl;
-  }
-  
-  pid_t   idProcess;
-  
-  switch (idProcess = fork ())
-    {
-    case -1:
-      if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
-        logIOstream <<
-          endl <<
-          "'fork ()' failed" <<
-          endl <<
-          / * JMI
-          inputSourceName << ":" << inputLineNumber << ": " <<message <<
-          endl <<
-          baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-          * /
-          endl;
-      }
-      
-      abort ();
-      break;
-
-    case 0:
-      {
-        // child process only
-        // ------------------
-
-        // close the descriptors not used by the child
-        close (STDIN_FILENO);
-        close (STDOUT_FILENO);
-
-        close (parentToChildFds [WRITE_FD]);
-        close (childToParentFds [READ_FD]);
-
-        // setting child input descriptor
-        int parentToChildReadDescriptor =
-          parentToChildFds [READ_FD];
-          
-        if (true) {
-          logIOstream <<
-            "Child will read from parentToChildFds [READ_FD], i.e. " <<
-            parentToChildReadDescriptor <<
-            endl;
-        }
-        dup2 (parentToChildReadDescriptor, STDIN_FILENO);
-        
-        // setting child output descriptor
-        int childToParentWriteDescriptor =
-          parentToChildFds [WRITE_FD];
-          
-        if (true) {
-          logIOstream <<
-            "Child will write to childToParentWriteDescriptor. i.e. " <<
-            childToParentWriteDescriptor <<
-            endl;
-        }
-        dup2 (childToParentWriteDescriptor, STDOUT_FILENO);
-
-        // write to stdout
- //       system ("iconv -f ISO-8859-1 -t UTF-8 - | tee ConvertedData.xml");
-        system ("iconv -f ISO-8859-1 -t UTF-8 -");
-
-        // close the descriptors after use by the child
-        close (parentToChildReadDescriptor); 
-        close (childToParentWriteDescriptor);
-
-    //    exit (0);      
-        
-      }
-      break;
-
-    default:
-      {
-        // parent process only
-        // -------------------
-
-        // close the descriptors used by the child
-        close (parentToChildFds [READ_FD]); 
-        close (childToParentFds [WRITE_FD]);
-
-        // create a stream buffer to receive output
-        int parentToChildWriteDescriptor =
-          parentToChildFds [WRITE_FD];
-          
-        if (true) {
-          logIOstream <<
-            "Parent will write to parentToChildWriteDescriptor, i.e. " <<
-            parentToChildWriteDescriptor <<
-            endl;
-        }
-
-        OFdnStreambuf outputStreamBuffer (
-          parentToChildWriteDescriptor, 1024);
-
-        // create the output stream to write to
-        ostream outputStream (& outputStreamBuffer);
-
-        if (false) {
-          // write the xmlFile representation to log stream
-          logIOstream <<
-            endl <<
-            "<!-- ******************************* -->" <<
-            endl <<
-            "<!-- The xmlFile contains: -->" <<
-            endl;
-
-          xmlFile->print (logIOstream);
-
-          logIOstream <<
-            endl <<
-            "<!-- ******************************* -->" <<
-            endl <<
-            endl;
-        }
-
-        // write the xmlFile representation to output stream
-  // JMI      xmlFile->print (outputStream);
-        outputStream <<
-          "FOOFIIFAA" <<
-          endl;
-
-        // close the needed descriptor after use
-        close (parentToChildWriteDescriptor);
-
-        // open the input stream descriptor for reading
-        int childToParentReadDescriptor =
-          childToParentFds [READ_FD];
-          
-        if (true) {
-          logIOstream <<
-            "Parent will read from childToParentReadDescriptor, i.e. " <<
-            childToParentReadDescriptor <<
-            endl;
-        }
-
-        FILE* inputStream =
-          fdopen (
-            childToParentReadDescriptor, "r");
-    
-        // read the converted data
-        if (true) {
-          logIOstream <<
-            "Reading the converted data from descriptor " <<
-            "childToParentReadDescriptor, i.e. " <<
-            childToParentReadDescriptor <<
-            endl;
-        }
-        
-        xmlreader r;
-
-        SXMLFile result = r.read (inputStream);
-
-        // close the needed descriptor after use
-        close (childToParentReadDescriptor);
-      }
-      break;
-    } // switch
-
-  // both parent and child processses JMI
-#endif
-
-  return result;
-}
-*/
-
-//_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
   S_musicXMLOptions mxmlOpts,
@@ -793,12 +461,16 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     fileName = uncompressedFileName.c_str ();
     */
 
-    logIOstream <<
-      "### You should uncompress MusicXML compressed file \"" <<
-      fileNameAsString <<
-      "\" prior to running xml2ly" <<
-      ", for example with unzip; exiting" <<
-      endl;
+    stringstream s;
+    
+    s <<
+      "you should uncompress this file prior to running xml2ly";
+          
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      1, // inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
 
     exit (333);
   }
@@ -892,9 +564,8 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     stringstream s;
     
     s <<
-      "### MusicXML data in file \"" <<
-      fileNameAsString <<
-      "\" doesn't contain any encoding specification; exiting";
+      "MusicXML data in this file" <<
+      " doesn't contain any encoding specification; exiting";
           
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -906,34 +577,19 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
   
   else {
-    /* JMI OS dependent
-    // convert file data
-    FILE* inputStream =
-      convertFileDataEncoding (
-        fileName,
-        encoding,
-        desiredEncoding,
-        logIOstream);
-
-    // build xmlement tree from inputStream
-    mxmlTree =
-      musicXMLFd2mxmlTree (
-        inputStream,
-        mxmlOpts,
-        logIOstream);
-  
-    // register encoding as the desired one after re-reading the file
-    xmlDecl->setEncoding (desiredEncoding);
-    */
-
-    logIOstream <<
-      "### You should convert file \"" <<
-      fileName <<
-      "\" to \"" <<
+    stringstream s;
+    
+    s <<
+      "you should convert this file to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv; exiting" <<
-      endl;
+      ", for example with iconv; exiting";
+          
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      1, // inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
 
     exit (555);
   }
@@ -1046,31 +702,20 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     ", desired encoding is \"" << desiredEncoding << "\"" <<
     endl;
 
-  if (encoding != desiredEncoding) {
-    /* JMI convertStreamDataEncoding is OS specific, don't use it yet
-    // register encoding as the desired one prior to printing
-    xmlDecl->setEncoding (desiredEncoding);
-
-    // convert the stream data to desiredEncoding
-    xmlFile =
-      convertStreamDataEncoding (
-        xmlFile,
-        encoding,
-        desiredEncoding,
-        logIOstream);
-
-    // has there been a problem?
-    if (! xmlFile) {
-      return Sxmlelement (0);
-    }
-    */
+  if (encoding != desiredEncoding) {    
+     stringstream s;
     
-    logIOstream <<
-      "### You should convert the stream input data to \"" <<
+    s <<
+      "you should convert this stream to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv; exiting" <<
-      endl;
+      ", for example with iconv; exiting";
+          
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      1, // inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
 
     exit (444);
   }

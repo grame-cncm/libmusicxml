@@ -25009,7 +25009,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           nextMeasureAfterMultipleRest =
             voiceLastSegmentMeasureList.back ();
 
-        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             endl <<
             "==========> nextMeasureAfterMultipleRest:" <<

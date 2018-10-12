@@ -103,12 +103,16 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {
+    if (gGeneralOptions->fDisplaySourceCodePosition) {
+      gLogIOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
     gLogIOstream <<
-      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-      " ### " << context << " ERROR ### " <<
+      "### " << context << " ERROR ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
-      endl <<
       endl;
 
     gErrorsInputLineNumbers.insert (inputLineNumber);
@@ -189,11 +193,15 @@ void msrLimitation (
   string message)
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+    if (gGeneralOptions->fDisplaySourceCodePosition) {
+      gLogIOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
     gLogIOstream <<
-      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
       "### MSR LIMITATION ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
-      endl <<
       endl;
 
     abort ();
@@ -208,11 +216,15 @@ void msrStreamsError (
   string  message)
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+    if (gGeneralOptions->fDisplaySourceCodePosition) {
+      gLogIOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
     gLogIOstream <<
-      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-      " ### " << "MSR STREAMS" << " ERROR ### " <<
+      "### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
-      endl <<
       endl;
   }
 
@@ -226,12 +238,16 @@ void msrStreamsWarning (
   string  message)
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+    if (gGeneralOptions->fDisplaySourceCodePosition) {
+      gLogIOstream <<
+        baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+        " ";
+    }
+
     gLogIOstream <<
-      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
       "*** " << "MSR STREAMS" << " warning *** " <<
       " ### " << "MSR STREAMS" << " ERROR ### " <<
       "fake line number" << ":" << inputLineNumber << ": " << message <<
-      endl <<
       endl;
   }
 

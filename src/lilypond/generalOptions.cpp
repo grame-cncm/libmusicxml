@@ -56,114 +56,6 @@ are grouped here.)",
   initializeGeneralOptions (false);
 }
 
-/*
-    // exit after some passes
-    fExit2a = boolOptionsInitialValue;
-    fExit2b = boolOptionsInitialValue;
-    fExit3 = boolOptionsInitialValue;
-
-    // '-exit2a' is hidden...
-    S_optionsBooleanItem
-      exit2aOptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e2a", "exit2a",
-R"(Exit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-          "exit2a",
-          fExit2a);
-    exit2aOptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      
-    specificTraceSubGroup->
-      appendOptionsItem (
-        exit2aOptionsBooleanItem);
-
-    // '-exit2b' is hidden...
-    S_optionsBooleanItem
-      exit2bOptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e2b", "exit2b",
-R"(Exit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-          "exit2b",
-          fExit2b);
-    exit2bOptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      
-    specificTraceSubGroup->
-      appendOptionsItem (
-        exit2bOptionsBooleanItem);
-
-    // '-exit3' is hidden...
-    S_optionsBooleanItem
-      exit3OptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e3", "exit3",
-R"(Exit after pass 3, i.e. after conversion
-of the MSR to LPSR.)",
-          "exit3",
-          fExit3);
-    exit3OptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      
-    specificTraceSubGroup->
-      appendOptionsItem (
-        exit3OptionsBooleanItem);
-
-
-
-  // command line
-  // --------------------------------------
-
-  clone->fProgramName =
-    fProgramName;
-      
-  clone->fCommandLineWithLongOptions =
-    fCommandLineWithLongOptions;
-  clone->fCommandLineWithShortOptions =
-    fCommandLineWithShortOptions;
-
-  
-  // warning and error handling
-  // --------------------------------------
-
-  clone->fQuiet =
-    fQuiet;
-  clone->fIgnoreErrors =
-    fIgnoreErrors;
-
-    
-  // CPU usage
-  // --------------------------------------
-
-  clone->fDisplayCPUusage = true;
-
-    
-
-
-
-
-  // CPU usage
-  // --------------------------------------
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "CPU usage:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream <<
-    setw (fieldWidth) << "displayCPUusage" << " : " <<
-    booleanAsString (fDisplayCPUusage) <<
-    endl;
-
-  gIndenter--;
-  
-  */
-
-
-
-
 generalOptions::~generalOptions ()
 {}
 
@@ -216,9 +108,10 @@ R"(Print help about 'itemName'.)",
   {
     // variables
     
-    fQuiet         = false;
-    fIgnoreErrors  = false;
-    fAbortOnErrors = false;
+    fQuiet                     = false;
+    fIgnoreErrors              = false;
+    fAbortOnErrors             = false;
+    fDisplaySourceCodePosition = false;
   
     // options
   
@@ -257,6 +150,16 @@ R"(Abort execution on errors instead of gracefully exiting.
 This is useful when debugging xml2ly.)",
           "abortOnErrors",
           fAbortOnErrors));
+  
+    warningAndErrorHandlingSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "dscp", "display-source-code-position",
+R"(Display the source code file name and line number
+in warning and error messages.
+This is useful when debugging xml2ly.)",
+          "displaySourceCodePosition",
+          fDisplaySourceCodePosition));
   }
 
 
@@ -396,6 +299,10 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
     fQuiet;
   clone->fIgnoreErrors =
     fIgnoreErrors;
+  clone->fAbortOnErrors =
+    fAbortOnErrors;
+  clone->fDisplaySourceCodePosition =
+    fDisplaySourceCodePosition;
 
     
   // CPU usage
@@ -469,8 +376,30 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter--;
 */
 
-  // display
+  // warning and error handling
   // --------------------------------------
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) << "Warning and error handling:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream <<
+    setw (fieldWidth) << "quiet" << " : " <<
+    booleanAsString (fQuiet) <<
+    endl <<
+    setw (fieldWidth) << "ignoreErrors" << " : " <<
+    booleanAsString (fIgnoreErrors) <<
+    endl <<
+    setw (fieldWidth) << "abortOnErrors" << " : " <<
+    booleanAsString (fAbortOnErrors) <<
+    endl <<
+    setw (fieldWidth) << "displaySourceCodePosition" << " : " <<
+    booleanAsString (fDisplaySourceCodePosition) <<
+    endl;
+
+  gIndenter--;
   
 
   // CPU usage
