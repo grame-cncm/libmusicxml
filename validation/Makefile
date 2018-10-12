@@ -13,12 +13,14 @@ gmnout	 := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
 lilyout	 := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 guidosvg := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
 lilysvg  := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
+lilypdf  := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validlily 	    = $(patsubst %.ly, %.outly, $(lilyout))
 validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
+validlilypdf 	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
 
 XML2GUIDO ?= xml2guido
 XML2LY    ?= xml2ly
@@ -45,6 +47,7 @@ help:
 	@echo "  'lily'     : converts the set of xml files to lilypond"
 	@echo "  'guidosvg' : converts the output of 'guido' target to svg"
 	@echo "  'lilysvg'  : converts the output of 'lily' target to svg"
+	@echo "  'lilypdf'  : converts the output of 'lily' target to pdf"
 	@echo "Output files are written to the $(version) folder, "
 	@echo "where $(version) is taken from the libmusicxmlversion.txt file that you can freely change."
 	@echo 
@@ -96,6 +99,14 @@ lilysvg:
 dolilysvg: $(lilysvg)
 
 #########################################################################
+lilypdf: 
+	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
+	$(MAKE) lily
+	$(MAKE) dolilypdf
+
+dolilypdf: $(lilypdf)
+
+#########################################################################
 validate: 
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validxml
@@ -138,10 +149,16 @@ $(version)/lilypond/%.ly: ../%.xml
 	$(XML2LY) -q $< | grep -v "^% on ..* CET" > $@
 
 #########################################################################
-# rules for lilypond with svg backend
+# rules for lilypond with svg output
 $(version)/lilysvg/%.svg: $(version)/lilypond/%.ly
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	lilypond $<  > $@ || (rm $@ ; false; )
+	lilypond --svg $<  > $@ || (rm $@ ; false; )
+
+#########################################################################
+# rules for lilypond with pdf output
+$(version)/lilypdf/%.pdf: $(version)/lilypond/%.ly
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	lilypond --pdf $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml output validation

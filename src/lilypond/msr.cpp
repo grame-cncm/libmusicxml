@@ -16049,7 +16049,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   }
 
   else {
-    /*
+    /* JMI
 #ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceMeasuresDetails
@@ -16070,13 +16070,17 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     }
 #endif
     */
+  }
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Segment '" <<
       fSegmentAbsoluteNumber <<
       "' has no measures to finalize" <<
       endl;
   }
+#endif
 
   gIndenter--;
 }

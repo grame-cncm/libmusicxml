@@ -3723,11 +3723,13 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kGraceNote:
+    /* JMI
       fLogOutputStream <<
         "fOnGoingGraceNotesGroup = " <<
         booleanAsString (
           fOnGoingGraceNotesGroup) <<
         endl;
+        */
         
       if (! fOnGoingGraceNotesGroup) {
         stringstream s;
