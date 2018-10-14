@@ -13,13 +13,13 @@ gmnout     := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
 lilyout    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 lilyrefout := $(patsubst ../%.xml, $(version)/lilypond/%_ref.ly, $(xmlfiles))
 guidosvg   := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
-lilysvg    := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
-lilypdf    := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
+lilysvg    := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(lilyout))
+lilypdf    := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(lilyout))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validlily 	  = $(patsubst %.ly, %.outly, $(lilyout))
-validlilyref 	= $(patsubst %.ly, %.outlyref, $(lilyrefout))
+#validlilyref 	= $(patsubst %.ly, %.outlyref, $(lilyrefout))
 validguidosvg = $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
 validlilypdf 	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
@@ -127,9 +127,9 @@ lvalidate:
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validlily
 
-lrefvalidate: 
-	@echo Validating referenceversion $(version) with $(VERSION) $(tmp)
-	$(MAKE) validlilyref
+#lrefvalidate: 
+#	@echo Validating reference version $(version) with $(VERSION) $(tmp)
+#	$(MAKE) validlilyref
 
 
 validxml: $(validxml)
@@ -137,7 +137,7 @@ validxml: $(validxml)
 validgmn: $(validgmn)
 
 validlily:    $(validlily)
-validlilyref: $(validlilyref)
+#validlilyref: $(validlilyref)
 
 
 #########################################################################
@@ -161,6 +161,10 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 #########################################################################
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	$(XML2LY) -q $<  > $@
+
+$(version)/lilypond/%_ref.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(XML2LY) -q $<  > $@
 
@@ -188,12 +192,12 @@ $(version)/lilypdf/%.pdf: $(version)/lilypond/%.ly
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
-%.outly: %.ly
+%.outlyref: %_ref.ly
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
-%.outlyref: %_ref.ly
+%.outly: %.ly
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
