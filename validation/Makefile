@@ -7,14 +7,15 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
+lilyfiles  = $(shell find ../files -name "*.ly")
 
 readout    := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
 gmnout     := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
+guidosvg   := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
 lilyout    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 lilyrefout := $(patsubst ../%.xml, $(version)/lilypond/%_ref.ly, $(xmlfiles))
-guidosvg   := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
-lilysvg    := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(lilyout))
-lilypdf    := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(lilyout))
+lilysvg    := $(patsubst ../%.ly, $(version)/lilysvg/%.svg, $(lilyfiles))
+lilypdf    := $(patsubst ../%.ly, $(version)/lilypdf/%.pdf, $(lilyfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
@@ -113,6 +114,7 @@ dolilysvg: $(lilysvg)
 lilypdf: 
 	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
 	$(MAKE) lily
+	$(MAKE) lilyref
 	$(MAKE) dolilypdf
 
 dolilypdf: $(lilypdf)
