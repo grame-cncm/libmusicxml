@@ -22456,14 +22456,16 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
       
   if (firstNoteChordUplink) {
 #ifdef TRACE_OPTIONS
-    gLogIOstream <<
-      "Attaching grace notes before '" <<
-      graceNotesGroup->asString () <<
-      "' to the first chord of voice \"" << getVoiceName () <<
-      "\", i.e. '" <<
-      firstNoteChordUplink->asShortString () <<
-      "'" <<
-      endl;
+    if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
+      gLogIOstream <<
+        "Attaching grace notes before '" <<
+        graceNotesGroup->asString () <<
+        "' to the first chord of voice \"" << getVoiceName () <<
+        "\", i.e. '" <<
+        firstNoteChordUplink->asShortString () <<
+        "'" <<
+        endl;
+    }
 #endif
 
     firstNoteChordUplink->
@@ -22473,14 +22475,16 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
   
   else {
 #ifdef TRACE_OPTIONS
-    gLogIOstream <<
-      "Attaching grace notes before '" <<
-      graceNotesGroup->asString () <<
-      "' to the first note of voice \"" << getVoiceName () <<
-      "\", i.e. '" <<
-      fVoiceFirstNote->asShortString () <<
-      "'" <<
-      endl;
+    if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
+      gLogIOstream <<
+        "Attaching grace notes before '" <<
+        graceNotesGroup->asString () <<
+        "' to the first note of voice \"" << getVoiceName () <<
+        "\", i.e. '" <<
+        fVoiceFirstNote->asShortString () <<
+        "'" <<
+        endl;
+    }
 #endif
 
     fVoiceFirstNote->

@@ -8,17 +8,19 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
 
-readout	 := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
-gmnout	 := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
-lilyout	 := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
-guidosvg := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
-lilysvg  := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
-lilypdf  := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
+readout    := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
+gmnout     := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
+lilyout    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
+lilyrefout := $(patsubst ../%.xml, $(version)/lilypond/%_ref.ly, $(xmlfiles))
+guidosvg   := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
+lilysvg    := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
+lilypdf    := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
-validlily 	    = $(patsubst %.ly, %.outly, $(lilyout))
-validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
+validlily 	  = $(patsubst %.ly, %.outly, $(lilyout))
+validlilyref 	= $(patsubst %.ly, %.outlyref, $(lilyrefout))
+validguidosvg = $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
 validlilypdf 	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
 
@@ -27,12 +29,13 @@ XML2LY    ?= xml2ly
 XMLREAD   ?= xmlread
 MAKE      ?= make
 
-.PHONY: read guido
+.PHONY: read guido lily
 .DELETE_ON_ERROR:
 
 all:
 	$(MAKE) read
 	$(MAKE) guido
+	$(MAKE) lily
 
 trace:
 	@echo $(validxml)
@@ -41,10 +44,11 @@ help:
 	@echo "Makefile for testing the libmusicxml library output."
 	@echo "Testing is based on the xml files located in the 'files' folder." 
 	@echo "Available targets are:"
-	@echo "  'all' (default): call the 'read' and 'guido' targets."
+	@echo "  'all' (default): call the 'read', 'guido' and 'lily' targets."
 	@echo "  'read'     : reads the set of xml files and writes the corresponding output"
 	@echo "  'guido'    : converts the set of xml files to guido"
 	@echo "  'lily'     : converts the set of xml files to lilypond"
+	@echo "  'lilyref'  : converts the set of xml files to lilypond reference"
 	@echo "  'guidosvg' : converts the output of 'guido' target to svg"
 	@echo "  'lilysvg'  : converts the output of 'lily' target to svg"
 	@echo "  'lilypdf'  : converts the output of 'lily' target to pdf"
@@ -83,6 +87,13 @@ lily:
 dolily: $(lilyout)
 
 #########################################################################
+lilyref: 
+	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
+	$(MAKE) dolilyref
+
+dolilyref: $(lilyrefout)
+
+#########################################################################
 guidosvg: 
 	@which guido2svg || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
 	$(MAKE) guido
@@ -116,12 +127,17 @@ lvalidate:
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validlily
 
+lrefvalidate: 
+	@echo Validating referenceversion $(version) with $(VERSION) $(tmp)
+	$(MAKE) validlilyref
+
 
 validxml: $(validxml)
 
 validgmn: $(validgmn)
 
-validlily: $(validlily)
+validlily:    $(validlily)
+validlilyref: $(validlilyref)
 
 
 #########################################################################
@@ -146,7 +162,7 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q $< | grep -v "^% on ..* CET" > $@
+	$(XML2LY) -q $<  > $@
 
 #########################################################################
 # rules for lilypond with svg output
@@ -173,6 +189,11 @@ $(version)/lilypdf/%.pdf: $(version)/lilypond/%.ly
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outly: %.ly
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
+	@[ -f  $(tmp) ] || echo $< : new file
+	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
+
+%.outlyref: %_ref.ly
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
