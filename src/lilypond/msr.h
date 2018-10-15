@@ -4702,7 +4702,7 @@ class msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
-    void                  padUpToMeasureLengthInStanza (
+    void                  padUpToMeasureLengthInStanza ( // JMI
                             int      inputLineNumber,
                             rational measureLength);
   

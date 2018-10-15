@@ -5249,6 +5249,16 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       } // for
       break;
   
+    case msrVarValsListAssoc::kLyricist:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addLyricist (
+            inputLineNumber, (*i));
+      } // for
+      break;
+
     case msrVarValsListAssoc::kPoet:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
@@ -5259,12 +5269,12 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       } // for
       break;
   
-    case msrVarValsListAssoc::kLyricist:
+    case msrVarValsListAssoc::kTranslator:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
         fLpsrScoreHeader->
-          addLyricist (
+          addTranslator (
             inputLineNumber, (*i));
       } // for
       break;
@@ -5278,7 +5288,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
             inputLineNumber, (*i));
       } // for
       break;
-
+/* JMI
     default:
       {
       stringstream s;
@@ -5294,6 +5304,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         inputLineNumber,
         s.str ());
       }
+      */
   } // switch
 }
 

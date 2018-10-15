@@ -460,6 +460,9 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
     case lpsrVarValsListAssoc::kMusicXMLLyricist:
       result = "lyricist";
       break;
+    case lpsrVarValsListAssoc::kMusicXMLTranslator:
+      result = "translator";
+      break;
       
     case lpsrVarValsListAssoc::kMusicXMLSoftware:
       result = "software";

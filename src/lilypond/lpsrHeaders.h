@@ -130,6 +130,14 @@ class lpsrHeader : public lpsrElement
                           getPoets () const
                               { return fPoets; };
     
+    void                  setTranslators (
+                            int    inputLineNumber,
+                            string val);
+
+    S_lpsrVarValsListAssoc
+                          getTranslators () const
+                              { return fTranslators; };
+    
     void                  setRights (
                             int    inputLineNumber,
                             string val);
@@ -256,6 +264,10 @@ class lpsrHeader : public lpsrElement
                             int    inputLineNumber,
                             string value);
 
+    void                  addTranslator (
+                            int    inputLineNumber,
+                            string value);
+
     void                  addSoftware (
                             int    inputLineNumber,
                             string value);
@@ -302,6 +314,8 @@ class lpsrHeader : public lpsrElement
                           fLyricists;
     S_lpsrVarValsListAssoc
                           fPoets;
+    S_lpsrVarValsListAssoc
+                          fTranslators;
     
     S_lpsrVarValsListAssoc
                           fSoftwares;

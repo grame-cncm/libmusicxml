@@ -229,7 +229,8 @@ class lpsrVarValsListAssoc : public lpsrElement
     enum lpsrVarValsListAssocKind {
       // MusicXML informations
       kMusicXMLRights,
-      kMusicXMLComposer, kMusicXMLArranger, kMusicXMLPoet, kMusicXMLLyricist,
+      kMusicXMLComposer, kMusicXMLArranger,
+      kMusicXMLPoet, kMusicXMLLyricist, kMusicXMLTranslator,
       kMusicXMLSoftware };
       
 /*

@@ -556,8 +556,6 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
         endl;
     }
 #endif
-
-    mxmlTree = xmlFile->elements ();
   }
 
   else if (encoding.size () == 0) {
@@ -588,6 +586,8 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       s.str ());
   }
  
+  mxmlTree = xmlFile->elements ();
+
   clock_t endClock = clock ();
 
   // register time spent
