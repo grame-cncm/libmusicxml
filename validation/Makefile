@@ -171,7 +171,7 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q $<  > $@
+	$(XML2LY) $<  > $@
 
 $(version)/lilypond/%_ref.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
