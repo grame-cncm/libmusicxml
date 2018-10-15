@@ -16,6 +16,10 @@ set (SOVERS 3)
 
 
 #######################################
+option ( FMWK 	"Generates a framework on MacOS by default"	true )
+
+
+#######################################
 set (CMAKE_CXX_STANDARD 11)
 
 
@@ -23,7 +27,6 @@ if(UNIX)
 	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -Wno-overloaded-virtual)
 endif()
 
-set (FMWK "true")
 set (libtype SHARED)
 
 #########################################
@@ -79,17 +82,17 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 
 #######################################
 # set library target
-if(APPLE)
-	if (IOS)
-		set(target musicxml2)
-	else()
-		set(target libmusicxml2)
-	endif()
-elseif (MSVC)
-	set(target libmusicxml2)
-else()
-	set(target musicxml2)
-endif()
+# if(APPLE)
+# 	if (IOS)
+# 		set(target musicxml2)
+# 	else()
+# 		set(target libmusicxml2)
+# 	endif()
+# elseif (MSVC)
+# 	set(target libmusicxml2)
+# else()
+# 	set(target musicxml2)
+# endif()
 
 if(WIN32 OR MSYS)
 	enable_language(RC)
@@ -98,6 +101,7 @@ else()
 	set(LIBCONTENT ${CORESRC} ${COREH})
 endif()
 
+set(target musicxml2)
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
 			VERSION ${VERSION}
@@ -106,7 +110,12 @@ set_target_properties (${target} PROPERTIES
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-if (APPLE AND NOT IOS)
+
+#set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
+
+
+if (FMWK AND APPLE AND NOT IOS)
+message ("set FMWK - ${FMWK}") 
 set_target_properties (${target} PROPERTIES 
 			FRAMEWORK ${FMWK}
 			FRAMEWORK_VERSION ${VERSION}
