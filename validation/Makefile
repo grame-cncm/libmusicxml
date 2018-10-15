@@ -16,6 +16,7 @@ lilyout    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 lilyrefout := $(patsubst ../%.xml, $(version)/lilypond/%_ref.ly, $(xmlfiles))
 lilysvg    := $(patsubst ../%.ly, $(version)/lilysvg/%.svg, $(lilyfiles))
 lilypdf    := $(patsubst ../%.ly, $(version)/lilypdf/%.pdf, $(lilyfiles))
+lilyforclean    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
@@ -120,10 +121,16 @@ lilypdf:
 dolilypdf: $(lilypdf)
 
 #########################################################################
+lilyclean:
+	@echo "lilyout = " $(lilyout) ", " $(shell wc < echo $(lilyout))
+	rm $(lilyout)
+
+#########################################################################
 validate: 
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validxml
 	$(MAKE) validgmn
+	$(MAKE) validlily
 
 lvalidate: 
 	@echo Validating version $(version) with $(VERSION) $(tmp)

@@ -565,15 +565,12 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     
     s <<
       "MusicXML data in this file" <<
-      " doesn't contain any encoding specification; exiting";
+      " doesn't contain any encoding specification; assuming it is UTF-8";
           
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       1, // inputLineNumber,
-      __FILE__, __LINE__,
       s.str ());
-      
-    exit (777);
   }
   
   else {
@@ -583,15 +580,12 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "you should convert this file to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv; exiting";
+      ", for example with iconv; handling it as is";
           
-    msrMusicXMLError (
+    msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       1, // inputLineNumber,
-      __FILE__, __LINE__,
       s.str ());
-
-    exit (555);
   }
  
   clock_t endClock = clock ();

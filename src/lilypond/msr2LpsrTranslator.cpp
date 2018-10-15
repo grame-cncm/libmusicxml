@@ -3712,7 +3712,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         s <<
           "double tremolo note '" << fCurrentNonGraceNoteClone->asShortString () <<
-          "' met outside of a double tremolo";
+          "' found outside of a double tremolo";
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
@@ -3736,7 +3736,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         s <<
           "grace note '" << fCurrentNonGraceNoteClone->asShortString () <<
-          "' met outside of grace notes";
+          "' found outside of grace notes";
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,

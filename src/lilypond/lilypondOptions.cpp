@@ -495,7 +495,7 @@ By default, relative octaves are generated.)",
         optionsBooleanItem::create (
           "alldurs", "all-durations",
 R"(Generate all LilyPond durations. 
-By default, a duration equal to preceding one met in the current voice
+By default, a duration equal to preceding one found in the current voice
 is omitted for code conciseness.)",
           "allDurations",
           fAllDurations));

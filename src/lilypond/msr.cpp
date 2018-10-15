@@ -24220,13 +24220,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
             "The current contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
 #endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-
+  
         // this occurs after an empty measure has just been created,
         // hence the repeated measure/measures is/are the
         // measuresRepeatMeasuresNumber measures preceding the last one
@@ -24402,12 +24402,12 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
 #endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
 
         // keep the measure repeat pending
       }
@@ -25384,12 +25384,12 @@ void msrVoice::appendMultipleRestCloneToVoice (
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
 #endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
       }
       break;
   } // switch

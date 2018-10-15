@@ -2325,7 +2325,7 @@ void lpsr2LilypondTranslator::generateOrnament (
             denominator <<
           "\\turn ";
 
-        // forget about the last met whole notes duration,
+        // forget about the last found whole notes duration,
         // since the latter has been multipled by fDelayedOrnamentsFraction
         fLastMetWholeNotes = rational (0, 1);
       }
