@@ -85,7 +85,7 @@ $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
 # building the library for iOS
 #===============================================================
 $(IOS) : $(IOS)/libmusicxml2.xcodeproj
-	cmake --build $(MACX) --config Release -- -jobs 4
+	cmake --build $(IOS) --config Release -- -jobs 4
 	cp $(IOS)/Release-iphoneos/libmusicxml2.a .
 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
