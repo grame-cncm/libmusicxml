@@ -182,7 +182,8 @@ void timing::print (ostream& os) const
     "  " <<
     setw (totalOptionalClockWidth) <<
     float(totalOptionalClock) / CLOCKS_PER_SEC <<
-    endl << endl;
+    endl <<
+    endl;
 }
 
 timing timing::gTiming;

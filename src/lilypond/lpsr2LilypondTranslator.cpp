@@ -18,6 +18,7 @@
 #include <cmath>
 #include <string>
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -451,11 +452,6 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
   int               inputLineNumber,
   S_msrStringTuning stringTuning)
 {
-  int
-    getStringTuningNumber =
-      stringTuning->
-        getStringTuningNumber ();
-
   msrDiatonicPitchKind
     stringTuningDiatonicPitchKind =
       stringTuning->
@@ -481,6 +477,11 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceScordaturas) {
+    int
+      getStringTuningNumber =
+        stringTuning->
+          getStringTuningNumber ();
+
     fLilypondCodeIOstream <<
       endl <<
       "%getStringTuningNumber = " <<
@@ -573,9 +574,6 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   int noteAbsoluteOctave =
     note->getNoteOctave ();
     
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
-
   // should an absolute octave be generated?
   bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
@@ -584,7 +582,10 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
-    const int fieldWidth = 28;
+    int noteAbsoluteDisplayOctave =
+      note->getNoteDisplayOctave ();
+  
+      const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
       endl <<
@@ -724,14 +725,14 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   int noteAbsoluteOctave =
     note->getNoteOctave ();
     
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
-
   // should an absolute octave be generated?
   bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
+
+  int noteAbsoluteDisplayOctave =
+    note->getNoteDisplayOctave ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {
@@ -2324,7 +2325,7 @@ void lpsr2LilypondTranslator::generateOrnament (
             denominator <<
           "\\turn ";
 
-        // forget about the last met whole notes duration,
+        // forget about the last found whole notes duration,
         // since the latter has been multipled by fDelayedOrnamentsFraction
         fLastMetWholeNotes = rational (0, 1);
       }
@@ -3507,6 +3508,9 @@ string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
       break;
     case lpsrVarValsListAssoc::kMusicXMLLyricist:
       result = "lyricist";
+      break;
+    case lpsrVarValsListAssoc::kMusicXMLTranslator:
+      result = "translator";
       break;
     case lpsrVarValsListAssoc::kMusicXMLSoftware:
       result = "software";
@@ -6044,7 +6048,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
     elt->getStaffToChangeTo ()->getStaffName () <<
     "\"";
 
-  if (true || gLilypondOptions->fNoteInputLineNumbers) { // JMI
+  if (gLilypondOptions->fNoteInputLineNumbers) { // JMI
     // print the staff change line number as a comment
     fLilypondCodeIOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
@@ -6679,7 +6683,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       endl;
   }
 
- // JMI if (true || ! fOnGoingMultipleRestMeasures) {}
+ // JMI if (! fOnGoingMultipleRestMeasures) {}
   {
     // handle the measure
     switch (measureKind) {
@@ -9264,6 +9268,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       }
       break;
 
+    case msrNote::kSkipNote:
+      if (elt->getNoteGraceNotesGroupUplink ()) {
+#ifdef TRACE_OPTIONS
+        if (
+          gMsrOptions->fTraceMsrVisitors
+            ||
+          gTraceOptions->fTraceNotes
+        ) {
+          gLogIOstream <<
+            "% ==> start visiting skip notes is ignored" <<
+            endl;
+        }
+#endif
+  
+          return;
+      }
+      break;
+      
     case msrNote::kGraceNote:
 #ifdef TRACE_OPTIONS
         if (
@@ -10058,6 +10080,24 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       }
       break;
 
+    case msrNote::kSkipNote:
+      if (elt->getNoteGraceNotesGroupUplink ()) {
+#ifdef TRACE_OPTIONS
+        if (
+          gMsrOptions->fTraceMsrVisitors
+            ||
+          gTraceOptions->fTraceNotes
+        ) {
+          gLogIOstream <<
+            "% ==> end visiting skip notes is ignored" <<
+            endl;
+        }
+#endif
+
+        return;
+      }
+      break;
+      
     case msrNote::kGraceNote:
 #ifdef TRACE_OPTIONS
         if (
@@ -11769,6 +11809,32 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     return;
   }
 #endif
+  
+  // print the chord's grace notes before if any,
+  // but not ??? JMI
+  S_msrGraceNotesGroup
+    chordGraceNotesGroupBefore =
+      elt->getChordGraceNotesGroupBefore ();
+
+/* JMI
+  gLogIOstream <<
+    "% chordGraceNotesGroupBefore = ";
+  if (chordGraceNotesGroupBefore) {
+    gLogIOstream <<
+      chordGraceNotesGroupBefore;
+  }
+  else {
+    gLogIOstream <<
+      "nullptr";
+  }
+  gLogIOstream <<
+    endl;
+*/
+
+  if (chordGraceNotesGroupBefore) {
+    generateGraceNotesGroup (
+      chordGraceNotesGroupBefore);
+  }
   
   // print the chord glissandos styles if any
   const list<S_msrGlissando>&

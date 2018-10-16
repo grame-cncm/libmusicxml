@@ -18,6 +18,7 @@
 
 #include "lpsrVarValAssocs.h"
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -458,6 +459,9 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
       break;
     case lpsrVarValsListAssoc::kMusicXMLLyricist:
       result = "lyricist";
+      break;
+    case lpsrVarValsListAssoc::kMusicXMLTranslator:
+      result = "translator";
       break;
       
     case lpsrVarValsListAssoc::kMusicXMLSoftware:

@@ -10,26 +10,6 @@
   research@grame.fr
 */
 
-/*
-#include <iostream>
-#include <list>
-#include <algorithm>
-#include <iomanip>      // setw, setprecision, ...
-#include <climits>      // INT_MIN, INT_MAX
-
-#include "version.h"
-
-#include "lpsr.h"
-
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
-#include "lilypondOptions.h"
-
-#include "xml2lyOptionsHandling.h"
-*/
-
 #include "lpsrParallelMusic.h"
 
 #include "lpsrComments.h"

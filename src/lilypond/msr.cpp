@@ -19,6 +19,7 @@
 
 #include "msr.h"
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -1334,6 +1335,10 @@ void msrGraceNotesGroup::appendNoteToGraceNotesGroup (S_msrNote note)
 
   fGraceNotesGroupElementsList.push_back (note);
 
+  // register note's grace notes groups uplink
+  note->
+    setNoteGraceNotesGroupUplink (this);
+
   // is this grace note tied?
   if (note->getNoteTie ()) {
     fGraceNotesGroupIsTied = true;
@@ -2377,12 +2382,6 @@ void msrNote::initializeNote ()
       endl;
           
     gIndenter--;
-
-/*
-    gLogIOstream <<
-      "% <==" <<
-      endl << endl;
-*/
   }
 #endif
 
@@ -3213,7 +3212,11 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   /* JMI
-  
+
+    S_msrTuplet           fNoteChordUplink;
+
+    S_msrGraceNotesGroup  fNoteGraceNoteGroupUplink;
+
     S_msrTuplet           fNoteTupletUplink;
 
     S_msrMeasure          fNoteMeasureUplink;
@@ -5500,12 +5503,60 @@ void msrNote::print (ostream& os)
       endl;
   }
   
+  if (fNoteChordUplink || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteChordUplink";
+      
+    if (fNoteChordUplink) {
+      os <<
+        endl;
+      gIndenter++;
+
+      os <<
+        fNoteChordUplink->asShortString ();
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none";
+    }
+
+    os <<
+      endl;
+  }
+
+  if (fNoteGraceNotesGroupUplink || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteGraceNoteGroupUplink";
+      
+    if (fNoteGraceNotesGroupUplink) {
+      os <<
+        endl;
+      gIndenter++;
+
+      os <<
+        fNoteGraceNotesGroupUplink->asShortString ();
+
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none";
+    }
+
+    os <<
+      endl;
+  }
+
   if (fNoteTupletUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteTupletUplink";
       
-    if (fNoteMeasureUplink) {
+    if (fNoteTupletUplink) {
       os <<
         endl;
       gIndenter++;
@@ -7123,7 +7174,9 @@ string msrChord::chordGraphicDurationAsMsrString () const
 }
 */
 
-void msrChord::addFirstNoteToChord (S_msrNote note)
+void msrChord::addFirstNoteToChord (
+  S_msrNote  note,
+  S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
@@ -7140,19 +7193,37 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   // append note to chord notes
   fChordNotesVector.push_back (note);
 
+  // register note's chord uplink
+  note->
+    setNoteChordUplink (this);
+
   // mark note as belonging to a chord
-  note->setNoteIsAChordsFirstMemberNote ();
-  
-  // mark note as being the first one in the chord
   note->setNoteBelongsToAChord ();
   
+  // mark note as being the first one in the chord
+  note->setNoteIsAChordsFirstMemberNote ();
+          
+  // is note the first one in this voice?
+  if (! voice->getVoiceFirstNote ()) {
+    voice->
+      registerNoteAsVoiceFirstNote (note);
+  }
+    
+  // register note as the last appended one into this voice
+  /* JMI
+  voice->
+    registerNoteAsVoiceLastAppendedNote (note);
+    */
+
   // populate note's position in measure // JMI
   note->
     setNotePositionInMeasure (
       fChordPositionInMeasure);
 }
 
-void msrChord::addAnotherNoteToChord (S_msrNote note)
+void msrChord::addAnotherNoteToChord (
+  S_msrNote  note,
+  S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
@@ -7168,8 +7239,19 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
 
   fChordNotesVector.push_back (note);
   
+  // register note's chord uplink
+  note->
+    setNoteChordUplink (this);
+
+  // mark note as belonging to a chord
   note->setNoteBelongsToAChord ();
-  
+
+/* JMI
+  // register note as the last appended one into this voice
+  voice->
+    registerNoteAsVoiceLastAppendedNote (note);
+    */
+
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fChordPositionInMeasure);
@@ -8347,7 +8429,9 @@ string msrTuplet::tupletShowTypeKindAsString (
   return result;
 }
       
-void msrTuplet::addNoteToTuplet (S_msrNote note)
+void msrTuplet::addNoteToTuplet (
+  S_msrNote  note,
+  S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
@@ -8376,7 +8460,21 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();  
   fTupletDisplayWholeNotes.rationalise ();
-    
+
+/* JMIJMI
+  if (voice) { // JMI ???
+    // get the tuplet's first note
+    S_msrNote
+      tupletFirstNote = fTupletElementsList.front ();
+  
+    // is tupletFirstNote the first one in this voice?
+    if (! voice->getVoiceFirstNote ()) {
+      voice->
+        registerNoteAsVoiceFirstNote (tupletFirstNote); // JMI
+    }
+  }
+      */
+      
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fTupletPositionInMeasure);
@@ -8740,69 +8838,6 @@ rational msrTuplet::setTupletPositionInMeasure (
 
   return currentPosition;
 }
-
-/* JMI
-void msrTuplet::applyDisplayFactorToTupletMembers ()
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTuplets) {
-    gLogIOstream <<
-      "% ==> applyDisplayFactorToTupletMembers ()" <<
-      endl;
-
-    gIndenter++;
-    
-    gLogIOstream <<
-      "% fTupletActualNotes = " <<
-      fTupletActualNotes <<
-      ", fTupletNormalNotes = " <<
-      fTupletNormalNotes <<
-      endl <<
-      endl;
-
-    gIndenter--;
-  }
-#endif
-
-  for (
-    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
-    i != fTupletElementsList.end ();
-    i++ ) {
-    // apply sounding factor to tuplet element
-    
-    if (
-      S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-      ) {    
-      note->
-        applyTupletMemberSoundingFactorToNote (
-          fTupletActualNotes, fTupletNormalNotes);
-     }
-  
-    else if (
-      S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
-      ) {
-      chord->
-        applyTupletMemberDisplayFactorToChordMembers (
-          fTupletActualNotes, fTupletNormalNotes);
-    }
-    
-    else if (
-      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
-      ) {
-      // don't apply the sounding factor to nested tuplets
- // JMI     tuplet->
-       // applyDisplayFactorToTupletMembers ();
-    }
-    
-    else {
-      msrInternalError (
-        fInputLineNumber,
-        "tuplet member should be a note, a chord or another tuplet");
-    }
-
-  } // for
-}
-*/
 
 void msrTuplet::unapplySoundingFactorToTupletMembers (
   const msrTupletFactor& containingTupletFactor)
@@ -9755,20 +9790,6 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
       endl;
 
     gIndenter--;
-      
-/*
-    if (note) { // JMI
-      gLogIOstream <<
-        note->asString () <<
-        ", line " << note->getInputLineNumber ();
-    }
-    else {
-      gLogIOstream << "none";
-    }
-    
-    gLogIOstream <<
-      endl;
-      */
   }
 #endif
 }
@@ -10600,240 +10621,6 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   return syllable;
 }
 
-/* JMI
-S_msrSyllable msrStanza::appendTiedSyllableToStanza (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending 'Tied' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", whole notes = " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-  * 
-  // create stanza tied syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kTiedSyllable,
-        msrSyllable::kSyllableExtendNone,
-        wholeNotes,
-        this);
-        
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  gIndenter--;
-  * 
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendSlurSyllableToStanza (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending 'Slur' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", whole notes = " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-   
-  // create stanza slur syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSlurSyllable,
-        msrSyllable::kSyllableExtendNone,
-        wholeNotes,
-        this);
-        
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  gIndenter--;
-  
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending a 'SlurBeyondEnd' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", whole notes = " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-  
-  // create stanza slur syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kSlurBeyondEndSyllable,
-        msrSyllable::kSyllableExtendNone,
-        wholeNotes,
-        this);
-        
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending 'Ligature' syllable:" <<
-      " to stanza " << getStanzaName () <<
-      ", whole notes = " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-  
-  // create stanza ligature syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kLigatureSyllable,
-        msrSyllable::kSyllableExtendNone,
-        wholeNotes,
-        this);
-        
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
-  int      inputLineNumber,
-  rational wholeNotes)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending a 'LigatureBeyondEnd' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", whole notes = " << wholeNotes <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-  
-  // create stanza ligature syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kLigatureBeyondEndSyllable,
-        msrSyllable::kSyllableExtendNone,
-        wholeNotes,
-        this);
-        
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
-  int    inputLineNumber,
-  string nextMeasureNumber)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending a 'barcheck' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // create stanza break syllable
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kBarcheckSyllable,
- // JMI       nextMeasureNumber,
-        msrSyllable::kSyllableExtendNone,
-        0,  // wholeNotes
-        this);
-       
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  // and return it
-  return syllable;
-}
-
-S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
-  int    inputLineNumber,
-  string nextMeasureNumber)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending a 'bar number check' syllable" <<
-      " to stanza " << getStanzaName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // create stanza break syllable        
-  S_msrSyllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        msrSyllable::kBarNumberCheckSyllable,
- // JMI  nextMeasureNumber,
-        msrSyllable::kSyllableExtendNone,
-        0,  // wholeNotes
-        this);
-       
-  // append syllable to this stanza
-  appendSyllableToStanza (syllable);
-
-  // and return it
-  return syllable;
-}
-*/
-
 S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
@@ -10912,71 +10699,7 @@ void msrStanza::padUpToMeasureLengthInStanza (
   int      inputLineNumber,
   rational measureLength)
 {
-  /* JMI
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Padding up to measure length '" << measureLength <<
-      "' in stanza \"" <<
-      fStanzaName <<
-      "\" in voice \"" <<
-      fStanzaVoiceUplink->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
   // JMI ???
-  rational
-    paddingLength =
-      measureLength - fStanzaCurrentMeasureLength;
-
-  gIndenter++;
-  
-  if (fMeasureLength < measureLength) {
-    // appending a padding rest or skip to this measure to reach measureLength
-    rational
-      missingDuration =
-        measureLength - fMeasureLength;
-    
-    // fetch the measure voice
-    S_msrVoice
-      measureVoice =
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ();
-      
-    // create a rest or a skip depending on measureVoice kind
-    S_msrNote
-      paddingNote =
-        createPaddingNoteForVoice (
-          inputLineNumber,
-          missingDuration,
-          measureVoice);
-
-    // register rest's measure length
-    paddingNote->
-      setNotePositionInMeasure (
-        fMeasureLength);
-           
-  #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
-      gLogIOstream <<
-       "Appending rest" << paddingNote->asString () <<
-       " (missingDuration " << missingDuration <<
-       " whole notes) to skip from length '" << fMeasureLength <<
-       " to length '" << measureLength << "'"
-       " in measure '" << fMeasureNumber <<
-       "in voice \"" << measureVoice->getVoiceName () <<
-       endl;
-    }
-#endif
-
-    // append the rest to the measure elements list
-    // only now to make it possible to remove it afterwards
-    // if it happens to be the first note of a chord
-    appendNoteToMeasure (paddingNote);
-  }
-  */
 }
 
 void msrStanza::appendPaddingNoteToStanza (
@@ -12907,116 +12630,10 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   
   // append time to the measure elements list
   fMeasureElementsList.push_back (time);
-
-/*
-  // set the measure kind, in case there is a left-over from the previous measure???
-  switch (timeSymbolKind) {
-    case msrTime::kTimeSymbolCommon:
-      result = "timeSymbolCommon";
-      break;
-    case msrTime::kTimeSymbolCut:
-      result = "timeSymbolCut";
-      break;
-    case msrTime::kTimeSymbolNote:
-      result = "timeSymbolNote";
-      break;
-    case msrTime::kTimeSymbolDottedNote:
-      result = "timeSymbolDottedNote";
-      break;
-    case msrTime::kTimeSymbolSingleNumber:
-      result = "timeSymbolSingleNumber";
-      break;
-    case msrTime::kTimeSymbolSenzaMisura:
-      result = "timeSymbolSenzaMisura";
-      break;
-    case msrTime::kTimeSymbolNone:
-      result = "timeSymbolNone";
-      break;
-  } // switch
-*/
   
   // set the measure whole notes per full measure
   setMeasureFullLengthFromTime (
     time);
-    
-/* JMI
-  if (time->getTimeSymbolKind () == msrTime::kTimeSymbolSenzaMisura) {
-    
-    // this measure is senza misura
-    
-  #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        " is senza misura" <<
-        endl;
-    }
-#endif
-
-    fMeasureKind = kSenzaMisuraMeasureKind;
-    
-    fMeasureFullLength = INT_MAX; // JMI
-  }
-  
-  else {
-    
-    // this measure is con misura
-    
-    int partDivisionsPerQuarterNote =
-      fetchMeasurePartUplink->
-        getPartDivisionsPerQuarterNote ();
-  
-    rational
-      wholeNotesPerMeasure =
-        time->wholeNotesPerMeasure ();
-        
-  #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceTimes) {
-      gLogIOstream <<
-        time;
-  
-      gLogIOstream <<
-        "has " <<
-        wholeNotesPerMeasure.getNumerator () <<
-        "/" <<
-        wholeNotesPerMeasure.getDenominator () <<
-        " whole note(s) per measure" <<
-        ", line " << fInputLineNumber <<
-        endl;
-    }
-#endif
-    
-    fMeasureFullLength =
-      wholeNotesPerMeasure.getNumerator ()
-        *
-      partDivisionsPerQuarterNote * 4 // hence a whole note
-        /
-      wholeNotesPerMeasure.getDenominator ();
-    
-  
-  #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" <<
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ()->
-            getVoiceName () <<
-        "\"" <<
-        " has " <<
-        singularOrPlural (
-          fMeasureFullLength,
-          "wholeNotes per full measure",
-          "division per full measure") <<
-        endl;
-  }
-#endif
-  */
   
   gIndenter--;
 }
@@ -13537,31 +13154,12 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // this measure contains music
   fMeasureContainsMusic = true;
 
-/* JMI
-  // bring harmony voice to the same measure length
-  fetchMeasurePartUplink->
-    getPartHarmonyVoice ()->
-      padUpToMeasureLengthInVoice (
-        inputLineNumber,
-        fMeasureLength);
-        */
-
   gIndenter--;
 }
 
 void msrMeasure::appendMeasuresRepeatToMeasure (
   S_msrMeasuresRepeat measuresRepeat)
 {
-  /*
-  int inputLineNumber =
-    measuresRepeat->getInputLineNumber ();
-    */
-    
-/* JMI  
-  // populate measure uplink
-  measuresRepeat->setMeasuresRepeatMeasureUplink (this);
-*/
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -13577,52 +13175,11 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
   }
 #endif
   
-/* JMI
-  // register measuresRepeat measure number
-  measuresRepeat->
-    setmeasuresRepeatMeasureNumber (fMeasureNumber);
-  
-  // register measuresRepeat measure position
-  measuresRepeat->
-    setmeasuresRepeatPositionInMeasure (
-      fMeasureLength);
-
-  // copy measure number to first note, that was created beforehand
-  measuresRepeat->
-    setmeasuresRepeatMeasureNumber (
-      fMeasureNumber);
-  
-  // copy measure position to first note, that was created beforehand
-  measuresRepeat->
-    setmeasuresRepeatPositionInMeasure (
-      fMeasureLength);
-
-  // fetch measuresRepeat sounding whole notes
-  int measuresRepeatSoundingWholeNotes =
-    measuresRepeat->getmeasuresRepeatSoundingWholeNotes ();
-    
-  // account for measuresRepeat duration in measure length
-  setMeasureLength (
-    inputLineNumber,
-    fMeasureLength + measuresRepeatSoundingWholeNotes);
-
-  // update part measure length high tide if need be
-  fMeasureDirectPartUplink->
-    updatePartMeasureLengthHighTide (
-      inputLineNumber,
-      fMeasureLength);
-
-  // determine if the measuresRepeat occupies a full measure
-// XXL  JMI  if (measuresRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
-    // measuresRepeat->setmeasuresRepeatOccupiesAFullMeasure ();
-*/
-
   // append the measuresRepeat to the measure elements list
   fMeasureElementsList.push_back (measuresRepeat);
 
   // this measure contains music
   fMeasureContainsMusic = true;
-//*/
 }
 
 void msrMeasure::appendMultipleRestToMeasure (
@@ -13787,26 +13344,6 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
 
   // populate measure uplink
   tuplet->setTupletMeasureUplink (this);
-
-  /* JMI ???
-  // register tuplet measure position in measure
-  rational
-    dummy = // JMI
-      tuplet->
-        setTupletPositionInMeasure (
-          fMeasureLength);
-          */
-
-/* JMI
-  // copy measure number to first note, that was created beforehand
-  tuplet->
-    setTupletFirstNoteMeasureNumber (fMeasureNumber);
-  
-  // copy measure position in measure to first note, that was created beforehand
-  tuplet->
-    setTupletFirstNotePositionInMeasure (
-      fMeasureLength);
- */
   
   // fetch tuplet sousnding whole notes
   rational
@@ -13825,30 +13362,11 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       inputLineNumber,
       fMeasureLength);
 
-/* JMI
-  // set tuplet members' displayed whole notes
-  tuplet->
-    applyDisplayFactorToTupletMembers ();
-    */
-
-  // determine if the tuplet occupies a full measure
-// JMI    if (tupletSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
-    // tuplet->setTupletOccupiesAFullMeasure ();
-
   // append the tuplet to the measure elements list
   fMeasureElementsList.push_back (tuplet);
 
   // this measure contains music
   fMeasureContainsMusic = true;
-
-/* JMI
-  // bring harmony voice to the new measure length
-  fetchMeasurePartUplink->
-    getPartHarmonyVoice ()->
-      padUpToMeasureLengthInVoice (
-        inputLineNumber,
-        fMeasureLength);
-        */
 
   gIndenter--;
 }
@@ -14132,44 +13650,6 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
           inputLineNumber,
           missingDuration,
           measureVoice);
-
-/* JMI
-    switch (measureVoice->getVoiceKind ()) {
-      case msrVoice::kRegularVoice:
-        paddingNote =
-          msrNote::createRestNote (
-            inputLineNumber,
-            missingDuration,
-            missingDuration,
-            0, // dots number JMI ???
-            measureVoice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            measureVoice->
-              getVoiceNumber ());
-        break;
-        
-      case msrVoice::kHarmonyVoice:
-      case msrVoice::kFiguredBassVoice:
-        paddingNote =
-          msrNote::createSkipNote (
-            inputLineNumber,
-            missingDuration,
-            missingDuration,
-            0, // dots number JMI ???
-            measureVoice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            measureVoice->
-              getVoiceNumber ());
-        break;
-    } // switch
-*/
-
-/* JMI
-    // does the rest occupy a full measure?
-    if (missingDuration == fMeasureFullLength)
-      paddingNote->
-        setNoteOccupiesAFullMeasure ();
-  */
   
     // register rest's measure length
     paddingNote->
@@ -14201,12 +13681,6 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
     
     // this measure contains music
     fMeasureContainsMusic = true;
-
-/*
-    // account for rest duration in measure length
-    setMeasureLength (
-      inputLineNumber, fMeasureLength + missingDuration);
-*/
   }
 
   gIndenter--;
@@ -14262,123 +13736,10 @@ void msrMeasure::appendPaddingNoteToMeasure (
   // only now to make it possible to remove it afterwards
   // if it happens to be the first note of a chord
   appendNoteToMeasure (paddingNote);
-
-/* JMI
-  // set this measure as being padded JMI ???
-  this->
-    setMeasureCreatedForARepeatKind (
-      msrMeasure::kMeasureCreatedForARepeatPadded);
-    */
     
   gIndenter--;
 }
 
-/* JMI
-void msrMeasure::addGraceNotesGroupAheadOfMeasure (
-  S_msrGraceNotesGroup graceNotesGroup)
-{
-  // in order to work around LilyPond issue 34,
-  // we need to insert the skip grace notes
-  // after clef, key and time signature if any
-
-  for (
-    list<S_msrElement>::iterator i = fMeasureElementsList.begin ();
-    i != fMeasureElementsList.end ();
-    i++ ) {
-
-    if (
-      S_msrClef clef = dynamic_cast<msrClef*>(&(*(*i)))
-      ) {
-    }
-  
-    else if (
-      S_msrKey key = dynamic_cast<msrKey*>(&(*(*i)))
-      ) {
-    }
-    
-    else if (
-      S_msrTime time = dynamic_cast<msrTime*>(&(*(*i)))
-      ) {
-    }
-    
-    else {
-       // insert graceNotesGroup before (*i) in the list
-       // JMI what about further such occurrences???
-       / * JMI
-      fMeasureElementsList.insert (
-        i, graceNotesGroup);
-* /
-      break;
-    }
-  } // for
-
-  // this measure contains music
-  fMeasureContainsMusic = true;
-}
-  
-void msrMeasure::appendGraceNotesToMeasure (
-  S_msrGraceNotes graceNotes)
-{
-  fMeasureElementsList.push_back (graceNotes);
-
-  // set graceNotes' measure number
-  graceNotes->
-    setGraceNotesMeasureNumber (
-      this->getMeasureNumber ());
-    
-  // this measure contains music
-  fMeasureContainsMusic = true;
-}
-  
-void msrMeasure::appendAfterGraceNotesToMeasure (
-  S_msrAfterGraceNotes afterGraceNotes)
-{
-  fMeasureElementsList.push_back (afterGraceNotes);
-
-  // this measure contains music
-  fMeasureContainsMusic = true;
-}
-  
-void msrMeasure::prependAfterGraceNotesToMeasure (
-  S_msrAfterGraceNotes afterGraceNotes)
-{
-  // in order to work around LilyPond issue 34,
-  // we need to insert the skip after grace notes
-  // after clef, key and time signature if any
-
-  for (
-    list<S_msrElement>::iterator i = fMeasureElementsList.begin ();
-    i != fMeasureElementsList.end ();
-    i++ ) {
-
-    if (
-      S_msrClef clef = dynamic_cast<msrClef*>(&(*(*i)))
-      ) {
-    }
-  
-    else if (
-      S_msrKey key = dynamic_cast<msrKey*>(&(*(*i)))
-      ) {
-    }
-    
-    else if (
-      S_msrTime time = dynamic_cast<msrTime*>(&(*(*i)))
-      ) {
-    }
-    
-    else {
-       // insert afterGraceNotes before (*i) in the list
-      fMeasureElementsList.insert (
-        i, afterGraceNotes);
-
-      break;
-    }
-  } // for
-
-  // this measure contains music
-  fMeasureContainsMusic = true;
-}
-*/
 
 void msrMeasure::appendTempoToMeasure (
   S_msrTempo tempo)
@@ -14492,8 +13853,6 @@ void msrMeasure::removeNoteFromMeasure (
   }
 #endif
 
-  gIndenter++;
-
   for (
     list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
@@ -14547,8 +13906,6 @@ void msrMeasure::removeNoteFromMeasure (
     endl <<
     endl;
     
-  gIndenter--;
-
   stringstream s;
 
   s <<
@@ -14641,93 +13998,6 @@ void msrMeasure::removeElementFromMeasure (
     __FILE__, __LINE__,
     s.str ());
 }
-
-/* JMI
-S_msrElement msrMeasure::removeLastElementFromMeasure (
-  int inputLineNumber)
-{
-  // fetching measure last element
-  S_msrElement
-    measureLastElement =
-      fMeasureElementsList.back ();
-      
-  if (gGeneralOptions->fDebug) {
-//  if (gGeneralOptions->fDebug) {
-    gLogIOstream <<
-      "% --> removing last element:" <<
-      endl;
-
-    gIndenter++;
-    gLogIOstream <<
-      measureLastElement;
-    gIndenter--;
-    
-    gLogIOstream <<
-      endl <<
-      " from measure '" <<
-      fMeasureNumber <<
-      "' in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
-      "\"," <<
-      endl;
-
-    gIndenter++;
-    gLogIOstream <<
-      "fMeasureLastHandledNote:" <<
-      endl <<
-      fMeasureLastHandledNote <<
-      endl;
-    gIndenter--;
-  }
-  
-  if (fMeasureElementsList.size ()) {
-
-    if (fMeasureLastHandledNote) {
-      // there's at least a note in the meastuer
-      
-      if (fMeasureLastHandledNote == measureLastElement) {
-        // remove last element
-        fMeasureElementsList.pop_back ();
-
-        // update measure length
-        fMeasureLength -=
-          fMeasureLastHandledNote->getNoteSoundingWholeNotes ();
-/ *
-// JMI
-        // set note's measure position, needed for chord handling
-        fMeasureLastHandledNote->
-          setNotePositionInMeasure (fMeasureLength);
-* /
-      }
-
-      else {
-        msrInternalError (
-          inputLineNumber,
-          "cannot removeLastElementFromMeasure () since "
-          "fMeasureLastHandledNote is not the last element");
-        }
-    }
-
-    else {
-      msrInternalError (
-        inputLineNumber,
-        "cannot removeLastElementFromMeasure () since "
-        "fMeasureLastHandledNote is null");
-    }
-  }
-  
-  else {
-    msrInternalError (
-      inputLineNumber,
-      "cannot removeLastElementFromMeasure () "
-      "since fMeasureElementsList is empty");
-  }
-
-  return measureLastElement;
-}
-*/
 
 void msrMeasure::determineMeasureKind (
   int inputLineNumber)
@@ -14909,45 +14179,6 @@ void msrMeasure::padUpToPartMeasureLengthHighTide (
           missingDuration,
           measureVoice);
 
-/* JMI
-
-    switch (measureVoice->getVoiceKind ()) {
-      case msrVoice::kRegularVoice:
-        paddingNote =
-          msrNote::createRestNote (
-            inputLineNumber,
-            missingDuration,
-            missingDuration,
-            0, // dots number JMI ???
-            measureVoice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            measureVoice->
-              getVoiceNumber ());
-        break;
-        
-      case msrVoice::kHarmonyVoice:
-      case msrVoice::kFiguredBassVoice:
-        paddingNote =
-          msrNote::createSkipNote (
-            inputLineNumber,
-            missingDuration,
-            missingDuration,
-            0, // dots number JMI ???
-            measureVoice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            measureVoice->
-              getVoiceNumber ());
-        break;
-    } // switch
-*/
-
-/* JMI
-    // does the rest occupy a full measure?
-    if (missingDuration == fMeasureFullLength)
-      paddingNote->
-        setNoteOccupiesAFullMeasure ();
-  */
-  
     // register rest's position in measure
     paddingNote->
       setNotePositionInMeasure (fMeasureLength);
@@ -15115,8 +14346,6 @@ void msrMeasure::finalizeMeasure (
       endl <<
       ", line " << inputLineNumber <<
       endl;
-
-  //  abort ();
   }
 }
 
@@ -15304,8 +14533,7 @@ string msrMeasure::asShortString () const
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
-    ", line " << fInputLineNumber <<
-    endl;
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }
@@ -15766,20 +14994,6 @@ void msrSegment::setNextMeasureNumberInSegment (
         nextMeasureNumber);
   }
 
-/* JMI
-  else { // JMI
-    gLogIOstream <<
-      endl <<
-      endl <<
-      endl <<
-      fSegmentVoiceUplink <<
-      endl <<
-      endl;
-
-    exit (1);
-  }
-  */
-
   gIndenter--;   
 }
 
@@ -15904,25 +15118,6 @@ void msrSegment::finalizeCurrentMeasureInSegment (
               inputLineNumber);
         break;
     } // switch
-
-    /* JMI
-    else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
-        stringstream s;
-    
-        gLogIOstream <<
-          "Cannot finalize current measure '" <<
-          lastMeasure->getMeasureNumber () <<
-          "' in segment '" <<
-          asString () <<
-          "' since it is empty, removing it";
-      }
-#endif
-    
-      fSegmentMeasuresList.pop_back ();
-    }
-  */
   
 #ifdef TRACE_OPTIONS
     if (
@@ -15946,7 +15141,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   }
 
   else {
-    /*
+    /* JMI
 #ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceMeasuresDetails
@@ -15967,13 +15162,17 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     }
 #endif
     */
+  }
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Segment '" <<
       fSegmentAbsoluteNumber <<
       "' has no measures to finalize" <<
       endl;
   }
+#endif
 
   gIndenter--;
 }
@@ -15994,11 +15193,6 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
   gIndenter++;
   
-      /* JMI
-  fetchSegmentPartUplink ()->
-    print (gLogIOstream);
-*/
-
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
@@ -16050,11 +15244,6 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 
   gIndenter++;
   
-      /* JMI
-  fetchSegmentPartUplink ()->
-    print (gLogIOstream);
-*/
-
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
@@ -16104,9 +15293,6 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
   }
 #endif
       
-  // register key in segment
-// JMI  fSegmentKey = key;
-
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
@@ -18441,25 +17627,6 @@ void msrRepeat::print (ostream& os)
       endl;
   }
   
-/* JMI
-  // print the repeat common segment
-  os <<
-    "Common segment: ";
-  if (! fRepeatCommonSegment) {
-    os << "none";
-  }
-  os << endl;
-
-  if (fRepeatCommonSegment) {
-    gIndenter++;
-    
-    os <<
-      fRepeatCommonSegment <<
-      endl;
-
-    gIndenter--;
-  }
-*/
   // print the repeat endings
   int endingsNumber =
     fRepeatEndings.size ();
@@ -21182,6 +20349,200 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
   gIndenter--;
 }
 
+S_msrNote msrVoice::fetchVoiceFirstNoteForLilypondIssue34 () const
+{
+  S_msrNote result;
+
+  if (fVoiceFirstSegment) {
+    // get the segment's measures list
+    const list<S_msrMeasure>&
+      firstSegmentMeasuresList =
+        fVoiceFirstSegment->
+          getSegmentMeasuresList ();
+
+    if (firstSegmentMeasuresList.size ()) {
+      // get the segment's first measure
+      S_msrMeasure
+        firstMeasure =
+          firstSegmentMeasuresList.front ();
+
+      // get the first measure's elements list
+      const list<S_msrElement>&
+        firstMeasureElementsList =
+          firstMeasure->
+            getMeasureElementsList ();
+
+      // fetch the first note in the first measure to which
+      // a grace notes group can be attached
+      // i.e. one not in a grace notes group itself,
+      // possibly inside a chord or tuplet
+
+      if (firstMeasureElementsList.size ()) {
+        list<S_msrElement>::const_iterator
+          iBegin = firstMeasureElementsList.begin (),
+          iEnd   = firstMeasureElementsList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          
+          if (
+            S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
+            ) {    
+            result = note;
+            break;
+          }
+        
+          else if (
+            S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
+            ) {
+            // get the chord's notes vector
+            const vector<S_msrNote>&
+              chordNotesVector =
+                chord->
+                  getChordNotesVector ();
+                    
+            if (chordNotesVector.size () > 0) {
+              // return the chord's first note
+              result = chordNotesVector [0];
+            }
+            break;
+          }
+          
+          else if (
+            S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
+            ) {
+            // get the tuplet's elements list
+            const list<S_msrElement>&
+              tupletElementsList =
+                tuplet->getTupletElementsList ();
+
+            if (tupletElementsList.size ()) {
+              list<S_msrElement>::const_iterator
+                iBegin = tupletElementsList.begin (),
+                iEnd   = tupletElementsList.end (),
+                i      = iBegin;
+              for ( ; ; ) {
+      
+            /* JMIJMI
+                if (
+                  S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
+                  ) {    
+                  result = note;
+                  break;
+                }
+              
+                else if (
+                  S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
+                  ) {
+                  // get the chord's notes vector
+                  const vector<S_msrNote>&
+                    chordNotesVector =
+                      chord->
+                        getChordNotesVector ();
+                          
+                  if (chordNotesVector.size () > 0) {
+                    // return the chord's first note
+                    result = chordNotesVector [0];
+                  }
+                  break;
+                }
+              */
+
+                if (++i == iEnd) break;
+              } // for
+            }
+
+            result = nullptr; // JMI
+            break;
+          }
+          
+          else {
+            msrInternalError (
+              gXml2lyOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              "tuplet member should be a note, a chord or another tuplet");
+          }
+      
+          if (++i == iEnd) break;
+        } // for
+      }
+    }
+  }
+
+  return result;
+}
+
+void msrVoice::registerNoteAsVoiceFirstNote (S_msrNote note)
+{
+  // is the first note in this voice already known?
+  if (! fVoiceFirstNote) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Register note '" <<
+        note->asShortString () <<
+        "' a first one in voice \"" <<
+        getVoiceName () <<
+        "\"";
+    }
+#endif
+
+    fVoiceFirstNote = note;
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "Cannot register note '" <<
+      note->asShortString () <<
+      "' a first one in voice \"" <<
+      getVoiceName () <<
+      "\", since it is already known as '" <<
+      fVoiceFirstNote->asShortString () <<
+      "'";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      note->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  
+  // is note the shortest one in this voice?
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      note->getNoteDisplayWholeNotes (); // JMI
+      
+  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+  }
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
+}
+
+void msrVoice::registerNoteAsVoiceLastAppendedNote (S_msrNote note)
+{
+  fVoiceLastAppendedNote = note;
+  
+  // is note the shortest one in this voice?
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      note->getNoteDisplayWholeNotes (); // JMI
+      
+  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+  }
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
+}
+
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
@@ -21824,7 +21185,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // is this note the first one in this voice?
   if (! fVoiceFirstNote) {
-    fVoiceFirstNote = note;
+    registerNoteAsVoiceFirstNote (note);
   }
   
   // is this note the shortest one in this voice?
@@ -21923,7 +21284,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
 
   // is this note the first one in this voice?
   if (! fVoiceFirstNote) {
-    fVoiceFirstNote = note;
+    registerNoteAsVoiceFirstNote (note);
   }
   
   // is this note the shortest one in this voice?
@@ -21986,6 +21347,65 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
   fVoiceLastSegment->
     appendChordToSegment (chord);
 
+  // get the chord's notes vector
+  const vector<S_msrNote>&
+    chordNotesVector =
+      chord->
+        getChordNotesVector ();
+
+  int chordNotesVectorSize =
+    chordNotesVector.size ();
+
+  if (chordNotesVectorSize > 0) {
+    {
+      // get the chord's first note
+      S_msrNote
+        chordFirstNote = chordNotesVector [0];
+    
+      // is chordFirstNote the first one in this voice?
+      if (! fVoiceFirstNote) {
+        registerNoteAsVoiceFirstNote (chordFirstNote);
+      }
+      
+      // is chordFirstNote the shortest one in this voice?
+      rational
+        noteSoundingWholeNotes =
+          chordFirstNote->getNoteSoundingWholeNotes (),
+        noteDisplayWholeNotes =
+          chordFirstNote->getNoteDisplayWholeNotes (); // JMI
+          
+      if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+      }
+      if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+      }
+    }
+    
+    {
+      // get the chord's last note
+      S_msrNote
+        chordLastNote = chordNotesVector [chordNotesVectorSize - 1];
+    
+      // is chordLastNote the shortest one in this voice?
+      rational
+        noteSoundingWholeNotes =
+          chordLastNote->getNoteSoundingWholeNotes (),
+        noteDisplayWholeNotes =
+          chordLastNote->getNoteDisplayWholeNotes (); // JMI
+          
+      if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+      }
+      if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+        fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+      }
+  
+      // register chordLastNote as the last appended one into this voice
+      fVoiceLastAppendedNote = chordLastNote;
+    }
+  }
+  
   fMusicHasBeenInsertedInVoice = true;
 }
 
@@ -22014,30 +21434,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
   fMusicHasBeenInsertedInVoice = true;
 }
 
-/* JMI
-void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGraceNotes) {
-    gLogIOstream <<
-      "Appending grace notes " << // JMI graceNotes <<
-      " to voice \"" << getVoiceName () << "\"" <<
-      endl;
-  }
-#endif
-
-  // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNotYetDone (
-    graceNotes->getInputLineNumber ());
-
-  fVoiceLastSegment->
-    appendGraceNotesToSegment (graceNotes);
-
-  fMusicHasBeenInsertedInVoice = true;
-}
-*/
-
-void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
+void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
   S_msrGraceNotesGroup graceNotesGroup)
 {
   int inputLineNumber =
@@ -22046,9 +21443,9 @@ void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Prepending grace notes '" <<
+      "Adding grace notes '" <<
       graceNotesGroup->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "' ahead of voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -22085,10 +21482,52 @@ void msrVoice::addGraceNotesGroupAheadOfVoiceIfNeeded (
       msrMeasure::kMeasureImplicitNo);
   }
   
-  // such grace notes groups should be attached to the voice's first note
-  fVoiceFirstNote->
-    setNoteGraceNotesGroupBefore (
-      graceNotesGroup);
+  // such grace notes groups should be attached to the voice's first note,
+  // or to the first chord if the latter belongs to such
+
+  // get the voice first note's chord uplink
+  S_msrChord
+    firstNoteChordUplink =
+      fVoiceFirstNote->
+        getNoteChordUplink ();
+      
+  if (firstNoteChordUplink) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
+      gLogIOstream <<
+        "Attaching grace notes before '" <<
+        graceNotesGroup->asString () <<
+        "' to the first chord of voice \"" << getVoiceName () <<
+        "\", i.e. '" <<
+        firstNoteChordUplink->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    firstNoteChordUplink->
+      setChordGraceNotesGroupBefore (
+        graceNotesGroup);
+  }
+  
+  else {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceChords) {
+      gLogIOstream <<
+        "Attaching grace notes before '" <<
+        graceNotesGroup->asString () <<
+        "' to the first note of voice \"" << getVoiceName () <<
+        "\", i.e. '" <<
+        fVoiceFirstNote->asShortString () <<
+        "'" <<
+        endl;
+    }
+#endif
+
+    fVoiceFirstNote->
+      setNoteGraceNotesGroupBefore (
+        graceNotesGroup);
+  }
 
   fMusicHasBeenInsertedInVoice = true;
 }
@@ -23818,13 +23257,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
             "The current contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
 #endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-
+  
         // this occurs after an empty measure has just been created,
         // hence the repeated measure/measures is/are the
         // measuresRepeatMeasuresNumber measures preceding the last one
@@ -24000,12 +23439,12 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
 #endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
 
         // keep the measure repeat pending
       }
@@ -24187,25 +23626,6 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMeasuresRepeat);
-
-/* JMI
-        // print resulting voice contents
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
-          gLogIOstream <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-        }
-#endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-        
-        // forget about this pending measure repeat
- // JMI ???       fVoiceCurrentMeasuresRepeat = nullptr;
- */
       }
       break;
   } // switch
@@ -24350,25 +23770,6 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
             
         createNewLastSegmentForVoice (
           inputLineNumber);
-
-/* JMI
-        // print resulting voice contents
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
-          gLogIOstream <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-        }
-#endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-        
-        // forget about this pending measure repeat
-    // JMI ???    fVoiceCurrentMeasuresRepeat = nullptr;
-    */
       }
       break;
   } // switch
@@ -24559,22 +23960,6 @@ void msrVoice::appendPendingMultipleRestToVoice (
         }
 #endif
 
-/* JMI
-        // print current voice contents
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
-          gLogIOstream <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-
-          gIndenter++;
-          print (gLogIOstream);
-          gIndenter--;
-        }
-#endif
-*/
-
         // does the pending multiple rest exist?
         if (! fVoicePendingMultipleRest) {
           stringstream s;
@@ -24615,7 +24000,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           nextMeasureAfterMultipleRest =
             voiceLastSegmentMeasureList.back ();
 
-        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             endl <<
             "==========> nextMeasureAfterMultipleRest:" <<
@@ -24682,26 +24067,6 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // append pending multiple rest to the list of initial elements
         fVoiceInitialElementsList.push_back (
           fVoicePendingMultipleRest);
-
-/* JMI
-        // print current voice contents
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
-          gLogIOstream <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-  
-          gIndenter++;
-          print (gLogIOstream);
-          gIndenter--;
-
-          gLogIOstream <<
-            "<================= The current voice contents of voice \"" <<
-            endl;
-        }
-#endif
-*/
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
@@ -24922,22 +24287,6 @@ void msrVoice::appendMultipleRestCloneToVoice (
         }
 #endif
 
-/*
-        // print current voice contents
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
-          gLogIOstream <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-
-          gIndenter++;
-          print (gLogIOstream);
-          gIndenter--;
-        }
-#endif
-*/
-
         // is this multiple rest nested in a repeat?
         if (fVoiceCurrentRepeat) {
           // yes
@@ -24982,12 +24331,12 @@ void msrVoice::appendMultipleRestCloneToVoice (
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
 #endif
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
       }
       break;
   } // switch
@@ -25138,14 +24487,6 @@ void msrVoice::appendRepeatEndingToVoice (
 #endif
 
         gIndenter++;
-
-/* JMI        
-        // fetch last measure's full measure length
-        int measureFullLength =
-          fVoiceLastSegment->
-            getSegmentMeasuresList ().back ()->
-                getMeasureFullLength ();
-*/
 
         // sanity check
         msrAssert (
@@ -26259,16 +25600,6 @@ void msrStaff::initializeStaff ()
       break;
   } // switch
 
-/* JMI
-  // set fStaffCurrentClef to the default treble clef,
-  // but dont append it to the staff:
-  // it's used to check for a clef change in the MusicXML data
-  fStaffCurrentClef =
-      msrClef::create (
-        0, // inputLineNumber
-        msrClef::kTrebleClef);
-*/
-
   // get the initial staff details from the part if any
   S_msrStaffDetails
     partStaffDetails =
@@ -26327,57 +25658,8 @@ void msrStaff::initializeStaff ()
 
       appendKeyToStaff (key);
     }
-      /* JMI
-    else {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves) {
-        gLogIOstream <<
-          "Appending default C major key " <<
-          " to staff \"" <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
-#endif
-          
-      // create the implicit initial C major key
-      appendKeyToStaff (
-        msrKey::createTraditional (
-          fInputLineNumber,
-          k_cNatural,
-          msrKey::kMajorMode,
-          0)); // keyCancel
-    }
-     */
   }
-  
-  // get the initial time from the part if any
-  {
-    /* JMI
-    S_msrTime
-      time =
-        fStaffPartUplink->
-          getPartCurrentTime ();
-
-    if (time) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceTimes) {
-        gLogIOstream <<
-          "Appending part time '" << time->asString () <<
-          "' as initial time to staff \"" <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
-#endif
-
-      appendTimeToStaff (time);
-    }
-    */
-  }
-  
+    
   // get the initial transpose from the part if any
   {
     S_msrTranspose
@@ -26540,7 +25822,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
-    i++) {
+    i++
+  ) {
     S_msrVoice
       voice = (*i).second;
 
@@ -26549,53 +25832,33 @@ void msrStaff::createMeasureAndAppendItToStaff (
       voice != nullptr,
       "voice is null");
     
-  switch (voice->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
+    switch (voice->getVoiceKind ()) {
+      case msrVoice::kRegularVoice:
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
-        gLogIOstream <<
-          "Propagating the creation and appending of measure '" <<
-          measureNumber <<
-          "', line " << inputLineNumber <<
-          ", to voice \"" << voice->getVoiceName () << "\"" <<
-          endl;
-      }
+        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+          gLogIOstream <<
+            "Propagating the creation and appending of measure '" <<
+            measureNumber <<
+            "', line " << inputLineNumber <<
+            ", to voice \"" << voice->getVoiceName () << "\"" <<
+            endl;
+        }
 #endif
   
-      voice->
-        createMeasureAndAppendItToVoice (
-          inputLineNumber,
-          measureNumber,
-          measureOrdinalNumber,
-          measureImplicitKind);
-      break;
-      
-    case msrVoice::kHarmonyVoice:
-      break;
-      
-    case msrVoice::kFiguredBassVoice:
-      break;
-  } // switch
-
-/* JMI
-  #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
-      gLogIOstream <<
-        "Propagating the creation and appending of measure '" <<
-        measureNumber <<
-        "', line " << inputLineNumber <<
-        ", to voice \"" << voice->getVoiceName () << "\"" <<
-        endl;
-    }
-#endif
-
-    voice->
-      createMeasureAndAppendItToVoice (
-        inputLineNumber,
-        measureNumber,
-        measureOrdinalNumber,
-        measureImplicitKind);
-        */
+        voice->
+          createMeasureAndAppendItToVoice (
+            inputLineNumber,
+            measureNumber,
+            measureOrdinalNumber,
+            measureImplicitKind);
+        break;
+        
+      case msrVoice::kHarmonyVoice:
+        break;
+        
+      case msrVoice::kFiguredBassVoice:
+        break;
+    } // switch
   } // for
 }
 
@@ -28190,6 +27453,8 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   }
 #endif
 
+  gIndenter++;
+  
   // finalize the voices
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
@@ -28201,8 +27466,6 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   }
 #endif
 
-  gIndenter++;
-  
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
@@ -28213,21 +27476,6 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     voice->
       finalizeVoice (
         inputLineNumber);
-
-/* ??? JMI
-    // set staff instrument names if still empty
-    if (fStaffInstrumentName.size () == 0) {
-      fStaffInstrumentName =
-        fStaffPartUplink->
-          getPartName ();
-    }
-
-    if (fStaffInstrumentName.size () == 0) {
-      fStaffInstrumentAbbreviation =
-        fStaffPartUplink->
-          getPartAbbreviation ();
-    }
-    */
   } // for
 
   gIndenter--;
@@ -30088,7 +29336,7 @@ void msrPart:: handleBackup (
     measurePosition);
 }
 
-void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   S_msrVoice           graceNotesGroupOriginVoice,
   S_msrGraceNotesGroup skipGraceNotesGroup)
 {
@@ -30111,7 +29359,7 @@ void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
     gTraceOptions->fTraceParts
     ) {
     gLogIOstream <<
-      "addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded () in " <<
+      "addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded () in " <<
       getPartCombinedName () <<
       ", graceNotesGroupOriginVoiceMeasureLength = " <<
       graceNotesGroupOriginVoiceMeasureLength <<
@@ -30153,7 +29401,7 @@ void msrPart::addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
         
         // add skip grace notes group ahead of voice
         voice->
-          addGraceNotesGroupAheadOfVoiceIfNeeded (
+          addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
             skipGraceNotesGroup);
       }
     } // for

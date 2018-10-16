@@ -20,6 +20,7 @@
 
 #include "conversions.h"
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -223,6 +224,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 }
 
 //________________________________________________________________________
+/* JMI
 void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   S_msrPart            partClone,
   S_msrVoice           voiceClone,
@@ -266,16 +268,17 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
       
       if (voice != voiceClone) {
         // prepend skip grace notes to voice JMI
-        /*
+        / *
         voice->
           prependGraceNotesGroupToVoice (
             skipGraceNotesGroup);
-            */
+            * /
       }
     } // for
 
   } // for
 }
+*/
 
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrScore& elt)
@@ -973,7 +976,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
   if (fCurrentSkipGraceNotesGroup) {
     // add it ahead of the other voices in the part if needed
     fCurrentPartClone->
-      addSkipGraceNotesGroupAheadOfVoicesClonesIfNeeded (
+      addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
         fCurrentVoiceClone,
         fCurrentSkipGraceNotesGroup);
   }
@@ -3102,21 +3105,25 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   //  }
   }
 
-  fLogOutputStream <<
-    "+++++++++++++++++++++++++ 1" <<
-    endl <<
-    "fCurrentNonGraceNoteClone:";
-
-  if (fCurrentNonGraceNoteClone) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     fLogOutputStream <<
-      fCurrentNonGraceNoteClone;
-  }
-  else {
+      "+++++++++++++++++++++++++ 1" <<
+      endl <<
+      "fCurrentNonGraceNoteClone:";
+  
+    if (fCurrentNonGraceNoteClone) {
+      fLogOutputStream <<
+        fCurrentNonGraceNoteClone;
+    }
+    else {
+      fLogOutputStream <<
+        "nullptr";
+    }
     fLogOutputStream <<
-      "nullprt";
+      endl;
   }
-  fLogOutputStream <<
-    endl;
+#endif
 
   // get the note this grace notes group is attached to
   S_msrNote
@@ -3142,60 +3149,72 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
   // is noteNotesGroupIsAttachedTo the first one in its voice?
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
-          fLogOutputStream <<
-            "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
-            fCurrentVoiceClone->getVoiceName () <<
-            "' is '";
+  if (
+    gTraceOptions->fTraceGraceNotes
+      ||
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceVoices
+  ) {
+    fLogOutputStream <<
+      "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "' is '";
 
-          if (noteNotesGroupIsAttachedTo) {
-            fLogOutputStream <<
-              noteNotesGroupIsAttachedTo->asShortString ();
-          }
-          else {
-            fLogOutputStream <<
-              "none";
-          }
-          fLogOutputStream <<
-             "'" <<
-            endl;
-        }
+    if (noteNotesGroupIsAttachedTo) {
+      fLogOutputStream <<
+        noteNotesGroupIsAttachedTo->asShortString ();
+    }
+    else {
+      fLogOutputStream <<
+        "none";
+    }
+    fLogOutputStream <<
+       "'" <<
+      endl;
+  }
 #endif
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
-          fLogOutputStream <<
-            "The first note of voice clone KLJWLPOEF '" <<
-            fCurrentVoiceClone->getVoiceName () <<
-            "' is '";
+  if (
+    gTraceOptions->fTraceGraceNotes
+      ||
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceVoices
+  ) {
+    fLogOutputStream <<
+      "The first note of voice clone KLJWLPOEF '" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "' is '";
 
-          if (fFirstNoteCloneInVoice) {
-            fLogOutputStream <<
-              fFirstNoteCloneInVoice->asShortString ();
-          }
-          else {
-            fLogOutputStream <<
-              "none";
-          }
-          fLogOutputStream <<
-             "'" <<
-            endl;
-        }
+    if (fFirstNoteCloneInVoice) {
+      fLogOutputStream <<
+        fFirstNoteCloneInVoice->asShortString ();
+    }
+    else {
+      fLogOutputStream <<
+        "none";
+    }
+    fLogOutputStream <<
+       "'" <<
+      endl;
+  }
 #endif
 
   if (noteNotesGroupIsAttachedTo == fFirstNoteCloneInVoiceOriginal ) {
     // bug 34 in LilyPond should be worked around by creating
     // skip grace notes in the other voices of the part
   
-        fLogOutputStream <<
-          "Creating a skip clone of grace notes group '" <<
-          elt->asShortString () <<
-          "' to work around LilyPond issue 34" <<
-          endl;
-
     // create skip graceNotesGroup clone
 #ifdef TRACE_OPTIONS
-      if (true || gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceVoices) {
+      if (
+          gTraceOptions->fTraceGraceNotes
+            ||
+          gTraceOptions->fTraceNotes
+            ||
+          gTraceOptions->fTraceVoices
+      ) {
         fLogOutputStream <<
           "Creating a skip clone of grace notes group '" <<
           elt->asShortString () <<
@@ -3210,8 +3229,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
         createSkipGraceNotesGroupClone (
           fCurrentVoiceClone);
   }
-
-
+}
 
     /* JMI
   if (fFirstNoteCloneInVoice) {
@@ -3346,7 +3364,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     }
   }
 */
-}
+
 
 void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 {
@@ -3357,21 +3375,25 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       endl;
   }
 
-  fLogOutputStream <<
-    "+++++++++++++++++++++++++ 2" <<
-    endl <<
-    "fCurrentNonGraceNoteClone:";
-
-  if (fCurrentNonGraceNoteClone) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     fLogOutputStream <<
-      fCurrentNonGraceNoteClone;
-  }
-  else {
+      "+++++++++++++++++++++++++ 2" <<
+      endl <<
+      "fCurrentNonGraceNoteClone:";
+  
+    if (fCurrentNonGraceNoteClone) {
+      fLogOutputStream <<
+        fCurrentNonGraceNoteClone;
+    }
+    else {
+      fLogOutputStream <<
+        "nullptr";
+    }
     fLogOutputStream <<
-      "nullprt";
+      endl;
   }
-  fLogOutputStream <<
-    endl;
+#endif
 
   // forget about these grace notes
   fCurrentGraceNotesGroupClone = nullptr;
@@ -3690,7 +3712,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         s <<
           "double tremolo note '" << fCurrentNonGraceNoteClone->asShortString () <<
-          "' met outside of a double tremolo";
+          "' found outside of a double tremolo";
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
@@ -3701,18 +3723,20 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kGraceNote:
+    /* JMI
       fLogOutputStream <<
         "fOnGoingGraceNotesGroup = " <<
         booleanAsString (
           fOnGoingGraceNotesGroup) <<
         endl;
+        */
         
       if (! fOnGoingGraceNotesGroup) {
         stringstream s;
 
         s <<
           "grace note '" << fCurrentNonGraceNoteClone->asShortString () <<
-          "' met outside of grace notes";
+          "' found outside of grace notes";
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
@@ -3797,7 +3821,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
-            fCurrentNonGraceNoteClone);
+            fCurrentNonGraceNoteClone,
+            fCurrentVoiceClone);
       }
       
       else {
@@ -3820,7 +3845,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (fOnGoingChord) {
         fCurrentChordClone->
           addAnotherNoteToChord (
-            fCurrentGraceNoteClone);
+            fCurrentGraceNoteClone,
+            fCurrentVoiceClone);
       }
       
       else {
@@ -3854,7 +3880,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           
       fTupletClonesStack.top ()->
         addNoteToTuplet (
-          fCurrentNonGraceNoteClone);
+          fCurrentNonGraceNoteClone,
+          fCurrentVoiceClone);
       break;
   } // switch
 
@@ -5222,6 +5249,16 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       } // for
       break;
   
+    case msrVarValsListAssoc::kLyricist:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addLyricist (
+            inputLineNumber, (*i));
+      } // for
+      break;
+
     case msrVarValsListAssoc::kPoet:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
@@ -5232,12 +5269,12 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       } // for
       break;
   
-    case msrVarValsListAssoc::kLyricist:
+    case msrVarValsListAssoc::kTranslator:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
         fLpsrScoreHeader->
-          addLyricist (
+          addTranslator (
             inputLineNumber, (*i));
       } // for
       break;
@@ -5251,7 +5288,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
             inputLineNumber, (*i));
       } // for
       break;
-
+/* JMI
     default:
       {
       stringstream s;
@@ -5267,6 +5304,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         inputLineNumber,
         s.str ());
       }
+      */
   } // switch
 }
 

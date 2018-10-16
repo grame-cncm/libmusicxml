@@ -27,6 +27,7 @@
 
 #include "msr.h"
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -5015,7 +5016,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             stringstream s;
     
             s <<
-              "Bracket start met with no placement";
+              "Bracket start found with no placement";
     
             msrMusicXMLError (
               gXml2lyOptions->fInputSourceName,
@@ -5048,7 +5049,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             stringstream s;
     
             s <<
-              "Bracket stop above met with no corresponding bracket start";
+              "Bracket stop above found with no corresponding bracket start";
     
             msrMusicXMLError (
               gXml2lyOptions->fInputSourceName,
@@ -5071,7 +5072,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
             stringstream s;
     
             s <<
-              "Bracket stop below met with no corresponding bracket start";
+              "Bracket stop below found with no corresponding bracket start";
     
             msrMusicXMLError (
               gXml2lyOptions->fInputSourceName,
@@ -5955,7 +5956,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 #endif
 
     // attach these grace notes group as an after grace notes group
-    // to the last note met in its voice
+    // to the last note found in its voice
 
     // fetch the voice
     S_msrVoice
@@ -11229,19 +11230,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         stringstream s;
         
         s <<
-          "wavy-line stop met without corresponding start";
+          "wavy-line stop found without corresponding start, ignoring it";
         
-        msrMusicXMLError (
+        msrMusicXMLWarning (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
-          __FILE__, __LINE__,
           s.str ());    
       }
-      
-      spanner->
-        setSpannerOtherEndSidelink (
-          fCurrentWavyLineSpannerStart);
-      // forget this wavy line spanner start
+      else {
+        spanner->
+          setSpannerOtherEndSidelink (
+            fCurrentWavyLineSpannerStart);
+        // forget this wavy line spanner start
+      }
       fCurrentWavyLineSpannerStart = nullptr;
       break;
       
@@ -13714,7 +13715,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "met a tuplet number out of context");
+      "found a tuplet number out of context");
   }
 
 #ifdef TRACE_OPTIONS
@@ -13756,7 +13757,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "met a tuplet number out of context");
+      "found a tuplet number out of context");
   }
 
 #ifdef TRACE_OPTIONS
@@ -13795,7 +13796,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "met a tuplet dot out of context");
+      "found a tuplet dot out of context");
   }
 }
 
@@ -14201,7 +14202,8 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 #endif
       
   chord->
-    addFirstNoteToChord (chordFirstNote);
+    addFirstNoteToChord (
+      chordFirstNote, voice);
 
   // set chord first note's kind
   chordFirstNote->
@@ -15180,7 +15182,10 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
         firstNote->getNotePositionInMeasure ());
 
   // add note as first note of the stack top tuplet
-  tuplet->addNoteToTuplet (firstNote);
+  tuplet->
+    addNoteToTuplet (
+      firstNote,
+      nullptr /* JMI */);
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
@@ -15229,7 +15234,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord ?? JMI XXL
 
-  // register tuplet as last one met in this voice
+  // register tuplet as last one found in this voice
   // for chords in tuplets handling
 // JMI  fLastHandledTupletInVoiceMap [currentVoice] = tuplet;
   fLastHandledTupletInVoiceMap [
@@ -16396,18 +16401,22 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     }
     
     if (! delayAttachment) {
+      stringstream s;
+
       int numberOfLigatures = fPendingLigatures.size ();
 
       if (numberOfLigatures > 1) {
-        fLogOutputStream <<
+        s <<
           "There are " << numberOfLigatures << " pending ligatures";
       }
       else {
-        fLogOutputStream <<
+        s <<
           "There is 1 pending ligature";
       }
-      fLogOutputStream <<
-        endl;
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        note->getInputLineNumber (),
+        s.str ());
 
       // append ligatures to note only if they belong to a suitable voice,
       // i.e. above goes to voice 1 or 3, and below to voice 2 or 4
@@ -17638,9 +17647,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     
     else if (fCurrentNoteIsAGraceNote) {
 
+/* JMI
       fLogOutputStream <<
         "FOO" <<
         endl;
+        */
         
       // note is the second, third, ..., member of a chord
       // that is a part of grace notes
@@ -17966,13 +17977,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fOnGoingChord = false;
   }
 
-  // register newNote as the last met note for the current voice  
+  // register newNote as the last found note for the current voice  
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
       "--> STORING " <<
       newNote->asShortString () <<
-      " as last note met in voice " <<
+      " as last note found in voice " <<
       voiceToInsertInto->getVoiceName () <<
       endl <<
       "-->  fCurrentNoteStaffNumber = " <<
@@ -19016,7 +19027,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
   // add newChordNote to current chord
   fCurrentChord->
-    addAnotherNoteToChord (newChordNote);
+    addAnotherNoteToChord (
+      newChordNote, currentVoice);
 
   // copy newChordNote's elements if any to the current chord
   copyNoteElementsToChord (
@@ -19172,7 +19184,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 #endif
   
           currentTuplet->
-            addNoteToTuplet (note);
+            addNoteToTuplet (
+              note,
+              nullptr /* JMI */);
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceTupletsDetails) {
@@ -19256,7 +19270,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 #endif
           
               currentTuplet->
-                addNoteToTuplet (note);
+                addNoteToTuplet (
+                  note,
+                  nullptr /* JMI */);
 
 #ifdef TRACE_OPTIONS
               if (gTraceOptions->fTraceTupletsDetails) {
@@ -19350,7 +19366,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 #endif
           
               currentTuplet->
-                addNoteToTuplet (note);
+                addNoteToTuplet (
+                  note,
+                  nullptr /* JMI */);
                 
 
 #ifdef TRACE_OPTIONS
@@ -19628,7 +19646,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 #endif
 
   fCurrentChord->
-    addAnotherNoteToChord (newChordNote);
+    addAnotherNoteToChord (
+      newChordNote, currentVoice);
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (
@@ -19827,7 +19846,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
 #endif
 
   fCurrentChord->
-    addAnotherNoteToChord (newChordNote);
+    addAnotherNoteToChord (
+      newChordNote, currentVoice);
 
   // copy newChordNote's elements if any to the chord
   copyNoteElementsToChord (
@@ -20272,7 +20292,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "met a repeat hooked ending out of context");
+      "found a repeat hooked ending out of context");
   }
 
   // set current barline start category
@@ -20353,7 +20373,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "met a repeat hookless ending out of context");
+      "found a repeat hookless ending out of context");
   }
   
   // set current barline start category

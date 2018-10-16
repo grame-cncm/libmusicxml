@@ -14,6 +14,7 @@
 
 #include "lpsrHeaders.h"
 
+#include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
@@ -538,6 +539,32 @@ void lpsrHeader::addPoet (
     addAssocVariableValue (value);
 }
 
+void lpsrHeader::addTranslator (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding translator \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (! fTranslators) {
+    fTranslators =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kMusicXMLTranslator);
+  }
+  
+  fTranslators->
+    addAssocVariableValue (value);
+}
+
 void lpsrHeader::addSoftware (
   int    inputLineNumber,
   string value)
@@ -666,6 +693,20 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     const list<string>&
       variableValuesList =
         fPoets->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) {
+        result = length;
+      }
+    } // for
+  }
+    
+  if (fTranslators) {
+    const list<string>&
+      variableValuesList =
+        fTranslators->getVariableValuesList ();
         
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
@@ -906,6 +947,12 @@ void lpsrHeader::browseData (basevisitor* v)
     browser.browse (*fPoets);
   }
     
+  if (fTranslators) {
+    // browse fTranslators
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fTranslators);
+  }
+    
   if (fSoftwares) {
     // browse fSoftwares
     msrBrowser<lpsrVarValsListAssoc> browser (v);
@@ -1110,6 +1157,23 @@ void lpsrHeader::print (ostream& os)
     
     os <<
       fPoets <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fTranslators) {
+    os << left <<
+      setw (fieldWidth) <<
+      fTranslators->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fTranslators <<
       endl;
       
     gIndenter--;

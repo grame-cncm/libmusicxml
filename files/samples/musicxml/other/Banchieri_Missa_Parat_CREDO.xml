@@ -20,8 +20,8 @@
    <tenths>400</tenths>
   </scaling>
   <page-layout>
-   <page-height>2434</page-height>
-   <page-width>1652</page-width>
+   <page-height>2420</page-height>
+   <page-width>1653</page-width>
   </page-layout>
  </defaults>
  <part-list>
@@ -1687,6 +1687,11 @@
     <voice>1</voice>
     <type>eighth</type>
     <stem>up</stem>
+    <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
+    </notations>
     <lyric number="1">
      <syllabic>end</syllabic>
      <text>sub</text>
@@ -2725,6 +2730,11 @@
      <text>mo</text>
     </lyric>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>B</step>
@@ -2808,7 +2818,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -8298,7 +8308,7 @@
     </lyric>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -12619,6 +12629,11 @@
      <text>non</text>
     </lyric>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>B</step>
@@ -13844,7 +13859,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -16676,6 +16691,11 @@
     <voice>1</voice>
     <type>quarter</type>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>D</step>
@@ -17998,10 +18018,6 @@
      <syllabic>begin</syllabic>
      <text>cim</text>
     </lyric>
-    <lyric number="2">
-     <syllabic>middle</syllabic>
-     <text>-sub</text>
-    </lyric>
    </note>
    <note>
     <pitch>
@@ -18012,6 +18028,10 @@
     <voice>1</voice>
     <type>eighth</type>
     <stem>down</stem>
+    <lyric number="1">
+     <syllabic>middle</syllabic>
+     <text>-sub</text>
+    </lyric>
    </note>
    <note>
     <pitch>
@@ -18218,6 +18238,11 @@
      <tied type="stop"/>
     </notations>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>F</step>
@@ -19016,7 +19041,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -24061,6 +24086,9 @@
     <type>half</type>
     <stem>up</stem>
     <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
      <tied type="start"/>
     </notations>
     <lyric number="1">
@@ -24085,7 +24113,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -29196,6 +29224,18 @@
      <text>est</text>
     </lyric>
    </note>
+   <backup>
+    <duration>4</duration>
+   </backup>
+   <note>
+    <rest/>
+    <duration>2</duration>
+    <voice>2</voice>
+    <type>eighth</type>
+   </note>
+   <forward>
+    <duration>2</duration>
+   </forward>
    <note>
     <pitch>
      <step>E</step>
@@ -29512,6 +29552,11 @@
     <type>quarter</type>
     <accidental>flat</accidental>
     <stem>up</stem>
+    <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
+    </notations>
     <lyric number="1">
      <syllabic>end</syllabic>
      <text>mo</text>
@@ -29634,7 +29679,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -32773,6 +32818,11 @@
     <voice>1</voice>
     <type>quarter</type>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>C</step>
@@ -32935,6 +32985,11 @@
     <voice>1</voice>
     <type>half</type>
     <stem>up</stem>
+    <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
+    </notations>
     <lyric number="1">
      <syllabic>begin</syllabic>
      <text>ter</text>
@@ -33823,6 +33878,11 @@
     <voice>1</voice>
     <type>half</type>
     <stem>up</stem>
+    <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
+    </notations>
     <lyric number="1">
      <syllabic>middle</syllabic>
      <text>Ia'.</text>
@@ -34721,6 +34781,9 @@
     <type>half</type>
     <stem>up</stem>
     <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
      <tied type="stop"/>
     </notations>
    </note>
@@ -35324,7 +35387,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
@@ -38641,6 +38704,17 @@
     <stem>up</stem>
    </note>
    <note>
+    <chord/>
+    <pitch>
+     <step>E</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
+   </note>
+   <note>
     <pitch>
      <step>D</step>
      <octave>3</octave>
@@ -39230,10 +39304,6 @@
      <syllabic>single</syllabic>
      <text>u</text>
     </lyric>
-    <lyric number="2">
-     <syllabic>middle</syllabic>
-     <text>-'ni</text>
-    </lyric>
    </note>
    <note>
     <pitch>
@@ -39244,6 +39314,10 @@
     <voice>1</voice>
     <type>quarter</type>
     <stem>down</stem>
+    <lyric number="1">
+     <syllabic>begin</syllabic>
+     <text>-'ni</text>
+    </lyric>
    </note>
   </measure>
   <measure number="21">
@@ -39257,7 +39331,7 @@
     <type>quarter</type>
     <stem>down</stem>
     <lyric number="1">
-     <syllabic>single</syllabic>
+     <syllabic>end</syllabic>
      <text>ge_</text>
     </lyric>
    </note>
@@ -39272,6 +39346,11 @@
     <type>quarter</type>
     <accidental>flat</accidental>
     <stem>down</stem>
+    <notations>
+     <articulations>
+      <staccato/>
+     </articulations>
+    </notations>
     <lyric number="1">
      <syllabic>begin</syllabic>
      <text>ui</text>
@@ -40451,6 +40530,11 @@
      <text>ex</text>
     </lyric>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>G</step>
@@ -40476,6 +40560,17 @@
      <syllabic>begin</syllabic>
      <text>rf</text>
     </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
    </note>
    <note>
     <pitch>
@@ -40599,6 +40694,11 @@
     <type>half</type>
     <stem>up</stem>
    </note>
+   <direction>
+    <direction-type>
+     <pedal type="start"/>
+    </direction-type>
+   </direction>
    <note>
     <pitch>
      <step>G</step>
@@ -40674,7 +40774,7 @@
     </notations>
    </note>
    <barline location="right">
-    <bar-style>light-heavy</bar-style>
+    <bar-style>light-light</bar-style>
    </barline>
   </measure>
   <measure number="63">
