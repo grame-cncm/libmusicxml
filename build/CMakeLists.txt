@@ -20,7 +20,7 @@ set (CMAKE_CXX_STANDARD 11)
 
 
 if(UNIX)
-	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -Wno-overloaded-virtual)
+	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -O3 -Wno-overloaded-virtual)
 endif()
 
 set (FMWK "true")
