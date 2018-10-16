@@ -55,6 +55,7 @@ help :
 	@echo "the platform targets is automatically evaluated by the default target."	
 	@echo 	
 	@echo "Misc:"
+	@echo "   format    source code formatting using clang-format"	
 	@echo "   install   install the tools to ~/bin"	
 	@echo 
 	@echo "NOTE: windows cmake generator is $(MSVC)"	
@@ -152,7 +153,8 @@ android :
 #===============================================================
 # src code formatting
 #===============================================================
-format :
+format : 
+	@which clang-format >/dev/null || (echo "clang-format must be available from your path to run the 'format' target"; false)
 	find ../src -path ../src/parser -prune -o -iname '*.cpp' -execdir clang-format -i -style=file {} \;
 	find ../src -path ../src/parser -prune -o -iname '*.h' -execdir clang-format -i -style=file {} \;
 
