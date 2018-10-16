@@ -36,8 +36,9 @@ if(APPLE)
 	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64") # unsupported on iOS 11.4.0: armv7 armv7s
+		set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
+		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
 		set (libtype STATIC)
 	endif()
 
@@ -110,13 +111,12 @@ set_target_properties (${target} PROPERTIES
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-
 #set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
 
 
 if (FMWK AND APPLE AND NOT IOS)
-message ("set FMWK - ${FMWK}") 
 set_target_properties (${target} PROPERTIES 
+			OUTPUT_NAME libmusicxml2
 			FRAMEWORK ${FMWK}
 			FRAMEWORK_VERSION ${VERSION}
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
