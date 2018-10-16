@@ -116,6 +116,7 @@ set_target_properties (${target} PROPERTIES
 
 if (FMWK AND APPLE AND NOT IOS)
 set_target_properties (${target} PROPERTIES 
+			OUTPUT_NAME libmusicxml2
 			FRAMEWORK ${FMWK}
 			FRAMEWORK_VERSION ${VERSION}
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
