@@ -13,7 +13,6 @@ readout    := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
 gmnout     := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
 guidosvg   := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
 lilyout    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
-lilyrefout := $(patsubst ../%.xml, $(version)/lilypond/%_ref.ly, $(xmlfiles))
 lilysvg    := $(patsubst ../%.ly, $(version)/lilysvg/%.svg, $(lilyfiles))
 lilypdf    := $(patsubst ../%.ly, $(version)/lilypdf/%.pdf, $(lilyfiles))
 lilyforclean    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
@@ -22,7 +21,6 @@ lilypdfforclean    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles)
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validlily 	  = $(patsubst %.ly, %.outly, $(lilyout))
-#validlilyref 	= $(patsubst %.ly, %.outlyref, $(lilyrefout))
 validguidosvg = $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
 validlilypdf 	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
@@ -51,7 +49,6 @@ help:
 	@echo "  'read'     : reads the set of xml files and writes the corresponding output"
 	@echo "  'guido'    : converts the set of xml files to guido"
 	@echo "  'lily'     : converts the set of xml files to lilypond"
-	@echo "  'lilyref'  : converts the set of xml files to lilypond reference"
 	@echo "  'guidosvg' : converts the output of 'guido' target to svg"
 	@echo "  'lilysvg'  : converts the output of 'lily' target to svg"
 	@echo "  'lilypdf'  : converts the output of 'lily' target to pdf"
@@ -90,13 +87,6 @@ lily:
 dolily: $(lilyout)
 
 #########################################################################
-lilyref: 
-	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
-	$(MAKE) dolilyref
-
-dolilyref: $(lilyrefout)
-
-#########################################################################
 guidosvg: 
 	@which guido2svg || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
 	$(MAKE) guido
@@ -116,7 +106,6 @@ dolilysvg: $(lilysvg)
 lilypdf: 
 	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
 	$(MAKE) lily
-	$(MAKE) lilyref
 	$(MAKE) dolilypdf
 
 dolilypdf: $(lilypdf)
@@ -142,18 +131,11 @@ lvalidate:
 	@echo Validating version $(version) with $(VERSION) $(tmp)
 	$(MAKE) validlily
 
-#lrefvalidate: 
-#	@echo Validating reference version $(version) with $(VERSION) $(tmp)
-#	$(MAKE) validlilyref
-
-
 validxml: $(validxml)
 
 validgmn: $(validgmn)
 
 validlily:    $(validlily)
-#validlilyref: $(validlilyref)
-
 
 #########################################################################
 # rules for xmlread
@@ -177,11 +159,8 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) $<  > $@
-
-$(version)/lilypond/%_ref.ly: ../%.xml
-	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(XML2LY) -q $<  > $@
+#	$(XML2LY) $<  > $@
 
 #########################################################################
 # rules for lilypond with svg output
@@ -203,11 +182,6 @@ $(version)/lilypdf/%.pdf: $(version)/lilypond/%.ly
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outgmn: %.gmn
-	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
-	@[ -f  $(tmp) ] || echo $< : new file
-	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
-
-%.outlyref: %_ref.ly
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)

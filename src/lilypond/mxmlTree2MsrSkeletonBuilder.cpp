@@ -1504,82 +1504,82 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
           }
 
           else {
-            showPartGroupsData (
-              stopInputLineNumber,
-              "UPON overlapping part groups");
-
-            // fetch the positions in the intersection
-            int
-              startOne =
-                partGroupDescr->getStartPosition (),
-              startTwo =
-                partGroupsDescrStackTop->getStartPosition (),
-              stopOne =
-                partGroupDescr->getStopPosition (),
-              stopTwo =
-                partGroupsDescrStackTop->getStopPosition ();
-
-            int firstCommonPosision = startOne;
-            if (startTwo > startOne) {
-              firstCommonPosision = startTwo;
-            }
-              
-            int lastCommonPosision = stopOne;
-            if (stopTwo < stopOne) {
-              lastCommonPosision = stopTwo;
-            }
-              
-            stringstream s;
-              
-            s <<
-              endl <<
-              "There are overlapping part groups, namely: " <<
-              endl <<
-              gTab << partGroupDescr->partGroupDescrAsString () <<
-              endl <<
-              "and" <<
-              endl <<
-              gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
-              endl <<
-              endl <<
-              "The parts they share are:" <<
-              endl;
-
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTracePartGroups) {
+            if (gTraceOptions->fTracePartGroupsDetails) {
+              showPartGroupsData (
+                stopInputLineNumber,
+                "UPON overlapping part groups");
+
+              // fetch the positions in the intersection
+              int
+                startOne =
+                  partGroupDescr->getStartPosition (),
+                startTwo =
+                  partGroupsDescrStackTop->getStartPosition (),
+                stopOne =
+                  partGroupDescr->getStopPosition (),
+                stopTwo =
+                  partGroupsDescrStackTop->getStopPosition ();
+  
+              int firstCommonPosision = startOne;
+              if (startTwo > startOne) {
+                firstCommonPosision = startTwo;
+              }
+                
+              int lastCommonPosision = stopOne;
+              if (stopTwo < stopOne) {
+                lastCommonPosision = stopTwo;
+              }
+                
+              stringstream s;
+                
+              s <<
+                endl <<
+                "There are overlapping part groups, namely: " <<
+                endl <<
+                gTab << partGroupDescr->partGroupDescrAsString () <<
+                endl <<
+                "and" <<
+                endl <<
+                gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
+                endl <<
+                endl <<
+                "The parts they share are:" <<
+                endl;
+  
               s <<
                 "(positions range is " <<
                 firstCommonPosision << ".." << lastCommonPosision <<
                 ")" <<
                 endl;
-            }
-
-            for (int m = firstCommonPosision; m < lastCommonPosision; m++) {
-              S_msrPart
-                part =
-                  fPartsVector [m];
-                
+  
+              for (int m = firstCommonPosision; m < lastCommonPosision; m++) {
+                S_msrPart
+                  part =
+                    fPartsVector [m];
+                  
+                s <<
+                  gTab <<
+                  part->getPartCombinedName () <<
+                  ", line " << part->getInputLineNumber () <<
+                  endl;
+              } // for
+  
               s <<
-                gTab <<
-                part->getPartCombinedName () <<
-                ", line " << part->getInputLineNumber () <<
-                endl;
-            }
-#endif
-
-            s <<
-              endl <<
+                endl <<
 R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
   either you found a bug in the translator,
   or this MusicXML data is the first-ever real-world case
   of a score exhibiting overlapping part groups)";
               
-            msrMusicXMLError (
-              gXml2lyOptions->fInputSourceName,
-              stopInputLineNumber,
-              __FILE__, __LINE__,
-              s.str ());
+              msrMusicXMLError (
+                gXml2lyOptions->fInputSourceName,
+                stopInputLineNumber,
+                __FILE__, __LINE__,
+                s.str ());
+            }
           }
+#endif
     
           if (++i == iEnd) break;
           // no endl here
@@ -2011,9 +2011,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
     ::tolower);
 
   if (softwareValueToLower.find ("cubase") != string::npos) {
-    fLogOutputStream <<
-      "<software /> contains 'Cubase'" <<
-      endl;
+    msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      "<software /> contains 'Cubase'");
 
     // the '-cubase' option is set by default,
     // unless '-noCubase' is explicitly set
@@ -2033,9 +2034,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
             dynamic_cast<optionsCombinedItemsItem*>(&(*cubaseOptionsElement))
         ) {
         // handle it at once
-        fLogOutputStream <<
-          "Setting '-cubase' option" <<
-          endl;
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceOptions) {
+          fLogOutputStream <<
+            "Setting '-cubase' option" <<
+            endl;
+        }
+#endif
           
         combinedItemsItem->
           setCombinedItemsVariablesValue (true);

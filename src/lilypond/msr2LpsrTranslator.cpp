@@ -1964,7 +1964,6 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      endl << endl <<
       "--> Start visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
@@ -2005,7 +2004,6 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
       elt->getStanzaName () <<
       "\"" <<
       ", line " << elt->getInputLineNumber () <<
-      endl << // JMI
       endl;
   }
 

@@ -103,19 +103,21 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {
+  if (! gGeneralOptions->fQuiet) {
     if (gGeneralOptions->fDisplaySourceCodePosition) {
       gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
         " ";
     }
 
-    gLogIOstream <<
-      "### " << context << " ERROR ### " <<
-      inputSourceName << ":" << inputLineNumber << ": " << message <<
-      endl;
-
-    gErrorsInputLineNumbers.insert (inputLineNumber);
+    if (! gGeneralOptions->fIgnoreErrors) {
+      gLogIOstream <<
+        "### " << context << " ERROR ### " <<
+        inputSourceName << ":" << inputLineNumber << ": " << message <<
+        endl;
+  
+      gErrorsInputLineNumbers.insert (inputLineNumber);
+    }
   }
 }
 
@@ -263,9 +265,8 @@ void displayWarningsAndErrorsInputLineNumbers ()
   int warningsInputLineNumbersSize =
     gWarningsInputLineNumbers.size ();
     
-  if (warningsInputLineNumbersSize) {
+  if (warningsInputLineNumbersSize && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
-      endl <<
       "Warning message(s) were issued for input " <<
       singularOrPluralWithoutNumber (
         warningsInputLineNumbersSize, "line", "lines") <<

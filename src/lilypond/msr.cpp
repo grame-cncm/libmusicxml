@@ -10788,8 +10788,6 @@ void msrStanza::browseData (basevisitor* v)
     msrBrowser<msrSyllable> browser (v);
     browser.browse (*fSyllables [i]);
   } // for
-  gLogIOstream <<
-    endl;
 
   gIndenter--;
 
