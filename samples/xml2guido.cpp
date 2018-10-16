@@ -70,6 +70,7 @@ static bool checkOpt(int argc, char *argv[], const string& option)
 static void versionInfo()
 {
 	cout << "xml2guido version " << musicxml2guidoVersionStr() << endl;
+	cout << "Using libmusicxml version " << musicxmllibVersionStr() << endl;
 	exit (0);
 }
 
