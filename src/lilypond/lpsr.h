@@ -13,17 +13,6 @@
 #ifndef ___lpsr___
 #define ___lpsr___
 
-#include <sstream>
-#include <vector>
-#include <string>
-#include <list>
-
-
-#include "exports.h"
-#include "typedefs.h"
-
-#include "msrBasicTypes.h"
-
 #include "msr.h"
 
 #include "lpsrComments.h"

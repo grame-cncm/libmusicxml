@@ -27,7 +27,6 @@
   #include "traceOptions.h"
 #endif
 
-
 #include "mxmlTree2MsrTranslatorInterface.h"
 
 #include "mxmlTree2MsrTranslator.h"

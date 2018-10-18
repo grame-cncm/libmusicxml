@@ -498,6 +498,7 @@ void convertMusicXMLToLilypond (
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
+
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 

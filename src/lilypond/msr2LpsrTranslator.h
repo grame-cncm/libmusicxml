@@ -554,6 +554,7 @@ class msr2LpsrTranslator :
     // voices
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
+    S_msrVoice                fCurrentVoiceOriginal;
     map<S_msrNote, S_msrNote> fVoiceNotesMap;
 
 
@@ -637,7 +638,6 @@ class msr2LpsrTranslator :
     
     // to help workaround LilyPond issue 34
     S_msrNote                 fFirstNoteCloneInVoice;
-    S_msrNote                 fFirstNoteCloneInVoiceOriginal;
 
     S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
 

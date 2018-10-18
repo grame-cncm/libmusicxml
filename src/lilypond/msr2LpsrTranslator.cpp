@@ -1221,6 +1221,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
+  fCurrentVoiceOriginal = elt;
+  
   gIndenter++;
 
   switch (elt->getVoiceKind ()) {
@@ -1411,7 +1413,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   fVoiceNotesMap.clear ();
 
   fFirstNoteCloneInVoice = nullptr;
-  fFirstNoteCloneInVoiceOriginal = nullptr;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
@@ -3200,11 +3201,11 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  if (noteNotesGroupIsAttachedTo == fFirstNoteCloneInVoiceOriginal ) {
+  if (noteNotesGroupIsAttachedTo == fCurrentVoiceOriginal->fetchVoiceFirstNote () ) {
     // bug 34 in LilyPond should be worked around by creating
     // skip grace notes in the other voices of the part
   
-    // create skip graceNotesGroup clone
+    // create the skip grace notes group
 #ifdef TRACE_OPTIONS
       if (
           gTraceOptions->fTraceGraceNotes
@@ -3221,12 +3222,17 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       }
 #endif
 
-    // create the skip grace notes group
     fCurrentSkipGraceNotesGroup =
       elt->
         createSkipGraceNotesGroupClone (
           fCurrentVoiceClone);
   }
+
+  // prepend it to the other voices in the part
+  fCurrentPartClone->
+    addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
+      fCurrentVoiceOriginal,
+      fCurrentSkipGraceNotesGroup);
 }
 
     /* JMI
@@ -3484,8 +3490,6 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       if (! fFirstNoteCloneInVoice) {
         fFirstNoteCloneInVoice =
           fCurrentNonGraceNoteClone;
-        fFirstNoteCloneInVoiceOriginal =
-          elt;
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {

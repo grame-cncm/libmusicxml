@@ -12941,10 +12941,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
 
 void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting pedal" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
       
@@ -12967,6 +12970,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
     case msrPedal::kPedalStop:
       fLilypondCodeIOstream <<
         "\\sustainOff";
+      break;
+    case msrPedal::k_NoPedalType:
+      {
+        // should not occur
+
+        stringstream s;
+
+        s <<
+          "msrPedal '" <<
+          elt->asShortString () <<
+          "' has no pedal type";
+          
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
       break;
   } // switch
 
