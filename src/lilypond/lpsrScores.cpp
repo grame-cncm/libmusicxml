@@ -1045,7 +1045,7 @@ R"(
 R"(
 \include "jianpu10a.ly"
 )";
-
+  
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<

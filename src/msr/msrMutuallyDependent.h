@@ -4097,7 +4097,7 @@ class msrChord : public msrElement
                             S_msrNote note,
                             S_msrVoice voice);
 
-    S_msrNote             chordFirstNote () const;
+    S_msrNote             fetchChordFirstNote () const;
     
     // articulations
     void                  appendArticulationToChord (S_msrArticulation art);
@@ -4494,7 +4494,7 @@ class msrTuplet : public msrElement
     
     void                  addTupletToTupletClone (S_msrTuplet tuplet);
     
-    S_msrNote             tupletFirstNote () const;
+    S_msrNote             fetchTupletFirstNote () const;
 
     S_msrNote             removeFirstNoteFromTuplet ( // JMI
                             int       inputLineNumber);
@@ -4811,6 +4811,8 @@ class msrRepeatCommonPart : public msrElement
     void                  appendElementToRepeatCommonPart (
                             S_msrElement elem);
 
+    S_msrNote             fetchRepeatCommonPartFirstNote () const;
+
   public:
 
     // visitors
@@ -5041,6 +5043,8 @@ class msrRepeat : public msrElement
 
     void                  addRepeatEnding (
                             S_msrRepeatEnding repeatEnding);
+
+    S_msrNote             fetchRepeatFirstNote () const;
 
   public:
 
@@ -5821,11 +5825,6 @@ class msrVoice : public msrElement
     S_msrSegment          getVoiceLastSegment () const
                               { return fVoiceLastSegment; }
 
-    // voice first note
-
-    S_msrNote             getVoiceFirstNote () const
-                              { return fVoiceFirstNote; }
-
     // voice last appended note
 
     S_msrNote             getVoiceLastAppendedNote () const
@@ -5923,11 +5922,11 @@ class msrVoice : public msrElement
     void                  appendTimeToVoice (S_msrTime time);
     void                  appendTimeToVoiceClone (S_msrTime time);
 
-    // first and last appended notes, for msrChord
+    // notes
     
     S_msrNote             fetchVoiceFirstNote () const;
 
-    void                  registerNoteAsVoiceFirstNote (S_msrNote note);
+    void                  registerShortestNoteIfRelevant (S_msrNote note);
 
     void                  registerNoteAsVoiceLastAppendedNote (S_msrNote note);
 
@@ -6348,10 +6347,6 @@ class msrVoice : public msrElement
     S_msrSegment          fVoiceLastSegment;
     // it should be saved sometimes
     S_msrSegment          fSaveVoiceLastSegment;
-
-    // fVoiceFirstNote is used to work around LilyPond issue 34,
-    // i.e. to add a skip grace notes group to the first note if needed
-    S_msrNote             fVoiceFirstNote;
 
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;

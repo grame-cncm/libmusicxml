@@ -7173,12 +7173,10 @@ void msrChord::addFirstNoteToChord (
   
   // mark note as being the first one in the chord
   note->setNoteIsAChordsFirstMemberNote ();
-          
-  // is note the first one in this voice?
-  if (! voice->getVoiceFirstNote ()) {
-    voice->
-      registerNoteAsVoiceFirstNote (note);
-  }
+
+  // is this note the shortest one in this voice?
+  voice->
+    registerShortestNoteIfRelevant (note);
     
   // register note as the last appended one into this voice
   /* JMI
@@ -7240,7 +7238,7 @@ void msrChord::setChordFirstNotePositionInMeasure (
  }
 }
 
-S_msrNote msrChord::chordFirstNote () const
+S_msrNote msrChord::fetchChordFirstNote () const
 {
   S_msrNote result;
 
@@ -8479,20 +8477,6 @@ void msrTuplet::addNoteToTuplet (
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();  
   fTupletDisplayWholeNotes.rationalise ();
-
-/* JMIJMI
-  if (voice) { // JMI ???
-    // get the tuplet's first note
-    S_msrNote
-      tupletFirstNote = fTupletElementsList.front ();
-  
-    // is tupletFirstNote the first one in this voice?
-    if (! voice->getVoiceFirstNote ()) {
-      voice->
-        registerNoteAsVoiceFirstNote (tupletFirstNote); // JMI
-    }
-  }
-      */
       
   // populate note's position in measure
   note->setNotePositionInMeasure (
@@ -8612,7 +8596,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   fTupletDisplayWholeNotes.rationalise ();
 }
 
-S_msrNote msrTuplet::tupletFirstNote () const
+S_msrNote msrTuplet::fetchTupletFirstNote () const
 {
   S_msrNote result;
 
@@ -8632,7 +8616,7 @@ S_msrNote msrTuplet::tupletFirstNote () const
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*firstTupletElement))
       ) {
       // first element is another tuplet, recurse
-      result = tuplet->tupletFirstNote ();
+      result = tuplet->fetchTupletFirstNote ();
     }
   }
   
@@ -17120,6 +17104,105 @@ void msrRepeatCommonPart::appendElementToRepeatCommonPart (
 }
 */
 
+void msrRepeatCommonPart::appendElementToRepeatCommonPart (
+  S_msrElement elem)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending element '" << elem <<
+      "' to repeat common part '" << asString () << "'" <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    elem != nullptr,
+    "elem is null");
+
+  fRepeatCommonPartElementsList.push_back (elem);
+}
+
+S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNote () const
+{
+  
+  S_msrNote result;
+
+  // fetch the first note in the first measure to which
+  // a grace notes group can be attached
+  // i.e. one not in a grace notes group itself,
+  // possibly inside a chord or tuplet
+
+  if (fRepeatCommonPartElementsList.size ()) {
+    list<S_msrElement>::const_iterator
+      iBegin = fRepeatCommonPartElementsList.begin (),
+      iEnd   = fRepeatCommonPartElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrElement element = (*i);
+      
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(*element))
+        ) {    
+        result = note;
+        break;
+      }
+    
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
+        ) {
+        // get the chord's first note
+        result = chord->fetchChordFirstNote ();
+        break;
+      }
+      
+      else if (
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
+        ) {
+        // get the tuplet's first note
+        result = tuplet->fetchTupletFirstNote ();
+        break;
+      }
+      
+      else if (
+        S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
+        ) {
+        // ignore this clef
+      }
+      
+      else if (
+        S_msrKey key = dynamic_cast<msrKey*>(&(*element))
+        ) {
+        // ignore this key
+      }
+      
+      else if (
+        S_msrTime time = dynamic_cast<msrTime*>(&(*element))
+        ) {
+        // ignore this time
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "tuplet first element should be a note, a chord or another tuplet, found instead '" <<
+          element->asShortString () <<
+          "'";
+          
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+  
+      if (++i == iEnd) break;
+    } // for
+  }
+}
+
 void msrRepeatCommonPart::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -17177,26 +17260,6 @@ void msrRepeatCommonPart::browseData (basevisitor* v)
       browser.browse (*(*i));
     } // for
   }
-}
-
-void msrRepeatCommonPart::appendElementToRepeatCommonPart (
-  S_msrElement elem)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Appending element '" << elem <<
-      "' to repeat common part '" << asString () << "'" <<
-      endl;
-  }
-#endif
-
-  // sanity check
-  msrAssert (
-    elem != nullptr,
-    "elem is null");
-
-  fRepeatCommonPartElementsList.push_back (elem);
 }
 
 string msrRepeatCommonPart::asString () const
@@ -17572,6 +17635,18 @@ void msrRepeat::addRepeatEnding (
   repeatEnding->
     setRepeatEndingInternalNumber (
       ++ fRepeatEndingsInternalCounter);
+}
+
+S_msrNote msrRepeat::fetchRepeatFirstNote () const
+{
+  S_msrNote result;
+
+  if (fRepeatCommonPart) {
+    result =
+      fRepeatCommonPart->fetchRepeatCommonPartFirstNote ();
+  }
+
+  return result;
 }
 
 void msrRepeat::acceptIn (basevisitor* v)
@@ -20435,36 +20510,70 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
           iEnd   = firstMeasureElementsList.end (),
           i      = iBegin;
         for ( ; ; ) {
+          S_msrElement element = (*i);
           
           if (
-            S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
+            S_msrNote note = dynamic_cast<msrNote*>(&(*element))
             ) {    
             result = note;
             break;
           }
         
           else if (
-            S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
+            S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
             ) {
             // get the chord's first note
-            result = chord->chordFirstNote ();
+            result = chord->fetchChordFirstNote ();
             break;
           }
           
           else if (
-            S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
+            S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
             ) {
             // get the tuplet's first note
-            result = tuplet->tupletFirstNote ();
+            result = tuplet->fetchTupletFirstNote ();
             break;
           }
           
+          else if (
+            S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(*element))
+            ) {
+            // get the repeat's first note
+            result = repeat->fetchRepeatFirstNote ();
+            break;
+          }
+          
+          else if (
+            S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
+            ) {
+            // ignore this clef
+          }
+          
+          else if (
+            S_msrKey key = dynamic_cast<msrKey*>(&(*element))
+            ) {
+            // ignore this key
+          }
+          
+          else if (
+            S_msrTime time = dynamic_cast<msrTime*>(&(*element))
+            ) {
+            // ignore this time
+          }
+          
           else {
+            stringstream s;
+
+            s <<
+              "tuplet first element should be a note, a chord or another tuplet, found instead '" <<
+              element->asShortString () <<
+              "'";
+              
             msrInternalError (
               gXml2lyOptions->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
-              "tuplet member should be a note, a chord or another tuplet");
+              s.str ());
           }
       
           if (++i == iEnd) break;
@@ -20476,43 +20585,8 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
   return result;
 }
 
-void msrVoice::registerNoteAsVoiceFirstNote (S_msrNote note)
+void msrVoice::registerShortestNoteIfRelevant (S_msrNote note)
 {
-  // is the first note in this voice already known?
-  if (! fVoiceFirstNote) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Register note '" <<
-        note->asShortString () <<
-        "' a first one in voice \"" <<
-        getVoiceName () <<
-        "\"";
-    }
-#endif
-
-    fVoiceFirstNote = note;
-  }
-  
-  else {
-    stringstream s;
-
-    s <<
-      "Cannot register note '" <<
-      note->asShortString () <<
-      "' a first one in voice \"" <<
-      getVoiceName () <<
-      "\", since it is already known as '" <<
-      fVoiceFirstNote->asShortString () <<
-      "'";
-
-    msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      note->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
-  }
-  
   // is note the shortest one in this voice?
   rational
     noteSoundingWholeNotes =
@@ -21187,24 +21261,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegment (note);
 
-  // is this note the first one in this voice?
-  if (! fVoiceFirstNote) {
-    registerNoteAsVoiceFirstNote (note);
-  }
-  
   // is this note the shortest one in this voice?
-  rational
-    noteSoundingWholeNotes =
-      note->getNoteSoundingWholeNotes (),
-    noteDisplayWholeNotes =
-      note->getNoteDisplayWholeNotes (); // JMI
-      
-  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
-  }
-  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
-  }
+  this->
+    registerShortestNoteIfRelevant (note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -21286,24 +21345,9 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
 
-  // is this note the first one in this voice?
-  if (! fVoiceFirstNote) {
-    registerNoteAsVoiceFirstNote (note);
-  }
-  
   // is this note the shortest one in this voice?
-  rational
-    noteSoundingWholeNotes =
-      note->getNoteSoundingWholeNotes (),
-    noteDisplayWholeNotes =
-      note->getNoteDisplayWholeNotes (); // JMI
-      
-  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
-  }
-  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
-    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
-  }
+  this->
+    registerShortestNoteIfRelevant (note);
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
@@ -21366,45 +21410,21 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
       S_msrNote
         chordFirstNote = chordNotesVector [0];
     
-      // is chordFirstNote the first one in this voice?
-      if (! fVoiceFirstNote) {
-        registerNoteAsVoiceFirstNote (chordFirstNote);
-      }
-      
       // is chordFirstNote the shortest one in this voice?
-      rational
-        noteSoundingWholeNotes =
-          chordFirstNote->getNoteSoundingWholeNotes (),
-        noteDisplayWholeNotes =
-          chordFirstNote->getNoteDisplayWholeNotes (); // JMI
-          
-      if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
-        fVoiceShortestNoteDuration = noteSoundingWholeNotes;
-      }
-      if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
-        fVoiceShortestNoteDuration = noteDisplayWholeNotes;
-      }
+      this->
+        registerShortestNoteIfRelevant (chordFirstNote);
     }
     
     {
       // get the chord's last note
       S_msrNote
-        chordLastNote = chordNotesVector [chordNotesVectorSize - 1];
+        chordLastNote =
+          chordNotesVector [chordNotesVectorSize - 1];
     
       // is chordLastNote the shortest one in this voice?
-      rational
-        noteSoundingWholeNotes =
-          chordLastNote->getNoteSoundingWholeNotes (),
-        noteDisplayWholeNotes =
-          chordLastNote->getNoteDisplayWholeNotes (); // JMI
-          
-      if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
-        fVoiceShortestNoteDuration = noteSoundingWholeNotes;
-      }
-      if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
-        fVoiceShortestNoteDuration = noteDisplayWholeNotes;
-      }
-  
+      this->
+        registerShortestNoteIfRelevant (chordLastNote);
+
       // register chordLastNote as the last appended one into this voice
       fVoiceLastAppendedNote = chordLastNote;
     }
@@ -21489,10 +21509,15 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
   // such grace notes groups should be attached to the voice's first note,
   // or to the first chord if the latter belongs to such
 
+  // fetch the voice's first note
+  S_msrNote
+    voiceFirstNote =
+      fetchVoiceFirstNote (); // JMI
+    
   // get the voice first note's chord uplink
   S_msrChord
     firstNoteChordUplink =
-      fVoiceFirstNote->
+      voiceFirstNote->
         getNoteChordUplink ();
       
   if (firstNoteChordUplink) {
@@ -21522,13 +21547,13 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
         graceNotesGroup->asString () <<
         "' to the first note of voice \"" << getVoiceName () <<
         "\", i.e. '" <<
-        fVoiceFirstNote->asShortString () <<
+        voiceFirstNote->asShortString () <<
         "'" <<
         endl;
     }
 #endif
 
-    fVoiceFirstNote->
+    voiceFirstNote->
       setNoteGraceNotesGroupBefore (
         graceNotesGroup);
   }
@@ -25317,27 +25342,34 @@ void msrVoice::print (ostream& os)
     endl;
 
   // print this voice's first note
-  os <<
-    setw (fieldWidth) <<
-    "voiceFirstNote";
-  if (fVoiceFirstNote) {
+  {
+    S_msrNote
+      voiceFirstNote =
+        this->
+          fetchVoiceFirstNote ();
+        
+    os <<
+      setw (fieldWidth) <<
+      "voiceFirstNote";
+    if (voiceFirstNote) {
+      os <<
+        endl;
+  
+      gIndenter++;
+  
+      os << gTab <<
+        voiceFirstNote->asString ();
+  
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+        endl;
+    }
     os <<
       endl;
-
-    gIndenter++;
-
-    os << gTab <<
-      fVoiceFirstNote->asString ();
-
-    gIndenter--;
   }
-  else {
-    os <<
-      " : " << "none" <<
-      endl;
-  }
-  os <<
-    endl;
   
   // print the voice last appended note
   os <<

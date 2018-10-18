@@ -979,6 +979,9 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
       addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
         fCurrentVoiceClone,
         fCurrentSkipGraceNotesGroup);
+
+    // forget about this skip grace notes group
+    fCurrentSkipGraceNotesGroup = nullptr;
   }
 }
 
@@ -3228,11 +3231,9 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           fCurrentVoiceClone);
   }
 
-  // prepend it to the other voices in the part
-  fCurrentPartClone->
-    addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
-      fCurrentVoiceOriginal,
-      fCurrentSkipGraceNotesGroup);
+  // addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded() will
+  // append the same skip grace notes to the ofhter voices if needed
+  // in visitEnd (S_msrPart&)
 }
 
     /* JMI
