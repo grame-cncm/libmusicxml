@@ -1,0 +1,5 @@
+unzip  UnofficialTestSuite/90a-Compressed-MusicXML.mxl 
+
+ltt META-INF/
+
+Yf 20a-Compressed-MusicXML.xml 
