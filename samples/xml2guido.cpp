@@ -11,11 +11,12 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include <string>
+
 #include <stdlib.h>
 #include <string.h>
 #ifndef WIN32
 #include <signal.h>
-#include <string.h>
 #endif
 
 #include "libmusicxml.h"
@@ -24,9 +25,10 @@ using namespace std;
 using namespace MusicXML2;
 
 static void usage() {
-	cerr << "usage: musicxml2guido [options]  <musicxml file>" << endl;
+	cerr << "usage: xml2guido [options]  <musicxml file>" << endl;
 	cerr << "       reads stdin when <musicxml file> is '-'" << endl;
 	cerr << "       option: --autobars don't generates barlines" << endl;
+	cerr << "       option: --version print version and exit" << endl;
 	exit(1);
 }
 
@@ -56,20 +58,34 @@ static void catchsigs()	{}
 #endif
 
 //_______________________________________________________________________________
-int main(int argc, char *argv[]) 
+static bool checkOpt(int argc, char *argv[], const string& option)
+{
+	for (int i=1; i<argc;i++) {
+		if (option == argv[i]) return true;
+	}
+	return false;
+}
+
+//_______________________________________________________________________________
+static void versionInfo()
+{
+	cout << "xml2guido version " << musicxml2guidoVersionStr() << endl;
+	cout << "Using libmusicxml version " << musicxmllibVersionStr() << endl;
+	exit (0);
+}
+
+//_______________________________________________________________________________
+int main(int argc, char *argv[])
 {
 	catchsigs();
 
-	bool generateBars = true;
-	char * file = argv[1];
-	if (argc == 3) {
-		if (!strcmp(argv[1], "--autobars")) {
-			generateBars = false;
-			file = argv[2];
-		}
-		else usage();
-	}
-	else if (argc != 2) usage();
+	bool version = checkOpt (argc, argv, "--version");
+	if (version) versionInfo();
+
+	if (argc < 2) usage();
+
+	bool generateBars = checkOpt (argc, argv, "--autobars");
+	char * file = argv[argc-1];
 
 	xmlErr err = kNoErr;
 	if (!strcmp(file, "-"))

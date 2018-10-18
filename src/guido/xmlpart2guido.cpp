@@ -1378,14 +1378,14 @@ namespace MusicXML2
                 /// Get Tuplet Placement and graphic type
                 std::string tupletPlacement = (*i)->getAttributeValue("placement");
                 std::string tupletGraphicType = nv.fGraphicType;
-                int numberOfEventsInTuplet = 1;
+                long numberOfEventsInTuplet = 1;
                 
                 ///// Use Time-Modification to get Number of Events in Tuplet
                 numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
                 
                 //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
                 bool useDispNoteAttribute = true;
-                int topNoteDur = nv.getDuration();
+                long topNoteDur = nv.getDuration();
                 /// Browse through all elements of Tuplet until "stop"!
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
                 if (nextnote != fCurrentMeasure->end()) {
@@ -1635,13 +1635,13 @@ namespace MusicXML2
             if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
-                int lyricStringSize = 0;
+                size_t lyricStringSize = 0;
                 if (notevisitor::getSyllabic()=="end")
                     lyricStringSize = notevisitor::getLyricText().size();
                 else
                     lyricStringSize = notevisitor::getLyricText().size() +1;
                 
-                int additionalSpace =  lyricStringSize - minStringSize4Space;
+                long additionalSpace =  lyricStringSize - minStringSize4Space;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
             }

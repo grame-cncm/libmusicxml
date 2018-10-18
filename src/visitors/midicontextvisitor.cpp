@@ -124,7 +124,7 @@ void midicontextvisitor::playPedalChange (midiwriter::pedalType type, const std:
 void midicontextvisitor::playTempoChange (long bpm)
 {
 	if (fMidiWriter && bpm)
-		fMidiWriter->tempoChange (fCurrentDate, bpm);
+		fMidiWriter->tempoChange (fCurrentDate, int(bpm));
 }
 
 //________________________________________________________________________
@@ -154,7 +154,7 @@ void midicontextvisitor::playNote (const notevisitor& note)
 	long dur = convert2Tick(note.getDuration());
 
 	if (fMidiWriter && (t != notevisitor::kRest)) {
-		int chan = fCurrentChan;
+		long chan = fCurrentChan;
 		float pitch = note.getMidiPitch() + fTranspose;
 		if (pitch >= 0) pitch += fTranspose;
 
@@ -171,7 +171,7 @@ void midicontextvisitor::playNote (const notevisitor& note)
 		}
 		if (pitch < 0) pitch = 60;
 
-		int vel = note.getDynamics();
+		long vel = note.getDynamics();
 		if (vel == notevisitor::kUndefinedDynamics) vel = fCurrentDynamics;
 
 		int tie = note.getTie();
