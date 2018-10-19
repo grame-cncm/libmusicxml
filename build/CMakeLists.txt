@@ -16,7 +16,8 @@ set (SOVERS 3)
 
 
 #######################################
-option ( FMWK 	"Generates a framework on MacOS by default"	true )
+option ( FMWK 	"Generates a framework on MacOS by default"	on )
+option ( GDB 	"Activates ggdb3 option"	off )
 
 
 #######################################
@@ -24,7 +25,11 @@ set (CMAKE_CXX_STANDARD 11)
 
 
 if(UNIX)
-	add_definitions(-Wall -DGCC -DTRACE_OPTIONS -O3 -Wno-overloaded-virtual)
+	if (GDB)
+		add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
+	else()
+		add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
+	endif()
 endif()
 
 set (libtype SHARED)
