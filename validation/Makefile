@@ -7,30 +7,28 @@ system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo 
 
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
-lilyfiles  = $(shell find ../files -name "*.ly")
 
 readout    := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
 gmnout     := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
 guidosvg   := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
 lilyout    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
-lilysvg    := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
 lilypdf    := $(patsubst ../%.xml, $(version)/lilypdf/%.pdf, $(xmlfiles))
-lilyforclean    := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
-lilypdfforclean    := $(patsubst ../%.xml, $(version)/lilypond/%.pdf, $(xmlfiles))
+lilypng    := $(patsubst ../%.xml, $(version)/lilypng/%.png, $(xmlfiles))
+lilymidi   := $(patsubst ../%.xml, $(version)/lilypdf/%.midi, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validlily 	  = $(patsubst %.ly, %.outly, $(lilyout))
 validguidosvg = $(patsubst %.svg, %.outsvg, $(guidosvg))
-validlilysvg 	= $(patsubst %.svg, %.outsvg, $(lilysvg))
 validlilypdf 	= $(patsubst %.pdf, %.outpdf, $(lilypdf))
+validlilypng 	= $(patsubst %.png, %.outpng, $(lilypng))
 
 XML2GUIDO ?= xml2guido
 XML2LY    ?= xml2ly
 XMLREAD   ?= xmlread
 MAKE      ?= make
 
-.PHONY: read guido lily
+.PHONY: read guido
 .DELETE_ON_ERROR:
 
 all:
@@ -50,7 +48,7 @@ help:
 	@echo "  'guido'    : converts the set of xml files to guido"
 	@echo "  'lily'     : converts the set of xml files to lilypond"
 	@echo "  'guidosvg' : converts the output of 'guido' target to svg"
-	@echo "  'lilysvg'  : converts the output of 'lily' target to svg"
+	@echo "  'lilypng'  : converts the output of 'lily' target to png"
 	@echo "  'lilypdf'  : converts the output of 'lily' target to pdf"
 	@echo "Output files are written to the $(version) folder, "
 	@echo "where $(version) is taken from the libmusicxmlversion.txt file that you can freely change."
@@ -80,13 +78,6 @@ guido:
 doguido: $(gmnout)
 
 #########################################################################
-lily: 
-	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
-	$(MAKE) dolily
-
-dolily: $(lilyout)
-
-#########################################################################
 guidosvg: 
 	@which guido2svg || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
 	$(MAKE) guido
@@ -95,12 +86,16 @@ guidosvg:
 doguidosvg: $(guidosvg)
 
 #########################################################################
-lilysvg: 
-	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
-	$(MAKE) lily
-	$(MAKE) dolilysvg
+lily: 
+	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
+	$(MAKE) dolily
 
-dolilysvg: $(lilysvg)
+dolily: $(lilyout)
+
+#########################################################################
+lilyclean:
+	@echo "lilyout = " $(lilyout) ", " $(shell wc < echo $(lilyout))
+	rm $(lilyout)
 
 #########################################################################
 lilypdf: 
@@ -111,14 +106,24 @@ lilypdf:
 dolilypdf: $(lilypdf)
 
 #########################################################################
-lilyclean:
-	@echo "lilyout = " $(lilyout) ", " $(shell wc < echo $(lilyout))
-	rm $(lilyout)
+lilypdfclean:
+	@echo "lilypdf = " $(lilypdf) ", " $(shell wc < echo $(lilypdf))
+	rm $(lilypdf)
+	rm $(lilymidi)
 
 #########################################################################
-lilypdfclean:
-	@echo "lilyout = " $(lilypdfforclean) ", " $(shell wc < echo $(lilypdfforclean))
-	rm $(lilypdfforclean)
+lilypng: 
+	@which lilypond || (echo "### lilypond must be available from your PATH."; false;)
+	$(MAKE) lily
+	$(MAKE) dolilypng
+
+dolilypng: $(lilypng)
+
+#########################################################################
+lilypngclean:
+	@echo "lilypng = " $(lilypng) ", " $(shell wc < echo $(lilypng))
+	rm $(lilypng)
+	rm $(lilymidi)
 
 #########################################################################
 validate: 
@@ -127,15 +132,15 @@ validate:
 	$(MAKE) validgmn
 	$(MAKE) validlily
 
-lvalidate: 
-	@echo Validating version $(version) with $(VERSION) $(tmp)
-	$(MAKE) validlily
+#lvalidate: 
+#	@echo Validating version $(version) with $(VERSION) $(tmp)
+#	$(MAKE) validlily
 
 validxml: $(validxml)
 
 validgmn: $(validgmn)
 
-validlily:    $(validlily)
+validlily: $(validlily)
 
 #########################################################################
 # rules for xmlread
@@ -159,20 +164,20 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(XML2LY) -q $<  > $@
+	$(XML2LY) -q $<  > $@ || (rm $@ ; false; )
 #	$(XML2LY) $<  > $@
-
-#########################################################################
-# rules for lilypond with svg output
-$(version)/lilysvg/%.svg: $(version)/lilypond/%.ly
-	@[ -d $(@D) ] || mkdir -p $(@D)
-	lilypond --svg $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for lilypond with pdf output
 $(version)/lilypdf/%.pdf: $(version)/lilypond/%.ly
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	lilypond --pdf $<  > $@ || (rm $@ ; false; )
+	lilypond --pdf -l NONE -s -o $(basename $@) $<
+
+#########################################################################
+# rules for lilypond with png output
+$(version)/lilypng/%.png: $(version)/lilypond/%.ly
+	@[ -d $(@D) ] || mkdir -p $(@D)
+	lilypond --png -l NONE -s -o $(basename $@) $<
 
 #########################################################################
 # rules for xml output validation
