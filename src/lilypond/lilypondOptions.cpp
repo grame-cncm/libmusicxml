@@ -1045,7 +1045,7 @@ R"()",
 R"(Generate the score using jianpu (numbered) notation
 instead of the default western notation.
 That option needs lilypond-Jianpu to be accessible to LilyPond
-(https://github.com/nybbs2003/lilypond-Jianpu/blob/master/jianpu10a.ly).)",
+(https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly).)",
           "jianpu",
           fJianpu));
 

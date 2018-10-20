@@ -1043,6 +1043,7 @@ R"(
 
     schemeModulesCode =
 R"(
+% From https://github.com/nybbs2003/lilypond-Jianpu
 \include "jianpu10a.ly"
 )";
   

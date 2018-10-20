@@ -974,7 +974,7 @@ void initializeXml2lyOptionsHandling (
     "Start as a clone of xml2guido");
     
   enlistVersion (
-    "alpha1", "November 2017",
+    "0.9", "October 2018",
     "First draft version");
   
   // create the options variables
