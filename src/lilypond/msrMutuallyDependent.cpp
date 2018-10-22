@@ -1240,7 +1240,13 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
       endl;
   }
 #endif
-  
+
+  // sanity check
+  msrAssert (
+    containingVoice != nullptr,
+    "containingVoice is null");
+
+  // create the grace notes group
   S_msrGraceNotesGroup
     clone =
       msrGraceNotesGroup::create (
@@ -1287,16 +1293,16 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
       S_msrNote
         chordFirstNote =
           chord->getChordNotesVector () [0];
-          
+
       // create skip with same duration as chord
       S_msrNote
         skip =
           msrNote::createSkipNote (
-            note->            getInputLineNumber (),
-            note->            getNoteMeasureNumber (),
-            note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
-            note->            getNoteDisplayWholeNotes (),
-            note->            getNoteDotsNumber (),
+            chordFirstNote->  getInputLineNumber (),
+            chordFirstNote->  getNoteMeasureNumber (),
+            chordFirstNote->  getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            chordFirstNote->  getNoteDisplayWholeNotes (),
+            chordFirstNote->  getNoteDotsNumber (),
             containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
             containingVoice-> getVoiceNumber ());
 
@@ -7238,7 +7244,7 @@ void msrChord::setChordFirstNotePositionInMeasure (
  }
 }
 
-S_msrNote msrChord::fetchChordFirstNote () const
+S_msrNote msrChord::fetchChordFirstNonGraceNote () const
 {
   S_msrNote result;
 
@@ -8596,7 +8602,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   fTupletDisplayWholeNotes.rationalise ();
 }
 
-S_msrNote msrTuplet::fetchTupletFirstNote () const
+S_msrNote msrTuplet::fetchTupletFirstNonGraceNote () const
 {
   S_msrNote result;
 
@@ -8616,7 +8622,7 @@ S_msrNote msrTuplet::fetchTupletFirstNote () const
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*firstTupletElement))
       ) {
       // first element is another tuplet, recurse
-      result = tuplet->fetchTupletFirstNote ();
+      result = tuplet->fetchTupletFirstNonGraceNote ();
     }
   }
   
@@ -17124,7 +17130,7 @@ void msrRepeatCommonPart::appendElementToRepeatCommonPart (
   fRepeatCommonPartElementsList.push_back (elem);
 }
 
-S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNote () const
+S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
 {
   
   S_msrNote result;
@@ -17153,7 +17159,7 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNote () const
         S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
         ) {
         // get the chord's first note
-        result = chord->fetchChordFirstNote ();
+        result = chord->fetchChordFirstNonGraceNote ();
         break;
       }
       
@@ -17161,7 +17167,7 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNote () const
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
         ) {
         // get the tuplet's first note
-        result = tuplet->fetchTupletFirstNote ();
+        result = tuplet->fetchTupletFirstNonGraceNote ();
         break;
       }
       
@@ -17637,13 +17643,13 @@ void msrRepeat::addRepeatEnding (
       ++ fRepeatEndingsInternalCounter);
 }
 
-S_msrNote msrRepeat::fetchRepeatFirstNote () const
+S_msrNote msrRepeat::fetchRepeatFirstNonGraceNote () const
 {
   S_msrNote result;
 
   if (fRepeatCommonPart) {
     result =
-      fRepeatCommonPart->fetchRepeatCommonPartFirstNote ();
+      fRepeatCommonPart->fetchRepeatCommonPartFirstNonGraceNote ();
   }
 
   return result;
@@ -20476,7 +20482,7 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
   gIndenter--;
 }
 
-S_msrNote msrVoice::fetchVoiceFirstNote () const
+S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
 {
   S_msrNote result;
 
@@ -20523,7 +20529,7 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
             S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
             ) {
             // get the chord's first note
-            result = chord->fetchChordFirstNote ();
+            result = chord->fetchChordFirstNonGraceNote ();
             break;
           }
           
@@ -20531,7 +20537,7 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
             S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
             ) {
             // get the tuplet's first note
-            result = tuplet->fetchTupletFirstNote ();
+            result = tuplet->fetchTupletFirstNonGraceNote ();
             break;
           }
           
@@ -20539,7 +20545,7 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
             S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(*element))
             ) {
             // get the repeat's first note
-            result = repeat->fetchRepeatFirstNote ();
+            result = repeat->fetchRepeatFirstNonGraceNote ();
             break;
           }
           
@@ -20562,6 +20568,8 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
           }
           
           else {
+            // ignore this element and return nullptr
+            /*
             stringstream s;
 
             s <<
@@ -20574,6 +20582,7 @@ S_msrNote msrVoice::fetchVoiceFirstNote () const
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
+              */
           }
       
           if (++i == iEnd) break;
@@ -21512,7 +21521,7 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
   // fetch the voice's first note
   S_msrNote
     voiceFirstNote =
-      fetchVoiceFirstNote (); // JMI
+      fetchVoiceFirstNonGraceNote (); // JMI
     
   // get the voice first note's chord uplink
   S_msrChord
@@ -25341,12 +25350,13 @@ void msrVoice::print (ostream& os)
   os <<
     endl;
 
+/* JMI ???
   // print this voice's first note
   {
     S_msrNote
       voiceFirstNote =
         this->
-          fetchVoiceFirstNote ();
+          fetchVoiceFirstNonGraceNote ();
         
     os <<
       setw (fieldWidth) <<
@@ -25370,6 +25380,7 @@ void msrVoice::print (ostream& os)
     os <<
       endl;
   }
+  */
   
   // print the voice last appended note
   os <<

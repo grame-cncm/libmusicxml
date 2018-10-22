@@ -3204,31 +3204,39 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 #endif
 
-  if (noteNotesGroupIsAttachedTo == fCurrentVoiceOriginal->fetchVoiceFirstNote () ) {
-    // bug 34 in LilyPond should be worked around by creating
-    // skip grace notes in the other voices of the part
-  
-    // create the skip grace notes group
-#ifdef TRACE_OPTIONS
-      if (
-          gTraceOptions->fTraceGraceNotes
-            ||
-          gTraceOptions->fTraceNotes
-            ||
-          gTraceOptions->fTraceVoices
-      ) {
-        fLogOutputStream <<
-          "Creating a skip clone of grace notes group '" <<
-          elt->asShortString () <<
-          "' to work around LilyPond issue 34" <<
-          endl;
-      }
-#endif
+  // fetch the original voice first non grace note
+  S_msrNote
+    originalVoiceFirstNonGraceNote =
+      fCurrentVoiceOriginal->
+        fetchVoiceFirstNonGraceNote ();
 
-    fCurrentSkipGraceNotesGroup =
-      elt->
-        createSkipGraceNotesGroupClone (
-          fCurrentVoiceClone);
+  if (originalVoiceFirstNonGraceNote) {
+    if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
+      // bug 34 in LilyPond should be worked around by creating
+      // skip grace notes in the other voices of the part
+    
+      // create the skip grace notes group
+  #ifdef TRACE_OPTIONS
+        if (
+            gTraceOptions->fTraceGraceNotes
+              ||
+            gTraceOptions->fTraceNotes
+              ||
+            gTraceOptions->fTraceVoices
+        ) {
+          fLogOutputStream <<
+            "Creating a skip clone of grace notes group '" <<
+            elt->asShortString () <<
+            "' to work around LilyPond issue 34" <<
+            endl;
+        }
+  #endif
+  
+      fCurrentSkipGraceNotesGroup =
+        elt->
+          createSkipGraceNotesGroupClone (
+            fCurrentVoiceClone);
+    }
   }
 
   // addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded() will
