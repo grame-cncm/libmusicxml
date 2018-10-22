@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 {
 	catchsigs();
 
-	bool version = checkOpt (argc, argv, "--version");
+	bool version = checkOpt (argc, argv, "--version") || checkOpt (argc, argv, "-v");
 	if (version) versionInfo();
 
 	if (argc < 2) usage();
