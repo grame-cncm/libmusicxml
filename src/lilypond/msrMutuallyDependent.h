@@ -4097,7 +4097,7 @@ class msrChord : public msrElement
                             S_msrNote note,
                             S_msrVoice voice);
 
-    S_msrNote             fetchChordFirstNote () const;
+    S_msrNote             fetchChordFirstNonGraceNote () const;
     
     // articulations
     void                  appendArticulationToChord (S_msrArticulation art);
@@ -4494,7 +4494,7 @@ class msrTuplet : public msrElement
     
     void                  addTupletToTupletClone (S_msrTuplet tuplet);
     
-    S_msrNote             fetchTupletFirstNote () const;
+    S_msrNote             fetchTupletFirstNonGraceNote () const;
 
     S_msrNote             removeFirstNoteFromTuplet ( // JMI
                             int       inputLineNumber);
@@ -4811,7 +4811,7 @@ class msrRepeatCommonPart : public msrElement
     void                  appendElementToRepeatCommonPart (
                             S_msrElement elem);
 
-    S_msrNote             fetchRepeatCommonPartFirstNote () const;
+    S_msrNote             fetchRepeatCommonPartFirstNonGraceNote () const;
 
   public:
 
@@ -5044,7 +5044,7 @@ class msrRepeat : public msrElement
     void                  addRepeatEnding (
                             S_msrRepeatEnding repeatEnding);
 
-    S_msrNote             fetchRepeatFirstNote () const;
+    S_msrNote             fetchRepeatFirstNonGraceNote () const;
 
   public:
 
@@ -5924,7 +5924,7 @@ class msrVoice : public msrElement
 
     // notes
     
-    S_msrNote             fetchVoiceFirstNote () const;
+    S_msrNote             fetchVoiceFirstNonGraceNote () const;
 
     void                  registerShortestNoteIfRelevant (S_msrNote note);
 

@@ -14152,9 +14152,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_unpitched& elt)
 
 //______________________________________________________________________________
 S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
-  int        inputLineNumber,
-  S_msrVoice voice,
-  S_msrNote  chordFirstNote)
+  int                  inputLineNumber,
+  S_msrVoice           voice,
+  S_msrNote            chordFirstNote,
+  msrNote::msrNoteKind noteKind)
 {
   int firstNoteInputLineNumber =
     chordFirstNote->getInputLineNumber ();
@@ -14207,8 +14208,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
 
   // set chord first note's kind
   chordFirstNote->
-    setNoteKind (
-      msrNote::kChordMemberNote);
+    setNoteKind (noteKind);
 
   // copy firstNote's elements if any to the chord
   copyNoteElementsToChord (
@@ -18801,7 +18801,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 #endif
 
     // fetch chord first note's kind before createChordFromItsFirstNote(),
-    // because the latter will change it to kChordMemberNote
+    // because the latter will change it to kChordMemberNote or kGraceChordMemberNote
     msrNote::msrNoteKind
       savedChordFirstNoteKind =
         chordFirstNote->getNoteKind ();
@@ -18829,7 +18829,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       createChordFromItsFirstNote (
         inputLineNumber,
         currentVoice,
-        chordFirstNote);
+        chordFirstNote,
+        msrNote::kChordMemberNote);
     
     // handle chord's first note
     switch (savedChordFirstNoteKind) {
@@ -19588,7 +19589,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       createChordFromItsFirstNote (
         inputLineNumber,
         currentVoice,
-        tupletLastNote);
+        tupletLastNote,
+        msrNote::kChordMemberNote);
     
     if (false) {
       fLogOutputStream <<
@@ -19786,7 +19788,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInAGraceNotesGroup (
       createChordFromItsFirstNote (
         inputLineNumber,
         currentVoice,
-        chordFirstNote);
+        chordFirstNote,
+        msrNote::kGraceChordMemberNote);
     
     if (false) {
       fLogOutputStream <<

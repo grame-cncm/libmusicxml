@@ -1725,9 +1725,10 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingChord;
     
     S_msrChord                createChordFromItsFirstNote (
-                                int        inputLineNumber,
-                                S_msrVoice voice,
-                                S_msrNote  chordFirstNote);
+                                int                  inputLineNumber,
+                                S_msrVoice           voice,
+                                S_msrNote            chordFirstNote,
+                                msrNote::msrNoteKind noteKind);
 
 /* JMI
     void                      registerVoiceCurrentChordInMap (
