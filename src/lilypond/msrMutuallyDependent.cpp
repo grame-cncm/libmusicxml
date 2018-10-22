@@ -17207,6 +17207,8 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
       if (++i == iEnd) break;
     } // for
   }
+
+  return result;
 }
 
 void msrRepeatCommonPart::acceptIn (basevisitor* v)
