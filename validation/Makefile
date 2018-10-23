@@ -36,6 +36,10 @@ all:
 	$(MAKE) guido
 	$(MAKE) lily
 
+travis:
+	$(MAKE) read
+	$(MAKE) guido
+
 trace:
 	@echo $(validxml)
 
@@ -131,10 +135,6 @@ validate:
 	$(MAKE) validxml
 	$(MAKE) validgmn
 	$(MAKE) validlily
-
-#lvalidate: 
-#	@echo Validating version $(version) with $(VERSION) $(tmp)
-#	$(MAKE) validlily
 
 validxml: $(validxml)
 
