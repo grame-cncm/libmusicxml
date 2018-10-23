@@ -116,8 +116,9 @@ set_target_properties (${target} PROPERTIES
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
 			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-#set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
-
+if (MSVC)
+	set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
+endif()
 
 if (FMWK AND APPLE AND NOT IOS)
 set_target_properties (${target} PROPERTIES 
