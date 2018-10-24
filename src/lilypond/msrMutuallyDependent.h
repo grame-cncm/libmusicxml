@@ -4813,6 +4813,9 @@ class msrRepeatCommonPart : public msrElement
 
     S_msrNote             fetchRepeatCommonPartFirstNonGraceNote () const;
 
+    void                  collectRepeatCommonPartMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -4932,6 +4935,9 @@ class msrRepeatEnding : public msrElement
   
  //  JMI void                  appendElementToRepeatEnding (S_msrElement elem);
                     
+    void                  collectRepeatEndingMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -5046,6 +5052,9 @@ class msrRepeat : public msrElement
 
     S_msrNote             fetchRepeatFirstNonGraceNote () const;
 
+    void                  collectRepeatMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -5137,6 +5146,9 @@ class msrMeasuresRepeatPattern : public msrElement
 
     int                   measuresRepeatPatternMeasuresNumber () const;
         
+    void                  collectRepeatPatternMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -5223,6 +5235,9 @@ class msrMeasuresRepeatReplicas : public msrElement
     
     int                   measuresRepeatReplicasNumber () const;
 
+    void                  collectRepeatReplicasMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -5352,6 +5367,9 @@ class msrMeasuresRepeat : public msrElement
     
     int                   measuresRepeatReplicasNumber () const;
 
+    void                  collectMeasuresRepeatMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -5443,6 +5461,9 @@ class msrMultipleRestContents : public msrElement
 
     int                   multipleRestContentsMeasuresNumber () const;
 
+    void                  collectMultipleRestContentsMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -5555,6 +5576,9 @@ class msrMultipleRest : public msrElement
                                   multipleRestContentsMeasuresNumber ();
                             }
 
+    void                  collectMultipleRestMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
