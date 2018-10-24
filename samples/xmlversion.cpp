@@ -24,7 +24,7 @@ using namespace MusicXML2;
 int main(int argc, char *argv[]) 
 {
   cout << "libmusicxml version " << musicxmllibVersionStr() << endl;
-  cout << "libmusicxml to guido converter version " << musicxml2guidoVersionStr() << endl;
-  cout << "libmusicxml to lilypond converter version " << musicxml2lilypondVersionStr() << endl;
+  cout << "musicxml to guido converter version " << musicxml2guidoVersionStr() << endl;
+  cout << "musicxml to lilypond converter version " << musicxml2lilypondVersionStr() << endl;
   return 0;
 }
