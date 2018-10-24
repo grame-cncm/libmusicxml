@@ -83,6 +83,8 @@ class msrTie : public msrElement
     string                tieKindAsString () const
                               { return tieKindAsString (fTieKind); }
 
+    string                asString () const;
+
     virtual void          print (ostream& os);
 
   private:

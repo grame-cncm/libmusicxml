@@ -14779,6 +14779,34 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteTieToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's tie if any from the first note to chord
+  
+  S_msrTie
+    noteTie =
+      note->
+        getNoteTie ();
+
+  if (noteTie) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTies) {
+      fLogOutputStream <<
+        "Copying tie '" <<
+        noteTie->asString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    chord->
+      appendTieToChord (noteTie);
+  }   
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   S_msrNote note, S_msrChord chord)
 {  
@@ -15058,7 +15086,10 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
   // copy note's beams if any to the chord
   copyNoteBeamsToChord (note, chord);
 
-  // copy note's slurs if any to the chord
+  // copy note's ties if any to the chord
+  copyNoteTieToChord (note, chord);
+
+  // copy note's tie if any to the chord
   copyNoteSlursToChord (note, chord);
 
   // copy note's ligatures if any to the chord

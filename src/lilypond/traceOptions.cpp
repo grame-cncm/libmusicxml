@@ -285,6 +285,9 @@ debugging information to standard error for the specified measures.)",
     // dynamics
     fTraceDynamics = boolOptionsInitialValue;
 
+    // ties
+    fTraceTies = boolOptionsInitialValue;
+
     // slurs
     fTraceSlurs = boolOptionsInitialValue;
 
@@ -905,9 +908,18 @@ R"(Dynamics)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "tties", "trace-ties",
+R"(Ties)",
+          "traceTies",
+          fTraceTies,
+          fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "tslurs", "trace-slurs",
 R"(Slurs)",
-          "fTraceSlurs",
+          "traceSlurs",
           fTraceSlurs,
           fTracePasses));
       
@@ -1005,6 +1017,7 @@ R"(MSR Streams API for applications)",
 
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
+  fTraceTies = boolOptionsInitialValue;
   fTraceSlurs = boolOptionsInitialValue;
   fTraceLigatures = boolOptionsInitialValue;
   fTracePedals = boolOptionsInitialValue;
@@ -1179,6 +1192,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
 
   // dynamics
   clone->fTraceDynamics = true;
+
+  // ties
+  clone->fTraceTies = true;
 
   // slurs
   clone->fTraceSlurs = true;
@@ -1361,6 +1377,9 @@ void traceOptions::setAllTraceOptions (
     // dynamics
     fTraceDynamics = boolOptionsInitialValue;
 
+    // ties
+    fTraceTies = boolOptionsInitialValue;
+
     // slurs
     fTraceSlurs = boolOptionsInitialValue;
 
@@ -1391,6 +1410,7 @@ void traceOptions::setAllTraceOptions (
 
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
+  fTraceTies = boolOptionsInitialValue;
   fTraceSlurs = boolOptionsInitialValue;
   fTraceLigatures = boolOptionsInitialValue;
   fTracePedals = boolOptionsInitialValue;

@@ -1580,6 +1580,8 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWordsToChord (
                                 S_msrNote note, S_msrChord chord);
+    void                      copyNoteTieToChord (
+                                S_msrNote note, S_msrChord chord);
     void                      copyNoteSlursToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteLigaturesToChord (

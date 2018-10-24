@@ -7700,6 +7700,15 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
+    list<S_msrTie>::const_iterator i = fChordTies.begin ();
+    i != fChordTies.end ();
+    i++ ) {
+    // browse the tie
+    msrBrowser<msrTie> browser (v);
+    browser.browse (*(*i));
+  } // for
+  
+  for (
     list<S_msrSlur>::const_iterator i = fChordSlurs.begin ();
     i != fChordSlurs.end ();
     i++ ) {
@@ -8119,6 +8128,14 @@ void msrChord::print (ostream& os)
   if (fChordWords.size ()) {
     list<S_msrWords>::const_iterator i;
     for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
+      os << (*i);
+    } // for
+  }
+
+  // print the ties if any
+  if (fChordTies.size ()) {
+    list<S_msrTie>::const_iterator i;
+    for (i=fChordTies.begin (); i!=fChordTies.end (); i++) {
       os << (*i);
     } // for
   }

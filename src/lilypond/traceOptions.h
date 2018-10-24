@@ -240,6 +240,9 @@ class traceOptions : public optionsGroup
     // dynamics
     bool                  fTraceDynamics;
 
+    // ties
+    bool                  fTraceTies;
+
     // slurs
     bool                  fTraceSlurs;
 

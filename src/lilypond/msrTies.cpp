@@ -49,27 +49,6 @@ msrTie::msrTie (
 msrTie::~msrTie ()
 {}
 
-string msrTie::tieKindAsString (msrTieKind tieKind)
-{
-  stringstream s;
-  
-  switch (tieKind) {
-    case kTieStart:
-      s << "tieStart";
-      break;
-    case kTieContinue:
-      s << "tieContinue";
-      break;
-    case kTieStop:
-      s << "tieStop";
-      break;
-    case kTieNone:
-      s << "tieNone";
-  } // switch
-    
-  return s.str ();
-}
-
 void msrTie::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -123,11 +102,42 @@ ostream& operator<< (ostream& os, const S_msrTie& elt)
   return os;
 }
 
+string msrTie::tieKindAsString (msrTieKind tieKind)
+{
+  stringstream s;
+  
+  switch (tieKind) {
+    case kTieStart:
+      s << "tieStart";
+      break;
+    case kTieContinue:
+      s << "tieContinue";
+      break;
+    case kTieStop:
+      s << "tieStop";
+      break;
+    case kTieNone:
+      s << "tieNone";
+  } // switch
+    
+  return s.str ();
+}
+
+string msrTie::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Tie" << " " << tieKindAsString () <<
+    ", line " << fInputLineNumber;
+        
+  return s.str ();
+}
+
 void msrTie::print (ostream& os)
 {
   os <<
-    "Tie" << " " << tieKindAsString () <<
-    ", line " << fInputLineNumber <<
+    asString () <<
     endl;
 }
 

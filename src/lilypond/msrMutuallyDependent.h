@@ -3986,6 +3986,11 @@ class msrChord : public msrElement
                           getChordWords () const
                               { return fChordWords; }
                       
+    // ties
+    const list<S_msrTie>&
+                          getChordTies () const
+                              { return fChordTies; }
+                      
     // slurs
     const list<S_msrSlur>&
                           getChordSlurs () const
@@ -4155,6 +4160,12 @@ class msrChord : public msrElement
                                 fChordWords.push_back (dynamic);
                               }
                     
+    // ties
+    void                  appendTieToChord (S_msrTie tie)
+                              {
+                                fChordTies.push_back (tie);
+                              }
+                      
     // slurs
     void                  appendSlurToChord (S_msrSlur slur)
                               {
@@ -4301,6 +4312,9 @@ class msrChord : public msrElement
     // words
     list<S_msrWords>      fChordWords;
     
+    // ties
+    list<S_msrTie>        fChordTies;
+
     // slurs
     list<S_msrSlur>       fChordSlurs;
 
