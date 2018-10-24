@@ -31,7 +31,7 @@ MSVC   ?= Visual Studio 14 2015
 MSVC64 := $(MSVC) Win64
 
 CMAKEOPT ?= 
-TOOLS := xml2midi xmlread xml2guido xml2ly
+TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion
 
 all :
 	make $(TARGET)
