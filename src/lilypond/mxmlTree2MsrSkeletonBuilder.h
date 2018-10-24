@@ -564,7 +564,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // staff handling
     // ------------------------------------------------------
     
-    int                       fCurrentStaffNumber; // used throughout
+    int                       fCurrentStaffMusicXMLNumber; // used throughout
     
     S_msrStaff                createStaffInCurrentPartIfNotYetDone (
                                 int            inputLineNumber,
@@ -574,7 +574,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // voice handling
     // ------------------------------------------------------
     
-    int                       fCurrentVoiceNumber; // used throughout
+    int                       fCurrentVoiceMusicXMLNumber; // used throughout
 
     S_msrVoice                createRegularVoiceInStaffIfNotYetDone (
                                 int inputLineNumber,
@@ -593,9 +593,6 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
 
     bool                      fOnGoingNote;
-
-    int                       fCurrentNoteStaffNumber;
-    int                       fCurrentNoteVoiceNumber;
 
 
     // lyrics handling

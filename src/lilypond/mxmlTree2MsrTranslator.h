@@ -990,7 +990,7 @@ class mxmlTree2MsrTranslator :
     // staff handling
     // ------------------------------------------------------
     
-    int                       fCurrentStaffNumber; // used throughout
+    int                       fCurrentMusicXMLStaffNumber; // used throughout
     
     S_msrStaff                fetchStaffFromCurrentPart (
                                 int            inputLineNumber,
@@ -999,7 +999,7 @@ class mxmlTree2MsrTranslator :
     // voice handling
     // ------------------------------------------------------
     
-    int                       fCurrentVoiceNumber; // used throughout
+    int                       fCurrentMusicXMLVoiceNumber; // used throughout
 
     S_msrVoice                fetchVoiceFromCurrentPart (
                                 int inputLineNumber,
@@ -1465,8 +1465,7 @@ class mxmlTree2MsrTranslator :
 
     // staff
     // notes always keep their initial staff number
-    int                       fCurrentNoteStaffNumber;
-    int                       fPreviousNoteStaffNumber;
+    int                       fPreviousNoteMusicXMLStaffNumber;
 
     // staff changes
     // MusicXMl contains sequences of elements on one and the same staff,
@@ -1488,9 +1487,6 @@ class mxmlTree2MsrTranslator :
         
     staffChangeKind           fCurrentStaffChangeKind;
     
-    // voice
-    int                       fCurrentNoteVoiceNumber;
-
     // elements attached to the note
     S_msrStem                 fCurrentStem;
 

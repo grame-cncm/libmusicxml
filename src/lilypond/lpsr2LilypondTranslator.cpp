@@ -6476,10 +6476,10 @@ if (false) // JMI
           __FILE__, __LINE__,
           s.str ());
 else
-     msrInternalWarning (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        s.str ());
+        msrInternalWarning (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          s.str ());
       }
       break;
       
@@ -11800,11 +11800,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       endl;
   }
 
+  int chordInputLineNumber =
+    elt->getInputLineNumber ();
+    
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
-    gLogIOstream <<
-      "% ==> start visiting grace chords is ignored" <<
-      endl;
+    msrInternalWarning (
+      gXml2lyOptions->fInputSourceName,
+      chordInputLineNumber,
+      "% ==> Start visiting grace chords is ignored");
 
     return;
   }
@@ -12078,19 +12082,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       endl;
   }
 
+  int chordInputLineNumber =
+    elt->getInputLineNumber ();
+    
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
-    gLogIOstream <<
-      "% ==> End visiting grace chords is ignored" <<
-      endl;
+    msrInternalWarning (
+      gXml2lyOptions->fInputSourceName,
+      chordInputLineNumber,
+      "% ==> End visiting grace chords is ignored");
 
     return;
   }
 #endif
   
-  int chordInputLineNumber =
-    elt->getInputLineNumber ();
-    
   // generate the end of the chord
   fLilypondCodeIOstream <<
     ">";

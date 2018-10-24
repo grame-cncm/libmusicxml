@@ -767,7 +767,7 @@ string msrDoubleTremolo::asString () const
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingWholeNotes << " sound whole notes";
+    ", " << fDoubleTremoloSoundingWholeNotes << " sounding whole notes";
 
   if (fDoubleTremoloFirstElement) { // it may not be set yet
     s <<
@@ -4933,9 +4933,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kSkipNote:
@@ -4944,9 +4944,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kUnpitchedNote:
@@ -4956,9 +4956,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kStandaloneNote:
@@ -4970,9 +4970,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -4984,9 +4984,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         ":" <<
         " whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kGraceNote:
@@ -5023,9 +5023,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -5043,9 +5043,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kGraceTupletMemberNote:
@@ -5063,9 +5063,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
       
     case msrNote::kTupletMemberUnpitchedNote:
@@ -5074,9 +5074,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
       break;
   } // switch
 
@@ -5221,9 +5221,9 @@ string msrNote::asShortString () const
         "tupletMemberUnpitchedNote" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
         /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -5281,9 +5281,9 @@ string msrNote::asString () const
         ")" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp" <<
+        " displayed" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
@@ -5350,7 +5350,7 @@ string msrNote::asString () const
         "chordMemberNote '"<<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
- // JMI       ", " << fNoteSoundingWholeNotes << " sound whole notes, " <<
+ // JMI       ", " << fNoteSoundingWholeNotes << " sounding whole notes, " <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
@@ -5359,9 +5359,9 @@ string msrNote::asString () const
         "tupletMemberNote '"<<
         notePitchAsString () <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
 /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -5382,9 +5382,9 @@ string msrNote::asString () const
         "graceTupletMemberNote '"<<
         notePitchAsString () <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
 /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -5405,9 +5405,9 @@ string msrNote::asString () const
         "tupletMemberUnpitchedNote "<<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
-        " sound, " <<
+        " sounding, " <<
         fNoteDisplayWholeNotes <<
-        " disp";
+        " displayed";
 /* JMI
         notePartUplink ()->
           tupletSoundingWholeNotesAsMsrString (
@@ -7866,9 +7866,9 @@ string msrChord::asString () const
         note->notePitchAsString () <<
         ", whole notes: " <<
         note->getNoteSoundingWholeNotes () <<
-        " sound, " <<
+        " sounding, " <<
         note->getNoteDisplayWholeNotes () <<
-        " disp," <<
+        " displayed," <<
         "[" << note->getNoteOctave () << "]";
         
       if (++i == iEnd) break;
@@ -7901,9 +7901,9 @@ string msrChord::asShortString () const
         note->notePitchAsString () <<
         "', whole notes: " <<
         note->getNoteSoundingWholeNotes () <<
-        " sound, " <<
+        " sounding, " <<
         note->getNoteDisplayWholeNotes () <<
-        " disp," <<
+        " displayed," <<
         "[" << note->getNoteOctave () << "]";
         
       if (++i == iEnd) break;
@@ -9067,8 +9067,8 @@ void msrTuplet::print (ostream& os)
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
-    fTupletSoundingWholeNotes << " sound, " <<
-    fTupletDisplayWholeNotes << " disp" <<
+    fTupletSoundingWholeNotes << " sounding, " <<
+    fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
     fTupletMeasureNumber <<
     ", line " << fInputLineNumber <<
@@ -9153,8 +9153,8 @@ void msrTuplet::printShort (ostream& os)
     singularOrPlural (
       fTupletElementsList.size (), "element", "elements") <<
     ", whole notes: " <<
-    fTupletSoundingWholeNotes << " sound, " <<
-    fTupletDisplayWholeNotes << " disp" <<
+    fTupletSoundingWholeNotes << " sounding, " <<
+    fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
     fTupletMeasureNumber <<
     ", line " << fInputLineNumber <<
@@ -14691,7 +14691,7 @@ void msrMeasure::print (ostream& os)
 
   os <<
     setw (fieldWidth) <<
-    "fMeasureElementsList" << " : " <<
+    "measureElementsList" << " : " <<
     singularOrPlural (
       measureElementsListSize, "element", "elements") <<
     endl;
@@ -25057,6 +25057,59 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   gIndenter--;
 }
 
+
+void msrVoice:: collectVoiceMeasuresIntoFlatList (
+  int inputLineNumber)
+{
+  // collect measures from the initial elements if any
+  if (fVoiceInitialElementsList.size ()) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Collecting measures from the initial elements into voice \"" <<
+        getVoiceName () <<
+        "s measures flat list" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+  }
+
+  // collect measures from the last segment if any
+  if (fVoiceLastSegment) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Collecting measures from the last segment into voice \"" <<
+        getVoiceName () <<
+        "s measures flat list" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    list<S_msrMeasure> lastSegmentMeasuresFlatList;
+
+    const list<S_msrMeasure>&
+      voiceLastSegmentMeasuresList =
+        fVoiceLastSegment->
+          getSegmentMeasuresList ();
+
+    if (voiceLastSegmentMeasuresList.size ()) {
+      list<S_msrMeasure>::const_iterator
+        iBegin = voiceLastSegmentMeasuresList.begin (),
+        iEnd   = voiceLastSegmentMeasuresList.end (),
+        i      = iBegin;
+        
+      for ( ; ; ) {
+        fVoiceMeasuresFlatList.push_back ((*i));
+        if (++i == iEnd) break;
+      } // for
+    }
+  }
+}
+
 void msrVoice::finalizeVoice ( // JMI ???
   int inputLineNumber)
 {
@@ -25089,6 +25142,10 @@ void msrVoice::finalizeVoice ( // JMI ???
       inputLineNumber,
       s.str ());
   }
+
+  // collect the voice measures into the flat list
+  collectVoiceMeasuresIntoFlatList (
+    inputLineNumber);
 }
 
 void msrVoice::acceptIn (basevisitor* v)
@@ -25401,28 +25458,67 @@ void msrVoice::print (ostream& os)
   }
   else {
     os <<
-      " : " << "none" <<
-      endl;
+      " : " << "none";
   }
   os <<
     endl;
+
+  // print the voice measures flat list
+  int voiceMeasuresFlatListSize =
+    fVoiceMeasuresFlatList.size ();
+    
+  os <<
+    setw (fieldWidth) <<
+    "voiceMeasuresFlatList";
+  if (voiceMeasuresFlatListSize) {
+    os <<
+      " : " <<  voiceMeasuresFlatListSize << " elements";
+  }
+  else {
+    os <<
+      " : " << "empty";
+  }
+  os <<
+    endl;
+    
+  if (voiceMeasuresFlatListSize) {
+    gIndenter++;
+
+    list<S_msrMeasure>::const_iterator
+      iBegin = fVoiceMeasuresFlatList.begin (),
+      iEnd   = fVoiceMeasuresFlatList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the measure
+      os <<
+        (*i)->asShortString () <<
+        endl;
+      if (++i == iEnd) break;
+   //   os << endl;
+    } // for
+
+    gIndenter--;
+  }
   
   // print the voice initial elements
-  int initialElementsNumber =
+  int voiceInitialElementsListSize =
     fVoiceInitialElementsList.size ();
     
   os <<
-    "Initial elements: ";
-  if (initialElementsNumber) {
-    os << "(" << initialElementsNumber << ")";
+    endl <<
+    setw (fieldWidth) <<
+    "voiceInitialElementsList";
+  if (voiceInitialElementsListSize) {
+    os << " : " <<  voiceInitialElementsListSize << " elements";
   }
   else {
-    os << "none";
+    os << " : " << "none";
   }
   os <<
     endl;
     
-  if (initialElementsNumber) {
+  if (voiceInitialElementsListSize) {
     os <<
       endl;
       
@@ -25443,9 +25539,6 @@ void msrVoice::print (ostream& os)
     gIndenter--;
   }
   
-  os <<
-    endl;
-
   /* JMI
   // sanity check
   msrAssert (
@@ -25456,7 +25549,9 @@ void msrVoice::print (ostream& os)
   // print the last segment
   if (fVoiceLastSegment) {
     os <<
-      "Voice last segment:" <<
+      endl <<
+      setw (fieldWidth) <<
+      "voiceLastSegment" <<
       endl;
       
     gIndenter++;
@@ -25468,7 +25563,7 @@ void msrVoice::print (ostream& os)
   
   else {
     os <<
-      "*** Last segment is null ***" << // JMI
+      "*** voiceLastSegment is null ***" << // JMI
       endl;
   }
   
@@ -26212,12 +26307,13 @@ void msrStaff::registerVoiceInRegularVoicesMap (
       "Registering regular voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
       "\" in staff " << getStaffName () <<
-      "'s regular voices map" <<
+      "'s regular voices map as regular voice with sequential number " <<
+      fStaffRegularVoicesCounter <<
       endl;
   }
 #endif
 
-  fStaffRegularVoicesMap [voiceNumber] =
+  fStaffRegularVoicesMap [fStaffRegularVoicesCounter] =
     voice;
 
   // set voice staff sequential number
@@ -26248,7 +26344,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   int inputLineNumber,
   int voiceNumber)
 {
-  S_msrVoice result; // JMI avoid repetivite messages!
+  S_msrVoice result; // JMI avoid repetitive messages!
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
@@ -27728,7 +27824,7 @@ void msrStaff::print (ostream& os)
   // print the staff tunings if any
   if (fStaffTuningsList.size ()) {
     os <<
-      "Staff tunings:" <<
+      "staffTuningsList:" <<
       endl;
       
     list<S_msrStaffTuning>::const_iterator
@@ -27749,6 +27845,70 @@ void msrStaff::print (ostream& os)
   os <<
     endl;
 */
+
+  // print the all voices map
+  if (fStaffAllVoicesMap.size ()) {
+    os <<
+      "staffAllVoicesMap" <<
+      endl;
+      
+    gIndenter++;
+
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffAllVoicesMap.begin (),
+      iEnd   = fStaffAllVoicesMap.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      int        voiceNumber = (*i).first;
+      S_msrVoice voice       = (*i).second;
+      
+        os <<
+          voiceNumber << " : " <<
+          "regularVoiceStaffSequentialNumber = " <<
+          voice->getRegularVoiceStaffSequentialNumber () <<
+          ", " <<
+          voice->asShortString ();
+        if (++i == iEnd) break;
+        os << endl;
+    } // for
+    os <<
+      endl;
+    
+    gIndenter--;
+  }
+
+  // print the regular voices map
+  if (fStaffAllVoicesMap.size ()) {
+    os <<
+      "staffRegularVoicesMap" <<
+      endl;
+      
+    gIndenter++;
+
+    map<int, S_msrVoice>::const_iterator
+      iBegin = fStaffRegularVoicesMap.begin (),
+      iEnd   = fStaffRegularVoicesMap.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      int        voiceNumber = (*i).first;
+      S_msrVoice voice       = (*i).second;
+      
+        os <<
+          voiceNumber << " : " <<
+          "regularVoiceStaffSequentialNumber = " <<
+          voice->getRegularVoiceStaffSequentialNumber () <<
+          ", " <<
+          voice->asShortString ();
+        if (++i == iEnd) break;
+        os << endl;
+    } // for
+    os <<
+      endl;
+    
+    gIndenter--;
+  }
 
   // print the  voices
   if (fStaffAllVoicesMap.size ()) {
@@ -28157,7 +28317,7 @@ void msrPart::setPartInstrumentAbbreviation (
     }
 */
 
-void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
+void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
 {
   if (! fPartFiguredBassStaff) {    
@@ -29159,7 +29319,7 @@ void msrPart::appendFiguredBassToPart (
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
       // create the figured bass staff and voice if not yet done
-      createPartFiguredStaffAndVoiceIfNotYetDone (
+      createPartFiguredBassStaffAndVoiceIfNotYetDone (
         inputLineNumber);
 
       /* JMI ???
@@ -29219,7 +29379,7 @@ void msrPart::appendFiguredBassToPartClone (
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
     case msrVoice::kFiguredBassVoice:
       // create the figured bass staff and voice if not yet done
-      createPartFiguredStaffAndVoiceIfNotYetDone (
+      createPartFiguredBassStaffAndVoiceIfNotYetDone (
         inputLineNumber);
 
       /* JMI NON

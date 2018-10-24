@@ -30,14 +30,17 @@ namespace MusicXML2
 //______________________________________________________________________________
 class EXP versions {
     public:
-		static float		libVersion();
-		static const char*	libVersionStr();
+    static float    libVersion();
+    static const char*  libVersionStr();
 
-		static float		xml2guidoVersion();
-		static const char*	xml2guidoVersionStr();
-		
-//		static float		xml2antescofoVersion();
-//		static const char*	xml2antescofoVersionStr();
+    static float    xml2guidoVersion();
+    static const char*  xml2guidoVersionStr();
+    
+    static float    xml2lilypondVersion();
+    static const char*  xml2lilypondVersionStr();
+    
+//    static float    xml2antescofoVersion();
+//    static const char*  xml2antescofoVersionStr();
 };
 
 }
