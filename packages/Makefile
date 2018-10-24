@@ -19,9 +19,9 @@ WINDIR64 := libmusicxml-$(VERSION)-win64
 
 HEADERS  = $(wildcard .$(SRCDIR)/*.h) $(wildcard $(SRCDIR)/*/*.h)
 FILES    = $(ROOTDIR)/CHANGELOG.txt ./README.md $(ROOTDIR)/license.txt
-TOOLS    = xml2guido xml2ly xmltranspose
-WINTOOLS32 = $(TOOLS:%=../w32/release/%.exe)
-WINTOOLS64 = $(TOOLS:%=../w64/release/%.exe)
+TOOLS    = xml2guido xml2ly xmltranspose xmlversion
+WINTOOLS32 = $(TOOLS:%=$(BUILDDIR)/win32/Release/%.exe)
+WINTOOLS64 = $(TOOLS:%=$(BUILDDIR)/win64/Release/%.exe)
 MACTOOLS = $(TOOLS:%=$(BUILDDIR)/macos/Release/%)
 LINUXTOOLS = $(TOOLS:%=$(BUILDDIR)/%)
 DTDS     = $(wildcard $(ROOTDIR)/dtds/$(CURRENT)/*.*)
@@ -64,10 +64,10 @@ windows:
 	make common DEST=$(WINDIR64)
 	make incl DEST=$(WINDIR64)
 	make exe DEST=$(WINDIR64) TOOLS="$(WINTOOLS64)"
-	cp  ../w32/release/libmusicxml2.dll $(WINDIR32)
-	cp  ../w32/release/libmusicxml2.lib $(WINDIR32)
-	cp  ../w64/release/libmusicxml2.dll $(WINDIR64)
-	cp  ../w64/release/libmusicxml2.lib $(WINDIR64)
+	cp  $(BUILDDIR)/win32/Release/libmusicxml2.dll $(WINDIR32)
+	cp  $(BUILDDIR)/win32/Release/libmusicxml2.lib $(WINDIR32)
+	cp  $(BUILDDIR)/win64/Release/libmusicxml2.dll $(WINDIR64)
+	cp  $(BUILDDIR)/win64/Release/libmusicxml2.lib $(WINDIR64)
 
 exe:
 	cp $(TOOLS) $(DEST)
