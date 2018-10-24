@@ -5876,6 +5876,11 @@ class msrVoice : public msrElement
     bool                  getVoiceContainsMultipleRests () const
                               { return fVoiceContainsMultipleRests; }
 
+    // measures flat list
+    const list<S_msrMeasure>&
+                          getVoiceMeasuresFlatList () const
+                              { return fVoiceMeasuresFlatList; }
+
     // services
     // ------------------------------------------------------
 
@@ -6257,6 +6262,9 @@ class msrVoice : public msrElement
     void                  finalizeVoice (
                             int inputLineNumber);
     
+    void                  collectVoiceMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
   public:
 
     // visitors
@@ -6387,6 +6395,12 @@ class msrVoice : public msrElement
         
     map<string, S_msrStanza>
                           fVoiceStanzasMap;
+
+    // measures flat list
+    // i.e. without segments nor repeats,
+    // extracted from fVoiceInitialElementsList and fSaveVoiceLastSegment
+    // by finalizeMeasure()
+    list<S_msrMeasure>    fVoiceMeasuresFlatList;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
@@ -7125,7 +7139,7 @@ class msrPart : public msrElement
 
     // figured bass staff and voice
     
-    void                  createPartFiguredStaffAndVoiceIfNotYetDone ( // JMI ???
+    void                  createPartFiguredBassStaffAndVoiceIfNotYetDone (
                             int inputLineNumber);
         
     // measures

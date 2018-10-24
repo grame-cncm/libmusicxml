@@ -165,10 +165,10 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fOnGoingPartNameDisplay = false;
   
   // staff handling
-  fCurrentStaffNumber = -1;
+  fCurrentStaffMusicXMLNumber = -1;
 
   // voice handling
-  fCurrentVoiceNumber = -1;
+  fCurrentVoiceMusicXMLNumber = -1;
 
   // measures
   fPartNumberOfMeasures = 0;
@@ -187,8 +187,8 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fOnGoingNote = false;
 
   // note context
-  fCurrentNoteStaffNumber = 0;
-  fCurrentNoteVoiceNumber = 0;
+  fCurrentStaffMusicXMLNumber = 0;
+  fCurrentVoiceMusicXMLNumber = 0;
 
   // create an empty list for part groups starting at 0,
   // i.e. for the implicit part group
@@ -3208,8 +3208,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   fPartNumberOfMeasures = 0;
     
   // staves and voices
-  fCurrentStaffNumber = 1; // default if there are no <staff> element
-  fCurrentVoiceNumber = 1; // default if there are no <voice> element
+  fCurrentStaffMusicXMLNumber = 1; // default if there are no <staff> element
+  fCurrentVoiceMusicXMLNumber = 1; // default if there are no <voice> element
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
@@ -3338,14 +3338,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
       endl;
   }
 
-  fCurrentStaffNumber = int(*elt);
+  fCurrentStaffMusicXMLNumber = int(*elt);
 
   // the staff number should be positive
-  if (fCurrentStaffNumber <= 0) {
+  if (fCurrentStaffMusicXMLNumber <= 0) {
     stringstream s;
 
     s <<
-      "staff number " << fCurrentStaffNumber <<
+      "staff number " << fCurrentStaffMusicXMLNumber <<
       " is not positive" <<
       ", line " << inputLineNumber;
       
@@ -3353,8 +3353,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
   }
   
   if (fOnGoingNote) { // JMI
-    // regular staff indication in note/rest
-    fCurrentNoteStaffNumber = fCurrentStaffNumber;
+    // regular staff indication in note/rest, fine
+  }
+  else {
+    // JMI ???
   }
 }
 
@@ -3368,11 +3370,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_voice& elt )
       endl;
   }
 
-  fCurrentVoiceNumber = int(*elt);
+  fCurrentVoiceMusicXMLNumber = int(*elt);
   
   if (fOnGoingNote) { // JMI
-    // regular voice indication in note/rest
-    fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
+    // regular voice indication in note/rest, fine
+  }
+  else {
+    // JMI ???
   }
   
   // don't attempt to create the voice now,
@@ -3436,14 +3440,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_note& elt )
   }
   
   // assuming staff number 1, unless S_staff states otherwise afterwards
-  fCurrentStaffNumber = 1;
+  fCurrentStaffMusicXMLNumber = 1;
 
   // assuming voice number 1, unless S_voice states otherwise afterwards
-  fCurrentVoiceNumber = 1;
+  fCurrentVoiceMusicXMLNumber = 1;
     
-  fCurrentNoteStaffNumber = 1; // it may be absent
-  fCurrentNoteVoiceNumber = 1; // it may be absent
-
   // lyrics
   fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
   fCurrentStanzaName = K_NO_STANZA_NAME;
@@ -3463,24 +3464,20 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       endl;
   }
   
-  // store voice and staff numbers in MusicXML note data
-  fCurrentNoteStaffNumber = fCurrentStaffNumber;
-  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
-
   // should the staff be created?
   S_msrStaff
     staff =
       createStaffInCurrentPartIfNotYetDone (
         inputLineNumber,
-        fCurrentNoteStaffNumber);
+        fCurrentStaffMusicXMLNumber);
 
   // should the voice be created?
   S_msrVoice
     voice =
       createRegularVoiceInStaffIfNotYetDone (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
-        fCurrentNoteVoiceNumber);
+        fCurrentStaffMusicXMLNumber,
+        fCurrentVoiceMusicXMLNumber);
   
 #ifdef TRACE_OPTIONS
   if (
@@ -3491,14 +3488,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
     gTraceOptions->fTraceVoices
     ) {
     fLogOutputStream <<
-      "--> S_note, fCurrentNoteStaffNumber = " <<
-      fCurrentNoteStaffNumber <<
+      "--> S_note, fCurrentStaffMusicXMLNumber = " <<
+      fCurrentStaffMusicXMLNumber <<
       endl <<
       "--> S_note, current staff name  = " <<
       staff->getStaffName() <<
       endl <<
-      "--> S_note, fCurrentNoteVoiceNumber        = " <<
-      fCurrentNoteVoiceNumber <<
+      "--> S_note, fCurrentVoiceMusicXMLNumber        = " <<
+      fCurrentVoiceMusicXMLNumber <<
       endl <<
       "--> S_note, current voice name  = " <<
       voice->getVoiceName() <<
@@ -3662,8 +3659,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
     currentVoice =
       createRegularVoiceInStaffIfNotYetDone (
         inputLineNumber,
-        fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
+        fCurrentStaffMusicXMLNumber,
+        fCurrentVoiceMusicXMLNumber);
 
   // create stanzaNumber in current voice if need be
   S_msrStanza
@@ -3712,7 +3709,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 
   // append a figured bass staff and voice to the current part
   fCurrentPart->
-    createPartFiguredStaffAndVoiceIfNotYetDone (
+    createPartFiguredBassStaffAndVoiceIfNotYetDone (
       inputLineNumber);
 }
 
