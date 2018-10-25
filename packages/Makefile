@@ -16,7 +16,8 @@ LINUXLIB := libmusicxml-$(VERSION)-ubuntu-x86_64
 LINUXDIR := $(LINUXLIB)
 WINDIR32 := libmusicxml-$(VERSION)-win32
 WINDIR64 := libmusicxml-$(VERSION)-win64
-JSDIR    := javascript-$(VERSION)
+JSDIR    := libmusicxml-javascript-$(VERSION)
+JSSRC 	 := $(ROOTDIR)/javascript
 
 HEADERS  = $(wildcard .$(SRCDIR)/*.h) $(wildcard $(SRCDIR)/*/*.h)
 FILES    = $(ROOTDIR)/CHANGELOG.txt ./README.md $(ROOTDIR)/license.txt
@@ -46,7 +47,12 @@ srcpack:
 
 js:
 	make common DEST=$(JSDIR)
-	
+	mkdir -p $(JSDIR)/lib
+	mkdir -p $(JSDIR)/typescript
+	cp $(JSSRC)/libmusicxml.d.ts $(JSDIR)/typescript
+	cp $(JSSRC)/libmusicxml.js $(JSDIR)/lib
+	cp $(JSSRC)/libmusicxml.wasm.* $(JSDIR)/lib
+	tar czf $(JSDIR).tgz $(JSDIR)	
 
 macos:
 	make common DEST=$(MACOSDIR)
