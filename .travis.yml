@@ -17,5 +17,5 @@ branches:
 
 script: 
    - make -C build
-   - sudo make -C build/linux install
+   - sudo make -C build install 
    - make -C validation travis

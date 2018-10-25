@@ -154,12 +154,12 @@ linux : $(PDIR)/Makefile
 	cp -R $(PDIR)/libmusicxml2*.so* .
 
 $(PDIR)/Makefile : $(PDIR) CMakeLists.txt
-	cd $(PDIR) && cmake .. -G $(GENERATOR)  $(CMAKEOPT)
+	cd $(PDIR) && cmake .. -G "$(GENERATOR)"  $(CMAKEOPT)
 
 
 #===============================================================
 cmake : $(PDIR)
-	cd $(PDIR) && cmake .. -G $(GENERATOR) -Wno-dev $(CMAKEOPT)
+	cd $(PDIR) && cmake .. -G "$(GENERATOR)" -Wno-dev $(CMAKEOPT)
 
 #===============================================================
 # building the library for Android
