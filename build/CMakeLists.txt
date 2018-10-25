@@ -16,13 +16,13 @@ set (SOVERS 3)
 
 
 #######################################
-option ( FMWK 	"Generates a framework on MacOS by default"	on )
-option ( GDB 	"Activates ggdb3 option"	off )
+option ( FMWK 		"Generates a framework on MacOS by default"	on )
+option ( UNIVERSAL 	"Generates universal binaries"	off )
+option ( GDB 		"Activates ggdb3 option"	off )
 
 
 #######################################
 set (CMAKE_CXX_STANDARD 11)
-
 
 if(UNIX)
 	if (GDB)
@@ -45,6 +45,10 @@ if(APPLE)
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
 		set (libtype STATIC)
+	elseif( UNIVERSAL )
+		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
+		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
+		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 	endif()
 
 #########################################
@@ -87,19 +91,6 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 
 
 #######################################
-# set library target
-# if(APPLE)
-# 	if (IOS)
-# 		set(target musicxml2)
-# 	else()
-# 		set(target libmusicxml2)
-# 	endif()
-# elseif (MSVC)
-# 	set(target libmusicxml2)
-# else()
-# 	set(target musicxml2)
-# endif()
-
 if(WIN32 OR MSYS)
 	enable_language(RC)
 	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
@@ -150,9 +141,9 @@ endif()
 if (NOT IOS)
 install ( TARGETS ${target} ${TOOLS} 
 	RUNTIME DESTINATION bin 
-    	LIBRARY DESTINATION /usr/lib 
-    	ARCHIVE DESTINATION lib 
-    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
-    	PUBLIC_HEADER DESTINATION include/libmusicxml
+    LIBRARY DESTINATION lib 
+    ARCHIVE DESTINATION lib 
+    FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
+    PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 endif()

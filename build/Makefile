@@ -55,11 +55,14 @@ help :
 	@echo "the platform targets is automatically evaluated by the default target."	
 	@echo 	
 	@echo "Misc:"
+	@echo "   universal switch to universal binaries (MacOS)"	
+	@echo "   native 	switch universal binaries off (MacOS)"	
 	@echo "   format    source code formatting using clang-format"	
 	@echo "   install   install the tools to ~/bin"	
 	@echo 
 	@echo "NOTE: windows cmake generator is $(MSVC)"	
 	@echo "      use MSVC=\"another generator\" to change"
+
 
 #===============================================================
 # building the javascript library
@@ -80,6 +83,12 @@ macos : $(MACX)/libmusicxml2.xcodeproj
 $(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
 	@[ -d $(MACX) ] || mkdir $(MACX)
 	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
+
+universal: 
+	cd $(MACX) && cmake .. -DUNIVERSAL=on
+
+native: 
+	cd $(MACX) && cmake .. -DUNIVERSAL=off
 
 
 #===============================================================
