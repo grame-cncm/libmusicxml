@@ -13,6 +13,7 @@ set (VERSION 3.1.2)
 set (STRVERS "v.3.12")
 set (SSTRVERS "3.12")
 set (SOVERS 3)
+set (XMLVERSION 3.1)
 
 
 #######################################
@@ -20,6 +21,11 @@ option ( FMWK 		"Generates a framework on MacOS by default"	on )
 option ( UNIVERSAL 	"Generates universal binaries"	off )
 option ( GDB 		"Activates ggdb3 option"	off )
 
+#######################################
+get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
+set (DTDS   ${ROOT}/dtds/${XMLVERSION})
+set (SCHEMA ${ROOT}/schema/${XMLVERSION})
 
 #######################################
 set (CMAKE_CXX_STANDARD 11)
@@ -125,7 +131,7 @@ endif()
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xml2ly xmlread xmltranspose)
+set (TOOLS  xml2guido xml2ly xmlread xmltranspose xmlversion)
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})
@@ -139,11 +145,49 @@ endif()
 #######################################
 # install setup
 if (NOT IOS)
-install ( TARGETS ${target} ${TOOLS} 
+message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
+install ( TARGETS ${target} 
+	RUNTIME DESTINATION lib 
+    LIBRARY DESTINATION lib 
+    ARCHIVE DESTINATION lib 
+    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
+    PUBLIC_HEADER DESTINATION include/libmusicxml
+)
+
+install ( TARGETS ${TOOLS} 
 	RUNTIME DESTINATION bin 
     LIBRARY DESTINATION lib 
     ARCHIVE DESTINATION lib 
-    FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
-    PUBLIC_HEADER DESTINATION include/libmusicxml
 )
+
+
+####################################
+# install misc files
+set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/shared/libmusicxml)
+install (
+    DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    PATTERN ".DS_Store" EXCLUDE
+)
+
+install (
+    DIRECTORY ${DTDS} ${SCHEMA} DESTINATION ${DOCDIR}/schema
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    PATTERN ".DS_Store" EXCLUDE
+)
+
+install (
+    FILES ${DOC} DESTINATION ${DOCDIR}/doc
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+
+install (
+    FILES ${ROOT}/CHANGELOG.txt  DESTINATION ${DOCDIR}
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+
 endif()
