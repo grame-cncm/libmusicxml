@@ -16,6 +16,8 @@ branches:
   - master
 
 script: 
-   - make -C build
+   - make -C build -j 2
+   - which cmake
+   - cmake --version
    - sudo make -C build install 
-   - make -C validation travis
+   - make -C validation travis -j 2

@@ -16,6 +16,7 @@ LINUXLIB := libmusicxml-$(VERSION)-ubuntu-x86_64
 LINUXDIR := $(LINUXLIB)
 WINDIR32 := libmusicxml-$(VERSION)-win32
 WINDIR64 := libmusicxml-$(VERSION)-win64
+JSDIR    := javascript-$(VERSION)
 
 HEADERS  = $(wildcard .$(SRCDIR)/*.h) $(wildcard $(SRCDIR)/*/*.h)
 FILES    = $(ROOTDIR)/CHANGELOG.txt ./README.md $(ROOTDIR)/license.txt
@@ -36,11 +37,16 @@ nothing:
 	@ echo "  'macos'  : builds an archive with doc, dtds and binary framework"
 	@ echo "  'linux'  : builds an archive with doc, dtds, includes, static and dynamic lib"
 	@ echo "  'windows': builds an archive with doc, dtds, includes, dll and lib"
+	@ echo "  'js'     : builds an archive with doc, dtds, includes, dll and javascript libraries"
 
 srcpack:
 	-[ -d $(SRC) ] && rm -rf $(SRC)
 	cd .. && git archive --format=tar.gz HEAD -o $(SRC).tgz
 	mv ../$(SRC).tgz .
+
+js:
+	make common DEST=$(JSDIR)
+	
 
 macos:
 	make common DEST=$(MACOSDIR)
