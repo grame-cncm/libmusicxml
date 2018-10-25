@@ -13,12 +13,12 @@ The libmusicxml library runs on the main operating systems: Linux, MacOS, iOS, W
 
 See the [libmusicxml wiki](https://github.com/grame-cncm/libmusicxml/wiki) for building instructions.
 
-Binary distributions are available from https://sourceforge.net/projects/libmusicxml/files/
-
 
 ---
 
 Travis build and validation status:  <a href="https://travis-ci.org/grame-cncm/libmusicxml"><img src="https://travis-ci.org/grame-cncm/libmusicxml.svg?branch=dev"></a>
+
+Appveyor build status:  [![Build status](https://ci.appveyor.com/api/projects/status/7fxl66w2bgl1fucs?svg=true)](https://ci.appveyor.com/project/dfober/libmusicxml)
 
 ----------------------------------------------------------------------
 [Dominique Fober](https://github.com/dfober)
