@@ -178,9 +178,14 @@ format :
 #===============================================================
 # install
 #===============================================================
+installLog := $(PDIR)/install_manifest.txt
 install:
 	cd $(PDIR) && cmake .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
 	cmake --build $(PDIR) --config Release --target install
+
+uninstall: installedfiles = $(shell cat $(installLog))
+uninstall: $(installLog)
+	rm -f $(installedfiles) $(installLog)
 
 localinstall:
 	cd $(OUTDIR) && cp $(TOOLS) $(HOME)/bin
