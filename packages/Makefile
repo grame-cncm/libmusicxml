@@ -24,7 +24,7 @@ FILES    = $(ROOTDIR)/CHANGELOG.txt ./README.md $(ROOTDIR)/license.txt
 TOOLS    = xml2guido xml2ly xmltranspose xmlversion
 WINTOOLS32 = $(TOOLS:%=$(BUILDDIR)/win32/Release/%.exe)
 WINTOOLS64 = $(TOOLS:%=$(BUILDDIR)/win64/Release/%.exe)
-MACTOOLS = $(TOOLS:%=$(BUILDDIR)/macos/Release/%)
+MACTOOLS = $(TOOLS:%=$(BUILDDIR)/libdir/Release/%)
 LINUXTOOLS = $(TOOLS:%=$(BUILDDIR)/%)
 DTDS     = $(wildcard $(ROOTDIR)/dtds/$(CURRENT)/*.*)
 SCHEMA   = $(wildcard $(ROOTDIR)/schema/$(CURRENT)/*.xsd)
@@ -57,7 +57,7 @@ js:
 macos:
 	make common DEST=$(MACOSDIR)
 	make exe DEST=$(MACOSDIR) TOOLS="$(MACTOOLS)"
-	cp -R $(BUILDDIR)/macos/Release/libmusicxml2.framework $(MACOSDIR)
+	cp -R $(BUILDDIR)/libdir/Release/libmusicxml2.framework $(MACOSDIR)
 	cd $(MACOSDIR) && ../macdeploy libmusicxml2.framework/libmusicxml2 $(TOOLS)
 	tar czf $(MACOSLIB).tgz $(MACOSLIB)
 
