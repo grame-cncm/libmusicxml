@@ -17,7 +17,5 @@ branches:
 
 script: 
    - make -C build -j 2
-   - which cmake
-   - cmake --version
-   - sudo make -C build install 
+   - sudo make -C build/libdir install 
    - make -C validation travis -j 2
