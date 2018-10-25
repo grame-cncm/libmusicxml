@@ -18,4 +18,5 @@ branches:
 script: 
    - make -C build -j 2
    - sudo make -C build/libdir install 
+   - export LD_LIBRARY_PATH=/usr/local/lib
    - make -C validation travis -j 2
