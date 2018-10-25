@@ -7109,9 +7109,6 @@ S_msrChord msrChord::createChordNewbornClone (
     fChordIsSecondChordInADoubleTremolo =
       fChordIsSecondChordInADoubleTremolo;
     
-  newbornClone->fChordTie =
-    fChordTie; // JMI
-
   return newbornClone;
 }
 
@@ -7992,110 +7989,238 @@ void msrChord::print (ostream& os)
     booleanAsString (fChordIsSecondChordInADoubleTremolo) <<
     endl;
 
-  os <<
-    endl;
-    
-  // print the member notes if any
-  int chordNotesVectorSize = fChordNotesVector.size ();
+  // print the articulations if any
+  int chordArticulationsSize = fChordArticulations.size ();
   
-  if (chordNotesVectorSize || gMsrOptions->fDisplayMsrDetails) {
+  if (chordArticulationsSize || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "chordNotes";
-    if (chordNotesVectorSize) {
+      "chordArticulations";
+    if (chordArticulationsSize) {
       os <<
         endl;
       gIndenter++;
-      
-      vector<S_msrNote>::const_iterator
-        iBegin = fChordNotesVector.begin (),
-        iEnd   = fChordNotesVector.end (),
-        i      = iBegin;
-        
-      for ( ; ; ) {
+  
+      list<S_msrArticulation>::const_iterator i;
+      for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
         os << (*i);
-        if (++i == iEnd) break;
-        os << endl;
       } // for
-
-      gIndenter--;
+      
+    gIndenter--;
     }
     else {
-      os << ":" << "none" <<
+      os <<
+        " : " << "none" <<
       endl;
     }
   }
-  
-  // print the articulations if any
-  if (fChordArticulations.size ()) {
-    list<S_msrArticulation>::const_iterator i;
-    for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
-      os << (*i);
-    } // for
-  }
 
   // print the spanners if any
-  if (fChordSpanners.size ()) {
-    list<S_msrSpanner>::const_iterator i;
-    for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); i++) {
-      os << (*i);
-    } // for
+  int chordSpannersSize = fChordSpanners.size ();
+  
+  if (chordSpannersSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordSpanners";
+    if (chordSpannersSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrSpanner>::const_iterator i;
+      for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the technicals if any
-  if (fChordTechnicals.size ()) {
-    list<S_msrTechnical>::const_iterator i;
-    for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); i++) {
-      os << (*i);
-    } // for
+  int chordTechnicalsSize = fChordTechnicals.size ();
+  
+  if (chordTechnicalsSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordTechnicals";
+    if (chordTechnicalsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrTechnical>::const_iterator i;
+      for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the ornaments if any
-  if (fChordOrnaments.size ()) {
-    list<S_msrOrnament>::const_iterator i;
-    for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
-      os << (*i);
-    } // for
+  int chordOrnamentsSize = fChordOrnaments.size ();
+  
+  if (chordOrnamentsSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordOrnaments";
+    if (chordOrnamentsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrOrnament>::const_iterator i;
+      for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the glissandos if any
-  if (fChordGlissandos.size ()) {
-    list<S_msrGlissando>::const_iterator i;
-    for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); i++) {
-      os << (*i);
-    } // for
+  int chordGlissandosSize = fChordGlissandos.size ();
+  
+  if (chordGlissandosSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordGlissandos";
+    if (chordGlissandosSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrGlissando>::const_iterator i;
+      for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the slides if any
-  if (fChordSlides.size ()) {
-    list<S_msrSlide>::const_iterator i;
-    for (i=fChordSlides.begin (); i!=fChordSlides.end (); i++) {
-      os << (*i);
-    } // for
+  int chordSlidesSize = fChordSlides.size ();
+  
+  if (chordSlidesSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordSlides";
+    if (chordSlidesSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrSlide>::const_iterator i;
+      for (i=fChordSlides.begin (); i!=fChordSlides.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the dynamics if any
-  if (fChordDynamics.size ()) {
-    list<S_msrDynamics>::const_iterator i;
-    for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); i++) {
-      os << (*i);
-    } // for
+  int chordDynamicsSize = fChordDynamics.size ();
+  
+  if (chordDynamicsSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordDynamics";
+    if (chordDynamicsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrDynamics>::const_iterator i;
+      for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the other dynamics if any
-  if (fChordOtherDynamics.size ()) {
-    list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
-      os << (*i);
-    } // for
+  int chordOtherDynamicsSize = fChordOtherDynamics.size ();
+  
+  if (chordOtherDynamicsSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordOtherDynamics";
+    if (chordOtherDynamicsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrOtherDynamics>::const_iterator i;
+      for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the stems if any
-  if (fChordStems.size ()) {
-    list<S_msrStem>::const_iterator i;
-    for (i=fChordStems.begin (); i!=fChordStems.end (); i++) {
-      os << (*i);
-    } // for
+  int chordStemsSize = fChordStems.size ();
+  
+  if (chordStemsSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordStems";
+    if (chordStemsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrStem>::const_iterator i;
+      for (i=fChordStems.begin (); i!=fChordStems.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the beams if any
@@ -8125,51 +8250,159 @@ void msrChord::print (ostream& os)
   }
 
   // print the words if any
-  if (fChordWords.size ()) {
-    list<S_msrWords>::const_iterator i;
-    for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
-      os << (*i);
-    } // for
+  int chordWordsSize = fChordWords.size ();
+  
+  if (chordWordsSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordWords";
+    if (chordWordsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrWords>::const_iterator i;
+      for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the ties if any
-  if (fChordTies.size ()) {
-    list<S_msrTie>::const_iterator i;
-    for (i=fChordTies.begin (); i!=fChordTies.end (); i++) {
-      os << (*i);
-    } // for
+  int chordTiesSize = fChordTies.size ();
+  
+  if (chordTiesSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordTies";
+    if (chordWordsSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrTie>::const_iterator i;
+      for (i=fChordTies.begin (); i!=fChordTies.end (); i++) {
+        os << (*i);
+      } // for
+      
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the slurs if any
-  if (fChordSlurs.size ()) {
-    list<S_msrSlur>::const_iterator i;
-    for (i=fChordSlurs.begin (); i!=fChordSlurs.end (); i++) {
-      os << (*i);
-    } // for
+  int chordSlursSize = fChordSlurs.size ();
+  
+  if (chordSlursSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordSlurs";
+    if (chordSlursSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrSlur>::const_iterator i;
+      for (i=fChordSlurs.begin (); i!=fChordSlurs.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the ligatures if any
-  if (fChordLigatures.size ()) {
-    list<S_msrLigature>::const_iterator i;
-    for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
-      os << (*i);
-    } // for
+  int chordLigaturesSize = fChordLigatures.size ();
+  
+  if (chordLigaturesSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordLigatures";
+    if (chordLigaturesSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrLigature>::const_iterator i;
+      for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the slashes if any
-  if (fChordSlashes.size ()) {
-    list<S_msrSlash>::const_iterator i;
-    for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); i++) {
-      os << (*i);
-    } // for
+  int chordSlashesSize = fChordSlashes.size ();
+  
+  if (chordSlashesSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordSlashes";
+    if (chordSlashesSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrSlash>::const_iterator i;
+      for (i=fChordSlashes.begin (); i!=fChordSlashes.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the wedges if any
-  if (fChordWedges.size ()) {
-    list<S_msrWedge>::const_iterator i;
-    for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
-      os << (*i);
-    } // for
+  int chordWedgesSize = fChordWedges.size ();
+  
+  if (chordWedgesSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordWedges";
+    if (chordWedgesSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_msrWedge>::const_iterator i;
+      for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
+        os << (*i);
+      } // for
+      
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
   }
 
   // print the grace notes groups if any
@@ -8236,7 +8469,38 @@ void msrChord::print (ostream& os)
 
   os <<
     endl;
+    
+  // print the chord notes if any
+  int chordNotesVectorSize = fChordNotesVector.size ();
+  
+  if (chordNotesVectorSize || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordNotes";
+    if (chordNotesVectorSize) {
+      os <<
+        endl;
+      gIndenter++;
+      
+      vector<S_msrNote>::const_iterator
+        iBegin = fChordNotesVector.begin (),
+        iEnd   = fChordNotesVector.end (),
+        i      = iBegin;
+        
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
 
+      gIndenter--;
+    }
+    else {
+      os << ":" << "none" <<
+      endl;
+    }
+  }
+  
   gIndenter--;
 }
 
@@ -14483,25 +14747,25 @@ string msrMeasure::measureKindAsString (
 
   switch (measureKind) {
     case msrMeasure::kUnknownMeasureKind:
-      result = "**unknownMeasureKind**";
+      result = "***unknownMeasureKind***";
       break;
     case msrMeasure::kFullMeasureKind:
       result = "fullMeasureKind";
       break;
     case msrMeasure::kUpbeatMeasureKind:
-      result = "**upbeatMeasureKind**";
+      result = "upbeatMeasureKind";
       break;
     case msrMeasure::kUnderfullMeasureKind:
-      result = "**underfullMeasureKind**";
+      result = "underfullMeasureKind";
       break;
     case msrMeasure::kOverfullMeasureKind:
-      result = "**overfullMeasureKind**";
+      result = "overfullMeasureKind";
       break;
     case msrMeasure::kSenzaMisuraMeasureKind:
-      result = "**senzaMisuraMeasureKind**";
+      result = "senzaMisuraMeasureKind";
       break;
     case msrMeasure::kEmptyMeasureKind:
-      result = "**emptyMeasureKind**";
+      result = "emptyMeasureKind";
       break;
   } // switch
 

@@ -275,7 +275,7 @@ thus overriding the ones that may be present in the MSR data.
       appendOptionsItem (
         optionsStringItem::create (
           "rights", "",
-R"(Set the 'rights' in the LilyPond code.)",
+R"(Set the 'rights' to STRING in the LilyPond code.)",
           "STRING",
           "rights",
           fRights));
@@ -284,7 +284,7 @@ R"(Set the 'rights' in the LilyPond code.)",
       appendOptionsItem (
         optionsStringItem::create (
           "composer", "",
-R"(Set the 'composer' in the LilyPond code.)",
+R"(Set the 'composer' to STRING in the LilyPond code.)",
           "STRING",
           "composer",
           fComposer));
@@ -293,7 +293,7 @@ R"(Set the 'composer' in the LilyPond code.)",
       appendOptionsItem (
         optionsStringItem::create (
           "arranger", "",
-R"(Set the 'arranger' in the LilyPond code.)",
+R"(Set the 'arranger' to STRING in the LilyPond code.)",
           "STRING",
           "arranger",
           fArranger));
@@ -302,7 +302,7 @@ R"(Set the 'arranger' in the LilyPond code.)",
       appendOptionsItem (
         optionsStringItem::create (
           "poet", "",
-R"(Set the 'poet' in the LilyPond code.)",
+R"(Set the 'poet' to STRING in the LilyPond code.)",
           "STRING",
           "poet",
           fPoet));
@@ -311,7 +311,7 @@ R"(Set the 'poet' in the LilyPond code.)",
       appendOptionsItem (
         optionsStringItem::create (
           "lyricist", "",
-R"(Set the 'lyricist' in the LilyPond code.)",
+R"(Set the 'lyricist' to STRING in the LilyPond code.)",
           "STRING",
           "lyricist",
           fLyricist));
@@ -320,7 +320,7 @@ R"(Set the 'lyricist' in the LilyPond code.)",
       appendOptionsItem (
         optionsStringItem::create (
           "software", "",
-R"(Set the 'software' in the LilyPond code.)",
+R"(Set the 'software' to STRING in the LilyPond code.)",
           "STRING",
           "software",
           fSoftware));

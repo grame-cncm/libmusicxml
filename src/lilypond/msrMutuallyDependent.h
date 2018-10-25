@@ -4019,14 +4019,6 @@ class msrChord : public msrElement
     bool                  getChordIsSecondChordInADoubleTremolo () const
                               { return fChordIsSecondChordInADoubleTremolo; }
                   
-    // tie
-    void                  setChordTie (
-                            const S_msrTie tie)
-                              { fChordTie = tie; }
-
-    S_msrTie              getChordTie () const
-                              { return fChordTie; }
-
     // grace notes
     void                  setChordGraceNotesGroupBefore (
                             S_msrGraceNotesGroup graceNotesGroupBefore)
@@ -4294,9 +4286,6 @@ class msrChord : public msrElement
 
     // slides
     list<S_msrSlide>      fChordSlides;
-    
-    // ties
-    S_msrTie              fChordTie;
     
     // dynamics
     list<S_msrDynamics>   fChordDynamics;

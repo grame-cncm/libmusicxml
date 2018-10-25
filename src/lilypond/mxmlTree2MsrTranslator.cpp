@@ -6013,17 +6013,27 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   if (fOnGoingMultipleRest) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMultipleRests) {
+      const int fieldWidth = 37;
+      
       fLogOutputStream <<
         "--> onGoingMultipleRest" <<
-        endl <<
-        gTab << "fCurrentMultipleRestHasBeenCreated:" <<
+        endl;
+
+      gIndenter++;
+      
+      fLogOutputStream <<
+        setw (fieldWidth) <<
+        "fCurrentMultipleRestHasBeenCreated " << " : " <<
         booleanAsString (
           fCurrentMultipleRestHasBeenCreated) <<
         endl <<
-        gTab << "fRemainingMultipleRestMeasuresNumber:" <<
+        setw (fieldWidth) <<
+        "fRemainingMultipleRestMeasuresNumber" << " : " <<
         fRemainingMultipleRestMeasuresNumber <<
         endl <<
         endl;
+        
+      gIndenter--;
     }
 #endif
     
@@ -6072,20 +6082,31 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMultipleRests) {
+      const int fieldWidth = 37;
+      
       fLogOutputStream <<
-        "<-- onGoingMultipleRest" <<
-        endl <<
-        gTab << "fCurrentMultipleRestHasBeenCreated:" <<
+        "--> onGoingMultipleRest" <<
+        endl;
+
+      gIndenter++;
+      
+      fLogOutputStream <<
+        setw (fieldWidth) <<
+        "fCurrentMultipleRestHasBeenCreated " << " : " <<
         booleanAsString (
           fCurrentMultipleRestHasBeenCreated) <<
         endl <<
-        gTab << "fRemainingMultipleRestMeasuresNumber:" <<
+        setw (fieldWidth) <<
+        "fRemainingMultipleRestMeasuresNumber" << " : " <<
         fRemainingMultipleRestMeasuresNumber <<
         endl <<
-        gTab << "fOnGoingMultipleRest:" <<
-        fOnGoingMultipleRest <<
-        endl <<
+        setw (fieldWidth) <<
+        "fOnGoingMultipleRest " << " : " <<
+        booleanAsString (
+          fOnGoingMultipleRest) <<
         endl;
+        
+      gIndenter--;
     }
 #endif
   }
@@ -14132,12 +14153,6 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
         chordFirstNote->getNoteDisplayWholeNotes (),
         chordFirstNote->getNoteGraphicDurationKind ());
   
-  // chord's tie kind is that of its first note
-  chord->
-    setChordTie (
-      chordFirstNote->
-        getNoteTie ());
-  
   // register note as first member of chord
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
@@ -14803,7 +14818,23 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 
     chord->
       appendTieToChord (noteTie);
-  }   
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
+    fLogOutputStream <<
+      "==> AFTER copying tie to chord:" <<
+      endl;
+
+    gIndenter++;
+    
+    fLogOutputStream <<
+      chord <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
 }
 
 //______________________________________________________________________________

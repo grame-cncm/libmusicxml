@@ -176,15 +176,17 @@ void optionsElement::printHeader (ostream& os) const
     "-" << fOptionsElementLongName <<
     endl;
 
-  // indent a bit more for readability
-  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  if (fOptionsElementDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
   
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
-
-  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
 }
 
 void optionsElement::printElementEssentials (
@@ -227,15 +229,17 @@ void optionsElement::printHelp (ostream& os) const
     endl <<
     endl;
 
-  // indent a bit more for readability
-  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  if (fOptionsElementDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
   
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
-
-  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_optionsElement& elt)
@@ -702,13 +706,15 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
     endl <<
     endl;
 
-  // indent a bit more for readability
-  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
+  if (fOptionsElementDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+  }
 
   os <<
     "This combined option is equivalent to: ";
@@ -743,10 +749,9 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
     gIndenter--;
   }
 
-  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
-  os <<
-    endl;
+  if (fOptionsElementDescription.size ()) { // ??? JMI
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
 }
 
 void optionsCombinedItemsItem::printOptionsValues (
@@ -1197,15 +1202,17 @@ void optionsValuedItem::printHelp (ostream& os) const
     endl <<
     endl;
 
-  // indent a bit more for readability
-  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  if (fOptionsElementDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
   
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
-
-  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
 }
 
 void optionsValuedItem::printOptionsValues (

@@ -810,8 +810,8 @@ R"()",
       appendOptionsItem (
         optionsStringItem::create (
           "o", "output-filename",
-R"(Write LilyPond code to file 'fileName' instead of standard output.)",
-          "fileName",
+R"(Write LilyPond code to file FILENAME instead of standard output.)",
+          "FILENAME",
           "outputFileName",
           fOutputFileName));  
   

@@ -5912,8 +5912,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
 
   if (
+/*
     fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
+*/
     gLilypondOptions->fCompressMultiMeasureRests) {
     fLilypondCodeIOstream <<
       "\\compressMMRests {" <<
@@ -11635,7 +11637,7 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
         case msrBeam::k_NoBeam:
           break;
       } // switch      
-      } // for
+    } // for
   }
 
   // print the chord slurs if any
@@ -11668,7 +11670,23 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
           fLilypondCodeIOstream << "\\) ";
           break;
       } // switch
-   } // for
+    } // for
+  }
+
+  // print the chord ties if any
+  list<S_msrTie>
+    chordTies =
+      chord->getChordTies ();
+      
+  if (chordTies.size ()) {
+    list<S_msrTie>::const_iterator i;
+    for (
+      i=chordTies.begin ();
+      i!=chordTies.end ();
+      i++
+    ) {
+      fLilypondCodeIOstream << "~ ";
+    } // for
   }
 
   // print the chord ligatures if any
@@ -11691,7 +11709,7 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
           fLilypondCodeIOstream << "\\] ";
           break;
       } // switch
-   } // for
+    } // for
   }
 
   // print the chord wedges if any

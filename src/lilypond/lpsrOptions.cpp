@@ -388,13 +388,13 @@ R"()",
       appendOptionsItem (
         optionsLpsrPitchesLanguageItem::create (
           "lppl", "lpsr-pitches-language",
-R"(Use 'language' to display note pitches in the LPSR logs and views,
+R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The 12 LilyPond pitches languages are available:
 nederlands, catalan, deutsch, english, espanol, français, 
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
-          "language",
+          "LANGUAGE",
           "lpsrPitchesanguage",
           fLpsrQuarterTonesPitchesLanguageKind));
   
@@ -402,12 +402,12 @@ The default is to use 'nederlands'.)",
       appendOptionsItem (
         optionsLpsrChordsLanguageItem::create (
           "lpcl", "lpsr-chords-language",
-R"(Use 'language' to display chord names, their root and bass notes,
+R"(Use LANGUAGE to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
 The 4 LilyPond chords languages are available:
 german, semiGerman, italian and french.
 The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
-          "language",
+          "LANGUAGE",
           "lpsr-chords-language",
           fLpsrChordsLanguageKind));
   }
