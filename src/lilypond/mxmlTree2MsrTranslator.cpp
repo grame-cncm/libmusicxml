@@ -2324,18 +2324,45 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
 
 void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_direction" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-/* JMI
   if (fCurrentMetronomeTempo) {
     int pendingWordsSize = fPendingWords.size ();
     
     if (pendingWordsSize) {
+      while (fPendingWords.size ()) {
+        S_msrWords
+          words =
+            fPendingWords.front();
+          
+  #ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
+          fLogOutputStream <<
+            "Attaching words '" <<
+            words->asString () <<
+            "' to metronome tempo '" <<
+            fCurrentMetronomeTempo->asString () << "'" <<
+            endl;
+        }
+  #endif
+    
+        fCurrentMetronomeTempo->
+          appendWordsToTempo (words);
+  
+        // forget about this words
+        fPendingWords.pop_front();
+      } // while
+
+
+/*
       if (pendingWordsSize > 1) {
         stringstream s;
     
@@ -2351,7 +2378,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
       }
 
       // handling only the first of the pending words
-      string words =
+      S_msrWords words =
         fPendingWords.front ();
         
       // register words in current metronome tempo
@@ -2360,9 +2387,9 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
 
       // forget about this words
       fPendingWords.pop_front ();
+    */
     }
   }
-*/
 
   fOnGoingDirection = false;
 }
