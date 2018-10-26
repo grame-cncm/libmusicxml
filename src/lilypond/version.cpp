@@ -43,7 +43,7 @@ void versionInfo::print (ostream& os) const
 {
   os << left <<
     indenter::gIndenter <<
-      setw (5) << fVersionNumber << " " <<
+      setw (7) << fVersionNumber << " " <<
       "(" << fVersionDate << "):" <<
       endl <<
     
@@ -53,7 +53,10 @@ void versionInfo::print (ostream& os) const
     indenter::gIndenter <<
       fVersionDescription;
 
-  indenter::gIndenter--;  
+  indenter::gIndenter--;
+
+  os <<
+    endl;
 }
 
 void enlistVersion (
@@ -87,7 +90,7 @@ void printVersionsHistory (ostream& os)
   } // for
 
   os <<
-    endl << endl;
+    endl;
 
   indenter::gIndenter--;
 }

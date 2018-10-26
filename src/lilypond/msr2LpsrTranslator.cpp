@@ -4727,7 +4727,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 
   // set last segment as the measure repeat pattern segment
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMultipleRests) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measure repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4879,6 +4879,24 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
   }
 
   // create the multiple rest clone
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceMultipleRests
+      ||
+    gTraceOptions->fTraceSegments
+      ||
+    gTraceOptions->fTraceVoices
+  ) {
+    fLogOutputStream <<
+      "Creating a clone of multiple rest '" <<
+      "'" <<
+      elt->asShortString () <<
+      "' in voice \"" <<
+      fCurrentVoiceClone->getVoiceName () << "\"" <<
+      endl;
+  }
+#endif
+
   S_msrMultipleRest
     multipleRestClone =
       elt->createMultipleRestNewbornClone (
@@ -4897,7 +4915,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       ||
     gTraceOptions->fTraceSegments
       ||
-    gTraceOptions->fTraceVoices) {
+    gTraceOptions->fTraceVoices
+  ) {
     fLogOutputStream <<
       "Creating a new last segment for the remainder of voice \"" <<
       fCurrentVoiceClone->getVoiceName () << "\"" <<

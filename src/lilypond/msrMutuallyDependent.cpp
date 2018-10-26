@@ -13519,7 +13519,7 @@ void msrMeasure::appendMultipleRestToMeasure (
 */
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMultipleRests || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->asString () <<
@@ -17263,6 +17263,21 @@ void msrSegment::browseData (basevisitor* v)
   }
 }
 
+string msrSegment::asShortString () const
+{
+  stringstream s;
+
+  s <<
+ // JMI   "Segment " <<
+    "'" << fSegmentAbsoluteNumber <<
+ // JMI   " in voice \"" <<
+    "' in \"" <<
+    fSegmentVoiceUplink->getVoiceName () <<
+    "\"";
+
+  return s.str ();
+}
+
 string msrSegment::asString () const
 {
   stringstream s;
@@ -17283,23 +17298,19 @@ string msrSegment::asString () const
       " (" <<
       singularOrPlural (
         fSegmentMeasuresList.size (), "measure", " measures") <<
-      ")";
+      "), i.e. ";
+
+    list<S_msrMeasure>::const_iterator
+      iBegin = fSegmentMeasuresList.begin (),
+      iEnd   = fSegmentMeasuresList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s << (*i)->getMeasureNumber ();
+      if (++i == iEnd) break;
+      s << ", ";
+    } // for
   }
-
-  return s.str ();
-}
-
-string msrSegment::asShortString () const
-{
-  stringstream s;
-
-  s <<
- // JMI   "Segment " <<
-    "'" << fSegmentAbsoluteNumber <<
- // JMI   " in voice \"" <<
-    "' in \"" <<
-    fSegmentVoiceUplink->getVoiceName () <<
-    "\"";
 
   return s.str ();
 }
@@ -22865,6 +22876,8 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         createNewLastSegmentForVoice (
           inputLineNumber);
 
+
+/* JMI
         // append a new measure with the same number as the voice last measure
         // to the voice,
         // in case the barline is not at the end of the measure
@@ -22908,6 +22921,9 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             endl;
         }
 #endif
+
+*/
+
 
         gIndenter--;
       }
@@ -23757,8 +23773,8 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
           gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "The resulting voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
+            "The contents of voice \"" <<
+            fVoiceName << "\" after createMeasuresRepeatFromItsFirstMeasuresInVoice () is:" <<
             endl;
 
           gIndenter++;
@@ -24246,8 +24262,9 @@ void msrVoice::createMultipleRestInVoice (
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
-            "The resulting voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
+            "The contents of voice \"" <<
+            fVoiceName <<
+            "\" after createMultipleRestInVoice() is:" <<
             endl;
   
           gIndenter++;
@@ -24415,8 +24432,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
-            "The resulting voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
+            "The contents of voice \"" <<
+            fVoiceName <<
+            "\" after appendPendingMultipleRestToVoice () is:" <<
             endl;
 
           gIndenter++;
@@ -24457,7 +24475,7 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
   
 #ifdef TRACE_OPTIONS
           if (
-            gTraceOptions->fTraceRepeatsDetails
+            gTraceOptions->fTraceMultipleRests
               ||
             gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
@@ -24484,11 +24502,35 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
 
             // fVoiceLastSegment is cumulating elements for the repeat common part:
             // this should be set aside, and later re-installed as the voice last segment
+#ifdef TRACE_OPTIONS
+            if (
+              gTraceOptions->fTraceMultipleRests
+                ||
+              gTraceOptions->fTraceSegments
+                ||
+              gTraceOptions->fTraceVoices
+            ) {
+              gLogIOstream <<
+                "Putting voice last segment " <<
+                fVoiceLastSegment->asString () <<
+                "' aside for multiple rest in voice \"" <<
+                fVoiceName << "\"" <<
+                ", line " << inputLineNumber <<
+                endl;
+            }
+#endif
+
             fSaveVoiceLastSegment = fVoiceLastSegment;
 
             // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+            if (
+              gTraceOptions->fTraceMultipleRests
+                ||
+              gTraceOptions->fTraceSegments
+                ||
+              gTraceOptions->fTraceVoices
+            ) {
               gLogIOstream <<
                 "Creating a new last segment containing a new measure for multiple rest in voice \"" <<
                 fVoiceName << "\"" <<
@@ -24502,7 +24544,7 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
   
 #ifdef TRACE_OPTIONS
             if (
-              gTraceOptions->fTraceRepeatsDetails
+              gTraceOptions->fTraceMultipleRests
                 ||
               gTraceOptions->fTraceVoicesDetails) {
               gLogIOstream <<
@@ -24529,7 +24571,7 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
           
             // move current last segment to the list of initial elements
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceRepeats) {
+            if (gTraceOptions->fTraceMultipleRests) {
               gLogIOstream <<
                 "Appending voice last segment to the initial elements in voice \"" <<
                 getVoiceName () <<
@@ -24544,7 +24586,13 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
   
             // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+            if (
+              gTraceOptions->fTraceMultipleRests
+                ||
+              gTraceOptions->fTraceSegments
+                ||
+              gTraceOptions->fTraceVoices
+            ) {
               gLogIOstream <<
                 "Creating a new last segment containing a new measure for voice \"" <<
                 fVoiceName << "\"" <<
@@ -24559,7 +24607,7 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
   
 #ifdef TRACE_OPTIONS
             if (
-              gTraceOptions->fTraceRepeatsDetails
+              gTraceOptions->fTraceMultipleRests
                 ||
               gTraceOptions->fTraceVoicesDetails) {
               gLogIOstream <<
@@ -24596,7 +24644,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
     case msrVoice::kFiguredBassVoice:
       {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceMultipleRests) {
           gLogIOstream <<
             "Appending multiple rest clone '" <<
             multipleRestClone->asString () <<
@@ -24608,11 +24656,32 @@ void msrVoice::appendMultipleRestCloneToVoice (
         }
 #endif
 
+        // print beforehand voice contents
+#ifdef TRACE_OPTIONS
+        if (
+          gTraceOptions->fTraceMultipleRests
+            ||
+          gTraceOptions->fTraceSegments
+            ||
+          gTraceOptions->fTraceVoices
+        ) {
+          gLogIOstream <<
+            "The contents of voice \"" <<
+            fVoiceName <<
+            "\" before appendMultipleRestCloneToVoice () is:" <<
+            endl;
+
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
+        }
+#endif
+
         // is this multiple rest nested in a repeat?
         if (fVoiceCurrentRepeat) {
           // yes
 
-          // grab the multiple rest segment, i.e. the voice last segment
+          // grab the multiple rest segment, i.e. the voice's last segment
           S_msrSegment
             multipleRestSegment =
               fVoiceLastSegment;
@@ -24625,6 +24694,24 @@ void msrVoice::appendMultipleRestCloneToVoice (
                 multipleRestSegment);
             
           // re-install the saved last segment as the current last segment
+#ifdef TRACE_OPTIONS
+            if (
+              gTraceOptions->fTraceMultipleRests
+                ||
+              gTraceOptions->fTraceSegments
+                ||
+              gTraceOptions->fTraceVoices
+            ) {
+              gLogIOstream <<
+                "Re-installing saved voice last segment '" <<
+                fSaveVoiceLastSegment->asShortString () <<
+                "' after multiple rest in voice \"" <<
+                fVoiceName << "\"" <<
+                ", line " << inputLineNumber <<
+                endl;
+            }
+#endif
+
           fVoiceLastSegment = fSaveVoiceLastSegment;
           fSaveVoiceLastSegment = nullptr;
 
@@ -24647,10 +24734,17 @@ void msrVoice::appendMultipleRestCloneToVoice (
 
         // print resulting voice contents
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceMultipleRests
+            ||
+          gTraceOptions->fTraceSegments
+            ||
+          gTraceOptions->fTraceVoices
+        ) {
           gLogIOstream <<
-            "The resulting voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
+            "The contents of voice \"" <<
+            fVoiceName <<
+            "\" after appendMultipleRestCloneToVoice () is:" <<
             endl;
 
           gIndenter++;

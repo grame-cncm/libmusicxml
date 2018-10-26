@@ -1483,9 +1483,8 @@ class msrSegment : public msrElement
     // print
     // ------------------------------------------------------
   
-    string                asString () const;
-
     string                asShortString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -6425,7 +6424,7 @@ class msrVoice : public msrElement
 
     // measures flat list
     // i.e. without segments nor repeats,
-    // extracted from fVoiceInitialElementsList and fSaveVoiceLastSegment
+    // gathered from fVoiceInitialElementsList and fVoiceLastSegment
     // by finalizeMeasure()
     list<S_msrMeasure>    fVoiceMeasuresFlatList;
 };

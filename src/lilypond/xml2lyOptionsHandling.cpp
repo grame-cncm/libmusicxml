@@ -15,6 +15,8 @@
 #include <climits>      // INT_MIN, INT_MAX
 #include <iomanip>      // setw, setprecision, ...
 
+#include "libmusicxml.h"
+
 #include "version.h"
 #include "utilities.h"
 
@@ -971,10 +973,10 @@ void initializeXml2lyOptionsHandling (
 
   enlistVersion (
     "Initial", "early 2016",
-    "Start as a clone of xml2guido");
+    "Start as xml2lilypond, a clone of xml2guido");
     
   enlistVersion (
-    "0.9", "October 2018",
+    musicxml2lilypondVersionStr (), "October 2018",
     "First draft version");
   
   // create the options variables
@@ -982,9 +984,7 @@ void initializeXml2lyOptionsHandling (
   
   gXml2lyOptions = xml2lyOptions::create (
     optionsHandler);
-  assert (gXml2lyOptions != 0);
-
-  
+  assert (gXml2lyOptions != 0);  
 }
 
 
