@@ -6379,8 +6379,6 @@ class msrVoice : public msrElement
     // Is is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
     S_msrSegment          fVoiceLastSegment;
-    // it should be saved sometimes
-    S_msrSegment          fSaveVoiceLastSegment;
 
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;

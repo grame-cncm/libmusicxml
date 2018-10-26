@@ -215,6 +215,15 @@ class traceOptions : public optionsGroup
     // glissandos
     bool                  fTraceGlissandos;
 
+    // eyeglases
+    bool                  fTraceEyeGlasses;
+
+    // damps
+    bool                  fTraceDamps;
+
+    // dampalls
+    bool                  fTraceDampAlls;
+
     // slides
     bool                  fTraceSlides;
 

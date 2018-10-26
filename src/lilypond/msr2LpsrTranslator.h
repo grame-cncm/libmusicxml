@@ -584,7 +584,7 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
 
     bool                      fOnGoingRepeat;
-    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
+// JMI    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
 
 

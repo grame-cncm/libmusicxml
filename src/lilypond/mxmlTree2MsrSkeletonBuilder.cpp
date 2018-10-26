@@ -3122,7 +3122,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   fCurrentPartID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTracePasses) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << fCurrentPartID << "\"" <<
@@ -3406,7 +3406,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
     elt->getAttributeValue ("number");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << fCurrentMeasureNumber <<

@@ -646,7 +646,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTracePasses) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
@@ -5793,7 +5793,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
     elt->getAttributeValue ("number");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTracePasses) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << fCurrentMeasureNumber <<
@@ -15843,7 +15843,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
  // attach the pending tempos if any to the note
   if (fPendingTempos.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) { // tempos ??? JMI
+    if (gTraceOptions->fTraceTempos) {
       fLogOutputStream <<
         "Attaching pending tempos to note " <<
         note->asString () <<
@@ -15880,7 +15880,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
  // attach the pending rehearsals if any to the note
   if (fPendingRehearsals.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) { // Rehearsals ??? JMI
+    if (gTraceOptions->fTraceRehearsals) {
       fLogOutputStream <<
         "Attaching pending rehearsals to note " <<
         note->asString () <<
@@ -15917,7 +15917,7 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
  // attach the pending eyeglasses if any to the note
   if (fPendingEyeGlasses.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) { // EyeGlasses ??? JMI
+    if (gTraceOptions->fTraceEyeGlasses) {
       fLogOutputStream <<
         "Attaching pending eyeglasses to note " <<
         note->asString () <<
@@ -15945,7 +15945,7 @@ void mxmlTree2MsrTranslator::attachPendingDampsToNote (
  // attach the pending damps if any to the note
   if (fPendingDamps.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) {
+    if (gTraceOptions->fTraceDamps) {
       fLogOutputStream <<
         "Attaching pending damps to note " <<
         note->asString () <<
@@ -15973,7 +15973,7 @@ void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
  // attach the pending damp alls if any to the note
   if (fPendingDampAlls.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) {
+    if (gTraceOptions->fTraceDampAlls) {
       fLogOutputStream <<
         "Attaching pending damp alls to note " <<
         note->asString () <<
@@ -16039,7 +16039,7 @@ void mxmlTree2MsrTranslator::attachPendingScordaturasToNote (
  // attach the pending scordatura if any to the note
   if (fPendingScordaturas.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) {
+    if (gTraceOptions->fTraceScordaturas) {
       fLogOutputStream <<
         "Attaching pending scordaturas to note " <<
         note->asString () <<
@@ -16838,7 +16838,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
  // attach the pending slides if any to the note
   if (fPendingSlides.size ()) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePasses) { // slides ??? JMI
+    if (gTraceOptions->fTraceSlides) {
       fLogOutputStream <<
         "Attaching pending slides to note " <<
         note->asString () <<

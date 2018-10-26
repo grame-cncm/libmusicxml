@@ -16332,7 +16332,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
     accordionRegistration)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -16364,7 +16364,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
     harpPedalsTuning)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->asString () <<
@@ -19028,7 +19028,7 @@ void msrMultipleRest::setMultipleRestContents (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Setting multiple rest segment containing " <<
+      "Setting multiple rest contents containing " <<
       singularOrPlural (
         multipleRestContents->
           multipleRestContentsMeasuresNumber (),
@@ -21385,7 +21385,7 @@ void msrVoice::appendAccordionRegistrationToVoice (
     accordionRegistration)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -21408,7 +21408,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
     harpPedalsTuning)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<
@@ -22954,7 +22954,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoiceClone (
           
 #ifdef TRACE_OPTIONS
         if (
-          gTraceOptions->fTraceRepeatsDetails
+          gTraceOptions->fTraceRepeats
             ||
           gTraceOptions->fTraceVoicesDetails) {
           gLogIOstream <<
@@ -24480,19 +24480,14 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
             gTraceOptions->fTraceVoicesDetails) {
             gLogIOstream <<
               endl <<
-              "*********>> Current voice HHH \"" <<
+              "Before prepareForMultipleRestInVoiceClone(), voice \"" <<
               getVoiceName () <<
               "\"" <<
               ", line " << inputLineNumber <<
-              " contains:" <<
+              ", contains:" <<
               endl;
   
             print (gLogIOstream);
-  
-            gLogIOstream <<
-              "<<*********" <<
-              endl <<
-              endl;
           }
 #endif
 
@@ -24520,27 +24515,9 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
             }
 #endif
 
-            fSaveVoiceLastSegment = fVoiceLastSegment;
-
-            // create a new last segment containing a new measure for the voice
-#ifdef TRACE_OPTIONS
-            if (
-              gTraceOptions->fTraceMultipleRests
-                ||
-              gTraceOptions->fTraceSegments
-                ||
-              gTraceOptions->fTraceVoices
-            ) {
-              gLogIOstream <<
-                "Creating a new last segment containing a new measure for multiple rest in voice \"" <<
-                fVoiceName << "\"" <<
-                ", line " << inputLineNumber <<
-                endl;
-            }
-#endif
-  
-            createNewLastSegmentForVoice ( // JMI
-              inputLineNumber);
+            // append fVoiceLastSegment to the list of initial elements
+            fVoiceInitialElementsList.push_back (
+              fVoiceLastSegment);
   
 #ifdef TRACE_OPTIONS
             if (
@@ -24628,6 +24605,24 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
             }
 #endif
           }
+
+#ifdef TRACE_OPTIONS
+          if (
+            gTraceOptions->fTraceMultipleRests
+              ||
+            gTraceOptions->fTraceVoicesDetails) {
+            gLogIOstream <<
+              endl <<
+              "After prepareForMultipleRestInVoiceClone(), voice \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              ", contains:" <<
+              endl;
+  
+            print (gLogIOstream);
+          }
+#endif
         }
       }
       break;
@@ -24692,45 +24687,16 @@ void msrVoice::appendMultipleRestCloneToVoice (
             getRepeatCommonPart ()->
               appendElementToRepeatCommonPart (
                 multipleRestSegment);
-            
-          // re-install the saved last segment as the current last segment
-#ifdef TRACE_OPTIONS
-            if (
-              gTraceOptions->fTraceMultipleRests
-                ||
-              gTraceOptions->fTraceSegments
-                ||
-              gTraceOptions->fTraceVoices
-            ) {
-              gLogIOstream <<
-                "Re-installing saved voice last segment '" <<
-                fSaveVoiceLastSegment->asShortString () <<
-                "' after multiple rest in voice \"" <<
-                fVoiceName << "\"" <<
-                ", line " << inputLineNumber <<
-                endl;
-            }
-#endif
-
-          fVoiceLastSegment = fSaveVoiceLastSegment;
-          fSaveVoiceLastSegment = nullptr;
-
-          /* JMI
-          // append multiple rest segment to the list of initial elements // JMI
-          fVoiceInitialElementsList.push_back (
-            multipleRestSegment);
-            */
-       //   // append multiple rest segment to the repeat common part
-          
         }
         
         else {
           // no
-
-          // append the multiple rest to the list of initial elements
-          fVoiceInitialElementsList.push_back (
-            multipleRestClone);
+          // JMI ???
         }
+
+        // append the multiple rest to the list of initial elements
+        fVoiceInitialElementsList.push_back (
+          multipleRestClone);
 
         // print resulting voice contents
 #ifdef TRACE_OPTIONS
@@ -29808,7 +29774,7 @@ void msrPart::appendScordaturaToPart (
   S_msrScordatura scordatura)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending scordatura '" <<
       scordatura->asString () <<
@@ -29833,7 +29799,7 @@ void msrPart::appendAccordionRegistrationToPart (
     accordionRegistration)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -29858,7 +29824,7 @@ void msrPart::appendHarpPedalsTuningToPart (
     harpPedalsTuning)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<

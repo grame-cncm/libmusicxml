@@ -5974,8 +5974,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   }
   
   if (
+  /* JMI
     fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
+      */
     gLilypondOptions->fCompressMultiMeasureRests) {
     fLilypondCodeIOstream <<
       "}" <<

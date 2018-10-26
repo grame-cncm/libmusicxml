@@ -260,6 +260,15 @@ debugging information to standard error for the specified measures.)",
     // glissandos
     fTraceGlissandos = boolOptionsInitialValue;
     
+    // eyeglasses
+    fTraceEyeGlasses = boolOptionsInitialValue;
+    
+    // damps
+    fTraceDamps = boolOptionsInitialValue;
+    
+    // dampalls
+    fTraceDampAlls = boolOptionsInitialValue;
+    
     // slides
     fTraceSlides = boolOptionsInitialValue;
     
@@ -811,6 +820,39 @@ R"(Glissandos)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "teyes", "trace-eyeglasses",
+R"(Eyeglasses)",
+          "traceEyeGlasses",
+          fTraceEyeGlasses,
+          fTracePasses));
+      
+    // slides
+    
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tdamps", "trace-damps",
+R"(Damps)",
+          "traceDamps",
+          fTraceDamps,
+          fTracePasses));
+      
+    // dampalls
+    
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tdampas", "trace-dampalls",
+R"(Dampalls)",
+          "traceDampAlls",
+          fTraceDampAlls,
+          fTracePasses));
+      
+    // slides
+    
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "tslides", "trace-slides",
 R"(Slides)",
           "traceSlides",
@@ -1351,6 +1393,15 @@ void traceOptions::setAllTraceOptions (
     
     // glissandos
     fTraceGlissandos = boolOptionsInitialValue;
+    
+    // eyeglasses
+    fTraceEyeGlasses = boolOptionsInitialValue;
+    
+    // damps
+    fTraceDamps = boolOptionsInitialValue;
+    
+    // dampalls
+    fTraceDampAlls = boolOptionsInitialValue;
     
     // slides
     fTraceSlides = boolOptionsInitialValue;
