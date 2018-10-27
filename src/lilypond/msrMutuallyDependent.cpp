@@ -16774,29 +16774,33 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
     fSegmentMeasureNumber);
 
 
-  if (! fSegmentMeasuresList.size ()) { // JMI
-    gLogIOstream <<
-      endl <<
-      endl <<
-      endl <<
-      "+++++++++++++++++ appendNoteToSegment '" <<
-      fSegmentAbsoluteNumber <<
-      /* JMI
-      "', score:" <<
-      endl <<
-      fSegmentVoiceUplink->
-        getVoiceStaffUplink ()->
-          getStaffPartUplink ()->
-            getPartPartGroupUplink ()->
-              getPartGroupScoreUplink () <<
-              */
-      "', voice:" <<
-      endl <<
-      fSegmentVoiceUplink <<
-      endl <<
-      endl <<
-      endl;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceSegments) {
+    if (! fSegmentMeasuresList.size ()) { // JMI
+      gLogIOstream <<
+        endl <<
+        endl <<
+        endl <<
+        "+++++++++++++++++ appendNoteToSegment '" <<
+        fSegmentAbsoluteNumber <<
+        /* JMI
+        "', score:" <<
+        endl <<
+        fSegmentVoiceUplink->
+          getVoiceStaffUplink ()->
+            getStaffPartUplink ()->
+              getPartPartGroupUplink ()->
+                getPartGroupScoreUplink () <<
+                */
+        "', voice:" <<
+        endl <<
+        fSegmentVoiceUplink <<
+        endl <<
+        endl <<
+        endl;
+    }
   }
+#endif
 
   // sanity check
   msrAssert (
