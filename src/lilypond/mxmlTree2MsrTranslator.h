@@ -1065,8 +1065,8 @@ class mxmlTree2MsrTranslator :
     // may occur when no current voice exists
     list<S_msrRehearsal>      fPendingRehearsals;
     
-    void                      attachPendingRehearsalsToTheVoiceOfNote (
-                                S_msrNote note);
+    void                      attachPendingRehearsalsToVoice (
+                                S_msrVoice voice);
 
     // eyeglasses handling
     // ------------------------------------------------------
@@ -1115,7 +1115,6 @@ class mxmlTree2MsrTranslator :
     string                    fCurrentMetrenomePerMinute;
     msrTempo::msrTempoParenthesizedKind
                               fCurrentMetronomeParenthesedKind;
-    S_msrWords                fCurrentMetronomeWords;
 
     int                       fCurrentMetrenomeDotsNumber;
     msrTempo::msrTempoRelationKind
@@ -1157,8 +1156,8 @@ class mxmlTree2MsrTranslator :
     // may occur when no current voice exists
     list<S_msrTempo>          fPendingTempos;
     
-    void                      attachPendingTemposToTheVoiceOfNote (
-                                S_msrNote note);
+    void                      attachPendingTemposToVoice (
+                                S_msrVoice voice);
 
     // octave shift handling
     // ------------------------------------------------------

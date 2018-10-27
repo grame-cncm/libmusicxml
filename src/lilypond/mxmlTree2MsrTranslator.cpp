@@ -2316,7 +2316,6 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
       s.str ());    
   }
 
-  fCurrentMetronomeWords = nullptr;
   fCurrentMetronomeTempo = nullptr;
 
   fOnGoingDirection = true;
@@ -2343,7 +2342,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
           words =
             fPendingWords.front();
           
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
@@ -2352,7 +2351,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
             fCurrentMetronomeTempo->asString () << "'" <<
             endl;
         }
-  #endif
+#endif
     
         fCurrentMetronomeTempo->
           appendWordsToTempo (words);
@@ -2361,33 +2360,10 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
         fPendingWords.pop_front();
       } // while
 
+      // append the tempo to the pending tempos list
+      fPendingTempos.push_back (fCurrentMetronomeTempo);
 
-/*
-      if (pendingWordsSize > 1) {
-        stringstream s;
-    
-        s <<
-          "<direction/> contains " <<
-          pendingWordsSize <<
-          " <words/> markups";
-          
-        msrMusicXMLWarning (
-          gXml2lyOptions->fInputSourceName,
-          inputLineNumber,
-          s.str ());
-      }
-
-      // handling only the first of the pending words
-      S_msrWords words =
-        fPendingWords.front ();
-        
-      // register words in current metronome tempo
-      fCurrentMetronomeTempo->
-        setTempoWords (words);
-
-      // forget about this words
-      fPendingWords.pop_front ();
-    */
+      fCurrentMetronomeTempo = nullptr;
     }
   }
 
@@ -3599,9 +3575,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       s.str ());    
   }
 
-  // create the tempo
-  S_msrTempo tempo;
-    
+  // create the tempo    
   switch (tempoKind) {
     case msrTempo::k_NoTempoKind:
       break;
@@ -3612,7 +3586,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
           beatUnits =
             fCurrentMetronomeBeatUnitsVector [0];
   
-        tempo =
+        fCurrentMetronomeTempo =
           msrTempo::create (
             inputLineNumber,
             beatUnits,
@@ -3628,7 +3602,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
           beatUnits =
             fCurrentMetronomeBeatUnitsVector [0];
   
-        tempo =
+        fCurrentMetronomeTempo =
           msrTempo::create (
             inputLineNumber,
             beatUnits,
@@ -3639,9 +3613,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       break;
 
     case msrTempo::kTempoNotesRelationShip:
-      {
-      }
-      tempo =
+      fCurrentMetronomeTempo =
         msrTempo::create (
           inputLineNumber,
           fCurrentMetronomeRelationLeftElements,
@@ -3651,6 +3623,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       break;
   } // switch
 
+/*
   // append metrenome words to tempo if any
   S_msrWords tempoWords;
 
@@ -3658,6 +3631,30 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   
   if (pendingWordsSize) {
     if (pendingWordsSize > 1) {
+      while (fPendingWords.size ()) {
+        S_msrWords
+          words =
+            fPendingWords.front();
+          
+  #ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
+          fLogOutputStream <<
+            "Attaching words '" <<
+            words->asString () <<
+            "' to metronome tempo '" <<
+            fCurrentMetronomeTempo->asString () << "'" <<
+            endl;
+        }
+  #endif
+    
+        fCurrentMetronomeTempo->
+          appendWordsToTempo (words);
+  
+        // forget about this words
+        fPendingWords.pop_front();
+      } // while
+
+
       stringstream s;
   
       s <<
@@ -3687,6 +3684,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
 
   // append the tempo to the pending tempos list
   fPendingTempos.push_back (tempo);
+  */
 }
 
 //________________________________________________________________________
@@ -15864,28 +15862,20 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 */
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
-  S_msrNote note)
+void mxmlTree2MsrTranslator::attachPendingTemposToVoice (
+  S_msrVoice voice)
 {
- // attach the pending tempos if any to the note
+  // attach the pending tempos if any to the voice
   if (fPendingTempos.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceTempos) {
       fLogOutputStream <<
-        "Attaching pending tempos to note " <<
-        note->asString () <<
+        "Attaching pending tempos to voice \""  <<
+        voice->getVoiceName () <<
+        "\"" <<
         endl;
     }
 #endif
-
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fetchVoiceFromPart (
-          note->getInputLineNumber (),
-     //     fCurrentMusicXMLStaffNumber, // JMI fCurrentStaffNumberToInsertInto,
-          fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber);
 
     while (fPendingTempos.size ()) {
       S_msrTempo
@@ -15900,29 +15890,20 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
   }
 }
 
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
-  S_msrNote note)
+void mxmlTree2MsrTranslator::attachPendingRehearsalsToVoice (
+  S_msrVoice voice)
 {
  // attach the pending rehearsals if any to the note
   if (fPendingRehearsals.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceRehearsals) {
       fLogOutputStream <<
-        "Attaching pending rehearsals to note " <<
-        note->asString () <<
+        "Attaching pending rehearsals to voice \""  <<
+        voice->getVoiceName () <<
+        "\"" <<
         endl;
     }
 #endif
-
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fetchVoiceFromPart (
-          note->getInputLineNumber (),
-     //     fCurrentMusicXMLStaffNumber, // JMI fCurrentStaffNumberToInsertInto,
-          fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber);
 
     while (fPendingRehearsals.size ()) {
       S_msrRehearsal
@@ -16974,12 +16955,6 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
 void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   S_msrNote note)
 {
-  // attach the pending tempos, if any, to the note's voice
- // JMI attachPendingTemposToTheVoiceOfNote (note);
-
-  // attach the pending rehearsals, if any, to the note's voice
-  attachPendingRehearsalsToTheVoiceOfNote (note);
-
   // attach the pending eyeglasses, if any, to the note
   attachPendingEyeGlassesToNote (note);
 
@@ -18361,11 +18336,33 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else {
     // standalone note or rest
 
-/* YES JMI
-    // attach pending tempos if any to the voice of note,
-    // priot to the note itself
-    attachPendingTemposToTheVoiceOfNote (newNote);
-    */
+    // attach pending rehearsals if any to the current voice,
+    // prior to the note itself
+  // attach the pending tempos if any to the note
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceTempos) {
+      fLogOutputStream <<
+        "Attaching pending rehearsals to voice \"" <<
+        currentVoice->asString () <<
+        "\"" <<
+        endl;
+    }
+#endif    
+    attachPendingRehearsalsToVoice (currentVoice);
+
+    // attach pending tempos if any to the current voice,
+    // prior to the note itself
+  // attach the pending tempos if any to the note
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceTempos) {
+      fLogOutputStream <<
+        "Attaching pending tempos to voice \"" <<
+        currentVoice->asString () <<
+        "\"" <<
+        endl;
+    }
+#endif
+    attachPendingTemposToVoice (currentVoice);
     
     // append newNote to the current voice
 #ifdef TRACE_OPTIONS
@@ -20470,40 +20467,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
       ", line " << inputLineNumber <<
       endl;
   }
-
-/*
-<!ATTLIST sound
-    tempo CDATA #IMPLIED
-    dynamics CDATA #IMPLIED
-    dacapo %yes-no; #IMPLIED
-    segno CDATA #IMPLIED
-    dalsegno CDATA #IMPLIED
-    coda CDATA #IMPLIED
-    tocoda CDATA #IMPLIED
-    divisions CDATA #IMPLIED
-    forward-repeat %yes-no; #IMPLIED
-    fine CDATA #IMPLIED
-    %time-only;
-    pizzicato %yes-no; #IMPLIED
-    pan CDATA #IMPLIED
-    elevation CDATA #IMPLIED
-    damper-pedal %yes-no-number; #IMPLIED
-    soft-pedal %yes-no-number; #IMPLIED
-    sostenuto-pedal %yes-no-number; #IMPLIED
->
-
-<sound id="brass.trombone.bass"/>
-
-<sound dynamics="106.67"/>
-
-<sound dynamics="69"/>
-
-      <direction placement="above">
-        <direction-type>
-          <rehearsal default-y="15" font-size="11.3" font-weight="bold">A</rehearsal>
-        </direction-type>
-      </direction>
-*/
 
   string rehearsalValue = elt->getValue();
 
