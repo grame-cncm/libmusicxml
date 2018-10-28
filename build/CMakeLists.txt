@@ -163,7 +163,7 @@ install ( TARGETS ${TOOLS}
 
 ####################################
 # install misc files
-set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/shared/libmusicxml)
+set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/share/libmusicxml)
 install (
     DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
     FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
