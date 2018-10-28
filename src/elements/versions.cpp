@@ -24,5 +24,8 @@ const char* versions::xml2guidoVersionStr()   { return "2.3"; }
 float   versions::xml2lilypondVersion()   { return 0.9f; }
 const char* versions::xml2lilypondVersionStr()    { return "0.9"; }
 
+float   versions::xml2brailleVersion()   { return 0.01f; }
+const char* versions::xml2brailleVersionStr()    { return "0.01"; }
+
 }
 

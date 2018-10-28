@@ -29,11 +29,11 @@
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
-#include "lilypondOptions.h"
+#include "brailleOptions.h"
 
 #include "xml2lyOptionsHandling.h"
 
-#include "musicXML2mxmlTreeInterface.h"
+#include "musicXML2MxmlTreeInterface.h"
 
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
 #include "mxmlTree2MsrTranslatorInterface.h"
@@ -291,7 +291,7 @@ void displayLpsrScore_OptionalPass (
 
 //_______________________________________________________________________________
 void convertLpsrScoreToLilypondCode_Pass4 (
-  string      outputFileName,
+  string     outputFileName,
   S_lpsrScore lpScore)
 {  
   int outputFileNameSize = outputFileName.size ();
@@ -318,7 +318,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
       // create an indented output stream for the LilyPond code
       // to be written to outFileStream
       indentedOstream
-        lilypondCodeFileOutputStream (
+        brailleCodeFileOutputStream (
           outFileStream,
           gIndenter);
       
@@ -328,7 +328,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gMsrOptions,
         gLpsrOptions,
         gLogIOstream,
-        lilypondCodeFileOutputStream);
+        brailleCodeFileOutputStream);
     }
     
     else {
@@ -344,7 +344,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
       // create an indented output stream for the LilyPond code
       // to be written to cout
       indentedOstream
-        lilypondCodeCoutOutputStream (
+        brailleCodeCoutOutputStream (
           cout,
           gIndenter);
       
@@ -354,7 +354,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gMsrOptions,
         gLpsrOptions,
         gLogIOstream,
-        lilypondCodeCoutOutputStream);
+        brailleCodeCoutOutputStream);
     }
 
     if (outputFileNameSize) {

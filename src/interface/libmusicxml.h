@@ -84,6 +84,17 @@ EXP float       musicxml2lilypondVersion();
 EXP const char*   musicxml2lilypondVersionStr();
 
 /*!
+  \brief Gives the Braille converter version number.
+  \return a version number as a float value
+*/
+EXP float       musicxml2brailleVersion();
+/*!
+  \brief Gives the LilyPond converter version as a string.
+  \return a string
+*/
+EXP const char*   musicxml2brailleVersionStr();
+
+/*!
   \brief Converts a MusicXML representation to the Guido format.
   \param file a file name 
   \param generateBars a boolean to force barlines generation

@@ -73,7 +73,7 @@ void generateLilypondCodeFromLpsrScore (
       lilypondCodeIOstream,
       lpScore);
   
-  // build the LPSR score    
+  // build the LilyPond score    
   translator.generateLilypondCodeFromLpsrScore ();
 
   clock_t endClock = clock ();

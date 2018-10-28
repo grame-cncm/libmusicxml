@@ -26,6 +26,8 @@ EXP float   musicxml2guidoVersion()     { return versions::xml2guidoVersion(); }
 EXP const char* musicxml2guidoVersionStr()    { return versions::xml2guidoVersionStr(); }
 EXP float   musicxml2lilypondVersion()      { return versions::xml2lilypondVersion(); }
 EXP const char* musicxml2lilypondVersionStr()   { return versions::xml2lilypondVersionStr(); }
+EXP float   musicxml2brailleVersion()      { return versions::xml2brailleVersion(); }
+EXP const char* musicxml2brailleVersionStr()   { return versions::xml2brailleVersionStr(); }
 //EXP int     musicxml2antescofoVersion()     { return versions::xml2antescofoVersion(); }
 //EXP const char* musicxml2antescofoVersionStr()    { return versions::xml2antescofoVersionStr(); }
  
