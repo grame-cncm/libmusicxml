@@ -22239,20 +22239,45 @@ void msrVoice::prepareForRepeatInVoice (
 #endif
       
           if (voiceLastSegmentMeasuresList.size ()) {
-            voiceLastSegmentMeasuresList.pop_back ();
+            voiceLastSegmentMeasuresList.pop_back (); // REMOVE THAT??? JMI
           }
           else {
+            /* JMI
+#ifdef TRACE_OPTIONS
+            if (
+              gTraceOptions->fTraceRepeats
+                ||
+              gTraceOptions->fTraceMeasures) {
+              gLogIOstream <<
+                endl <<
+                "*********>> Current voice UUU \"" <<
+                getVoiceName () <<
+                "\"" <<
+                ", line " << inputLineNumber <<
+                " contains:" <<
+                endl;
+    
+              print (gLogIOstream);
+    
+              gLogIOstream <<
+                "<<*********" <<
+                endl <<
+                endl;
+            }
+#endif
             stringstream s;
         
             s <<
-              "cannot remove last measure from voice's last segement" <<
-              " since fVoiceInitialElementsList is empty";
+              "cannot remove last measure from voice's last segment" <<
+              " since voiceLastSegmentMeasuresList is empty";
         
-            msrInternalError (
+     //       msrInternalError (
+            msrInternalWarning (
               gXml2lyOptions->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
+    //          __FILE__, __LINE__,
               s.str ());
+              */
           }
 
           // move current last segment to the list of initial elements
@@ -22433,8 +22458,8 @@ void msrVoice::prepareForRepeatInVoiceClone (
             stringstream s;
         
             s <<
-              "cannot remove last measure from voice's last segement" <<
-              " since fVoiceInitialElementsList is empty";
+              "cannot remove last measure from voice's last segment" <<
+              " since voiceLastSegmentMeasuresList is empty";
         
             msrInternalError (
               gXml2lyOptions->fInputSourceName,
@@ -22662,7 +22687,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           
 #ifdef TRACE_OPTIONS
         if (
-          gTraceOptions->fTraceRepeatsDetails
+          gTraceOptions->fTraceRepeats
             ||
           gTraceOptions->fTraceVoicesDetails) {
           gLogIOstream <<
@@ -22860,7 +22885,13 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
 
         // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceRepeats
+            ||
+          gTraceOptions->fTraceSegments
+            ||
+          gTraceOptions->fTraceVoices
+        ) {
           gLogIOstream <<
     // JMI        "Creating a new last segment containing a new measure for voice \"" <<
             "Creating a new last segment for voice \"" <<
@@ -23441,7 +23472,7 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
         fVoiceInitialElementsList.resize (0);
 
 /* JMI
-        // finalize the voice's last segement
+        // finalize the voice's last segment
         fVoiceLastSegment->
           finalizeCurrentMeasureInSegment (
             inputLineNumber);

@@ -2081,13 +2081,14 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
               inputLineNumber,
               kPlacementNone,                // default value
               wordsValue,
+ //             kHorizontalAlignmentNone,      // default value
               kJustifyNone,                  // default value
               kVerticalAlignmentNone,        // default value
               kFontStyleNone,                // default value
               msrFontSize::create (
                 msrFontSize::kFontSizeNone), // default value
               kFontWeightNone,               // default value
-              msrWords::kItLang);            // default value
+              kXMLLangIt);                   // default value
   
         // append it to the current non-grace note
 #ifdef TRACE_OPTIONS

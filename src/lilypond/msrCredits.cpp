@@ -29,15 +29,14 @@ namespace MusicXML2 {
 
 //______________________________________________________________________________
 S_msrCreditWords msrCreditWords::create (
-  int         inputLineNumber,
-  string      creditWordsContents,
-  string      creditWordsFontFamily,
-  float       creditWordsFontSize,
-  string      creditWordsFontWeight,
-  string      creditWordsFontJustify,
-  string      creditWordsFontHAlign,
-  string      creditWordsFontVAlign,
-  string      creditWordsFontXMLLanguage)
+  int                        inputLineNumber,
+  string                     creditWordsContents,
+  string                     creditWordsFontFamily,
+  float                      creditWordsFontSize,
+  string                     creditWordsFontWeight,
+  msrHorizontalAlignmentKind creditWordsHAlign,
+  msrVerticalAlignmentKind   creditWordsVAlign,
+  msrXMLLangKind             creditWordsXMLLang)
 {
   msrCreditWords* o =
     new msrCreditWords (
@@ -46,35 +45,32 @@ S_msrCreditWords msrCreditWords::create (
       creditWordsFontFamily,
       creditWordsFontSize,
       creditWordsFontWeight,
-      creditWordsFontJustify,
-      creditWordsFontHAlign,
-      creditWordsFontVAlign,
-      creditWordsFontXMLLanguage);
+      creditWordsHAlign,
+      creditWordsVAlign,
+      creditWordsXMLLang);
   assert(o!=0);
   return o;
 }
 
 msrCreditWords::msrCreditWords (
-  int         inputLineNumber,
-  string      creditWordsContents,
-  string      creditWordsFontFamily,
-  float       creditWordsFontSize,
-  string      creditWordsFontWeight,
-  string      creditWordsFontJustify,
-  string      creditWordsFontHAlign,
-  string      creditWordsFontVAlign,
-  string      creditWordsFontXMLLanguage)
+  int                        inputLineNumber,
+  string                     creditWordsContents,
+  string                     creditWordsFontFamily,
+  float                      creditWordsFontSize,
+  string                     creditWordsFontWeight,
+  msrHorizontalAlignmentKind creditWordsHAlign,
+  msrVerticalAlignmentKind   creditWordsVAlign,
+  msrXMLLangKind             creditWordsXMLLang)
     : msrElement (inputLineNumber)
 {
-  fCreditWordsContents        = creditWordsContents;
+  fCreditWordsContents   = creditWordsContents;
 
-  fCreditWordsFontFamily      = creditWordsFontFamily;
-  fCreditWordsFontSize        = creditWordsFontSize;
-  fCreditWordsFontWeight      = creditWordsFontWeight;
-  fCreditWordsFontJustify     = creditWordsFontJustify;
-  fCreditWordsFontHAlign      = creditWordsFontHAlign;
-  fCreditWordsFontVAlign      = creditWordsFontVAlign;
-  fCreditWordsFontXMLLanguage = creditWordsFontXMLLanguage;
+  fCreditWordsFontFamily = creditWordsFontFamily;
+  fCreditWordsFontSize   = creditWordsFontSize;
+  fCreditWordsFontWeight = creditWordsFontWeight;
+  fCreditWordsHAlign     = creditWordsHAlign;
+  fCreditWordsVAlign     = creditWordsVAlign;
+  fCreditWordsXMLLang    = creditWordsXMLLang;
 }
 
 msrCreditWords::~msrCreditWords ()
@@ -158,23 +154,18 @@ void msrCreditWords::print (ostream& os)
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontJustify" << " : \"" <<
-    fCreditWordsFontJustify <<
+    "creditWordsHAlign" << " : \"" <<
+    fCreditWordsHAlign <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontHAlign" << " : \"" <<
-    fCreditWordsFontHAlign <<
+    "creditWordsVAlign" << " : \"" <<
+    fCreditWordsVAlign <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontVAlign" << " : \"" <<
-    fCreditWordsFontVAlign <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) <<
-    "creditWordsFontXMLLanguage" << " : \"" <<
-    fCreditWordsFontXMLLanguage <<
+    "creditWordsXMLLang" << " : \"" <<
+    fCreditWordsXMLLang <<
     "\"" <<
     endl;
 

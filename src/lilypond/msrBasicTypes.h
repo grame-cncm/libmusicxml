@@ -29,6 +29,18 @@ namespace MusicXML2
 
 #define NO_INPUT_LINE_NUMBER 0
 
+// XMLLang
+//______________________________________________________________________________
+enum msrXMLLangKind {
+  kXMLLangIt, kXMLLangEn, kXMLLangDe, kXMLLangFr, kXMLLangJa, kXMLLangLa };
+
+msrXMLLangKind msrXMLLangKindFromString (
+  int    inputLineNumber,
+  string XMLLangString);
+  
+string msrXMLLangKindAsString (
+  msrXMLLangKind XMLLangKind);
+      
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
@@ -450,13 +462,32 @@ enum msrJustifyKind {
   kJustifyNone,
   kJustifyLeft, kJustifyCenter, kJustifyRight };
 
+msrJustifyKind msrJustifyKindFromString (
+  int    inputLineNumber,
+  string justifyString);
+  
 string msrJustifyKindAsString (
   msrJustifyKind justifyKind);
+
+enum msrHorizontalAlignmentKind {
+  kHorizontalAlignmentNone,
+  kHorizontalAlignmentLeft, kHorizontalAlignmentCenter, kHorizontalAlignmentRight };
+
+msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
+  int    inputLineNumber,
+  string HorizontalAlignString);
+  
+string msrHorizontalAlignmentKindAsString (
+  msrHorizontalAlignmentKind horizontalAlignmentKind);
 
 enum msrVerticalAlignmentKind {
   kVerticalAlignmentNone,
   kVerticalAlignmentTop, kVerticalAlignmentMiddle, kVerticalAlignmentBottom };
 
+msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
+  int    inputLineNumber,
+  string verticalAlignmentString);
+  
 string msrVerticalAlignmentKindAsString (
   msrVerticalAlignmentKind verticalAlignmentKind);
 

@@ -778,6 +778,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       fCurrentPart->
         getPartCombinedName () <<
         " -- end" <<
+        ", fOnGoingRepeat = " <<
+        booleanAsString (fOnGoingRepeat) <<
       endl <<
       "--------------------------------------------" <<
       endl <<
@@ -2547,71 +2549,26 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
       endl;
   }
 
-/*
-  <words default-y="-73" font-style="italic" relative-x="5">cresc.</words>
-*/
-
   string wordsValue = elt->getValue ();
 
   // justify
+  string wordsJustifyString = elt->getAttributeValue ("justify");
 
-  string wordsJustify = elt->getAttributeValue ("justify");
-
-  msrJustifyKind justifyKind = kJustifyNone; // default value
-
-  if      (wordsJustify == "left")
-    justifyKind = kJustifyLeft;
-  else if (wordsJustify == "center")
-    justifyKind = kJustifyCenter;
-  else if (wordsJustify == "right")
-    justifyKind = kJustifyRight;
-  else {
-    if (wordsJustify.size ()) {
-      stringstream s;
-      
-      s <<
-        "justify value " << wordsJustify <<
-        " should be 'left', 'center' or 'right'";
-      
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+  msrJustifyKind justifyKind =
+    msrJustifyKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+      wordsJustifyString);
 
   // valign
-
   string wordsVerticalAlignment = elt->getAttributeValue ("valign");
 
   msrVerticalAlignmentKind
-    verticalAlignmentKind = kVerticalAlignmentNone; // default value
-
-  if      (wordsVerticalAlignment == "top")
-    verticalAlignmentKind = kVerticalAlignmentTop;
-  else if (wordsVerticalAlignment == "middle")
-    verticalAlignmentKind = kVerticalAlignmentMiddle;
-  else if (wordsVerticalAlignment == "bottom")
-    verticalAlignmentKind = kVerticalAlignmentBottom;
-  else {
-    if (wordsVerticalAlignment.size ()) {
-      stringstream s;
-      
-      s <<
-        "valign value " << wordsVerticalAlignment <<
-        " should be 'top', 'middle' or 'bottom'";
-      
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+    verticalAlignmentKind =
+      msrVerticalAlignmentKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        wordsVerticalAlignment);
 
   // font style
-
   string wordsFontStyle = elt->getAttributeValue ("font-style");
 
   msrFontStyleKind fontStyleKind = kFontStyleNone; // default value
@@ -2637,7 +2594,6 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
   }
 
   // font size
-
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
   msrFontSize::msrFontSizeKind
@@ -2687,7 +2643,6 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
     } // switch
     
   // font weight
-
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
   msrFontWeightKind fontWeightKind = kFontWeightNone; // default value
@@ -2712,42 +2667,15 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
     }
   }
   
-  // XML language
+  // XMLLang
+  string wordsXMLLangString = elt->getAttributeValue ("xml:lang");
 
-  string wordsXMLLang = elt->getAttributeValue ("xml:lang");
-
-  msrWords::msrWordsXMLLangKind
+  msrXMLLangKind
     wordsXMLLangKind =
-      msrWords::kItLang; // default value
-
-  if      (wordsXMLLang == "it")
-    wordsXMLLangKind = msrWords::kItLang;
-  else if (wordsXMLLang == "en")
-    wordsXMLLangKind = msrWords::kEnLang;
-  else if (wordsXMLLang == "de")
-    wordsXMLLangKind = msrWords::kDeLang;
-  else if (wordsXMLLang == "fr")
-    wordsXMLLangKind = msrWords::kFrLang;
-  else if (wordsXMLLang == "ja")
-    wordsXMLLangKind = msrWords::kJaLang;
-  else if (wordsXMLLang == "la")
-    wordsXMLLangKind = msrWords::kLaLang;
-  else {
-    if (wordsXMLLang.size ()) {
-      stringstream s;
-      
-      s <<
-        "xml:lang value '" << wordsXMLLang <<
-        "' should be 'it', 'en', 'de' or 'fr'";
-      
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+      msrXMLLangKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
-
+        wordsXMLLangString);
+ 
   // create the words
   if (wordsValue.size ()) {
 #ifdef TRACE_OPTIONS
@@ -20123,7 +20051,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   ) {
     createAndPrependImplicitBarLine (
       inputLineNumber);
-   }
+  }
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {

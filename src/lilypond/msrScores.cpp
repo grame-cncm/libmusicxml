@@ -215,6 +215,90 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   return result;
 }
 
+void msrScore::tryAndFetchTitleAndInstrumentFromCredits (
+  int inputLineNumber)
+{
+  /*
+  S_msrIdentification
+    identification =
+      fMsrScore->getIdentification ();
+
+  string inputSourceName;
+  
+  if (
+    ! identification->getWorkTitle ()
+      &&
+    gMusicXMLOptions->fUseFilenameAsWorkTitle
+  ) {
+    inputSourceName =
+      gXml2lyOptions->fInputSourceName;
+
+    if (inputSourceName == "-") {
+      inputSourceName = "Standard input";
+    }
+  }
+  */
+
+  // credits on top of page one can be used as title and instrument
+  if (fCreditsList.size () >= 1) {
+    S_msrCredit firstCredit = fCreditsList.front ();
+
+    if (firstCredit->getCreditPageNumber () == 1) {
+      const vector<S_msrCreditWords>&
+        creditWordsVector =
+          firstCredit->
+            getCreditWordsList (); 
+      
+      if (creditWordsVector.size () >= 1) {
+        S_msrCreditWords firstCreditWords = creditWordsVector.front ();
+  
+        if (firstCreditWords->getCreditWordsVAlign () == kVerticalAlignmentTop) {
+          string
+            creditWordsContents =
+              firstCreditWords->
+                getCreditWordsContents ();
+      
+  #ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceCredits) {
+            gLogIOstream <<
+              "Using credit words '" <<
+              creditWordsContents <<
+              "' as score title" <<
+              endl;
+          }
+  #endif
+
+        fIdentification->
+          setWorkTitle (
+            inputLineNumber,
+            creditWordsContents);
+        }
+      }
+    }
+  }
+}
+
+/*      s << "[";
+      
+      vector<S_msrCreditWords>::const_iterator
+        iBegin = fCreditWordsList.begin (),
+        iEnd   = fCreditWordsList.end (),
+        i      = iBegin;
+    
+      for ( ; ; ) {
+        S_msrCreditWords creditWords = (*i);
+
+        if (creditWords-> () == )
+        s << "\"" << creditWords->getCreditWordsContents () << "\"";
+        if (++i == iEnd) break;
+        s << ", ";
+      } // for
+  
+      s << "]";
+    }
+  }
+  */
+
 void msrScore::collectScorePartsList (
   int              inputLineNumber,
   list<S_msrPart>& partsList)

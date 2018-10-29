@@ -30,15 +30,14 @@ class msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrCreditWords> create (
-      int         inputLineNumber,
-      string      creditWordsContents,
-      string      creditWordsFontFamily,
-      float       creditWordsFontSize,
-      string      creditWordsFontWeight,
-      string      creditWordsFontJustify,
-      string      creditWordsFontHAlign,
-      string      creditWordsFontVAlign,
-      string      creditWordsFontXMLLanguage);
+      int                        inputLineNumber,
+      string                     creditWordsContents,
+      string                     creditWordsFontFamily,
+      float                      creditWordsFontSize,
+      string                     creditWordsFontWeight,
+      msrHorizontalAlignmentKind creditWordsFontHAlign,
+      msrVerticalAlignmentKind   creditWordsFontVAlign,
+      msrXMLLangKind             creditWordsXMLLang);
 
   protected:
 
@@ -46,15 +45,14 @@ class msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     msrCreditWords (
-      int         inputLineNumber,
-      string      creditWordsContents,
-      string      creditWordsFontFamily,
-      float       creditWordsFontSize,
-      string      creditWordsFontWeight,
-      string      creditWordsFontJustify,
-      string      creditWordsFontHAlign,
-      string      creditWordsFontVAlign,
-      string      creditWordsFontXMLLanguage);
+      int                        inputLineNumber,
+      string                     creditWordsContents,
+      string                     creditWordsFontFamily,
+      float                      creditWordsFontSize,
+      string                     creditWordsFontWeight,
+      msrHorizontalAlignmentKind creditWordsFontHAlign,
+      msrVerticalAlignmentKind   creditWordsFontVAlign,
+      msrXMLLangKind             creditWordsXMLLang);
       
     virtual ~msrCreditWords ();
   
@@ -65,8 +63,25 @@ class msrCreditWords : public msrElement
     string                getCreditWordsContents () const
                               { return fCreditWordsContents; }
 
+    string                getCreditWordsFontFamily () const
+                              { return fCreditWordsFontFamily; }
+
     float                 getCreditWordsFontSize () const
                               { return fCreditWordsFontSize; }
+
+    string                getCreditWordsFontWeight () const
+                              { return fCreditWordsFontWeight; }
+
+    msrHorizontalAlignmentKind
+                          getCreditWordsHAlign () const
+                              { return fCreditWordsHAlign; }
+
+    msrVerticalAlignmentKind
+                          getCreditWordsVAlign () const
+                              { return fCreditWordsVAlign; }
+
+    msrXMLLangKind        getCreditWordsXMLLang () const
+                              { return fCreditWordsXMLLang; }
 
     // services
     // ------------------------------------------------------
@@ -97,15 +112,16 @@ class msrCreditWords : public msrElement
     <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
 */
 
-    string                  fCreditWordsContents;
+    string                fCreditWordsContents;
 
-    string                  fCreditWordsFontFamily;
-    float                   fCreditWordsFontSize;
-    string                  fCreditWordsFontWeight;
-    string                  fCreditWordsFontJustify;
-    string                  fCreditWordsFontHAlign;
-    string                  fCreditWordsFontVAlign;
-    string                  fCreditWordsFontXMLLanguage;
+    string                fCreditWordsFontFamily;
+    float                 fCreditWordsFontSize;
+    string                fCreditWordsFontWeight;
+    msrHorizontalAlignmentKind
+                          fCreditWordsHAlign;
+    msrVerticalAlignmentKind
+                          fCreditWordsVAlign;
+    msrXMLLangKind        fCreditWordsXMLLang;
 };
 typedef SMARTP<msrCreditWords> S_msrCreditWords;
 EXP ostream& operator<< (ostream& os, const S_msrCreditWords& elt);
@@ -175,9 +191,10 @@ class msrCredit : public msrElement
     // fields
     // ------------------------------------------------------
 
-    int                       fCreditPageNumber;
+    int                   fCreditPageNumber;
     
-    vector<S_msrCreditWords>  fCreditWordsList;
+    vector<S_msrCreditWords>
+                          fCreditWordsList;
 };
 typedef SMARTP<msrCredit> S_msrCredit;
 EXP ostream& operator<< (ostream& os, const S_msrCredit& elt);

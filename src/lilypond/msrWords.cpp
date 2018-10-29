@@ -29,21 +29,23 @@ namespace MusicXML2 {
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  int                      inputLineNumber,
-  msrPlacementKind         wordsPlacementKind,
-  string                   wordsContents,
-  msrJustifyKind           wordsJustifyKind,
-  msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-  msrFontStyleKind         wordsFontStyleKind,
-  S_msrFontSize            wordsFontSize,
-  msrFontWeightKind        wordsFontWeightKind,
-  msrWordsXMLLangKind      wordsXMLLangKind)
+  int                        inputLineNumber,
+  msrPlacementKind           wordsPlacementKind,
+  string                     wordsContents,
+//  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+  msrJustifyKind             wordsJustifyKind,
+  msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+  msrFontStyleKind           wordsFontStyleKind,
+  S_msrFontSize              wordsFontSize,
+  msrFontWeightKind          wordsFontWeightKind,
+  msrXMLLangKind             wordsXMLLangKind)
 {
   msrWords* o =
     new msrWords (
       inputLineNumber,
       wordsPlacementKind,
       wordsContents,
+//      wordsHorizontalAlignmentKind,
       wordsJustifyKind,
       wordsVerticalAlignmentKind,
       wordsFontStyleKind,
@@ -55,23 +57,25 @@ S_msrWords msrWords::create (
 }
 
 msrWords::msrWords (
-  int                      inputLineNumber,
-  msrPlacementKind         wordsPlacementKind,
-  string                   wordsContents,
-  msrJustifyKind           wordsJustifyKind,
-  msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-  msrFontStyleKind         wordsFontStyleKind,
-  S_msrFontSize            wordsFontSize,
-  msrFontWeightKind        wordsFontWeightKind,
-  msrWordsXMLLangKind      wordsXMLLangKind)
+  int                        inputLineNumber,
+  msrPlacementKind           wordsPlacementKind,
+  string                     wordsContents,
+//  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+  msrJustifyKind             wordsJustifyKind,
+  msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+  msrFontStyleKind           wordsFontStyleKind,
+  S_msrFontSize              wordsFontSize,
+  msrFontWeightKind          wordsFontWeightKind,
+  msrXMLLangKind             wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind  = wordsPlacementKind;
   
   fWordsContents       = wordsContents;
   
-  fWordsJustifyKind    = wordsJustifyKind;
-  fWordsVerticalAlignmentKind = wordsVerticalAlignmentKind;
+//  fWordsHorizontalAlignmentKind = wordsHorizontalAlignmentKind;
+  fWordsJustifyKind = wordsJustifyKind;
+  fWordsVerticalAlignmentKind   = wordsVerticalAlignmentKind;
 
   fWordsFontStyleKind  = wordsFontStyleKind;
   fWordsFontSize       = wordsFontSize;
@@ -143,6 +147,12 @@ string msrWords::wordsPlacementKindAsString () const
       fWordsPlacementKind);
 }
 
+/*
+string msrWords::wordsHorizontalAlignmentKindAsString () const
+{
+  return msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind);
+}
+*/
 string msrWords::wordsJustifyKindAsString () const
 {
   return msrJustifyKindAsString (fWordsJustifyKind);
@@ -168,34 +178,6 @@ string msrWords::wordsFontSizeAsString () const
 string msrWords::wordsFontWeightKindAsString () const
 {
   return msrFontWeightKindAsString (fWordsFontWeightKind);
-}
-
-string msrWords::msrWordsXMLLangKindAsString (
-  msrWordsXMLLangKind wordsXMLLangKind)
-{
-  string result;
-
-  switch (wordsXMLLangKind) {
-    case kItLang:
-      result = "it";
-      break;
-    case kEnLang:
-      result = "en";
-      break;
-    case kDeLang:
-      result = "de";
-      break;
-    case kFrLang:
-      result = "fr";
-    case kJaLang:
-      result = "ja";
-      break;
-    case kLaLang:
-      result = "la";
-      break;
-  } // switch
-
-  return result;
 }
 
 string msrWords::asString () const
@@ -230,6 +212,12 @@ void msrWords::print (ostream& os)
     "placement" << " = " <<
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
+    /*
+    setw (fieldWidth) <<
+    "wordsHorizontalAlignmentKind" << " = " <<
+    msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind) <<
+    endl <<
+    */
     setw (fieldWidth) <<
     "wordsJustifyKind" << " = " <<
     msrJustifyKindAsString (fWordsJustifyKind) <<
@@ -252,7 +240,7 @@ void msrWords::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "wordsFontXMLLang" << " = " <<
-    msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
+    msrXMLLangKindAsString (fWordsXMLLangKind) <<
     endl;
   
   gIndenter--;

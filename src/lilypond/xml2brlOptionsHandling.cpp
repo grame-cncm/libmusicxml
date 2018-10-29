@@ -973,7 +973,7 @@ void initializeXml2brlOptionsHandling (
 
   enlistVersion (
     "Initial", "october 2018",
-    "Derived from xml2ly");
+    "Derived from xml2ly, with an embryonic BSR");
       
   enlistVersion (
     musicxml2brailleVersionStr (), "Nobember 2018",

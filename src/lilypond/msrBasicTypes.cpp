@@ -53,6 +53,74 @@ namespace MusicXML2 {
 #define TRACE_MSR_BASIC_TYPES 0
 
 
+// XMLLang
+//______________________________________________________________________________
+msrXMLLangKind msrXMLLangKindFromString (
+  int    inputLineNumber,
+  string XMLLangString)
+{
+  msrXMLLangKind
+    result = kXMLLangIt; // default value
+
+  if      (XMLLangString == "it")
+    result = kXMLLangIt;
+  else if (XMLLangString == "en")
+    result = kXMLLangEn;
+  else if (XMLLangString == "de")
+    result = kXMLLangDe;
+  else if (XMLLangString == "fr")
+    result = kXMLLangFr;
+  else if (XMLLangString == "ja")
+    result = kXMLLangJa;
+  else if (XMLLangString == "la")
+    result = kXMLLangLa;
+  else {
+    if (XMLLangString.size ()) {
+      stringstream s;
+      
+      s <<
+        "xml:lang value '" << XMLLangString <<
+        "' should be 'it', 'en', 'de' or 'fr'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
+string msrXMLLangKindAsString (
+  msrXMLLangKind XMLLangKind)
+{
+  string result;
+
+  switch (XMLLangKind) {
+    case kXMLLangIt:
+      result = "it";
+      break;
+    case kXMLLangEn:
+      result = "en";
+      break;
+    case kXMLLangDe:
+      result = "de";
+      break;
+    case kXMLLangFr:
+      result = "fr";
+    case kXMLLangJa:
+      result = "ja";
+      break;
+    case kXMLLangLa:
+      result = "la";
+      break;
+  } // switch
+
+  return result;
+}
+
 // dotted durations
 //______________________________________________________________________________
 msrDottedDuration::msrDottedDuration ()
@@ -11833,6 +11901,37 @@ string msrFontWeightKindAsString (
 
 // alignement
 //______________________________________________________________________________
+msrJustifyKind msrJustifyKindFromString (
+  int    inputLineNumber,
+  string justifyString)
+{
+  msrJustifyKind result = kJustifyNone; // default value
+
+  if      (justifyString == "left")
+    result = kJustifyLeft;
+  else if (justifyString == "center")
+    result = kJustifyCenter;
+  else if (justifyString == "right")
+    result = kJustifyRight;
+  else {
+    if (justifyString.size ()) {
+      stringstream s;
+      
+      s <<
+        "justify value " << justifyString <<
+        " should be 'left', 'center' or 'right'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
 string msrJustifyKindAsString (
   msrJustifyKind justifyKind)
 {
@@ -11856,6 +11955,93 @@ string msrJustifyKindAsString (
   return result;
 }
 
+msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
+  int    inputLineNumber,
+  string horizontalAlignmentString)
+{
+  msrHorizontalAlignmentKind
+    result = kHorizontalAlignmentNone; // default value
+
+  if      (horizontalAlignmentString == "left")
+    result = kHorizontalAlignmentLeft;
+  else if (horizontalAlignmentString == "center")
+    result = kHorizontalAlignmentCenter;
+  else if (horizontalAlignmentString == "right")
+    result = kHorizontalAlignmentRight;
+  else {
+    if (horizontalAlignmentString.size ()) {
+      stringstream s;
+      
+      s <<
+        "halign value " << horizontalAlignmentString <<
+        " should be 'left', 'center' or 'right'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
+string msrHorizontalAlignmentKindAsString (
+  msrHorizontalAlignmentKind horizontalAlignmentKind)
+{
+  string result;
+  
+  switch (horizontalAlignmentKind) {
+    case kHorizontalAlignmentNone:
+      result = "horizontalAlignmentNone";
+      break;
+    case kHorizontalAlignmentLeft:
+      result = "horizontalAlignmentLeft";
+      break;
+    case kHorizontalAlignmentCenter:
+      result = "horizontalAlignmentCenter";
+      break;
+    case kHorizontalAlignmentRight:
+      result = "horizontalAlignmentRight";
+      break;
+    } // switch
+
+  return result;
+}
+
+msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
+  int    inputLineNumber,
+  string verticalAlignmentString)
+{
+  msrVerticalAlignmentKind
+    result = kVerticalAlignmentNone; // default value
+
+  if      (verticalAlignmentString == "top")
+    result = kVerticalAlignmentTop;
+  else if (verticalAlignmentString == "middle")
+    result = kVerticalAlignmentMiddle;
+  else if (verticalAlignmentString == "bottom")
+    result = kVerticalAlignmentBottom;
+  else {
+    if (verticalAlignmentString.size ()) {
+      stringstream s;
+      
+      s <<
+        "valign value " << verticalAlignmentString <<
+        " should be 'top', 'middle' or 'bottom'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+  
 string msrVerticalAlignmentKindAsString (
   msrVerticalAlignmentKind verticalAlignmentKind)
 {

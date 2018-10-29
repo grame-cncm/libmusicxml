@@ -1788,36 +1788,25 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_score_partwise" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  S_msrIdentification
-    identification =
-      fMsrScore->getIdentification ();
-
-  string inputSourceName;
-  
-  if (
-    ! identification->getWorkTitle ()
-      &&
-    gMusicXMLOptions->fUseFilenameAsWorkTitle
-  ) {
-    inputSourceName =
-      gXml2lyOptions->fInputSourceName;
-
-    if (inputSourceName == "-") {
-      inputSourceName = "Standard input";
-    }
-  }
-  
   // register the number of measures
   fMsrScore->
     setScoreNumberOfMeasures (
       fScoreNumberOfMeasures);
+
+  // fetch the title and instrument from the credits if any
+  fMsrScore ->
+    tryAndFetchTitleAndInstrumentFromCredits (
+      inputLineNumber);
 }
 
 //______________________________________________________________________________
@@ -2383,27 +2372,48 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
   string creditWordsContents =
     elt->getValue ();
   
+  // font family
   string creditWordsFontFamily =
     elt->getAttributeValue ("font-family");
 
+  // font size
   float creditWordsFontSize =
     elt->getAttributeFloatValue ("font-size", 0.0);
 
+  // font weight
   string creditWordsFontWeight =
     elt->getAttributeValue ("font-weight"); // JMI etc
 
-  string creditWordsFontJustify =
-    elt->getAttributeValue ("justify");
-
-  string creditWordsFontHAlign =
+  // halign
+  string creditWordsHAlignString =
     elt->getAttributeValue ("halign");
 
-  string creditWordsFontVAlign =
+  msrHorizontalAlignmentKind
+    creditWordsHorizontalAlignment =
+      msrHorizontalAlignmentKindFromString (
+        inputLineNumber,
+        creditWordsHAlignString);
+
+  // valign
+  string creditWordsVAlignString =
     elt->getAttributeValue ("valign");
 
-  string creditWordsFontXMLLanguage =
+  msrVerticalAlignmentKind
+    creditWordsVerticalAlignment =
+      msrVerticalAlignmentKindFromString (
+        inputLineNumber,
+        creditWordsVAlignString);
+
+  // XMLLang
+  string creditWordsXMLLangString =
     elt->getAttributeValue ("xml:lang");
 
+  msrXMLLangKind
+    creditWordsXMLLang =
+      msrXMLLangKindFromString (
+        inputLineNumber,
+        creditWordsXMLLangString);
+     
   // create the credit words
   S_msrCreditWords
     creditWords =
@@ -2413,10 +2423,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
         creditWordsFontFamily,
         creditWordsFontSize,
         creditWordsFontWeight,
-        creditWordsFontJustify,
-        creditWordsFontHAlign,
-        creditWordsFontVAlign,
-        creditWordsFontXMLLanguage);
+        creditWordsHorizontalAlignment,
+        creditWordsVerticalAlignment,
+        creditWordsXMLLang);
 
   // append it to the current credit
   fCurrentCredit->
