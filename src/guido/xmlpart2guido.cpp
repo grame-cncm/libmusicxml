@@ -1320,10 +1320,15 @@ namespace MusicXML2
             fBeamStack.push(toto2);
             
             /// Using \beamBegin:NUMBER
-            stringstream tagName;
-            tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
-            Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
-            add (tag);
+            // GUID-79: Guido Engine does not deal well with nested Beams! Just keep the TOP level and store its number for later closing.
+            if (fBeamOpened == false) {
+                stringstream tagName;
+                tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
+                Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
+                add (tag);
+                fBeamOpened = true;
+                fCurrentBeamNumber = lastBeamInternalNumber;
+            }
             
             /// OR using \beam(...)
             //Sguidoelement tag = guidotag::create("beam");
@@ -1345,7 +1350,7 @@ namespace MusicXML2
         /// IMPORTANT: Beam Numbering in MusicXML is not the same as in Slurs and are NOT incremental.
         ///            The only assumption we make here is that the numbers are sorted. So we use a REVERSE iterator to close Beams in Order.
         std::vector<S_beam>::const_reverse_iterator i ;
-        int beamStackSizeBeforeClosing = fBeamStack.size();
+        unsigned long beamStackSizeBeforeClosing = fBeamStack.size();
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
             //cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
@@ -1361,10 +1366,14 @@ namespace MusicXML2
                 }
                 
                 /// using \beamEnd:NUMBER
-                stringstream tagName;
-                tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
-                Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
-                add (tag);
+                // GUID-79: Only close the initial Beam
+                if (fBeamOpened && (fCurrentBeamNumber == lastBeamInternalNumber)) {
+                    stringstream tagName;
+                    tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
+                    Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
+                    add (tag);
+                    fBeamOpened = false;
+                }
                 
                 /// OR using \beam(...)
                 //pop();
