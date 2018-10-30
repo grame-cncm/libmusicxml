@@ -8138,6 +8138,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         break;
 
       case msrTempo::kTempoParenthesizedNo:
+        // JMI way to remove automatic parentheses if text is associated?
         fLilypondCodeIOstream <<
           "\\tempo ";
         
