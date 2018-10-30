@@ -4261,11 +4261,17 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     gTab << "\\Score" <<
     endl;
 
-  if (gLilypondOptions->fCompressMultiMeasureRests) { // JMI
+/* JMI ???
+  if (
+    fCurrentVoice->getVoiceContainsMultipleRests ()
+      ||
+    gLilypondOptions->fCompressMultiMeasureRests
+  ) {
     fLilypondCodeIOstream <<
       gTab << "skipBars = ##t % to compress multiple measure rests" <<
       endl;
   }
+*/
 
   fLilypondCodeIOstream <<
     gTab << "autoBeaming = ##f % to display tuplets brackets" <<
@@ -5912,11 +5918,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
 
   if (
-/*
     fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
-*/
-    gLilypondOptions->fCompressMultiMeasureRests) {
+    gLilypondOptions->fCompressMultiMeasureRests
+  ) {
     fLilypondCodeIOstream <<
       "\\compressMMRests {" <<
       endl;
@@ -5974,11 +5979,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   }
   
   if (
-  /* JMI
     fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
-      */
-    gLilypondOptions->fCompressMultiMeasureRests) {
+    gLilypondOptions->fCompressMultiMeasureRests
+  ) {
     fLilypondCodeIOstream <<
       "}" <<
       endl;
