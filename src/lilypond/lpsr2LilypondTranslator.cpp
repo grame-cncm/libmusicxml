@@ -2557,6 +2557,11 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
                 spanner->
                   getSpannerOtherEndSidelink ();
 
+            // sanity check
+            msrAssert (
+              spannerStartEnd != nullptr,
+              "spannerStartEnd is null");
+
             // has the start end a trill ornament?
             if (spannerStartEnd->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
               fLilypondCodeIOstream <<
@@ -13139,7 +13144,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
 
     case msrBarline::kBarlineCategoryRepeatStart:
+        fLilypondCodeIOstream << "\\bar \".|:\" ";
+        break;
     case msrBarline::kBarlineCategoryRepeatEnd:
+        fLilypondCodeIOstream << "\\bar \":|.|:\" ";
+        break;
     case msrBarline::kBarlineCategoryHookedEndingStart:
     case msrBarline::kBarlineCategoryHookedEndingEnd:
     case msrBarline::kBarlineCategoryHooklessEndingStart:
