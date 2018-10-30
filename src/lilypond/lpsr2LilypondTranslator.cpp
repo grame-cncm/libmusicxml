@@ -13144,11 +13144,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       break;
 
     case msrBarline::kBarlineCategoryRepeatStart:
+      if (gLilypondOptions->fKeepRepeatBarlines) {
         fLilypondCodeIOstream << "\\bar \".|:\" ";
-        break;
+      }
+      break;
     case msrBarline::kBarlineCategoryRepeatEnd:
+      if (gLilypondOptions->fKeepRepeatBarlines) {
         fLilypondCodeIOstream << "\\bar \":|.|:\" ";
-        break;
+      }
+      break;
+      
     case msrBarline::kBarlineCategoryHookedEndingStart:
     case msrBarline::kBarlineCategoryHookedEndingEnd:
     case msrBarline::kBarlineCategoryHooklessEndingStart:

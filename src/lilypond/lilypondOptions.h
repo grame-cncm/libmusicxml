@@ -415,8 +415,9 @@ pickCopyright
     // repeats
     // --------------------------------------
 
-    bool                  fIgnoreRepeatNumbers; // and let LilyPond do the job
+    bool                  fKeepRepeatBarlines;  // otherwise let LilyPond do the job
     bool                  fRepeatBrackets;
+    bool                  fIgnoreRepeatNumbers; // and let LilyPond do the job
 
 
     // ornaments

@@ -795,6 +795,7 @@ instead of keeping the on the same line as the current measure.)",
   {
     // variables
     
+    fKeepRepeatBarlines  = boolOptionsInitialValue;
     fRepeatBrackets      = boolOptionsInitialValue;
     fIgnoreRepeatNumbers = boolOptionsInitialValue;
   
@@ -814,10 +815,10 @@ R"()",
     repeatsSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "irn", "ignore-repeat-numbers",
-R"(Ignore repeats numbers and let LilyPond determine them.)",
-          "ignoreRepeatNumbers",
-          fIgnoreRepeatNumbers));
+          "krbs", "keep-repeat-barlines",
+R"(Generate repeats start and and bar lines even though LilyPond would take care of them.)",
+          "keepRepeatBarlines",
+          fKeepRepeatBarlines));
 
     repeatsSubGroup->
       appendOptionsItem (
@@ -826,6 +827,14 @@ R"(Ignore repeats numbers and let LilyPond determine them.)",
 R"(Generate repeats with brackets instead of regular bar lines.)",
           "repeatBrackets",
           fRepeatBrackets));
+
+    repeatsSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "irn", "ignore-repeat-numbers",
+R"(Ignore repeats numbers and let LilyPond determine them.)",
+          "ignoreRepeatNumbers",
+          fIgnoreRepeatNumbers));
   }
       
   // ornaments
@@ -1265,6 +1274,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   // repeats
   // --------------------------------------
   
+  clone->fKeepRepeatBarlines =
+    fKeepRepeatBarlines;
   clone->fRepeatBrackets =
     fRepeatBrackets;
   clone->fIgnoreRepeatNumbers =
@@ -1636,11 +1647,14 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "ignoreRepeatNumbers" << " : " <<
-    booleanAsString (fIgnoreRepeatNumbers) <<
+    setw (fieldWidth) << "keepRepeatBarlines" << " : " <<
+    booleanAsString (fKeepRepeatBarlines) <<
     endl <<
     setw (fieldWidth) << "repeatBrackets" << " : " <<
     booleanAsString (fRepeatBrackets) <<
+    endl <<
+    setw (fieldWidth) << "ignoreRepeatNumbers" << " : " <<
+    booleanAsString (fIgnoreRepeatNumbers) <<
     endl;
     
   gIndenter--;
