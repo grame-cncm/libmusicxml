@@ -1761,6 +1761,12 @@ namespace MusicXML2
             push(tag);
             n++;
         }
+        if (note.fHarmonic) {
+            tag = guidotag::create("harmonic");
+            xml2guidovisitor::addPlacement(note.fHarmonic, tag);
+            push(tag);
+            n++;
+        }
         
         return n;
     }
