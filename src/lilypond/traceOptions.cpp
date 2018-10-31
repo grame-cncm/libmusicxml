@@ -386,7 +386,7 @@ R"(Geometry)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tpgrps", "trace-partgroups",
+          "tpgrps", "trace-part-groups",
 R"(Part groups)",
           "tracePartGroups",
           fTracePartGroups,
@@ -395,7 +395,7 @@ R"(Part groups)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tpgrpsd", "trace-partgroups-details",
+          "tpgrpsd", "trace-part-groups-details",
 R"(Part groups with more details.
 This option implies '-tpgrps, -tracePartGroups'.)",
           "tracePartGroupsDetails",

@@ -4579,22 +4579,66 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
       } // switch
 
-      // generate the '\with' block beginning
+      if (gTraceOptions->fTracePartGroups) {
+         fLilypondCodeIOstream <<
+          " %{ " <<
+          partGroup->getPartGroupCombinedName () <<
+          ", abs number: " <<
+          partGroup->getPartGroupAbsoluteNumber () <<
+          " %} ";
+      }
+
+      // should a '\with' block be generated?
+      bool doGenerateAWithBlock = false;
+
+      // generate the '\with' block if there's
+      // a part group name or abbreviation to be generated
+      if (
+        partGroupName.size ()
+          ||
+        partGroupAbbreviation.size ()
+      ) {
+        doGenerateAWithBlock = true;
+      }
+
+      // generate the '\with' block
       // if the part group is not implicit
-      switch (partGroup->getPartGroupImplicitKind ()) {
+      switch (partGroupImplicitKind) {
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
           if (partGroupName.size ()) {
-            fLilypondCodeIOstream <<
-              endl <<
-              "\\new StaffGroup" <<
-              endl <<
-              "\\with {" <<
-              endl;
+            doGenerateAWithBlock = true;
           }
           break;
       } // switch
+
+      // generate the '\with' block
+      // if the part group symbol is a line or square
+      switch (partGroupSymbolKind) {
+        case msrPartGroup::kPartGroupSymbolNone:
+          break;
+          
+        case msrPartGroup::kPartGroupSymbolBrace: // JMI
+          break;
+          
+        case msrPartGroup::kPartGroupSymbolBracket:
+          break;
+          
+        case msrPartGroup::kPartGroupSymbolLine:
+          doGenerateAWithBlock = true;
+          break;
+        
+        case msrPartGroup::kPartGroupSymbolSquare:
+          doGenerateAWithBlock = true;
+          break;
+      } // switch
+
+      if (doGenerateAWithBlock) {
+        fLilypondCodeIOstream <<
+          "\\with {" <<  
+          endl;
+      }
 
       gIndenter++;
 
@@ -4653,18 +4697,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
       // generate the '\with' block ending      
       // if the part group is not implicit
-      switch (partGroup->getPartGroupImplicitKind ()) {
-        case msrPartGroup::kPartGroupImplicitYes:
-          break;
-        case msrPartGroup::kPartGroupImplicitNo:
-          if (partGroupName.size ()) {
-            fLilypondCodeIOstream <<
-              endl <<
-              "}" <<
-              endl;
-          }
-          break;
-      } // switch
+      if (doGenerateAWithBlock) {
+        fLilypondCodeIOstream <<
+          endl <<
+          "}" <<
+          endl;
+      }
 
       if (gLilypondOptions->fComments) {
         fLilypondCodeIOstream << left <<
