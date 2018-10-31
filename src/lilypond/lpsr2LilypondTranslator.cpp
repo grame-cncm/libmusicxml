@@ -8138,6 +8138,64 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         break;
 
       case msrTempo::kTempoParenthesizedNo:
+        fLilypondCodeIOstream <<
+          "\\tempo " <<
+          "\\markup {" <<
+          endl;
+  
+        gIndenter++;
+  
+        if (tempoWordsListSize) {
+          list<S_msrWords>::const_iterator
+            iBegin = tempoWordsList.begin (),
+            iEnd   = tempoWordsList.end (),
+            i      = iBegin;
+            
+          for ( ; ; ) {
+            S_msrWords words = (*i);
+      
+            fLilypondCodeIOstream <<
+              "\"" << words->getWordsContents () << "\"";
+              
+            if (++i == iEnd) break;
+            
+            fLilypondCodeIOstream <<
+              " ";
+          } // for
+        }
+  
+        fLilypondCodeIOstream <<
+          "\\concat {" <<
+          endl;
+  
+        gIndenter++;
+  
+        fLilypondCodeIOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
+          dottedDurationAsLilypondStringWithoutBackSlash (
+            inputLineNumber,
+            tempoBeatUnit) <<
+          "} #UP" <<
+    //      "\" #UP" <<
+          endl <<
+          "=" <<
+          endl <<
+          tempoPerMinute <<
+        endl;
+        
+      gIndenter--;
+
+      fLilypondCodeIOstream <<
+        "}" <<
+        endl;
+        
+      gIndenter--;
+        
+      fLilypondCodeIOstream <<
+        "}" <<
+        endl;
+
+      /*
         // JMI way to remove automatic parentheses if text is associated?
         fLilypondCodeIOstream <<
           "\\tempo ";
@@ -8172,6 +8230,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         fLilypondCodeIOstream <<
           endl;
         break;
+        */
       } // switch
       break;
 
