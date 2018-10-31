@@ -1907,7 +1907,42 @@ namespace MusicXML2
         
         if (note.fTrill) {
             tag = guidotag::create("trill");
+            //n++;
+        }
+        
+        if (note.fFingering) {
+            tag = guidotag::create("fingering");
+            // Get text value
+            std::string fingeringText = note.fFingering->getValue();
+            stringstream s;
+            s << "text=\"" << fingeringText << "\"";
+            //cout<< elt->getName()<<" XML Pos: "<< elt->getAttributeFloatValue("default-y", 0)<<" Guido Pos: "<< posy<<endl;
+            tag->add (guidoparam::create(s.str(), false));
+            // Adjust position: Fingering does not accept "placement/position". dx/dy reference location is the center of the notehead (positive=up, negative=down, use absolute offset 2hs)
+            string placement = note.fFingering->getAttributeValue("placement");
             
+            if (placement.size()) {
+                float yPos = xml2guidovisitor::getYposition(note.fFingering, 0);
+                float xPos = xml2guidovisitor::getXposition(note.fFingering);
+                cout<<"FINGERING XML yPos="<<yPos<<endl;
+                if (placement == "above") {
+                    yPos = ( yPos > 0.0 ? yPos+2.0 : (-1.0*yPos)-2.0);
+                }else if (placement == "below") {
+                    yPos = ( yPos < 0.0 ? yPos-2.0 : (-1.0*yPos)+2.0);
+                }
+                
+                stringstream sy,sx;
+                sy << "dy=" << yPos << "hs";
+                tag->add (guidoparam::create(sy.str(), false));
+                sx << "dx="<< xPos<<"hs";
+                tag->add (guidoparam::create(sx.str(), false));
+            }else {
+                // No placement! Business as usual.. goodluck!!!
+                xml2guidovisitor::addPosition(note.fFingering, tag, 2, 0);
+            }
+
+            push(tag);
+            n++;
         }
         
         return n;

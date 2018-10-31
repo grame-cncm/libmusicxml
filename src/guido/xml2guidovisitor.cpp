@@ -396,11 +396,34 @@ namespace MusicXML2
         string placement = elt->getAttributeValue("placement");
         
         if (placement.size()) {
-            
             stringstream s;
             s << "position=\"" << placement << "\"";
             tag->add (guidoparam::create(s.str(), false));
         }
+    }
+    
+    float xml2guidovisitor::getYposition(Sxmlelement elt, int yoffset){
+        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
+        if (posy) {
+            posy = (posy / 10) * 2;   // convert to half spaces
+            posy += yoffset;          // anchor point convertion (defaults to upper line in xml)
+
+            cout<< elt->getName()<<" XML PosY: "<< elt->getAttributeFloatValue("default-y", 0)<<" Guido Pos: "<< posy<<endl;
+            
+            return posy;
+        }
+        
+        return 0.0;
+    }
+    
+    float xml2guidovisitor::getXposition(Sxmlelement elt){
+        float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
+        if (posx) {
+            posx = (posx / 10) * 2;   // convert to half spaces
+            return posx;
+        }
+        
+        return 0.0;
     }
     
 }

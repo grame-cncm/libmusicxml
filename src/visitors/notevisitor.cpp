@@ -83,6 +83,7 @@ void notevisitor::reset ()
     fGraphicType="";
     fAccidental = "";
     fCautionary = "";
+    fFingering = (void*)0;
 }
 
 //________________________________________________________________________
