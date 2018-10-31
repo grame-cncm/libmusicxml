@@ -11058,18 +11058,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       endl;
   }
 
-/*
-<!ELEMENT wavy-line EMPTY>
-<!ATTLIST wavy-line
-    type %start-stop-continue; #REQUIRED
-    number %number-level; #IMPLIED
-    %position;
-    %placement; 
-    %color;
-    %trill-sound; 
->
- */
-
   // number
 
   int wavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI
@@ -11138,10 +11126,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         ornamentPlacementKind,
         nullptr); // will be set later REMOVE??? JMI
       
-  fCurrentSpannersList.push_back (spanner);
-
   switch (fWavyLineSpannerTypeKind) {
     case kSpannerTypeStart:
+      fCurrentSpannersList.push_back (spanner);
+    
       // remember this wavy line spanner start
       fCurrentWavyLineSpannerStart = spanner;
       break;
@@ -11161,12 +11149,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
           s.str ());    
       }
       else {
+        fCurrentSpannersList.push_back (spanner);
+    
         spanner->
           setSpannerOtherEndSidelink (
             fCurrentWavyLineSpannerStart);
-        // forget this wavy line spanner start
+            
+        // forget about this wavy line spanner start
+        fCurrentWavyLineSpannerStart = nullptr;
       }
-      fCurrentWavyLineSpannerStart = nullptr;
       break;
       
     case kSpannerTypeContinue:
@@ -15641,7 +15632,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
         if (gTraceOptions->fTraceSpanners) {
           fLogOutputStream <<
             "Attaching spanner '" <<
-            spanner->spannerKindAsString () <<
+            spanner->asShortString () <<
             "' to note " << note->asString () <<
             endl;
         }

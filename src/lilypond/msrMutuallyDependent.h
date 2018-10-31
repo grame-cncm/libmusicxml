@@ -571,12 +571,6 @@ class msrSpanner : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                spannerKindAsString () const;
-    
-    string                spannerTypeKindAsString () const;
-
-    string                spannerPlacementKindAsString () const;
-
   public:
 
     // visitors
@@ -591,6 +585,14 @@ class msrSpanner : public msrElement
 
     // print
     // ------------------------------------------------------
+
+    string                spannerKindAsString () const;
+    
+    string                spannerTypeKindAsString () const;
+
+    string                spannerPlacementKindAsString () const;
+
+    string                asShortString () const;
 
     virtual void          print (ostream& os);
 

@@ -996,44 +996,6 @@ void msrSpanner::setSpannerOtherEndSidelink (
     this;
 }
 
-string msrSpanner::spannerKindAsString (
-  msrSpannerKind spannerKind)
-{
-  string result;
-  
-  switch (spannerKind) {
-    case msrSpanner::kSpannerDashes:
-      result = "spannerDashes";
-      break;
-    case msrSpanner::kSpannerWavyLine:
-      result = "spannerWavyLine";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrSpanner::spannerTypeKindAsString () const
-{
-  return
-    msrSpannerTypeKindAsString (
-      fSpannerTypeKind);
-}
-
-string msrSpanner::spannerKindAsString () const
-{
-  return
-    spannerKindAsString (
-      fSpannerKind);
-}
-
-string msrSpanner::spannerPlacementKindAsString () const
-{
-  return
-    msrPlacementKindAsString (
-      fSpannerPlacementKind);
-}
-
 void msrSpanner::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -1081,6 +1043,61 @@ void msrSpanner::acceptOut (basevisitor* v)
 void msrSpanner::browseData (basevisitor* v)
 {}
 
+string msrSpanner::spannerKindAsString (
+  msrSpannerKind spannerKind)
+{
+  string result;
+  
+  switch (spannerKind) {
+    case msrSpanner::kSpannerDashes:
+      result = "spannerDashes";
+      break;
+    case msrSpanner::kSpannerWavyLine:
+      result = "spannerWavyLine";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSpanner::spannerTypeKindAsString () const
+{
+  return
+    msrSpannerTypeKindAsString (
+      fSpannerTypeKind);
+}
+
+string msrSpanner::spannerKindAsString () const
+{
+  return
+    spannerKindAsString (
+      fSpannerKind);
+}
+
+string msrSpanner::spannerPlacementKindAsString () const
+{
+  return
+    msrPlacementKindAsString (
+      fSpannerPlacementKind);
+}
+
+string msrSpanner::asShortString () const
+{
+  stringstream s;
+  
+  s <<
+    "Spanner" <<
+    ", spannerNumber = " << fSpannerNumber <<
+    ", " << spannerKindAsString () <<
+    ", line " << fInputLineNumber <<
+    ", spannerPlacementKind" << " : " <<
+    spannerPlacementKindAsString () <<
+    ", spannerTypeKind" << " : " <<
+    spannerTypeKindAsString ();
+
+  return s.str ();
+}
+
 void msrSpanner::print (ostream& os)
 {
   os <<
@@ -1092,7 +1109,7 @@ void msrSpanner::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 21;
+  const int fieldWidth = 24;
   
   os << left <<
     setw (fieldWidth) <<
@@ -1112,7 +1129,21 @@ void msrSpanner::print (ostream& os)
       fSpannerNoteUplink->asString () <<
       endl;
   gIndenter--;
-    
+
+  os << left <<
+    setw (fieldWidth) <<
+    "spannerOtherEndSidelink";
+  if (fSpannerOtherEndSidelink) {
+    os <<
+      endl <<
+      fSpannerOtherEndSidelink->asShortString ();
+  }
+  else {
+    os <<
+    " : " << "***none***" <<
+    endl;
+  }
+  
   gIndenter--;
 }
 
@@ -6631,9 +6662,9 @@ void msrNote::print (ostream& os)
       setw (fieldWidth) <<
       "noteWords";
     if (fNoteWords.size ()) {
-      gIndenter++;
-            os <<
+      os <<
         endl;
+      gIndenter++;
 
       list<S_msrWords>::const_iterator
         iBegin = fNoteWords.begin (),
