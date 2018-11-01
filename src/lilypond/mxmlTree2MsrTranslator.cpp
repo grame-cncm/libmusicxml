@@ -2484,14 +2484,17 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       s <<
         "octave-shift size \"" << octaveShiftSize <<
     // JMI    "\" should be 8, 15, 22 or 27";
-        "\" is wrong, should be 8 or 15";
+        "\" is wrong, should be 8 or 15, replaced by 8";
         
-      msrMusicXMLError (
+  // JMI    msrMusicXMLError (
+      msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
-        __FILE__, __LINE__,
+   //     __FILE__, __LINE__,
         s.str ());
     }
+
+    octaveShiftSize = 8;
   }
 
   // type
@@ -4222,9 +4225,11 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
       endl;
   }
 
+/* JMI
   // handle the pending tuplets if any
   handleTupletsPendingOnTupletsStack (
     inputLineNumber);
+    */
   
   fOnGoingBackup = true;
 }
@@ -5512,11 +5517,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldwidth = 28;
+      const int fieldwidth = 31;
   
       fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fCurrentMusicXMLStaffNumber" << " = " << fCurrentMusicXMLStaffNumber <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentStaffNumberToInsertInto" << " = " << fCurrentStaffNumberToInsertInto <<
         endl <<
         setw (fieldwidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
@@ -5620,12 +5628,59 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   }
 #endif
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceLyrics) {
+    fLogOutputStream <<
+      "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
+      msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
+      ", line = " << inputLineNumber <<
+      ", with:" <<
+      endl;
+
+    gIndenter++;
+
+    fLogOutputStream <<
+      "Lyric data:" <<
+      endl;
+
+    {
+      gIndenter++;
+
+      const int fieldwidth = 31;
+  
+      fLogOutputStream << left <<
+        setw (fieldwidth) <<
+        "fCurrentMusicXMLStaffNumber" << " = " << fCurrentMusicXMLStaffNumber <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentStaffNumberToInsertInto" << " = " << fCurrentStaffNumberToInsertInto <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentStanzaName" << " = \"" << fCurrentStanzaName << "\"" <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentLyricTextsList" << " = ";
+
+      msrSyllable::writeTextsList (
+        fCurrentLyricTextsList,
+        fLogOutputStream);
+          
+      gIndenter--;
+    }
+    
+    gIndenter--;
+  }
+#endif
+
   // fetch current voice
   S_msrVoice
     currentVoice =
       fetchVoiceFromPart (
         inputLineNumber,
-        fCurrentStaffNumberToInsertInto, // JMI fCurrentMusicXMLStaffNumber,
+        fCurrentMusicXMLStaffNumber,
         fCurrentMusicXMLVoiceNumber);
 
   // fetch stanzaNumber in current voice
@@ -7323,7 +7378,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_octave& elt)
     stringstream s;
     
     s <<
-      "ocrave value '" << fCurrentNoteOctave <<
+      "octave value '" << fCurrentNoteOctave <<
       "' is not in the 0..9 range, '0' is assumed";
     
     msrMusicXMLWarning (

@@ -413,7 +413,7 @@ std::string singularOrPluralWithoutNumber (
 void optionError (std::string errorMessage);
 
 //______________________________________________________________________________
-std::string escapeQuotes (std::string s);
+std::string escapeDoubleQuotes (std::string s);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (std::string& s);

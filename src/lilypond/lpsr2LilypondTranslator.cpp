@@ -3540,7 +3540,9 @@ void lpsr2LilypondTranslator::generateLpsrVarValsListAssocValues (
     case 1:
       // generate a single string
       fLilypondCodeIOstream <<
-        "\"" << variableValuesList.front () << "\"";
+        "\"" <<
+        escapeDoubleQuotes (variableValuesList.front ()) <<
+        "\"";
       break;
 
     default:
@@ -5014,7 +5016,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         // no, escape quotes if any and generate the result
         fLilypondCodeIOstream <<
           "\"" <<
-          escapeQuotes (partName) <<
+          escapeDoubleQuotes (partName) <<
           "\"" <<
           endl;
       }

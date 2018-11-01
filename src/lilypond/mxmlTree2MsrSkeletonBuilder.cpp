@@ -1840,10 +1840,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_work_title& elt )
       endl;
   }
 
+  string workTitle = elt->getValue ();
+  
   fMsrScore->getIdentification () ->
     setWorkTitle (
       inputLineNumber,
-      elt->getValue ());
+      workTitle);
 }
   
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_number& elt )
@@ -1879,9 +1881,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_movement_title& elt )
   string movementTitle = elt->getValue ();
 
   // remove HTML entities if any // JMI option for that?
+/*
   convertHTMLEntitiesToPlainCharacters (
     movementTitle);
-    
+    */
+
   fMsrScore->getIdentification () ->
     setMovementTitle (
       inputLineNumber,

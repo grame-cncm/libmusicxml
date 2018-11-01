@@ -1006,7 +1006,7 @@ void optionError (string errorMessage)
 }
 
 //______________________________________________________________________________
-string escapeQuotes (string s)
+string escapeDoubleQuotes (string s)
 {
   string result;
 
@@ -1015,6 +1015,21 @@ string escapeQuotes (string s)
     s.end (),
     stringQuoteEscaper (result));
 
+  // replace occurrences of '\\"' by '\"',
+  // in case there were already double quotes in string
+  string
+    lookedFor = "\\\\\"",
+    ersatz    = "\\\"";
+
+  for ( ; ; ) {
+    size_t found = result.find (lookedFor);
+
+    if (found == string::npos)
+      break;
+
+    result.replace (found, lookedFor.size (), ersatz);
+  } // for
+      
   return result;
 }
 
