@@ -1803,9 +1803,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
     setScoreNumberOfMeasures (
       fScoreNumberOfMeasures);
 
-  // fetch the title and instrument from the credits if any
+  // fetch the identification from the credits if any
   fMsrScore ->
-    tryAndFetchTitleAndInstrumentFromCredits (
+    fetchIdentificationFromCreditsIfAny (
       inputLineNumber);
 }
 
@@ -2373,6 +2373,21 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
       endl;
   }
 
+/*
+  <credit page="1">
+    <credit-words default-x="548" default-y="1382" font-family="FreeSerif" font-size="26" font-weight="bold" justify="center" valign="top" xml:space="preserve">"R E Q U I E M"    from    D E A T H N O T E</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="548" default-y="1331" font-family="FreeSerif" font-size="16" font-style="italic" justify="center" valign="top">Theme from L's death. For SATB choir.</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1046" default-y="1253" font-family="FreeSerif" font-size="12" justify="right" valign="bottom">Yoshihisa Hirano &amp; Hideki Taniuchi</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="51" default-y="1253" font-family="FreeSerif" font-size="12" valign="bottom" xml:lang="fr">arrangement and lyrics by Andrés Rojas</credit-words>
+  </credit>
+  */
+
   string creditWordsContents =
     elt->getValue ();
   
@@ -2388,7 +2403,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
   string creditWordsFontWeight =
     elt->getAttributeValue ("font-weight"); // JMI etc
 
-  // halign
+  // justify
+  
+  // halign JMI ???
   string creditWordsHAlignString =
     elt->getAttributeValue ("halign");
 

@@ -215,7 +215,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   return result;
 }
 
-void msrScore::tryAndFetchTitleAndInstrumentFromCredits (
+void msrScore::fetchIdentificationFromCreditsIfAny (
   int inputLineNumber)
 {
   /*
@@ -237,6 +237,20 @@ void msrScore::tryAndFetchTitleAndInstrumentFromCredits (
       inputSourceName = "Standard input";
     }
   }
+
+  <credit page="1">
+    <credit-words default-x="548" default-y="1382" font-family="FreeSerif" font-size="26" font-weight="bold" justify="center" valign="top" xml:space="preserve">"R E Q U I E M"    from    D E A T H N O T E</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="548" default-y="1331" font-family="FreeSerif" font-size="16" font-style="italic" justify="center" valign="top">Theme from L's death. For SATB choir.</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="1046" default-y="1253" font-family="FreeSerif" font-size="12" justify="right" valign="bottom">Yoshihisa Hirano &amp; Hideki Taniuchi</credit-words>
+  </credit>
+  <credit page="1">
+    <credit-words default-x="51" default-y="1253" font-family="FreeSerif" font-size="12" valign="bottom" xml:lang="fr">arrangement and lyrics by Andrés Rojas</credit-words>
+  </credit>
+
   */
 
   // credits on top of page one can be used as title and instrument

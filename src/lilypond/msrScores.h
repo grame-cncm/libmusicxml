@@ -161,7 +161,7 @@ class msrScore : public msrElement
                             int    inputLineNumber,
                             string partID);
 
-    void                  tryAndFetchTitleAndInstrumentFromCredits (
+    void                  fetchIdentificationFromCreditsIfAny (
                             int inputLineNumber);
     
     void                  collectScorePartsList (
