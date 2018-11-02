@@ -974,7 +974,7 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentStaffDetailsStaffSize; // JMI
     
-    int     fCurrentStaffLinesNumber;
+    int                       fCurrentStaffLinesNumber;
 
     int                       fStaffDetailsStaffNumber;
     
@@ -1045,6 +1045,7 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentTransposeOctaveChange;
     bool                      fCurrentTransposeDouble;
 
+
     // direction handling
     // ------------------------------------------------------
     
@@ -1053,10 +1054,15 @@ class mxmlTree2MsrTranslator :
         
     bool                      fOnGoingDirection;
 
+
     // direction-type handling
     // ------------------------------------------------------
     
     bool                      fOnGoingDirectionType;
+
+    void                      attachPendingPriorElementsToVoice (
+                                S_msrVoice voice);
+                                
 
     // rehearsal handling
     // ------------------------------------------------------
@@ -1068,6 +1074,7 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingRehearsalsToVoice (
                                 S_msrVoice voice);
 
+
     // eyeglasses handling
     // ------------------------------------------------------
     // eyeglasses remain pending until the next note:
@@ -1077,6 +1084,7 @@ class mxmlTree2MsrTranslator :
     
     void                      attachPendingEyeGlassesToNote (
                                 S_msrNote note);
+
 
     // damp handling
     // ------------------------------------------------------
@@ -1088,6 +1096,7 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingDampsToNote (
                                 S_msrNote note);
 
+
     // damp all handling
     // ------------------------------------------------------
     // damp alls remain pending until the next note:
@@ -1098,6 +1107,7 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingDampAllsToNote (
                                 S_msrNote note);
 
+
     // accordion-registration handling
     // ------------------------------------------------------
 
@@ -1105,6 +1115,7 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentAccordionMiddle;
     int                       fCurrentAccordionLow;
     int                       fCurrentAccordionNumbersCounter;
+
     
     // metronome handling
     // ------------------------------------------------------
@@ -1159,6 +1170,16 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingTemposToVoice (
                                 S_msrVoice voice);
 
+    
+    // page breaks handling
+    // ------------------------------------------------------
+
+    list<S_msrPageBreak>      fPendingPageBreaks;
+
+    void                      attachPageBreaksToVoice (
+                                S_msrVoice voice);
+
+
     // octave shift handling
     // ------------------------------------------------------
     
@@ -1168,6 +1189,7 @@ class mxmlTree2MsrTranslator :
     list<S_msrOctaveShift>    fPendingOctaveShifts;
     void                      attachPendingOctaveShiftsToNote (
                                 S_msrNote note);
+
 
     // scordatura handling
     // ------------------------------------------------------
@@ -1572,7 +1594,7 @@ class mxmlTree2MsrTranslator :
 
     void                      copyNoteElementsToChord (
                                 S_msrNote note, S_msrChord chord);
-                                
+
     void                      copyNoteDynamicsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteOtherDynamicsToChord (

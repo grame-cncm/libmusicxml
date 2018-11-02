@@ -142,6 +142,9 @@ class traceOptions : public optionsGroup
     // rehearsals
     bool                  fTraceRehearsals;
 
+    // page breaks
+    bool                  fTracePageBreaks;
+
     // transpositions
     bool                  fTraceTranspositions;
 

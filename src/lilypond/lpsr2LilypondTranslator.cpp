@@ -8119,10 +8119,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     
           gIndenter++;
     
-          fLilypondCodeIOstream <<
-            "(" <<
-            endl;
-            
           gIndenter++;
   
           if (tempoWordsListSize) {
@@ -8145,6 +8141,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           }
 
           fLilypondCodeIOstream <<
+            "(" <<
     // JMI        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
             " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
             dottedDurationAsLilypondStringWithoutBackSlash (
@@ -8153,15 +8150,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
             "} #UP" <<
       //      "\" #UP" <<
             endl <<
-            "=" <<
+            "\" = \"" <<
             endl <<
             tempoPerMinute <<
+            ")" <<
             endl;
             
           gIndenter--;
     
           fLilypondCodeIOstream <<
-            ")" <<
             endl;
             
           gIndenter--;
@@ -8329,7 +8326,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           tempoBeatUnit) <<
         "\" #UP" <<
         endl <<
-        "=" <<
+        "\" = \"" <<
         endl <<
         "\\smaller \\general-align #Y #DOWN \\note #\"" <<
         dottedDurationAsLilypondStringWithoutBackSlash (

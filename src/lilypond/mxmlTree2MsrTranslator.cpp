@@ -153,7 +153,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // direction handling
   fCurrentDirectionStaffNumber = K_NO_STAFF_NUMBER; // it may be absent
-  fOnGoingDirection     = true;
+  fOnGoingDirection = false;
 
   // direction-type handling
   fOnGoingDirectionType = false;
@@ -2863,6 +2863,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   }
 
   string parentheses = elt->getAttributeValue ("parentheses");
+
+  // JMI fCurrentMetronomeParenthesedKind default value?
   
   if (parentheses.size ()) {    
     if (parentheses == "yes")
@@ -3686,10 +3688,10 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
     fCurrentDirectionStaffNumber = fCurrentMusicXMLStaffNumber;
   }
   
-  else if (fOnGoingDirectionType) {
-    // JMI ???
+  else if (fOnGoingDirection) {
+    // JMI use it?
   }
-  
+    
   else {
     stringstream s;
     
@@ -4199,6 +4201,10 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
     // regular voice indication in note/rest, fine
   }
   
+  else if (fOnGoingDirection) {
+    // JMI use it?
+  }
+  
   else {
     stringstream s;
     
@@ -4309,11 +4315,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
 //* JMI ???
   // the <staff /> element is present only
   // in case of a staff change
-  fCurrentForwardStaffNumber = fCurrentMusicXMLStaffNumber;
+  fCurrentForwardStaffNumber = 1; // JMI default value??? fCurrentMusicXMLStaffNumber;
 
   // the <voice /> element is present only
   // in case of a voice change
-  fCurrentForwardVoiceNumber = fCurrentMusicXMLVoiceNumber;
+  fCurrentForwardVoiceNumber = 1; // JMI default value??? fCurrentMusicXMLVoiceNumber;
 //*/
 
   fOnGoingForward = true;
@@ -6232,17 +6238,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
     
     if (newPage == "yes") { // JMI
       
-      // fetch current voice
-      S_msrVoice
-        currentVoice =
-          fetchVoiceFromPart (
-            inputLineNumber,
-            fCurrentMusicXMLStaffNumber,
-            fCurrentMusicXMLVoiceNumber);
-  
       // create a page break
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTracePageBreaks) {
         fLogOutputStream << 
           "Creating a page break, " <<
           "line = " << inputLineNumber << endl;
@@ -6253,10 +6251,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
         pageBreak =
           msrPageBreak::create (
             inputLineNumber);
-  
-      // append it to the voice
-      currentVoice->
-        appendPageBreakToVoice (pageBreak);
+
+      // append it to the pending page breaks
+      fPendingPageBreaks.push_back (pageBreak);
      }
     
     else if (newPage == "no") {
@@ -6356,22 +6353,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
       endl;
   }
 
-/*
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <ending type="stop" number="1"/>
-        <repeat direction="backward"/>
-      </barline>
-
-      <barline>
-        <segno default-y="16" relative-x="0"/>
-      </barline>
-
-      <barline>
-        <coda default-y="16" relative-x="0"/>
-      </barline>
-*/
-
   fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
 
   fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoNo;
@@ -6409,12 +6390,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
       
       s <<
         "barline location \"" << location <<
-        "\" is unknown";
+        "\" is unknown, using 'right' by default";
         
-      msrMusicXMLError (
+   // JMI   msrMusicXMLError (
+      msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
-        __FILE__, __LINE__,
+   //     __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -15892,6 +15874,36 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToVoice (
   }
 }
 
+void mxmlTree2MsrTranslator::attachPageBreaksToVoice (
+  S_msrVoice voice)
+{
+ // attach the pending page breaks if any to the note
+  if (fPendingPageBreaks.size ()) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTracePageBreaks) {
+      fLogOutputStream <<
+        "Attaching pending page breaks to voice \""  <<
+        voice->getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+    while (fPendingPageBreaks.size ()) {
+      S_msrPageBreak
+        pageBreak =
+          fPendingPageBreaks.front ();
+  
+      // append it to the voice
+      voice->
+        appendPageBreakToVoice (pageBreak);
+  
+      // remove it from the list
+      fPendingPageBreaks.pop_front ();
+    } // while
+  }
+}
+
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
   S_msrNote note)
@@ -16926,6 +16938,31 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
   }
 }
 
+void mxmlTree2MsrTranslator::attachPendingPriorElementsToVoice (
+  S_msrVoice voice)
+{
+  /* JMI
+  fLogOutputStream <<
+    "attachPendingPriorElementsToVoice()" <<
+    ", fPendingTempos.size () = " << fPendingTempos.size () <<
+    ", fPendingPageBreaks.size () = " << fPendingPageBreaks.size () <<
+    endl;
+    */
+    
+  // the elements pending since before the note
+  // can now be appended to the latter's voice
+  // prior to the note itself
+
+  // attach pending rehearsals if any to voice
+  attachPendingRehearsalsToVoice (voice);
+
+  // attach pending tempos if any to voice
+  attachPendingTemposToVoice (voice);
+
+  // attach pending page breaks if any to voice
+  attachPageBreaksToVoice (voice);
+}
+
 void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   S_msrNote note)
 {
@@ -17439,6 +17476,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     currentNotesVoice != nullptr,
     "currentNotesVoice is null");
         
+  // the elements pending since before the note if any
+  // can now be appended to the latter's voice
+  // prior to the note itself
+  attachPendingPriorElementsToVoice (
+    currentNotesVoice);
+
   // set current staff number to insert into if needed JMI ???
   if (fCurrentStaffNumberToInsertInto == K_NO_STAFF_NUMBER) {
 #ifdef TRACE_OPTIONS
@@ -18310,34 +18353,6 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else {
     // standalone note or rest
 
-    // attach pending rehearsals if any to the current voice,
-    // prior to the note itself
-  // attach the pending tempos if any to the note
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceTempos) {
-      fLogOutputStream <<
-        "Attaching pending rehearsals to voice \"" <<
-        currentVoice->asString () <<
-        "\"" <<
-        endl;
-    }
-#endif    
-    attachPendingRehearsalsToVoice (currentVoice);
-
-    // attach pending tempos if any to the current voice,
-    // prior to the note itself
-  // attach the pending tempos if any to the note
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceTempos) {
-      fLogOutputStream <<
-        "Attaching pending tempos to voice \"" <<
-        currentVoice->asString () <<
-        "\"" <<
-        endl;
-    }
-#endif
-    attachPendingTemposToVoice (currentVoice);
-    
     // append newNote to the current voice
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceNotes) {
