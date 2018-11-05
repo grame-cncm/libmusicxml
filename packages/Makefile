@@ -2,7 +2,7 @@
 # current dtds and schema version
 CURRENT = 3.1
 
-VERSION  := 3.13
+VERSION  := 3.12
 TAG      :=-D tomorrow
 ROOTDIR  := ..
 SRCDIR   := $(ROOTDIR)/src
