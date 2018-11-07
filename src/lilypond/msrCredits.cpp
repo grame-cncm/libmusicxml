@@ -34,8 +34,9 @@ S_msrCreditWords msrCreditWords::create (
   string                     creditWordsFontFamily,
   float                      creditWordsFontSize,
   string                     creditWordsFontWeight,
-  msrHorizontalAlignmentKind creditWordsHAlign,
-  msrVerticalAlignmentKind   creditWordsVAlign,
+  msrJustifyKind             creditWordsJustifyKind,
+  msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+  msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
   msrXMLLangKind             creditWordsXMLLang)
 {
   msrCreditWords* o =
@@ -45,8 +46,9 @@ S_msrCreditWords msrCreditWords::create (
       creditWordsFontFamily,
       creditWordsFontSize,
       creditWordsFontWeight,
-      creditWordsHAlign,
-      creditWordsVAlign,
+      creditWordsJustifyKind,
+      creditWordsHorizontalAlignmentKind,
+      creditWordsVerticalAlignmentKind,
       creditWordsXMLLang);
   assert(o!=0);
   return o;
@@ -58,19 +60,21 @@ msrCreditWords::msrCreditWords (
   string                     creditWordsFontFamily,
   float                      creditWordsFontSize,
   string                     creditWordsFontWeight,
-  msrHorizontalAlignmentKind creditWordsHAlign,
-  msrVerticalAlignmentKind   creditWordsVAlign,
+  msrJustifyKind             creditWordsJustifyKind,
+  msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+  msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
   msrXMLLangKind             creditWordsXMLLang)
     : msrElement (inputLineNumber)
 {
   fCreditWordsContents   = creditWordsContents;
 
-  fCreditWordsFontFamily = creditWordsFontFamily;
-  fCreditWordsFontSize   = creditWordsFontSize;
-  fCreditWordsFontWeight = creditWordsFontWeight;
-  fCreditWordsHAlign     = creditWordsHAlign;
-  fCreditWordsVAlign     = creditWordsVAlign;
-  fCreditWordsXMLLang    = creditWordsXMLLang;
+  fCreditWordsFontFamily              = creditWordsFontFamily;
+  fCreditWordsFontSize                = creditWordsFontSize;
+  fCreditWordsFontWeight              = creditWordsFontWeight;
+  fCreditWordsJustifyKind             = creditWordsJustifyKind;
+  fCreditWordsHorizontalAlignmentKind = creditWordsHorizontalAlignmentKind;
+  fCreditWordsVerticalAlignmentKind   = creditWordsVerticalAlignmentKind;
+  fCreditWordsXMLLang                 = creditWordsXMLLang;
 }
 
 msrCreditWords::~msrCreditWords ()
@@ -131,7 +135,7 @@ void msrCreditWords::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const int fieldWidth = 35;
   
   os <<
     setw (fieldWidth) <<
@@ -154,14 +158,16 @@ void msrCreditWords::print (ostream& os)
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsHAlign" << " : \"" <<
-    fCreditWordsHAlign <<
-    "\"" <<
+    "creditWordsJustifyKind" << " : " <<
+    msrJustifyKindAsString (fCreditWordsJustifyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsVAlign" << " : \"" <<
-    fCreditWordsVAlign <<
-    "\"" <<
+    "creditWordsHorizontalAlignmentKind" << " : " <<
+    msrHorizontalAlignmentKindAsString (fCreditWordsHorizontalAlignmentKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "creditWordsVerticalAlignmentKind" << " : " <<
+    msrVerticalAlignmentKindAsString (fCreditWordsVerticalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
     "creditWordsXMLLang" << " : \"" <<

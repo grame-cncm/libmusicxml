@@ -2404,8 +2404,16 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
     elt->getAttributeValue ("font-weight"); // JMI etc
 
   // justify
+  string creditWordsJustifyString =
+    elt->getAttributeValue ("justify");
+
+  msrJustifyKind
+    creditWordsJustifyKind =
+      msrJustifyKindFromString (
+        inputLineNumber,
+        creditWordsJustifyString);
   
-  // halign JMI ???
+  // halign
   string creditWordsHAlignString =
     elt->getAttributeValue ("halign");
 
@@ -2444,6 +2452,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
         creditWordsFontFamily,
         creditWordsFontSize,
         creditWordsFontWeight,
+        creditWordsJustifyKind,
         creditWordsHorizontalAlignment,
         creditWordsVerticalAlignment,
         creditWordsXMLLang);

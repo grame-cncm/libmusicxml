@@ -5426,7 +5426,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         i != variableValuesList.end ();
         i++) {
         fLpsrScoreHeader->
-          addLyricist ( // JMI
+          addPoet (
             inputLineNumber, (*i));
       } // for
       break;

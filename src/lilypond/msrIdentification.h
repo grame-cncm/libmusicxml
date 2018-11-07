@@ -169,25 +169,25 @@ class msrIdentification : public msrElement
     // fields
     // ------------------------------------------------------
 
-    S_msrVarValsListAssoc    fRights;
+    S_msrVarValsListAssoc fRights;
 
-    S_msrVarValAssoc         fWorkNumber;
-    S_msrVarValAssoc         fWorkTitle;
+    S_msrVarValAssoc      fWorkNumber;
+    S_msrVarValAssoc      fWorkTitle;
     
-    S_msrVarValAssoc         fMovementNumber;
-    S_msrVarValAssoc         fMovementTitle;
+    S_msrVarValAssoc      fMovementNumber;
+    S_msrVarValAssoc      fMovementTitle;
     
-    S_msrVarValsListAssoc    fComposers;
-    S_msrVarValsListAssoc    fArrangers;
-    S_msrVarValsListAssoc    fLyricists;
-    S_msrVarValsListAssoc    fPoets;
-    S_msrVarValsListAssoc    fTranslators;
+    S_msrVarValsListAssoc fComposers;
+    S_msrVarValsListAssoc fArrangers;
+    S_msrVarValsListAssoc fLyricists;
+    S_msrVarValsListAssoc fPoets;
+    S_msrVarValsListAssoc fTranslators;
     
-    S_msrVarValsListAssoc    fSoftwares;
+    S_msrVarValsListAssoc fSoftwares;
     
-    S_msrVarValAssoc         fEncodingDate;
+    S_msrVarValAssoc      fEncodingDate;
     
-    S_msrVarValAssoc         fScoreInstrumentAssoc;
+    S_msrVarValAssoc      fScoreInstrumentAssoc;
 };
 typedef SMARTP<msrIdentification> S_msrIdentification;
 EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);

@@ -35,8 +35,9 @@ class msrCreditWords : public msrElement
       string                     creditWordsFontFamily,
       float                      creditWordsFontSize,
       string                     creditWordsFontWeight,
-      msrHorizontalAlignmentKind creditWordsFontHAlign,
-      msrVerticalAlignmentKind   creditWordsFontVAlign,
+      msrJustifyKind             creditWordsJustifyKind,
+      msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+      msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
       msrXMLLangKind             creditWordsXMLLang);
 
   protected:
@@ -50,8 +51,9 @@ class msrCreditWords : public msrElement
       string                     creditWordsFontFamily,
       float                      creditWordsFontSize,
       string                     creditWordsFontWeight,
-      msrHorizontalAlignmentKind creditWordsFontHAlign,
-      msrVerticalAlignmentKind   creditWordsFontVAlign,
+      msrJustifyKind             creditWordsJustifyKind,
+      msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
+      msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
       msrXMLLangKind             creditWordsXMLLang);
       
     virtual ~msrCreditWords ();
@@ -72,13 +74,16 @@ class msrCreditWords : public msrElement
     string                getCreditWordsFontWeight () const
                               { return fCreditWordsFontWeight; }
 
+    msrJustifyKind        getCreditWordsJustifyKind () const
+                              { return fCreditWordsJustifyKind; }
+
     msrHorizontalAlignmentKind
-                          getCreditWordsHAlign () const
-                              { return fCreditWordsHAlign; }
+                          getCreditWordsHorizontalAlignmentKind () const
+                              { return fCreditWordsHorizontalAlignmentKind; }
 
     msrVerticalAlignmentKind
-                          getCreditWordsVAlign () const
-                              { return fCreditWordsVAlign; }
+                          getCreditWordsVerticalAlignmentKind () const
+                              { return fCreditWordsVerticalAlignmentKind; }
 
     msrXMLLangKind        getCreditWordsXMLLang () const
                               { return fCreditWordsXMLLang; }
@@ -117,10 +122,11 @@ class msrCreditWords : public msrElement
     string                fCreditWordsFontFamily;
     float                 fCreditWordsFontSize;
     string                fCreditWordsFontWeight;
+    msrJustifyKind        fCreditWordsJustifyKind;
     msrHorizontalAlignmentKind
-                          fCreditWordsHAlign;
+                          fCreditWordsHorizontalAlignmentKind;
     msrVerticalAlignmentKind
-                          fCreditWordsVAlign;
+                          fCreditWordsVerticalAlignmentKind;
     msrXMLLangKind        fCreditWordsXMLLang;
 };
 typedef SMARTP<msrCreditWords> S_msrCreditWords;

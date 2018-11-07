@@ -253,42 +253,134 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
 
   */
 
-  // credits on top of page one can be used as title and instrument
+  // credits on top of page one can be used as identification
   if (fCreditsList.size () >= 1) {
-    S_msrCredit firstCredit = fCreditsList.front ();
+    list<S_msrCredit>::const_iterator
+      iBegin = fCreditsList.begin (),
+      iEnd   = fCreditsList.end (),
+      i      = iBegin;
 
-    if (firstCredit->getCreditPageNumber () == 1) {
-      const vector<S_msrCreditWords>&
-        creditWordsVector =
-          firstCredit->
-            getCreditWordsList (); 
-      
-      if (creditWordsVector.size () >= 1) {
-        S_msrCreditWords firstCreditWords = creditWordsVector.front ();
-  
-        if (firstCreditWords->getCreditWordsVAlign () == kVerticalAlignmentTop) {
+    int topCreditsCounter    = 0;
+    int bottomCreditsCounter = 0;
+    
+    for ( ; ; ) {
+      S_msrCredit credit = (*i);
+
+      if (credit->getCreditPageNumber () == 1) {
+        const vector<S_msrCreditWords>&
+          creditWordsVector =
+            credit->
+              getCreditWordsList (); 
+        
+        if (creditWordsVector.size () >= 1) {
+          S_msrCreditWords
+            creditWords =
+              creditWordsVector.front ();
+    
           string
             creditWordsContents =
-              firstCreditWords->
+              creditWords->
                 getCreditWordsContents ();
-      
-  #ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceCredits) {
-            gLogIOstream <<
-              "Using credit words '" <<
-              creditWordsContents <<
-              "' as score title" <<
-              endl;
-          }
-  #endif
+            
+          switch (creditWords->getCreditWordsVerticalAlignmentKind ()) {
+            case kVerticalAlignmentNone:
+              break;
+              
+            case kVerticalAlignmentTop:
+              topCreditsCounter++;
 
-        fIdentification->
-          setWorkTitle (
-            inputLineNumber,
-            creditWordsContents);
+              switch (topCreditsCounter) {
+                case 1:
+#ifdef TRACE_OPTIONS
+                  if (gTraceOptions->fTraceCredits) {
+                    gLogIOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as score title" <<
+                      endl;
+              }
+#endif
+    
+                  fIdentification->
+                    setWorkTitle (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+                  
+                case 2:
+#ifdef TRACE_OPTIONS
+                  if (gTraceOptions->fTraceCredits) {
+                    gLogIOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as movement title" <<
+                      endl;
+              }
+#endif
+    
+                  fIdentification->
+                    setMovementTitle (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+                  
+                default:
+                  ;
+              } // switch
+              break;
+              
+            case kVerticalAlignmentMiddle:
+              break;
+              
+            case kVerticalAlignmentBottom:
+              bottomCreditsCounter++;
+
+              switch (bottomCreditsCounter) {
+                case 1:
+#ifdef TRACE_OPTIONS
+                  if (gTraceOptions->fTraceCredits) {
+                    gLogIOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as composer" <<
+                      endl;
+              }
+#endif
+    
+                  fIdentification->
+                    addComposer (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+                  
+                case 2:
+#ifdef TRACE_OPTIONS
+                  if (gTraceOptions->fTraceCredits) {
+                    gLogIOstream <<
+                      "Using credit words '" <<
+                      creditWordsContents <<
+                      "' as poet" <<
+                      endl;
+              }
+#endif
+    
+                  fIdentification->
+                    addPoet (
+                      inputLineNumber,
+                      creditWordsContents);
+                  break;
+                  
+                default:
+                  ;
+              } // switch
+              break;
+          } // switch
         }
       }
-    }
+    
+      if (++i == iEnd) break;
+//      s << ", ";
+    } // for
   }
 }
 

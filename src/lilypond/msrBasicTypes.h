@@ -458,6 +458,14 @@ string msrFontWeightKindAsString (
 
 // alignement
 //______________________________________________________________________________
+/*
+  The justify entity is used to indicate left, center, or
+  right justification. The default value varies for different
+  elements. For elements where the justify attribute is present
+  but the halign attribute is not, the justify attribute
+  indicates horizontal alignment as well as justification.
+*/
+
 enum msrJustifyKind {
   kJustifyNone,
   kJustifyLeft, kJustifyCenter, kJustifyRight };
