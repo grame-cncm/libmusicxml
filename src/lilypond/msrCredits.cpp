@@ -33,7 +33,8 @@ S_msrCreditWords msrCreditWords::create (
   string                     creditWordsContents,
   string                     creditWordsFontFamily,
   float                      creditWordsFontSize,
-  string                     creditWordsFontWeight,
+  msrFontWeightKind          creditWordsFontWeightKind,
+  msrFontStyleKind           creditWordsFontStyleKind,
   msrJustifyKind             creditWordsJustifyKind,
   msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
   msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
@@ -45,7 +46,8 @@ S_msrCreditWords msrCreditWords::create (
       creditWordsContents,
       creditWordsFontFamily,
       creditWordsFontSize,
-      creditWordsFontWeight,
+      creditWordsFontWeightKind,
+      creditWordsFontStyleKind,
       creditWordsJustifyKind,
       creditWordsHorizontalAlignmentKind,
       creditWordsVerticalAlignmentKind,
@@ -59,7 +61,8 @@ msrCreditWords::msrCreditWords (
   string                     creditWordsContents,
   string                     creditWordsFontFamily,
   float                      creditWordsFontSize,
-  string                     creditWordsFontWeight,
+  msrFontWeightKind          creditWordsFontWeightKind,
+  msrFontStyleKind           creditWordsFontStyleKind,
   msrJustifyKind             creditWordsJustifyKind,
   msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
   msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
@@ -70,7 +73,8 @@ msrCreditWords::msrCreditWords (
 
   fCreditWordsFontFamily              = creditWordsFontFamily;
   fCreditWordsFontSize                = creditWordsFontSize;
-  fCreditWordsFontWeight              = creditWordsFontWeight;
+  fCreditWordsFontWeightKind          = creditWordsFontWeightKind;
+  fCreditWordsFontStyleKind           = creditWordsFontStyleKind;
   fCreditWordsJustifyKind             = creditWordsJustifyKind;
   fCreditWordsHorizontalAlignmentKind = creditWordsHorizontalAlignmentKind;
   fCreditWordsVerticalAlignmentKind   = creditWordsVerticalAlignmentKind;
@@ -153,9 +157,13 @@ void msrCreditWords::print (ostream& os)
     fCreditWordsFontSize <<
     endl <<
     setw (fieldWidth) <<
-    "creditWordsFontWeight" << " : \"" <<
-    fCreditWordsFontWeight <<
-    "\"" <<
+    "creditWordsFontWeightKind" << " : " <<
+    msrFontWeightKindAsString (
+      fCreditWordsFontWeightKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "creditWordsFontStyleKind" << " : " <<
+    msrFontStyleKindAsString (fCreditWordsFontStyleKind) <<
     endl <<
     setw (fieldWidth) <<
     "creditWordsJustifyKind" << " : " <<
@@ -163,11 +171,13 @@ void msrCreditWords::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "creditWordsHorizontalAlignmentKind" << " : " <<
-    msrHorizontalAlignmentKindAsString (fCreditWordsHorizontalAlignmentKind) <<
+    msrHorizontalAlignmentKindAsString (
+      fCreditWordsHorizontalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
     "creditWordsVerticalAlignmentKind" << " : " <<
-    msrVerticalAlignmentKindAsString (fCreditWordsVerticalAlignmentKind) <<
+    msrVerticalAlignmentKindAsString (
+      fCreditWordsVerticalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
     "creditWordsXMLLang" << " : \"" <<

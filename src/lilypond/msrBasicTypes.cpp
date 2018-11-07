@@ -11857,6 +11857,35 @@ void msrFontSize::print (ostream& os)
 
 // font style
 //______________________________________________________________________________
+msrFontStyleKind msrFontStyleKindFromString (
+  int    inputLineNumber,
+  string fontStyleString)
+{
+  msrFontStyleKind result = kFontStyleNone; // default value
+
+  if      (fontStyleString == "normal")
+    result = kFontStyleNormal;
+  else if (fontStyleString == "italic")
+    result = KFontStyleItalic;
+  else {
+    if (fontStyleString.size ()) {
+      stringstream s;
+      
+      s <<
+        "style value " << fontStyleString <<
+        " should be 'normal' or 'italic'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
 string msrFontStyleKindAsString (
   msrFontStyleKind fontStyleKind)
 {
@@ -11879,6 +11908,35 @@ string msrFontStyleKindAsString (
 
 // font weight
 //______________________________________________________________________________
+msrFontWeightKind msrFontWeightKindFromString (
+  int    inputLineNumber,
+  string fontWeightString)
+{
+  msrFontWeightKind result = kFontWeightNone; // default value
+
+  if      (fontWeightString == "normal")
+    result = kFontWeightNormal;
+  else if (fontWeightString == "bold")
+    result = kFontWeightBold;
+  else {
+    if (fontWeightString.size ()) {
+      stringstream s;
+      
+      s <<
+        "font weight value " << fontWeightString <<
+        " should be 'normal' or 'bold'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
 string msrFontWeightKindAsString (
   msrFontWeightKind fontWeightKind)
 {

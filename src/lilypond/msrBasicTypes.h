@@ -446,6 +446,10 @@ enum msrFontStyleKind {
   kFontStyleNone,
   kFontStyleNormal, KFontStyleItalic };
 
+msrFontStyleKind msrFontStyleKindFromString (
+  int    inputLineNumber,
+  string fontStyleString);
+  
 string msrFontStyleKindAsString (
   msrFontStyleKind fontStyleKind);
 
@@ -453,8 +457,12 @@ enum msrFontWeightKind {
   kFontWeightNone,
   kFontWeightNormal, kFontWeightBold };
 
+msrFontWeightKind msrFontWeightKindFromString (
+  int    inputLineNumber,
+  string fontWeightString);
+  
 string msrFontWeightKindAsString (
-  msrFontWeightKind tontWeightKind);
+  msrFontWeightKind fontWeightKind);
 
 // alignement
 //______________________________________________________________________________
@@ -483,7 +491,7 @@ enum msrHorizontalAlignmentKind {
 
 msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
   int    inputLineNumber,
-  string HorizontalAlignString);
+  string horizontalAlignString);
   
 string msrHorizontalAlignmentKindAsString (
   msrHorizontalAlignmentKind horizontalAlignmentKind);

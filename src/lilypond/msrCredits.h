@@ -34,7 +34,8 @@ class msrCreditWords : public msrElement
       string                     creditWordsContents,
       string                     creditWordsFontFamily,
       float                      creditWordsFontSize,
-      string                     creditWordsFontWeight,
+      msrFontWeightKind          creditWordsFontWeightKind,
+      msrFontStyleKind           creditWordsFontStyleKind,
       msrJustifyKind             creditWordsJustifyKind,
       msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
       msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
@@ -50,7 +51,8 @@ class msrCreditWords : public msrElement
       string                     creditWordsContents,
       string                     creditWordsFontFamily,
       float                      creditWordsFontSize,
-      string                     creditWordsFontWeight,
+      msrFontWeightKind          creditWordsFontWeightKind,
+      msrFontStyleKind           creditWordsFontStyleKind,
       msrJustifyKind             creditWordsJustifyKind,
       msrHorizontalAlignmentKind creditWordsHorizontalAlignmentKind,
       msrVerticalAlignmentKind   creditWordsVerticalAlignmentKind,
@@ -71,8 +73,11 @@ class msrCreditWords : public msrElement
     float                 getCreditWordsFontSize () const
                               { return fCreditWordsFontSize; }
 
-    string                getCreditWordsFontWeight () const
-                              { return fCreditWordsFontWeight; }
+    msrFontWeightKind     getCreditWordsFontWeightKind () const
+                              { return fCreditWordsFontWeightKind; }
+
+    msrFontStyleKind      getCreditWordsFontStyleKind () const
+                              { return fCreditWordsFontStyleKind; }
 
     msrJustifyKind        getCreditWordsJustifyKind () const
                               { return fCreditWordsJustifyKind; }
@@ -121,7 +126,8 @@ class msrCreditWords : public msrElement
 
     string                fCreditWordsFontFamily;
     float                 fCreditWordsFontSize;
-    string                fCreditWordsFontWeight;
+    msrFontWeightKind     fCreditWordsFontWeightKind;
+    msrFontStyleKind      fCreditWordsFontStyleKind;
     msrJustifyKind        fCreditWordsJustifyKind;
     msrHorizontalAlignmentKind
                           fCreditWordsHorizontalAlignmentKind;

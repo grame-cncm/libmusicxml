@@ -2400,9 +2400,25 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
     elt->getAttributeFloatValue ("font-size", 0.0);
 
   // font weight
-  string creditWordsFontWeight =
+  string creditWordsFontWeightString =
     elt->getAttributeValue ("font-weight"); // JMI etc
 
+  msrFontWeightKind
+    creditWordsFontWeightKind =
+      msrFontWeightKindFromString (
+        inputLineNumber,
+        creditWordsFontWeightString);
+        
+  // font style
+  string creditWordsFontStyleString =
+    elt->getAttributeValue ("font-style");
+
+  msrFontStyleKind
+    creditWordsFontStyleKind =
+      msrFontStyleKindFromString (
+        inputLineNumber,
+        creditWordsFontStyleString);
+  
   // justify
   string creditWordsJustifyString =
     elt->getAttributeValue ("justify");
@@ -2451,7 +2467,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_credit_words& elt )
         creditWordsContents,
         creditWordsFontFamily,
         creditWordsFontSize,
-        creditWordsFontWeight,
+        creditWordsFontWeightKind,
+        creditWordsFontStyleKind,
         creditWordsJustifyKind,
         creditWordsHorizontalAlignment,
         creditWordsVerticalAlignment,
