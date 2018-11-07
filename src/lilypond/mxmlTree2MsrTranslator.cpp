@@ -2557,35 +2557,45 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
   // justify
   string wordsJustifyString = elt->getAttributeValue ("justify");
 
-  msrJustifyKind justifyKind =
-    msrJustifyKindFromString (
+  msrJustifyKind
+    justifyKind =
+      msrJustifyKindFromString (
+          inputLineNumber,
+        wordsJustifyString);
+
+  // halign
+  string wordsHorizontalAlignmentString = elt->getAttributeValue ("halign");
+
+  msrHorizontalAlignmentKind
+    horizontalAlignmentKind =
+      msrHorizontalAlignmentKindFromString (
         inputLineNumber,
-      wordsJustifyString);
+        wordsHorizontalAlignmentString);
 
   // valign
-  string wordsVerticalAlignment = elt->getAttributeValue ("valign");
+  string wordsVerticalAlignmentString = elt->getAttributeValue ("valign");
 
   msrVerticalAlignmentKind
     verticalAlignmentKind =
       msrVerticalAlignmentKindFromString (
         inputLineNumber,
-        wordsVerticalAlignment);
+        wordsVerticalAlignmentString);
 
   // font style
-  string wordsFontStyle = elt->getAttributeValue ("font-style");
+  string wordsFontStyleString = elt->getAttributeValue ("font-style");
 
   msrFontStyleKind fontStyleKind = kFontStyleNone; // default value
 
-  if      (wordsFontStyle == "normal")
+  if      (wordsFontStyleString == "normal")
     fontStyleKind = kFontStyleNormal;
-  else if (wordsFontStyle == "italic")
+  else if (wordsFontStyleString == "italic")
     fontStyleKind = KFontStyleItalic;
   else {
-    if (wordsFontStyle.size ()) {
+    if (wordsFontStyleString.size ()) {
       stringstream s;
       
       s <<
-        "font-style value " << wordsFontStyle <<
+        "font-style value " << wordsFontStyleString <<
         " should be 'normal' or 'italic'";
       
       msrMusicXMLError (
@@ -2597,7 +2607,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
   }
 
   // font size
-  string wordsFontSize = elt->getAttributeValue ("font-size");
+  string wordsFontSizeString = elt->getAttributeValue ("font-size");
   
   msrFontSize::msrFontSizeKind
     fontSizeKind =
@@ -2605,22 +2615,23 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   float fontSizeFloatValue = 0.0;
 
-  if      (wordsFontSize == "xx-smal")
+  if      (wordsFontSizeString == "xx-smal")
     fontSizeKind = msrFontSize::kFontSizeXXSmall;
-  else if (wordsFontSize == "x-small")
+  else if (wordsFontSizeString == "x-small")
     fontSizeKind = msrFontSize::kFontSizeXSmall;
-  else if (wordsFontSize == "small")
+  else if (wordsFontSizeString == "small")
     fontSizeKind = msrFontSize::kFontSizeSmall;
-  else if (wordsFontSize == "medium")
+  else if (wordsFontSizeString == "medium")
     fontSizeKind = msrFontSize::kFontSizeMedium;
-  else if (wordsFontSize == "large")
+  else if (wordsFontSizeString == "large")
     fontSizeKind = msrFontSize::kFontSizeLarge;
-  else if (wordsFontSize == "x-large")
+  else if (wordsFontSizeString == "x-large")
     fontSizeKind = msrFontSize::kFontSizeXLarge;
-  else if (wordsFontSize == "xx-large")
+  else if (wordsFontSizeString == "xx-large")
     fontSizeKind = msrFontSize::kFontSizeXXLarge;
   else {
-    elt->getAttributeFloatValue ("font-size", 0.0);
+    fontSizeFloatValue =
+      elt->getAttributeFloatValue ("font-size", 0.0);
     fontSizeKind = msrFontSize::kFontSizeNumeric;
   }
 
@@ -2646,20 +2657,20 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
     } // switch
     
   // font weight
-  string wordsFontWeight = elt->getAttributeValue ("font-weight");
+  string wordsFontWeightString = elt->getAttributeValue ("font-weight");
   
   msrFontWeightKind fontWeightKind = kFontWeightNone; // default value
 
-  if      (wordsFontWeight == "normal")
+  if      (wordsFontWeightString == "normal")
     fontWeightKind = kFontWeightNormal;
-  else if (wordsFontWeight == "bold")
+  else if (wordsFontWeightString == "bold")
     fontWeightKind = kFontWeightBold;
   else {
-    if (wordsFontWeight.size ()) {
+    if (wordsFontWeightString.size ()) {
       stringstream s;
       
       s <<
-        "font-weight value " << wordsFontWeight <<
+        "font-weight value " << wordsFontWeightString <<
         " should be 'normal' or 'bold'";
       
       msrMusicXMLError (
@@ -2699,6 +2710,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
           fCurrentDirectionPlacementKind,
           wordsValue,
           justifyKind,
+          horizontalAlignmentKind,
           verticalAlignmentKind,
           fontStyleKind,
           fontSize,
@@ -9182,28 +9194,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone; // default value
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-      
-      s <<
-        "non-arpeggiate placement \"" << placementString <<
-        "\" is unknown";
-      
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());    
-    }
-  }
-
+        placementString);
+      
   // type
 
   string typeString = elt->getAttributeValue ("type");

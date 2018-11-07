@@ -32,8 +32,8 @@ S_msrWords msrWords::create (
   int                        inputLineNumber,
   msrPlacementKind           wordsPlacementKind,
   string                     wordsContents,
-//  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
   msrJustifyKind             wordsJustifyKind,
+  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
   msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
   msrFontStyleKind           wordsFontStyleKind,
   S_msrFontSize              wordsFontSize,
@@ -45,8 +45,8 @@ S_msrWords msrWords::create (
       inputLineNumber,
       wordsPlacementKind,
       wordsContents,
-//      wordsHorizontalAlignmentKind,
       wordsJustifyKind,
+      wordsHorizontalAlignmentKind,
       wordsVerticalAlignmentKind,
       wordsFontStyleKind,
       wordsFontSize,
@@ -60,8 +60,8 @@ msrWords::msrWords (
   int                        inputLineNumber,
   msrPlacementKind           wordsPlacementKind,
   string                     wordsContents,
-//  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
   msrJustifyKind             wordsJustifyKind,
+  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
   msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
   msrFontStyleKind           wordsFontStyleKind,
   S_msrFontSize              wordsFontSize,
@@ -71,17 +71,18 @@ msrWords::msrWords (
 {
   fWordsPlacementKind  = wordsPlacementKind;
   
-  fWordsContents       = wordsContents;
+  fWordsContents = wordsContents;
   
-//  fWordsHorizontalAlignmentKind = wordsHorizontalAlignmentKind;
   fWordsJustifyKind = wordsJustifyKind;
+
+  fWordsHorizontalAlignmentKind = wordsHorizontalAlignmentKind;
   fWordsVerticalAlignmentKind   = wordsVerticalAlignmentKind;
 
   fWordsFontStyleKind  = wordsFontStyleKind;
   fWordsFontSize       = wordsFontSize;
   fWordsFontWeightKind = wordsFontWeightKind;
   
-  fWordsXMLLangKind    = wordsXMLLangKind;
+  fWordsXMLLangKind = wordsXMLLangKind;
 }
 
 msrWords::~msrWords ()
@@ -147,15 +148,16 @@ string msrWords::wordsPlacementKindAsString () const
       fWordsPlacementKind);
 }
 
-/*
-string msrWords::wordsHorizontalAlignmentKindAsString () const
-{
-  return msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind);
-}
-*/
 string msrWords::wordsJustifyKindAsString () const
 {
   return msrJustifyKindAsString (fWordsJustifyKind);
+}
+
+string msrWords::wordsHorizontalAlignmentKindAsString () const
+{
+  return
+    msrHorizontalAlignmentKindAsString (
+      fWordsHorizontalAlignmentKind);
 }
 
 string msrWords::wordsVerticalAlignmentKindAsString () const
@@ -202,7 +204,7 @@ void msrWords::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const int fieldWidth = 29;
 
   os << left <<
     setw (fieldWidth) <<
@@ -212,15 +214,13 @@ void msrWords::print (ostream& os)
     "placement" << " = " <<
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
-    /*
-    setw (fieldWidth) <<
-    "wordsHorizontalAlignmentKind" << " = " <<
-    msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind) <<
-    endl <<
-    */
     setw (fieldWidth) <<
     "wordsJustifyKind" << " = " <<
     msrJustifyKindAsString (fWordsJustifyKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "wordsHorizontalAlignmentKind" << " = " <<
+    msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
     "wordsVerticalAlignmentKind" << " = " <<

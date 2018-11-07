@@ -522,6 +522,10 @@ enum msrPlacementKind {
   kPlacementNone,
   kPlacementAbove, kPlacementBelow };
 
+msrPlacementKind msrPlacementKindFromString (
+  int    inputLineNumber,
+  string placementString);
+  
 string msrPlacementKindAsString (
   msrPlacementKind placementKind);
 

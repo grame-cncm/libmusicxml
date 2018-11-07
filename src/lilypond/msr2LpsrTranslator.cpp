@@ -2081,8 +2081,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
               inputLineNumber,
               kPlacementNone,                // default value
               wordsValue,
- //             kHorizontalAlignmentNone,      // default value
               kJustifyNone,                  // default value
+              kHorizontalAlignmentNone,      // default value
               kVerticalAlignmentNone,        // default value
               kFontStyleNone,                // default value
               msrFontSize::create (

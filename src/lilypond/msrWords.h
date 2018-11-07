@@ -48,8 +48,8 @@ class msrWords : public msrElement
       int                        inputLineNumber,
       msrPlacementKind           wordsPlacementKind,
       string                     wordsContents,
-    //  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
       msrJustifyKind             wordsJustifyKind,
+      msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
       msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
       msrFontStyleKind           wordsFontStyleKind,
       S_msrFontSize              wordsFontSize,
@@ -65,9 +65,9 @@ class msrWords : public msrElement
       int                        inputLineNumber,
       msrPlacementKind           wordsPlacementKind,
       string                     wordsContents,
-    //  msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
       msrJustifyKind             wordsJustifyKind,
-        msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
+      msrHorizontalAlignmentKind wordsHorizontalAlignmentKind,
+      msrVerticalAlignmentKind   wordsVerticalAlignmentKind,
       msrFontStyleKind           wordsFontStyleKind,
       S_msrFontSize              wordsFontSize,
       msrFontWeightKind          wordsFontWeightKind,
@@ -86,13 +86,12 @@ class msrWords : public msrElement
     string                getWordsContents () const
                               { return fWordsContents; }
 
-/*
+    msrJustifyKind        getWordsJustifyKind () const
+                              { return fWordsJustifyKind; }
+
     msrHorizontalAlignmentKind
                           getWordsHorizontalAlignmentKind () const
                               { return fWordsHorizontalAlignmentKind; }
-*/
-    msrJustifyKind        getWordsJustifyKind () const
-                              { return fWordsJustifyKind; }
 
     msrVerticalAlignmentKind
                           getWordsVerticalAlignmentKind () const
@@ -130,9 +129,9 @@ class msrWords : public msrElement
 
     string                wordsPlacementKindAsString () const;
     
-//    string                wordsHorizontalAlignmentKindAsString () const;
     string                wordsJustifyKindAsString () const;
     
+    string                wordsHorizontalAlignmentKindAsString () const;
     string                wordsVerticalAlignmentKindAsString () const;
     
     string                wordsFontStyleKindAsString () const;
@@ -154,11 +153,10 @@ class msrWords : public msrElement
     
     string                fWordsContents;
   
-/*
+    msrJustifyKind        fWordsJustifyKind;
+
     msrHorizontalAlignmentKind
                           fWordsHorizontalAlignmentKind;
-                          */
-    msrJustifyKind        fWordsJustifyKind;
     msrVerticalAlignmentKind
                           fWordsVerticalAlignmentKind;
 

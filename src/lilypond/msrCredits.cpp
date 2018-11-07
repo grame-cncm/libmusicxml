@@ -75,9 +75,12 @@ msrCreditWords::msrCreditWords (
   fCreditWordsFontSize                = creditWordsFontSize;
   fCreditWordsFontWeightKind          = creditWordsFontWeightKind;
   fCreditWordsFontStyleKind           = creditWordsFontStyleKind;
+  
   fCreditWordsJustifyKind             = creditWordsJustifyKind;
+  
   fCreditWordsHorizontalAlignmentKind = creditWordsHorizontalAlignmentKind;
   fCreditWordsVerticalAlignmentKind   = creditWordsVerticalAlignmentKind;
+  
   fCreditWordsXMLLang                 = creditWordsXMLLang;
 }
 

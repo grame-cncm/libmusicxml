@@ -12149,6 +12149,35 @@ string msrDirectionKindAsString (
 
 // placement
 //______________________________________________________________________________
+msrPlacementKind msrPlacementKindFromString (
+  int    inputLineNumber,
+  string placementString)
+{
+  msrPlacementKind result = kPlacementNone; // default value
+
+  if      (placementString == "above")
+    result = kPlacementAbove;
+  else if (placementString == "below")
+    result = kPlacementBelow;
+  else {
+    if (placementString.size ()) {
+      stringstream s;
+      
+      s <<
+        "placement \"" << placementString <<
+        "\" should be 'above' or 'below'";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());    
+    }
+  }
+
+  return result;
+}
+  
 string msrPlacementKindAsString (
   msrPlacementKind placementKind)
 {
