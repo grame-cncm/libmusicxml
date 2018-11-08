@@ -46,57 +46,77 @@ lpsrHeader::lpsrHeader (
   if (gLilypondOptions->fDedication.size ()) {
     setLilypondDedication (
       inputLineNumber,
-      gLilypondOptions->fDedication);
+      gLilypondOptions->fDedication,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   
   if (gLilypondOptions->fPiece.size ()) {
     setLilypondPiece (
       inputLineNumber,
-      gLilypondOptions->fPiece);
+      gLilypondOptions->fPiece,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   
   if (gLilypondOptions->fOpus.size ()) {
     setLilypondOpus (
       inputLineNumber,
-      gLilypondOptions->fOpus);
+      gLilypondOptions->fOpus,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   
   if (gLilypondOptions->fTitle.size ()) {
     setLilypondTitle (
       inputLineNumber,
-      gLilypondOptions->fTitle);
+      gLilypondOptions->fTitle,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   if (gLilypondOptions->fSubTitle.size ()) {
     setLilypondSubTitle (
       inputLineNumber,
-      gLilypondOptions->fSubTitle);
+      gLilypondOptions->fSubTitle,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   if (gLilypondOptions->fSubSubTitle.size ()) {
     setLilypondSubSubTitle (
       inputLineNumber,
-      gLilypondOptions->fSubSubTitle);
+      gLilypondOptions->fSubSubTitle,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   
   if (gLilypondOptions->fInstrument.size ()) {
     setLilypondInstrument (
       inputLineNumber,
-      gLilypondOptions->fInstrument);
+      gLilypondOptions->fInstrument,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   if (gLilypondOptions->fMeter.size ()) {
     setLilypondMeter (
       inputLineNumber,
-      gLilypondOptions->fMeter);
+      gLilypondOptions->fMeter,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   
   if (gLilypondOptions->fCopyright.size ()) {
     setLilypondCopyright (
       inputLineNumber,
-      gLilypondOptions->fCopyright);
+      gLilypondOptions->fCopyright,
+      kFontStyleNone,
+      kFontWeightNone);
   }
   if (gLilypondOptions->fTagline.size ()) {
     setLilypondTagline (
       inputLineNumber,
-      gLilypondOptions->fTagline);
+      gLilypondOptions->fTagline,
+      kFontStyleNone,
+      kFontWeightNone);
   }
 }
 
@@ -104,8 +124,10 @@ lpsrHeader::~lpsrHeader ()
 {}
 
 void lpsrHeader::setLilypondDedication (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondDedication =
     lpsrVarValAssoc::create (
@@ -117,15 +139,17 @@ void lpsrHeader::setLilypondDedication (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondPiece (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondPiece =
     lpsrVarValAssoc::create (
@@ -137,15 +161,17 @@ void lpsrHeader::setLilypondPiece (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondOpus (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondOpus =
     lpsrVarValAssoc::create (
@@ -157,15 +183,17 @@ void lpsrHeader::setLilypondOpus (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondTitle (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondTitle =
     lpsrVarValAssoc::create (
@@ -177,15 +205,17 @@ void lpsrHeader::setLilypondTitle (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondSubTitle (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondSubTitle =
     lpsrVarValAssoc::create (
@@ -197,15 +227,17 @@ void lpsrHeader::setLilypondSubTitle (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondSubSubTitle (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondSubSubTitle =
     lpsrVarValAssoc::create (
@@ -217,15 +249,17 @@ void lpsrHeader::setLilypondSubSubTitle (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondInstrument (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondInstrument =
     lpsrVarValAssoc::create (
@@ -237,15 +271,17 @@ void lpsrHeader::setLilypondInstrument (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondMeter (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondMeter =
     lpsrVarValAssoc::create (
@@ -257,15 +293,17 @@ void lpsrHeader::setLilypondMeter (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondCopyright (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondCopyright =
     lpsrVarValAssoc::create (
@@ -277,15 +315,17 @@ void lpsrHeader::setLilypondCopyright (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondTagline (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fLilypondTagline =
     lpsrVarValAssoc::create (
@@ -297,15 +337,17 @@ void lpsrHeader::setLilypondTagline (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setWorkNumber (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fWorkNumber =
     lpsrVarValAssoc::create (
@@ -317,15 +359,17 @@ void lpsrHeader::setWorkNumber (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setWorkTitle (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
   {
   fWorkTitle =
     lpsrVarValAssoc::create (
@@ -337,15 +381,17 @@ void lpsrHeader::setWorkTitle (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
   }
 
 void lpsrHeader::setMovementNumber (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
   {
   fMovementNumber =
     lpsrVarValAssoc::create (
@@ -357,15 +403,17 @@ void lpsrHeader::setMovementNumber (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
   }
 
 void lpsrHeader::setMovementTitle (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fMovementTitle =
     lpsrVarValAssoc::create (
@@ -377,15 +425,17 @@ void lpsrHeader::setMovementTitle (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setEncodingDate (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fEncodingDate =
     lpsrVarValAssoc::create (
@@ -397,15 +447,17 @@ void lpsrHeader::setEncodingDate (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setScoreInstrument (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fScoreInstrument =
     lpsrVarValAssoc::create (
@@ -417,15 +469,17 @@ void lpsrHeader::setScoreInstrument (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setMiscellaneousField (
-  int    inputLineNumber,
-  string val)
+  int               inputLineNumber,
+  string            val,
+  msrFontStyleKind  fontStyleKind,
+  msrFontWeightKind fontWeightKind)
 {
   fMiscellaneousField =
     lpsrVarValAssoc::create (
@@ -437,8 +491,8 @@ void lpsrHeader::setMiscellaneousField (
       lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
-      kFontStyleNone,
-      kFontWeightNone,
+      fontStyleKind,
+      fontWeightKind,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       lpsrVarValAssoc::kEndlNone);
 }

@@ -3482,11 +3482,65 @@ string lpsr2LilypondTranslator::lpsrVarValAssocAsLilypondString (
     lpsrVarValAssocKindAsLilypondString (
       lpsrVarValAssoc->
         getLilyPondVarValAssocKind ()) <<
-    " = \"" <<
+    " = ";
+
+  msrFontStyleKind
+    varValFontStyleKind =
       lpsrVarValAssoc->
-        getVariableValue () <<
+        getVarValFontStyleKind ();
+
+  bool italicIsNeeded = false;
+  
+  switch (varValFontStyleKind) {
+    case kFontStyleNone:
+      break;
+    case kFontStyleNormal:
+      break;
+    case KFontStyleItalic:
+      italicIsNeeded = true;
+      break;
+    } // switch
+
+  msrFontWeightKind
+    varValFontWeightKind =
+      lpsrVarValAssoc->
+        getVarValFontWeightKind ();
+      
+  bool boldIsNeeded = false;
+
+  switch (varValFontWeightKind) {
+    case kFontWeightNone:
+      break;
+    case kFontWeightNormal:
+      break;
+    case kFontWeightBold:
+      boldIsNeeded = true;
+      break;
+    } // switch
+
+  bool markupIsNeeded = italicIsNeeded || boldIsNeeded;
+  
+  if (markupIsNeeded) {
+    fLilypondCodeIOstream << "\\markup { ";
+  }
+
+  if (italicIsNeeded) {
+    fLilypondCodeIOstream << "\\italic ";
+  }
+  if (boldIsNeeded) {
+    fLilypondCodeIOstream << "\\bold ";
+  }
+
+  s <<
+    "\"" <<
+    lpsrVarValAssoc->
+      getVariableValue () <<
     "\"";
 
+  if (markupIsNeeded) {
+    s << " }";
+  }
+  
   return s.str ();
 }
 

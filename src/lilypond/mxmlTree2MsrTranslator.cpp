@@ -6577,13 +6577,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
 
   if (fOnGoingDirectionType) {
     // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromPart (
-          inputLineNumber,
-          fCurrentMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber);
-  
     // create the eyeglasses
     S_msrEyeGlasses
       eyeGlasses =
@@ -6695,26 +6688,29 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     }
   }
   
-  if (fOnGoingDirectionType) {      
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromPart (
-          inputLineNumber,
-          fCurrentMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber);
-  
-    // create the pedal
-    S_msrPedal
-      pedal =
-        msrPedal::create (
-          inputLineNumber,
-          pedalTypeKind,
-          pedalLineKind,
-          pedalSignKind);
+  // create the pedal
+  S_msrPedal
+    pedal =
+      msrPedal::create (
+        inputLineNumber,
+        pedalTypeKind,
+        pedalLineKind,
+        pedalSignKind);
 
+  if (fOnGoingDirectionType) {      
     // append it to the pending pedals list
     fPendingPedals.push_back (pedal);
+  }
+  else {
+    stringstream s;
+    
+    s << "pedal " << pedal->asShortString () << " is out of context";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -14118,7 +14114,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   }
 #endif
 
-  // firstNote has been registered standalone in the part element sequence,
+  // chordFirstNote has been registered standalone in the part element sequence,
   // but it is actually the first note of a chord
   
   // create a chord
@@ -14147,16 +14143,22 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
     addFirstNoteToChord (
       chordFirstNote, voice);
 
-  // set chord first note's kind
+  // set chordFirstNote's kind
   chordFirstNote->
     setNoteKind (noteKind);
 
-  // copy firstNote's elements if any to the chord
+  // copy chordFirstNote's elements if any to the chord
   copyNoteElementsToChord (
     chordFirstNote, chord);
 
+  // get chordFirstNote's measure uplink
+  S_msrMeasure
+    chordFirstNoteMeasureUplink =
+      chordFirstNote->
+        getNoteMeasureUplink ();
+
 #ifdef TRACE_OPTIONS
-  if (false && (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes)) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes || gMsrOptions->fDisplayMsrDetails) {
     fLogOutputStream << // JMI
       endl <<
       endl <<
@@ -14168,25 +14170,32 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
       "+++++++++++++++++" <<
       endl <<
       endl <<
-      "++++++++++++++++ chordFirstNote->getNoteMeasureUplink () =" <<
-      chordFirstNote->
-        getNoteMeasureUplink () <<
-      endl <<
-      endl;
+      "++++++++++++++++ chordFirstNote->getNoteMeasureUplink () =";
+      
+    if (chordFirstNoteMeasureUplink) {
+      fLogOutputStream <<
+        endl <<
+        endl;
+    }
+    else {
+      fLogOutputStream <<
+        "none";
+    }
   }
 #endif
 
+/* forget about this, too early??? JMI
   // grace notes cannot be cross staff
   if (! chordFirstNote->getNoteIsAGraceNote ()) { // JMI
-    // register the chord as non cross staves
+    // register the chord as non cross staff
     fCurrentChordStaffNumber =
-      chordFirstNote->
-        getNoteMeasureUplink ()->
-          getMeasureSegmentUplink ()->
-            getSegmentVoiceUplink ()->
-              getVoiceStaffUplink ()->
-                getStaffNumber ();
+      chordFirstNoteMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceStaffUplink ()->
+              getStaffNumber ();
   }
+    */
     
   return chord;
 }

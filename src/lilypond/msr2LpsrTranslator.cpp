@@ -426,7 +426,10 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
       fLpsrScoreHeader->
         setWorkTitle (
-          inputLineNumber, movementTitle);
+          inputLineNumber, 
+          movementTitle,
+          kFontStyleNone,
+          kFontWeightNone);
 
       // forget the movement title
       fCurrentIdentification->
@@ -435,7 +438,10 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
       fLpsrScoreHeader->
         setMovementTitle (
-          inputLineNumber, "");
+          inputLineNumber,
+          "",
+          kFontStyleNone,
+          kFontWeightNone);
     }
   }
 
@@ -453,7 +459,10 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
     fLpsrScoreHeader->
       setWorkTitle (
-        inputLineNumber, movementTitle);
+        inputLineNumber,
+        movementTitle,
+        kFontStyleNone,
+        kFontWeightNone);
 
     // forget the movement title
     fCurrentIdentification->
@@ -462,7 +471,83 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
     fLpsrScoreHeader->
       setMovementTitle (
+        inputLineNumber,
+        "",
+        kFontStyleNone,
+        kFontWeightNone);
+  }
+
+  if (fWorkNumberKnown && fMovementNumberKnown) {
+    string
+      workNumber =
+        fCurrentIdentification->
+          getWorkNumber ()->
+            getVariableValue (),
+      movementNumber =
+        fCurrentIdentification->
+          getMovementNumber ()->
+            getVariableValue ();
+    
+    if (
+      workNumber.size () == 0
+        &&
+      movementNumber.size () > 0) {
+      // use the movement number as the work number
+      fCurrentIdentification->
+        setWorkNumber (
+          inputLineNumber, movementNumber);
+
+      fLpsrScoreHeader->
+        setWorkNumber (
+          inputLineNumber, 
+          movementNumber,
+          kFontStyleNone,
+          kFontWeightNone);
+
+      // forget the movement number
+      fCurrentIdentification->
+        setMovementNumber (
+          inputLineNumber, "");
+
+      fLpsrScoreHeader->
+        setMovementNumber (
+          inputLineNumber,
+          "",
+          kFontStyleNone,
+          kFontWeightNone);
+    }
+  }
+
+  else if (! fWorkNumberKnown && fMovementNumberKnown) {
+    string
+      movementNumber =
+        fCurrentIdentification->
+          getMovementNumber ()->
+            getVariableValue ();
+            
+    // use the movement number as the work number
+    fCurrentIdentification->
+      setWorkNumber (
+        inputLineNumber, movementNumber);
+
+    fLpsrScoreHeader->
+      setWorkNumber (
+        inputLineNumber,
+        movementNumber,
+        kFontStyleNone,
+        kFontWeightNone);
+
+    // forget the movement number
+    fCurrentIdentification->
+      setMovementNumber (
         inputLineNumber, "");
+
+    fLpsrScoreHeader->
+      setMovementNumber (
+        inputLineNumber,
+        "",
+        kFontStyleNone,
+        kFontWeightNone);
   }
 
   // set ident and short indent if needed
@@ -5260,7 +5345,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setWorkNumber (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
   
       fWorkNumberKnown = true;
       break;
@@ -5272,7 +5360,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setWorkTitle (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
           
       fWorkTitleKnown = true;
       break;
@@ -5284,7 +5375,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setMovementNumber (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
   
       fMovementNumberKnown = true;
       break;
@@ -5296,7 +5390,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setMovementTitle (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
           
       fMovementTitleKnown = true;
       break;
@@ -5308,7 +5405,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setEncodingDate (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
       break;
 
     case msrVarValAssoc::kScoreInstrument:
@@ -5318,7 +5418,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setScoreInstrument (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
       break;
 
     case msrVarValAssoc::kMiscellaneousField:
@@ -5328,7 +5431,10 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       
       fLpsrScoreHeader->
         setMiscellaneousField (
-          inputLineNumber, variableValue);
+          inputLineNumber,
+          variableValue,
+          kFontStyleNone,
+          kFontWeightNone);
       break;
 
     default:

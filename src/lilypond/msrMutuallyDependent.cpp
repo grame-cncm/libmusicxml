@@ -8445,9 +8445,15 @@ void msrChord::print (ostream& os)
         
     gIndenter++;
 
-    os <<
-      fChordGraceNotesGroupBefore->asString () <<
-      endl;
+    if (fChordGraceNotesGroupBefore) {
+      os <<
+        fChordGraceNotesGroupBefore->asString () <<
+        endl;
+    }
+    else {
+      os <<
+        "none";
+    }
       
     gIndenter--;
   }
@@ -8459,9 +8465,15 @@ void msrChord::print (ostream& os)
         
     gIndenter++;
 
-    os <<
-      fChordGraceNotesGroupAfter->asString () <<
-      endl;
+    if (fChordGraceNotesGroupAfter) {
+      os <<
+        fChordGraceNotesGroupAfter->asString () <<
+        endl;
+    }
+    else {
+      os <<
+        "none";
+    }
       
     gIndenter--;
   }
@@ -8475,9 +8487,15 @@ void msrChord::print (ostream& os)
         
     gIndenter++;
 
-    os <<
-      fChordHarmony->asString () <<
-      endl;
+    if (fChordHarmony) {
+      os <<
+        fChordHarmony->asString () <<
+        endl;
+    }
+    else {
+      os <<
+        "none";
+    }
       
     gIndenter--;
   }
@@ -8491,10 +8509,16 @@ void msrChord::print (ostream& os)
         
     gIndenter++;
 
-    os <<
-      fChordFiguredBass->asString () <<
-      endl;
-      
+   if (fChordFiguredBass) {
+      os <<
+        fChordFiguredBass->asString () <<
+        endl;
+    }
+    else {
+      os <<
+        "none";
+    }
+            
     gIndenter--;
   }
 
@@ -28301,15 +28325,19 @@ void msrStaff::print (ostream& os)
     for ( ; ; ) {
       int        voiceNumber = (*i).first;
       S_msrVoice voice       = (*i).second;
-      
-        os <<
-          voiceNumber << " : " <<
-          "regularVoiceStaffSequentialNumber = " <<
-          voice->getRegularVoiceStaffSequentialNumber () <<
-          ", " <<
-          voice->asShortString ();
-        if (++i == iEnd) break;
-        os << endl;
+
+      // sanity check
+      msrAssert (
+        voice != nullptr,
+        "voice is null");
+      os <<
+        voiceNumber << " : " <<
+        "regularVoiceStaffSequentialNumber = " <<
+        voice->getRegularVoiceStaffSequentialNumber () <<
+        ", " <<
+        voice->asShortString ();
+      if (++i == iEnd) break;
+      os << endl;
     } // for
     os <<
       endl;

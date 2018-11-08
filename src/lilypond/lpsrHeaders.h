@@ -50,105 +50,133 @@ class lpsrHeader : public lpsrElement
     // MusicXML informations
 
     void                  setWorkNumber (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getWorkNumber () const
                               { return fWorkNumber; }
     
     void                  setWorkTitle (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getWorkTitle () const
                               { return fWorkTitle; }
     
     void                  setMovementNumber (
-                            int    inputLineNumber,
-                            string vall);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getMovementNumber () const
                               { return fMovementNumber; }
     
     void                  setMovementTitle (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getMovementTitle () const
                               { return fMovementTitle; }
     
     void                  setEncodingDate (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getEncodingDate () const
                               { return fEncodingDate; }
 
     void                  setScoreInstrument (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getScoreInstrument () const
                               { return fScoreInstrument; }
 
     void                  setMiscellaneousField (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getMiscellaneousField () const
                               { return fMiscellaneousField; }
 
     void                  setComposers (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getComposers () const
                               { return fComposers; };
     
     void                  setArrangers (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getArrangers () const
                               { return fArrangers; };
     
     void                  setLyricists (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getLyricists () const
                               { return fLyricists; };
     
     void                  setPoets (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getPoets () const
                               { return fPoets; };
     
     void                  setTranslators (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getTranslators () const
                               { return fTranslators; };
     
     void                  setRights (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getRights () const
                               { return fRights; }
     
     void                  setSoftwares (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValsListAssoc
                           getSoftwares () const
@@ -159,43 +187,55 @@ class lpsrHeader : public lpsrElement
     // centered
     
     void                  setLilypondDedication (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondDedication () const
                               { return fLilypondDedication; }
 
     void                  setLilypondPiece (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondPiece () const
                               { return fLilypondPiece; }
 
     void                  setLilypondOpus (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondOpus () const
                               { return fLilypondOpus; }
 
     void                  setLilypondTitle (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondTitle () const
                               { return fLilypondTitle; }
 
     void                  setLilypondSubTitle (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondSubTitle () const
                               { return fLilypondSubTitle; }
 
     void                  setLilypondSubSubTitle (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
     
     S_lpsrVarValAssoc     getLilypondSubSubTitle () const
                               { return fLilypondSubSubTitle; }
@@ -204,8 +244,10 @@ class lpsrHeader : public lpsrElement
     // "instrument" also appears on following pages
                                   
     void                  setLilypondInstrument (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondInstrument () const
                               { return fLilypondInstrument; }
@@ -213,8 +255,10 @@ class lpsrHeader : public lpsrElement
     // at opposite ends of the same line
 
     void                  setLilypondMeter (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondMeter () const
                               { return fLilypondMeter; }
@@ -222,8 +266,10 @@ class lpsrHeader : public lpsrElement
     // centered at the bottom of the first page
     
     void                  setLilypondCopyright (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
     
     S_lpsrVarValAssoc     getLilypondCopyright () const
                               { return fLilypondCopyright; }
@@ -231,8 +277,10 @@ class lpsrHeader : public lpsrElement
     // centered at the bottom of the last page
     
     void                  setLilypondTagline (
-                            int    inputLineNumber,
-                            string val);
+                            int               inputLineNumber,
+                            string            val,
+                            msrFontStyleKind  fontStyleKind,
+                            msrFontWeightKind fontWeightKind);
 
     S_lpsrVarValAssoc     getLilypondTagline () const
                               { return fLilypondTagline; }
