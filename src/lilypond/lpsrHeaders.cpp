@@ -110,15 +110,17 @@ void lpsrHeader::setLilypondDedication (
   fLilypondDedication =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondDedication,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondPiece (
@@ -128,15 +130,17 @@ void lpsrHeader::setLilypondPiece (
   fLilypondPiece =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondPiece,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondOpus (
@@ -146,15 +150,17 @@ void lpsrHeader::setLilypondOpus (
   fLilypondOpus =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondOpus,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondTitle (
@@ -164,15 +170,17 @@ void lpsrHeader::setLilypondTitle (
   fLilypondTitle =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondTitle,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondSubTitle (
@@ -182,15 +190,17 @@ void lpsrHeader::setLilypondSubTitle (
   fLilypondSubTitle =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondSubTitle,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondSubSubTitle (
@@ -200,15 +210,17 @@ void lpsrHeader::setLilypondSubSubTitle (
   fLilypondSubSubTitle =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondSubSubTitle,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondInstrument (
@@ -218,15 +230,17 @@ void lpsrHeader::setLilypondInstrument (
   fLilypondInstrument =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondInstrument,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondMeter (
@@ -236,15 +250,17 @@ void lpsrHeader::setLilypondMeter (
   fLilypondMeter =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondMeter,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondCopyright (
@@ -254,15 +270,17 @@ void lpsrHeader::setLilypondCopyright (
   fLilypondCopyright =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondCopyright,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setLilypondTagline (
@@ -272,15 +290,17 @@ void lpsrHeader::setLilypondTagline (
   fLilypondTagline =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kLilypondTagline,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setWorkNumber (
@@ -290,15 +310,17 @@ void lpsrHeader::setWorkNumber (
   fWorkNumber =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLWorkNumber,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setWorkTitle (
@@ -308,15 +330,17 @@ void lpsrHeader::setWorkTitle (
   fWorkTitle =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLWorkTitle,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
   }
 
 void lpsrHeader::setMovementNumber (
@@ -326,15 +350,17 @@ void lpsrHeader::setMovementNumber (
   fMovementNumber =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLMovementNumber,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
   }
 
 void lpsrHeader::setMovementTitle (
@@ -344,15 +370,17 @@ void lpsrHeader::setMovementTitle (
   fMovementTitle =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLMovementTitle,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setEncodingDate (
@@ -362,15 +390,17 @@ void lpsrHeader::setEncodingDate (
   fEncodingDate =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLEncodingDate,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setScoreInstrument (
@@ -380,15 +410,17 @@ void lpsrHeader::setScoreInstrument (
   fScoreInstrument =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLScoreInstrument,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::setMiscellaneousField (
@@ -398,15 +430,17 @@ void lpsrHeader::setMiscellaneousField (
   fMiscellaneousField =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashNo,
       lpsrVarValAssoc::kMusicXMLMiscellaneousField,
-      lpsrVarValAssoc::kEqualSign,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       val,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::kEndlNone);
 }
 
 void lpsrHeader::addRights (

@@ -45,6 +45,8 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
   lpsrQuotesKind          quotesKind,
   string                  value, 
   string                  unit,
+  msrFontStyleKind        varValFontStyleKind,
+  msrFontWeightKind       varValFontWeightKind,
   string                  comment,
   lpsrEndlKind            endlKind)
 {
@@ -58,6 +60,8 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
       quotesKind,
       value,
       unit,
+      varValFontStyleKind,
+      varValFontWeightKind,
       comment,
       endlKind);
   assert(o!=0);
@@ -74,22 +78,77 @@ lpsrVarValAssoc::lpsrVarValAssoc (
   lpsrQuotesKind          quotesKind,
   string                  value, 
   string                  unit,
+  msrFontStyleKind        varValFontStyleKind,
+  msrFontWeightKind       varValFontWeightKind,
   string                  comment,
   lpsrEndlKind            endlKind)
     : lpsrElement (inputLineNumber)
 {
-  fBackSlashKind       = backSlashKind;
+  fBackSlashKind           = backSlashKind;
   fLilyPondVarValAssocKind = lilyPondVarValAssocKind;
-  fVarValSeparatorKind = varValSeparatorKind;
-  fQuotesKind          = quotesKind;
-  fVariableValue       = value;
-  fCommentedKind       = commentedKind;
-  fUnit                = unit;
-  fComment             = comment;
-  fEndlKind            = endlKind;
+  fVarValSeparatorKind     = varValSeparatorKind;
+  fQuotesKind              = quotesKind;
+  
+  fVariableValue           = value;
+  fCommentedKind           = commentedKind;
+  fUnit                    = unit;
+
+  fVarValFontStyleKind      = varValFontStyleKind;
+  fVarValFontWeightKind     = varValFontWeightKind;
+  
+  fComment                  = comment;
+  
+  fEndlKind                 = endlKind;
 }
 
 lpsrVarValAssoc::~lpsrVarValAssoc ()
+{}
+
+void lpsrVarValAssoc::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrVarValAssoc::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_lpsrVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
+        S_lpsrVarValAssoc elem = this;
+        
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void lpsrVarValAssoc::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrVarValAssoc::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_lpsrVarValAssoc>*
+    p =
+      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
+        S_lpsrVarValAssoc elem = this;
+      
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrVarValAssoc::browseData (basevisitor* v)
 {}
 
 string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
@@ -189,11 +248,11 @@ string lpsrVarValAssoc::commentedKindAsString (
   string result;
 
   switch (commentedKind) {
-    case lpsrVarValAssoc::kCommented:
-      result = "commented";
+    case lpsrVarValAssoc::kCommentedYes:
+      result = "commentedYes";
       break;
-    case lpsrVarValAssoc::kUncommented:
-      result = "uncommented";
+    case lpsrVarValAssoc::kCommentedNo:
+      result = "commentedNo";
       break;
   } // switch
 
@@ -206,11 +265,11 @@ string lpsrVarValAssoc::backSlashKindAsString (
   string result;
 
   switch (backSlashKind) {
-    case lpsrVarValAssoc::kWithBackSlash:
-      result = "withBackSlash";
+    case lpsrVarValAssoc::kWithBackSlashYes:
+      result = "withBackSlashYes";
       break;
-    case lpsrVarValAssoc::kWithoutBackSlash:
-      result = "withoutBackSlash";
+    case lpsrVarValAssoc::kWithBackSlashNo:
+      result = "withBackSlashNo";
       break;
   } // switch
 
@@ -223,11 +282,11 @@ string lpsrVarValAssoc::varValSeparatorKindAsString (
   string result;
 
   switch (varValSeparatorKind) {
-    case lpsrVarValAssoc::kSpace:
-      result = "space";
+    case lpsrVarValAssoc::kVarValSeparatorSpace:
+      result = "varValSeparatorSpace";
       break;
-    case lpsrVarValAssoc::kEqualSign:
-      result = "equalSign";
+    case lpsrVarValAssoc::kVarValSeparatorEqualSign:
+      result = "varValSeparatorEqualSign";
       break;
   } // switch
 
@@ -240,11 +299,11 @@ string lpsrVarValAssoc::quotesKindAsString (
   string result;
 
   switch (quotesKind) {
-    case lpsrVarValAssoc::kQuotesAroundValue:
-      result = "quotesAroundValue";
+    case lpsrVarValAssoc::kQuotesAroundValueYes:
+      result = "quotesAroundValueYes";
       break;
-    case lpsrVarValAssoc::kNoQuotesAroundValue:
-      result = "noQuotesAroundValue";
+    case lpsrVarValAssoc::kQuotesAroundValueNo:
+      result = "quotesAroundValueNo";
       break;
   } // switch
 
@@ -257,66 +316,19 @@ string lpsrVarValAssoc::endlKindAsString (
   string result;
 
   switch (endlKind) {
-    case lpsrVarValAssoc::kWithEndl:
-      result = "withEndl";
+    case lpsrVarValAssoc::kEndlNone:
+      result = "endlNone";
       break;
-    case lpsrVarValAssoc::kWithEndlTwice:
-      result = "withEndlTwice";
+    case lpsrVarValAssoc::kEndlOnce:
+      result = "endlOnce";
       break;
-    case lpsrVarValAssoc::kWithoutEndl:
-      result = "withoutEndl";
+    case lpsrVarValAssoc::kEndlTwice:
+      result = "endlTwice";
       break;
   } // switch
 
   return result;
 }
-
-void lpsrVarValAssoc::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValAssoc::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrVarValAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
-        S_lpsrVarValAssoc elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrVarValAssoc::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValAssoc::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrVarValAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
-        S_lpsrVarValAssoc elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrVarValAssoc::browseData (basevisitor* v)
-{}
 
 void lpsrVarValAssoc::print (ostream& os)
 {
@@ -334,22 +346,34 @@ void lpsrVarValAssoc::print (ostream& os)
     fVariableValue.end (),
     stringQuoteEscaper (variableValue));
 
-  const int fieldWidth = 16;
+  const int fieldWidth = 24;
 
   os << left <<
     setw (fieldWidth) <<
-    "assoc kind" << " : " <<
+    "lilyPondVarValAssocKind" << " : " <<
     lilyPondVarValAssocKindAsString () <<
     endl <<
   
     setw (fieldWidth) <<
-    "assoc value" << " : \"" <<
+    "variableValue" << " : \"" <<
     variableValue <<
     "\"" <<
     endl <<
   
     setw (fieldWidth) <<
-   "commented kind" << " : " <<
+   "varValFontStyleKind" << " : " <<
+    msrFontStyleKindAsString (
+      fVarValFontStyleKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "varValFontWeightKind" << " : " <<
+    msrFontWeightKindAsString (
+      fVarValFontWeightKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "commentedKind" << " : " <<
     commentedKindAsString (
       fCommentedKind) <<
     endl <<
@@ -361,13 +385,13 @@ void lpsrVarValAssoc::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-   "separator kind" << " : " <<
+   "varValSeparatorKind" << " : " <<
     varValSeparatorKindAsString (
       fVarValSeparatorKind) <<
     endl <<
 
     setw (fieldWidth) <<
-   "quotes kind" << " : " <<
+   "quotesKind" << " : " <<
     quotesKindAsString (
       fQuotesKind) <<
     endl <<
@@ -399,7 +423,7 @@ void lpsrVarValAssoc::print (ostream& os)
 
   os <<
     setw (fieldWidth) <<
-   "endl kind" << " : " <<
+   "endlKind" << " : " <<
     endlKindAsString (
       fEndlKind) <<
     endl;
@@ -434,6 +458,53 @@ lpsrVarValsListAssoc::lpsrVarValsListAssoc (
 }
 
 lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
+{}
+
+void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_lpsrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
+        S_lpsrVarValsListAssoc elem = this;
+        
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_lpsrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
+        S_lpsrVarValsListAssoc elem = this;
+      
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrVarValsListAssoc::browseData (basevisitor* v)
 {}
 
 string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
@@ -491,53 +562,6 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString () const
   
   return s.str ();
 }
-
-void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_lpsrVarValsListAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
-        S_lpsrVarValsListAssoc elem = this;
-        
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrVarValsListAssoc>*
-    p =
-      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
-        S_lpsrVarValsListAssoc elem = this;
-      
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrVarValsListAssoc::browseData (basevisitor* v)
-{}
 
 void lpsrVarValsListAssoc::print (ostream& os)
 {

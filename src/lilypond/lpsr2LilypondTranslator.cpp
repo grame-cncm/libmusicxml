@@ -3599,21 +3599,32 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
       endl;
   }
 
-  if (elt->getComment ().size ()) {
+  // generate the comment if needed
+  string
+    comment =
+      elt->getComment ();
+      
+  if (comment.size ()) {
     fLilypondCodeIOstream <<
-      "% " << elt->getComment () <<
+      "% " << comment <<
       endl;
   }
 
-  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented) {
-    fLilypondCodeIOstream << "\%";
-  }
+  // generate a comment out if needed
+  switch (elt->getCommentedKind ()) {
+    case lpsrVarValAssoc::kCommentedYes:
+      fLilypondCodeIOstream << "\%";
+      break;
+    case lpsrVarValAssoc::kCommentedNo:
+      break;
+  } // switch
   
+  // generate the backslash if needed
   switch (elt->getBackSlashKind ()) {
-    case lpsrVarValAssoc::kWithBackSlash:
+    case lpsrVarValAssoc::kWithBackSlashYes:
       fLilypondCodeIOstream << "\\";
       break;
-    case lpsrVarValAssoc::kWithoutBackSlash:
+    case lpsrVarValAssoc::kWithBackSlashNo:
       break;
   } // switch
 
@@ -3642,16 +3653,72 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
     setw (fieldWidth) <<
     lilyPondVarValAssocKindAsLilypondString;
 
-  if (elt->getVarValSeparator () == lpsrVarValAssoc::kEqualSign) {
-    fLilypondCodeIOstream << " = ";
+  switch (elt->getVarValSeparatorKind ()) {
+    case lpsrVarValAssoc::kVarValSeparatorSpace:
+      fLilypondCodeIOstream << " ";
+      break;
+    case lpsrVarValAssoc::kVarValSeparatorEqualSign:
+      fLilypondCodeIOstream << " = ";
+      break;
+  } // switch
+
+  msrFontStyleKind
+    varValFontStyleKind =
+      elt->getVarValFontStyleKind ();
+
+  bool italicIsNeeded = false;
+  
+  switch (varValFontStyleKind) {
+    case kFontStyleNone:
+      break;
+    case kFontStyleNormal:
+      break;
+    case KFontStyleItalic:
+      italicIsNeeded = true;
+      break;
+    } // switch
+
+  msrFontWeightKind
+    varValFontWeightKind =
+      elt->getVarValFontWeightKind ();
+      
+  bool boldIsNeeded = false;
+
+  switch (varValFontWeightKind) {
+    case kFontWeightNone:
+      break;
+    case kFontWeightNormal:
+      break;
+    case kFontWeightBold:
+      boldIsNeeded = true;
+      break;
+    } // switch
+
+  bool markupIsNeeded = italicIsNeeded || boldIsNeeded;
+  
+  if (markupIsNeeded) {
+    fLilypondCodeIOstream << "\\markup { ";
   }
-  else {
-    fLilypondCodeIOstream << " ";
+
+  if (italicIsNeeded) {
+    fLilypondCodeIOstream << "\\italic ";
+  }
+  if (boldIsNeeded) {
+    fLilypondCodeIOstream << "\\bold ";
   }
   
-  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue) {
-    fLilypondCodeIOstream << "\"";
-  }
+  // generate the quote if needed
+  lpsrVarValAssoc::lpsrQuotesKind
+    quotesKind =
+      elt->getQuotesKind ();
+
+  switch (quotesKind) {
+    case lpsrVarValAssoc::kQuotesAroundValueYes:
+      fLilypondCodeIOstream << "\"";
+      break;
+    case lpsrVarValAssoc::kQuotesAroundValueNo:
+      break;
+  } // switch
 
   // generate the value and unit if any
   if (elt->getUnit ().size ()) {
@@ -3668,26 +3735,34 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
       elt->getVariableValue ();
   }
   
-  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue) {
-    fLilypondCodeIOstream << "\"";
+  // generate the quote if needed
+  switch (quotesKind) {
+    case lpsrVarValAssoc::kQuotesAroundValueYes:
+      fLilypondCodeIOstream << "\"";
+      break;
+    case lpsrVarValAssoc::kQuotesAroundValueNo:
+      break;
+  } // switch
+  
+  if (markupIsNeeded) {
+    fLilypondCodeIOstream << " }";
   }
   
   fLilypondCodeIOstream <<
-  endl;
+    endl;
 
-  switch (elt->getEndlKind ()) {
-    case lpsrVarValAssoc::kWithEndl:
+  // generate the end line(s) if needed
+  switch (elt->getEndlKind ()) {      
+    case lpsrVarValAssoc::kEndlNone:
+      break;
+    case lpsrVarValAssoc::kEndlOnce:
       fLilypondCodeIOstream <<
         endl;
       break;
-      
-    case lpsrVarValAssoc::kWithEndlTwice:
+    case lpsrVarValAssoc::kEndlTwice:
       fLilypondCodeIOstream <<
         endl <<
         endl;
-      break;
-      
-    case lpsrVarValAssoc::kWithoutEndl:
       break;
   } // switch
 }
@@ -3760,15 +3835,23 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
       endl;
   }
 
-  if (elt->getComment ().size ()) {
+  string
+    comment =
+      elt->getComment ();
+      
+  if (comment.size ()) {
     fLilypondCodeIOstream <<
-      "% " << elt->getComment () <<
+      "% " << comment <<
       endl;
   }
 
-  if (elt->getCommentedKind () == lpsrSchemeVariable::kCommented) {
-    fLilypondCodeIOstream << "\% ";
-  }
+  switch (elt->getCommentedKind ()) {
+    case lpsrVarValAssoc::kCommentedYes:
+      fLilypondCodeIOstream << "\% ";
+      break;
+    case lpsrVarValAssoc::kCommentedNo:
+      break;
+  } // switch
   
   fLilypondCodeIOstream <<
     "#(" <<
@@ -3778,13 +3861,16 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
     ")";
     
   switch (elt->getEndlKind ()) {
-    case lpsrSchemeVariable::kWithEndl:
-      fLilypondCodeIOstream << endl;
+    case lpsrSchemeVariable::kEndlNone:
       break;
-    case lpsrSchemeVariable::kWithEndlTwice:
-      fLilypondCodeIOstream << endl << endl;
+    case lpsrSchemeVariable::kEndlOnce:
+      fLilypondCodeIOstream <<
+        endl;
       break;
-    case lpsrSchemeVariable::kWithoutEndl:
+    case lpsrSchemeVariable::kEndlTwice:
+      fLilypondCodeIOstream <<
+        endl <<
+        endl;
       break;
   } // switch
 }
@@ -6873,7 +6959,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
         elt->getStanzaName () << " = " << "\\lyricmode {" <<
         endl;
         
-      gIndenter++;
+  //    gIndenter++; JMI ???
     }
   }
 }
@@ -6891,7 +6977,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
     if (fGenerateCodeForOngoingNonEmptyStanza) {
-      gIndenter--;
+ //     gIndenter--; JMI ???
     
       fLilypondCodeIOstream <<
         endl <<

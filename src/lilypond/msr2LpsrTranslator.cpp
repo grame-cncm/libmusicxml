@@ -597,11 +597,11 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     assoc =
       lpsrSchemeVariable::create (
         NO_INPUT_LINE_NUMBER, // JMI
-        lpsrSchemeVariable::kCommented,
+        lpsrSchemeVariable::kCommentedYes,
         "layout-set-staff-size",
         s.str (),
         "Uncomment and adapt next line as needed (default is 20)",
-        lpsrSchemeVariable::kWithEndl);
+        lpsrSchemeVariable::kEndlOnce);
 
   // populate score block layout
   scoreBlockLayout->

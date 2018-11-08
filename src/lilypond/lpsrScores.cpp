@@ -260,15 +260,17 @@ lpsrScore::lpsrScore (
   fLilypondVersion =
     lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrVarValAssoc::kUncommented,
-      lpsrVarValAssoc::kWithBackSlash,
+      lpsrVarValAssoc::kCommentedNo,
+      lpsrVarValAssoc::kWithBackSlashYes,
       lpsrVarValAssoc::kLibraryVersion,
-      lpsrVarValAssoc::kSpace,
-      lpsrVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kVarValSeparatorSpace,
+      lpsrVarValAssoc::kQuotesAroundValueYes,
       "2.19",
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      kFontStyleNone,
+      kFontWeightNone,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-      lpsrVarValAssoc::kWithEndl);
+      lpsrVarValAssoc::kEndlOnce);
 
   // should the initial comments about xml2ly and the options used
   // be generated?
@@ -365,11 +367,11 @@ lpsrScore::lpsrScore (
   fGlobalStaffSizeAssoc =
     lpsrSchemeVariable::create (
       inputLineNumber,
-      lpsrSchemeVariable::kUncommented,
+      lpsrSchemeVariable::kCommentedNo,
       "set-global-staff-size",
       "20", // the LilyPond default
       "Comment or adapt next line as needed (default is 20)",
-      lpsrSchemeVariable::kWithEndlTwice);
+      lpsrSchemeVariable::kEndlTwice);
 
   // initialize Scheme functions informations
   fTongueSchemeFunctionIsNeeded              = false;
@@ -481,21 +483,23 @@ R"(
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kCommented
-          : lpsrVarValAssoc::kUncommented;
+          ? lpsrVarValAssoc::kCommentedYes
+          : lpsrVarValAssoc::kCommentedNo;
   
     fMyBreakIsBreakAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ \\break }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         "Pick your choice from the next two lines as needed",
-        lpsrVarValAssoc::kWithoutEndl);
+        lpsrVarValAssoc::kEndlNone);
   }
   
   // create the 'myBreakIsEmpty' assoc
@@ -503,21 +507,23 @@ R"(
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kUncommented
-          : lpsrVarValAssoc::kCommented;
+          ? lpsrVarValAssoc::kCommentedNo
+          : lpsrVarValAssoc::kCommentedYes;
   
     fMyBreakIsEmptyAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-        lpsrVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kEndlOnce);
   }
 
   // create the 'myPageBreakIsPageBreak' assoc
@@ -525,21 +531,23 @@ R"(
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kCommented
-          : lpsrVarValAssoc::kUncommented;
+          ? lpsrVarValAssoc::kCommentedYes
+          : lpsrVarValAssoc::kCommentedNo;
   
     fMyPageBreakIsPageBreakAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyPageBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ \\pageBreak }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         "Pick your choice from the next two lines as needed",
-        lpsrVarValAssoc::kWithoutEndl);
+        lpsrVarValAssoc::kEndlNone);
   }
   
   // create the 'myPageBreakIsEmpty' assoc
@@ -547,21 +555,23 @@ R"(
     lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrVarValAssoc::kUncommented
-          : lpsrVarValAssoc::kCommented;
+          ? lpsrVarValAssoc::kCommentedNo
+          : lpsrVarValAssoc::kCommentedYes;
   
     fMyPageBreakIsEmptyAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondMyPageBreak,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
-        lpsrVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kEndlOnce);
   }
 
   if (gLilypondOptions->fGlobal) {
@@ -569,15 +579,17 @@ R"(
     fGlobalAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
-        lpsrVarValAssoc::kUncommented,
-        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kCommentedNo,
+        lpsrVarValAssoc::kWithBackSlashNo,
         lpsrVarValAssoc::kLilypondGlobal,
-        lpsrVarValAssoc::kEqualSign,
-        lpsrVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kVarValSeparatorEqualSign,
+        lpsrVarValAssoc::kQuotesAroundValueNo,
         "{ }",
         lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        kFontStyleNone,
+        kFontWeightNone,
         "Place whatever you need in the 'global' variable",
-        lpsrVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kEndlOnce);
   }
   
   // create the score command

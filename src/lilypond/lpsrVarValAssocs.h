@@ -18,6 +18,8 @@
 
 #include "lpsrElements.h"
 
+#include "msrBasicTypes.h"
+
 
 using namespace std;
 
@@ -64,31 +66,31 @@ class lpsrVarValAssoc : public lpsrElement
       lpsrVarValAssocKind lilyPondVarValAssocKind);
 
     enum lpsrCommentedKind {
-      kCommented, kUncommented};
+      kCommentedYes, kCommentedNo };
 
     static string commentedKindAsString (
       lpsrCommentedKind commentedKind);
       
     enum lpsrBackSlashKind {
-      kWithBackSlash, kWithoutBackSlash};
+      kWithBackSlashYes, kWithBackSlashNo };
 
     static string backSlashKindAsString (
       lpsrBackSlashKind backSlashKind);
       
     enum lpsrVarValSeparatorKind {
-      kSpace, kEqualSign};
+      kVarValSeparatorSpace, kVarValSeparatorEqualSign };
 
     static string varValSeparatorKindAsString (
       lpsrVarValSeparatorKind varValSeparatorKind);
       
     enum lpsrQuotesKind {
-      kQuotesAroundValue, kNoQuotesAroundValue};
+      kQuotesAroundValueYes, kQuotesAroundValueNo };
 
     static string quotesKindAsString (
       lpsrQuotesKind quotesKind);
       
     enum lpsrEndlKind {
-      kWithEndl, kWithEndlTwice, kWithoutEndl};
+      kEndlNone, kEndlOnce, kEndlTwice };
 
     static string endlKindAsString (
       lpsrEndlKind endlKind);
@@ -109,6 +111,8 @@ class lpsrVarValAssoc : public lpsrElement
       lpsrQuotesKind          quotesKind,
       string                  value, 
       string                  unit,
+      msrFontStyleKind        varValFontStyleKind,
+      msrFontWeightKind       varValFontWeightKind,
       string                  comment,
       lpsrEndlKind            endlKind);
 
@@ -127,6 +131,8 @@ class lpsrVarValAssoc : public lpsrElement
       lpsrQuotesKind          quotesKind,
       string                  value, 
       string                  unit,
+      msrFontStyleKind        varValFontStyleKind,
+      msrFontWeightKind       varValFontWeightKind,
       string                  comment,
       lpsrEndlKind            endlKind);
       
@@ -148,7 +154,7 @@ class lpsrVarValAssoc : public lpsrElement
                               { return fLilyPondVarValAssocKind; }
                   
     lpsrVarValSeparatorKind
-                          getVarValSeparator () const
+                          getVarValSeparatorKind () const
                               { return fVarValSeparatorKind; }
     
     lpsrQuotesKind        getQuotesKind () const
@@ -162,6 +168,12 @@ class lpsrVarValAssoc : public lpsrElement
     
     string                getUnit () const
                               { return fUnit; }
+
+    msrFontStyleKind      getVarValFontStyleKind () const
+                              { return fVarValFontStyleKind; }
+                              
+    msrFontWeightKind      getVarValFontWeightKind () const
+                              { return fVarValFontWeightKind; }
 
     string                getComment  () const
                               { return fComment; }
@@ -210,9 +222,15 @@ class lpsrVarValAssoc : public lpsrElement
     lpsrVarValSeparatorKind
                           fVarValSeparatorKind;
     lpsrQuotesKind        fQuotesKind;
+    
     string                fVariableValue;
     string                fUnit;
+    
+    msrFontStyleKind      fVarValFontStyleKind;
+    msrFontWeightKind     fVarValFontWeightKind;
+      
     string                fComment;
+    
     lpsrEndlKind          fEndlKind;
 };
 typedef SMARTP<lpsrVarValAssoc> S_lpsrVarValAssoc;

@@ -64,43 +64,6 @@ lpsrSchemeVariable::lpsrSchemeVariable (
 lpsrSchemeVariable::~lpsrSchemeVariable ()
 {}
 
-string lpsrSchemeVariable::commentedKindAsString (
-  lpsrCommentedKind commentedKind)
-{
-  string result;
-
-  switch (commentedKind) {
-    case lpsrVarValAssoc::kCommented:
-      result = "commented";
-      break;
-    case lpsrVarValAssoc::kUncommented:
-      result = "uncommented";
-      break;
-  } // switch
-
-  return result;
-}
-
-string lpsrSchemeVariable::endlKindAsString (
-  lpsrEndlKind endlKind)
-{
-  string result;
-
-  switch (endlKind) {
-    case lpsrVarValAssoc::kWithEndl:
-      result = "with end line";
-      break;
-    case lpsrVarValAssoc::kWithEndlTwice:
-      result = "with end line twice";
-      break;
-    case lpsrVarValAssoc::kWithoutEndl:
-      result = "without end line";
-      break;
-  } // switch
-
-  return result;
-}
-
 void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -148,6 +111,43 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
 void lpsrSchemeVariable::browseData (basevisitor* v)
 {}
 
+string lpsrSchemeVariable::commentedKindAsString (
+  lpsrCommentedKind commentedKind)
+{
+  string result;
+
+  switch (commentedKind) {
+    case lpsrVarValAssoc::kCommentedYes:
+      result = "commentedYes";
+      break;
+    case lpsrVarValAssoc::kCommentedNo:
+      result = "commentedNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsrSchemeVariable::endlKindAsString (
+  lpsrEndlKind endlKind)
+{
+  string result;
+
+  switch (endlKind) {
+    case lpsrVarValAssoc::kEndlOnce:
+      result = "endlOnce";
+      break;
+    case lpsrVarValAssoc::kEndlTwice:
+      result = "endlTwice";
+      break;
+    case lpsrVarValAssoc::kEndlNone:
+      result = "endlNone";
+      break;
+  } // switch
+
+  return result;
+}
+
 void lpsrSchemeVariable::print (ostream& os)
 {
   os <<
@@ -174,16 +174,16 @@ void lpsrSchemeVariable::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "variable name" <<
+    "variableName" <<
     " : \"" << variableName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "variable value" <<
+    "variableValue" <<
     " : \"" << variableValue << "\"" <<
     endl <<
 
     setw (fieldWidth) <<
-    "commented kind" << " : " <<
+    "commentedKind" << " : " <<
     commentedKindAsString (fCommentedKind) <<
     endl <<
 
@@ -192,7 +192,7 @@ void lpsrSchemeVariable::print (ostream& os)
   // quotesKindAsString ??? JMI
   
     setw (fieldWidth) <<
-    "endl kind" << " : " <<
+    "endlKind" << " : " <<
     endlKindAsString (fEndlKind) <<
     endl;
   
