@@ -1022,15 +1022,15 @@ void lpsr2LilypondTranslator::generateNote (
                     getVoiceStaffUplink ();
         
         switch (noteStaff->getStaffKind ()) {
-          case msrStaff::kTablatureStaff:
+          case msrStaff::kStaffTablature:
             break;
-          case msrStaff::kHarmonyStaff:
+          case msrStaff::kStaffHarmony:
             break;
-          case msrStaff::kFiguredBassStaff:
+          case msrStaff::kStaffFiguredBass:
             break;
-          case msrStaff::kDrumStaff:
+          case msrStaff::kStaffDrum:
             break;
-          case msrStaff::kRythmicStaff: // JMI
+          case msrStaff::kStaffRythmic: // JMI
             // should the stem be omitted?
             if (note->getNoteIsStemless ()) {
               fLilypondCodeIOstream <<
@@ -1060,7 +1060,7 @@ void lpsr2LilypondTranslator::generateNote (
             }
             break;
 
-          case msrStaff::kRegularStaff:
+          case msrStaff::kStaffRegular:
             // should the stem be omitted?
             if (note->getNoteIsStemless ()) {
               fLilypondCodeIOstream <<
@@ -1107,18 +1107,18 @@ void lpsr2LilypondTranslator::generateNote (
                     getVoiceStaffUplink ();
         
         switch (noteStaff->getStaffKind ()) {
-          case msrStaff::kTablatureStaff:
+          case msrStaff::kStaffTablature:
             break;
-          case msrStaff::kHarmonyStaff:
+          case msrStaff::kStaffHarmony:
             break;
-          case msrStaff::kFiguredBassStaff:
+          case msrStaff::kStaffFiguredBass:
             break;
-          case msrStaff::kDrumStaff:
+          case msrStaff::kStaffDrum:
             break;
-          case msrStaff::kRythmicStaff:
+          case msrStaff::kStaffRythmic:
             break;
 
-          case msrStaff::kRegularStaff:
+          case msrStaff::kStaffRegular:
             // should the stem be omitted?
             if (note->getNoteIsStemless ()) {
               fLilypondCodeIOstream <<
@@ -5078,7 +5078,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   // generate the staff context command
   switch (staff->getStaffKind ()) {
-    case msrStaff::kRegularStaff:
+    case msrStaff::kStaffRegular:
       if (gLilypondOptions->fJianpu) {
         fLilypondCodeIOstream << "\\new JianpuStaff";
       }
@@ -5087,23 +5087,23 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       }
       break;
       
-    case msrStaff::kTablatureStaff:
+    case msrStaff::kStaffTablature:
       fLilypondCodeIOstream << "\\new TabStaff";
       break;
       
-    case msrStaff::kHarmonyStaff:
-      fLilypondCodeIOstream << "\\new kHarmonyStaff???";
+    case msrStaff::kStaffHarmony:
+      fLilypondCodeIOstream << "\\new kStaffHarmony???";
       break;
       
-    case msrStaff::kFiguredBassStaff:
+    case msrStaff::kStaffFiguredBass:
       fLilypondCodeIOstream << "\\new FiguredBassStaff???";
       break;
 
-    case msrStaff::kDrumStaff:
+    case msrStaff::kStaffDrum:
       fLilypondCodeIOstream << "\\new DrumStaff";
       break;
       
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRythmic:
       fLilypondCodeIOstream << "\\new RhythmicStaff";
       break;
     } // switch
@@ -5393,7 +5393,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
 */
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
+void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt) // JMI ???
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
@@ -5415,33 +5415,33 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   string voiceContextName;
   
   switch (staffKind) {
-    case msrStaff::kRegularStaff:
+    case msrStaff::kStaffRegular:
       staffContextName = "\\context Staff";
       voiceContextName = "Voice";
       break;
       
-    case msrStaff::kTablatureStaff:
+    case msrStaff::kStaffTablature:
       staffContextName = "\\context TabStaff";
       voiceContextName = "TabVoice";
       break;
       
-    case msrStaff::kHarmonyStaff:
+    case msrStaff::kStaffHarmony:
       staffContextName = "\\context ChordNames2"; // JMI
       voiceContextName = "???"; // JMI
       break;
       
-    case msrStaff::kFiguredBassStaff:
+    case msrStaff::kStaffFiguredBass:
       staffContextName = "\\context FiguredBass";
       voiceContextName = "???"; // JMI
       break;
 
-    case msrStaff::kDrumStaff:
+    case msrStaff::kStaffDrum:
       staffContextName = "\\context DrumStaff";
       voiceContextName = "DrumVoice";
         // the "DrumVoice" alias exists, use it
       break;
       
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRythmic:
       staffContextName = "\\context RhythmicStaff";
       voiceContextName = "Voice";
         // no "RhythmicVoice" alias exists
@@ -5464,7 +5464,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     }
 
     switch (staffKind) {
-      case msrStaff::kRegularStaff:
+      case msrStaff::kStaffRegular:
         {
           int staffRegularVoicesCounter =
             staff->getStaffRegularVoicesCounter ();

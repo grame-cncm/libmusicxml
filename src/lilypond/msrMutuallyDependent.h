@@ -6444,12 +6444,12 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     enum msrStaffKind {
-      kRegularStaff,
-      kTablatureStaff,
-      kHarmonyStaff,
-      kFiguredBassStaff,
-      kDrumStaff,
-      kRythmicStaff };
+      kStaffRegular,
+      kStaffTablature,
+      kStaffHarmony,
+      kStaffFiguredBass,
+      kStaffDrum,
+      kStaffRythmic };
 
     static string staffKindAsString (
       msrStaffKind staffKind);

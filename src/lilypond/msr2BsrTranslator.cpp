@@ -764,7 +764,7 @@ void msr2BsrTranslator::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kRegularStaff:
+    case msrStaff::kStaffRegular:
     case msrStaff::kTablatureStaff:
     case msrStaff::kDrumStaff:
     case msrStaff::kRythmicStaff:
@@ -872,7 +872,7 @@ void msr2BsrTranslator::visitEnd (S_msrStaff& elt)
   }
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kRegularStaff:
+    case msrStaff::kStaffRegular:
     case msrStaff::kDrumStaff:
     case msrStaff::kRythmicStaff:
       {

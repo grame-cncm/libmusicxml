@@ -274,6 +274,12 @@ class msrOptions : public optionsGroup
     map<string, string>   fPartsRenamingMap;
 
 
+    // staves
+    // --------------------------------------
+    
+    bool                  fCreateSingleLineStavesAsRythmic;
+
+    
     // voices
     // --------------------------------------
     

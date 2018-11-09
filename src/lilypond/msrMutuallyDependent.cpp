@@ -26079,38 +26079,38 @@ void msrStaff::initializeStaff ()
 
   // set staff name
   switch (fStaffKind) {
-    case msrStaff::kRegularStaff:
+    case msrStaff::kStaffRegular:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
         "_Staff_" +
         int2EnglishWord (fStaffNumber);
       break;
       
-    case msrStaff::kTablatureStaff:
+    case msrStaff::kStaffTablature:
         fStaffPartUplink->getPartMsrName () +
         "_Tablature_" +
         int2EnglishWord (fStaffNumber);
       break;
       
-    case msrStaff::kHarmonyStaff:
+    case msrStaff::kStaffHarmony:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
         "_HARMONY_Staff";
       break;
       
-    case msrStaff::kFiguredBassStaff:
+    case msrStaff::kStaffFiguredBass:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
         "_FIGURED_BASS_Staff";
       break;
       
-    case msrStaff::kDrumStaff:
+    case msrStaff::kStaffDrum:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
         "_DRUM_Staff";
       break;
       
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRythmic:
       fStaffName =
         fStaffPartUplink->getPartMsrName () +
         "_RYTHMIC_Staff";
@@ -26131,7 +26131,7 @@ void msrStaff::initializeStaff ()
   
   // check the staff number
   switch (fStaffKind) {
-    case msrStaff::kRegularStaff:
+    case msrStaff::kStaffRegular:
       // the staff number should not be negative
       if (fStaffNumber < 0) {
         stringstream s;
@@ -26146,13 +26146,13 @@ void msrStaff::initializeStaff ()
       }
       break;
       
-    case msrStaff::kTablatureStaff:
+    case msrStaff::kStaffTablature:
       break;
       
-    case msrStaff::kHarmonyStaff:
+    case msrStaff::kStaffHarmony:
       break;
       
-    case msrStaff::kFiguredBassStaff:
+    case msrStaff::kStaffFiguredBass:
       if (fStaffNumber != K_PART_FIGURED_BASS_STAFF_NUMBER) {
         stringstream s;
     
@@ -26168,10 +26168,10 @@ void msrStaff::initializeStaff ()
       }
       break;
       
-    case msrStaff::kDrumStaff:
+    case msrStaff::kStaffDrum:
       break;
       
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRythmic:
       break;
   } // switch
 
@@ -27012,13 +27012,13 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     // set staff kind accordingly if relevant
     switch (clef->getClefKind ()) {
       case msrClef::kPercussionClef:
-        fStaffKind = msrStaff::kDrumStaff;
+        fStaffKind = msrStaff::kStaffDrum; // JMI ???
         break;
       case msrClef::kTablature4Clef:
       case msrClef::kTablature5Clef:
       case msrClef::kTablature6Clef:
       case msrClef::kTablature7Clef:
-        fStaffKind = msrStaff::kTablatureStaff;
+        fStaffKind = msrStaff::kStaffTablature;
         break;
       default:
         ;
@@ -27790,7 +27790,12 @@ void msrStaff::appendStaffDetailsToStaff (
   // set staff kind accordingly if relevant
   switch (staffDetails->getStaffLinesNumber ()) {
     case 1:
-      fStaffKind = msrStaff::kRythmicStaff;
+      if (gMsrOptions->fCreateSingleLineStavesAsRythmic) {
+        fStaffKind = msrStaff::kStaffRythmic;
+      }
+      else {
+        fStaffKind = msrStaff::kStaffDrum;
+      }
       break;
     default:
       ;
@@ -28170,23 +28175,23 @@ string msrStaff::staffKindAsString (
   string result;
   
   switch (staffKind) {
-    case msrStaff::kRegularStaff:
-      result = "regular";
+    case msrStaff::kStaffRegular:
+      result = "staffRegular";
       break;
-    case msrStaff::kTablatureStaff:
-      result = "tablature";
+    case msrStaff::kStaffTablature:
+      result = "staffTablature";
       break;
-    case msrStaff::kHarmonyStaff:
-      result = "harmony";
+    case msrStaff::kStaffHarmony:
+      result = "staffHarmony";
       break;
-    case msrStaff::kFiguredBassStaff:
-      result = "figured bass";
+    case msrStaff::kStaffFiguredBass:
+      result = "staffFiguredBass bass";
       break;
-    case msrStaff::kDrumStaff:
-      result = "drum";
+    case msrStaff::kStaffDrum:
+      result = "staffDrum";
       break;
-    case msrStaff::kRythmicStaff:
-      result = "rythmic";
+    case msrStaff::kStaffRythmic:
+      result = "staffRythmic";
       break;
   } // switch
 
@@ -28781,7 +28786,7 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
     fPartFiguredBassStaff =
       addStaffToPartByItsNumber (
         inputLineNumber,
-        msrStaff::kFiguredBassStaff,
+        msrStaff::kStaffFiguredBass,
         K_PART_FIGURED_BASS_STAFF_NUMBER);
       
     // create the part figured bass voice  
@@ -29485,26 +29490,26 @@ void msrPart::appendRepeatCloneToPart (
         (*i).second;
 
     switch (staff->getStaffKind ()) {
-      case msrStaff::kRegularStaff:
+      case msrStaff::kStaffRegular:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
         
-      case msrStaff::kTablatureStaff:
+      case msrStaff::kStaffTablature:
         break;
         
-      case msrStaff::kHarmonyStaff:
+      case msrStaff::kStaffHarmony:
         break;
         
-      case msrStaff::kFiguredBassStaff:
+      case msrStaff::kStaffFiguredBass:
         break;
 
-      case msrStaff::kDrumStaff:
+      case msrStaff::kStaffDrum:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
 
-      case msrStaff::kRythmicStaff:
+      case msrStaff::kStaffRythmic:
         staff->appendRepeatCloneToStaff (
           inputLineNumber, repeatCLone);
         break;
@@ -29690,24 +29695,24 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
   // register staff in this part if relevant
   switch (staffKind) {
-    case msrStaff::kRegularStaff:
-    case msrStaff::kTablatureStaff:
-    case msrStaff::kHarmonyStaff:
-    case msrStaff::kFiguredBassStaff:
-    case msrStaff::kDrumStaff:
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRegular:
+    case msrStaff::kStaffTablature:
+    case msrStaff::kStaffHarmony:
+    case msrStaff::kStaffFiguredBass:
+    case msrStaff::kStaffDrum:
+    case msrStaff::kStaffRythmic:
       fPartStavesMap [staffNumber] = staff;
       break;
   } // switch
   
   // initialize staff current clef and key if relevant // JMI
   switch (staffKind) {
-    case msrStaff::kRegularStaff:
-    case msrStaff::kTablatureStaff:
-    case msrStaff::kHarmonyStaff:
-    case msrStaff::kFiguredBassStaff:
-    case msrStaff::kDrumStaff:
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRegular:
+    case msrStaff::kStaffTablature:
+    case msrStaff::kStaffHarmony:
+    case msrStaff::kStaffFiguredBass:
+    case msrStaff::kStaffDrum:
+    case msrStaff::kStaffRythmic:
       staff->setStaffCurrentClef (fPartCurrentClef);
       staff->setStaffCurrentKey (fPartCurrentKey);
       break;
@@ -30367,34 +30372,34 @@ void msrPart::print (ostream& os)
           staff->getStaffKind ();
 
       switch (staffKind) { // JMI
-        case msrStaff::kRegularStaff:
+        case msrStaff::kStaffRegular:
           os <<
             staff;
           break;
           
-        case msrStaff::kTablatureStaff:
+        case msrStaff::kStaffTablature:
           os <<
             staff;
           break;
           
-        case msrStaff::kHarmonyStaff:
+        case msrStaff::kStaffHarmony:
     // JMI      if (gMsrOptions->fShowHarmonyVoices) {}
           os <<
             staff;
           break;
           
-        case msrStaff::kFiguredBassStaff:
+        case msrStaff::kStaffFiguredBass:
     // JMI      if (gMsrOptions->fShowFiguredBassVoices) {}
           os <<
             staff;
           break;
 
-        case msrStaff::kDrumStaff:
+        case msrStaff::kStaffDrum:
           os <<
             staff;
           break;
           
-        case msrStaff::kRythmicStaff:
+        case msrStaff::kStaffRythmic:
           os <<
             staff;
           break;          

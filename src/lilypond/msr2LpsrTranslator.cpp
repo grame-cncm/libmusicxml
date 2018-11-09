@@ -1165,10 +1165,10 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kRegularStaff:
-    case msrStaff::kTablatureStaff:
-    case msrStaff::kDrumStaff:
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRegular:
+    case msrStaff::kStaffTablature:
+    case msrStaff::kStaffDrum:
+    case msrStaff::kStaffRythmic:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1222,7 +1222,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
       
-    case msrStaff::kHarmonyStaff:
+    case msrStaff::kStaffHarmony:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1238,7 +1238,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       }
       break;
       
-    case msrStaff::kFiguredBassStaff:
+    case msrStaff::kStaffFiguredBass:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1273,23 +1273,23 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
   }
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kRegularStaff:
-    case msrStaff::kDrumStaff:
-    case msrStaff::kRythmicStaff:
+    case msrStaff::kStaffRegular:
+    case msrStaff::kStaffDrum:
+    case msrStaff::kStaffRythmic:
       {
         fOnGoingStaff = false;
       }
       break;
       
-    case msrStaff::kTablatureStaff:
+    case msrStaff::kStaffTablature:
       // JMI
       break;
       
-    case msrStaff::kHarmonyStaff:
+    case msrStaff::kStaffHarmony:
       // JMI
       break;
       
-    case msrStaff::kFiguredBassStaff:
+    case msrStaff::kStaffFiguredBass:
       // JMI
       break;
   } // switch

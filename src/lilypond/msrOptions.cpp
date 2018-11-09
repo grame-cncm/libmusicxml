@@ -484,6 +484,37 @@ There can be several occurrences of this option.)",
   }
       
 
+  // staves
+  // --------------------------------------
+
+  {
+    // variables
+    
+    fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
+      
+    // options
+  
+    S_optionsSubGroup stavesSubGroup =
+      optionsSubGroup::create (
+        "Staves",
+        "hmsrs", "help-msr-staves",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+  
+    appendOptionsSubGroup (stavesSubGroup);
+
+    stavesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "cslsar", "create-single-line-staves-as-rythmic",
+R"(Create staves with a single line as rythmic staves.
+By default, drum staves are created in this case.)",
+          "createSingleLineStavesAsRythmic",
+          fCreateSingleLineStavesAsRythmic));
+  }
+  
+    
   // voices
   // --------------------------------------
 
@@ -782,6 +813,13 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
     fPartsRenamingMap;
 
 
+  // staves
+  // --------------------------------------
+
+  clone->fCreateSingleLineStavesAsRythmic =
+    fCreateSingleLineStavesAsRythmic;
+  
+    
   // voices
   // --------------------------------------
   
@@ -975,6 +1013,24 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter--;
 
 
+  // staves
+  // --------------------------------------
+
+  gLogIOstream <<
+    "Staves:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "createSingleLineStavesAsRythmic" << " : " <<
+    booleanAsString (fCreateSingleLineStavesAsRythmic) <<
+    endl;
+
+  gIndenter--;
+  
+    
   // voices
   // --------------------------------------
   
