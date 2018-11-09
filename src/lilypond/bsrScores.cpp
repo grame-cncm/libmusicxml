@@ -268,7 +268,7 @@ bsrScore::bsrScore (
       bsrVarValAssoc::kLibraryVersion,
       bsrVarValAssoc::kSpace,
       bsrVarValAssoc::kQuotesAroundValue,
-      "2.19",
+      "2.19.0",
       bsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
       bsrVarValAssoc::g_LilyPondVarValAssocNoComment,
       bsrVarValAssoc::kWithEndl);

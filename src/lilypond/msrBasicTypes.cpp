@@ -167,11 +167,11 @@ void msrDottedDuration::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "duration" << " = " <<
+    "duration" << " : " <<
     msrDurationKindAsString (fDuration) <<
     endl <<
     setw (fieldWidth) <<
-    "dotsNumber" << " = " << fDotsNumber <<
+    "dotsNumber" << " : " << fDotsNumber <<
     endl;
 };
 
@@ -211,7 +211,7 @@ string msrTupletFactor::asString () const
   s <<
     "'" <<
     "tupletActualNotes: " << fTupletActualNotes <<
-    ", tupletNormalNotes" << " = " << fTupletNormalNotes <<
+    ", tupletNormalNotes" << " : " << fTupletNormalNotes <<
     "'";
   
   return s.str ();
@@ -223,10 +223,10 @@ void msrTupletFactor::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "tupletActualNotes" << " = " << fTupletActualNotes <<
+    "tupletActualNotes" << " : " << fTupletActualNotes <<
     endl <<
     setw (fieldWidth) <<
-    "tupletNormalNotes" << " = " << fTupletNormalNotes <<
+    "tupletNormalNotes" << " : " << fTupletNormalNotes <<
     endl;
 };
 

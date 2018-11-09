@@ -3568,7 +3568,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       break;
   } // switch
 
-/*
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTempos) {
+    fLogOutputStream <<
+      "Creating tempo '" <<
+      fCurrentMetronomeTempo->asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+
   // append metrenome words to tempo if any
   S_msrWords tempoWords;
 
@@ -3581,16 +3590,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
           words =
             fPendingWords.front();
           
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
           fLogOutputStream <<
             "Attaching words '" <<
             words->asString () <<
-            "' to metronome tempo '" <<
+            "' to tempo '" <<
             fCurrentMetronomeTempo->asString () << "'" <<
             endl;
         }
-  #endif
+#endif
     
         fCurrentMetronomeTempo->
           appendWordsToTempo (words);
@@ -3619,8 +3628,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
           fPendingWords.front ();
 
       // append the words to the temp
-      tempo->appendWordsToTempo (
-        words);
+      fCurrentMetronomeTempo->
+        appendWordsToTempo (words);
         
        // remove it from the list
       fPendingWords.pop_front ();
@@ -3628,8 +3637,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   }
 
   // append the tempo to the pending tempos list
-  fPendingTempos.push_back (tempo);
-  */
+  fPendingTempos.push_back (fCurrentMetronomeTempo);
 }
 
 //________________________________________________________________________

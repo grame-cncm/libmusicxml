@@ -356,13 +356,13 @@ class msrTempo : public msrElement
     enum msrTempoParenthesizedKind {
       kTempoParenthesizedYes, kTempoParenthesizedNo };
       
-    static string tempoParenthesizedAsString (
+    static string tempoParenthesizedKindAsString (
       msrTempoParenthesizedKind tempoParenthesizedKind);
       
     enum msrTempoRelationKind {
       kTempoRelationNone, kTempoRelationEquals };
       
-    static string tempoRelationAsString (
+    static string tempoRelationKindAsString (
       msrTempoRelationKind tempoRelationKind);
       
     // creation from MusicXML
@@ -448,6 +448,15 @@ class msrTempo : public msrElement
     msrDottedDuration     getTempoEquivalentBeatUnit () const
                               { return fTempoEquivalentBeatUnit; }
 
+    S_msrTempoRelationshipElements
+                          getTempoRelationLeftElements () const
+                              { return fTempoRelationLeftElements; }
+    msrTempoRelationKind  getTempoRelationKind () const
+                              { return fTempoRelationKind; }
+    S_msrTempoRelationshipElements
+                          getTempoRelationRightElements () const
+                              { return fTempoRelationRightElements; }
+
     msrTempoParenthesizedKind
                           getTempoParenthesizedKind () const
                               { return fTempoParenthesizedKind; }
@@ -498,6 +507,7 @@ class msrTempo : public msrElement
 
     S_msrTempoRelationshipElements
                           fTempoRelationLeftElements;
+    msrTempoRelationKind  fTempoRelationKind;
     S_msrTempoRelationshipElements
                           fTempoRelationRightElements;
 

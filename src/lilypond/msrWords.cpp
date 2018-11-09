@@ -211,35 +211,35 @@ void msrWords::print (ostream& os)
     "wordsContents" << " = \"" << fWordsContents << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "placement" << " = " <<
+    "placement" << " : " <<
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsJustifyKind" << " = " <<
+    "wordsJustifyKind" << " : " <<
     msrJustifyKindAsString (fWordsJustifyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsHorizontalAlignmentKind" << " = " <<
+    "wordsHorizontalAlignmentKind" << " : " <<
     msrHorizontalAlignmentKindAsString (fWordsHorizontalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsVerticalAlignmentKind" << " = " <<
+    "wordsVerticalAlignmentKind" << " : " <<
     msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontStyle" << " = " <<
+    "wordsFontStyle" << " : " <<
     msrFontStyleKindAsString (fWordsFontStyleKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontSize" << " = " <<
+    "wordsFontSize" << " : " <<
     fWordsFontSize->fontSizeAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontWeight" << " = " <<
+    "wordsFontWeight" << " : " <<
     msrFontWeightKindAsString (fWordsFontWeightKind) <<
     endl <<
     setw (fieldWidth) <<
-    "wordsFontXMLLang" << " = " <<
+    "wordsFontXMLLang" << " : " <<
     msrXMLLangKindAsString (fWordsXMLLangKind) <<
     endl;
   

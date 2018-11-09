@@ -8460,19 +8460,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       gIndenter++;
       
       fLilypondCodeIOstream <<
-        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+        " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
         dottedDurationAsLilypondStringWithoutBackSlash (
           inputLineNumber,
           tempoBeatUnit) <<
-        "\" #UP" <<
+        "} #UP" <<
         endl <<
         "\" = \"" <<
         endl <<
-        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+        " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
         dottedDurationAsLilypondStringWithoutBackSlash (
           inputLineNumber,
           elt->getTempoEquivalentBeatUnit ()) <<
-        "\" #UP" <<
+        "} #UP" <<
         endl;
         
       gIndenter--;
@@ -8514,7 +8514,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           S_msrWords words = (*i);
     
           fLilypondCodeIOstream <<
-            "\"" << words->getWordsContents () << "\"";
+     // JMI       "\"" <<
+            words->getWordsContents (); // JMI <<
+      // JMI      "\"";
             
           if (++i == iEnd) break;
           

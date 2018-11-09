@@ -1169,7 +1169,7 @@ string msrTempo::tempoKindAsString (
   
   switch (tempoKind) {
     case msrTempo::k_NoTempoKind:
-      result = "k_NoTempoKind???";
+      result = "noTempoKind???";
       break;
     case msrTempo::kTempoBeatUnitsPerMinute:
       result = "tempoBeatUnitsPerMinute";
@@ -1185,7 +1185,7 @@ string msrTempo::tempoKindAsString (
   return result;
 }
 
-string msrTempo::tempoParenthesizedAsString (
+string msrTempo::tempoParenthesizedKindAsString (
   msrTempoParenthesizedKind tempoParenthesizedKind)
 {
   string result;
@@ -1202,7 +1202,7 @@ string msrTempo::tempoParenthesizedAsString (
   return result;
 }
 
-string msrTempo::tempoRelationAsString (
+string msrTempo::tempoRelationKindAsString (
   msrTempoRelationKind tempoRelationKind)
 {
   string result;
@@ -1225,10 +1225,11 @@ string msrTempo::asString () const
 
   s <<
     "Tempo" <<
-    ", tempoKind = \"" << tempoKindAsString (fTempoKind) << "\"" <<
+    ", tempoKind = " << tempoKindAsString (fTempoKind) <<
     ", " << fTempoBeatUnit << " = " << fTempoPerMinute <<
     ", fTempoParenthesizedKind = "  <<
-    tempoParenthesizedAsString (fTempoParenthesizedKind);
+    tempoParenthesizedKindAsString (fTempoParenthesizedKind) <<
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }
@@ -1245,7 +1246,7 @@ void msrTempo::print (ostream& os)
   const int fieldWidth = 27;
 
   os << left <<
-     setw (fieldWidth) <<
+    setw (fieldWidth) <<
    "tempoKind" << " : " << tempoKindAsString (fTempoKind) <<
     endl;
 
@@ -1279,7 +1280,7 @@ void msrTempo::print (ostream& os)
     
   os << left <<
     setw (fieldWidth) <<
-    "tempoBeatUnit:" <<
+    "tempoBeatUnit :" <<
     endl;
 
   gIndenter++;
@@ -1295,7 +1296,7 @@ void msrTempo::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "tempoParenthesizedKind"  << " : " <<
-    tempoParenthesizedAsString (fTempoParenthesizedKind) <<
+    tempoParenthesizedKindAsString (fTempoParenthesizedKind) <<
     endl;
 
   os << left <<
@@ -1317,6 +1318,15 @@ void msrTempo::print (ostream& os)
     os << " : " << "none" <<
     endl;
   }
+
+
+  os << left <<
+    setw (fieldWidth) <<
+    "tempoRelationKind" << " : " <<
+    tempoRelationKindAsString (
+      fTempoRelationKind) <<
+    endl;
+
 
   os << left <<
     setw (fieldWidth) <<
