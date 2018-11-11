@@ -117,8 +117,16 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingAccord = false;
 
   // staff handling
-  fCurrentMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentMusicXMLStaffNumber      = K_NO_STAFF_NUMBER;
+  fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
 
+  // staff change detection
+  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
+
+  // cross staff chords
+  fCurrentChordStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentNoteIsCrossStaves = false;
+    
   // voice handling
   fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
 
@@ -260,17 +268,6 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // ongoing note
   fOnGoingNote = false;
 
-  // staff
-  fCurrentMusicXMLStaffNumber  = K_NO_STAFF_NUMBER;
-  fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
-
-  // staff change detection
-  fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
-
-  // cross staff chords
-  fCurrentChordStaffNumber = K_NO_STAFF_NUMBER;
-  fCurrentNoteIsCrossStaves = false;
-    
   // voice
   fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
 
@@ -413,7 +410,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentMusicXMLVoiceNumber = 1; // default value, it may be absent
 
   // staff change detection
- // fCurrentStaffNumberToInsertInto = 1; JMI ???
+  // fCurrentStaffNumberToInsertInto = 1; // JMI ???
 
   // time modification
   fCurrentNoteHasATimeModification = false;
@@ -6037,13 +6034,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   }
 
   // finalize current measure in the part,
-  // to set measures kind
+  // to add skips if necessary and set measure kind
   fCurrentPart->
     finalizeCurrentMeasureInPart (
       inputLineNumber);
 
   // handle an on going multiple rest if any only now,
-  // so that the necessary staves/voices have been created
+  // JMI do it before???
   if (fOnGoingMultipleRest) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMultipleRests) {
@@ -17042,19 +17039,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   /*
-  This is a complex method, due to the fact that
-  dynamics, wedges, chords and tuplets
-  are not ordered in the same way in MusicXML and LilyPond.
-
-  Staff number is analyzed before voice number
-  but occurs after it in the MusicXML tree.
-  That's why the treatment below has been postponed until this method
+    This is a complex method, due to the fact that
+    dynamics, wedges, chords and tuplets
+    are not ordered in the same way in MusicXML and LilyPond.
+  
+    Staff number is analyzed before voice number
+    but occurs after it in the MusicXML tree.
+    That's why the treatment below has been postponed until this method
   */
 
   /*
-  Staff assignment is only needed for music notated on multiple staves.
-  Used by both notes and directions.
-  Staff values are numbers, with 1 referring to the top-most staff in a part.
+    Staff assignment is only needed for music notated on multiple staves.
+    Used by both notes and directions.
+    Staff values are numbers, with 1 referring to the top-most staff in a part.
   */
   
   // determine quarter tones note pitch

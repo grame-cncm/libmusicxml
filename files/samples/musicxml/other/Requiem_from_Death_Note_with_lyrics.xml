@@ -3501,7 +3501,7 @@
         </notations>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text font-family="FreeSerif">aeZZZ</text>
+          <text font-family="FreeSerif">ae</text>
         </lyric>
       </note>
     </measure>

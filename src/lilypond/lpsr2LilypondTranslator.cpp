@@ -1638,7 +1638,7 @@ void lpsr2LilypondTranslator::generateNote (
         fLilypondCodeIOstream <<
           string (
             note->getNoteOccupiesAFullMeasure ()
-              ? "R"
+              ? "s" // JMI ??? "R"
               : "r");
       }
       else {
@@ -6818,10 +6818,10 @@ else
       
     case msrMeasure::kEmptyMeasureKind:
       {
-        // generate a rest the duration of the measure
+        // generate a skip the duration of the measure
         // followed by a bar check
         fLilypondCodeIOstream <<
-          "R" <<
+          "s" <<
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->

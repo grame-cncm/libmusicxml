@@ -13958,7 +13958,19 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   switch (voice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
       paddingNote =
+      /* JMI ???
         msrNote::createRestNote (
+          inputLineNumber,
+          fMeasureNumber,
+          duration,
+          duration,
+          0, // dots number JMI ???
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getVoiceNumber ());
+            */
+        msrNote::createSkipNote (
           inputLineNumber,
           fMeasureNumber,
           duration,
@@ -15417,7 +15429,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       case msrMeasure::kMeasureCreatedForARepeatNo:
         // is the last measure empty?
  //       if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
-        if (lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ???
+        if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
           // yes, remove it
 #ifdef TRACE_OPTIONS
           if (
