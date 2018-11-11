@@ -198,6 +198,13 @@ string wholeNotesAsLilypondString (
 
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numeratorDots " << " : " << numeratorDots <<
+      endl <<
+      endl;
+  }
+
 /*
     default:
       if (! integralNumberOfWholeNotes) {
@@ -234,14 +241,6 @@ string wholeNotesAsLilypondString (
   } // switch
     */
 
-  if (DEBUG_WHOLE_NOTES) {
-    gLogIOstream <<
-      "--> numeratorDots " << " : " <<
-      numeratorDots <<
-      endl <<
-      endl;
-  }
-
   /*
     valid denominators are powers of 2
     
@@ -266,9 +265,10 @@ string wholeNotesAsLilypondString (
     we'll be better of using binary logarithms for the computations
   */
 
-  int durationLog = lpsrDurationBinaryLogarithm (denominator);
+  int denominatorDurationLog =
+    lpsrDurationBinaryLogarithm (denominator);
 
-  if (durationLog == INT_MIN) {
+  if (denominatorDurationLog == INT_MIN) {
      string result;
     
     {
@@ -321,8 +321,8 @@ string wholeNotesAsLilypondString (
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
-      "--> durationLog" << " : " <<
-      durationLog <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
       endl <<
       endl;
   }
@@ -332,26 +332,58 @@ string wholeNotesAsLilypondString (
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3\breve, hence \longa.
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> integralNumberOfWholeNotes,"
+        " bringing the faction to be less that 2" <<
+        endl;
+    }
+
     while (numerator % 2 == 0) {
       numerator /= 2;
-      durationLog -= 1;
+      denominatorDurationLog -= 1;
+
+      if (DEBUG_WHOLE_NOTES) {
+        gLogIOstream <<
+          "--> numerator" << " : " <<
+          numerator <<
+          endl <<
+          "--> denominatorDurationLog " << " : " <<
+          denominatorDurationLog <<
+          endl <<
+          endl;
+      }
     } // while
 
     // update the number of dots
     numeratorDots = lpsrNumberOfDots (numerator);
   }
 
+ if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numerator" << " : " <<
+      numerator <<
+      endl <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
+      endl <<
+      "--> numeratorDots " << " : " <<
+      numeratorDots <<
+      endl <<
+      endl;
+  }
+
   // take care of the dots
   int multiplyingFactor = 1;
 
-  if (numeratorDots >= 0 && durationLog >= numeratorDots) {
+  if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
     // take the dots into account
-    durationLog -= numeratorDots;
+    denominatorDurationLog -= numeratorDots;
 
     if (DEBUG_WHOLE_NOTES) {
       gLogIOstream <<
-        "--> durationLog" << " : " <<
-        durationLog <<
+        "--> denominatorDurationLog" << " : " <<
+        denominatorDurationLog <<
         endl <<
         "--> multiplyingFactor " << " : " <<
         multiplyingFactor <<
@@ -361,12 +393,24 @@ string wholeNotesAsLilypondString (
   }
   else {
     // set the multiplying factor
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> setting the multiplying factor" <<
+        endl;
+    }
+
+    // 5/8 becomes 8*5
+    
+    multiplyingFactor = numerator;
+    numerator = 1;
+    
+    /* JMI
     multiplyingFactor = numerator;
 
     if (DEBUG_WHOLE_NOTES) {
       gLogIOstream <<
-        "--> durationLog" << " : " <<
-        durationLog <<
+        "--> denominatorDurationLog" << " : " <<
+        denominatorDurationLog <<
         endl <<
         "--> multiplyingFactor " << " : " <<
         multiplyingFactor <<
@@ -376,15 +420,15 @@ string wholeNotesAsLilypondString (
     
     while (multiplyingFactor >= 2) {
       // double duration
-      durationLog--;
+      denominatorDurationLog--;
       
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
       if (DEBUG_WHOLE_NOTES) {
         gLogIOstream <<
-          "--> durationLog" << " : " <<
-          durationLog <<
+          "--> denominatorDurationLog" << " : " <<
+          denominatorDurationLog <<
           endl <<
           "--> multiplyingFactor " << " : " <<
           multiplyingFactor <<
@@ -392,6 +436,7 @@ string wholeNotesAsLilypondString (
           endl;
       }
     } // while
+    */
   }
 
   if (DEBUG_WHOLE_NOTES) {
@@ -402,8 +447,8 @@ string wholeNotesAsLilypondString (
       "--> numeratorDots " << " : " <<
       numeratorDots <<
       endl <<
-      "--> durationLog" << " : " <<
-      durationLog <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
       endl <<
       "--> multiplyingFactor " << " : " <<
       multiplyingFactor <<
@@ -414,7 +459,7 @@ string wholeNotesAsLilypondString (
   // generate the code for the duration
   stringstream s;
 
-  switch (durationLog) {
+  switch (denominatorDurationLog) {
     case -3:
       s << "\\maxima";
       break;
@@ -426,7 +471,7 @@ string wholeNotesAsLilypondString (
       break;
 
     default:
-      s << (1 << durationLog);
+      s << (1 << denominatorDurationLog);
   } // switch
 
   // append the dots if any
@@ -438,6 +483,10 @@ string wholeNotesAsLilypondString (
 
   if (multiplyingFactor != 1) {
     // append the multiplying factor
+    s <<
+      "*" << multiplyingFactor;
+
+    /* JMI
     if (integralNumberOfWholeNotes) {
       s <<
         "*" << multiplyingFactor;
@@ -446,6 +495,7 @@ string wholeNotesAsLilypondString (
       s <<
         "*" << multiplyingFactor << "/" << 1; // ??? denominator;
     }
+    */
   }
   
   if (DEBUG_WHOLE_NOTES) {

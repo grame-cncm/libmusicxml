@@ -12542,7 +12542,7 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-#define DEBUG_WHOLE_NOTES 0
+#define DEBUG_WHOLE_NOTES 1
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
@@ -12650,9 +12650,10 @@ string wholeNotesAsMsrString (
     we'll be better of using binary logarithms for the computations
   */
 
-  int durationLog = msrDurationBinaryLogarithm (denominator);
+  int denominatorDurationLog =
+    msrDurationBinaryLogarithm (denominator);
 
-  if (durationLog == INT_MIN) {
+  if (denominatorDurationLog == INT_MIN) {
     string result;
     
     {
@@ -12705,8 +12706,8 @@ string wholeNotesAsMsrString (
 
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
-      "--> durationLog" << " : " <<
-      durationLog <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
       endl <<
       endl;
   }
@@ -12716,17 +12717,24 @@ string wholeNotesAsMsrString (
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3 \breve, hence '\longa.'
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> integralNumberOfWholeNotes,"
+        " bringing the faction to be less that 2" <<
+        endl;
+    }
+
     while (numerator % 2 == 0) {
       numerator /= 2;
-      durationLog -= 1;
+      denominatorDurationLog -= 1;
 
       if (DEBUG_WHOLE_NOTES) {
         gLogIOstream <<
           "--> numerator" << " : " <<
           numerator <<
           endl <<
-          "--> durationLog " << " : " <<
-          durationLog <<
+          "--> denominatorDurationLog " << " : " <<
+          denominatorDurationLog <<
           endl <<
           endl;
       }
@@ -12736,17 +12744,37 @@ string wholeNotesAsMsrString (
     numeratorDots = msrNumberOfDots (numerator);
   }
 
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numerator" << " : " <<
+      numerator <<
+      endl <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
+      endl <<
+      "--> numeratorDots " << " : " <<
+      numeratorDots <<
+      endl <<
+      endl;
+  }
+
   // take care of the dots
   int multiplyingFactor = 1;
 
-  if (numeratorDots >= 0 && durationLog >= numeratorDots) {
+  if (numeratorDots >= 0 && denominatorDurationLog >= numeratorDots) {
     // take the dots into account
-    durationLog -= numeratorDots;
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> taking the dots into account" <<
+        endl;
+    }
+
+    denominatorDurationLog -= numeratorDots;
 
     if (DEBUG_WHOLE_NOTES) {
       gLogIOstream <<
-        "--> durationLog" << " : " <<
-        durationLog <<
+        "--> denominatorDurationLog" << " : " <<
+        denominatorDurationLog <<
         endl <<
         "--> multiplyingFactor " << " : " <<
         multiplyingFactor <<
@@ -12756,12 +12784,24 @@ string wholeNotesAsMsrString (
   }
   else {
     // set the multiplying factor
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> setting the multiplying factor" <<
+        endl;
+    }
+
+    // 5/8 becomes 8*5
+    
+    multiplyingFactor = numerator;
+    numerator = 1;
+    
+    /* JMI
     multiplyingFactor = numerator;
 
     if (DEBUG_WHOLE_NOTES) {
       gLogIOstream <<
-        "--> durationLog" << " : " <<
-        durationLog <<
+        "--> denominatorDurationLog" << " : " <<
+        denominatorDurationLog <<
         endl <<
         "--> multiplyingFactor " << " : " <<
         multiplyingFactor <<
@@ -12771,15 +12811,15 @@ string wholeNotesAsMsrString (
     
     while (multiplyingFactor >= 2) {
       // double duration
-      durationLog--;
+      denominatorDurationLog--;
       
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
       if (DEBUG_WHOLE_NOTES) {
         gLogIOstream <<
-          "--> durationLog" << " : " <<
-          durationLog <<
+          "--> denominatorDurationLog" << " : " <<
+          denominatorDurationLog <<
           endl <<
           "--> multiplyingFactor " << " : " <<
           multiplyingFactor <<
@@ -12787,6 +12827,7 @@ string wholeNotesAsMsrString (
           endl;
       }
     } // while
+    */
   }
 
   if (DEBUG_WHOLE_NOTES) {
@@ -12797,8 +12838,8 @@ string wholeNotesAsMsrString (
       "--> numeratorDots " << " : " <<
       numeratorDots <<
       endl <<
-      "--> durationLog" << " : " <<
-      durationLog <<
+      "--> denominatorDurationLog" << " : " <<
+      denominatorDurationLog <<
       endl <<
       "--> multiplyingFactor " << " : " <<
       multiplyingFactor <<
@@ -12809,7 +12850,7 @@ string wholeNotesAsMsrString (
   // generate the code for the duration
   stringstream s;
 
-  switch (durationLog) {
+  switch (denominatorDurationLog) {
     case -3:
       s << "\\maxima";
       break;
@@ -12821,7 +12862,7 @@ string wholeNotesAsMsrString (
       break;
 
     default:
-      s << (1 << durationLog);
+      s << (1 << denominatorDurationLog);
   } // switch
 
   // append the dots if any
@@ -12833,6 +12874,10 @@ string wholeNotesAsMsrString (
 
   if (multiplyingFactor != 1) {
     // append the multiplying factor
+    s <<
+      "*" << multiplyingFactor;
+
+    /* JMI
     if (integralNumberOfWholeNotes) {
       s <<
         "*" << multiplyingFactor;
@@ -12841,6 +12886,7 @@ string wholeNotesAsMsrString (
       s <<
         "*" << multiplyingFactor << "/" << 1; // ??? denominator;
     }
+    */
   }
   
   if (DEBUG_WHOLE_NOTES) {
