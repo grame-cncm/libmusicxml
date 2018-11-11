@@ -643,7 +643,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   string partID = elt->getAttributeValue ("id");
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
