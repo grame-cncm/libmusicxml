@@ -87,7 +87,7 @@ void bsrScoreBlock::appendPartGroupBlockToScoreBlock (
 //               fScoreBlockElements.push_back(partGroupBlock);
 }
 
-/* JMI
+/ * JMI
 void bsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_bsrUseVoiceCommand voiceUse)
 {

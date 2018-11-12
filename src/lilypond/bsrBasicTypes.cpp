@@ -123,6 +123,8 @@ wchar_t braille (char ch)
     default:
       result = kbc_questionMark;
   } // switch
+
+  return result;
 }
 
 wstring braille (string str)
