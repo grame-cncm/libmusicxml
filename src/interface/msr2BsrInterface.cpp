@@ -61,7 +61,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
       separator <<
       endl <<
       gTab <<
-      "Pass 3: translating the MSR into a LPSR" <<
+      "Pass 3: translating the MSR into a BSR" <<
       endl <<
       separator <<
       endl;
@@ -74,7 +74,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
       logIOstream,
       mScore);
       
-  // build the LPSR score
+  // build the BSR score
   translator.buildBsrScoreFromMsrScore ();
 
   clock_t endClock = clock ();
@@ -82,12 +82,12 @@ S_bsrScore buildBsrScoreFromMsrScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "Pass 3",
-    "translate MSR to LPSR",
+    "translate MSR to BSR",
     timingItem::kMandatory,
     startClock,
     endClock);
 
-  // get the LPSR score
+  // get the BSR score
   S_bsrScore
     bScore =
       translator.getBsrScore ();
@@ -117,7 +117,7 @@ void displayBsrScore (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the LPSR as text" <<
+    "Optional pass: displaying the BSR as text" <<
     endl <<
     separator <<
     endl <<
@@ -132,7 +132,7 @@ void displayBsrScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the LPSR",
+    "display the BSR",
     timingItem::kOptional,
     startClock,
     endClock);

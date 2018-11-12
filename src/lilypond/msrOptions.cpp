@@ -307,8 +307,8 @@ void msrOptions::initializeMsrOptions (
     fDisplayMsr        = boolOptionsInitialValue;
     fDisplayMsrDetails = boolOptionsInitialValue;
   
-    fDisplayMsrSummary = boolOptionsInitialValue;
     fDisplayMsrNames   = boolOptionsInitialValue;
+    fDisplayMsrSummary = boolOptionsInitialValue;
   
     // options
   
@@ -368,16 +368,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
           fDisplayMsr,
           gTraceOptions->fTracePasses));
 #endif
-          
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dmsum", "display-msr-summary",
-R"(Only write a summary of the MSR to standard error.
-This implies that no LilyPond code is generated.)",
-          "displayMsrSummary",
-          fDisplayMsrSummary));
-          
+                    
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -386,6 +377,15 @@ R"(Only write a view of the names in the MSR to standard error.
 This implies that no LilyPond code is generated.)",
           "displayMsrNames",
           fDisplayMsrNames));
+
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "dmsum", "display-msr-summary",
+R"(Only write a summary of the MSR to standard error.
+This implies that no LilyPond code is generated.)",
+          "displayMsrSummary",
+          fDisplayMsrSummary));
   }
 
   
@@ -466,8 +466,9 @@ R"()",
       appendOptionsItem (
         optionsPartRenameItem::create (
           "mpr", "msr-part-rename", // JMI
-R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after 
-displaying a summary of the score in a first xml2ly run.
+R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
+the names in the score or a summary of the latter in a first run with options
+'-dmnames, -display-msr-names' or 'dmsum, -display-msr-summary'.
 PART_RENAME_SPEC can be:
   'ORIGINAL_NAME = NEW_NAME'
 or
@@ -793,10 +794,10 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fDisplayMsrDetails =
     fDisplayMsrDetails;
 
-  clone->fDisplayMsrSummary =
-    fDisplayMsrSummary;
   clone->fDisplayMsrNames =
     fDisplayMsrNames;
+  clone->fDisplayMsrSummary =
+    fDisplayMsrSummary;
 
 
   // languages
@@ -900,8 +901,8 @@ void msrOptions::enforceQuietness ()
   fDisplayPartGroups = false;
   fDisplayMsr = false;
   fDisplayMsrDetails = false;
-  fDisplayMsrSummary = false;
   fDisplayMsrNames = false;
+  fDisplayMsrSummary = false;
 }
 
 //______________________________________________________________________________
@@ -947,14 +948,14 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "displayMsrDetails" << " : " <<
     booleanAsString (fDisplayMsrDetails) <<
-    endl <<
-
-    setw (fieldWidth) << "displayMsrSummary" << " : " <<
-    booleanAsString (fDisplayMsrSummary) <<
     endl << 
 
     setw (fieldWidth) << "displayMsrNames" << " : " <<
     booleanAsString (fDisplayMsrNames) <<
+    endl <<
+
+    setw (fieldWidth) << "displayMsrSummary" << " : " <<
+    booleanAsString (fDisplayMsrSummary) <<
     endl;    
 
   gIndenter--;

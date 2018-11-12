@@ -257,8 +257,8 @@ class msrOptions : public optionsGroup
     bool                  fDisplayMsr;
     bool                  fDisplayMsrDetails;
     
-    bool                  fDisplayMsrSummary;
     bool                  fDisplayMsrNames;
+    bool                  fDisplayMsrSummary;
 
     
     // languages
