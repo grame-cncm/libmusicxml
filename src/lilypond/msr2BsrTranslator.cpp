@@ -2928,7 +2928,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   // in visitEnd (S_msrPart&)
 }
 
-    /* JMI
+    / * JMI
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
     
@@ -3459,7 +3459,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
             fCurrentGraceNoteClone);
       }
       
-    /* JMI ???
+    / * JMI ???
       if (fCurrentGraceNotesGroupClone) {
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {

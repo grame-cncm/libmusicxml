@@ -1399,7 +1399,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // identification
   // --------------------------------------
   gLogIOstream <<
-    "Time:" <<
+    "Identification:" <<
     endl;
 
   gIndenter++;

@@ -625,7 +625,7 @@ int main (int argc, char *argv[])
   }
 #endif
 
-  // print the chosen LilyPond options if so chosen
+  // print the chosen options if so chosen
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS

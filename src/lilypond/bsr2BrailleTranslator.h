@@ -683,11 +683,11 @@ class bsr2BrailleTranslator :
                             int      inputLineNumber,
                             rational wholeNotes);
 
-         //* JMI                   
+         / / * JMI                   
     string                durationAsExplicitBrailleString ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
-//* /
+// * /
 
     // notes
     

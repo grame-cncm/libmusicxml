@@ -215,7 +215,7 @@ void displayMsrScore_OptionalPass (
 }
 
 //_______________________________________________________________________________
-S_bsrScore convertMsrScoreToBsrScore_Pass3 (
+S_bsrScore convertBsrScoreToBcrScore_Pass4 (
   S_msrScore mScore)
 {
   S_bsrScore bScore;
@@ -290,7 +290,82 @@ void displayBsrScore_OptionalPass (
 }
 
 //_______________________________________________________________________________
-void convertBsrScoreToBrailleCode_Pass4 (
+S_bsrScore convertMsrScoreToBsrScore_Pass3 (
+  S_msrScore mScore)
+{
+  S_bsrScore bScore;
+
+  if (! gBrailleOptions->fNoBrailleCode) {
+    bScore =
+      buildBsrScoreFromMsrScore (
+        mScore,
+        gMsrOptions,
+        gBsrOptions,
+        gLogIOstream);
+  }
+
+  if (gIndenter != 0) {
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after pass 3: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2brlOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+
+  if (! bScore) {
+    gLogIOstream <<
+      "### Conversion from MSR to BSR failed ###" <<
+      endl <<
+      endl;
+      
+    exit (2);
+  }
+
+  return bScore;
+}
+
+//_______________________________________________________________________________
+void displayBcrScore_OptionalPass (
+  S_bsrScore   bScore,
+  S_msrOptions msrOpts,
+  S_bsrOptions bsrOpts)
+{
+  // display it
+  displayBsrScore (
+    bScore,
+    msrOpts,
+    bsrOpts,
+    gLogIOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after BSR score display: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2brlOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
+//_______________________________________________________________________________
+void convertBcrScoreToBrailleText_Pass5 (
   string     outputFileName,
   S_bsrScore bScore)
 {  
@@ -315,14 +390,14 @@ void convertBsrScoreToBrailleCode_Pass4 (
         outputFileName.c_str(),
         ofstream::out);
 
-      // create an indented output stream for the LilyPond code
+      // create an output stream for the Braille music
       // to be written to outFileStream
       indentedOstream
         brailleCodeFileOutputStream (
           outFileStream,
           gIndenter);
       
-      // convert the BSR score to LilyPond code
+      // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
         gMsrOptions,
@@ -336,19 +411,19 @@ void convertBsrScoreToBrailleCode_Pass4 (
       if (gTraceOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
-          "LilyPond code will be written to standard output" <<
+          "Braille music will be written to standard output" <<
           endl;
       }
 #endif
           
-      // create an indented output stream for the LilyPond code
+      // create an indented output stream for the Braille music
       // to be written to cout
       indentedOstream
         brailleCodeCoutOutputStream (
           cout,
           gIndenter);
       
-      // convert the BSR score to LilyPond code
+      // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
         gMsrOptions,
@@ -468,7 +543,7 @@ void convertMusicXMLToBraille (
   // ------------------------------------------------------
 
   S_bsrScore
-    bScore =
+    bsScore =
       convertMsrScoreToBsrScore_Pass3 (
         mScore);
 
@@ -481,18 +556,42 @@ void convertMusicXMLToBraille (
 
   if (gBsrOptions->fDisplayBsr) {
     displayBsrScore_OptionalPass (
-      bScore,
+      bsScore,
+      gMsrOptions,
+      gBsrOptions);
+  }
+
+/* JMI    
+  // create the BCR from the BSR (pass 4)
+  // ------------------------------------------------------
+
+  S_bsrScore
+    bcScore =
+      convertBsrScoreToBcrScore_Pass4 (
+        mScore);
+
+  if (gGeneralOptions->fExit3)
+    return;
+
+
+  // display the BCR score if requested
+  // ------------------------------------------------------
+
+  if (gBsrOptions->fDisplayBsr) {
+    displayBcrScore_OptionalPass (
+      bcScore,
       gMsrOptions,
       gBsrOptions);
   }
 
     
-  // generate LilyPond code from the BSR (pass 4)
+  // generate Braille music text from the BCR (pass 5)
   // ------------------------------------------------------
 
-  convertBsrScoreToBrailleCode_Pass4 (
+  convertBcrScoreToBrailleText_Pass5 (
     outputFileName,
-    bScore);
+    bcScore);
+    */
 }
 
 //_______________________________________________________________________________
@@ -577,7 +676,7 @@ int main (int argc, char *argv[])
         "\"" << inputSourceName << "\"";
 
     gLogIOstream <<
-      " to LilyPond" <<
+      " to Braille music" <<
       endl;
 
     gLogIOstream <<
@@ -585,7 +684,7 @@ int main (int argc, char *argv[])
       endl;      
 
     gLogIOstream <<
-      "LilyPond code will be written to ";
+      "Braille music will be written to ";
     if (outputFileNameSize) {
       gLogIOstream <<
         outputFileName;
@@ -625,7 +724,7 @@ int main (int argc, char *argv[])
   }
 #endif
 
-  // print the chosen LilyPond options if so chosen
+  // print the chosen options if so chosen
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
@@ -686,7 +785,7 @@ int main (int argc, char *argv[])
 
   if (! true) { // JMI
     gLogIOstream <<
-      "### Conversion from BSR to LilyPond code failed ###" <<
+      "### Conversion from BSR to Braille music failed ###" <<
       endl <<
       endl;
       

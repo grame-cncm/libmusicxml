@@ -69,6 +69,19 @@ void lpsrMusicXMLWarning (
 }
 
 //______________________________________________________________________________
+void bsrMusicXMLWarning (
+  string inputSourceName,
+  int    inputLineNumber,
+  string message)
+{
+  msrWarning (
+    "BSR",
+    inputSourceName,
+    inputLineNumber,
+    message);
+}
+
+//______________________________________________________________________________
 void msrMusicXMLWarning (
   string inputSourceName,
   int    inputLineNumber,
@@ -208,6 +221,25 @@ void msrLimitation (
 
     abort ();
   }
+}
+
+//______________________________________________________________________________
+void bsrInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msrError (
+    "BSR INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  abort ();
 }
 
 //______________________________________________________________________________

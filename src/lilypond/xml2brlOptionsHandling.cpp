@@ -30,8 +30,8 @@
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
-#include "lpsrOptions.h"
-#include "lilypondOptions.h"
+#include "bsrOptions.h"
+#include "brailleOptions.h"
 #include "extraOptions.h"
 
 
@@ -182,8 +182,11 @@ R"(What xml2brl does:
         Pass 2b: converts that tree and the skeleton into a
                  Music Score Representation (MSR);
         Pass 3:  converts the MSR into a
-                 LilyPond Score Representation (LPSR);
-        Pass 4:  converts the LPSR to LilyPond source code 
+                 Braille Score Representation (BSR);
+        Pass 4:  converts the BSR into to a
+                 Braille Cells Representation (BCR)
+                 and writes it to standard output.
+        Pass 5:  converts the BCR to UTF-16 text 
                  and writes it to standard output.
 
     Other passes are performed according to the options, such as
@@ -303,7 +306,7 @@ xml2brlOptionsHandler::xml2brlOptionsHandler (
     "hs", "helpSummary",
 R"(
                       Welcome to xml2brl, 
-              the MusicXML to LilyPond translator
+            the MusicXML to Braille music translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 
@@ -342,10 +345,10 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
   initializeMsrOptionsHandling (
     this);
     
-  initializeLpsrOptionsHandling (
+  initializeBsrOptionsHandling (
     this);
     
-  initializeLilypondOptionsHandling (
+  initializeBrailleOptionsHandling (
     this);
 
   initializeExtraOptionsHandling (
@@ -464,7 +467,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       baseName (
         gXml2brlOptions->fInputSourceName);
 
-    // set '.ly' suffix
+    // set '.brl' suffix
     size_t
       posInString =
         potentialOutputFileName.rfind ('.');
@@ -473,7 +476,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       potentialOutputFileName.replace (
         posInString,
         potentialOutputFileName.size () - posInString,
-        ".ly");
+        ".brl");
     }
   }
 
@@ -542,10 +545,10 @@ void xml2brlOptionsHandler::enforceOptionsHandlerQuietness ()
   gMsrOptions->
     enforceQuietness ();
   
-  gLpsrOptions->
+  gBsrOptions->
     enforceQuietness ();
   
-  gLilypondOptions->
+  gBrailleOptions->
     enforceQuietness ();
   
   gExtraOptions->
@@ -579,10 +582,10 @@ void xml2brlOptions::checkOptionsConsistency ()
   gMsrOptions->
     checkOptionsConsistency ();
   
-  gLpsrOptions->
+  gBsrOptions->
     checkOptionsConsistency ();
   
-  gLilypondOptions->
+  gBrailleOptions->
     checkOptionsConsistency ();
   
   gExtraOptions->
@@ -812,7 +815,7 @@ R"()",
       appendOptionsItem (
         optionsStringItem::create (
           "o", "output-filename",
-R"(Write LilyPond code to file FILENAME instead of standard output.)",
+R"(Write Braille music to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
           fOutputFileName));  
@@ -822,10 +825,10 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
         optionsBooleanItem::create (
           "aof", "auto-output-filename",
 R"(This option can only be used when reading from a file.
-Write LilyPond code to a file in the current working directory.
+Write Braille music to a file in the current working directory.
 The file name is derived from that of the input file,
 replacing any suffix after the the '.' by 'ly'
-or adding '.ly' if none is present.)",
+or adding '.brl' if none is present.)",
           "autoOutputFileName",
           fAutoOutputFile));
   }

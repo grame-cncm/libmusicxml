@@ -185,31 +185,11 @@ class brailleOptions : public optionsGroup
     // data types
     // ------------------------------------------------------
 
-/*
-    enum {
-      workNumber
-workTitle
-movementNumber,
-movementTitle,
-scoreInstrument
-miscellaneousField
-
-partGroupName
-partGroupNameDisplayText
-partGroupAbbrevation
-partGroupInstrumentName
-
-partID
-partMsrName
-partName
-partAbbrevation
-partInstrumentName
-partInstrumentAbbreviation
-
-staffInstrumentName
-staffInstrumentAbbreviation
-};
-*/
+    enum bsrByteOrderingKind {
+        kByteOrderingBigEndian, kByteOrderingSmallEndian };
+        
+    static string byteOrderingKindAsString (
+      bsrByteOrderingKind byteOrderingKind);
 
   public:
 
@@ -245,6 +225,14 @@ staffInstrumentAbbreviation
 
     // set and get
     // ------------------------------------------------------
+/*
+    void                  setBsrByteOrderingKind (
+                            bsrByteOrderingKind byteOrderingKind)
+                              { fBsrByteOrderingKind = byteOrderingKind; }
+
+    bsrByteOrderingKind   getBsrByteOrderingKind () const
+                              { return fBsrByteOrderingKind; }
+                              */
 
  // JMI   bool                  setAccidentalStyle (
   //                          lpsrAccidentalStyle accidentalStyle);    
@@ -279,6 +267,12 @@ staffInstrumentAbbreviation
 
   public:
 
+    // byte ordering
+    // --------------------------------------
+
+    bsrByteOrderingKind   fBsrByteOrderingKind;
+    
+/*
     // identification
     // --------------------------------------
 
@@ -301,46 +295,9 @@ staffInstrumentAbbreviation
     string                fMeter;
     string                fTagline;
     string                fCopyright;
-
     
     // names
     // --------------------------------------
-/*
-workNumber
-workTitle
-movementNumber,
-movementTitle,
-scoreInstrument
-miscellaneousField
-
-partGroupName
-partGroupNameDisplayText
-partGroupAbbrevation
-partGroupInstrumentName
-
-partID
-partMsrName
-partName
-partAbbrevation
-partInstrumentName
-partInstrumentAbbreviation
-
-staffInstrumentName
-staffInstrumentAbbreviation
-
-
-
-pickDedication
-pickTitle
-pickSubTitle
-pickSubSubTitle
-
-pickInstrument
-
-pickTagline
-pickCopyright
-
-*/
     
     // notes
     // --------------------------------------
@@ -375,6 +332,7 @@ pickCopyright
     // --------------------------------------
     
     bool                  fIgnorePageBreaks;
+*/
 
     
     // code generation

@@ -1356,7 +1356,7 @@ void bsr2BrailleTranslator::generateNote (
                 inputLineNumber,
                 noteSoundingWholeNotes);
 
-/* JMI BOF
+/ * JMI BOF
             if (fOnGoingVoiceCadenza) { // JMI
               if (noteSoundingWholeNotes != rational (1, 1)) {
                 / * JMI
@@ -1466,7 +1466,7 @@ void bsr2BrailleTranslator::generateNote (
           // we need the explicit duration in all cases,
           // regardless of gGeneralOptions->fAllDurations
           fBrailleCodeIOstream <<
-          /*  JMI TOO MUCH
+          / *  JMI TOO MUCH
             wholeNotesAsBrailleString (
               inputLineNumber,
               noteSoundingWholeNotes) <<
@@ -1752,7 +1752,7 @@ void bsr2BrailleTranslator::generateNote (
 }
 
 //________________________________________________________________________
-/* JMI
+/ * JMI
 string bsr2BrailleTranslator::durationAsExplicitBrailleString (
   int      inputLineNumber,
   rational wholeNotes)
@@ -1766,9 +1766,9 @@ string bsr2BrailleTranslator::durationAsExplicitBrailleString (
 
   return result;
 }
-*/
+* /
 
-/*
+/ *
 //________________________________________________________________________
 void bsr2BrailleTranslator::generateNoteArticulation (
   S_msrArticulation articulation)
@@ -2363,7 +2363,7 @@ void bsr2BrailleTranslator::generateOrnament (
     case msrOrnament::kOrnamentVerticalTurn:
       fBrailleCodeIOstream <<
         "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" } ";
-          /* JMI
+          / * JMI
       {
         string message =
           "delayed vertical turn is not supported, ignored";
@@ -5128,7 +5128,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrStaffBlock& elt)
   }
 }
 
-/*
+/ *
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrNewStaffgroupBlock& elt)
 {
@@ -5545,39 +5545,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrBarCommand& elt)
   gIndenter--;
 }
 
-//________________________________________________________________________
-/* JMI
-void bsr2BrailleTranslator::visitStart (S_bsrMelismaCommand& elt)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
-      "% --> Start visiting bsrMelismaCommand" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  switch (elt->getMelismaKind ()) {
-    case bsrMelismaCommand::kMelismaStart:
-// JMI      fBrailleCodeIOstream << "\\melisma ";
-      break;
-    case bsrMelismaCommand::kMelismaEnd:
-// JMI      fBrailleCodeIOstream << "\\melismaEnd ";
-      break;
-  } // switch
-}
-
-void bsr2BrailleTranslator::visitEnd (S_bsrMelismaCommand& elt)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
-      "% --> End visiting bsrMelismaCommand" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-*/
-
-/* 
+/ * 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_msrScore& elt)
 {
@@ -10236,7 +10204,7 @@ void bsr2BrailleTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-/* TOO EARLY FOR ALL OF THEM??? JMI 
+/ * TOO EARLY FOR ALL OF THEM??? JMI 
   // print the note articulations if any
   if (! fOnGoingChord) {
     const list<S_msrArticulation>&
@@ -13953,7 +13921,7 @@ void bsr2BrailleTranslator::visitEnd (S_msrMultipleRest& elt)
     elt->getMultipleRestNextMeasureNumber () <<
     endl;
 
-  /* JMI
+  / * JMI
   if (gBrailleOptions->fComments) {
     gIndenter--;
 

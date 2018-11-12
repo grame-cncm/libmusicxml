@@ -69,6 +69,7 @@ brailleOptions::~brailleOptions ()
 void brailleOptions::initializeBrailleOptions (
   bool boolOptionsInitialValue)
 {
+  /*
   // identification
   // --------------------------------------
 
@@ -303,17 +304,6 @@ to prevent Braille from using open strings.)",
           "avoidOpenStrings",
           fAvoidOpenStrings));
 
-/* JMI
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "cmmr", "compressMultiMeasureRests",
-R"(Generate '\compressMMRests' at the beginning of voices.
-By default, this command is commented.)",
-          "compressMultiMeasureRests",
-          fCompressMultiMeasureRests));
-*/
-
     notesSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -430,7 +420,7 @@ and let Braille decide about them.)",
           "ignorePageBreaks",
           fIgnorePageBreaks));
   }
-          
+        */  
      
   // code generation
   // --------------------------------------
@@ -507,7 +497,7 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
     setOptionsHandlerUplink (
       fOptionsHandlerUplink);
 
-
+/*
   // identification
   // --------------------------------------
 
@@ -591,7 +581,7 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
 
   clone->fIgnorePageBreaks =
     fIgnorePageBreaks;
-
+*/
 
   // code generation
   // --------------------------------------
@@ -623,10 +613,11 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 
   gIndenter++;
   
+/*
   // identification
   // --------------------------------------
   gLogIOstream <<
-    "Time:" <<
+    "Identification:" <<
     endl;
 
   gIndenter++;
@@ -780,7 +771,7 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
-
+*/
   
   // code generation
   // --------------------------------------
@@ -1009,6 +1000,23 @@ void brailleOptions::handleOptionsItemValue (
   }
   */
 }
+        
+string brailleOptions::byteOrderingKindAsString (
+  bsrByteOrderingKind byteOrderingKind)
+{
+  string result;
+  
+  switch (byteOrderingKind) {
+    case brailleOptions::kByteOrderingBigEndian:
+      result = "byteOrderingBigEndian";
+      break;
+    case brailleOptions::kByteOrderingSmallEndian:
+      result = "byteOrderingSmallEndian/Scot";
+      break;
+  } // switch
+
+  return result;
+}
 
 ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 {
@@ -1017,7 +1025,7 @@ ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializegBrailleOptionsHandling (
+void initializeBrailleOptionsHandling (
   S_optionsHandler optionsHandler)
 {
   // create the options variables

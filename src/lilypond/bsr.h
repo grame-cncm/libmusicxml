@@ -15,6 +15,8 @@
 
 #include "msr.h"
 
+#include "bsrKeys.h"
+#include "bsrTimes.h"
 #include "bsrScores.h"
 
 
