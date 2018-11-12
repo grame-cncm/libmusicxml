@@ -297,6 +297,7 @@ class msr2BsrTranslator :
 
     virtual void visitStart (S_msrClef& elt);
     virtual void visitEnd   (S_msrClef& elt);
+*/
 
     virtual void visitStart (S_msrKey& elt);
     virtual void visitEnd   (S_msrKey& elt);
@@ -304,6 +305,7 @@ class msr2BsrTranslator :
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
 
+/*
     virtual void visitStart (S_msrTranspose& elt);
     virtual void visitEnd   (S_msrTranspose& elt);
 

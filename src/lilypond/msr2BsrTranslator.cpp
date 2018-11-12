@@ -119,7 +119,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       endl;
   }
 
-      /*
+/*
   // create an empty clone of fVisitedMsrScore for use by the BSR score
   // not sharing the visitiged MSR score allows cleaner data handling
   // and optimisations of the BSR data
@@ -1844,6 +1844,7 @@ void msr2BsrTranslator::visitEnd (S_msrClef& elt)
       endl;
   }
 }
+*/
 
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrKey& elt)
@@ -1855,8 +1856,10 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
       endl;
   }
 
+/*
   fCurrentVoiceClone->
     appendKeyToVoice (elt);
+    */
 }
 
 void msr2BsrTranslator::visitEnd (S_msrKey& elt)
@@ -1879,9 +1882,11 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
       endl;
   }
 
+/*
   // append time to voice clone
   fCurrentVoiceClone->
     appendTimeToVoiceClone (elt);
+    */
 }
 
 void msr2BsrTranslator::visitEnd (S_msrTime& elt)
@@ -1894,6 +1899,7 @@ void msr2BsrTranslator::visitEnd (S_msrTime& elt)
   }
 }
 
+/*
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrTranspose& elt)
 {
