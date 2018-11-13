@@ -12,17 +12,23 @@ endif()
 set (VERSION 3.1.2)
 set (STRVERS "v.3.12")
 set (SSTRVERS "3.12")
-set (SOVERS 3)
+set (SOVERS 4)
+set (XMLVERSION 3.1)
 
 
 #######################################
-option ( FMWK 	"Generates a framework on MacOS by default"	on )
-option ( GDB 	"Activates ggdb3 option"	off )
+option ( FMWK 		"Generates a framework on MacOS by default"	on )
+option ( UNIVERSAL 	"Generates universal binaries"	off )
+option ( GDB 		"Activates ggdb3 option"	off )
 
+#######################################
+get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
+set (DTDS   ${ROOT}/dtds/${XMLVERSION})
+set (SCHEMA ${ROOT}/schema/${XMLVERSION})
 
 #######################################
 set (CMAKE_CXX_STANDARD 11)
-
 
 if(UNIX)
 	if (GDB)
@@ -45,6 +51,10 @@ if(APPLE)
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.0")
 		set (libtype STATIC)
+	elseif( UNIVERSAL )
+		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
+		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
+		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 	endif()
 
 #########################################
@@ -87,19 +97,6 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 
 
 #######################################
-# set library target
-# if(APPLE)
-# 	if (IOS)
-# 		set(target musicxml2)
-# 	else()
-# 		set(target libmusicxml2)
-# 	endif()
-# elseif (MSVC)
-# 	set(target libmusicxml2)
-# else()
-# 	set(target musicxml2)
-# endif()
-
 if(WIN32 OR MSYS)
 	enable_language(RC)
 	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
@@ -134,7 +131,7 @@ endif()
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xml2ly xmlread xmltranspose)
+set (TOOLS  xml2guido xml2ly xmlread xmltranspose xmlversion)
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})
@@ -148,11 +145,49 @@ endif()
 #######################################
 # install setup
 if (NOT IOS)
-install ( TARGETS ${target} ${TOOLS} 
-	RUNTIME DESTINATION bin 
-    	LIBRARY DESTINATION /usr/lib 
-    	ARCHIVE DESTINATION lib 
-    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
-    	PUBLIC_HEADER DESTINATION include/libmusicxml
+message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
+install ( TARGETS ${target} 
+	RUNTIME DESTINATION lib 
+    LIBRARY DESTINATION lib 
+    ARCHIVE DESTINATION lib 
+    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
+    PUBLIC_HEADER DESTINATION include/libmusicxml
 )
+
+install ( TARGETS ${TOOLS} 
+	RUNTIME DESTINATION bin 
+    LIBRARY DESTINATION lib 
+    ARCHIVE DESTINATION lib 
+)
+
+
+####################################
+# install misc files
+set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/share/libmusicxml)
+install (
+    DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    PATTERN ".DS_Store" EXCLUDE
+)
+
+install (
+    DIRECTORY ${DTDS} ${SCHEMA} DESTINATION ${DOCDIR}/schema
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    PATTERN ".DS_Store" EXCLUDE
+)
+
+install (
+    FILES ${DOC} DESTINATION ${DOCDIR}/doc
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+
+install (
+    FILES ${ROOT}/CHANGELOG.txt  DESTINATION ${DOCDIR}
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+
 endif()

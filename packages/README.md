@@ -14,14 +14,11 @@ The libmusicxml library runs on the main operating systems: Linux, MacOS, iOS, W
 This package includes the musicxml library and 2 converters:
 
 - xml2guido : converts the MusicXML format to [Guido](http://guidolib.sf.net/).
-- xml2ly : converts the MusicXML format to [Lilypond](http://lilypond.org/)
+- xml2ly    : converts the MusicXML format to [Lilypond](http://lilypond.org/)
 
 ### Installation instructions
 
 #### MacOS
-You should copy the libmusicxml2.framework folder to `/Library/Frameworks`
-
-#### Linux
 You should copy the libmusicxml2.framework folder to `/Library/Frameworks`
 
 ---

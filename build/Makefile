@@ -4,29 +4,32 @@
 
 .PHONY : macos ios msys win32 win64 linux android
 
+PDIR   ?= libdir
+
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 ifeq ($(system), Darwin)
 	TARGET ?= macos
-	OUTDIR = macos/Release
+	OUTDIR = $(PDIR)/Release
+	GENERATOR ?= Xcode
+	PREFIX ?= /usr/local
 else
 ifeq ($(system), MINGW)
 	TARGET ?= windows
+	PDIR  ?= win64
 else
 ifeq ($(system), Linux)
 	TARGET ?= linux
-	OUTDIR = linux
+	OUTDIR = $(PDIR)
+	GENERATOR ?= Unix Makefiles
+	PREFIX ?= /usr/local
 else
 	TARGET = undefined
 endif
 endif
 endif
 
-OUT  := libmusicxml2.framework libmusicxml2.a
-MACX ?= macos
 IOS  := ios
-ANDROID := android
-LINUX   := linux
 MSVC   ?= Visual Studio 14 2015
 MSVC64 := $(MSVC) Win64
 
@@ -55,11 +58,19 @@ help :
 	@echo "the platform targets is automatically evaluated by the default target."	
 	@echo 	
 	@echo "Misc:"
+	@echo "   universal switch to universal binaries (MacOS)"	
+	@echo "   native 	switch universal binaries off (MacOS)"	
+	@echo "   cmake     re-generates the cmake project"	
 	@echo "   format    source code formatting using clang-format"	
-	@echo "   install   install the tools to ~/bin"	
+	@echo "   install   install library, tools and headers"	
+	@echo "   localinstall   install the tools to ~/bin"
 	@echo 
 	@echo "NOTE: windows cmake generator is $(MSVC)"	
 	@echo "      use MSVC=\"another generator\" to change"
+
+
+$(PDIR) :
+	mkdir $(PDIR)
 
 #===============================================================
 # building the javascript library
@@ -71,15 +82,20 @@ js:
 #===============================================================
 # building the library on Mac OS X
 #===============================================================
-macos : $(MACX)/libmusicxml2.xcodeproj
-	cmake --build $(MACX) --config Release -- -jobs 4
+macos : $(PDIR)/libmusicxml2.xcodeproj
+	cmake --build $(PDIR) --config Release -- -jobs 4
 	rm -rf libmusicxml2.framework
-	cp -R $(MACX)/Release/libmusicxml2.framework .
+	cp -R $(PDIR)/Release/libmusicxml2.framework .
 	tar czf libmusicxml2.tgz libmusicxml2.framework
 
-$(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
-	@[ -d $(MACX) ] || mkdir $(MACX)
-	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
+$(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
+	cd $(PDIR) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
+
+universal: $(PDIR)
+	cd $(PDIR) && cmake .. -DUNIVERSAL=on -Wno-dev
+
+native: $(PDIR)
+	cd $(PDIR) && cmake .. -DUNIVERSAL=off -Wno-dev
 
 
 #===============================================================
@@ -91,7 +107,7 @@ $(IOS) : $(IOS)/libmusicxml2.xcodeproj
 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(IOS) ] || mkdir $(IOS)
-	cd $(IOS) && cmake .. -G Xcode -DIOS=yes
+	cd $(IOS) && cmake .. -G Xcode -DIOS=yes -Wno-dev $(CMAKEOPT)
 
 
 #===============================================================
@@ -100,12 +116,9 @@ $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 
 #===============================================================
 # using msys
-msys : msys/Makefile
-	make -C msys
-
-msys/Makefile : CMakeLists.txt
-	[ -d msys ] || mkdir msys
-	cd msys && cmake .. -G "MSYS Makefiles"  $(CMAKEOPT)
+msys : GENERATOR ?= MSYS Makefiles
+msys : $(PDIR)/Makefile
+	make -C $(PDIR)
 
 #===============================================================
 # using visual studio
@@ -135,14 +148,18 @@ win64/libmusicxml2.sln : CMakeLists.txt
 #===============================================================
 # building the library on linux
 #===============================================================
-linux : linux/Makefile
-	make -C linux
+linux : $(PDIR)/Makefile
+	make -C $(PDIR)
 	rm -rf libmusicxml2*.so*
-	cp -R linux/libmusicxml2*.so* .
+	cp -R $(PDIR)/libmusicxml2*.so* .
 
-linux/Makefile : CMakeLists.txt
-	[ -d linux ] || mkdir linux
-	cd linux && cmake .. -G "Unix Makefiles" 
+$(PDIR)/Makefile : $(PDIR) CMakeLists.txt
+	cd $(PDIR) && cmake .. -G "$(GENERATOR)"  $(CMAKEOPT)
+
+
+#===============================================================
+cmake : $(PDIR)
+	cd $(PDIR) && cmake .. -G "$(GENERATOR)" -Wno-dev $(CMAKEOPT)
 
 #===============================================================
 # building the library for Android
@@ -161,5 +178,14 @@ format :
 #===============================================================
 # install
 #===============================================================
+installLog := $(PDIR)/install_manifest.txt
 install:
+	cd $(PDIR) && cmake .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
+	cmake --build $(PDIR) --config Release --target install
+
+uninstall: installedfiles = $(shell cat $(installLog))
+uninstall: $(installLog)
+	rm -f $(installedfiles) $(installLog)
+
+localinstall:
 	cd $(OUTDIR) && cp $(TOOLS) $(HOME)/bin
