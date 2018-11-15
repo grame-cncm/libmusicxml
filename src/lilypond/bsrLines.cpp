@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "bsrPages.h"
+#include "bsrLines.h"
 
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
@@ -29,28 +29,24 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_bsrPage bsrPage::create (
+S_bsrLine bsrLine::create (
   int inputLineNumber)
 {
-  bsrPage* o =
-    new bsrPage (
+  bsrLine* o =
+    new bsrLine (
       inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-bsrPage::bsrPage (
+bsrLine::bsrLine (
   int inputLineNumber)
     : bsrElement (inputLineNumber)
 {
-}
-
-bsrPage::~bsrPage ()
-{
 #ifdef TRACE_OPTIONS
-  if (gBsrTraceOptions->fTracePages) {
+  if (gBsrTraceOptions->fTraceLines) {
     gLogIOstream <<
-      "Creating bsrPage '" <<
+      "Creating bsrLine '" <<
       asString () <<
       "', line " <<
       fInputLineNumber <<
@@ -59,55 +55,58 @@ bsrPage::~bsrPage ()
 #endif
 }
 
-void bsrPage::acceptIn (basevisitor* v)
+bsrLine::~bsrLine ()
+{}
+
+void bsrLine::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrPage::acceptIn ()" <<
+      "% ==> bsrLine::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_bsrPage>*
+  if (visitor<S_bsrLine>*
     p =
-      dynamic_cast<visitor<S_bsrPage>*> (v)) {
-        S_bsrPage elem = this;
+      dynamic_cast<visitor<S_bsrLine>*> (v)) {
+        S_bsrLine elem = this;
         
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrPage::visitStart ()" <<
+            "% ==> Launching bsrLine::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void bsrPage::acceptOut (basevisitor* v)
+void bsrLine::acceptOut (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrPage::acceptOut ()" <<
+      "% ==> bsrLine::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_bsrPage>*
+  if (visitor<S_bsrLine>*
     p =
-      dynamic_cast<visitor<S_bsrPage>*> (v)) {
-        S_bsrPage elem = this;
+      dynamic_cast<visitor<S_bsrLine>*> (v)) {
+        S_bsrLine elem = this;
       
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrPage::visitEnd ()" <<
+            "% ==> Launching bsrLine::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void bsrPage::browseData (basevisitor* v)
+void bsrLine::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrElement>::const_iterator i = fPageElementsList.begin ();
-    i != fPageElementsList.end ();
+    list<S_bsrElement>::const_iterator i = fLineElementsList.begin ();
+    i != fLineElementsList.end ();
     i++ ) {
     // browse the element
     bsrBrowser<bsrElement> browser (v);
@@ -116,40 +115,40 @@ void bsrPage::browseData (basevisitor* v)
 
 }
 
-void bsrPage::print (ostream& os)
+void bsrLine::print (ostream& os)
 {
   os <<
-    "Page" <<
+    "Line" <<
     endl;
   
   gIndenter++;
 
-  // print the page numbers
+  // print the line numbers
   const int fieldWidth = 18;
   
   os << left <<
     setw (fieldWidth) <<
-    "printPageNumber" << " : " << fPrintPageNumber <<
+    "printLineNumber" << " : " << fPrintLineNumber <<
     endl <<
     setw (fieldWidth) <<
-    "braillePageNumber" << " : " << fBraillePageNumber <<
+    "brailleLineNumber" << " : " << fBrailleLineNumber <<
     endl;
   
-  // print the page elements if any
-  int pageElementsListSize = fPageElementsList.size ();
+  // print the line elements if any
+  int lineElementsListSize = fLineElementsList.size ();
   
-  if (pageElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (lineElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "fPageElementsList";
-    if (pageElementsListSize) {
+      "fLineElementsList";
+    if (lineElementsListSize) {
       os <<
         endl;
       gIndenter++;
   
       list<S_bsrElement>::const_iterator
-        iBegin = fPageElementsList.begin (),
-        iEnd   = fPageElementsList.end (),
+        iBegin = fLineElementsList.begin (),
+        iEnd   = fLineElementsList.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);
@@ -172,7 +171,7 @@ void bsrPage::print (ostream& os)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_bsrPage& elt)
+ostream& operator<< (ostream& os, const S_bsrLine& elt)
 {
   elt->print (os);
   return os;

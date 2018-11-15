@@ -172,6 +172,40 @@ void bsrScore::print (ostream& os)
     "BraillePageLength" << " : " << fBraillePageLength <<
     endl;
         
+  // print the score elements if any
+  int scorePagesListSize = fScorePagesList.size ();
+  
+  if (scorePagesListSize || gBsrOptions->fDisplayBsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "fLineElementsList";
+    if (scorePagesListSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_bsrElement>::const_iterator
+        iBegin = fScorePagesList.begin (),
+        iEnd   = fScorePagesList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+  
+      os <<
+        endl;
+        
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
   gIndenter--;
 }
 

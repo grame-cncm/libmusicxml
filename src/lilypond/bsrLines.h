@@ -10,10 +10,12 @@
   research@grame.fr
 */
 
-#ifndef ___bsrPages___
-#define ___bsrPages___
+#ifndef ___bsrLines___
+#define ___bsrLines___
 
-#include "bsrLines.h"
+#include "bsrClefs.h"
+#include "bsrKeys.h"
+#include "bsrTimes.h"
 
 #include "bsrOptions.h"
 
@@ -22,14 +24,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrPage : public bsrElement
+class bsrLine : public bsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<bsrPage> create (
+    static SMARTP<bsrLine> create (
       int inputLineNumber);
     
   protected:
@@ -37,29 +39,38 @@ class bsrPage : public bsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPage (
+    bsrLine (
       int inputLineNumber);
       
-    virtual ~bsrPage ();
+    virtual ~bsrLine ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getPrintPageNumber () const
-                              { return fPrintPageNumber; }
+    int                   getPrintLineNumber () const
+                              { return fPrintLineNumber; }
 
-    int                   getBraillePageNumber () const
-                              { return fBraillePageNumber; }
+    int                   getBrailleLineNumber () const
+                              { return fBrailleLineNumber; }
                               
   public:
 
     // public services
     // ------------------------------------------------------
 
-    void                  appendLineToPage (S_bsrLine line)
-                              { fPageElementsList.push_back (line); }
+    void                  appendClefToLine (S_bsrClef clef)
+                              { fLineElementsList.push_back (clef); }
+                              
+    void                  appendKeyToLine (S_bsrKey key)
+                              { fLineElementsList.push_back (key); }
+                              
+    void                  appendTimeToLine (S_bsrTime time)
+                              { fLineElementsList.push_back (time); }
+                              
+    void                  appendElementToLine (S_bsrElement element)
+                              { fLineElementsList.push_back (element); }
                               
   public:
 
@@ -86,13 +97,13 @@ class bsrPage : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    int                   fPrintPageNumber;    
-    int                   fBraillePageNumber;
+    int                   fPrintLineNumber;    
+    int                   fBrailleLineNumber;
 
-    list<S_bsrElement>    fPageElementsList;
+    list<S_bsrElement>    fLineElementsList;
 };
-typedef SMARTP<bsrPage> S_bsrPage;
-EXP ostream& operator<< (ostream& os, const S_bsrPage& elt);
+typedef SMARTP<bsrLine> S_bsrLine;
+EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);
 
 
 }

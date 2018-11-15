@@ -25,6 +25,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "generalOptions.h"
@@ -349,6 +350,11 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
   initializeBsrOptionsHandling (
     this);
     
+#ifdef TRACE_OPTIONS
+  initializeBsrTraceOptionsHandling (
+    this);
+#endif
+
   initializeBrailleOptionsHandling (
     this);
 

@@ -125,6 +125,14 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       NO_INPUT_LINE_NUMBER,
       fVisitedMsrScore);
 
+  // create the fist page
+  fCurrentPage =
+    bsrPage::create (0); // inputLineNumber
+    
+  // create the fist line
+  fCurrentLine =
+    bsrLine::create (0); // inputLineNumber
+    
 /*
   // create an empty clone of fVisitedMsrScore for use by the BSR score
   // not sharing the visitiged MSR score allows cleaner data handling
@@ -293,6 +301,344 @@ void msr2BsrTranslator::visitEnd (S_msrScore& elt)
     */ 
 }
 
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrPartGroup& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPartGroup " <<
+      elt->getPartGroupCombinedName () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentPartGroup = elt;
+}
+
+void msr2BsrTranslator::visitEnd (S_msrPartGroup& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrPartGroup " <<
+      elt->getPartGroupCombinedName () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrPart& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  string
+    partCombinedName =
+      elt->getPartCombinedName ();
+      
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPart " <<
+      partCombinedName <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceParts) {
+    fLogOutputStream <<
+      endl <<
+      "<!--=== part \"" << partCombinedName << "\"" <<
+      ", line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
+#endif
+
+  gIndenter++;
+
+  fCurrentPart = elt;
+}
+
+void msr2BsrTranslator::visitEnd (S_msrPart& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  gIndenter--;
+
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrPart " <<
+      elt->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrStaffTuning& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrStaffTuning" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+  
+  // create a staff tuning clone
+  fCurrentStaffTuning = elt;
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrStaffDetails& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrStaffDetails" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentStaffTuning = nullptr;
+}
+
+void msr2BsrTranslator::visitEnd (S_msrStaffDetails& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrStaffDetails" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrStaff& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrStaff \"" <<
+      elt->getStaffName () << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  gIndenter++;
+
+  fCurrentStaff = elt;
+}
+
+void msr2BsrTranslator::visitEnd (S_msrStaff& elt)
+{
+  gIndenter--;
+
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_msrStaff \"" <<
+      elt->getStaffName () << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrVoice& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrVoice \"" <<
+      elt->getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fCurrentVoice = elt;
+  
+  gIndenter++;
+}
+
+void msr2BsrTranslator::visitEnd (S_msrVoice& elt)
+{
+  gIndenter--;
+
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrVoice \"" <<
+      elt->getVoiceName () << "\"" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrVoiceStaffChange '" <<
+      elt->asString () << "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrPageBreak& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPageBreak" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fCurrentPage =
+    bsrPage::create (inputLineNumber);
+    
+  fBsrScore->
+    appendPageToScore (fCurrentPage);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrPageBreak& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrPageBreak" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrLineBreak" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fCurrentLine =
+    bsrLine::create (inputLineNumber);
+    
+  fCurrentPage->
+    appendLineToPage (fCurrentLine);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrLineBreak& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrLineBreak" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrClef& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrClef" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  S_bsrClef
+    clef =
+      bsrClef::create (inputLineNumber);
+    
+  fCurrentLine->
+    appendClefToLine (clef);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrClef& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrClef" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrKey& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrKey" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  S_bsrKey
+    key =
+      bsrKey::create (inputLineNumber);
+      
+  fCurrentLine->
+    appendKeyToLine (key);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrKey& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrKey" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrTime& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrTime" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  S_bsrTime
+    time =
+      bsrTime::create (inputLineNumber);
+    
+  fCurrentLine->
+    appendTimeToLine (time);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrTime& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrTime" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
 /*
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrIdentification& elt)
@@ -385,771 +731,6 @@ void msr2BsrTranslator::visitEnd (S_msrCreditWords& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrPartGroup& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrPartGroup " <<
-      elt->getPartGroupCombinedName () <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  // create a partGroup clone
-  // current partGroup clone, i.e. the top of the stack,
-  // is the uplink of the new one if it exists
-
-  S_msrPartGroup
-    partGroupClone =
-      elt->createPartGroupNewbornClone (
-        fPartGroupsStack.size ()
-          ? fPartGroupsStack.top ()
-          : 0,
-        fBsrScore->getMsrScore ());
-
-  // push it onto this visitors's stack,
-  // making it the current partGroup block
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
-    fLogOutputStream <<
-      "Pushing part group clone " <<
-      partGroupClone->getPartGroupCombinedName () <<
-      " onto stack" <<
-      endl;
-  }
-#endif
-  
-  fPartGroupsStack.push (
-    partGroupClone);
-  
-/ *
-  // add it to the MSR score clone
-  fCurrentMsrScoreClone->
-    addPartGroupToScore (fCurrentPartGroupClone);
-* /
-
-  // create a partGroup block refering to the part group clone
-  S_bsrPartGroupBlock
-    partGroupBlock =
-      bsrPartGroupBlock::create (
-        partGroupClone);
-
-  // push it onto this visitors's stack,
-  // making it the current partGroup block
-  fPartGroupBlocksStack.push (
-    partGroupBlock);
-  
-  // get the BSR store block
-  S_bsrScoreBlock
-    scoreBlock =
-      fBsrScore->getScoreBlock ();
-
-  // don't append the partgroup block to the score block now:
-  // this will be done when it gets popped from the stack
-}
-
-void msr2BsrTranslator::visitEnd (S_msrPartGroup& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrPartGroup " <<
-      elt->getPartGroupCombinedName () <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  S_msrPartGroup
-    currentPartGroup =
-      fPartGroupsStack.top ();
-      
-  if (fPartGroupsStack.size () == 1) {
-    // add the current partgroup clone to the MSR score clone
-    // if it is the top-level one, i.e it's alone in the stack
-    
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Adding part group clone " <<
-        currentPartGroup->getPartGroupCombinedName () <<
-        " to MSR score" <<
-        endl;
-    }
-#endif
-
-    fCurrentMsrScoreClone->
-      addPartGroupToScore (currentPartGroup);
-
-    fPartGroupsStack.pop ();
-  }
-
-  else {
-
-    // pop current partGroup from this visitors's stack
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Popping part group clone " <<
-        fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-        " from stack" <<
-        endl;
-    }
-#endif
-
-    fPartGroupsStack.pop ();
-
-    // append the current part group to the one one level higher,
-    // i.e. the new current part group
-    fPartGroupsStack.top ()->
-      appendSubPartGroupToPartGroup (
-        currentPartGroup);
-  }
-
-  // get the BSR store block
-  S_bsrScoreBlock
-    scoreBlock =
-      fBsrScore->getScoreBlock ();
-      
-  S_bsrPartGroupBlock
-    currentPartGroupBlock =
-      fPartGroupBlocksStack.top ();
-      
-  if (fPartGroupBlocksStack.size () == 1) {
-    // add the current partgroup clone to the BSR score's parallel music
-    // if it is the top-level one, i.e it's alone in the stack
-    
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Adding part group block clone for part group " <<
-        currentPartGroupBlock->
-          getPartGroup ()->
-            getPartGroupCombinedName () <<
-        " to BSR score" <<
-        endl;
-    }
-#endif
-
-    // append the current partgroup block to the score block
-    // if it is the top-level one, i.e it's alone in the stack
-   // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-      scoreBlock->
-        appendPartGroupBlockToScoreBlock (
-          fPartGroupBlocksStack.top ());
-          
-    // pop current partGroup block from this visitors's stack,
-    // only now to restore the appearence order
-    fPartGroupBlocksStack.pop ();
-  }
-
-  else {
-    // pop current partGroup block from this visitors's stack
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Popping part group block clone for part group " <<
-        currentPartGroupBlock->
-          getPartGroup ()->
-            getPartGroupCombinedName () <<
-        " from stack" <<
-        endl;
-    }
-#endif
-
-    fPartGroupBlocksStack.pop ();
-
-    // append the current part group block to the one one level higher,
-    // i.e. the new current part group block
-    fPartGroupBlocksStack.top ()->
-      appendElementToPartGroupBlock (
-        currentPartGroupBlock);
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrPart& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string
-    partCombinedName =
-      elt->getPartCombinedName ();
-      
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrPart " <<
-      partCombinedName <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
-    fLogOutputStream <<
-      endl <<
-      "<!--=== part \"" << partCombinedName << "\"" <<
-      ", line " << inputLineNumber << " ===-->" <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-
-  // create a part clone
-  fCurrentPartClone =
-    elt->createPartNewbornClone (
-      fPartGroupsStack.top ());
-
-  // add it to the partGroup clone
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
-    fLogOutputStream <<
-      "Adding part clone " <<
-      fCurrentPartClone->getPartCombinedName () <<
-      " to part group clone \"" <<
-      fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  fPartGroupsStack.top ()->
-    appendPartToPartGroup (fCurrentPartClone);
-
-  // create a part block
-  fCurrentPartBlock =
-    bsrPartBlock::create (
-      fCurrentPartClone);
-
-  // append it to the current partGroup block
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
-    fLogOutputStream <<
-      "Appending part block " <<
-      fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-      " to stack" <<
-      endl;
-  }
-#endif
-
-  fPartGroupBlocksStack.top ()->
-    appendElementToPartGroupBlock (
-      fCurrentPartBlock);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrPart& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  gIndenter--;
-
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrPart " <<
-      elt->getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  string
-    partInstrumentAbbreviation =
-      fCurrentPartClone->
-        getPartInstrumentAbbreviation ();
-    
-  // populate part instrument short name if empty and possible
-  if (partInstrumentAbbreviation.size () == 0) {
-    string
-      partAbbreviation =
-        elt->getPartAbbreviation ();
-        
-    fCurrentPartClone->
-      setPartInstrumentAbbreviation (
-        partAbbreviation);
-
-    fCurrentPartClone->
-      finalizePartClone (
-        inputLineNumber);
-  }
-
-  if (fCurrentSkipGraceNotesGroup) {
-    // add it ahead of the other voices in the part if needed
-    fCurrentPartClone->
-      addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
-        fCurrentVoiceClone,
-        fCurrentSkipGraceNotesGroup);
-
-    // forget about this skip grace notes group
-    fCurrentSkipGraceNotesGroup = nullptr;
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrStaffTuning& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrStaffTuning" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-  
-  // create a staff tuning clone
-  fCurrentStaffTuningClone =
-    elt->
-      createStaffTuningNewbornClone ();
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrStaffDetails& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrStaffDetails" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  fCurrentStaffTuningClone      = nullptr;
-}
-
-void msr2BsrTranslator::visitEnd (S_msrStaffDetails& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrStaffDetails" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  // append the staff details to the current staff clone
-  fCurrentStaffClone->
-    appendStaffDetailsToStaff (
-      elt);
-
-        
-/ * JMI
-  // add it to the staff clone
-  fCurrentStaffClone->
-    addStaffTuningToStaff (
-      fCurrentStaffTuningClone);
-
-  // create a staff tuning block
-  S_bsrNewStaffTuningBlock
-    newStaffTuningBlock =
-      bsrNewStaffTuningBlock::create (
-        fCurrentStaffTuningClone->getInputLineNumber (),
-        fCurrentStaffTuningClone);
-
-  // append it to the current staff block
-  fCurrentStaffBlock->
-    appendElementToStaffBlock (newStaffTuningBlock);
-    * /
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrStaff& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrStaff \"" <<
-      elt->getStaffName () << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  gIndenter++;
-
-  switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kTablatureStaff:
-    case msrStaff::kDrumStaff:
-    case msrStaff::kRythmicStaff:
-      {
-        // create a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-          
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-      
-        // create a staff block
-        fCurrentStaffBlock =
-          bsrStaffBlock::create (
-            fCurrentStaffClone);
-      
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-      
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-      
-        // don't set instrument name nor short instrument name // JMI
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ()) {
-          staffBlockInstrumentName = partName;
-        }
-        if (! partAbbreviation.size ()) {
-          staffBlockShortInstrumentName = partAbbreviation;
-        }
-      
-        if (staffBlockInstrumentName.size ()) {
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-        }
-            
-        if (staffBlockShortInstrumentName.size ()) {
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-        }
-              
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendStaffBlockToPartBlock (
-            fCurrentStaffBlock);
-      
-        fOnGoingStaff = true;
-      }
-      break;
-      
-    case msrStaff::kHarmonyStaff:
-      {
-        // create a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-        
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-      
-        fOnGoingStaff = true;
-      }
-      break;
-      
-    case msrStaff::kFiguredBassStaff:
-      {
-        // create a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-        
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-
-        // register it as the part figured bass staff
-        fCurrentPartClone->
-          setPartFiguredBassStaff (fCurrentStaffClone);
-
-        fOnGoingStaff = true;
-      }
-      break;
-  } // switch
-}
-
-void msr2BsrTranslator::visitEnd (S_msrStaff& elt)
-{
-  gIndenter--;
-
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_msrStaff \"" <<
-      elt->getStaffName () << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  switch (elt->getStaffKind ()) {
-    case msrStaff::kStaffRegular:
-    case msrStaff::kDrumStaff:
-    case msrStaff::kRythmicStaff:
-      {
-        fOnGoingStaff = false;
-      }
-      break;
-      
-    case msrStaff::kTablatureStaff:
-      // JMI
-      break;
-      
-    case msrStaff::kHarmonyStaff:
-      // JMI
-      break;
-      
-    case msrStaff::kFiguredBassStaff:
-      // JMI
-      break;
-  } // switch
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrVoice& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrVoice \"" <<
-      elt->getVoiceName () << "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fCurrentVoiceOriginal = elt;
-  
-  gIndenter++;
-
-  switch (elt->getVoiceKind ()) {
-    
-    case msrVoice::kRegularVoice:
-      // create a voice clone
-      fCurrentVoiceClone =
-        elt->createVoiceNewbornClone (
-          fCurrentStaffClone);
-            
-      // add it to the staff clone
-      fCurrentStaffClone->
-        registerVoiceInStaff (
-          inputLineNumber,
-          fCurrentVoiceClone);
-    
-      // append the voice clone to the BSR score elements list
-      fBsrScore ->
-        appendVoiceToScoreElements (fCurrentVoiceClone);
-    
-      // append a use of the voice to the current staff block
-      fCurrentStaffBlock->
-        appendVoiceUseToStaffBlock (
-          fCurrentVoiceClone);
-      break;
-      
-    case msrVoice::kHarmonyVoice:
-      {
-        / * JMI
-        // create the harmony staff and voice if not yet done
-        fCurrentPartClone->
-          createPartHarmonyStaffAndVoiceIfNotYetDone (
-            inputLineNumber);
-          
-        // fetch harmony voice
-        fCurrentVoiceClone =
-          fCurrentPartClone->
-            getPartHarmonyVoice ();
-* /
-
-        // create a voice clone
-        fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
-              
-        // add it to the staff clone
-        fCurrentStaffClone->
-          registerVoiceInStaff (
-            inputLineNumber,
-            fCurrentVoiceClone);
-    
-        if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {          
-          // append the voice clone to the BSR score elements list
-          fBsrScore ->
-            appendVoiceToScoreElements (
-              fCurrentVoiceClone);
-      
-          // create a ChordNames context command
-          string voiceName =
-            elt->getVoiceName ();
-  
-          string partCombinedName =
-            elt->fetchVoicePartUplink ()->
-              getPartCombinedName ();
-                          
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Creating a ChordNames context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-  
-          S_bsrChordNamesContext
-            chordNamesContext =
-              bsrChordNamesContext::create (
-                inputLineNumber,
-                bsrContext::kExistingContextYes,
-                voiceName,
-                elt->getRegularVoiceForHarmonyVoice ());
-  
-          // append it to the current part block
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Appending the ChordNames context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-  
-          fCurrentPartBlock->
-            appendChordNamesContextToPartBlock (
-              inputLineNumber,
-              chordNamesContext);
-  
-          fOnGoingHarmonyVoice = true;
-        }
-      }
-      break;
-      
-    case msrVoice::kFiguredBassVoice:
-      {
-        / * JMI
-        // create the figured bass staff and voice if not yet done
-        fCurrentPartClone->
-          createPartFiguredBassStaffAndVoiceIfNotYetDone (
-            inputLineNumber);
-          
-        // fetch figured bass voice
-        fCurrentVoiceClone =
-          fCurrentPartClone->
-            getPartFiguredBassVoice ();
-* /
-
-        // create a voice clone
-        fCurrentVoiceClone =
-          elt->createVoiceNewbornClone (
-            fCurrentStaffClone);
-              
-        // add it to the staff clone
-        fCurrentStaffClone->
-          registerVoiceInStaff (
-            inputLineNumber,
-            fCurrentVoiceClone);
-    
-        // register it as the part figured bass voice
-        fCurrentPartClone->
-          setPartFiguredBassVoice (fCurrentVoiceClone);
-
-        if (
-          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {          
-          // append the voice clone to the BSR score elements list
-          fBsrScore ->
-            appendVoiceToScoreElements (
-              fCurrentVoiceClone);
-      
-          // create a FiguredBass context command
-          string voiceName =
-            elt->getVoiceName ();
-  
-          string partCombinedName =
-            elt->fetchVoicePartUplink ()->
-              getPartCombinedName ();
-                          
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Creating a FiguredBass context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-  
-          S_bsrFiguredBassContext
-            figuredBassContext =
-              bsrFiguredBassContext::create (
-                inputLineNumber,
-                bsrContext::kExistingContextYes,
-                voiceName,
-                elt-> getVoiceStaffUplink ());
-  
-          // append it to the current part block
-#ifdef TRACE_OPTIONS
-          if (gTraceOptions->fTraceHarmonies) {
-            fLogOutputStream <<
-              "Appending the FiguredBass context for \"" << voiceName <<
-              "\" in part " << partCombinedName <<
-              endl;
-          }
-#endif
-  
-          fCurrentPartBlock->
-            appendFiguredBassContextToPartBlock (
-              figuredBassContext);
-  
-          fOnGoingFiguredBassVoice = true;
-        }
-      }
-      break;
-  } // switch
-
-  // clear the voice notes map
-  fVoiceNotesMap.clear ();
-
-  fFirstNoteCloneInVoice = nullptr;
-}
-
-void msr2BsrTranslator::visitEnd (S_msrVoice& elt)
-{
-  gIndenter--;
-
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrVoice \"" <<
-      elt->getVoiceName () << "\"" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  switch (elt->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
-      // JMI
-      break;
-      
-    case msrVoice::kHarmonyVoice:
-      fOnGoingHarmonyVoice = false;
-      break;
-      
-    case msrVoice::kFiguredBassVoice:
-      fOnGoingFiguredBassVoice = false;
-      break;
-  } // switch
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrVoiceStaffChange '" <<
-      elt->asString () << "'" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  // create a voice staff change clone
-  S_msrVoiceStaffChange
-    voiceStaffChangeClone =
-      elt->
-        createStaffChangeNewbornClone ();
-
-  // append it to the current voice clone
-  fCurrentVoiceClone->
-    appendVoiceStaffChangeToVoice (
-      voiceStaffChangeClone);
 }
 
 //________________________________________________________________________
@@ -1820,84 +1401,7 @@ void msr2BsrTranslator::visitEnd (S_msrSyllable& elt)
       endl;
   }
 }
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrClef& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrClef" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  fCurrentVoiceClone->
-    appendClefToVoice (elt);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrClef& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrClef" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
 */
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrKey& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrKey" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-/*
-  fCurrentVoiceClone->
-    appendKeyToVoice (elt);
-    */
-}
-
-void msr2BsrTranslator::visitEnd (S_msrKey& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrKey" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrTime& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrTime" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-/*
-  // append time to voice clone
-  fCurrentVoiceClone->
-    appendTimeToVoiceClone (elt);
-    */
-}
-
-void msr2BsrTranslator::visitEnd (S_msrTime& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrTime" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
 
 /*
 //________________________________________________________________________
@@ -4122,54 +3626,6 @@ void msr2BsrTranslator::visitEnd (S_msrBarNumberCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrBarNumberCheck" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrLineBreak" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  fCurrentVoiceClone->
-    appendLineBreakToVoice (elt);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrLineBreak& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrLineBreak" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrPageBreak& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrPageBreak" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  fCurrentVoiceClone->
-    appendPageBreakToVoice (elt);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrPageBreak& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrPageBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

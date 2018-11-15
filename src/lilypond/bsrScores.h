@@ -21,6 +21,8 @@
 
 #include "bsrTranscriptionNotes.h"
 
+#include "bsrPages.h"
+
 #include "bsrOptions.h"
 
 
@@ -73,6 +75,9 @@ class bsrScore : public bsrElement
     // public services
     // ------------------------------------------------------
 
+    void                  appendPageToScore (S_bsrPage page)
+                              { fScorePagesList.push_back (page); }
+                              
   private:
   
     // private services
@@ -108,6 +113,8 @@ class bsrScore : public bsrElement
 
     int                   fBrailleLineLength; // cells
     int                   fBraillePageLength;
+
+    list<S_bsrElement>    fScorePagesList;
 };
 typedef SMARTP<bsrScore> S_bsrScore;
 EXP ostream& operator<< (ostream& os, const S_bsrScore& elt);

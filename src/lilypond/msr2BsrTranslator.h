@@ -25,29 +25,353 @@ namespace MusicXML2
 //________________________________________________________________________
 class msr2BsrTranslator :
 
-  public visitor<S_msrScore>
+  // score
 
-  /*
-  
-  // rights
+  public visitor<S_msrScore>,
 
-  public visitor<S_msrIdentification>,
-  
-  public visitor<S_msrCredit>,
-  public visitor<S_msrCreditWords>,
-  
-  // variable-value associations
-  
-  public visitor<S_msrVarValAssoc>,
-  public visitor<S_msrVarValsListAssoc>,
-  
-  // geometry
+  // parts & part groups
 
-  public visitor<S_msrPageGeometry>,
+  public visitor<S_msrPartGroup>,
+  public visitor<S_msrPart>,
+  
+  // staves & voices
+    
+  public visitor<S_msrStaffTuning>,
+  public visitor<S_msrStaff>,
+  public visitor<S_msrVoice>,
+  public visitor<S_msrVoiceStaffChange>,
 
-  // layout
+  // breaks
 
-  public visitor<S_msrLayout>,
+  public visitor<S_msrPageBreak>,
+  public visitor<S_msrLineBreak>,
+  
+  // clef, key, time
+    
+  public visitor<S_msrClef>,
+  public visitor<S_msrKey>,
+  public visitor<S_msrTime>
+
+{
+  public:
+  
+    msr2BsrTranslator (
+      indentedOstream& ios,
+      S_msrScore       mScore);
+        
+    virtual ~msr2BsrTranslator ();
+
+    void buildBsrScoreFromMsrScore ();
+
+    S_bsrScore getBsrScore () const
+        { return fBsrScore; };
+    
+  protected:
+
+    // score
+    
+    virtual void visitStart (S_msrScore& elt);
+    virtual void visitEnd   (S_msrScore& elt);
+
+    // parts & part groups
+
+    virtual void visitStart (S_msrPartGroup& elt);
+    virtual void visitEnd   (S_msrPartGroup& elt);
+
+    virtual void visitStart (S_msrPart& elt);
+    virtual void visitEnd   (S_msrPart& elt);
+
+    // staves & voices
+    
+    virtual void visitStart (S_msrStaffTuning& elt);
+    virtual void visitStart (S_msrStaffDetails& elt);
+    virtual void visitEnd   (S_msrStaffDetails& elt);
+  
+    virtual void visitStart (S_msrStaff& elt);
+    virtual void visitEnd   (S_msrStaff& elt);
+
+    virtual void visitStart (S_msrVoice& elt);
+    virtual void visitEnd   (S_msrVoice& elt);
+
+    virtual void visitStart (S_msrVoiceStaffChange& elt);
+
+    // breaks
+    
+    virtual void visitStart (S_msrPageBreak& elt);
+    virtual void visitEnd   (S_msrPageBreak& elt);
+
+    virtual void visitStart (S_msrLineBreak& elt);
+    virtual void visitEnd   (S_msrLineBreak& elt);
+
+    // clef, key, time
+    
+    virtual void visitStart (S_msrClef& elt);
+    virtual void visitEnd   (S_msrClef& elt);
+
+    virtual void visitStart (S_msrKey& elt);
+    virtual void visitEnd   (S_msrKey& elt);
+
+    virtual void visitStart (S_msrTime& elt);
+    virtual void visitEnd   (S_msrTime& elt);
+
+  private:
+                     
+    indentedOstream&          fLogOutputStream;
+
+
+    // the MSR score we're visiting
+    // ------------------------------------------------------
+    S_msrScore                fVisitedMsrScore;
+
+
+    // the BSR score we're building
+    // ------------------------------------------------------
+    S_bsrScore                fBsrScore;
+
+
+    // parts & part groups
+    // ------------------------------------------------------
+    S_msrPartGroup            fCurrentPartGroup;
+    S_msrPart                 fCurrentPart;
+
+    // staff details
+    // ------------------------------------------------------
+
+    S_msrStaffTuning          fCurrentStaffTuning;
+
+    
+    // staves
+    // ------------------------------------------------------
+    S_msrStaff                fCurrentStaff;
+
+
+    // voices
+    // ------------------------------------------------------    
+    S_msrVoice                fCurrentVoice;
+ //   map<S_msrNote, S_msrNote> fVoiceNotesMap; // JMI
+
+
+    // pages & lines
+    // ------------------------------------------------------    
+    S_bsrPage                 fCurrentPage;
+    S_bsrLine                 fCurrentLine;
+
+/*
+    // it's header
+    // ------------------------------------------------------
+    S_bsrHeader               fBsrScoreHeader;
+
+
+    // score
+    // ------------------------------------------------------
+    S_msrScore                fCurrentMsrScoreClone;
+
+    
+    // identification
+    // ------------------------------------------------------
+    bool                      fOnGoingIdentification;
+    S_msrIdentification       fCurrentIdentification;
+
+
+    // header
+    // ------------------------------------------------------
+    bool                      fWorkNumberKnown;
+    bool                      fWorkTitleKnown;
+    bool                      fMovementNumberKnown;
+    bool                      fMovementTitleKnown;
+    
+
+    // paper
+    // ------------------------------------------------------
+    void                      setPaperIndentsIfNeeded (
+                                S_msrPageGeometry pageGeometry);
+
+    // credits
+    // ------------------------------------------------------
+    S_msrCredit               fCurrentCredit;
+
+    
+    // part groups
+    // ------------------------------------------------------
+  //  S_msrPartGroup            fCurrentPartGroupClone; JMI
+
+    // the current partGroup is the top of the stack
+    stack<S_msrPartGroup>     fPartGroupsStack;
+
+    
+     // harmonies
+    // ------------------------------------------------------    
+    bool                      fOnGoingHarmonyVoice;
+
+    S_msrHarmony              fCurrentHarmonyClone;
+
+    list<S_msrHarmony>        fPendingHarmoniesList;
+
+
+    // frames
+    // ------------------------------------------------------    
+ //   bool                      fOnGoingFramesVoice; JMI
+    
+ //   list<S_msrFrame>          fPendingFramesList; // JMI
+
+
+    // figured bass
+    // ------------------------------------------------------    
+    bool                      fOnGoingFiguredBassVoice;
+    S_msrFiguredBass          fCurrentFiguredBass;
+
+    
+    // repeats
+    // ------------------------------------------------------
+
+    bool                      fOnGoingRepeat;
+// JMI    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
+    S_msrRepeatEnding         fCurrentRepeatEndingClone;
+
+
+    // measure repeats
+    // ------------------------------------------------------
+
+    S_msrMeasuresRepeatPattern
+                              fCurrentMeasuresRepeatPatternClone;
+    S_msrMeasuresRepeatReplicas
+                              fCurrentMeasuresRepeatReplicasClone;
+
+    // multiple rests
+    // ------------------------------------------------------
+
+    S_msrMultipleRest         fCurrentMultipleRestClone; // JMI
+    S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
+
+
+    // segments
+    // ------------------------------------------------------
+    // segments can be imbedded in others,
+    // the current segment clone is the one at the top of the stack
+    stack<S_msrSegment>       fCurrentSegmentClonesStack;
+
+    
+    // measures
+    // ------------------------------------------------------
+    // we need to count the measures for option fSeparatorLineEveryNMeasures,
+    // since measure numbers are actually strings
+    int                       fMeasuresCounter;
+    
+    S_msrMeasure              fCurrentMeasureClone;
+
+    void                      finalizeCurrentMeasureClone (
+                                int          inputLineNumber,
+                                S_msrMeasure originalMeasure);
+
+    // bar checks
+    // ------------------------------------------------------
+    S_msrBarCheck             fLastBarCheck;
+
+
+    // notes
+    // ------------------------------------------------------
+    bool                      fOnGoingNote;
+
+    // fCurrentNonGraceNoteClone is not used for grace notes,
+    // which are visited while the note they're attached to
+    // is being visited too
+    S_msrNote                 fCurrentNonGraceNoteClone;
+    
+    // to help workaround LilyPond issue 34
+    S_msrNote                 fFirstNoteCloneInVoice;
+
+    S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
+
+
+    // glissandos
+    // ------------------------------------------------------
+
+
+    // slides
+    // ------------------------------------------------------
+
+
+    // double tremolos
+    // ------------------------------------------------------
+    S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
+    bool                      fOnGoingDoubleTremolo;
+
+    
+    // stems
+    // ------------------------------------------------------
+    S_msrStem                 fCurrentStem;
+
+    
+    // grace notes
+    // ------------------------------------------------------
+    S_msrGraceNotesGroup      fCurrentGraceNotesGroupClone;
+    S_msrNote                 fCurrentGraceNoteClone;
+    bool                      fOnGoingGraceNotesGroup;
+
+    // afterGraceNotes optimisation
+    S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
+    S_msrElement              fCurrentAfterGraceNotesGroupElement;
+
+    
+    // chords
+    // ------------------------------------------------------
+    bool                      fOnGoingChord;
+    S_msrChord                fCurrentChordClone;
+
+    
+    // tuplets
+    // ------------------------------------------------------
+//    S_msrTuplet             fCurrentTupletClone;
+ //   bool                      fOnGoingTuplet;
+    stack<S_msrTuplet>        fTupletClonesStack;
+
+
+    // stanzas
+    // ------------------------------------------------------
+    S_msrStanza               fCurrentStanzaClone;
+    bool                      fOnGoingStanza;
+
+
+    // syllables
+    // ------------------------------------------------------
+    S_msrSyllable             fCurrentSyllableClone;
+    bool                      fOnGoingSyllableExtend;
+
+
+    // part groups block
+    // the current partGroup command is the top of the stack
+    stack<S_bsrPartGroupBlock>
+                              fPartGroupBlocksStack;
+                              */
+};
+
+
+}
+
+
+#endif
+
+    /*
+    
+    // rights
+
+    public visitor<S_msrIdentification>,
+    
+    public visitor<S_msrCredit>,
+    public visitor<S_msrCreditWords>,
+    
+    // variable-value associations
+    
+    public visitor<S_msrVarValAssoc>,
+    public visitor<S_msrVarValsListAssoc>,
+    
+    // geometry
+
+    public visitor<S_msrPageGeometry>,
+
+    // layout
+
+    public visitor<S_msrLayout>,
   
   // parts & part groups
 
@@ -241,24 +565,6 @@ class msr2BsrTranslator :
   public visitor<S_msrMultipleRestContents>,
     */
 
-{
-  public:
-  
-    msr2BsrTranslator (
-      indentedOstream& ios,
-      S_msrScore       mScore);
-        
-    virtual ~msr2BsrTranslator ();
-
-    void buildBsrScoreFromMsrScore ();
-
-    S_bsrScore getBsrScore () const
-        { return fBsrScore; };
-    
-  protected:
-          
-    virtual void visitStart (S_msrScore& elt);
-    virtual void visitEnd   (S_msrScore& elt);
 
 /*
     virtual void visitStart (S_msrIdentification& elt);
@@ -269,41 +575,13 @@ class msr2BsrTranslator :
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
 
-  // parts & part groups
-
-    virtual void visitStart (S_msrPartGroup& elt);
-    virtual void visitEnd   (S_msrPartGroup& elt);
-
-    virtual void visitStart (S_msrPart& elt);
-    virtual void visitEnd   (S_msrPart& elt);
-
-    virtual void visitStart (S_msrStaffTuning& elt);
-    virtual void visitStart (S_msrStaffDetails& elt);
-    virtual void visitEnd   (S_msrStaffDetails& elt);
-  
-    virtual void visitStart (S_msrStaff& elt);
-    virtual void visitEnd   (S_msrStaff& elt);
-
-    virtual void visitStart (S_msrVoice& elt);
-    virtual void visitEnd   (S_msrVoice& elt);
-
-    virtual void visitStart (S_msrVoiceStaffChange& elt);
-
     virtual void visitStart (S_msrStanza& elt);
     virtual void visitEnd   (S_msrStanza& elt);
 
     virtual void visitStart (S_msrSyllable& elt);
     virtual void visitEnd   (S_msrSyllable& elt);
-
-    virtual void visitStart (S_msrClef& elt);
-    virtual void visitEnd   (S_msrClef& elt);
 */
 
-    virtual void visitStart (S_msrKey& elt);
-    virtual void visitEnd   (S_msrKey& elt);
-
-    virtual void visitStart (S_msrTime& elt);
-    virtual void visitEnd   (S_msrTime& elt);
 
 /*
     virtual void visitStart (S_msrTranspose& elt);
@@ -440,9 +718,6 @@ class msr2BsrTranslator :
     virtual void visitStart (S_msrLineBreak& elt);
     virtual void visitEnd   (S_msrLineBreak& elt);
 
-    virtual void visitStart (S_msrPageBreak& elt);
-    virtual void visitEnd   (S_msrPageBreak& elt);
-
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
     virtual void visitStart (S_msrRepeatCommonPart& elt);
@@ -476,240 +751,3 @@ class msr2BsrTranslator :
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
     */
-
-  private:
-                     
-    indentedOstream&          fLogOutputStream;
-
-
-    // the MSR score we're visiting
-    // ------------------------------------------------------
-    S_msrScore                fVisitedMsrScore;
-
-
-    // the BSR score we're building
-    // ------------------------------------------------------
-    S_bsrScore                fBsrScore;
-
-
-/*
-    // it's header
-    // ------------------------------------------------------
-    S_bsrHeader               fBsrScoreHeader;
-
-
-    // score
-    // ------------------------------------------------------
-    S_msrScore                fCurrentMsrScoreClone;
-
-    
-    // identification
-    // ------------------------------------------------------
-    bool                      fOnGoingIdentification;
-    S_msrIdentification       fCurrentIdentification;
-
-
-    // header
-    // ------------------------------------------------------
-    bool                      fWorkNumberKnown;
-    bool                      fWorkTitleKnown;
-    bool                      fMovementNumberKnown;
-    bool                      fMovementTitleKnown;
-    
-
-    // paper
-    // ------------------------------------------------------
-    void                      setPaperIndentsIfNeeded (
-                                S_msrPageGeometry pageGeometry);
-
-    // credits
-    // ------------------------------------------------------
-    S_msrCredit               fCurrentCredit;
-
-    
-    // part groups
-    // ------------------------------------------------------
-  //  S_msrPartGroup            fCurrentPartGroupClone; JMI
-
-    // the current partGroup is the top of the stack
-    stack<S_msrPartGroup>     fPartGroupsStack;
-
-    
-    // parts
-    // ------------------------------------------------------
-    S_msrPart                 fCurrentPartClone;
-    S_bsrPartBlock           fCurrentPartBlock;
-
-
-    // staff details
-    // ------------------------------------------------------
-
-    S_msrStaffTuning          fCurrentStaffTuningClone;
-
-    
-    // staves
-    // ------------------------------------------------------
-    S_msrStaff                fCurrentStaffClone;
-    S_bsrStaffBlock          fCurrentStaffBlock;
-    // prevent clef, key and time from being handled twice
-    bool                      fOnGoingStaff;
-
-
-    // voices
-    // ------------------------------------------------------    
-    S_msrVoice                fCurrentVoiceClone;
-    S_msrVoice                fCurrentVoiceOriginal;
-    map<S_msrNote, S_msrNote> fVoiceNotesMap;
-
-
-    // harmonies
-    // ------------------------------------------------------    
-    bool                      fOnGoingHarmonyVoice;
-
-    S_msrHarmony              fCurrentHarmonyClone;
-
-    list<S_msrHarmony>        fPendingHarmoniesList;
-
-
-    // frames
-    // ------------------------------------------------------    
- //   bool                      fOnGoingFramesVoice; JMI
-    
- //   list<S_msrFrame>          fPendingFramesList; // JMI
-
-
-    // figured bass
-    // ------------------------------------------------------    
-    bool                      fOnGoingFiguredBassVoice;
-    S_msrFiguredBass          fCurrentFiguredBass;
-
-    
-    // repeats
-    // ------------------------------------------------------
-
-    bool                      fOnGoingRepeat;
-// JMI    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
-    S_msrRepeatEnding         fCurrentRepeatEndingClone;
-
-
-    // measure repeats
-    // ------------------------------------------------------
-
-    S_msrMeasuresRepeatPattern
-                              fCurrentMeasuresRepeatPatternClone;
-    S_msrMeasuresRepeatReplicas
-                              fCurrentMeasuresRepeatReplicasClone;
-
-    // multiple rests
-    // ------------------------------------------------------
-
-    S_msrMultipleRest         fCurrentMultipleRestClone; // JMI
-    S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
-
-
-    // segments
-    // ------------------------------------------------------
-    // segments can be imbedded in others,
-    // the current segment clone is the one at the top of the stack
-    stack<S_msrSegment>       fCurrentSegmentClonesStack;
-
-    
-    // measures
-    // ------------------------------------------------------
-    // we need to count the measures for option fSeparatorLineEveryNMeasures,
-    // since measure numbers are actually strings
-    int                       fMeasuresCounter;
-    
-    S_msrMeasure              fCurrentMeasureClone;
-
-    void                      finalizeCurrentMeasureClone (
-                                int          inputLineNumber,
-                                S_msrMeasure originalMeasure);
-
-    // bar checks
-    // ------------------------------------------------------
-    S_msrBarCheck             fLastBarCheck;
-
-
-    // notes
-    // ------------------------------------------------------
-    bool                      fOnGoingNote;
-
-    // fCurrentNonGraceNoteClone is not used for grace notes,
-    // which are visited while the note they're attached to
-    // is being visited too
-    S_msrNote                 fCurrentNonGraceNoteClone;
-    
-    // to help workaround LilyPond issue 34
-    S_msrNote                 fFirstNoteCloneInVoice;
-
-    S_msrGraceNotesGroup      fCurrentSkipGraceNotesGroup;
-
-
-    // glissandos
-    // ------------------------------------------------------
-
-
-    // slides
-    // ------------------------------------------------------
-
-
-    // double tremolos
-    // ------------------------------------------------------
-    S_msrDoubleTremolo        fCurrentDoubleTremoloClone;
-    bool                      fOnGoingDoubleTremolo;
-
-    
-    // stems
-    // ------------------------------------------------------
-    S_msrStem                 fCurrentStem;
-
-    
-    // grace notes
-    // ------------------------------------------------------
-    S_msrGraceNotesGroup      fCurrentGraceNotesGroupClone;
-    S_msrNote                 fCurrentGraceNoteClone;
-    bool                      fOnGoingGraceNotesGroup;
-
-    // afterGraceNotes optimisation
-    S_msrAfterGraceNotesGroup fPendingAfterGraceNotesGroup;
-    S_msrElement              fCurrentAfterGraceNotesGroupElement;
-
-    
-    // chords
-    // ------------------------------------------------------
-    bool                      fOnGoingChord;
-    S_msrChord                fCurrentChordClone;
-
-    
-    // tuplets
-    // ------------------------------------------------------
-//    S_msrTuplet             fCurrentTupletClone;
- //   bool                      fOnGoingTuplet;
-    stack<S_msrTuplet>        fTupletClonesStack;
-
-
-    // stanzas
-    // ------------------------------------------------------
-    S_msrStanza               fCurrentStanzaClone;
-    bool                      fOnGoingStanza;
-
-
-    // syllables
-    // ------------------------------------------------------
-    S_msrSyllable             fCurrentSyllableClone;
-    bool                      fOnGoingSyllableExtend;
-
-
-    // part groups block
-    // the current partGroup command is the top of the stack
-    stack<S_bsrPartGroupBlock>
-                              fPartGroupBlocksStack;
-                              */
-};
-
-
-}
-
-
-#endif

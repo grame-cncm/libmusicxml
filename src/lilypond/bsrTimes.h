@@ -106,52 +106,11 @@ EXP ostream& operator<< (ostream& os, const S_bsrTimeItem& elt);
 class bsrTime : public bsrElement
 {
   public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum bsrTimeSymbolKind {
-        kTimeSymbolNone,
-        kTimeSymbolCommon,
-        kTimeSymbolCut,
-        kTimeSymbolNote,
-        kTimeSymbolDottedNote,
-        kTimeSymbolSingleNumber,
-        kTimeSymbolSenzaMisura };
-
-    static string timeSymbolKindAsString (
-      bsrTimeSymbolKind timeSymbolKind);
-      
-    enum bsrTimeSeparatorKind {
-        kTimeSeparatorNone,
-        kTimeSeparatorHorizontal,
-        kTimeSeparatorDiagonal,
-        kTimeSeparatorVertical,
-        kTimeSeparatorAdjacent };
-
-    static string timeSeparatorKindAsString (
-      bsrTimeSeparatorKind timeSeparatorKind);
-      
-    enum bsrTimeRelationKind {
-        kTimeRelationNone,
-        kTimeRelationParentheses,
-        kTimeRelationBracket,
-        kTimeRelationEquals,
-        kTimeRelationSlash,
-        kTimeRelationSpace,
-        kTimeRelationHyphen };
-
-    static string timeRelationKindAsString (
-      bsrTimeRelationKind timeRelationKind);
-      
-    // creation from MusicXML
+          
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrTime> create (
-      int               inputLineNumber,
-      bsrTimeSymbolKind timeSymbolKind);
-
-    static SMARTP<bsrTime> createFourQuartersTime (
       int inputLineNumber);
 
   protected:
@@ -160,8 +119,7 @@ class bsrTime : public bsrElement
     // ------------------------------------------------------
 
     bsrTime (
-      int               inputLineNumber,
-      bsrTimeSymbolKind timeSymbolKind);
+      int inputLineNumber);
       
     virtual ~bsrTime ();
   
@@ -170,26 +128,9 @@ class bsrTime : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    bsrTimeSymbolKind     getTimeSymbolKind () const
-                              { return fTimeSymbolKind; }
-                  
-    bool                  getTimeIsCompound () const
-                              { return fTimeIsCompound; }
-                  
-    const vector<S_bsrTimeItem>&
-                          getTimeItemsVector ()
-                              { return fTimeItemsVector; }
-
     // services
     // ------------------------------------------------------
                   
-    bool                  isEqualTo (S_bsrTime otherTime) const;
-                            
-    void                  appendTimeItem (
-                            S_bsrTimeItem timeItem);
-
-    rational              wholeNotesPerMeasure () const;
-
   public:
 
     // visitors
@@ -207,8 +148,6 @@ class bsrTime : public bsrElement
 
     string                asString () const;
 
-    string                asShortString () const;
-
     virtual void          print (ostream& os);
 
   private:
@@ -216,14 +155,6 @@ class bsrTime : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    bsrTimeSymbolKind     fTimeSymbolKind;
-
-    vector<S_bsrTimeItem> fTimeItemsVector;
-
-    // a time is compound if it contains several items
-    // or if the only one has several beats numbers
-    // i.e. 3/4 is not, (3+4)/8 is, and 2/4+3/4 is too
-    bool                  fTimeIsCompound;
 };
 typedef SMARTP<bsrTime> S_bsrTime;
 EXP ostream& operator<< (ostream& os, const S_bsrTime& elt);
