@@ -233,10 +233,6 @@ staffInstrumentAbbreviation
     void                  initializeLilypondOptions (
                             bool boolOptionsInitialValue);
     
-    void                  printLilypondOptionsHelp ();
-
-    void                  printLilypondOptionsValues (int fieldWidth);
-    
   public:
   
     // constructors/destructor
@@ -281,6 +277,15 @@ staffInstrumentAbbreviation
                             S_optionsItem item,
                             string        theString);
 
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printLilypondOptionsHelp ();
+
+    void                  printLilypondOptionsValues (int fieldWidth);
+    
   public:
 
     // identification

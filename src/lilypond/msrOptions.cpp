@@ -477,7 +477,7 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   DESSUS="Cor anglais"
-  xml2ly -msrPartRename "P1 = ${DESSUS}" .
+  xml2ly/xml2brl -msrPartRename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
           "PART_RENAME_SPEC",
           "partRename",

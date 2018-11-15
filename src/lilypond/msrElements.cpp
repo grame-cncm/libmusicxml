@@ -109,5 +109,4 @@ ostream& operator<< (ostream& os, const S_msrElement& elt)
 }
 
 
-
 }

@@ -139,7 +139,7 @@ const wchar_t
   kbc_capitalsPrefix = kDots46;
 
 const wstring
-  brailleCapitalsSequence { kbc_capitalsPrefix + kbc_capitalsPrefix };
+  brailleCapitalsSequence { kbc_capitalsPrefix, kbc_capitalsPrefix };
 
 //______________________________________________________________________________
 // decimal digits
@@ -155,6 +155,20 @@ const wchar_t
   kbc_8 = kbc_h,
   kbc_9 = kbc_i,
   kbc_0 = kbc_j;
+
+//______________________________________________________________________________
+// lower decimal digits
+const wchar_t
+  kbc_lower_1 = kDots2,
+  kbc_lower_2 = kDots23,
+  kbc_lower_3 = kDots25,
+  kbc_lower_4 = kDots256,
+  kbc_lower_5 = kDots26,
+  kbc_lower_6 = kDots235,
+  kbc_lower_7 = kDots2356,
+  kbc_lower_8 = kDots236,
+  kbc_lower_9 = kDots35,
+  kbc_lower_0 = kDots356;
 
 //______________________________________________________________________________
 // arithmetic operators
@@ -181,6 +195,14 @@ const wchar_t
   kbc_quote            = kDots3;
   
 //______________________________________________________________________________
+// parentheses
+const wstring
+  kbc_literaryLeftParenthesis  { kDots5, kDots126 },
+  kbc_literaryRightParenthesis { kDots5, kDots345 },
+  kbc_musicParentheses         { kDots6, kDots3 },
+  kbc_specialParentheses       { kDots2356, kDots2356 };
+
+//______________________________________________________________________________
 // other symbols
 const wchar_t
   kbc_space    = kDotsNone,
@@ -191,18 +213,18 @@ const wchar_t
   kbc_exponent = kDots4;
 
 const wstring
-  kbc_paragraph           { kDots5, kDots1234 },
-  kbc_ampersand           { kDots5, kDots123456 },
-  kbc_upsilon             { kDots45, kDots13456 }, // better name JMI ??? 
-  kbc_euro                { kDots45, kDots15 },
-  kbc_dollar              { kDots45, kDots234 },
-  kbc_pound               { kDots45, kDots123 },
-  kbc_copyright           { kDots5, kDots14 },
-  kbc_registeredTradeMark { kDots5, kDots1235 },
-  kbc_tradeMark           { kDots5, kDots2345 },
-  kbc_percent             { kDots5, kDots346 },
-  kbc_perthousand         { kDots5, kDots346, kDots346 },
-  kbc_pertenthousand      { kDots5, kDots346, kDots346, kDots346 };
+  kbs_paragraph           { kDots5, kDots1234 },
+  kbs_ampersand           { kDots5, kDots123456 },
+  kbs_upsilon             { kDots45, kDots13456 }, // better name JMI ??? 
+  kbs_euro                { kDots45, kDots15 },
+  kbs_dollar              { kDots45, kDots234 },
+  kbs_pound               { kDots45, kDots123 },
+  kbs_copyright           { kDots5, kDots14 },
+  kbs_registeredTradeMark { kDots5, kDots1235 },
+  kbs_tradeMark           { kDots5, kDots2345 },
+  kbs_percent             { kDots5, kDots346 },
+  kbs_perthousand         { kDots5, kDots346, kDots346 },
+  kbs_pertenthousand      { kDots5, kDots346, kDots346, kDots346 };
 
 //______________________________________________________________________________
 // octaves, bottom up
@@ -211,7 +233,25 @@ const wchar_t
   kbc_octave2 = kDots45,
   kbc_octave3 = kDots456,
   kbc_octave4 = kDots5,
-  kbc_octave5 = kDots46;
+  kbc_octave5 = kDots46,
+  kbc_octave6 = kDots56,
+  kbc_octave7 = kDots6;
+
+const wstring
+  kbs_octaveBelow1 { kbc_octave1, kbc_octave1 },
+  kbs_octaveAbove7 { kbc_octave7, kbc_octave7 };
+
+//______________________________________________________________________________
+// alterations
+const wchar_t
+  kbc_flat    = kDots126,
+  kbc_natural = kDots16,
+  kbc_sharp   = kDots136;
+
+//______________________________________________________________________________
+// augmentations
+const wchar_t
+  kbc_augmentationDot = kDots3;
 
 //______________________________________________________________________________
 // notes
@@ -252,9 +292,72 @@ const wchar_t
   kbc_bWhole   = kDots23456;
 
 //______________________________________________________________________________
+// intervals
+const wchar_t
+  kbc_second  = kDots34,
+  kbc_third   = kDots346,
+  kbc_fourth  = kDots3456,
+  kbc_fifth   = kDots35,
+  kbc_sixth   = kDots356,
+  kbc_seventh = kDots25,
+  kbc_eighth  = kDots36;
+
+//______________________________________________________________________________
+// rests
+const wchar_t
+  kbc_rest8th     = kDots1346,
+  kbc_rest128th   = kDots1346,
+  kbc_restQuarter = kDots1236,
+  kbc_rest64th    = kDots1236,
+  kbc_restHalf    = kDots136,
+  kbc_rest32th    = kDots136,
+  kbc_restWhole   = kDots135,
+  kbc_rest16th    = kDots135;
+
+//______________________________________________________________________________
+// triplets
+const wchar_t
+  kbc_triplet  = kDots23;
+
+//______________________________________________________________________________
+// fermatas
+const wstring
+  kbs_fermataOnANote      { kDots146, kDots126, kDots123 },
+  kbs_fermataBetweenNotes { kDots5,   kDots126, kDots123 },
+  kbs_fermataOverABarLine { kDots456, kDots126, kDots123 };
+
+//______________________________________________________________________________
+// hyphens
+const wchar_t
+  kbc_musicHyphen = kDots5;
+
+//______________________________________________________________________________
+// keyboard hands
+const wstring
+  kbs_rightHand { kDots46,  kDots345 },
+  kbs_leftHand  { kDots456, kDots345 };
+
+//______________________________________________________________________________
+// bars
+const wstring
+  kbs_finalDoubleBar     { kDots126, kDots13 },
+  kbs_sectionalDoubleBar { kDots126, kDots13, kDots3 };
+
+//______________________________________________________________________________
+// measure divisions
+const wstring
+  kbs_measureDivisionSign { kDots46, kDots13 };
+
+//______________________________________________________________________________
+// words
+const wchar_t
+  kbc_wordSign       = kDots345,
+  kbc_wordApostrophe = kDots6;
+
+//______________________________________________________________________________
 // pages
 const wstring
-  kbs_pagination { kDots5 + kDots25 };
+  kbs_pagination { kDots5, kDots25 };
 
 //______________________________________________________________________________
 // brailling characters and strings

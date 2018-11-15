@@ -147,7 +147,7 @@ R"(Ignore errors and proceed.)",
         optionsBooleanItem::create (
           "aoe", "abort-on-errors",
 R"(Abort execution on errors instead of gracefully exiting.
-This is useful when debugging xml2ly.)",
+This is useful when debugging xml2ly/xml2brl.)",
           "abortOnErrors",
           fAbortOnErrors));
   
@@ -157,7 +157,7 @@ This is useful when debugging xml2ly.)",
           "dscp", "display-source-code-position",
 R"(Display the source code file name and line number
 in warning and error messages.
-This is useful when debugging xml2ly.)",
+This is useful when debugging xml2ly/xml2brl.)",
           "displaySourceCodePosition",
           fDisplaySourceCodePosition));
   }
@@ -334,47 +334,6 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-
-/*
-  // command line
-  // --------------------------------------
-
-  gLogIOstream << left <<
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "input source name" << " : " <<
-    fInputSourceName <<
-    endl <<
-      
-    setw (fieldWidth) << "translation date" << " : " <<
-    fTranslationDate <<
-    endl;
-
-  gIndenter--;
-
-  // output file
-  // --------------------------------------
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<        
-    setw (fieldWidth) << "inputSourceName" << " : \"" <<
-    fInputSourceName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
-    "\"" <<
-    endl;
-
-  gIndenter--;
-*/
 
   // warning and error handling
   // --------------------------------------

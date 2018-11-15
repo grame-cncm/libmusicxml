@@ -1520,47 +1520,6 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-/* JMI
-  // command line
-  // --------------------------------------
-
-  gLogIOstream << left <<
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "input source name" << " : " <<
-    fInputSourceName <<
-    endl <<
-      
-    setw (fieldWidth) << "translation date" << " : " <<
-    fTranslationDate <<
-    endl;
-
-  gIndenter--;
-
-  // output file
-  // --------------------------------------
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "Output file:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<        
-    setw (fieldWidth) << "inputSourceName" << " : \"" <<
-    fInputSourceName <<
-    "\"" <<
-    endl <<
-    setw (fieldWidth) << "outputFileName" << " : \"" <<
-    fOutputFileName <<
-    "\"" <<
-    endl;
-
-  gIndenter--;
-*/
-
   // trace and display
   // --------------------------------------
 

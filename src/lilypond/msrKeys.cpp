@@ -176,12 +176,6 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
 void msrHumdrumScotKeyItem::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrHumdrumScotKeyItem::asString () const
 {
   stringstream s;
@@ -203,6 +197,12 @@ void msrHumdrumScotKeyItem::print (ostream& os)
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________

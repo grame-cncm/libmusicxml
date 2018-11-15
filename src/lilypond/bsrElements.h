@@ -24,7 +24,7 @@ class bsrElement : public msrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrElement> create (
@@ -48,7 +48,6 @@ class bsrElement : public msrElement
     // services
     // ------------------------------------------------------
 
-
   public:
   
     // visitors
@@ -58,8 +57,21 @@ class bsrElement : public msrElement
     virtual void          acceptOut (basevisitor* v);
 
     virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual std::string   asString () const;
+    
+    virtual std::string   asShortString () const;
+
+    virtual void          print (std::ostream& os);
+
 };
 typedef SMARTP<bsrElement> S_bsrElement;
+EXP std::ostream& operator<< (std::ostream& os, const S_bsrElement& elt);
 
 //______________________________________________________________________________
 template <typename T> class bsrBrowser : public browser<T> 

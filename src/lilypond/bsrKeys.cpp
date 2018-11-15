@@ -31,203 +31,11 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
-S_bsrHumdrumScotKeyItem bsrHumdrumScotKeyItem::create (
-  int inputLineNumber)
-{
-  bsrHumdrumScotKeyItem* o =
-    new bsrHumdrumScotKeyItem (
-      inputLineNumber);
-  assert (o!=0);
-
-  return o;
-}
-
-bsrHumdrumScotKeyItem::bsrHumdrumScotKeyItem (
-  int inputLineNumber)
-    : bsrElement (inputLineNumber)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
-      "Creating Humdrum/Scot key item" <<
-      ", line = " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-/*
-  fKeyDiatonicPitchKind = k_NoDiatonicPitch;
-  fKeyAlterationKind    = k_NoAlteration;
-  fKeyOctave            = -1; // actual MusicXML octaves are non-negative
-  */
-}
-
-bsrHumdrumScotKeyItem::~bsrHumdrumScotKeyItem ()
-{}
-
-/*
-bool bsrHumdrumScotKeyItem::isEqualTo (
-  S_bsrHumdrumScotKeyItem
-    otherHumdrumScotKeyItem) const
-{
-  if (! otherHumdrumScotKeyItem) {
-    return false;
-  }
-    
-  return
-    fKeyDiatonicPitchKind == otherHumdrumScotKeyItem->fKeyDiatonicPitchKind
-      &&
-    fKeyAlterationKind == otherHumdrumScotKeyItem->fKeyAlterationKind
-      &&
-    fKeyOctave == otherHumdrumScotKeyItem->fKeyOctave;
-}
-
-void bsrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
-  bsrDiatonicPitchKind diatonicPitchKind)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
-      "Setting Humdrum/Scot key item diatonic pitch to '" <<
-      bsrDiatonicPitchKindAsString (diatonicPitchKind) <<
-      "'" <<
-      endl;
-  }
-#endif
-  
-  fKeyDiatonicPitchKind = diatonicPitchKind;
-}
-
-void bsrHumdrumScotKeyItem::setKeyItemAlterationKind (
-  bsrAlterationKind alterationKind)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
-      "Setting Humdrum/Scot key item alteration to '" <<
-      bsrAlterationKindAsString (alterationKind) <<
-      "'" <<
-      endl;
-  }
-#endif
-  
-  fKeyAlterationKind = alterationKind;
-}
-
-void bsrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
-      "Setting Humdrum/Scot key item octave to '" <<
-      keyOctave <<
-      "'" <<
-      endl;
-  }
-#endif
-  
-  fKeyOctave = keyOctave;
-}
-*/
-
-void bsrHumdrumScotKeyItem::acceptIn (basevisitor* v)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
-      "% ==> bsrHumdrumScotKeyItem::acceptIn ()" <<
-      endl;
-  }
-      
-  if (visitor<S_bsrHumdrumScotKeyItem>*
-    p =
-      dynamic_cast<visitor<S_bsrHumdrumScotKeyItem>*> (v)) {
-        S_bsrHumdrumScotKeyItem elem = this;
-        
-        if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching bsrHumdrumScotKeyItem::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void bsrHumdrumScotKeyItem::acceptOut (basevisitor* v)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
-      "% ==> bsrHumdrumScotKeyItem::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_bsrHumdrumScotKeyItem>*
-    p =
-      dynamic_cast<visitor<S_bsrHumdrumScotKeyItem>*> (v)) {
-        S_bsrHumdrumScotKeyItem elem = this;
-      
-        if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching bsrHumdrumScotKeyItem::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void bsrHumdrumScotKeyItem::browseData (basevisitor* v)
-{}
-
-ostream& operator<< (ostream& os, const S_bsrHumdrumScotKeyItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string bsrHumdrumScotKeyItem::asString () const
-{
-  stringstream s;
-/*
-  s <<
-    "HumdrumScotKeyItem" <<
-    ", KeyDiatonicPitch" << ": " <<
-    bsrDiatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
-    ", KeyAlteration" << ": " <<
-    bsrAlterationKindAsString (fKeyAlterationKind) <<
-    ", KeyOctave" << ": " << fKeyOctave <<
-    ", line " << fInputLineNumber;
-     */
-  return s.str ();
-}
-
-void bsrHumdrumScotKeyItem::print (ostream& os)
-{
-  os <<
-    asString () <<
-    endl;
-}
-
-/*
-//______________________________________________________________________________
-S_bsrKey bsrKey::createTraditional (
-  int                      inputLineNumber,
-  bsrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
-  bsrKeyModeKind           keyModeKind,
-  int                      keyCancel)
-{
-  bsrKey* o =
-    new bsrKey (
-      inputLineNumber,
-      keyTonicQuarterTonesPitchKind, keyModeKind,
-      keyCancel);
-  assert (o!=0);
-
-  return o;
-}
-
-S_bsrKey bsrKey::createHumdrumScot (
+S_bsrKey bsrKey::create (
   int inputLineNumber)
 {
   bsrKey* o =
@@ -238,122 +46,16 @@ S_bsrKey bsrKey::createHumdrumScot (
   return o;
 }
 
-bsrKey::bsrKey ( // for traditional keys
-  int                      inputLineNumber,
-  bsrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
-  bsrKeyModeKind           keyModeKind,
-  int                      keyCancel)
+bsrKey::bsrKey (
+  int inputLineNumber)
     : bsrElement (inputLineNumber)
 {
   // this is a traditional key
   fKeyKind = kTraditionalKind;
-  
-  fKeyTonicQuarterTonesPitchKind = keyTonicQuarterTonesPitchKind;
-  fKeyModeKind                   = keyModeKind;
-  
-  fKeyCancel = keyCancel;
-
-  // initialization in all cases
-  fKeyItemsOctavesAreSpecified = false;
 }
-
-bsrKey::bsrKey ( // for Humdrum/Scot keys
-  int                  inputLineNumber)
-    : bsrElement (inputLineNumber)
-{
-  // this is a Humdrum/Scot key
-  fKeyKind = kHumdrumScotKind;
-
-  // initialization in all cases
-  fKeyItemsOctavesAreSpecified = false;
-}
-*/
 
 bsrKey::~bsrKey ()
 {}
-
-/*
-bool bsrKey::isEqualTo (S_bsrKey otherKey) const
-{
-  if (! otherKey) {
-    return false;
-  }
-  if (
-    ! (
-        fKeyKind == otherKey->fKeyKind
-          &&
-        fKeyTonicQuarterTonesPitchKind
-          ==
-        otherKey->fKeyTonicQuarterTonesPitchKind
-          &&
-        fKeyModeKind == otherKey->fKeyModeKind
-          &&
-        fKeyCancel == otherKey->fKeyCancel
-      )
-    ) {
-    return false;
-  }
-    
-  switch (fKeyKind) {
-    case bsrKey::kTraditionalKind:
-      break;
-    case bsrKey::kHumdrumScotKind:
-      {
-        if (
-          ! (
-              fKeyItemsOctavesAreSpecified
-                ==
-              otherKey->fKeyItemsOctavesAreSpecified
-                  &&
-              fHumdrumScotKeyItemsVector.size ()
-                ==
-              otherKey->fHumdrumScotKeyItemsVector.size ()
-            )
-          ) {
-          return false;
-        }
-
-        for (unsigned int i = 0; i < fHumdrumScotKeyItemsVector.size (); i++) {
-          if (
-            ! (
-              fHumdrumScotKeyItemsVector [i]->isEqualTo (
-                otherKey->fHumdrumScotKeyItemsVector [i])
-              )
-            ) {
-            return false;
-          }
-        } // for
-      }
-      break;
-  } // switch
-
-  return true;
-}
-
-void bsrKey::appendHumdrumScotKeyItem (
-  S_bsrHumdrumScotKeyItem item)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
-      "Append item '" <<
-      item->asString () <<
-      "' to key '" <<
-      "'" <<
-      endl;
-    }
-#endif
-
-  // have key items octaves been specified?
-  if (item->getKeyItemOctave () >= 0) {
-    fKeyItemsOctavesAreSpecified = true;
-  }
-
-  // append the item to the vector
-  fHumdrumScotKeyItemsVector.insert (
-    fHumdrumScotKeyItemsVector.end (), item);
-}
-*/
 
 void bsrKey::acceptIn (basevisitor* v)
 {
@@ -402,12 +104,6 @@ void bsrKey::acceptOut (basevisitor* v)
 void bsrKey::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_bsrKey& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string bsrKey::keyKindAsString (
   bsrKeyKind keyKind)
 {
@@ -424,46 +120,6 @@ string bsrKey::keyKindAsString (
 
   return result;
 }
-
-/*
-string bsrKey::keyModeKindAsString (
-  bsrKeyModeKind keyModeKind)
-{
-  string result;
-  
-  switch (keyModeKind) {
-    case bsrKey::kMajorMode:
-      result = "major";
-      break;
-    case bsrKey::kMinorMode:
-      result = "minor";
-      break;
-    case bsrKey::kIonianMode:
-      result = "ionian";
-      break;
-    case bsrKey::kDorianMode:
-      result = "dorian";
-      break;
-    case bsrKey::kPhrygianMode:
-      result = "phrygian";
-      break;
-    case bsrKey::kLydianMode:
-      result = "lydian";
-      break;
-    case bsrKey::kMixolydianMode:
-      result = "mixolydian";
-      break;
-    case bsrKey::kAeolianMode:
-      result = "aeolian";
-      break;
-    case bsrKey::kLocrianMode:
-      result = "locrian";
-      break;
-  } // switch
-
-  return result;
-}
-*/
 
 string bsrKey::asString () const
 {
@@ -505,62 +161,14 @@ void bsrKey::print (ostream& os)
   os <<
     "Key" <<
     ", " << keyKindAsString (fKeyKind) <<
-    ",";
+    endl;
 
-/*
-  switch (fKeyKind) {
-    case bsrKey::kTraditionalKind:
-      os <<
-        " " <<
-        bsrQuarterTonesPitchKindAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-          fKeyTonicQuarterTonesPitchKind) <<
-        " " <<
-        keyModeKindAsString (fKeyModeKind) <<
-        ", line " << fInputLineNumber <<
-        endl;
-      break;
-      
-    case bsrKey::kHumdrumScotKind:
-      os <<
-        ", keyItemsOctavesAreSpecified: " <<
-        booleanAsString (
-          fKeyItemsOctavesAreSpecified) <<
-        ", " <<
-        fHumdrumScotKeyItemsVector.size () <<
-        " items" <<
-        ", line " << fInputLineNumber <<
-        endl;
+}
 
-      if (fHumdrumScotKeyItemsVector.size ()) {
-        os <<
-          endl;
-          
-        gIndenter++;
-        
-        vector<S_bsrHumdrumScotKeyItem>::const_iterator
-          iBegin = fHumdrumScotKeyItemsVector.begin (),
-          iEnd   = fHumdrumScotKeyItemsVector.end (),
-          i      = iBegin;
-          
-        for ( ; ; ) {
-          os << (*i);
-          if (++i == iEnd) break;
-    // JMI     os << endl;
-        } // for
-        
-        gIndenter--;
-      }
-      
-      else
-        {
-          os <<
-            " none" <<
-            endl;
-        }
-      break;
-  } // switch
-  */
+ostream& operator<< (ostream& os, const S_bsrKey& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

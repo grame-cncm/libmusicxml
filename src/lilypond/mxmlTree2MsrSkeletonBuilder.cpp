@@ -1567,7 +1567,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
   
               s <<
                 endl <<
-R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
+R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
   either you found a bug in the translator,
   or this MusicXML data is the first-ever real-world case
   of a score exhibiting overlapping part groups)";

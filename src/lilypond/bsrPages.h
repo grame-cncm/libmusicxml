@@ -10,76 +10,59 @@
   research@grame.fr
 */
 
-#ifndef ___bsrScores___
-#define ___bsrScores___
+#ifndef ___bsrPages___
+#define ___bsrPages___
 
-#include <sstream>
-#include <string>
-#include <list>
-
-#include "msrScores.h"
-
-#include "bsrTranscriptionNotes.h"
+#include "bsrElements.h"
 
 #include "bsrOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrScore : public bsrElement
+class bsrPage : public bsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<bsrScore> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
-     
+    static SMARTP<bsrPage> create (
+      int inputLineNumber);
+    
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrScore (
-      int            inputLineNumber,
-      S_msrScore     mScore);
+    bsrPage (
+      int inputLineNumber);
       
-    virtual ~bsrScore ();
+    virtual ~bsrPage ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    S_msrScore            getMsrScore () const
-                              { return fMsrScore; }
+    int                   getPrintPageNumber () const
+                              { return fPrintPageNumber; }
 
-    S_bsrTranscriptionNotes
-                          getTranscriptionNotes () const
-                              { return fTranscriptionNotes; }
-
-    int                   getLinesCellsNumberMax () const
-                              { return fLinesCellsNumberMax; }
-
-    int                   getPagesLinesNumberMax () const
-                              { return fPagesLinesNumberMax; }
-
+    int                   getBraillePageNumber () const
+                              { return fBraillePageNumber; }
+                              
   public:
-  
+
     // public services
     // ------------------------------------------------------
 
-  private:
-  
-    // private services
-    // ------------------------------------------------------
+  public:
+
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -100,17 +83,13 @@ class bsrScore : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    // MSR data
-    S_msrScore            fMsrScore;
+    int                   fPrintPageNumber;    
+    int                   fBraillePageNumber;
 
-    S_bsrTranscriptionNotes
-                          fTranscriptionNotes;
-
-    int                   fLinesCellsNumberMax;
-    int                   fPagesLinesNumberMax;
+    list<S_bsrElement>    fPageElementsList;
 };
-typedef SMARTP<bsrScore> S_bsrScore;
-EXP ostream& operator<< (ostream& os, const S_bsrScore& elt);
+typedef SMARTP<bsrPage> S_bsrPage;
+EXP ostream& operator<< (ostream& os, const S_bsrPage& elt);
 
 
 }

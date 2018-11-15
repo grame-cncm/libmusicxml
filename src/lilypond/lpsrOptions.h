@@ -186,10 +186,6 @@ class lpsrOptions : public optionsGroup
     void                  initializeLpsrOptions (
                             bool boolOptionsInitialValue);
     
-    void                  printLpsrOptionsHelp ();
-
-    void                  printLpsrOptionsValues (int fieldWidth);
-    
   public:
   
     // constructors/destructor
@@ -237,6 +233,15 @@ class lpsrOptions : public optionsGroup
                             S_optionsItem item,
                             string        theString);
 
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printLpsrOptionsHelp ();
+
+    void                  printLpsrOptionsValues (int fieldWidth);
+        
   public:
 
     // trace and display

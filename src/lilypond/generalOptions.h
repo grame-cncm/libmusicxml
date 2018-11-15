@@ -40,10 +40,6 @@ class generalOptions : public optionsGroup
     void                  initializeGeneralOptions (
                             bool boolOptionsInitialValue);
         
-    void                  printGeneralOptionsHelp ();
-
-    void                  printGeneralOptionsValues (int fieldWidth);
-    
   protected:
   
     // constructors/destructor
@@ -77,6 +73,15 @@ class generalOptions : public optionsGroup
                             ostream&      os,
                             S_optionsItem item);
 
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printGeneralOptionsHelp ();
+
+    void                  printGeneralOptionsValues (int fieldWidth);
+    
   public:
 
     // command line

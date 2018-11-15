@@ -428,13 +428,15 @@ and let Braille decide about them.)",
   {
     // variables  
   
-    fXml2brlInfos         = boolOptionsInitialValue;
+    fXml2brlInfos        = boolOptionsInitialValue;
                 
     fNoBrailleCode       = boolOptionsInitialValue;
     
     fNoBrailleLyrics     = boolOptionsInitialValue;
     
     fBrailleCompileDate  = boolOptionsInitialValue;
+    
+    fBrailleFacSimileKind  = kFacSimileNo;
     
     // options
   
@@ -497,100 +499,23 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
     setOptionsHandlerUplink (
       fOptionsHandlerUplink);
 
-/*
-  // identification
-  // --------------------------------------
-
-  // MusicXML informations
-  clone->fRights =
-    fRights;
-  clone->fComposer =
-    fComposer;
-  clone->fArranger =
-    fArranger;
-  clone->fPoet =
-    fPoet;
-  clone->fLyricist =
-    fLyricist;
-  clone->fSoftware =
-    fSoftware;
-    
-  // Braille informations
-  clone->fDedication =
-    fDedication;
-  clone->fPiece =
-    fPiece;
-  clone->fOpus =
-    fOpus;
-  clone->fTitle =
-    fTitle;
-  clone->fSubTitle =
-    fSubTitle;
-  clone->fSubSubTitle =
-    fSubSubTitle;
-  clone->fInstrument =
-    fInstrument;
-  clone->fMeter =
-    fMeter;
-  clone->fTagline =
-    fTagline;
-  clone->fCopyright =
-    fCopyright;
-
-
-  // notes
-  // --------------------------------------
-  
-  clone->fAbsoluteOctaves =
-    fAbsoluteOctaves;
-
-  clone->fAllDurations =
-    fAllDurations;
-
-  clone->fRomanStringNumbers =
-    fRomanStringNumbers;
-
-  clone->fAvoidOpenStrings =
-    fAvoidOpenStrings;
-
-  clone->fCompressMultiMeasureRests =
-    fCompressMultiMeasureRests;
-
-  clone->fNoteInputLineNumbers =
-    true;
-
-
-  // bars
-  // --------------------------------------
-  
-  clone->fShowAllBarNumbers =
-    true;
-
-
-  // line breaks
-  // --------------------------------------
-
-  clone->fIgnoreLineBreaks =
-    fIgnoreLineBreaks;
-
-  clone->fBreakLinesAtIncompleteRightMeasures =
-    fBreakLinesAtIncompleteRightMeasures;
-
-  // page breaks
-  // --------------------------------------
-
-  clone->fIgnorePageBreaks =
-    fIgnorePageBreaks;
-*/
-
   // code generation
   // --------------------------------------
 
+  clone->fXml2brlInfos =
+    fXml2brlInfos;
+    
   clone->fNoBrailleCode =
     fNoBrailleCode;
     
   clone->fNoBrailleLyrics =
     fNoBrailleLyrics;
+    
+  clone->fBrailleCompileDate =
+    fBrailleCompileDate;
+    
+  clone->fBrailleFacSimileKind =
+    fBrailleFacSimileKind;
     
   return clone;
 }
@@ -605,6 +530,23 @@ void brailleOptions::checkOptionsConsistency ()
   // JMI
 }
 
+string brailleOptions::facSimileKindAsString (
+  bsrFacSimileKind facSimileKind)
+{
+  string result;
+
+  switch (facSimileKind) {
+    case brailleOptions::kFacSimileYes:
+      result = "facSimileYes";
+      break;
+    case brailleOptions::kFacSimileNo:
+      result = "facSimileNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 {
   gLogIOstream <<
@@ -613,166 +555,7 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 
   gIndenter++;
   
-/*
-  // identification
-  // --------------------------------------
-  gLogIOstream <<
-    "Identification:" <<
-    endl;
 
-  gIndenter++;
-
-  // MusicXML informations
-  gLogIOstream << left <<
-    setw (fieldWidth) << "rights" << " : " <<
-      fRights <<
-      endl <<
-
-    setw (fieldWidth) << "composer" << " : " <<
-      fComposer <<
-      endl <<
-    setw (fieldWidth) << "arranger" << " : " <<
-      fArranger <<
-      endl <<
-    setw (fieldWidth) << "poet" << " : " <<
-      fPoet <<
-      endl <<
-    setw (fieldWidth) << "lyricist" << " : " <<
-      fLyricist <<
-      endl <<
-
-    setw (fieldWidth) << "software" << " : " <<
-      fSoftware <<
-      endl <<
-
-  // Braille informations
-
-    setw (fieldWidth) << "dedication" << " : " <<
-      fDedication <<
-      endl <<
-
-    setw (fieldWidth) << "piece" << " : " <<
-      fPiece <<
-      endl <<
-    setw (fieldWidth) << "opus" << " : " <<
-      fOpus <<
-      endl <<
-
-    setw (fieldWidth) << "title" << " : " <<
-      fTitle <<
-      endl <<
-    setw (fieldWidth) << "subTitle" << " : " <<
-      fSubTitle <<
-      endl <<
-    setw (fieldWidth) << "subSubTitle" << " : " <<
-      fSubSubTitle <<
-      endl <<
-    setw (fieldWidth) << "instrument" << " : " <<
-      fInstrument <<
-      endl <<
-    setw (fieldWidth) << "meter" << " : " <<
-      fMeter <<
-      endl <<
-
-    setw (fieldWidth) << "tagline" << " : " <<
-      fTagline <<
-      endl <<
-
-    setw (fieldWidth) << "copyright" << " : " <<
-      fCopyright <<
-      endl;
-
-  gIndenter--;
-
-
-  // notes
-  // --------------------------------------
-  gLogIOstream <<
-    "Notes:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "absoluteOctaves" << " : " <<
-      booleanAsString (fAbsoluteOctaves) <<
-      endl <<
-    
-    setw (fieldWidth) << "allDurations" << " : " <<
-      booleanAsString (fAllDurations) <<
-      endl <<
-    
-    setw (fieldWidth) << "romanStringNumbers" << " : " <<
-      booleanAsString (fRomanStringNumbers) <<
-      endl <<
-      
-    setw (fieldWidth) << "avoidOpenString" << " : " <<
-      booleanAsString (fAvoidOpenStrings) <<
-      endl <<
-    
-    setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<
-      booleanAsString (fCompressMultiMeasureRests) <<
-      endl <<
-    
-    setw (fieldWidth) << "inputLineNumbers" << " : " <<
-      booleanAsString (fNoteInputLineNumbers) <<
-      endl;
-
-  gIndenter--;
-
-  
-  // bars
-  // --------------------------------------
-  gLogIOstream <<
-    "Bars:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "showAllBarNumbers" << " : " <<
-    booleanAsString (fShowAllBarNumbers) <<
-    endl;
-
-  gIndenter--;
-
-
-  // line breaks
-  // --------------------------------------
-  gLogIOstream <<
-    "Line breaks:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
-      booleanAsString (fIgnoreLineBreaks) <<
-      endl <<
-    
-    setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
-      booleanAsString (fBreakLinesAtIncompleteRightMeasures) <<
-      endl;
-
-  gIndenter--;
-
-  
-  // page breaks
-  // --------------------------------------
-  gLogIOstream <<
-    "Page breaks:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "ignorePageBreaks" << " : " <<
-    booleanAsString (fIgnorePageBreaks) <<
-    endl;
-
-  gIndenter--;
-*/
-  
   // code generation
   // --------------------------------------
 
@@ -783,6 +566,10 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    setw (fieldWidth) << "xml2brlInfos" << " : " <<
+      booleanAsString (fXml2brlInfos) <<
+      endl <<
+    
     setw (fieldWidth) << "noBrailleCode" << " : " <<
       booleanAsString (fNoBrailleCode) <<
       endl <<
@@ -793,11 +580,14 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     
     setw (fieldWidth) << "brailleCompileDate" << " : " <<
       booleanAsString (fBrailleCompileDate) <<
+      endl <<
+    
+    setw (fieldWidth) << "brailleFacSimileKind" << " : " <<
+      facSimileKindAsString (fBrailleFacSimileKind) <<
       endl;
 
   gIndenter--;
   
-
   gIndenter--;
 }
 
@@ -824,24 +614,6 @@ S_optionsItem brailleOptions::handleOptionsItem (
 
     // wait until the value is met
     result = accidentalStyleItem;
-  }
-
-  else if (
-    // midi tempo item?
-    S_optionsMidiTempoItem
-      midiTempoItem =
-        dynamic_cast<optionsMidiTempoItem*>(&(*item))
-    ) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsMidiTempoItem'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = midiTempoItem;
   }
   */
 

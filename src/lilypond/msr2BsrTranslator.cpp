@@ -29,7 +29,7 @@
 #include "msrOptions.h"
 #include "brailleOptions.h"
 
-#include "xml2lyOptionsHandling.h"
+#include "xml2brlOptionsHandling.h"
 
 #include "msr2BsrTranslator.h"
 
@@ -119,6 +119,12 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       endl;
   }
 
+  // create the BSR score
+  fBsrScore =
+    bsrScore::create (
+      NO_INPUT_LINE_NUMBER,
+      fVisitedMsrScore);
+
 /*
   // create an empty clone of fVisitedMsrScore for use by the BSR score
   // not sharing the visitiged MSR score allows cleaner data handling
@@ -126,12 +132,6 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
   fCurrentMsrScoreClone =
     fVisitedMsrScore->
       createScoreNewbornClone ();
-
-  // create the BSR score
-  fBsrScore =
-    bsrScore::create (
-      NO_INPUT_LINE_NUMBER,
-      fCurrentMsrScoreClone);
 
   // fetch score header
   fBsrScoreHeader =
@@ -1540,7 +1540,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gXml2brlOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1587,7 +1587,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -2831,7 +2831,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note uplink";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gXml2brlOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3402,7 +3402,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gXml2lyOptions->fInputSourceName,
+            gXml2brlOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -3417,7 +3417,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3441,7 +3441,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3511,7 +3511,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3536,7 +3536,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3560,7 +3560,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3822,7 +3822,7 @@ void msr2BsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gXml2brlOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5032,7 +5032,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
     
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gXml2brlOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -5152,7 +5152,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
    
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gXml2brlOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }

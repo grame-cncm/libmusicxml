@@ -10,61 +10,47 @@
   research@grame.fr
 */
 
-#ifndef ___bsrKeys___
-#define ___bsrKeys___
+#ifndef ___bsrPageHeadings___
+#define ___bsrPageHeadings___
 
-#include <list>
 
 #include "bsrElements.h"
 
-#include "bsrBasicTypes.h"
+#include "brailleOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrKey;
-typedef SMARTP<bsrKey> S_bsrKey;
-
-class bsrKey : public bsrElement
+class bsrPageHeading : public bsrElement
 {
   public:
-    
-    // data types
+
+    // creation from MusicXML
     // ------------------------------------------------------
 
-    enum bsrKeyKind {
-        kTraditionalKind, kHumdrumScotKind };
-        
-    static string keyKindAsString (
-      bsrKeyKind keyKind);
-      
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<bsrKey> create (
+    static SMARTP<bsrPageHeading> create (
       int inputLineNumber);
-      
+    
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrKey (
+    bsrPageHeading (
       int inputLineNumber);
-            
-    virtual ~bsrKey ();
-
+      
+    virtual ~bsrPageHeading ();
+  
   public:
 
     // set and get
     // ------------------------------------------------------
+                              
+  public:
 
-    bsrKeyKind            getKeyKind () const
-                              { return fKeyKind; }
-    
-    // services
+    // public services
     // ------------------------------------------------------
 
   public:
@@ -78,26 +64,23 @@ class bsrKey : public bsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-
+  
     // print
     // ------------------------------------------------------
 
-    string                asString () const;
-
     virtual void          print (ostream& os);
-  
+
   private:
 
     // fields
     // ------------------------------------------------------
 
-    bsrKeyKind            fKeyKind;
 };
-typedef SMARTP<bsrKey> S_bsrKey;
-EXP ostream& operator<< (ostream& os, const S_bsrKey& elt);
+typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
+EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);
 
 
-} // namespace MusicXML2
+}
 
 
 #endif

@@ -87,4 +87,28 @@ void bsrElement::browseData (basevisitor* v)
 {}
 
 
+string bsrElement::asString () const
+{
+  // this is overriden all in actual elements
+  return "??? bsrElement::asString () ???";
+}
+
+string bsrElement::asShortString () const
+{
+  // this can be overriden in actual elements
+  return asString ();
+}
+
+void bsrElement::print (ostream& os)
+{
+  os << asString () << endl;
+}
+
+ostream& operator<< (ostream& os, const S_bsrElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+
 }

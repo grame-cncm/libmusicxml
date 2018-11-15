@@ -175,12 +175,6 @@ void bsrTimeItem::acceptOut (basevisitor* v)
 void bsrTimeItem::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_bsrTimeItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string bsrTimeItem::asString () const
 {
   stringstream s;
@@ -234,6 +228,12 @@ void bsrTimeItem::print (ostream& os)
   os <<
     asString () <<
     endl;
+}
+
+ostream& operator<< (ostream& os, const S_bsrTimeItem& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________

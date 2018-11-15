@@ -490,7 +490,7 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
-  xml2ly -showChordDetails "bes ${HARMONY}" .)",
+  xml2ly/xml2brl -showChordDetails "bes ${HARMONY}" .)",
           "CHORD_SPEC",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
@@ -530,7 +530,7 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
-  xml2ly -showChordAnalysis "bes ${HARMONY}" .)",
+  xml2ly/xml2brl -showChordAnalysis "bes ${HARMONY}" .)",
           "CHORD_SPEC",
           "diatonic (semitones) pitch",
           fChordsRootAsString));

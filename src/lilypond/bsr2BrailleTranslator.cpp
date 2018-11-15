@@ -26,7 +26,7 @@
 #include "musicXMLOptions.h"
 #include "lilypondOptions.h"
 
-#include "xml2lyOptionsHandling.h"
+#include "xml2brlOptionsHandling.h"
 
 #include "bsr2BrailleTranslator.h"
 
@@ -35,9 +35,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-
-// for comments highlighting in the generated Braille code
-const int commentFieldWidth = 30;
 
 /*
 //______________________________________________________________________________
@@ -116,10 +113,6 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
         logIOstream),
       fBrailleCodeIOstream (
         lilypondOutputStream)
-        /*,
-      fNullIOstream (
-        indentedOstream ("/dev/null"))
-     */
 {
   fMsrOptions  = msrOpts;
   fBsrOptions = bsrOpts;
@@ -127,13 +120,13 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
 
+/* JMI
   // inhibit the browsing of measure repeats replicas,
   // since Braille only needs the repeat measure
   fVisitedBsrScore->
     getMsrScore ()->
       setInhibitMeasuresRepeatReplicasBrowsing ();
 
-/* JMI
   // inhibit the browsing of multiple rest replicas,
   // since Braille only needs the measure number
   fVisitedBsrScore->
@@ -1949,7 +1942,7 @@ void bsr2BrailleTranslator::generateNoteArticulation (
           ", line " << articulation->getInputLineNumber ();
           
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           articulation->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -2091,7 +2084,7 @@ void bsr2BrailleTranslator::generateChordArticulation (
           ", line " << articulation->getInputLineNumber ();
           
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           articulation->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -2681,7 +2674,7 @@ void bsr2BrailleTranslator::transposeDiatonicError (
     "'";
     
   msrMusicXMLError (
-    gXml2lyOptions->fInputSourceName,
+    gXml2brlOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -6432,13 +6425,13 @@ void bsr2BrailleTranslator::visitStart (S_msrMeasure& elt)
 
 if (false) // JMI
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
 else
         msrInternalWarning (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
       }
@@ -6520,7 +6513,7 @@ else
             
      // JMI       msrInternalError (
           msrInternalWarning (
-            gXml2lyOptions->fInputSourceName,
+            gXml2brlOptions->fInputSourceName,
             inputLineNumber,
     // JMI        __FILE__, __LINE__,
             s.str ());
@@ -7228,7 +7221,7 @@ void bsr2BrailleTranslator::visitStart (S_msrKey& elt)
         
         else {
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gXml2brlOptions->fInputSourceName,
               elt->getInputLineNumber (),
               __FILE__, __LINE__,
               "Humdrum/Scot key items vector is empty");
@@ -7415,7 +7408,7 @@ void bsr2BrailleTranslator::visitStart (S_msrTime& elt)
       // there are no time items
       if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           "time items vector is empty");
@@ -7842,7 +7835,7 @@ If the double element is present, it indicates that the music is doubled one oct
           "' is not between -12 and 12, ignored";
           
         msrMusicXMLError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -9035,7 +9028,7 @@ void bsr2BrailleTranslator::generateGraceNotesGroup (
           ", line " << graceNotesGroup->getInputLineNumber ();
           
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           graceNotesGroup->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -9059,7 +9052,7 @@ void bsr2BrailleTranslator::generateGraceNotesGroup (
       ", line " << graceNotesGroup->getInputLineNumber ();
       
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gXml2brlOptions->fInputSourceName,
       graceNotesGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -10260,7 +10253,7 @@ void bsr2BrailleTranslator::visitEnd (S_msrNote& elt)
                 ", line " << articulation->getInputLineNumber ();
                 
               msrInternalError (
-                gXml2lyOptions->fInputSourceName,
+                gXml2brlOptions->fInputSourceName,
                 articulation->getInputLineNumber (),
                 __FILE__, __LINE__,
                 s.str ());
@@ -10649,7 +10642,7 @@ void bsr2BrailleTranslator::visitEnd (S_msrNote& elt)
                 ", line " << articulation->getInputLineNumber ();
                 
               msrInternalError (
-                gXml2lyOptions->fInputSourceName,
+                gXml2brlOptions->fInputSourceName,
                 articulation->getInputLineNumber (),
                 __FILE__, __LINE__,
                 s.str ());
@@ -11763,7 +11756,7 @@ void bsr2BrailleTranslator::visitStart (S_msrChord& elt)
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
     msrInternalWarning (
-      gXml2lyOptions->fInputSourceName,
+      gXml2brlOptions->fInputSourceName,
       chordInputLineNumber,
       "% ==> Start visiting grace chords is ignored");
 
@@ -12045,7 +12038,7 @@ void bsr2BrailleTranslator::visitEnd (S_msrChord& elt)
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
     msrInternalWarning (
-      gXml2lyOptions->fInputSourceName,
+      gXml2brlOptions->fInputSourceName,
       chordInputLineNumber,
       "% ==> End visiting grace chords is ignored");
 
@@ -12945,7 +12938,7 @@ void bsr2BrailleTranslator::visitStart (S_msrPedal& elt)
           "' has no pedal type";
           
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -13091,7 +13084,7 @@ void bsr2BrailleTranslator::visitStart (S_msrBarline& elt)
           
   // JMI      msrInternalError (
         msrInternalWarning (
-          gXml2lyOptions->fInputSourceName,
+          gXml2brlOptions->fInputSourceName,
           inputLineNumber,
   // JMI        __FILE__, __LINE__,
           s.str ());
@@ -14028,66 +14021,6 @@ void bsr2BrailleTranslator::visitEnd (S_msrMultipleRestContents& elt)
   }
 }
 
-//________________________________________________________________________
-void bsr2BrailleTranslator::visitStart (S_msrMidi& elt)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
-      "% --> Start visiting msrMidi" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  if (gBrailleOptions->fNoMidi) {
-    fBrailleCodeIOstream <<
-      "%{" <<
-      endl;
-
-     gIndenter++;
-  }
-
-  fBrailleCodeIOstream <<
-    "\\midi" << " {" <<
-    endl;
-  
-  gIndenter++;
-  
-  if (gBrailleOptions->fNoMidi) {
-    fBrailleCodeIOstream <<
-      "% ";
-  }
-  
-  fBrailleCodeIOstream <<
-    "\\tempo " <<
-    elt->getMidiTempoDuration () <<
-    " = " <<
-    elt->getMidiTempoPerSecond () <<
-    endl;
-  
-  gIndenter--;
-  
-  fBrailleCodeIOstream <<
-    "}" <<
-    endl;
-
-  if (gBrailleOptions->fNoMidi) {
-    gIndenter--;
-
-    fBrailleCodeIOstream <<
-      "%}" <<
-      endl;
-  }
-}
-
-void bsr2BrailleTranslator::visitEnd (S_msrMidi& elt)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
-      "% --> End visiting msrMidi" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
 */
 
 

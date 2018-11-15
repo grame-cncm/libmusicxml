@@ -19,160 +19,31 @@
 
 namespace MusicXML2 
 {
-/*
-//______________________________________________________________________________
-class optionsBsrPitchesLanguageItem : public optionsValuedItem
-{
-  public:
-  
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<optionsBsrPitchesLanguageItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsBsrPitchesLanguageKindItemVariableDisplayName,
-      msrQuarterTonesPitchesLanguageKind&
-                         optionsBsrPitchesLanguageKindItemVariable);
-     
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    optionsBsrPitchesLanguageItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsBsrPitchesLanguageKindItemVariableDisplayName,
-      msrQuarterTonesPitchesLanguageKind&
-                         optionsBsrPitchesLanguageKindItemVariable);
-      
-    virtual ~optionsBsrPitchesLanguageItem ();
-
-  public:
-  
-    // set and get
-    // ------------------------------------------------------
-
-    string                getOptionsBsrPitchesLanguageKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsBsrPitchesLanguageKindItemVariableDisplayName;
-                              }
-                              
-    void                  setPitchesLanguageKindItemVariableValue (
-                            msrQuarterTonesPitchesLanguageKind value)
-                              {
-                                fOptionsBsrPitchesLanguageKindItemVariable = value;
-                              }
-
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-  
-    // fields
-    // ------------------------------------------------------
-
-    string                fOptionsBsrPitchesLanguageKindItemVariableDisplayName;
-    msrQuarterTonesPitchesLanguageKind&
-                          fOptionsBsrPitchesLanguageKindItemVariable;
-};
-typedef SMARTP<optionsBsrPitchesLanguageItem> S_optionsBsrPitchesLanguageItem;
-ostream& operator<< (ostream& os, const S_optionsBsrPitchesLanguageItem& elt);
-
-//______________________________________________________________________________
-class optionsBsrChordsLanguageItem : public optionsValuedItem
-{
-  public:
-  
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<optionsBsrChordsLanguageItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsBsrChordsLanguageKindItemVariableDisplayName,
-      bsrChordsLanguageKind&
-                         optionsBsrChordsLanguageKindItemVariable);
-     
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    optionsBsrChordsLanguageItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsBsrChordsLanguageKindItemVariableDisplayName,
-      bsrChordsLanguageKind&
-                         optionsBsrChordsLanguageKindItemVariable);
-      
-    virtual ~optionsBsrChordsLanguageItem ();
-
-  public:
-  
-    // set and get
-    // ------------------------------------------------------
-
-    string                getOptionsBsrChordsLanguageKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsBsrChordsLanguageKindItemVariableDisplayName;
-                              }
-                              
-    void                  setBsrChordsLanguageKindItemVariableValue (
-                            bsrChordsLanguageKind value)
-                              {
-                                fOptionsBsrChordsLanguageKindItemVariable = value;
-                              }
-
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-  
-    // fields
-    // ------------------------------------------------------
-
-    string                fOptionsBsrChordsLanguageKindItemVariableDisplayName;
-    bsrChordsLanguageKind&
-                          fOptionsBsrChordsLanguageKindItemVariable;
-};
-typedef SMARTP<optionsBsrChordsLanguageItem> S_optionsBsrChordsLanguageItem;
-ostream& operator<< (ostream& os, const S_optionsBsrChordsLanguageItem& elt);
-*/
 
 //______________________________________________________________________________
 class bsrOptions : public optionsGroup
 {
   public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum bsrByteOrderingKind {
+        kByteOrderingBigEndian, kByteOrderingSmallEndian };
+        
+    static string byteOrderingKindAsString (
+      bsrByteOrderingKind byteOrderingKind);
+
+    enum bsrFacSimileKind {
+        kFacSimileYes, kFacSimileNo };
+        
+    static string facSimileKindAsString (
+      bsrFacSimileKind facSimileKind);
+
+  public:
+
+    // creation
+    // ------------------------------------------------------
 
     static SMARTP<bsrOptions> create (
       S_optionsHandler optionsHandler);
@@ -187,10 +58,6 @@ class bsrOptions : public optionsGroup
     void                  initializeBsrOptions (
                             bool boolOptionsInitialValue);
     
-    void                  printBsrOptionsHelp ();
-
-    void                  printBsrOptionsValues (int fieldWidth);
-    
   public:
   
     // constructors/destructor
@@ -203,13 +70,7 @@ class bsrOptions : public optionsGroup
 
     // set and get
     // ------------------------------------------------------
-/*
-    bool                  setBsrQuarterTonesPitchesLanguage (
-                            string language);    
- 
-    bool                  setBsrChordsLanguage (
-                            string language);    
- */
+
   public:
 
     // quiet mode
@@ -240,6 +101,15 @@ class bsrOptions : public optionsGroup
 
   public:
 
+    // print
+    // ------------------------------------------------------
+
+    void                  printBsrOptionsHelp ();
+
+    void                  printBsrOptionsValues (int fieldWidth);
+    
+  public:
+
     // trace and display
     // --------------------------------------
     
@@ -248,6 +118,7 @@ class bsrOptions : public optionsGroup
     bool                  fTraceBsrVisitors;
     
     bool                  fDisplayBsr;
+    bool                  fDisplayBsrDetails;
     
     // lyrics vs words
     // --------------------------------------

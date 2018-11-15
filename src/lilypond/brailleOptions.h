@@ -191,6 +191,12 @@ class brailleOptions : public optionsGroup
     static string byteOrderingKindAsString (
       bsrByteOrderingKind byteOrderingKind);
 
+    enum bsrFacSimileKind {
+        kFacSimileYes, kFacSimileNo };
+        
+    static string facSimileKindAsString (
+      bsrFacSimileKind facSimileKind);
+
   public:
 
     // creation
@@ -225,18 +231,7 @@ class brailleOptions : public optionsGroup
 
     // set and get
     // ------------------------------------------------------
-/*
-    void                  setBsrByteOrderingKind (
-                            bsrByteOrderingKind byteOrderingKind)
-                              { fBsrByteOrderingKind = byteOrderingKind; }
 
-    bsrByteOrderingKind   getBsrByteOrderingKind () const
-                              { return fBsrByteOrderingKind; }
-                              */
-
- // JMI   bool                  setAccidentalStyle (
-  //                          lpsrAccidentalStyle accidentalStyle);    
- 
   public:
 
     // quiet mode
@@ -272,69 +267,6 @@ class brailleOptions : public optionsGroup
 
     bsrByteOrderingKind   fBsrByteOrderingKind;
     
-/*
-    // identification
-    // --------------------------------------
-
-    // MusicXML informations
-    string                fRights;
-    string                fComposer;
-    string                fArranger;
-    string                fPoet;
-    string                fLyricist;
-    string                fSoftware;
-      
-    // Braille informations
-    string                fDedication;
-    string                fPiece;
-    string                fOpus;
-    string                fTitle;
-    string                fSubTitle;
-    string                fSubSubTitle;
-    string                fInstrument;
-    string                fMeter;
-    string                fTagline;
-    string                fCopyright;
-    
-    // names
-    // --------------------------------------
-    
-    // notes
-    // --------------------------------------
-    
-    bool                  fAbsoluteOctaves;
-    
-    bool                  fAllDurations;
-        
-    bool                  fRomanStringNumbers;
-    bool                  fAvoidOpenStrings;
-    
-    bool                  fCompressMultiMeasureRests;
-
-    bool                  fNoteInputLineNumbers;
-
-
-    // bars
-    // --------------------------------------
-    
-    bool                  fShowAllBarNumbers;
-
-    
-    // line breaks
-    // --------------------------------------
-    
-    bool                  fIgnoreLineBreaks;
-    
-    bool                  fBreakLinesAtIncompleteRightMeasures;
-    
-
-    // page breaks
-    // --------------------------------------
-    
-    bool                  fIgnorePageBreaks;
-*/
-
-    
     // code generation
     // --------------------------------------
 
@@ -345,6 +277,8 @@ class brailleOptions : public optionsGroup
     bool                  fNoBrailleLyrics;
 
     bool                  fBrailleCompileDate;
+
+    bsrFacSimileKind      fBrailleFacSimileKind;
 
   private: // JMI
 

@@ -195,10 +195,6 @@ class msrOptions : public optionsGroup
     void                  initializeMsrOptions (
                             bool boolOptionsInitialValue);
     
-    void                  printMsrOptionsHelp ();
-
-    void                  printMsrOptionsValues (int fieldWidth);
-
   public:
 
     // constructors/destructor
@@ -243,6 +239,15 @@ class msrOptions : public optionsGroup
                             S_optionsItem item,
                             string        theString);
   
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printMsrOptionsHelp ();
+
+    void                  printMsrOptionsValues (int fieldWidth);
+
   public:
 
     // trace and display

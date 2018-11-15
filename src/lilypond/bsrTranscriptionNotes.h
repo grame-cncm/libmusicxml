@@ -10,10 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___bsrKeys___
-#define ___bsrKeys___
-
-#include <list>
+#ifndef ___bsrTranscriptionNotes___
+#define ___bsrTranscriptionNotes___
 
 #include "bsrElements.h"
 
@@ -24,46 +22,33 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrKey;
-typedef SMARTP<bsrKey> S_bsrKey;
-
-class bsrKey : public bsrElement
+class bsrTranscriptionNotes : public bsrElement
 {
   public:
-    
-    // data types
+
+    // creation from MusicXML
     // ------------------------------------------------------
 
-    enum bsrKeyKind {
-        kTraditionalKind, kHumdrumScotKind };
-        
-    static string keyKindAsString (
-      bsrKeyKind keyKind);
-      
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<bsrKey> create (
+    static SMARTP<bsrTranscriptionNotes> create (
       int inputLineNumber);
-      
+    
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrKey (
+    bsrTranscriptionNotes (
       int inputLineNumber);
-            
-    virtual ~bsrKey ();
-
+      
+    virtual ~bsrTranscriptionNotes ();
+  
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    bsrKeyKind            getKeyKind () const
-                              { return fKeyKind; }
-    
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -82,19 +67,16 @@ class bsrKey : public bsrElement
     // print
     // ------------------------------------------------------
 
-    string                asString () const;
-
     virtual void          print (ostream& os);
-  
+
   private:
 
     // fields
     // ------------------------------------------------------
 
-    bsrKeyKind            fKeyKind;
 };
-typedef SMARTP<bsrKey> S_bsrKey;
-EXP ostream& operator<< (ostream& os, const S_bsrKey& elt);
+typedef SMARTP<bsrTranscriptionNotes> S_bsrTranscriptionNotes;
+EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotes& elt);
 
 
 } // namespace MusicXML2

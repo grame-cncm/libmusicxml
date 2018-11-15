@@ -41,10 +41,6 @@ class traceOptions : public optionsGroup
     void                  initializeTraceOptions (
                             bool boolOptionsInitialValue);
         
-    void                  printTraceOptionsHelp ();
-
-    void                  printTraceOptionsValues (int fieldWidth);
-    
   protected:
   
     // constructors/destructor
@@ -86,6 +82,15 @@ class traceOptions : public optionsGroup
                             ostream&      os,
                             S_optionsItem item);
 
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printTraceOptionsHelp ();
+
+    void                  printTraceOptionsValues (int fieldWidth);
+    
   public:
 
     // trace and display  

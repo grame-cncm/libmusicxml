@@ -246,10 +246,6 @@ class xml2lyOptions : public optionsGroup
 
     void                  initializeXml2lyOptions ();
         
-    void                  printXml2lyOptionsHelp ();
-
-    void                  printXml2lyOptionsValues (int fieldWidth);
-    
   protected:
   
     // constructors/destructor
@@ -285,6 +281,15 @@ class xml2lyOptions : public optionsGroup
         
   public:
 
+    // print
+    // ------------------------------------------------------
+
+    void                  printXml2lyOptionsHelp ();
+
+    void                  printXml2lyOptionsValues (int fieldWidth);
+    
+  public:
+
     // input
     // --------------------------------------
 
@@ -298,8 +303,6 @@ class xml2lyOptions : public optionsGroup
 
     string                fOutputFileName;
     bool                  fAutoOutputFile;
-
-    
 };
 typedef SMARTP<xml2lyOptions> S_xml2lyOptions;
 EXP ostream& operator<< (ostream& os, const S_xml2lyOptions& elt);

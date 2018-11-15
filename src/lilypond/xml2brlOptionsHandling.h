@@ -246,10 +246,6 @@ class xml2brlOptions : public optionsGroup
 
     void                  initializeXml2brlOptions ();
         
-    void                  printXml2brlOptionsHelp ();
-
-    void                  printXml2brlOptionsValues (int fieldWidth);
-    
   protected:
   
     // constructors/destructor
@@ -283,6 +279,15 @@ class xml2brlOptions : public optionsGroup
                             ostream&      os,
                             S_optionsItem item);
         
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    void                  printXml2brlOptionsHelp ();
+
+    void                  printXml2brlOptionsValues (int fieldWidth);
+    
   public:
 
     // input

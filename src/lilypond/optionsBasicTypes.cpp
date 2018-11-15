@@ -484,7 +484,7 @@ void optionsHelpSummaryItem::print (ostream& os) const
 void optionsHelpSummaryItem::printHelpSummary (ostream& os) const
 {  
   os <<
-    "xml2ly"<<
+    "xml2ly/xml2brl"<<
     endl;
 }
 

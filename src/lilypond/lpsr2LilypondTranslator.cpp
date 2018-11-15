@@ -114,10 +114,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
         logIOstream),
       fLilypondCodeIOstream (
         lilypondOutputStream)
-        /*,
-      fNullIOstream (
-        indentedOstream ("/dev/null"))
-        */
 {
   fMsrOptions  = msrOpts;
   fLpsrOptions = lpsrOpts;

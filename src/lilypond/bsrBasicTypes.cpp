@@ -24,7 +24,7 @@
 #include "messagesHandling.h"
 #include "generalOptions.h"
 
-#include "xml2lyOptionsHandling.h"
+#include "xml2brlOptionsHandling.h"
 
 #include "bsrBasicTypes.h"
 
