@@ -132,6 +132,59 @@ R"(Write the contents of the BSR data with more details to standard error.)",
           gTraceOptions->fTracePasses));
 #endif
   }
+
+
+  // exit after some passes
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    // options
+  
+    S_optionsSubGroup
+      exitAfterSomePassesSubGroup =
+        optionsSubGroup::create (
+          "Exit after some passes",
+          "hbe", "help=bsr-exit",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+        
+    // '-exit-3a' is hidden...
+    S_optionsBooleanItem
+      exit2aOptionsBooleanItem =
+        optionsBooleanItem::create (
+          "e3a", "exit-3a",
+R"(Exit after pass 3a, i.e. after conversion
+of the MSR to the first BSR score.)",
+          "exit3a",
+          fExit3a);
+    exit2aOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    exitAfterSomePassesSubGroup->
+      appendOptionsItem (
+        exit2aOptionsBooleanItem);
+
+    // '-exit-3b' is hidden...
+    S_optionsBooleanItem
+      exit2bOptionsBooleanItem =
+        optionsBooleanItem::create (
+          "e3b", "exit-3b",
+R"(Exit after pass 3b, i.e. after conversion
+of the first BSR to the second BSR.)",
+          "exit3b",
+          fExit3b);
+    exit2bOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    exitAfterSomePassesSubGroup->
+      appendOptionsItem (
+        exit2bOptionsBooleanItem);
+  }
 }
 
 S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
@@ -162,23 +215,8 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
     true;
 
     
-  // lyrics vs words
+  // exit after some passes
   // --------------------------------------
-
-  clone->fAddWordsFromTheLyrics =
-    true;
-
-
-/*  
-  // languages
-  // --------------------------------------
-
-  clone->fBsrQuarterTonesPitchesLanguageKind =
-    fBsrQuarterTonesPitchesLanguageKind;
-
-  clone->fBsrChordsLanguageKind =
-    fBsrChordsLanguageKind;
-    */
 
   return clone;
 }
@@ -234,47 +272,24 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
 
   gIndenter--;
   
-  // lyrics vs words
+  // exit after some passes
   // --------------------------------------
-  
+
   gLogIOstream <<
-    "Lyrics vs words:" <<
+    "Exit after some passes:" <<
     endl;
 
   gIndenter++;
   
   gLogIOstream << left <<
-    setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
-    booleanAsString (fAddWordsFromTheLyrics) <<
-    endl;
-
-  gIndenter--;
-
-  // languages
-  // --------------------------------------
-
-  /*
-  gLogIOstream <<
-    "Languages:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "bsrQuarterTonesPitchesLanguage" << " : \"" <<
-    msrQuarterTonesPitchesLanguageKindAsString (
-      fBsrQuarterTonesPitchesLanguageKind) <<
-    "\"" <<
+    setw (fieldWidth) << "exit3a" << " : " <<
+    booleanAsString (fExit3a) <<
     endl <<
-
-    setw (fieldWidth) << "bsrChordsLanguage" << " : \"" <<
-    bsrChordsLanguageKindAsString (
-      fBsrChordsLanguageKind) <<
-    "\"" <<
-    endl;  
+    setw (fieldWidth) << "exit3b" << " : " <<
+    booleanAsString (fExit3b) <<
+    endl;
 
   gIndenter--;
-*/
   
   gIndenter--;
 }

@@ -363,7 +363,7 @@ class extraOptions : public optionsGroup
     // fields
     // ------------------------------------------------------
 
-    string                fChordsRootAsString;
+    string                fChordsRootAsString; // JMI
 };
 typedef SMARTP<extraOptions> S_extraOptions;
 EXP ostream& operator<< (ostream& os, const S_extraOptions& elt);

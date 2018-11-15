@@ -62,11 +62,11 @@ class bsrScore : public bsrElement
                           getTranscriptionNotes () const
                               { return fTranscriptionNotes; }
 
-    int                   getLinesCellsNumberMax () const
-                              { return fLinesCellsNumberMax; }
+    int                   getBrailleLineLength () const
+                              { return fBrailleLineLength; }
 
-    int                   getPagesLinesNumberMax () const
-                              { return fPagesLinesNumberMax; }
+    int                   getBraillePageLength () const
+                              { return fBraillePageLength; }
 
   public:
   
@@ -106,8 +106,8 @@ class bsrScore : public bsrElement
     S_bsrTranscriptionNotes
                           fTranscriptionNotes;
 
-    int                   fLinesCellsNumberMax;
-    int                   fPagesLinesNumberMax;
+    int                   fBrailleLineLength; // cells
+    int                   fBraillePageLength;
 };
 typedef SMARTP<bsrScore> S_bsrScore;
 EXP ostream& operator<< (ostream& os, const S_bsrScore& elt);

@@ -411,7 +411,7 @@ void convertMusicXMLToLilypond (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gGeneralOptions->fExit2a)
+  if (gMsrOptions->fExit2a)
     return;
 
     
@@ -422,7 +422,7 @@ void convertMusicXMLToLilypond (
     mxmlTree,
     mScore);
   
-  if (gGeneralOptions->fExit2b)
+  if (gMsrOptions->fExit2b)
     return;
     
 

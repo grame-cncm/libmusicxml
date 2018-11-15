@@ -48,9 +48,9 @@ bsrScore::bsrScore (
   fMsrScore = mScore;
 
   // allow for unlimited lines and pages lengthes initially,
-  // limits will be applied when refining the BSR
-  fLinesCellsNumberMax = INT_MAX;
-  fPagesLinesNumberMax = INT_MAX;
+  // until the limits are enforced when refining the BSR
+  fBrailleLineLength = INT_MAX;
+  fBraillePageLength = INT_MAX;
 }
 
 bsrScore::~bsrScore ()
@@ -137,7 +137,7 @@ void bsrScore::print (ostream& os)
     endl;
 
   // print the transcription notes if any
-  const int fieldWidth = 22;
+  const int fieldWidth = 19;
   
   if (fTranscriptionNotes || gBsrOptions->fDisplayBsrDetails) {
     os <<
@@ -166,10 +166,10 @@ void bsrScore::print (ostream& os)
   // print the lines and pages maximum lengthes
   os <<
     setw (fieldWidth) <<
-    "LinesCellsNumberMax" << " : " << fLinesCellsNumberMax <<
+    "BrailleLineLength" << " : " << fBrailleLineLength <<
     endl <<
     setw (fieldWidth) <<
-    "PagesLinesNumberMax" << " : " << fPagesLinesNumberMax <<
+    "BraillePageLength" << " : " << fBraillePageLength <<
     endl;
         
   gIndenter--;

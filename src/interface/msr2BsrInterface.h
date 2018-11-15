@@ -50,7 +50,7 @@ EXP S_bsrScore buildBsrScoreFromMsrScore (
   indentedOstream& logIOstream);
 
 //_______________________________________________________________________________
-EXP void displayBsrScore (
+EXP void displayFirstBsrScore (
   const S_bsrScore bScore,
   S_msrOptions     msrOpts,
   S_bsrOptions     bsrOpts,

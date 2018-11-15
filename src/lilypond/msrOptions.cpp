@@ -762,6 +762,59 @@ even though they do not contain music.)",
           "showFiguredBassVoices",
           fShowFiguredBassVoices));
   }
+
+
+  // exit after some passes
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    // options
+  
+    S_optionsSubGroup
+      exitAfterSomePassesSubGroup =
+        optionsSubGroup::create (
+          "Exit after some passes",
+          "hme", "help=msr-exit",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+        
+    // '-exit-2a' is hidden...
+    S_optionsBooleanItem
+      exit2aOptionsBooleanItem =
+        optionsBooleanItem::create (
+          "e2a", "exit-2a",
+R"(Exit after pass 2a, i.e. after conversion
+of the MusicXML tree to an MSR skeleton.)",
+          "exit2a",
+          fExit2a);
+    exit2aOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    exitAfterSomePassesSubGroup->
+      appendOptionsItem (
+        exit2aOptionsBooleanItem);
+
+    // '-exit-2b' is hidden...
+    S_optionsBooleanItem
+      exit2bOptionsBooleanItem =
+        optionsBooleanItem::create (
+          "e2b", "exit-2b",
+R"(Exit after pass 2b, i.e. after conversion
+of the MusicXML tree to MSR.)",
+          "exit2b",
+          fExit2b);
+    exit2bOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    exitAfterSomePassesSubGroup->
+      appendOptionsItem (
+        exit2bOptionsBooleanItem);
+  }
 }
 
 S_msrOptions msrOptions::createCloneWithDetailedTrace ()
@@ -1159,6 +1212,26 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   
   gIndenter--;
   
+  gIndenter--;
+
+
+  // exit after some passes
+  // --------------------------------------
+
+  gLogIOstream <<
+    "Exit after some passes:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) << "exit2a" << " : " <<
+    booleanAsString (fExit2a) <<
+    endl <<
+    setw (fieldWidth) << "exit2b" << " : " <<
+    booleanAsString (fExit2b) <<
+    endl;
+
   gIndenter--;
 }
 

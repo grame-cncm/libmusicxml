@@ -41,7 +41,7 @@ namespace MusicXML2
 S_bsrScore buildBsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOptions     msrOpts,
-  S_bsrOptions    bsrOpts,
+  S_bsrOptions     bsrOpts,
   indentedOstream& logIOstream)
 {
   // sanity check
@@ -61,7 +61,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
       separator <<
       endl <<
       gTab <<
-      "Pass 3: translating the MSR into a BSR" <<
+      "Pass 3a: translating the MSR into a BSR" <<
       endl <<
       separator <<
       endl;
@@ -81,7 +81,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 3",
+    "Pass 3a",
     "translate MSR to BSR",
     timingItem::kMandatory,
     startClock,
@@ -97,7 +97,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
 }
 
 //_______________________________________________________________________________
-void displayBsrScore (
+void displayFirstBsrScore (
   const S_bsrScore bScore,
   S_msrOptions     msrOpts,
   S_bsrOptions     bsrOpts,
@@ -117,7 +117,7 @@ void displayBsrScore (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the BSR as text" <<
+    "Optional pass: displaying the first BSR as text" <<
     endl <<
     separator <<
     endl <<
@@ -132,7 +132,7 @@ void displayBsrScore (
   // register time spent
   timing::gTiming.appendTimingItem (
     "",
-    "display the BSR",
+    "display the first BSR",
     timingItem::kOptional,
     startClock,
     endClock);

@@ -326,6 +326,13 @@ class msrOptions : public optionsGroup
     // --------------------------------------
     
     bool                  fShowFiguredBassVoices;
+
+
+    // exit after some passes
+    // --------------------------------------
+
+    bool                  fExit2a;
+    bool                  fExit2b;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 EXP ostream& operator<< (ostream& os, const S_msrOptions& elt);

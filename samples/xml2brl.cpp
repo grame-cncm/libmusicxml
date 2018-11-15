@@ -39,8 +39,9 @@
 #include "mxmlTree2MsrTranslatorInterface.h"
 
 #include "msr2BsrInterface.h"
+#include "bsr2BsrFinalizerInterface.h"
 
-#include "bsr2BrailleInterface.h"
+#include "bsr2BrailleTranslatorInterface.h"
 
 
 using namespace std;
@@ -215,7 +216,69 @@ void displayMsrScore_OptionalPass (
 }
 
 //_______________________________________________________________________________
-S_bsrScore convertBsrScoreToBcrScore_Pass4 (
+void displayBsrFirstScore_OptionalPass (
+  S_bsrScore   bScore,
+  S_msrOptions msrOpts,
+  S_bsrOptions bsrOpts)
+{
+  // display it
+  displayFirstBsrScore (
+    bScore,
+    msrOpts,
+    bsrOpts,
+    gLogIOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after first BSR score display: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2brlOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
+//_______________________________________________________________________________
+void displayBsrFinalizedScore_OptionalPass (
+  S_bsrScore   bScore,
+  S_msrOptions msrOpts,
+  S_bsrOptions bsrOpts)
+{
+  // display it
+  displayFinalizedBsrScore (
+    bScore,
+    msrOpts,
+    bsrOpts,
+    gLogIOstream);
+
+  if (gIndenter != 0) {
+    if (! gGeneralOptions->fQuiet) {
+      stringstream s;
+      
+      s <<
+        "gIndenter value after finalized BSR score display: "<<
+        gIndenter.getIndent ();
+        
+      msrMusicXMLWarning (
+        gXml2brlOptions->fInputSourceName,
+        1, // JMI inputLineNumber,
+        s.str ());
+    }
+
+    gIndenter.resetToZero ();
+  }
+}
+
+//_______________________________________________________________________________
+S_bsrScore convertMsrScoreToBsrScore_Pass3a (
   S_msrScore mScore)
 {
   S_bsrScore bScore;
@@ -234,7 +297,7 @@ S_bsrScore convertBsrScoreToBcrScore_Pass4 (
       stringstream s;
       
       s <<
-        "gIndenter value after pass 3: "<<
+        "gIndenter value after pass 3a: "<<
         gIndenter.getIndent ();
         
       msrMusicXMLWarning (
@@ -259,13 +322,13 @@ S_bsrScore convertBsrScoreToBcrScore_Pass4 (
 }
 
 //_______________________________________________________________________________
-void displayBsrScore_OptionalPass (
+void displayFinalizedBsrScore_OptionalPass (
   S_bsrScore   bScore,
   S_msrOptions msrOpts,
   S_bsrOptions bsrOpts)
 {
   // display it
-  displayBsrScore (
+  displayFinalizedBsrScore (
     bScore,
     msrOpts,
     bsrOpts,
@@ -290,16 +353,15 @@ void displayBsrScore_OptionalPass (
 }
 
 //_______________________________________________________________________________
-S_bsrScore convertMsrScoreToBsrScore_Pass3 (
-  S_msrScore mScore)
+S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
+  S_bsrScore bScore)
 {
-  S_bsrScore bScore;
+  S_bsrScore finalizedBsrScore;
 
   if (! gBrailleOptions->fNoBrailleCode) {
-    bScore =
-      buildBsrScoreFromMsrScore (
-        mScore,
-        gMsrOptions,
+    finalizedBsrScore =
+      generateFinalizedBsrScoreFromBsrScore (
+        bScore,
         gBsrOptions,
         gLogIOstream);
   }
@@ -309,7 +371,7 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3 (
       stringstream s;
       
       s <<
-        "gIndenter value after pass 3: "<<
+        "gIndenter value after pass 3b: "<<
         gIndenter.getIndent ();
         
       msrMusicXMLWarning (
@@ -321,51 +383,20 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3 (
     gIndenter.resetToZero ();
   }
 
-  if (! bScore) {
+  if (! finalizedBsrScore) {
     gLogIOstream <<
-      "### Conversion from MSR to BSR failed ###" <<
+      "### Conversion from first BSR to finalized BSR failed ###" <<
       endl <<
       endl;
       
     exit (2);
   }
 
-  return bScore;
+  return finalizedBsrScore;
 }
 
 //_______________________________________________________________________________
-void displayBcrScore_OptionalPass (
-  S_bsrScore   bScore,
-  S_msrOptions msrOpts,
-  S_bsrOptions bsrOpts)
-{
-  // display it
-  displayBsrScore (
-    bScore,
-    msrOpts,
-    bsrOpts,
-    gLogIOstream);
-
-  if (gIndenter != 0) {
-    if (! gGeneralOptions->fQuiet) {
-      stringstream s;
-      
-      s <<
-        "gIndenter value after BSR score display: "<<
-        gIndenter.getIndent ();
-        
-      msrMusicXMLWarning (
-        gXml2brlOptions->fInputSourceName,
-        1, // JMI inputLineNumber,
-        s.str ());
-    }
-
-    gIndenter.resetToZero ();
-  }
-}
-
-//_______________________________________________________________________________
-void convertBcrScoreToBrailleText_Pass5 (
+void convertBsrScoreToBrailleText_Pass4 (
   string     outputFileName,
   S_bsrScore bScore)
 {  
@@ -400,7 +431,6 @@ void convertBcrScoreToBrailleText_Pass5 (
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
-        gMsrOptions,
         gBsrOptions,
         gLogIOstream,
         brailleCodeFileOutputStream);
@@ -426,7 +456,6 @@ void convertBcrScoreToBrailleText_Pass5 (
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
-        gMsrOptions,
         gBsrOptions,
         gLogIOstream,
         brailleCodeCoutOutputStream);
@@ -486,7 +515,7 @@ void convertMusicXMLToBraille (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gGeneralOptions->fExit2a)
+  if (gMsrOptions->fExit2a)
     return;
 
     
@@ -497,7 +526,7 @@ void convertMusicXMLToBraille (
     mxmlTree,
     mScore);
   
-  if (gGeneralOptions->fExit2b)
+  if (gMsrOptions->fExit2b)
     return;
     
 
@@ -539,59 +568,57 @@ void convertMusicXMLToBraille (
   }
 
 
-  // create the BSR from the MSR (pass 3)
+  // create the BSR from the MSR (pass 3a)
   // ------------------------------------------------------
 
   S_bsrScore
-    bsScore =
-      convertMsrScoreToBsrScore_Pass3 (
+    firstBsrScore =
+      convertMsrScoreToBsrScore_Pass3a (
         mScore);
 
-  if (gGeneralOptions->fExit3)
+  if (gBsrOptions->fExit3a)
     return;
 
 
-  // display the BSR score if requested
+  // display the first BSR score if requested
   // ------------------------------------------------------
 
   if (gBsrOptions->fDisplayBsr) {
-    displayBsrScore_OptionalPass (
-      bsScore,
+    displayBsrFirstScore_OptionalPass (
+      firstBsrScore,
       gMsrOptions,
       gBsrOptions);
   }
 
-/* JMI    
-  // create the BCR from the BSR (pass 4)
+  // create the finalized BCR from the first BSR (pass 3b)
   // ------------------------------------------------------
 
   S_bsrScore
-    bcScore =
-      convertBsrScoreToBcrScore_Pass4 (
-        mScore);
+    finalizedBsrScore =
+      convertBsrScoreToFinalizedScore_Pass3b (
+        firstBsrScore);
 
-  if (gGeneralOptions->fExit3)
+  if (gBsrOptions->fExit3b)
     return;
 
 
-  // display the BCR score if requested
+  // display the finalized BCR score if requested
   // ------------------------------------------------------
 
   if (gBsrOptions->fDisplayBsr) {
-    displayBcrScore_OptionalPass (
-      bcScore,
+    displayFinalizedBsrScore_OptionalPass (
+      finalizedBsrScore,
       gMsrOptions,
       gBsrOptions);
   }
 
     
-  // generate Braille music text from the BCR (pass 5)
+  // generate Braille music text from the BCR (pass 4)
   // ------------------------------------------------------
 
-  convertBcrScoreToBrailleText_Pass5 (
+  convertBsrScoreToBrailleText_Pass4 (
     outputFileName,
-    bcScore);
-    */
+    finalizedBsrScore);
 }
 
 //_______________________________________________________________________________

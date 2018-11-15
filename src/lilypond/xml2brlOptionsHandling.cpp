@@ -181,12 +181,13 @@ R"(What xml2brl does:
                  a Music Score Representation (MSR) skeleton;
         Pass 2b: converts that tree and the skeleton into a
                  Music Score Representation (MSR);
-        Pass 3:  converts the MSR into a
-                 Braille Score Representation (BSR);
-        Pass 4:  converts the BSR into to a
-                 Braille Cells Representation (BCR)
-                 and writes it to standard output.
-        Pass 5:  converts the BCR to UTF-16 text 
+        Pass 3a: converts the MSR into a
+                 Braille Score Representation (BSR)
+                 containing one Braille page per MusicXML page;
+        Pass 3b: converts the BSR into to another BCR
+                 with as many Braille pages as needed
+                 to fit the line and page lengthes;
+        Pass 4:  converts the BCR to UTF-16 text 
                  and writes it to standard output.
 
     Other passes are performed according to the options, such as

@@ -13,11 +13,17 @@
 #ifndef ___bsr___
 #define ___bsr___
 
-#include "msr.h"
+#include "bsrScores.h"
 
+#include "bsrPages.h"
+
+#include "bsrPageHeadings.h"
+
+#include "bsrNumbers.h"
+
+#include "bsrClefs.h"
 #include "bsrKeys.h"
 #include "bsrTimes.h"
-#include "bsrScores.h"
 
 
 namespace MusicXML2 

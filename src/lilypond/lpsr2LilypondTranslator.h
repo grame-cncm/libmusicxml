@@ -802,7 +802,6 @@ class lpsr2LilypondTranslator :
     
     indentedOstream&      fLogOutputStream;
     indentedOstream&      fLilypondCodeIOstream;
-//    indentedOstream&      fNullIOstream; // immuably empty
     
     // the LPSR score we're visiting
     // ------------------------------------------------------

@@ -268,6 +268,11 @@ class lpsrOptions : public optionsGroup
     
     lpsrChordsLanguageKind
                           fLpsrChordsLanguageKind;
+
+    // exit after some passes
+    // --------------------------------------
+
+    bool                  fExit3;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 EXP ostream& operator<< (ostream& os, const S_lpsrOptions& elt);

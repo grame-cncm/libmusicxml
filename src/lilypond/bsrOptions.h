@@ -120,20 +120,11 @@ class bsrOptions : public optionsGroup
     bool                  fDisplayBsr;
     bool                  fDisplayBsrDetails;
     
-    // lyrics vs words
+    // exit after some passes
     // --------------------------------------
 
-    bool                  fAddWordsFromTheLyrics;
-
-    // languages
-    // --------------------------------------
-/*
-    msrQuarterTonesPitchesLanguageKind
-                          fBsrQuarterTonesPitchesLanguageKind;
-    
-    bsrChordsLanguageKind
-                          fBsrChordsLanguageKind;
-                          */
+    bool                  fExit3a;
+    bool                  fExit3b;
 };
 typedef SMARTP<bsrOptions> S_bsrOptions;
 EXP ostream& operator<< (ostream& os, const S_bsrOptions& elt);

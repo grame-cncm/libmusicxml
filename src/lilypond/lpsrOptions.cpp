@@ -411,6 +411,43 @@ The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
           "lpsr-chords-language",
           fLpsrChordsLanguageKind));
   }
+
+
+  // exit after some passes
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    // options
+  
+    S_optionsSubGroup
+      exitAfterSomePassesSubGroup =
+        optionsSubGroup::create (
+          "Exit after some passes",
+          "hge", "help=general-exit",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+        
+    // '-exit-3' is hidden...
+    S_optionsBooleanItem
+      exit3OptionsBooleanItem =
+        optionsBooleanItem::create (
+          "e3", "exit-3",
+R"(Exit after pass 3, i.e. after conversion
+of the MSR to LPSR.)",
+          "exit3",
+          fExit3);
+    exit3OptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    exitAfterSomePassesSubGroup->
+      appendOptionsItem (
+        exit3OptionsBooleanItem);
+  }
 }
 
 S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()

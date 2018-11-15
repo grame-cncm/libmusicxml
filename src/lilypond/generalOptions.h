@@ -109,8 +109,6 @@ class generalOptions : public optionsGroup
     // exit after some passes
     // --------------------------------------
 
-    bool                  fExit2a;
-    bool                  fExit2b;
     bool                  fExit3;
 };
 typedef SMARTP<generalOptions> S_generalOptions;
