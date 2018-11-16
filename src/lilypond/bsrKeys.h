@@ -15,7 +15,7 @@
 
 #include <list>
 
-#include "bsrElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrBasicTypes.h"
 
@@ -27,7 +27,7 @@ namespace MusicXML2
 class bsrKey;
 typedef SMARTP<bsrKey> S_bsrKey;
 
-class bsrKey : public bsrElement
+class bsrKey : public bsrLineElement
 {
   public:
     

@@ -47,7 +47,7 @@ S_bsrTime bsrTime::create (
 
 bsrTime::bsrTime (
   int inputLineNumber)
-    : bsrElement (inputLineNumber)
+    : bsrLineElement (inputLineNumber)
 {}
 
 bsrTime::~bsrTime ()

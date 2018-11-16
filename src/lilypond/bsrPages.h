@@ -13,6 +13,8 @@
 #ifndef ___bsrPages___
 #define ___bsrPages___
 
+#include "bsrPageElements.h"
+
 #include "bsrLines.h"
 
 #include "bsrOptions.h"
@@ -89,7 +91,8 @@ class bsrPage : public bsrElement
     int                   fPrintPageNumber;    
     int                   fBraillePageNumber;
 
-    list<S_bsrElement>    fPageElementsList;
+    list<S_bsrPageElement>
+                          fPageElementsList;
 };
 typedef SMARTP<bsrPage> S_bsrPage;
 EXP ostream& operator<< (ostream& os, const S_bsrPage& elt);

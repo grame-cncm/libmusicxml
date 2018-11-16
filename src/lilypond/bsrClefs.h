@@ -13,16 +13,17 @@
 #ifndef ___bsrClefs___
 #define ___bsrClefs___
 
-#include "bsrElements.h"
+#include "bsrLineElements.h"
 
-#include "bsrBasicTypes.h"
+//#include "bsrBasicTypes.h"
 
+using namespace std;
 
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class bsrClef : public bsrElement
+class bsrClef : public bsrLineElement
 {
   public:
           

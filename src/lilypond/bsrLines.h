@@ -13,6 +13,8 @@
 #ifndef ___bsrLines___
 #define ___bsrLines___
 
+#include "bsrPageElements.h"
+
 #include "bsrClefs.h"
 #include "bsrKeys.h"
 #include "bsrTimes.h"
@@ -24,7 +26,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrLine : public bsrElement
+class bsrLine : public bsrPageElement
 {
   public:
 
@@ -69,8 +71,8 @@ class bsrLine : public bsrElement
     void                  appendTimeToLine (S_bsrTime time)
                               { fLineElementsList.push_back (time); }
                               
-    void                  appendElementToLine (S_bsrElement element)
-                              { fLineElementsList.push_back (element); }
+    void                  appendElementToLine (S_bsrLineElement lineElement)
+                              { fLineElementsList.push_back (lineElement); }
                               
   public:
 
@@ -100,7 +102,8 @@ class bsrLine : public bsrElement
     int                   fPrintLineNumber;    
     int                   fBrailleLineNumber;
 
-    list<S_bsrElement>    fLineElementsList;
+    list<S_bsrLineElement>
+                          fLineElementsList;
 };
 typedef SMARTP<bsrLine> S_bsrLine;
 EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);

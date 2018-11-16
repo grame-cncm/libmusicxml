@@ -106,11 +106,11 @@ void bsrPage::acceptOut (basevisitor* v)
 void bsrPage::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrElement>::const_iterator i = fPageElementsList.begin ();
+    list<S_bsrPageElement>::const_iterator i = fPageElementsList.begin ();
     i != fPageElementsList.end ();
     i++ ) {
     // browse the element
-    bsrBrowser<bsrElement> browser (v);
+    bsrBrowser<bsrPageElement> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -147,7 +147,7 @@ void bsrPage::print (ostream& os)
         endl;
       gIndenter++;
   
-      list<S_bsrElement>::const_iterator
+      list<S_bsrPageElement>::const_iterator
         iBegin = fPageElementsList.begin (),
         iEnd   = fPageElementsList.end (),
         i      = iBegin;

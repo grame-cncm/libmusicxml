@@ -41,7 +41,7 @@ S_bsrLine bsrLine::create (
 
 bsrLine::bsrLine (
   int inputLineNumber)
-    : bsrElement (inputLineNumber)
+    : bsrPageElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrTraceOptions->fTraceLines) {
@@ -105,11 +105,11 @@ void bsrLine::acceptOut (basevisitor* v)
 void bsrLine::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrElement>::const_iterator i = fLineElementsList.begin ();
+    list<S_bsrLineElement>::const_iterator i = fLineElementsList.begin ();
     i != fLineElementsList.end ();
     i++ ) {
     // browse the element
-    bsrBrowser<bsrElement> browser (v);
+    bsrBrowser<bsrLineElement> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -146,7 +146,7 @@ void bsrLine::print (ostream& os)
         endl;
       gIndenter++;
   
-      list<S_bsrElement>::const_iterator
+      list<S_bsrLineElement>::const_iterator
         iBegin = fLineElementsList.begin (),
         iEnd   = fLineElementsList.end (),
         i      = iBegin;

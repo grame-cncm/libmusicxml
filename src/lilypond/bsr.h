@@ -16,6 +16,7 @@
 #include "bsrScores.h"
 
 #include "bsrPages.h"
+#include "bsrLines.h"
 
 #include "bsrPageHeadings.h"
 
