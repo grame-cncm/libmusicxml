@@ -114,7 +114,7 @@ class bsrScore : public bsrElement
     int                   fBrailleLineLength; // cells
     int                   fBraillePageLength;
 
-    list<S_bsrElement>    fScorePagesList;
+    list<S_bsrPage>       fScorePagesList;
 };
 typedef SMARTP<bsrScore> S_bsrScore;
 EXP ostream& operator<< (ostream& os, const S_bsrScore& elt);

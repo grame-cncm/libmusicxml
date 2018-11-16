@@ -109,10 +109,20 @@ void bsrScore::browseData (basevisitor* v)
   }
 
   if (fTranscriptionNotes) {
-    // browse the input source name comment
+    // browse the transcription notes
     msrBrowser<bsrTranscriptionNotes> browser (v);
     browser.browse (*fTranscriptionNotes);
   }
+
+  for (
+    list<S_bsrPage>::const_iterator i =
+      fScorePagesList.begin ();
+    i != fScorePagesList.end ();
+    i++) {
+    // browse the page
+    msrBrowser<bsrPage> browser (v);
+    browser.browse (*(*i));
+  } // for
 
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
@@ -172,19 +182,22 @@ void bsrScore::print (ostream& os)
     "BraillePageLength" << " : " << fBraillePageLength <<
     endl;
         
-  // print the score elements if any
+  os <<
+    endl;
+
+  // print the score page if any
   int scorePagesListSize = fScorePagesList.size ();
   
   if (scorePagesListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "fLineElementsList";
+      "fPageElementsList" << " : " <<
+      endl;
+      
     if (scorePagesListSize) {
-      os <<
-        endl;
       gIndenter++;
   
-      list<S_bsrElement>::const_iterator
+      list<S_bsrPage>::const_iterator
         iBegin = fScorePagesList.begin (),
         iEnd   = fScorePagesList.end (),
         i      = iBegin;
@@ -201,7 +214,7 @@ void bsrScore::print (ostream& os)
     }
     else {
       os <<
-        " : " << "none" <<
+        "none" <<
       endl;
     }
   }
