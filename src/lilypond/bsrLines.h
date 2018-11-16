@@ -19,6 +19,8 @@
 #include "bsrKeys.h"
 #include "bsrTimes.h"
 
+#include "bsrLinesDeclarations.h"
+
 #include "bsrOptions.h"
 
 

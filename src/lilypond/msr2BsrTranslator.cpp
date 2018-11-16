@@ -107,6 +107,31 @@ void msr2BsrTranslator::buildBsrScoreFromMsrScore ()
 }
 
 //________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_bsrTranscriptionNotes& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting bsrTranscriptionNotes " <<
+  //    elt->getPartGroupCombinedName () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentTranscriptionsNotes = elt;
+}
+
+void msr2BsrTranslator::visitEnd (S_bsrTranscriptionNotes& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting bsrTranscriptionNotes " <<
+    //  elt->getPartGroupCombinedName () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrScore& elt)
 {
   int inputLineNumber =
@@ -129,10 +154,18 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
   fCurrentPage =
     bsrPage::create (0); // inputLineNumber
     
+  // append it to the score
+  fBsrScore->
+    appendPageToScore (fCurrentPage);
+
   // create the fist line
   fCurrentLine =
     bsrLine::create (0); // inputLineNumber
-    
+
+  // append it to the first page
+  fCurrentPage->
+    appendLineToPage (fCurrentLine);
+  
 /*
   // create an empty clone of fVisitedMsrScore for use by the BSR score
   // not sharing the visitiged MSR score allows cleaner data handling

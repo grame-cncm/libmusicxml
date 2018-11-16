@@ -68,6 +68,11 @@ class msr2BsrTranslator :
     
   protected:
 
+    // transcription notes
+    
+    virtual void visitStart (S_bsrTranscriptionNotes& elt);
+    virtual void visitEnd   (S_bsrTranscriptionNotes& elt);
+
     // score
     
     virtual void visitStart (S_msrScore& elt);
@@ -129,10 +134,17 @@ class msr2BsrTranslator :
     S_bsrScore                fBsrScore;
 
 
+    // transcription notes
+    // ------------------------------------------------------
+
+    S_bsrTranscriptionNotes   fCurrentTranscriptionsNotes;
+
+
     // parts & part groups
     // ------------------------------------------------------
     S_msrPartGroup            fCurrentPartGroup;
     S_msrPart                 fCurrentPart;
+
 
     // staff details
     // ------------------------------------------------------
