@@ -15,10 +15,19 @@
 
 #include <list>
 
-#include "bsrLineElements.h"
+//#include "smartpointer.h"
 
-#include "bsrBasicTypes.h"
+//#include "bsrLines.h"
+#include "bsrElements.h"
 
+//#include "bsrMutuallyDependent.h"
+
+//#include "bsrLineElements.h"
+//#include "bsrLines.h"
+
+//#include "bsrBasicTypes.h"
+
+using namespace std;
 
 namespace MusicXML2 
 {
@@ -27,7 +36,7 @@ namespace MusicXML2
 class bsrKey;
 typedef SMARTP<bsrKey> S_bsrKey;
 
-class bsrKey : public bsrLineElement
+class bsrKey : public bsrElement
 {
   public:
     

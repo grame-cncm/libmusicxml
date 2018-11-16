@@ -13,7 +13,9 @@
 #ifndef ___bsrClefs___
 #define ___bsrClefs___
 
-#include "bsrLineElements.h"
+#include "bsrElements.h"
+//#include "bsrLineElements.h"
+//#include "bsrMutuallyDependent.h"
 
 //#include "bsrBasicTypes.h"
 
@@ -23,7 +25,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrClef : public bsrLineElement
+class bsrClef : public bsrElement
 {
   public:
           

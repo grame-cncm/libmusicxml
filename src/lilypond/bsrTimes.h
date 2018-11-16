@@ -13,10 +13,14 @@
 #ifndef ___bsrTimes___
 #define ___bsrTimes___
 
-#include "bsrLineElements.h"
+#include "bsrElements.h"
 
-#include "bsrBasicTypes.h"
+//#include "bsrLineElements.h"
+//#include "bsrMutuallyDependent.h"
 
+//#include "bsrBasicTypes.h"
+
+using namespace std;
 
 namespace MusicXML2 
 {
@@ -103,7 +107,7 @@ typedef SMARTP<bsrTimeItem> S_bsrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_bsrTimeItem& elt);
 
 //______________________________________________________________________________
-class bsrTime : public bsrLineElement
+class bsrTime : public bsrElement
 {
   public:
           

@@ -21,7 +21,8 @@
 
 #include "bsrTranscriptionNotes.h"
 
-#include "bsrPages.h"
+//#include "bsrPages.h"
+#include "bsrMutuallyDependent.h"
 
 #include "bsrOptions.h"
 
@@ -78,6 +79,13 @@ class bsrScore : public bsrElement
     void                  appendPageToScore (S_bsrPage page)
                               { fScorePagesList.push_back (page); }
                               
+    void                  appendTranscriptionNoteToScore (
+                            string note)
+                              {
+                                fTranscriptionNotes->
+                                  appendNoteToTranscriptionNotes (note);
+                              }
+
   private:
   
     // private services

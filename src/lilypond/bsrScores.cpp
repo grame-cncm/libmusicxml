@@ -47,6 +47,11 @@ bsrScore::bsrScore (
 {
   fMsrScore = mScore;
 
+  // create a transcription note
+  fTranscriptionNotes =
+    bsrTranscriptionNotes::create (
+      inputLineNumber);
+
   // allow for unlimited lines and pages lengthes initially,
   // until the limits are enforced when refining the BSR
   fBrailleLineLength = INT_MAX;
@@ -191,7 +196,7 @@ void bsrScore::print (ostream& os)
   if (scorePagesListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "fPageElementsList" << " : " <<
+      "scorePagesList" << " : " <<
       endl;
       
     if (scorePagesListSize) {

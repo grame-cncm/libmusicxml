@@ -52,6 +52,11 @@ class bsrTranscriptionNotes : public bsrElement
     // services
     // ------------------------------------------------------
 
+    void                  appendNoteToTranscriptionNotes (
+                            string note)
+                              {
+                                fTranscriptionNotesList.push_back (note);
+                              }
   public:
 
     // visitors
@@ -74,6 +79,7 @@ class bsrTranscriptionNotes : public bsrElement
     // fields
     // ------------------------------------------------------
 
+    list<string>          fTranscriptionNotesList;
 };
 typedef SMARTP<bsrTranscriptionNotes> S_bsrTranscriptionNotes;
 EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotes& elt);

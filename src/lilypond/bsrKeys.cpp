@@ -48,7 +48,7 @@ S_bsrKey bsrKey::create (
 
 bsrKey::bsrKey (
   int inputLineNumber)
-    : bsrLineElement (inputLineNumber)
+    : bsrElement (inputLineNumber)
 {
   // this is a traditional key
   fKeyKind = kTraditionalKind;

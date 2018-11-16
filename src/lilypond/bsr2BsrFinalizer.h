@@ -26,6 +26,8 @@ class bsr2BsrFinalizer :
   
   public visitor<S_bsrScore>,
   
+  public visitor<S_bsrTranscriptionNotes>,
+  
   public visitor<S_bsrPage>,
   
   public visitor<S_bsrPageHeading>,
@@ -55,6 +57,9 @@ class bsr2BsrFinalizer :
         
     virtual void visitStart (S_bsrScore& elt);
     virtual void visitEnd   (S_bsrScore& elt);
+
+    virtual void visitStart (S_bsrTranscriptionNotes& elt);
+    virtual void visitEnd   (S_bsrTranscriptionNotes& elt);
 
     virtual void visitStart (S_bsrPage& elt);
     virtual void visitEnd   (S_bsrPage& elt);
@@ -88,6 +93,11 @@ class bsr2BsrFinalizer :
     // ------------------------------------------------------
     S_bsrScore            fBsrScore;
 
+    // pages
+    // ------------------------------------------------------
+
+    S_bsrPage             fCurrentPage;
+    
 
     S_bsrOptions          fBsrOptions;
 

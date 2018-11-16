@@ -150,6 +150,11 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       NO_INPUT_LINE_NUMBER,
       fVisitedMsrScore);
 
+  // append a first transcription note to it
+  fBsrScore->
+    appendTranscriptionNoteToScore (
+      "This is a first transcription note");
+      
   // create the fist page
   fCurrentPage =
     bsrPage::create (0); // inputLineNumber

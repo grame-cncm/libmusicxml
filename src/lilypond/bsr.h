@@ -13,10 +13,13 @@
 #ifndef ___bsr___
 #define ___bsr___
 
-#include "bsrScores.h"
+#include "bsrTranscriptionNotes.h"
 
-#include "bsrPages.h"
-#include "bsrLines.h"
+#include "bsrScores.h"
+#include "bsrMutuallyDependent.h"
+
+//#include "bsrPages.h"
+//#include "bsrLines.h"
 
 #include "bsrPageHeadings.h"
 

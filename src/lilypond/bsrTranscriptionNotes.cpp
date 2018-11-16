@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iomanip> // for 'setw()'
 
 #include "bsrTranscriptionNotes.h"
 
@@ -108,6 +109,44 @@ void bsrTranscriptionNotes::print (ostream& os)
 
   gIndenter++;
   
+    list<string>          fTranscriptionNotesList;
+
+  // print the notes if any
+  const int fieldWidth = 19;
+
+  int transcriptionNotesListSize = fTranscriptionNotesList.size ();
+  
+  if (transcriptionNotesListSize || gBsrOptions->fDisplayBsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "transcriptionNotesList" << " : " <<
+      endl;
+      
+    if (transcriptionNotesListSize) {
+      gIndenter++;
+  
+      list<string>::const_iterator
+        iBegin = fTranscriptionNotesList.begin (),
+        iEnd   = fTranscriptionNotesList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+  
+      os <<
+        endl;
+        
+      gIndenter--;
+    }
+    else {
+      os <<
+        "none" <<
+      endl;
+    }
+  }
+
   gIndenter--;
 }
 
