@@ -36,24 +36,28 @@ namespace MusicXML2 {
 
 //______________________________________________________________________________
 S_bsrNumber bsrNumber::create (
-  int inputLineNumber,
-  int numberValue)
+  int       inputLineNumber,
+  int       numberValue,
+  bsrNumberSignIsNeededKind
+            numberSignIsNeededKind)
 {
   bsrNumber* o =
     new bsrNumber (
-      inputLineNumber, numberValue);
+      inputLineNumber, numberValue, numberSignIsNeededKind);
   assert (o!=0);
   return o;
 }
 
 bsrNumber::bsrNumber (
-  int inputLineNumber,
-  int numberValue)
+  int       inputLineNumber,
+  int       numberValue,
+  bsrNumberSignIsNeededKind
+            numberSignIsNeededKind)
     : bsrElement (inputLineNumber)
 {
   fNumberValue = numberValue;
     
-  fNumberSignIsNeeded = false; // JMI ???
+  fNumberSignIsNeededKind = numberSignIsNeededKind;
 }
 
 bsrNumber::~bsrNumber ()
@@ -106,6 +110,23 @@ void bsrNumber::acceptOut (basevisitor* v)
 void bsrNumber::browseData (basevisitor* v)
 {}
 
+string bsrNumber::numberSignIsNeededKindAsString (
+  bsrNumberSignIsNeededKind numberSignIsNeededKind)
+{
+  string result;
+  
+  switch (numberSignIsNeededKind) {
+    case bsrNumber::kNumberSignIsNeededYes:
+      result = "numberSignIsNeededYes";
+      break;
+    case bsrNumber::kNumberSignIsNeededNo:
+      result = "numberSignIsNeededNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 string bsrNumber::asString () const
 {
   stringstream s;
@@ -114,8 +135,8 @@ string bsrNumber::asString () const
     "Number, " << 
     ", numberValue: " << fNumberValue <<
     ", numberSignIsNeeded: " <<
-    booleanAsString (
-      fNumberSignIsNeeded) <<
+    numberSignIsNeededKindAsString (
+      fNumberSignIsNeededKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();

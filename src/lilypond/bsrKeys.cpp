@@ -36,22 +36,26 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrKey bsrKey::create (
-  int inputLineNumber)
+  int        inputLineNumber,
+  bsrKeyKind keyKind,
+  int        numberOfAlterations)
 {
   bsrKey* o =
     new bsrKey (
-      inputLineNumber);
+      inputLineNumber, keyKind, numberOfAlterations);
   assert (o!=0);
 
   return o;
 }
 
 bsrKey::bsrKey (
-  int inputLineNumber)
+  int        inputLineNumber,
+  bsrKeyKind keyKind,
+  int        numberOfAlterations)
     : bsrElement (inputLineNumber)
 {
-  // this is a traditional key
-  fKeyKind = kTraditionalKind;
+  fKeyKind             = keyKind;
+  fNumberOfAlterations = numberOfAlterations;
 }
 
 bsrKey::~bsrKey ()
@@ -108,13 +112,13 @@ string bsrKey::keyKindAsString (
   bsrKeyKind keyKind)
 {
   string result;
-  
+ 
   switch (keyKind) {
-    case bsrKey::kTraditionalKind:
-      result = "traditional";
+    case bsrKey::kKeyKindFlats:
+      result = "keyKindFlats";
       break;
-    case bsrKey::kHumdrumScotKind:
-      result = "Humdrum/Scot";
+    case bsrKey::kKeyKindSharps:
+      result = "keyKindSharps";
       break;
   } // switch
 
@@ -128,29 +132,7 @@ string bsrKey::asString () const
   s <<
     "Key" <<
     ", " << keyKindAsString (fKeyKind) <<
-    ", ";
-/*
-  switch (fKeyKind) {
-    case bsrKey::kTraditionalKind:
-      s <<
-        bsrQuarterTonesPitchKindAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-          fKeyTonicQuarterTonesPitchKind) <<
-        " " <<
-        keyModeKindAsString (fKeyModeKind);
-      break;
-      
-    case bsrKey::kHumdrumScotKind:
-      s <<
-        fHumdrumScotKeyItemsVector.size () << "items" <<
-        ", keyItemsOctavesAreSpecified: " <<
-        booleanAsString (
-          fKeyItemsOctavesAreSpecified);
-      break;
-  } // switch
-*/
-
-  s <<
+    ", numberOfAlterations : " << fNumberOfAlterations <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -159,10 +141,8 @@ string bsrKey::asString () const
 void bsrKey::print (ostream& os)
 {
   os <<
-    "Key" <<
-    ", " << keyKindAsString (fKeyKind) <<
+    asString () <<
     endl;
-
 }
 
 ostream& operator<< (ostream& os, const S_bsrKey& elt)

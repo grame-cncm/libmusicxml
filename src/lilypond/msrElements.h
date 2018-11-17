@@ -43,8 +43,8 @@ class msrElement : public smartable
     // set and get
     // ------------------------------------------------------
 
-    int getInputLineNumber ()
-      { return fInputLineNumber; }
+    int                   getInputLineNumber ()
+                              { return fInputLineNumber; }
 
     // services
     // ------------------------------------------------------

@@ -287,6 +287,42 @@ string brailleDots6CellAsString (wchar_t wch)
 }
 
 //______________________________________________________________________________
+// brailling numbers
+wstring braille (int n)
+{
+  wstringstream ws;
+  
+  
+  if (n < 0) {
+    ws << kBrlQuestionMark; // JMI which minus?
+    n = -n;
+  }
+
+  if (n <= 9) {
+    switch (n) {
+      case 0: ws << kBrl0; break;
+      case 1: ws << kBrl1; break;
+      case 2: ws << kBrl2; break;
+      case 3: ws << kBrl3; break;
+      case 4: ws << kBrl4; break;
+      case 5: ws << kBrl5; break;
+      case 6: ws << kBrl6; break;
+      case 7: ws << kBrl7; break;
+      case 8: ws << kBrl8; break;
+      case 9: ws << kBrl9; break;
+    } // switch
+  }
+  
+  else {
+    ws <<
+      braille (n / 10) <<
+      braille (n % 10);
+  }
+
+  return ws.str ();
+}
+
+//______________________________________________________________________________
 // brailling characters and strings
 wchar_t braille (char ch)
 {

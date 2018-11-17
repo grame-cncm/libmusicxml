@@ -13,19 +13,10 @@
 #ifndef ___bsrKeys___
 #define ___bsrKeys___
 
-#include <list>
+//#include <list>
 
-//#include "smartpointer.h"
-
-//#include "bsrLines.h"
 #include "bsrElements.h"
 
-//#include "bsrMutuallyDependent.h"
-
-//#include "bsrLineElements.h"
-//#include "bsrLines.h"
-
-//#include "bsrBasicTypes.h"
 
 using namespace std;
 
@@ -44,7 +35,7 @@ class bsrKey : public bsrElement
     // ------------------------------------------------------
 
     enum bsrKeyKind {
-        kTraditionalKind, kHumdrumScotKind };
+        kKeyKindFlats, kKeyKindSharps };
         
     static string keyKindAsString (
       bsrKeyKind keyKind);
@@ -53,7 +44,9 @@ class bsrKey : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrKey> create (
-      int inputLineNumber);
+      int        inputLineNumber,
+      bsrKeyKind keyKind,
+      int        numberOfAlterations);
       
   protected:
 
@@ -61,7 +54,9 @@ class bsrKey : public bsrElement
     // ------------------------------------------------------
 
     bsrKey (
-      int inputLineNumber);
+      int        inputLineNumber,
+      bsrKeyKind keyKind,
+      int        numberOfAlterations);
             
     virtual ~bsrKey ();
 
@@ -72,6 +67,9 @@ class bsrKey : public bsrElement
 
     bsrKeyKind            getKeyKind () const
                               { return fKeyKind; }
+    
+    int                   getNumberOfAlterations () const
+                              { return fNumberOfAlterations; }
     
     // services
     // ------------------------------------------------------
@@ -101,6 +99,7 @@ class bsrKey : public bsrElement
     // ------------------------------------------------------
 
     bsrKeyKind            fKeyKind;
+    int                   fNumberOfAlterations;
 };
 typedef SMARTP<bsrKey> S_bsrKey;
 EXP ostream& operator<< (ostream& os, const S_bsrKey& elt);

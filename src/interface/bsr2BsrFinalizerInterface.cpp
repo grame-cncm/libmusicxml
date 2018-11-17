@@ -73,6 +73,8 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
   
   // build the finalized BSR score    
   translator.generateFinalizedBsrScoreFromBsrScore ();
+  logIOstream <<
+    endl;
 
   // get the result
   result = translator.getBsrScore ();

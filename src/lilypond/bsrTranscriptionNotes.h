@@ -22,6 +22,71 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class bsrTranscriptionNotesElement : public bsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<bsrTranscriptionNotesElement> create (
+      int    inputLineNumber,
+      string transcriptionNoteText);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    bsrTranscriptionNotesElement (
+      int    inputLineNumber,
+      string transcriptionNoteText);
+      
+    virtual ~bsrTranscriptionNotesElement ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getTranscriptionNoteText () const
+                              { return fTranscriptionNoteText; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fTranscriptionNoteText;
+};
+typedef SMARTP<bsrTranscriptionNotesElement> S_bsrTranscriptionNotesElement;
+EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt);
+
+//______________________________________________________________________________
 class bsrTranscriptionNotes : public bsrElement
 {
   public:
@@ -52,10 +117,11 @@ class bsrTranscriptionNotes : public bsrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendNoteToTranscriptionNotes (
-                            string note)
+    void                  appendNoteElementToTranscriptionNotes (
+                            S_bsrTranscriptionNotesElement transcriptionNotesElement)
                               {
-                                fTranscriptionNotesList.push_back (note);
+                                fTranscriptionNotesElementsList.push_back (
+                                  transcriptionNotesElement);
                               }
   public:
 
@@ -79,7 +145,8 @@ class bsrTranscriptionNotes : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    list<string>          fTranscriptionNotesList;
+    list<S_bsrTranscriptionNotesElement>
+                          fTranscriptionNotesElementsList;
 };
 typedef SMARTP<bsrTranscriptionNotes> S_bsrTranscriptionNotes;
 EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotes& elt);

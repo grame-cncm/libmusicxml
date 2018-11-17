@@ -24,7 +24,7 @@
 #endif
 
 #include "musicXMLOptions.h"
-#include "lilypondOptions.h"
+#include "brailleOptions.h"
 
 #include "xml2brlOptionsHandling.h"
 
@@ -40,12 +40,12 @@ namespace MusicXML2
 bsr2BrailleTranslator::bsr2BrailleTranslator (
   S_bsrOptions&    bsrOpts,
   indentedOstream& logIOstream,
-  indentedOstream& lilypondOutputStream,
+  ostream&         brailleOutputStream,
   S_bsrScore       bsrScore)
     : fLogOutputStream (
         logIOstream),
       fBrailleCodeIOstream (
-        lilypondOutputStream)
+        brailleOutputStream)
 {
   fBsrOptions = bsrOpts;
   
@@ -105,37 +105,70 @@ void bsr2BrailleTranslator::generateBrailleCodeFromBsrScore ()
 void bsr2BrailleTranslator::visitStart (S_bsrScore& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> Start visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
-  
-  // initial empty line in LilyPond code
-  // to help copy/paste it
-// JMI  fBrailleCodeIOstream << endl;
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrScore& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+}
 
-  // final empty line in LilyPond code
-  // to help copy/paste it
-  fBrailleCodeIOstream <<
-    endl;
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotes& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting S_bsrTranscriptionNotes" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotes& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting S_bsrTranscriptionNotes" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrTranscriptionNotesElement" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrTranscriptionNotesElement" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> Start visiting bsrPage '" <<
       elt->asString () <<
       "'" <<
@@ -147,20 +180,23 @@ void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
 void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrPage '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fBrailleCodeIOstream <<
+    kBrailleEOP;
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> Start visiting bsrPageHeading '" <<
       elt->asString () <<
       "'" <<
@@ -172,7 +208,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
 void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrPageHeading '" <<
       elt->asString () <<
       "'" <<
@@ -182,11 +218,11 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
 }
 
 //________________________________________________________________________
-void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
+void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
-      "% --> Start visiting bsrNumber '" <<
+    fLogOutputStream <<
+      "% --> Start visiting bsrLine '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
@@ -194,10 +230,50 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
   }
 }
 
+void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrLine '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fBrailleCodeIOstream <<
+    kBrailleEOL;
+}
+
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrNumber '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  switch (elt->getNumberSignIsNeededKind ()) {
+    case bsrNumber::kNumberSignIsNeededYes:
+      fBrailleCodeIOstream <<
+        kBrlNumberSign;
+      break;
+    case bsrNumber::kNumberSignIsNeededNo:
+      break;
+  } // switch
+
+  fBrailleCodeIOstream <<
+    braille (elt->getNumberValue ());
+}
+
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrNumber '" <<
       elt->asString () <<
       "'" <<
@@ -210,7 +286,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
 void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> Start visiting bsrClef '" <<
       elt->asString () <<
       "'" <<
@@ -222,7 +298,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrClef '" <<
       elt->asString () <<
       "'" <<
@@ -235,19 +311,61 @@ void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
 void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> Start visiting bsrKey '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  bsrKey::bsrKeyKind
+    keyKind = elt->getKeyKind ();
+    
+  int
+    numberOfAlterations =
+      elt->getNumberOfAlterations ();
+
+  wchar_t alteration = kBrlNatural;
+   
+  switch (keyKind) {
+    case bsrKey::kKeyKindFlats:
+      alteration = kBrlFlat;
+      break;
+    case bsrKey::kKeyKindSharps:
+      alteration = kBrlSharp;
+      break;
+  } // switch
+
+  switch (numberOfAlterations) {
+    case 0:
+      break;
+    case 1:
+      fBrailleCodeIOstream <<
+        alteration;
+      break;
+    case 2:
+      fBrailleCodeIOstream <<
+        alteration <<
+        alteration;
+      break;
+    case 3:
+      fBrailleCodeIOstream <<
+        alteration <<
+        alteration <<
+        alteration;
+      break;
+    default:
+      fBrailleCodeIOstream <<
+        kBrlNumberSign <<
+        braille (numberOfAlterations);    
+  } // switch
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrKey '" <<
       elt->asString () <<
       "'"  <<
@@ -260,7 +378,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
 void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> Start visiting bsrTime " <<
       elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
@@ -271,7 +389,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
-    fBrailleCodeIOstream <<
+    fLogOutputStream <<
       "% --> End visiting bsrTime " <<
       elt->asString () <<
       ", line " << elt->getInputLineNumber () <<

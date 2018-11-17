@@ -35,6 +35,102 @@ using namespace std;
 namespace MusicXML2 {
 
 //______________________________________________________________________________
+S_bsrTranscriptionNotesElement bsrTranscriptionNotesElement::create (
+  int    inputLineNumber,
+  string transcriptionNoteText)
+{
+  bsrTranscriptionNotesElement* o =
+    new bsrTranscriptionNotesElement (
+      inputLineNumber, transcriptionNoteText);
+  assert(o!=0);
+  return o;
+}
+
+bsrTranscriptionNotesElement::bsrTranscriptionNotesElement (
+  int    inputLineNumber,
+  string transcriptionNoteText)
+    : bsrElement (inputLineNumber)
+{
+  fTranscriptionNoteText = transcriptionNoteText;
+}
+
+bsrTranscriptionNotesElement::~bsrTranscriptionNotesElement ()
+{}
+
+void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_bsrTranscriptionNotesElement>*
+    p =
+      dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
+        S_bsrTranscriptionNotesElement elem = this;
+        
+        if (gBsrOptions->fTraceBsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_bsrTranscriptionNotesElement>*
+    p =
+      dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
+        S_bsrTranscriptionNotesElement elem = this;
+      
+        if (gBsrOptions->fTraceBsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void bsrTranscriptionNotesElement::browseData (basevisitor* v)
+{
+}
+
+string bsrTranscriptionNotesElement::asString () const
+{
+  stringstream s;
+
+  s <<
+    "TranscriptionNotesElement" <<
+    ", fTranscriptionNoteText: \"" << fTranscriptionNoteText << "\"" <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+void bsrTranscriptionNotesElement::print (ostream& os)
+{
+  os <<
+    asString () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_bsrTranscriptionNotes bsrTranscriptionNotes::create (
   int inputLineNumber)
 {
@@ -99,6 +195,15 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 
 void bsrTranscriptionNotes::browseData (basevisitor* v)
 {
+  for (
+    list<S_bsrTranscriptionNotesElement>::const_iterator i =
+      fTranscriptionNotesElementsList.begin ();
+    i != fTranscriptionNotesElementsList.end ();
+    i++ ) {
+    // browse the element
+    bsrBrowser<bsrTranscriptionNotesElement> browser (v);
+    browser.browse (*(*i));
+  } // for
 }
 
 void bsrTranscriptionNotes::print (ostream& os)
@@ -109,25 +214,23 @@ void bsrTranscriptionNotes::print (ostream& os)
 
   gIndenter++;
   
-    list<string>          fTranscriptionNotesList;
-
   // print the notes if any
   const int fieldWidth = 19;
 
-  int transcriptionNotesListSize = fTranscriptionNotesList.size ();
+  int transcriptionNotesElementsListSize = fTranscriptionNotesElementsList.size ();
   
-  if (transcriptionNotesListSize || gBsrOptions->fDisplayBsrDetails) {
+  if (transcriptionNotesElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "transcriptionNotesList" << " : " <<
+      "transcriptionNotesElementsList" << " : " <<
       endl;
       
-    if (transcriptionNotesListSize) {
+    if (transcriptionNotesElementsListSize) {
       gIndenter++;
   
-      list<string>::const_iterator
-        iBegin = fTranscriptionNotesList.begin (),
-        iEnd   = fTranscriptionNotesList.end (),
+      list<S_bsrTranscriptionNotesElement>::const_iterator
+        iBegin = fTranscriptionNotesElementsList.begin (),
+        iEnd   = fTranscriptionNotesElementsList.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);

@@ -406,7 +406,7 @@ void convertBsrScoreToBrailleText_Pass4 (
     // open output file if need be
     // ------------------------------------------------------
   
-    ofstream outFileStream;
+    ofstream brailleCodeFileOutputStream;
         
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
@@ -417,16 +417,17 @@ void convertBsrScoreToBrailleText_Pass4 (
       }
 #endif
           
-      outFileStream.open (
+      brailleCodeFileOutputStream.open (
         outputFileName.c_str(),
         ofstream::out);
-
+/*
       // create an output stream for the Braille music
       // to be written to outFileStream
-      indentedOstream
+      ostream
         brailleCodeFileOutputStream (
           outFileStream,
           gIndenter);
+      */
       
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
@@ -471,7 +472,7 @@ void convertBsrScoreToBrailleText_Pass4 (
       }
 #endif
           
-      outFileStream.close ();
+      brailleCodeFileOutputStream.close ();
     }
   }
 

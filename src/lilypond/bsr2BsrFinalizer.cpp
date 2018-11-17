@@ -102,11 +102,6 @@ void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotes& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
-
-  // JMI create the BSR score
-  fBsrScore->
-    appendTranscriptionNoteToScore (
-      "This is a second transcription note");
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotes& elt)
@@ -114,6 +109,32 @@ void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotes& elt)
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTranscriptionNotes" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotesElement& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrTranscriptionNotesElement" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  // JMI create the BSR score
+  fBsrScore->
+    appendTranscriptionNotesElementToScore (
+      elt);
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotesElement& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -167,6 +188,31 @@ void bsr2BsrFinalizer::visitEnd (S_bsrPageHeading& elt)
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPageHeading '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrLine& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrLine '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrLine& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrLine '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<

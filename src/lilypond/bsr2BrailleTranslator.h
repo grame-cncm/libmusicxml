@@ -26,10 +26,15 @@ class bsr2BrailleTranslator :
   
   public visitor<S_bsrScore>,
   
+  public visitor<S_bsrTranscriptionNotes>,
+  public visitor<S_bsrTranscriptionNotesElement>,
+  
   public visitor<S_bsrPage>,
   
   public visitor<S_bsrPageHeading>,
   
+  public visitor<S_bsrLine>,
+
   public visitor<S_bsrNumber>,
   
   public visitor<S_bsrClef>,
@@ -42,7 +47,7 @@ class bsr2BrailleTranslator :
     bsr2BrailleTranslator (
       S_bsrOptions&    bsrOpts,
       indentedOstream& logIOstream,
-      indentedOstream& brailleCodeIOstream,
+      ostream&         brailleCodeIOstream,
       S_bsrScore       bsrScore);
         
     virtual ~bsr2BrailleTranslator ();
@@ -54,11 +59,20 @@ class bsr2BrailleTranslator :
     virtual void visitStart (S_bsrScore& elt);
     virtual void visitEnd   (S_bsrScore& elt);
 
+    virtual void visitStart (S_bsrTranscriptionNotes& elt);
+    virtual void visitEnd   (S_bsrTranscriptionNotes& elt);
+
+    virtual void visitStart (S_bsrTranscriptionNotesElement& elt);
+    virtual void visitEnd   (S_bsrTranscriptionNotesElement& elt);
+
     virtual void visitStart (S_bsrPage& elt);
     virtual void visitEnd   (S_bsrPage& elt);
 
     virtual void visitStart (S_bsrPageHeading& elt);
     virtual void visitEnd   (S_bsrPageHeading& elt);
+
+    virtual void visitStart (S_bsrLine& elt);
+    virtual void visitEnd   (S_bsrLine& elt);
 
     virtual void visitStart (S_bsrNumber& elt);
     virtual void visitEnd   (S_bsrNumber& elt);
@@ -79,7 +93,7 @@ class bsr2BrailleTranslator :
     S_bsrOptions          fBsrOptions;
 
     indentedOstream&      fLogOutputStream;
-    indentedOstream&      fBrailleCodeIOstream;
+    ostream&              fBrailleCodeIOstream;
 };
 
 

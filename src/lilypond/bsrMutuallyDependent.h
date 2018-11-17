@@ -13,14 +13,13 @@
 #ifndef ___bsrMutuallyDependent___
 #define ___bsrMutuallyDependent___
 
-#include "bsrElements.h"
-//#include "bsrPageElements.h"
+//#include "bsrElements.h"
+
+#include "bsrNumbers.h"
 
 #include "bsrClefs.h"
 #include "bsrKeys.h"
 #include "bsrTimes.h"
-
-//#include "bsrLinesDeclarations.h"
 
 #include "bsrOptions.h"
 
@@ -78,6 +77,9 @@ class bsrLine : public bsrElement
     // public services
     // ------------------------------------------------------
 
+    void                  appendNumberToLine (S_bsrNumber number)
+                              { fLineElementsList.push_back (number); }
+                              
     void                  appendClefToLine (S_bsrClef clef)
                               { fLineElementsList.push_back (clef); }
                               

@@ -37,7 +37,7 @@ void generateBrailleCodeFromBsrScore (
   const S_bsrScore bScore,
   S_bsrOptions     bsrOpts,
   indentedOstream& logIOstream,
-  indentedOstream& brailleCodeIOstream)
+  ostream&         brailleCodeIOstream)
 {
   // sanity check
   msrAssert (

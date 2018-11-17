@@ -112,14 +112,14 @@ string brailleDots6CellAsString (wchar_t wch);
 const wchar_t
   kBrlA = kDots1,
   kBrlB = kDots12,
-  kBrlC = kDots15,
-  kBrlD = kDots156,
-  kBrlE = kDots16,
+  kBrlC = kDots14,
+  kBrlD = kDots145,
+  kBrlE = kDots15,
   kBrlF = kDots124,
-  kBrlG = kDots1256,
+  kBrlG = kDots1245,
   kBrlH = kDots125,
   kBrlI = kDots24,
-  kBrlJ = kDots24,
+  kBrlJ = kDots245,
   
   kBrlK = kDots13,
   kBrlL = kDots123,
@@ -364,6 +364,10 @@ const wchar_t
 // pages
 const wstring
   kBrlPagination { kDots5, kDots25 };
+
+//______________________________________________________________________________
+// brailling numbers
+wstring braille (int n);
 
 //______________________________________________________________________________
 // brailling characters and strings

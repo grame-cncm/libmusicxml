@@ -76,6 +76,8 @@ S_bsrScore buildBsrScoreFromMsrScore (
       
   // build the BSR score
   translator.buildBsrScoreFromMsrScore ();
+  logIOstream <<
+    endl;
 
   clock_t endClock = clock ();
 

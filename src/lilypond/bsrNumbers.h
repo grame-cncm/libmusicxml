@@ -25,13 +25,24 @@ namespace MusicXML2
 class bsrNumber : public bsrElement
 {
   public:
-          
+
+    // data types
+    // ------------------------------------------------------
+
+    enum bsrNumberSignIsNeededKind {
+        kNumberSignIsNeededYes, kNumberSignIsNeededNo};
+
+    static string numberSignIsNeededKindAsString (
+      bsrNumberSignIsNeededKind numberSignIsNeededKind);
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrNumber> create (
-      int inputLineNumber,
-      int numberValue);
+      int       inputLineNumber,
+      int       numberValue,
+      bsrNumberSignIsNeededKind
+                numberSignIsNeededKind);
 
   protected:
 
@@ -39,8 +50,10 @@ class bsrNumber : public bsrElement
     // ------------------------------------------------------
 
     bsrNumber (
-      int inputLineNumber,
-      int numberValue);
+      int       inputLineNumber,
+      int       numberValue,
+      bsrNumberSignIsNeededKind
+                numberSignIsNeededKind);
       
     virtual ~bsrNumber ();
   
@@ -52,11 +65,17 @@ class bsrNumber : public bsrElement
     int                   getNumberValue () const
                               { return fNumberValue; }
                   
-    void                  setNumberSignIsNeeded (bool value)
-                              { fNumberSignIsNeeded = value; }
+    void                  setNumberSignIsNeededKind (
+                            bsrNumberSignIsNeededKind
+                              numberSignIsNeededKindvalue)
+                              {
+                                fNumberSignIsNeededKind =
+                                  numberSignIsNeededKindvalue;
+                              }
                   
-    bool                  getNumberSignIsNeeded () const
-                              { return fNumberSignIsNeeded; }
+    bsrNumberSignIsNeededKind
+                          getNumberSignIsNeededKind () const
+                              { return fNumberSignIsNeededKind; }
                   
     // services
     // ------------------------------------------------------
@@ -87,7 +106,8 @@ class bsrNumber : public bsrElement
 
     int                   fNumberValue;
 
-    bool                  fNumberSignIsNeeded;
+    bsrNumberSignIsNeededKind
+                          fNumberSignIsNeededKind;
 };
 typedef SMARTP<bsrNumber> S_bsrNumber;
 EXP ostream& operator<< (ostream& os, const S_bsrNumber& elt);

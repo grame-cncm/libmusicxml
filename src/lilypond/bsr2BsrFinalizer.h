@@ -27,11 +27,14 @@ class bsr2BsrFinalizer :
   public visitor<S_bsrScore>,
   
   public visitor<S_bsrTranscriptionNotes>,
+  public visitor<S_bsrTranscriptionNotesElement>,
   
   public visitor<S_bsrPage>,
   
   public visitor<S_bsrPageHeading>,
   
+  public visitor<S_bsrLine>,
+
   public visitor<S_bsrNumber>,
   
   public visitor<S_bsrClef>,
@@ -61,11 +64,17 @@ class bsr2BsrFinalizer :
     virtual void visitStart (S_bsrTranscriptionNotes& elt);
     virtual void visitEnd   (S_bsrTranscriptionNotes& elt);
 
+    virtual void visitStart (S_bsrTranscriptionNotesElement& elt);
+    virtual void visitEnd   (S_bsrTranscriptionNotesElement& elt);
+
     virtual void visitStart (S_bsrPage& elt);
     virtual void visitEnd   (S_bsrPage& elt);
 
     virtual void visitStart (S_bsrPageHeading& elt);
     virtual void visitEnd   (S_bsrPageHeading& elt);
+
+    virtual void visitStart (S_bsrLine& elt);
+    virtual void visitEnd   (S_bsrLine& elt);
 
     virtual void visitStart (S_bsrNumber& elt);
     virtual void visitEnd   (S_bsrNumber& elt);

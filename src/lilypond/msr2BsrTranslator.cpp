@@ -20,6 +20,8 @@
 
 #include "conversions.h"
 
+#include "msr.h"
+
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
@@ -151,26 +153,44 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       fVisitedMsrScore);
 
   // append a first transcription note to it
+  S_bsrTranscriptionNotesElement
+    transcriptionNotesElement =
+      bsrTranscriptionNotesElement::create (
+        inputLineNumber,
+        "This is a first transcription note");
+
   fBsrScore->
-    appendTranscriptionNoteToScore (
-      "This is a first transcription note");
+    getTranscriptionNotes ()->
+      appendNoteElementToTranscriptionNotes (
+        transcriptionNotesElement);
       
-  // create the fist page
+  // create the first page
   fCurrentPage =
-    bsrPage::create (0); // inputLineNumber
+    bsrPage::create (inputLineNumber);
     
   // append it to the score
   fBsrScore->
     appendPageToScore (fCurrentPage);
 
-  // create the fist line
+  // create the fisrt line
   fCurrentLine =
-    bsrLine::create (0); // inputLineNumber
+    bsrLine::create (inputLineNumber);
 
-  // append it to the first page
+  // append the fisrt line to the first page
   fCurrentPage->
     appendLineToPage (fCurrentLine);
   
+  // append a number to the fisrt line
+  S_bsrNumber
+    number =
+      bsrNumber::create (
+        inputLineNumber,
+        7,
+        bsrNumber::kNumberSignIsNeededYes);
+    
+  fCurrentLine->
+    appendNumberToLine (number);
+    
 /*
   // create an empty clone of fVisitedMsrScore for use by the BSR score
   // not sharing the visitiged MSR score allows cleaner data handling
@@ -628,9 +648,221 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
       endl;
   }
 
+  // get MSR key kind
+  msrKey::msrKeyKind
+    mKeyKind = elt->getKeyKind ();
+
+     //   kKeyKindFlats, kKeyKindSharps };
+
+/*
+   fKeyTonicQuarterTonesPitchKind 
+  fKeyModeKind                   
+  
+  fKeyCancel = keyCancel;
+ */
+ 
+  bsrKey::bsrKeyKind bKeyKind;
+  int                numberOfAlterations;
+
+  switch (mKeyKind) {
+    case msrKey::kTraditionalKind:
+    {
+      // traditional keys
+      
+      msrQuarterTonesPitchKind
+        mQuarterTonesPitchKind =
+          elt->getKeyTonicQuarterTonesPitchKind ();
+  
+      msrDiatonicPitchKind
+        mDiatonicPitchKind =
+          diatonicPitchKindFromQuarterTonesPitchKind (
+            inputLineNumber,
+            mQuarterTonesPitchKind);
+       
+      msrKey::msrKeyModeKind
+        mKeyModeKind =
+          elt->getKeyModeKind ();
+                              
+        // JMI ??? int                   getKeyCancel () const
+  
+        bKeyKind            = bsrKey::kKeyKindFlats;
+        numberOfAlterations = 3;
+        
+        /* JMI
+        switch (semiTonesPitchKind) {
+          case k_NoSemiTonesPitch_STP:
+            result = "k_NoSemiTonesPitch_STP";
+            break;
+            
+          case kC_TripleFlat_STP:
+            result = "C_TripleFlat_STP";
+            break;
+          case kC_DoubleFlat_STP:
+            result = "C_DoubleFlat_STP";
+            break;
+          case kC_Flat_STP:
+            result = "C_Flat_STP";
+            break;
+          case kC_Natural_STP:
+            result = "C_Natural_STP";
+            break;
+          case kC_Sharp_STP:
+            result = "C_Sharp_STP";
+            break;
+          case kC_DoubleSharp_STP:
+            result = "C_DoubleSharp_STP";
+            break;
+          case kC_TripleSharp_STP:
+            result = "C_TripleSharp_STP";
+            break;
+      
+          case kD_TripleFlat_STP:
+            result = "D_TripleFlat_STP";
+            break;
+          case kD_DoubleFlat_STP:
+            result = "D_DoubleFlat_STP";
+            break;
+          case kD_Flat_STP:
+            result = "D_Flat_STP";
+            break;
+          case kD_Natural_STP:
+            result = "D_Natural_STP";
+            break;      
+          case kD_Sharp_STP:
+            result = "D_Sharp_STP";
+            break;
+          case kD_DoubleSharp_STP:
+            result = "D_DoubleSharp_STP";
+            break;
+          case kD_TripleSharp_STP:
+            result = "D_TripleSharp_STP";
+            break;
+            
+          case kE_TripleFlat_STP:
+            result = "E_TripleFlat_STP";
+            break;
+          case kE_DoubleFlat_STP:
+            result = "E_DoubleFlat_STP";
+            break;
+          case kE_Flat_STP:
+            result = "E_Flat_STP";
+            break;
+          case kE_Natural_STP:
+            result = "E_Natural_STP";
+            break;
+          case kE_Sharp_STP:
+            result = "E_Sharp_STP";
+            break;
+          case kE_DoubleSharp_STP:
+            result = "E_DoubleSharp_STP";
+            break;
+          case kE_TripleSharp_STP:
+            result = "E_TripleSharp_STP";
+            break;
+            
+          case kF_TripleFlat_STP:
+            result = "F_TripleFlat_STP";
+            break;
+          case kF_DoubleFlat_STP:
+            result = "F_DoubleFlat_STP";
+            break;
+          case kF_Flat_STP:
+            result = "F_Flat_STP";
+            break;
+          case kF_Natural_STP:
+            result = "F_Natural_STP";
+            break;
+          case kF_Sharp_STP:
+            result = "F_Sharp_STP";
+            break;      
+          case kF_DoubleSharp_STP:
+            result = "F_DoubleSharp_STP";
+            break;
+          case kF_TripleSharp_STP:
+            result = "F_TripleSharp_STP";
+            break;
+            
+          case kG_TripleFlat_STP:
+            result = "G_TripleFlat_STP";
+            break;
+          case kG_DoubleFlat_STP:
+            result = "G_DoubleFlat_STP";
+            break;
+          case kG_Flat_STP:
+            result = "G_Flat_STP";
+            break;
+          case kG_Natural_STP:
+            result = "G_Natural_STP";
+            break;
+          case kG_Sharp_STP:
+            result = "G_Sharp_STP";
+            break;
+          case kG_DoubleSharp_STP:
+            result = "G_DoubleSharp_STP";
+            break;
+          case kG_TripleSharp_STP:
+            result = "G_TripleSharp_STP";
+            break;
+      
+          case kA_TripleFlat_STP:
+            result = "A_TripleFlat_STP";
+            break;
+          case kA_DoubleFlat_STP:
+            result = "A_DoubleFlat_STP";
+            break;
+          case kA_Flat_STP:
+            result = "A_Flat_STP";
+            break;
+          case kA_Natural_STP:
+            result = "A_Natural_STP";
+            break;
+          case kA_Sharp_STP:
+            result = "A_Sharp_STP";
+            break;
+          case kA_DoubleSharp_STP:
+            result = "A_DoubleSharp_STP";
+            break;
+          case kA_TripleSharp_STP:
+            result = "A_TripleSharp_STP";
+            break;
+      
+          case kB_TripleFlat_STP:
+            result = "B_TripleFlat_STP";
+            break;
+          case kB_DoubleFlat_STP:
+            result = "B_DoubleFlat_STP";
+            break;      
+          case kB_Flat_STP:
+            result = "B_Flat_STP";
+            break;
+          case kB_Natural_STP:
+            result = "B_Natural_STP";
+            break;
+          case kB_Sharp_STP:
+            result = "B_Sharp_STP";
+            break;
+          case kB_DoubleSharp_STP:
+            result = "B_DoubleSharp_STP";
+            break;
+          case kB_TripleSharp_STP:
+            result = "B_TripleSharp_STP";
+            break;
+        } // switch
+        */
+      }
+      break;
+      
+    case msrKey::kHumdrumScotKind:
+      // JMI
+      break;
+  } // switch
+
   S_bsrKey
     key =
-      bsrKey::create (inputLineNumber);
+      bsrKey::create (
+        inputLineNumber,
+        bKeyKind,
+        numberOfAlterations);
       
   fCurrentLine->
     appendKeyToLine (key);
