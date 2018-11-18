@@ -15,7 +15,7 @@
 
 //#include <list>
 
-#include "bsrElements.h"
+#include "bsrBrailleElements.h"
 
 
 using namespace std;
@@ -27,7 +27,7 @@ namespace MusicXML2
 class bsrKey;
 typedef SMARTP<bsrKey> S_bsrKey;
 
-class bsrKey : public bsrElement
+class bsrKey : public bsrBrailleElement
 {
   public:
     

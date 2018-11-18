@@ -47,7 +47,7 @@ S_bsrClef bsrClef::create (
 
 bsrClef::bsrClef (
   int inputLineNumber)
-    : bsrElement (inputLineNumber)
+    : bsrBrailleElement (inputLineNumber)
 {
 }
 

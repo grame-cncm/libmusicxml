@@ -13,7 +13,7 @@
 #ifndef ___bsrClefs___
 #define ___bsrClefs___
 
-#include "bsrElements.h"
+#include "bsrBrailleElements.h"
 
 
 using namespace std;
@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrClef : public bsrElement
+class bsrClef : public bsrBrailleElement
 {
   public:
           

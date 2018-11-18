@@ -53,7 +53,7 @@ bsrNumber::bsrNumber (
   int       numberValue,
   bsrNumberSignIsNeededKind
             numberSignIsNeededKind)
-    : bsrElement (inputLineNumber)
+    : bsrBrailleElement (inputLineNumber)
 {
   fNumberValue = numberValue;
     

@@ -52,7 +52,7 @@ bsrKey::bsrKey (
   int        inputLineNumber,
   bsrKeyKind keyKind,
   int        numberOfAlterations)
-    : bsrElement (inputLineNumber)
+    : bsrBrailleElement (inputLineNumber)
 {
   fKeyKind             = keyKind;
   fNumberOfAlterations = numberOfAlterations;

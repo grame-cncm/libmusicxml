@@ -72,6 +72,7 @@ void bsrTraceOptions::initializeTraceOptions (
   
     fTracePages = boolOptionsInitialValue;
     fTraceLines = boolOptionsInitialValue;
+    fTraceParallels = boolOptionsInitialValue;
 
     S_optionsSubGroup
       specificTraceSubGroup =
@@ -101,6 +102,15 @@ R"()",
           "traceLines",
           fTraceLines,
           gTraceOptions->fTracePasses));
+            
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tpars", "trace-parallels",
+R"()",
+          "traceParallels",
+          fTraceParallels,
+          gTraceOptions->fTracePasses));
   }
 }
 
@@ -119,6 +129,7 @@ S_bsrTraceOptions bsrTraceOptions::createCloneWithDetailedTrace ()
 
   clone->fTracePages = true;
   clone->fTraceLines = true;
+  clone->fTraceParallels = true;
 
   return clone;
 }
@@ -128,7 +139,8 @@ void bsrTraceOptions::setAllTraceOptions (
 {
   fTracePages = boolOptionsInitialValue;
   fTraceLines = boolOptionsInitialValue;
-}
+  fTraceParallels = boolOptionsInitialValue;
+ }
 
 //______________________________________________________________________________
 void bsrTraceOptions::enforceQuietness ()
@@ -158,6 +170,10 @@ void bsrTraceOptions::printTraceOptionsValues (int fieldWidth)
       
     setw (fieldWidth) << "traceLines" << " : " <<
     booleanAsString (fTraceLines) <<
+    endl <<
+      
+    setw (fieldWidth) << "traceParallels" << " : " <<
+    booleanAsString (fTraceParallels) <<
     endl;
 
   gIndenter--;

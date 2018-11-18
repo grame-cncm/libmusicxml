@@ -31,6 +31,155 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+S_bsrMeasure bsrMeasure::create (
+  int inputLineNumber)
+{
+  bsrMeasure* o =
+    new bsrMeasure (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+bsrMeasure::bsrMeasure (
+  int inputLineNumber)
+    : bsrElement (inputLineNumber)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrTraceOptions->fTraceLines) {
+    gLogIOstream <<
+      "Creating bsrMeasure '" <<
+      asString () <<
+      "', line " <<
+      fInputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+bsrMeasure::~bsrMeasure ()
+{}
+
+void bsrMeasure::acceptIn (basevisitor* v)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrMeasure::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_bsrMeasure>*
+    p =
+      dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
+        S_bsrMeasure elem = this;
+        
+        if (gBsrOptions->fTraceBsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching bsrMeasure::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void bsrMeasure::acceptOut (basevisitor* v)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrMeasure::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_bsrMeasure>*
+    p =
+      dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
+        S_bsrMeasure elem = this;
+      
+        if (gBsrOptions->fTraceBsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching bsrMeasure::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void bsrMeasure::browseData (basevisitor* v)
+{
+  for (
+    list<S_bsrElement>::const_iterator i = fMeasureElementsList.begin ();
+    i != fMeasureElementsList.end ();
+    i++ ) {
+    // browse the element
+    bsrBrowser<bsrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+}
+
+void bsrMeasure::print (ostream& os)
+{
+  os <<
+    "Line" <<
+    endl;
+  
+  gIndenter++;
+
+  // print the measure numbers
+  const int fieldWidth = 18;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "printMeasureNumber" << " : " << fPrintMeasureNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "brailleMeasureNumber" << " : " << fBrailleMeasureNumber <<
+    endl;
+  
+  // print the measure elements if any
+  int measureElementsListSize = fMeasureElementsList.size ();
+  
+  if (measureElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "fMeasureElementsList";
+    if (measureElementsListSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_bsrElement>::const_iterator
+        iBegin = fMeasureElementsList.begin (),
+        iEnd   = fMeasureElementsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+  
+      os <<
+        endl;
+        
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_bsrMeasure& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_bsrLine bsrLine::create (
   int inputLineNumber)
 {
@@ -277,6 +426,156 @@ void bsrLineElement::print (ostream& os)
 }
 
 ostream& operator<< (ostream& os, const S_bsrLineElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_bsrParallel bsrParallel::create (
+  int inputLineNumber)
+{
+  bsrParallel* o =
+    new bsrParallel (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+bsrParallel::bsrParallel (
+  int inputLineNumber)
+    : bsrElement (inputLineNumber)
+{
+}
+
+bsrParallel::~bsrParallel ()
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrTraceOptions->fTraceParallels) {
+    gLogIOstream <<
+      "Creating bsrParallel '" <<
+      asString () <<
+      "', line " <<
+      fInputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+void bsrParallel::acceptIn (basevisitor* v)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrParallel::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_bsrParallel>*
+    p =
+      dynamic_cast<visitor<S_bsrParallel>*> (v)) {
+        S_bsrParallel elem = this;
+        
+        if (gBsrOptions->fTraceBsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching bsrParallel::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void bsrParallel::acceptOut (basevisitor* v)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrParallel::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_bsrParallel>*
+    p =
+      dynamic_cast<visitor<S_bsrParallel>*> (v)) {
+        S_bsrParallel elem = this;
+      
+        if (gBsrOptions->fTraceBsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching bsrParallel::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void bsrParallel::browseData (basevisitor* v)
+{
+  for (
+    list<S_bsrElement>::const_iterator i = fParallelElementsList.begin ();
+    i != fParallelElementsList.end ();
+    i++ ) {
+    // browse the element
+    bsrBrowser<bsrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+}
+
+void bsrParallel::print (ostream& os)
+{
+  os <<
+    "Parallel" <<
+    endl;
+  
+  gIndenter++;
+
+  // print the parallel numbers
+  const int fieldWidth = 18;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "printParallelNumber" << " : " << fPrintParallelNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "brailleParallelNumber" << " : " << fBrailleParallelNumber <<
+    endl;
+  
+  // print the parallel elements if any
+  int parallelElementsListSize = fParallelElementsList.size ();
+  
+  if (parallelElementsListSize || gBsrOptions->fDisplayBsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "fParallelElementsList";
+    if (parallelElementsListSize) {
+      os <<
+        endl;
+      gIndenter++;
+  
+      list<S_bsrElement>::const_iterator
+        iBegin = fParallelElementsList.begin (),
+        iEnd   = fParallelElementsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+  
+      os <<
+        endl;
+        
+      gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_bsrParallel& elt)
 {
   elt->print (os);
   return os;
