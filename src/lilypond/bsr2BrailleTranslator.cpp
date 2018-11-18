@@ -61,7 +61,7 @@ void bsr2BrailleTranslator::generateBrailleCodeFromBsrScore ()
 {
   if (fVisitedBsrScore) {    
     // generate a BOM if requested
-    switch (gBrailleOptions->fBsrByteOrderingKind) {
+    switch (gBrailleOptions->fByteOrderingKind) {
       case brailleOptions::kByteOrderingBigEndian:
         fBrailleCodeIOstream <<
           kBOMBigEndian;
@@ -391,6 +391,41 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTime " <<
+      elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrNote " <<
+      elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  switch (elt->getNoteOctaveIsNeededKind ()) {
+    case bsrNote::kNoteOctaveIsNeededYes:
+      fBrailleCodeIOstream <<
+        elt->noteOctaveKindAsBraille ();
+      break;
+    case bsrNote::kNoteOctaveIsNeededNo:
+      break;
+  } // switch
+
+  fBrailleCodeIOstream <<
+    elt->noteValueKindAsBraille ();
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrNote " <<
       elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;

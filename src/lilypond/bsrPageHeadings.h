@@ -27,7 +27,7 @@ class bsrPageHeading : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrPageHeading> create (

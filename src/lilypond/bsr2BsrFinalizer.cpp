@@ -152,7 +152,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrPage& elt)
       endl;
   }
 
-  fCurrentPage = elt;
+  fCurrentPage = elt->createPageNewbornClone ();
   
   fBsrScore->
     appendPageToScore (fCurrentPage);
@@ -206,6 +206,11 @@ void bsr2BsrFinalizer::visitStart (S_bsrLine& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fCurrentLine = elt->createLineNewbornClone ();
+  
+  fCurrentPage->
+    appendLineToPage (fCurrentLine);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrLine& elt)
@@ -231,6 +236,9 @@ void bsr2BsrFinalizer::visitStart (S_bsrNumber& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fCurrentLine->
+    appendNumberToLine (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
@@ -256,6 +264,9 @@ void bsr2BsrFinalizer::visitStart (S_bsrClef& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fCurrentLine->
+    appendClefToLine (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrClef& elt)
@@ -281,6 +292,9 @@ void bsr2BsrFinalizer::visitStart (S_bsrKey& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fCurrentLine->
+    appendKeyToLine (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrKey& elt)
@@ -305,6 +319,9 @@ void bsr2BsrFinalizer::visitStart (S_bsrTime& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fCurrentLine->
+    appendTimeToLine (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)
@@ -312,6 +329,32 @@ void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTime " <<
+      elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrNote& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrNote " <<
+      elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentLine->
+    appendNoteToLine (elt);
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrNote& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrNote " <<
       elt->asString () <<
       ", line " << elt->getInputLineNumber () <<
       endl;

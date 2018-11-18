@@ -132,7 +132,7 @@ string bsrNumber::asString () const
   stringstream s;
 
   s <<
-    "Number, " << 
+    "Number" << 
     ", numberValue: " << fNumberValue <<
     ", numberSignIsNeeded: " <<
     numberSignIsNeededKindAsString (

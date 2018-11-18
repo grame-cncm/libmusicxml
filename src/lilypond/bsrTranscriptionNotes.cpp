@@ -111,7 +111,8 @@ string bsrTranscriptionNotesElement::asString () const
 
   s <<
     "TranscriptionNotesElement" <<
-    ", fTranscriptionNoteText: \"" << fTranscriptionNoteText << "\"" <<
+    // JMI ", fTranscriptionNoteText: " <<
+    ", \"" << fTranscriptionNoteText << "\"" <<
     ", line " << fInputLineNumber;
 
   return s.str ();

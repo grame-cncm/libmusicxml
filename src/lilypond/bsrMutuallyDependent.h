@@ -21,6 +21,8 @@
 #include "bsrKeys.h"
 #include "bsrTimes.h"
 
+#include "bsrNotes.h"
+
 #include "bsrOptions.h"
 
 
@@ -45,7 +47,7 @@ class bsrMeasure : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrMeasure> create (
@@ -128,19 +130,25 @@ class bsrLine : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrLine> create (
-      int inputLineNumber);
+      int inputLineNumber,
+      int printLineNumber,
+      int cellsPerLine);
     
+    SMARTP<bsrLine> createLineNewbornClone ();
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     bsrLine (
-      int inputLineNumber);
+      int inputLineNumber,
+      int printLineNumber,
+      int cellsPerLine);
       
     virtual ~bsrLine ();
   
@@ -154,6 +162,9 @@ class bsrLine : public bsrElement
 
     int                   getBrailleLineNumber () const
                               { return fBrailleLineNumber; }
+                              
+    int                   getCellsPerLine () const
+                              { return fCellsPerLine; }
                               
   public:
 
@@ -172,9 +183,9 @@ class bsrLine : public bsrElement
     void                  appendTimeToLine (S_bsrTime time)
                               { fLineElementsList.push_back (time); }
                               
-    void                  appendElementToLine (S_bsrLineElement lineElement)
-                              { fLineElementsList.push_back (lineElement); }
-
+    void                  appendNoteToLine (S_bsrNote note)
+                              { fLineElementsList.push_back (note); }
+                              
   public:
 
     // visitors
@@ -190,6 +201,8 @@ class bsrLine : public bsrElement
     // print
     // ------------------------------------------------------
 
+    virtual std::string   asString () const;
+
     virtual void          print (ostream& os);
 
   private:
@@ -200,6 +213,8 @@ class bsrLine : public bsrElement
     int                   fPrintLineNumber;    
     int                   fBrailleLineNumber;
 
+    int                   fCellsPerLine;
+    
     list<S_bsrElement>
                           fLineElementsList;
 };
@@ -285,7 +300,17 @@ class bsrParallel : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // data types
+    // ------------------------------------------------------
+
+    enum bsrParallelLayoutKind {
+        kParallelLayoutBarOverBarKind,
+        kParallelLayoutLineOverLineKind };
+
+    static string parallelLayoutKindAsString (
+      bsrParallelLayoutKind parallelLayoutKind);
+
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrParallel> create (
@@ -359,19 +384,25 @@ class bsrPage : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrPage> create (
-      int inputLineNumber);
+      int inputLineNumber,
+      int printPageNumber,
+      int linesPerPage);
     
+    SMARTP<bsrPage> createPageNewbornClone ();
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     bsrPage (
-      int inputLineNumber);
+      int inputLineNumber,
+      int printPageNumber,
+      int linesPerPage);
       
     virtual ~bsrPage ();
   
@@ -385,6 +416,9 @@ class bsrPage : public bsrElement
 
     int                   getBraillePageNumber () const
                               { return fBraillePageNumber; }
+                              
+    int                   getLinesPerPage () const
+                              { return fLinesPerPage; }
                               
   public:
 
@@ -412,6 +446,8 @@ class bsrPage : public bsrElement
     // print
     // ------------------------------------------------------
 
+    virtual std::string   asString () const;
+
     virtual void          print (ostream& os);
 
   private:
@@ -421,6 +457,8 @@ class bsrPage : public bsrElement
 
     int                   fPrintPageNumber;    
     int                   fBraillePageNumber;
+
+    int                   fLinesPerPage;    
 
     list<S_bsrElement>
                           fPageElementsList;

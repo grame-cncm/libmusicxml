@@ -132,7 +132,7 @@ string bsrKey::asString () const
   s <<
     "Key" <<
     ", " << keyKindAsString (fKeyKind) <<
-    ", numberOfAlterations : " << fNumberOfAlterations <<
+    ", numberOfAlterations: " << fNumberOfAlterations <<
     ", line " << fInputLineNumber;
 
   return s.str ();

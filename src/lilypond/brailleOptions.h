@@ -265,7 +265,13 @@ class brailleOptions : public optionsGroup
     // byte ordering
     // --------------------------------------
 
-    bsrByteOrderingKind   fBsrByteOrderingKind;
+    bsrByteOrderingKind   fByteOrderingKind;
+    
+    // page parameters
+    // --------------------------------------
+
+    int                   fCellsPerLine;
+    int                   fLinesPerPage;
     
     // code generation
     // --------------------------------------

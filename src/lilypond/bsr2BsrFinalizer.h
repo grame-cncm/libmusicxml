@@ -39,7 +39,9 @@ class bsr2BsrFinalizer :
   
   public visitor<S_bsrClef>,
   public visitor<S_bsrKey>,
-  public visitor<S_bsrTime>
+  public visitor<S_bsrTime>,
+  
+  public visitor<S_bsrNote>
 
 {
   public:
@@ -88,6 +90,9 @@ class bsr2BsrFinalizer :
     virtual void visitStart (S_bsrTime& elt);
     virtual void visitEnd   (S_bsrTime& elt);
 
+    virtual void visitStart (S_bsrNote& elt);
+    virtual void visitEnd   (S_bsrNote& elt);
+
   private:
 
     // the MSR score we're relying on
@@ -102,10 +107,11 @@ class bsr2BsrFinalizer :
     // ------------------------------------------------------
     S_bsrScore            fBsrScore;
 
-    // pages
+    // pages & lines
     // ------------------------------------------------------
 
     S_bsrPage             fCurrentPage;
+    S_bsrLine             fCurrentLine;
     
 
     S_bsrOptions          fBsrOptions;

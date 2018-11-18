@@ -50,6 +50,10 @@ msr2BsrTranslator::msr2BsrTranslator (
   // the MSR score we're visiting
   fVisitedMsrScore = mScore;
 
+  // pages & lines
+  fCurrentPrintPageNumber = 1;
+  fCurrentPrintLineNumber = 1;
+
 /*
   // identification
   fOnGoingIdentification = false;
@@ -109,25 +113,66 @@ void msr2BsrTranslator::buildBsrScoreFromMsrScore ()
 }
 
 //________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_bsrTranscriptionNotes& elt)
+void msr2BsrTranslator::visitStart (S_msrPageBreak& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting bsrTranscriptionNotes " <<
-  //    elt->getPartGroupCombinedName () <<
-      ", line " << elt->getInputLineNumber () <<
+      "--> Start visiting msrPageBreak" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  fCurrentTranscriptionsNotes = elt;
+  fCurrentPage =
+    bsrPage::create (
+      inputLineNumber,
+      ++fCurrentPrintPageNumber,
+      gBrailleOptions->fLinesPerPage);
+    
+  fBsrScore->
+    appendPageToScore (fCurrentPage);
 }
 
-void msr2BsrTranslator::visitEnd (S_bsrTranscriptionNotes& elt)
+void msr2BsrTranslator::visitEnd (S_msrPageBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting bsrTranscriptionNotes " <<
-    //  elt->getPartGroupCombinedName () <<
+      "--> End visiting msrPageBreak" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrLineBreak" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fCurrentLine =
+    bsrLine::create (
+      inputLineNumber,
+      ++fCurrentPrintLineNumber,
+      gBrailleOptions->fCellsPerLine);
+    
+  fCurrentPage->
+    appendLineToPage (fCurrentLine);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrLineBreak& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -166,7 +211,10 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       
   // create the first page
   fCurrentPage =
-    bsrPage::create (inputLineNumber);
+    bsrPage::create (
+      inputLineNumber,
+      fCurrentPrintPageNumber,
+      gBrailleOptions->fLinesPerPage);
     
   // append it to the score
   fBsrScore->
@@ -174,12 +222,16 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
 
   // create the fisrt line
   fCurrentLine =
-    bsrLine::create (inputLineNumber);
+    bsrLine::create (
+      inputLineNumber,
+      fCurrentPrintLineNumber,
+      gBrailleOptions->fCellsPerLine);
 
   // append the fisrt line to the first page
   fCurrentPage->
     appendLineToPage (fCurrentLine);
-  
+
+  /*
   // append a number to the fisrt line
   S_bsrNumber
     number =
@@ -190,6 +242,19 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
     
   fCurrentLine->
     appendNumberToLine (number);
+    
+  // append a note to the fisrt line
+  S_bsrNote
+    note =
+      bsrNote::create (
+        inputLineNumber,
+        bsrNote::kBsrCEighthKind,
+        bsrNote::kBrlOctave4Kind,
+        bsrNote::kNoteOctaveIsNeededYes);
+  
+  fCurrentLine->
+    appendNoteToLine (note);
+    */
     
 /*
   // create an empty clone of fVisitedMsrScore for use by the BSR score
@@ -538,66 +603,6 @@ void msr2BsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
     fLogOutputStream <<
       "--> Start visiting msrVoiceStaffChange '" <<
       elt->asString () << "'" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrPageBreak& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrPageBreak" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fCurrentPage =
-    bsrPage::create (inputLineNumber);
-    
-  fBsrScore->
-    appendPageToScore (fCurrentPage);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrPageBreak& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrPageBreak" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrLineBreak" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fCurrentLine =
-    bsrLine::create (inputLineNumber);
-    
-  fCurrentPage->
-    appendLineToPage (fCurrentLine);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrLineBreak& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrLineBreak" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

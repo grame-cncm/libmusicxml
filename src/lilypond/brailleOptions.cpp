@@ -69,374 +69,96 @@ brailleOptions::~brailleOptions ()
 void brailleOptions::initializeBrailleOptions (
   bool boolOptionsInitialValue)
 {
-  /*
-  // identification
-  // --------------------------------------
-
-  {
-    // variables
-
-    S_optionsSubGroup
-      identificationSubGroup =
-        optionsSubGroup::create (
-          "Identification",
-          "hlpi", "help-braille-identification",
-R"(These options can be used to enforce values in the generated Braille code,
-thus overriding the ones that may be present in the MSR data.
-)",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-  
-    appendOptionsSubGroup (identificationSubGroup);
-
-    // MusicXML informations
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "rights", "",
-R"(Set the 'rights' to STRING in the Braille code.)",
-          "STRING",
-          "rights",
-          fRights));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "composer", "",
-R"(Set the 'composer' to STRING in the Braille code.)",
-          "STRING",
-          "composer",
-          fComposer));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "arranger", "",
-R"(Set the 'arranger' to STRING in the Braille code.)",
-          "STRING",
-          "arranger",
-          fArranger));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "poet", "",
-R"(Set the 'poet' to STRING in the Braille code.)",
-          "STRING",
-          "poet",
-          fPoet));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "lyricist", "",
-R"(Set the 'lyricist' to STRING in the Braille code.)",
-          "STRING",
-          "lyricist",
-          fLyricist));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "software", "",
-R"(Set the 'software' to STRING in the Braille code.)",
-          "STRING",
-          "software",
-          fSoftware));
-
-    // Braille informations
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "dedication", "",
-R"(Set 'dedication' to STRING in the \header.)",
-          "STRING",
-          "dedication",
-          fDedication));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "piece", "",
-R"(Set 'piece' to STRING in the \header.)",
-          "STRING",
-          "piece",
-          fPiece));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "opus", "",
-R"(Set 'opus' to STRING in the \header.)",
-          "STRING",
-          "opus",
-          fOpus));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "title", "",
-R"(Set 'title' to STRING in the \header.)",
-          "STRING",
-          "title",
-          fTitle));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "stitle", "subtitle",
-R"(Set 'subtitle' to STRING in the \header.)",
-          "STRING",
-          "subTitle",
-          fSubTitle));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "sstitle", "subsubtitle",
-R"(Set 'subsubtitle' to STRING in the \header.)",
-          "STRING",
-          "subSubTitle",
-          fSubSubTitle));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "instrument", "",
-R"(Set 'instrument' to STRING in the \header.)",
-          "STRING",
-          "instrument",
-          fInstrument));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "meter", "",
-R"(Set 'meter' to STRING in the \header.)",
-          "STRING",
-          "meter",
-          fMeter));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "tagline", "",
-R"(Set 'tagline' to STRING in the \header.)",
-          "STRING",
-          "tagline",
-          fTagline));
-
-    identificationSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "copyright", "",
-R"(Set 'copyright' to STRING in the \header.)",
-          "STRING",
-          "copyright",
-          fCopyright));
-  }
-  
-
-  // notes
-  // --------------------------------------
-
-  {
-    // variables
-      
-    fAbsoluteOctaves  = boolOptionsInitialValue;
-    
-    fAllDurations  = boolOptionsInitialValue;
-      
-    fRomanStringNumbers = boolOptionsInitialValue;
-    fAvoidOpenStrings    = boolOptionsInitialValue;
-      
-    fCompressMultiMeasureRests = boolOptionsInitialValue;
-  
-    fNoteInputLineNumbers = boolOptionsInitialValue;
-  
-    S_optionsSubGroup
-      notesSubGroup =
-        optionsSubGroup::create (
-          "Notes",
-          "hlpn", "help-braille-notes",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-  
-    appendOptionsSubGroup (notesSubGroup);
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "abs", "absolute",
-R"(Generate Braille absolute note octaves. 
-By default, relative octaves are generated.)",
-          "absoluteOctaves",
-          fAbsoluteOctaves));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "alldurs", "all-durations",
-R"(Generate all Braille durations. 
-By default, a duration equal to preceding one found in the current voice
-is omitted for code conciseness.)",
-          "allDurations",
-          fAllDurations));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "rsn", "roman-string-numbers",
-R"(Generate '\romanStringNumbers' in each voice 
-for Braille to generate roman instead of arabic string numbers.)",
-          "romanStringNumbers",
-          fRomanStringNumbers));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "aos", "avoid-open-strings",
-R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice 
-to prevent Braille from using open strings.)",
-          "avoidOpenStrings",
-          fAvoidOpenStrings));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "niln", "note-input-line-numbers",
-R"(Generate after each note and barline a comment containing
-its MusicXML input line number.
-This is useful when debugging xml2brl.)",
-          "noteInputLineNumbers",
-          fNoteInputLineNumbers));
-  }
-
-  
-  // bars
-  // --------------------------------------
-
-  {
-    // variables
-      
-    fShowAllBarNumbers = boolOptionsInitialValue;
-  
-    // options
-  
-    S_optionsSubGroup
-      barsSubGroup =
-        optionsSubGroup::create (
-          "Bars",
-          "hlpb", "help-braille-bars",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-  
-    appendOptionsSubGroup (barsSubGroup);
-
-    barsSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "abn", "all-bar-numbers",
-R"(Generate Braille code to show all bar numbers.)",
-          "showAllBarNumbers",
-          fShowAllBarNumbers));
-  }   
-
-
-  // line breaks
-  // --------------------------------------
-
-  {
-    // variables
-      
-    fIgnoreLineBreaks                    = boolOptionsInitialValue;
-  
-    fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
-        
-    // options
-  
-    S_optionsSubGroup
-      lineBreaksSubGroup =
-        optionsSubGroup::create (
-          "Line breaks",
-          "hlplb", "help-braille-line-breaks",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-  
-    appendOptionsSubGroup (lineBreaksSubGroup);
-
-    lineBreaksSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "ilb", "ignore-line-breaks",
-R"(Ignore the line breaks from the MusicXML input
-and let Braille decide about them.)",
-          "ignoreLineBreaks",
-          fIgnoreLineBreaks));
-
-    lineBreaksSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "blairm", "break-lines-at-incomplete-right-measures",
-R"(Generate a '\break' command at the end of incomplete right measures
-which is handy in popular folk dances and tunes.)",
-          "breakLinesAtIncompleteRightMeasures",
-          fBreakLinesAtIncompleteRightMeasures));
-  }
-  
-
-  // page breaks
+  // byte ordering
   // --------------------------------------
 
   {
     // variables  
-   
-    fIgnorePageBreaks = boolOptionsInitialValue;
   
+/* JMI
+    fByteOrderingKind = boolOptionsInitialValue;
+                
+    
     // options
   
     S_optionsSubGroup
-      pageBreaksSubGroup =
+      codeGenerationSubGroup =
         optionsSubGroup::create (
-          "Page breaks",
-          "hlppb", "help-braille-page-breaks",
+          "Byte orderingn",
+          "hlpbbo", "help-braille-byte-ordering",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
   
-    appendOptionsSubGroup (pageBreaksSubGroup);
+    appendOptionsSubGroup (codeGenerationSubGroup);
 
-    pageBreaksSubGroup->
+    codeGenerationSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "ipb", "ignore-page-breaks",
-R"(Ignore the page breaks from the MusicXML input
-and let Braille decide about them.)",
-          "ignorePageBreaks",
-          fIgnorePageBreaks));
+          "xi", "xml2brl-infos",
+R"(Generate initial comments showing the compilation date and options.)",
+          "xml2brlInfos",
+          fXml2brlInfos)); */
   }
-        */  
-     
+
+    
+  // page parameters
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    fCellsPerLine = 45;
+    fLinesPerPage = 27;
+    
+    // options
+  
+    S_optionsSubGroup
+      codeGenerationSubGroup =
+        optionsSubGroup::create (
+          "Page parameters",
+          "hlpbpp", "help-braille-pages-parameters",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (codeGenerationSubGroup);
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsIntegerItem::create (
+          "cpl", "cells-per-line",
+R"(Set the number of Braille cells per line to N. Default is 45.)",
+          "N",
+          "cellsPerLine",
+          fCellsPerLine));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsIntegerItem::create (
+          "lpp", "lines-per-page",
+R"(Set the number of Braille lines per page to N. Default is 27.)",
+          "N",
+          "linesPerPage",
+          fLinesPerPage));
+  }
+
+
   // code generation
   // --------------------------------------
   
   {
     // variables  
   
-    fXml2brlInfos        = boolOptionsInitialValue;
+    fXml2brlInfos         = boolOptionsInitialValue;
                 
-    fNoBrailleCode       = boolOptionsInitialValue;
+    fNoBrailleCode        = boolOptionsInitialValue;
     
-    fNoBrailleLyrics     = boolOptionsInitialValue;
+    fNoBrailleLyrics      = boolOptionsInitialValue;
     
-    fBrailleCompileDate  = boolOptionsInitialValue;
+    fBrailleCompileDate   = boolOptionsInitialValue;
     
-    fBrailleFacSimileKind  = kFacSimileNo;
+    fBrailleFacSimileKind = kFacSimileNo;
     
     // options
   
@@ -820,3 +542,357 @@ void initializeBrailleOptionsHandling (
 
 
 }
+
+
+  /*
+  // identification
+  // --------------------------------------
+
+  {
+    // variables
+
+    S_optionsSubGroup
+      identificationSubGroup =
+        optionsSubGroup::create (
+          "Identification",
+          "hlpi", "help-braille-identification",
+R"(These options can be used to enforce values in the generated Braille code,
+thus overriding the ones that may be present in the MSR data.
+)",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (identificationSubGroup);
+
+    // MusicXML informations
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "rights", "",
+R"(Set the 'rights' to STRING in the Braille code.)",
+          "STRING",
+          "rights",
+          fRights));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "composer", "",
+R"(Set the 'composer' to STRING in the Braille code.)",
+          "STRING",
+          "composer",
+          fComposer));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "arranger", "",
+R"(Set the 'arranger' to STRING in the Braille code.)",
+          "STRING",
+          "arranger",
+          fArranger));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "poet", "",
+R"(Set the 'poet' to STRING in the Braille code.)",
+          "STRING",
+          "poet",
+          fPoet));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "lyricist", "",
+R"(Set the 'lyricist' to STRING in the Braille code.)",
+          "STRING",
+          "lyricist",
+          fLyricist));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "software", "",
+R"(Set the 'software' to STRING in the Braille code.)",
+          "STRING",
+          "software",
+          fSoftware));
+
+    // Braille informations
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "dedication", "",
+R"(Set 'dedication' to STRING in the \header.)",
+          "STRING",
+          "dedication",
+          fDedication));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "piece", "",
+R"(Set 'piece' to STRING in the \header.)",
+          "STRING",
+          "piece",
+          fPiece));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "opus", "",
+R"(Set 'opus' to STRING in the \header.)",
+          "STRING",
+          "opus",
+          fOpus));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "title", "",
+R"(Set 'title' to STRING in the \header.)",
+          "STRING",
+          "title",
+          fTitle));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "stitle", "subtitle",
+R"(Set 'subtitle' to STRING in the \header.)",
+          "STRING",
+          "subTitle",
+          fSubTitle));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "sstitle", "subsubtitle",
+R"(Set 'subsubtitle' to STRING in the \header.)",
+          "STRING",
+          "subSubTitle",
+          fSubSubTitle));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "instrument", "",
+R"(Set 'instrument' to STRING in the \header.)",
+          "STRING",
+          "instrument",
+          fInstrument));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "meter", "",
+R"(Set 'meter' to STRING in the \header.)",
+          "STRING",
+          "meter",
+          fMeter));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "tagline", "",
+R"(Set 'tagline' to STRING in the \header.)",
+          "STRING",
+          "tagline",
+          fTagline));
+
+    identificationSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "copyright", "",
+R"(Set 'copyright' to STRING in the \header.)",
+          "STRING",
+          "copyright",
+          fCopyright));
+  }
+  
+
+  // notes
+  // --------------------------------------
+
+  {
+    // variables
+      
+    fAbsoluteOctaves  = boolOptionsInitialValue;
+    
+    fAllDurations  = boolOptionsInitialValue;
+      
+    fRomanStringNumbers = boolOptionsInitialValue;
+    fAvoidOpenStrings    = boolOptionsInitialValue;
+      
+    fCompressMultiMeasureRests = boolOptionsInitialValue;
+  
+    fNoteInputLineNumbers = boolOptionsInitialValue;
+  
+    S_optionsSubGroup
+      notesSubGroup =
+        optionsSubGroup::create (
+          "Notes",
+          "hlpn", "help-braille-notes",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (notesSubGroup);
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "abs", "absolute",
+R"(Generate Braille absolute note octaves. 
+By default, relative octaves are generated.)",
+          "absoluteOctaves",
+          fAbsoluteOctaves));
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "alldurs", "all-durations",
+R"(Generate all Braille durations. 
+By default, a duration equal to preceding one found in the current voice
+is omitted for code conciseness.)",
+          "allDurations",
+          fAllDurations));
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "rsn", "roman-string-numbers",
+R"(Generate '\romanStringNumbers' in each voice 
+for Braille to generate roman instead of arabic string numbers.)",
+          "romanStringNumbers",
+          fRomanStringNumbers));
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "aos", "avoid-open-strings",
+R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice 
+to prevent Braille from using open strings.)",
+          "avoidOpenStrings",
+          fAvoidOpenStrings));
+
+    notesSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "niln", "note-input-line-numbers",
+R"(Generate after each note and barline a comment containing
+its MusicXML input line number.
+This is useful when debugging xml2brl.)",
+          "noteInputLineNumbers",
+          fNoteInputLineNumbers));
+  }
+
+  
+  // bars
+  // --------------------------------------
+
+  {
+    // variables
+      
+    fShowAllBarNumbers = boolOptionsInitialValue;
+  
+    // options
+  
+    S_optionsSubGroup
+      barsSubGroup =
+        optionsSubGroup::create (
+          "Bars",
+          "hlpb", "help-braille-bars",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (barsSubGroup);
+
+    barsSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "abn", "all-bar-numbers",
+R"(Generate Braille code to show all bar numbers.)",
+          "showAllBarNumbers",
+          fShowAllBarNumbers));
+  }   
+
+
+  // line breaks
+  // --------------------------------------
+
+  {
+    // variables
+      
+    fIgnoreLineBreaks                    = boolOptionsInitialValue;
+  
+    fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
+        
+    // options
+  
+    S_optionsSubGroup
+      lineBreaksSubGroup =
+        optionsSubGroup::create (
+          "Line breaks",
+          "hlplb", "help-braille-line-breaks",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (lineBreaksSubGroup);
+
+    lineBreaksSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "ilb", "ignore-line-breaks",
+R"(Ignore the line breaks from the MusicXML input
+and let Braille decide about them.)",
+          "ignoreLineBreaks",
+          fIgnoreLineBreaks));
+
+    lineBreaksSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "blairm", "break-lines-at-incomplete-right-measures",
+R"(Generate a '\break' command at the end of incomplete right measures
+which is handy in popular folk dances and tunes.)",
+          "breakLinesAtIncompleteRightMeasures",
+          fBreakLinesAtIncompleteRightMeasures));
+  }
+  
+
+  // page breaks
+  // --------------------------------------
+
+  {
+    // variables  
+   
+    fIgnorePageBreaks = boolOptionsInitialValue;
+  
+    // options
+  
+    S_optionsSubGroup
+      pageBreaksSubGroup =
+        optionsSubGroup::create (
+          "Page breaks",
+          "hlppb", "help-braille-page-breaks",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (pageBreaksSubGroup);
+
+    pageBreaksSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "ipb", "ignore-page-breaks",
+R"(Ignore the page breaks from the MusicXML input
+and let Braille decide about them.)",
+          "ignorePageBreaks",
+          fIgnorePageBreaks));
+  }
+        */  

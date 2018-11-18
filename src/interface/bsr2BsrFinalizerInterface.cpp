@@ -117,7 +117,6 @@ void displayFinalizedBsrScore (
     endl <<
     separator <<
     endl <<
-    endl <<
     bScore <<
     separator <<
     endl <<

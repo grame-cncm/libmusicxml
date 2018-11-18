@@ -26,7 +26,7 @@ class bsrTranscriptionNotesElement : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrTranscriptionNotesElement> create (
@@ -91,7 +91,7 @@ class bsrTranscriptionNotes : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrTranscriptionNotes> create (

@@ -181,19 +181,28 @@ ostream& operator<< (ostream& os, const S_bsrMeasure& elt)
 
 //______________________________________________________________________________
 S_bsrLine bsrLine::create (
-  int inputLineNumber)
+  int inputLineNumber,
+  int printLineNumber,
+  int cellsPerLine)
 {
   bsrLine* o =
     new bsrLine (
-      inputLineNumber);
+      inputLineNumber, printLineNumber, cellsPerLine);
   assert(o!=0);
   return o;
 }
 
 bsrLine::bsrLine (
-  int inputLineNumber)
+  int inputLineNumber,
+  int printLineNumber,
+  int cellsPerLine)
     : bsrElement (inputLineNumber)
 {
+  fPrintLineNumber   = printLineNumber;
+  fBrailleLineNumber = fPrintLineNumber; // will be set by BSR finalizer
+  
+  fCellsPerLine = cellsPerLine;
+
 #ifdef TRACE_OPTIONS
   if (gBsrTraceOptions->fTraceLines) {
     gLogIOstream <<
@@ -208,6 +217,31 @@ bsrLine::bsrLine (
 
 bsrLine::~bsrLine ()
 {}
+
+S_bsrLine bsrLine::createLineNewbornClone ()
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrTraceOptions->fTraceLines) {
+    gLogIOstream <<
+      "Creating a newborn clone of line " <<
+      asString () <<
+      endl;
+  }
+#endif
+
+  S_bsrLine
+    newbornClone =
+      bsrLine::create (
+        fInputLineNumber,
+        fPrintLineNumber,
+        fCellsPerLine);
+
+  // braille line number
+  newbornClone->fBrailleLineNumber =
+    fBrailleLineNumber;
+    
+  return newbornClone;
+}
 
 void bsrLine::acceptIn (basevisitor* v)
 {
@@ -266,6 +300,21 @@ void bsrLine::browseData (basevisitor* v)
 
 }
 
+string bsrLine::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Line" <<
+    ", printLineNumber" << " : " << fPrintLineNumber <<
+    ", brailleLineNumber" << " : " << fBrailleLineNumber <<
+    ", cellsPerLine" << " : " << fCellsPerLine <<
+    ", elements: " << fLineElementsList.size () <<
+    ", line " << fInputLineNumber;
+    
+  return s.str ();
+}
+
 void bsrLine::print (ostream& os)
 {
   os <<
@@ -283,6 +332,11 @@ void bsrLine::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "brailleLineNumber" << " : " << fBrailleLineNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "cellsPerLine" << " : " << fCellsPerLine <<
+    endl;
+  os <<
     endl;
   
   // print the line elements if any
@@ -291,7 +345,7 @@ void bsrLine::print (ostream& os)
   if (lineElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "fLineElementsList";
+      "LineElementsList";
     if (lineElementsListSize) {
       os <<
         endl;
@@ -306,10 +360,7 @@ void bsrLine::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-  
-      os <<
-        endl;
-        
+          
       gIndenter--;
     }
     else {
@@ -519,6 +570,23 @@ void bsrParallel::browseData (basevisitor* v)
 
 }
 
+string bsrParallel::parallelLayoutKindAsString (
+  bsrParallelLayoutKind parallelLayoutKind)
+{
+  string result;
+  
+  switch (parallelLayoutKind) {
+    case bsrParallel::kParallelLayoutBarOverBarKind:
+      result = "parallelLayoutBarOverBarKind";
+      break;
+    case bsrParallel::kParallelLayoutLineOverLineKind:
+      result = "parallelLayoutLineOverLineKind";
+      break;
+  } // switch
+
+  return result;
+}
+
 void bsrParallel::print (ostream& os)
 {
   os <<
@@ -583,23 +651,28 @@ ostream& operator<< (ostream& os, const S_bsrParallel& elt)
 
 //______________________________________________________________________________
 S_bsrPage bsrPage::create (
-  int inputLineNumber)
+  int inputLineNumber,
+  int printPageNumber,
+  int linesPerPage)
 {
   bsrPage* o =
     new bsrPage (
-      inputLineNumber);
+      inputLineNumber, printPageNumber, linesPerPage);
   assert(o!=0);
   return o;
 }
 
 bsrPage::bsrPage (
-  int inputLineNumber)
+  int inputLineNumber,
+  int printPageNumber,
+  int linesPerPage)
     : bsrElement (inputLineNumber)
 {
-}
+  fPrintPageNumber   = printPageNumber;
+  fBraillePageNumber = fPrintPageNumber; // this will be set by BSR finalizer
+  
+  fLinesPerPage = linesPerPage;
 
-bsrPage::~bsrPage ()
-{
 #ifdef TRACE_OPTIONS
   if (gBsrTraceOptions->fTracePages) {
     gLogIOstream <<
@@ -610,6 +683,34 @@ bsrPage::~bsrPage ()
       endl;
   }
 #endif
+}
+
+bsrPage::~bsrPage ()
+{}
+
+S_bsrPage bsrPage::createPageNewbornClone ()
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrTraceOptions->fTracePages) {
+    gLogIOstream <<
+      "Creating a newborn clone of page " <<
+      asString () <<
+      endl;
+  }
+#endif
+
+  S_bsrPage
+    newbornClone =
+      bsrPage::create (
+        fInputLineNumber,
+        fPrintPageNumber,
+        fLinesPerPage);
+
+  // braille line number
+  newbornClone->fBraillePageNumber =
+    fBraillePageNumber;
+    
+  return newbornClone;
 }
 
 void bsrPage::acceptIn (basevisitor* v)
@@ -669,10 +770,26 @@ void bsrPage::browseData (basevisitor* v)
 
 }
 
+string bsrPage::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Page" <<
+    ", printPageNumber" << " : " << fPrintPageNumber <<
+    ", braillePageNumber" << " : " << fBraillePageNumber <<
+    ", linesPerPage" << " : " << fLinesPerPage <<
+    ", elements: " << fPageElementsList.size () <<
+    ", line " << fInputLineNumber;
+    
+  return s.str ();
+}
+
 void bsrPage::print (ostream& os)
 {
   os <<
     "Page" <<
+    ", line " << fInputLineNumber <<
     endl;
   
   gIndenter++;
@@ -686,15 +803,20 @@ void bsrPage::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "braillePageNumber" << " : " << fBraillePageNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "linesPerPage" << " : " << fLinesPerPage <<
     endl;
-  
+  os <<
+    endl;
+    
   // print the page elements if any
   int pageElementsListSize = fPageElementsList.size ();
   
   if (pageElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "fPageElementsList";
+      "PageElementsList";
     if (pageElementsListSize) {
       os <<
         endl;
@@ -709,10 +831,7 @@ void bsrPage::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-  
-      os <<
-        endl;
-        
+          
       gIndenter--;
     }
     else {

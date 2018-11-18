@@ -26,6 +26,8 @@
 #include "bsrKeys.h"
 #include "bsrTimes.h"
 
+#include "bsrNotes.h"
+
 
 namespace MusicXML2 
 {

@@ -41,17 +41,16 @@ class msr2BsrTranslator :
   public visitor<S_msrVoice>,
   public visitor<S_msrVoiceStaffChange>,
 
-  // breaks
-
-  public visitor<S_msrPageBreak>,
-  public visitor<S_msrLineBreak>,
-  
   // clef, key, time
     
   public visitor<S_msrClef>,
   public visitor<S_msrKey>,
-  public visitor<S_msrTime>
+  public visitor<S_msrTime>,
 
+  // pages & lines
+  
+  public visitor<S_msrLineBreak>,
+  public visitor<S_msrPageBreak>
 {
   public:
   
@@ -68,10 +67,13 @@ class msr2BsrTranslator :
     
   protected:
 
-    // transcription notes
-    
-    virtual void visitStart (S_bsrTranscriptionNotes& elt);
-    virtual void visitEnd   (S_bsrTranscriptionNotes& elt);
+    // pages & lines
+  
+    virtual void visitStart (S_msrPageBreak& elt);
+    virtual void visitEnd   (S_msrPageBreak& elt);
+
+    virtual void visitStart (S_msrLineBreak& elt);
+    virtual void visitEnd   (S_msrLineBreak& elt);
 
     // score
     
@@ -99,14 +101,6 @@ class msr2BsrTranslator :
     virtual void visitEnd   (S_msrVoice& elt);
 
     virtual void visitStart (S_msrVoiceStaffChange& elt);
-
-    // breaks
-    
-    virtual void visitStart (S_msrPageBreak& elt);
-    virtual void visitEnd   (S_msrPageBreak& elt);
-
-    virtual void visitStart (S_msrLineBreak& elt);
-    virtual void visitEnd   (S_msrLineBreak& elt);
 
     // clef, key, time
     
@@ -166,7 +160,10 @@ class msr2BsrTranslator :
     // pages & lines
     // ------------------------------------------------------    
     S_bsrPage                 fCurrentPage;
+    int                       fCurrentPrintPageNumber;
+    
     S_bsrLine                 fCurrentLine;
+    int                       fCurrentPrintLineNumber;
 
 /*
     // it's header
@@ -559,9 +556,6 @@ class msr2BsrTranslator :
   public visitor<S_msrBarCheck>,
   public visitor<S_msrBarNumberCheck>,
   
-  public visitor<S_msrLineBreak>,
-
-  public visitor<S_msrPageBreak>,
   
   // repeats
 

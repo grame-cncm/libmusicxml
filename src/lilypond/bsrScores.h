@@ -34,7 +34,7 @@ class bsrScore : public bsrElement
 {
   public:
 
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrScore> create (
@@ -120,7 +120,7 @@ class bsrScore : public bsrElement
     S_bsrTranscriptionNotes
                           fTranscriptionNotes;
 
-    int                   fBrailleLineLength; // cells
+    int                   fBrailleLineLength; // cells JMI ???
     int                   fBraillePageLength;
 
     list<S_bsrPage>       fScorePagesList;

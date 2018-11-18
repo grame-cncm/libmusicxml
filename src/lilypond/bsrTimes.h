@@ -33,7 +33,7 @@ class bsrTimeItem : public bsrElement
 {
   public:
     
-    // creation from MusicXML
+    // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrTimeItem> create (

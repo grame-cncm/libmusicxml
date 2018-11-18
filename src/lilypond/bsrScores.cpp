@@ -21,6 +21,8 @@
   #include "traceOptions.h"
 #endif
 
+#include "brailleOptions.h"
+
 #include "xml2brlOptionsHandling.h"
 
 
@@ -52,10 +54,8 @@ bsrScore::bsrScore (
     bsrTranscriptionNotes::create (
       inputLineNumber);
 
-  // allow for unlimited lines and pages lengthes initially,
-  // until the limits are enforced when refining the BSR
-  fBrailleLineLength = INT_MAX;
-  fBraillePageLength = INT_MAX;
+  fBrailleLineLength = gBrailleOptions->fCellsPerLine;
+  fBraillePageLength = gBrailleOptions->fLinesPerPage;
 }
 
 bsrScore::~bsrScore ()
@@ -155,30 +155,19 @@ void bsrScore::print (ostream& os)
   const int fieldWidth = 19;
   
   if (fTranscriptionNotes || gBsrOptions->fDisplayBsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "TranscriptionNotes" << " : " <<
-      endl;
-        
-    gIndenter++;
-
     if (fTranscriptionNotes) {
       os <<
-        fTranscriptionNotes <<
-        endl;
+        fTranscriptionNotes;
     }
     else {
       os <<
-        "none" <<
+        "TranscriptionNotes: none" <<
         endl;
     }
-      
-    gIndenter--;
   }
-  os <<
-    endl;
 
-  // print the lines and pages maximum lengthes
+/*
+  // print the lines and pages maximum lengthes JMI
   os <<
     setw (fieldWidth) <<
     "BrailleLineLength" << " : " << fBrailleLineLength <<
@@ -186,20 +175,21 @@ void bsrScore::print (ostream& os)
     setw (fieldWidth) <<
     "BraillePageLength" << " : " << fBraillePageLength <<
     endl;
-        
   os <<
     endl;
+        */
 
-  // print the score page if any
+  // print the score pages if any
   int scorePagesListSize = fScorePagesList.size ();
   
   if (scorePagesListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "scorePagesList" << " : " <<
-      endl;
+      "ScorePagesList";
       
     if (scorePagesListSize) {
+      os <<
+        endl;
       gIndenter++;
   
       list<S_bsrPage>::const_iterator
@@ -209,17 +199,15 @@ void bsrScore::print (ostream& os)
       for ( ; ; ) {
         os << (*i);
         if (++i == iEnd) break;
-        os << endl;
+        // no endl here
       } // for
   
-      os <<
-        endl;
-        
       gIndenter--;
     }
     else {
       os <<
-        "none" <<
+        " : " <<
+         "none" <<
       endl;
     }
   }

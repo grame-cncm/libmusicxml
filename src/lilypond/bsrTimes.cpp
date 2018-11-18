@@ -105,7 +105,7 @@ string bsrTime::asString () const
   stringstream s;
 
   s <<
-    "Time, " << 
+    "Time" << 
     ", line " << fInputLineNumber;
  
   return s.str ();
