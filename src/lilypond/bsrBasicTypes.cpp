@@ -29,26 +29,19 @@
 #include "bsrBasicTypes.h"
 
 
-using namespace std;
+//using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 #define TRACE_BSR_BASIC_TYPES 0
 
 //______________________________________________________________________________
-// UTF-16 Braille Dots 6 cells
-
-string brailleDots6CellAsShortString (wchar_t wch)
+string bsrSixDotsKindAsShortString (bsrSixDotsKind sixDotsKind)
 {
   string result;
 
-  switch (wch) {
-    case kBOMBigEndian   : result = ".BOMBE"; break;
-    case kBOMSmallEndian : result = ".BOMSE"; break;
-  
-    case kBrailleEOL : result = ".BEOL"; break;
-    case kBrailleEOP : result = ".BEOP"; break;
-
+  switch (sixDotsKind) {
     case kDotsNone    : result = ".None"; break;
     case kDots1       : result = ".1"; break;
     case kDots2       : result = ".2"; break;
@@ -80,6 +73,7 @@ string brailleDots6CellAsShortString (wchar_t wch)
     case kDots1245    : result = ".1245"; break;
     case kDots345     : result = ".345"; break;
     case kDots1345    : result = ".1345"; break;
+    case kDots2345    : result = ".2345"; break;
     case kDots12345   : result = ".12345"; break;
 
     case kDots6       : result = ".6"; break;
@@ -115,24 +109,18 @@ string brailleDots6CellAsShortString (wchar_t wch)
     case kDots13456   : result = ".13456"; break;
     case kDots23456   : result = ".23456"; break;
     case kDots123456  : result = ".123456"; break;
-
-    default: result = ".Dot6???";
   } // switch
   
   return result;
 }
 
-string brailleDots6CellAsString (wchar_t wch)
+//______________________________________________________________________________
+
+string bsrSixDotsKindAsString (bsrSixDotsKind sixDotsKind)
 {
   string result;
 
-  switch (wch) {
-    case kBOMBigEndian   : result = "BOMBigEndian"; break;
-    case kBOMSmallEndian : result = "BOMSmallEndian"; break;
-  
-    case kBrailleEOL : result = "BrailleEOL"; break;
-    case kBrailleEOP : result = "BrailleEOP"; break;
-
+  switch (sixDotsKind) {
     case kDotsNone    : result = "DotsNone"; break;
     case kDots1       : result = "Dots1"; break;
     case kDots2       : result = "Dots2"; break;
@@ -203,8 +191,471 @@ string brailleDots6CellAsString (wchar_t wch)
     default: result = "Dot6???";
   } // switch
 
+  return result;
+}
+
+//______________________________________________________________________________
+string bsrCellKindAsShortString (bsrCellKind cellKind)
+{
+  string result;
+
+  switch (cellKind) {
+  // non 6dots values
+  case kCellEOL: result = "FOO"; break; // L'\u000a'
+  case kCellEOP: result = "FOO"; break; // L'\u000c'
+
+  // lower case letters
+  case kCellA: result = "kCellA"; break; // kDots1,
+  case kCellB: result = "kCellB"; break; // kDots12,
+  case kCellC: result = "kCellC"; break; // kDots14,
+  case kCellD: result = "kCellD"; break; // kDots145,
+  case kCellE: result = "kCellE"; break; // kDots15,
+  case kCellF: result = "kCellF"; break; // kDots124,
+  case kCellG: result = "kCellG"; break; // kDots1245,
+  case kCellH: result = "kCellH"; break; // kDots125,
+  case kCellI: result = "kCellI"; break; // kDots24,
+  case kCellJ: result = "kCellJ"; break; // kDots245,
+  
+  case kCellK: result = "kCellK"; break; // kDots13,
+  case kCellL: result = "kCellL"; break; // kDots123,
+  case kCellM: result = "kCellM"; break; // kDots134,
+  case kCellN: result = "kCellN"; break; // kDots1345,
+  case kCellO: result = "kCellO"; break; // kDots135,
+  case kCellP: result = "kCellP"; break; // kDots1234,
+  case kCellQ: result = "kCellQ"; break; // kDots12345,
+  case kCellR: result = "kCellR"; break; // kDots1235,
+  case kCellS: result = "kCellS"; break; // kDots234,
+  case kCellT: result = "kCellT"; break; // kDots2345,
+
+  case kCellU: result = "kCellU"; break; // kDots136,
+  case kCellV: result = "kCellV"; break; // kDots1236,
+  case kCellW: result = "kCellW"; break; // kDots2456,
+  case kCellX: result = "kCellX"; break; // kDots1346,
+  case kCellY: result = "kCellY"; break; // kDots13456,
+  case kCellZ: result = "kCellZ"; break; // kDots1356;
+
+ // decimal digits
+  case kCellNumberSign: result = "kCellNumberSign"; break; // kDots3456,
+  case kCell1: result = "kCell1"; break; // kCellA,
+  case kCell2: result = "kCell2"; break; // kCellB,
+  case kCell3: result = "kCell3"; break; // kCellC,
+  case kCell4: result = "kCell4"; break; // kCellD,
+  case kCell5: result = "kCell5"; break; // kCellE,
+  case kCell6: result = "kCell6"; break; // kCellF,
+  case kCell7: result = "kCell7"; break; // kCellG,
+  case kCell8: result = "kCell8"; break; // kCellH,
+  case kCell9: result = "kCell9"; break; // kCellI,
+  case kCell0: result = "kCell0"; break; // kCellJ,
+
+  // lower decimal digits
+  case kCellLower1: result = "kCellLower1"; break; // kDots2,
+  case kCellLower2: result = "kCellLower2"; break; // kDots23,
+  case kCellLower3: result = "kCellLower3"; break; // kDots25,
+  case kCellLower4: result = "kCellLower4"; break; // kDots256,
+  case kCellLower5: result = "kCellLower5"; break; // kDots26,
+  case kCellLower6: result = "kCellLower6"; break; // kDots235,
+  case kCellLower7: result = "kCellLower7"; break; // kDots2356,
+  case kCellLower8: result = "kCellLower8"; break; // kDots236,
+  case kCellLower9: result = "kCellLower9"; break; // kDots35,
+  case kCellLower0: result = "kCellLower0"; break; // kDots356;
+
+  // arithmetic operators
+  case kCell_ac_plus     : result = "FOO"; break; // kDots235,
+  case kCell_ac_minus    : result = "FOO"; break; // kDots36,
+  case kCell_ac_times    : result = "FOO"; break; // kDots35,
+  case kCell_ac_dividedBy: result = "FOO"; break; // kDots25,
+  case kCell_ac_equals   : result = "FOO"; break; // kDots2356;
+  
+  // punctuation
+  case kCellDot             : result = "FOO"; break; // kDots256,
+  case kCellComma           : result = "FOO"; break; // kDots2,
+  case kCellQuestionMark    : result = "FOO"; break; // kDots26,
+  case kCellSemicolon       : result = "FOO"; break; // kDots23,
+  case kCellColon           : result = "FOO"; break; // kDots25,
+  case kCellExclamationMark : result = "FOO"; break; // kDots235,
+  case kCellLeftParenthesis : result = "FOO"; break; // kDots236,
+  case kCellRightParenthesis: result = "FOO"; break; // kDots356,
+  case kCellDoubleQuote     : result = "FOO"; break; // kDots2356,
+  case kCellDash            : result = "FOO"; break; // kDots36,
+  case kCellQuote           : result = "FOO"; break; // kDots3;
+
+  // other symbols
+  case kCellSpace   : result = "kCellSpace"; break; // kDotsNone,
+  case kCellSlash   : result = "FOO"; break; // kDots34,
+  case kCellVerseEnd: result = "FOO"; break; // kDots345,
+  case kCellItalics : result = "FOO"; break; // kDots456,
+  case kCellAsterisk: result = "FOO"; break; // kDots35,
+  case kCellExponent: result = "FOO"; break; // kDots4;
+
+  // octaves, bottom up
+  case kCellOctaveBelow1 : result = "kCellOctaveBelow1"; break; //{ kCellOctave1, kCellOctave1 },
+  case kCellOctave1: result = "kCellOctave1"; break; // kDots4,
+  case kCellOctave2: result = "kCellOctave2"; break; // kDots45,
+  case kCellOctave3: result = "kCellOctave3"; break; // kDots456,
+  case kCellOctave4: result = "kCellOctave4"; break; // kDots5,
+  case kCellOctave5: result = "kCellOctave5"; break; // kDots46,
+  case kCellOctave6: result = "kCellOctave6"; break; // kDots56,
+  case kCellOctave7: result = "kCellOctave7"; break; // kDots6;
+  case kCellOctaveAbove7 : result = "kCellOctaveAbove7"; break; //{ kCellOctave7, kCellOctave7 };
+  
+  // alterations
+  case kCellFlat   : result = "kCellFlat"; break; // kDots126,
+  case kCellNatural: result = "kCellNatural"; break; // kDots16,
+  case kCellSharp  : result = "kCellSharp"; break; // kDots136;
+
+  // augmentations
+  case kCellAugmentationDot: result = "kCellAugmentationDot"; break; // kDots3;
+
+  // notes
+  case kCellCEighth : result = "kCellCEighth"; break; // kDots145,
+  case kCellCQuarter: result = "kCellCQuarter"; break; // kDots1456,
+  case kCellCHalf   : result = "kCellCHalf"; break; // kDots1345,
+  case kCellCWhole  : result = "kCellCWhole"; break; // kDots13456,
+  
+  case kCellDEighth : result = "kCellDEighth"; break; // kDots15,
+  case kCellDQuarter: result = "kCellDQuarter"; break; // kDots156,
+  case kCellDHalf   : result = "kCellDHalf"; break; // kDots135,
+  case kCellDWhole  : result = "kCellDWhole"; break; // kDots1356,
+  
+  case kCellEEighth : result = "kCellEEighth"; break; // kDots125,
+  case kCellEQuarter: result = "kCellEQuarter"; break; // kDots1256,
+  case kCellEHalf   : result = "kCellEHalf"; break; // kDots1234,
+  case kCellEWhole  : result = "kCellEWhole"; break; // kDots12346,
+  
+  case kCellFEighth : result = "kCellFEighth"; break; // kDots1245,
+  case kCellFQuarter: result = "kCellFQuarter"; break; // kDots12456,
+  case kCellFHalf   : result = "FOkCellFHalfO"; break; // kDots12345,
+  case kCellFWhole  : result = "kCellFWhole"; break; // kDots123456,
+  
+  case kCellGEighth : result = "kCellGEighth"; break; // kDots125,
+  case kCellGQuarter: result = "kCellGQuarter"; break; // kDots1256,
+  case kCellGHalf   : result = "kCellGHalf"; break; // kDots1235,
+  case kCellGWhole  : result = "kCellGWhole"; break; // kDots12356,
+  
+  case kCellAEighth : result = "kCellAEighth"; break; // kDots24,
+  case kCellAQuarter: result = "kCellAQuarter"; break; // kDots246,
+  case kCellAHalf   : result = "kCellAHalf"; break; // kDots234,
+  case kCellAWhole  : result = "kCellAWhole"; break; // kDots2346,
+  
+  case kCellBEighth : result = "kCellBEighth"; break; // kDots245,
+  case kCellBQuarter: result = "kCellBQuarter"; break; // kDots2456,
+  case kCellBHalf   : result = "kCellBHalf"; break; // kDots2345,
+  case kCellBWhole  : result = "kCellBWhole"; break; // kDots23456;
+
+  // intervals
+  case kCellSecond : result = "kCellSecond"; break; // kDots34,
+  case kCellThird  : result = "kCellThird"; break; // kDots346,
+  case kCellFourth : result = "kCellFourth"; break; // kDots3456,
+  case kCellFifth  : result = "kCellFifth"; break; // kDots35,
+  case kCellSixth  : result = "kCellSixth"; break; // kDots356,
+  case kCellSeventh: result = "kCellSeventh"; break; // kDots25,
+  case kCellEighth : result = "kCellEighth"; break; // kDots36;
+
+  // rests
+  case kCellRest8th    : result = "FOO"; break; // kDots1346,
+  case kCellRest128th  : result = "FOO"; break; // kDots1346,
+  case kCellRestQuarter: result = "FOO"; break; // kDots1236,
+  case kCellRest64th   : result = "FOO"; break; // kDots1236,
+  case kCellRestHalf   : result = "FOO"; break; // kDots136,
+  case kCellRest32th   : result = "FOO"; break; // kDots136,
+  case kCellRestWhole  : result = "FOO"; break; // kDots135,
+  case kCellRest16th   : result = "FOO"; break; // kDots135;
+
+  // triplets
+  case kCellTriplet : result = "kCellTriplet"; break; // kDots23;
+
+  // hyphens
+  case kCellMusicHyphen: result = "kCellMusicHyphen"; break; // kDots5;
+
+  // keyboard hands
+  case kCellRightHand: result = "FOO"; break; // { kDots46,  kDots345 },
+  case kCellLeftHand: result = "FOO"; break; //  { kDots456, kDots345 };
+
+  // bars
+  case kCellFinalDoubleBar    : result = "kCellFinalDoubleBar"; break; //     { kDots126, kDots13 },
+  case kCellSectionalDoubleBar: result = "kCellSectionalDoubleBar"; break; // { kDots126, kDots13, kDots3 };
+
+  // measure divisions
+  case kCellMeasureDivisionSign: result = "FOO"; break; // { kDots46, kDots13 };
+
+  // words
+  case kCellWordSign      : result = "kCellWordSign"; break; // kDots345,
+  case kCellWordApostrophe: result = "kCellWordApostrophe"; break; // kDots6;
+
+  // pages
+  case kCellPagination: result = "kCellPagination"; break; // { kDots5, kDots25 };
+
+  // capitals
+  case kCellCapitalsSign: result = "FOO"; break; //: result = "FOO"; break; // kDots46;
+  case kCellCapitalsSequenceSign: result = "FOO"; break; // { kCellCapitalsSign, kCellCapitalsSign };
+
+  // parentheses
+  case kCellLiteraryLeftParenthesis  : result = "kCellLiteraryLeftParenthesis"; break; //{ kDots5, kDots126 },
+  case kCellLiteraryRightParenthesis : result = "kCellLiteraryRightParenthesis"; break; //{ kDots5, kDots345 },
+  case kCellMusicParentheses         : result = "kCellMusicParentheses"; break; //{ kDots6, kDots3 },
+  case kCellSpecialParentheses       : result = "kCellSpecialParentheses"; break; //{ kDots2356, kDots2356 };
+ 
+  case kCellParagraph           : result = "FOO"; break; //{ kDots5, kDots1234 },
+  case kCellAmpersand           : result = "FOO"; break; //{ kDots5, kDots123456 },
+  case kCellUpsilon             : result = "FOO"; break; //{ kDots45, kDots13456 }: result = "FOO"; break; // better name JMI ??? 
+  case kCellEuro                : result = "FOO"; break; //{ kDots45, kDots15 },
+  case kCellDollar              : result = "FOO"; break; //{ kDots45, kDots234 },
+  case kCellPound               : result = "FOO"; break; //{ kDots45, kDots123 },
+  case kCellCopyright           : result = "FOO"; break; //{ kDots5, kDots14 },
+  case kCellRegisteredTradeMark : result = "FOO"; break; //{ kDots5, kDots1235 },
+  case kCellTradeMark           : result = "FOO"; break; //{ kDots5, kDots2345 },
+  case kCellPercent             : result = "FOO"; break; //{ kDots5, kDots346 },
+  case kCellPerthousand         : result = "FOO"; break; //{ kDots5, kDots346, kDots346 },
+  case kCellPertenthousand      : result = "FOO"; break; //{ kDots5, kDots346, kDots346, kDots346 };
+
+  // fermatas
+  case kCellFermataOnANote      : result = "FOO"; break; //{ kDots146, kDots126, kDots123 },
+  case kCellFermataBetweenNotes : result = "FOO"; break; //{ kDots5,   kDots126, kDots123 },
+  case kCellFermataOverABarLine : result = "FOO"; break; //{ kDots456, kDots126, kDots123 };
+
+  } // switch
+
+  return result;
+}
+
+
+string bsrCellKindAsString (bsrCellKind cellKind)
+{
+  return bsrCellKindAsShortString (cellKind);
+}
+
+//______________________________________________________________________________
+ostream& operator<< (ostream& os, const bsrCellKind cell)
+{
+  union Conversion {
+    wchar_t       cellar;
+    unsigned char chars [2];
+  } conversion;
+
+  conversion.cellar = cell;
+
+  // write in reverse order!
+  os << conversion.chars [0] << conversion.chars [1];
+
+  return os;
+}
+
+
+/*
+//______________________________________________________________________________
+// brailling numbers
+wstring braille (int n)
+{
+  wstringstream ws;
+  
+  
+  if (n < 0) {
+    ws << kCellQuestionMark; // JMI which minus?
+    n = -n;
+  }
+
+  if (n <= 9) {
+    switch (n) {
+      case 0: ws << kCell0; break;
+      case 1: ws << kCell1; break;
+      case 2: ws << kCell2; break;
+      case 3: ws << kCell3; break;
+      case 4: ws << kCell4; break;
+      case 5: ws << kCell5; break;
+      case 6: ws << kCell6; break;
+      case 7: ws << kCell7; break;
+      case 8: ws << kCell8; break;
+      case 9: ws << kCell9; break;
+    } // switch
+  }
+  
+  else {
+    ws <<
+      braille (n / 10) <<
+      braille (n % 10);
+  }
+
+  return ws.str ();
+}
+
+//______________________________________________________________________________
+// brailling characters and strings
+wchar_t braille (char ch)
+{
+  wchar_t result = kCellSpace;
+  
+  switch (ch) {
+    case 'a':
+      result = kCellA;
+      break;
+    case 'b':
+      result = kCellB;
+      break;
+    case 'c':
+      result = kCellC;
+      break;
+    case 'd':
+      result = kCellD;
+      break;
+    case 'e':
+      result = kCellE;
+      break;
+    case 'f':
+      result = kCellF;
+      break;
+    case 'g':
+      result = kCellG;
+      break;
+    case 'h':
+      result = kCellH;
+      break;
+    case 'i':
+      result = kCellI;
+      break;
+    case 'j':
+      result = kCellJ;
+      break;
+    case 'k':
+      result = kCellK;
+      break;
+    case 'l':
+      result = kCellL;
+      break;
+    case 'm':
+      result = kCellM;
+      break;
+    case 'n':
+      result = kCellN;
+      break;
+    case 'o':
+      result = kCellO;
+      break;
+    case 'p':
+      result = kCellP;
+      break;
+    case 'q':
+      result = kCellQ;
+      break;
+    case 'r':
+      result = kCellR;
+      break;
+    case 's':
+      result = kCellS;
+      break;
+    case 't':
+      result = kCellT;
+      break;
+    case 'u':
+      result = kCellU;
+      break;
+    case 'v':
+      result = kCellV;
+      break;
+    case 'w':
+      result = kCellW;
+      break;
+    case 'x':
+      result = kCellX;
+      break;
+    case 'y':
+      result = kCellY;
+      break;
+    case 'z':
+      result = kCellZ;
+      break;
+    default:
+      result = kCellQuestionMark;
+  } // switch
+
+  return result;
+}
+
+wstring braille (string str)
+{
+  wstringstream ws;
+  
+  if (str.size ()) {  
+    string::const_iterator
+      iBegin = str.begin (),
+      iEnd   = str.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      char ch = (*i);
+
+      ws << braille (ch);
+      if (++i == iEnd) break;
+    } // for
+  }
+
+  return ws.str ();
+}
+
+//______________________________________________________________________________
+// writing UTF-16 to ostreams
+void write_wchar_t (ostream& os, wchar_t cell)
+{
+  union Conversion {
+    wchar_t       cellar;
+    unsigned char chars [2];
+  } conversion;
+
+  conversion.cellar = cell;
+
+  // write in reverse order!
+  os << conversion.chars [0] << conversion.chars [1];
+}
+
+void write_wchar_t ( wchar_t cell )
+{
+  union Conversion {
+    wchar_t       cellar;
+    unsigned char chars [2];
+  } conversion;
+
+  conversion.cellar = cell;
+     
+  // write in reverse order!
+  cout << conversion.chars [0] << conversion.chars [1];
+}
+
+void write_wstring (ostream& os, wstring wstr )
+{
+  for (unsigned int i = 0; i < wstr.size (); i++) {
+    wchar_t cell = wstr [i];
+    write_wchar_t (os, cell);
+  } // for
+}
+
+ostream& operator<< (ostream& os, const wstring& wstr)
+{
+  for (unsigned int i = 0; i < wstr.size (); i++) {
+    wchar_t cell = wstr [i];
+    
+    union Conversion {
+      wchar_t       cellar;
+      unsigned char chars [2];
+    } conversion;
+  
+    conversion.cellar = cell;
+  
+    // write in reverse order!
+    os << conversion.chars [0] << conversion.chars [1];
+    } // for
+
+  return os;
+}
+*/
+
+//______________________________________________________________________________
+void initializeBSRBasicTypes ()
+{}
+
+
+}
+
+
   /* JMI KEEP JUST IN CASE
-  switch (wch) {
+  switch (cell) {
     case kBOMBigEndian   = L'\ufeff'; break;
     case kBOMSmallEndian = L'\ufeff'; break;
   
@@ -283,232 +734,3 @@ string brailleDots6CellAsString (wchar_t wch)
   } // switch
   */
   
-  return result;
-}
-
-//______________________________________________________________________________
-// brailling numbers
-wstring braille (int n)
-{
-  wstringstream ws;
-  
-  
-  if (n < 0) {
-    ws << kBrlQuestionMark; // JMI which minus?
-    n = -n;
-  }
-
-  if (n <= 9) {
-    switch (n) {
-      case 0: ws << kBrl0; break;
-      case 1: ws << kBrl1; break;
-      case 2: ws << kBrl2; break;
-      case 3: ws << kBrl3; break;
-      case 4: ws << kBrl4; break;
-      case 5: ws << kBrl5; break;
-      case 6: ws << kBrl6; break;
-      case 7: ws << kBrl7; break;
-      case 8: ws << kBrl8; break;
-      case 9: ws << kBrl9; break;
-    } // switch
-  }
-  
-  else {
-    ws <<
-      braille (n / 10) <<
-      braille (n % 10);
-  }
-
-  return ws.str ();
-}
-
-//______________________________________________________________________________
-// brailling characters and strings
-wchar_t braille (char ch)
-{
-  wchar_t result = kBrlSpace;
-  
-  switch (ch) {
-    case 'a':
-      result = kBrlA;
-      break;
-    case 'b':
-      result = kBrlB;
-      break;
-    case 'c':
-      result = kBrlC;
-      break;
-    case 'd':
-      result = kBrlD;
-      break;
-    case 'e':
-      result = kBrlE;
-      break;
-    case 'f':
-      result = kBrlF;
-      break;
-    case 'g':
-      result = kBrlG;
-      break;
-    case 'h':
-      result = kBrlH;
-      break;
-    case 'i':
-      result = kBrlI;
-      break;
-    case 'j':
-      result = kBrlJ;
-      break;
-    case 'k':
-      result = kBrlK;
-      break;
-    case 'l':
-      result = kBrlL;
-      break;
-    case 'm':
-      result = kBrlM;
-      break;
-    case 'n':
-      result = kBrlN;
-      break;
-    case 'o':
-      result = kBrlO;
-      break;
-    case 'p':
-      result = kBrlP;
-      break;
-    case 'q':
-      result = kBrlQ;
-      break;
-    case 'r':
-      result = kBrlR;
-      break;
-    case 's':
-      result = kBrlS;
-      break;
-    case 't':
-      result = kBrlT;
-      break;
-    case 'u':
-      result = kBrlU;
-      break;
-    case 'v':
-      result = kBrlV;
-      break;
-    case 'w':
-      result = kBrlW;
-      break;
-    case 'x':
-      result = kBrlX;
-      break;
-    case 'y':
-      result = kBrlY;
-      break;
-    case 'z':
-      result = kBrlZ;
-      break;
-    default:
-      result = kBrlQuestionMark;
-  } // switch
-
-  return result;
-}
-
-wstring braille (string str)
-{
-  wstringstream ws;
-  
-  if (str.size ()) {  
-    string::const_iterator
-      iBegin = str.begin (),
-      iEnd   = str.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      char ch = (*i);
-
-      ws << braille (ch);
-      if (++i == iEnd) break;
-    } // for
-  }
-
-  return ws.str ();
-}
-
-//______________________________________________________________________________
-// writing UTF-16 to ostreams
-void write_wchar_t (ostream& os, wchar_t wch)
-{
-  union Conversion {
-    wchar_t       wchar;
-    unsigned char chars [2];
-  } conversion;
-
-  conversion.wchar = wch;
-
-  // write in reverse order!
-  os << conversion.chars [0] << conversion.chars [1];
-}
-
-void write_wchar_t ( wchar_t wch )
-{
-  union Conversion {
-    wchar_t       wchar;
-    unsigned char chars [2];
-  } conversion;
-
-  conversion.wchar = wch;
-     
-  // write in reverse order!
-  cout << conversion.chars [0] << conversion.chars [1];
-}
-
-ostream& operator<< (ostream& os, const wchar_t wch)
-{
-  union Conversion {
-    wchar_t       wchar;
-    unsigned char chars [2];
-  } conversion;
-
-  conversion.wchar = wch;
-
-  // write in reverse order!
-  os << conversion.chars [0] << conversion.chars [1];
-
-  return os;
-}
-
-void write_wstring (ostream& os, wstring wstr )
-{
-  for (unsigned int i = 0; i < wstr.size (); i++) {
-    wchar_t wch = wstr [i];
-    write_wchar_t (os, wch);
-  } // for
-}
-
-ostream& operator<< (ostream& os, const wstring& wstr)
-{
-  for (unsigned int i = 0; i < wstr.size (); i++) {
-    wchar_t wch = wstr [i];
-    
-    union Conversion {
-      wchar_t       wchar;
-      unsigned char chars [2];
-    } conversion;
-  
-    conversion.wchar = wch;
-  
-    // write in reverse order!
-    os << conversion.chars [0] << conversion.chars [1];
-    } // for
-
-  return os;
-}
-
-
-
-//______________________________________________________________________________
-void initializeBSRBasicTypes ()
-{}
-
-
-}

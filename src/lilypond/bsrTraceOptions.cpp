@@ -19,7 +19,7 @@
 #include "bsrTraceOptions.h"
 
 
-using namespace std;
+//using namespace std; JMI
 
 namespace MusicXML2 
 {

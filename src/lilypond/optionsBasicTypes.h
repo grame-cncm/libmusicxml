@@ -29,7 +29,9 @@
 #include "setTraceOptionsIfDesired.h"
 
 
-namespace MusicXML2 
+using namespace std;
+
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

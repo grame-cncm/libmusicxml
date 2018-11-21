@@ -16,10 +16,6 @@
 #include <list>
 #include <map>
 
-#include "smartpointer.h"
-
-#include "rational.h"
-
 #include "msrBasicTypes.h"
 
 
@@ -27,343 +23,545 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// UTF-16 Braille Dots 6 cells
-const wchar_t
-  kBOMBigEndian   = L'\ufeff',
-  kBOMSmallEndian = L'\ufffe',
+enum bsrSixDotsKind {
+  // 6dots values for Braille music
+  kDotsNone    , // L'\u2800'
+  kDots1       , // L'\u2801'
+  kDots2       , // L'\u2802'
+  kDots12      , // L'\u2803'
+  kDots3       , // L'\u2804'
+  kDots13      , // L'\u2805'
+  kDots23      , // L'\u2806'
+  kDots123     , // L'\u2807'
+  kDots4       , // L'\u2808'
+  kDots14      , // L'\u2809'
+  kDots24      , // L'\u280a'
+  kDots124     , // L'\u280b'
+  kDots34      , // L'\u280c'
+  kDots134     , // L'\u280d'
+  kDots234     , // L'\u280e'
+  kDots1234    , // L'\u280f'
+
+  kDots5       , // L'\u2810'
+  kDots15      , // L'\u2811'
+  kDots25      , // L'\u2812'
+  kDots125     , // L'\u2813'
+  kDots35      , // L'\u2814'
+  kDots135     , // L'\u2815'
+  kDots235     , // L'\u2816'
+  kDots1235    , // L'\u2817'
+  kDots45      , // L'\u2818'
+  kDots145     , // L'\u2819'
+  kDots245     , // L'\u281a'
+  kDots1245    , // L'\u281b'
+  kDots345     , // L'\u281c'
+  kDots1345    , // L'\u281d'
+  kDots2345    , // L'\u281e'
+  kDots12345   , // L'\u281f'
+
+  kDots6       , // L'\u2820'
+  kDots16      , // L'\u2821'
+  kDots26      , // L'\u2822'
+  kDots126     , // L'\u2823'
+  kDots36      , // L'\u2824'
+  kDots136     , // L'\u2825'
+  kDots236     , // L'\u2826'
+  kDots1236    , // L'\u2827'
+  kDots46      , // L'\u2828'
+  kDots146     , // L'\u2829'
+  kDots246     , // L'\u282a'
+  kDots1246    , // L'\u282b'
+  kDots346     , // L'\u282c'
+  kDots1346    , // L'\u282d'
+  kDots2346    , // L'\u282e'
+  kDots12346   , // L'\u282f'
+
+  kDots56      , // L'\u2830'
+  kDots156     , // L'\u2831'
+  kDots256     , // L'\u2832'
+  kDots1256    , // L'\u2833'
+  kDots356     , // L'\u2834'
+  kDots1356    , // L'\u2835'
+  kDots2356    , // L'\u2836'
+  kDots12356   , // L'\u2837'
+  kDots456     , // L'\u2838'
+  kDots1456    , // L'\u2839'
+  kDots2456    , // L'\u283a'
+  kDots12456   , // L'\u283b'
+  kDots3456    , // L'\u283c'
+  kDots13456   , // L'\u283d'
+  kDots23456   , // L'\u283e'
+  kDots123456    // L'\u283f'
+};
+
+string bsrSixDotsKindAsShortString (bsrSixDotsKind sixDotsKind);
+
+string bsrSixDotsKindAsString (bsrSixDotsKind sixDotsKind);
+
+//______________________________________________________________________________
+enum bsrCellKind {
+  // non 6dots values
+  kCellEOL, // L'\u000a'
+  kCellEOP, // L'\u000c'
+
+  // lower case letters
+  kCellA, // kDots1,
+  kCellB, // kDots12,
+  kCellC, // kDots14,
+  kCellD, // kDots145,
+  kCellE, // kDots15,
+  kCellF, // kDots124,
+  kCellG, // kDots1245,
+  kCellH, // kDots125,
+  kCellI, // kDots24,
+  kCellJ, // kDots245,
   
-  kBrailleEOL = L'\u000a',
-  kBrailleEOP = L'\u000c',
+  kCellK, // kDots13,
+  kCellL, // kDots123,
+  kCellM, // kDots134,
+  kCellN, // kDots1345,
+  kCellO, // kDots135,
+  kCellP, // kDots1234,
+  kCellQ, // kDots12345,
+  kCellR, // kDots1235,
+  kCellS, // kDots234,
+  kCellT, // kDots2345,
 
-  kDotsNone    = L'\u2800',
-  kDots1       = L'\u2801',
-  kDots2       = L'\u2802',
-  kDots12      = L'\u2803',
-  kDots3       = L'\u2804',
-  kDots13      = L'\u2805',
-  kDots23      = L'\u2806',
-  kDots123     = L'\u2807',
-  kDots4       = L'\u2808',
-  kDots14      = L'\u2809',
-  kDots24      = L'\u280a',
-  kDots124     = L'\u280b',
-  kDots34      = L'\u280c',
-  kDots134     = L'\u280d',
-  kDots234     = L'\u280e',
-  kDots1234    = L'\u280f',
+  kCellU, // kDots136,
+  kCellV, // kDots1236,
+  kCellW, // kDots2456,
+  kCellX, // kDots1346,
+  kCellY, // kDots13456,
+  kCellZ, // kDots1356;
 
-  kDots5       = L'\u2810',
-  kDots15      = L'\u2811',
-  kDots25      = L'\u2812',
-  kDots125     = L'\u2813',
-  kDots35      = L'\u2814',
-  kDots135     = L'\u2815',
-  kDots235     = L'\u2816',
-  kDots1235    = L'\u2817',
-  kDots45      = L'\u2818',
-  kDots145     = L'\u2819',
-  kDots245     = L'\u281a',
-  kDots1245    = L'\u281b',
-  kDots345     = L'\u281c',
-  kDots1345    = L'\u281d',
-  kDots2345    = L'\u281e',
-  kDots12345   = L'\u281f',
+ // decimal digits
+  kCellNumberSign, // kDots3456,
+  kCell1, // kCellA,
+  kCell2, // kCellB,
+  kCell3, // kCellC,
+  kCell4, // kCellD,
+  kCell5, // kCellE,
+  kCell6, // kCellF,
+  kCell7, // kCellG,
+  kCell8, // kCellH,
+  kCell9, // kCellI,
+  kCell0, // kCellJ,
 
-  kDots6       = L'\u2820',
-  kDots16      = L'\u2821',
-  kDots26      = L'\u2822',
-  kDots126     = L'\u2823',
-  kDots36      = L'\u2824',
-  kDots136     = L'\u2825',
-  kDots236     = L'\u2826',
-  kDots1236    = L'\u2827',
-  kDots46      = L'\u2828',
-  kDots146     = L'\u2829',
-  kDots246     = L'\u282a',
-  kDots1246    = L'\u282b',
-  kDots346     = L'\u282c',
-  kDots1346    = L'\u282d',
-  kDots2346    = L'\u282e',
-  kDots12346   = L'\u282f',
+  // lower decimal digits
+  kCellLower1, // kDots2,
+  kCellLower2, // kDots23,
+  kCellLower3, // kDots25,
+  kCellLower4, // kDots256,
+  kCellLower5, // kDots26,
+  kCellLower6, // kDots235,
+  kCellLower7, // kDots2356,
+  kCellLower8, // kDots236,
+  kCellLower9, // kDots35,
+  kCellLower0, // kDots356;
 
-  kDots56      = L'\u2830',
-  kDots156     = L'\u2831',
-  kDots256     = L'\u2832',
-  kDots1256    = L'\u2833',
-  kDots356     = L'\u2834',
-  kDots1356    = L'\u2835',
-  kDots2356    = L'\u2836',
-  kDots12356   = L'\u2837',
-  kDots456     = L'\u2838',
-  kDots1456    = L'\u2839',
-  kDots2456    = L'\u283a',
-  kDots12456   = L'\u283b',
-  kDots3456    = L'\u283c',
-  kDots13456   = L'\u283d',
-  kDots23456   = L'\u283e',
-  kDots123456  = L'\u283f';
-
-string brailleDots6CellAsShortString (wchar_t wch);
-
-string brailleDots6CellAsString (wchar_t wch);
-
-//______________________________________________________________________________
-// lower case letters
-const wchar_t
-  kBrlA = kDots1,
-  kBrlB = kDots12,
-  kBrlC = kDots14,
-  kBrlD = kDots145,
-  kBrlE = kDots15,
-  kBrlF = kDots124,
-  kBrlG = kDots1245,
-  kBrlH = kDots125,
-  kBrlI = kDots24,
-  kBrlJ = kDots245,
+  // arithmetic operators
+  kCell_ac_plus     , // kDots235,
+  kCell_ac_minus    , // kDots36,
+  kCell_ac_times    , // kDots35,
+  kCell_ac_dividedBy, // kDots25,
+  kCell_ac_equals   , // kDots2356;
   
-  kBrlK = kDots13,
-  kBrlL = kDots123,
-  kBrlM = kDots134,
-  kBrlN = kDots1345,
-  kBrlO = kDots135,
-  kBrlP = kDots1234,
-  kBrlQ = kDots12345,
-  kBrlR = kDots1235,
-  kBrlS = kDots234,
-  kBrlT = kDots2345,
+  // punctuation
+  kCellDot             , // kDots256,
+  kCellComma           , // kDots2,
+  kCellQuestionMark    , // kDots26,
+  kCellSemicolon       , // kDots23,
+  kCellColon           , // kDots25,
+  kCellExclamationMark , // kDots235,
+  kCellLeftParenthesis , // kDots236,
+  kCellRightParenthesis, // kDots356,
+  kCellDoubleQuote     , // kDots2356,
+  kCellDash            , // kDots36,
+  kCellQuote           , // kDots3;
 
-  kBrlU = kDots136,
-  kBrlV = kDots1236,
-  kBrlW = kDots2456,
-  kBrlX = kDots1346,
-  kBrlY = kDots13456,
-  kBrlZ = kDots1356;
+  // other symbols
+  kCellSpace   , // kDotsNone,
+  kCellSlash   , // kDots34,
+  kCellVerseEnd, // kDots345,
+  kCellItalics , // kDots456,
+  kCellAsterisk, // kDots35,
+  kCellExponent, // kDots4;
 
-//______________________________________________________________________________
-// capitals
-const wchar_t
-  kBrlCapitalsSign = kDots46;
+  // octaves, bottom up
+  kCellOctave1, // kDots4,
+  kCellOctave2, // kDots45,
+  kCellOctave3, // kDots456,
+  kCellOctave4, // kDots5,
+  kCellOctave5, // kDots46,
+  kCellOctave6, // kDots56,
+  kCellOctave7, // kDots6;
+  kCellOctaveBelow1 , //{ kCellOctave1, kCellOctave1 },
+  kCellOctaveAbove7 , //{ kCellOctave7, kCellOctave7 };
 
-const wstring
-  brailleCapitalsSequenceSign { kBrlCapitalsSign, kBrlCapitalsSign };
-
-//______________________________________________________________________________
-// decimal digits
-const wchar_t
-  kBrlNumberSign = kDots3456,
-  kBrl1 = kBrlA,
-  kBrl2 = kBrlB,
-  kBrl3 = kBrlC,
-  kBrl4 = kBrlD,
-  kBrl5 = kBrlE,
-  kBrl6 = kBrlF,
-  kBrl7 = kBrlG,
-  kBrl8 = kBrlH,
-  kBrl9 = kBrlI,
-  kBrl0 = kBrlJ;
-
-//______________________________________________________________________________
-// lower decimal digits
-const wchar_t
-  kBrlLower1 = kDots2,
-  kBrlLower2 = kDots23,
-  kBrlLower3 = kDots25,
-  kBrlLower4 = kDots256,
-  kBrlLower5 = kDots26,
-  kBrlLower6 = kDots235,
-  kBrlLower7 = kDots2356,
-  kBrlLower8 = kDots236,
-  kBrlLower9 = kDots35,
-  kBrlLower0 = kDots356;
-
-//______________________________________________________________________________
-// arithmetic operators
-const wchar_t
-  kac_plus      = kDots235,
-  kac_minus     = kDots36,
-  kac_times     = kDots35,
-  kac_dividedBy = kDots25,
-  kac_equals    = kDots2356;
   
-//______________________________________________________________________________
-// punctuation
-const wchar_t
-  kBrlDot              = kDots256,
-  kBrlComma            = kDots2,
-  kBrlQuestionMark     = kDots26,
-  kBrlSemicolon        = kDots23,
-  kBrlColon            = kDots25,
-  kBrlExclamationMark  = kDots235,
-  kBrlLeftParenthesis  = kDots236,
-  kBrlRightParenthesis = kDots356,
-  kBrlDoubleQuote      = kDots2356,
-  kBrlDash             = kDots36,
-  kBrlQuote            = kDots3;
+  // alterations
+  kCellFlat   , // kDots126,
+  kCellNatural, // kDots16,
+  kCellSharp  , // kDots136;
+
+  // augmentations
+  kCellAugmentationDot, // kDots3;
+
+  // notes
+  kCellCEighth , // kDots145,
+  kCellCQuarter, // kDots1456,
+  kCellCHalf   , // kDots1345,
+  kCellCWhole  , // kDots13456,
   
-//______________________________________________________________________________
-// parentheses
-const wstring
-  kBrlLiteraryLeftParenthesis  { kDots5, kDots126 },
-  kBrlLiteraryRightParenthesis { kDots5, kDots345 },
-  kBrlMusicParentheses         { kDots6, kDots3 },
-  kBrlSpecialParentheses       { kDots2356, kDots2356 };
-
-//______________________________________________________________________________
-// other symbols
-const wchar_t
-  kBrlSpace    = kDotsNone,
-  kBrlSlash    = kDots34,
-  kBrlVerseEnd = kDots345,
-  kBrlItalics  = kDots456,
-  kBrlAsterisk = kDots35,
-  kBrlExponent = kDots4;
-
-const wstring
-  kBrlParagraph           { kDots5, kDots1234 },
-  kBrlAmpersand           { kDots5, kDots123456 },
-  kBrlUpsilon             { kDots45, kDots13456 }, // better name JMI ??? 
-  kBrlEuro                { kDots45, kDots15 },
-  kBrlDollar              { kDots45, kDots234 },
-  kBrlPound               { kDots45, kDots123 },
-  kBrlCopyright           { kDots5, kDots14 },
-  kBrlRegisteredTradeMark { kDots5, kDots1235 },
-  kBrlTradeMark           { kDots5, kDots2345 },
-  kBrlPercent             { kDots5, kDots346 },
-  kBrlPerthousand         { kDots5, kDots346, kDots346 },
-  kBrlPertenthousand      { kDots5, kDots346, kDots346, kDots346 };
-
-//______________________________________________________________________________
-// octaves, bottom up
-const wchar_t
-  kBrlOctave1 = kDots4,
-  kBrlOctave2 = kDots45,
-  kBrlOctave3 = kDots456,
-  kBrlOctave4 = kDots5,
-  kBrlOctave5 = kDots46,
-  kBrlOctave6 = kDots56,
-  kBrlOctave7 = kDots6;
-
-const wstring
-  kBrlOctaveBelow1 { kBrlOctave1, kBrlOctave1 },
-  kBrlOctaveAbove7 { kBrlOctave7, kBrlOctave7 };
-
-//______________________________________________________________________________
-// alterations
-const wchar_t
-  kBrlFlat    = kDots126,
-  kBrlNatural = kDots16,
-  kBrlSharp   = kDots136;
-
-//______________________________________________________________________________
-// augmentations
-const wchar_t
-  kBrlAugmentationDot = kDots3;
-
-//______________________________________________________________________________
-// notes
-const wchar_t
-  kBrlCEighth  = kDots145,
-  kBrlCQuarter = kDots1456,
-  kBrlCHalf    = kDots1345,
-  kBrlCWhole   = kDots13456,
+  kCellDEighth , // kDots15,
+  kCellDQuarter, // kDots156,
+  kCellDHalf   , // kDots135,
+  kCellDWhole  , // kDots1356,
   
-  kBrlDEighth  = kDots15,
-  kBrlDQuarter = kDots156,
-  kBrlDHalf    = kDots135,
-  kBrlDWhole   = kDots1356,
+  kCellEEighth , // kDots125,
+  kCellEQuarter, // kDots1256,
+  kCellEHalf   , // kDots1234,
+  kCellEWhole  , // kDots12346,
   
-  kBrlEEighth  = kDots125,
-  kBrlEQuarter = kDots1256,
-  kBrlEHalf    = kDots1234,
-  kBrlEWhole   = kDots12346,
+  kCellFEighth , // kDots1245,
+  kCellFQuarter, // kDots12456,
+  kCellFHalf   , // kDots12345,
+  kCellFWhole  , // kDots123456,
   
-  kBrlFEighth  = kDots1245,
-  kBrlFQuarter = kDots12456,
-  kBrlFHalf    = kDots12345,
-  kBrlFWhole   = kDots123456,
+  kCellGEighth , // kDots125,
+  kCellGQuarter, // kDots1256,
+  kCellGHalf   , // kDots1235,
+  kCellGWhole  , // kDots12356,
   
-  kBrlGEighth  = kDots125,
-  kBrlGQuarter = kDots1256,
-  kBrlGHalf    = kDots1235,
-  kBrlGWhole   = kDots12356,
+  kCellAEighth , // kDots24,
+  kCellAQuarter, // kDots246,
+  kCellAHalf   , // kDots234,
+  kCellAWhole  , // kDots2346,
   
-  kBrlAEighth  = kDots24,
-  kBrlAQuarter = kDots246,
-  kBrlAHalf    = kDots234,
-  kBrlAWhole   = kDots2346,
+  kCellBEighth , // kDots245,
+  kCellBQuarter, // kDots2456,
+  kCellBHalf   , // kDots2345,
+  kCellBWhole  , // kDots23456;
+
+  // intervals
+  kCellSecond , // kDots34,
+  kCellThird  , // kDots346,
+  kCellFourth , // kDots3456,
+  kCellFifth  , // kDots35,
+  kCellSixth  , // kDots356,
+  kCellSeventh, // kDots25,
+  kCellEighth , // kDots36;
+
+  // rests
+  kCellRest8th    , // kDots1346,
+  kCellRest128th  , // kDots1346,
+  kCellRestQuarter, // kDots1236,
+  kCellRest64th   , // kDots1236,
+  kCellRestHalf   , // kDots136,
+  kCellRest32th   , // kDots136,
+  kCellRestWhole  , // kDots135,
+  kCellRest16th   , // kDots135;
+
+  // triplets
+  kCellTriplet , // kDots23;
+
+  // hyphens
+  kCellMusicHyphen, // kDots5;
+
+  // keyboard hands
+  kCellRightHand, // { kDots46,  kDots345 },
+  kCellLeftHand, //  { kDots456, kDots345 };
+
+  // bars
+  kCellFinalDoubleBar    , //     { kDots126, kDots13 },
+  kCellSectionalDoubleBar, // { kDots126, kDots13, kDots3 };
+
+  // measure divisions
+  kCellMeasureDivisionSign, // { kDots46, kDots13 };
+
+  // words
+  kCellWordSign      , // kDots345,
+  kCellWordApostrophe, // kDots6;
+
+  // pages
+  kCellPagination, // { kDots5, kDots25 };
+
+  // capitals
+  kCellCapitalsSign, //, // kDots46;
+  kCellCapitalsSequenceSign, // { kCellCapitalsSign, kCellCapitalsSign };
+
+  // parentheses
+  kCellLiteraryLeftParenthesis  , //{ kDots5, kDots126 },
+  kCellLiteraryRightParenthesis , //{ kDots5, kDots345 },
+  kCellMusicParentheses         , //{ kDots6, kDots3 },
+  kCellSpecialParentheses       , //{ kDots2356, kDots2356 };
+
+  // other symbols
+  kCellParagraph           , //{ kDots5, kDots1234 },
+  kCellAmpersand           , //{ kDots5, kDots123456 },
+  kCellUpsilon             , //{ kDots45, kDots13456 }, // better name JMI ??? 
+  kCellEuro                , //{ kDots45, kDots15 },
+  kCellDollar              , //{ kDots45, kDots234 },
+  kCellPound               , //{ kDots45, kDots123 },
+  kCellCopyright           , //{ kDots5, kDots14 },
+  kCellRegisteredTradeMark , //{ kDots5, kDots1235 },
+  kCellTradeMark           , //{ kDots5, kDots2345 },
+  kCellPercent             , //{ kDots5, kDots346 },
+  kCellPerthousand         , //{ kDots5, kDots346, kDots346 },
+  kCellPertenthousand      , //{ kDots5, kDots346, kDots346, kDots346 };
+
+  // fermatas
+  kCellFermataOnANote      , //{ kDots146, kDots126, kDots123 },
+  kCellFermataBetweenNotes , //{ kDots5,   kDots126, kDots123 },
+  kCellFermataOverABarLine , //{ kDots456, kDots126, kDots123 };
+};
+
+string bsrCellKindAsShortString (bsrCellKind cellKind);
+
+string bsrCellKindAsString (bsrCellKind cellKind);
+
+
+/*
+const bsrDot6Cell
+  kBOMBigEndian  , // L'\ufeff',
+  kBOMSmallEndian, // L'\ufffe',
   
-  kBrlBEighth  = kDots245,
-  kBrlBQuarter = kDots2456,
-  kBrlBHalf    = kDots2345,
-  kBrlBWhole   = kDots23456;
+  kBrailleEOL, // L'\u000a',
+  kBrailleEOP, // L'\u000c',
 
-//______________________________________________________________________________
-// intervals
-const wchar_t
-  kBrlSecond  = kDots34,
-  kBrlThird   = kDots346,
-  kBrlFourth  = kDots3456,
-  kBrlFifth   = kDots35,
-  kBrlSixth   = kDots356,
-  kBrlSeventh = kDots25,
-  kBrlEighth  = kDots36;
+  kDotsNone   , // L'\u2800',
+  kDots1      , // L'\u2801',
+  kDots2      , // L'\u2802',
+  kDots12     , // L'\u2803',
+  kDots3      , // L'\u2804',
+  kDots13     , // L'\u2805',
+  kDots23     , // L'\u2806',
+  kDots123    , // L'\u2807',
+  kDots4      , // L'\u2808',
+  kDots14     , // L'\u2809',
+  kDots24     , // L'\u280a',
+  kDots124    , // L'\u280b',
+  kDots34     , // L'\u280c',
+  kDots134    , // L'\u280d',
+  kDots234    , // L'\u280e',
+  kDots1234   , // L'\u280f',
 
-//______________________________________________________________________________
-// rests
-const wchar_t
-  kBrlRest8th     = kDots1346,
-  kBrlRest128th   = kDots1346,
-  kBrlRestQuarter = kDots1236,
-  kBrlRest64th    = kDots1236,
-  kBrlRestHalf    = kDots136,
-  kBrlRest32th    = kDots136,
-  kBrlRestWhole   = kDots135,
-  kBrlRest16th    = kDots135;
+  kDots5      , // L'\u2810',
+  kDots15     , // L'\u2811',
+  kDots25     , // L'\u2812',
+  kDots125    , // L'\u2813',
+  kDots35     , // L'\u2814',
+  kDots135    , // L'\u2815',
+  kDots235    , // L'\u2816',
+  kDots1235   , // L'\u2817',
+  kDots45     , // L'\u2818',
+  kDots145    , // L'\u2819',
+  kDots245    , // L'\u281a',
+  kDots1245   , // L'\u281b',
+  kDots345    , // L'\u281c',
+  kDots1345   , // L'\u281d',
+  kDots2345   , // L'\u281e',
+  kDots12345  , // L'\u281f',
 
-//______________________________________________________________________________
-// triplets
-const wchar_t
-  kBrlTriplet  = kDots23;
+  kDots6      , // L'\u2820',
+  kDots16     , // L'\u2821',
+  kDots26     , // L'\u2822',
+  kDots126    , // L'\u2823',
+  kDots36     , // L'\u2824',
+  kDots136    , // L'\u2825',
+  kDots236    , // L'\u2826',
+  kDots1236   , // L'\u2827',
+  kDots46     , // L'\u2828',
+  kDots146    , // L'\u2829',
+  kDots246    , // L'\u282a',
+  kDots1246   , // L'\u282b',
+  kDots346    , // L'\u282c',
+  kDots1346   , // L'\u282d',
+  kDots2346   , // L'\u282e',
+  kDots12346  , // L'\u282f',
 
-//______________________________________________________________________________
-// fermatas
-const wstring
-  kBrlFermataOnANote      { kDots146, kDots126, kDots123 },
-  kBrlFermataBetweenNotes { kDots5,   kDots126, kDots123 },
-  kBrlFermataOverABarLine { kDots456, kDots126, kDots123 };
+  kDots56     , // L'\u2830',
+  kDots156    , // L'\u2831',
+  kDots256    , // L'\u2832',
+  kDots1256   , // L'\u2833',
+  kDots356    , // L'\u2834',
+  kDots1356   , // L'\u2835',
+  kDots2356   , // L'\u2836',
+  kDots12356  , // L'\u2837',
+  kDots456    , // L'\u2838',
+  kDots1456   , // L'\u2839',
+  kDots2456   , // L'\u283a',
+  kDots12456  , // L'\u283b',
+  kDots3456   , // L'\u283c',
+  kDots13456  , // L'\u283d',
+  kDots23456  , // L'\u283e',
+  kDots123456 , // L'\u283f';
+*/
 
-//______________________________________________________________________________
-// hyphens
-const wchar_t
-  kBrlMusicHyphen = kDots5;
+/*
+U+2800  ⠀ e2 a0 80  BRAILLE PATTERN BLANK
+U+2801  ⠁ e2 a0 81  BRAILLE PATTERN DOTS-1
+U+2802  ⠂ e2 a0 82  BRAILLE PATTERN DOTS-2
+U+2803  ⠃ e2 a0 83  BRAILLE PATTERN DOTS-12
+U+2804  ⠄ e2 a0 84  BRAILLE PATTERN DOTS-3
+U+2805  ⠅ e2 a0 85  BRAILLE PATTERN DOTS-13
+U+2806  ⠆ e2 a0 86  BRAILLE PATTERN DOTS-23
+U+2807  ⠇ e2 a0 87  BRAILLE PATTERN DOTS-123
+U+2808  ⠈ e2 a0 88  BRAILLE PATTERN DOTS-4
+U+2809  ⠉ e2 a0 89  BRAILLE PATTERN DOTS-14
+U+280A  ⠊ e2 a0 8a  BRAILLE PATTERN DOTS-24
+U+280B  ⠋ e2 a0 8b  BRAILLE PATTERN DOTS-124
+U+280C  ⠌ e2 a0 8c  BRAILLE PATTERN DOTS-34
+U+280D  ⠍ e2 a0 8d  BRAILLE PATTERN DOTS-134
+U+280E  ⠎ e2 a0 8e  BRAILLE PATTERN DOTS-234
+U+280F  ⠏ e2 a0 8f  BRAILLE PATTERN DOTS-1234
+U+2810  ⠐ e2 a0 90  BRAILLE PATTERN DOTS-5
+U+2811  ⠑ e2 a0 91  BRAILLE PATTERN DOTS-15
+U+2812  ⠒ e2 a0 92  BRAILLE PATTERN DOTS-25
+U+2813  ⠓ e2 a0 93  BRAILLE PATTERN DOTS-125
+U+2814  ⠔ e2 a0 94  BRAILLE PATTERN DOTS-35
+U+2815  ⠕ e2 a0 95  BRAILLE PATTERN DOTS-135
+U+2816  ⠖ e2 a0 96  BRAILLE PATTERN DOTS-235
+U+2817  ⠗ e2 a0 97  BRAILLE PATTERN DOTS-1235
+U+2818  ⠘ e2 a0 98  BRAILLE PATTERN DOTS-45
+U+2819  ⠙ e2 a0 99  BRAILLE PATTERN DOTS-145
+U+281A  ⠚ e2 a0 9a  BRAILLE PATTERN DOTS-245
+U+281B  ⠛ e2 a0 9b  BRAILLE PATTERN DOTS-1245
+U+281C  ⠜ e2 a0 9c  BRAILLE PATTERN DOTS-345
+U+281D  ⠝ e2 a0 9d  BRAILLE PATTERN DOTS-1345
+U+281E  ⠞ e2 a0 9e  BRAILLE PATTERN DOTS-2345
+U+281F  ⠟ e2 a0 9f  BRAILLE PATTERN DOTS-12345
+U+2820  ⠠ e2 a0 a0  BRAILLE PATTERN DOTS-6
+U+2821  ⠡ e2 a0 a1  BRAILLE PATTERN DOTS-16
+U+2822  ⠢ e2 a0 a2  BRAILLE PATTERN DOTS-26
+U+2823  ⠣ e2 a0 a3  BRAILLE PATTERN DOTS-126
+U+2824  ⠤ e2 a0 a4  BRAILLE PATTERN DOTS-36
+U+2825  ⠥ e2 a0 a5  BRAILLE PATTERN DOTS-136
+U+2826  ⠦ e2 a0 a6  BRAILLE PATTERN DOTS-236
+U+2827  ⠧ e2 a0 a7  BRAILLE PATTERN DOTS-1236
+U+2828  ⠨ e2 a0 a8  BRAILLE PATTERN DOTS-46
+U+2829  ⠩ e2 a0 a9  BRAILLE PATTERN DOTS-146
+U+282A  ⠪ e2 a0 aa  BRAILLE PATTERN DOTS-246
+U+282B  ⠫ e2 a0 ab  BRAILLE PATTERN DOTS-1246
+U+282C  ⠬ e2 a0 ac  BRAILLE PATTERN DOTS-346
+U+282D  ⠭ e2 a0 ad  BRAILLE PATTERN DOTS-1346
+U+282E  ⠮ e2 a0 ae  BRAILLE PATTERN DOTS-2346
+U+282F  ⠯ e2 a0 af  BRAILLE PATTERN DOTS-12346
+U+2830  ⠰ e2 a0 b0  BRAILLE PATTERN DOTS-56
+U+2831  ⠱ e2 a0 b1  BRAILLE PATTERN DOTS-156
+U+2832  ⠲ e2 a0 b2  BRAILLE PATTERN DOTS-256
+U+2833  ⠳ e2 a0 b3  BRAILLE PATTERN DOTS-1256
+U+2834  ⠴ e2 a0 b4  BRAILLE PATTERN DOTS-356
+U+2835  ⠵ e2 a0 b5  BRAILLE PATTERN DOTS-1356
+U+2836  ⠶ e2 a0 b6  BRAILLE PATTERN DOTS-2356
+U+2837  ⠷ e2 a0 b7  BRAILLE PATTERN DOTS-12356
+U+2838  ⠸ e2 a0 b8  BRAILLE PATTERN DOTS-456
+U+2839  ⠹ e2 a0 b9  BRAILLE PATTERN DOTS-1456
+U+283A  ⠺ e2 a0 ba  BRAILLE PATTERN DOTS-2456
+U+283B  ⠻ e2 a0 bb  BRAILLE PATTERN DOTS-12456
+U+283C  ⠼ e2 a0 bc  BRAILLE PATTERN DOTS-3456
+U+283D  ⠽ e2 a0 bd  BRAILLE PATTERN DOTS-13456
+U+283E  ⠾ e2 a0 be  BRAILLE PATTERN DOTS-23456
+U+283F  ⠿ e2 a0 bf  BRAILLE PATTERN DOTS-123456
 
-//______________________________________________________________________________
-// keyboard hands
-const wstring
-  kBrlRightHand { kDots46,  kDots345 },
-  kBrlLeftHand  { kDots456, kDots345 };
 
-//______________________________________________________________________________
-// bars
-const wstring
-  kBrlFinalDoubleBar     { kDots126, kDots13 },
-  kBrlSectionalDoubleBar { kDots126, kDots13, kDots3 };
+FROM http://unicode.org/faq/utf_bom.html#BOM :
 
-//______________________________________________________________________________
-// measure divisions
-const wstring
-  kBrlMeasureDivisionSign { kDots46, kDots13 };
 
-//______________________________________________________________________________
-// words
-const wchar_t
-  kBrlWordSign       = kDots345,
-  kBrlWordApostrophe = kDots6;
+Q: How do I write a UTF converter?
 
+A: The freely available open source project International Components for Unicode (ICU) has UTF conversion built into it. The latest version may be downloaded from the ICU Project web site.
+* 
+http://site.icu-project.org
+
+ 
+Bytes Encoding Form
+00 00 FE FF UTF-32, big-endian
+FF FE 00 00 UTF-32, little-endian
+FE FF       UTF-16, big-endian
+FF FE       UTF-16, little-endian
+EF BB BF    UTF-8
+
+
+Q: Is there a standard method to package a Unicode character so it fits an 8-Bit ASCII stream?
+
+A: There are three or four options for making Unicode fit into an 8-bit format.
+
+a) Use UTF-8. This preserves ASCII, but not Latin-1, because the characters >127 are different from Latin-1. UTF-8 uses the bytes in the ASCII only for ASCII characters. Therefore, it works well in any environment where ASCII characters have a significance as syntax characters, e.g. file name syntaxes, markup languages, etc., but where the all other characters may use arbitrary bytes. 
+Example: “Latin Small Letter s with Acute” (015B) would be encoded as two bytes: C5 9B.
+
+b) Use Java or C style escapes, of the form \uXXXXX or \xXXXXX. This format is not standard for text files, but well defined in the framework of the languages in question, primarily for source files.
+Example: The Polish word “wyjście” with character “Latin Small Letter s with Acute” (015B) in the middle (ś is one character) would look like: “wyj\u015Bcie".
+
+c) Use the &#xXXXX; or &#DDDDD; numeric character escapes as in HTML or XML. Again, these are not standard for plain text files, but well defined within the framework of these markup languages.
+Example: “wyjście” would look like “wyj&#x015B;cie"
+
+d) Use SCSU. This format compresses Unicode into 8-bit format, preserving most of ASCII, but using some of the control codes as commands for the decoder. However, while ASCII text will look like ASCII text after being encoded in SCSU, other characters may occasionally be encoded with the same byte values, making SCSU unsuitable for 8-bit channels that blindly interpret any of the bytes as ASCII characters.
+Example: “<SC2> wyjÛcie” where <SC2> indicates the byte 0x12 and “Û” corresponds to byte 0xDB. [AF]
+
+
+A: The following table summarizes some of the properties of each of the UTFs. 
+
+Name  UTF-8 UTF-16  UTF-16BE  UTF-16LE  UTF-32  UTF-32BE  UTF-32LE
+Smallest code point 0000  0000  0000  0000  0000  0000  0000
+Largest code point  10FFFF  10FFFF  10FFFF  10FFFF  10FFFF  10FFFF  10FFFF
+Code unit size  8 bits  16 bits 16 bits 16 bits 32 bits 32 bits 32 bits
+Byte order  N/A <BOM> big-endian  little-endian <BOM> big-endian  little-endian
+Fewest bytes per character  1 2 2 2 4 4 4
+Most bytes per character  4 4 4 4 4 4 4
+
+
+
+Q: What’s the algorithm to convert from UTF-16 to character codes?
+
+A: The Unicode Standard used to contain a short algorithm, now there is just a bit distribution table. Here are three short code snippets that translate the information from the bit distribution table into C code that will convert to and from UTF-16.
+
+Using the following type definitions
+
+typedef unsigned int16 UTF16;
+typedef unsigned int32 UTF32;
+the first snippet calculates the high (or leading) surrogate from a character code C.
+
+const UTF16 HI_SURROGATE_START, // 0xD800
+UTF16 X, // (UTF16) C;
+UTF32 U, // (C >> 16) & ((1 << 5) - 1);
+UTF16 W, // (UTF16) U - 1;
+UTF16 HiSurrogate, // HI_SURROGATE_START | (W << 6) | X >> 10;
+where X, U and W correspond to the labels used in Table 3-5 UTF-16 Bit Distribution. The next snippet does the same for the low surrogate.
+
+const UTF16 LO_SURROGATE_START, // 0xDC00
+UTF16 X, // (UTF16) C;
+UTF16 LoSurrogate, // (UTF16) (LO_SURROGATE_START | X & ((1 << 10) - 1));
+Finally, the reverse, where hi and lo are the high and low surrogate, and C the resulting character
+
+UTF32 X, // (hi & ((1 << 6) -1)) << 10 | lo & ((1 << 10) -1);
+UTF32 W, // (hi >> 6) & ((1 << 5) - 1);
+UTF32 U, // W + 1;
+UTF32 C, // U << 16 | X;
+A caller would need to ensure that C, hi, and lo are in the appropriate ranges. [AF]
+
+Q: Isn’t there a simpler way to do this?
+
+A: There is a much simpler computation that does not try to follow the bit distribution table.
+
+// constants
+const UTF32 LEAD_OFFSET, // 0xD800 - (0x10000 >> 10);
+const UTF32 SURROGATE_OFFSET, // 0x10000 - (0xD800 << 10) - 0xDC00;
+
+// computations
+UTF16 lead, // LEAD_OFFSET + (codepoint >> 10);
+UTF16 trail, // 0xDC00 + (codepoint & 0x3FF);
+
+UTF32 codepoint, // (lead << 10) + trail + SURROGATE_OFFSET;
+
+
+*/
+
+/*
 //______________________________________________________________________________
-// pages
-const wstring
-  kBrlPagination { kDots5, kDots25 };
+
+  
+
 
 //______________________________________________________________________________
 // brailling numbers
@@ -371,21 +569,22 @@ wstring braille (int n);
 
 //______________________________________________________________________________
 // brailling characters and strings
-wchar_t braille (char ch);
+bsrDot6Cell braille (char ch);
 
 wstring braille (string str);
 
 //______________________________________________________________________________
 // writing UTF-16 to ostreams
-void write_wchar_t (ostream& os, wchar_t wch);
+void write_bsrDot6Cell (ostream& os, bsrDot6Cell cell);
 
-void write_wchar_t ( wchar_t wch );
+void write_bsrDot6Cell ( bsrDot6Cell cell );
 
-ostream& operator<< (ostream& os, const wchar_t wch);
+ostream& operator<< (ostream& os, const bsrDot6Cell cell);
 
 void write_wstring (ostream& os, wstring wstr );
 
 ostream& operator<< (ostream& os, const wstring& wstr);
+*/
 
 //______________________________________________________________________________
 void initializeBSRBasicTypes ();

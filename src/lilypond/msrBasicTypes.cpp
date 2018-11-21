@@ -45,13 +45,10 @@
 #include "xml2lyOptionsHandling.h"
 
 
-using namespace std;
-
-namespace MusicXML2 {
-
+namespace MusicXML2
+{
 
 #define TRACE_MSR_BASIC_TYPES 0
-
 
 // XMLLang
 //______________________________________________________________________________

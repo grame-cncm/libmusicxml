@@ -621,12 +621,86 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
       endl;
   }
 
-  S_bsrClef
-    clef =
-      bsrClef::create (inputLineNumber);
+  bsrClef::bsrClefKind clefKind = bsrClef::kClefNone;
+
+/* JMI
+        kClefModifiedBassForRightHandPartKind,
+        kClefModifiedTrebleForLeftHandPartKind };
+        */
+        
+  switch (elt->getClefKind ()) {
+    case msrClef::k_NoClef:
+      clefKind = bsrClef::kClefNone;
+      break;
+    case msrClef::kTrebleClef:
+      clefKind = bsrClef::kClefGTrebleKind;
+      break;
+    case msrClef::kSopranoClef:
+      clefKind = bsrClef::kClefNone;
+      break;
+    case msrClef::kMezzoSopranoClef:
+      break;
+    case msrClef::kAltoClef:
+      clefKind = bsrClef::kClefNone;
+      break;
+    case msrClef::kTenorClef:
+      clefKind = bsrClef::kClefCTenorKind;
+      break;
+    case msrClef::kBaritoneClef:
+      clefKind = bsrClef::kClefFBaritoneKind;
+      break;
+    case msrClef::kBassClef:
+      clefKind = bsrClef::kClefFBassKind;
+      break;
+    case msrClef::kTrebleLine1Clef:
+      clefKind = bsrClef::kClefGSopranoKind;
+      break;
+    case msrClef::kTrebleMinus15Clef:
+      break;
+    case msrClef::kTrebleMinus8Clef:
+      clefKind = bsrClef::kClefGOttavaBassaKind; // JMI permute???
+      break;
+    case msrClef::kTreblePlus8Clef:
+      clefKind = bsrClef::kClefGOttavaAltaKind; // JMI permute???
+      break;
+    case msrClef::kTreblePlus15Clef:
+      break;
+    case msrClef::kBassMinus15Clef:
+      break;
+    case msrClef::kBassMinus8Clef:
+      break;
+    case msrClef::kBassPlus8Clef:
+      break;
+    case msrClef::kBassPlus15Clef:
+      break;
+    case msrClef::kVarbaritoneClef:
+      break;
+    case msrClef::kTablature4Clef:
+      break;
+    case msrClef::kTablature5Clef:
+      break;
+    case msrClef::kTablature6Clef:
+      break;
+    case msrClef::kTablature7Clef:
+      break;
+    case msrClef::kPercussionClef:
+      break;
+    case msrClef::kJianpuClef:
+      break;
+  } // switch
+
+  if (clefKind = bsrClef::kClefNone) {
+    // message
+    // transcription note
     
-  fCurrentLine->
-    appendClefToLine (clef);
+    S_bsrClef
+      clef =
+        bsrClef::create (
+          inputLineNumber, clefKind);
+      
+    fCurrentLine->
+      appendClefToLine (clef);
+  }
 }
 
 void msr2BsrTranslator::visitEnd (S_msrClef& elt)
@@ -638,7 +712,6 @@ void msr2BsrTranslator::visitEnd (S_msrClef& elt)
       endl;
   }
 }
-
 
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrKey& elt)

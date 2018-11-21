@@ -15,6 +15,8 @@
 
 #include "bsrBrailleElements.h"
 
+#include "bsrBrailleSigns.h"
+
 #include "bsrBasicTypes.h"
 
 
@@ -30,62 +32,62 @@ class bsrNote : public bsrBrailleElement
     // ------------------------------------------------------
 
     enum bsrNoteValueKind {
-        kBsrCEighthKind,
-        kBsrCQuarterKind,
-        kBsrCHalfKind,
-        kBsrCWholeKind,
+        kNoteCEighthKind,
+        kNoteCQuarterKind,
+        kNoteCHalfKind,
+        kNoteCWholeKind,
         
-        kBsrDEighthKind,
-        kBsrDQuarterKind,
-        kBrlDHalfKind,
-        kBsrDWholeKind,
+        kNoteDEighthKind,
+        kNoteDQuarterKind,
+        kNoteDHalfKind,
+        kNoteDWholeKind,
         
-        kBsrEEighthKind,
-        kBsrEQuarterKind,
-        kBsrEHalf4Kind,
-        kBsrEWholeKind,
+        kNoteEEighthKind,
+        kNoteEQuarterKind,
+        kNoteEHalf4Kind,
+        kNoteEWholeKind,
         
-        kBsrFEighthKind,
-        kBsrFQuarterKind,
-        kBsrFHalfKind,
-        kBsrFWholeKind,
+        kNoteFEighthKind,
+        kNoteFQuarterKind,
+        kNoteFHalfKind,
+        kNoteFWholeKind,
         
-        kBsrGEighthKind,
-        kBsrGQuarterKind,
-        kBsrGHalfKind,
-        kBsrGWholeKind,
+        kNoteGEighthKind,
+        kNoteGQuarterKind,
+        kNoteGHalfKind,
+        kNoteGWholeKind,
         
-        kBsrAEighthKind,
-        kBsrAQuarterKind,
-        kBsrAHalfKind,
-        kBsrAWholeKind,
+        kNoteAEighthKind,
+        kNoteAQuarterKind,
+        kNoteAHalfKind,
+        kNoteAWholeKind,
         
-        kBsrBEighthKind,
-        kBsrBQuarterKind,
-        kBsrBHalfKind,
-        kBsrBWholeKind };
-
-    static wchar_t noteValueKindAsBraille (
-      bsrNoteValueKind noteValueKind);
+        kNoteBEighthKind,
+        kNoteBQuarterKind,
+        kNoteBHalfKind,
+        kNoteBWholeKind };
 
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
 
-    enum bsrNoteOctaveKind {
-        kBrlOctaveBelow1Kind,
-        kBrlOctave1Kind,
-        kBrlOctave2Kind,
-        kBrlOctave3Kind,
-        kBrlOctave4Kind,
-        kBrlOctave5Kind,
-        kBrlOctave6Kind,
-        kBrlOctave7Kind,
-        kBrlOctaveAbove7Kind };
+    static bsrSixDotsKind noteValueKindAsSixDotsKind (
+      bsrNoteValueKind noteValueKind);
 
-    wchar_t noteOctaveKindAsBraille (
-      bsrNoteOctaveKind noteOctaveKind);
+    enum bsrNoteOctaveKind {
+        kNoteOctaveBelow1Kind,
+        kNoteOctave1Kind,
+        kNoteOctave2Kind,
+        kNoteOctave3Kind,
+        kNoteOctave4Kind,
+        kNoteOctave5Kind,
+        kNoteOctave6Kind,
+        kNoteOctave7Kind,
+        kNoteOctaveAbove7Kind };
 
     static string noteOctaveKindAsString (
+      bsrNoteOctaveKind noteOctaveKind);
+
+    static bsrSixDotsKind noteOctaveKindAsSixDotsKind (
       bsrNoteOctaveKind noteOctaveKind);
 
     enum bsrNoteOctaveIsNeededKind {
@@ -144,20 +146,22 @@ class bsrNote : public bsrBrailleElement
     // services
     // ------------------------------------------------------
 
-    wchar_t               noteValueKindAsBraille ()
+    bsrSixDotsKind        noteValueKindAsSixDotsKind ()
                               {
                                 return
-                                  noteValueKindAsBraille (
+                                  noteValueKindAsSixDotsKind  (
                                     fNoteValueKind);
                               }
                           
-    wchar_t               noteOctaveKindAsBraille ()
+    bsrSixDotsKind        noteOctaveKindAsSixDotsKind ()
                               {
                                 return
-                                  noteOctaveKindAsBraille (
+                                  noteOctaveKindAsSixDotsKind  (
                                     fNoteOctaveKind);
                               }
-                          
+
+    S_bsrBrailleSign      asBrailleSign ();
+    
   public:
 
     // visitors

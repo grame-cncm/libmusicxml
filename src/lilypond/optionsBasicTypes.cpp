@@ -31,7 +31,7 @@
 #include "optionsBasicTypes.h"
 
 
-using namespace std;
+// JMI using namespace std;
 
 namespace MusicXML2 
 {

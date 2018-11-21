@@ -32,7 +32,8 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_bsrNote bsrNote::create (
@@ -116,111 +117,91 @@ void bsrNote::acceptOut (basevisitor* v)
 void bsrNote::browseData (basevisitor* v)
 {}
 
-wchar_t bsrNote::noteValueKindAsBraille (
-  bsrNoteValueKind noteValueKind)
-{
-  wchar_t result;
-  
-  switch (noteValueKind) {
-    case kBsrCEighthKind: result = kBrlCEighth; break;
-    case kBsrCQuarterKind: result = kBrlCQuarter; break;
-    case kBsrCHalfKind: result = kBrlCHalf; break;
-    case kBsrCWholeKind: result = kBrlCWhole; break;
-    
-    case kBsrDEighthKind: result = kBrlDEighth; break;
-    case kBsrDQuarterKind: result = kBrlDQuarter; break;
-    case kBrlDHalfKind: result = kBrlDHalf; break;
-    case kBsrDWholeKind: result = kBrlDWhole; break;
-    
-    case kBsrEEighthKind: result = kBrlEEighth; break;
-    case kBsrEQuarterKind: result = kBrlEQuarter; break;
-    case kBsrEHalf4Kind: result = kBrlEHalf; break;
-    case kBsrEWholeKind: result = kBrlEWhole; break;
-    
-    case kBsrFEighthKind: result = kBrlFEighth; break;
-    case kBsrFQuarterKind: result = kBrlFQuarter; break;
-    case kBsrFHalfKind: result = kBrlFHalf; break;
-    case kBsrFWholeKind: result = kBrlFWhole; break;
-    
-    case kBsrGEighthKind: result = kBrlGEighth; break;
-    case kBsrGQuarterKind: result = kBrlGQuarter; break;
-    case kBsrGHalfKind: result = kBrlGHalf; break;
-    case kBsrGWholeKind: result = kBrlGWhole; break;
-    
-    case kBsrAEighthKind: result = kBrlAEighth; break;
-    case kBsrAQuarterKind: result = kBrlAQuarter; break;
-    case kBsrAHalfKind: result = kBrlAHalf; break;
-    case kBsrAWholeKind: result = kBrlAWhole; break;
-    
-    case kBsrBEighthKind: result = kBrlBEighth; break;
-    case kBsrBQuarterKind: result = kBrlBQuarter; break;
-    case kBsrBHalfKind: result = kBrlBHalf; break;
-    case kBsrBWholeKind: result = kBrlBWhole; break;
-  } // switch
-
-  return result;
-}
-
 string bsrNote::noteValueKindAsString (
   bsrNoteValueKind noteValueKind)
 {
   string result;
   
   switch (noteValueKind) {
-    case kBsrCEighthKind: result = "CEighth"; break; // JMI
-    case kBsrCQuarterKind: result = "CQuarter"; break;
-    case kBsrCHalfKind: result = "CHalf"; break;
-    case kBsrCWholeKind: result = "CWhole"; break;
+    case kNoteCEighthKind: result = "CEighth"; break; // JMI
+    case kNoteCQuarterKind: result = "CQuarter"; break;
+    case kNoteCHalfKind: result = "CHalf"; break;
+    case kNoteCWholeKind: result = "CWhole"; break;
     
-    case kBsrDEighthKind: result = "DEighth"; break;
-    case kBsrDQuarterKind: result = "DQuarter"; break;
-    case kBrlDHalfKind: result = "DHalf"; break;
-    case kBsrDWholeKind: result = "DWhole"; break;
+    case kNoteDEighthKind: result = "DEighth"; break;
+    case kNoteDQuarterKind: result = "DQuarter"; break;
+    case kNoteDHalfKind: result = "DHalf"; break;
+    case kNoteDWholeKind: result = "DWhole"; break;
     
-    case kBsrEEighthKind: result = "EEighth"; break;
-    case kBsrEQuarterKind: result = "EQuarter"; break;
-    case kBsrEHalf4Kind: result = "EHalf"; break;
-    case kBsrEWholeKind: result = "EWhole"; break;
+    case kNoteEEighthKind: result = "EEighth"; break;
+    case kNoteEQuarterKind: result = "EQuarter"; break;
+    case kNoteEHalf4Kind: result = "EHalf"; break;
+    case kNoteEWholeKind: result = "EWhole"; break;
     
-    case kBsrFEighthKind: result = "FEighth"; break;
-    case kBsrFQuarterKind: result = "FQuarter"; break;
-    case kBsrFHalfKind: result = "FHalf"; break;
-    case kBsrFWholeKind: result = "FWhole"; break;
+    case kNoteFEighthKind: result = "FEighth"; break;
+    case kNoteFQuarterKind: result = "FQuarter"; break;
+    case kNoteFHalfKind: result = "FHalf"; break;
+    case kNoteFWholeKind: result = "FWhole"; break;
     
-    case kBsrGEighthKind: result = "GEighth"; break;
-    case kBsrGQuarterKind: result = "GQuarter"; break;
-    case kBsrGHalfKind: result = "GHalfbreak"; break;
-    case kBsrGWholeKind: result = "GWhole"; break;
+    case kNoteGEighthKind: result = "GEighth"; break;
+    case kNoteGQuarterKind: result = "GQuarter"; break;
+    case kNoteGHalfKind: result = "GHalfbreak"; break;
+    case kNoteGWholeKind: result = "GWhole"; break;
     
-    case kBsrAEighthKind: result = "AEighth"; break;
-    case kBsrAQuarterKind: result = "AQuarter"; break;
-    case kBsrAHalfKind: result = "AHalf"; break;
-    case kBsrAWholeKind: result = "AWhole"; break;
+    case kNoteAEighthKind: result = "AEighth"; break;
+    case kNoteAQuarterKind: result = "AQuarter"; break;
+    case kNoteAHalfKind: result = "AHalf"; break;
+    case kNoteAWholeKind: result = "AWhole"; break;
     
-    case kBsrBEighthKind: result = "BEighth"; break;
-    case kBsrBQuarterKind: result = "BQuarter"; break;
-    case kBsrBHalfKind: result = "BHalf"; break;
-    case kBsrBWholeKind: result = "BWhole"; break;
+    case kNoteBEighthKind: result = "BEighth"; break;
+    case kNoteBQuarterKind: result = "BQuarter"; break;
+    case kNoteBHalfKind: result = "BHalf"; break;
+    case kNoteBWholeKind: result = "BWhole"; break;
   } // switch
 
   return result;
 }
 
-wchar_t bsrNote::noteOctaveKindAsBraille ( // JMI
-  bsrNoteOctaveKind noteOctaveKind)
+bsrSixDotsKind bsrNote::noteValueKindAsSixDotsKind (
+  bsrNoteValueKind noteValueKind)
 {
-  wchar_t result;
-  
-  switch (noteOctaveKind) {
- //   case kBrlOctaveBelow1Kind: result = kBrlOctaveBelow1; break; // twice JMI
-    case kBrlOctave1Kind:      result = kBrlOctave1; break;
-    case kBrlOctave2Kind:      result = kBrlOctave2; break;
-    case kBrlOctave3Kind:      result = kBrlOctave3; break;
-    case kBrlOctave4Kind:      result = kBrlOctave4; break;
-    case kBrlOctave5Kind:      result = kBrlOctave5; break;
-    case kBrlOctave6Kind:      result = kBrlOctave6; break;
-    case kBrlOctave7Kind:      result = kBrlOctave7; break;
- //   case kBrlOctaveAbove7Kind: result = kBrlOctaveAbove7; break; // twice JMI
+  bsrSixDotsKind result;
+
+  switch (noteValueKind) {
+    case kNoteCEighthKind:  result = kDots145; break;
+    case kNoteCQuarterKind: result = kDots1456; break;
+    case kNoteCHalfKind:    result = kDots1345; break;
+    case kNoteCWholeKind:   result = kDots13456; break;
+    
+    case kNoteDEighthKind:  result = kDots15; break;
+    case kNoteDQuarterKind: result = kDots156; break;
+    case kNoteDHalfKind:    result = kDots135; break;
+    case kNoteDWholeKind:   result = kDots1356; break;
+    
+    case kNoteEEighthKind:  result = kDots125; break;
+    case kNoteEQuarterKind: result = kDots1256; break;
+    case kNoteEHalf4Kind:   result = kDots1234; break;
+    case kNoteEWholeKind:   result = kDots12346; break;
+    
+    case kNoteFEighthKind:  result = kDots1245; break;
+    case kNoteFQuarterKind: result = kDots12456; break;
+    case kNoteFHalfKind:    result = kDots12345; break;
+    case kNoteFWholeKind:   result = kDots123456; break;
+    
+    case kNoteGEighthKind:  result = kDots125; break;
+    case kNoteGQuarterKind: result = kDots1256; break;
+    case kNoteGHalfKind:    result = kDots1235; break;
+    case kNoteGWholeKind:   result = kDots12356; break;
+    
+    case kNoteAEighthKind:  result = kDots24; break;
+    case kNoteAQuarterKind: result = kDots246; break;
+    case kNoteAHalfKind:    result = kDots234; break;
+    case kNoteAWholeKind:   result = kDots2346; break;
+    
+    case kNoteBEighthKind:  result = kDots245; break;
+    case kNoteBQuarterKind: result = kDots2456; break;
+    case kNoteBHalfKind:    result = kDots2345; break;
+    case kNoteBWholeKind:   result = kDots23456; break;
   } // switch
 
   return result;
@@ -232,16 +213,55 @@ string bsrNote::noteOctaveKindAsString (
   string result;
 
   switch (noteOctaveKind) {
-    case kBrlOctaveBelow1Kind: result = "OctaveBelow1"; break;
-    case kBrlOctave1Kind:      result = "Octave1"; break;
-    case kBrlOctave2Kind:      result = "Octave2"; break;
-    case kBrlOctave3Kind:      result = "Octave3"; break;
-    case kBrlOctave4Kind:      result = "Octave4"; break;
-    case kBrlOctave5Kind:      result = "Octave5"; break;
-    case kBrlOctave6Kind:      result = "Octave6"; break;
-    case kBrlOctave7Kind:      result = "Octave7"; break;
-    case kBrlOctaveAbove7Kind: result = "OctaveAbove7"; break;
+    case kNoteOctaveBelow1Kind: result = "OctaveBelow1"; break;
+    case kNoteOctave1Kind:      result = "Octave1"; break;
+    case kNoteOctave2Kind:      result = "Octave2"; break;
+    case kNoteOctave3Kind:      result = "Octave3"; break;
+    case kNoteOctave4Kind:      result = "Octave4"; break;
+    case kNoteOctave5Kind:      result = "Octave5"; break;
+    case kNoteOctave6Kind:      result = "Octave6"; break;
+    case kNoteOctave7Kind:      result = "Octave7"; break;
+    case kNoteOctaveAbove7Kind: result = "OctaveAbove7"; break;
   } // switch
+
+  return result;
+}
+
+S_bsrBrailleSign bsrNote::asBrailleSign ()
+{
+  S_bsrBrailleSign result;
+
+
+  return result;
+}
+
+bsrSixDotsKind bsrNote::noteOctaveKindAsSixDotsKind ( // JMI
+  bsrNoteOctaveKind noteOctaveKind)
+{
+  bsrSixDotsKind result;
+  
+  switch (noteOctaveKind) {
+    case kNoteOctaveBelow1Kind: result = kDots4; break; // twice JMI
+    case kNoteOctave1Kind:      result = kDots4; break;
+    case kNoteOctave2Kind:      result = kDots45; break;
+    case kNoteOctave3Kind:      result = kDots456; break;
+    case kNoteOctave4Kind:      result = kDots5; break;
+    case kNoteOctave5Kind:      result = kDots46; break;
+    case kNoteOctave6Kind:      result = kDots56; break;
+    case kNoteOctave7Kind:      result = kDots6; break;
+    case kNoteOctaveAbove7Kind: result = kDots6; break; // twice JMI
+  } // switch
+  /*
+  kCellOctave1, // ,
+  kCellOctave2, // ,
+  kCellOctave3, // ,
+  kCellOctave4, // ,
+  kCellOctave5, // ,
+  kCellOctave6, // ,
+  kCellOctave7, // ;
+  kCellOctaveBelow1 , //{ kCellOctave1, kCellOctave1 },
+  kCellOctaveAbove7 , //{ kCellOctave7, kCellOctave7 };
+  */
 
   return result;
 }

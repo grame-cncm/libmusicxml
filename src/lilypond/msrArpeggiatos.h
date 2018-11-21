@@ -20,7 +20,7 @@
 
 namespace MusicXML2 
 {
-
+// JMI ???
 
 } // namespace MusicXML2
 

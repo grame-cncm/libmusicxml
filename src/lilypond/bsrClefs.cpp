@@ -32,23 +32,27 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_bsrClef bsrClef::create (
-  int inputLineNumber)
+  int         inputLineNumber,
+  bsrClefKind clefKind)
 {
   bsrClef* o =
     new bsrClef (
-      inputLineNumber);
+      inputLineNumber, clefKind);
   assert (o!=0);
   return o;
 }
 
 bsrClef::bsrClef (
-  int inputLineNumber)
+  int         inputLineNumber,
+  bsrClefKind clefKind)
     : bsrBrailleElement (inputLineNumber)
 {
+  fClefKind = clefKind;
 }
 
 bsrClef::~bsrClef ()
@@ -102,12 +106,55 @@ void bsrClef::browseData (basevisitor* v)
 {}
 
 
+string bsrClef::clefKindAsString (
+  bsrClefKind clefKind)
+{
+  string result;
+  
+  switch (clefKind) {
+    case kClefNone:
+      result = "***clefNone***";
+      break;
+    case kClefGTrebleKind:
+      result = "clefGTrebleKind";
+      break;
+    case kClefFBassKind:
+      result = "clefFBassKind";
+      break;
+    case kClefGSopranoKind:
+      result = "clefGSopranoKind";
+      break;
+    case kClefFBaritoneKind:
+      result = "clefFBaritoneKind";
+      break;
+    case kClefCTenorKind:
+      result = "clefCTenorKind";
+      break;
+    case kClefGOttavaAltaKind:
+      result = "clefGOttavaAltaKind";
+      break;
+    case kClefGOttavaBassaKind:
+      result = "clefGOttavaBassaKind";
+      break;
+    case kClefModifiedBassForRightHandPartKind:
+      result = "clefModifiedBassForRightHandPartKind";
+      break;
+    case kClefModifiedTrebleForLeftHandPartKind:
+      result = "clefModifiedTrebleForLeftHandPartKind";
+      break;
+  } // switch
+
+  return result;
+}
+
 string bsrClef::asString () const
 {
   stringstream s;
 
   s <<
-    "Clef" << 
+    "Clef" <<
+    ", clefKind: " <<
+    clefKindAsString (fClefKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();

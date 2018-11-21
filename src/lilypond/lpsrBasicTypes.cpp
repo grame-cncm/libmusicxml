@@ -31,7 +31,8 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 #define TRACE_LPSR_BASIC_TYPES 0
 

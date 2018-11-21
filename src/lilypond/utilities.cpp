@@ -34,7 +34,8 @@
 
 using namespace std;
 
-namespace MusicXML2 {
+namespace MusicXML2
+{
 
 //______________________________________________________________________________
 S_timingItem timingItem::createTimingItem (

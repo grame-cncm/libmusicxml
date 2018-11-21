@@ -26,11 +26,30 @@ class bsrClef : public bsrBrailleElement
 {
   public:
           
+   // data types
+    // ------------------------------------------------------
+
+    enum bsrClefKind {
+        kClefNone,
+        kClefGTrebleKind,
+        kClefFBassKind,
+        kClefGSopranoKind, // first line, french violin
+        kClefFBaritoneKind,
+        kClefCTenorKind,
+        kClefGOttavaAltaKind,
+        kClefGOttavaBassaKind,
+        kClefModifiedBassForRightHandPartKind,
+        kClefModifiedTrebleForLeftHandPartKind };
+        
+    static string clefKindAsString (
+      bsrClefKind clefKind);
+      
     // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrClef> create (
-      int inputLineNumber);
+      int         inputLineNumber,
+      bsrClefKind clefKind);
 
   protected:
 
@@ -38,7 +57,8 @@ class bsrClef : public bsrBrailleElement
     // ------------------------------------------------------
 
     bsrClef (
-      int inputLineNumber);
+      int         inputLineNumber,
+      bsrClefKind clefKind);
       
     virtual ~bsrClef ();
   
@@ -47,6 +67,9 @@ class bsrClef : public bsrBrailleElement
     // set and get
     // ------------------------------------------------------
                   
+    bsrClefKind           getClefKind () const
+                              { return fClefKind; }
+
 
     // services
     // ------------------------------------------------------
@@ -74,6 +97,8 @@ class bsrClef : public bsrBrailleElement
 
     // fields
     // ------------------------------------------------------
+
+    bsrClefKind           fClefKind;
 
 };
 typedef SMARTP<bsrClef> S_bsrClef;

@@ -13,14 +13,14 @@
 #ifndef ___bsrTraceOptions___
 #define ___bsrTraceOptions___
 
-#include <set>
-
 #include "exports.h"
 
 #include "optionsBasicTypes.h"
 
 
-namespace MusicXML2 
+//using namespace std;
+
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

@@ -175,7 +175,7 @@ void xml2brlOptionsAboutItem::printAbout (ostream& os) const
     endl <<
 R"(What xml2brl does:
 
-    This multi-pass translator basically performs 5 passes:
+    This multi-pass translator basically performs 6 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
                  and converts it to a MusicXML tree;
         Pass 2a: converts that MusicXML tree into to
@@ -185,10 +185,10 @@ R"(What xml2brl does:
         Pass 3a: converts the MSR into a
                  Braille Score Representation (BSR)
                  containing one Braille page per MusicXML page;
-        Pass 3b: converts the BSR into to another BCR
+        Pass 3b: converts the BSR into to another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
-        Pass 4:  converts the BCR to UTF-16 text 
+        Pass 4:  converts the BSR to UTF-16 text 
                  and writes it to standard output.
 
     Other passes are performed according to the options, such as
