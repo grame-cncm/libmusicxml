@@ -70,7 +70,7 @@ class bsrNote : public bsrBrailleElement
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
 
-    static bsrSixDotsKind noteValueKindAsSixDotsKind (
+    static bsrCellKind noteValueKindAsBsrCellKind (
       bsrNoteValueKind noteValueKind);
 
     enum bsrNoteOctaveKind {
@@ -87,7 +87,7 @@ class bsrNote : public bsrBrailleElement
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);
 
-    static bsrSixDotsKind noteOctaveKindAsSixDotsKind (
+    static bsrCellKind noteOctaveKindAsBsrCellKind (
       bsrNoteOctaveKind noteOctaveKind);
 
     enum bsrNoteOctaveIsNeededKind {
@@ -143,25 +143,25 @@ class bsrNote : public bsrBrailleElement
                           getNoteOctaveIsNeededKind () const
                               { return fNoteOctaveIsNeededKind; }
                   
-    // services
-    // ------------------------------------------------------
+    S_bsrBrailleSign      getNoteBrailleSign () const
+                              { return fNoteBrailleSign; }
 
-    bsrSixDotsKind        noteValueKindAsSixDotsKind ()
-                              {
-                                return
-                                  noteValueKindAsSixDotsKind  (
-                                    fNoteValueKind);
-                              }
-                          
-    bsrSixDotsKind        noteOctaveKindAsSixDotsKind ()
-                              {
-                                return
-                                  noteOctaveKindAsSixDotsKind  (
-                                    fNoteOctaveKind);
-                              }
+  public:
+
+    // public services
+    // ------------------------------------------------------
 
     S_bsrBrailleSign      asBrailleSign ();
     
+  private:
+  
+    // private services
+    // ------------------------------------------------------
+                                            
+    S_bsrBrailleSign      noteValueKindAsBrailleSign ();
+                          
+    S_bsrBrailleSign      noteOctaveKindAsBrailleSign ();
+
   public:
 
     // visitors
@@ -192,6 +192,8 @@ class bsrNote : public bsrBrailleElement
 
     bsrNoteOctaveIsNeededKind
                           fNoteOctaveIsNeededKind;
+
+    S_bsrBrailleSign      fNoteBrailleSign;
 };
 typedef SMARTP<bsrNote> S_bsrNote;
 EXP ostream& operator<< (ostream& os, const S_bsrNote& elt);

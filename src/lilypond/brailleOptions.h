@@ -185,6 +185,12 @@ class brailleOptions : public optionsGroup
     // data types
     // ------------------------------------------------------
 
+    enum bsrUTFKind {
+        kUTF8, kUTF16 };
+        
+    static string bsrUTFKindAsString (
+      bsrUTFKind UTFKind);
+
     enum bsrByteOrderingKind {
         kByteOrderingBigEndian, kByteOrderingSmallEndian };
         
@@ -262,6 +268,11 @@ class brailleOptions : public optionsGroup
 
   public:
 
+    // UTF encoding
+    // --------------------------------------
+
+    bsrUTFKind            fUTFKind;
+    
     // byte ordering
     // --------------------------------------
 

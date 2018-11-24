@@ -29,6 +29,16 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 S_bsrBrailleSign bsrBrailleSign::create (
+  int         inputLineNumber)
+{
+  bsrBrailleSign* o =
+    new bsrBrailleSign (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+S_bsrBrailleSign bsrBrailleSign::create (
   int         inputLineNumber,
   bsrCellKind cellKind1)
 {
@@ -116,6 +126,11 @@ S_bsrBrailleSign bsrBrailleSign::create (
 }
 
 bsrBrailleSign::bsrBrailleSign (
+  int         inputLineNumber)
+    : bsrElement (inputLineNumber)
+{}
+
+bsrBrailleSign::bsrBrailleSign (
   int         inputLineNumber,
   bsrCellKind cellKind1)
     : bsrElement (inputLineNumber)
@@ -196,6 +211,58 @@ bsrBrailleSign::bsrBrailleSign (
 bsrBrailleSign::~bsrBrailleSign ()
 {}
 
+void bsrBrailleSign::appendBrailleSignToBrailleSign (
+  S_bsrBrailleSign otherBrailleSign)
+{
+  if (otherBrailleSign) {
+    if (otherBrailleSign->fCellsList.size ()) {
+      list<bsrCellKind>::const_iterator
+        iBegin = otherBrailleSign->fCellsList.begin (),
+        iEnd   = otherBrailleSign->fCellsList.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        fCellsList.push_back ((*i));
+        if (++i == iEnd) break;
+   // JMI      os << " ";
+      } // for  
+    }
+  }
+}
+
+void bsrBrailleSign::prependBrailleSignToBrailleSign (
+  S_bsrBrailleSign otherBrailleSign)
+{
+  if (otherBrailleSign) {
+    if (otherBrailleSign->fCellsList.size ()) {
+      list<bsrCellKind>::const_reverse_iterator
+        iBegin = otherBrailleSign->fCellsList.rbegin (),
+        iEnd   = otherBrailleSign->fCellsList.rend (),
+        i      = iBegin;
+      for ( ; ; ) {
+        fCellsList.push_front ((*i));
+        if (++i == iEnd) break;
+   // JMI      os << " ";
+      } // for  
+    }
+  }
+}
+
+void bsrBrailleSign::generateBrailleCode (ostream& os)
+{
+  if (fCellsList.size ()) {
+    list<bsrCellKind>::const_iterator
+      iBegin = fCellsList.begin (),
+      iEnd   = fCellsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        bsrCellKindAsShortString ((*i));
+      if (++i == iEnd) break;
+       os << " ";
+    } // for  
+  }
+}
+
 void bsrBrailleSign::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -246,13 +313,32 @@ void bsrBrailleSign::browseData (basevisitor* v)
 
 string bsrBrailleSign::asString () const
 {
-  // this is overriden all in actual elements
-  return "??? bsrBrailleSign::asString () ???";
+  stringstream s;
+  
+  s <<
+    "bsrBrailleSign [";
+    
+  if (fCellsList.size ()) {
+    list<bsrCellKind>::const_iterator
+      iBegin = fCellsList.begin (),
+      iEnd   = fCellsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s <<
+        bsrCellKindAsShortString ((*i));
+      if (++i == iEnd) break;
+       s << " ";
+    } // for  
+  }
+
+  s <<
+    "]";
+
+  return s.str ();
 }
 
 string bsrBrailleSign::asShortString () const
 {
-  // this can be overriden in actual elements
   return asString ();
 }
 
@@ -289,26 +375,6 @@ bsrBrailleSign& operator<< (bsrBrailleSign& brailleSign, const bsrCellKind cellK
   brailleSign.appendCellKindToBrailleSign (cellKind);
   return brailleSign;
 }
-
-//______________________________________________________________________________
-/*
-S_bsrBrailleSign
-  createBrailleCapitalsSequenceSign (
-    int inputLineNumber)
-{
-  S_bsrBrailleSign
-    result =
-      bsrBrailleSign::create (inputLineNumber);
-
-  result->
-    appendDot6CellToBrailleSign (
-      kBrlCapitalsSign);
-  *result <<
-    kBrlCapitalsSign;
-    
-  return result;
-}
-*/
 
 
 }

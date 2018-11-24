@@ -65,10 +65,51 @@ bsrNote::bsrNote (
   fNoteOctaveKind = noteOctaveKind;
     
   fNoteOctaveIsNeededKind = noteOctaveIsNeededKind;
+
+  fNoteBrailleSign = asBrailleSign ();
 }
 
 bsrNote::~bsrNote ()
 {}
+
+S_bsrBrailleSign bsrNote::noteValueKindAsBrailleSign ()
+{
+  return
+    bsrBrailleSign::create (
+      fInputLineNumber,
+      noteValueKindAsBsrCellKind (
+        fNoteValueKind));
+}
+
+S_bsrBrailleSign bsrNote::noteOctaveKindAsBrailleSign ()
+{
+  return
+    bsrBrailleSign::create (
+      fInputLineNumber,
+      noteOctaveKindAsBsrCellKind (
+        fNoteOctaveKind));
+}
+
+S_bsrBrailleSign bsrNote::asBrailleSign ()
+{
+  S_bsrBrailleSign result;
+
+  // append note octave if needed
+  switch (fNoteOctaveIsNeededKind) {
+    case bsrNote::kNoteOctaveIsNeededYes:
+      result->appendBrailleSignToBrailleSign (
+        noteOctaveKindAsBrailleSign ());
+      break;
+    case bsrNote::kNoteOctaveIsNeededNo:
+      break;
+  } // switch
+
+  // append note value
+  result->appendBrailleSignToBrailleSign (
+    noteValueKindAsBrailleSign ());
+
+  return result;
+}
 
 void bsrNote::acceptIn (basevisitor* v)
 {
@@ -162,10 +203,10 @@ string bsrNote::noteValueKindAsString (
   return result;
 }
 
-bsrSixDotsKind bsrNote::noteValueKindAsSixDotsKind (
+bsrCellKind bsrNote::noteValueKindAsBsrCellKind (
   bsrNoteValueKind noteValueKind)
 {
-  bsrSixDotsKind result;
+  bsrCellKind result;
 
   switch (noteValueKind) {
     case kNoteCEighthKind:  result = kDots145; break;
@@ -227,18 +268,10 @@ string bsrNote::noteOctaveKindAsString (
   return result;
 }
 
-S_bsrBrailleSign bsrNote::asBrailleSign ()
-{
-  S_bsrBrailleSign result;
-
-
-  return result;
-}
-
-bsrSixDotsKind bsrNote::noteOctaveKindAsSixDotsKind ( // JMI
+bsrCellKind bsrNote::noteOctaveKindAsBsrCellKind (
   bsrNoteOctaveKind noteOctaveKind)
 {
-  bsrSixDotsKind result;
+  bsrCellKind result;
   
   switch (noteOctaveKind) {
     case kNoteOctaveBelow1Kind: result = kDots4; break; // twice JMI
@@ -295,6 +328,8 @@ string bsrNote::asString () const
     noteOctaveKindAsString (fNoteOctaveKind) <<
     ", noteOctaveIsNeededKind: " <<
     noteOctaveIsNeededKindAsString (fNoteOctaveIsNeededKind) <<
+    ", noteBrailleSign: " <<
+    fNoteBrailleSign->asShortString () <<
     ", line " << fInputLineNumber;
 
   return s.str ();

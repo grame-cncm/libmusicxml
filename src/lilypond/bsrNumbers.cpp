@@ -59,10 +59,88 @@ bsrNumber::bsrNumber (
   fNumberValue = numberValue;
     
   fNumberSignIsNeededKind = numberSignIsNeededKind;
+
+  fNumberBrailleSign = asBrailleSign ();
 }
 
 bsrNumber::~bsrNumber ()
 {}
+
+S_bsrBrailleSign bsrNumber::numberValueAsBrailleSign ()
+{
+  S_bsrBrailleSign result;
+
+  int n = fNumberValue;
+  
+  bool numberValueIsNegative = false;
+  
+  if (n < 0) {
+    numberValueIsNegative = true;
+    n = -n;
+  }
+
+  while (n > 0) {
+    int div = n / 10;
+    int mod = n % 10;
+
+    bsrCellKind
+      cellKind;
+
+    switch (mod) {
+      case 1: cellKind = kCell1; break;
+      case 2: cellKind = kCell2; break;
+      case 3: cellKind = kCell3; break;
+      case 4: cellKind = kCell4; break;
+      case 5: cellKind = kCell5; break;
+      case 6: cellKind = kCell6; break;
+      case 7: cellKind = kCell7; break;
+      case 8: cellKind = kCell8; break;
+      case 9: cellKind = kCell9; break;
+      case 0: cellKind = kCell0; break;
+      default:
+        ;
+    } // switch
+    
+    result->prependBrailleSignToBrailleSign (
+      bsrBrailleSign::create (
+        fInputLineNumber,
+        cellKind));
+
+    n = div;
+  } // while
+
+  if (numberValueIsNegative) {
+    result->prependBrailleSignToBrailleSign (
+      bsrBrailleSign::create (
+        fInputLineNumber,
+        kCell_ac_plus)); // JMI ??? other plus sign?
+  }
+
+  return result;
+}
+
+S_bsrBrailleSign bsrNumber::asBrailleSign ()
+{
+  S_bsrBrailleSign result;
+
+  // append number sign if needed
+  switch (fNumberSignIsNeededKind) {
+    case bsrNumber::kNumberSignIsNeededYes:
+      result->appendBrailleSignToBrailleSign (
+        bsrBrailleSign::create (
+          fInputLineNumber,
+          kCellNumberSign));
+      break;
+    case bsrNumber::kNumberSignIsNeededNo:
+      break;
+  } // switch
+
+  // append number value
+  result->appendBrailleSignToBrailleSign (
+    numberValueAsBrailleSign ());
+
+  return result;
+}
 
 void bsrNumber::acceptIn (basevisitor* v)
 {
@@ -138,6 +216,8 @@ string bsrNumber::asString () const
     ", numberSignIsNeeded: " <<
     numberSignIsNeededKindAsString (
       fNumberSignIsNeededKind) <<
+    ", numberBrailleSign: " <<
+    fNumberBrailleSign->asShortString () <<
     ", line " << fInputLineNumber;
 
   return s.str ();

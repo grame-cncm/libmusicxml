@@ -689,7 +689,7 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
       break;
   } // switch
 
-  if (clefKind = bsrClef::kClefNone) {
+  if (clefKind != bsrClef::kClefNone) {
     // message
     // transcription note
     
@@ -760,7 +760,10 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
       msrKey::msrKeyModeKind
         mKeyModeKind =
           elt->getKeyModeKind ();
-                              
+
+      if (mDiatonicPitchKind != mDiatonicPitchKind) mDiatonicPitchKind = mDiatonicPitchKind;
+      if (mKeyModeKind != mKeyModeKind) mKeyModeKind = mKeyModeKind;
+      
         // JMI ??? int                   getKeyCancel () const
   
         bKeyKind            = bsrKey::kKeyKindFlats;

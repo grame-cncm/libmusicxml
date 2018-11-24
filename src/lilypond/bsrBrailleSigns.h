@@ -24,12 +24,18 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class bsrBrailleSign;
+typedef SMARTP<bsrBrailleSign> S_bsrBrailleSign;
+
 class bsrBrailleSign : public bsrElement
 {
   public:
 
     // creation
     // ------------------------------------------------------
+
+    static SMARTP<bsrBrailleSign> create (
+      int         inputLineNumber);
 
     static SMARTP<bsrBrailleSign> create (
       int         inputLineNumber,
@@ -74,6 +80,9 @@ class bsrBrailleSign : public bsrElement
          
     // constructors/destructor
     // ------------------------------------------------------
+
+    bsrBrailleSign (
+      int         inputLineNumber);
 
     bsrBrailleSign (
       int         inputLineNumber,
@@ -133,8 +142,15 @@ class bsrBrailleSign : public bsrElement
     void                  appendCellKindToBrailleSign (bsrCellKind cell)
                               { fCellsList.push_back (cell); }
 
+    void                  appendBrailleSignToBrailleSign (
+                            S_bsrBrailleSign otherBrailleSign);
+    void                  prependBrailleSignToBrailleSign (
+                            S_bsrBrailleSign otherBrailleSign);
+
     int                   fetchCellsNumber () const
                               { return fCellsList.size (); }
+
+    void                  generateBrailleCode (ostream& os);
 
   public:
   
@@ -169,14 +185,6 @@ class bsrBrailleSign : public bsrElement
 };
 typedef SMARTP<bsrBrailleSign> S_bsrBrailleSign;
 EXP std::ostream& operator<< (std::ostream& os, const S_bsrBrailleSign& elt);
-
-//______________________________________________________________________________
-/*
-S_bsrBrailleSign
-  createBrailleCapitalsSequenceSign (
-    int inputLineNumber);
-}
-*/
 
 
 } // namespace MusicXML2

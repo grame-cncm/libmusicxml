@@ -19,12 +19,16 @@
 
 #include "bsrKeys.h"
 
+#include "bsrNumbers.h"
+
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
 #endif
 
 #include "bsrOptions.h"
+
+#include "xml2brlOptionsHandling.h"
 
 #include "messagesHandling.h"
 
@@ -56,10 +60,101 @@ bsrKey::bsrKey (
 {
   fKeyKind             = keyKind;
   fNumberOfAlterations = numberOfAlterations;
+
+  // consistency check
+  if (fKeyKind == kKeyKindNaturals && fNumberOfAlterations != 0) {
+    stringstream s;
+
+    s <<
+      "BSR key inconsistency:" <<
+      "keyKind: " << keyKindAsString (fKeyKind) <<
+      "numberOfAlterations: " << fNumberOfAlterations;
+       
+    bsrInternalError (
+      gXml2brlOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fKeyBrailleSign = asBrailleSign ();
 }
 
 bsrKey::~bsrKey ()
 {}
+
+
+S_bsrBrailleSign bsrKey::keyKindAsBrailleSign ()
+{
+  S_bsrBrailleSign result;
+
+  switch (fKeyKind) {
+    case bsrKey::kKeyKindFlats:
+      result =
+        bsrBrailleSign::create (
+          fInputLineNumber,
+          kCellFlat);
+      break;
+    case bsrKey::kKeyKindNaturals:
+      result =
+        bsrBrailleSign::create (
+          fInputLineNumber,
+          kCellNatural);
+      break;
+    case bsrKey::kKeyKindSharps:
+      result =
+        bsrBrailleSign::create (
+          fInputLineNumber,
+          kCellSharp);
+      break;
+  } // switch
+
+  return result;
+}
+
+S_bsrBrailleSign bsrKey::asBrailleSign ()
+{
+  S_bsrBrailleSign
+    result =
+      bsrBrailleSign::create (
+        fInputLineNumber);
+
+  switch (fNumberOfAlterations) {
+    case 0:
+      break;
+      
+    case 1:
+    case 2:
+    case 3:
+      // create as many flat or sharp signs as needed
+      for (int i = 1; i <= fNumberOfAlterations; i++) {
+        result->appendBrailleSignToBrailleSign (
+          keyKindAsBrailleSign ());
+      } // for
+      break;
+      
+    default:
+      {
+        // create the number of alterations
+        S_bsrNumber
+          number =
+            bsrNumber::create (
+              fInputLineNumber,
+              fNumberOfAlterations,
+              bsrNumber::kNumberSignIsNeededYes);
+
+        // append it to result
+        result->appendBrailleSignToBrailleSign (
+          number->asBrailleSign ());
+  
+        // append the flat or sharp sign to result
+        result->appendBrailleSignToBrailleSign (
+          keyKindAsBrailleSign ());
+      }
+  } // switch
+  
+  return result;
+}
 
 void bsrKey::acceptIn (basevisitor* v)
 {
@@ -117,6 +212,9 @@ string bsrKey::keyKindAsString (
     case bsrKey::kKeyKindFlats:
       result = "keyKindFlats";
       break;
+    case bsrKey::kKeyKindNaturals:
+      result = "keyKindNaturals";
+      break;
     case bsrKey::kKeyKindSharps:
       result = "keyKindSharps";
       break;
@@ -133,6 +231,7 @@ string bsrKey::asString () const
     "Key" <<
     ", " << keyKindAsString (fKeyKind) <<
     ", numberOfAlterations: " << fNumberOfAlterations <<
+    ", keyBrailleSign: " << fKeyBrailleSign->asShortString () <<
     ", line " << fInputLineNumber;
 
   return s.str ();

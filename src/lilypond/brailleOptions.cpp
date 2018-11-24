@@ -69,36 +69,69 @@ brailleOptions::~brailleOptions ()
 void brailleOptions::initializeBrailleOptions (
   bool boolOptionsInitialValue)
 {
-  // byte ordering
+  // UTF encoding
   // --------------------------------------
 
   {
+    /*
     // variables  
-  
-/* JMI
-    fByteOrderingKind = boolOptionsInitialValue;
-                
-    
+
+    fUTFKind          = brailleOptions::kUTF8; // default value
+                    
     // options
   
     S_optionsSubGroup
-      codeGenerationSubGroup =
+      UTFEncodingSubGroup =
         optionsSubGroup::create (
-          "Byte orderingn",
-          "hlpbbo", "help-braille-byte-ordering",
+          "UTF encoding",
+          "hlpue", "help-utf-encoding",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
   
-    appendOptionsSubGroup (codeGenerationSubGroup);
+    appendOptionsSubGroup (UTFEncodingSubGroup);
 
-    codeGenerationSubGroup->
+    UTFEncodingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
           "xi", "xml2brl-infos",
 R"(Generate initial comments showing the compilation date and options.)",
           "xml2brlInfos",
-          fXml2brlInfos)); */
+          fXml2brlInfos));
+          */
+  }
+
+    
+  // byte ordering
+  // --------------------------------------
+
+  {
+    /*
+    // variables  
+    
+    fByteOrderingKind = brailleOptions::kByteOrderingBigEndian; // default value
+                
+    // options
+  
+    S_optionsSubGroup
+      cbyteOrderingSubGroup =
+        optionsSubGroup::create (
+          "Byte orderinng",
+          "hlpbo", "help-byte-ordering",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (cbyteOrderingSubGroup);
+
+    cbyteOrderingSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "xi", "xml2brl-infos",
+R"(Generate initial comments showing the compilation date and options.)",
+          "xml2brlInfos",
+          fXml2brlInfos));
+          */
   }
 
     
@@ -494,7 +527,24 @@ void brailleOptions::handleOptionsItemValue (
   }
   */
 }
-        
+    
+string brailleOptions::bsrUTFKindAsString (
+  bsrUTFKind UTFKind)
+{
+  string result;
+  
+  switch (UTFKind) {
+    case brailleOptions::kUTF8:
+      result = "UTF8";
+      break;
+    case brailleOptions::kUTF16:
+      result = "UTF16";
+      break;
+  } // switch
+
+  return result;
+}
+
 string brailleOptions::byteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind)
 {
@@ -505,7 +555,7 @@ string brailleOptions::byteOrderingKindAsString (
       result = "byteOrderingBigEndian";
       break;
     case brailleOptions::kByteOrderingSmallEndian:
-      result = "byteOrderingSmallEndian/Scot";
+      result = "byteOrderingSmallEndian";
       break;
   } // switch
 

@@ -259,19 +259,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
       endl;
   }
 
-  switch (elt->getNumberSignIsNeededKind ()) {
-    case bsrNumber::kNumberSignIsNeededYes:
-      fBrailleCodeIOstream <<
-        kCellNumberSign;
-      break;
-    case bsrNumber::kNumberSignIsNeededNo:
-      break;
-  } // switch
-
-/*
-  fBrailleCodeIOstream <<
-    braille (elt->getNumberValue ();
-    */
+  elt->getNumberBrailleSign ()->generateBrailleCode (
+    fBrailleCodeIOstream);
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
@@ -335,6 +324,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
   switch (keyKind) {
     case bsrKey::kKeyKindFlats:
       alteration = kCellFlat;
+      break;
+    case bsrKey::kKeyKindNaturals:
+      alteration = kCellNatural;
       break;
     case bsrKey::kKeyKindSharps:
       alteration = kCellSharp;
@@ -414,17 +406,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
       endl;
   }
 
-  switch (elt->getNoteOctaveIsNeededKind ()) {
-    case bsrNote::kNoteOctaveIsNeededYes:
-      fBrailleCodeIOstream <<
-        elt->noteOctaveKindAsSixDotsKind ();
-      break;
-    case bsrNote::kNoteOctaveIsNeededNo:
-      break;
-  } // switch
-
-  fBrailleCodeIOstream <<
-    elt->noteValueKindAsSixDotsKind ();
+  elt->getNoteBrailleSign ()->generateBrailleCode (
+    fBrailleCodeIOstream);
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)

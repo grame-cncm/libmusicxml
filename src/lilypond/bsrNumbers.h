@@ -15,6 +15,8 @@
 
 #include "bsrBrailleElements.h"
 
+#include "bsrBrailleSigns.h"
+
 #include "bsrBasicTypes.h"
 
 
@@ -77,9 +79,21 @@ class bsrNumber : public bsrBrailleElement
                           getNumberSignIsNeededKind () const
                               { return fNumberSignIsNeededKind; }
                   
-    // services
-    // ------------------------------------------------------
+    S_bsrBrailleSign      getNumberBrailleSign () const
+                              { return fNumberBrailleSign; }
                   
+    // public services
+    // ------------------------------------------------------                  
+                          
+    S_bsrBrailleSign      asBrailleSign ();
+
+  private:
+  
+    // private services
+    // ------------------------------------------------------
+                                            
+    S_bsrBrailleSign      numberValueAsBrailleSign ();
+
   public:
 
     // visitors
@@ -108,10 +122,11 @@ class bsrNumber : public bsrBrailleElement
 
     bsrNumberSignIsNeededKind
                           fNumberSignIsNeededKind;
+
+    S_bsrBrailleSign      fNumberBrailleSign;
 };
 typedef SMARTP<bsrNumber> S_bsrNumber;
 EXP ostream& operator<< (ostream& os, const S_bsrNumber& elt);
-
 
 } // namespace MusicXML2
 

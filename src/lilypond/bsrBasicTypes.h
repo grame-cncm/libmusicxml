@@ -23,7 +23,25 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-enum bsrSixDotsKind {
+// Bytes Encoding Marks
+const string
+  kBOM_UTF_32_BigEndian =
+    "\x00\x00\xFE\xFF", // UTF-32, big-endian
+  kBOM_UTF_32_LittleEndian =
+    "\xFF\xFE\x00\x00", // UTF-32, little-endian
+  kBOM_UTF_16_BigEndian =
+    "\xFE\xFF",         // UTF-16, big-endian
+  kBOM_UTF_16_LittleEndian =
+    "\xFF\xFE",         // UTF-16, little-endian
+  kBOM_UTF_8 =
+    "\xEF\xBB\xBF";     // UTF-8
+    
+//______________________________________________________________________________
+enum bsrCellKind {
+  // non 6dots values
+  kCellEOL     , // L'\u000a'
+  kCellEOP     , // L'\u000c'
+
   // 6dots values for Braille music
   kDotsNone    , // L'\u2800'
   kDots1       , // L'\u2801'
@@ -94,58 +112,157 @@ enum bsrSixDotsKind {
   kDots123456    // L'\u283f'
 };
 
-string bsrSixDotsKindAsShortString (bsrSixDotsKind sixDotsKind);
+//______________________________________________________________________________
+string bsrCellKindAsShortString (bsrCellKind cellKind);
 
-string bsrSixDotsKindAsString (bsrSixDotsKind sixDotsKind);
+string bsrCellKindAsString (bsrCellKind cellKind);
+
+string bsrCellKindAsUTF8BrailleCode (bsrCellKind cellKind);
+string bsrCellKindAsUTF16BrailleCode (bsrCellKind cellKind);
+
+string bsrCellKindAsBrailleCode (bsrCellKind cellKind);
 
 //______________________________________________________________________________
-enum bsrCellKind {
+// lower case letters
+const bsrCellKind
+  kCellA = kDots1,
+  kCellB = kDots12,
+  kCellC = kDots14,
+  kCellD = kDots145,
+  kCellE = kDots15,
+  kCellF = kDots124,
+  kCellG = kDots1245,
+  kCellH = kDots125,
+  kCellI = kDots24,
+  kCellJ = kDots245,
+  
+  kCellK = kDots13,
+  kCellL = kDots123,
+  kCellM = kDots134,
+  kCellN = kDots1345,
+  kCellO = kDots135,
+  kCellP = kDots1234,
+  kCellQ = kDots12345,
+  kCellR = kDots1235,
+  kCellS = kDots234,
+  kCellT = kDots2345,
+
+  kCellU = kDots136,
+  kCellV = kDots1236,
+  kCellW = kDots2456,
+  kCellX = kDots1346,
+  kCellY = kDots13456,
+  kCellZ = kDots1356;
+
+//______________________________________________________________________________
+// capitals
+const bsrCellKind
+  kCellCapitalsSign = kDots46;
+//  kCellCapitalsSequenceSign, // { kCellCapitalsSign, kCellCapitalsSign };
+
+//______________________________________________________________________________
+// decimal digits
+const bsrCellKind
+  kCellNumberSign = kDots3456,
+  kCell1 = kCellA,
+  kCell2 = kCellB,
+  kCell3 = kCellC,
+  kCell4 = kCellD,
+  kCell5 = kCellE,
+  kCell6 = kCellF,
+  kCell7 = kCellG,
+  kCell8 = kCellH,
+  kCell9 = kCellI,
+  kCell0 = kCellJ;
+
+//______________________________________________________________________________
+// notes
+const bsrCellKind
+  kCellCEighth  = kDots145,
+  kCellCQuarter = kDots1456,
+  kCellCHalf    = kDots1345,
+  kCellCWhole   = kDots13456,
+  
+  kCellDEighth  = kDots15,
+  kCellDQuarter = kDots156,
+  kCellDHalf    = kDots135,
+  kCellDWhole   = kDots1356,
+  
+  kCellEEighth  = kDots125,
+  kCellEQuarter = kDots1256,
+  kCellEHalf    = kDots1234,
+  kCellEWhole   = kDots12346,
+  
+  kCellFEighth  = kDots1245,
+  kCellFQuarter = kDots12456,
+  kCellFHalf    = kDots12345,
+  kCellFWhole   = kDots123456,
+  
+  kCellGEighth  = kDots125,
+  kCellGQuarter = kDots1256,
+  kCellGHalf    = kDots1235,
+  kCellGWhole   = kDots12356,
+  
+  kCellAEighth  = kDots24,
+  kCellAQuarter = kDots246,
+  kCellAHalf    = kDots234,
+  kCellAWhole   = kDots2346,
+  
+  kCellBEighth  = kDots245,
+  kCellBQuarter = kDots2456,
+  kCellBHalf    = kDots2345,
+  kCellBWhole   = kDots23456;
+
+//______________________________________________________________________________
+// octaves, bottom up
+const bsrCellKind
+  kCellOctave1 = kDots4,
+  kCellOctave2 = kDots45,
+  kCellOctave3 = kDots456,
+  kCellOctave4 = kDots5,
+  kCellOctave5 = kDots46,
+  kCellOctave6 = kDots56,
+  kCellOctave7 = kDots6;
+//  kCellOctaveBelow1 , //{ kCellOctave1, kCellOctave1 },
+//  kCellOctaveAbove7 , //{ kCellOctave7, kCellOctave7 };
+
+//______________________________________________________________________________
+// alterations
+const bsrCellKind
+  kCellFlat    = kDots126,
+  kCellNatural = kDots16,
+  kCellSharp   = kDots136;
+
+// augmentation dots
+const bsrCellKind
+  kCellAugmentationDot = kDots3;
+
+
+
+//______________________________________________________________________________
+// arithmetic operators
+const bsrCellKind
+  kCell_ac_plus      = kDots235,
+  kCell_ac_minus     = kDots36,
+  kCell_ac_times     = kDots35,
+  kCell_ac_dividedBy = kDots25,
+  kCell_ac_equals    = kDots2356;
+
+//______________________________________________________________________________
+// braille cells
+void brailleCellKindAsUTF8 (bsrCellKind cellKind, ostream& os);
+void brailleCellKindAsUTF16 (bsrCellKind cellKind, ostream& os);
+
+void brailleCellKind (bsrCellKind cellKind, ostream& os);
+
+
+//______________________________________________________________________________
+/*
+enum bsrCellKind2 {
   // non 6dots values
   kCellEOL, // L'\u000a'
   kCellEOP, // L'\u000c'
 
-  // lower case letters
-  kCellA, // kDots1,
-  kCellB, // kDots12,
-  kCellC, // kDots14,
-  kCellD, // kDots145,
-  kCellE, // kDots15,
-  kCellF, // kDots124,
-  kCellG, // kDots1245,
-  kCellH, // kDots125,
-  kCellI, // kDots24,
-  kCellJ, // kDots245,
-  
-  kCellK, // kDots13,
-  kCellL, // kDots123,
-  kCellM, // kDots134,
-  kCellN, // kDots1345,
-  kCellO, // kDots135,
-  kCellP, // kDots1234,
-  kCellQ, // kDots12345,
-  kCellR, // kDots1235,
-  kCellS, // kDots234,
-  kCellT, // kDots2345,
-
-  kCellU, // kDots136,
-  kCellV, // kDots1236,
-  kCellW, // kDots2456,
-  kCellX, // kDots1346,
-  kCellY, // kDots13456,
-  kCellZ, // kDots1356;
-
- // decimal digits
-  kCellNumberSign, // kDots3456,
-  kCell1, // kCellA,
-  kCell2, // kCellB,
-  kCell3, // kCellC,
-  kCell4, // kCellD,
-  kCell5, // kCellE,
-  kCell6, // kCellF,
-  kCell7, // kCellG,
-  kCell8, // kCellH,
-  kCell9, // kCellI,
-  kCell0, // kCellJ,
 
   // lower decimal digits
   kCellLower1, // kDots2,
@@ -159,12 +276,6 @@ enum bsrCellKind {
   kCellLower9, // kDots35,
   kCellLower0, // kDots356;
 
-  // arithmetic operators
-  kCell_ac_plus     , // kDots235,
-  kCell_ac_minus    , // kDots36,
-  kCell_ac_times    , // kDots35,
-  kCell_ac_dividedBy, // kDots25,
-  kCell_ac_equals   , // kDots2356;
   
   // punctuation
   kCellDot             , // kDots256,
@@ -187,61 +298,8 @@ enum bsrCellKind {
   kCellAsterisk, // kDots35,
   kCellExponent, // kDots4;
 
-  // octaves, bottom up
-  kCellOctave1, // kDots4,
-  kCellOctave2, // kDots45,
-  kCellOctave3, // kDots456,
-  kCellOctave4, // kDots5,
-  kCellOctave5, // kDots46,
-  kCellOctave6, // kDots56,
-  kCellOctave7, // kDots6;
-  kCellOctaveBelow1 , //{ kCellOctave1, kCellOctave1 },
-  kCellOctaveAbove7 , //{ kCellOctave7, kCellOctave7 };
-
+ 
   
-  // alterations
-  kCellFlat   , // kDots126,
-  kCellNatural, // kDots16,
-  kCellSharp  , // kDots136;
-
-  // augmentations
-  kCellAugmentationDot, // kDots3;
-
-  // notes
-  kCellCEighth , // kDots145,
-  kCellCQuarter, // kDots1456,
-  kCellCHalf   , // kDots1345,
-  kCellCWhole  , // kDots13456,
-  
-  kCellDEighth , // kDots15,
-  kCellDQuarter, // kDots156,
-  kCellDHalf   , // kDots135,
-  kCellDWhole  , // kDots1356,
-  
-  kCellEEighth , // kDots125,
-  kCellEQuarter, // kDots1256,
-  kCellEHalf   , // kDots1234,
-  kCellEWhole  , // kDots12346,
-  
-  kCellFEighth , // kDots1245,
-  kCellFQuarter, // kDots12456,
-  kCellFHalf   , // kDots12345,
-  kCellFWhole  , // kDots123456,
-  
-  kCellGEighth , // kDots125,
-  kCellGQuarter, // kDots1256,
-  kCellGHalf   , // kDots1235,
-  kCellGWhole  , // kDots12356,
-  
-  kCellAEighth , // kDots24,
-  kCellAQuarter, // kDots246,
-  kCellAHalf   , // kDots234,
-  kCellAWhole  , // kDots2346,
-  
-  kCellBEighth , // kDots245,
-  kCellBQuarter, // kDots2456,
-  kCellBHalf   , // kDots2345,
-  kCellBWhole  , // kDots23456;
 
   // intervals
   kCellSecond , // kDots34,
@@ -316,10 +374,10 @@ enum bsrCellKind {
   kCellFermataOverABarLine , //{ kDots456, kDots126, kDots123 };
 };
 
-string bsrCellKindAsShortString (bsrCellKind cellKind);
+string bsrCellKind2AsShortString (bsrCellKind cellKind);
 
-string bsrCellKindAsString (bsrCellKind cellKind);
-
+string bsrCellKind2AsString (bsrCellKind cellKind);
+*/
 
 /*
 const bsrDot6Cell
