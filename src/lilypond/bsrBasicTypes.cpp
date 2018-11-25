@@ -317,6 +317,9 @@ string bsrCellKindAsUTF8BrailleCode (bsrCellKind cellKind)
 
 string bsrCellKindAsUTF16BrailleCode (bsrCellKind cellKind)
 {
+  string result;
+
+  return result;
 }
 
 string bsrCellKindAsBrailleCode (bsrCellKind cellKind)
