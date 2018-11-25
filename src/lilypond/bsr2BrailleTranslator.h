@@ -17,6 +17,8 @@
 
 #include "bsrOptions.h"
 
+#include "bsrBrailleCodeGenerators.h"
+
 
 namespace MusicXML2
 {
@@ -98,7 +100,8 @@ class bsr2BrailleTranslator :
     S_bsrOptions          fBsrOptions;
 
     indentedOstream&      fLogOutputStream;
-    ostream&              fBrailleCodeIOstream;
+
+    S_bsrBrailleGenerator fBrailleGenerator;
 };
 
 

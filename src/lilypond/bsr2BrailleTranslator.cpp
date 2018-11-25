@@ -43,14 +43,39 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   ostream&         brailleOutputStream,
   S_bsrScore       bsrScore)
     : fLogOutputStream (
-        logIOstream),
-      fBrailleCodeIOstream (
-        brailleOutputStream)
+        logIOstream)
 {
   fBsrOptions = bsrOpts;
   
   // the BSR score we're visiting
   fVisitedBsrScore = bsrScore;
+
+  switch (gBrailleOptions->fUTFKind) {
+    case brailleOptions::kUTF8:
+      fBrailleGenerator =
+        bsrUTF8BrailleGenerator::create (
+          gBrailleOptions->fByteOrderingKind,
+          brailleOutputStream);
+      break;
+      
+    case brailleOptions::kUTF16:
+      switch (gBrailleOptions->fByteOrderingKind) {
+        case brailleOptions::kByteOrderingBigEndian:
+          fBrailleGenerator =
+            bsrUTF16BigEndianBrailleGenerator::create (
+              gBrailleOptions->fByteOrderingKind,
+              brailleOutputStream);
+          break;
+          
+        case brailleOptions::kByteOrderingSmallEndian:
+          break;
+          fBrailleGenerator =
+            bsrUTF16SmallEndianBrailleGenerator::create (
+              gBrailleOptions->fByteOrderingKind,
+              brailleOutputStream);
+      } // switch
+      break;
+  } // switch
 };
   
 bsr2BrailleTranslator::~bsr2BrailleTranslator ()
@@ -60,43 +85,6 @@ bsr2BrailleTranslator::~bsr2BrailleTranslator ()
 void bsr2BrailleTranslator::generateBrailleCodeFromBsrScore ()
 {
   if (fVisitedBsrScore) {
-    /*
-    // generate a BOM if requested
-    switch (gBrailleOptions->fByteOrderingKind) {
-      case brailleOptions::kByteOrderingBigEndian:
-        fBrailleCodeIOstream <<
-          kBOMBigEndian;
-        break;
-      case brailleOptions::kByteOrderingSmallEndian:
-        fBrailleCodeIOstream <<
-          kBOMSmallEndian;
-        break;
-    } // switch
-
-    if (true) { // JMI TEMP
-      // generate the table of all Dots 6 cells
-      for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; wch++) {
-        fBrailleCodeIOstream << wch;
-      } // for
-      fBrailleCodeIOstream << kBrailleEOL;
-      for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; wch++) {
-        fBrailleCodeIOstream << wch;
-      } // for
-      fBrailleCodeIOstream << kBrailleEOL;
-      fBrailleCodeIOstream << kBrailleEOP;
-      
-      for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; wch++) {
-        fBrailleCodeIOstream << wch;
-      } // for
-      fBrailleCodeIOstream << kBrailleEOL;
-      for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; wch++) {
-        fBrailleCodeIOstream << wch;
-      } // for
-      fBrailleCodeIOstream << kBrailleEOL;
-      fBrailleCodeIOstream << kBrailleEOP;
-    }
-    */
-
     // browse a bsrScore browser
     bsrBrowser<bsrScore> browser (this);
     browser.browse (*fVisitedBsrScore);
@@ -190,8 +178,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
       endl;
   }
 
-  fBrailleCodeIOstream <<
-    kCellEOP;
+  fBrailleGenerator->generateCodeForBrailleCell (
+    kCellEOP);
 }
 
 //________________________________________________________________________
@@ -243,8 +231,8 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
       endl;
   }
 
-  fBrailleCodeIOstream <<
-    kCellEOL;
+  fBrailleGenerator->generateCodeForBrailleCell (
+    kCellEOL);
 }
 
 //________________________________________________________________________
@@ -259,8 +247,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
       endl;
   }
 
-  elt->getNumberBrailleSign ()->generateBrailleCode (
-    fBrailleCodeIOstream);
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getNumberBrailleSign ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
@@ -319,7 +307,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
     numberOfAlterations =
       elt->getNumberOfAlterations ();
 
-  wchar_t alteration = kCellNatural;
+  bsrCellKind alteration = kCellNatural;
    
   switch (keyKind) {
     case bsrKey::kKeyKindFlats:
@@ -337,22 +325,26 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
     case 0:
       break;
     case 1:
-      fBrailleCodeIOstream <<
-        alteration;
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
       break;
     case 2:
-      fBrailleCodeIOstream <<
-        alteration <<
-        alteration;
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
       break;
     case 3:
-      fBrailleCodeIOstream <<
-        alteration <<
-        alteration <<
-        alteration;
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
       break;
     default:
-      ; // JMI
+      fBrailleGenerator->generateCodeForBrailleCell (
+        alteration);
     /*
       fBrailleCodeIOstream <<
         kCellNumberSign <<
@@ -406,8 +398,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
       endl;
   }
 
-  elt->getNoteBrailleSign ()->generateBrailleCode (
-    fBrailleCodeIOstream);
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getNoteBrailleSign ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
