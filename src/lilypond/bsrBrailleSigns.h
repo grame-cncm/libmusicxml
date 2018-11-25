@@ -130,6 +130,10 @@ class bsrBrailleSign : public bsrElement
     // set and get
     // ------------------------------------------------------
 
+    const list<bsrCellKind>&
+                          getCellsList () const
+                              { return fCellsList; }
+
     bool                  getASpaceIsNeededBefore () const
                               { return fASpaceIsNeededBefore; }
 

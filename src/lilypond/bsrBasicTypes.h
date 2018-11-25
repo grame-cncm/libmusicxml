@@ -23,20 +23,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// Bytes Encoding Marks
-const string
-  kBOM_UTF_32_BigEndian =
-    "\x00\x00\xFE\xFF", // UTF-32, big-endian
-  kBOM_UTF_32_LittleEndian =
-    "\xFF\xFE\x00\x00", // UTF-32, little-endian
-  kBOM_UTF_16_BigEndian =
-    "\xFE\xFF",         // UTF-16, big-endian
-  kBOM_UTF_16_LittleEndian =
-    "\xFF\xFE",         // UTF-16, little-endian
-  kBOM_UTF_8 =
-    "\xEF\xBB\xBF";     // UTF-8
-    
-//______________________________________________________________________________
 enum bsrCellKind {
   // non 6dots values
   kCellEOL     , // L'\u000a'
@@ -116,11 +102,6 @@ enum bsrCellKind {
 string bsrCellKindAsShortString (bsrCellKind cellKind);
 
 string bsrCellKindAsString (bsrCellKind cellKind);
-
-string bsrCellKindAsUTF8BrailleCode (bsrCellKind cellKind);
-string bsrCellKindAsUTF16BrailleCode (bsrCellKind cellKind);
-
-string bsrCellKindAsBrailleCode (bsrCellKind cellKind);
 
 //______________________________________________________________________________
 // lower case letters

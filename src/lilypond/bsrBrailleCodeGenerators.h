@@ -19,11 +19,43 @@
 
 #include "bsrBasicTypes.h"
 
-#include "brailleOptions.h"
-
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+// Bytes Encoding Marks
+const string
+  kBOM_UTF_32_BigEndian =
+    "\x00\x00\xFE\xFF", // UTF-32, big-endian
+  kBOM_UTF_32_LittleEndian =
+    "\xFF\xFE\x00\x00", // UTF-32, little-endian
+  kBOM_UTF_16_BigEndian =
+    "\xFE\xFF",         // UTF-16, big-endian
+  kBOM_UTF_16_LittleEndian =
+    "\xFF\xFE",         // UTF-16, little-endian
+  kBOM_UTF_8 =
+    "\xEF\xBB\xBF";     // UTF-8
+    
+//______________________________________________________________________________
+enum bsrUTFKind {
+    kUTF8, kUTF16 };
+    
+string bsrUTFKindAsString (
+  bsrUTFKind UTFKind);
+
+enum bsrByteOrderingKind {
+    kByteOrderingNone,
+    kByteOrderingBigEndian, kByteOrderingSmallEndian };
+    
+string byteOrderingKindAsString (
+  bsrByteOrderingKind byteOrderingKind);
+
+enum bsrFacSimileKind {
+    kFacSimileYes, kFacSimileNo };
+    
+string facSimileKindAsString (
+  bsrFacSimileKind facSimileKind);
 
 //______________________________________________________________________________
 class bsrBrailleGenerator : public smartable
@@ -35,7 +67,7 @@ class bsrBrailleGenerator : public smartable
 
 /* JMI
     static SMARTP<bsrBrailleGenerator> create (
-      brailleOptions::bsrByteOrderingKind
+      bsrByteOrderingKind byteOrderingKind,
                           byteOrderingKind,
       ostream&            brailleOutputStream);
 */
@@ -46,8 +78,7 @@ class bsrBrailleGenerator : public smartable
     // ------------------------------------------------------
 
     bsrBrailleGenerator (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
       
     virtual ~bsrBrailleGenerator ();
@@ -57,8 +88,7 @@ class bsrBrailleGenerator : public smartable
     // set and get
     // ------------------------------------------------------
 
-    brailleOptions::bsrByteOrderingKind
-                          getByteOrderingKind () const
+    bsrByteOrderingKind   getByteOrderingKind () const
                               { return fByteOrderingKind; }
                   
   public:
@@ -86,8 +116,7 @@ class bsrBrailleGenerator : public smartable
     // fields
     // ------------------------------------------------------
 
-    brailleOptions::bsrByteOrderingKind
-                          fByteOrderingKind;
+    bsrByteOrderingKind   fByteOrderingKind;
     ostream&              fBrailleOutputStream;
 };
 typedef SMARTP<bsrBrailleGenerator> S_bsrBrailleGenerator;
@@ -102,8 +131,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF8BrailleGenerator> create (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
   protected:
@@ -112,8 +140,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     bsrUTF8BrailleGenerator (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
       
     virtual ~bsrUTF8BrailleGenerator ();
@@ -160,8 +187,7 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF16BigEndianBrailleGenerator> create (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
   protected:
@@ -170,8 +196,7 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     bsrUTF16BigEndianBrailleGenerator (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
       
     virtual ~bsrUTF16BigEndianBrailleGenerator ();
@@ -218,8 +243,7 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     static SMARTP<bsrUTF16SmallEndianBrailleGenerator> create (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
 
   protected:
@@ -228,8 +252,7 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
     // ------------------------------------------------------
 
     bsrUTF16SmallEndianBrailleGenerator (
-      brailleOptions::bsrByteOrderingKind
-                          byteOrderingKind,
+      bsrByteOrderingKind byteOrderingKind,
       ostream&            brailleOutputStream);
       
     virtual ~bsrUTF16SmallEndianBrailleGenerator ();

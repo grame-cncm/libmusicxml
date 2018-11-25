@@ -17,59 +17,57 @@
 
 #include "optionsBasicTypes.h"
 
+#include "bsrBrailleCodeGenerators.h"
+
 
 namespace MusicXML2 
 {
 
-/*
 //______________________________________________________________________________
-class optionsAccidentalStyleItem : public optionsValuedItem
+class optionsUTFKindItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsAccidentalStyleItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsAccidentalStyleItemVariableDisplayName,
-      lpsrAccidentalStyleKind&
-                         optionsAccidentalStyleKindItemVariable);
+    static SMARTP<optionsUTFKindItem> create (
+      string     optionsItemShortName,
+      string     optionsItemLongName,
+      string     optionsItemDescription,
+      string     optionsValueSpecification,
+      string     optionsUTFKindItemVariableDisplayName,
+      bsrUTFKind optionsUTFKindItemVariable);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsAccidentalStyleItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsAccidentalStyleItemVariableDisplayName,
-      lpsrAccidentalStyleKind&
-                         optionsAccidentalStyleKindItemVariable);
+    optionsUTFKindItem (
+      string     optionsItemShortName,
+      string     optionsItemLongName,
+      string     optionsItemDescription,
+      string     optionsValueSpecification,
+      string     optionsUTFKindItemVariableDisplayName,
+      bsrUTFKind optionsUTFKindItemVariable);
       
-    virtual ~optionsAccidentalStyleItem ();
+    virtual ~optionsUTFKindItem ();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsAccidentalStyleKindItemVariableDisplayName () const
+    string                getOptionsUTFKindItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsAccidentalStyleKindItemVariableDisplayName;
+                                  fOptionsUTFKindItemVariableDisplayName;
                               }
                               
-    void                  setAccidentalStyleKindItemVariableValue (
-                            lpsrAccidentalStyleKind value)
+    void                  setOptionsUTFKindItemVariable (bsrUTFKind value)
                               {
-                                fOptionsAccidentalStyleKindItemVariable = value;
+                                fOptionsUTFKindItemVariable = value;
                               }
 
     // services
@@ -89,68 +87,58 @@ class optionsAccidentalStyleItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsAccidentalStyleKindItemVariableDisplayName;
-    lpsrAccidentalStyleKind&
-                          fOptionsAccidentalStyleKindItemVariable;
+    string                fOptionsUTFKindItemVariableDisplayName;
+    bsrUTFKind            fOptionsUTFKindItemVariable;
 };
-typedef SMARTP<optionsAccidentalStyleItem> S_optionsAccidentalStyleItem;
-ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
+typedef SMARTP<optionsUTFKindItem> S_optionsUTFKindItem;
+ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt);
 
 //______________________________________________________________________________
-class optionsMidiTempoItem : public optionsValuedItem
+class optionsByteOrderingKindItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsMidiTempoItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsMidiTempoItemVariableDisplayName,
-      pair<string, int>&
-                         optionsMidiTempoItemVariable);
+    static SMARTP<optionsByteOrderingKindItem> create (
+      string              optionsItemShortName,
+      string              optionsItemLongName,
+      string              optionsItemDescription,
+      string              optionsValueSpecification,
+      string              optionsByteOrderingKindItemVariableDisplayName,
+      bsrByteOrderingKind optionsByteOrderingKindItemVariable);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsMidiTempoItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsMidiTempoItemVariableDisplayName,
-      pair<string, int>&
-                         optionsMidiTempoItemVariable);
+    optionsByteOrderingKindItem (
+      string              optionsItemShortName,
+      string              optionsItemLongName,
+      string              optionsItemDescription,
+      string              optionsValueSpecification,
+      string              optionsByteOrderingKindItemVariableDisplayName,
+      bsrByteOrderingKind optionsByteOrderingKindItemVariable);
       
-    virtual ~optionsMidiTempoItem ();
+    virtual ~optionsByteOrderingKindItem ();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsMidiTempoItemVariableDisplayName () const
+    string                getOptionsByteOrderingKindItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsMidiTempoItemVariableDisplayName;
+                                  fOptionsByteOrderingKindItemVariableDisplayName;
                               }
                               
-    void                  setMidiTempoItemVariableValue (
-                            pair<string, int> value)
+    void                  setOptionsByteOrderingKindItemVariable (
+                            bsrByteOrderingKind value)
                               {
-                                fOptionsMidiTempoItemVariable = value;
-                              }
-
-    const pair<string, int>&
-                          getOptionsMidiTempoItemVariable ()
-                              {
-                                return
-                                  fOptionsMidiTempoItemVariable;
+                                fOptionsByteOrderingKindItemVariable = value;
                               }
 
     // services
@@ -170,39 +158,15 @@ class optionsMidiTempoItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsMidiTempoItemVariableDisplayName;
-    pair<string, int>&    fOptionsMidiTempoItemVariable;
+    string                fOptionsByteOrderingKindItemVariableDisplayName;
+    bsrByteOrderingKind   fOptionsByteOrderingKindItemVariable;
 };
-typedef SMARTP<optionsMidiTempoItem> S_optionsMidiTempoItem;
-ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt);
-*/
+typedef SMARTP<optionsByteOrderingKindItem> S_optionsByteOrderingKindItem;
+ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt);
 
 //______________________________________________________________________________
 class brailleOptions : public optionsGroup
 {
-  public:
-
-    // data types
-    // ------------------------------------------------------
-
-    enum bsrUTFKind {
-        kUTF8, kUTF16 };
-        
-    static string bsrUTFKindAsString (
-      bsrUTFKind UTFKind);
-
-    enum bsrByteOrderingKind {
-        kByteOrderingBigEndian, kByteOrderingSmallEndian };
-        
-    static string byteOrderingKindAsString (
-      bsrByteOrderingKind byteOrderingKind);
-
-    enum bsrFacSimileKind {
-        kFacSimileYes, kFacSimileNo };
-        
-    static string facSimileKindAsString (
-      bsrFacSimileKind facSimileKind);
-
   public:
 
     // creation

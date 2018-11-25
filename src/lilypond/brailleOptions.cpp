@@ -30,6 +30,182 @@ using namespace std;
 namespace MusicXML2 
 {
 
+//______________________________________________________________________________
+S_optionsUTFKindItem optionsUTFKindItem::create (
+  string     optionsItemShortName,
+  string     optionsItemLongName,
+  string     optionsItemDescription,
+  string     optionsValueSpecification,
+  string     optionsUTFKindItemVariableDisplayName,
+  bsrUTFKind optionsUTFKindItemVariable)
+{
+  optionsUTFKindItem* o = new
+    optionsUTFKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsUTFKindItemVariableDisplayName,
+      optionsUTFKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsUTFKindItem::optionsUTFKindItem (
+  string     optionsItemShortName,
+  string     optionsItemLongName,
+  string     optionsItemDescription,
+  string     optionsValueSpecification,
+  string     optionsUTFKindItemVariableDisplayName,
+  bsrUTFKind optionsUTFKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsUTFKindItemVariableDisplayName (
+      optionsUTFKindItemVariableDisplayName),
+    fOptionsUTFKindItemVariable (
+      optionsUTFKindItemVariable)
+{}
+
+optionsUTFKindItem::~optionsUTFKindItem ()
+{}
+
+void optionsUTFKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsUTFKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "optionsUTFKindItemVariableDisplayName" << " : " <<
+    fOptionsUTFKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsUTFKindItemVariable" << " : \"" <<
+    bsrUTFKindAsString (
+      fOptionsUTFKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsUTFKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsUTFKindItemVariableDisplayName <<
+    " : \"" <<
+    bsrUTFKindAsString (
+      fOptionsUTFKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsByteOrderingKindItem optionsByteOrderingKindItem::create (
+  string              optionsItemShortName,
+  string              optionsItemLongName,
+  string              optionsItemDescription,
+  string              optionsValueSpecification,
+  string              optionsByteOrderingKindItemVariableDisplayName,
+  bsrByteOrderingKind optionsByteOrderingKindItemVariable)
+{
+  optionsByteOrderingKindItem* o = new
+    optionsByteOrderingKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsByteOrderingKindItemVariableDisplayName,
+      optionsByteOrderingKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsByteOrderingKindItem::optionsByteOrderingKindItem (
+  string              optionsItemShortName,
+  string              optionsItemLongName,
+  string              optionsItemDescription,
+  string              optionsValueSpecification,
+  string              optionsByteOrderingKindItemVariableDisplayName,
+  bsrByteOrderingKind optionsByteOrderingKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsByteOrderingKindItemVariableDisplayName (
+      optionsByteOrderingKindItemVariableDisplayName),
+    fOptionsByteOrderingKindItemVariable (
+      optionsByteOrderingKindItemVariable)
+{}
+
+optionsByteOrderingKindItem::~optionsByteOrderingKindItem ()
+{}
+
+void optionsByteOrderingKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsByteOrderingKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "optionsByteOrderingKindItemVariableDisplayName" << " : " <<
+    fOptionsByteOrderingKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsByteOrderingKindItemVariable" << " : \"" <<
+    byteOrderingKindAsString (
+      fOptionsByteOrderingKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsByteOrderingKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsByteOrderingKindItemVariableDisplayName <<
+    " : \"" <<
+    byteOrderingKindAsString (
+      fOptionsByteOrderingKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_brailleOptions gBrailleOptions;
 S_brailleOptions gBrailleOptionsUserChoices;
@@ -73,10 +249,9 @@ void brailleOptions::initializeBrailleOptions (
   // --------------------------------------
 
   {
-    /*
     // variables  
 
-    fUTFKind          = brailleOptions::kUTF8; // default value
+    fUTFKind = kUTF8; // default value
                     
     // options
   
@@ -93,12 +268,13 @@ R"()",
 
     UTFEncodingSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
-          "xi", "xml2brl-infos",
-R"(Generate initial comments showing the compilation date and options.)",
-          "xml2brlInfos",
-          fXml2brlInfos));
-          */
+        optionsUTFKindItem::create (
+          "utf", "utf-enconding",
+R"(Generate Braille code using UTF ENCODING_SIZE encoding,
+which can be one of 8 or 16.)",
+          "ENCODING_SIZE",
+          "UTFKind",
+          fUTFKind));
   }
 
     
@@ -106,15 +282,14 @@ R"(Generate initial comments showing the compilation date and options.)",
   // --------------------------------------
 
   {
-    /*
     // variables  
     
-    fByteOrderingKind = brailleOptions::kByteOrderingBigEndian; // default value
+    fByteOrderingKind = kByteOrderingNone; // default value
                 
     // options
   
     S_optionsSubGroup
-      cbyteOrderingSubGroup =
+      byteOrderingSubGroup =
         optionsSubGroup::create (
           "Byte orderinng",
           "hlpbo", "help-byte-ordering",
@@ -122,16 +297,19 @@ R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
   
-    appendOptionsSubGroup (cbyteOrderingSubGroup);
+    appendOptionsSubGroup (byteOrderingSubGroup);
 
-    cbyteOrderingSubGroup->
+    byteOrderingSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
-          "xi", "xml2brl-infos",
-R"(Generate initial comments showing the compilation date and options.)",
-          "xml2brlInfos",
-          fXml2brlInfos));
-          */
+        optionsByteOrderingKindItem::create (
+          "bom", "byte-ordering-mark",
+R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
+ahead of the Braille nusic code,
+which can be one of big-endian or small-endian.
+By default, BOM is generated.)",
+          "BOM_ENDIAN",
+          "byteOrderingKind",
+          fByteOrderingKind));
   }
 
     
@@ -285,23 +463,6 @@ void brailleOptions::checkOptionsConsistency ()
   // JMI
 }
 
-string brailleOptions::facSimileKindAsString (
-  bsrFacSimileKind facSimileKind)
-{
-  string result;
-
-  switch (facSimileKind) {
-    case brailleOptions::kFacSimileYes:
-      result = "facSimileYes";
-      break;
-    case brailleOptions::kFacSimileNo:
-      result = "facSimileNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 {
   gLogIOstream <<
@@ -352,25 +513,41 @@ S_optionsItem brailleOptions::handleOptionsItem (
 {
   S_optionsItem result;
 
-  /*
   if (
-    // acccidentals style item?
-    S_optionsAccidentalStyleItem
-      accidentalStyleItem =
-        dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
+    // UTF kind item?
+    S_optionsUTFKindItem
+      UTFKindItem =
+        dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
+        "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = accidentalStyleItem;
+    result = UTFKindItem;
   }
-  */
+
+  else if (
+    // byte ordering kind item?
+    S_optionsByteOrderingKindItem
+      byteOrderingKindItem =
+        dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsUTFKindItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = byteOrderingKindItem;
+  }
 
   return result;
 }
@@ -380,188 +557,107 @@ void brailleOptions::handleOptionsItemValue (
   S_optionsItem item,
   string        theString)
 {
-  /*
   if (
-    // accidental style item?
-    S_optionsAccidentalStyleItem
-      accidentalStyleKindItem =
-        dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
+    // UTF kind item?
+    S_optionsUTFKindItem
+      UTFKindItem =
+        dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
     // theString contains the language name:     
-    // is it in the accidental styles map?
-    
+    // is it in the pitches languages map?
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
+        "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
     }
 #endif
 
-    map<string, lpsrAccidentalStyleKind>::const_iterator
-      it =
-        gLpsrAccidentalStyleKindsMap.find (
-          theString);
-          
-    if (it == gLpsrAccidentalStyleKindsMap.end ()) {
-      // no, accidental style is unknown in the map
-      stringstream s;
-  
-      s <<
-        "BSR accidental style " << theString <<
-        " is unknown" <<
-        endl <<
-        "The " <<
-        gLpsrAccidentalStyleKindsMap.size () - 1 <<
-        " known BSR accidental styles are:" <<
-        endl;
-  
-      gIndenter++;
-    
-      s <<
-        existingLpsrAccidentalStyleKinds ();
-  
-      gIndenter--;
-  
-      optionError (s.str ());
+    bsrUTFKind UTFKind = kUTF8; // default value
+
+    if (theString == "8") {
+      UTFKind = kUTF8;
+    }
+    else if (theString == "16") {
+      UTFKind = kUTF16;
+    }
+    else {
+      // no, theString is unknown
       
       printHelpSummary (os);
       
-      exit (4);
-    }
-  
-    accidentalStyleKindItem->
-      setAccidentalStyleKindItemVariableValue (
-        (*it).second);
-  }
-
-  else if (
-    // midi tempo item?
-    S_optionsMidiTempoItem
-      midiTempoItem =
-        dynamic_cast<optionsMidiTempoItem*>(&(*item))
-    ) {
-    // theString contains the midi tempo specification
-    // decipher it to extract duration and perSecond values
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsMidiTempoItem'" <<
-        endl;
-    }
-#endif
-
-    string regularExpression (
-      "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
-      "="
-      "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-      
-    regex  e (regularExpression);
-    smatch sm;
-
-    regex_match (theString, sm, e);
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "There are " << sm.size () << " matches" <<
-        " for MIDI tempo string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
-    }
-#endif
-  
-    if (sm.size ()) {
-      for (unsigned i = 0; i < sm.size (); ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-      os <<
-        endl;
-    }
-    
-    else {
       stringstream s;
-
+  
       s <<
-        "-midiTempo argument '" << theString <<
-        "' is ill-formed";
-        
+        "UTF kind " << theString <<
+        " is unknown" <<
+        endl <<
+        "The possible values are 8 and 16" <<
+        endl;
+    
       optionError (s.str ());
       
-      printSpecificSubGroupHelp (
-        os,
-        midiTempoItem->
-          getOptionsSubGroupUplink ());
-          
-      exit (4);
+ //     exit (4); // JMI
+      abort ();
     }
+  
+    UTFKindItem->
+      setOptionsUTFKindItemVariable (
+        UTFKind);
+  }
+  
+  else if (
+    // byte ordering item?
+    S_optionsByteOrderingKindItem
+      byteOrderingKindItem =
+        dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
+    ) {
+    // theString contains the language name:     
+    // is it in the pitches languages map?
 
-    string midiTempoDuration  = sm [1];
-
-    int    midiTempoPerSecond;
-    {
-      stringstream s;
-      s << sm [2];
-      s >> midiTempoPerSecond;
-    }
-    
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "midiTempoDuration  = " <<
-        midiTempoDuration <<
-        endl <<
-        "midiTempoPerSecond = " <<
-        midiTempoPerSecond <<
+        "==> optionsItem is of type 'optionsByteOrderingKindItem'" <<
         endl;
-
-    midiTempoItem->
-      setMidiTempoItemVariableValue (
-        pair<string, int> (
-          midiTempoDuration, midiTempoPerSecond));
     }
 #endif
+
+    bsrByteOrderingKind byteOrderingKind = kByteOrderingNone; // default value
+
+    if (theString == "big") {
+      byteOrderingKind = kByteOrderingBigEndian;
+    }
+    else if (theString == "small") {
+      byteOrderingKind = kByteOrderingSmallEndian;
+    }
+    else {
+      // no, theString is unknown
+      
+      printHelpSummary (os);
+      
+      stringstream s;
+  
+      s <<
+        "byte ordering " << theString <<
+        " is unknown" <<
+        endl <<
+        "The possible values are big and small" <<
+        endl;
+  
+      optionError (s.str ());
+      
+ //     exit (4); // JMI
+      abort ();
+    }
+  
+    byteOrderingKindItem->
+      setOptionsByteOrderingKindItemVariable (
+        byteOrderingKind);
   }
-  */
 }
     
-string brailleOptions::bsrUTFKindAsString (
-  bsrUTFKind UTFKind)
-{
-  string result;
-  
-  switch (UTFKind) {
-    case brailleOptions::kUTF8:
-      result = "UTF8";
-      break;
-    case brailleOptions::kUTF16:
-      result = "UTF16";
-      break;
-  } // switch
-
-  return result;
-}
-
-string brailleOptions::byteOrderingKindAsString (
-  bsrByteOrderingKind byteOrderingKind)
-{
-  string result;
-  
-  switch (byteOrderingKind) {
-    case brailleOptions::kByteOrderingBigEndian:
-      result = "byteOrderingBigEndian";
-      break;
-    case brailleOptions::kByteOrderingSmallEndian:
-      result = "byteOrderingSmallEndian";
-      break;
-  } // switch
-
-  return result;
-}
-
 ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 {
   elt->print (os);

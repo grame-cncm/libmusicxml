@@ -51,23 +51,26 @@ bsr2BrailleTranslator::bsr2BrailleTranslator (
   fVisitedBsrScore = bsrScore;
 
   switch (gBrailleOptions->fUTFKind) {
-    case brailleOptions::kUTF8:
+    case kUTF8:
       fBrailleGenerator =
         bsrUTF8BrailleGenerator::create (
           gBrailleOptions->fByteOrderingKind,
           brailleOutputStream);
       break;
       
-    case brailleOptions::kUTF16:
+    case kUTF16:
       switch (gBrailleOptions->fByteOrderingKind) {
-        case brailleOptions::kByteOrderingBigEndian:
+        case kByteOrderingNone:
+          break;
+          
+        case kByteOrderingBigEndian:
           fBrailleGenerator =
             bsrUTF16BigEndianBrailleGenerator::create (
               gBrailleOptions->fByteOrderingKind,
               brailleOutputStream);
           break;
           
-        case brailleOptions::kByteOrderingSmallEndian:
+        case kByteOrderingSmallEndian:
           break;
           fBrailleGenerator =
             bsrUTF16SmallEndianBrailleGenerator::create (

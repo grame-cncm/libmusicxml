@@ -37,10 +37,94 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+string bsrUTFKindAsString (
+  bsrUTFKind UTFKind)
+{
+  string result;
+  
+  switch (UTFKind) {
+    case kUTF8:
+      result = "UTF8";
+      break;
+    case kUTF16:
+      result = "UTF16";
+      break;
+  } // switch
+
+  return result;
+}
+
+string byteOrderingKindAsString (
+  bsrByteOrderingKind byteOrderingKind)
+{
+  string result;
+  
+  switch (byteOrderingKind) {
+    case kByteOrderingNone:
+      result = "byteOrderingNone";
+      break;
+    case kByteOrderingBigEndian:
+      result = "byteOrderingBigEndian";
+      break;
+    case kByteOrderingSmallEndian:
+      result = "byteOrderingSmallEndian";
+      break;
+  } // switch
+
+  return result;
+}
+
+string facSimileKindAsString (
+  bsrFacSimileKind facSimileKind)
+{
+  string result;
+
+  switch (facSimileKind) {
+    case kFacSimileYes:
+      result = "facSimileYes";
+      break;
+    case kFacSimileNo:
+      result = "facSimileNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+// writing UTF-16 to ostreams
+void write_wchar_t (ostream& os, wchar_t cell)
+{
+  union Conversion {
+    wchar_t       cellar;
+    unsigned char chars [2];
+  } conversion;
+
+  conversion.cellar = cell;
+
+  // write in reverse order!
+  os << conversion.chars [0] << conversion.chars [1];
+}
+
+ostream& operator<< (ostream& os, const bsrCellKind cell)
+{
+  union Conversion {
+    wchar_t       cellar;
+    unsigned char chars [2];
+  } conversion;
+
+  conversion.cellar = cell;
+
+  // write in reverse order!
+  os << conversion.chars [0] << conversion.chars [1];
+
+  return os;
+}
+
+//______________________________________________________________________________
 /* JMI
 S_bsrBrailleGenerator bsrBrailleGenerator::create (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
 {
   bsrBrailleGenerator* o =
@@ -53,8 +137,7 @@ S_bsrBrailleGenerator bsrBrailleGenerator::create (
 */
 
 bsrBrailleGenerator::bsrBrailleGenerator (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
     : fBrailleOutputStream (brailleOutputStream)
 {
@@ -71,7 +154,7 @@ string bsrBrailleGenerator::asString () const
   s <<
     "BrailleGenerator" << 
     ", byteOrderingKind: " <<
-    brailleOptions::byteOrderingKindAsString (
+    byteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -92,8 +175,7 @@ ostream& operator<< (ostream& os, const S_bsrBrailleGenerator& elt)
 
 //______________________________________________________________________________
 S_bsrUTF8BrailleGenerator bsrUTF8BrailleGenerator::create (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
 {
   bsrUTF8BrailleGenerator* o =
@@ -105,13 +187,25 @@ S_bsrUTF8BrailleGenerator bsrUTF8BrailleGenerator::create (
 }
 
 bsrUTF8BrailleGenerator::bsrUTF8BrailleGenerator (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
     : bsrBrailleGenerator (
         byteOrderingKind,
         brailleOutputStream)
-{}
+{
+  // generate a BOM if requested
+  switch (fByteOrderingKind) {
+    case kByteOrderingNone:
+      break;
+    case kByteOrderingBigEndian:
+      fBrailleOutputStream <<
+        kBOM_UTF_8;
+      break;
+    case kByteOrderingSmallEndian:
+      // should not occur JMI
+      break;
+  } // switch
+}
 
 bsrUTF8BrailleGenerator::~bsrUTF8BrailleGenerator ()
 {}
@@ -119,11 +213,103 @@ bsrUTF8BrailleGenerator::~bsrUTF8BrailleGenerator ()
 void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
   bsrCellKind cellKind)
 {
+  string stringForCell;
+
+  switch (cellKind) {
+    case kCellEOL: stringForCell = ""; break; // U+000A ⠀ e2 a0 80
+    case kCellEOP: stringForCell = ""; break; // U+000C ⠀ e2 a0 80
+
+    case kDotsNone: stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
+    case kDots1: stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
+    case kDots2: stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
+    case kDots12: stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
+    case kDots3: stringForCell = "\xe2\xa0\x84"; break; // U+2804  ⠄ e2 a0 84 DOTS-3
+    case kDots13: stringForCell = "\xe2\xa0\x85"; break; // U+2805  ⠅ e2 a0 85 DOTS-13
+    case kDots23: stringForCell = "\xe2\xa0\x86"; break; // U+2806  ⠆ e2 a0 86 DOTS-23
+    case kDots123: stringForCell = "\xe2\xa0\x87"; break; // U+2807  ⠇ e2 a0 87 DOTS-123
+    case kDots4: stringForCell = "\xe2\xa0\x88"; break; // U+2808  ⠈ e2 a0 88 DOTS-4
+    case kDots14: stringForCell = "\xe2\xa0\x89"; break; // U+2809  ⠉ e2 a0 89 DOTS-14
+    case kDots24: stringForCell = "\xe2\xa0\x8a"; break; // U+280A  ⠊ e2 a0 8a DOTS-24
+    case kDots124: stringForCell = "\xe2\xa0\x8b"; break; // U+280B  ⠋ e2 a0 8b DOTS-124
+    case kDots34: stringForCell = "\xe2\xa0\x8c"; break; // U+280C  ⠌ e2 a0 8c DOTS-34
+    case kDots134: stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
+    case kDots234: stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
+    case kDots1234: stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
+    
+    case kDots5: stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
+    case kDots15: stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
+    case kDots25: stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
+    case kDots125: stringForCell = "\xe2\xa0\x93"; break; // U+2813  ⠓ e2 a0 93 DOTS-125
+    case kDots35: stringForCell = "\xe2\xa0\x94"; break; // U+2814  ⠔ e2 a0 94 DOTS-35
+    case kDots135: stringForCell = "\xe2\xa0\x95"; break; // U+2815  ⠕ e2 a0 95 DOTS-135
+    case kDots235: stringForCell = "\xe2\xa0\x96"; break; // U+2816  ⠖ e2 a0 96 DOTS-235
+    case kDots1235: stringForCell = "\xe2\xa0\x97"; break; // U+2817  ⠗ e2 a0 97 DOTS-1235
+    case kDots45: stringForCell = "\xe2\xa0\x98"; break; // U+2818  ⠘ e2 a0 98 DOTS-45
+    case kDots145: stringForCell = "\xe2\xa0\x99"; break; // U+2819  ⠙ e2 a0 99 DOTS-145
+    case kDots245: stringForCell = "\xe2\xa0\x9a"; break; // U+281A  ⠚ e2 a0 9a DOTS-245
+    case kDots1245: stringForCell = "\xe2\xa0\x9b"; break; // U+281B  ⠛ e2 a0 9b DOTS-1245
+    case kDots345: stringForCell = "\xe2\xa0\x9c"; break; // U+281C  ⠜ e2 a0 9c DOTS-345
+    case kDots1345: stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
+    case kDots2345: stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
+    case kDots12345: stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
+    
+    case kDots6: stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
+    case kDots16: stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
+    case kDots26: stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
+    case kDots126: stringForCell = "\xe2\xa0\xa3"; break; // U+2823  ⠣ e2 a0 a3 DOTS-126
+    case kDots36: stringForCell = "\xe2\xa0\xa4"; break; // U+2824  ⠤ e2 a0 a4 DOTS-36
+    case kDots136: stringForCell = "\xe2\xa0\xa5"; break; // U+2825  ⠥ e2 a0 a5 DOTS-136
+    case kDots236: stringForCell = "\xe2\xa0\xa6"; break; // U+2826  ⠦ e2 a0 a6 DOTS-236
+    case kDots1236: stringForCell = "\xe2\xa0\xa7"; break; // U+2827  ⠧ e2 a0 a7 DOTS-1236
+    case kDots46: stringForCell = "\xe2\xa0\xa8"; break; // U+2828  ⠨ e2 a0 a8 DOTS-46
+    case kDots146: stringForCell = "\xe2\xa0\xa9"; break; // U+2829  ⠩ e2 a0 a9 DOTS-146
+    case kDots246: stringForCell = "\xe2\xa0\xaa"; break; // U+282A  ⠪ e2 a0 aa DOTS-246
+    case kDots1246: stringForCell = "\xe2\xa0\xab"; break; // U+282B  ⠫ e2 a0 ab DOTS-1246
+    case kDots346: stringForCell = "\xe2\xa0\xac"; break; // U+282C  ⠬ e2 a0 ac DOTS-346
+    case kDots1346: stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
+    case kDots2346: stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
+    case kDots12346: stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
+    
+    case kDots56: stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
+    case kDots156: stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
+    case kDots256: stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
+    case kDots1256: stringForCell = "\xe2\xa0\xb3"; break; // U+2833  ⠳ e2 a0 b3 DOTS-1256
+    case kDots356: stringForCell = "\xe2\xa0\xb4"; break; // U+2834  ⠴ e2 a0 b4 DOTS-356
+    case kDots1356: stringForCell = "\xe2\xa0\xb5"; break; // U+2835  ⠵ e2 a0 b5 DOTS-1356
+    case kDots2356: stringForCell = "\xe2\xa0\xb6"; break; // U+2836  ⠶ e2 a0 b6 DOTS-2356
+    case kDots12356: stringForCell = "\xe2\xa0\xb7"; break; // U+2837  ⠷ e2 a0 b7 DOTS-12356
+    case kDots456: stringForCell = "\xe2\xa0\xb8"; break; // U+2838  ⠸ e2 a0 b8 DOTS-456
+    case kDots1456: stringForCell = "\xe2\xa0\xb9"; break; // U+2839  ⠹ e2 a0 b9 DOTS-1456
+    case kDots2456: stringForCell = "\xe2\xa0\xba"; break; // U+283A  ⠺ e2 a0 ba DOTS-2456
+    case kDots12456: stringForCell = "\xe2\xa0\xbb"; break; // U+283B  ⠻ e2 a0 bb DOTS-12456
+    case kDots3456: stringForCell = "\xe2\xa0\xbc"; break; // U+283C  ⠼ e2 a0 bc DOTS-3456
+    case kDots13456: stringForCell = "\xe2\xa0\xbd"; break; // U+283D  ⠽ e2 a0 bd DOTS-13456
+    case kDots23456: stringForCell = "\xe2\xa0\xbe"; break; // U+283E  ⠾ e2 a0 be DOTS-23456
+    case kDots123456: stringForCell = "\xe2\xa0\xbf"; break; // U+283F ⠿ e2 a0 bf DOTS-123456
+  } // switch
+
+  fBrailleOutputStream <<
+    stringForCell;
 }
 
 void bsrUTF8BrailleGenerator::generateCodeForBrailleSign (
   S_bsrBrailleSign brailleSign)
 {
+  const list<bsrCellKind>&
+    cellsList =
+      brailleSign->getCellsList ();
+
+  if (cellsList.size ()) {
+    list<bsrCellKind>::const_iterator
+      iBegin = cellsList.begin (),
+      iEnd   = cellsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      generateCodeForBrailleCell ((*i));
+      if (++i == iEnd) break;
+      // JMI s << " ";
+    } // for  
+  }
 }
 
 string bsrUTF8BrailleGenerator::asString () const
@@ -133,7 +319,7 @@ string bsrUTF8BrailleGenerator::asString () const
   s <<
     "UTF8BrailleGenerator" << 
     ", byteOrderingKind: " <<
-    brailleOptions::byteOrderingKindAsString (
+    byteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -154,8 +340,7 @@ ostream& operator<< (ostream& os, const S_bsrUTF8BrailleGenerator& elt)
 
 //______________________________________________________________________________
 S_bsrUTF16BigEndianBrailleGenerator bsrUTF16BigEndianBrailleGenerator::create (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
 {
   bsrUTF16BigEndianBrailleGenerator* o =
@@ -167,8 +352,7 @@ S_bsrUTF16BigEndianBrailleGenerator bsrUTF16BigEndianBrailleGenerator::create (
 }
 
 bsrUTF16BigEndianBrailleGenerator::bsrUTF16BigEndianBrailleGenerator (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
     : bsrBrailleGenerator (
         byteOrderingKind,
@@ -181,11 +365,13 @@ bsrUTF16BigEndianBrailleGenerator::~bsrUTF16BigEndianBrailleGenerator ()
 void bsrUTF16BigEndianBrailleGenerator::generateCodeForBrailleCell (
   bsrCellKind cellKind)
 {
+  // JMI
 }
 
 void bsrUTF16BigEndianBrailleGenerator::generateCodeForBrailleSign (
   S_bsrBrailleSign brailleSign)
 {
+  // JMI  
 }
 
 string bsrUTF16BigEndianBrailleGenerator::asString () const
@@ -195,7 +381,7 @@ string bsrUTF16BigEndianBrailleGenerator::asString () const
   s <<
     "UTF16BigEndianBrailleGenerator" << 
     ", byteOrderingKind: " <<
-    brailleOptions::byteOrderingKindAsString (
+    byteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -216,8 +402,7 @@ ostream& operator<< (ostream& os, const S_bsrUTF16BigEndianBrailleGenerator& elt
 
 //______________________________________________________________________________
 S_bsrUTF16SmallEndianBrailleGenerator bsrUTF16SmallEndianBrailleGenerator::create (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
 {
   bsrUTF16SmallEndianBrailleGenerator* o =
@@ -229,8 +414,7 @@ S_bsrUTF16SmallEndianBrailleGenerator bsrUTF16SmallEndianBrailleGenerator::creat
 }
 
 bsrUTF16SmallEndianBrailleGenerator::bsrUTF16SmallEndianBrailleGenerator (
-  brailleOptions::bsrByteOrderingKind
-                      byteOrderingKind,
+  bsrByteOrderingKind byteOrderingKind,
   ostream&            brailleOutputStream)
     : bsrBrailleGenerator (
         byteOrderingKind,
@@ -243,11 +427,13 @@ bsrUTF16SmallEndianBrailleGenerator::~bsrUTF16SmallEndianBrailleGenerator ()
 void bsrUTF16SmallEndianBrailleGenerator::generateCodeForBrailleCell (
   bsrCellKind cellKind)
 {
+  // JMI
 }
 
 void bsrUTF16SmallEndianBrailleGenerator::generateCodeForBrailleSign (
   S_bsrBrailleSign brailleSign)
 {
+  // JMI
 }
 
 string bsrUTF16SmallEndianBrailleGenerator::asString () const
@@ -257,7 +443,7 @@ string bsrUTF16SmallEndianBrailleGenerator::asString () const
   s <<
     "UTF16SmallEndianBrailleGenerator" << 
     ", byteOrderingKind: " <<
-    brailleOptions::byteOrderingKindAsString (
+    byteOrderingKindAsString (
       fByteOrderingKind);
 
   return s.str ();
@@ -280,39 +466,27 @@ ostream& operator<< (ostream& os, const S_bsrUTF16SmallEndianBrailleGenerator& e
 }
 
     /*
-    // generate a BOM if requested
-    switch (gBrailleOptions->fByteOrderingKind) {
-      case brailleOptions::kByteOrderingBigEndian:
-        fBrailleCodeIOstream <<
-          kBOMBigEndian;
-        break;
-      case brailleOptions::kByteOrderingSmallEndian:
-        fBrailleCodeIOstream <<
-          kBOMSmallEndian;
-        break;
-    } // switch
-
     if (true) { // JMI TEMP
       // generate the table of all Dots 6 cells
       for (wchar_t wch = L'\u2800'; wch <= L'\u280f'; wch++) {
-        fBrailleCodeIOstream << wch;
+        fBrailleOutputStream << wch;
       } // for
-      fBrailleCodeIOstream << kBrailleEOL;
+      fBrailleOutputStream << kBrailleEOL;
       for (wchar_t wch = L'\u2810'; wch <= L'\u281f'; wch++) {
-        fBrailleCodeIOstream << wch;
+        fBrailleOutputStream << wch;
       } // for
-      fBrailleCodeIOstream << kBrailleEOL;
-      fBrailleCodeIOstream << kBrailleEOP;
+      fBrailleOutputStream << kBrailleEOL;
+      fBrailleOutputStream << kBrailleEOP;
       
       for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; wch++) {
-        fBrailleCodeIOstream << wch;
+        fBrailleOutputStream << wch;
       } // for
-      fBrailleCodeIOstream << kBrailleEOL;
+      fBrailleOutputStream << kBrailleEOL;
       for (wchar_t wch = L'\u2830'; wch <= L'\u283f'; wch++) {
-        fBrailleCodeIOstream << wch;
+        fBrailleOutputStream << wch;
       } // for
-      fBrailleCodeIOstream << kBrailleEOL;
-      fBrailleCodeIOstream << kBrailleEOP;
+      fBrailleOutputStream << kBrailleEOL;
+      fBrailleOutputStream << kBrailleEOP;
     }
     */
 
