@@ -165,6 +165,77 @@ typedef SMARTP<optionsByteOrderingKindItem> S_optionsByteOrderingKindItem;
 ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt);
 
 //______________________________________________________________________________
+class optionsFacSimileKindItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsFacSimileKindItem> create (
+      string           optionsItemShortName,
+      string           optionsItemLongName,
+      string           optionsItemDescription,
+      string           optionsValueSpecification,
+      string           optionsFacSimileKindItemVariableDisplayName,
+      bsrFacSimileKind optionsFacSimileKindItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsFacSimileKindItem (
+      string           optionsItemShortName,
+      string           optionsItemLongName,
+      string           optionsItemDescription,
+      string           optionsValueSpecification,
+      string           optionsFacSimileKindItemVariableDisplayName,
+      bsrFacSimileKind optionsFacSimileKindItemVariable);
+      
+    virtual ~optionsFacSimileKindItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsFacSimileKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsFacSimileKindItemVariableDisplayName;
+                              }
+                              
+    void                  setOptionsFacSimileKindItemVariable (
+                            bsrFacSimileKind value)
+                              {
+                                fOptionsFacSimileKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsFacSimileKindItemVariableDisplayName;
+    bsrFacSimileKind      fOptionsFacSimileKindItemVariable;
+};
+typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
+ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
+
+//______________________________________________________________________________
 class brailleOptions : public optionsGroup
 {
   public:
@@ -259,7 +330,7 @@ class brailleOptions : public optionsGroup
 
     bool                  fBrailleCompileDate;
 
-    bsrFacSimileKind      fBrailleFacSimileKind;
+    bsrFacSimileKind      fFacSimileKind;
 
   private: // JMI
 

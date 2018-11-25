@@ -277,6 +277,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getClefBrailleSign ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
@@ -303,6 +306,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
       endl;
   }
 
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getKeyBrailleSign ());
+    /*
   bsrKey::bsrKeyKind
     keyKind = elt->getKeyKind ();
     
@@ -348,11 +354,11 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
     default:
       fBrailleGenerator->generateCodeForBrailleCell (
         alteration);
-    /*
       fBrailleCodeIOstream <<
         kCellNumberSign <<
-        braille (numberOfAlterations);   */  
+        braille (numberOfAlterations);
   } // switch
+  */
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
@@ -377,6 +383,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getTimeBrailleSign ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)

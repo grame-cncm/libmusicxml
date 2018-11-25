@@ -49,7 +49,10 @@ S_bsrTime bsrTime::create (
 bsrTime::bsrTime (
   int inputLineNumber)
     : bsrElement (inputLineNumber)
-{}
+{
+  fTimeBrailleSign =
+    bsrBrailleSign::create (inputLineNumber);
+}
 
 bsrTime::~bsrTime ()
 {}
@@ -106,7 +109,8 @@ string bsrTime::asString () const
   stringstream s;
 
   s <<
-    "Time" << 
+    "Time" <<
+    ", timeBrailleSign: " << fTimeBrailleSign->asString () <<
     ", line " << fInputLineNumber;
  
   return s.str ();

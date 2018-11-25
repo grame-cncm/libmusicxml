@@ -206,6 +206,94 @@ ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
+  string           optionsItemShortName,
+  string           optionsItemLongName,
+  string           optionsItemDescription,
+  string           optionsValueSpecification,
+  string           optionsFacSimileKindItemVariableDisplayName,
+  bsrFacSimileKind optionsFacSimileKindItemVariable)
+{
+  optionsFacSimileKindItem* o = new
+    optionsFacSimileKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsFacSimileKindItemVariableDisplayName,
+      optionsFacSimileKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsFacSimileKindItem::optionsFacSimileKindItem (
+  string           optionsItemShortName,
+  string           optionsItemLongName,
+  string           optionsItemDescription,
+  string           optionsValueSpecification,
+  string           optionsFacSimileKindItemVariableDisplayName,
+  bsrFacSimileKind optionsFacSimileKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsFacSimileKindItemVariableDisplayName (
+      optionsFacSimileKindItemVariableDisplayName),
+    fOptionsFacSimileKindItemVariable (
+      optionsFacSimileKindItemVariable)
+{}
+
+optionsFacSimileKindItem::~optionsFacSimileKindItem ()
+{}
+
+void optionsFacSimileKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsFacSimileKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "optionsFacSimileKindItemVariableDisplayName" << " : " <<
+    fOptionsFacSimileKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsFacSimileKindItemVariable" << " : \"" <<
+    facSimileKindAsString (
+      fOptionsFacSimileKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsFacSimileKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsFacSimileKindItemVariableDisplayName <<
+    " : \"" <<
+    facSimileKindAsString (
+      fOptionsFacSimileKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_brailleOptions gBrailleOptions;
 S_brailleOptions gBrailleOptionsUserChoices;
@@ -305,11 +393,44 @@ R"()",
           "bom", "byte-ordering-mark",
 R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
 ahead of the Braille nusic code,
-which can be one of big-endian or small-endian.
+which can be one of big or small.
 By default, BOM is generated.)",
           "BOM_ENDIAN",
           "byteOrderingKind",
           fByteOrderingKind));
+  }
+
+    
+  // facsimile
+  // --------------------------------------
+
+  {
+    // variables  
+    
+    fFacSimileKind = kFacSimileNo; // default value
+                
+    // options
+  
+    S_optionsSubGroup
+      facSimileSubGroup =
+        optionsSubGroup::create (
+          "Facsimile",
+          "hlpf", "help-facsimile",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (facSimileSubGroup);
+
+    facSimileSubGroup->
+      appendOptionsItem (
+        optionsFacSimileKindItem::create (
+          "bof", "facsimile",
+R"(Generate facsimile Braille nusic code.
+By default, non-facsimile code is generated.)",
+          "YES_OR_NO",
+          "facSimileKind",
+          fFacSimileKind));
   }
 
     
@@ -319,7 +440,7 @@ By default, BOM is generated.)",
   {
     // variables  
   
-    fCellsPerLine = 45;
+    fCellsPerLine = 30;
     fLinesPerPage = 27;
     
     // options
@@ -339,7 +460,7 @@ R"()",
       appendOptionsItem (
         optionsIntegerItem::create (
           "cpl", "cells-per-line",
-R"(Set the number of Braille cells per line to N. Default is 45.)",
+R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
           "N",
           "cellsPerLine",
           fCellsPerLine));
@@ -348,7 +469,7 @@ R"(Set the number of Braille cells per line to N. Default is 45.)",
       appendOptionsItem (
         optionsIntegerItem::create (
           "lpp", "lines-per-page",
-R"(Set the number of Braille lines per page to N. Default is 27.)",
+R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
           "N",
           "linesPerPage",
           fLinesPerPage));
@@ -369,7 +490,7 @@ R"(Set the number of Braille lines per page to N. Default is 27.)",
     
     fBrailleCompileDate   = boolOptionsInitialValue;
     
-    fBrailleFacSimileKind = kFacSimileNo;
+    fFacSimileKind        = kFacSimileNo;
     
     // options
   
@@ -447,8 +568,8 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
   clone->fBrailleCompileDate =
     fBrailleCompileDate;
     
-  clone->fBrailleFacSimileKind =
-    fBrailleFacSimileKind;
+  clone->fFacSimileKind =
+    fFacSimileKind;
     
   return clone;
 }
@@ -498,8 +619,8 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
       booleanAsString (fBrailleCompileDate) <<
       endl <<
     
-    setw (fieldWidth) << "brailleFacSimileKind" << " : " <<
-      facSimileKindAsString (fBrailleFacSimileKind) <<
+    setw (fieldWidth) << "facSimileKind" << " : " <<
+      facSimileKindAsString (fFacSimileKind) <<
       endl;
 
   gIndenter--;

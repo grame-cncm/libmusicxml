@@ -72,6 +72,9 @@ class bsrKey : public bsrBrailleElement
     int                   getNumberOfAlterations () const
                               { return fNumberOfAlterations; }
     
+    S_bsrBrailleSign      getKeyBrailleSign () const
+                              { return fKeyBrailleSign; }
+
   public:
 
     // public services

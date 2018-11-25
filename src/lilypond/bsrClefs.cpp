@@ -53,6 +53,9 @@ bsrClef::bsrClef (
     : bsrBrailleElement (inputLineNumber)
 {
   fClefKind = clefKind;
+
+  fClefBrailleSign =
+    bsrBrailleSign::create (inputLineNumber);
 }
 
 bsrClef::~bsrClef ()
