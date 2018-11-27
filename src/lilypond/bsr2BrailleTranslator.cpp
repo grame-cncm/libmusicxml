@@ -116,6 +116,30 @@ void bsr2BrailleTranslator::visitEnd (S_bsrScore& elt)
 }
 
 //________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrSpaces" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getSpacesBrailleSign ());
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrSpaces" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotes& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -145,6 +169,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getTranscriptionNotesElementBrailleSign ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
@@ -196,6 +223,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  fBrailleGenerator->generateCodeForBrailleSign (
+    elt->getPageHeadingBrailleSign ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)

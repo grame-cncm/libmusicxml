@@ -15,6 +15,8 @@
 
 #include "bsrScores.h"
 
+#include "bsrSpaces.h"
+
 #include "bsrTranscriptionNotes.h"
 
 #include "bsrMutuallyDependent.h"

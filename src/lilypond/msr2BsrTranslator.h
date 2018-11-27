@@ -47,6 +47,10 @@ class msr2BsrTranslator :
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
 
+    // notes
+    
+  public visitor<S_msrNote>,
+
   // pages & lines
   
   public visitor<S_msrLineBreak>,
@@ -112,6 +116,11 @@ class msr2BsrTranslator :
 
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
+
+    // notes
+    
+    virtual void visitStart (S_msrNote& elt);
+    virtual void visitEnd   (S_msrNote& elt);
 
   private:
                      

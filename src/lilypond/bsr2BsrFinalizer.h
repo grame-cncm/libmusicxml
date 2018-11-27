@@ -63,6 +63,9 @@ class bsr2BsrFinalizer :
     virtual void visitStart (S_bsrScore& elt);
     virtual void visitEnd   (S_bsrScore& elt);
 
+    virtual void visitStart (S_bsrSpaces& elt);
+    virtual void visitEnd   (S_bsrSpaces& elt);
+
     virtual void visitStart (S_bsrTranscriptionNotes& elt);
     virtual void visitEnd   (S_bsrTranscriptionNotes& elt);
 

@@ -226,8 +226,28 @@ string bsrNumber::asString () const
 void bsrNumber::print (ostream& os)
 {
   os <<
-    asString () <<
+    "Number" <<
+    ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 21;
+
+  os <<
+    setw (fieldWidth) <<
+    ", numberValue" << " : " << fNumberValue <<
+    endl <<
+    setw (fieldWidth) <<
+    ", numberSignIsNeeded" << " : " <<
+    numberSignIsNeededKindAsString (
+      fNumberSignIsNeededKind) <<
+    setw (fieldWidth) <<
+    ", numberBrailleSign" << " : " <<
+    fNumberBrailleSign->asShortString () <<
+    endl;
+    
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_bsrNumber& elt)

@@ -158,6 +158,7 @@ string bsrClef::asString () const
     "Clef" <<
     ", clefKind: " <<
     clefKindAsString (fClefKind) <<
+    "clefBrailleSign: " << fClefBrailleSign <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -166,8 +167,24 @@ string bsrClef::asString () const
 void bsrClef::print (ostream& os)
 {
   os <<
-    asString () <<
+    "Clef" <<
+    ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 16;
+  
+  os <<
+    setw (fieldWidth) <<
+    "clefKind" << " : " <<
+    clefKindAsString (fClefKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "clefBrailleSign" << " : " << fClefBrailleSign <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_bsrClef& elt)

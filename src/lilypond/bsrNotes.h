@@ -32,45 +32,99 @@ class bsrNote : public bsrBrailleElement
     // ------------------------------------------------------
 
     enum bsrNoteValueKind {
-        kNoteCEighthKind,
-        kNoteCQuarterKind,
-        kNoteCHalfKind,
+        kNoteRestBreveKind,
+        kNoteRestWholeKind,
+        kNoteRestHalfKind,
+        kNoteRestQuarterKind,
+        kNoteRest8thKind,
+        kNoteRest16thKind,
+        kNoteRest32ndKind,
+        kNoteRest64thKind,
+        kNoteRest128thKind,
+        kNoteRest256thKind,
+        
+        kNoteCBreveKind,
         kNoteCWholeKind,
+        kNoteCHalfKind,
+        kNoteCQuarterKind,
+        kNoteC8thKind,
+        kNoteC16thKind,
+        kNoteC32ndKind,
+        kNoteC64thKind,
+        kNoteC128thKind,
+        kNoteC256thKind,
         
-        kNoteDEighthKind,
-        kNoteDQuarterKind,
-        kNoteDHalfKind,
+        kNoteDBreveKind,
         kNoteDWholeKind,
+        kNoteDHalfKind,
+        kNoteDQuarterKind,
+        kNoteD8thKind,
+        kNoteD16thKind,
+        kNoteD32ndKind,
+        kNoteD64thKind,
+        kNoteD128thKind,
+        kNoteD256thKind,
         
-        kNoteEEighthKind,
-        kNoteEQuarterKind,
-        kNoteEHalf4Kind,
+        kNoteEBreveKind,
         kNoteEWholeKind,
+        kNoteEHalfKind,
+        kNoteEQuarterKind,
+        kNoteE8thKind,
+        kNoteE16thKind,
+        kNoteE32ndKind,
+        kNoteE64thKind,
+        kNoteE128thKind,
+        kNoteE256thKind,
         
-        kNoteFEighthKind,
-        kNoteFQuarterKind,
-        kNoteFHalfKind,
+        kNoteFBreveKind,
         kNoteFWholeKind,
+        kNoteFHalfKind,
+        kNoteFQuarterKind,
+        kNoteF8thKind,
+        kNoteF16thKind,
+        kNoteF32ndKind,
+        kNoteF64thKind,
+        kNoteF128thKind,
+        kNoteF256thKind,
         
-        kNoteGEighthKind,
-        kNoteGQuarterKind,
-        kNoteGHalfKind,
+        kNoteGBreveKind,
         kNoteGWholeKind,
+        kNoteGHalfKind,
+        kNoteGQuarterKind,
+        kNoteG8thKind,
+        kNoteG16thKind,
+        kNoteG32ndKind,
+        kNoteG64thKind,
+        kNoteG128thKind,
+        kNoteG256thKind,
         
-        kNoteAEighthKind,
-        kNoteAQuarterKind,
-        kNoteAHalfKind,
+        kNoteABreveKind,
         kNoteAWholeKind,
+        kNoteAHalfKind,
+        kNoteAQuarterKind,
+        kNoteA8thKind,
+        kNoteA16thKind,
+        kNoteA32ndKind,
+        kNoteA64thKind,
+        kNoteA128thKind,
+        kNoteA256thKind,
         
-        kNoteBEighthKind,
-        kNoteBQuarterKind,
+        kNoteBBreveKind,
+        kNoteBWholeKind,
         kNoteBHalfKind,
-        kNoteBWholeKind };
+        kNoteBQuarterKind,
+        kNoteB8thKind,
+        kNoteB16thKind,
+        kNoteB32ndKind,
+        kNoteB64thKind,
+        kNoteB128thKind,
+        kNoteB256thKind };
 
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
 
-    static bsrCellKind noteValueKindAsBsrCellKind (
+    static S_bsrBrailleSign noteValueKindAsBrailleSign (
+      int              inputLineNumber,
       bsrNoteValueKind noteValueKind);
 
     enum bsrNoteOctaveKind {
@@ -87,7 +141,8 @@ class bsrNote : public bsrBrailleElement
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);
 
-    static bsrCellKind noteOctaveKindAsBsrCellKind (
+    static S_bsrBrailleSign noteOctaveKindAsBrailleSign (
+      int               inputLineNumber,
       bsrNoteOctaveKind noteOctaveKind);
 
     enum bsrNoteOctaveIsNeededKind {
@@ -102,6 +157,7 @@ class bsrNote : public bsrBrailleElement
     static SMARTP<bsrNote> create (
       int               inputLineNumber,
       bsrNoteValueKind  noteValueKind,
+      int               noteDotsNumber,
       bsrNoteOctaveKind noteOctaveKind,
       bsrNoteOctaveIsNeededKind
                         noteOctaveIsNeededKind);
@@ -114,6 +170,7 @@ class bsrNote : public bsrBrailleElement
     bsrNote (
       int               inputLineNumber,
       bsrNoteValueKind  noteValueKind,
+      int               noteDotsNumber,
       bsrNoteOctaveKind noteOctaveKind,
       bsrNoteOctaveIsNeededKind
                         noteOctaveIsNeededKind);
@@ -128,8 +185,8 @@ class bsrNote : public bsrBrailleElement
     bsrNoteValueKind      getNoteValueKind () const
                               { return fNoteValueKind; }
                   
-    bsrNoteOctaveKind     getNoteOctaveKind () const
-                              { return fNoteOctaveKind; }
+    int                   getNoteDotsNumber () const
+                              { return fNoteDotsNumber; }
                   
     void                  setNoteOctaveIsNeededKind (
                             bsrNoteOctaveIsNeededKind
@@ -188,6 +245,8 @@ class bsrNote : public bsrBrailleElement
 
     
     bsrNoteValueKind      fNoteValueKind;
+    int                   fNoteDotsNumber;
+    
     bsrNoteOctaveKind     fNoteOctaveKind;
 
     bsrNoteOctaveIsNeededKind

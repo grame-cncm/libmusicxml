@@ -53,6 +53,9 @@ bsrTranscriptionNotesElement::bsrTranscriptionNotesElement (
     : bsrElement (inputLineNumber)
 {
   fTranscriptionNoteText = transcriptionNoteText;
+
+  fTranscriptionNotesElementBrailleSign =
+    bsrBrailleSign::create (inputLineNumber);
 }
 
 bsrTranscriptionNotesElement::~bsrTranscriptionNotesElement ()

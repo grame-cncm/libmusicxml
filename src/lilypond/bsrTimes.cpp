@@ -119,8 +119,20 @@ string bsrTime::asString () const
 void bsrTime::print (ostream& os)
 {
   os <<
-    asString () <<
+    "Time" <<
+    ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 16;
+    
+  os <<
+    setw (fieldWidth) <<
+    "timeBrailleSign" << " : " << fTimeBrailleSign->asString () <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_bsrTime& elt)

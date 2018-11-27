@@ -206,42 +206,6 @@ string bsrCellKindAsString (bsrCellKind cellKind)
 
 /*
 //______________________________________________________________________________
-// brailling numbers
-wstring braille (int n)
-{
-  wstringstream ws;
-  
-  
-  if (n < 0) {
-    ws << kCellQuestionMark; // JMI which minus?
-    n = -n;
-  }
-
-  if (n <= 9) {
-    switch (n) {
-      case 0: ws << kCell0; break;
-      case 1: ws << kCell1; break;
-      case 2: ws << kCell2; break;
-      case 3: ws << kCell3; break;
-      case 4: ws << kCell4; break;
-      case 5: ws << kCell5; break;
-      case 6: ws << kCell6; break;
-      case 7: ws << kCell7; break;
-      case 8: ws << kCell8; break;
-      case 9: ws << kCell9; break;
-    } // switch
-  }
-  
-  else {
-    ws <<
-      braille (n / 10) <<
-      braille (n % 10);
-  }
-
-  return ws.str ();
-}
-
-//______________________________________________________________________________
 // brailling characters and strings
 wchar_t braille (char ch)
 {
@@ -595,42 +559,6 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
 
   // augmentations
   case kCellAugmentationDot: result = "kCellAugmentationDot"; break; // kDots3;
-
-  // notes
-  case kCellCEighth : result = "kCellCEighth"; break; // kDots145,
-  case kCellCQuarter: result = "kCellCQuarter"; break; // kDots1456,
-  case kCellCHalf   : result = "kCellCHalf"; break; // kDots1345,
-  case kCellCWhole  : result = "kCellCWhole"; break; // kDots13456,
-  
-  case kCellDEighth : result = "kCellDEighth"; break; // kDots15,
-  case kCellDQuarter: result = "kCellDQuarter"; break; // kDots156,
-  case kCellDHalf   : result = "kCellDHalf"; break; // kDots135,
-  case kCellDWhole  : result = "kCellDWhole"; break; // kDots1356,
-  
-  case kCellEEighth : result = "kCellEEighth"; break; // kDots125,
-  case kCellEQuarter: result = "kCellEQuarter"; break; // kDots1256,
-  case kCellEHalf   : result = "kCellEHalf"; break; // kDots1234,
-  case kCellEWhole  : result = "kCellEWhole"; break; // kDots12346,
-  
-  case kCellFEighth : result = "kCellFEighth"; break; // kDots1245,
-  case kCellFQuarter: result = "kCellFQuarter"; break; // kDots12456,
-  case kCellFHalf   : result = "FOkCellFHalfO"; break; // kDots12345,
-  case kCellFWhole  : result = "kCellFWhole"; break; // kDots123456,
-  
-  case kCellGEighth : result = "kCellGEighth"; break; // kDots125,
-  case kCellGQuarter: result = "kCellGQuarter"; break; // kDots1256,
-  case kCellGHalf   : result = "kCellGHalf"; break; // kDots1235,
-  case kCellGWhole  : result = "kCellGWhole"; break; // kDots12356,
-  
-  case kCellAEighth : result = "kCellAEighth"; break; // kDots24,
-  case kCellAQuarter: result = "kCellAQuarter"; break; // kDots246,
-  case kCellAHalf   : result = "kCellAHalf"; break; // kDots234,
-  case kCellAWhole  : result = "kCellAWhole"; break; // kDots2346,
-  
-  case kCellBEighth : result = "kCellBEighth"; break; // kDots245,
-  case kCellBQuarter: result = "kCellBQuarter"; break; // kDots2456,
-  case kCellBHalf   : result = "kCellBHalf"; break; // kDots2345,
-  case kCellBWhole  : result = "kCellBWhole"; break; // kDots23456;
 
   // intervals
   case kCellSecond : result = "kCellSecond"; break; // kDots34,

@@ -94,6 +94,30 @@ void bsr2BsrFinalizer::visitEnd (S_bsrScore& elt)
 }
 
 //________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrSpaces& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrSpaces" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentLine->
+    appendSpacesToLine (elt);
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrSpaces& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrSpaces" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotes& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -181,6 +205,11 @@ void bsr2BsrFinalizer::visitStart (S_bsrPageHeading& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+ // JMI fCurrentPageHeading = elt->createPageHeadingNewbornClone ();
+  
+  fCurrentPage->
+    appendPageHeadingToPage (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrPageHeading& elt)

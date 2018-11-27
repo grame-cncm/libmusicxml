@@ -17,6 +17,8 @@
 
 #include "bsrBasicTypes.h"
 
+#include "bsrBrailleSigns.h"
+
 
 namespace MusicXML2 
 {
@@ -52,6 +54,9 @@ class bsrTranscriptionNotesElement : public bsrElement
     string                getTranscriptionNoteText () const
                               { return fTranscriptionNoteText; }
 
+    S_bsrBrailleSign      getTranscriptionNotesElementBrailleSign () const
+                              { return fTranscriptionNotesElementBrailleSign ;}
+
   public:
 
     // services
@@ -82,6 +87,8 @@ class bsrTranscriptionNotesElement : public bsrElement
     // ------------------------------------------------------
 
     string                fTranscriptionNoteText;
+
+    S_bsrBrailleSign      fTranscriptionNotesElementBrailleSign;
 };
 typedef SMARTP<bsrTranscriptionNotesElement> S_bsrTranscriptionNotesElement;
 EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt);

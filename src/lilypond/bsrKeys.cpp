@@ -240,8 +240,26 @@ string bsrKey::asString () const
 void bsrKey::print (ostream& os)
 {
   os <<
-    asString () <<
+    "Key" <<
+    ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 20;
+
+  os <<
+    setw (fieldWidth) <<
+    "keyKind" << " : " << keyKindAsString (fKeyKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "numberOfAlterations" << " : " << fNumberOfAlterations <<
+    endl <<
+    setw (fieldWidth) <<
+    "keyBrailleSign" << " : " << fKeyBrailleSign->asShortString () <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_bsrKey& elt)

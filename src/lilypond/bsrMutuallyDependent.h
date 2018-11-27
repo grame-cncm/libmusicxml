@@ -13,7 +13,9 @@
 #ifndef ___bsrMutuallyDependent___
 #define ___bsrMutuallyDependent___
 
-//#include "bsrElements.h"
+#include "bsrSpaces.h"
+
+#include "bsrPageHeadings.h"
 
 #include "bsrNumbers.h"
 
@@ -171,6 +173,9 @@ class bsrLine : public bsrElement
     // public services
     // ------------------------------------------------------
 
+    void                  appendSpacesToLine (S_bsrSpaces spaces)
+                              { fLineElementsList.push_back (spaces); }
+                              
     void                  appendNumberToLine (S_bsrNumber number)
                               { fLineElementsList.push_back (number); }
                               
@@ -425,6 +430,9 @@ class bsrPage : public bsrElement
     // public services
     // ------------------------------------------------------
 
+    void                  appendPageHeadingToPage (S_bsrPageHeading pageHeading)
+                              { fPageElementsList.push_back (pageHeading); }
+                              
     void                  appendLineToPage (S_bsrLine line)
                               { fPageElementsList.push_back (line); }
                               

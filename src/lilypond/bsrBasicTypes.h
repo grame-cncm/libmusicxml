@@ -157,57 +157,6 @@ const bsrCellKind
   kCell0 = kCellJ;
 
 //______________________________________________________________________________
-// notes
-const bsrCellKind
-  kCellCEighth  = kDots145,
-  kCellCQuarter = kDots1456,
-  kCellCHalf    = kDots1345,
-  kCellCWhole   = kDots13456,
-  
-  kCellDEighth  = kDots15,
-  kCellDQuarter = kDots156,
-  kCellDHalf    = kDots135,
-  kCellDWhole   = kDots1356,
-  
-  kCellEEighth  = kDots125,
-  kCellEQuarter = kDots1256,
-  kCellEHalf    = kDots1234,
-  kCellEWhole   = kDots12346,
-  
-  kCellFEighth  = kDots1245,
-  kCellFQuarter = kDots12456,
-  kCellFHalf    = kDots12345,
-  kCellFWhole   = kDots123456,
-  
-  kCellGEighth  = kDots125,
-  kCellGQuarter = kDots1256,
-  kCellGHalf    = kDots1235,
-  kCellGWhole   = kDots12356,
-  
-  kCellAEighth  = kDots24,
-  kCellAQuarter = kDots246,
-  kCellAHalf    = kDots234,
-  kCellAWhole   = kDots2346,
-  
-  kCellBEighth  = kDots245,
-  kCellBQuarter = kDots2456,
-  kCellBHalf    = kDots2345,
-  kCellBWhole   = kDots23456;
-
-//______________________________________________________________________________
-// octaves, bottom up
-const bsrCellKind
-  kCellOctave1 = kDots4,
-  kCellOctave2 = kDots45,
-  kCellOctave3 = kDots456,
-  kCellOctave4 = kDots5,
-  kCellOctave5 = kDots46,
-  kCellOctave6 = kDots56,
-  kCellOctave7 = kDots6;
-//  kCellOctaveBelow1 , //{ kCellOctave1, kCellOctave1 },
-//  kCellOctaveAbove7 , //{ kCellOctave7, kCellOctave7 };
-
-//______________________________________________________________________________
 // alterations
 const bsrCellKind
   kCellFlat    = kDots126,
@@ -217,8 +166,6 @@ const bsrCellKind
 // augmentation dots
 const bsrCellKind
   kCellAugmentationDot = kDots3;
-
-
 
 //______________________________________________________________________________
 // arithmetic operators
@@ -278,9 +225,6 @@ enum bsrCellKind2 {
   kCellItalics , // kDots456,
   kCellAsterisk, // kDots35,
   kCellExponent, // kDots4;
-
- 
-  
 
   // intervals
   kCellSecond , // kDots34,
@@ -358,83 +302,6 @@ enum bsrCellKind2 {
 string bsrCellKind2AsShortString (bsrCellKind cellKind);
 
 string bsrCellKind2AsString (bsrCellKind cellKind);
-*/
-
-/*
-const bsrDot6Cell
-  kBOMBigEndian  , // L'\ufeff',
-  kBOMSmallEndian, // L'\ufffe',
-  
-  kBrailleEOL, // L'\u000a',
-  kBrailleEOP, // L'\u000c',
-
-  kDotsNone   , // L'\u2800',
-  kDots1      , // L'\u2801',
-  kDots2      , // L'\u2802',
-  kDots12     , // L'\u2803',
-  kDots3      , // L'\u2804',
-  kDots13     , // L'\u2805',
-  kDots23     , // L'\u2806',
-  kDots123    , // L'\u2807',
-  kDots4      , // L'\u2808',
-  kDots14     , // L'\u2809',
-  kDots24     , // L'\u280a',
-  kDots124    , // L'\u280b',
-  kDots34     , // L'\u280c',
-  kDots134    , // L'\u280d',
-  kDots234    , // L'\u280e',
-  kDots1234   , // L'\u280f',
-
-  kDots5      , // L'\u2810',
-  kDots15     , // L'\u2811',
-  kDots25     , // L'\u2812',
-  kDots125    , // L'\u2813',
-  kDots35     , // L'\u2814',
-  kDots135    , // L'\u2815',
-  kDots235    , // L'\u2816',
-  kDots1235   , // L'\u2817',
-  kDots45     , // L'\u2818',
-  kDots145    , // L'\u2819',
-  kDots245    , // L'\u281a',
-  kDots1245   , // L'\u281b',
-  kDots345    , // L'\u281c',
-  kDots1345   , // L'\u281d',
-  kDots2345   , // L'\u281e',
-  kDots12345  , // L'\u281f',
-
-  kDots6      , // L'\u2820',
-  kDots16     , // L'\u2821',
-  kDots26     , // L'\u2822',
-  kDots126    , // L'\u2823',
-  kDots36     , // L'\u2824',
-  kDots136    , // L'\u2825',
-  kDots236    , // L'\u2826',
-  kDots1236   , // L'\u2827',
-  kDots46     , // L'\u2828',
-  kDots146    , // L'\u2829',
-  kDots246    , // L'\u282a',
-  kDots1246   , // L'\u282b',
-  kDots346    , // L'\u282c',
-  kDots1346   , // L'\u282d',
-  kDots2346   , // L'\u282e',
-  kDots12346  , // L'\u282f',
-
-  kDots56     , // L'\u2830',
-  kDots156    , // L'\u2831',
-  kDots256    , // L'\u2832',
-  kDots1256   , // L'\u2833',
-  kDots356    , // L'\u2834',
-  kDots1356   , // L'\u2835',
-  kDots2356   , // L'\u2836',
-  kDots12356  , // L'\u2837',
-  kDots456    , // L'\u2838',
-  kDots1456   , // L'\u2839',
-  kDots2456   , // L'\u283a',
-  kDots12456  , // L'\u283b',
-  kDots3456   , // L'\u283c',
-  kDots13456  , // L'\u283d',
-  kDots23456  , // L'\u283e',
-  kDots123456 , // L'\u283f';
 */
 
 /*

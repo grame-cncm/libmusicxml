@@ -990,6 +990,462 @@ void msr2BsrTranslator::visitEnd (S_msrTime& elt)
   }
 }
 
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrNote& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrNote '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+  
+  msrQuarterTonesPitchKind
+    noteQuarterTonesPitchKind =
+      elt->getNoteQuarterTonesPitchKind ();
+
+  msrDiatonicPitchKind
+    noteDiatonicPitchKind =
+      diatonicPitchKindFromQuarterTonesPitchKind (
+        inputLineNumber,
+        noteQuarterTonesPitchKind);
+
+  msrNote::msrNoteAccidentalKind
+    noteAccidentalKind =
+      elt->getNoteAccidentalKind ();
+
+  int noteDotsNumber = elt->getNoteDotsNumber ();
+
+  msrDurationKind
+    noteGraphicDurationKind =
+      elt->getNoteGraphicDurationKind ();
+
+  int noteOctave = elt->getNoteOctave ();
+
+  bsrNote::bsrNoteOctaveKind noteOctaveKind;
+  // middle C starts octave 4, as in MusicXML
+  switch (noteOctave) {
+    case 1: noteOctaveKind = bsrNote::kNoteOctave1Kind; break;
+    case 2: noteOctaveKind = bsrNote::kNoteOctave2Kind; break;
+    case 3: noteOctaveKind = bsrNote::kNoteOctave3Kind; break;
+    case 4: noteOctaveKind = bsrNote::kNoteOctave4Kind; break;
+    case 5: noteOctaveKind = bsrNote::kNoteOctave5Kind; break;
+    case 6: noteOctaveKind = bsrNote::kNoteOctave6Kind; break;
+    case 7: noteOctaveKind = bsrNote::kNoteOctave7Kind; break;
+    default:
+      // kNoteOctaveBelow1Kind and kNoteOctaveAbove7Kind
+      // cannot occur in MusicXML
+      ;
+  } // switch
+  
+  bsrNote::bsrNoteValueKind noteValueKind;
+
+  if (elt->getNoteIsARest ()) {
+    switch (noteGraphicDurationKind) {
+      case k_NoDuration:
+        break;
+  
+      case k1024th:
+        break;
+      case k512th:
+        break;
+      case k256th:
+        noteValueKind = bsrNote::kNoteRest256thKind;
+        break;
+      case k128th:
+        noteValueKind = bsrNote::kNoteRest128thKind;
+        break;
+      case k64th:
+        noteValueKind = bsrNote::kNoteRest64thKind;
+        break;
+      case k32nd:
+        noteValueKind = bsrNote::kNoteRest32ndKind;
+        break;
+      case k16th:
+        noteValueKind = bsrNote::kNoteRest16thKind;
+        break;
+      case kEighth:
+        noteValueKind = bsrNote::kNoteRest8thKind;
+        break;
+      case kQuarter:
+        noteValueKind = bsrNote::kNoteRestQuarterKind;
+        break;
+      case kHalf:
+        noteValueKind = bsrNote::kNoteRestHalfKind;
+        break;
+      case kWhole:
+        noteValueKind = bsrNote::kNoteRestWholeKind;
+        break;
+      case kBreve:
+        noteValueKind = bsrNote::kNoteRestBreveKind;
+        break;
+      case kLong:
+        break;
+      case kMaxima:
+        break;
+    } // switch
+  }
+
+  else {
+    switch (noteDiatonicPitchKind) {
+      case k_NoDiatonicPitch:
+        break;
+  
+      case kA:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteA256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteA128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteA64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteA32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteA16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteA8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteAQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteAHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteAWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteABreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+        
+      case kB:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteB256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteB128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteB64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteB32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteB16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteB8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteBQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteBHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteBWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteBBreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+        
+      case kC:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteC256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteC128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteC64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteC32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteC16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteC8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteCQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteCHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteCWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteCBreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+        
+      case kD:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteD256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteD128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteD64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteD32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteD16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteD8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteDQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteDHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteDWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteDBreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+        
+      case kE:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteE256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteE128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteE64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteE32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteE16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteE8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteEQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteEHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteEWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteEBreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+        
+      case kF:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteF256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteF128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteF64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteF32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteF16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteF8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteFQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteFHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteFWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteFBreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+        
+      case kG:
+        switch (noteGraphicDurationKind) {
+          case k_NoDuration:
+            break;
+      
+          case k1024th:
+            break;
+          case k512th:
+            break;
+          case k256th:
+            noteValueKind = bsrNote::kNoteG256thKind;
+            break;
+          case k128th:
+            noteValueKind = bsrNote::kNoteG128thKind;
+            break;
+          case k64th:
+            noteValueKind = bsrNote::kNoteG64thKind;
+            break;
+          case k32nd:
+            noteValueKind = bsrNote::kNoteG32ndKind;
+            break;
+          case k16th:
+            noteValueKind = bsrNote::kNoteG16thKind;
+            break;
+          case kEighth:
+            noteValueKind = bsrNote::kNoteG8thKind;
+            break;
+          case kQuarter:
+            noteValueKind = bsrNote::kNoteGQuarterKind;
+            break;
+          case kHalf:
+            noteValueKind = bsrNote::kNoteGHalfKind;
+            break;
+          case kWhole:
+            noteValueKind = bsrNote::kNoteGWholeKind;
+            break;
+          case kBreve:
+            noteValueKind = bsrNote::kNoteGBreveKind;
+            break;
+          case kLong:
+            break;
+          case kMaxima:
+            break;
+        } // switch
+        break;
+    } // switch
+  }
+  
+  S_bsrNote note =
+    bsrNote::create (
+      inputLineNumber,
+      noteValueKind,
+      noteDotsNumber,
+      noteOctaveKind,
+      bsrNote::kNoteOctaveIsNeededYes); // JMI ???
+
+  fCurrentLine->
+    appendNoteToLine (note);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrNote& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrNote " <<
+      elt->asString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+}
+   
 /*
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrIdentification& elt)

@@ -16,6 +16,8 @@
 
 #include "bsrElements.h"
 
+#include "bsrBrailleSigns.h"
+
 #include "brailleOptions.h"
 
 
@@ -48,6 +50,9 @@ class bsrPageHeading : public bsrElement
     // set and get
     // ------------------------------------------------------
                               
+    S_bsrBrailleSign      getPageHeadingBrailleSign () const
+                              { return fPageHeadingBrailleSign ;}
+
   public:
 
     // public services
@@ -75,6 +80,7 @@ class bsrPageHeading : public bsrElement
     // fields
     // ------------------------------------------------------
 
+    S_bsrBrailleSign      fPageHeadingBrailleSign;
 };
 typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);
