@@ -255,6 +255,37 @@ void bsr2BsrFinalizer::visitEnd (S_bsrLine& elt)
 }
 
 //________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrMeasure& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrMeasure '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentMeasure =
+    elt->createMeasureNewbornClone ();
+  
+  fCurrentLine->
+    appendMeasureToLine (fCurrentMeasure);
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrMeasure& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrMeasure '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrNumber& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -266,8 +297,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrNumber& elt)
       endl;
   }
 
-  fCurrentLine->
-    appendNumberToLine (elt);
+  fCurrentMeasure->
+    appendNumberToMeasure (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
@@ -294,8 +325,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrClef& elt)
       endl;
   }
 
-  fCurrentLine->
-    appendClefToLine (elt);
+  fCurrentMeasure->
+    appendClefToMeasure (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrClef& elt)
@@ -322,8 +353,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrKey& elt)
       endl;
   }
 
-  fCurrentLine->
-    appendKeyToLine (elt);
+  fCurrentMeasure->
+    appendKeyToMeasure (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrKey& elt)
@@ -349,8 +380,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrTime& elt)
       endl;
   }
 
-  fCurrentLine->
-    appendTimeToLine (elt);
+  fCurrentMeasure->
+    appendTimeToMeasure (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)
@@ -375,8 +406,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrNote& elt)
       endl;
   }
 
-  fCurrentLine->
-    appendNoteToLine (elt);
+  fCurrentMeasure->
+    appendNoteToMeasure (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrNote& elt)

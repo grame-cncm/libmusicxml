@@ -17,7 +17,8 @@
 
 #include "bsrBrailleElements.h"
 
-#include "bsrBrailleSigns.h"
+#include "bsrCellsLists.h"
+
 
 using namespace std;
 
@@ -72,8 +73,8 @@ class bsrKey : public bsrBrailleElement
     int                   getNumberOfAlterations () const
                               { return fNumberOfAlterations; }
     
-    S_bsrBrailleSign      getKeyBrailleSign () const
-                              { return fKeyBrailleSign; }
+    S_bsrCellsList      getKeyCellsList () const
+                              { return fKeyCellsList; }
 
   public:
 
@@ -85,9 +86,9 @@ class bsrKey : public bsrBrailleElement
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrBrailleSign      keyKindAsBrailleSign ();
+    S_bsrCellsList      keyKindAsCellsList ();
                           
-    S_bsrBrailleSign      asBrailleSign ();
+    S_bsrCellsList      asCellsList ();
 
 
   public:
@@ -117,7 +118,7 @@ class bsrKey : public bsrBrailleElement
     bsrKeyKind            fKeyKind;
     int                   fNumberOfAlterations;
 
-    S_bsrBrailleSign      fKeyBrailleSign;
+    S_bsrCellsList      fKeyCellsList;
 };
 typedef SMARTP<bsrKey> S_bsrKey;
 EXP ostream& operator<< (ostream& os, const S_bsrKey& elt);

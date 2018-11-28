@@ -54,8 +54,8 @@ bsrClef::bsrClef (
 {
   fClefKind = clefKind;
 
-  fClefBrailleSign =
-    bsrBrailleSign::create (inputLineNumber);
+  fClefCellsList =
+    bsrCellsList::create (inputLineNumber);
 }
 
 bsrClef::~bsrClef ()
@@ -158,7 +158,7 @@ string bsrClef::asString () const
     "Clef" <<
     ", clefKind: " <<
     clefKindAsString (fClefKind) <<
-    "clefBrailleSign: " << fClefBrailleSign <<
+    "clefCellsList: " << fClefCellsList <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -181,7 +181,7 @@ void bsrClef::print (ostream& os)
     clefKindAsString (fClefKind) <<
     endl <<
     setw (fieldWidth) <<
-    "clefBrailleSign" << " : " << fClefBrailleSign <<
+    "clefCellsList" << " : " << fClefCellsList <<
     endl;
 
   gIndenter--;

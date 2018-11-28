@@ -34,6 +34,8 @@ class bsr2BsrFinalizer :
   public visitor<S_bsrPageHeading>,
   
   public visitor<S_bsrLine>,
+  
+  public visitor<S_bsrMeasure>,
 
   public visitor<S_bsrNumber>,
   
@@ -81,6 +83,9 @@ class bsr2BsrFinalizer :
     virtual void visitStart (S_bsrLine& elt);
     virtual void visitEnd   (S_bsrLine& elt);
 
+    virtual void visitStart (S_bsrMeasure& elt);
+    virtual void visitEnd   (S_bsrMeasure& elt);
+
     virtual void visitStart (S_bsrNumber& elt);
     virtual void visitEnd   (S_bsrNumber& elt);
 
@@ -117,8 +122,19 @@ class bsr2BsrFinalizer :
     S_bsrLine             fCurrentLine;
     
 
+    // measures
+    // ------------------------------------------------------    
+      
+    S_bsrMeasure          fCurrentMeasure;
+
+    // options
+    // ------------------------------------------------------    
+      
     S_bsrOptions          fBsrOptions;
 
+    // log output stream
+    // ------------------------------------------------------    
+      
     indentedOstream&      fLogOutputStream;
 };
 

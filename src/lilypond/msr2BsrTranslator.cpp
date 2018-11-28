@@ -609,6 +609,52 @@ void msr2BsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
 }
 
 //________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
+{    
+  int
+    inputLineNumber =
+      elt->getInputLineNumber ();
+
+  string
+    measureNumber =
+      elt->getMeasureNumber ();
+
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrMeasure '" <<
+      measureNumber <<
+      "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fCurrentMeasure =
+    bsrMeasure::create (inputLineNumber);
+
+  fCurrentLine->
+    appendMeasureToLine (fCurrentMeasure);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrMeasure '" <<
+      elt->getMeasureNumber () <<
+      "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  string
+    measureNumber =
+      elt->getMeasureNumber ();
+}
+
+//________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrClef& elt)
 {
   int inputLineNumber =
@@ -698,8 +744,8 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
         bsrClef::create (
           inputLineNumber, clefKind);
       
-    fCurrentLine->
-      appendClefToLine (clef);
+    fCurrentMeasure->
+      appendClefToMeasure (clef);
   }
 }
 
@@ -726,19 +772,27 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
       endl;
   }
 
-  // get MSR key kind
+  // get MSR key attributes
+  
   msrKey::msrKeyKind
     mKeyKind = elt->getKeyKind ();
 
-     //   kKeyKindFlats, kKeyKindSharps };
+  msrQuarterTonesPitchKind
+    mTonicQuarterTonesPitchKind =
+      elt->getKeyTonicQuarterTonesPitchKind ();
+      
+  msrDiatonicPitchKind
+    mDiatonicPitchKind =
+      diatonicPitchKindFromQuarterTonesPitchKind (
+        inputLineNumber,
+        mTonicQuarterTonesPitchKind);
+       
+  msrKey::msrKeyModeKind
+    mKeyModeKind =
+      elt->getKeyModeKind ();
 
-/*
-   fKeyTonicQuarterTonesPitchKind 
-  fKeyModeKind                   
+  // let's go
   
-  fKeyCancel = keyCancel;
- */
- 
   bsrKey::bsrKeyKind bKeyKind;
   int                numberOfAlterations;
 
@@ -746,29 +800,202 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
     case msrKey::kTraditionalKind:
     {
       // traditional keys
-      
-      msrQuarterTonesPitchKind
-        mQuarterTonesPitchKind =
-          elt->getKeyTonicQuarterTonesPitchKind ();
-  
-      msrDiatonicPitchKind
-        mDiatonicPitchKind =
-          diatonicPitchKindFromQuarterTonesPitchKind (
-            inputLineNumber,
-            mQuarterTonesPitchKind);
-       
-      msrKey::msrKeyModeKind
-        mKeyModeKind =
-          elt->getKeyModeKind ();
-
-      if (mDiatonicPitchKind != mDiatonicPitchKind) mDiatonicPitchKind = mDiatonicPitchKind;
-      if (mKeyModeKind != mKeyModeKind) mKeyModeKind = mKeyModeKind;
-      
+      switch (mDiatonicPitchKind) {
+        case k_NoDiatonicPitch:
+          break;
+    
+        case kA:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 3;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindNaturals;
+              numberOfAlterations = 0;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+          
+        case kB:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 5;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 2;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+          
+        case kC:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindNaturals;
+              numberOfAlterations = 0;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindFlats;
+              numberOfAlterations = 3;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+          
+        case kD:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 2;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindFlats;
+              numberOfAlterations = 1;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+          
+        case kE:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 4;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 1;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+          
+        case kF:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindFlats;
+              numberOfAlterations = 1;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindFlats;
+              numberOfAlterations = 4;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+          
+        case kG:
+          switch (mKeyModeKind) {
+            case msrKey::kMajorMode:
+              bKeyKind = bsrKey::kKeyKindSharps;
+              numberOfAlterations = 1;
+              break;
+            case msrKey::kMinorMode:
+              bKeyKind = bsrKey::kKeyKindFlats;
+              numberOfAlterations = 2;
+              break;
+            case msrKey::kIonianMode:
+              break;
+            case msrKey::kDorianMode:
+              break;
+            case msrKey::kPhrygianMode:
+              break;
+            case msrKey::kLydianMode:
+              break;
+            case msrKey::kMixolydianMode:
+              break;
+            case msrKey::kAeolianMode:
+              break;
+            case msrKey::kLocrianMode:
+              break;
+          } // switch
+          break;
+      } // switch
+    
         // JMI ??? int                   getKeyCancel () const
   
-        bKeyKind            = bsrKey::kKeyKindFlats;
-        numberOfAlterations = 3;
-        
         /* JMI
         switch (semiTonesPitchKind) {
           case k_NoSemiTonesPitch_STP:
@@ -945,8 +1172,8 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
         bKeyKind,
         numberOfAlterations);
       
-  fCurrentLine->
-    appendKeyToLine (key);
+  fCurrentMeasure->
+    appendKeyToMeasure (key);
 }
 
 void msr2BsrTranslator::visitEnd (S_msrKey& elt)
@@ -976,8 +1203,8 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
     time =
       bsrTime::create (inputLineNumber);
     
-  fCurrentLine->
-    appendTimeToLine (time);
+  fCurrentMeasure->
+    appendTimeToMeasure (time);
 }
 
 void msr2BsrTranslator::visitEnd (S_msrTime& elt)
@@ -1004,6 +1231,8 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
       ", line " << inputLineNumber <<
       endl;
   }
+
+  // get MSR note attributes
   
   msrQuarterTonesPitchKind
     noteQuarterTonesPitchKind =
@@ -1027,6 +1256,8 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
   int noteOctave = elt->getNoteOctave ();
 
+  // let's go
+  
   bsrNote::bsrNoteOctaveKind noteOctaveKind;
   // middle C starts octave 4, as in MusicXML
   switch (noteOctave) {
@@ -1428,8 +1659,8 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
       noteOctaveKind,
       bsrNote::kNoteOctaveIsNeededYes); // JMI ???
 
-  fCurrentLine->
-    appendNoteToLine (note);
+  fCurrentMeasure->
+    appendNoteToMeasure (note);
 }
 
 void msr2BsrTranslator::visitEnd (S_msrNote& elt)

@@ -147,6 +147,26 @@ bsrBrailleGenerator::bsrBrailleGenerator (
 bsrBrailleGenerator::~bsrBrailleGenerator ()
 {}
 
+void bsrBrailleGenerator::generateCodeForCellsList (
+  S_bsrCellsList cellsList)
+{
+  const list<bsrCellKind>&
+    cellsListElements =
+      cellsList->getCellsListElements ();
+
+  if (cellsListElements.size ()) {
+    list<bsrCellKind>::const_iterator
+      iBegin = cellsListElements.begin (),
+      iEnd   = cellsListElements.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      generateCodeForBrailleCell ((*i));
+      if (++i == iEnd) break;
+      // JMI s << " ";
+    } // for  
+  }
+}
+
 string bsrBrailleGenerator::asString () const
 {
   stringstream s;
@@ -292,26 +312,6 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
     stringForCell;
 }
 
-void bsrUTF8BrailleGenerator::generateCodeForBrailleSign (
-  S_bsrBrailleSign brailleSign)
-{
-  const list<bsrCellKind>&
-    cellsList =
-      brailleSign->getCellsList ();
-
-  if (cellsList.size ()) {
-    list<bsrCellKind>::const_iterator
-      iBegin = cellsList.begin (),
-      iEnd   = cellsList.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      generateCodeForBrailleCell ((*i));
-      if (++i == iEnd) break;
-      // JMI s << " ";
-    } // for  
-  }
-}
-
 string bsrUTF8BrailleGenerator::asString () const
 {
   stringstream s;
@@ -368,12 +368,6 @@ void bsrUTF16BigEndianBrailleGenerator::generateCodeForBrailleCell (
   // JMI
 }
 
-void bsrUTF16BigEndianBrailleGenerator::generateCodeForBrailleSign (
-  S_bsrBrailleSign brailleSign)
-{
-  // JMI  
-}
-
 string bsrUTF16BigEndianBrailleGenerator::asString () const
 {
   stringstream s;
@@ -426,12 +420,6 @@ bsrUTF16SmallEndianBrailleGenerator::~bsrUTF16SmallEndianBrailleGenerator ()
 
 void bsrUTF16SmallEndianBrailleGenerator::generateCodeForBrailleCell (
   bsrCellKind cellKind)
-{
-  // JMI
-}
-
-void bsrUTF16SmallEndianBrailleGenerator::generateCodeForBrailleSign (
-  S_bsrBrailleSign brailleSign)
 {
   // JMI
 }

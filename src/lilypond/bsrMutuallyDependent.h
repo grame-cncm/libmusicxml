@@ -55,6 +55,8 @@ class bsrMeasure : public bsrElement
     static SMARTP<bsrMeasure> create (
       int inputLineNumber);
     
+    SMARTP<bsrMeasure> createMeasureNewbornClone ();
+
   protected:
 
     // constructors/destructor
@@ -75,6 +77,9 @@ class bsrMeasure : public bsrElement
 
     int                   getBrailleMeasureNumber () const
                               { return fBrailleMeasureNumber; }
+
+    S_bsrCellsList      getTimeCellsList () const
+                              { return fMeasureCellsList; }
                               
   public:
 
@@ -84,18 +89,20 @@ class bsrMeasure : public bsrElement
     void                  appendNumberToMeasure (S_bsrNumber number)
                               { fMeasureElementsList.push_back (number); }
                               
-    void                  appendClefMeasure (S_bsrClef clef)
+    void                  appendClefToMeasure (S_bsrClef clef)
                               { fMeasureElementsList.push_back (clef); }
                               
-    void                  appendKeyMeasure (S_bsrKey key)
+    void                  appendKeyToMeasure (S_bsrKey key)
                               { fMeasureElementsList.push_back (key); }
                               
-    void                  appendTimeMeasure (S_bsrTime time)
+    void                  appendTimeToMeasure (S_bsrTime time)
                               { fMeasureElementsList.push_back (time); }
-                              
-    void                  appendElementMeasure (S_bsrElement lineElement)
-                              { fMeasureElementsList.push_back (lineElement); }
+                                                            
+    void                  appendNoteToMeasure (S_bsrNote note)
+                              { fMeasureElementsList.push_back (note); }
 
+    S_bsrCellsList      asCellsList ();
+    
   public:
 
     // visitors
@@ -123,6 +130,8 @@ class bsrMeasure : public bsrElement
 
     list<S_bsrElement>
                           fMeasureElementsList;
+
+    S_bsrCellsList      fMeasureCellsList;
 };
 typedef SMARTP<bsrMeasure> S_bsrMeasure;
 EXP ostream& operator<< (ostream& os, const S_bsrMeasure& elt);
@@ -176,6 +185,10 @@ class bsrLine : public bsrElement
     void                  appendSpacesToLine (S_bsrSpaces spaces)
                               { fLineElementsList.push_back (spaces); }
                               
+    void                  appendMeasureToLine (S_bsrMeasure measure)
+                              { fLineElementsList.push_back (measure); }
+
+/*                              
     void                  appendNumberToLine (S_bsrNumber number)
                               { fLineElementsList.push_back (number); }
                               
@@ -190,7 +203,8 @@ class bsrLine : public bsrElement
                               
     void                  appendNoteToLine (S_bsrNote note)
                               { fLineElementsList.push_back (note); }
-                              
+*/
+
   public:
 
     // visitors

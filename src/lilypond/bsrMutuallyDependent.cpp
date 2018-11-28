@@ -16,6 +16,7 @@
 
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
   #include "bsrTraceOptions.h"
 #endif
 
@@ -55,10 +56,59 @@ bsrMeasure::bsrMeasure (
       endl;
   }
 #endif
+
+  fMeasureCellsList =
+    bsrCellsList::create (fInputLineNumber);
 }
 
 bsrMeasure::~bsrMeasure ()
 {}
+
+S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Creating a newborn clone of measure " <<
+      asString () <<
+      endl;
+  }
+#endif
+
+  S_bsrMeasure
+    newbornClone =
+      bsrMeasure::create (
+        fInputLineNumber);
+
+  // measure number
+  newbornClone->fPrintMeasureNumber =
+    fPrintMeasureNumber;
+  newbornClone->fBrailleMeasureNumber =
+    fBrailleMeasureNumber;
+    
+  return newbornClone;
+}
+
+S_bsrCellsList bsrMeasure::asCellsList ()
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
+
+  for (
+    list<S_bsrElement>::const_iterator i = fMeasureElementsList.begin ();
+    i != fMeasureElementsList.end ();
+    i++ ) {
+    // append the braille for the element
+    /* JMI
+    fMeasureCellsList->
+      appendCellsListToCellsList (
+        (*i)->asCellsList ());
+        */
+  } // for
+
+  return result;
+}
 
 void bsrMeasure::acceptIn (basevisitor* v)
 {
@@ -114,7 +164,6 @@ void bsrMeasure::browseData (basevisitor* v)
     bsrBrowser<bsrElement> browser (v);
     browser.browse (*(*i));
   } // for
-
 }
 
 void bsrMeasure::print (ostream& os)

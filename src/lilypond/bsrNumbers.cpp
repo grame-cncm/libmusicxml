@@ -60,15 +60,15 @@ bsrNumber::bsrNumber (
     
   fNumberSignIsNeededKind = numberSignIsNeededKind;
 
-  fNumberBrailleSign = asBrailleSign ();
+  fNumberCellsList = asCellsList ();
 }
 
 bsrNumber::~bsrNumber ()
 {}
 
-S_bsrBrailleSign bsrNumber::numberValueAsBrailleSign ()
+S_bsrCellsList bsrNumber::numberValueAsCellsList ()
 {
-  S_bsrBrailleSign result;
+  S_bsrCellsList result;
 
   int n = fNumberValue;
   
@@ -101,8 +101,8 @@ S_bsrBrailleSign bsrNumber::numberValueAsBrailleSign ()
         ;
     } // switch
     
-    result->prependBrailleSignToBrailleSign (
-      bsrBrailleSign::create (
+    result->prependCellsListToCellsList (
+      bsrCellsList::create (
         fInputLineNumber,
         cellKind));
 
@@ -110,8 +110,8 @@ S_bsrBrailleSign bsrNumber::numberValueAsBrailleSign ()
   } // while
 
   if (numberValueIsNegative) {
-    result->prependBrailleSignToBrailleSign (
-      bsrBrailleSign::create (
+    result->prependCellsListToCellsList (
+      bsrCellsList::create (
         fInputLineNumber,
         kCell_ac_plus)); // JMI ??? other plus sign?
   }
@@ -119,15 +119,15 @@ S_bsrBrailleSign bsrNumber::numberValueAsBrailleSign ()
   return result;
 }
 
-S_bsrBrailleSign bsrNumber::asBrailleSign ()
+S_bsrCellsList bsrNumber::asCellsList ()
 {
-  S_bsrBrailleSign result;
+  S_bsrCellsList result;
 
   // append number sign if needed
   switch (fNumberSignIsNeededKind) {
     case bsrNumber::kNumberSignIsNeededYes:
-      result->appendBrailleSignToBrailleSign (
-        bsrBrailleSign::create (
+      result->appendCellsListToCellsList (
+        bsrCellsList::create (
           fInputLineNumber,
           kCellNumberSign));
       break;
@@ -136,8 +136,8 @@ S_bsrBrailleSign bsrNumber::asBrailleSign ()
   } // switch
 
   // append number value
-  result->appendBrailleSignToBrailleSign (
-    numberValueAsBrailleSign ());
+  result->appendCellsListToCellsList (
+    numberValueAsCellsList ());
 
   return result;
 }
@@ -216,8 +216,8 @@ string bsrNumber::asString () const
     ", numberSignIsNeeded: " <<
     numberSignIsNeededKindAsString (
       fNumberSignIsNeededKind) <<
-    ", numberBrailleSign: " <<
-    fNumberBrailleSign->asShortString () <<
+    ", numberCellsList: " <<
+    fNumberCellsList->asShortString () <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -243,8 +243,8 @@ void bsrNumber::print (ostream& os)
     numberSignIsNeededKindAsString (
       fNumberSignIsNeededKind) <<
     setw (fieldWidth) <<
-    ", numberBrailleSign" << " : " <<
-    fNumberBrailleSign->asShortString () <<
+    ", numberCellsList" << " : " <<
+    fNumberCellsList->asShortString () <<
     endl;
     
   gIndenter--;

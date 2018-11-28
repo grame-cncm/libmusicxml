@@ -17,7 +17,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrTimes.h"
+#include "bsrSpaces.h"
 
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
@@ -36,106 +36,118 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_bsrTime bsrTime::create (
-  int inputLineNumber)
+S_bsrSpaces bsrSpaces::create (
+  int inputLineNumber,
+  int numberOfSpaces)
 {
-  bsrTime* o =
-    new bsrTime (
-      inputLineNumber);
+  bsrSpaces* o =
+    new bsrSpaces (
+      inputLineNumber, numberOfSpaces);
   assert (o!=0);
   return o;
 }
 
-bsrTime::bsrTime (
-  int inputLineNumber)
-    : bsrElement (inputLineNumber)
+bsrSpaces::bsrSpaces (
+  int inputLineNumber,
+  int numberOfSpaces)
+    : bsrBrailleElement (inputLineNumber)
 {
-  fTimeCellsList =
+  fNumberOfSpaces = numberOfSpaces;
+
+  fSpacesCellsList =
     bsrCellsList::create (inputLineNumber);
+
+  for (int i = 1; i <= fNumberOfSpaces; i++) {
+    fSpacesCellsList->
+      appendCellKindToCellsList (kCellSpace);
+  } // for
 }
 
-bsrTime::~bsrTime ()
+bsrSpaces::~bsrSpaces ()
 {}
 
-void bsrTime::acceptIn (basevisitor* v)
+void bsrSpaces::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrTime::acceptIn ()" <<
+      "% ==> bsrSpaces::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_bsrTime>*
+  if (visitor<S_bsrSpaces>*
     p =
-      dynamic_cast<visitor<S_bsrTime>*> (v)) {
-        S_bsrTime elem = this;
+      dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
+        S_bsrSpaces elem = this;
         
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrTime::visitStart ()" <<
+            "% ==> Launching bsrSpaces::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void bsrTime::acceptOut (basevisitor* v)
+void bsrSpaces::acceptOut (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrTime::acceptOut ()" <<
+      "% ==> bsrSpaces::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_bsrTime>*
+  if (visitor<S_bsrSpaces>*
     p =
-      dynamic_cast<visitor<S_bsrTime>*> (v)) {
-        S_bsrTime elem = this;
+      dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
+        S_bsrSpaces elem = this;
       
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrTime::visitEnd ()" <<
+            "% ==> Launching bsrSpaces::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void bsrTime::browseData (basevisitor* v)
+void bsrSpaces::browseData (basevisitor* v)
 {}
 
-string bsrTime::asString () const
+string bsrSpaces::asString () const
 {
   stringstream s;
 
   s <<
-    "Time" <<
-    ", timeCellsList: " << fTimeCellsList->asString () <<
+    "Spaces" <<
+    ", fNumberOfSpaces: " << fNumberOfSpaces <<
+    ", spacesCellsList: " << fSpacesCellsList <<
     ", line " << fInputLineNumber;
- 
+
   return s.str ();
 }
 
-void bsrTime::print (ostream& os)
+void bsrSpaces::print (ostream& os)
 {
   os <<
-    "Time" <<
+    "Spaces" <<
     ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
 
-  const int fieldWidth = 16;
-    
+  const int fieldWidth = 18;
+
   os <<
     setw (fieldWidth) <<
-    "timeCellsList" << " : " << fTimeCellsList->asString () <<
+    "nNumberOfSpaces" << " : " << fNumberOfSpaces <<
+    endl <<
+    "spacesCellsList" << " : " << fSpacesCellsList <<
     endl;
 
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_bsrTime& elt)
+ostream& operator<< (ostream& os, const S_bsrSpaces& elt)
 {
   elt->print (os);
   return os;

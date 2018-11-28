@@ -10,54 +10,60 @@
   research@grame.fr
 */
 
-#ifndef ___bsrPageHeadings___
-#define ___bsrPageHeadings___
+#ifndef ___bsrSpaces___
+#define ___bsrSpaces___
 
-
-#include "bsrElements.h"
+#include "bsrBrailleElements.h"
 
 #include "bsrCellsLists.h"
 
-#include "brailleOptions.h"
 
+using namespace std;
 
-namespace MusicXML2
+namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class bsrPageHeading : public bsrElement
+const bsrCellKind
+  kCellSpace = kDotsNone;
+
+//______________________________________________________________________________
+class bsrSpaces : public bsrBrailleElement
 {
   public:
-
+          
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrPageHeading> create (
-      int inputLineNumber);
-    
+    static SMARTP<bsrSpaces> create (
+      int inputLineNumber,
+      int numberOfSpaces);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPageHeading (
-      int inputLineNumber);
+    bsrSpaces (
+      int inputLineNumber,
+      int numberOfSpaces);
       
-    virtual ~bsrPageHeading ();
+    virtual ~bsrSpaces ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
-    S_bsrCellsList        getPageHeadingCellsList () const
-                              { return fPageHeadingCellsList ;}
+                  
+    int                   getNumberOfSpaces () const
+                              { return fNumberOfSpaces; }
 
-  public:
+    S_bsrCellsList        getSpacesCellsList () const
+                              { return fSpacesCellsList; }
 
-    // public services
+    // services
     // ------------------------------------------------------
-
+                  
   public:
 
     // visitors
@@ -69,9 +75,11 @@ class bsrPageHeading : public bsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
+
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -80,13 +88,15 @@ class bsrPageHeading : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    S_bsrCellsList        fPageHeadingCellsList;
+    int                   fNumberOfSpaces;
+
+    S_bsrCellsList        fSpacesCellsList;
 };
-typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
-EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);
+typedef SMARTP<bsrSpaces> S_bsrSpaces;
+EXP ostream& operator<< (ostream& os, const S_bsrSpaces& elt);
 
 
-}
+} // namespace MusicXML2
 
 
 #endif

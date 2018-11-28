@@ -15,7 +15,7 @@
 
 #include "bsrElements.h"
 
-#include "bsrBrailleSigns.h"
+#include "bsrCellsLists.h"
 
 
 using namespace std;
@@ -130,8 +130,8 @@ class bsrTime : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_bsrBrailleSign      getTimeBrailleSign () const
-                              { return fTimeBrailleSign; }
+    S_bsrCellsList      getTimeCellsList () const
+                              { return fTimeCellsList; }
 
     // services
     // ------------------------------------------------------
@@ -160,7 +160,7 @@ class bsrTime : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    S_bsrBrailleSign      fTimeBrailleSign;
+    S_bsrCellsList      fTimeCellsList;
 };
 typedef SMARTP<bsrTime> S_bsrTime;
 EXP ostream& operator<< (ostream& os, const S_bsrTime& elt);

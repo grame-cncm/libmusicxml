@@ -15,7 +15,7 @@
 
 #include "bsrBrailleElements.h"
 
-#include "bsrBrailleSigns.h"
+#include "bsrCellsLists.h"
 
 
 using namespace std;
@@ -72,8 +72,8 @@ class bsrClef : public bsrBrailleElement
     bsrClefKind           getClefKind () const
                               { return fClefKind; }
 
-    S_bsrBrailleSign      getClefBrailleSign () const
-                              { return fClefBrailleSign; }
+    S_bsrCellsList      getClefCellsList () const
+                              { return fClefCellsList; }
 
     // services
     // ------------------------------------------------------
@@ -104,7 +104,7 @@ class bsrClef : public bsrBrailleElement
 
     bsrClefKind           fClefKind;
 
-    S_bsrBrailleSign      fClefBrailleSign;
+    S_bsrCellsList      fClefCellsList;
 };
 typedef SMARTP<bsrClef> S_bsrClef;
 EXP ostream& operator<< (ostream& os, const S_bsrClef& elt);

@@ -9708,6 +9708,7 @@ string msrDiatonicPitchKindAsString (
       result = "G";
       break;
   } // switch
+  
   return result;
 }
 

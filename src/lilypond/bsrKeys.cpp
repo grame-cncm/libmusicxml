@@ -77,33 +77,33 @@ bsrKey::bsrKey (
       s.str ());
   }
 
-  fKeyBrailleSign = asBrailleSign ();
+  fKeyCellsList = asCellsList ();
 }
 
 bsrKey::~bsrKey ()
 {}
 
 
-S_bsrBrailleSign bsrKey::keyKindAsBrailleSign ()
+S_bsrCellsList bsrKey::keyKindAsCellsList ()
 {
-  S_bsrBrailleSign result;
+  S_bsrCellsList result;
 
   switch (fKeyKind) {
     case bsrKey::kKeyKindFlats:
       result =
-        bsrBrailleSign::create (
+        bsrCellsList::create (
           fInputLineNumber,
           kCellFlat);
       break;
     case bsrKey::kKeyKindNaturals:
       result =
-        bsrBrailleSign::create (
+        bsrCellsList::create (
           fInputLineNumber,
           kCellNatural);
       break;
     case bsrKey::kKeyKindSharps:
       result =
-        bsrBrailleSign::create (
+        bsrCellsList::create (
           fInputLineNumber,
           kCellSharp);
       break;
@@ -112,11 +112,11 @@ S_bsrBrailleSign bsrKey::keyKindAsBrailleSign ()
   return result;
 }
 
-S_bsrBrailleSign bsrKey::asBrailleSign ()
+S_bsrCellsList bsrKey::asCellsList ()
 {
-  S_bsrBrailleSign
+  S_bsrCellsList
     result =
-      bsrBrailleSign::create (
+      bsrCellsList::create (
         fInputLineNumber);
 
   switch (fNumberOfAlterations) {
@@ -128,8 +128,8 @@ S_bsrBrailleSign bsrKey::asBrailleSign ()
     case 3:
       // create as many flat or sharp signs as needed
       for (int i = 1; i <= fNumberOfAlterations; i++) {
-        result->appendBrailleSignToBrailleSign (
-          keyKindAsBrailleSign ());
+        result->appendCellsListToCellsList (
+          keyKindAsCellsList ());
       } // for
       break;
       
@@ -144,12 +144,12 @@ S_bsrBrailleSign bsrKey::asBrailleSign ()
               bsrNumber::kNumberSignIsNeededYes);
 
         // append it to result
-        result->appendBrailleSignToBrailleSign (
-          number->asBrailleSign ());
+        result->appendCellsListToCellsList (
+          number->asCellsList ());
   
         // append the flat or sharp sign to result
-        result->appendBrailleSignToBrailleSign (
-          keyKindAsBrailleSign ());
+        result->appendCellsListToCellsList (
+          keyKindAsCellsList ());
       }
   } // switch
   
@@ -231,7 +231,7 @@ string bsrKey::asString () const
     "Key" <<
     ", " << keyKindAsString (fKeyKind) <<
     ", numberOfAlterations: " << fNumberOfAlterations <<
-    ", keyBrailleSign: " << fKeyBrailleSign->asShortString () <<
+    ", keyCellsList: " << fKeyCellsList->asShortString () <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -256,7 +256,7 @@ void bsrKey::print (ostream& os)
     "numberOfAlterations" << " : " << fNumberOfAlterations <<
     endl <<
     setw (fieldWidth) <<
-    "keyBrailleSign" << " : " << fKeyBrailleSign->asShortString () <<
+    "keyCellsList" << " : " << fKeyCellsList->asShortString () <<
     endl;
 
   gIndenter--;

@@ -13,11 +13,7 @@
 #ifndef ___bsrBrailleGenerators___
 #define ___bsrBrailleGenerators___
 
-#include "bsrBrailleElements.h"
-
-#include "bsrBrailleSigns.h"
-
-#include "bsrBasicTypes.h"
+#include "bsrCellsLists.h"
 
 
 namespace MusicXML2 
@@ -99,8 +95,8 @@ class bsrBrailleGenerator : public smartable
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind) = 0;
     
-    virtual void          generateCodeForBrailleSign (
-                            S_bsrBrailleSign brailleSign) = 0;
+    void                  generateCodeForCellsList (
+                            S_bsrCellsList cellsList);
     
   public:
 
@@ -157,10 +153,7 @@ class bsrUTF8BrailleGenerator : public bsrBrailleGenerator
       
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind);
-    
-    virtual void          generateCodeForBrailleSign (
-                            S_bsrBrailleSign brailleSign);
-    
+        
   public:
 
     // print
@@ -213,10 +206,7 @@ class bsrUTF16BigEndianBrailleGenerator : public bsrBrailleGenerator
       
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind);
-    
-    virtual void          generateCodeForBrailleSign (
-                            S_bsrBrailleSign brailleSign);
-    
+        
   public:
 
     // print
@@ -269,10 +259,7 @@ class bsrUTF16SmallEndianBrailleGenerator : public bsrBrailleGenerator
       
     virtual void          generateCodeForBrailleCell (
                             bsrCellKind cellKind);
-    
-    virtual void          generateCodeForBrailleSign (
-                            S_bsrBrailleSign brailleSign);
-    
+        
   public:
 
     // print

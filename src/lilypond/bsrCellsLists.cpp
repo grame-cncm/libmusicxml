@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "bsrBrailleSigns.h"
+#include "bsrCellsLists.h"
 
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
@@ -28,71 +28,71 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber);
   assert(o!=0);
   return o;
 }
 
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber,
   bsrCellKind cellKind1)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber,
       cellKind1);
   assert(o!=0);
   return o;
 }
 
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2);
   assert(o!=0);
   return o;
 }
 
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
   bsrCellKind cellKind3)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3);
   assert(o!=0);
   return o;
 }
 
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
   bsrCellKind cellKind3,
   bsrCellKind cellKind4)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4);
   assert(o!=0);
   return o;
 }
 
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
@@ -100,15 +100,15 @@ S_bsrBrailleSign bsrBrailleSign::create (
   bsrCellKind cellKind4,
   bsrCellKind cellKind5)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4, cellKind5);
   assert(o!=0);
   return o;
 }
 
-S_bsrBrailleSign bsrBrailleSign::create (
+S_bsrCellsList bsrCellsList::create (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
@@ -117,80 +117,80 @@ S_bsrBrailleSign bsrBrailleSign::create (
   bsrCellKind cellKind5,
   bsrCellKind cellKind6)
 {
-  bsrBrailleSign* o =
-    new bsrBrailleSign (
+  bsrCellsList* o =
+    new bsrCellsList (
       inputLineNumber,
       cellKind1, cellKind2, cellKind3, cellKind4, cellKind5, cellKind6);
   assert(o!=0);
   return o;
 }
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {}
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber,
   bsrCellKind cellKind1)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {
-  fCellsList.push_back (cellKind1);
+  fCellsListElements.push_back (cellKind1);
 }
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {
-  fCellsList.push_back (cellKind1);
-  fCellsList.push_back (cellKind2);
+  fCellsListElements.push_back (cellKind1);
+  fCellsListElements.push_back (cellKind2);
 }
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
   bsrCellKind cellKind3)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {
-  fCellsList.push_back (cellKind1);
-  fCellsList.push_back (cellKind2);
-  fCellsList.push_back (cellKind3);
+  fCellsListElements.push_back (cellKind1);
+  fCellsListElements.push_back (cellKind2);
+  fCellsListElements.push_back (cellKind3);
 }
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
   bsrCellKind cellKind3,
   bsrCellKind cellKind4)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {
-  fCellsList.push_back (cellKind1);
-  fCellsList.push_back (cellKind2);
-  fCellsList.push_back (cellKind3);
-  fCellsList.push_back (cellKind4);
+  fCellsListElements.push_back (cellKind1);
+  fCellsListElements.push_back (cellKind2);
+  fCellsListElements.push_back (cellKind3);
+  fCellsListElements.push_back (cellKind4);
 }
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
   bsrCellKind cellKind3,
   bsrCellKind cellKind4,
   bsrCellKind cellKind5)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {
-  fCellsList.push_back (cellKind1);
-  fCellsList.push_back (cellKind2);
-  fCellsList.push_back (cellKind3);
-  fCellsList.push_back (cellKind4);
-  fCellsList.push_back (cellKind5);
+  fCellsListElements.push_back (cellKind1);
+  fCellsListElements.push_back (cellKind2);
+  fCellsListElements.push_back (cellKind3);
+  fCellsListElements.push_back (cellKind4);
+  fCellsListElements.push_back (cellKind5);
 }
 
-bsrBrailleSign::bsrBrailleSign (
+bsrCellsList::bsrCellsList (
   int         inputLineNumber,
   bsrCellKind cellKind1,
   bsrCellKind cellKind2,
@@ -198,30 +198,30 @@ bsrBrailleSign::bsrBrailleSign (
   bsrCellKind cellKind4,
   bsrCellKind cellKind5,
   bsrCellKind cellKind6)
-    : bsrElement (inputLineNumber)
+ //   : bsrElement (inputLineNumber)
 {
-  fCellsList.push_back (cellKind1);
-  fCellsList.push_back (cellKind2);
-  fCellsList.push_back (cellKind3);
-  fCellsList.push_back (cellKind4);
-  fCellsList.push_back (cellKind5);
-  fCellsList.push_back (cellKind6);
+  fCellsListElements.push_back (cellKind1);
+  fCellsListElements.push_back (cellKind2);
+  fCellsListElements.push_back (cellKind3);
+  fCellsListElements.push_back (cellKind4);
+  fCellsListElements.push_back (cellKind5);
+  fCellsListElements.push_back (cellKind6);
 }
 
-bsrBrailleSign::~bsrBrailleSign ()
+bsrCellsList::~bsrCellsList ()
 {}
 
-void bsrBrailleSign::appendBrailleSignToBrailleSign (
-  S_bsrBrailleSign otherBrailleSign)
+void bsrCellsList::appendCellsListToCellsList (
+  S_bsrCellsList otherCellsList)
 {
-  if (otherBrailleSign) {
-    if (otherBrailleSign->fCellsList.size ()) {
+  if (otherCellsList) {
+    if (otherCellsList->fCellsListElements.size ()) {
       list<bsrCellKind>::const_iterator
-        iBegin = otherBrailleSign->fCellsList.begin (),
-        iEnd   = otherBrailleSign->fCellsList.end (),
+        iBegin = otherCellsList->fCellsListElements.begin (),
+        iEnd   = otherCellsList->fCellsListElements.end (),
         i      = iBegin;
       for ( ; ; ) {
-        fCellsList.push_back ((*i));
+        fCellsListElements.push_back ((*i));
         if (++i == iEnd) break;
    // JMI      os << " ";
       } // for  
@@ -229,17 +229,17 @@ void bsrBrailleSign::appendBrailleSignToBrailleSign (
   }
 }
 
-void bsrBrailleSign::prependBrailleSignToBrailleSign (
-  S_bsrBrailleSign otherBrailleSign)
+void bsrCellsList::prependCellsListToCellsList (
+  S_bsrCellsList otherCellsList)
 {
-  if (otherBrailleSign) {
-    if (otherBrailleSign->fCellsList.size ()) {
+  if (otherCellsList) {
+    if (otherCellsList->fCellsListElements.size ()) {
       list<bsrCellKind>::const_reverse_iterator
-        iBegin = otherBrailleSign->fCellsList.rbegin (),
-        iEnd   = otherBrailleSign->fCellsList.rend (),
+        iBegin = otherCellsList->fCellsListElements.rbegin (),
+        iEnd   = otherCellsList->fCellsListElements.rend (),
         i      = iBegin;
       for ( ; ; ) {
-        fCellsList.push_front ((*i));
+        fCellsListElements.push_front ((*i));
         if (++i == iEnd) break;
    // JMI      os << " ";
       } // for  
@@ -247,12 +247,12 @@ void bsrBrailleSign::prependBrailleSignToBrailleSign (
   }
 }
 
-void bsrBrailleSign::generateBrailleCode (ostream& os)
+void bsrCellsList::generateBrailleCode (ostream& os)
 {
-  if (fCellsList.size ()) {
+  if (fCellsListElements.size ()) {
     list<bsrCellKind>::const_iterator
-      iBegin = fCellsList.begin (),
-      iEnd   = fCellsList.end (),
+      iBegin = fCellsListElements.begin (),
+      iEnd   = fCellsListElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os <<
@@ -263,65 +263,65 @@ void bsrBrailleSign::generateBrailleCode (ostream& os)
   }
 }
 
-void bsrBrailleSign::acceptIn (basevisitor* v)
+void bsrCellsList::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrBrailleSign::acceptIn ()" <<
+      "% ==> bsrCellsList::acceptIn ()" <<
       endl;
   }
   
-  if (visitor<S_bsrBrailleSign>*
+  if (visitor<S_bsrCellsList>*
     p =
-      dynamic_cast<visitor<S_bsrBrailleSign>*> (v)) {
-        S_bsrBrailleSign elem = this;
+      dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
+        S_bsrCellsList elem = this;
         
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrBrailleSign::visitStart ()" <<
+            "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void bsrBrailleSign::acceptOut (basevisitor* v)
+void bsrCellsList::acceptOut (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrBrailleSign::acceptOut ()" <<
+      "% ==> bsrCellsList::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_bsrBrailleSign>*
+  if (visitor<S_bsrCellsList>*
     p =
-      dynamic_cast<visitor<S_bsrBrailleSign>*> (v)) {
-        S_bsrBrailleSign elem = this;
+      dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
+        S_bsrCellsList elem = this;
       
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrBrailleSign::visitEnd ()" <<
+            "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void bsrBrailleSign::browseData (basevisitor* v)
+void bsrCellsList::browseData (basevisitor* v)
 {}
 
 
-string bsrBrailleSign::asString () const
+string bsrCellsList::asString () const
 {
   stringstream s;
   
   s <<
-    "bsrBrailleSign [";
+    "cellsListElements [";
     
-  if (fCellsList.size ()) {
+  if (fCellsListElements.size ()) {
     list<bsrCellKind>::const_iterator
-      iBegin = fCellsList.begin (),
-      iEnd   = fCellsList.end (),
+      iBegin = fCellsListElements.begin (),
+      iEnd   = fCellsListElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       s <<
@@ -337,20 +337,20 @@ string bsrBrailleSign::asString () const
   return s.str ();
 }
 
-string bsrBrailleSign::asShortString () const
+string bsrCellsList::asShortString () const
 {
   return asString ();
 }
 
-void bsrBrailleSign::print (ostream& os)
+void bsrCellsList::print (ostream& os)
 {
   os <<
-    "bsrBrailleSign [";
+    "cellsListElements [";
     
-  if (fCellsList.size ()) {
+  if (fCellsListElements.size ()) {
     list<bsrCellKind>::const_iterator
-      iBegin = fCellsList.begin (),
-      iEnd   = fCellsList.end (),
+      iBegin = fCellsListElements.begin (),
+      iEnd   = fCellsListElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os <<
@@ -364,16 +364,16 @@ void bsrBrailleSign::print (ostream& os)
     "]";
 }
 
-ostream& operator<< (ostream& os, const S_bsrBrailleSign& elt)
+ostream& operator<< (ostream& os, const S_bsrCellsList& elt)
 {
   elt->print (os);
   return os;
 }
 
-bsrBrailleSign& operator<< (bsrBrailleSign& brailleSign, const bsrCellKind cellKind)
+bsrCellsList& operator<< (bsrCellsList& cellsList, const bsrCellKind cellKind)
 {
-  brailleSign.appendCellKindToBrailleSign (cellKind);
-  return brailleSign;
+  cellsList.appendCellKindToCellsList (cellKind);
+  return cellsList;
 }
 
 

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___bsrBrailleSigns___
-#define ___bsrBrailleSigns___
+#ifndef ___bsrCellsLists___
+#define ___bsrCellsLists___
 
 #include "bsrElements.h"
 
@@ -24,42 +24,42 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrBrailleSign;
-typedef SMARTP<bsrBrailleSign> S_bsrBrailleSign;
+class bsrCellsList;
+typedef SMARTP<bsrCellsList> S_bsrCellsList;
 
-class bsrBrailleSign : public bsrElement
+class bsrCellsList : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber);
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber,
       bsrCellKind cellKind1);
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2);
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
       bsrCellKind cellKind3);
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
       bsrCellKind cellKind3,
       bsrCellKind cellKind4);
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
@@ -67,7 +67,7 @@ class bsrBrailleSign : public bsrElement
       bsrCellKind cellKind4,
       bsrCellKind cellKind5);
 
-    static SMARTP<bsrBrailleSign> create (
+    static SMARTP<bsrCellsList> create (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
@@ -81,32 +81,32 @@ class bsrBrailleSign : public bsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber);
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber,
       bsrCellKind cellKind1);
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2);
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
       bsrCellKind cellKind3);
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
       bsrCellKind cellKind3,
       bsrCellKind cellKind4);
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
@@ -114,7 +114,7 @@ class bsrBrailleSign : public bsrElement
       bsrCellKind cellKind4,
       bsrCellKind cellKind5);
 
-    bsrBrailleSign (
+    bsrCellsList (
       int         inputLineNumber,
       bsrCellKind cellKind1,
       bsrCellKind cellKind2,
@@ -123,7 +123,7 @@ class bsrBrailleSign : public bsrElement
       bsrCellKind cellKind5,
       bsrCellKind cellKind6);
 
-    virtual ~bsrBrailleSign ();
+    virtual ~bsrCellsList ();
 
   public:
 
@@ -131,8 +131,8 @@ class bsrBrailleSign : public bsrElement
     // ------------------------------------------------------
 
     const list<bsrCellKind>&
-                          getCellsList () const
-                              { return fCellsList; }
+                          getCellsListElements () const
+                              { return fCellsListElements; }
 
     bool                  getASpaceIsNeededBefore () const
                               { return fASpaceIsNeededBefore; }
@@ -143,16 +143,16 @@ class bsrBrailleSign : public bsrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendCellKindToBrailleSign (bsrCellKind cell)
-                              { fCellsList.push_back (cell); }
+    void                  appendCellKindToCellsList (bsrCellKind cell)
+                              { fCellsListElements.push_back (cell); }
 
-    void                  appendBrailleSignToBrailleSign (
-                            S_bsrBrailleSign otherBrailleSign);
-    void                  prependBrailleSignToBrailleSign (
-                            S_bsrBrailleSign otherBrailleSign);
+    void                  appendCellsListToCellsList (
+                            S_bsrCellsList otherCellsList);
+    void                  prependCellsListToCellsList (
+                            S_bsrCellsList otherCellsList);
 
     int                   fetchCellsNumber () const
-                              { return fCellsList.size (); }
+                              { return fCellsListElements.size (); }
 
     void                  generateBrailleCode (ostream& os);
 
@@ -182,13 +182,12 @@ class bsrBrailleSign : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    list<bsrCellKind>     fCellsList;
+    list<bsrCellKind>     fCellsListElements;
     
     bool                  fASpaceIsNeededBefore;
     bool                  fASpaceIsNeededAfter;
 };
-typedef SMARTP<bsrBrailleSign> S_bsrBrailleSign;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrBrailleSign& elt);
+EXP std::ostream& operator<< (std::ostream& os, const S_bsrCellsList& elt);
 
 
 } // namespace MusicXML2

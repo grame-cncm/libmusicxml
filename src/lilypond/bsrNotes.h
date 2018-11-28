@@ -15,9 +15,7 @@
 
 #include "bsrBrailleElements.h"
 
-#include "bsrBrailleSigns.h"
-
-#include "bsrBasicTypes.h"
+#include "bsrCellsLists.h"
 
 
 namespace MusicXML2 
@@ -123,7 +121,7 @@ class bsrNote : public bsrBrailleElement
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
 
-    static S_bsrBrailleSign noteValueKindAsBrailleSign (
+    static S_bsrCellsList noteValueKindAsCellsList (
       int              inputLineNumber,
       bsrNoteValueKind noteValueKind);
 
@@ -141,7 +139,7 @@ class bsrNote : public bsrBrailleElement
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);
 
-    static S_bsrBrailleSign noteOctaveKindAsBrailleSign (
+    static S_bsrCellsList noteOctaveKindAsCellsList (
       int               inputLineNumber,
       bsrNoteOctaveKind noteOctaveKind);
 
@@ -200,24 +198,24 @@ class bsrNote : public bsrBrailleElement
                           getNoteOctaveIsNeededKind () const
                               { return fNoteOctaveIsNeededKind; }
                   
-    S_bsrBrailleSign      getNoteBrailleSign () const
-                              { return fNoteBrailleSign; }
+    S_bsrCellsList      getNoteCellsList () const
+                              { return fNoteCellsList; }
 
   public:
 
     // public services
     // ------------------------------------------------------
 
-    S_bsrBrailleSign      asBrailleSign ();
+    S_bsrCellsList      asCellsList ();
     
   private:
   
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrBrailleSign      noteValueKindAsBrailleSign ();
+    S_bsrCellsList      noteValueKindAsCellsList ();
                           
-    S_bsrBrailleSign      noteOctaveKindAsBrailleSign ();
+    S_bsrCellsList      noteOctaveKindAsCellsList ();
 
   public:
 
@@ -252,7 +250,7 @@ class bsrNote : public bsrBrailleElement
     bsrNoteOctaveIsNeededKind
                           fNoteOctaveIsNeededKind;
 
-    S_bsrBrailleSign      fNoteBrailleSign;
+    S_bsrCellsList      fNoteCellsList;
 };
 typedef SMARTP<bsrNote> S_bsrNote;
 EXP ostream& operator<< (ostream& os, const S_bsrNote& elt);

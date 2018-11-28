@@ -41,6 +41,10 @@ class msr2BsrTranslator :
   public visitor<S_msrVoice>,
   public visitor<S_msrVoiceStaffChange>,
 
+  // measures
+      
+  public visitor<S_msrMeasure>,
+
   // clef, key, time
     
   public visitor<S_msrClef>,
@@ -105,6 +109,11 @@ class msr2BsrTranslator :
     virtual void visitEnd   (S_msrVoice& elt);
 
     virtual void visitStart (S_msrVoiceStaffChange& elt);
+
+    // measures
+    
+    virtual void visitStart (S_msrMeasure& elt);
+    virtual void visitEnd   (S_msrMeasure& elt);
 
     // clef, key, time
     
@@ -173,6 +182,11 @@ class msr2BsrTranslator :
     
     S_bsrLine                 fCurrentLine;
     int                       fCurrentPrintLineNumber;
+
+    // measures
+    // ------------------------------------------------------    
+      
+    S_bsrMeasure              fCurrentMeasure;
 
 /*
     // it's header
@@ -627,9 +641,6 @@ class msr2BsrTranslator :
     virtual void visitEnd   (S_msrFiguredBass& elt);
     virtual void visitStart (S_msrFigure& elt);
     
-    virtual void visitStart (S_msrMeasure& elt);
-    virtual void visitEnd   (S_msrMeasure& elt);
-
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);
 

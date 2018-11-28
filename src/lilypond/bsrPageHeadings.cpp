@@ -42,8 +42,8 @@ bsrPageHeading::bsrPageHeading (
   int inputLineNumber)
     : bsrElement (inputLineNumber)
 {
-  fPageHeadingBrailleSign =
-    bsrBrailleSign::create  (inputLineNumber);
+  fPageHeadingCellsList =
+    bsrCellsList::create  (inputLineNumber);
 }
 
 bsrPageHeading::~bsrPageHeading ()

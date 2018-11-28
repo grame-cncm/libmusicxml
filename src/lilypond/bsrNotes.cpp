@@ -71,387 +71,387 @@ bsrNote::bsrNote (
     
   fNoteOctaveIsNeededKind = noteOctaveIsNeededKind;
 
-  fNoteBrailleSign = asBrailleSign ();
+  fNoteCellsList = asCellsList ();
 }
 
 bsrNote::~bsrNote ()
 {}
 
-S_bsrBrailleSign bsrNote::noteValueKindAsBrailleSign (
+S_bsrCellsList bsrNote::noteValueKindAsCellsList (
   int              inputLineNumber,
   bsrNoteValueKind noteValueKind)
 {
-  S_bsrBrailleSign
+  S_bsrCellsList
     result =
-      bsrBrailleSign::create (inputLineNumber);
+      bsrCellsList::create (inputLineNumber);
 
   switch (noteValueKind) {
     case kNoteRestBreveKind:
-      result->appendCellKindToBrailleSign (kDots134);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots134);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteRestWholeKind:
-      result->appendCellKindToBrailleSign (kDots134);
+      result->appendCellKindToCellsList (kDots134);
       break;
     case kNoteRestHalfKind:
-      result->appendCellKindToBrailleSign (kDots136);
+      result->appendCellKindToCellsList (kDots136);
       break;
     case kNoteRestQuarterKind:
-      result->appendCellKindToBrailleSign (kDots1236);
+      result->appendCellKindToCellsList (kDots1236);
       break;
     case kNoteRest8thKind:
-      result->appendCellKindToBrailleSign (kDots1346);
+      result->appendCellKindToCellsList (kDots1346);
       break;
     case kNoteRest16thKind:
-      result->appendCellKindToBrailleSign (kDots134);
+      result->appendCellKindToCellsList (kDots134);
       break;
     case kNoteRest32ndKind:
-      result->appendCellKindToBrailleSign (kDots136);
+      result->appendCellKindToCellsList (kDots136);
       break;
     case kNoteRest64thKind:
-      result->appendCellKindToBrailleSign (kDots1236);
+      result->appendCellKindToCellsList (kDots1236);
       break;
     case kNoteRest128thKind:
-      result->appendCellKindToBrailleSign (kDots1346);
+      result->appendCellKindToCellsList (kDots1346);
       break;
     case kNoteRest256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots134);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots134);
       break;
 
     case kNoteCBreveKind:
-      result->appendCellKindToBrailleSign (kDots13456);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots13456);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteCWholeKind:
-      result->appendCellKindToBrailleSign (kDots13456);
+      result->appendCellKindToCellsList (kDots13456);
       break;
     case kNoteCHalfKind:
-      result->appendCellKindToBrailleSign (kDots1345);
+      result->appendCellKindToCellsList (kDots1345);
       break;
     case kNoteCQuarterKind:
-      result->appendCellKindToBrailleSign (kDots1456);
+      result->appendCellKindToCellsList (kDots1456);
       break;
     case kNoteC8thKind:
-      result->appendCellKindToBrailleSign (kDots145);
+      result->appendCellKindToCellsList (kDots145);
       break;
     case kNoteC16thKind:
-      result->appendCellKindToBrailleSign (kDots13456);
+      result->appendCellKindToCellsList (kDots13456);
       break;
     case kNoteC32ndKind:
-      result->appendCellKindToBrailleSign (kDots1345);
+      result->appendCellKindToCellsList (kDots1345);
       break;
     case kNoteC64thKind:
-      result->appendCellKindToBrailleSign (kDots1456);
+      result->appendCellKindToCellsList (kDots1456);
       break;
     case kNoteC128thKind:
-      result->appendCellKindToBrailleSign (kDots145);
+      result->appendCellKindToCellsList (kDots145);
       break;
     case kNoteC256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots13456);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots13456);
       break;
 
     case kNoteDBreveKind:
-      result->appendCellKindToBrailleSign (kDots1356);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots1356);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteDWholeKind:
-      result->appendCellKindToBrailleSign (kDots1356);
+      result->appendCellKindToCellsList (kDots1356);
       break;
     case kNoteDHalfKind:
-      result->appendCellKindToBrailleSign (kDots135);
+      result->appendCellKindToCellsList (kDots135);
       break;
     case kNoteDQuarterKind:
-      result->appendCellKindToBrailleSign (kDots156);
+      result->appendCellKindToCellsList (kDots156);
       break;
     case kNoteD8thKind:
-      result->appendCellKindToBrailleSign (kDots15);
+      result->appendCellKindToCellsList (kDots15);
       break;
     case kNoteD16thKind:
-      result->appendCellKindToBrailleSign (kDots1356);
+      result->appendCellKindToCellsList (kDots1356);
       break;
     case kNoteD32ndKind:
-      result->appendCellKindToBrailleSign (kDots135);
+      result->appendCellKindToCellsList (kDots135);
       break;
     case kNoteD64thKind:
-      result->appendCellKindToBrailleSign (kDots156);
+      result->appendCellKindToCellsList (kDots156);
       break;
     case kNoteD128thKind:
-      result->appendCellKindToBrailleSign (kDots15);
+      result->appendCellKindToCellsList (kDots15);
       break;
     case kNoteD256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots1356);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots1356);
       break;
 
     case kNoteEBreveKind:
-      result->appendCellKindToBrailleSign (kDots12346);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots12346);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteEWholeKind:
-      result->appendCellKindToBrailleSign (kDots12346);
+      result->appendCellKindToCellsList (kDots12346);
       break;
     case kNoteEHalfKind:
-      result->appendCellKindToBrailleSign (kDots1234);
+      result->appendCellKindToCellsList (kDots1234);
       break;
     case kNoteEQuarterKind:
-      result->appendCellKindToBrailleSign (kDots1256);
+      result->appendCellKindToCellsList (kDots1256);
       break;
     case kNoteE8thKind:
-      result->appendCellKindToBrailleSign (kDots125);
+      result->appendCellKindToCellsList (kDots125);
       break;
     case kNoteE16thKind:
-      result->appendCellKindToBrailleSign (kDots12346);
+      result->appendCellKindToCellsList (kDots12346);
       break;
     case kNoteE32ndKind:
-      result->appendCellKindToBrailleSign (kDots1234);
+      result->appendCellKindToCellsList (kDots1234);
       break;
     case kNoteE64thKind:
-      result->appendCellKindToBrailleSign (kDots1256);
+      result->appendCellKindToCellsList (kDots1256);
       break;
     case kNoteE128thKind:
-      result->appendCellKindToBrailleSign (kDots125);
+      result->appendCellKindToCellsList (kDots125);
       break;
     case kNoteE256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots12346);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots12346);
       break;
 
     case kNoteFBreveKind:
-      result->appendCellKindToBrailleSign (kDots123456);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots123456);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteFWholeKind:
-      result->appendCellKindToBrailleSign (kDots123456);
+      result->appendCellKindToCellsList (kDots123456);
       break;
     case kNoteFHalfKind:
-      result->appendCellKindToBrailleSign (kDots12345);
+      result->appendCellKindToCellsList (kDots12345);
       break;
     case kNoteFQuarterKind:
-      result->appendCellKindToBrailleSign (kDots12456);
+      result->appendCellKindToCellsList (kDots12456);
       break;
     case kNoteF8thKind:
-      result->appendCellKindToBrailleSign (kDots1245);
+      result->appendCellKindToCellsList (kDots1245);
       break;
     case kNoteF16thKind:
-      result->appendCellKindToBrailleSign (kDots123456);
+      result->appendCellKindToCellsList (kDots123456);
       break;
     case kNoteF32ndKind:
-      result->appendCellKindToBrailleSign (kDots12345);
+      result->appendCellKindToCellsList (kDots12345);
       break;
     case kNoteF64thKind:
-      result->appendCellKindToBrailleSign (kDots12456);
+      result->appendCellKindToCellsList (kDots12456);
       break;
     case kNoteF128thKind:
-      result->appendCellKindToBrailleSign (kDots1245);
+      result->appendCellKindToCellsList (kDots1245);
       break;
     case kNoteF256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots123456);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots123456);
       break;
 
     case kNoteGBreveKind:
-      result->appendCellKindToBrailleSign (kDots12356);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots12356);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteGWholeKind:
-      result->appendCellKindToBrailleSign (kDots12356);
+      result->appendCellKindToCellsList (kDots12356);
       break;
     case kNoteGHalfKind:
-      result->appendCellKindToBrailleSign (kDots1235);
+      result->appendCellKindToCellsList (kDots1235);
       break;
     case kNoteGQuarterKind:
-      result->appendCellKindToBrailleSign (kDots1256);
+      result->appendCellKindToCellsList (kDots1256);
       break;
     case kNoteG8thKind:
-      result->appendCellKindToBrailleSign (kDots125);
+      result->appendCellKindToCellsList (kDots125);
       break;
     case kNoteG16thKind:
-      result->appendCellKindToBrailleSign (kDots12356);
+      result->appendCellKindToCellsList (kDots12356);
       break;
     case kNoteG32ndKind:
-      result->appendCellKindToBrailleSign (kDots1235);
+      result->appendCellKindToCellsList (kDots1235);
       break;
     case kNoteG64thKind:
-      result->appendCellKindToBrailleSign (kDots1256);
+      result->appendCellKindToCellsList (kDots1256);
       break;
     case kNoteG128thKind:
-      result->appendCellKindToBrailleSign (kDots125);
+      result->appendCellKindToCellsList (kDots125);
       break;
     case kNoteG256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots12356);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots12356);
       break;
 
     case kNoteABreveKind:
-      result->appendCellKindToBrailleSign (kDots2346);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots2346);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteAWholeKind:
-      result->appendCellKindToBrailleSign (kDots2346);
+      result->appendCellKindToCellsList (kDots2346);
       break;
     case kNoteAHalfKind:
-      result->appendCellKindToBrailleSign (kDots234);
+      result->appendCellKindToCellsList (kDots234);
       break;
     case kNoteAQuarterKind:
-      result->appendCellKindToBrailleSign (kDots246);
+      result->appendCellKindToCellsList (kDots246);
       break;
     case kNoteA8thKind:
-      result->appendCellKindToBrailleSign (kDots24);
+      result->appendCellKindToCellsList (kDots24);
       break;
     case kNoteA16thKind:
-      result->appendCellKindToBrailleSign (kDots2346);
+      result->appendCellKindToCellsList (kDots2346);
       break;
     case kNoteA32ndKind:
-      result->appendCellKindToBrailleSign (kDots234);
+      result->appendCellKindToCellsList (kDots234);
       break;
     case kNoteA64thKind:
-      result->appendCellKindToBrailleSign (kDots246);
+      result->appendCellKindToCellsList (kDots246);
       break;
     case kNoteA128thKind:
-      result->appendCellKindToBrailleSign (kDots24);
+      result->appendCellKindToCellsList (kDots24);
       break;
     case kNoteA256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots2346);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots2346);
       break;
 
     case kNoteBBreveKind:
-      result->appendCellKindToBrailleSign (kDots23456);
-      result->appendCellKindToBrailleSign (kDots13);
+      result->appendCellKindToCellsList (kDots23456);
+      result->appendCellKindToCellsList (kDots13);
       break;
     case kNoteBWholeKind:
-      result->appendCellKindToBrailleSign (kDots23456);
+      result->appendCellKindToCellsList (kDots23456);
       break;
     case kNoteBHalfKind:
-      result->appendCellKindToBrailleSign (kDots2345);
+      result->appendCellKindToCellsList (kDots2345);
       break;
     case kNoteBQuarterKind:
-      result->appendCellKindToBrailleSign (kDots2456);
+      result->appendCellKindToCellsList (kDots2456);
       break;
     case kNoteB8thKind:
-      result->appendCellKindToBrailleSign (kDots245);
+      result->appendCellKindToCellsList (kDots245);
       break;
     case kNoteB16thKind:
-      result->appendCellKindToBrailleSign (kDots23456);
+      result->appendCellKindToCellsList (kDots23456);
       break;
     case kNoteB32ndKind:
-      result->appendCellKindToBrailleSign (kDots2345);
+      result->appendCellKindToCellsList (kDots2345);
       break;
     case kNoteB64thKind:
-      result->appendCellKindToBrailleSign (kDots2456);
+      result->appendCellKindToCellsList (kDots2456);
       break;
     case kNoteB128thKind:
-      result->appendCellKindToBrailleSign (kDots245);
+      result->appendCellKindToCellsList (kDots245);
       break;
     case kNoteB256thKind:
-      result->appendCellKindToBrailleSign (kDots56);
-      result->appendCellKindToBrailleSign (kDots126);
-      result->appendCellKindToBrailleSign (kDots2);
-      result->appendCellKindToBrailleSign (kDots23456);
+      result->appendCellKindToCellsList (kDots56);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      result->appendCellKindToCellsList (kDots23456);
       break;
   } // switch
 
   return result;
 }
 
-S_bsrBrailleSign bsrNote::noteValueKindAsBrailleSign ()
+S_bsrCellsList bsrNote::noteValueKindAsCellsList ()
 {
   return
-    noteValueKindAsBrailleSign (
+    noteValueKindAsCellsList (
       fInputLineNumber,
       fNoteValueKind);
 }
 
-S_bsrBrailleSign bsrNote::noteOctaveKindAsBrailleSign (
+S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
   int               inputLineNumber,
   bsrNoteOctaveKind noteOctaveKind)
 {
-  S_bsrBrailleSign
+  S_bsrCellsList
     result =
-      bsrBrailleSign::create (inputLineNumber);
+      bsrCellsList::create (inputLineNumber);
   
   switch (noteOctaveKind) {
     case kNoteOctaveBelow1Kind:
-      result->appendCellKindToBrailleSign (kDots4);
-      result->appendCellKindToBrailleSign (kDots4);
+      result->appendCellKindToCellsList (kDots4);
+      result->appendCellKindToCellsList (kDots4);
       break;
     case kNoteOctave1Kind:
-      result->appendCellKindToBrailleSign (kDots4);
+      result->appendCellKindToCellsList (kDots4);
       break;
     case kNoteOctave2Kind:
-      result->appendCellKindToBrailleSign (kDots45);
+      result->appendCellKindToCellsList (kDots45);
       break;
     case kNoteOctave3Kind:
-      result->appendCellKindToBrailleSign (kDots456);
+      result->appendCellKindToCellsList (kDots456);
       break;
     case kNoteOctave4Kind:
-      result->appendCellKindToBrailleSign (kDots5);
+      result->appendCellKindToCellsList (kDots5);
       break;
     case kNoteOctave5Kind:
-      result->appendCellKindToBrailleSign (kDots46);
+      result->appendCellKindToCellsList (kDots46);
       break;
     case kNoteOctave6Kind:
-      result->appendCellKindToBrailleSign (kDots56);
+      result->appendCellKindToCellsList (kDots56);
       break;
     case kNoteOctave7Kind:
-      result->appendCellKindToBrailleSign (kDots6);
+      result->appendCellKindToCellsList (kDots6);
       break;
     case kNoteOctaveAbove7Kind:
-      result->appendCellKindToBrailleSign (kDots6);
-      result->appendCellKindToBrailleSign (kDots6);
+      result->appendCellKindToCellsList (kDots6);
+      result->appendCellKindToCellsList (kDots6);
       break;
   } // switch
  
   return result;
 }
 
-S_bsrBrailleSign bsrNote::noteOctaveKindAsBrailleSign ()
+S_bsrCellsList bsrNote::noteOctaveKindAsCellsList ()
 {
   return
-    noteOctaveKindAsBrailleSign (
+    noteOctaveKindAsCellsList (
       fInputLineNumber,
       fNoteOctaveKind);
 }
 
-S_bsrBrailleSign bsrNote::asBrailleSign ()
+S_bsrCellsList bsrNote::asCellsList ()
 {
-  S_bsrBrailleSign
+  S_bsrCellsList
     result =
-      bsrBrailleSign::create (fInputLineNumber);
+      bsrCellsList::create (fInputLineNumber);
 
   // append note octave if needed
   switch (fNoteOctaveIsNeededKind) {
     case bsrNote::kNoteOctaveIsNeededYes:
-      result->appendBrailleSignToBrailleSign (
-        noteOctaveKindAsBrailleSign ());
+      result->appendCellsListToCellsList (
+        noteOctaveKindAsCellsList ());
       break;
     case bsrNote::kNoteOctaveIsNeededNo:
       break;
   } // switch
 
   // append note value
-  result->appendBrailleSignToBrailleSign (
-    noteValueKindAsBrailleSign ());
+  result->appendCellsListToCellsList (
+    noteValueKindAsCellsList ());
 
   // append dots if any
   for (int i = 0; i < fNoteDotsNumber; i++) {
-    result->appendCellKindToBrailleSign (
+    result->appendCellKindToCellsList (
       kCellAugmentationDot);
   } // for
 
@@ -653,8 +653,8 @@ string bsrNote::asString () const
     noteOctaveKindAsString (fNoteOctaveKind) <<
     ", noteOctaveIsNeededKind: " <<
     noteOctaveIsNeededKindAsString (fNoteOctaveIsNeededKind) <<
-    ", noteBrailleSign: " <<
-    fNoteBrailleSign->asShortString () <<
+    ", noteCellsList: " <<
+    fNoteCellsList->asShortString () <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -688,8 +688,8 @@ void bsrNote::print (ostream& os)
     noteOctaveIsNeededKindAsString (fNoteOctaveIsNeededKind) <<
     endl <<
     setw (fieldWidth) <<
-    "noteBrailleSign" << " : " <<
-    fNoteBrailleSign->asShortString () <<
+    "noteCellsList" << " : " <<
+    fNoteCellsList->asShortString () <<
     endl;
         
   gIndenter--;

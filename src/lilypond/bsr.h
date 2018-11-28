@@ -20,6 +20,7 @@
 #include "bsrTranscriptionNotes.h"
 
 #include "bsrMutuallyDependent.h"
+
 #include "bsrPageHeadings.h"
 
 #include "bsrNumbers.h"

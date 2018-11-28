@@ -125,8 +125,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getSpacesBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getSpacesCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
@@ -170,8 +170,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getTranscriptionNotesElementBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getTranscriptionNotesElementCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
@@ -224,8 +224,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getPageHeadingBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getPageHeadingCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
@@ -280,8 +280,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getNumberBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getNumberCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
@@ -308,8 +308,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getClefBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getClefCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
@@ -336,8 +336,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getKeyBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getKeyCellsList ());
     /*
   bsrKey::bsrKeyKind
     keyKind = elt->getKeyKind ();
@@ -414,8 +414,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getTimeBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getTimeCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
@@ -440,8 +440,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
       endl;
   }
 
-  fBrailleGenerator->generateCodeForBrailleSign (
-    elt->getNoteBrailleSign ());
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getNoteCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
