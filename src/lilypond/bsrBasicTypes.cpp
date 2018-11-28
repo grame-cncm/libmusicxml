@@ -48,7 +48,8 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
     case kCellEOP     : result = "EOP"; break;
     
     // 6dots values for Braille music
-    case kDotsNone    : result = ".None"; break;
+    case kDotsNone    : result = ".Space"; break;
+    
     case kDots1       : result = ".1"; break;
     case kDots2       : result = ".2"; break;
     case kDots12      : result = ".12"; break;
@@ -131,7 +132,8 @@ string bsrCellKindAsString (bsrCellKind cellKind)
     case kCellEOP     : result = "CellEOP"; break;
     
     // 6dots values for Braille music
-    case kDotsNone    : result = "DotsNone"; break;
+    case kDotsNone    : result = "Space"; break;
+    
     case kDots1       : result = "Dots1"; break;
     case kDots2       : result = "Dots2"; break;
     case kDots12      : result = "Dots12"; break;
@@ -454,9 +456,6 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   string result;
 
   switch (cellKind) {
-  // non 6dots values
-  case kCellEOL: result = "FOO"; break; // L'\u000a'
-  case kCellEOP: result = "FOO"; break; // L'\u000c'
 
   // lower case letters
   case kCellA: result = "kCellA"; break; // kDots1,
@@ -487,19 +486,6 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   case kCellX: result = "kCellX"; break; // kDots1346,
   case kCellY: result = "kCellY"; break; // kDots13456,
   case kCellZ: result = "kCellZ"; break; // kDots1356;
-
- // decimal digits
-  case kCellNumberSign: result = "kCellNumberSign"; break; // kDots3456,
-  case kCell1: result = "kCell1"; break; // kCellA,
-  case kCell2: result = "kCell2"; break; // kCellB,
-  case kCell3: result = "kCell3"; break; // kCellC,
-  case kCell4: result = "kCell4"; break; // kCellD,
-  case kCell5: result = "kCell5"; break; // kCellE,
-  case kCell6: result = "kCell6"; break; // kCellF,
-  case kCell7: result = "kCell7"; break; // kCellG,
-  case kCell8: result = "kCell8"; break; // kCellH,
-  case kCell9: result = "kCell9"; break; // kCellI,
-  case kCell0: result = "kCell0"; break; // kCellJ,
 
   // lower decimal digits
   case kCellLower1: result = "kCellLower1"; break; // kDots2,
@@ -534,31 +520,11 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   case kCellQuote           : result = "FOO"; break; // kDots3;
 
   // other symbols
-  case kCellSpace   : result = "kCellSpace"; break; // kDotsNone,
   case kCellSlash   : result = "FOO"; break; // kDots34,
   case kCellVerseEnd: result = "FOO"; break; // kDots345,
   case kCellItalics : result = "FOO"; break; // kDots456,
   case kCellAsterisk: result = "FOO"; break; // kDots35,
   case kCellExponent: result = "FOO"; break; // kDots4;
-
-  // octaves, bottom up
-  case kCellOctaveBelow1 : result = "kCellOctaveBelow1"; break; //{ kCellOctave1, kCellOctave1 },
-  case kCellOctave1: result = "kCellOctave1"; break; // kDots4,
-  case kCellOctave2: result = "kCellOctave2"; break; // kDots45,
-  case kCellOctave3: result = "kCellOctave3"; break; // kDots456,
-  case kCellOctave4: result = "kCellOctave4"; break; // kDots5,
-  case kCellOctave5: result = "kCellOctave5"; break; // kDots46,
-  case kCellOctave6: result = "kCellOctave6"; break; // kDots56,
-  case kCellOctave7: result = "kCellOctave7"; break; // kDots6;
-  case kCellOctaveAbove7 : result = "kCellOctaveAbove7"; break; //{ kCellOctave7, kCellOctave7 };
-  
-  // alterations
-  case kCellFlat   : result = "kCellFlat"; break; // kDots126,
-  case kCellNatural: result = "kCellNatural"; break; // kDots16,
-  case kCellSharp  : result = "kCellSharp"; break; // kDots136;
-
-  // augmentations
-  case kCellAugmentationDot: result = "kCellAugmentationDot"; break; // kDots3;
 
   // intervals
   case kCellSecond : result = "kCellSecond"; break; // kDots34,
@@ -568,16 +534,6 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   case kCellSixth  : result = "kCellSixth"; break; // kDots356,
   case kCellSeventh: result = "kCellSeventh"; break; // kDots25,
   case kCellEighth : result = "kCellEighth"; break; // kDots36;
-
-  // rests
-  case kCellRest8th    : result = "FOO"; break; // kDots1346,
-  case kCellRest128th  : result = "FOO"; break; // kDots1346,
-  case kCellRestQuarter: result = "FOO"; break; // kDots1236,
-  case kCellRest64th   : result = "FOO"; break; // kDots1236,
-  case kCellRestHalf   : result = "FOO"; break; // kDots136,
-  case kCellRest32th   : result = "FOO"; break; // kDots136,
-  case kCellRestWhole  : result = "FOO"; break; // kDots135,
-  case kCellRest16th   : result = "FOO"; break; // kDots135;
 
   // triplets
   case kCellTriplet : result = "kCellTriplet"; break; // kDots23;
@@ -602,10 +558,6 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
 
   // pages
   case kCellPagination: result = "kCellPagination"; break; // { kDots5, kDots25 };
-
-  // capitals
-  case kCellCapitalsSign: result = "FOO"; break; //: result = "FOO"; break; // kDots46;
-  case kCellCapitalsSequenceSign: result = "FOO"; break; // { kCellCapitalsSign, kCellCapitalsSign };
 
   // parentheses
   case kCellLiteraryLeftParenthesis  : result = "kCellLiteraryLeftParenthesis"; break; //{ kDots5, kDots126 },

@@ -21,7 +21,7 @@
 
 #include "bsrTranscriptionNotes.h"
 
-#include "bsrMutuallyDependent.h"
+#include "bsrPages.h"
 
 #include "bsrOptions.h"
 

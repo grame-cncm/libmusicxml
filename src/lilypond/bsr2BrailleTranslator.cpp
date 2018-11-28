@@ -269,6 +269,31 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
 }
 
 //________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrMeasure '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrMeasure '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {

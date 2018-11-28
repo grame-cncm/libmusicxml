@@ -135,12 +135,13 @@ void bsrSpaces::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 18;
+  const int fieldWidth = 16;
 
   os <<
     setw (fieldWidth) <<
-    "nNumberOfSpaces" << " : " << fNumberOfSpaces <<
+    "numberOfSpaces" << " : " << fNumberOfSpaces <<
     endl <<
+    setw (fieldWidth) <<
     "spacesCellsList" << " : " << fSpacesCellsList <<
     endl;
 

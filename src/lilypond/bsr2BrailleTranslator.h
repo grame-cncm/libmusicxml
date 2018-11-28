@@ -36,6 +36,8 @@ class bsr2BrailleTranslator :
   public visitor<S_bsrPageHeading>,
   
   public visitor<S_bsrLine>,
+  
+  public visitor<S_bsrMeasure>,
 
   public visitor<S_bsrNumber>,
   
@@ -80,6 +82,9 @@ class bsr2BrailleTranslator :
 
     virtual void visitStart (S_bsrLine& elt);
     virtual void visitEnd   (S_bsrLine& elt);
+
+    virtual void visitStart (S_bsrMeasure& elt);
+    virtual void visitEnd   (S_bsrMeasure& elt);
 
     virtual void visitStart (S_bsrNumber& elt);
     virtual void visitEnd   (S_bsrNumber& elt);

@@ -187,11 +187,6 @@ void brailleCellKind (bsrCellKind cellKind, ostream& os);
 //______________________________________________________________________________
 /*
 enum bsrCellKind2 {
-  // non 6dots values
-  kCellEOL, // L'\u000a'
-  kCellEOP, // L'\u000c'
-
-
   // lower decimal digits
   kCellLower1, // kDots2,
   kCellLower2, // kDots23,
@@ -219,7 +214,6 @@ enum bsrCellKind2 {
   kCellQuote           , // kDots3;
 
   // other symbols
-  kCellSpace   , // kDotsNone,
   kCellSlash   , // kDots34,
   kCellVerseEnd, // kDots345,
   kCellItalics , // kDots456,
@@ -234,16 +228,6 @@ enum bsrCellKind2 {
   kCellSixth  , // kDots356,
   kCellSeventh, // kDots25,
   kCellEighth , // kDots36;
-
-  // rests
-  kCellRest8th    , // kDots1346,
-  kCellRest128th  , // kDots1346,
-  kCellRestQuarter, // kDots1236,
-  kCellRest64th   , // kDots1236,
-  kCellRestHalf   , // kDots136,
-  kCellRest32th   , // kDots136,
-  kCellRestWhole  , // kDots135,
-  kCellRest16th   , // kDots135;
 
   // triplets
   kCellTriplet , // kDots23;
@@ -298,10 +282,6 @@ enum bsrCellKind2 {
   kCellFermataBetweenNotes , //{ kDots5,   kDots126, kDots123 },
   kCellFermataOverABarLine , //{ kDots456, kDots126, kDots123 };
 };
-
-string bsrCellKind2AsShortString (bsrCellKind cellKind);
-
-string bsrCellKind2AsString (bsrCellKind cellKind);
 */
 
 /*
