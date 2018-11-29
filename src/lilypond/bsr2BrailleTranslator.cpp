@@ -140,6 +140,20 @@ void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
 }
 
 //________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrBarline& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrBarline" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getBarlineCellsList ());
+}
+
+//________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotes& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {

@@ -17,6 +17,8 @@
 
 #include "bsrSpaces.h"
 
+#include "bsrBarlines.h"
+
 #include "bsrNumbers.h"
 
 #include "bsrClefs.h"
@@ -73,6 +75,9 @@ class bsrMeasure : public bsrLineElement
     // public services
     // ------------------------------------------------------
 
+    void                  appendBarlineToMeasure (S_bsrBarline barline)
+                              { fMeasureElementsList.push_back (barline); }
+                              
     void                  appendNumberToMeasure (S_bsrNumber number)
                               { fMeasureElementsList.push_back (number); }
                               

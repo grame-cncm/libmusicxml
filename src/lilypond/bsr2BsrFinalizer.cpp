@@ -118,6 +118,20 @@ void bsr2BsrFinalizer::visitEnd (S_bsrSpaces& elt)
 }
 
 //________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrBarline& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrBarline" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentMeasure->
+    appendBarlineToMeasure (elt);
+}
+
+//________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotes& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {

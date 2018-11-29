@@ -21,6 +21,8 @@
 
 #include "bsrMutuallyDependent.h"
 
+#include "bsrBarlines.h"
+
 #include "bsrPageHeadings.h"
 
 #include "bsrNumbers.h"

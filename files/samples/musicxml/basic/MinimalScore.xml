@@ -114,6 +114,9 @@
         <voice>1</voice>
         <type>16th</type>
       </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        </barline>
     </measure>
     <measure number="3" />
   </part>

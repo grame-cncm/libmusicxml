@@ -74,7 +74,7 @@ class bsrKey : public bsrLineElement
     int                   getNumberOfAlterations () const
                               { return fNumberOfAlterations; }
     
-    S_bsrCellsList      getKeyCellsList () const
+    S_bsrCellsList        getKeyCellsList () const
                               { return fKeyCellsList; }
 
   public:
@@ -87,10 +87,9 @@ class bsrKey : public bsrLineElement
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrCellsList      keyKindAsCellsList ();
+    S_bsrCellsList        keyKindAsCellsList ();
                           
-    S_bsrCellsList      asCellsList ();
-
+    S_bsrCellsList        asCellsList ();
 
   public:
 
@@ -119,7 +118,7 @@ class bsrKey : public bsrLineElement
     bsrKeyKind            fKeyKind;
     int                   fNumberOfAlterations;
 
-    S_bsrCellsList      fKeyCellsList;
+    S_bsrCellsList        fKeyCellsList;
 };
 typedef SMARTP<bsrKey> S_bsrKey;
 EXP ostream& operator<< (ostream& os, const S_bsrKey& elt);

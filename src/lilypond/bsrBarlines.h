@@ -10,8 +10,10 @@
   research@grame.fr
 */
 
-#ifndef ___bsrClefs___
-#define ___bsrClefs___
+#ifndef ___bsrBarlines___
+#define ___bsrBarlines___
+
+//#include <list>
 
 #include "bsrLineElements.h"
 
@@ -24,58 +26,54 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrClef : public bsrLineElement
+class bsrBarline;
+typedef SMARTP<bsrBarline> S_bsrBarline;
+
+class bsrBarline : public bsrLineElement
 {
   public:
-          
+    
     // data types
     // ------------------------------------------------------
 
-    enum bsrClefKind {
-        kClefKindNone,
+    enum bsrBarlineKind {
+        kBarlineKindNone,
+        kBarlineKindDotted, kBarlineKindUnusual,
+        kBarlineKindFinalDouble, kBarlineKindSectionalDouble };
         
-        kClefKindGTreble,
-        kClefKindFBass,
-        kClefKindCAlto,
-        kClefKindGSoprano, // first line, french violin
-        kClefKindFBaritone,
-        kClefKindCTenor,
-        kClefKindGOttavaAlta,
-        kClefKindGOttavaBassa,
-        kClefKindModifiedBassForRightHandPart,
-        kClefKindModifiedTrebleForLeftHandPart };
-        
-    static string clefKindAsString (
-      bsrClefKind clefKind);
+    static string barlineKindAsString (
+      bsrBarlineKind barlineKind);
       
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrClef> create (
-      int         inputLineNumber,
-      bsrClefKind clefKind);
-
+    static SMARTP<bsrBarline> create (
+      int            inputLineNumber,
+      bsrBarlineKind barlineKind);
+      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrClef (
-      int         inputLineNumber,
-      bsrClefKind clefKind);
-      
-    virtual ~bsrClef ();
-  
+    bsrBarline (
+      int            inputLineNumber,
+      bsrBarlineKind barlineKin);
+            
+    virtual ~bsrBarline ();
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                  
-    bsrClefKind           getClefKind () const
-                              { return fClefKind; }
 
-    S_bsrCellsList        getClefCellsList () const
-                              { return fClefCellsList; }
+    bsrBarlineKind        getBarlineKind () const
+                              { return fBarlineKind; }
+    
+    S_bsrCellsList        getBarlineCellsList () const
+                              { return fBarlineCellsList; }
+
+  public:
 
     // public services
     // ------------------------------------------------------
@@ -84,9 +82,11 @@ class bsrClef : public bsrLineElement
   
     // private services
     // ------------------------------------------------------
-                                                                      
+                                            
+    S_bsrCellsList        barlineKindAsCellsList ();
+                          
     S_bsrCellsList        asCellsList ();
-                  
+
   public:
 
     // visitors
@@ -105,18 +105,18 @@ class bsrClef : public bsrLineElement
     string                asString () const;
 
     virtual void          print (ostream& os);
-
+  
   private:
 
     // fields
     // ------------------------------------------------------
 
-    bsrClefKind           fClefKind;
+    bsrBarlineKind        fBarlineKind;
 
-    S_bsrCellsList        fClefCellsList;
+    S_bsrCellsList        fBarlineCellsList;
 };
-typedef SMARTP<bsrClef> S_bsrClef;
-EXP ostream& operator<< (ostream& os, const S_bsrClef& elt);
+typedef SMARTP<bsrBarline> S_bsrBarline;
+EXP ostream& operator<< (ostream& os, const S_bsrBarline& elt);
 
 
 } // namespace MusicXML2

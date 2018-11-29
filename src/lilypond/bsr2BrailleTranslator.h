@@ -28,6 +28,10 @@ class bsr2BrailleTranslator :
   
   public visitor<S_bsrScore>,
   
+  public visitor<S_bsrSpaces>,
+  
+  public visitor<S_bsrBarline>,
+
   public visitor<S_bsrTranscriptionNotes>,
   public visitor<S_bsrTranscriptionNotesElement>,
   
@@ -67,6 +71,8 @@ class bsr2BrailleTranslator :
 
     virtual void visitStart (S_bsrSpaces& elt);
     virtual void visitEnd   (S_bsrSpaces& elt);
+
+    virtual void visitStart (S_bsrBarline& elt);
 
     virtual void visitStart (S_bsrTranscriptionNotes& elt);
     virtual void visitEnd   (S_bsrTranscriptionNotes& elt);

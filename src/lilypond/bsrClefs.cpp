@@ -54,8 +54,7 @@ bsrClef::bsrClef (
 {
   fClefKind = clefKind;
 
-  fClefCellsList =
-    bsrCellsList::create (inputLineNumber);
+  fClefCellsList = asCellsList ();
     
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceClefs) {
@@ -71,6 +70,88 @@ bsrClef::bsrClef (
 
 bsrClef::~bsrClef ()
 {}
+
+S_bsrCellsList bsrClef::asCellsList ()
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (
+        fInputLineNumber);
+
+  switch (fClefKind) {
+    case kClefKindNone:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber);
+      break;
+
+    case kClefKindGTreble:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots34, kDots123);
+      break;
+    case kClefKindFBass:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots3456, kDots123);
+      break;
+    case kClefKindCAlto:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots346, kDots123);
+      break;
+      
+    case kClefKindGSoprano:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots34, kDots4, kDots123);
+      break;
+    case kClefKindFBaritone:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots3456, kDots456, kDots123);
+      break;
+    case kClefKindCTenor:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots346, kDots5, kDots123);
+      break;
+      
+    case kClefKindGOttavaAlta:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots34, kDots123, kDots3456, kDots125);
+      break;
+    case kClefKindGOttavaBassa:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots34, kDots123, kDots3456, kDots236);
+      break;
+      
+    case kClefKindModifiedBassForRightHandPart:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots3456, kDots13);
+      break;
+    case kClefKindModifiedTrebleForLeftHandPart:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots345, kDots34, kDots13);
+      break;
+  } // switch
+
+  return result;
+}
 
 void bsrClef::acceptIn (basevisitor* v)
 {
@@ -134,6 +215,9 @@ string bsrClef::clefKindAsString (
       break;
     case kClefKindFBass:
       result = "clefFBass";
+      break;
+    case kClefKindCAlto:
+      result = "clefCAlto";
       break;
     case kClefKindGSoprano:
       result = "clefGSoprano";

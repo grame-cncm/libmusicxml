@@ -41,6 +41,10 @@ class msr2BsrTranslator :
   public visitor<S_msrVoice>,
   public visitor<S_msrVoiceStaffChange>,
 
+  // barlines
+
+  public visitor<S_msrBarline>,
+
   // measures
       
   public visitor<S_msrMeasure>,
@@ -109,6 +113,10 @@ class msr2BsrTranslator :
     virtual void visitEnd   (S_msrVoice& elt);
 
     virtual void visitStart (S_msrVoiceStaffChange& elt);
+
+    // barlines
+  
+    virtual void visitStart (S_msrBarline& elt);
 
     // measures
     

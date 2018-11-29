@@ -622,6 +622,91 @@ void msr2BsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
 }
 
 //________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrBarline& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrBarline" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBarlines) {
+    fLogOutputStream <<
+      "Handling '" <<
+      msrBarline::barlineCategoryKindAsString (
+        elt->getBarlineCategory ()) <<
+      endl;
+  }
+#endif
+
+  // get the MSR barline attributes
+
+  msrBarline::msrBarlineStyleKind
+    mBarlineStyleKind =
+      elt->getBarlineStyleKind ();
+
+  // let's go
+
+  bsrBarline::bsrBarlineKind
+    bBarlineKind = bsrBarline::kBarlineKindNone;
+    
+  switch (mBarlineStyleKind) {
+    case msrBarline::kBarlineStyleNone:
+      break;
+    case msrBarline::kBarlineStyleRegular:
+      break;
+    case msrBarline::kBarlineStyleDotted:
+      bBarlineKind = bsrBarline::kBarlineKindDotted;
+      break;
+    case msrBarline::kBarlineStyleDashed:
+      break;
+    case msrBarline::kBarlineStyleHeavy:
+      break;
+    case msrBarline::kBarlineStyleLightLight:
+      bBarlineKind = bsrBarline::kBarlineKindSectionalDouble;
+      break;
+    case msrBarline::kBarlineStyleLightHeavy:
+      bBarlineKind = bsrBarline::kBarlineKindFinalDouble;
+      break;
+    case msrBarline::kBarlineStyleHeavyLight:
+      break;
+    case msrBarline::kBarlineStyleHeavyHeavy:
+      break;
+    case msrBarline::kBarlineStyleTick:
+      break;
+    case msrBarline::kBarlineStyleShort:
+      break;
+  } // switch
+
+  if (bBarlineKind == bsrBarline::kBarlineKindNone) {
+    stringstream s;
+
+    s <<
+      "MSR barline kind '" <<
+      msrBarline::barlineStyleKindAsString (mBarlineStyleKind) <<
+      "' is not supported in Braille music";
+      
+    notSupportedMessage (
+      inputLineNumber,
+      s.str ());
+  }
+  else {
+    S_bsrBarline
+      barline =
+        bsrBarline::create (
+          inputLineNumber, bBarlineKind);
+      
+    fCurrentMeasure->
+      appendBarlineToMeasure (barline);
+  }
+}
+
+//________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
 {    
   int
@@ -5518,78 +5603,6 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
     gIndenter--;
   }
 #endif
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrBarline& elt)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrBarline" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines) {
-    fLogOutputStream <<
-      "Handling '" <<
-      msrBarline::barlineCategoryKindAsString (
-        elt->getBarlineCategory ()) <<
-      "' in voice \"" <<
-      fCurrentVoiceClone->getVoiceName () << "\"" <<
-      endl;
-  }
-#endif
-
-  switch (elt->getBarlineStyleKind ()) {
-    case msrBarline::kBarlineStyleNone:
-      break;
-    case msrBarline::kBarlineStyleRegular:
-      break;
-    case msrBarline::kBarlineStyleDotted:
-      break;
-    case msrBarline::kBarlineStyleDashed:
-      break;
-    case msrBarline::kBarlineStyleHeavy:
-      break;
-    case msrBarline::kBarlineStyleLightLight:
-      break;
-    case msrBarline::kBarlineStyleLightHeavy:
-      break;
-    case msrBarline::kBarlineStyleHeavyLight:
-      break;
-    case msrBarline::kBarlineStyleHeavyHeavy:
-      break;
-    case msrBarline::kBarlineStyleTick:
-      break;
-    case msrBarline::kBarlineStyleShort:
-      fBsrScore->
-        // this score needs the 'custom short barline' Scheme function
-        setCustomShortBarLineSchemeFunctionIsNeeded ();
-      break;
-      / * JMI
-    case msrBarline::kBarlineStyleNone:
-      break;
-      * /
-  } // switch
-
-  // append the barline to the current voice clone
-  fCurrentVoiceClone->
-    appendBarlineToVoice (elt);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrBarline& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrBarline" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
 }
 
 //________________________________________________________________________
