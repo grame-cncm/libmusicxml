@@ -13,7 +13,7 @@
 #ifndef ___bsrClefs___
 #define ___bsrClefs___
 
-#include "bsrBrailleElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrClef : public bsrBrailleElement
+class bsrClef : public bsrLineElement
 {
   public:
           
@@ -32,16 +32,17 @@ class bsrClef : public bsrBrailleElement
     // ------------------------------------------------------
 
     enum bsrClefKind {
-        kClefNone,
-        kClefGTrebleKind,
-        kClefFBassKind,
-        kClefGSopranoKind, // first line, french violin
-        kClefFBaritoneKind,
-        kClefCTenorKind,
-        kClefGOttavaAltaKind,
-        kClefGOttavaBassaKind,
-        kClefModifiedBassForRightHandPartKind,
-        kClefModifiedTrebleForLeftHandPartKind };
+        kClefKindNone,
+        
+        kClefKindGTreble,
+        kClefKindFBass,
+        kClefKindGSoprano, // first line, french violin
+        kClefKindFBaritone,
+        kClefKindCTenor,
+        kClefKindGOttavaAlta,
+        kClefKindGOttavaBassa,
+        kClefKindModifiedBassForRightHandPart,
+        kClefKindModifiedTrebleForLeftHandPart };
         
     static string clefKindAsString (
       bsrClefKind clefKind);

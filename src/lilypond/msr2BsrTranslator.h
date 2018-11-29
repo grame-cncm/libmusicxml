@@ -135,6 +135,12 @@ class msr2BsrTranslator :
                      
     indentedOstream&          fLogOutputStream;
 
+    // messages
+    // ------------------------------------------------------
+
+    void                      notSupportedMessage (
+                                int    inputLineNumber,
+                                string message);
 
     // the MSR score we're visiting
     // ------------------------------------------------------
@@ -188,6 +194,7 @@ class msr2BsrTranslator :
       
     S_bsrMeasure              fCurrentMeasure;
 
+     
 /*
     // it's header
     // ------------------------------------------------------

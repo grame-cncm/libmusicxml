@@ -15,7 +15,7 @@
 
 //#include <list>
 
-#include "bsrBrailleElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -29,7 +29,7 @@ namespace MusicXML2
 class bsrKey;
 typedef SMARTP<bsrKey> S_bsrKey;
 
-class bsrKey : public bsrBrailleElement
+class bsrKey : public bsrLineElement
 {
   public:
     
@@ -37,6 +37,7 @@ class bsrKey : public bsrBrailleElement
     // ------------------------------------------------------
 
     enum bsrKeyKind {
+        kKeyKindNone,
         kKeyKindFlats, kKeyKindNaturals, kKeyKindSharps };
         
     static string keyKindAsString (

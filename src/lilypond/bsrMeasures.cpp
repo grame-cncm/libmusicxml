@@ -45,7 +45,7 @@ bsrMeasure::bsrMeasure (
     : bsrLineElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gBsrTraceOptions->fTraceLines) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating bsrMeasure '" <<
       asString () <<
@@ -170,18 +170,32 @@ void bsrMeasure::print (ostream& os)
     "Measure" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+    
   gIndenter++;
 
-  // print the measure numbers
-  const int fieldWidth = 18;
+  const int fieldWidth = 21;
+
+  // print spaces needs
+  os << left <<
+    setw (fieldWidth) <<
+    "aSpaceIsNeededBefore" << " : " <<
+    booleanAsString (fASpaceIsNeededBefore) <<
+    endl <<
+    setw (fieldWidth) <<
+    "aSpaceIsNeededAfter" << " : " <<
+    booleanAsString (fASpaceIsNeededAfter) <<
+    endl;
   
+  // print the measure numbers
   os << left <<
     setw (fieldWidth) <<
     "printMeasureNumber" << " : " << fPrintMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
     "brailleMeasureNumber" << " : " << fBrailleMeasureNumber <<
+    endl;
+
+  os <<
     endl;
   
   // print the measure elements if any
@@ -190,7 +204,7 @@ void bsrMeasure::print (ostream& os)
   if (measureElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "measureElementsList";
+      "MeasureElementsList";
     if (measureElementsListSize) {
       os <<
         endl;

@@ -20,6 +20,8 @@
 #include "utilities.h"
 #include "messagesHandling.h"
 
+#include "msrBasicTypes.h"
+
 #include "msrElements.h"
 
 #include "msrVarValAssocs.h"

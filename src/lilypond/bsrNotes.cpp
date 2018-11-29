@@ -37,12 +37,11 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrNote bsrNote::create (
-  int               inputLineNumber,
-  bsrNoteValueKind  noteValueKind,
-  int               noteDotsNumber,
-  bsrNoteOctaveKind noteOctaveKind,
-  bsrNoteOctaveIsNeededKind
-                    noteOctaveIsNeededKind)
+  int                   inputLineNumber,
+  bsrNoteValueKind      noteValueKind,
+  int                   noteDotsNumber,
+  bsrNoteOctaveKind     noteOctaveKind,
+  bsrNoteOctaveIsNeeded noteOctaveIsNeeded)
 {
   bsrNote* o =
     new bsrNote (
@@ -50,26 +49,25 @@ S_bsrNote bsrNote::create (
       noteValueKind,
       noteDotsNumber,
       noteOctaveKind,
-      noteOctaveIsNeededKind);
+      noteOctaveIsNeeded);
   assert (o!=0);
   return o;
 }
 
 bsrNote::bsrNote (
-  int               inputLineNumber,
-  bsrNoteValueKind  noteValueKind,
-  int               noteDotsNumber,
-  bsrNoteOctaveKind noteOctaveKind,
-  bsrNoteOctaveIsNeededKind
-                    noteOctaveIsNeededKind)
-    : bsrBrailleElement (inputLineNumber)
+  int                   inputLineNumber,
+  bsrNoteValueKind      noteValueKind,
+  int                   noteDotsNumber,
+  bsrNoteOctaveKind     noteOctaveKind,
+  bsrNoteOctaveIsNeeded noteOctaveIsNeeded)
+    : bsrLineElement (inputLineNumber)
 {
   fNoteValueKind  = noteValueKind;
   fNoteDotsNumber = noteDotsNumber;
   
   fNoteOctaveKind = noteOctaveKind;
     
-  fNoteOctaveIsNeededKind = noteOctaveIsNeededKind;
+  fNoteOctaveIsNeeded = noteOctaveIsNeeded;
 
   fNoteCellsList = asCellsList ();
 }
@@ -86,280 +84,283 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList (
       bsrCellsList::create (inputLineNumber);
 
   switch (noteValueKind) {
-    case kNoteRestBreveKind:
+    case kNoteKindNone:
+      break;
+      
+    case kNoteKindRestBreve:
       result->appendCellKindToCellsList (kDots134);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteRestWholeKind:
+    case kNoteKindRestWhole:
       result->appendCellKindToCellsList (kDots134);
       break;
-    case kNoteRestHalfKind:
+    case kNoteKindRestHalf:
       result->appendCellKindToCellsList (kDots136);
       break;
-    case kNoteRestQuarterKind:
+    case kNoteKindRestQuarter:
       result->appendCellKindToCellsList (kDots1236);
       break;
-    case kNoteRest8thKind:
+    case kNoteKindRest8th:
       result->appendCellKindToCellsList (kDots1346);
       break;
-    case kNoteRest16thKind:
+    case kNoteKindRest16th:
       result->appendCellKindToCellsList (kDots134);
       break;
-    case kNoteRest32ndKind:
+    case kNoteKindRest32nd:
       result->appendCellKindToCellsList (kDots136);
       break;
-    case kNoteRest64thKind:
+    case kNoteKindRest64th:
       result->appendCellKindToCellsList (kDots1236);
       break;
-    case kNoteRest128thKind:
+    case kNoteKindRest128th:
       result->appendCellKindToCellsList (kDots1346);
       break;
-    case kNoteRest256thKind:
+    case kNoteKindRest256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots134);
       break;
 
-    case kNoteCBreveKind:
+    case kNoteKindCBreve:
       result->appendCellKindToCellsList (kDots13456);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteCWholeKind:
+    case kNoteKindCWhole:
       result->appendCellKindToCellsList (kDots13456);
       break;
-    case kNoteCHalfKind:
+    case kNoteKindCHalf:
       result->appendCellKindToCellsList (kDots1345);
       break;
-    case kNoteCQuarterKind:
+    case kNoteKindCQuarter:
       result->appendCellKindToCellsList (kDots1456);
       break;
-    case kNoteC8thKind:
+    case kNoteKindC8th:
       result->appendCellKindToCellsList (kDots145);
       break;
-    case kNoteC16thKind:
+    case kNoteKindC16th:
       result->appendCellKindToCellsList (kDots13456);
       break;
-    case kNoteC32ndKind:
+    case kNoteKindC32nd:
       result->appendCellKindToCellsList (kDots1345);
       break;
-    case kNoteC64thKind:
+    case kNoteKindC64th:
       result->appendCellKindToCellsList (kDots1456);
       break;
-    case kNoteC128thKind:
+    case kNoteKindC128th:
       result->appendCellKindToCellsList (kDots145);
       break;
-    case kNoteC256thKind:
+    case kNoteKindC256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots13456);
       break;
 
-    case kNoteDBreveKind:
+    case kNoteKindDBreve:
       result->appendCellKindToCellsList (kDots1356);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteDWholeKind:
+    case kNoteKindDWhole:
       result->appendCellKindToCellsList (kDots1356);
       break;
-    case kNoteDHalfKind:
+    case kNoteKindDHalf:
       result->appendCellKindToCellsList (kDots135);
       break;
-    case kNoteDQuarterKind:
+    case kNoteKindDQuarter:
       result->appendCellKindToCellsList (kDots156);
       break;
-    case kNoteD8thKind:
+    case kNoteKindD8th:
       result->appendCellKindToCellsList (kDots15);
       break;
-    case kNoteD16thKind:
+    case kNoteKindD16th:
       result->appendCellKindToCellsList (kDots1356);
       break;
-    case kNoteD32ndKind:
+    case kNoteKindD32nd:
       result->appendCellKindToCellsList (kDots135);
       break;
-    case kNoteD64thKind:
+    case kNoteKindD64th:
       result->appendCellKindToCellsList (kDots156);
       break;
-    case kNoteD128thKind:
+    case kNoteKindD128th:
       result->appendCellKindToCellsList (kDots15);
       break;
-    case kNoteD256thKind:
+    case kNoteKindD256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots1356);
       break;
 
-    case kNoteEBreveKind:
+    case kNoteKindEBreve:
       result->appendCellKindToCellsList (kDots12346);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteEWholeKind:
+    case kNoteKindEWhole:
       result->appendCellKindToCellsList (kDots12346);
       break;
-    case kNoteEHalfKind:
+    case kNoteKindEHalf:
       result->appendCellKindToCellsList (kDots1234);
       break;
-    case kNoteEQuarterKind:
+    case kNoteKindEQuarter:
       result->appendCellKindToCellsList (kDots1256);
       break;
-    case kNoteE8thKind:
+    case kNoteKindE8th:
       result->appendCellKindToCellsList (kDots125);
       break;
-    case kNoteE16thKind:
+    case kNoteKindE16th:
       result->appendCellKindToCellsList (kDots12346);
       break;
-    case kNoteE32ndKind:
+    case kNoteKindE32nd:
       result->appendCellKindToCellsList (kDots1234);
       break;
-    case kNoteE64thKind:
+    case kNoteKindE64th:
       result->appendCellKindToCellsList (kDots1256);
       break;
-    case kNoteE128thKind:
+    case kNoteKindE128th:
       result->appendCellKindToCellsList (kDots125);
       break;
-    case kNoteE256thKind:
+    case kNoteKindE256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots12346);
       break;
 
-    case kNoteFBreveKind:
+    case kNoteKindFBreve:
       result->appendCellKindToCellsList (kDots123456);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteFWholeKind:
+    case kNoteKindFWhole:
       result->appendCellKindToCellsList (kDots123456);
       break;
-    case kNoteFHalfKind:
+    case kNoteKindFHalf:
       result->appendCellKindToCellsList (kDots12345);
       break;
-    case kNoteFQuarterKind:
+    case kNoteKindFQuarter:
       result->appendCellKindToCellsList (kDots12456);
       break;
-    case kNoteF8thKind:
+    case kNoteKindF8th:
       result->appendCellKindToCellsList (kDots1245);
       break;
-    case kNoteF16thKind:
+    case kNoteKindF16th:
       result->appendCellKindToCellsList (kDots123456);
       break;
-    case kNoteF32ndKind:
+    case kNoteKindF32nd:
       result->appendCellKindToCellsList (kDots12345);
       break;
-    case kNoteF64thKind:
+    case kNoteKindF64th:
       result->appendCellKindToCellsList (kDots12456);
       break;
-    case kNoteF128thKind:
+    case kNoteKindF128th:
       result->appendCellKindToCellsList (kDots1245);
       break;
-    case kNoteF256thKind:
+    case kNoteKindF256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots123456);
       break;
 
-    case kNoteGBreveKind:
+    case kNoteKindGBreve:
       result->appendCellKindToCellsList (kDots12356);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteGWholeKind:
+    case kNoteKindGWhole:
       result->appendCellKindToCellsList (kDots12356);
       break;
-    case kNoteGHalfKind:
+    case kNoteKindGHalf:
       result->appendCellKindToCellsList (kDots1235);
       break;
-    case kNoteGQuarterKind:
+    case kNoteKindGQuarter:
       result->appendCellKindToCellsList (kDots1256);
       break;
-    case kNoteG8thKind:
+    case kNoteKindG8th:
       result->appendCellKindToCellsList (kDots125);
       break;
-    case kNoteG16thKind:
+    case kNoteKindG16th:
       result->appendCellKindToCellsList (kDots12356);
       break;
-    case kNoteG32ndKind:
+    case kNoteKindG32nd:
       result->appendCellKindToCellsList (kDots1235);
       break;
-    case kNoteG64thKind:
+    case kNoteKindG64th:
       result->appendCellKindToCellsList (kDots1256);
       break;
-    case kNoteG128thKind:
+    case kNoteKindG128th:
       result->appendCellKindToCellsList (kDots125);
       break;
-    case kNoteG256thKind:
+    case kNoteKindG256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots12356);
       break;
 
-    case kNoteABreveKind:
+    case kNoteKindABreve:
       result->appendCellKindToCellsList (kDots2346);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteAWholeKind:
+    case kNoteKindAWhole:
       result->appendCellKindToCellsList (kDots2346);
       break;
-    case kNoteAHalfKind:
+    case kNoteKindAHalf:
       result->appendCellKindToCellsList (kDots234);
       break;
-    case kNoteAQuarterKind:
+    case kNoteKindAQuarter:
       result->appendCellKindToCellsList (kDots246);
       break;
-    case kNoteA8thKind:
+    case kNoteKindA8th:
       result->appendCellKindToCellsList (kDots24);
       break;
-    case kNoteA16thKind:
+    case kNoteKindA16th:
       result->appendCellKindToCellsList (kDots2346);
       break;
-    case kNoteA32ndKind:
+    case kNoteKindA32nd:
       result->appendCellKindToCellsList (kDots234);
       break;
-    case kNoteA64thKind:
+    case kNoteKindA64th:
       result->appendCellKindToCellsList (kDots246);
       break;
-    case kNoteA128thKind:
+    case kNoteKindA128th:
       result->appendCellKindToCellsList (kDots24);
       break;
-    case kNoteA256thKind:
+    case kNoteKindA256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
       result->appendCellKindToCellsList (kDots2346);
       break;
 
-    case kNoteBBreveKind:
+    case kNoteKindBBreve:
       result->appendCellKindToCellsList (kDots23456);
       result->appendCellKindToCellsList (kDots13);
       break;
-    case kNoteBWholeKind:
+    case kNoteKindBWhole:
       result->appendCellKindToCellsList (kDots23456);
       break;
-    case kNoteBHalfKind:
+    case kNoteKindBHalf:
       result->appendCellKindToCellsList (kDots2345);
       break;
-    case kNoteBQuarterKind:
+    case kNoteKindBQuarter:
       result->appendCellKindToCellsList (kDots2456);
       break;
-    case kNoteB8thKind:
+    case kNoteKindB8th:
       result->appendCellKindToCellsList (kDots245);
       break;
-    case kNoteB16thKind:
+    case kNoteKindB16th:
       result->appendCellKindToCellsList (kDots23456);
       break;
-    case kNoteB32ndKind:
+    case kNoteKindB32nd:
       result->appendCellKindToCellsList (kDots2345);
       break;
-    case kNoteB64thKind:
+    case kNoteKindB64th:
       result->appendCellKindToCellsList (kDots2456);
       break;
-    case kNoteB128thKind:
+    case kNoteKindB128th:
       result->appendCellKindToCellsList (kDots245);
       break;
-    case kNoteB256thKind:
+    case kNoteKindB256th:
       result->appendCellKindToCellsList (kDots56);
       result->appendCellKindToCellsList (kDots126);
       result->appendCellKindToCellsList (kDots2);
@@ -387,32 +388,32 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
       bsrCellsList::create (inputLineNumber);
   
   switch (noteOctaveKind) {
-    case kNoteOctaveBelow1Kind:
+    case kNoteOctaveKindBelow1:
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kDots4);
       break;
-    case kNoteOctave1Kind:
+    case kNoteOctaveKind1:
       result->appendCellKindToCellsList (kDots4);
       break;
-    case kNoteOctave2Kind:
+    case kNoteOctaveKind2:
       result->appendCellKindToCellsList (kDots45);
       break;
-    case kNoteOctave3Kind:
+    case kNoteOctaveKind3:
       result->appendCellKindToCellsList (kDots456);
       break;
-    case kNoteOctave4Kind:
+    case kNoteOctaveKind4:
       result->appendCellKindToCellsList (kDots5);
       break;
-    case kNoteOctave5Kind:
+    case kNoteOctaveKind5:
       result->appendCellKindToCellsList (kDots46);
       break;
-    case kNoteOctave6Kind:
+    case kNoteOctaveKind6:
       result->appendCellKindToCellsList (kDots56);
       break;
-    case kNoteOctave7Kind:
+    case kNoteOctaveKind7:
       result->appendCellKindToCellsList (kDots6);
       break;
-    case kNoteOctaveAbove7Kind:
+    case kNoteOctaveKindAbove7:
       result->appendCellKindToCellsList (kDots6);
       result->appendCellKindToCellsList (kDots6);
       break;
@@ -436,7 +437,7 @@ S_bsrCellsList bsrNote::asCellsList ()
       bsrCellsList::create (fInputLineNumber);
 
   // append note octave if needed
-  switch (fNoteOctaveIsNeededKind) {
+  switch (fNoteOctaveIsNeeded) {
     case bsrNote::kNoteOctaveIsNeededYes:
       result->appendCellsListToCellsList (
         noteOctaveKindAsCellsList ());
@@ -511,93 +512,95 @@ string bsrNote::noteValueKindAsString (
   string result;
   
   switch (noteValueKind) {
-    case kNoteRestBreveKind: result = "RestBreve"; break;
-    case kNoteRestWholeKind: result = "RestWhole"; break;
-    case kNoteRestHalfKind: result = "RestHalf"; break;
-    case kNoteRestQuarterKind: result = "RestQuarter"; break;
-    case kNoteRest8thKind: result = "Rest8th"; break;
-    case kNoteRest16thKind: result = "Rest16th"; break;
-    case kNoteRest32ndKind: result = "Rest32nd"; break;
-    case kNoteRest64thKind: result = "Rest64th"; break;
-    case kNoteRest128thKind: result = "Rest128th"; break;
-    case kNoteRest256thKind: result = "Rest256th"; break;
+    case kNoteKindNone: result = "None"; break;
+      
+    case kNoteKindRestBreve: result = "RestBreve"; break;
+    case kNoteKindRestWhole: result = "RestWhole"; break;
+    case kNoteKindRestHalf: result = "RestHalf"; break;
+    case kNoteKindRestQuarter: result = "RestQuarter"; break;
+    case kNoteKindRest8th: result = "Rest8th"; break;
+    case kNoteKindRest16th: result = "Rest16th"; break;
+    case kNoteKindRest32nd: result = "Rest32nd"; break;
+    case kNoteKindRest64th: result = "Rest64th"; break;
+    case kNoteKindRest128th: result = "Rest128th"; break;
+    case kNoteKindRest256th: result = "Rest256th"; break;
 
-    case kNoteCBreveKind: result = "CBreve"; break;
-    case kNoteCWholeKind: result = "CWhole"; break;
-    case kNoteCHalfKind: result = "CHalf"; break;
-    case kNoteCQuarterKind: result = "CQuarter"; break;
-    case kNoteC8thKind: result = "C8th"; break;
-    case kNoteC16thKind: result = "C16th"; break;
-    case kNoteC32ndKind: result = "C32nd"; break;
-    case kNoteC64thKind: result = "C64th"; break;
-    case kNoteC128thKind: result = "C128th"; break;
-    case kNoteC256thKind: result = "C256th"; break;
+    case kNoteKindCBreve: result = "CBreve"; break;
+    case kNoteKindCWhole: result = "CWhole"; break;
+    case kNoteKindCHalf: result = "CHalf"; break;
+    case kNoteKindCQuarter: result = "CQuarter"; break;
+    case kNoteKindC8th: result = "C8th"; break;
+    case kNoteKindC16th: result = "C16th"; break;
+    case kNoteKindC32nd: result = "C32nd"; break;
+    case kNoteKindC64th: result = "C64th"; break;
+    case kNoteKindC128th: result = "C128th"; break;
+    case kNoteKindC256th: result = "C256th"; break;
 
-    case kNoteDBreveKind: result = "DBreve"; break;
-    case kNoteDWholeKind: result = "DWhole"; break;
-    case kNoteDHalfKind: result = "DHalf"; break;
-    case kNoteDQuarterKind: result = "DQuarter"; break;
-    case kNoteD8thKind: result = "D8th"; break;
-    case kNoteD16thKind: result = "D16th"; break;
-    case kNoteD32ndKind: result = "D32nd"; break;
-    case kNoteD64thKind: result = "D64th"; break;
-    case kNoteD128thKind: result = "D128th"; break;
-    case kNoteD256thKind: result = "D256th"; break;
+    case kNoteKindDBreve: result = "DBreve"; break;
+    case kNoteKindDWhole: result = "DWhole"; break;
+    case kNoteKindDHalf: result = "DHalf"; break;
+    case kNoteKindDQuarter: result = "DQuarter"; break;
+    case kNoteKindD8th: result = "D8th"; break;
+    case kNoteKindD16th: result = "D16th"; break;
+    case kNoteKindD32nd: result = "D32nd"; break;
+    case kNoteKindD64th: result = "D64th"; break;
+    case kNoteKindD128th: result = "D128th"; break;
+    case kNoteKindD256th: result = "D256th"; break;
 
-    case kNoteEBreveKind: result = "EBreve"; break;
-    case kNoteEWholeKind: result = "EWhole"; break;
-    case kNoteEHalfKind: result = "EHalf"; break;
-    case kNoteEQuarterKind: result = "EQuarter"; break;
-    case kNoteE8thKind: result = "E8th"; break;
-    case kNoteE16thKind: result = "E16th"; break;
-    case kNoteE32ndKind: result = "E32nd"; break;
-    case kNoteE64thKind: result = "E64th"; break;
-    case kNoteE128thKind: result = "E128th"; break;
-    case kNoteE256thKind: result = "E256th"; break;
+    case kNoteKindEBreve: result = "EBreve"; break;
+    case kNoteKindEWhole: result = "EWhole"; break;
+    case kNoteKindEHalf: result = "EHalf"; break;
+    case kNoteKindEQuarter: result = "EQuarter"; break;
+    case kNoteKindE8th: result = "E8th"; break;
+    case kNoteKindE16th: result = "E16th"; break;
+    case kNoteKindE32nd: result = "E32nd"; break;
+    case kNoteKindE64th: result = "E64th"; break;
+    case kNoteKindE128th: result = "E128th"; break;
+    case kNoteKindE256th: result = "E256th"; break;
 
-    case kNoteFBreveKind: result = "FBreve"; break;
-    case kNoteFWholeKind: result = "FWhole"; break;
-    case kNoteFHalfKind: result = "FHalf"; break;
-    case kNoteFQuarterKind: result = "FQuarter"; break;
-    case kNoteF8thKind: result = "F8th"; break;
-    case kNoteF16thKind: result = "F16th"; break;
-    case kNoteF32ndKind: result = "F32nd"; break;
-    case kNoteF64thKind: result = "F64th"; break;
-    case kNoteF128thKind: result = "F128th"; break;
-    case kNoteF256thKind: result = "F256th"; break;
+    case kNoteKindFBreve: result = "FBreve"; break;
+    case kNoteKindFWhole: result = "FWhole"; break;
+    case kNoteKindFHalf: result = "FHalf"; break;
+    case kNoteKindFQuarter: result = "FQuarter"; break;
+    case kNoteKindF8th: result = "F8th"; break;
+    case kNoteKindF16th: result = "F16th"; break;
+    case kNoteKindF32nd: result = "F32nd"; break;
+    case kNoteKindF64th: result = "F64th"; break;
+    case kNoteKindF128th: result = "F128th"; break;
+    case kNoteKindF256th: result = "F256th"; break;
 
-    case kNoteGBreveKind: result = "GBreve"; break;
-    case kNoteGWholeKind: result = "GWhole"; break;
-    case kNoteGHalfKind: result = "GHalf"; break;
-    case kNoteGQuarterKind: result = "GQuarter"; break;
-    case kNoteG8thKind: result = "G8th"; break;
-    case kNoteG16thKind: result = "G16th"; break;
-    case kNoteG32ndKind: result = "G32nd"; break;
-    case kNoteG64thKind: result = "G64th"; break;
-    case kNoteG128thKind: result = "G128th"; break;
-    case kNoteG256thKind: result = "G256th"; break;
+    case kNoteKindGBreve: result = "GBreve"; break;
+    case kNoteKindGWhole: result = "GWhole"; break;
+    case kNoteKindGHalf: result = "GHalf"; break;
+    case kNoteKindGQuarter: result = "GQuarter"; break;
+    case kNoteKindG8th: result = "G8th"; break;
+    case kNoteKindG16th: result = "G16th"; break;
+    case kNoteKindG32nd: result = "G32nd"; break;
+    case kNoteKindG64th: result = "G64th"; break;
+    case kNoteKindG128th: result = "G128th"; break;
+    case kNoteKindG256th: result = "G256th"; break;
 
-    case kNoteABreveKind: result = "ABreve"; break;
-    case kNoteAWholeKind: result = "AWhole"; break;
-    case kNoteAHalfKind: result = "AHalf"; break;
-    case kNoteAQuarterKind: result = "AQuarter"; break;
-    case kNoteA8thKind: result = "A8th"; break;
-    case kNoteA16thKind: result = "A16th"; break;
-    case kNoteA32ndKind: result = "A32nd"; break;
-    case kNoteA64thKind: result = "A64th"; break;
-    case kNoteA128thKind: result = "A128th"; break;
-    case kNoteA256thKind: result = "A256th"; break;
+    case kNoteKindABreve: result = "ABreve"; break;
+    case kNoteKindAWhole: result = "AWhole"; break;
+    case kNoteKindAHalf: result = "AHalf"; break;
+    case kNoteKindAQuarter: result = "AQuarter"; break;
+    case kNoteKindA8th: result = "A8th"; break;
+    case kNoteKindA16th: result = "A16th"; break;
+    case kNoteKindA32nd: result = "A32nd"; break;
+    case kNoteKindA64th: result = "A64th"; break;
+    case kNoteKindA128th: result = "A128th"; break;
+    case kNoteKindA256th: result = "A256th"; break;
 
-    case kNoteBBreveKind: result = "BBreve"; break;
-    case kNoteBWholeKind: result = "BWhole"; break;
-    case kNoteBHalfKind: result = "BHalf"; break;
-    case kNoteBQuarterKind: result = "BQuarter"; break;
-    case kNoteB8thKind: result = "B8th"; break;
-    case kNoteB16thKind: result = "B16th"; break;
-    case kNoteB32ndKind: result = "B32nd"; break;
-    case kNoteB64thKind: result = "B64th"; break;
-    case kNoteB128thKind: result = "B128th"; break;
-    case kNoteB256thKind: result = "B256th"; break;
+    case kNoteKindBBreve: result = "BBreve"; break;
+    case kNoteKindBWhole: result = "BWhole"; break;
+    case kNoteKindBHalf: result = "BHalf"; break;
+    case kNoteKindBQuarter: result = "BQuarter"; break;
+    case kNoteKindB8th: result = "B8th"; break;
+    case kNoteKindB16th: result = "B16th"; break;
+    case kNoteKindB32nd: result = "B32nd"; break;
+    case kNoteKindB64th: result = "B64th"; break;
+    case kNoteKindB128th: result = "B128th"; break;
+    case kNoteKindB256th: result = "B256th"; break;
   } // switch
 
   return result;
@@ -609,26 +612,26 @@ string bsrNote::noteOctaveKindAsString (
   string result;
 
   switch (noteOctaveKind) {
-    case kNoteOctaveBelow1Kind: result = "OctaveBelow1"; break;
-    case kNoteOctave1Kind:      result = "Octave1"; break;
-    case kNoteOctave2Kind:      result = "Octave2"; break;
-    case kNoteOctave3Kind:      result = "Octave3"; break;
-    case kNoteOctave4Kind:      result = "Octave4"; break;
-    case kNoteOctave5Kind:      result = "Octave5"; break;
-    case kNoteOctave6Kind:      result = "Octave6"; break;
-    case kNoteOctave7Kind:      result = "Octave7"; break;
-    case kNoteOctaveAbove7Kind: result = "OctaveAbove7"; break;
+    case kNoteOctaveKindBelow1: result = "OctaveBelow1"; break;
+    case kNoteOctaveKind1:      result = "Octave1"; break;
+    case kNoteOctaveKind2:      result = "Octave2"; break;
+    case kNoteOctaveKind3:      result = "Octave3"; break;
+    case kNoteOctaveKind4:      result = "Octave4"; break;
+    case kNoteOctaveKind5:      result = "Octave5"; break;
+    case kNoteOctaveKind6:      result = "Octave6"; break;
+    case kNoteOctaveKind7:      result = "Octave7"; break;
+    case kNoteOctaveKindAbove7: result = "OctaveAbove7"; break;
   } // switch
 
   return result;
 }
 
-string bsrNote::noteOctaveIsNeededKindAsString (
-  bsrNoteOctaveIsNeededKind noteOctaveIsNeededKind)
+string bsrNote::noteOctaveIsNeededAsString (
+  bsrNoteOctaveIsNeeded noteOctaveIsNeeded)
 {
   string result;
   
-  switch (noteOctaveIsNeededKind) {
+  switch (noteOctaveIsNeeded) {
     case bsrNote::kNoteOctaveIsNeededYes:
       result = "noteOctaveIsNeededYes";
       break;
@@ -651,8 +654,8 @@ string bsrNote::asString () const
     ", noteDotsNumber: " << fNoteDotsNumber <<
     ", noteOctaveKind: " <<
     noteOctaveKindAsString (fNoteOctaveKind) <<
-    ", noteOctaveIsNeededKind: " <<
-    noteOctaveIsNeededKindAsString (fNoteOctaveIsNeededKind) <<
+    ", noteOctaveIsNeeded: " <<
+    noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     ", noteCellsList: " <<
     fNoteCellsList->asShortString () <<
     ", line " << fInputLineNumber;
@@ -684,8 +687,8 @@ void bsrNote::print (ostream& os)
     noteOctaveKindAsString (fNoteOctaveKind) <<
     endl <<
     setw (fieldWidth) <<
-    "noteOctaveIsNeededKind" << " : " <<
-    noteOctaveIsNeededKindAsString (fNoteOctaveIsNeededKind) <<
+    "noteOctaveIsNeeded" << " : " <<
+    noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     endl <<
     setw (fieldWidth) <<
     "noteCellsList" << " : " <<

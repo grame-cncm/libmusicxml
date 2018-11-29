@@ -50,7 +50,7 @@ S_bsrSpaces bsrSpaces::create (
 bsrSpaces::bsrSpaces (
   int inputLineNumber,
   int numberOfSpaces)
-    : bsrBrailleElement (inputLineNumber)
+    : bsrLineElement (inputLineNumber)
 {
   fNumberOfSpaces = numberOfSpaces;
 

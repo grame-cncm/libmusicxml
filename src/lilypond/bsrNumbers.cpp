@@ -54,7 +54,7 @@ bsrNumber::bsrNumber (
   int       numberValue,
   bsrNumberSignIsNeededKind
             numberSignIsNeededKind)
-    : bsrBrailleElement (inputLineNumber)
+    : bsrLineElement (inputLineNumber)
 {
   fNumberValue = numberValue;
     
@@ -68,7 +68,9 @@ bsrNumber::~bsrNumber ()
 
 S_bsrCellsList bsrNumber::numberValueAsCellsList ()
 {
-  S_bsrCellsList result;
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
 
   int n = fNumberValue;
   
@@ -121,7 +123,9 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList ()
 
 S_bsrCellsList bsrNumber::asCellsList ()
 {
-  S_bsrCellsList result;
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
 
   // append number sign if needed
   switch (fNumberSignIsNeededKind) {

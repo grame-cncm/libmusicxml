@@ -56,7 +56,7 @@ bsrKey::bsrKey (
   int        inputLineNumber,
   bsrKeyKind keyKind,
   int        numberOfAlterations)
-    : bsrBrailleElement (inputLineNumber)
+    : bsrLineElement (inputLineNumber)
 {
   fKeyKind             = keyKind;
   fNumberOfAlterations = numberOfAlterations;
@@ -78,6 +78,17 @@ bsrKey::bsrKey (
   }
 
   fKeyCellsList = asCellsList ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceKeys) {
+    gLogIOstream <<
+      "Creating bsrKey '" <<
+      asString () <<
+      "', line " <<
+      fInputLineNumber <<
+      endl;
+  }
+#endif
 }
 
 bsrKey::~bsrKey ()
@@ -210,13 +221,13 @@ string bsrKey::keyKindAsString (
  
   switch (keyKind) {
     case bsrKey::kKeyKindFlats:
-      result = "keyKindFlats";
+      result = "keyFlats";
       break;
     case bsrKey::kKeyKindNaturals:
-      result = "keyKindNaturals";
+      result = "keyNaturals";
       break;
     case bsrKey::kKeyKindSharps:
-      result = "keyKindSharps";
+      result = "keySharps";
       break;
   } // switch
 

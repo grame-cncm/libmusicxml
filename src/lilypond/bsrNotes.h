@@ -13,7 +13,7 @@
 #ifndef ___bsrNotes___
 #define ___bsrNotes___
 
-#include "bsrBrailleElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrNote : public bsrBrailleElement
+class bsrNote : public bsrLineElement
 {
   public:
 
@@ -30,93 +30,95 @@ class bsrNote : public bsrBrailleElement
     // ------------------------------------------------------
 
     enum bsrNoteValueKind {
-        kNoteRestBreveKind,
-        kNoteRestWholeKind,
-        kNoteRestHalfKind,
-        kNoteRestQuarterKind,
-        kNoteRest8thKind,
-        kNoteRest16thKind,
-        kNoteRest32ndKind,
-        kNoteRest64thKind,
-        kNoteRest128thKind,
-        kNoteRest256thKind,
+        kNoteKindNone,
         
-        kNoteCBreveKind,
-        kNoteCWholeKind,
-        kNoteCHalfKind,
-        kNoteCQuarterKind,
-        kNoteC8thKind,
-        kNoteC16thKind,
-        kNoteC32ndKind,
-        kNoteC64thKind,
-        kNoteC128thKind,
-        kNoteC256thKind,
+        kNoteKindRestBreve,
+        kNoteKindRestWhole,
+        kNoteKindRestHalf,
+        kNoteKindRestQuarter,
+        kNoteKindRest8th,
+        kNoteKindRest16th,
+        kNoteKindRest32nd,
+        kNoteKindRest64th,
+        kNoteKindRest128th,
+        kNoteKindRest256th,
         
-        kNoteDBreveKind,
-        kNoteDWholeKind,
-        kNoteDHalfKind,
-        kNoteDQuarterKind,
-        kNoteD8thKind,
-        kNoteD16thKind,
-        kNoteD32ndKind,
-        kNoteD64thKind,
-        kNoteD128thKind,
-        kNoteD256thKind,
+        kNoteKindCBreve,
+        kNoteKindCWhole,
+        kNoteKindCHalf,
+        kNoteKindCQuarter,
+        kNoteKindC8th,
+        kNoteKindC16th,
+        kNoteKindC32nd,
+        kNoteKindC64th,
+        kNoteKindC128th,
+        kNoteKindC256th,
         
-        kNoteEBreveKind,
-        kNoteEWholeKind,
-        kNoteEHalfKind,
-        kNoteEQuarterKind,
-        kNoteE8thKind,
-        kNoteE16thKind,
-        kNoteE32ndKind,
-        kNoteE64thKind,
-        kNoteE128thKind,
-        kNoteE256thKind,
+        kNoteKindDBreve,
+        kNoteKindDWhole,
+        kNoteKindDHalf,
+        kNoteKindDQuarter,
+        kNoteKindD8th,
+        kNoteKindD16th,
+        kNoteKindD32nd,
+        kNoteKindD64th,
+        kNoteKindD128th,
+        kNoteKindD256th,
         
-        kNoteFBreveKind,
-        kNoteFWholeKind,
-        kNoteFHalfKind,
-        kNoteFQuarterKind,
-        kNoteF8thKind,
-        kNoteF16thKind,
-        kNoteF32ndKind,
-        kNoteF64thKind,
-        kNoteF128thKind,
-        kNoteF256thKind,
+        kNoteKindEBreve,
+        kNoteKindEWhole,
+        kNoteKindEHalf,
+        kNoteKindEQuarter,
+        kNoteKindE8th,
+        kNoteKindE16th,
+        kNoteKindE32nd,
+        kNoteKindE64th,
+        kNoteKindE128th,
+        kNoteKindE256th,
         
-        kNoteGBreveKind,
-        kNoteGWholeKind,
-        kNoteGHalfKind,
-        kNoteGQuarterKind,
-        kNoteG8thKind,
-        kNoteG16thKind,
-        kNoteG32ndKind,
-        kNoteG64thKind,
-        kNoteG128thKind,
-        kNoteG256thKind,
+        kNoteKindFBreve,
+        kNoteKindFWhole,
+        kNoteKindFHalf,
+        kNoteKindFQuarter,
+        kNoteKindF8th,
+        kNoteKindF16th,
+        kNoteKindF32nd,
+        kNoteKindF64th,
+        kNoteKindF128th,
+        kNoteKindF256th,
         
-        kNoteABreveKind,
-        kNoteAWholeKind,
-        kNoteAHalfKind,
-        kNoteAQuarterKind,
-        kNoteA8thKind,
-        kNoteA16thKind,
-        kNoteA32ndKind,
-        kNoteA64thKind,
-        kNoteA128thKind,
-        kNoteA256thKind,
+        kNoteKindGBreve,
+        kNoteKindGWhole,
+        kNoteKindGHalf,
+        kNoteKindGQuarter,
+        kNoteKindG8th,
+        kNoteKindG16th,
+        kNoteKindG32nd,
+        kNoteKindG64th,
+        kNoteKindG128th,
+        kNoteKindG256th,
         
-        kNoteBBreveKind,
-        kNoteBWholeKind,
-        kNoteBHalfKind,
-        kNoteBQuarterKind,
-        kNoteB8thKind,
-        kNoteB16thKind,
-        kNoteB32ndKind,
-        kNoteB64thKind,
-        kNoteB128thKind,
-        kNoteB256thKind };
+        kNoteKindABreve,
+        kNoteKindAWhole,
+        kNoteKindAHalf,
+        kNoteKindAQuarter,
+        kNoteKindA8th,
+        kNoteKindA16th,
+        kNoteKindA32nd,
+        kNoteKindA64th,
+        kNoteKindA128th,
+        kNoteKindA256th,
+        
+        kNoteKindBBreve,
+        kNoteKindBWhole,
+        kNoteKindBHalf,
+        kNoteKindBQuarter,
+        kNoteKindB8th,
+        kNoteKindB16th,
+        kNoteKindB32nd,
+        kNoteKindB64th,
+        kNoteKindB128th,
+        kNoteKindB256th };
 
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
@@ -126,15 +128,15 @@ class bsrNote : public bsrBrailleElement
       bsrNoteValueKind noteValueKind);
 
     enum bsrNoteOctaveKind {
-        kNoteOctaveBelow1Kind,
-        kNoteOctave1Kind,
-        kNoteOctave2Kind,
-        kNoteOctave3Kind,
-        kNoteOctave4Kind,
-        kNoteOctave5Kind,
-        kNoteOctave6Kind,
-        kNoteOctave7Kind,
-        kNoteOctaveAbove7Kind };
+        kNoteOctaveKindBelow1,
+        kNoteOctaveKind1,
+        kNoteOctaveKind2,
+        kNoteOctaveKind3,
+        kNoteOctaveKind4,
+        kNoteOctaveKind5,
+        kNoteOctaveKind6,
+        kNoteOctaveKind7,
+        kNoteOctaveKindAbove7 };
 
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);
@@ -143,22 +145,21 @@ class bsrNote : public bsrBrailleElement
       int               inputLineNumber,
       bsrNoteOctaveKind noteOctaveKind);
 
-    enum bsrNoteOctaveIsNeededKind {
+    enum bsrNoteOctaveIsNeeded {
         kNoteOctaveIsNeededYes, kNoteOctaveIsNeededNo};
 
-    static string noteOctaveIsNeededKindAsString (
-      bsrNoteOctaveIsNeededKind noteOctaveIsNeededKind);
+    static string noteOctaveIsNeededAsString (
+      bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
 
     // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrNote> create (
-      int               inputLineNumber,
-      bsrNoteValueKind  noteValueKind,
-      int               noteDotsNumber,
-      bsrNoteOctaveKind noteOctaveKind,
-      bsrNoteOctaveIsNeededKind
-                        noteOctaveIsNeededKind);
+      int                   inputLineNumber,
+      bsrNoteValueKind      noteValueKind,
+      int                   noteDotsNumber,
+      bsrNoteOctaveKind     noteOctaveKind,
+      bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
 
   protected:
 
@@ -166,12 +167,11 @@ class bsrNote : public bsrBrailleElement
     // ------------------------------------------------------
 
     bsrNote (
-      int               inputLineNumber,
-      bsrNoteValueKind  noteValueKind,
-      int               noteDotsNumber,
-      bsrNoteOctaveKind noteOctaveKind,
-      bsrNoteOctaveIsNeededKind
-                        noteOctaveIsNeededKind);
+      int                   inputLineNumber,
+      bsrNoteValueKind      noteValueKind,
+      int                   noteDotsNumber,
+      bsrNoteOctaveKind     noteOctaveKind,
+      bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
       
     virtual ~bsrNote ();
   
@@ -186,19 +186,18 @@ class bsrNote : public bsrBrailleElement
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
                   
-    void                  setNoteOctaveIsNeededKind (
-                            bsrNoteOctaveIsNeededKind
-                              noteOctaveIsNeededKindvalue)
+    void                  setNoteOctaveIsNeeded (
+                            bsrNoteOctaveIsNeeded
+                              noteOctaveIsNeededvalue)
                               {
-                                fNoteOctaveIsNeededKind =
-                                  noteOctaveIsNeededKindvalue;
+                                fNoteOctaveIsNeeded =
+                                  noteOctaveIsNeededvalue;
                               }
                   
-    bsrNoteOctaveIsNeededKind
-                          getNoteOctaveIsNeededKind () const
-                              { return fNoteOctaveIsNeededKind; }
+    bsrNoteOctaveIsNeeded getNoteOctaveIsNeeded () const
+                              { return fNoteOctaveIsNeeded; }
                   
-    S_bsrCellsList      getNoteCellsList () const
+    S_bsrCellsList        getNoteCellsList () const
                               { return fNoteCellsList; }
 
   public:
@@ -206,16 +205,16 @@ class bsrNote : public bsrBrailleElement
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList      asCellsList ();
+    S_bsrCellsList        asCellsList ();
     
   private:
   
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrCellsList      noteValueKindAsCellsList ();
+    S_bsrCellsList        noteValueKindAsCellsList ();
                           
-    S_bsrCellsList      noteOctaveKindAsCellsList ();
+    S_bsrCellsList        noteOctaveKindAsCellsList ();
 
   public:
 
@@ -247,10 +246,9 @@ class bsrNote : public bsrBrailleElement
     
     bsrNoteOctaveKind     fNoteOctaveKind;
 
-    bsrNoteOctaveIsNeededKind
-                          fNoteOctaveIsNeededKind;
+    bsrNoteOctaveIsNeeded fNoteOctaveIsNeeded;
 
-    S_bsrCellsList      fNoteCellsList;
+    S_bsrCellsList        fNoteCellsList;
 };
 typedef SMARTP<bsrNote> S_bsrNote;
 EXP ostream& operator<< (ostream& os, const S_bsrNote& elt);

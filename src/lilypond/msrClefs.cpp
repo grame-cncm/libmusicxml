@@ -137,6 +137,89 @@ ostream& operator<< (ostream& os, const S_msrClef& elt)
   return os;
 }
 
+string msrClef::clefKindAsString (
+  msrClefKind clefKind)
+{
+  string result;
+  
+  switch (clefKind) {
+    case msrClef::k_NoClef:
+      result = "none";
+      break;
+    case msrClef::kTrebleClef:
+      result = "treble";
+      break;
+    case msrClef::kSopranoClef:
+      result = "soprano";
+      break;
+    case msrClef::kMezzoSopranoClef:
+      result = "mezzo soprano";
+      break;
+    case msrClef::kAltoClef:
+      result = "alto";
+      break;
+    case msrClef::kTenorClef:
+      result = "tenor";
+      break;
+    case msrClef::kBaritoneClef:
+      result = "baritone";
+      break;
+    case msrClef::kBassClef:
+      result = "bass";
+      break;
+    case msrClef::kTrebleLine1Clef:
+      result = "treble line 1";
+      break;
+    case msrClef::kTrebleMinus15Clef:
+      result = "treble -15";
+      break;
+    case msrClef::kTrebleMinus8Clef:
+      result = "treble -8";
+      break;
+    case msrClef::kTreblePlus8Clef:
+      result = "treble +8";
+      break;
+    case msrClef::kTreblePlus15Clef:
+      result = "treble +15";
+      break;
+    case msrClef::kBassMinus15Clef:
+      result = "bass -15";
+      break;
+    case msrClef::kBassMinus8Clef:
+      result = "bass -8";
+      break;
+    case msrClef::kBassPlus8Clef:
+      result = "bass +8";
+      break;
+    case msrClef::kBassPlus15Clef:
+      result = "bass +15";
+      break;
+    case msrClef::kVarbaritoneClef:
+      result = "varbaritone";
+      break;
+    case msrClef::kTablature4Clef:
+      result = "tablature 4 lines";
+      break;
+    case msrClef::kTablature5Clef:
+      result = "tablature 5 lines";
+      break;
+    case msrClef::kTablature6Clef:
+      result = "tablature 6 lines";
+      break;
+    case msrClef::kTablature7Clef:
+      result = "tablature 7 lines";
+      break;
+    case msrClef::kPercussionClef:
+      result = "percussion";
+      break;
+    case msrClef::kJianpuClef:
+      result = "jianpu";
+      break;
+  } // switch
+
+  return result;
+}
+
 msrClef::msrClefKind msrClef::clefKindFromString (
   string theString)
 {
@@ -195,84 +278,8 @@ string msrClef::asString () const
   stringstream s;
 
   s <<
-    "Clef" " \"";
-   
-  switch (fClefKind) {
-    case msrClef::k_NoClef:
-      s << "none";
-      break;
-    case msrClef::kTrebleClef:
-      s << "treble";
-      break;
-    case msrClef::kSopranoClef:
-      s << "soprano";
-      break;
-    case msrClef::kMezzoSopranoClef:
-      s << "mezzo soprano";
-      break;
-    case msrClef::kAltoClef:
-      s << "alto";
-      break;
-    case msrClef::kTenorClef:
-      s << "tenor";
-      break;
-    case msrClef::kBaritoneClef:
-      s << "baritone";
-      break;
-    case msrClef::kBassClef:
-      s << "bass";
-      break;
-    case msrClef::kTrebleLine1Clef:
-      s << "treble line 1";
-      break;
-    case msrClef::kTrebleMinus15Clef:
-      s << "treble -15";
-      break;
-    case msrClef::kTrebleMinus8Clef:
-      s << "treble -8";
-      break;
-    case msrClef::kTreblePlus8Clef:
-      s << "treble +8";
-      break;
-    case msrClef::kTreblePlus15Clef:
-      s << "treble +15";
-      break;
-    case msrClef::kBassMinus15Clef:
-      s << "bass -15";
-      break;
-    case msrClef::kBassMinus8Clef:
-      s << "bass -8";
-      break;
-    case msrClef::kBassPlus8Clef:
-      s << "bass +8";
-      break;
-    case msrClef::kBassPlus15Clef:
-      s << "bass +15";
-      break;
-    case msrClef::kVarbaritoneClef:
-      s << "varbaritone";
-      break;
-    case msrClef::kTablature4Clef:
-      s << "tablature 4 lines";
-      break;
-    case msrClef::kTablature5Clef:
-      s << "tablature 5 lines";
-      break;
-    case msrClef::kTablature6Clef:
-      s << "tablature 6 lines";
-      break;
-    case msrClef::kTablature7Clef:
-      s << "tablature 7 lines";
-      break;
-    case msrClef::kPercussionClef:
-      s << "percussion";
-      break;
-    case msrClef::kJianpuClef:
-      s << "jianpu";
-      break;
-  } // switch
-
-  s <<
+    "Clef" " \"" <<
+    clefKindAsString (fClefKind) << 
     "\", line " << fInputLineNumber;
 
   return s.str ();

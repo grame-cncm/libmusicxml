@@ -566,7 +566,6 @@ string multipleRestWholeNotesAsMsrString (
 
 // measure style
 //______________________________________________________________________________
-
 enum msrSlashTypeKind {
   k_NoSlashType,
   kSlashTypeStart, kSlashTypeStop };

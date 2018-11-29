@@ -52,6 +52,17 @@ bsrTime::bsrTime (
 {
   fTimeCellsList =
     bsrCellsList::create (inputLineNumber);
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTimes) {
+    gLogIOstream <<
+      "Creating bsrTimes '" <<
+      asString () <<
+      "', line " <<
+      fInputLineNumber <<
+      endl;
+  }
+#endif
 }
 
 bsrTime::~bsrTime ()

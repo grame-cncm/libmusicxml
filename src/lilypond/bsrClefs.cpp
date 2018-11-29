@@ -50,12 +50,23 @@ S_bsrClef bsrClef::create (
 bsrClef::bsrClef (
   int         inputLineNumber,
   bsrClefKind clefKind)
-    : bsrBrailleElement (inputLineNumber)
+    : bsrLineElement (inputLineNumber)
 {
   fClefKind = clefKind;
 
   fClefCellsList =
     bsrCellsList::create (inputLineNumber);
+    
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceClefs) {
+    gLogIOstream <<
+      "Creating bsrClef '" <<
+      asString () <<
+      "', line " <<
+      fInputLineNumber <<
+      endl;
+  }
+#endif
 }
 
 bsrClef::~bsrClef ()
@@ -115,35 +126,35 @@ string bsrClef::clefKindAsString (
   string result;
   
   switch (clefKind) {
-    case kClefNone:
+    case kClefKindNone:
       result = "***clefNone***";
       break;
-    case kClefGTrebleKind:
-      result = "clefGTrebleKind";
+    case kClefKindGTreble:
+      result = "clefGTreble";
       break;
-    case kClefFBassKind:
-      result = "clefFBassKind";
+    case kClefKindFBass:
+      result = "clefFBass";
       break;
-    case kClefGSopranoKind:
-      result = "clefGSopranoKind";
+    case kClefKindGSoprano:
+      result = "clefGSoprano";
       break;
-    case kClefFBaritoneKind:
-      result = "clefFBaritoneKind";
+    case kClefKindFBaritone:
+      result = "clefFBaritone";
       break;
-    case kClefCTenorKind:
-      result = "clefCTenorKind";
+    case kClefKindCTenor:
+      result = "clefCTenor";
       break;
-    case kClefGOttavaAltaKind:
-      result = "clefGOttavaAltaKind";
+    case kClefKindGOttavaAlta:
+      result = "clefGOttavaAlta";
       break;
-    case kClefGOttavaBassaKind:
-      result = "clefGOttavaBassaKind";
+    case kClefKindGOttavaBassa:
+      result = "clefGOttavaBassa";
       break;
-    case kClefModifiedBassForRightHandPartKind:
-      result = "clefModifiedBassForRightHandPartKind";
+    case kClefKindModifiedBassForRightHandPart:
+      result = "clefModifiedBassForRightHandPart";
       break;
-    case kClefModifiedTrebleForLeftHandPartKind:
-      result = "clefModifiedTrebleForLeftHandPartKind";
+    case kClefKindModifiedTrebleForLeftHandPart:
+      result = "clefModifiedTrebleForLeftHandPart";
       break;
   } // switch
 

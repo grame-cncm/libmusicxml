@@ -13,7 +13,7 @@
 #ifndef ___bsrSpaces___
 #define ___bsrSpaces___
 
-#include "bsrBrailleElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -28,7 +28,7 @@ const bsrCellKind
   kCellSpace = kDotsNone;
 
 //______________________________________________________________________________
-class bsrSpaces : public bsrBrailleElement
+class bsrSpaces : public bsrLineElement
 {
   public:
           

@@ -13,7 +13,7 @@
 #ifndef ___bsrNumbers___
 #define ___bsrNumbers___
 
-#include "bsrBrailleElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrNumber : public bsrBrailleElement
+class bsrNumber : public bsrLineElement
 {
   public:
 
