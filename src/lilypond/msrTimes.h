@@ -54,7 +54,7 @@ class msrTimeItem : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    const vector<int>&    getTimeBeatsNumbersVector ()
+    const vector<int>&    getTimeBeatsNumbersVector () const
                               { return fTimeBeatsNumbersVector; }
 
     void                  setTimeBeatValue (int timeBeatValue)

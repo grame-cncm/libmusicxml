@@ -1262,7 +1262,7 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
       break;
   } // switch
 
-
+  // create the BSR key
   if (bKeyKind == bsrKey::kKeyKindNone) {
     stringstream s;
 
@@ -1313,6 +1313,66 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
       endl;
   }
 
+  // get MSR time attributes
+  
+  msrTime::msrTimeSymbolKind
+    mTimeSymbolKind =
+      elt->getTimeSymbolKind ();
+
+  bool
+    mTimeIsCompound =
+      elt->getTimeIsCompound ();
+  
+  const vector<S_msrTimeItem>&
+    mTimeItemsVector =
+      elt->getTimeItemsVector ();
+
+  // let's go
+
+  if (mTimeIsCompound) {
+    // JMI ???
+  }
+  else {
+    switch (mTimeItemsVector.size ()) {
+      case 0:
+        // should not occur
+        break;
+        
+      case 1:
+        {
+          S_msrTimeItem mTimeItem = mTimeItemsVector [0];
+      
+          // get the MSR time item attributes
+      
+          const vector<int>&
+            mTimeBeatsNumbersVector =
+              mTimeItem->getTimeBeatsNumbersVector ();
+      
+          int
+            mTimeBeatValue =
+              mTimeItem->getTimeBeatValue ();
+      
+          switch (mTimeBeatsNumbersVector.size ()) {
+            case 0:
+              // should not occur
+              break;
+              
+            case 1:
+              
+              break;
+              
+            default:
+              ; // JMI
+          } // switch
+        }     
+        break;
+        
+      default:
+        ; // JMI
+    } // switch
+  }
+  
+  // create the BSR time
   S_bsrTime
     time =
       bsrTime::create (inputLineNumber);

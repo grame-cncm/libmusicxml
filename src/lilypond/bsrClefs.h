@@ -73,7 +73,7 @@ class bsrClef : public bsrLineElement
     bsrClefKind           getClefKind () const
                               { return fClefKind; }
 
-    S_bsrCellsList      getClefCellsList () const
+    S_bsrCellsList        getClefCellsList () const
                               { return fClefCellsList; }
 
     // services
@@ -105,7 +105,7 @@ class bsrClef : public bsrLineElement
 
     bsrClefKind           fClefKind;
 
-    S_bsrCellsList      fClefCellsList;
+    S_bsrCellsList        fClefCellsList;
 };
 typedef SMARTP<bsrClef> S_bsrClef;
 EXP ostream& operator<< (ostream& os, const S_bsrClef& elt);
