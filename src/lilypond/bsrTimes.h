@@ -108,12 +108,33 @@ EXP ostream& operator<< (ostream& os, const S_bsrTimeItem& elt);
 class bsrTime : public bsrElement
 {
   public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum bsrTimeKind {
+        kTimeNone,
+        kTimeCommon,
+        kTimeCut,
+        kTimeNumerical };
+/* JMI
+        kTimeNote,
+        kTimeDottedNote,
+        kTimeSingleNumber,
+        kTimeSenzaMisura };
+        */
+
+    static string timeKindAsString (
+      bsrTimeKind timeKind);
+      
+  public:
           
     // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrTime> create (
-      int inputLineNumber);
+      int         inputLineNumber,
+      bsrTimeKind timeKind);
 
   protected:
 
@@ -121,7 +142,8 @@ class bsrTime : public bsrElement
     // ------------------------------------------------------
 
     bsrTime (
-      int inputLineNumber);
+      int         inputLineNumber,
+      bsrTimeKind timeKind);
       
     virtual ~bsrTime ();
   
@@ -130,12 +152,19 @@ class bsrTime : public bsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_bsrCellsList      getTimeCellsList () const
+    bsrTimeKind           getTimeKind () const
+                              { return fTimeKind; }
+
+    S_bsrCellsList        getTimeCellsList () const
                               { return fTimeCellsList; }
 
     // services
     // ------------------------------------------------------
                   
+    S_bsrCellsList        asCellsList () const;    
+
+    int                   fetchCellsNumber () const;
+
   public:
 
     // visitors
@@ -160,7 +189,9 @@ class bsrTime : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    S_bsrCellsList      fTimeCellsList;
+    bsrTimeKind           fTimeKind;
+    
+    S_bsrCellsList        fTimeCellsList;
 };
 typedef SMARTP<bsrTime> S_bsrTime;
 EXP ostream& operator<< (ostream& os, const S_bsrTime& elt);

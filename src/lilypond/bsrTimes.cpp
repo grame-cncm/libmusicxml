@@ -37,21 +37,26 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrTime bsrTime::create (
-  int inputLineNumber)
+  int         inputLineNumber,
+  bsrTimeKind timeKind)
 {
   bsrTime* o =
     new bsrTime (
-      inputLineNumber);
+      inputLineNumber,
+      timeKind);
   assert (o!=0);
   return o;
 }
 
 bsrTime::bsrTime (
-  int inputLineNumber)
+  int         inputLineNumber,
+  bsrTimeKind timeKind)
     : bsrElement (inputLineNumber)
 {
+  fTimeKind = timeKind;
+  
   fTimeCellsList =
-    bsrCellsList::create (inputLineNumber);
+    asCellsList ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
@@ -67,6 +72,74 @@ bsrTime::bsrTime (
 
 bsrTime::~bsrTime ()
 {}
+
+S_bsrCellsList bsrTime::asCellsList () const
+{
+  S_bsrCellsList
+    result; // =
+   //   bsrCellsList::create (fInputLineNumber);
+
+  switch (fTimeKind) {
+    case bsrTime::kTimeNone:
+      break;
+
+    case bsrTime::kTimeCommon:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots46, kDots14);
+      break;
+      
+    case bsrTime::kTimeCut:
+      result =
+        bsrCellsList::create (
+          fInputLineNumber,
+          kDots456, kDots14);
+      break;
+      
+    case bsrTime::kTimeNumerical:
+      break;
+  /* 
+    case bsrTime::kTimeSymbolDottedNote:
+      break;
+    case bsrTime::kTimeSymbolSingleNumber:
+      break;
+    case bsrTime::kTimeSymbolSenzaMisura:
+      break;
+      */
+  } // switch
+
+
+/*
+  // append note octave if needed
+  switch (fNoteOctaveIsNeeded) {
+    case bsrNote::kNoteOctaveIsNeededYes:
+      result->appendCellsListToCellsList (
+        noteOctaveKindAsCellsList ());
+      break;
+    case bsrNote::kNoteOctaveIsNeededNo:
+      break;
+  } // switch
+
+  // append note value
+  result->appendCellsListToCellsList (
+    noteValueKindAsCellsList ());
+
+  // append dots if any
+  for (int i = 0; i < fNoteDotsNumber; i++) {
+    result->appendCellKindToCellsList (
+      kCellAugmentationDot);
+  } // for
+*/
+
+  return result;
+}
+
+int bsrTime::fetchCellsNumber() const
+{
+//  return asCellsList ().fetchCellsNumber();
+  return fTimeCellsList->fetchCellsNumber();
+}
 
 void bsrTime::acceptIn (basevisitor* v)
 {
@@ -127,16 +200,50 @@ string bsrTime::asString () const
   return s.str ();
 }
 
+string bsrTime::timeKindAsString (
+  bsrTimeKind timeKind)
+{
+  string result;
+ 
+  switch (timeKind) {
+    case bsrTime::kTimeNone:
+      result = "timeNone";
+      break;
+
+    case bsrTime::kTimeCommon:
+      result = "timeCommon";
+      break;
+    case bsrTime::kTimeCut:
+      result = "timeCut";
+      break;
+    case bsrTime::kTimeNumerical:
+      result = "timeNumerical";
+      break;
+  /* 
+    case bsrTime::kTimeSymbolDottedNote:
+      break;
+    case bsrTime::kTimeSymbolSingleNumber:
+      break;
+    case bsrTime::kTimeSymbolSenzaMisura:
+      break;
+      */
+  } // switch
+
+  return result;
+}
+
 void bsrTime::print (ostream& os)
 {
   os <<
     "Time" <<
+    ", timeKind " << " : " <<
+    timeKindAsString (fTimeKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const int fieldWidth = 14;
     
   os <<
     setw (fieldWidth) <<

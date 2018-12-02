@@ -75,7 +75,7 @@ bsrBarline::bsrBarline (
 bsrBarline::~bsrBarline ()
 {}
 
-S_bsrCellsList bsrBarline::asCellsList ()
+S_bsrCellsList bsrBarline::asCellsList () const
 {
   S_bsrCellsList
     result =
@@ -112,6 +112,11 @@ S_bsrCellsList bsrBarline::asCellsList ()
   } // switch
 
   return result;
+}
+
+int bsrBarline::fetchCellsNumber() const
+{
+  return asCellsList ()->fetchCellsNumber();
 }
 
 void bsrBarline::acceptIn (basevisitor* v)

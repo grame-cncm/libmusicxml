@@ -89,6 +89,8 @@ class bsrLine : public bsrElement
     void                  appendMeasureToLine (S_bsrMeasure measure)
                               { fLineElementsList.push_back (measure); }
 
+    int                   fetchCellsNumber () const;
+
 /*                              
     void                  appendNumberToLine (S_bsrNumber number)
                               { fLineElementsList.push_back (number); }
@@ -135,7 +137,7 @@ class bsrLine : public bsrElement
 
     int                   fCellsPerLine;
     
-    list<S_bsrElement>
+    list<S_bsrLineElement>
                           fLineElementsList;
 };
 typedef SMARTP<bsrLine> S_bsrLine;

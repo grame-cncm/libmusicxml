@@ -371,7 +371,7 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList (
   return result;
 }
 
-S_bsrCellsList bsrNote::noteValueKindAsCellsList ()
+S_bsrCellsList bsrNote::noteValueKindAsCellsList () const
 {
   return
     noteValueKindAsCellsList (
@@ -422,7 +422,7 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
   return result;
 }
 
-S_bsrCellsList bsrNote::noteOctaveKindAsCellsList ()
+S_bsrCellsList bsrNote::noteOctaveKindAsCellsList () const
 {
   return
     noteOctaveKindAsCellsList (
@@ -430,7 +430,7 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList ()
       fNoteOctaveKind);
 }
 
-S_bsrCellsList bsrNote::asCellsList ()
+S_bsrCellsList bsrNote::asCellsList () const
 {
   S_bsrCellsList
     result =
@@ -457,6 +457,11 @@ S_bsrCellsList bsrNote::asCellsList ()
   } // for
 
   return result;
+}
+
+int bsrNote::fetchCellsNumber() const
+{
+  return asCellsList ()->fetchCellsNumber();
 }
 
 void bsrNote::acceptIn (basevisitor* v)

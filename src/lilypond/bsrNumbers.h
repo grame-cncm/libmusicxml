@@ -77,20 +77,22 @@ class bsrNumber : public bsrLineElement
                           getNumberSignIsNeededKind () const
                               { return fNumberSignIsNeededKind; }
                   
-    S_bsrCellsList      getNumberCellsList () const
+    S_bsrCellsList        getNumberCellsList () const
                               { return fNumberCellsList; }
                   
     // public services
     // ------------------------------------------------------                  
                           
-    S_bsrCellsList      asCellsList ();
+    S_bsrCellsList        asCellsList () const;
+
+    int                   fetchCellsNumber () const;
 
   private:
   
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrCellsList      numberValueAsCellsList ();
+    S_bsrCellsList        numberValueAsCellsList () const;
 
   public:
 
@@ -121,7 +123,7 @@ class bsrNumber : public bsrLineElement
     bsrNumberSignIsNeededKind
                           fNumberSignIsNeededKind;
 
-    S_bsrCellsList      fNumberCellsList;
+    S_bsrCellsList        fNumberCellsList;
 };
 typedef SMARTP<bsrNumber> S_bsrNumber;
 EXP ostream& operator<< (ostream& os, const S_bsrNumber& elt);

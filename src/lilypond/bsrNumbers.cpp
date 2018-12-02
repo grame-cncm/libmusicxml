@@ -66,7 +66,7 @@ bsrNumber::bsrNumber (
 bsrNumber::~bsrNumber ()
 {}
 
-S_bsrCellsList bsrNumber::numberValueAsCellsList ()
+S_bsrCellsList bsrNumber::numberValueAsCellsList () const
 {
   S_bsrCellsList
     result =
@@ -121,7 +121,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList ()
   return result;
 }
 
-S_bsrCellsList bsrNumber::asCellsList ()
+S_bsrCellsList bsrNumber::asCellsList () const
 {
   S_bsrCellsList
     result =
@@ -144,6 +144,11 @@ S_bsrCellsList bsrNumber::asCellsList ()
     numberValueAsCellsList ());
 
   return result;
+}
+
+int bsrNumber::fetchCellsNumber() const
+{
+  return asCellsList ()->fetchCellsNumber();
 }
 
 void bsrNumber::acceptIn (basevisitor* v)

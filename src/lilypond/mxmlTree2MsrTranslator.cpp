@@ -160,7 +160,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentTransposeChromatic = - 215;
 
   // direction handling
-  fCurrentDirectionStaffNumber = K_NO_STAFF_NUMBER; // it may be absent
+  fCurrentDirectionStaffNumber = 1; // it may be absent
+  fCurrentDirectionVoiceNumber = 1; // it may be absent
   fOnGoingDirection = false;
 
   // direction-type handling
@@ -2315,6 +2316,10 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
       s.str ());    
   }
 
+  fCurrentDirectionStaffNumber = 1; // it may be absent
+  // no <voice /> possible in <direction /> ??? JMI
+  // fCurrentDirectionVoiceNumber = 1; // it may be absent
+  
   fCurrentMetronomeTempo = nullptr;
 
   fOnGoingDirection = true;
@@ -3633,8 +3638,28 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     } // while
   }
 
+if (false) { // JMI
   // append the tempo to the pending tempos list
   fPendingTempos.push_back (fCurrentMetronomeTempo);
+}
+else {
+  // fetch current direction's voice
+  S_msrVoice
+    currentDirectionsVoice =
+      fetchVoiceFromPart (
+        inputLineNumber,
+        fCurrentDirectionStaffNumber,
+        fCurrentDirectionVoiceNumber);
+  
+  // sanity check
+  msrAssert (
+    currentDirectionsVoice != nullptr,
+    "currentDirectionsVoice is null");
+
+  // append the tempo to the voice
+  currentDirectionsVoice->
+    appendTempoToVoice (fCurrentMetronomeTempo);
+  }
 }
 
 //________________________________________________________________________
@@ -3704,11 +3729,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
     // regular staff indication in <direction/>, such as <staff/>
     fCurrentDirectionStaffNumber = fCurrentMusicXMLStaffNumber;
   }
-  
-  else if (fOnGoingDirection) {
-    // JMI use it?
-  }
-    
+      
   else {
     stringstream s;
     
@@ -4219,7 +4240,17 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
   }
   
   else if (fOnGoingDirection) {
-    // JMI use it?
+    stringstream s;
+    
+    s << "<voice />" << fCurrentMusicXMLStaffNumber <<
+    " is not allowed in <direction />:" <<
+    " the 3.1 DTD allows <editorial-voice />, though";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
   }
   
   else {

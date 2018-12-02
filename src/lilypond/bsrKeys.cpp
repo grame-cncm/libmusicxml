@@ -95,27 +95,28 @@ bsrKey::~bsrKey ()
 {}
 
 
-S_bsrCellsList bsrKey::keyKindAsCellsList ()
+S_bsrCellsList bsrKey::keyKindAsCellsList () const
 {
-  S_bsrCellsList result;
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
 
   switch (fKeyKind) {
+    case bsrKey::kKeyKindNone:
+      break;
     case bsrKey::kKeyKindFlats:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
+      result->
+        appendCellKindToCellsList (
           kCellFlat);
       break;
     case bsrKey::kKeyKindNaturals:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
+      result->
+        appendCellKindToCellsList (
           kCellNatural);
       break;
     case bsrKey::kKeyKindSharps:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
+      result->
+        appendCellKindToCellsList (
           kCellSharp);
       break;
   } // switch
@@ -123,7 +124,7 @@ S_bsrCellsList bsrKey::keyKindAsCellsList ()
   return result;
 }
 
-S_bsrCellsList bsrKey::asCellsList ()
+S_bsrCellsList bsrKey::asCellsList () const
 {
   S_bsrCellsList
     result =
@@ -165,6 +166,11 @@ S_bsrCellsList bsrKey::asCellsList ()
   } // switch
   
   return result;
+}
+
+int bsrKey::fetchCellsNumber() const
+{
+  return asCellsList ()->fetchCellsNumber();
 }
 
 void bsrKey::acceptIn (basevisitor* v)
@@ -220,6 +226,9 @@ string bsrKey::keyKindAsString (
   string result;
  
   switch (keyKind) {
+    case bsrKey::kKeyKindNone:
+      result = "***keyKindNone***";
+      break;
     case bsrKey::kKeyKindFlats:
       result = "keyFlats";
       break;

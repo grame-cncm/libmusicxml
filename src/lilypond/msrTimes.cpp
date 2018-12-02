@@ -567,7 +567,6 @@ string msrTime::asString () const
 
   s <<
     "Time, " <<
-    /*
     ", timeSymbolKind: " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
     ", timeIsCompound: " <<
@@ -576,7 +575,6 @@ string msrTime::asString () const
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
-      */
     ", line " << fInputLineNumber;
 
   if (fTimeItemsVector.size ()) {
@@ -634,7 +632,6 @@ void msrTime::print (ostream& os)
 {
   os <<
     "Time" <<
-    /*
     ", timeSymbolKind: " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
     ", compound: " <<
@@ -643,7 +640,6 @@ void msrTime::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
-      */
     ", line " << fInputLineNumber <<
     ":";
 

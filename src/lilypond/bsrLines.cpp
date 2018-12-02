@@ -95,6 +95,20 @@ S_bsrLine bsrLine::createLineNewbornClone ()
   return newbornClone;
 }
 
+int bsrLine::fetchCellsNumber () const
+{
+  int result = 0;
+
+  for (
+    list<S_bsrLineElement>::const_iterator i = fLineElementsList.begin ();
+    i != fLineElementsList.end ();
+    i++ ) {
+    result += (*i)->fetchCellsNumber ();
+  } // for
+
+  return result;
+}
+
 void bsrLine::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -142,14 +156,13 @@ void bsrLine::acceptOut (basevisitor* v)
 void bsrLine::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrElement>::const_iterator i = fLineElementsList.begin ();
+    list<S_bsrLineElement>::const_iterator i = fLineElementsList.begin ();
     i != fLineElementsList.end ();
     i++ ) {
     // browse the element
-    bsrBrowser<bsrElement> browser (v);
+    bsrBrowser<bsrLineElement> browser (v);
     browser.browse (*(*i));
   } // for
-
 }
 
 string bsrLine::asString () const
@@ -162,6 +175,7 @@ string bsrLine::asString () const
     ", brailleLineNumber" << " : " << fBrailleLineNumber <<
     ", cellsPerLine" << " : " << fCellsPerLine <<
     ", elements: " << fLineElementsList.size () <<
+    ", cellsNumber" << " : " << fetchCellsNumber () <<
     ", line " << fInputLineNumber;
     
   return s.str ();
@@ -187,6 +201,9 @@ void bsrLine::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "cellsPerLine" << " : " << fCellsPerLine <<
+    endl <<
+    setw (fieldWidth) <<
+    "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
   os <<
     endl;
@@ -203,7 +220,7 @@ void bsrLine::print (ostream& os)
         endl;
       gIndenter++;
   
-      list<S_bsrElement>::const_iterator
+      list<S_bsrLineElement>::const_iterator
         iBegin = fLineElementsList.begin (),
         iEnd   = fLineElementsList.end (),
         i      = iBegin;

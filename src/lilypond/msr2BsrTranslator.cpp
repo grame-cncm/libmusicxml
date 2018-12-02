@@ -726,6 +726,7 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
       endl;
   }
 
+/* JMI
   // create a 1-spaces
   S_bsrSpaces
     spaces =
@@ -735,7 +736,8 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
   // append it to the current line
   fCurrentLine->
     appendSpacesToLine (spaces);
-  
+*/
+
   // create a measure
   fCurrentMeasure =
     bsrMeasure::create (inputLineNumber);
@@ -1414,10 +1416,35 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
 
   // let's go
 
+  bsrTime::bsrTimeKind bTimeKind = bsrTime::kTimeNone;
+  
+  switch (mTimeSymbolKind) {
+    case msrTime::kTimeSymbolCommon:
+      bTimeKind = bsrTime::kTimeCommon;
+      break;
+    case msrTime::kTimeSymbolCut:
+      bTimeKind = bsrTime::kTimeCut;
+      break;
+    case msrTime::kTimeSymbolNote:
+      break;
+    case msrTime::kTimeSymbolDottedNote:
+      break;
+    case msrTime::kTimeSymbolSingleNumber:
+      break;
+    case msrTime::kTimeSymbolSenzaMisura:
+      break;
+    case msrTime::kTimeSymbolNone:
+      break;
+  } // switch
+
+/*
   if (mTimeIsCompound) {
     // JMI ???
   }
   else {
+  */
+
+  if (bTimeKind == bsrTime::kTimeNone) {
     switch (mTimeItemsVector.size ()) {
       case 0:
         // should not occur
@@ -1460,7 +1487,8 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
   // create the BSR time
   S_bsrTime
     time =
-      bsrTime::create (inputLineNumber);
+      bsrTime::create (
+        inputLineNumber, bTimeKind);
     
   fCurrentMeasure->
     appendTimeToMeasure (time);

@@ -27,8 +27,10 @@ class bsrLineElement : public bsrElement
     // creation
     // ------------------------------------------------------
 
+/*
     static SMARTP<bsrLineElement> create (
       int inputLineNumber);
+*/
 
   protected:
          
@@ -50,14 +52,16 @@ class bsrLineElement : public bsrElement
                               
     S_bsrLine             getBsrLineUplink () const;
 */
-    bool                  getASpaceIsNeededBefore () const
-                              { return fASpaceIsNeededBefore; }
+    bool                  getSpacesBefore () const
+                              { return fSpacesBefore; }
 
-    bool                  getASpaceIsNeededAfter () const
-                              { return fASpaceIsNeededAfter; }
+    bool                  getSpacesAfter () const
+                              { return fSpacesAfter; }
 
     // services
     // ------------------------------------------------------
+
+    virtual int           fetchCellsNumber () const = 0;
 
   public:
   
@@ -89,8 +93,8 @@ class bsrLineElement : public bsrElement
     S_bsrLine             fBsrLineUplink;
 */
 
-    bool                  fASpaceIsNeededBefore;
-    bool                  fASpaceIsNeededAfter;
+    int                   fSpacesBefore;
+    int                   fSpacesAfter;
 };
 typedef SMARTP<bsrLineElement> S_bsrLineElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineElement& elt);

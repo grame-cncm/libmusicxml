@@ -205,16 +205,18 @@ class bsrNote : public bsrLineElement
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList        asCellsList ();
-    
-  private:
+    S_bsrCellsList        asCellsList () const;    
   
+    int                   fetchCellsNumber () const;
+
+  private:
+
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrCellsList        noteValueKindAsCellsList ();
+    S_bsrCellsList        noteValueKindAsCellsList () const;
                           
-    S_bsrCellsList        noteOctaveKindAsCellsList ();
+    S_bsrCellsList        noteOctaveKindAsCellsList () const;
 
   public:
 

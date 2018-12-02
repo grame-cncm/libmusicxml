@@ -87,7 +87,7 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
   return newbornClone;
 }
 
-S_bsrCellsList bsrMeasure::asCellsList ()
+S_bsrCellsList bsrMeasure::asCellsList () const
 {
   S_bsrCellsList
     result =
@@ -106,6 +106,11 @@ S_bsrCellsList bsrMeasure::asCellsList ()
   } // for
 
   return result;
+}
+
+int bsrMeasure::fetchCellsNumber () const
+{
+  return asCellsList ()->fetchCellsNumber ();
 }
 
 void bsrMeasure::acceptIn (basevisitor* v)
@@ -178,12 +183,12 @@ void bsrMeasure::print (ostream& os)
   // print spaces needs
   os << left <<
     setw (fieldWidth) <<
-    "aSpaceIsNeededBefore" << " : " <<
-    booleanAsString (fASpaceIsNeededBefore) <<
+    "spacesBefore" << " : " <<
+    fSpacesBefore <<
     endl <<
     setw (fieldWidth) <<
-    "aSpaceIsNeededAfter" << " : " <<
-    booleanAsString (fASpaceIsNeededAfter) <<
+    "spacesAfter" << " : " <<
+    fSpacesAfter <<
     endl;
   
   // print the measure numbers
@@ -195,6 +200,12 @@ void bsrMeasure::print (ostream& os)
     "brailleMeasureNumber" << " : " << fBrailleMeasureNumber <<
     endl;
 
+  // print the number of cells
+  os << left <<
+    setw (fieldWidth) <<
+    "cellsNumber" << " : " << fetchCellsNumber () <<
+    endl;
+  
   os <<
     endl;
   

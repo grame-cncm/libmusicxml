@@ -80,12 +80,14 @@ class bsrClef : public bsrLineElement
     // public services
     // ------------------------------------------------------
                   
+    int                   fetchCellsNumber () const;
+
   private:
   
     // private services
     // ------------------------------------------------------
                                                                       
-    S_bsrCellsList        asCellsList ();
+    S_bsrCellsList        asCellsList () const;
                   
   public:
 

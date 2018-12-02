@@ -71,7 +71,7 @@ bsrClef::bsrClef (
 bsrClef::~bsrClef ()
 {}
 
-S_bsrCellsList bsrClef::asCellsList ()
+S_bsrCellsList bsrClef::asCellsList () const
 {
   S_bsrCellsList
     result =
@@ -151,6 +151,11 @@ S_bsrCellsList bsrClef::asCellsList ()
   } // switch
 
   return result;
+}
+
+int bsrClef::fetchCellsNumber() const
+{
+  return asCellsList ()->fetchCellsNumber();
 }
 
 void bsrClef::acceptIn (basevisitor* v)

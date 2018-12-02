@@ -31,6 +31,15 @@
           <clef-octave-change>-1</clef-octave-change>
         </clef>
       </attributes>
+      <direction placement="above">
+        <direction-type>
+          <metronome>
+            <beat-unit>quarter</beat-unit>
+            <per-minute>90</per-minute>
+          </metronome>
+        </direction-type>
+        <sound tempo="90.0" />
+      </direction>
       <direction placement="below">
         <direction-type>
           <wedge type="crescendo" />
@@ -118,6 +127,6 @@
         <bar-style>light-heavy</bar-style>
         </barline>
     </measure>
-    <measure number="3" />
+    <!--measure number="3" /-->
   </part>
 </score-partwise>

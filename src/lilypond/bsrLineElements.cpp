@@ -32,6 +32,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
+/*
 S_bsrLineElement bsrLineElement::create (
   int inputLineNumber)
 {
@@ -41,11 +42,15 @@ S_bsrLineElement bsrLineElement::create (
   assert(o!=0);
   return o;
 }
+*/
 
 bsrLineElement::bsrLineElement (
   int inputLineNumber)
     : bsrElement (inputLineNumber)
-{}
+{
+  fSpacesBefore = 0;
+  fSpacesAfter  = 0;
+}
 
 bsrLineElement::~bsrLineElement ()
 {}

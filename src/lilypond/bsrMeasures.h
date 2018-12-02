@@ -93,7 +93,14 @@ class bsrMeasure : public bsrLineElement
     void                  appendNoteToMeasure (S_bsrNote note)
                               { fMeasureElementsList.push_back (note); }
 
-    S_bsrCellsList      asCellsList ();
+    int                   fetchCellsNumber () const;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    S_bsrCellsList        asCellsList () const;
     
   public:
 

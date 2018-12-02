@@ -1050,6 +1050,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     int                       fCurrentDirectionStaffNumber;
+    int                       fCurrentDirectionVoiceNumber;
     msrPlacementKind          fCurrentDirectionPlacementKind;
         
     bool                      fOnGoingDirection;

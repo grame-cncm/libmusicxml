@@ -88,6 +88,11 @@ void bsrSpaces::acceptIn (basevisitor* v)
   }
 }
 
+int bsrSpaces::fetchCellsNumber() const
+{
+  return fNumberOfSpaces;
+}
+
 void bsrSpaces::acceptOut (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {

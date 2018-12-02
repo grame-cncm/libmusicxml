@@ -64,6 +64,8 @@ class bsrSpaces : public bsrLineElement
     // services
     // ------------------------------------------------------
                   
+    int                   fetchCellsNumber () const;
+
   public:
 
     // visitors

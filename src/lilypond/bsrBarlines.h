@@ -78,6 +78,8 @@ class bsrBarline : public bsrLineElement
     // public services
     // ------------------------------------------------------
                   
+    int                   fetchCellsNumber () const;
+
   private:
   
     // private services
@@ -85,7 +87,7 @@ class bsrBarline : public bsrLineElement
                                             
     S_bsrCellsList        barlineKindAsCellsList ();
                           
-    S_bsrCellsList        asCellsList ();
+    S_bsrCellsList        asCellsList () const;
 
   public:
 

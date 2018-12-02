@@ -82,14 +82,16 @@ class bsrKey : public bsrLineElement
     // public services
     // ------------------------------------------------------
                   
+    int                   fetchCellsNumber () const;
+
   private:
   
     // private services
     // ------------------------------------------------------
                                             
-    S_bsrCellsList        keyKindAsCellsList ();
+    S_bsrCellsList        keyKindAsCellsList () const;
                           
-    S_bsrCellsList        asCellsList ();
+    S_bsrCellsList        asCellsList () const;
 
   public:
 
