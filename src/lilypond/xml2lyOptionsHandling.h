@@ -293,10 +293,6 @@ class xml2lyOptions : public optionsGroup
     // input
     // --------------------------------------
 
-    string                fInputSourceName;
-    
-    string                fTranslationDate;
-
 
     // output file
     // --------------------------------------

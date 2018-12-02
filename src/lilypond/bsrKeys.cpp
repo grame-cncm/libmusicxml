@@ -26,6 +26,8 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "bsrOptions.h"
 
 #include "xml2brlOptionsHandling.h"
@@ -71,7 +73,7 @@ bsrKey::bsrKey (
       "numberOfAlterations: " << fNumberOfAlterations;
        
     bsrInternalError (
-      gXml2brlOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

@@ -88,6 +88,8 @@ class generalOptions : public optionsGroup
     // --------------------------------------
 
     string                fProgramName;
+    string                fInputSourceName;
+    string                fTranslationDate;
     
     string                fCommandLineWithLongOptions;
     string                fCommandLineWithShortOptions;

@@ -62,6 +62,22 @@ generalOptions::~generalOptions ()
 void generalOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
+  // register translation date
+  // ------------------------------------------------------
+
+  {
+    time_t      translationRawtime;
+    struct tm*  translationTimeinfo;
+    char buffer [80];
+  
+    time (&translationRawtime);
+    translationTimeinfo = localtime (&translationRawtime);
+  
+    strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
+    fTranslationDate = buffer;
+  }
+
+
   // help
   // --------------------------------------
 
@@ -265,6 +281,24 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
+
+  // command line
+  // --------------------------------------
+
+  gLogIOstream << left <<
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "input source name" << " : " <<
+    fInputSourceName <<
+    endl <<
+      
+    setw (fieldWidth) << "translation date" << " : " <<
+    fTranslationDate <<
+    endl;
+
+  gIndenter--;
 
   // warning and error handling
   // --------------------------------------

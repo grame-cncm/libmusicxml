@@ -17,7 +17,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 
@@ -278,7 +281,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       getPartGroupCombinedName ();
 
     msrMusicXMLWarning ( // JMI
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -434,7 +437,7 @@ void msrPartGroup::removePartFromPartGroup (
         " is not a part group nor a part";
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -528,7 +531,7 @@ void msrPartGroup::printPartGroupParts (
         " is not a part group nor a part";
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -617,7 +620,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         " is not a part group nor a part";
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -668,7 +671,7 @@ void msrPartGroup::collectPartGroupPartsList (
         " is not a part group nor a part";
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());

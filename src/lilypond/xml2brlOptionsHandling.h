@@ -292,11 +292,7 @@ class xml2brlOptions : public optionsGroup
 
     // input
     // --------------------------------------
-
-    string                fInputSourceName;
     
-    string                fTranslationDate;
-
 
     // output file
     // --------------------------------------

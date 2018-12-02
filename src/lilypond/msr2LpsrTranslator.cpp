@@ -1941,7 +1941,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1988,7 +1988,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -3227,7 +3227,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note uplink";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -3797,7 +3797,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gXml2lyOptions->fInputSourceName,
+            gGeneralOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -3812,7 +3812,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3836,7 +3836,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3906,7 +3906,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3931,7 +3931,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3955,7 +3955,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4217,7 +4217,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5448,7 +5448,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
     
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -5568,7 +5568,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
    
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }

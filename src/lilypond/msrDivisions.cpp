@@ -25,7 +25,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -180,7 +183,7 @@ int msrDivisions::durationKindAsDivisions (
   printDurationKindsDivisions (s);
   
   msrInternalError (
-    gXml2lyOptions->fInputSourceName,
+    gGeneralOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -292,7 +295,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationKindsDivisions (gLogIOstream);
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -537,7 +540,7 @@ string msrDivisions::wholeNotesAsMsrString (
       printDurationKindsDivisions (gLogIOstream);
 
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());

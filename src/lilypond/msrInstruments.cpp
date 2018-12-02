@@ -25,7 +25,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -450,7 +453,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       "' has already been specified";
       
     msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

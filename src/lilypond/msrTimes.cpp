@@ -24,7 +24,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -104,9 +107,10 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
-      "Append beat number '" <<
+      "Appending beat number '" <<
       beatsNumber <<
-      "' to time '" << // JMI
+      "' to time item '" <<
+      asString () <<
       "'" <<
       endl;
     }
@@ -115,6 +119,23 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
   fTimeBeatsNumbersVector.insert (
     fTimeBeatsNumbersVector.end (),
     beatsNumber);
+}
+
+void msrTimeItem::setTimeBeatValue (int timeBeatValue)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTimes) {
+    gLogIOstream <<
+      "Setting beat value to '" <<
+      timeBeatValue <<
+      "' in time item '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fTimeBeatValue = timeBeatValue;
 }
 
 int msrTimeItem::getTimeBeatsNumber () const
@@ -188,11 +209,15 @@ string msrTimeItem::asString () const
 
   switch (vectorSize) {
     case 0:
+    /* JMI
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time item beats numbers vector is empty");
+        */
+      s <<
+        "beats numbers: none";
       break;
       
     case 1:
@@ -411,7 +436,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -595,7 +620,7 @@ string msrTime::asString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");
@@ -663,12 +688,11 @@ void msrTime::print (ostream& os)
     gIndenter--;
   }
   
-  else
-    {
-      os <<
-        " none" <<
-        endl;
-    }
+  else {
+    os <<
+      " none" <<
+      endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)

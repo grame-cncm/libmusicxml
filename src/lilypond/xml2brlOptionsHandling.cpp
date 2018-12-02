@@ -447,7 +447,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
   switch (argumentsNumber) {
     case 1 :
       // register intput file name
-      gXml2brlOptions->fInputSourceName =
+      gGeneralOptions->fInputSourceName =
         fArgumentsVector [0];
       break;
 
@@ -467,12 +467,12 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 
   string potentialOutputFileName;
     
-  if (gXml2brlOptions->fInputSourceName != "-") {
+  if (gGeneralOptions->fInputSourceName != "-") {
     // determine potential output file name,
     // may be set differently by '--ofn, --outputFileName' option
     potentialOutputFileName =
       baseName (
-        gXml2brlOptions->fInputSourceName);
+        gGeneralOptions->fInputSourceName);
 
     // set '.brl' suffix
     size_t
@@ -504,7 +504,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       exit (3);
     }
   
-    else if (gXml2brlOptions->fInputSourceName == "-") {
+    else if (gGeneralOptions->fInputSourceName == "-") {
       stringstream s;
   
       s <<
@@ -700,22 +700,6 @@ xml2brlOptions::~xml2brlOptions ()
 
 void xml2brlOptions::initializeXml2brlOptions ()
 {
-  // register translation date
-  // ------------------------------------------------------
-
-  {
-    time_t      translationRawtime;
-    struct tm*  translationTimeinfo;
-    char buffer [80];
-  
-    time (&translationRawtime);
-    translationTimeinfo = localtime (&translationRawtime);
-  
-    strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
-    fTranslationDate = buffer;
-  }
-
-
   // version
   // --------------------------------------
 
@@ -849,24 +833,6 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  // command line
-  // --------------------------------------
-
-  gLogIOstream << left <<
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "input source name" << " : " <<
-    fInputSourceName <<
-    endl <<
-      
-    setw (fieldWidth) << "translation date" << " : " <<
-    fTranslationDate <<
-    endl;
-
-  gIndenter--;
-
   // output file
   // --------------------------------------
 
@@ -877,10 +843,6 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<        
-    setw (fieldWidth) << "inputSourceName" << " : \"" <<
-    fInputSourceName <<
-    "\"" <<
-    endl <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<

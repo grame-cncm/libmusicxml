@@ -25,7 +25,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -279,7 +282,7 @@ void msrFrame::appendFrameNoteToFrame (
             frameNote;
             
           msrMusicXMLError (
-            gXml2lyOptions->fInputSourceName,
+            gGeneralOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -308,7 +311,7 @@ void msrFrame::appendFrameNoteToFrame (
               barreStartFretNumber;
               
             msrMusicXMLError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());

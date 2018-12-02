@@ -59,8 +59,7 @@ class bsrTimeItem : public bsrElement
     const vector<int>&    getTimeBeatsNumbersVector ()
                               { return fTimeBeatsNumbersVector; }
 
-    void                  setTimeBeatValue (int timeBeatValue)
-                              { fTimeBeatValue = timeBeatValue; }
+    void                  setTimeBeatValue (int timeBeatValue);
                               
     int                   getTimeBeatValue () const
                               { return fTimeBeatValue; }
@@ -144,7 +143,7 @@ class bsrTime : public bsrElement
     bsrTime (
       int         inputLineNumber,
       bsrTimeKind timeKind);
-      
+            
     virtual ~bsrTime ();
   
   public:
@@ -155,12 +154,19 @@ class bsrTime : public bsrElement
     bsrTimeKind           getTimeKind () const
                               { return fTimeKind; }
 
+    const vector<S_bsrTimeItem>&
+                          getTimeItemsVector ()
+                              { return fTimeItemsVector; }
+
     S_bsrCellsList        getTimeCellsList () const
                               { return fTimeCellsList; }
 
     // services
     // ------------------------------------------------------
                   
+    void                  appendTimeItem (
+                            S_bsrTimeItem timeItem);
+
     S_bsrCellsList        asCellsList () const;    
 
     int                   fetchCellsNumber () const;
@@ -191,6 +197,8 @@ class bsrTime : public bsrElement
 
     bsrTimeKind           fTimeKind;
     
+    vector<S_bsrTimeItem> fTimeItemsVector;
+
     S_bsrCellsList        fTimeCellsList;
 };
 typedef SMARTP<bsrTime> S_bsrTime;

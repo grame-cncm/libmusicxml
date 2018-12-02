@@ -118,7 +118,7 @@ void msr2BsrTranslator::notSupportedMessage (
 {
   // issue a warning message to the output log stream
   bsrMusicXMLWarning (
-    gXml2brlOptions->fInputSourceName,
+    gGeneralOptions->fInputSourceName,
     inputLineNumber,
     message);
 
@@ -1406,9 +1406,11 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
     mTimeSymbolKind =
       elt->getTimeSymbolKind ();
 
+/* JMI
   bool
     mTimeIsCompound =
       elt->getTimeIsCompound ();
+  */
   
   const vector<S_msrTimeItem>&
     mTimeItemsVector =
@@ -1417,7 +1419,7 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
   // let's go
 
   bsrTime::bsrTimeKind bTimeKind = bsrTime::kTimeNone;
-  
+    
   switch (mTimeSymbolKind) {
     case msrTime::kTimeSymbolCommon:
       bTimeKind = bsrTime::kTimeCommon;
@@ -1434,9 +1436,17 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
     case msrTime::kTimeSymbolSenzaMisura:
       break;
     case msrTime::kTimeSymbolNone:
-      break;
+      bTimeKind = bsrTime::kTimeNumerical;
+    break;
   } // switch
 
+  // create the BSR time
+  S_bsrTime
+    time =
+      bsrTime::create (
+        inputLineNumber,
+        bTimeKind);
+    
 /*
   if (mTimeIsCompound) {
     // JMI ???
@@ -1444,52 +1454,47 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
   else {
   */
 
-  if (bTimeKind == bsrTime::kTimeNone) {
-    switch (mTimeItemsVector.size ()) {
-      case 0:
-        // should not occur
-        break;
-        
-      case 1:
-        {
-          S_msrTimeItem mTimeItem = mTimeItemsVector [0];
-      
-          // get the MSR time item attributes
-      
-          const vector<int>&
-            mTimeBeatsNumbersVector =
-              mTimeItem->getTimeBeatsNumbersVector ();
-      
-          int
-            mTimeBeatValue =
-              mTimeItem->getTimeBeatValue ();
-      
-          switch (mTimeBeatsNumbersVector.size ()) {
-            case 0:
-              // should not occur
-              break;
-              
-            case 1:
-              
-              break;
-              
-            default:
-              ; // JMI
-          } // switch
-        }     
-        break;
-        
-      default:
-        ; // JMI
-    } // switch
-  }
+  if (mTimeItemsVector.size ()) {
+    for (
+      vector<S_msrTimeItem>::const_iterator i =
+        mTimeItemsVector.begin ();
+      i != mTimeItemsVector.end ();
+      i++
+    ) {
+      S_msrTimeItem mTimeItem = (*i);
   
-  // create the BSR time
-  S_bsrTime
-    time =
-      bsrTime::create (
-        inputLineNumber, bTimeKind);
-    
+      // get the MSR time item attributes
+  
+      int
+        mTimeBeatValue =
+          mTimeItem->getTimeBeatValue ();
+  
+      const vector<int>&
+        mTimeBeatsNumbersVector =
+          mTimeItem->getTimeBeatsNumbersVector ();
+
+      int vectorSize = mTimeBeatsNumbersVector.size ();
+  
+      for (int i = 0; i < vectorSize; i++) {
+        int
+          mTimeItemBeatsNumber =
+            mTimeBeatsNumbersVector [i];
+
+        // create the BSR time item
+        S_bsrTimeItem
+          bTimeItem =
+            bsrTimeItem::create (inputLineNumber);
+
+        // populate it
+        bTimeItem->
+          appendBeatsNumber (mTimeItemBeatsNumber);
+        bTimeItem->
+          setTimeBeatValue (mTimeBeatValue);
+      } // for
+    } // for
+  }
+
+  // append the BSR time to the current measure
   fCurrentMeasure->
     appendTimeToMeasure (time);
 }
@@ -2453,7 +2458,7 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gXml2brlOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2500,7 +2505,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
       // JMI  msrInternalError (
         msrInternalWarning (
-          gXml2brlOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
   //        __FILE__, __LINE__,
           s.str ());
@@ -3667,7 +3672,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "' has an empty note uplink";
 
     msrInternalError (
-      gXml2brlOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -4238,7 +4243,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gXml2brlOptions->fInputSourceName,
+            gGeneralOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -4253,7 +4258,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of a double tremolo";
 
         msrInternalError (
-          gXml2brlOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4277,7 +4282,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "' found outside of grace notes";
 
         msrInternalError (
-          gXml2brlOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4347,7 +4352,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gXml2brlOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4372,7 +4377,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gXml2brlOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4396,7 +4401,7 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gXml2brlOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -4658,7 +4663,7 @@ void msr2BsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gXml2brlOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -5748,7 +5753,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValAssoc& elt)
         "' is not handled";
     
       msrMusicXMLWarning (
-        gXml2brlOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }
@@ -5868,7 +5873,7 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
         "' is not handled";
    
       msrMusicXMLWarning (
-        gXml2brlOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
       }

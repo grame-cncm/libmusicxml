@@ -80,7 +80,7 @@ msrXMLLangKind msrXMLLangKindFromString (
         "' should be 'it', 'en', 'de' or 'fr'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -4624,7 +4624,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           ", line = " << inputLineNumber;
 
         msrLimitation (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -7515,7 +7515,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           ", line = " << inputLineNumber;
 
         msrLimitation (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10336,7 +10336,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10389,7 +10389,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10444,7 +10444,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10497,7 +10497,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10550,7 +10550,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10603,7 +10603,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10656,7 +10656,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gXml2lyOptions->fInputSourceName,
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -10676,7 +10676,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10802,7 +10802,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -10820,7 +10820,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -11816,7 +11816,7 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           NO_INPUT_LINE_NUMBER, // JMI
           __FILE__, __LINE__,
           s.str ());
@@ -11874,7 +11874,7 @@ msrFontStyleKind msrFontStyleKindFromString (
         " should be 'normal' or 'italic'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -11925,7 +11925,7 @@ msrFontWeightKind msrFontWeightKindFromString (
         " should be 'normal' or 'bold'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -11978,7 +11978,7 @@ msrJustifyKind msrJustifyKindFromString (
         " should be 'left', 'center' or 'right'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12033,7 +12033,7 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
         " should be 'left', 'center' or 'right'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12088,7 +12088,7 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
         " should be 'top', 'middle' or 'bottom'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -12166,7 +12166,7 @@ msrPlacementKind msrPlacementKindFromString (
         "\" should be 'above' or 'below'";
       
       msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());    
@@ -12254,7 +12254,7 @@ msrDurationKind msrDurationKindFromString (
       "\" is unknown";
 
     msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -12693,7 +12693,7 @@ string wholeNotesAsMsrString (
   
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());
@@ -16821,7 +16821,7 @@ S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
       "', line " << inputLineNumber;
 
     msrLimitation (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -17262,7 +17262,7 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
       "', line " << inputLineNumber;
 
     msrLimitation (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

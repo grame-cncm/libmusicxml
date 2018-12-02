@@ -25,7 +25,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -432,7 +435,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -448,7 +451,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -607,7 +610,7 @@ string msrTempoTuplet::asString () const
       
       else {
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
@@ -676,7 +679,7 @@ string msrTempoTuplet::asString () const
       
       else {
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");

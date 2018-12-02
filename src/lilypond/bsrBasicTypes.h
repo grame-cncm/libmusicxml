@@ -157,6 +157,20 @@ const bsrCellKind
   kCell0 = kCellJ;
 
 //______________________________________________________________________________
+// lower decimal digits
+const bsrCellKind
+  kCellLower1 = kDots2,
+  kCellLower2 = kDots23,
+  kCellLower3 = kDots25,
+  kCellLower4 = kDots256,
+  kCellLower5 = kDots26,
+  kCellLower6 = kDots235,
+  kCellLower7 = kDots2356,
+  kCellLower8 = kDots236,
+  kCellLower9 = kDots35,
+  kCellLower0 = kDots356;
+
+//______________________________________________________________________________
 // alterations
 const bsrCellKind
   kCellFlat    = kDots126,

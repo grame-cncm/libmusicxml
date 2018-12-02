@@ -25,7 +25,10 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
+
 #include "msrOptions.h"
+
 #include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
@@ -172,7 +175,7 @@ float msrPageGeometry::globalStaffSize () const
         endl;
 
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
         s.str ());
     }

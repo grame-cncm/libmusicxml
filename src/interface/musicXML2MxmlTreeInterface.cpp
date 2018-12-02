@@ -180,7 +180,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
               
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -208,7 +208,7 @@ string uncompressMXLFile (
       // close the stream
       if (pclose (inputStream) < 0) {
         msrInternalError (
-          gXml2lyOptions->fInputSourceName,
+          gGeneralOptions->fInputSourceName,
           0, // inputLineNumber
           __FILE__, __LINE__,
           "Cannot close the input stream after 'popen ()'");
@@ -334,7 +334,7 @@ string uncompressMXLFile (
                   "' and then '" << stringFromLine << "'";
                   
                 msrInternalError (
-                  gXml2lyOptions->fInputSourceName,
+                  gGeneralOptions->fInputSourceName,
                   0, // inputLineNumber
                   __FILE__, __LINE__,
                   s.str ());
@@ -402,7 +402,7 @@ string uncompressMXLFile (
         "' with 'popen ()'";
               
       msrInternalError (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
@@ -467,7 +467,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "you should uncompress this file prior to running xml2ly";
           
     msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -566,7 +566,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       " doesn't contain any encoding specification; assuming it is UTF-8";
           
     msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -581,7 +581,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       ", for example with iconv; handling it as is";
           
     msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
@@ -706,7 +706,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       ", for example with iconv; exiting";
           
     msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
       __FILE__, __LINE__,
       s.str ());

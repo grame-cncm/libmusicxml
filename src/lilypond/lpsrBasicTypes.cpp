@@ -233,7 +233,7 @@ string wholeNotesAsLilypondString (
             " it will be represented using a multiplying factor";
     
           msrMusicXMLWarning (
-            gXml2lyOptions->fInputSourceName,
+            gGeneralOptions->fInputSourceName,
             inputLineNumber,
             s.str ());
 
@@ -311,7 +311,7 @@ string wholeNotesAsLilypondString (
   
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
     //    __FILE__, __LINE__,
         s.str ());

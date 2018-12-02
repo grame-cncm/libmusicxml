@@ -107,7 +107,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -225,7 +225,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       otherElement->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -298,7 +298,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
       " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       first->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());

@@ -143,11 +143,12 @@ class bsrCellsList : public smartable
     // services
     // ------------------------------------------------------
 
-    void                  appendCellKindToCellsList (bsrCellKind cell)
-                              { fCellsListElements.push_back (cell); }
+    void                  appendCellKindToCellsList (bsrCellKind cellKind)
+                              { fCellsListElements.push_back (cellKind); }
 
     void                  appendCellsListToCellsList (
                             S_bsrCellsList otherCellsList);
+                            
     void                  prependCellsListToCellsList (
                             S_bsrCellsList otherCellsList);
 

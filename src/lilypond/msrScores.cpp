@@ -135,7 +135,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       "' already exists in this score";
 
     msrInternalError (
-      gXml2lyOptions->fInputSourceName,
+      gGeneralOptions->fInputSourceName,
       partGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -231,7 +231,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
     gMusicXMLOptions->fUseFilenameAsWorkTitle
   ) {
     inputSourceName =
-      gXml2lyOptions->fInputSourceName;
+      gGeneralOptions->fInputSourceName;
 
     if (inputSourceName == "-") {
       inputSourceName = "Standard input";
