@@ -31,19 +31,29 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrMeasure bsrMeasure::create (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string printMeasureNumber)
 {
   bsrMeasure* o =
     new bsrMeasure (
-      inputLineNumber);
+      inputLineNumber, printMeasureNumber);
   assert(o!=0);
   return o;
 }
 
 bsrMeasure::bsrMeasure (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string printMeasureNumber)
     : bsrLineElement (inputLineNumber)
 {
+  fPrintMeasureNumber = printMeasureNumber;
+
+  // initially, fBrailleMeasureNumber is the same as fPrintMeasureNumber
+  fBrailleMeasureNumber = fPrintMeasureNumber;
+
+  fMeasureCellsList =
+    bsrCellsList::create (fInputLineNumber);
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -54,9 +64,6 @@ bsrMeasure::bsrMeasure (
       endl;
   }
 #endif
-
-  fMeasureCellsList =
-    bsrCellsList::create (fInputLineNumber);
 }
 
 bsrMeasure::~bsrMeasure ()
@@ -76,15 +83,116 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
   S_bsrMeasure
     newbornClone =
       bsrMeasure::create (
-        fInputLineNumber);
+        fInputLineNumber,
+        fPrintMeasureNumber);
 
-  // measure number
-  newbornClone->fPrintMeasureNumber =
-    fPrintMeasureNumber;
+  // braille measure number
   newbornClone->fBrailleMeasureNumber =
     fBrailleMeasureNumber;
     
   return newbornClone;
+}
+
+void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceBarlines) {
+    gLogIOstream <<
+      "Appending barline '" <<
+      barline->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fMeasureElementsList.push_back (barline);
+}
+
+void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) { // JMI
+    gLogIOstream <<
+      "Appending number '" <<
+      number->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fMeasureElementsList.push_back (number);
+}
+
+void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceClefs) {
+    gLogIOstream <<
+      "Appending clef '" <<
+      clef->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fMeasureElementsList.push_back (clef);
+}
+
+void bsrMeasure::appendKeyToMeasure (S_bsrKey key)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTimes) {
+    gLogIOstream <<
+      "Appending key '" <<
+      key->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fMeasureElementsList.push_back (key);
+}
+
+void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTimes) {
+    gLogIOstream <<
+      "Appending time '" <<
+      time->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fMeasureElementsList.push_back (time);
+}
+
+void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Appending note '" <<
+      note->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  fMeasureElementsList.push_back (note);
 }
 
 S_bsrCellsList bsrMeasure::asCellsList () const
@@ -167,6 +275,23 @@ void bsrMeasure::browseData (basevisitor* v)
     bsrBrowser<bsrElement> browser (v);
     browser.browse (*(*i));
   } // for
+}
+
+string bsrMeasure::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Spaces" <<
+    ", spacesBefore: " << fSpacesBefore <<
+    ", spacesAfter: " << fSpacesAfter <<
+    ", printMeasureNumber: " << fPrintMeasureNumber <<
+    ", printMeasureNumber: " << fPrintMeasureNumber <<
+    ", brailleMeasureNumber: " << fBrailleMeasureNumber <<
+    ", measureElementsList.size (): " << fMeasureElementsList.size () <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
 }
 
 void bsrMeasure::print (ostream& os)

@@ -740,7 +740,9 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
 
   // create a measure
   fCurrentMeasure =
-    bsrMeasure::create (inputLineNumber);
+    bsrMeasure::create (
+      inputLineNumber,
+      measureNumber);
 
   // append it to the current line
   fCurrentLine->

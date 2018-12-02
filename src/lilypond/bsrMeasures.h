@@ -42,7 +42,8 @@ class bsrMeasure : public bsrLineElement
     // ------------------------------------------------------
 
     static SMARTP<bsrMeasure> create (
-      int inputLineNumber);
+      int    inputLineNumber,
+      string printMeasureNumber);
     
     SMARTP<bsrMeasure> createMeasureNewbornClone ();
 
@@ -52,7 +53,8 @@ class bsrMeasure : public bsrLineElement
     // ------------------------------------------------------
 
     bsrMeasure (
-      int inputLineNumber);
+      int    inputLineNumber,
+      string printMeasureNumber);
       
     virtual ~bsrMeasure ();
   
@@ -61,10 +63,10 @@ class bsrMeasure : public bsrLineElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getPrintMeasureNumber () const
+    string                getPrintMeasureNumber () const
                               { return fPrintMeasureNumber; }
 
-    int                   getBrailleMeasureNumber () const
+    string                getBrailleMeasureNumber () const
                               { return fBrailleMeasureNumber; }
 
     S_bsrCellsList        getTimeCellsList () const
@@ -75,23 +77,17 @@ class bsrMeasure : public bsrLineElement
     // public services
     // ------------------------------------------------------
 
-    void                  appendBarlineToMeasure (S_bsrBarline barline)
-                              { fMeasureElementsList.push_back (barline); }
+    void                  appendBarlineToMeasure (S_bsrBarline barline);
                               
-    void                  appendNumberToMeasure (S_bsrNumber number)
-                              { fMeasureElementsList.push_back (number); }
+    void                  appendNumberToMeasure (S_bsrNumber number);
                               
-    void                  appendClefToMeasure (S_bsrClef clef)
-                              { fMeasureElementsList.push_back (clef); }
+    void                  appendClefToMeasure (S_bsrClef clef);
                               
-    void                  appendKeyToMeasure (S_bsrKey key)
-                              { fMeasureElementsList.push_back (key); }
+    void                  appendKeyToMeasure (S_bsrKey key);
                               
-    void                  appendTimeToMeasure (S_bsrTime time)
-                              { fMeasureElementsList.push_back (time); }
+    void                  appendTimeToMeasure (S_bsrTime time);
                                                             
-    void                  appendNoteToMeasure (S_bsrNote note)
-                              { fMeasureElementsList.push_back (note); }
+    void                  appendNoteToMeasure (S_bsrNote note);
 
     int                   fetchCellsNumber () const;
 
@@ -117,6 +113,8 @@ class bsrMeasure : public bsrLineElement
     // print
     // ------------------------------------------------------
 
+    virtual string        asString () const;
+
     virtual void          print (ostream& os);
 
   private:
@@ -124,8 +122,8 @@ class bsrMeasure : public bsrLineElement
     // fields
     // ------------------------------------------------------
 
-    int                   fPrintMeasureNumber;    
-    int                   fBrailleMeasureNumber;
+    string                fPrintMeasureNumber;    
+    string                fBrailleMeasureNumber;
 
     list<S_bsrElement>
                           fMeasureElementsList;
