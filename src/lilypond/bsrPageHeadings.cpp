@@ -17,6 +17,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "bsrOptions.h"
@@ -51,7 +52,7 @@ bsrPageHeading::~bsrPageHeading ()
 
 void bsrPageHeading::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
@@ -62,7 +63,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
@@ -73,7 +74,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
 
 void bsrPageHeading::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
@@ -84,7 +85,7 @@ void bsrPageHeading::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;

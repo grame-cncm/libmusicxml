@@ -24,6 +24,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "generalOptions.h"
@@ -154,7 +155,7 @@ int bsrTimeItem::getTimeBeatsNumber () const
 
 void bsrTimeItem::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTimeItem::acceptIn ()" <<
       endl;
@@ -165,7 +166,7 @@ void bsrTimeItem::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTimeItem::visitStart ()" <<
             endl;
@@ -176,7 +177,7 @@ void bsrTimeItem::acceptIn (basevisitor* v)
 
 void bsrTimeItem::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTimeItem::acceptOut ()" <<
       endl;
@@ -187,7 +188,7 @@ void bsrTimeItem::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTimeItem::visitEnd ()" <<
             endl;
@@ -202,9 +203,6 @@ void bsrTimeItem::browseData (basevisitor* v)
 string bsrTimeItem::asString () const
 {
   stringstream s;
-
-  s <<
-    "TimeItem ";
 
   s <<
     "TimeItem ";
@@ -305,6 +303,24 @@ bsrTime::bsrTime (
 bsrTime::~bsrTime ()
 {}
 
+void bsrTime::appendTimeItem (S_bsrTimeItem timeItem)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTimes) {
+    gLogIOstream <<
+      "Appending time item '" <<
+      timeItem->asString () <<
+      "' to time '" <<
+      asString () <<
+      "', line " <<
+      fInputLineNumber <<
+      endl;
+  }
+#endif
+
+  fTimeItemsVector.push_back (timeItem);
+}
+
 S_bsrCellsList bsrTime::asCellsList () const
 {
   S_bsrCellsList
@@ -401,7 +417,7 @@ int bsrTime::fetchCellsNumber() const
 
 void bsrTime::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTime::acceptIn ()" <<
       endl;
@@ -412,7 +428,7 @@ void bsrTime::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTime::visitStart ()" <<
             endl;
@@ -423,7 +439,7 @@ void bsrTime::acceptIn (basevisitor* v)
 
 void bsrTime::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTime::acceptOut ()" <<
       endl;
@@ -434,7 +450,7 @@ void bsrTime::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTime::visitEnd ()" <<
             endl;
@@ -496,8 +512,6 @@ void bsrTime::print (ostream& os)
 {
   os <<
     "Time" <<
-    ", timeKind " << " : " <<
-    timeKindAsString (fTimeKind) <<
     ", " <<
     singularOrPlural (
       fTimeItemsVector.size (), "item", "items") <<
@@ -506,6 +520,16 @@ void bsrTime::print (ostream& os)
     endl;
 
   gIndenter++;
+
+  const int fieldWidth = 16;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "timeKind " << " : " <<
+    timeKindAsString (fTimeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TimeItemsVector" << " : ";
 
   if (fTimeItemsVector.size ()) {
     os <<
@@ -532,8 +556,6 @@ void bsrTime::print (ostream& os)
       " none" <<
       endl;
   }
-
-  const int fieldWidth = 17;
     
   os <<
     setw (fieldWidth) <<

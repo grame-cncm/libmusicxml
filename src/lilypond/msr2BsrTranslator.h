@@ -197,12 +197,19 @@ class msr2BsrTranslator :
     S_bsrLine                 fCurrentLine;
     int                       fCurrentPrintLineNumber;
 
+
     // measures
     // ------------------------------------------------------    
       
     S_bsrMeasure              fCurrentMeasure;
 
      
+    // notes
+    // ------------------------------------------------------
+    bsrNote::bsrNoteOctaveKind
+                              fCurrentNoteOctaveKind;
+
+
 /*
     // it's header
     // ------------------------------------------------------

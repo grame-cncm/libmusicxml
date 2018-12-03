@@ -68,16 +68,12 @@ void bsrOptions::initializeBsrOptions (
   bool boolOptionsInitialValue)
 {
 
-  // trace and display
+  // display
   // --------------------------------------
 
   {
     // variables
     
-    fTraceBsr             = boolOptionsInitialValue;
-    
-    fTraceBsrVisitors     = boolOptionsInitialValue;
-  
     fDisplayBsr           = boolOptionsInitialValue;
     fDisplayBsrDetails    = boolOptionsInitialValue;
       
@@ -94,22 +90,6 @@ R"()",
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
         
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tbsr", "trace-bsr",
-R"(Write a trace of the BSR graphs visiting activity to standard error.)",
-          "traceBsr",
-          fTraceBsr));
-  
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tbsrv", "trace-bsr-visitors",
-R"(Write a trace of the BSR tree visiting activity to standard error.)",
-          "traceBsrVisitors",
-          fTraceBsrVisitors));
-  
 #ifdef TRACE_OPTIONS
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -200,15 +180,9 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
       fOptionsHandlerUplink);
 
 
-  // trace and display
+  // display
   // --------------------------------------
     
-  clone->fTraceBsr =
-    true;
-
-  clone->fTraceBsrVisitors =
-    true;
-
   clone->fDisplayBsr =
     true;
   clone->fDisplayBsrDetails =
@@ -224,8 +198,6 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
 //______________________________________________________________________________
 void bsrOptions::enforceQuietness ()
 {
-  fTraceBsr = false;
-  fTraceBsrVisitors = false;
   fDisplayBsr = false;
   fDisplayBsrDetails = false;
 }
@@ -254,14 +226,6 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   gIndenter++;
   
   gLogIOstream << left <<
-    setw (fieldWidth) << "traceBsr" << " : " <<
-    booleanAsString (fTraceBsr) <<
-    endl <<
-    
-    setw (fieldWidth) << "traceBsrVisitors" << " : " <<
-    booleanAsString (fTraceBsrVisitors) <<
-    endl <<
-    
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
     endl <<

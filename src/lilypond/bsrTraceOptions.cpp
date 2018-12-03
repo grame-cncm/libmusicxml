@@ -70,10 +70,19 @@ void bsrTraceOptions::initializeTraceOptions (
   {
     // variables  
   
-    fTracePages = boolOptionsInitialValue;
-    fTraceLines = boolOptionsInitialValue;
-    fTraceParallels = boolOptionsInitialValue;
+    fTraceBsr             = boolOptionsInitialValue;
 
+    fTracePages           = boolOptionsInitialValue;
+
+    fTraceLines           = boolOptionsInitialValue;
+    
+    fTraceSpaces          = boolOptionsInitialValue;
+    fTraceNumbers         = boolOptionsInitialValue;
+    
+    fTraceParallels       = boolOptionsInitialValue;
+
+    fTraceBsrVisitors     = boolOptionsInitialValue;
+  
     S_optionsSubGroup
       specificTraceSubGroup =
         optionsSubGroup::create (
@@ -87,8 +96,16 @@ R"(Note: the options in this group imply '-t, -trace-passes'.)",
     
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsBooleanItem::create (
+          "tbsr", "trace-bsr",
+R"(Write a trace of the BSR graphs visiting activity to standard error.)",
+          "traceBsr",
+          fTraceBsr));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tp", "trace-pages",
+          "tpages", "trace-pages",
 R"()",
           "tracePages",
           fTracePages,
@@ -96,13 +113,27 @@ R"()",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tl", "trace-lines",
+        optionsBooleanItem::create (
+          "tlines", "trace-lines",
 R"()",
           "traceLines",
-          fTraceLines,
-          gTraceOptions->fTracePasses));
-            
+          fTraceLines));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tspaces", "trace-spaces",
+R"(Write a trace of the BSR spaces activity to standard error.)",
+          "traceSpaces",
+          fTraceSpaces));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tnums", "trace-numbers",
+R"(Write a trace of the BSR numbers activity to standard error.)",
+          "traceNumbers",
+          fTraceNumbers));
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -111,6 +142,15 @@ R"()",
           "traceParallels",
           fTraceParallels,
           gTraceOptions->fTracePasses));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tbsrv", "trace-bsr-visitors",
+R"(Write a trace of the BSR tree visiting activity to standard error.)",
+          "traceBsrVisitors",
+          fTraceBsrVisitors));
+              
   }
 }
 
@@ -126,10 +166,25 @@ S_bsrTraceOptions bsrTraceOptions::createCloneWithDetailedTrace ()
     setOptionsHandlerUplink (
       fOptionsHandlerUplink);
 
+  clone->fTraceBsr =
+    true;
 
-  clone->fTracePages = true;
-  clone->fTraceLines = true;
-  clone->fTraceParallels = true;
+  clone->fTracePages =
+    true;
+    
+  clone->fTraceLines =
+    true;
+    
+  clone->fTraceSpaces =
+    true;
+  clone->fTraceNumbers =
+    true;
+
+  clone->fTraceParallels =
+    true;
+
+  clone->fTraceBsrVisitors =
+    true;
 
   return clone;
 }
@@ -164,6 +219,10 @@ void bsrTraceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    setw (fieldWidth) << "traceBsr" << " : " <<
+    booleanAsString (fTraceBsr) <<
+    endl <<
+    
     setw (fieldWidth) << "tracePages" << " : " <<
     booleanAsString (fTracePages) <<
     endl <<
@@ -171,9 +230,20 @@ void bsrTraceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceLines" << " : " <<
     booleanAsString (fTraceLines) <<
     endl <<
-      
+    
+    setw (fieldWidth) << "traceSpaces" << " : " <<
+    booleanAsString (fTraceSpaces) <<
+    endl <<
+    setw (fieldWidth) << "traceNumbers" << " : " <<
+    booleanAsString (fTraceNumbers) <<
+    endl <<
+          
     setw (fieldWidth) << "traceParallels" << " : " <<
     booleanAsString (fTraceParallels) <<
+    endl <<
+    
+    setw (fieldWidth) << "traceBsrVisitors" << " : " <<
+    booleanAsString (fTraceBsrVisitors) <<
     endl;
 
   gIndenter--;

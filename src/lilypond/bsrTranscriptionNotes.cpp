@@ -25,6 +25,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "bsrOptions.h"
@@ -63,7 +64,7 @@ bsrTranscriptionNotesElement::~bsrTranscriptionNotesElement ()
 
 void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
       endl;
@@ -74,7 +75,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
             endl;
@@ -85,7 +86,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 
 void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
       endl;
@@ -96,7 +97,7 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
             endl;
@@ -156,7 +157,7 @@ bsrTranscriptionNotes::~bsrTranscriptionNotes ()
 
 void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptIn ()" <<
       endl;
@@ -167,7 +168,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitStart ()" <<
             endl;
@@ -178,7 +179,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 
 void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptOut ()" <<
       endl;
@@ -189,7 +190,7 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitEnd ()" <<
             endl;

@@ -22,6 +22,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "bsrOptions.h"
@@ -153,7 +154,7 @@ int bsrNumber::fetchCellsNumber() const
 
 void bsrNumber::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrNumber::acceptIn ()" <<
       endl;
@@ -164,7 +165,7 @@ void bsrNumber::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrNumber::visitStart ()" <<
             endl;
@@ -175,7 +176,7 @@ void bsrNumber::acceptIn (basevisitor* v)
 
 void bsrNumber::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrNumber::acceptOut ()" <<
       endl;
@@ -186,7 +187,7 @@ void bsrNumber::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrNumber::visitEnd ()" <<
             endl;

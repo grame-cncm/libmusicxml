@@ -64,7 +64,7 @@ bsrParallel::~bsrParallel ()
 
 void bsrParallel::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
@@ -75,7 +75,7 @@ void bsrParallel::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
@@ -86,7 +86,7 @@ void bsrParallel::acceptIn (basevisitor* v)
 
 void bsrParallel::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
@@ -97,7 +97,7 @@ void bsrParallel::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;

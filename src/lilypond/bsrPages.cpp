@@ -97,7 +97,7 @@ S_bsrPage bsrPage::createPageNewbornClone ()
 
 void bsrPage::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
@@ -108,7 +108,7 @@ void bsrPage::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
@@ -119,7 +119,7 @@ void bsrPage::acceptIn (basevisitor* v)
 
 void bsrPage::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
@@ -130,7 +130,7 @@ void bsrPage::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
@@ -253,7 +253,7 @@ bsrPageElement::~bsrPageElement ()
 
 void bsrPageElement::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageElement::acceptIn ()" <<
       endl;
@@ -264,7 +264,7 @@ void bsrPageElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageElement::visitStart ()" <<
             endl;
@@ -275,7 +275,7 @@ void bsrPageElement::acceptIn (basevisitor* v)
 
 void bsrPageElement::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageElement::acceptOut ()" <<
       endl;
@@ -286,7 +286,7 @@ void bsrPageElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageElement::visitEnd ()" <<
             endl;

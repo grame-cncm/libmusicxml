@@ -128,15 +128,16 @@ class bsrNote : public bsrLineElement
       bsrNoteValueKind noteValueKind);
 
     enum bsrNoteOctaveKind {
-        kNoteOctaveKindBelow1,
-        kNoteOctaveKind1,
-        kNoteOctaveKind2,
-        kNoteOctaveKind3,
-        kNoteOctaveKind4,
-        kNoteOctaveKind5,
-        kNoteOctaveKind6,
-        kNoteOctaveKind7,
-        kNoteOctaveKindAbove7 };
+        kNoteOctaveNone,
+        kNoteOctaveBelow1,
+        kNoteOctave1,
+        kNoteOctave2,
+        kNoteOctave3,
+        kNoteOctave4,
+        kNoteOctave5,
+        kNoteOctave6,
+        kNoteOctave7,
+        kNoteOctaveAbove7 };
 
     static string noteOctaveKindAsString (
       bsrNoteOctaveKind noteOctaveKind);

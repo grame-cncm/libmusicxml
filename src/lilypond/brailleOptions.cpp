@@ -441,6 +441,7 @@ By default, non-facsimile code is generated.)",
     // variables  
   
     fCellsPerLine = 30;
+    fMeasuresPerLine = 7;
     fLinesPerPage = 27;
     
     // options
@@ -464,6 +465,15 @@ R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
           "N",
           "cellsPerLine",
           fCellsPerLine));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsIntegerItem::create (
+          "mpl", "measures-per-line",
+R"(Set the number of Braille measures per line to N. Default is 7.)",
+          "N",
+          "measuresPerLine",
+          fMeasuresPerLine));
 
     codeGenerationSubGroup->
       appendOptionsItem (
@@ -603,6 +613,24 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    setw (fieldWidth) << "UTFKind" << " : " <<
+      bsrUTFKindAsString (fUTFKind) <<
+      endl <<
+    
+    setw (fieldWidth) << "byteOrderingKind" << " : " <<
+      byteOrderingKindAsString (fByteOrderingKind) <<
+      endl <<
+    
+    setw (fieldWidth) << "cellsPerLine" << " : " <<
+      fCellsPerLine <<
+      endl <<
+    setw (fieldWidth) << "measuresPerLine" << " : " <<
+      fMeasuresPerLine <<
+      endl <<
+    setw (fieldWidth) << "linesPerPage" << " : " <<
+      fLinesPerPage <<
+      endl <<
+    
     setw (fieldWidth) << "xml2brlInfos" << " : " <<
       booleanAsString (fXml2brlInfos) <<
       endl <<

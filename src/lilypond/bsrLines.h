@@ -83,11 +83,9 @@ class bsrLine : public bsrElement
     // public services
     // ------------------------------------------------------
 
-    void                  appendSpacesToLine (S_bsrSpaces spaces)
-                              { fLineElementsList.push_back (spaces); }
+    void                  appendSpacesToLine (S_bsrSpaces spaces);
                               
-    void                  appendMeasureToLine (S_bsrMeasure measure)
-                              { fLineElementsList.push_back (measure); }
+    void                  appendMeasureToLine (S_bsrMeasure measure);
 
     int                   fetchCellsNumber () const;
 
@@ -107,6 +105,14 @@ class bsrLine : public bsrElement
     void                  appendNoteToLine (S_bsrNote note)
                               { fLineElementsList.push_back (note); }
 */
+
+  private:
+
+    // public services
+    // ------------------------------------------------------
+
+    void                  appendLineElementToMeasure (
+                            S_bsrLineElement lineElement);
 
   public:
 

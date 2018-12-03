@@ -70,7 +70,7 @@ S_bsrLine bsrLineElement::getBsrLineUplink () const
 
 void bsrLineElement::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLineElement::acceptIn ()" <<
       endl;
@@ -81,7 +81,7 @@ void bsrLineElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLineElement::visitStart ()" <<
             endl;
@@ -92,7 +92,7 @@ void bsrLineElement::acceptIn (basevisitor* v)
 
 void bsrLineElement::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLineElement::acceptOut ()" <<
       endl;
@@ -103,7 +103,7 @@ void bsrLineElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLineElement::visitEnd ()" <<
             endl;

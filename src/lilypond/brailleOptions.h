@@ -317,6 +317,7 @@ class brailleOptions : public optionsGroup
     // --------------------------------------
 
     int                   fCellsPerLine;
+    int                   fMeasuresPerLine;
     int                   fLinesPerPage;
     
     // code generation

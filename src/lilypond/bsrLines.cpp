@@ -95,6 +95,45 @@ S_bsrLine bsrLine::createLineNewbornClone ()
   return newbornClone;
 }
 
+void  bsrLine::appendLineElementToMeasure (S_bsrLineElement lineElement)
+{
+  fLineElementsList.push_back (lineElement);
+}
+
+void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrTraceOptions->fTraceSpaces || gBsrTraceOptions->fTraceLines) {
+    gLogIOstream <<
+      "Appending spaces '" <<
+      spaces->asShortString () <<
+      "' to line '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToMeasure (spaces);
+}
+
+void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gBsrTraceOptions->fTraceLines) {
+    gLogIOstream <<
+      "Appending measure '" <<
+      measure->asShortString () <<
+      "' to line '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToMeasure (measure);
+}
+
 int bsrLine::fetchCellsNumber () const
 {
   int result = 0;
@@ -111,7 +150,7 @@ int bsrLine::fetchCellsNumber () const
 
 void bsrLine::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
@@ -122,7 +161,7 @@ void bsrLine::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
@@ -133,7 +172,7 @@ void bsrLine::acceptIn (basevisitor* v)
 
 void bsrLine::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
@@ -144,7 +183,7 @@ void bsrLine::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;

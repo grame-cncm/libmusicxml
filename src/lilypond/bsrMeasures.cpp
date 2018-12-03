@@ -93,10 +93,15 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
   return newbornClone;
 }
 
+void  bsrMeasure::appendElementToMeasure (S_bsrElement elem)
+{
+  fMeasureElementsList.push_back (elem);
+}
+
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barline '" <<
       barline->asShortString () <<
@@ -107,13 +112,13 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
     }
 #endif
 
-  fMeasureElementsList.push_back (barline);
+  appendElementToMeasure (barline);
 }
 
-void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
+void bsrMeasure::appendNumberToMeasure (S_bsrNumber number) // JMI ???
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) { // JMI
+  if (gBsrTraceOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending number '" <<
       number->asShortString () <<
@@ -124,13 +129,13 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
     }
 #endif
 
-  fMeasureElementsList.push_back (number);
+  appendElementToMeasure (number);
 }
 
 void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceClefs) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending clef '" <<
       clef->asShortString () <<
@@ -141,13 +146,13 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
     }
 #endif
 
-  fMeasureElementsList.push_back (clef);
+  appendElementToMeasure (clef);
 }
 
 void bsrMeasure::appendKeyToMeasure (S_bsrKey key)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending key '" <<
       key->asShortString () <<
@@ -158,13 +163,13 @@ void bsrMeasure::appendKeyToMeasure (S_bsrKey key)
     }
 #endif
 
-  fMeasureElementsList.push_back (key);
+  appendElementToMeasure (key);
 }
 
 void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending time '" <<
       time->asShortString () <<
@@ -175,13 +180,13 @@ void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
     }
 #endif
 
-  fMeasureElementsList.push_back (time);
+  appendElementToMeasure (time);
 }
 
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -192,7 +197,7 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
     }
 #endif
 
-  fMeasureElementsList.push_back (note);
+  appendElementToMeasure (note);
 }
 
 S_bsrCellsList bsrMeasure::asCellsList () const
@@ -223,7 +228,7 @@ int bsrMeasure::fetchCellsNumber () const
 
 void bsrMeasure::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrMeasure::acceptIn ()" <<
       endl;
@@ -234,7 +239,7 @@ void bsrMeasure::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrMeasure::visitStart ()" <<
             endl;
@@ -245,7 +250,7 @@ void bsrMeasure::acceptIn (basevisitor* v)
 
 void bsrMeasure::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrMeasure::acceptOut ()" <<
       endl;
@@ -256,7 +261,7 @@ void bsrMeasure::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrMeasure::visitEnd ()" <<
             endl;

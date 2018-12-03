@@ -22,6 +22,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "bsrOptions.h"
@@ -388,32 +389,34 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
       bsrCellsList::create (inputLineNumber);
   
   switch (noteOctaveKind) {
-    case kNoteOctaveKindBelow1:
+    case kNoteOctaveNone:
+      break;
+    case kNoteOctaveBelow1:
       result->appendCellKindToCellsList (kDots4);
       result->appendCellKindToCellsList (kDots4);
       break;
-    case kNoteOctaveKind1:
+    case kNoteOctave1:
       result->appendCellKindToCellsList (kDots4);
       break;
-    case kNoteOctaveKind2:
+    case kNoteOctave2:
       result->appendCellKindToCellsList (kDots45);
       break;
-    case kNoteOctaveKind3:
+    case kNoteOctave3:
       result->appendCellKindToCellsList (kDots456);
       break;
-    case kNoteOctaveKind4:
+    case kNoteOctave4:
       result->appendCellKindToCellsList (kDots5);
       break;
-    case kNoteOctaveKind5:
+    case kNoteOctave5:
       result->appendCellKindToCellsList (kDots46);
       break;
-    case kNoteOctaveKind6:
+    case kNoteOctave6:
       result->appendCellKindToCellsList (kDots56);
       break;
-    case kNoteOctaveKind7:
+    case kNoteOctave7:
       result->appendCellKindToCellsList (kDots6);
       break;
-    case kNoteOctaveKindAbove7:
+    case kNoteOctaveAbove7:
       result->appendCellKindToCellsList (kDots6);
       result->appendCellKindToCellsList (kDots6);
       break;
@@ -466,7 +469,7 @@ int bsrNote::fetchCellsNumber() const
 
 void bsrNote::acceptIn (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrNote::acceptIn ()" <<
       endl;
@@ -477,7 +480,7 @@ void bsrNote::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
         
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrNote::visitStart ()" <<
             endl;
@@ -488,7 +491,7 @@ void bsrNote::acceptIn (basevisitor* v)
 
 void bsrNote::acceptOut (basevisitor* v)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrNote::acceptOut ()" <<
       endl;
@@ -499,7 +502,7 @@ void bsrNote::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
       
-        if (gBsrOptions->fTraceBsrVisitors) {
+        if (gBsrTraceOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrNote::visitEnd ()" <<
             endl;
@@ -617,15 +620,16 @@ string bsrNote::noteOctaveKindAsString (
   string result;
 
   switch (noteOctaveKind) {
-    case kNoteOctaveKindBelow1: result = "OctaveBelow1"; break;
-    case kNoteOctaveKind1:      result = "Octave1"; break;
-    case kNoteOctaveKind2:      result = "Octave2"; break;
-    case kNoteOctaveKind3:      result = "Octave3"; break;
-    case kNoteOctaveKind4:      result = "Octave4"; break;
-    case kNoteOctaveKind5:      result = "Octave5"; break;
-    case kNoteOctaveKind6:      result = "Octave6"; break;
-    case kNoteOctaveKind7:      result = "Octave7"; break;
-    case kNoteOctaveKindAbove7: result = "OctaveAbove7"; break;
+    case kNoteOctaveNone:   result = "OctaveNone"; break;
+    case kNoteOctaveBelow1: result = "OctaveBelow1"; break;
+    case kNoteOctave1:      result = "Octave1"; break;
+    case kNoteOctave2:      result = "Octave2"; break;
+    case kNoteOctave3:      result = "Octave3"; break;
+    case kNoteOctave4:      result = "Octave4"; break;
+    case kNoteOctave5:      result = "Octave5"; break;
+    case kNoteOctave6:      result = "Octave6"; break;
+    case kNoteOctave7:      result = "Octave7"; break;
+    case kNoteOctaveAbove7: result = "OctaveAbove7"; break;
   } // switch
 
   return result;

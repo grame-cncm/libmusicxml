@@ -96,6 +96,8 @@ class bsrMeasure : public bsrLineElement
     // private services
     // ------------------------------------------------------
 
+    void                  appendElementToMeasure (S_bsrElement elem);
+    
     S_bsrCellsList        asCellsList () const;
     
   public:

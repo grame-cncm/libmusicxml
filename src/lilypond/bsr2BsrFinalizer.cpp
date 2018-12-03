@@ -21,6 +21,7 @@
 #include "setTraceOptionsIfDesired.h"
 #ifdef TRACE_OPTIONS
   #include "traceOptions.h"
+  #include "bsrTraceOptions.h"
 #endif
 
 #include "musicXMLOptions.h"
@@ -69,7 +70,7 @@ void bsr2BsrFinalizer::generateFinalizedBsrScoreFromBsrScore ()
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrScore& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
@@ -85,7 +86,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrScore& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrScore& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
@@ -96,7 +97,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrScore& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrSpaces& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrSpaces" <<
       ", line " << elt->getInputLineNumber () <<
@@ -109,7 +110,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrSpaces& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrSpaces& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrSpaces" <<
       ", line " << elt->getInputLineNumber () <<
@@ -120,7 +121,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrSpaces& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrBarline& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrBarline" <<
       ", line " << elt->getInputLineNumber () <<
@@ -134,7 +135,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrBarline& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotes& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTranscriptionNotes" <<
       ", line " << elt->getInputLineNumber () <<
@@ -144,7 +145,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotes& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotes& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTranscriptionNotes" <<
       ", line " << elt->getInputLineNumber () <<
@@ -155,7 +156,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotes& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotesElement& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
@@ -170,7 +171,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrTranscriptionNotesElement& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotesElement& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
@@ -181,7 +182,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrTranscriptionNotesElement& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrPage& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPage '" <<
       elt->asString () <<
@@ -198,7 +199,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrPage& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrPage& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPage '" <<
       elt->asString () <<
@@ -211,7 +212,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrPage& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrPageHeading& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPageHeading '" <<
       elt->asString () <<
@@ -228,7 +229,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrPageHeading& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrPageHeading& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPageHeading '" <<
       elt->asString () <<
@@ -241,7 +242,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrPageHeading& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrLine& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrLine '" <<
       elt->asString () <<
@@ -258,7 +259,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrLine& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrLine& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrLine '" <<
       elt->asString () <<
@@ -271,7 +272,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrLine& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrMeasure& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrMeasure '" <<
       elt->asString () <<
@@ -289,7 +290,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrMeasure& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrMeasure& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrMeasure '" <<
       elt->asString () <<
@@ -302,7 +303,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrMeasure& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrNumber& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrNumber '" <<
       elt->asString () <<
@@ -312,12 +313,12 @@ void bsr2BsrFinalizer::visitStart (S_bsrNumber& elt)
   }
 
   fCurrentMeasure->
-    appendNumberToMeasure (elt);
+    appendNumberToMeasure (elt); // JMI ???
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNumber '" <<
       elt->asString () <<
@@ -330,7 +331,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrClef& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrClef '" <<
       elt->asString () <<
@@ -345,7 +346,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrClef& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrClef& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrClef '" <<
       elt->asString () <<
@@ -358,7 +359,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrClef& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrKey& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrKey '" <<
       elt->asString () <<
@@ -373,7 +374,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrKey& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrKey& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrKey '" <<
       elt->asString () <<
@@ -386,7 +387,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrKey& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrTime& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTime " <<
       elt->asString () <<
@@ -400,7 +401,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrTime& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTime " <<
       elt->asString () <<
@@ -412,7 +413,7 @@ void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)
 //________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrNote& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrNote " <<
       elt->asString () <<
@@ -426,7 +427,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrNote& elt)
 
 void bsr2BsrFinalizer::visitEnd (S_bsrNote& elt)
 {
-  if (gBsrOptions->fTraceBsrVisitors) {
+  if (gBsrTraceOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNote " <<
       elt->asString () <<

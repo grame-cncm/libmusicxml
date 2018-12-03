@@ -432,7 +432,7 @@ R"()",
     languagesSubGroup->
       appendOptionsItem (
         optionsMsrPitchesLanguageItem::create (
-          "mpl", "msr-pitches-language",
+          "mplang", "msr-pitches-language",
 R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
 The 12 LilyPond pitches languages are available:
 nederlands, catalan, deutsch, english, espanol, français, 

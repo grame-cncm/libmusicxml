@@ -110,12 +110,8 @@ class bsrOptions : public optionsGroup
     
   public:
 
-    // trace and display
+    // display
     // --------------------------------------
-    
-    bool                  fTraceBsr;
-    
-    bool                  fTraceBsrVisitors;
     
     bool                  fDisplayBsr;
     bool                  fDisplayBsrDetails;

@@ -164,8 +164,7 @@ class bsrTime : public bsrElement
     // services
     // ------------------------------------------------------
                   
-    void                  appendTimeItem (
-                            S_bsrTimeItem timeItem);
+    void                  appendTimeItem (S_bsrTimeItem timeItem);
 
     S_bsrCellsList        asCellsList () const;    
 

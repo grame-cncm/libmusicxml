@@ -54,6 +54,9 @@ msr2BsrTranslator::msr2BsrTranslator (
   fCurrentPrintPageNumber = 1;
   fCurrentPrintLineNumber = 1;
 
+  // notes
+  fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
+  
 /*
   // identification
   fOnGoingIdentification = false;
@@ -171,14 +174,19 @@ void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
       endl;
   }
 
+  // create the line
   fCurrentLine =
     bsrLine::create (
       inputLineNumber,
       ++fCurrentPrintLineNumber,
       gBrailleOptions->fCellsPerLine);
-    
+
+  // append it to the current page
   fCurrentPage->
     appendLineToPage (fCurrentLine);
+
+  // a note octave will be need for the next note to come
+  fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
 }
 
 void msr2BsrTranslator::visitEnd (S_msrLineBreak& elt)
@@ -263,7 +271,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
         inputLineNumber,
         bsrNote::kBsrCEighthKind,
         bsrNote::kBrlOctave4Kind,
-        bsrNote::kNoteOctaveKindIsNeededYes);
+        bsrNote::kNoteOctaveIsNeededYes);
   
   fCurrentLine->
     appendNoteToLine (note);
@@ -1492,6 +1500,10 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
           appendBeatsNumber (mTimeItemBeatsNumber);
         bTimeItem->
           setTimeBeatValue (mTimeBeatValue);
+
+        // append it to the time
+        time->
+          appendTimeItem (bTimeItem);
       } // for
     } // for
   }
@@ -1559,16 +1571,17 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
   // let's go
   
-  bsrNote::bsrNoteOctaveKind noteOctaveKind;
+  bsrNote::bsrNoteOctaveKind noteOctaveKind = bsrNote::kNoteOctaveNone;
+  
   // middle C starts octave 4, as in MusicXML
   switch (noteOctave) {
-    case 1: noteOctaveKind = bsrNote::kNoteOctaveKind1; break;
-    case 2: noteOctaveKind = bsrNote::kNoteOctaveKind2; break;
-    case 3: noteOctaveKind = bsrNote::kNoteOctaveKind3; break;
-    case 4: noteOctaveKind = bsrNote::kNoteOctaveKind4; break;
-    case 5: noteOctaveKind = bsrNote::kNoteOctaveKind5; break;
-    case 6: noteOctaveKind = bsrNote::kNoteOctaveKind6; break;
-    case 7: noteOctaveKind = bsrNote::kNoteOctaveKind7; break;
+    case 1: noteOctaveKind = bsrNote::kNoteOctave1; break;
+    case 2: noteOctaveKind = bsrNote::kNoteOctave2; break;
+    case 3: noteOctaveKind = bsrNote::kNoteOctave3; break;
+    case 4: noteOctaveKind = bsrNote::kNoteOctave4; break;
+    case 5: noteOctaveKind = bsrNote::kNoteOctave5; break;
+    case 6: noteOctaveKind = bsrNote::kNoteOctave6; break;
+    case 7: noteOctaveKind = bsrNote::kNoteOctave7; break;
     default:
       // kNoteOctaveBelow1Kind and kNoteOctaveAbove7Kind
       // cannot occur in MusicXML
@@ -1951,15 +1964,28 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
         break;
     } // switch
   }
+
+  // is the note octave needed?
+  bsrNote::bsrNoteOctaveIsNeeded noteOctaveIsNeeded;
   
+  if (noteOctaveKind == fCurrentNoteOctaveKind) {
+    noteOctaveIsNeeded = bsrNote::kNoteOctaveIsNeededNo;
+  }
+  else {
+    noteOctaveIsNeeded = bsrNote::kNoteOctaveIsNeededYes;
+    fCurrentNoteOctaveKind = noteOctaveKind;
+  }
+
+  // create the note
   S_bsrNote note =
     bsrNote::create (
       inputLineNumber,
       noteValueKind,
       noteDotsNumber,
       noteOctaveKind,
-      bsrNote::kNoteOctaveIsNeededYes); // JMI ???
+      noteOctaveIsNeeded);
 
+  // append it to the current measure
   fCurrentMeasure->
     appendNoteToMeasure (note);
 }

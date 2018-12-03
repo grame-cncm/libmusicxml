@@ -93,10 +93,22 @@ class bsrTraceOptions : public optionsGroup
     
   public:
 
+    // BSR
+    bool                  fTraceBsr;
+
     // pages & lines  
     bool                  fTracePages;
+    
     bool                  fTraceLines;
+    
+    bool                  fTraceSpaces;
+    bool                  fTraceNumbers;
+
+    // parallels
     bool                  fTraceParallels;
+
+    // visitors
+    bool                  fTraceBsrVisitors;
 };
 typedef SMARTP<bsrTraceOptions> S_bsrTraceOptions;
 EXP ostream& operator<< (ostream& os, const S_bsrTraceOptions& elt);
