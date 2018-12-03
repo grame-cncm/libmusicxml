@@ -145,6 +145,9 @@ class bsrLine : public bsrElement
     
     list<S_bsrLineElement>
                           fLineElementsList;
+
+    // work field
+    bool                  fLastAppendedLineElementIsASpaces;
 };
 typedef SMARTP<bsrLine> S_bsrLine;
 EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);

@@ -306,9 +306,6 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
-
-  fBrailleGenerator->generateCodeForBrailleCell (
-    kCellSpace); // JMI TEMP
 }
 
 //________________________________________________________________________
@@ -458,7 +455,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
   }
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getTimeCellsList ());
+    elt->asCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)

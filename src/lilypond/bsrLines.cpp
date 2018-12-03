@@ -55,6 +55,9 @@ bsrLine::bsrLine (
   
   fCellsPerLine = cellsPerLine;
 
+  // prevent spaces to be inserted at the beginning of the line
+  fLastAppendedLineElementIsASpaces = true;
+
 #ifdef TRACE_OPTIONS
   if (gBsrTraceOptions->fTraceLines) {
     gLogIOstream <<
@@ -115,6 +118,7 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 #endif
 
   appendLineElementToMeasure (spaces);
+  fLastAppendedLineElementIsASpaces = true;
 }
 
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
@@ -131,7 +135,20 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
     }
 #endif
 
+  if (! fLastAppendedLineElementIsASpaces) {
+    // create a 1-spaces
+    S_bsrSpaces
+      spaces =
+        bsrSpaces::create (
+          fInputLineNumber, 1);
+  
+    // append it to this line
+    this->
+      appendSpacesToLine (spaces);
+  }
+  
   appendLineElementToMeasure (measure);
+  fLastAppendedLineElementIsASpaces = false;
 }
 
 int bsrLine::fetchCellsNumber () const

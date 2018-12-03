@@ -91,7 +91,7 @@ void optionsUTFKindItem::print (ostream& os) const
     fOptionsUTFKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsUTFKindItemVariable" << " : \"" <<
+    "optionsUTFKindItemVariable" << " : \"" <<
     bsrUTFKindAsString (
       fOptionsUTFKindItemVariable) <<
       "\"" <<
@@ -179,7 +179,7 @@ void optionsByteOrderingKindItem::print (ostream& os) const
     fOptionsByteOrderingKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsByteOrderingKindItemVariable" << " : \"" <<
+    "optionsByteOrderingKindItemVariable" << " : \"" <<
     byteOrderingKindAsString (
       fOptionsByteOrderingKindItemVariable) <<
       "\"" <<
@@ -267,7 +267,7 @@ void optionsFacSimileKindItem::print (ostream& os) const
     fOptionsFacSimileKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsFacSimileKindItemVariable" << " : \"" <<
+    "optionsFacSimileKindItemVariable" << " : \"" <<
     facSimileKindAsString (
       fOptionsFacSimileKindItemVariable) <<
       "\"" <<

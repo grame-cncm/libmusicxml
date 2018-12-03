@@ -734,18 +734,6 @@ void msr2BsrTranslator::visitStart (S_msrMeasure& elt)
       endl;
   }
 
-/* JMI
-  // create a 1-spaces
-  S_bsrSpaces
-    spaces =
-      bsrSpaces::create (
-        inputLineNumber, 1);
-
-  // append it to the current line
-  fCurrentLine->
-    appendSpacesToLine (spaces);
-*/
-
   // create a measure
   fCurrentMeasure =
     bsrMeasure::create (
