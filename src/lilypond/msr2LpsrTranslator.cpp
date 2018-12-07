@@ -1108,7 +1108,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
       endl;
   }
 
-  fCurrentStaffTuningClone      = nullptr;
+  fCurrentStaffTuningClone = nullptr;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
@@ -1298,7 +1298,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoice \"" <<
-      elt->getVoiceName () << "\"" <<
+      elt->asString () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1780,15 +1780,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       endl;
   }
 
-/* JMI
-  {
-    fLogOutputStream <<
-      endl <<
-      elt <<
-      endl;
-  }
-     */
-      
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     fLogOutputStream <<
@@ -1801,8 +1792,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       endl;
   }
 #endif
-
-  // measure 1 is created by default initially ??? JMI
   
   // create a clone of the measure
   fCurrentMeasureClone =

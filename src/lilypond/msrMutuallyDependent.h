@@ -6314,6 +6314,7 @@ class msrVoice : public msrElement
     string                regularVoiceStaffSequentialNumberAsString () const;
 
     string                asShortString () const;
+    string                asString () const;
     
     virtual void          print (ostream& os);
 

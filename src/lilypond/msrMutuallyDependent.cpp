@@ -19817,6 +19817,7 @@ void msrVoice::initializeVoice (
   fVoiceRemainingRestMeasures = 0;
 
   // get the initial staff details from the staff if any
+/*
   S_msrStaffDetails
     staffStaffDetails =
       fVoiceStaffUplink->
@@ -19827,6 +19828,7 @@ void msrVoice::initializeVoice (
     appendStaffDetailsToVoice (
       staffStaffDetails);
   }
+  */
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceVoices) {
@@ -19912,6 +19914,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
   newbornClone->fVoiceName =
     fVoiceName;
 
+/* JMI
   // counters
   newbornClone->fVoiceActualNotesCounter =
     fVoiceActualNotesCounter;
@@ -19932,20 +19935,11 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
   // musically empty voices
   newbornClone->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
-
-  // initial elements
-
-  // first segment
-
-  // repeats
   
   // multple rests
   newbornClone->fVoiceContainsMultipleRests =
     fVoiceContainsMultipleRests;
-
-  // stanzas
-
-  // uplinks
+    */
 
   return newbornClone;
 }
@@ -25638,13 +25632,13 @@ string msrVoice::voiceKindAsString (
   
   switch (voiceKind) {
     case msrVoice::kRegularVoice:
-      result = "regular";
+      result = "regularVoice";
       break;
     case msrVoice::kHarmonyVoice:
-      result = "harmony";
+      result = "harmonyVoice";
       break;
     case msrVoice::kFiguredBassVoice:
-      result = "figured bass";
+      result = "figured bassVoice";
       break;
   } // switch
 
@@ -25688,10 +25682,10 @@ string msrVoice::voiceFinalizationStatusKindAsString (
   
   switch (voiceFinalizationStatusKind) {
     case msrVoice::kKeepVoice:
-      result = "keep";
+      result = "keepVoice";
       break;
     case msrVoice::kEraseVoice:
-      result = "erase";
+      result = "eraseVoice";
       break;
   } // switch
 
@@ -25708,7 +25702,27 @@ string msrVoice::asShortString () const
   stringstream s;
 
   s <<
-    "Voice \"" << getVoiceName ();
+    "Voice \"" << getVoiceName () << "\", " <<
+    voiceKindAsString (fVoiceKind) <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+         
+string msrVoice::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Voice \"" << getVoiceName () << "\", " <<
+    voiceKindAsString (fVoiceKind) <<
+     ", " <<
+    singularOrPlural (
+      fVoiceActualNotesCounter, "actual note", "actual notes") <<
+     ", " <<
+    singularOrPlural (
+      fVoiceStanzasMap.size (), "stanza", "stanzas") <<
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }
@@ -25718,7 +25732,7 @@ void msrVoice::print (ostream& os)
   os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
- // JMI   ", this: " << this <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;

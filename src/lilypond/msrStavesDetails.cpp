@@ -288,19 +288,19 @@ string msrStaffDetails::staffTypeKindAsString (
   
   switch (staffTypeKind) {
     case msrStaffDetails::kRegularStaffType:
-      result = "regular";
+      result = "regularStaffType";
       break;
     case msrStaffDetails::kOssiaStaffType:
-      result = "ossia";
+      result = "ossiaStaffType";
       break;
     case msrStaffDetails::kCueStaffType:
-      result = "cue";
+      result = "cueStaffType";
       break;
     case msrStaffDetails::kEditorialStaffType:
-      result = "editorial";
+      result = "editorialStaffType";
       break;
     case msrStaffDetails::kAlternateStaffType:
-      result = "alternate";
+      result = "alternateStaffType";
       break;
   } // switch
 
@@ -314,10 +314,10 @@ string msrStaffDetails::showFretsKindAsString (
   
   switch (showFretsKind) {
     case msrStaffDetails::kShowFretsNumbers:
-      result = "numbers";
+      result = "showFretsNumbers";
       break;
     case msrStaffDetails::kShowFretsLetters:
-      result = "letters";
+      result = "showFretsLetters";
       break;
   } // switch
 
@@ -331,10 +331,10 @@ string msrStaffDetails::printObjectKindAsString (
   
   switch (printObjectKind) {
     case msrStaffDetails::kPrintObjectYes:
-      result = "print object yes";
+      result = "printObjectYes";
       break;
     case msrStaffDetails::kPrintObjectNo:
-      result = "print object no";
+      result = "printObjectNo";
       break;
   } // switch
 
@@ -348,10 +348,10 @@ string msrStaffDetails::printSpacingKindAsString (
   
   switch (printSpacingKind) {
     case msrStaffDetails::kPrintSpacingYes:
-      result = "print spacing yes";
+      result = "printSpacingYes";
       break;
     case msrStaffDetails::kPrintSpacingNo:
-      result = "print spacing no";
+      result = "printSpacingNo";
       break;
   } // switch
 
