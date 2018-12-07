@@ -474,61 +474,69 @@ void msrPartGroup::printPartGroupParts (
   int      inputLineNumber,
   ostream& os)
 {
-  for (
-    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
-    i != fPartGroupElements.end ();
-    i++) {
-    S_msrElement
-      element = (*i);
-
-    if (
-      S_msrPartGroup
-        nestedPartGroup =
-          dynamic_cast<msrPartGroup*>(&(*element))
-      ) {
-      // this is a part group          
-      gLogIOstream <<
+  if (fPartGroupElements.size ()) {
+    for (
+      list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+      i != fPartGroupElements.end ();
+      i++) {
+      S_msrElement
+        element = (*i);
+  
+      if (
+        S_msrPartGroup
+          nestedPartGroup =
+            dynamic_cast<msrPartGroup*>(&(*element))
+        ) {
+        // this is a part group          
+        gLogIOstream <<
+          nestedPartGroup->
+            getPartGroupCombinedName () <<
+          endl;
+  
+        gIndenter++;
+  
         nestedPartGroup->
+          printPartGroupParts (
+            inputLineNumber,
+            os);
+        
+        gIndenter--;
+      }
+  
+      else if (
+        S_msrPart
+          part =
+            dynamic_cast<msrPart*>(&(*element))
+        ) {
+        // this is a part
+        gLogIOstream <<
+          part->
+            getPartCombinedName () <<
+          endl;
+      }
+  
+      else {
+        stringstream s;
+  
+        s <<
+          "an element of partgroup " <<
           getPartGroupCombinedName () <<
-        endl;
-
-      gIndenter++;
-
-      nestedPartGroup->
-        printPartGroupParts (
+          " is not a part group nor a part";
+  
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
-          os);
-      
-      gIndenter--;
-    }
-
-    else if (
-      S_msrPart
-        part =
-          dynamic_cast<msrPart*>(&(*element))
-      ) {
-      // this is a part
-      gLogIOstream <<
-        part->
-          getPartCombinedName () <<
-        endl;
-    }
-
-    else {
-      stringstream s;
-
-      s <<
-        "an element of partgroup " <<
-        getPartGroupCombinedName () <<
-        " is not a part group nor a part";
-
-      msrInternalError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  } // for
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    } // for
+  }
+  
+  else {
+    os <<
+      "none" <<
+      endl;
+  }
 }
 
 S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (

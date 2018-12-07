@@ -30084,18 +30084,6 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
   }
 }
 
-string msrPart::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Part \"" <<
-    getPartName () <<
-    "\", line " << fInputLineNumber;
-
-  return s.str ();
-}
-
 void msrPart::finalizePart (
   int inputLineNumber)
 {
@@ -30235,6 +30223,18 @@ void msrPart::browseData (basevisitor* v)
     browser.browse (*fPartFiguredBassStaff);
   }
       
+}
+
+string msrPart::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Part \"" <<
+    getPartName () <<
+    "\", line " << fInputLineNumber;
+
+  return s.str ();
 }
 
 void msrPart::print (ostream& os)

@@ -3243,10 +3243,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       s.str ());
   }
 
+  gIndenter++;
+
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
-      endl <<
       endl <<
       "--------------------------------------------" <<
       endl <<
@@ -3254,8 +3255,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       endl;
   }
 #endif
-
-  gIndenter++;
 
   // measures
   fPartNumberOfMeasures = 0;
@@ -3277,18 +3276,17 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
       endl;
   }
 
-  gIndenter--;
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
       endl <<
       "--------------------------------------------" <<
-      endl <<
       endl;
   }
 #endif
+
+  gIndenter--;
 
   // handle current part number of measures
   if (fScoreNumberOfMeasures == 0) {
@@ -3470,6 +3468,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
 
   // take this measure into account
   fPartNumberOfMeasures++;
+
+  gIndenter++;
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)
@@ -3480,6 +3480,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
