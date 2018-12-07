@@ -786,7 +786,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   return s.str ();
 }
 
-void lpsr2LilypondTranslator::generateNote (
+void lpsr2LilypondTranslator::generateCodeBeforeNote (
   S_msrNote note)
 {
   int inputLineNumber =
@@ -1282,13 +1282,20 @@ void lpsr2LilypondTranslator::generateNote (
         break;
     } // switch
   }
+}
 
+void lpsr2LilypondTranslator::generateCodeForNote (
+  S_msrNote note)
+{
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   // print the note itself
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
   switch (note->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
@@ -1736,6 +1743,10 @@ void lpsr2LilypondTranslator::generateNote (
   fLilypondCodeIOstream << " ";
 }
 
+void lpsr2LilypondTranslator::generateCodeAfterNote (
+  S_msrNote note)
+{
+}
 //________________________________________________________________________
 /* JMI
 string lpsr2LilypondTranslator::durationAsExplicitLilypondString (
@@ -9296,8 +9307,14 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
           note =
             dynamic_cast<msrNote*>(&(*element))
         ) {
+          // print things before the note
+          generateCodeBeforeNote (note);
+
           // print the note itself
-          generateNote (note);
+          generateCodeForNote (note);
+
+          // print things after the note
+          generateCodeAfterNote (note);
 
           // print the note beams if any,
           // unless the note is chord member
@@ -10261,7 +10278,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
-  generateNote (elt);
+  // print things before the note
+  generateCodeBeforeNote (elt);
+
+  // print the note itself
+  generateCodeForNote (elt);
+
+  // print things after the note
+  generateCodeAfterNote (elt);
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the note line number as a comment
@@ -11532,7 +11556,14 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
       S_msrNote
         note = (*i);
 
-      generateNote (note);
+      // print things before the note
+      generateCodeBeforeNote (note);
+    
+      // print the note itself
+      generateCodeForNote (note);
+    
+      // print things after the note
+      generateCodeAfterNote (note);
         
       if (++i == iEnd) break;
       fLilypondCodeIOstream <<

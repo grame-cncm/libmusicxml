@@ -696,7 +696,9 @@ class lpsr2LilypondTranslator :
     void                  generateNoteBeams (S_msrNote note);
     void                  generateNoteSlurs (S_msrNote note);
 
-    void                  generateNote (S_msrNote note);
+    void                  generateCodeBeforeNote (S_msrNote note);
+    void                  generateCodeForNote (S_msrNote note);
+    void                  generateCodeAfterNote (S_msrNote note);
 
     // articulations
 
