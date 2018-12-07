@@ -12,14 +12,8 @@
 
 #include "msrScores.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
-
-#include "xml2lyOptionsHandling.h"
 
 
 using namespace std;
@@ -79,7 +73,7 @@ msrScore::~msrScore ()
 S_msrScore msrScore::createScoreNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceScore) {
+  if (gGeneralOptions->fTraceScore) {
     gLogIOstream <<
       "Creating a newborn clone of a score" <<
       endl;
@@ -149,7 +143,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceCredits) {
+  if (gGeneralOptions->fTraceCredits) {
     gLogIOstream <<
       "Appending credit '" <<
       credit->asString () <<
@@ -168,7 +162,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   S_msrPart result;
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
@@ -292,7 +286,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
               switch (topCreditsCounter) {
                 case 1:
 #ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+                  if (gGeneralOptions->fTraceCredits) {
                     gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -309,7 +303,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                   
                 case 2:
 #ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+                  if (gGeneralOptions->fTraceCredits) {
                     gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -338,7 +332,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
               switch (bottomCreditsCounter) {
                 case 1:
 #ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+                  if (gGeneralOptions->fTraceCredits) {
                     gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<
@@ -355,7 +349,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                   
                 case 2:
 #ifdef TRACE_OPTIONS
-                  if (gTraceOptions->fTraceCredits) {
+                  if (gGeneralOptions->fTraceCredits) {
                     gLogIOstream <<
                       "Using credit words '" <<
                       creditWordsContents <<

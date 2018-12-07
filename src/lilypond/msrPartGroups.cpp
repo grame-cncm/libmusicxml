@@ -12,16 +12,8 @@
 
 #include "msrPartGroups.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
 #include "generalOptions.h"
-
 #include "msrOptions.h"
-
-#include "xml2lyOptionsHandling.h"
 
 
 using namespace std;
@@ -161,7 +153,7 @@ msrPartGroup::msrPartGroup (
   fPartGroupBarlineKind     = partGroupBarlineKind;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -181,7 +173,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   S_msrScore     scoreClone)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -298,7 +290,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 
   // register it in this part group
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -313,7 +305,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   fPartGroupElements.push_back (part);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       endl <<
       "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
@@ -367,7 +359,7 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
 {
   // register part in this part group
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -390,7 +382,7 @@ void msrPartGroup::removePartFromPartGroup (
 {
   // register part in this part group
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Removing part " <<
       partToBeRemoved->getPartCombinedName () <<
@@ -451,7 +443,7 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -466,7 +458,7 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -546,7 +538,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   S_msrPart result;
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroupsDetails) {    
+  if (gGeneralOptions->fTracePartGroupsDetails) {    
     gLogIOstream <<
       "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;

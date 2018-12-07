@@ -264,9 +264,6 @@ enum bsrCellKind2 {
   kCellWordSign      , // kDots345,
   kCellWordApostrophe, // kDots6;
 
-  // pages
-  kCellPagination, // { kDots5, kDots25 };
-
   // capitals
   kCellCapitalsSign, //, // kDots46;
   kCellCapitalsSequenceSign, // { kCellCapitalsSign, kCellCapitalsSign };

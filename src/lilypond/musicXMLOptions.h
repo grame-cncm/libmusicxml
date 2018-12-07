@@ -67,6 +67,14 @@ class musicXMLOptions : public optionsGroup
 
   public:
 
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setAllMusicXMLTraceOptions (
+                            bool boolOptionsInitialValue);
+
+  public:
+
     // services
     // ------------------------------------------------------
 
@@ -88,11 +96,7 @@ class musicXMLOptions : public optionsGroup
     // fields
     // ------------------------------------------------------
 
-    // trace and display
-    
-    bool                  fTraceMusicXMLTreeVisitors;
-
-    // work
+    // worktitle
 
     bool                  fUseFilenameAsWorkTitle;
 
@@ -101,18 +105,24 @@ class musicXMLOptions : public optionsGroup
     bool                  fIgnoreRedundantClefs;
     bool                  fIgnoreRedundantKeys;
     bool                  fIgnoreRedundantTimes;
-
-    // tuplets
-
-    // JMI ??? bracket yes/no ???
                       
     // cubase
 
     bool                  fCubase;
     bool                  fNoCubase;
 
-    // to do
+    // specific trace
     
+    // encoding
+    bool                  fTraceEncoding;
+
+    // divisions
+    bool                  fTraceDivisions;
+
+    // visitors
+    bool                  fTraceMusicXMLTreeVisitors;
+
+    // to do JMI
     bool                  fLoopToMusicXML;
 };
 typedef SMARTP<musicXMLOptions> S_musicXMLOptions;

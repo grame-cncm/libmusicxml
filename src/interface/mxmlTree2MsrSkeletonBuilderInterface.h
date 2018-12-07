@@ -18,9 +18,9 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include "msrOptions.h"
-
 #include "msr.h"
+
+#include "msrOptions.h"
 
 
 namespace MusicXML2 

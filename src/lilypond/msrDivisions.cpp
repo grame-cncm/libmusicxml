@@ -20,16 +20,9 @@
 
 #include "msrDivisions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
 #include "generalOptions.h"
-
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
-
-#include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
 
@@ -54,7 +47,7 @@ S_msrDivisions msrDivisions::create (
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
- if (gTraceOptions->fTraceDivisions) {
+ if (gMusicXMLOptions->fTraceDivisions) {
     gLogIOstream <<
       "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
@@ -87,12 +80,12 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
-  gLogIOstream <<
-    "Initializing divisions" <<
-    ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
-    ", line " << fInputLineNumber <<
-    endl;
+  if (gMusicXMLOptions->fTraceDivisions) {
+    gLogIOstream <<
+      "Initializing divisions" <<
+      ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
+      ", line " << fInputLineNumber <<
+      endl;
   }
 #endif
 
@@ -150,7 +143,7 @@ void msrDivisions::initializeDivisions ()
 
   // print the durations divisions if needed
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
+  if (gMusicXMLOptions->fTraceDivisions) {
     printDurationKindsDivisions (gLogIOstream);
   }
 #endif
@@ -261,7 +254,7 @@ string msrDivisions::divisionsAsMsrString (
   const int fieldWidth = 22;
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
+  if (gMusicXMLOptions->fTraceDivisions) {
     gLogIOstream <<
      "--> divisionsAsMsrString ():" <<
       endl <<
@@ -311,7 +304,7 @@ string msrDivisions::divisionsAsMsrString (
         msrDurationKindAsString (baseDurationKind);
       
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceDivisions) {
+      if (gMusicXMLOptions->fTraceDivisions) {
         gLogIOstream <<
             gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -346,7 +339,7 @@ string msrDivisions::divisionsAsMsrString (
       baseDurationDivisions / 2;
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceDivisions) {
+    if (gMusicXMLOptions->fTraceDivisions) {
       gLogIOstream <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
@@ -372,7 +365,7 @@ string msrDivisions::divisionsAsMsrString (
       r.rationalise ();
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceDivisions) { // JMI
+      if (gMusicXMLOptions->fTraceDivisions) { // JMI
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -400,7 +393,7 @@ string msrDivisions::divisionsAsMsrString (
         nextDivisionsInList /= 2;
   
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceDivisions) {
+        if (gMusicXMLOptions->fTraceDivisions) {
           gLogIOstream <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
@@ -427,7 +420,7 @@ string msrDivisions::divisionsAsMsrString (
       } // while
   
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceDivisions) {
+      if (gMusicXMLOptions->fTraceDivisions) {
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -459,7 +452,7 @@ string msrDivisions::divisionsAsMsrString (
   numberOfDotsNeeded = dotsNumber;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
+  if (gMusicXMLOptions->fTraceDivisions) {
     gLogIOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
@@ -469,268 +462,6 @@ string msrDivisions::divisionsAsMsrString (
   
   return result;
 }
-
-/* JMI
-string msrDivisions::wholeNotesAsMsrString (
-  int      inputLineNumber,
-  rational wholeNotes,
-  int&     numberOfDotsNeeded)
-{  
-  string result;
-
-  // the result is a base duration, followed by a suffix made of
-  // either a sequence of dots or a multiplication factor
-
-  const int fieldWidth = 22;
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
-    gLogIOstream << left <<
-      endl <<
-      "--> wholeNotesAsMsrString ():" <<
-      endl <<
-      gTab << setw (fieldWidth) <<
-      "inputLineNumber" << " = " << inputLineNumber <<
-      endl <<
-      gTab << setw (fieldWidth) <<
-      "wholeNotes" << " = " << wholeNotes <<
-      endl <<
-      endl;
-  }
-#endif
-
-  // are there 0 whole notes?
-  if (wholeNotes.getNumerator () == 0)
-    return "ZERO wholeNotes";
-    
-  // compute note's number of divisions
-  int divisions =
-    wholeNotes.getNumerator ()
-      *
-    fDivisionsPerQuarterNote * 4 // hence a whole note
-      /
-    wholeNotes.getDenominator ();      
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
-    gLogIOstream << left <<
-      gTab << "divisions" << " = " << divisions <<
-      endl;
-  }
-#endif
-    
-  msrDurationKind baseDurationKind          = k1024th;
-  int             baseDurationDivisions = -1;
-  
-  // search fDurationsToDivisions in longer to shortest order
-  list<pair<msrDurationKind, int> >::const_iterator
-    iBegin = fDurationKindsToDivisions.begin (),
-    iEnd   = fDurationKindsToDivisions.end (),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    if (i == iEnd) {
-      stringstream s;
-
-      s <<
-        "divisions " << divisions <<
-        " could not be handled by wholeNotesAsMsrString () with:" <<
-        endl;
-
-      printDurationKindsDivisions (gLogIOstream);
-
-      msrInternalError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-      break;
-    }
-
-    if ((*i).second <= divisions) {
-      // found base duration in list
-      baseDurationKind      = (*i).first;
-      baseDurationDivisions = (*i).second;
-
-      result =
-        msrDurationKindAsString (baseDurationKind);
-      
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceDivisions) {
-        gLogIOstream << left <<
-          gTab << setw (fieldWidth) <<
-          "divisions" << " = " << divisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "baseDuration" << " = " <<
-          msrDurationKindAsString (baseDurationKind) <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "baseDurationDivisions" << " = " <<
-          baseDurationDivisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "result" << " = " << result <<
-          endl <<
-          endl;
-      }
-#endif
-      break;
-    }
-        
-    // next please!
-    i++;
-  } // for
-
-  int dotsNumber = 0;
-
-  if (divisions > baseDurationDivisions) {
-    // divisions is not a power of 2 of a quarter note
-    
-    // the next element in the list is half as long as (*i)
-    int remainingDivisions =
-      divisions - baseDurationDivisions;
-    int nextDivisionsInList =
-      baseDurationDivisions / 2;
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceDivisions) {
-      gLogIOstream << left <<
-        gTab << setw (fieldWidth) <<
-        "divisions" << " = " << divisions <<
-        endl <<
-        gTab << setw (fieldWidth) <<
-        "baseDurationDivisions" << " = " << baseDurationDivisions <<
-        endl <<
-        gTab << setw (fieldWidth) <<
-        "nextDivisionsInList" << " = " << nextDivisionsInList <<
-        endl <<
-        gTab << setw (fieldWidth) <<
-        "remainingDivisions" << " = " << remainingDivisions <<
-        endl <<
-        endl;
-    }
-#endif
-
-    if (remainingDivisions < nextDivisionsInList) {
-      // the suffix is a multiplication factor
-      rational r (
-        divisions,
-        baseDurationDivisions);
-      r.rationalise ();
-
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceDivisions) {
-        gLogIOstream << left <<
-          gTab << setw (fieldWidth) <<
-          "divisions" << " = " << divisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "baseDurationDivisions" << " = " << baseDurationDivisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "r" << " = " << r <<
-          endl <<
-        endl;
-      }
-#endif
-      
-      result +=
-        "*" + r.toString ();
-    }
-
-    else {
-      dotsNumber = 1; // account for next element in the list
-      
-      while (remainingDivisions > nextDivisionsInList) {
-        dotsNumber++;
-        remainingDivisions -= nextDivisionsInList;
-        nextDivisionsInList /= 2;
-  
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceDivisions) {
-          gLogIOstream << left <<
-            gTab << setw (fieldWidth) <<
-            "divisions" << " = " << divisions <<
-            endl <<
-            gTab << setw (fieldWidth) <<
-            "baseDurationDivisions" << " = " << baseDurationDivisions <<
-            endl <<
-            gTab << setw (fieldWidth) <<
-            "nextDivisionsInList" << " = " << nextDivisionsInList <<
-            endl <<
-            gTab << setw (fieldWidth) <<
-            "remainingDivisions" << " = " << remainingDivisions <<
-            endl <<
-            gTab << setw (fieldWidth) <<
-            "dotsNumber" << " = " << dotsNumber <<
-            endl <<
-            endl;
-        }
-#endif
-          
-        if (dotsNumber > 5 ) {
-          break; // JMI
-        }
-      } // while
-  
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceDivisions) {
-        gLogIOstream << left <<
-          gTab << setw (fieldWidth) <<
-          "divisions" << " = " << divisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "baseDurationDivisions" << " = " << baseDurationDivisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "nextDivisionsInList" << " = " << nextDivisionsInList <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "remainingDivisions" << " = " << remainingDivisions <<
-          endl <<
-          gTab << setw (fieldWidth) <<
-          "dotsNumber" << " = " << dotsNumber <<
-          endl <<
-          endl;
-      }
-#endif
-          
-      if (remainingDivisions - nextDivisionsInList == 0) {
-        // the suffix is composed of dots
-        for (int k = 0; k < dotsNumber; k++)
-          result += ".";
-      }
-    }
-  }
-
-  numberOfDotsNeeded = dotsNumber;
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceDivisions) {
-    gLogIOstream <<
-      "<-- wholeNotesAsMsrString (): returns " << result <<
-      endl <<
-      endl;
-  }
-#endif
-  
-  return result;
-}
-
-string msrDivisions::wholeNotesAsMsrString (
-  int      inputLineNumber,
-  rational wholeNotes)
-{  
-  int numberOfDots; // to be ignored
-
-  return
-    wholeNotesAsMsrString (
-      inputLineNumber,
-      wholeNotes,
-      numberOfDots);
-}
-*/
 
 string msrDivisions::divisionsAsMsrString (
   int  inputLineNumber,

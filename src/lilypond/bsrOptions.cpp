@@ -15,11 +15,7 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "bsrOptions.h"
 
 
@@ -46,7 +42,7 @@ bsrOptions::bsrOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "BSR",
-    "hbsr", "help=bsr",
+    "hbsr", "help-bsr",
 R"(These options control the way BSR data is handled.)",
     optionsHandler)
 {
@@ -82,8 +78,8 @@ void bsrOptions::initializeBsrOptions (
     S_optionsSubGroup
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
-          "Trace and display",
-          "hbsrtd", "help-bsr-trace-and-display",
+          "Display",
+          "hbsrtd", "help-bsr-display",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -98,7 +94,7 @@ R"()",
 R"(Write the contents of the BSR data to standard error.)",
           "displayBsr",
           fDisplayBsr,
-          gTraceOptions->fTracePasses));
+          gGeneralOptions->fTracePasses));
 #endif
   
 #ifdef TRACE_OPTIONS
@@ -109,7 +105,7 @@ R"(Write the contents of the BSR data to standard error.)",
 R"(Write the contents of the BSR data with more details to standard error.)",
           "displayBsrDetails",
           fDisplayBsrDetails,
-          gTraceOptions->fTracePasses));
+          gGeneralOptions->fTracePasses));
 #endif
   }
 
@@ -126,7 +122,7 @@ R"(Write the contents of the BSR data with more details to standard error.)",
       exitAfterSomePassesSubGroup =
         optionsSubGroup::create (
           "Exit after some passes",
-          "hbe", "help=bsr-exit",
+          "hbe", "help-bsr-exit",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -165,6 +161,97 @@ of the first BSR to the second BSR.)",
       appendOptionsItem (
         exit2bOptionsBooleanItem);
   }
+
+#ifdef TRACE_OPTIONS
+  // trace  
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    fTraceBsr             = boolOptionsInitialValue;
+
+    fTracePages           = boolOptionsInitialValue;
+
+    fTraceLines           = boolOptionsInitialValue;
+    
+    fTraceSpaces          = boolOptionsInitialValue;
+    fTraceNumbers         = boolOptionsInitialValue;
+    
+    fTraceParallels       = boolOptionsInitialValue;
+
+    fTraceBsrVisitors     = boolOptionsInitialValue;
+  
+    S_optionsSubGroup
+      specificTraceSubGroup =
+        optionsSubGroup::create (
+          "Trace",
+          "hbst", "help-bsr-trace",
+R"(Note: the options in this group imply '-t, -trace-passes'.)",
+// JMI        optionsSubGroup::kHideDescriptionByDefault,
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (specificTraceSubGroup);
+    
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tbsr", "trace-bsr",
+R"(Write a trace of the BSR graphs visiting activity to standard error.)",
+          "traceBsr",
+          fTraceBsr));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tpages", "trace-pages",
+R"()",
+          "tracePages",
+          fTracePages,
+          gGeneralOptions->fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tlines", "trace-lines",
+R"()",
+          "traceLines",
+          fTraceLines));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tspaces", "trace-spaces",
+R"(Write a trace of the BSR spaces activity to standard error.)",
+          "traceSpaces",
+          fTraceSpaces));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tnums", "trace-numbers",
+R"(Write a trace of the BSR numbers activity to standard error.)",
+          "traceNumbers",
+          fTraceNumbers));
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tpars", "trace-parallels",
+R"()",
+          "traceParallels",
+          fTraceParallels,
+          gGeneralOptions->fTracePasses));
+  
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tbsrv", "trace-bsr-visitors",
+R"(Write a trace of the BSR tree visiting activity to standard error.)",
+          "traceBsrVisitors",
+          fTraceBsrVisitors));
+  }
+#endif      
 }
 
 S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
@@ -264,7 +351,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
 {
   S_optionsItem result;
 
-  /*
+  /* JMI
   if (
     // BSR pitches language item?
     S_optionsBsrPitchesLanguageItem
@@ -272,7 +359,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
         dynamic_cast<optionsBsrPitchesLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsBsrPitchesLanguageItem'" <<
         endl;
@@ -290,7 +377,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
         dynamic_cast<optionsBsrChordsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsBsrChordsLanguageItem'" <<
         endl;

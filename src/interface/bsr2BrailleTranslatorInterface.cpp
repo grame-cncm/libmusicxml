@@ -16,11 +16,7 @@
 
 #include "messagesHandling.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 
 #include "bsr2BrailleTranslator.h"
 
@@ -50,7 +46,7 @@ void generateBrailleCodeFromBsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     logIOstream <<
       endl <<
       separator <<

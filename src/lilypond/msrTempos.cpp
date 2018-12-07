@@ -20,16 +20,8 @@
 
 #include "msrTempos.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
 #include "generalOptions.h"
-
 #include "msrOptions.h"
-
-#include "xml2lyOptionsHandling.h"
 
 #include "messagesHandling.h"
 
@@ -245,7 +237,7 @@ msrTempoTuplet::msrTempoTuplet (
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos){
+  if (gGeneralOptions->fTraceTempos){
     gLogIOstream <<
       "Creating tempo tuplet '" <<
       this->asString () <<
@@ -318,7 +310,7 @@ string msrTempoTuplet::tempoTupletShowNumberKindAsString (
 void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos) {
+  if (gGeneralOptions->fTraceTempos) {
     gLogIOstream <<
       "Adding tempoNote '" <<
       tempoNote->asShortString () <<
@@ -348,7 +340,7 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos) {
+  if (gGeneralOptions->fTraceTempos) {
     gLogIOstream <<
       "Adding tempoTuplet '" <<
       tempoTuplet->asString () <<
@@ -389,7 +381,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
   S_msrTempoNote tempoNote)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos) {
+  if (gGeneralOptions->fTraceTempos) {
     gLogIOstream <<
       "Removing first tempoNote '" <<
       tempoNote->asShortString () <<
@@ -463,7 +455,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
 void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos) {
+  if (gGeneralOptions->fTraceTempos) {
     gLogIOstream <<
       "% ==> applyDisplayFactorToTempoTupletMembers ()" <<
       endl;
@@ -488,7 +480,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   int containingTempoTupletNormalNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos) {
+  if (gGeneralOptions->fTraceTempos) {
     gLogIOstream <<
       "unapplySoundingFactorToTempoTupletMembers ()" <<
       endl;
@@ -808,7 +800,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
   S_msrElement element)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTempos){
+  if (gGeneralOptions->fTraceTempos){
     gLogIOstream <<
       "Adding element '" <<
       element->asString () <<

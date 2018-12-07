@@ -313,6 +313,11 @@ class brailleOptions : public optionsGroup
 
     bsrByteOrderingKind   fByteOrderingKind;
     
+    // braille music file name
+    // --------------------------------------
+
+    bool                  fUseEncodingInFileName;
+    
     // page parameters
     // --------------------------------------
 

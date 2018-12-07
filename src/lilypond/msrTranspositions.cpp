@@ -20,11 +20,7 @@
 
 #include "msrTranspositions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
 
 
@@ -184,7 +180,7 @@ msrTranspose::msrTranspose (
   fTransposeDouble       = transposeDouble;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceTranspositions) {
+  if (gGeneralOptions->fTraceTranspositions) {
     gLogIOstream <<
       "Creating transpose '" <<
       asString () <<

@@ -24,8 +24,10 @@
 #include "bsrBarlines.h"
 
 #include "bsrPageHeadings.h"
+#include "bsrPaginations.h"
 
 #include "bsrNumbers.h"
+#include "bsrStrings.h"
 
 #include "bsrClefs.h"
 #include "bsrKeys.h"

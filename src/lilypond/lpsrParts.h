@@ -17,8 +17,6 @@
 
 #include "lpsrStaves.h"
 
-#include "xml2lyOptionsHandling.h"
-
 
 namespace MusicXML2
 {

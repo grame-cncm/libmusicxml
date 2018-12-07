@@ -18,6 +18,9 @@
 
 #include "bsrCellsLists.h"
 
+#include "bsrPaginations.h"
+#include "bsrNumbers.h"
+
 #include "brailleOptions.h"
 
 
@@ -33,7 +36,10 @@ class bsrPageHeading : public bsrElement
     // ------------------------------------------------------
 
     static SMARTP<bsrPageHeading> create (
-      int inputLineNumber);
+      int             inputLineNumber,
+      string          pageHeadingTitle,
+      S_bsrPagination pageHeadingPagination,
+      int             pageHeadingNumber);
     
   protected:
 
@@ -41,7 +47,10 @@ class bsrPageHeading : public bsrElement
     // ------------------------------------------------------
 
     bsrPageHeading (
-      int inputLineNumber);
+      int             inputLineNumber,
+      string          pageHeadingTitle,
+      S_bsrPagination pageHeadingPagination,
+      int             pageHeadingNumber);
       
     virtual ~bsrPageHeading ();
   
@@ -50,6 +59,15 @@ class bsrPageHeading : public bsrElement
     // set and get
     // ------------------------------------------------------
                               
+    string                getPageHeadingTitle () const
+                              { return fPageHeadingTitle ;}
+
+    S_bsrPagination       getPageHeadingPagination () const
+                              { return fPageHeadingPagination ;}
+
+    int                   getPageHeadingNumber () const
+                              { return fPageHeadingNumber ;}
+
     S_bsrCellsList        getPageHeadingCellsList () const
                               { return fPageHeadingCellsList ;}
 
@@ -58,6 +76,8 @@ class bsrPageHeading : public bsrElement
     // public services
     // ------------------------------------------------------
 
+    S_bsrCellsList        asCellsList () const;    
+  
   public:
 
     // visitors
@@ -73,12 +93,19 @@ class bsrPageHeading : public bsrElement
     // print
     // ------------------------------------------------------
 
+    string                asString () const;
+
     virtual void          print (ostream& os);
 
   private:
 
     // fields
     // ------------------------------------------------------
+
+    string                fPageHeadingTitle;
+
+    S_bsrPagination       fPageHeadingPagination; // before title
+    int                   fPageHeadingNumber;     // after title ??? JMI
 
     S_bsrCellsList        fPageHeadingCellsList;
 };

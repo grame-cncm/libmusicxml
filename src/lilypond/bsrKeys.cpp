@@ -18,22 +18,12 @@
 #include <sstream>
 
 #include "bsrKeys.h"
-
 #include "bsrNumbers.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
+#include "messagesHandling.h"
 
 #include "generalOptions.h"
-
 #include "bsrOptions.h"
-
-#include "xml2brlOptionsHandling.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;
@@ -83,7 +73,7 @@ bsrKey::bsrKey (
   fKeyCellsList = asCellsList ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+  if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Creating bsrKey '" <<
       asString () <<
@@ -178,7 +168,7 @@ int bsrKey::fetchCellsNumber() const
 
 void bsrKey::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrKey::acceptIn ()" <<
       endl;
@@ -189,7 +179,7 @@ void bsrKey::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrKey::visitStart ()" <<
             endl;
@@ -200,7 +190,7 @@ void bsrKey::acceptIn (basevisitor* v)
 
 void bsrKey::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrKey::acceptOut ()" <<
       endl;
@@ -211,7 +201,7 @@ void bsrKey::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrKey>*> (v)) {
         S_bsrKey elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrKey::visitEnd ()" <<
             endl;

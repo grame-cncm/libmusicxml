@@ -14,19 +14,12 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <iostream>
 #include <sstream>
 #include <iomanip> // for 'setw()'
 
 #include "bsrTranscriptionNotes.h"
 
 #include "utilities.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
 
 #include "bsrOptions.h"
 
@@ -64,7 +57,7 @@ bsrTranscriptionNotesElement::~bsrTranscriptionNotesElement ()
 
 void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
       endl;
@@ -75,7 +68,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
             endl;
@@ -86,7 +79,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 
 void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
       endl;
@@ -97,7 +90,7 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
             endl;
@@ -126,8 +119,17 @@ string bsrTranscriptionNotesElement::asString () const
 void bsrTranscriptionNotesElement::print (ostream& os)
 {
   os <<
-    asString () <<
+    "TranscriptionNotesElement" <<
+    ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+  
+  os <<
+    "transcriptionNoteText " << " : \"" << fTranscriptionNoteText << "\"" <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt)
@@ -157,7 +159,7 @@ bsrTranscriptionNotes::~bsrTranscriptionNotes ()
 
 void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptIn ()" <<
       endl;
@@ -168,7 +170,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitStart ()" <<
             endl;
@@ -179,7 +181,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 
 void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptOut ()" <<
       endl;
@@ -190,7 +192,7 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitEnd ()" <<
             endl;

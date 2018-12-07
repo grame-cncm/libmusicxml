@@ -20,11 +20,7 @@
 
 #include "msrBars.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
 
 
@@ -60,7 +56,7 @@ msrBarCheck::msrBarCheck (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a bar check without next bar number" <<
       endl;
@@ -76,7 +72,7 @@ msrBarCheck::msrBarCheck (
   fNextBarNumber = nextBarNumber; 
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a bar check with next bar number '" <<
       fNextBarNumber <<
@@ -92,7 +88,7 @@ msrBarCheck::~msrBarCheck ()
 void msrBarCheck::setNextBarNumber (string number)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting bar check next bar number to '" <<
       number <<

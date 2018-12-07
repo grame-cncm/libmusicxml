@@ -12,14 +12,6 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-//#include "bsrLines.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
-
 #include "bsrMutuallyDependent.h"
 
 #include "bsrOptions.h"

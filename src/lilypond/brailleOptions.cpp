@@ -17,10 +17,7 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "generalOptions.h"
 
 #include "brailleOptions.h"
 
@@ -312,7 +309,7 @@ brailleOptions::brailleOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "Braille",
-    "h=lp", "help=braille",
+    "h=lp", "help-braille",
 R"(These options control which Braille code is generated.)",
     optionsHandler)
 {
@@ -359,7 +356,7 @@ R"()",
         optionsUTFKindItem::create (
           "utf", "utf-enconding",
 R"(Generate Braille code using UTF ENCODING_SIZE encoding,
-which can be one of 8 or 16.)",
+which can be one of 8 or 16. Default value is 8.)",
           "ENCODING_SIZE",
           "UTFKind",
           fUTFKind));
@@ -401,21 +398,21 @@ By default, BOM is generated.)",
   }
 
     
-  // facsimile
+  // braille music file name
   // --------------------------------------
 
   {
     // variables  
     
-    fFacSimileKind = kFacSimileNo; // default value
+    fUseEncodingInFileName = false; // default value
                 
     // options
   
     S_optionsSubGroup
       facSimileSubGroup =
         optionsSubGroup::create (
-          "Facsimile",
-          "hlpf", "help-facsimile",
+          "Braille music file name",
+          "hlpbmfn", "help-braille-music-file-name",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -424,13 +421,12 @@ R"()",
 
     facSimileSubGroup->
       appendOptionsItem (
-        optionsFacSimileKindItem::create (
-          "bof", "facsimile",
-R"(Generate facsimile Braille nusic code.
-By default, non-facsimile code is generated.)",
-          "YES_OR_NO",
-          "facSimileKind",
-          fFacSimileKind));
+        optionsBooleanItem::create (
+          "ueifn", "use-encoding-in-file-name",
+R"(Append a description of the encoding used
+and the presence of a BOM if any to the file name.)",
+          "useEncodingInFileName",
+          fUseEncodingInFileName));
   }
 
     
@@ -548,6 +544,16 @@ R"(Generate code to include the compilation date
 when Braille creates the score.)",
           "brailleCompileDate",
           fBrailleCompileDate));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsFacSimileKindItem::create (
+          "fs", "facsimile",
+R"(Generate facsimile Braille nusic code.
+By default, non-facsimile code is generated.)",
+          "YES_OR_NO",
+          "facSimileKind",
+          fFacSimileKind));
   }
 }
 
@@ -621,6 +627,10 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
       byteOrderingKindAsString (fByteOrderingKind) <<
       endl <<
     
+    setw (fieldWidth) << "useEncodingInFileName" << " : " <<
+      booleanAsString (fUseEncodingInFileName) <<
+      endl <<
+    
     setw (fieldWidth) << "cellsPerLine" << " : " <<
       fCellsPerLine <<
       endl <<
@@ -669,7 +679,7 @@ S_optionsItem brailleOptions::handleOptionsItem (
         dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
@@ -687,7 +697,7 @@ S_optionsItem brailleOptions::handleOptionsItem (
         dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
@@ -712,11 +722,10 @@ void brailleOptions::handleOptionsItemValue (
       UTFKindItem =
         dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
-    // theString contains the language name:     
-    // is it in the pitches languages map?
+    // theString contains the UTF size    
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
@@ -762,11 +771,10 @@ void brailleOptions::handleOptionsItemValue (
       byteOrderingKindItem =
         dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
     ) {
-    // theString contains the language name:     
-    // is it in the pitches languages map?
+    // theString contains the byte ordering name   
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsByteOrderingKindItem'" <<
         endl;

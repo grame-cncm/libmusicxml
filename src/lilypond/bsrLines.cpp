@@ -12,16 +12,9 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-//#include "bsrLines.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
-
 #include "bsrMutuallyDependent.h"
 
+#include "generalOptions.h"
 #include "bsrOptions.h"
 #include "brailleOptions.h"
 
@@ -59,7 +52,7 @@ bsrLine::bsrLine (
   fLastAppendedLineElementIsASpaces = true;
 
 #ifdef TRACE_OPTIONS
-  if (gBsrTraceOptions->fTraceLines) {
+  if (gBsrOptions->fTraceLines) {
     gLogIOstream <<
       "Creating bsrLine '" <<
       asString () <<
@@ -76,7 +69,7 @@ bsrLine::~bsrLine ()
 S_bsrLine bsrLine::createLineNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gBsrTraceOptions->fTraceLines) {
+  if (gBsrOptions->fTraceLines) {
     gLogIOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
@@ -106,7 +99,7 @@ void  bsrLine::appendLineElementToMeasure (S_bsrLineElement lineElement)
 void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 {
 #ifdef TRACE_OPTIONS
-  if (gBsrTraceOptions->fTraceSpaces || gBsrTraceOptions->fTraceLines) {
+  if (gBsrOptions->fTraceSpaces || gBsrOptions->fTraceLines) {
     gLogIOstream <<
       "Appending spaces '" <<
       spaces->asShortString () <<
@@ -124,7 +117,7 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gBsrTraceOptions->fTraceLines) {
+  if (gGeneralOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
     gLogIOstream <<
       "Appending measure '" <<
       measure->asShortString () <<
@@ -167,7 +160,7 @@ int bsrLine::fetchCellsNumber () const
 
 void bsrLine::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
@@ -178,7 +171,7 @@ void bsrLine::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
@@ -189,7 +182,7 @@ void bsrLine::acceptIn (basevisitor* v)
 
 void bsrLine::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
@@ -200,7 +193,7 @@ void bsrLine::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;

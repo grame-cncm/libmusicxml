@@ -14,11 +14,7 @@
 
 #include "lpsrPapers.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "lpsrOptions.h"
 
 
@@ -63,7 +59,7 @@ lpsrPaper::~lpsrPaper ()
 void lpsrPaper::setIndent (float val)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+  if (gGeneralOptions->fTraceGeometry) {
     gLogIOstream <<
       "Setting paper indent to " << val <<
       endl;
@@ -76,7 +72,7 @@ void lpsrPaper::setIndent (float val)
 void lpsrPaper::setShortIndent (float val)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGeometry) {
+  if (gGeneralOptions->fTraceGeometry) {
     gLogIOstream <<
       "Setting paper short indent to " << val <<
       endl;

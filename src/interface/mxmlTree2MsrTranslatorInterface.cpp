@@ -22,10 +22,7 @@
 
 #include "versions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "generalOptions.h"
 
 #include "mxmlTree2MsrTranslatorInterface.h"
 
@@ -59,7 +56,7 @@ void populateMsrSkeletonFromMxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -151,7 +148,7 @@ void displayMSRPopulatedScoreSummary (
   clock_t startClock = clock ();
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -202,7 +199,7 @@ void displayMSRPopulatedScoreNames (
   clock_t startClock = clock ();
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     

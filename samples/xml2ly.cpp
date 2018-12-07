@@ -12,18 +12,12 @@
 #endif
 
 #include <iomanip>      // setw()), set::precision(), ...
-
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
 #include "libmusicxml.h"
 #include "version.h"
 
 #include "utilities.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
 
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
@@ -304,7 +298,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+      if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -333,7 +327,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     
     else {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+      if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -359,7 +353,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+      if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -472,7 +466,7 @@ void convertMusicXMLToLilypond (
       convertMsrScoreToLpsrScore_Pass3 (
         mScore);
 
-  if (gGeneralOptions->fExit3)
+  if (gLpsrOptions->fExit3)
     return;
 
 
@@ -526,7 +520,7 @@ int main (int argc, char *argv[])
 /* JMI
   // print the resulting options
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fDisplayOptionsHandler) {
+  if (gGeneralOptions->fDisplayOptionsHandler) {
     gLogIOstream <<
       optionsHandler <<
       endl <<
@@ -560,7 +554,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     gLogIOstream <<
       "This is xml2ly " << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -629,7 +623,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fDisplayOptionsValues) {
+  if (gGeneralOptions->fDisplayOptionsValues) {
     optionsHandler->
       printAllOptionsValues (
         gLogIOstream);
@@ -644,7 +638,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;

@@ -22,12 +22,6 @@
 
 #include "xml2brlOptionsHandling.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
-
 #include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
@@ -188,8 +182,10 @@ R"(What xml2brl does:
         Pass 3b: converts the BSR into to another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
-        Pass 4:  converts the BSR to UTF-16 text 
+        Pass 4:  converts the BSR to Unicode text 
                  and writes it to standard output.
+
+    In this preliminary version, pass 3b merely clones the BSR it receives.
 
     Other passes are performed according to the options, such as
     printing views of the internal data or printing a summary of the score.
@@ -333,11 +329,6 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
   // initialize options handling
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
-  initializeTraceOptionsHandling (
-    this);
-#endif
-    
   initializeGeneralOptionsHandling (
     this);
     
@@ -349,11 +340,6 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
     
   initializeBsrOptionsHandling (
     this);
-    
-#ifdef TRACE_OPTIONS
-  initializeBsrTraceOptionsHandling (
-    this);
-#endif
 
   initializeBrailleOptionsHandling (
     this);
@@ -365,7 +351,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
     this);
     
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
     fOptionsHandlerLogIOstream <<
       "xml2brlOptionsHandler has been initialized as:" <<
@@ -389,7 +375,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
     registerOptionsHandlerInItself ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fOptionsHandlerLogIOstream <<
       "xml2brlOptionsHandler help:" <<
       endl;
@@ -407,7 +393,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     fArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
       fOptionsHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
@@ -474,17 +460,61 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       baseName (
         gGeneralOptions->fInputSourceName);
 
-    // set '.brl' suffix
     size_t
       posInString =
         potentialOutputFileName.rfind ('.');
-      
+
+    // remove file extension
     if (posInString != string::npos) {
       potentialOutputFileName.replace (
         posInString,
         potentialOutputFileName.size () - posInString,
-        ".brl");
+        "");
     }
+
+    // should encoding be used by the file name?
+    if (gBrailleOptions->fUseEncodingInFileName) {
+      switch (gBrailleOptions->fUTFKind) {
+        case kUTF8:
+          potentialOutputFileName +=
+            "_UTF8";
+          switch (gBrailleOptions->fByteOrderingKind) {
+            case kByteOrderingNone:
+              break;
+            case kByteOrderingBigEndian:
+              potentialOutputFileName +=
+                "_BE";
+              break;
+            case kByteOrderingSmallEndian:
+              // should not occur JMI
+              break;
+          } // switch
+          break;
+          
+        case kUTF16:
+          potentialOutputFileName +=
+            "_UTF16";
+          switch (gBrailleOptions->fByteOrderingKind) {
+            case kByteOrderingNone:
+              break;
+              
+            case kByteOrderingBigEndian:
+              potentialOutputFileName +=
+                "_BE";
+              break;
+              
+            case kByteOrderingSmallEndian:
+              potentialOutputFileName +=
+                "_SE";
+              break;
+          } // switch
+          break;
+      } // switch
+    }
+    
+    // append '.brl' extension
+    potentialOutputFileName +=
+      ".brl";
   }
 
   // check auto output file option usage
@@ -539,7 +569,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 void xml2brlOptionsHandler::enforceOptionsHandlerQuietness ()
 {
 #ifdef TRACE_OPTIONS
-  gTraceOptions->
+  gGeneralOptions->
     enforceQuietness ();
 #endif
   
@@ -577,7 +607,7 @@ void xml2brlOptions::checkOptionsConsistency ()
     endl;
     
 #ifdef TRACE_OPTIONS
-  gTraceOptions->
+  gGeneralOptions->
     checkOptionsConsistency ();
 #endif
   gGeneralOptions->
@@ -679,9 +709,8 @@ xml2brlOptions::xml2brlOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "xml2brl",
-    "hx", "help=xml2brl",
-R"(Options that are used by various components of the library
-are grouped here.)",
+    "hb", "help-xml2brl",
+R"(Options that are used by xml2brl are grouped here.)",
     optionsHandler)
 {
   // append this options group to the options handler
@@ -712,7 +741,7 @@ void xml2brlOptions::initializeXml2brlOptions ()
       versionSubGroup =
         optionsSubGroup::create (
           "Version",
-          "hxv", "help=xml2brl-version",
+          "hxv", "help-xml2brl-version",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -739,7 +768,7 @@ R"(Display xml2brl's version number and history and exit.)"));
       aboutSubGroup =
         optionsSubGroup::create (
           "About",
-          "hxa", "help=xml2brl-about",
+          "hxa", "help-xml2brl-about",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -766,7 +795,7 @@ R"(Display information about xml2brl and exit.)"));
       contactSubGroup =
         optionsSubGroup::create (
           "Contact",
-          "hxc", "help=xml2brl-contact",
+          "hxc", "help-xml2brl-contact",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -795,7 +824,7 @@ R"(Display information about how to contacct xml2brl maintainers and exit.)"));
       outputFileSubGroup =
         optionsSubGroup::create (
           "Output file",
-          "hxof", "help=xml2brl-output-file",
+          "hxof", "help-xml2brl-output-file",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -858,7 +887,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
   S_optionsItem result;
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
       "---> Handling options item '" <<
       item <<
@@ -874,7 +903,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
         dynamic_cast<xml2brlOptionsVersionItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> optionsItem is of type 'optionsVersionItem'" <<
         endl;
@@ -896,7 +925,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
         dynamic_cast<xml2brlOptionsAboutItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> optionsItem is of type 'optionsAboutItem'" <<
         endl;
@@ -918,7 +947,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
         dynamic_cast<xml2brlOptionsContactItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> optionsItem is of type 'optionsContactItem'" <<
         endl;

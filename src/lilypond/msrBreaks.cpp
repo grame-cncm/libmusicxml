@@ -19,11 +19,7 @@
 
 #include "msrBreaks.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
 
 
@@ -52,7 +48,7 @@ msrLineBreak::msrLineBreak (
   fNextBarNumber = nextBarNumber; 
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
@@ -150,7 +146,7 @@ msrPageBreak::msrPageBreak (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a page break" <<
       endl;

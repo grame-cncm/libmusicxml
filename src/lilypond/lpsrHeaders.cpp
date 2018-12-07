@@ -14,11 +14,7 @@
 
 #include "lpsrHeaders.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "lpsrOptions.h"
 
 
@@ -502,7 +498,7 @@ void lpsrHeader::addRights (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding right \"" <<
       value <<
@@ -528,7 +524,7 @@ void lpsrHeader::addComposer (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding composer \"" <<
       value <<
@@ -554,7 +550,7 @@ void lpsrHeader::addArranger (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding arranger \"" <<
       value <<
@@ -580,7 +576,7 @@ void lpsrHeader::addLyricist (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding lyricist \"" <<
       value <<
@@ -606,7 +602,7 @@ void lpsrHeader::addPoet (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding poet \"" <<
       value <<
@@ -632,7 +628,7 @@ void lpsrHeader::addTranslator (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding translator \"" <<
       value <<
@@ -658,7 +654,7 @@ void lpsrHeader::addSoftware (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVarValAssocs) {
+  if (gGeneralOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding software \"" <<
       value <<

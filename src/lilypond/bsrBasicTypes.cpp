@@ -21,13 +21,12 @@
 
 #include "utilities.h"
 
+#include "bsrBasicTypes.h"
+
 #include "messagesHandling.h"
+
 #include "generalOptions.h"
 #include "brailleOptions.h"
-
-#include "xml2brlOptionsHandling.h"
-
-#include "bsrBasicTypes.h"
 
 
 //using namespace std;

@@ -272,7 +272,6 @@ class msrOptions : public optionsGroup
     msrQuarterTonesPitchesLanguageKind
                           fMsrQuarterTonesPitchesLanguageKind;
 
-    
     // parts
     // --------------------------------------
     
@@ -313,7 +312,7 @@ class msrOptions : public optionsGroup
     // lyrics
     // --------------------------------------
     
-    bool                  fAddStanzasNumbers;
+    bool                  fAddStanzasNumbers; // LPSR ??? JMI
 
     
     // harmonies

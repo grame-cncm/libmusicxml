@@ -14,11 +14,8 @@
 
 #include "bsrPageHeadings.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
+#include "bsrSpaces.h"
+#include "bsrStrings.h"
 
 #include "bsrOptions.h"
 
@@ -30,19 +27,31 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_bsrPageHeading bsrPageHeading::create (
-  int inputLineNumber)
+  int             inputLineNumber,
+  string          pageHeadingTitle,
+  S_bsrPagination pageHeadingPagination,
+  int             pageHeadingNumber)
 {
   bsrPageHeading* o =
     new bsrPageHeading (
-      inputLineNumber);
+      inputLineNumber,
+      pageHeadingTitle, pageHeadingPagination, pageHeadingNumber);
   assert(o!=0);
   return o;
 }
 
 bsrPageHeading::bsrPageHeading (
-  int inputLineNumber)
+  int             inputLineNumber,
+  string          pageHeadingTitle,
+  S_bsrPagination pageHeadingPagination,
+  int             pageHeadingNumber)
     : bsrElement (inputLineNumber)
 {
+  fPageHeadingTitle = pageHeadingTitle;
+  
+  fPageHeadingPagination = pageHeadingPagination;
+  fPageHeadingNumber     = pageHeadingNumber;
+  
   fPageHeadingCellsList =
     bsrCellsList::create  (inputLineNumber);
 }
@@ -50,9 +59,48 @@ bsrPageHeading::bsrPageHeading (
 bsrPageHeading::~bsrPageHeading ()
 {}
 
+S_bsrCellsList bsrPageHeading::asCellsList () const
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
+
+  // append the pagination to result
+  result->appendCellsListToCellsList (
+    fPageHeadingPagination->asCellsList ());
+
+  // append 3 spaces to result
+  result->appendCellsListToCellsList (
+    bsrSpaces::create (
+      fInputLineNumber, 3)->
+        getSpacesCellsList ());
+
+  // append the title to result
+  result->appendCellsListToCellsList (
+    bsrString::create (
+      fInputLineNumber, fPageHeadingTitle)->
+        getStringCellsList ());
+
+  // append 3 spaces to result
+  result->appendCellsListToCellsList (
+    bsrSpaces::create (
+      fInputLineNumber, 3)->
+        getSpacesCellsList ());
+
+  // append the number to result
+  result->appendCellsListToCellsList (
+    bsrNumber::create (
+      fInputLineNumber,
+      fPageHeadingNumber,
+      bsrNumber::kNumberSignIsNeededYes)->
+        asCellsList ());
+
+  return result;
+}
+
 void bsrPageHeading::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
@@ -63,7 +111,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
@@ -74,7 +122,7 @@ void bsrPageHeading::acceptIn (basevisitor* v)
 
 void bsrPageHeading::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
@@ -85,7 +133,7 @@ void bsrPageHeading::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;
@@ -96,21 +144,86 @@ void bsrPageHeading::acceptOut (basevisitor* v)
 
 void bsrPageHeading::browseData (basevisitor* v)
 {
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% ==> bsrScore::browseData ()" <<
+      endl;
+  }
+
+  if (fPageHeadingPagination) {
+    // browse the pagination
+    msrBrowser<bsrPagination> browser (v);
+    browser.browse (*fPageHeadingPagination);
+  }
+
+  if (gBsrOptions->fTraceBsrVisitors) {
+    gLogIOstream <<
+      "% <== bsrScore::browseData ()" <<
+      endl;
+  }
+}
+
+string bsrPageHeading::asString () const
+{
+  stringstream s;
+
+  s <<
+    "PageHeading" <<
+    ", pageHeadingTitle: \"" << fPageHeadingTitle << "\"" <<
+      ", pageHeadingPagination: ";
+
+  if (fPageHeadingPagination) {
+    s <<
+      fPageHeadingPagination->asShortString ();
+  }
+  else {
+    s <<
+      "none";
+  }
+    
+  s <<
+    ", pageHeadingNumber: " << fPageHeadingNumber <<
+    ", line " << fInputLineNumber;
+    
+  return s.str ();
 }
 
 void bsrPageHeading::print (ostream& os)
 {
   os <<
     "PageHeading" <<
+    ", line " << fInputLineNumber <<
     endl;
   
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const int fieldWidth = 22;
 
-  os << left <<
+  os << left <<  
     setw (fieldWidth) <<
-    "foo" << " : " << "FOO" <<
+    "pageHeadingTitle" << " : \"" << fPageHeadingTitle << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "pageHeadingPagination" <<
+    endl;
+
+  if (fPageHeadingPagination) {
+    gIndenter++;
+  
+    os <<
+      fPageHeadingPagination;
+  
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+    endl;
+  }
+  
+  os << left <<  
+    setw (fieldWidth) <<
+    "pageHeadingNumber" << " : " << fPageHeadingNumber <<
     endl;
 
   gIndenter--;

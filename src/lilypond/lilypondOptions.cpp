@@ -17,11 +17,7 @@
 
 #include "utilities.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "lilypondOptions.h"
 
 
@@ -127,8 +123,7 @@ S_optionsMidiTempoItem optionsMidiTempoItem::create (
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsMidiTempoItemVariableDisplayName,
-  pair<string, int>&
-                     optionsMidiTempoItemVariable)
+  pair<string, int>& optionsMidiTempoItemVariable)
 {
   optionsMidiTempoItem* o = new
     optionsMidiTempoItem (
@@ -148,8 +143,7 @@ optionsMidiTempoItem::optionsMidiTempoItem (
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsMidiTempoItemVariableDisplayName,
-  pair<string, int>&
-                     optionsMidiTempoItemVariable)
+  pair<string, int>& optionsMidiTempoItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
@@ -229,7 +223,7 @@ lilypondOptions::lilypondOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "LilyPond",
-    "h=lp", "help=lilypond",
+    "h=lp", "help-lilypond",
 R"(These options control which LilyPond code is generated.)",
     optionsHandler)
 {
@@ -1798,7 +1792,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
         dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
@@ -1816,7 +1810,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
         dynamic_cast<optionsMidiTempoItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
@@ -1845,7 +1839,7 @@ void lilypondOptions::handleOptionsItemValue (
     // is it in the accidental styles map?
     
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
@@ -1899,7 +1893,7 @@ void lilypondOptions::handleOptionsItemValue (
     // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
@@ -1917,7 +1911,7 @@ void lilypondOptions::handleOptionsItemValue (
     regex_match (theString, sm, e);
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for MIDI tempo string '" << theString <<
@@ -1963,7 +1957,7 @@ void lilypondOptions::handleOptionsItemValue (
     }
     
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gGeneralOptions->fTraceOptions) {
       os <<
         "midiTempoDuration  = " <<
         midiTempoDuration <<

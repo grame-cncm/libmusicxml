@@ -26,9 +26,9 @@
 
 #include "messagesHandling.h"
 
-#include "msrOptions.h"
-
 #include "msr.h"
+
+#include "msrOptions.h"
 
 
 namespace MusicXML2 

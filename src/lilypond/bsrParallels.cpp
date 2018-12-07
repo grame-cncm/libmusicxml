@@ -12,14 +12,6 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-//#include "bsrLines.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
-
 #include "bsrParallels.h"
 
 #include "bsrOptions.h"
@@ -51,7 +43,7 @@ bsrParallel::bsrParallel (
 bsrParallel::~bsrParallel ()
 {
 #ifdef TRACE_OPTIONS
-  if (gBsrTraceOptions->fTraceParallels) {
+  if (gBsrOptions->fTraceParallels) {
     gLogIOstream <<
       "Creating bsrParallel '" <<
       asString () <<
@@ -64,7 +56,7 @@ bsrParallel::~bsrParallel ()
 
 void bsrParallel::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
@@ -75,7 +67,7 @@ void bsrParallel::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
@@ -86,7 +78,7 @@ void bsrParallel::acceptIn (basevisitor* v)
 
 void bsrParallel::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
@@ -97,7 +89,7 @@ void bsrParallel::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;

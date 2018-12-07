@@ -19,16 +19,9 @@
 
 #include "bsrBrailleCodeGenerators.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "messagesHandling.h"
 
 #include "bsrOptions.h"
-
-#include "xml2brlOptionsHandling.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;

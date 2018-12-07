@@ -8,8 +8,6 @@
       <software>Frescobaldi 2.19.0</software>
       <encoding-date>2016-09-05</encoding-date>
     </encoding>
-    <!--subtitle>V a 5.</subtitle>
-    <enteredby>Jacques Menu</enteredby-->
   </identification>
   <part-list>
     <part-group number="1" type="start">
@@ -19,7 +17,7 @@
       <part-name />
       <part-abbreviation>S1</part-abbreviation>
     </score-part>
-    <score-part id="P2">
+    <!--score-part id="P2">
       <part-name />
       <part-abbreviation>S2</part-abbreviation>
     </score-part>
@@ -34,7 +32,7 @@
     <score-part id="P5">
       <part-name />
       <part-abbreviation>B</part-abbreviation>
-    </score-part>
+    </score-part-->
     <part-group number="1" type="stop" />
   </part-list>
   <part id="P1">
@@ -391,7 +389,7 @@
       </note>
     </measure>
   </part>
-  <part id="P2">
+  <!--part id="P2">
     <measure number="1">
       <attributes>
         <divisions>2</divisions>
@@ -1744,5 +1742,5 @@
         <type>whole</type>
       </note>
     </measure>
-  </part>
+  </part-->
 </score-partwise>

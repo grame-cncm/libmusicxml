@@ -19,16 +19,10 @@
 
 #include "bsrClefs.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
-
-#include "bsrOptions.h"
-#include "xml2brlOptionsHandling.h"
-
 #include "messagesHandling.h"
+
+#include "generalOptions.h"
+#include "bsrOptions.h"
 
 
 using namespace std;
@@ -58,7 +52,7 @@ bsrClef::bsrClef (
   fClefCellsList = asCellsList ();
     
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceClefs) {
+  if (gGeneralOptions->fTraceClefs) {
     gLogIOstream <<
       "Creating bsrClef '" <<
       asString () <<
@@ -161,7 +155,7 @@ int bsrClef::fetchCellsNumber() const
 
 void bsrClef::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrClef::acceptIn ()" <<
       endl;
@@ -172,7 +166,7 @@ void bsrClef::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrClef>*> (v)) {
         S_bsrClef elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrClef::visitStart ()" <<
             endl;
@@ -183,7 +177,7 @@ void bsrClef::acceptIn (basevisitor* v)
 
 void bsrClef::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrClef::acceptOut ()" <<
       endl;
@@ -194,7 +188,7 @@ void bsrClef::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrClef>*> (v)) {
         S_bsrClef elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrClef::visitEnd ()" <<
             endl;

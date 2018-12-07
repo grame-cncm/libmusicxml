@@ -14,17 +14,7 @@
 
 #include "bsrScores.h"
 
-#include "version.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
-
 #include "brailleOptions.h"
-
-#include "xml2brlOptionsHandling.h"
 
 
 using namespace std;
@@ -64,7 +54,7 @@ bsrScore::~bsrScore ()
 
 void bsrScore::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::acceptIn ()" <<
       endl;
@@ -75,7 +65,7 @@ void bsrScore::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrScore::visitStart ()" <<
             endl;
@@ -86,7 +76,7 @@ void bsrScore::acceptIn (basevisitor* v)
 
 void bsrScore::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::acceptOut ()" <<
       endl;
@@ -97,7 +87,7 @@ void bsrScore::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrScore::visitEnd ()" <<
             endl;
@@ -108,7 +98,7 @@ void bsrScore::acceptOut (basevisitor* v)
 
 void bsrScore::browseData (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
@@ -130,7 +120,7 @@ void bsrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;

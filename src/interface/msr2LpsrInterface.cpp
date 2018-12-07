@@ -22,11 +22,7 @@
 
 #include "versions.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 
 #include "msr2LpsrInterface.h"
 
@@ -52,7 +48,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   clock_t startClock = clock ();
       
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   

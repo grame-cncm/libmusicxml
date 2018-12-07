@@ -15,6 +15,8 @@
 
 #include "typedefs.h"
 
+#include "musicXMLOptions.h"
+
 
 namespace MusicXML2
 {

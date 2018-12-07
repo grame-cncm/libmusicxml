@@ -19,11 +19,7 @@
 
 #include "msrBeams.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
 
 
@@ -55,7 +51,7 @@ msrBeam::msrBeam (
   fBeamKind   = beamKind; 
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBeams) {
+  if (gGeneralOptions->fTraceBeams) {
     gLogIOstream <<
       "Creating beam '" <<
       this->asString () <<

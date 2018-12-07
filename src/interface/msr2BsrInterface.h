@@ -18,20 +18,16 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include "bsr.h"
+#include "exports.h"
+
 #include "generalOptions.h"
 #include "msrOptions.h"
 #include "bsrOptions.h"
 
-#include "bsr.h"
-#include "exports.h"
-
 
 namespace MusicXML2 
 {
-
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
 
 /*!
 \addtogroup Converting MSR to BSR format
@@ -58,9 +54,6 @@ EXP void displayFirstBsrScore (
 
 /*! @} */
 
-//#ifdef __cplusplus
-//}
-//#endif
 
 } // namespace MusicXML2
 

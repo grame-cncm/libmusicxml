@@ -34,15 +34,8 @@
 #include "msrBasicTypes.h"
 
 #include "generalOptions.h"
-
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
 #include "msrOptions.h"
 #include "lpsrOptions.h"
-
-#include "xml2lyOptionsHandling.h"
 
 
 namespace MusicXML2
@@ -13205,7 +13198,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   S_msrChordInterval otherChordInterval)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceExtraChords) {
+  if (gGeneralOptions->fTraceExtraChords) {
     gLogIOstream <<
       endl <<
       "--> computing intervalDifference betwwen '" <<
@@ -13232,7 +13225,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
     normalizeInterval ();
   
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceExtraChords) {
+  if (gGeneralOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> normalized operands are '" <<
       operand1->asShortString () <<
@@ -13291,7 +13284,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceExtraChords) {
+  if (gGeneralOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> permuteRelativeOctaves = " <<
       booleanAsString (permuteRelativeOctaves) <<
@@ -14469,7 +14462,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceExtraChords) {
+  if (gGeneralOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> base resultIntervalKind = '" <<
       msrIntervalKindAsString (resultIntervalKind) <<
@@ -14502,7 +14495,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   result->deNormalizeInterval ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceExtraChords) {
+  if (gGeneralOptions->fTraceExtraChords) {
     gLogIOstream <<
       "--> result = '" <<
       result->asShortString () <<

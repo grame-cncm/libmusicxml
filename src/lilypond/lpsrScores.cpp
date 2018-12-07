@@ -14,12 +14,7 @@
 
 #include "version.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
-#include "xml2lyOptionsHandling.h"
+#include "generalOptions.h"
 
 
 using namespace std;
@@ -70,7 +65,7 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -91,7 +86,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -110,7 +105,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
+  if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<

@@ -15,6 +15,7 @@
 #include "version.h"
 #include "utilities.h"
 
+#include "generalOptions.h"
 #include "musicXMLOptions.h"
 
 
@@ -42,7 +43,7 @@ musicXMLOptions::musicXMLOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "MusicXML",
-    "hmxml", "help=musicxml",
+    "hmxml", "help-musicxml",
 R"(These options control the way MusicXML data is translated.)",
     optionsHandler)
 {
@@ -63,38 +64,7 @@ musicXMLOptions::~musicXMLOptions ()
 void musicXMLOptions::initializeMusicXMLOptions (
   bool boolOptionsInitialValue)
 {
-  // trace and display
-  // --------------------------------------
-
-  {
-    // variables
-    
-    fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-  
-    // options
-  
-    S_optionsSubGroup
-      traceAndDisplaySubGroup =
-        optionsSubGroup::create (
-          "Trace and display",
-          "hmxmltd", "help-musicxml-trace-and-display",
-R"()",
-          optionsSubGroup::kAlwaysShowDescription,
-          this);
-  
-    appendOptionsSubGroup (traceAndDisplaySubGroup);
-        
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tmxmltv", "trace-musicxml-tree-visitors",
-R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
-          "traceMusicXMLTreeVisitors",
-          fTraceMusicXMLTreeVisitors));
-  }
-  
-  
-  // work
+  // worktitle
 
   {
     // variables
@@ -272,6 +242,58 @@ R"(Prevents the default 'cubase' option.)",
       appendOptionsItem (
         noCubaseBooleanItem);
    }
+
+
+  // specific trace
+  // --------------------------------------
+
+  {
+    // variables
+    
+    fTraceEncoding = boolOptionsInitialValue;
+    fTraceDivisions = boolOptionsInitialValue;
+  
+    fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
+  
+    // options
+  
+    S_optionsSubGroup
+      specificTraceSubGroup =
+        optionsSubGroup::create (
+          "Trace and display",
+          "hmxmltd", "help-musicxml-trace-and-display",
+R"()",
+          optionsSubGroup::kAlwaysShowDescription,
+          this);
+  
+    appendOptionsSubGroup (specificTraceSubGroup);
+            
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tenc", "trace-encoding",
+R"(Encoding)",
+          "traceEncoding",
+          fTraceEncoding,
+          gGeneralOptions->fTracePasses));
+          
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tdivs", "trace-divisions",
+R"(Divisions)",
+          "traceDivisions",
+          fTraceDivisions,
+          gGeneralOptions->fTracePasses));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "tmxmltv", "trace-musicxml-tree-visitors",
+R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
+          "traceMusicXMLTreeVisitors",
+          fTraceMusicXMLTreeVisitors));
+  }
 }
 
 S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
@@ -285,13 +307,6 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   clone->
     setOptionsHandlerUplink (
       fOptionsHandlerUplink);
-
-
-  // trace and display
-  // --------------------------------------
-
-  clone->fTraceMusicXMLTreeVisitors =
-    true;
 
 
   // clefs, keys, times
@@ -309,8 +324,35 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   clone->fLoopToMusicXML =
     fLoopToMusicXML;
 
+
+  // specific trace
+  // --------------------------------------
+
+  clone->fTraceEncoding =
+    fTraceEncoding;
+
+  clone->fTraceDivisions =
+    fTraceDivisions;
+
+  clone->fTraceMusicXMLTreeVisitors =
+    fTraceMusicXMLTreeVisitors;
+
+
   return clone;
 }  
+
+//______________________________________________________________________________
+void musicXMLOptions::setAllMusicXMLTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  // specific trace    
+
+    // encoding
+    fTraceEncoding = boolOptionsInitialValue;
+
+    // divisions
+    fTraceDivisions = boolOptionsInitialValue;
+}
 
 //______________________________________________________________________________
 void musicXMLOptions::enforceQuietness ()
@@ -332,23 +374,6 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-
-  // trace and display
-  // --------------------------------------
-  
-  gLogIOstream <<
-    "Trace and display:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
-    booleanAsString (fTraceMusicXMLTreeVisitors) <<
-    endl;
-
-  gIndenter--;
-      
 
   // clefs, keys, times
   // --------------------------------------
@@ -378,7 +403,30 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   gIndenter--;
 
+  // specific trace
+  // --------------------------------------
+  
+  gLogIOstream <<
+    "Specific trace:" <<
+    endl;
 
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "traceEncoding" << " : " <<
+    booleanAsString (fTraceEncoding) <<
+    endl <<
+      
+    setw (fieldWidth) << "traceDivisions" << " : " <<
+    booleanAsString (fTraceDivisions) <<
+    endl <<
+      
+    setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
+    booleanAsString (fTraceMusicXMLTreeVisitors) <<
+    endl;
+
+  gIndenter--;
+      
   gIndenter--;
 }
 

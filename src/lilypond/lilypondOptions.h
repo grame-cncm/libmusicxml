@@ -13,7 +13,7 @@
 #ifndef ___lilypondOptions___
 #define ___lilypondOptions___
 
-#include <set>
+//#include <set>
 
 #include "optionsBasicTypes.h"
 
@@ -109,8 +109,7 @@ class optionsMidiTempoItem : public optionsValuedItem
       string             optionsItemDescription,
       string             optionsValueSpecification,
       string             optionsMidiTempoItemVariableDisplayName,
-      pair<string, int>&
-                         optionsMidiTempoItemVariable);
+      pair<string, int>& optionsMidiTempoItemVariable);
      
   protected:
 
@@ -123,8 +122,7 @@ class optionsMidiTempoItem : public optionsValuedItem
       string             optionsItemDescription,
       string             optionsValueSpecification,
       string             optionsMidiTempoItemVariableDisplayName,
-      pair<string, int>&
-                         optionsMidiTempoItemVariable);
+      pair<string, int>& optionsMidiTempoItemVariable);
       
     virtual ~optionsMidiTempoItem ();
 

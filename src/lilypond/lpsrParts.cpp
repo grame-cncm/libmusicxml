@@ -12,11 +12,7 @@
 
 #include "lpsrParts.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "lpsrOptions.h"
 
 
@@ -322,7 +318,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 
   // sort the list if necessary
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceHarmonies) {
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Sorting the voices in part block for part \"" <<
       fPart->getPartCombinedName () << "\"" <<

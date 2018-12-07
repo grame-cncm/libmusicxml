@@ -20,11 +20,7 @@
 
 #include "msrStavesDetails.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
 
 
@@ -68,7 +64,7 @@ msrStaffTuning::~ msrStaffTuning ()
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffTuning) {
+  if (gGeneralOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<

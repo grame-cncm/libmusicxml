@@ -19,16 +19,9 @@
 
 #include "bsrSpaces.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-  #include "bsrTraceOptions.h"
-#endif
+#include "messagesHandling.h"
 
 #include "bsrOptions.h"
-#include "xml2brlOptionsHandling.h"
-
-#include "messagesHandling.h"
 
 
 using namespace std;
@@ -69,7 +62,7 @@ bsrSpaces::~bsrSpaces ()
 
 void bsrSpaces::acceptIn (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrSpaces::acceptIn ()" <<
       endl;
@@ -80,7 +73,7 @@ void bsrSpaces::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
         S_bsrSpaces elem = this;
         
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrSpaces::visitStart ()" <<
             endl;
@@ -89,14 +82,14 @@ void bsrSpaces::acceptIn (basevisitor* v)
   }
 }
 
-int bsrSpaces::fetchCellsNumber() const
+int bsrSpaces::fetchCellsNumber () const
 {
   return fNumberOfSpaces;
 }
 
 void bsrSpaces::acceptOut (basevisitor* v)
 {
-  if (gBsrTraceOptions->fTraceBsrVisitors) {
+  if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrSpaces::acceptOut ()" <<
       endl;
@@ -107,7 +100,7 @@ void bsrSpaces::acceptOut (basevisitor* v)
       dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
         S_bsrSpaces elem = this;
       
-        if (gBsrTraceOptions->fTraceBsrVisitors) {
+        if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrSpaces::visitEnd ()" <<
             endl;
@@ -125,7 +118,7 @@ string bsrSpaces::asString () const
 
   s <<
     "Spaces" <<
-    ", fNumberOfSpaces: " << fNumberOfSpaces <<
+    ", numberOfSpaces: " << fNumberOfSpaces <<
     ", spacesCellsList: " << fSpacesCellsList <<
     ", line " << fInputLineNumber;
 

@@ -19,11 +19,7 @@
 
 #include "msrKeys.h"
 
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
+#include "generalOptions.h"
 #include "msrOptions.h"
 
 #include "messagesHandling.h"
@@ -51,7 +47,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
     : msrElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+  if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
@@ -87,7 +83,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   msrDiatonicPitchKind diatonicPitchKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+  if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchKindAsString (diatonicPitchKind) <<
@@ -103,7 +99,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   msrAlterationKind alterationKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+  if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationKindAsString (alterationKind) <<
@@ -118,7 +114,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+  if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
@@ -329,7 +325,7 @@ void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceKeys) {
+  if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Append item '" <<
       item->asString () <<

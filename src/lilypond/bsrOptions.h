@@ -13,9 +13,11 @@
 #ifndef ___bsrOptions___
 #define ___bsrOptions___
 
-#include "bsrBasicTypes.h"
-#include "optionsBasicTypes.h"
 #include "exports.h"
+
+#include "bsrBasicTypes.h"
+
+#include "optionsBasicTypes.h"
 
 namespace MusicXML2 
 {
@@ -121,6 +123,26 @@ class bsrOptions : public optionsGroup
 
     bool                  fExit3a;
     bool                  fExit3b;
+
+    // trace
+    // --------------------------------------
+
+    // BSR
+    bool                  fTraceBsr;
+
+    // pages & lines  
+    bool                  fTracePages;
+    
+    bool                  fTraceLines;
+    
+    bool                  fTraceSpaces;
+    bool                  fTraceNumbers;
+
+    // parallels
+    bool                  fTraceParallels;
+
+    // visitors
+    bool                  fTraceBsrVisitors;
 };
 typedef SMARTP<bsrOptions> S_bsrOptions;
 EXP ostream& operator<< (ostream& os, const S_bsrOptions& elt);

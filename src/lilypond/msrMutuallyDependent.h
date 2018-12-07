@@ -1102,7 +1102,6 @@ class msrMeasure : public msrElement
 
     // fields
     // ------------------------------------------------------
-
     
     // uplinks
     

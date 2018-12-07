@@ -21,12 +21,10 @@
 
 #include "utilities.h"
 
+#include "lpsrBasicTypes.h"
+
 #include "messagesHandling.h"
 #include "generalOptions.h"
-
-#include "xml2lyOptionsHandling.h"
-
-#include "lpsrBasicTypes.h"
 
 
 using namespace std;
