@@ -52,10 +52,10 @@ class bsrLineElement : public bsrElement
                               
     S_bsrLine             getBsrLineUplink () const;
 */
-    bool                  getSpacesBefore () const
+    int                   getSpacesBefore () const
                               { return fSpacesBefore; }
 
-    bool                  getSpacesAfter () const
+    int                   getSpacesAfter () const
                               { return fSpacesAfter; }
 
     // services

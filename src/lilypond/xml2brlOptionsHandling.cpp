@@ -590,9 +590,11 @@ void xml2brlOptionsHandler::enforceOptionsHandlerQuietness ()
   
   gExtraOptions->
     enforceQuietness ();
-  
+
+  /* JMI
   gXml2brlOptions->
     enforceQuietness ();
+    */
 }
 
 //______________________________________________________________________________

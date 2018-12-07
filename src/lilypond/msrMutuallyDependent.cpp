@@ -5907,8 +5907,7 @@ void msrNote::print (ostream& os)
         setw (fieldWidth) <<
         "noteWavyLineSpannerStart" <<
         " : " <<
-        booleanAsString (
-          fNoteWavyLineSpannerStart) <<
+        fNoteWavyLineSpannerStart->asShortString () <<
         endl;
     }
     if (fNoteWavyLineSpannerStop || gMsrOptions->fDisplayMsrDetails) {
@@ -5916,8 +5915,7 @@ void msrNote::print (ostream& os)
         setw (fieldWidth) <<
         "noteWavyLineSpannerStop" <<
         " : " <<
-        booleanAsString (
-          fNoteWavyLineSpannerStop) <<
+        fNoteWavyLineSpannerStop->asShortString () <<
         endl;
     }
         
@@ -13302,14 +13300,14 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   note->
     setNoteMeasureUplink (this);
 
-  // register note measure position in measure
+  // register note position in measure
   rational
-    noteMeasurePosition =
+    notePositionInMeasure =
       fMeasureLength; // for harmony voice
   
   note->
     setNotePositionInMeasure (
-      noteMeasurePosition);
+      notePositionInMeasure);
   
   // fetch note sounding whole notes
   rational noteSoundingWholeNotes =
@@ -13411,12 +13409,12 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
 
     // register note measure position
     rational
-      noteMeasurePosition =
+      notePositionInMeasure =
         fMeasureLength; // for harmony voice
     
     note->
       setNotePositionInMeasure (
-        noteMeasurePosition);
+        notePositionInMeasure);
     
     // fetch note sounding whole notes
     rational
@@ -14658,7 +14656,7 @@ void msrMeasure::finalizeMeasure (
     fMeasureFullLength = rational (1, 1);
   }
 
-  if (fMeasureLength == 0) {
+  if (fMeasureLength.getNumerator () == 0) {
     stringstream s;
     
     s <<
@@ -29948,15 +29946,15 @@ void msrPart:: handleBackup (
   
   // determine the measure position 'divisions' backward
   rational
-    measurePosition =
+    positionInMeasure =
       fPartMeasureLengthHighTide - backupStepLength;
 
-  measurePosition.rationalise ();
+  positionInMeasure.rationalise ();
 
   // bring the part back to that measure position
   padUpToMeasureLengthInPart (
     inputLineNumber,
-    measurePosition);
+    positionInMeasure);
 }
 
 void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (

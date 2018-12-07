@@ -577,9 +577,11 @@ void xml2lyOptions::checkOptionsConsistency ()
   
   gExtraOptions->
     checkOptionsConsistency ();
-  
+
+/* JMI
   gXml2lyOptions->
     checkOptionsConsistency ();
+    */
 }
 
 //______________________________________________________________________________

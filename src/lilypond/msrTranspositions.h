@@ -148,7 +148,7 @@ class msrTranspose : public msrElement
     int                   getTransposeOctaveChange () const
                               { return fTransposeOctaveChange; }
                   
-    int                   getTransposeDouble () const
+    bool                  getTransposeDouble () const
                               { return fTransposeDouble; }
                   
     // services

@@ -397,6 +397,9 @@ class msrBarline : public msrElement
 
     // the numbers extracted from fEndingNumber
     list<int>             fEndingNumbersList;
+
+    // the position in the measure is used to handle <backup />
+    
 };
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);

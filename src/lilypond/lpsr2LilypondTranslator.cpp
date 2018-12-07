@@ -3668,7 +3668,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
   // generate a comment out if needed
   switch (elt->getCommentedKind ()) {
     case lpsrVarValAssoc::kCommentedYes:
-      fLilypondCodeIOstream << "\%";
+      fLilypondCodeIOstream << "%";
       break;
     case lpsrVarValAssoc::kCommentedNo:
       break;
@@ -3902,7 +3902,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
 
   switch (elt->getCommentedKind ()) {
     case lpsrVarValAssoc::kCommentedYes:
-      fLilypondCodeIOstream << "\% ";
+      fLilypondCodeIOstream << "% ";
       break;
     case lpsrVarValAssoc::kCommentedNo:
       break;
