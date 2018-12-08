@@ -827,7 +827,7 @@ class msrMeasure : public msrElement
     bool                  getMeasureContainsMusic () const
                               { return fMeasureContainsMusic; }
                               
-    // services
+    // public services
     // ------------------------------------------------------
 
     // uplinks
@@ -1071,11 +1071,19 @@ class msrMeasure : public msrElement
     void                  determineMeasureKind (
                             int inputLineNumber);
 
-    void                  padUpToPartMeasureLengthHighTide (
-                            int inputLineNumber);
+    void                  padUpToPositionInMeasure (
+                            int      inputLineNumber,
+                            rational positionInMeasure);
 
     void                  finalizeMeasure (
                             int inputLineNumber);
+
+  private:
+  
+    // private services
+    // ------------------------------------------------------
+
+    void                  appendElementToMeasure (S_msrElement elem);
 
   public:
 
@@ -1111,7 +1119,7 @@ class msrMeasure : public msrElement
     
     rational              fMeasureFullLength;
                             // meaningfull only
-                            // when there is a time signature,
+                            // when there is a time signature, // JMI
                             // but not for cadenzas
     
     rational              fMeasureLength;
@@ -1158,6 +1166,10 @@ class msrMeasure : public msrElement
     list<S_msrElement>    fMeasureElementsList;
     
     bool                  fMeasureContainsMusic;
+
+    // barlines
+
+    S_msrBarline          fMeasurePendingBarline; // because of <backup />
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);

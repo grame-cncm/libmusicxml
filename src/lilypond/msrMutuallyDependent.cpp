@@ -12764,7 +12764,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 /* JMI
         // append the element deep copy to the measure deep copy
         measureDeepCopy->
-          fMeasureElementsList.push_back (
+          appendElementToMeasure (
             elementDeepCopy);
 */
       }
@@ -12796,7 +12796,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 
       // append the element deep copy to the measure deep copy
       measureDeepCopy->
-        fMeasureElementsList.push_back (
+        appendElementToMeasure (
           elementDeepCopy);
     } // for
   }
@@ -12823,6 +12823,11 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // fMeasureSegmentUplink JMI ???
   
   return measureDeepCopy;
+}
+
+void msrMeasure::appendElementToMeasure (S_msrElement elem)
+{
+  fMeasureElementsList.push_back (elem);
 }
 
 void msrMeasure::setMeasureCreatedForARepeatKind (
@@ -12944,7 +12949,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 #endif
           
   // append it to the measure elements list
-  fMeasureElementsList.push_back (clef);
+  appendElementToMeasure (clef);
 }
 
 void msrMeasure::appendKeyToMeasure (S_msrKey key)
@@ -12962,7 +12967,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
 #endif
           
   // append it to the measure elements list
-  fMeasureElementsList.push_back (key);
+  appendElementToMeasure (key);
 }
 
 void msrMeasure::appendTimeToMeasure (S_msrTime time)
@@ -12999,7 +13004,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   gIndenter++;
   
   // append time to the measure elements list
-  fMeasureElementsList.push_back (time);
+  appendElementToMeasure (time);
   
   // set the measure whole notes per full measure
   setMeasureFullLengthFromTime (
@@ -13040,7 +13045,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 #endif
     
   // append time to the measure elements list
-  fMeasureElementsList.push_back (time);
+  appendElementToMeasure (time);
 }
 
 void msrMeasure::setMeasureFullLengthFromTime (
@@ -13190,33 +13195,80 @@ void msrMeasure::appendTransposeToMeasure (
   S_msrTranspose transpose)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (transpose);
+  appendElementToMeasure (transpose);
 }
 
 void msrMeasure::appendPartNameDisplayToMeasure (
   S_msrPartNameDisplay partNameDisplay)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (partNameDisplay);
+  appendElementToMeasure (partNameDisplay);
 }
 
 void msrMeasure::appendPartAbbreviationDisplayToMeasure (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (partAbbreviationDisplay);
+  appendElementToMeasure (partAbbreviationDisplay);
 }
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
   /* JMI NO, a barline may appear anywhere}
   // the measure may have to be padded
-  padUpToPartMeasureLengthHighTide (
+  padUpToPositionInMeasure (
     barline->getInputLineNumber ());
     */
+
+  // register barline measure number
+  barline->
+    setBarlineMeasureNumber (
+      fMeasureNumber);
+
+  // is there already a pending barline in this voice?
+  if (fMeasurePendingBarline) {
+    stringstream s;
+  
+    s <<
+      "should not have two pending barlines in measure " <<
+      fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"";
+  
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      barline->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  
+  // fetch the part measure length high tide
+  rational
+    partMeasureLengthHighTide =
+      fetchMeasurePartUplink ()->
+        getPartMeasureLengthHighTide ();
+
+  if (fMeasureLength == partMeasureLengthHighTide) {
+    // append barline to the measure at once
     
-  // append it to the measure elements list
-  fMeasureElementsList.push_back (barline);
+    // register barline position in measure,
+    // to handle insertion into the measure in other voices
+    barline->
+      setBarlinePositionInMeasure (
+        fMeasureLength);
+  
+    // append it to the measure elements list
+    appendElementToMeasure (barline);
+  }
+  else {
+    // delay barline handling until this measure reaches
+    // the part measure length high tide
+
+    fMeasurePendingBarline = barline;
+  }
 }
 
 void msrMeasure::prependBarlineToMeasure (S_msrBarline barline)
@@ -13228,51 +13280,51 @@ void msrMeasure::prependBarlineToMeasure (S_msrBarline barline)
 void msrMeasure::appendSegnoToMeasure (S_msrSegno segno)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (segno);
+  appendElementToMeasure (segno);
 }
 
 void msrMeasure::appendCodaToMeasure (S_msrCoda coda)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (coda);
+  appendElementToMeasure (coda);
 }
 
 void msrMeasure::appendEyeGlassesToMeasure (
   S_msrEyeGlasses eyeGlasses)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (eyeGlasses);
+  appendElementToMeasure (eyeGlasses);
 }
 
 void msrMeasure::appendPedalToMeasure (S_msrPedal pedal)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (pedal);
+  appendElementToMeasure (pedal);
 }
 
 void msrMeasure::appendDampToMeasure (S_msrDamp damp)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (damp);
+  appendElementToMeasure (damp);
 }
 
 void msrMeasure::appendDampAllToMeasure (S_msrDampAll dampAll)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (dampAll);
+  appendElementToMeasure (dampAll);
 }
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (barCheck);
+  appendElementToMeasure (barCheck);
 }
 
 void msrMeasure::appendVoiceStaffChangeToMeasure (
   S_msrVoiceStaffChange voiceStaffChange)
 {    
   // append it to the measure elements list
-  fMeasureElementsList.push_back (voiceStaffChange);
+  appendElementToMeasure (voiceStaffChange);
 }
 
 void msrMeasure::appendNoteToMeasure (S_msrNote note)
@@ -13337,7 +13389,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // append the note to the measure elements list
 // JMI  // only now to make it possible to remove it afterwards
   // if it happens to be the first note of a chord
-  fMeasureElementsList.push_back (note);
+  appendElementToMeasure (note);
   
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -13442,7 +13494,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // append the note to the measure elements list
   // JMI  // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
-    fMeasureElementsList.push_back (note);
+    appendElementToMeasure (note);
 
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
@@ -13519,7 +13571,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
     // doubleTremolo->setDoubleTremoloOccupiesAFullMeasure ();
 
   // append the doubleTremolo to the measure elements list
-  fMeasureElementsList.push_back (doubleTremolo);
+  appendElementToMeasure (doubleTremolo);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13546,7 +13598,7 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
 #endif
   
   // append the measuresRepeat to the measure elements list
-  fMeasureElementsList.push_back (measuresRepeat);
+  appendElementToMeasure (measuresRepeat);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13621,7 +13673,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     // multipleRest->setmultipleRestOccupiesAFullMeasure ();
 
   // append the multipleRest to the measure elements list
-  fMeasureElementsList.push_back (multipleRest);
+  appendElementToMeasure (multipleRest);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13685,7 +13737,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     // chord->setChordOccupiesAFullMeasure ();
 
   // append the chord to the measure elements list
-  fMeasureElementsList.push_back (chord);
+  appendElementToMeasure (chord);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13733,7 +13785,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
       fMeasureLength);
 
   // append the tuplet to the measure elements list
-  fMeasureElementsList.push_back (tuplet);
+  appendElementToMeasure (tuplet);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13779,7 +13831,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       fMeasureLength);
   
   // append the harmony to the measure elements list
-  fMeasureElementsList.push_back (harmony);
+  appendElementToMeasure (harmony);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13825,7 +13877,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       fMeasureLength);
   
   // append the harmony to the measure elements list
-  fMeasureElementsList.push_back (harmony);
+  appendElementToMeasure (harmony);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13870,7 +13922,7 @@ void msrMeasure::appendFiguredBassToMeasure (
       fMeasureLength);
   
   // append the harmony to the measure elements list
-  fMeasureElementsList.push_back (figuredBass);
+  appendElementToMeasure (figuredBass);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -13917,7 +13969,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
       fMeasureLength);
   
   // append the harmony to the measure elements list
-  fMeasureElementsList.push_back (figuredBass);
+  appendElementToMeasure (figuredBass);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -14126,49 +14178,49 @@ void msrMeasure::appendPaddingNoteToMeasure (
 void msrMeasure::appendTempoToMeasure (
   S_msrTempo tempo)
 {
-  fMeasureElementsList.push_back (tempo);
+  appendElementToMeasure (tempo);
 }
 
 void msrMeasure::appendRehearsalToMeasure (
   S_msrRehearsal rehearsal)
 {
-  fMeasureElementsList.push_back (rehearsal);
+  appendElementToMeasure (rehearsal);
 }
 
 void msrMeasure::appendOctaveShiftToMeasure (
   S_msrOctaveShift octaveShift)
 {
-  fMeasureElementsList.push_back (octaveShift);
+  appendElementToMeasure (octaveShift);
 }
 
 void msrMeasure::appendScordaturaToMeasure (
   S_msrScordatura scordatura)
 {
-  fMeasureElementsList.push_back (scordatura);
+  appendElementToMeasure (scordatura);
 }
 
 void msrMeasure::appendAccordionRegistrationToMeasure (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  fMeasureElementsList.push_back (accordionRegistration);
+  appendElementToMeasure (accordionRegistration);
 }    
 
 void msrMeasure::appendHarpPedalsTuningToMeasure (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  fMeasureElementsList.push_back (harpPedalsTuning);
+  appendElementToMeasure (harpPedalsTuning);
 }    
 
 void msrMeasure::appendLineBreakToMeasure (S_msrLineBreak lineBreak)
 {
-  fMeasureElementsList.push_back (lineBreak);
+  appendElementToMeasure (lineBreak);
 }
 
 void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
 {
-  fMeasureElementsList.push_back (pageBreak);
+  appendElementToMeasure (pageBreak);
 }
 
 void msrMeasure::appendStaffDetailsToMeasure (
@@ -14188,13 +14240,13 @@ void msrMeasure::appendStaffDetailsToMeasure (
   }
 #endif
 
-  fMeasureElementsList.push_back (staffDetails);
+  appendElementToMeasure (staffDetails);
 }
 
 void msrMeasure::appendBarNumberCheckToMeasure (
   S_msrBarNumberCheck barNumberCheck)
 {
-  fMeasureElementsList.push_back (barNumberCheck);
+  appendElementToMeasure (barNumberCheck);
 }
 
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
@@ -14207,7 +14259,7 @@ void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 
 void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
 {
-  fMeasureElementsList.push_back (elem);
+  appendElementToMeasure (elem);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -14526,8 +14578,9 @@ void msrMeasure::determineMeasureKind (
   gIndenter--;
 }
 
-void msrMeasure::padUpToPartMeasureLengthHighTide (
-  int inputLineNumber)
+void msrMeasure::padUpToPositionInMeasure (
+  int      inputLineNumber,
+  rational positionInMeasure)
 {
   gIndenter++;
   
@@ -14632,6 +14685,10 @@ void msrMeasure::finalizeMeasure (
       setw (fieldWidth) <<
       "partMeasureLengthHighTide" << " = " <<
       partMeasureLengthHighTide <<
+      endl <<
+      setw (fieldWidth) <<
+      "measurePendingBarline" << " = " <<
+      fMeasurePendingBarline->asShortString () <<
       endl;
         
     gIndenter--;
@@ -14694,8 +14751,17 @@ void msrMeasure::finalizeMeasure (
     case msrMeasure::kEmptyMeasureKind:
       switch (fMeasureCreatedForARepeatKind) {
         case msrMeasure::kMeasureCreatedForARepeatNo:
-          padUpToPartMeasureLengthHighTide (
-            inputLineNumber);
+          {
+            // fetch the part measure length high tide
+            rational
+              partMeasureLengthHighTide =
+                fetchMeasurePartUplink ()->
+                  getPartMeasureLengthHighTide ();
+              
+            padUpToPositionInMeasure (
+              inputLineNumber,
+              partMeasureLengthHighTide);
+          }
           break;
 
         case msrMeasure::kMeasureCreatedForARepeatBefore:
