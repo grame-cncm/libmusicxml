@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrPartNameDisplay : public msrElement
+class msrPartNameDisplay : public msrMeasureElement
 {
   public:
     
@@ -85,7 +85,7 @@ typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
 EXP ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt);
 
 //______________________________________________________________________________
-class msrPartAbbreviationDisplay : public msrElement
+class msrPartAbbreviationDisplay : public msrMeasureElement
 {
   public:
     

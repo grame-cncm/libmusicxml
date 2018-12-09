@@ -26,7 +26,7 @@ class msrClef;
 typedef SMARTP<msrClef> S_msrClef;
 
 //______________________________________________________________________________
-class msrClef : public msrElement
+class msrClef : public msrMeasureElement
 {
   public:
 

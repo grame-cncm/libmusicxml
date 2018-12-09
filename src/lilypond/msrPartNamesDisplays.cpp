@@ -42,7 +42,7 @@ S_msrPartNameDisplay msrPartNameDisplay::create (
 msrPartNameDisplay::msrPartNameDisplay (
   int    inputLineNumber,
   string partNameDisplayValue)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fPartNameDisplayValue = partNameDisplayValue;
 }
@@ -137,7 +137,7 @@ S_msrPartAbbreviationDisplay msrPartAbbreviationDisplay::create (
 msrPartAbbreviationDisplay::msrPartAbbreviationDisplay (
   int    inputLineNumber,
   string partAbbreviationDisplayValue)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fPartAbbreviationDisplayValue = partAbbreviationDisplayValue;
 }

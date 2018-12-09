@@ -102,7 +102,7 @@ typedef SMARTP<msrTimeItem> S_msrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
 
 //______________________________________________________________________________
-class msrTime : public msrElement
+class msrTime : public msrMeasureElement
 {
   public:
     

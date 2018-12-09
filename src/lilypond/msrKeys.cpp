@@ -235,7 +235,7 @@ msrKey::msrKey ( // for traditional keys
   msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
   msrKeyModeKind           keyModeKind,
   int                      keyCancel)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   // this is a traditional key
   fKeyKind = kTraditionalKind;
@@ -251,7 +251,7 @@ msrKey::msrKey ( // for traditional keys
 
 msrKey::msrKey ( // for Humdrum/Scot keys
   int                  inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   // this is a Humdrum/Scot key
   fKeyKind = kHumdrumScotKind;

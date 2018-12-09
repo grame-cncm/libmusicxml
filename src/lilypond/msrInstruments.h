@@ -106,7 +106,7 @@ typedef SMARTP<msrStringTuning> S_msrStringTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);
 
 //______________________________________________________________________________
-class msrScordatura : public msrElement
+class msrScordatura : public msrMeasureElement
 {
   public:
 
@@ -181,7 +181,7 @@ typedef SMARTP<msrScordatura> S_msrScordatura;
 EXP ostream& operator<< (ostream& os, const S_msrScordatura& elt);
 
 //______________________________________________________________________________
-class msrAccordionRegistration : public msrElement
+class msrAccordionRegistration : public msrMeasureElement
 {
   public:
       
@@ -259,7 +259,7 @@ typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
 EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
 
 //______________________________________________________________________________
-class msrHarpPedalsTuning : public msrElement
+class msrHarpPedalsTuning : public msrMeasureElement
 {
   public:
 
@@ -331,7 +331,7 @@ typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
 EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
 
 //______________________________________________________________________________
-class msrPedal : public msrElement
+class msrPedal : public msrMeasureElement
 {
   public:
 
@@ -432,7 +432,7 @@ typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
 
 //______________________________________________________________________________
-class msrDamp : public msrElement
+class msrDamp : public msrMeasureElement
 {
   public:
       
@@ -486,7 +486,7 @@ typedef SMARTP<msrDamp> S_msrDamp;
 EXP ostream& operator<< (ostream& os, const S_msrDamp& elt);
 
 //______________________________________________________________________________
-class msrDampAll : public msrElement
+class msrDampAll : public msrMeasureElement
 {
   public:
       

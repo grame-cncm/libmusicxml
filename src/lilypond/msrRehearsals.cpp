@@ -49,7 +49,7 @@ msrRehearsal::msrRehearsal (
   msrRehearsalKind rehearsalKind,
   string           rehearsalText,
   msrPlacementKind rehearsalPlacementKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fRehearsalKind = rehearsalKind;
 

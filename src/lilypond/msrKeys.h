@@ -129,7 +129,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
 class msrKey;
 typedef SMARTP<msrKey> S_msrKey;
 
-class msrKey : public msrElement
+class msrKey : public msrMeasureElement
 {
   public:
     

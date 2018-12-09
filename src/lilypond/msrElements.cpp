@@ -16,6 +16,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <climits>      // INT_MIN, INT_MAX
 
 #include "msrElements.h"
 
@@ -31,7 +32,7 @@ namespace MusicXML2
 msrElement::msrElement (
   int inputLineNumber)
 {
-  fInputLineNumber = inputLineNumber;  
+  fInputLineNumber = inputLineNumber;
 }
 
 msrElement::~msrElement ()
@@ -41,7 +42,7 @@ void msrElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrElement::acceptIn ()" <<
+      "% ==> msrElement::msrElement ()" <<
       endl;
   }
       
@@ -99,6 +100,85 @@ void msrElement::print (ostream& os)
 }
 
 ostream& operator<< (ostream& os, const S_msrElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+msrMeasureElement::msrMeasureElement (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+  fMeasureNumber = "???";
+  fPositionInMeasure = rational (INT_MIN, 1);
+}
+
+msrMeasureElement::~msrMeasureElement ()
+{}
+
+void msrMeasureElement::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrMeasureElement::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrMeasureElement>*
+    p =
+      dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
+        S_msrMeasureElement elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrMeasureElement::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrMeasureElement::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrMeasureElement::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrMeasureElement>*
+    p =
+      dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
+        S_msrMeasureElement elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrMeasureElement::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+string msrMeasureElement::asString () const
+{
+  // this is overriden all in actual elements
+  return "??? msrMeasureElement::asString () ???";
+}
+
+string msrMeasureElement::asShortString () const
+{
+  // this can be overriden in actual elements
+  return asString ();
+}
+
+void msrMeasureElement::print (ostream& os)
+{
+  os << asString () << endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrMeasureElement& elt)
 {
   elt->print (os);
   return os;

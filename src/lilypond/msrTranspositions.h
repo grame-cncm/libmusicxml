@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrOctaveShift : public msrElement
+class msrOctaveShift : public msrMeasureElement
 {
   public:
 
@@ -106,7 +106,7 @@ EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
 class msrTranspose;
 typedef SMARTP<msrTranspose> S_msrTranspose;
 
-class msrTranspose : public msrElement
+class msrTranspose : public msrMeasureElement
 {
   public:
     

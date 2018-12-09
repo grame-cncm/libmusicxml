@@ -106,7 +106,7 @@ typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
 
 //______________________________________________________________________________
-class msrStaffDetails : public msrElement
+class msrStaffDetails : public msrMeasureElement
 {
   public:
     

@@ -208,7 +208,7 @@ msrStaffDetails::msrStaffDetails (
   msrShowFretsKind    showFretsKind,
   msrPrintObjectKind  printObjectKind,
   msrPrintSpacingKind printSpacingKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fStaffTypeKind    = staffTypeKind;
   

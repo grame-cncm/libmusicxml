@@ -43,7 +43,7 @@ S_msrLineBreak msrLineBreak::create (
 msrLineBreak::msrLineBreak (
   int    inputLineNumber,
   string nextBarNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
 
@@ -143,7 +143,7 @@ S_msrPageBreak msrPageBreak::create (
 
 msrPageBreak::msrPageBreak (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {

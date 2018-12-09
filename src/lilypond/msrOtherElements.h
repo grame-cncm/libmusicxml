@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrSegno : public msrElement
+class msrSegno : public msrMeasureElement
 {
   public:
       
@@ -76,7 +76,7 @@ typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
 
 //______________________________________________________________________________
-class msrCoda : public msrElement
+class msrCoda : public msrMeasureElement
 {
   public:
       
@@ -130,7 +130,7 @@ typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
 
 //______________________________________________________________________________
-class msrEyeGlasses : public msrElement
+class msrEyeGlasses : public msrMeasureElement
 {
   public:
       

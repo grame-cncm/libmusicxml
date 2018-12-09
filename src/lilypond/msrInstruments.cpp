@@ -162,7 +162,7 @@ S_msrScordatura msrScordatura::create (
 
 msrScordatura::msrScordatura (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrScordatura::~msrScordatura ()
@@ -281,7 +281,7 @@ msrAccordionRegistration::msrAccordionRegistration (
   int highDotsNumber,
   int middleDotsNumber,
   int lowDotsNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fHighDotsNumber   = highDotsNumber;
   fMiddleDotsNumber = middleDotsNumber;
@@ -382,7 +382,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::create (
 
 msrHarpPedalsTuning::msrHarpPedalsTuning (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
 }
 
@@ -609,7 +609,7 @@ msrPedal::msrPedal (
   msrPedalTypeKind pedalTypeKind,
   msrPedalLineKind pedalLineKind,
   msrPedalSignKind pedalSignKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fPedalTypeKind = pedalTypeKind;
   fPedalLineKind = pedalLineKind;
@@ -756,7 +756,7 @@ S_msrDamp msrDamp::create (
 
 msrDamp::msrDamp (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrDamp::~msrDamp ()
@@ -836,7 +836,7 @@ S_msrDampAll msrDampAll::create (
 
 msrDampAll::msrDampAll (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrDampAll::~msrDampAll ()

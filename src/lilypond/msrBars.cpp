@@ -53,7 +53,7 @@ S_msrBarCheck msrBarCheck::createWithNextBarNumber (
 
 msrBarCheck::msrBarCheck (
   int    inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
@@ -67,7 +67,7 @@ msrBarCheck::msrBarCheck (
 msrBarCheck::msrBarCheck (
   int    inputLineNumber,
   string nextBarNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fNextBarNumber = nextBarNumber; 
 
@@ -187,7 +187,7 @@ S_msrBarNumberCheck msrBarNumberCheck::create (
 msrBarNumberCheck::msrBarNumberCheck (
   int    inputLineNumber,
   string nextBarNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
@@ -305,7 +305,7 @@ msrBarline::msrBarline (
   msrBarlineRepeatDirectionKind repeatDirectionKind,
   msrBarlineRepeatWingedKind    repeatWingedKind,
   int                           barlineTimes)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fBarlineCategoryKind = barlineCategoryKind;
   
@@ -713,8 +713,8 @@ void msrBarline::print (ostream& os)
     fBarlineMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
-    "barlinePositionInMeasure" << " : " <<
-    fBarlinePositionInMeasure <<
+    "positionInMeasure" << " : " <<
+    fPositionInMeasure <<
     endl;
      
   gIndenter--;

@@ -256,7 +256,7 @@ typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
 
 //______________________________________________________________________________
-class msrDoubleTremolo : public msrElement
+class msrDoubleTremolo : public msrMeasureElement
 {
   public:
     
@@ -820,7 +820,7 @@ class msrMeasure : public msrElement
 
     // elements list
     
-    const list<S_msrElement>&
+    const list<S_msrMeasureElement>&
                           getMeasureElementsList () const
                               { return fMeasureElementsList; }
 
@@ -1043,8 +1043,10 @@ class msrMeasure : public msrElement
 
     // other elements
     
-    void                  prependOtherElementToMeasure (S_msrElement elem);
-    void                  appendOtherElementToMeasure (S_msrElement elem);
+    void                  prependOtherElementToMeasure (
+                            S_msrMeasureElement elem);
+    void                  appendOtherElementToMeasure (
+                            S_msrMeasureElement elem);
 
     // last element of measure
     
@@ -1083,7 +1085,8 @@ class msrMeasure : public msrElement
     // private services
     // ------------------------------------------------------
 
-    void                  appendElementToMeasure (S_msrElement elem);
+    void                  appendElementToMeasure (
+                            S_msrMeasureElement elem);
 
   public:
 
@@ -1163,13 +1166,15 @@ class msrMeasure : public msrElement
 
     // elements
 
-    list<S_msrElement>    fMeasureElementsList;
+    list<S_msrMeasureElement>
+                          fMeasureElementsList;
     
     bool                  fMeasureContainsMusic;
 
     // barlines
 
-    S_msrBarline          fMeasurePendingBarline; // because of <backup />
+    list<S_msrMeasureElement>
+                          fMeasurePendingMeasureElements; // because of <backup />
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -1460,8 +1465,10 @@ class msrSegment : public msrElement
 
     // other elements
     
-    void                  prependOtherElementToSegment (S_msrElement elem);
-    void                  appendOtherElementToSegment (S_msrElement elem);
+    void                  prependOtherElementToSegment (
+                            S_msrMeasureElement elem);
+    void                  appendOtherElementToSegment (
+                            S_msrMeasureElement elem);
 
     // removing elements
     
@@ -2150,7 +2157,7 @@ typedef SMARTP<msrHarmonyDegree> S_msrHarmonyDegree;
 EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
 
 //______________________________________________________________________________
-class msrHarmony : public msrElement
+class msrHarmony : public msrMeasureElement
 {
   public:
 
@@ -2426,7 +2433,7 @@ typedef SMARTP<msrFigure> S_msrFigure;
 EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
 
 //______________________________________________________________________________
-class msrFiguredBass : public msrElement
+class msrFiguredBass : public msrMeasureElement
 {
   public:
             
@@ -2761,7 +2768,7 @@ typedef SMARTP<msrSlide> S_msrSlide;
 EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
 
 //______________________________________________________________________________
-class msrNote : public msrElement
+class msrNote : public msrMeasureElement
 {
   public:
 
@@ -3863,7 +3870,7 @@ typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 //______________________________________________________________________________
-class msrChord : public msrElement
+class msrChord : public msrMeasureElement
 {
   public:
 
@@ -4339,7 +4346,7 @@ typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 
 //______________________________________________________________________________
-class msrTuplet : public msrElement
+class msrTuplet : public msrMeasureElement
 {
   public:
     
@@ -5287,7 +5294,7 @@ typedef SMARTP<msrMeasuresRepeatReplicas> S_msrMeasuresRepeatReplicas;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt);
 
 //______________________________________________________________________________
-class msrMeasuresRepeat : public msrElement
+class msrMeasuresRepeat : public msrMeasureElement
 {
   public:
 
@@ -5512,7 +5519,7 @@ typedef SMARTP<msrMultipleRestContents> S_msrMultipleRestContents;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt);
 
 //______________________________________________________________________________
-class msrMultipleRest : public msrElement
+class msrMultipleRest : public msrMeasureElement
 {
   public:
 
@@ -6149,8 +6156,10 @@ class msrVoice : public msrElement
 
     // other elements
     
-    void                  prependOtherElementToVoice (S_msrElement elem);
-    void                  appendOtherElementToVoice (S_msrElement elem);
+    void                  prependOtherElementToVoice (
+                            S_msrMeasureElement elem);
+    void                  appendOtherElementToVoice (
+                            S_msrMeasureElement elem);
                             // for other types of elements not known
                             // in this header file, such as LPSR elements
 
@@ -6161,7 +6170,7 @@ class msrVoice : public msrElement
     
     // last element in voice
 
-    S_msrElement          fetchVoiceLastElement (
+    S_msrMeasureElement   fetchVoiceLastElement ( // JMI ???
                             int inputLineNumber) const;
     
     // removing elements from voice
@@ -6859,7 +6868,7 @@ typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
 //______________________________________________________________________________
-class msrVoiceStaffChange : public msrElement
+class msrVoiceStaffChange : public msrMeasureElement
 {
   public:
     

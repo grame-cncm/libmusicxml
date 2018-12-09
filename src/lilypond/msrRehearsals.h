@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrRehearsal : public msrElement
+class msrRehearsal : public msrMeasureElement
 {
   public:
     

@@ -24,7 +24,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrBarCheck : public msrElement
+class msrBarCheck : public msrMeasureElement
 {
   public:
     
@@ -95,7 +95,7 @@ typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
 
 //______________________________________________________________________________
-class msrBarNumberCheck : public msrElement
+class msrBarNumberCheck : public msrMeasureElement
 {
   public:
     
@@ -158,7 +158,7 @@ typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
 
 //______________________________________________________________________________
-class msrBarline : public msrElement
+class msrBarline : public msrMeasureElement
 {
   public:
 
@@ -321,7 +321,7 @@ class msrBarline : public msrElement
     
     // measure number
     void                  setBarlineMeasureNumber (
-                            rational positionInMeasure) // JMI virer???
+                            rational positionInMeasure)
                               {
                                 fBarlineMeasureNumber =
                                   positionInMeasure;
@@ -329,17 +329,6 @@ class msrBarline : public msrElement
                       
     int                   getBarlineMeasureNumber () const
                               { return fBarlineMeasureNumber; }
-
-    // position in measure
-    void                  setBarlinePositionInMeasure (
-                            rational positionInMeasure)
-                              {
-                                fBarlinePositionInMeasure =
-                                  positionInMeasure;
-                              }
-                      
-    rational              getBarlinePositionInMeasure ()
-                              { return fBarlinePositionInMeasure; }
 
     // services
     // ------------------------------------------------------
@@ -393,7 +382,6 @@ class msrBarline : public msrElement
                           fBarlineCategoryKind;
 
     int                   fBarlineMeasureNumber;
-    rational              fBarlinePositionInMeasure;
 
     // the numbers extracted from fEndingNumber
     list<int>             fEndingNumbersList;

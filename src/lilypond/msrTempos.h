@@ -337,7 +337,7 @@ typedef SMARTP<msrTempoRelationshipElements> S_msrTempoRelationshipElements;
 EXP ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt);
 
 //______________________________________________________________________________
-class msrTempo : public msrElement
+class msrTempo : public msrMeasureElement
 {
   public:
 

@@ -42,7 +42,7 @@ S_msrClef msrClef::create (
 msrClef::msrClef (
   int         inputLineNumber,
   msrClefKind clefKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fClefKind = clefKind;
 }

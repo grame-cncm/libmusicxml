@@ -15,6 +15,7 @@
 
 #include "typedefs.h"
 #include "tree_browser.h"
+#include "rational.h"
 
 
 namespace MusicXML2 
@@ -81,6 +82,86 @@ class msrElement : public smartable
 };
 typedef SMARTP<msrElement> S_msrElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_msrElement& elt);
+
+//______________________________________________________________________________
+class msrMeasureElement : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    // cloning
+    // ------------------------------------------------------
+
+  protected:
+
+    msrMeasureElement (
+      int inputLineNumber);
+
+    virtual ~msrMeasureElement ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    void                  setMeasureNumber (
+                            string positionInMeasure)
+                              {
+                                fMeasureNumber =
+                                  positionInMeasure;
+                              }
+                      
+    string                getMeasureNumber ()
+                              { return fMeasureNumber; }
+
+    void                  setPositionInMeasure (
+                            rational positionInMeasure)
+                              {
+                                fPositionInMeasure =
+                                  positionInMeasure;
+                              }
+                      
+    rational              getPositionInMeasure ()
+                              { return fPositionInMeasure; }
+
+    // services
+    // ------------------------------------------------------
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v) = 0;
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual std::string   asString () const;
+    
+    virtual std::string   asShortString () const;
+
+    virtual void          print (std::ostream& os);
+
+    virtual void          printSummary (std::ostream& os) {}
+    
+  protected:
+     
+    // fields
+    // ------------------------------------------------------
+
+    string                fMeasureNumber;
+    rational              fPositionInMeasure;
+};
+typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
+EXP std::ostream& operator<< (std::ostream& os, const S_msrMeasureElement& elt);
 
 //______________________________________________________________________________
 template <typename T> class msrBrowser : public browser <T> 

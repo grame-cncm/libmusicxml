@@ -40,7 +40,7 @@ S_msrSegno msrSegno::create (
 
 msrSegno::msrSegno (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrSegno::~msrSegno ()
@@ -120,7 +120,7 @@ S_msrCoda msrCoda::create (
 
 msrCoda::msrCoda (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrCoda::~msrCoda ()
@@ -200,7 +200,7 @@ S_msrEyeGlasses msrEyeGlasses::create (
 
 msrEyeGlasses::msrEyeGlasses (
   int inputLineNumber)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {}
 
 msrEyeGlasses::~msrEyeGlasses ()

@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class msrLineBreak : public msrElement
+class msrLineBreak : public msrMeasureElement
 {
   public:
     
@@ -85,7 +85,7 @@ typedef SMARTP<msrLineBreak> S_msrLineBreak;
 EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
 
 //______________________________________________________________________________
-class msrPageBreak : public msrElement
+class msrPageBreak : public msrMeasureElement
 {
   public:
     

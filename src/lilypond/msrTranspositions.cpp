@@ -46,7 +46,7 @@ msrOctaveShift::msrOctaveShift (
   int                inputLineNumber,
   msrOctaveShiftKind octaveShiftKind,
   int                octaveShiftSize)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fOctaveShiftKind = octaveShiftKind;
 
@@ -172,7 +172,7 @@ msrTranspose::msrTranspose (
   int  transposeChromatic,
   int  transposeOctaveChange,
   bool transposeDouble)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fTransposeDiatonic     = transposeDiatonic;
   fTransposeChromatic    = transposeChromatic;

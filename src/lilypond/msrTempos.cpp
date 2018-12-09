@@ -1022,7 +1022,7 @@ msrTempo::msrTempo (
   msrTempoParenthesizedKind
                     tempoParenthesizedKind,
   msrPlacementKind  tempoPlacementKind)
-    : msrElement (inputLineNumber),
+    : msrMeasureElement (inputLineNumber),
       fTempoBeatUnit (tempoBeatUnit),
       fTempoEquivalentBeatUnit ()
 {
@@ -1042,7 +1042,7 @@ msrTempo::msrTempo (
   msrTempoParenthesizedKind
                     tempoParenthesizedKind,
   msrPlacementKind  tempoPlacementKind)
-    : msrElement (inputLineNumber),
+    : msrMeasureElement (inputLineNumber),
       fTempoBeatUnit (tempoBeatUnit),
       fTempoEquivalentBeatUnit (tempoEquivalentBeatUnit)
 {
@@ -1064,7 +1064,7 @@ msrTempo::msrTempo (
   msrTempoParenthesizedKind
                     tempoParenthesizedKind,
   msrPlacementKind  tempoPlacementKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fTempoKind = kTempoNotesRelationShip;
   

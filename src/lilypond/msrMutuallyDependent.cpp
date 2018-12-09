@@ -265,7 +265,7 @@ msrDoubleTremolo::msrDoubleTremolo (
   msrTremoloTypeKind   doubleTremoloTypeKind,
   int                  doubleTremoloMarksNumber,
   msrPlacementKind     doubleTremoloPlacementKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fDoubleTremoloKind          = doubleTremoloKind;
   fDoubleTremoloTypeKind      = doubleTremoloTypeKind;
@@ -2174,7 +2174,7 @@ msrNote::msrNote (
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
-  : msrElement (inputLineNumber)
+  : msrMeasureElement (inputLineNumber)
 {
   fNoteMeasureNumber = noteMeasureNumber;
   
@@ -7080,7 +7080,7 @@ msrChord::msrChord (
   rational        chordSoundingWholeNotes,
   rational        chordDisplayWholeNotes,
   msrDurationKind chordGraphicDurationKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fChordDisplayWholeNotes  = chordDisplayWholeNotes;
@@ -8612,7 +8612,7 @@ msrTuplet::msrTuplet (
   rational                memberNotesSoundingWholeNotes,
   rational                memberNotesDisplayWholeNotes,
   rational                notePositionInMeasure)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fTupletMeasureNumber = tupletMeasureNumber;
   
@@ -11501,7 +11501,7 @@ msrHarmony::msrHarmony (
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
   rational                 harmonySoundingWholeNotes)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   /* JMI
   // sanity check
@@ -12184,7 +12184,7 @@ msrFiguredBass::msrFiguredBass (
   rational  figuredBassSoundingWholeNotes,
   msrFiguredBassParenthesesKind
             figuredBassParenthesesKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   // sanity check
   msrAssert(
@@ -12744,13 +12744,13 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 #endif
     
     for (
-      list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+      list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
       i != fMeasureElementsList.end ();
       i++ ) {
-      S_msrElement element = (*i);
+      S_msrMeasureElement element = (*i);
       
       // handlle deep copying
-      S_msrElement
+      S_msrMeasureElement
         elementDeepCopy;
         
       if (
@@ -12825,7 +12825,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   return measureDeepCopy;
 }
 
-void msrMeasure::appendElementToMeasure (S_msrElement elem)
+void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 {
   fMeasureElementsList.push_back (elem);
 }
@@ -13226,11 +13226,11 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       fMeasureNumber);
 
   // is there already a pending barline in this voice?
-  if (fMeasurePendingBarline) {
+  if (fMeasurePendingMeasureElements.size ()) {
     stringstream s;
   
     s <<
-      "should not have two pending barlines in measure " <<
+      "should not have two pending measure elements in measure " << // JMI
       fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -13257,7 +13257,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     // register barline position in measure,
     // to handle insertion into the measure in other voices
     barline->
-      setBarlinePositionInMeasure (
+      setPositionInMeasure (
         fMeasureLength);
   
     // append it to the measure elements list
@@ -13267,7 +13267,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     // delay barline handling until this measure reaches
     // the part measure length high tide
 
-    fMeasurePendingBarline = barline;
+    fMeasurePendingMeasureElements.push_back (barline);
   }
 }
 
@@ -14249,7 +14249,7 @@ void msrMeasure::appendBarNumberCheckToMeasure (
   appendElementToMeasure (barNumberCheck);
 }
 
-void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
+void msrMeasure::prependOtherElementToMeasure (S_msrMeasureElement elem)
 {
   fMeasureElementsList.push_front (elem); // JMI
 
@@ -14257,7 +14257,7 @@ void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
   fMeasureContainsMusic = true;
 }
 
-void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
+void msrMeasure::appendOtherElementToMeasure  (S_msrMeasureElement elem)
 {
   appendElementToMeasure (elem);
 
@@ -14288,7 +14288,7 @@ void msrMeasure::removeNoteFromMeasure (
 #endif
 
   for (
-    list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
+    list<S_msrMeasureElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
     ++i) {
     if ((*i) == note) {
@@ -14394,7 +14394,7 @@ void msrMeasure::removeElementFromMeasure (
 #endif
   
   for (
-    list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
+    list<S_msrMeasureElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
     ++i) {
     if ((*i) == element) {
@@ -14687,10 +14687,23 @@ void msrMeasure::finalizeMeasure (
       partMeasureLengthHighTide <<
       endl <<
       setw (fieldWidth) <<
-      "measurePendingBarline" << " = " <<
-      fMeasurePendingBarline->asShortString () <<
+      "measurePendingMeasureElements" << " = " <<
       endl;
+
+    gIndenter++;
+    
+    list<S_msrMeasureElement>::const_iterator
+      iBegin = fMeasurePendingMeasureElements.begin (),
+      iEnd   = fMeasurePendingMeasureElements.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogIOstream << (*i)->asShortString ();
+      if (++i == iEnd) break;
+      gLogIOstream << endl;
+    } // for    
         
+    gIndenter--;
+    
     gIndenter--;
   }
 #endif
@@ -14888,7 +14901,7 @@ void msrMeasure::browseData (basevisitor* v)
   }
 
   for (
-    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+    list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
     i != fMeasureElementsList.end ();
     i++) {
     // browse the element
@@ -15142,7 +15155,7 @@ void msrMeasure::print (ostream& os)
     
     gIndenter++;
     
-    list<S_msrElement>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = fMeasureElementsList.begin (),
       iEnd   = fMeasureElementsList.end (),
       i      = iBegin;
@@ -17125,7 +17138,8 @@ void msrSegment::prependAfterGraceNotesToSegment (
 }
 */
 
-void msrSegment::prependOtherElementToSegment (S_msrElement elem)
+void msrSegment::prependOtherElementToSegment (
+  S_msrMeasureElement elem)
 {
   appendMeasureToSegmentIfNotYetDone ( // JMI
     elem->getInputLineNumber (),
@@ -17140,7 +17154,8 @@ void msrSegment::prependOtherElementToSegment (S_msrElement elem)
     prependOtherElementToMeasure (elem);
 }
 
-void msrSegment::appendOtherElementToSegment (S_msrElement elem)
+void msrSegment::appendOtherElementToSegment (
+  S_msrMeasureElement elem)
 {
   appendMeasureToSegmentIfNotYetDone ( // JMI
     elem->getInputLineNumber (),
@@ -18655,7 +18670,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
   int        measuresRepeatMeasuresNumber,
   int        measuresRepeatSlashesNumber,
   S_msrVoice voiceUplink)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   // sanity check
   msrAssert (
@@ -19143,7 +19158,7 @@ msrMultipleRest::msrMultipleRest (
   rational   multipleRestMeasureSoundingNotes,
   int        multipleRestMeasuresNumber,
   S_msrVoice voiceUplink)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fMultipleRestMeasureSoundingNotes = multipleRestMeasureSoundingNotes;
   fMultipleRestMeasuresNumber       = multipleRestMeasuresNumber;
@@ -20936,7 +20951,7 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
           firstSegmentMeasuresList.front ();
 
       // get the first measure's elements list
-      const list<S_msrElement>&
+      const list<S_msrMeasureElement>&
         firstMeasureElementsList =
           firstMeasure->
             getMeasureElementsList ();
@@ -20947,12 +20962,12 @@ S_msrNote msrVoice::fetchVoiceFirstNonGraceNote () const
       // possibly inside a chord or tuplet
 
       if (firstMeasureElementsList.size ()) {
-        list<S_msrElement>::const_iterator
+        list<S_msrMeasureElement>::const_iterator
           iBegin = firstMeasureElementsList.begin (),
           iEnd   = firstMeasureElementsList.end (),
           i      = iBegin;
         for ( ; ; ) {
-          S_msrElement element = (*i);
+          S_msrMeasureElement element = (*i);
           
           if (
             S_msrNote note = dynamic_cast<msrNote*>(&(*element))
@@ -22066,7 +22081,7 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
     appendPageBreakToSegment (pageBreak);
 }
 
-void msrVoice::prependOtherElementToVoice (S_msrElement elem) {
+void msrVoice::prependOtherElementToVoice (S_msrMeasureElement elem) {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
@@ -22080,7 +22095,7 @@ void msrVoice::prependOtherElementToVoice (S_msrElement elem) {
     prependOtherElementToSegment (elem);
 }
 
-void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
+void msrVoice::appendOtherElementToVoice (S_msrMeasureElement elem) {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
@@ -22126,16 +22141,16 @@ S_msrMeasure msrVoice::fetchVoiceLastMeasure ( // JMI ???
   return result;
 }
 
-S_msrElement msrVoice::fetchVoiceLastElement (
+S_msrMeasureElement msrVoice::fetchVoiceLastElement (
   int inputLineNumber) const
 {
-  S_msrElement result;
+  S_msrMeasureElement result;
   
   S_msrMeasure
     lastMeasure =
       fetchVoiceLastMeasure (inputLineNumber);
 
-  const list<S_msrElement>&
+  const list<S_msrMeasureElement>&
     lastMeasureElementsList =
       lastMeasure->getMeasureElementsList ();
       
@@ -28557,7 +28572,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::create (
 msrVoiceStaffChange::msrVoiceStaffChange (
   int        inputLineNumber,
   S_msrStaff staffToChangeTo)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fStaffToChangeTo = staffToChangeTo;
 }

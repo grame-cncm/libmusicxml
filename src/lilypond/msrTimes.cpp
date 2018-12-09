@@ -269,7 +269,7 @@ S_msrTime msrTime::create (
 msrTime::msrTime (
   int               inputLineNumber,
   msrTimeSymbolKind timeSymbolKind)
-    : msrElement (inputLineNumber)
+    : msrMeasureElement (inputLineNumber)
 {
   fTimeSymbolKind = timeSymbolKind;
     
