@@ -249,18 +249,17 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
         1,  // printPageNumber
         1); // braillePageNumber
   
-  // create a page heading
-  S_bsrPageHeading
-    pageHeading =
-      bsrPageHeading::create (
-        inputLineNumber,
-        workTitle,
-        pagination,
-        1); //    pageHeadingNumber
+  // create the first page heading
+  fFirstPageHeading =
+    bsrPageHeading::create (
+      inputLineNumber,
+      workTitle,
+      pagination,
+      1); //    pageHeadingNumber
 
   // append it to the first page
   fCurrentPage->
-    appendPageHeadingToPage (pageHeading);
+    appendPageHeadingToPage (fFirstPageHeading);
 
   // append first page to the score
   fBsrScore->
@@ -1370,9 +1369,18 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
           inputLineNumber,
           bKeyKind,
           numberOfAlterations);
-        
-    fCurrentMeasure->
-      appendKeyToMeasure (key);
+
+    if (! fFirstKey) {
+      // register key in first page heading
+      fFirstPageHeading->
+        setPageHeadingKey (key);
+      fFirstKey = key;
+    }
+    else {
+      // append the BSR key to the current measure
+      fCurrentMeasure->
+        appendKeyToMeasure (key);
+    }
   }
 }
 
@@ -1497,9 +1505,17 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
     } // for
   }
 
-  // append the BSR time to the current measure
-  fCurrentMeasure->
-    appendTimeToMeasure (time);
+  if (! fFirstTime) {
+    fFirstPageHeading->
+      // register time in first page heading
+      setPageHeadingTime (time);
+    fFirstTime = time;
+  }
+  else {
+    // append the BSR time to the current measure
+    fCurrentMeasure->
+      appendTimeToMeasure (time);
+  }
 }
 
 void msr2BsrTranslator::visitEnd (S_msrTime& elt)

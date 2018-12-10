@@ -20,6 +20,8 @@
 
 #include "bsrPaginations.h"
 #include "bsrNumbers.h"
+#include "bsrKeys.h"
+#include "bsrTimes.h"
 
 #include "brailleOptions.h"
 
@@ -60,16 +62,28 @@ class bsrPageHeading : public bsrElement
     // ------------------------------------------------------
                               
     string                getPageHeadingTitle () const
-                              { return fPageHeadingTitle ;}
+                              { return fPageHeadingTitle; }
 
     S_bsrPagination       getPageHeadingPagination () const
-                              { return fPageHeadingPagination ;}
+                              { return fPageHeadingPagination; }
 
     int                   getPageHeadingNumber () const
-                              { return fPageHeadingNumber ;}
+                              { return fPageHeadingNumber; }
+
+    S_bsrKey              getPageHeadingKey () const
+                              { return fPageHeadingKey; }
+
+    void                  setPageHeadingKey (S_bsrKey key)
+                              { fPageHeadingKey = key; }
+
+    S_bsrTime             getPageHeadingTime () const
+                              { return fPageHeadingTime; }
+
+    void                  setPageHeadingTime (S_bsrTime time)
+                              { fPageHeadingTime = time; }
 
     S_bsrCellsList        getPageHeadingCellsList () const
-                              { return fPageHeadingCellsList ;}
+                              { return fPageHeadingCellsList; }
 
   public:
 
@@ -106,6 +120,9 @@ class bsrPageHeading : public bsrElement
 
     S_bsrPagination       fPageHeadingPagination; // before title
     int                   fPageHeadingNumber;     // after title ??? JMI
+
+    S_bsrKey              fPageHeadingKey;
+    S_bsrTime             fPageHeadingTime;
 
     S_bsrCellsList        fPageHeadingCellsList;
 };

@@ -12827,6 +12827,80 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 {
+  int inputLineNumber =
+    elem->getInputLineNumber ();
+    
+  if (fMeasurePendingMeasureElementsList.size ()) {
+    // pad measure up to the elements positions in measure,
+    // and then append them
+
+    // fetch the part measure length high tide
+    rational
+      partMeasureLengthHighTide =
+        fetchMeasurePartUplink ()->
+          getPartMeasureLengthHighTide ();
+    
+    list<S_msrMeasureElement>::iterator
+      iBegin = fMeasurePendingMeasureElementsList.begin (),
+      iEnd   = fMeasurePendingMeasureElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrMeasureElement
+        measureElement = (*i);
+        
+#ifdef TRACE_OPTIONS
+      if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
+        gLogIOstream <<
+          "Considering delayed '" <<
+          measureElement->asShortString () <<
+          "' in measure '" <<
+          asShortString () <<
+          "' in voice \"" <<
+          fMeasureSegmentUplink->
+            getSegmentVoiceUplink ()
+              ->getVoiceName () <<
+          "\", line " << inputLineNumber <<
+          ", has position in measure '" <<
+          measureElement->getPositionInMeasure () <<
+          ", measureLength = " << fMeasureLength <<
+          ", partMeasureLengthHighTide = " << partMeasureLengthHighTide <<
+          endl;
+      }
+#endif
+
+      if (measureElement->getPositionInMeasure () == fMeasureLength) { // JMI
+        // this is where measureElement should be appended
+        
+#ifdef TRACE_OPTIONS
+        if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
+          gLogIOstream <<
+            "Appending delayed '" <<
+            measureElement->asShortString () <<
+            "' in measure '" <<
+            asShortString () <<
+            "' in voice \"" <<
+            fMeasureSegmentUplink->
+              getSegmentVoiceUplink ()
+                ->getVoiceName () <<
+            "\", line " << inputLineNumber <<
+            ", has position in measure '" <<
+            measureElement->getPositionInMeasure () <<
+            ", measureLength = " << fMeasureLength <<
+            ", partMeasureLengthHighTide = " << partMeasureLengthHighTide <<
+            endl;
+        }
+#endif
+
+        appendElementToMeasure (measureElement);
+
+        // remove it from the pending measure elements list
+        i = fMeasurePendingMeasureElementsList.erase (i);
+      }
+
+      if (++i == iEnd) break;
+    } // for    
+  }
+
   fMeasureElementsList.push_back (elem);
 }
 
@@ -14810,8 +14884,8 @@ void msrMeasure::finalizeMeasure (
       }
 #endif
 
-      if (measureElement->getPositionInMeasure () <= fMeasureLength) { // JMI
-        // this is where measureElement should be appended
+      if (true || measureElement->getPositionInMeasure () <= fMeasureLength) { // JMI
+        // this is where measureElement should be appended at last
         
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {

@@ -197,6 +197,7 @@ class msr2BsrTranslator :
     S_bsrLine                 fCurrentLine;
     int                       fCurrentPrintLineNumber;
 
+    S_bsrPageHeading          fFirstPageHeading;
 
     // measures
     // ------------------------------------------------------    
@@ -204,6 +205,12 @@ class msr2BsrTranslator :
     S_bsrMeasure              fCurrentMeasure;
 
      
+    // clef, key, time
+    // ------------------------------------------------------
+
+    S_bsrKey                  fFirstKey;
+    S_bsrTime                 fFirstTime;
+    
     // notes
     // ------------------------------------------------------
     bsrNote::bsrNoteOctaveKind

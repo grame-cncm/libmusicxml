@@ -95,6 +95,24 @@ S_bsrCellsList bsrPageHeading::asCellsList () const
       bsrNumber::kNumberSignIsNeededYes)->
         asCellsList ());
 
+  // append 1 space to result
+  result->appendCellsListToCellsList (
+    bsrSpaces::create (
+      fInputLineNumber, 1)->
+        getSpacesCellsList ());
+
+  // append the key to result if any
+  if (fPageHeadingKey) {
+    result->appendCellsListToCellsList (
+      fPageHeadingKey->getKeyCellsList ());
+  }
+
+  // append the time to result if any
+  if (fPageHeadingTime) {
+    result->appendCellsListToCellsList (
+      fPageHeadingTime->asCellsList ());
+  }
+
   return result;
 }
 
@@ -154,6 +172,18 @@ void bsrPageHeading::browseData (basevisitor* v)
     // browse the pagination
     msrBrowser<bsrPagination> browser (v);
     browser.browse (*fPageHeadingPagination);
+  }
+
+  if (fPageHeadingKey) {
+    // browse the key
+    msrBrowser<bsrKey> browser (v);
+    browser.browse (*fPageHeadingKey);
+  }
+
+  if (fPageHeadingTime) {
+    // browse the time
+    msrBrowser<bsrTime> browser (v);
+    browser.browse (*fPageHeadingTime);
   }
 
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -226,6 +256,35 @@ void bsrPageHeading::print (ostream& os)
     "pageHeadingNumber" << " : " << fPageHeadingNumber <<
     endl;
 
+  if (fPageHeadingKey) {
+    gIndenter++;
+  
+    os <<
+      fPageHeadingKey;
+  
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+    endl;
+  }
+  
+
+  if (fPageHeadingTime) {
+    gIndenter++;
+  
+    os <<
+      fPageHeadingTime;
+  
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+    endl;
+  }
+  
   gIndenter--;
 }
 
