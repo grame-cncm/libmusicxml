@@ -604,6 +604,45 @@ string msrBarline::endingNumbersListAsString () const
   return s.str ();
 }
 
+string msrBarline::asShortString () const
+{
+  stringstream s;
+
+  s <<
+    "Barline " <<
+    barlineCategoryKindAsString (fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureNumber <<
+    ", positionInMeasure " << fPositionInMeasure <<
+
+/* JMI
+    ", " <<
+    barlineHasSegnoKindAsString (
+      fBarlineHasSegnoKind) <<
+    ", " <<
+    barlineHasCodaKindAsString (
+      fBarlineHasCodaKind) <<
+    
+    ", " <<
+    barlineLocationKindAsString (fLocationKind) <<
+    ", " <<
+    barlineStyleKindAsString (fStyleKind) <<
+    ", " <<
+    barlineEndingTypeKindAsString (fEndingTypeKind) <<
+    ", " <<
+    endingNumbersListAsString () <<
+
+    ", " <<
+    barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
+    ", " <<
+    barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
+    */
+    ", " <<
+    fBarlineTimes << " times" <<
+    ", line " << fInputLineNumber;
+    
+  return s.str ();
+}
+
 string msrBarline::asString () const
 {
   stringstream s;
@@ -611,6 +650,8 @@ string msrBarline::asString () const
   s <<
     "Barline " <<
     barlineCategoryKindAsString (fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureNumber <<
+    ", positionInMeasure " << fPositionInMeasure <<
     ", " <<
     barlineHasSegnoKindAsString (
       fBarlineHasSegnoKind) <<
@@ -646,6 +687,8 @@ void msrBarline::print (ostream& os)
     "Barline, " <<
     barlineCategoryKindAsString (
       fBarlineCategoryKind) <<
+    ", measureNumber " << fMeasureNumber <<
+    ", positionInMeasure " << fPositionInMeasure <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -709,8 +752,8 @@ void msrBarline::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "barlineMeasureNumber" << " : " <<
-    fBarlineMeasureNumber <<
+    "measureNumber" << " : " <<
+    fMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
     "positionInMeasure" << " : " <<

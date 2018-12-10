@@ -319,23 +319,8 @@ class msrBarline : public msrMeasureElement
                             msrBarlineCategoryKind barlineCategoryKind)
                               { fBarlineCategoryKind = barlineCategoryKind; }
     
-    // measure number
-    void                  setBarlineMeasureNumber (
-                            rational positionInMeasure)
-                              {
-                                fBarlineMeasureNumber =
-                                  positionInMeasure;
-                              }
-                      
-    int                   getBarlineMeasureNumber () const
-                              { return fBarlineMeasureNumber; }
-
     // services
     // ------------------------------------------------------
-
-    string                endingNumbersListAsString () const;
-    
-    string                asString () const;
 
   public:
 
@@ -351,6 +336,11 @@ class msrBarline : public msrMeasureElement
 
     // print
     // ------------------------------------------------------
+
+    string                endingNumbersListAsString () const;
+    
+    string                asString () const;
+    string                asShortString () const;
 
     virtual void          print (ostream& os);
 
@@ -380,8 +370,6 @@ class msrBarline : public msrMeasureElement
 
     msrBarlineCategoryKind
                           fBarlineCategoryKind;
-
-    int                   fBarlineMeasureNumber;
 
     // the numbers extracted from fEndingNumber
     list<int>             fEndingNumbersList;

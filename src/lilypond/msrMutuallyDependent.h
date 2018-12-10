@@ -1171,10 +1171,11 @@ class msrMeasure : public msrElement
     
     bool                  fMeasureContainsMusic;
 
-    // barlines
+    // pending measure elements, which may have to be delayed
+    // because of <backup />
 
     list<S_msrMeasureElement>
-                          fMeasurePendingMeasureElements; // because of <backup />
+                          fMeasurePendingMeasureElementsList;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
