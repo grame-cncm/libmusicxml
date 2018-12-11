@@ -252,9 +252,6 @@ enum bsrCellKind2 {
   // triplets
   kCellTriplet , // kDots23;
 
-  // hyphens
-  kCellMusicHyphen, // kDots5;
-
   // keyboard hands
   kCellRightHand, // { kDots46,  kDots345 },
   kCellLeftHand, //  { kDots456, kDots345 };

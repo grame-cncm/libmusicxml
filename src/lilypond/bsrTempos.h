@@ -23,6 +23,11 @@
 namespace MusicXML2 
 {
 
+const bsrCellKind
+  kCellTempoEquals = kDots2356,
+  kCellTempoHyphen = kDots36;
+
+
 //______________________________________________________________________________
 class bsrTempo : public bsrLineElement
 {

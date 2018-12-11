@@ -16,13 +16,16 @@
 
 #include <iostream>
 #include <sstream>
+#include <regex>
 
 #include "bsrTempos.h"
 
+#include "bsrNumbers.h"
 #include "bsrNotes.h"
 
 #include "messagesHandling.h"
 
+#include "generalOptions.h"
 #include "bsrOptions.h"
 
 
@@ -170,25 +173,101 @@ S_bsrCellsList bsrTempo::asCellsList () const
         result->
           appendCellsListToCellsList (
             bNote->getNoteCellsList ());
-            
+
+        // append an equals to result
+        result->
+          appendCellKindToCellsList (
+            kCellTempoEquals);
+
         // handle per minute value
         string
-          tempoPerMinute =
+          tempoPerMinuteString =
             fMsrTempo->getTempoPerMinute ();
+
+        int
+          perMinuteMin = -1,
+          perMinuteMax = -1; // may be absent
+          
+        // decipher it to extract min and max values
+        string regularExpression (
+          "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+          "-"
+          "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+          
+        regex e (regularExpression);
+        smatch sm;
+  
+        regex_match (tempoPerMinuteString, sm, e);
+  
+        if (sm.size ()) {
+  #ifdef TRACE_OPTIONS
+          if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+            gLogIOstream <<
+              "There are " << sm.size () << " matches" <<
+              " for rational string '" << tempoPerMinuteString <<
+              "' with regex '" << regularExpression <<
+              "'" <<
+              endl;
+         
+            for (unsigned i = 0; i < sm.size (); ++i) {
+              gLogIOstream <<
+                "[" << sm [i] << "] ";
+            } // for
             
-            
-/*
-        fLilypondCodeIOstream <<
-          dottedDurationAsLilypondStringWithoutBackSlash (
-            inputLineNumber,
-            tempoBeatUnit) <<
-          endl <<
-          "\" = \"" <<
-          endl <<
-          tempoPerMinute <<
-          ")" <<
-          endl;
-          */
+            gLogIOstream <<
+              endl;
+          }
+  #endif
+
+          {
+            stringstream s;
+            s << sm [1];
+            s >> perMinuteMin;
+          }
+          {
+            stringstream s;
+            s << sm [2];
+            s >> perMinuteMax;
+          }
+        }
+       
+        else {
+          perMinuteMin = stoi (tempoPerMinuteString);
+        }
+  
+        // create a number to represent perMinuteMin
+        S_bsrNumber
+          perMinuteNumber =
+            bsrNumber::create (
+              fInputLineNumber,
+              perMinuteMin,
+              bsrNumber::kNumberSignIsNeededYes);
+
+        // append its cells to result
+        result->
+          appendCellsListToCellsList (
+            perMinuteNumber->getNumberCellsList ());
+
+        if (perMinuteMax > 0) {
+          // append a hyphen to result
+          result->
+            appendCellKindToCellsList (
+              kCellTempoHyphen);
+          
+          // create a number to represent perMinuteMax
+          S_bsrNumber
+            perMinuteNumber =
+              bsrNumber::create (
+                fInputLineNumber,
+                perMinuteMax,
+                bsrNumber::kNumberSignIsNeededYes);
+
+          // append a
+          // append its cells to result
+          result->
+            appendCellsListToCellsList (
+              perMinuteNumber->getNumberCellsList ());
+        }
       }
       break;
       
