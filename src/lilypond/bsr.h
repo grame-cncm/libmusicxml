@@ -35,6 +35,8 @@
 
 #include "bsrNotes.h"
 
+#include "bsrDynamics.h"
+
 
 namespace MusicXML2 
 {

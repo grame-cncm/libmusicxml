@@ -125,6 +125,7 @@ class bsr2BsrFinalizer :
     // ------------------------------------------------------
 
     S_bsrPage             fCurrentPage;
+    S_bsrPageHeading      CurrentPageHeading;
     S_bsrLine             fCurrentLine;
     
 

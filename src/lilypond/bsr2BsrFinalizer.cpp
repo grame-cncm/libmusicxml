@@ -214,9 +214,11 @@ void bsr2BsrFinalizer::visitStart (S_bsrPageHeading& elt)
   }
 
  // JMI fCurrentPageHeading = elt->createPageHeadingNewbornClone ();
+
+  CurrentPageHeading = elt;
   
   fCurrentPage->
-    appendPageHeadingToPage (elt);
+    appendPageHeadingToPage (CurrentPageHeading);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrPageHeading& elt)
@@ -229,6 +231,8 @@ void bsr2BsrFinalizer::visitEnd (S_bsrPageHeading& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  CurrentPageHeading = nullptr;
 }
 
 //________________________________________________________________________
@@ -360,8 +364,14 @@ void bsr2BsrFinalizer::visitStart (S_bsrKey& elt)
       endl;
   }
 
-  fCurrentMeasure->
-    appendKeyToMeasure (elt);
+  if (CurrentPageHeading) {
+    CurrentPageHeading->
+      setPageHeadingKey (elt);
+  }
+  else {
+    fCurrentMeasure->
+      appendKeyToMeasure (elt);
+  }
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrKey& elt)
@@ -387,8 +397,14 @@ void bsr2BsrFinalizer::visitStart (S_bsrTime& elt)
       endl;
   }
 
-  fCurrentMeasure->
-    appendTimeToMeasure (elt);
+  if (CurrentPageHeading) {
+    CurrentPageHeading->
+      setPageHeadingTime (elt);
+  }
+  else {
+    fCurrentMeasure->
+      appendTimeToMeasure (elt);
+  }
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)

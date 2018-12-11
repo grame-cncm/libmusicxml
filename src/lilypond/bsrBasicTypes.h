@@ -191,6 +191,12 @@ const bsrCellKind
   kCell_ac_equals    = kDots2356;
 
 //______________________________________________________________________________
+// words
+const bsrCellKind
+  kCellWordSign       = kDots345,
+  kCellWordApostrophe = kDots6;
+
+//______________________________________________________________________________
 // braille cells
 void brailleCellKindAsUTF8 (bsrCellKind cellKind, ostream& os);
 void brailleCellKindAsUTF16 (bsrCellKind cellKind, ostream& os);

@@ -274,7 +274,7 @@ S_bsrTime bsrTime::create (
 bsrTime::bsrTime (
   int         inputLineNumber,
   bsrTimeKind timeKind)
-    : bsrElement (inputLineNumber)
+    : bsrLineElement (inputLineNumber)
 {
   fTimeKind = timeKind;
 

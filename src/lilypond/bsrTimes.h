@@ -13,7 +13,7 @@
 #ifndef ___bsrTimes___
 #define ___bsrTimes___
 
-#include "bsrElements.h"
+#include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -104,7 +104,7 @@ typedef SMARTP<bsrTimeItem> S_bsrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_bsrTimeItem& elt);
 
 //______________________________________________________________________________
-class bsrTime : public bsrElement
+class bsrTime : public bsrLineElement
 {
   public:
 
