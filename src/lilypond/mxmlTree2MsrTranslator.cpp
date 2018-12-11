@@ -2954,7 +2954,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
   }
 
   if (fCurrentMetronomeBeatUnitsVector.size ()) {
-    fCurrentMetronomeBeatUnitsVector.back ().fDotsNumber++;
+    fCurrentMetronomeBeatUnitsVector.back ().incrDotsNumber ();
   }
   else {
     stringstream s;

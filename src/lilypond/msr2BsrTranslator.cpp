@@ -211,16 +211,20 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       NO_INPUT_LINE_NUMBER,
       fVisitedMsrScore);
 
-  // get the worktitle
+  // get the worktitle if any
   S_msrIdentification
     identification =
       elt->getIdentification ();
   S_msrVarValAssoc
     workTitleVarValAssoc =
       identification->getWorkTitle ();
-  string
+  
+  string workTitle;
+
+  if (workTitleVarValAssoc) {
     workTitle =
       workTitleVarValAssoc->getVariableValue ();
+  }
   
   // append a first transcription note to it
   S_bsrTranscriptionNotesElement
@@ -1529,6 +1533,41 @@ void msr2BsrTranslator::visitEnd (S_msrTime& elt)
 }
 
 //________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrTempo& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrTempo" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // create the BSR tempo
+  S_bsrTempo
+    tempo =
+      bsrTempo::create (
+        inputLineNumber,
+        elt);
+  
+  // append the BSR tempo to the current measure
+  fCurrentMeasure->
+    appendTempoToMeasure (tempo);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrTempo& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrTempo" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrNote& elt)
 {
   int inputLineNumber =
@@ -2009,6 +2048,38 @@ void msr2BsrTranslator::visitEnd (S_msrNote& elt)
   }
 }
    
+//________________________________________________________________________
+void msr2BsrTranslator::visitStart (S_msrDynamics& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrDynamics" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  // create the dynamics
+  S_bsrDynamics
+    dynamics =
+      bsrDynamics::create (
+        elt->getInputLineNumber (),
+        elt->getDynamicsKind ());
+
+  // append it to the current measure
+  fCurrentMeasure->
+    appendDynamicsToMeasure (dynamics);
+}
+
+void msr2BsrTranslator::visitEnd (S_msrDynamics& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrDynamics" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
 /*
 //________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrIdentification& elt)
@@ -2830,47 +2901,6 @@ void msr2BsrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
 }
 
 //________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrTempo& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrTempo" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  switch (elt->getTempoKind ()) {
-    case msrTempo::k_NoTempoKind:
-      break;
-
-    case msrTempo::kTempoBeatUnitsPerMinute:
-      break;
-
-    case msrTempo::kTempoBeatUnitsEquivalence:
-      break;
-
-    case msrTempo::kTempoNotesRelationShip:
-      fBsrScore->
-        // this score needs the 'tongue' Scheme function
-        setTempoRelationshipSchemeFunctionIsNeeded ();
-      break;
-  } // switch
-
-  fCurrentVoiceClone->
-    appendTempoToVoice (elt);
-}
-
-void msr2BsrTranslator::visitEnd (S_msrTempo& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrTempo" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
 void msr2BsrTranslator::visitStart (S_msrRehearsal& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -3370,61 +3400,6 @@ void msr2BsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
   fCurrentDoubleTremoloClone = nullptr;
   
   fOnGoingDoubleTremolo = false;
-}
-
-//________________________________________________________________________
-void msr2BsrTranslator::visitStart (S_msrDynamics& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrDynamics" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  if (fOnGoingNote) {
-    fCurrentNonGraceNoteClone->
-      appendDynamicsToNote (elt);
-
-    // is this a non LilyPond native dynamics?
-    bool knownToLilyPondNatively = true;
-    
-    switch (elt->getDynamicsKind ()) {
-      case msrDynamics::kFFFFF:
-      case msrDynamics::kFFFFFF:
-      case msrDynamics::kPPPPP:
-      case msrDynamics::kPPPPPP:
-      case msrDynamics::kRF:
-      case msrDynamics::kSFPP:
-      case msrDynamics::kSFFZ:
-      case msrDynamics::k_NoDynamics:
-        knownToLilyPondNatively = false;
-          
-      default:
-        ;
-    } // switch
-  
-    if (! knownToLilyPondNatively) {
-      // this score needs the 'dynamics' Scheme function
-      fBsrScore->
-        setDynamicsSchemeFunctionIsNeeded ();   
-    }
-  }
-  
-  else if (fOnGoingChord) {
-    fCurrentChordClone->
-      appendDynamicsToChord (elt);
-  }
-}
-
-void msr2BsrTranslator::visitEnd (S_msrDynamics& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrDynamics" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
 }
 
 //________________________________________________________________________

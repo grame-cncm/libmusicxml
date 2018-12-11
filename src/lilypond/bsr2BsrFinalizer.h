@@ -47,6 +47,8 @@ class bsr2BsrFinalizer :
   public visitor<S_bsrKey>,
   public visitor<S_bsrTime>,
   
+  public visitor<S_bsrTempo>,
+  
   public visitor<S_bsrNote>
 
 {
@@ -103,6 +105,9 @@ class bsr2BsrFinalizer :
 
     virtual void visitStart (S_bsrTime& elt);
     virtual void visitEnd   (S_bsrTime& elt);
+
+    virtual void visitStart (S_bsrTempo& elt);
+    virtual void visitEnd   (S_bsrTempo& elt);
 
     virtual void visitStart (S_bsrNote& elt);
     virtual void visitEnd   (S_bsrNote& elt);

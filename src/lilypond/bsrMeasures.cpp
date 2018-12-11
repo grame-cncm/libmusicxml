@@ -178,6 +178,23 @@ void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
   appendElementToMeasure (time);
 }
 
+void bsrMeasure::appendTempoToMeasure (S_bsrTempo tempo)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTempos || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending tempo '" <<
+      tempo->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendElementToMeasure (tempo);
+}
+
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
@@ -193,6 +210,23 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 #endif
 
   appendElementToMeasure (note);
+}
+
+void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceDynamics || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending dynamics '" <<
+      dynamics->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendElementToMeasure (dynamics);
 }
 
 S_bsrCellsList bsrMeasure::asCellsList () const

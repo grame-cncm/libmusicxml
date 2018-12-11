@@ -10,53 +10,52 @@
   research@grame.fr
 */
 
-#ifndef ___bsrDynamics___
-#define ___bsrDynamics___
+#ifndef ___bsrTempos___
+#define ___bsrTempos___
 
 #include "bsrLineElements.h"
 
 #include "bsrCellsLists.h"
 
-#include "msrDynamics.h"
+#include "msrTempos.h"
 
 
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class bsrDynamics : public bsrLineElement
+class bsrTempo : public bsrLineElement
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrDynamics> create (
-      int                          inputLineNumber,
-      msrDynamics::msrDynamicsKind dynamicsKind);
+    static SMARTP<bsrTempo> create (
+      int        inputLineNumber,
+      S_msrTempo mTempo);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrDynamics (
-      int                          inputLineNumber,
-      msrDynamics::msrDynamicsKind dynamicsKind);
+    bsrTempo (
+      int        inputLineNumber,
+      S_msrTempo mTempo);
       
-    virtual ~bsrDynamics ();
+    virtual ~bsrTempo ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrDynamics::msrDynamicsKind
-                          getDynamicsKind () const
-                              { return fDynamicsKind; }
+    S_msrTempo            getMsrTempo () const
+                              { return fMsrTempo; }
                                     
-    S_bsrCellsList        getDynamicsCellsList () const
-                              { return fDynamicsCellsList; }
+    S_bsrCellsList        getTempoCellsList () const
+                              { return fTempoCellsList; }
 
   public:
 
@@ -100,13 +99,12 @@ class bsrDynamics : public bsrLineElement
     // fields
     // ------------------------------------------------------
     
-    msrDynamics::msrDynamicsKind
-                          fDynamicsKind;
+    S_msrTempo            fMsrTempo;
     
-    S_bsrCellsList        fDynamicsCellsList;
+    S_bsrCellsList        fTempoCellsList;
 };
-typedef SMARTP<bsrDynamics> S_bsrDynamics;
-EXP ostream& operator<< (ostream& os, const S_bsrDynamics& elt);
+typedef SMARTP<bsrTempo> S_bsrTempo;
+EXP ostream& operator<< (ostream& os, const S_bsrTempo& elt);
 
 
 } // namespace MusicXML2

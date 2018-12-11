@@ -25,9 +25,11 @@
 #include "bsrKeys.h"
 #include "bsrTimes.h"
 
+#include "bsrTempos.h"
+
 #include "bsrNotes.h"
 
-//#include "bsrOptions.h"
+#include "bsrDynamics.h"
 
 
 namespace MusicXML2
@@ -86,8 +88,12 @@ class bsrMeasure : public bsrLineElement
     void                  appendKeyToMeasure (S_bsrKey key);
                               
     void                  appendTimeToMeasure (S_bsrTime time);
+    
+    void                  appendTempoToMeasure (S_bsrTempo tempo);
                                                             
     void                  appendNoteToMeasure (S_bsrNote note);
+    
+    void                  appendDynamicsToMeasure (S_bsrDynamics dynamics);
 
     int                   fetchCellsNumber () const;
 

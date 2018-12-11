@@ -33,6 +33,8 @@
 #include "bsrKeys.h"
 #include "bsrTimes.h"
 
+#include "bsrTempos.h"
+
 #include "bsrNotes.h"
 
 #include "bsrDynamics.h"

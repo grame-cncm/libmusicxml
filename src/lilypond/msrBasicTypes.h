@@ -631,7 +631,7 @@ class msrDottedDuration
     msrDottedDuration ();
 
     msrDottedDuration (
-      msrDurationKind duration,
+      msrDurationKind durationKind,
       int             dotsNumber);
 
 // JMI    virtual ~msrDottedDuration ();
@@ -640,17 +640,19 @@ class msrDottedDuration
   
     // set and get
     // ------------------------------------------------------
-/* JMI
-    msrDurationKind       getDuration () const
-                              { return fDuration; }
+
+    msrDurationKind       getDurationKind () const
+                              { return fDurationKind; }
                               
     int                   getDotsNumber () const
                               { return fDotsNumber; }
-*/
                               
     // services
     // ------------------------------------------------------
 
+    void                  incrDotsNumber ()
+                              { fDotsNumber++; }
+    
     rational              dottedDurationAsWholeNotes (
                             int inputLineNumber) const;
 
@@ -670,12 +672,12 @@ class msrDottedDuration
 
     virtual void          print (ostream& os);
  
-  public:
+  private:
   
     // fields
     // ------------------------------------------------------
 
-    msrDurationKind       fDuration;
+    msrDurationKind       fDurationKind;
     int                   fDotsNumber;
 };
 EXP ostream& operator<< (ostream& os, msrDottedDuration elt);

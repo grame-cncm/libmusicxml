@@ -419,6 +419,40 @@ void bsr2BsrFinalizer::visitEnd (S_bsrTime& elt)
 }
 
 //________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrTempo& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrTempo " <<
+      elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+/* JMI ???
+  if (CurrentPageHeading) {
+    CurrentPageHeading->
+      setPageHeadingTime (elt);
+  }
+  else {
+  */
+    fCurrentMeasure->
+      appendTempoToMeasure (elt);
+ // }
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrTempo& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrTempo " <<
+      elt->asString () <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrNote& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {

@@ -115,16 +115,16 @@ string msrXMLLangKindAsString (
 //______________________________________________________________________________
 msrDottedDuration::msrDottedDuration ()
 {
-  fDuration   = k_NoDuration;
-  fDotsNumber = -1;
+  fDurationKind = k_NoDuration;
+  fDotsNumber   = -1;
 }
 
 msrDottedDuration::msrDottedDuration (
-  msrDurationKind duration,
+  msrDurationKind durationKind,
   int             dotsNumber)
 {
-  fDuration   = duration;
-  fDotsNumber = dotsNumber;
+  fDurationKind = durationKind;
+  fDotsNumber   = dotsNumber;
 }
 
 rational msrDottedDuration::dottedDurationAsWholeNotes (
@@ -133,7 +133,7 @@ rational msrDottedDuration::dottedDurationAsWholeNotes (
   // convert duration into whole notes
   rational result =
     msrDurationKindAsWholeNotes (
-      fDuration);
+      fDurationKind);
 
   // take dots into account if any
   if (fDotsNumber > 0) {
@@ -157,8 +157,8 @@ void msrDottedDuration::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "duration" << " : " <<
-    msrDurationKindAsString (fDuration) <<
+    "durationKind" << " : " <<
+    msrDurationKindAsString (fDurationKind) <<
     endl <<
     setw (fieldWidth) <<
     "dotsNumber" << " : " << fDotsNumber <<

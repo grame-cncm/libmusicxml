@@ -55,9 +55,17 @@ class msr2BsrTranslator :
   public visitor<S_msrKey>,
   public visitor<S_msrTime>,
 
-    // notes
+  // tempos
+
+  public visitor<S_msrTempo>,
+  
+  // notes
     
   public visitor<S_msrNote>,
+
+  // dynamics
+    
+  public visitor<S_msrDynamics>,
 
   // pages & lines
   
@@ -134,10 +142,20 @@ class msr2BsrTranslator :
     virtual void visitStart (S_msrTime& elt);
     virtual void visitEnd   (S_msrTime& elt);
 
+    // tempos
+    
+    virtual void visitStart (S_msrTempo& elt);
+    virtual void visitEnd   (S_msrTempo& elt);
+
     // notes
     
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
+
+    // dynamics
+  
+    virtual void visitStart (S_msrDynamics& elt);
+    virtual void visitEnd   (S_msrDynamics& elt);
 
   private:
                      
