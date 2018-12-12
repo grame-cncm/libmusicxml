@@ -102,7 +102,8 @@ class bsrMeasure : public bsrLineElement
     // private services
     // ------------------------------------------------------
 
-    void                  appendElementToMeasure (S_bsrElement elem);
+    void                  appendLineElementToMeasure (
+                            S_bsrLineElement lineElement);
     
     S_bsrCellsList        asCellsList () const;
     
@@ -133,8 +134,8 @@ class bsrMeasure : public bsrLineElement
     string                fPrintMeasureNumber;    
     string                fBrailleMeasureNumber;
 
-    list<S_bsrElement>
-                          fMeasureElementsList;
+    list<S_bsrLineElement>
+                          fMeasureLineElementsList;
 
     S_bsrCellsList        fMeasureCellsList;
 };

@@ -245,6 +245,7 @@ string bsrKey::asString () const
     ", " << keyKindAsString (fKeyKind) <<
     ", numberOfAlterations: " << fNumberOfAlterations <<
     ", keyCellsList: " << fKeyCellsList->asShortString () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -270,6 +271,9 @@ void bsrKey::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "keyCellsList" << " : " << fKeyCellsList->asShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
   gIndenter--;

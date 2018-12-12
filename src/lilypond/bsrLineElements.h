@@ -14,6 +14,7 @@
 #define ___bsrLineElements___
 
 #include "bsrElements.h"
+#include "bsrCellsLists.h"
 
 
 namespace MusicXML2
@@ -52,14 +53,25 @@ class bsrLineElement : public bsrElement
                               
     S_bsrLine             getBsrLineUplink () const;
 */
+
+    void                  setSpacesBefore (int value)
+                              { fSpacesBefore = value; };
+
     int                   getSpacesBefore () const
                               { return fSpacesBefore; }
 
+/*
     int                   getSpacesAfter () const
                               { return fSpacesAfter; }
+*/
+
+  public:
 
     // services
     // ------------------------------------------------------
+
+    virtual S_bsrCellsList
+                          asCellsList () const = 0;
 
     virtual int           fetchCellsNumber () const = 0;
 
@@ -94,7 +106,7 @@ class bsrLineElement : public bsrElement
 */
 
     int                   fSpacesBefore;
-    int                   fSpacesAfter;
+ // JMI   int                   fSpacesAfter;
 };
 typedef SMARTP<bsrLineElement> S_bsrLineElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineElement& elt);

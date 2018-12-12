@@ -14,7 +14,7 @@
 #define ___bsrPageHeadings___
 
 
-#include "bsrElements.h"
+#include "bsrPageElements.h"
 
 #include "bsrCellsLists.h"
 
@@ -30,7 +30,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrPageHeading : public bsrElement
+class bsrPageHeading : public bsrPageElement
 {
   public:
 
@@ -89,6 +89,8 @@ class bsrPageHeading : public bsrElement
 
     // public services
     // ------------------------------------------------------
+
+    int                   fetchLineContentsNumber () const;
 
     S_bsrCellsList        asCellsList () const;    
   

@@ -38,6 +38,7 @@ class bsr2BsrFinalizer :
   public visitor<S_bsrPageHeading>,
   
   public visitor<S_bsrLine>,
+  public visitor<S_bsrLineContents>,
   
   public visitor<S_bsrMeasure>,
 
@@ -90,6 +91,8 @@ class bsr2BsrFinalizer :
 
     virtual void visitStart (S_bsrLine& elt);
     virtual void visitEnd   (S_bsrLine& elt);
+    virtual void visitStart (S_bsrLineContents& elt);
+    virtual void visitEnd   (S_bsrLineContents& elt);
 
     virtual void visitStart (S_bsrMeasure& elt);
     virtual void visitEnd   (S_bsrMeasure& elt);

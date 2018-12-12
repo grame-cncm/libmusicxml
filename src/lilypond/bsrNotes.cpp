@@ -660,6 +660,7 @@ string bsrNote::asString () const
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     ", noteCellsList: " <<
     fNoteCellsList->asShortString () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -695,6 +696,9 @@ void bsrNote::print (ostream& os)
     setw (fieldWidth) <<
     "noteCellsList" << " : " <<
     fNoteCellsList->asShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
         
   gIndenter--;

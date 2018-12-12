@@ -273,6 +273,7 @@ string bsrDynamics::asString () const
     msrDynamics::dynamicsKindAsString (fDynamicsKind) <<
     ", dynamicsCellsList: " <<
     fDynamicsCellsList->asShortString () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -297,6 +298,9 @@ void bsrDynamics::print (ostream& os)
     setw (fieldWidth) <<
     "noteCellsList" << " : " <<
     fDynamicsCellsList->asShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
         
   gIndenter--;

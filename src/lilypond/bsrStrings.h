@@ -60,6 +60,9 @@ class bsrString : public bsrLineElement
     // services
     // ------------------------------------------------------
                   
+    S_bsrCellsList        asCellsList () const
+                              { return fStringCellsList; }
+
     int                   fetchCellsNumber () const;
 
   public:

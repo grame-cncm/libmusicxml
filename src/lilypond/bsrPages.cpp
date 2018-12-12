@@ -87,6 +87,20 @@ S_bsrPage bsrPage::createPageNewbornClone ()
   return newbornClone;
 }
 
+int bsrPage::fetchLineContentsNumber ()
+{
+  int result = 0;
+
+  for (
+    list<S_bsrPageElement>::const_iterator i = fPageElementsList.begin ();
+    i != fPageElementsList.end ();
+    i++ ) {
+    result += (*i)->fetchLineContentsNumber ();
+  } // for
+
+  return result;
+}
+
 void bsrPage::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -134,14 +148,13 @@ void bsrPage::acceptOut (basevisitor* v)
 void bsrPage::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrElement>::const_iterator i = fPageElementsList.begin ();
+    list<S_bsrPageElement>::const_iterator i = fPageElementsList.begin ();
     i != fPageElementsList.end ();
     i++ ) {
     // browse the element
     bsrBrowser<bsrElement> browser (v);
     browser.browse (*(*i));
   } // for
-
 }
 
 string bsrPage::asString () const
@@ -163,6 +176,7 @@ void bsrPage::print (ostream& os)
 {
   os <<
     "Page" <<
+    ", lineContentsNumber: " << fetchLineContentsNumber () <<
     ", line " << fInputLineNumber <<
     endl;
   
@@ -189,14 +203,17 @@ void bsrPage::print (ostream& os)
   
   if (pageElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
-      setw (fieldWidth) <<
-      "PageElementsList";
+//      setw (fieldWidth) <<
+      "PageElementsList" <<
+    ", " <<
+    singularOrPlural (
+      pageElementsListSize, "pageElement", "pageElements");
     if (pageElementsListSize) {
       os <<
         endl;
       gIndenter++;
   
-      list<S_bsrElement>::const_iterator
+      list<S_bsrPageElement>::const_iterator
         iBegin = fPageElementsList.begin (),
         iEnd   = fPageElementsList.end (),
         i      = iBegin;
@@ -219,96 +236,6 @@ void bsrPage::print (ostream& os)
 }
 
 ostream& operator<< (ostream& os, const S_bsrPage& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//_______________________________________________________________________________
-S_bsrPageElement bsrPageElement::create (
-  int inputLineNumber)
-{
-  bsrPageElement* o =
-    new bsrPageElement (
-      inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-bsrPageElement::bsrPageElement (
-  int inputLineNumber)
-    : bsrElement (inputLineNumber)
-{}
-
-bsrPageElement::~bsrPageElement ()
-{}
-
-void bsrPageElement::acceptIn (basevisitor* v)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
-      "% ==> bsrPageElement::acceptIn ()" <<
-      endl;
-  }
-  
-  if (visitor<S_bsrPageElement>*
-    p =
-      dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
-        S_bsrPageElement elem = this;
-        
-        if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching bsrPageElement::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void bsrPageElement::acceptOut (basevisitor* v)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
-      "% ==> bsrPageElement::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_bsrPageElement>*
-    p =
-      dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
-        S_bsrPageElement elem = this;
-      
-        if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching bsrPageElement::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void bsrPageElement::browseData (basevisitor* v)
-{}
-
-
-string bsrPageElement::asString () const
-{
-  // this is overriden all in actual elements
-  return "??? bsrPageElement::asString () ???";
-}
-
-string bsrPageElement::asShortString () const
-{
-  // this can be overriden in actual elements
-  return asString ();
-}
-
-void bsrPageElement::print (ostream& os)
-{
-  os << asString () << endl;
-}
-
-ostream& operator<< (ostream& os, const S_bsrPageElement& elt)
 {
   elt->print (os);
   return os;

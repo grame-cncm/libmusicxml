@@ -118,7 +118,8 @@ string bsrString::asString () const
   s <<
     "String" <<
     ", stringContents: " << fStringContents <<
-    ", spacesCellsList: " << fStringCellsList <<
+    ", stringCellsList: " << fStringCellsList <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -140,7 +141,10 @@ void bsrString::print (ostream& os)
     "stringContents" << " : " << fStringContents <<
     endl <<
     setw (fieldWidth) <<
-    "spacesCellsList" << " : " << fStringCellsList <<
+    "stringCellsList" << " : " << fStringCellsList <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
   gIndenter--;

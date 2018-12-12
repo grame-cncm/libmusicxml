@@ -10,45 +10,67 @@
   research@grame.fr
 */
 
-#ifndef ___bsrElements___
-#define ___bsrElements___
+#ifndef ___bsrPageElements___
+#define ___bsrPageElements___
 
-#include "msrElements.h"
+#include "bsrElements.h"
+#include "bsrCellsLists.h"
 
 
 namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrElement : public msrElement
+class bsrPageElement : public bsrElement
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrElement> create (
+/*
+    static SMARTP<bsrPageElement> create (
       int inputLineNumber);
+*/
 
   protected:
          
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrElement (
+    bsrPageElement (
       int inputLineNumber);
 
-    virtual ~bsrElement ();
+    virtual ~bsrPageElement ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
+/*
+    void                  setBsrLineUplink (
+                            S_bsrLine bsrLineUplink);
+                              
+    S_bsrLine             getBsrLineUplink () const;
+*/
+
+    void                  setSpacesBefore (int value)
+                              { fSpacesBefore = value; };
+
+    int                   getSpacesBefore () const
+                              { return fSpacesBefore; }
+
+/*
+    int                   getSpacesAfter () const
+                              { return fSpacesAfter; }
+*/
 
   public:
 
     // services
     // ------------------------------------------------------
+
+    virtual int           fetchLineContentsNumber () const = 0;
 
   public:
   
@@ -71,40 +93,20 @@ class bsrElement : public msrElement
 
     virtual void          print (std::ostream& os);
 
-};
-typedef SMARTP<bsrElement> S_bsrElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrElement& elt);
-
-//______________________________________________________________________________
-template <typename T> class bsrBrowser : public browser<T> 
-{
   protected:
   
-    basevisitor*  fVisitor;
+    // fields
+    // ------------------------------------------------------
 
-    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
-    virtual void leave (T& t) { t.acceptOut (fVisitor); }
+/*
+    S_bsrLine             fBsrLineUplink;
+*/
 
-  public:
-    
-    bsrBrowser (basevisitor* v) : fVisitor (v)
-    {}
-    
-    virtual ~bsrBrowser ()
-    {}
-
-    virtual void          set (basevisitor* v)
-                            { fVisitor = v; }
-    
-    virtual               void browse (T& t)
-                            {
-                              enter (t);
-
-                              t.browseData (fVisitor);
-                              
-                              leave (t);
-                            }
+    int                   fSpacesBefore;
+ // JMI   int                   fSpacesAfter;
 };
+typedef SMARTP<bsrPageElement> S_bsrPageElement;
+EXP std::ostream& operator<< (std::ostream& os, const S_bsrPageElement& elt);
 
 
 }

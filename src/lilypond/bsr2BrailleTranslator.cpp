@@ -119,6 +119,13 @@ void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
       endl;
   }
 
+  fLogOutputStream <<
+    "% --> bsrSpaces" <<
+    ", numberOfSpaces: " << elt->getNumberOfSpaces () <<
+    ", spacesCellsList: " << elt->getSpacesCellsList () <<
+    ", line " << elt->getInputLineNumber () <<
+    endl;
+
   fBrailleGenerator->generateCodeForCellsList (
     elt->getSpacesCellsList ());
 }
@@ -305,6 +312,34 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
 }
 
 //________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrLineContents& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrLineContents '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrLineContents '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fBrailleGenerator->generateCodeForBrailleCell (
+    kCellEOL);
+}
+
+//________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
@@ -314,6 +349,14 @@ void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
       "'" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+  }
+
+  // generate spaces before if needed
+  int spacesBefore = elt->getSpacesBefore ();
+
+  for (int i = 0; i < spacesBefore; i++) {
+    fBrailleGenerator->generateCodeForBrailleCell (
+      kCellSpace);
   }
 }
 

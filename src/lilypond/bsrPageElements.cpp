@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "bsrLineElements.h"
+#include "bsrPageElements.h"
 
 #include "bsrOptions.h"
 #include "brailleOptions.h"
@@ -25,18 +25,18 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 /*
-S_bsrLineElement bsrLineElement::create (
+S_bsrPageElement bsrPageElement::create (
   int inputLineNumber)
 {
-  bsrLineElement* o =
-    new bsrLineElement (
+  bsrPageElement* o =
+    new bsrPageElement (
       inputLineNumber);
   assert(o!=0);
   return o;
 }
 */
 
-bsrLineElement::bsrLineElement (
+bsrPageElement::bsrPageElement (
   int inputLineNumber)
     : bsrElement (inputLineNumber)
 {
@@ -44,88 +44,88 @@ bsrLineElement::bsrLineElement (
 //  fSpacesAfter  = 0;
 }
 
-bsrLineElement::~bsrLineElement ()
+bsrPageElement::~bsrPageElement ()
 {}
 
 /*
-void bsrLineElement::setBsrLineUplink (
+void bsrPageElement::setBsrLineUplink (
 S_bsrLine bsrLineUplink)
 {
   fBsrLineUplink = bsrLineUplink;
 }
 
-S_bsrLine bsrLineElement::getBsrLineUplink () const
+S_bsrLine bsrPageElement::getBsrLineUplink () const
 {
   return fBsrLineUplink;
 }
 */
 
-void bsrLineElement::acceptIn (basevisitor* v)
+void bsrPageElement::acceptIn (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrLineElement::acceptIn ()" <<
+      "% ==> bsrPageElement::acceptIn ()" <<
       endl;
   }
   
-  if (visitor<S_bsrLineElement>*
+  if (visitor<S_bsrPageElement>*
     p =
-      dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
-        S_bsrLineElement elem = this;
+      dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
+        S_bsrPageElement elem = this;
         
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrLineElement::visitStart ()" <<
+            "% ==> Launching bsrPageElement::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void bsrLineElement::acceptOut (basevisitor* v)
+void bsrPageElement::acceptOut (basevisitor* v)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
-      "% ==> bsrLineElement::acceptOut ()" <<
+      "% ==> bsrPageElement::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_bsrLineElement>*
+  if (visitor<S_bsrPageElement>*
     p =
-      dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
-        S_bsrLineElement elem = this;
+      dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
+        S_bsrPageElement elem = this;
       
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching bsrLineElement::visitEnd ()" <<
+            "% ==> Launching bsrPageElement::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void bsrLineElement::browseData (basevisitor* v)
+void bsrPageElement::browseData (basevisitor* v)
 {}
 
 
-string bsrLineElement::asString () const
+string bsrPageElement::asString () const
 {
   // this is overriden all in actual elements
-  return "??? bsrLineElement::asString () ???";
+  return "??? bsrPageElement::asString () ???";
 }
 
-string bsrLineElement::asShortString () const
+string bsrPageElement::asShortString () const
 {
   // this can be overriden in actual elements
   return asString ();
 }
 
-void bsrLineElement::print (ostream& os)
+void bsrPageElement::print (ostream& os)
 {
   os << asString () << endl;
 }
 
-ostream& operator<< (ostream& os, const S_bsrLineElement& elt)
+ostream& operator<< (ostream& os, const S_bsrPageElement& elt)
 {
   elt->print (os);
   return os;

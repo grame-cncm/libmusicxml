@@ -45,7 +45,7 @@ bsrPageHeading::bsrPageHeading (
   string          pageHeadingTitle,
   S_bsrPagination pageHeadingPagination,
   int             pageHeadingNumber)
-    : bsrElement (inputLineNumber)
+    : bsrPageElement (inputLineNumber)
 {
   fPageHeadingTitle = pageHeadingTitle;
   
@@ -58,6 +58,11 @@ bsrPageHeading::bsrPageHeading (
 
 bsrPageHeading::~bsrPageHeading ()
 {}
+
+int bsrPageHeading::fetchLineContentsNumber () const
+{
+  return 1; // JMI ??? fLineContentsList.size ();
+}
 
 S_bsrCellsList bsrPageHeading::asCellsList () const
 {

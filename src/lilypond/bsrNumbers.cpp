@@ -221,6 +221,7 @@ string bsrNumber::asString () const
       fNumberSignIsNeededKind) <<
     ", numberCellsList: " <<
     fNumberCellsList->asShortString () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -248,6 +249,9 @@ void bsrNumber::print (ostream& os)
     setw (fieldWidth) <<
     ", numberCellsList" << " : " <<
     fNumberCellsList->asShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
     
   gIndenter--;

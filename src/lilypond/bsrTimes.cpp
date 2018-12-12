@@ -552,6 +552,7 @@ string bsrTime::asString () const
     timeKindAsString (fTimeKind) <<
 // JMI    ", timeCellsList: " << fTimeCellsList->asString () <<
     ", timeCellsList: " << asCellsList ()->asString () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
  
   return s.str ();
@@ -612,7 +613,10 @@ void bsrTime::print (ostream& os)
     setw (fieldWidth) <<
  // JMI   "timeCellsList" << " : " << fTimeCellsList->asString () <<
     "timeCellsList" << " : " << asCellsList ()->asString () <<
-    endl;
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
+   endl;
 
   gIndenter--;
 }

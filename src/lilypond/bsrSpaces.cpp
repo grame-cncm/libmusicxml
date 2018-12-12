@@ -120,6 +120,7 @@ string bsrSpaces::asString () const
     "Spaces" <<
     ", numberOfSpaces: " << fNumberOfSpaces <<
     ", spacesCellsList: " << fSpacesCellsList <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -142,6 +143,9 @@ void bsrSpaces::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "spacesCellsList" << " : " << fSpacesCellsList <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
   gIndenter--;

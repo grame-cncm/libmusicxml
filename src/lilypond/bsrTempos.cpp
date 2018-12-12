@@ -343,6 +343,7 @@ string bsrTempo::asString () const
     msrTempo::tempoKindAsString (fMsrTempo->getTempoKind ()) <<
     ", tempoCellsList: " <<
     fTempoCellsList->asShortString () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -365,8 +366,11 @@ void bsrTempo::print (ostream& os)
     msrTempo::tempoKindAsString (fMsrTempo->getTempoKind ()) <<
     endl <<
     setw (fieldWidth) <<
-    "noteCellsList" << " : " <<
+    "tempoCellsList" << " : " <<
     fTempoCellsList->asShortString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
         
   gIndenter--;

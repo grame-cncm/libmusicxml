@@ -88,9 +88,10 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
   return newbornClone;
 }
 
-void  bsrMeasure::appendElementToMeasure (S_bsrElement elem)
+void bsrMeasure::appendLineElementToMeasure (
+  S_bsrLineElement lineElement)
 {
-  fMeasureElementsList.push_back (elem);
+  fMeasureLineElementsList.push_back (lineElement);
 }
 
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
@@ -107,7 +108,7 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
     }
 #endif
 
-  appendElementToMeasure (barline);
+  appendLineElementToMeasure (barline);
 }
 
 void bsrMeasure::appendNumberToMeasure (S_bsrNumber number) // JMI ???
@@ -124,7 +125,7 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number) // JMI ???
     }
 #endif
 
-  appendElementToMeasure (number);
+  appendLineElementToMeasure (number);
 }
 
 void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
@@ -141,7 +142,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
     }
 #endif
 
-  appendElementToMeasure (clef);
+  appendLineElementToMeasure (clef);
 }
 
 void bsrMeasure::appendKeyToMeasure (S_bsrKey key)
@@ -158,7 +159,7 @@ void bsrMeasure::appendKeyToMeasure (S_bsrKey key)
     }
 #endif
 
-  appendElementToMeasure (key);
+  appendLineElementToMeasure (key);
 }
 
 void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
@@ -175,7 +176,7 @@ void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
     }
 #endif
 
-  appendElementToMeasure (time);
+  appendLineElementToMeasure (time);
 }
 
 void bsrMeasure::appendTempoToMeasure (S_bsrTempo tempo)
@@ -192,7 +193,7 @@ void bsrMeasure::appendTempoToMeasure (S_bsrTempo tempo)
     }
 #endif
 
-  appendElementToMeasure (tempo);
+  appendLineElementToMeasure (tempo);
 }
 
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
@@ -209,7 +210,7 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
     }
 #endif
 
-  appendElementToMeasure (note);
+  appendLineElementToMeasure (note);
 }
 
 void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
@@ -226,7 +227,7 @@ void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
     }
 #endif
 
-  appendElementToMeasure (dynamics);
+  appendLineElementToMeasure (dynamics);
 }
 
 S_bsrCellsList bsrMeasure::asCellsList () const
@@ -236,15 +237,13 @@ S_bsrCellsList bsrMeasure::asCellsList () const
       bsrCellsList::create (fInputLineNumber);
 
   for (
-    list<S_bsrElement>::const_iterator i = fMeasureElementsList.begin ();
-    i != fMeasureElementsList.end ();
+    list<S_bsrLineElement>::const_iterator i = fMeasureLineElementsList.begin ();
+    i != fMeasureLineElementsList.end ();
     i++ ) {
     // append the braille for the element
-    /* JMI
-    fMeasureCellsList->
+    result->
       appendCellsListToCellsList (
         (*i)->asCellsList ());
-        */
   } // for
 
   return result;
@@ -302,8 +301,8 @@ void bsrMeasure::acceptOut (basevisitor* v)
 void bsrMeasure::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrElement>::const_iterator i = fMeasureElementsList.begin ();
-    i != fMeasureElementsList.end ();
+    list<S_bsrLineElement>::const_iterator i = fMeasureLineElementsList.begin ();
+    i != fMeasureLineElementsList.end ();
     i++ ) {
     // browse the element
     bsrBrowser<bsrElement> browser (v);
@@ -317,12 +316,11 @@ string bsrMeasure::asString () const
 
   s <<
     "Spaces" <<
-    ", spacesBefore: " << fSpacesBefore <<
-    ", spacesAfter: " << fSpacesAfter <<
     ", printMeasureNumber: " << fPrintMeasureNumber <<
     ", printMeasureNumber: " << fPrintMeasureNumber <<
     ", brailleMeasureNumber: " << fBrailleMeasureNumber <<
-    ", measureElementsList.size (): " << fMeasureElementsList.size () <<
+    ", measureElementsList.size (): " << fMeasureLineElementsList.size () <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -340,17 +338,6 @@ void bsrMeasure::print (ostream& os)
 
   const int fieldWidth = 21;
 
-  // print spaces needs
-  os << left <<
-    setw (fieldWidth) <<
-    "spacesBefore" << " : " <<
-    fSpacesBefore <<
-    endl <<
-    setw (fieldWidth) <<
-    "spacesAfter" << " : " <<
-    fSpacesAfter <<
-    endl;
-  
   // print the measure numbers
   os << left <<
     setw (fieldWidth) <<
@@ -366,24 +353,34 @@ void bsrMeasure::print (ostream& os)
     "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
   
+  // print spaces needs
+  os << left <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " <<
+    fSpacesBefore <<
+    endl;
+  
   os <<
     endl;
   
   // print the measure elements if any
-  int measureElementsListSize = fMeasureElementsList.size ();
+  int measureElementsListSize = fMeasureLineElementsList.size ();
   
   if (measureElementsListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
-      setw (fieldWidth) <<
-      "MeasureElementsList";
+//      setw (fieldWidth) <<
+      "MeasureElementsList" <<
+      ", " <<
+      singularOrPlural (
+        measureElementsListSize, "element", "elements");
     if (measureElementsListSize) {
       os <<
         endl;
       gIndenter++;
   
-      list<S_bsrElement>::const_iterator
-        iBegin = fMeasureElementsList.begin (),
-        iEnd   = fMeasureElementsList.end (),
+      list<S_bsrLineElement>::const_iterator
+        iBegin = fMeasureLineElementsList.begin (),
+        iEnd   = fMeasureLineElementsList.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);

@@ -207,37 +207,37 @@ string bsrClef::clefKindAsString (
   string result;
   
   switch (clefKind) {
-    case kClefKindNone:
+    case bsrClef::kClefKindNone:
       result = "***clefNone***";
       break;
-    case kClefKindGTreble:
+    case bsrClef::kClefKindGTreble:
       result = "clefGTreble";
       break;
-    case kClefKindFBass:
+    case bsrClef::kClefKindFBass:
       result = "clefFBass";
       break;
-    case kClefKindCAlto:
+    case bsrClef::kClefKindCAlto:
       result = "clefCAlto";
       break;
-    case kClefKindGSoprano:
+    case bsrClef::kClefKindGSoprano:
       result = "clefGSoprano";
       break;
-    case kClefKindFBaritone:
+    case bsrClef::kClefKindFBaritone:
       result = "clefFBaritone";
       break;
-    case kClefKindCTenor:
+    case bsrClef::kClefKindCTenor:
       result = "clefCTenor";
       break;
-    case kClefKindGOttavaAlta:
+    case bsrClef::kClefKindGOttavaAlta:
       result = "clefGOttavaAlta";
       break;
-    case kClefKindGOttavaBassa:
+    case bsrClef::kClefKindGOttavaBassa:
       result = "clefGOttavaBassa";
       break;
-    case kClefKindModifiedBassForRightHandPart:
+    case bsrClef::kClefKindModifiedBassForRightHandPart:
       result = "clefModifiedBassForRightHandPart";
       break;
-    case kClefKindModifiedTrebleForLeftHandPart:
+    case bsrClef::kClefKindModifiedTrebleForLeftHandPart:
       result = "clefModifiedTrebleForLeftHandPart";
       break;
   } // switch
@@ -254,6 +254,7 @@ string bsrClef::asString () const
     ", clefKind: " <<
     clefKindAsString (fClefKind) <<
     "clefCellsList: " << fClefCellsList <<
+    ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -277,6 +278,9 @@ void bsrClef::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "clefCellsList" << " : " << fClefCellsList <<
+    endl <<
+    setw (fieldWidth) <<
+    "spacesBefore" << " : " << fSpacesBefore <<
     endl;
 
   gIndenter--;

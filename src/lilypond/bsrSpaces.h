@@ -64,6 +64,9 @@ class bsrSpaces : public bsrLineElement
     // services
     // ------------------------------------------------------
                   
+    S_bsrCellsList        asCellsList () const
+                              { return fSpacesCellsList; }
+
     int                   fetchCellsNumber () const;
 
   public:

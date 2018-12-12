@@ -77,6 +77,8 @@ class bsrClef : public bsrLineElement
     S_bsrCellsList        getClefCellsList () const
                               { return fClefCellsList; }
 
+  public:
+
     // public services
     // ------------------------------------------------------
                   

@@ -13,6 +13,8 @@
 #ifndef ___bsrPages___
 #define ___bsrPages___
 
+#include "bsrPageElements.h"
+
 #include "bsrSpaces.h"
 
 #include "bsrPageHeadings.h"
@@ -91,6 +93,8 @@ class bsrPage : public bsrElement
                               
     void                  appendLineToPage (S_bsrLine line)
                               { fPageElementsList.push_back (line); }
+
+    int                   fetchLineContentsNumber ();
                               
   public:
 
@@ -124,65 +128,11 @@ class bsrPage : public bsrElement
 
     int                   fLinesPerPage;    
 
-    list<S_bsrElement>
+    list<S_bsrPageElement>
                           fPageElementsList;
 };
 typedef SMARTP<bsrPage> S_bsrPage;
 EXP ostream& operator<< (ostream& os, const S_bsrPage& elt);
-
-//______________________________________________________________________________
-class bsrPageElement : public bsrElement
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<bsrPageElement> create (
-      int inputLineNumber);
-
-  protected:
-         
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    bsrPageElement (
-      int inputLineNumber);
-
-    virtual ~bsrPageElement ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-  public:
-  
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual std::string   asString () const;
-    
-    virtual std::string   asShortString () const;
-
-    virtual void          print (std::ostream& os);
-
-};
-typedef SMARTP<bsrPageElement> S_bsrPageElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrPageElement& elt);
 
 
 }

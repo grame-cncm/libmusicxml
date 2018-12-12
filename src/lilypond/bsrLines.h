@@ -14,6 +14,7 @@
 #define ___bsrLines___
 
 #include "bsrLineElements.h"
+#include "bsrPageElements.h"
 
 #include "bsrSpaces.h"
 
@@ -38,7 +39,116 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrLine : public bsrElement
+class bsrLineContents : public bsrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum bsrLineContentsKind {
+        kLineContentsRegular,
+        kLineContentsContinuation };
+        
+    static string lineContentsKindAsString (
+      bsrLineContentsKind lineContentsKind);
+      
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<bsrLineContents> create (
+      int                 inputLineNumber,
+      bsrLineContentsKind lineContentsKind);
+
+    SMARTP<bsrLineContents> createLineNewbornClone ();
+
+  protected:
+         
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    bsrLineContents (
+      int                 inputLineNumber,
+      bsrLineContentsKind lineContentsKind);
+
+    virtual ~bsrLineContents ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+/*
+    void                  setBsrLineUplink (
+                            S_bsrLine bsrLineUplink);
+                              
+    S_bsrLine             getBsrLineUplink () const;
+
+    bool                  getASpaceIsNeededBefore () const
+                              { return fASpaceIsNeededBefore; }
+
+    bool                  getASpaceIsNeededAfter () const
+                              { return fASpaceIsNeededAfter; }
+*/
+
+    bsrLineContentsKind   getLineContentsKind () const
+                              { return fLineContentsKind; }
+
+    const list<S_bsrLineElement>&
+                          getLineElementsList () const
+                              { return fLineElementsList; }
+
+  public:
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendLineElementToLineContents (
+                            S_bsrLineElement lineElement);
+  
+    int                   fetchCellsNumber () const;
+
+  public:
+  
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual std::string   asString () const;
+    
+    virtual std::string   asShortString () const;
+
+    virtual void          print (std::ostream& os);
+
+  protected:
+  
+    // fields
+    // ------------------------------------------------------
+
+/*
+    S_bsrLine             fBsrLineUplink;
+*/
+
+    bsrLineContentsKind   fLineContentsKind;
+
+    list<S_bsrLineElement>
+                          fLineElementsList;
+};
+typedef SMARTP<bsrLineContents> S_bsrLineContents;
+EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineContents& elt);
+
+//______________________________________________________________________________
+class bsrLine : public bsrPageElement
 {
   public:
 
@@ -114,6 +224,9 @@ class bsrLine : public bsrElement
     void                  appendLineElementToMeasure (
                             S_bsrLineElement lineElement);
 
+    int                   fetchLineContentsNumber () const
+                              { return fLineContentsList.size (); }
+
   public:
 
     // visitors
@@ -143,92 +256,11 @@ class bsrLine : public bsrElement
 
     int                   fCellsPerLine;
     
-    list<S_bsrLineElement>
-                          fLineElementsList;
-
-    // work field
-    bool                  fLastAppendedLineElementIsASpaces;
+    list<S_bsrLineContents>
+                          fLineContentsList;
 };
 typedef SMARTP<bsrLine> S_bsrLine;
 EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);
-
-/*
-//______________________________________________________________________________
-class bsrLineElement : public bsrElement
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<bsrLineElement> create (
-      int inputLineNumber);
-
-  protected:
-         
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    bsrLineElement (
-      int inputLineNumber);
-
-    virtual ~bsrLineElement ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-/ *
-    void                  setBsrLineUplink (
-                            S_bsrLine bsrLineUplink);
-                              
-    S_bsrLine             getBsrLineUplink () const;
-* /
-    bool                  getASpaceIsNeededBefore () const
-                              { return fASpaceIsNeededBefore; }
-
-    bool                  getASpaceIsNeededAfter () const
-                              { return fASpaceIsNeededAfter; }
-
-    // services
-    // ------------------------------------------------------
-
-  public:
-  
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    virtual std::string   asString () const;
-    
-    virtual std::string   asShortString () const;
-
-    virtual void          print (std::ostream& os);
-
-  protected:
-  
-    // fields
-    // ------------------------------------------------------
-
-/ *
-    S_bsrLine             fBsrLineUplink;
-* /
-
-    bool                  fASpaceIsNeededBefore;
-    bool                  fASpaceIsNeededAfter;
-};
-typedef SMARTP<bsrLineElement> S_bsrLineElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineElement& elt);
-*/
 
 
 }

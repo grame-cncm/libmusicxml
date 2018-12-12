@@ -266,6 +266,38 @@ void bsr2BsrFinalizer::visitEnd (S_bsrLine& elt)
 }
 
 //________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrLineContents& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrLineContents '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+/* JMI ???
+  fCurrentLine = elt->createLineNewbornClone ();
+  
+  fCurrentPage->
+    appendLineToPage (fCurrentLine);
+    */
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrLineContents& elt)
+{
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrLineContents '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void bsr2BsrFinalizer::visitStart (S_bsrMeasure& elt)
 {
   if (gBsrOptions->fTraceBsrVisitors) {
