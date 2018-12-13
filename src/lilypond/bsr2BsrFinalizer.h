@@ -36,6 +36,9 @@ class bsr2BsrFinalizer :
   public visitor<S_bsrPage>,
   
   public visitor<S_bsrPageHeading>,
+  public visitor<S_bsrMusicHeading>,
+  
+  public visitor<S_bsrFootNotes>,
   
   public visitor<S_bsrLine>,
   public visitor<S_bsrLineContents>,
@@ -88,6 +91,11 @@ class bsr2BsrFinalizer :
 
     virtual void visitStart (S_bsrPageHeading& elt);
     virtual void visitEnd   (S_bsrPageHeading& elt);
+    virtual void visitStart (S_bsrMusicHeading& elt);
+    virtual void visitEnd   (S_bsrMusicHeading& elt);
+    
+    virtual void visitStart (S_bsrFootNotes& elt);
+    virtual void visitEnd   (S_bsrFootNotes& elt);
 
     virtual void visitStart (S_bsrLine& elt);
     virtual void visitEnd   (S_bsrLine& elt);
@@ -133,9 +141,18 @@ class bsr2BsrFinalizer :
     // ------------------------------------------------------
 
     S_bsrPage             fCurrentPage;
-    S_bsrPageHeading      CurrentPageHeading;
     S_bsrLine             fCurrentLine;
-    
+
+    // headings
+    // ------------------------------------------------------
+
+    S_bsrPageHeading      fCurrentPageHeading;
+    S_bsrMusicHeading     fCurrentMusicHeading;
+
+    // foot notes
+    // ------------------------------------------------------    
+
+    S_bsrFootNotes        fCurrentFootNotes;
 
     // measures
     // ------------------------------------------------------    

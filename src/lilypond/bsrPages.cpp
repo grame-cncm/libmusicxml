@@ -103,44 +103,52 @@ int bsrPage::fetchLineContentsNumber ()
 
 void bsrPage::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrPage>*
     p =
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrPage::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrPage>*
     p =
       dynamic_cast<visitor<S_bsrPage>*> (v)) {
         S_bsrPage elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

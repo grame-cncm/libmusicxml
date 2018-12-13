@@ -18,6 +18,7 @@
 #include "bsrStrings.h"
 
 #include "bsrOptions.h"
+#include "brailleOptions.h"
 
 
 using namespace std;
@@ -45,7 +46,10 @@ bsrPageHeading::bsrPageHeading (
   string          pageHeadingTitle,
   S_bsrPagination pageHeadingPagination,
   int             pageHeadingNumber)
-    : bsrPageElement (inputLineNumber)
+    : bsrLine (
+        inputLineNumber,
+        0, // JMI ???
+        gBrailleOptions->fCellsPerLine)
 {
   fPageHeadingTitle = pageHeadingTitle;
   
@@ -58,11 +62,6 @@ bsrPageHeading::bsrPageHeading (
 
 bsrPageHeading::~bsrPageHeading ()
 {}
-
-int bsrPageHeading::fetchLineContentsNumber () const
-{
-  return 1; // JMI ??? fLineContentsList.size ();
-}
 
 S_bsrCellsList bsrPageHeading::asCellsList () const
 {
@@ -106,72 +105,70 @@ S_bsrCellsList bsrPageHeading::asCellsList () const
       fInputLineNumber, 1)->
         getSpacesCellsList ());
 
-  // append the key to result if any
-  if (fPageHeadingKey) {
-    result->appendCellsListToCellsList (
-      fPageHeadingKey->getKeyCellsList ());
-  }
-
-  // append the time to result if any
-  if (fPageHeadingTime) {
-    result->appendCellsListToCellsList (
-      fPageHeadingTime->asCellsList ());
-  }
-
   return result;
 }
 
 void bsrPageHeading::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageHeading::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrPageHeading>*
     p =
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrPageHeading::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageHeading::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrPageHeading>*
     p =
       dynamic_cast<visitor<S_bsrPageHeading>*> (v)) {
         S_bsrPageHeading elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageHeading::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void bsrPageHeading::browseData (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
+#endif
 
   if (fPageHeadingPagination) {
     // browse the pagination
@@ -179,23 +176,13 @@ void bsrPageHeading::browseData (basevisitor* v)
     browser.browse (*fPageHeadingPagination);
   }
 
-  if (fPageHeadingKey) {
-    // browse the key
-    msrBrowser<bsrKey> browser (v);
-    browser.browse (*fPageHeadingKey);
-  }
-
-  if (fPageHeadingTime) {
-    // browse the time
-    msrBrowser<bsrTime> browser (v);
-    browser.browse (*fPageHeadingTime);
-  }
-
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }
+#endif
 }
 
 string bsrPageHeading::asString () const
@@ -260,35 +247,6 @@ void bsrPageHeading::print (ostream& os)
     setw (fieldWidth) <<
     "pageHeadingNumber" << " : " << fPageHeadingNumber <<
     endl;
-
-  if (fPageHeadingKey) {
-    gIndenter++;
-  
-    os <<
-      fPageHeadingKey;
-  
-    gIndenter--;
-  }
-  else {
-    os <<
-      " : " << "none" <<
-    endl;
-  }
-  
-
-  if (fPageHeadingTime) {
-    gIndenter++;
-  
-    os <<
-      fPageHeadingTime;
-  
-    gIndenter--;
-  }
-  else {
-    os <<
-      " : " << "none" <<
-    endl;
-  }
   
   gIndenter--;
 }

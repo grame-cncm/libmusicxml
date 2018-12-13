@@ -109,44 +109,52 @@ int bsrPagination::fetchCellsNumber () const
 
 void bsrPagination::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPagination::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrPagination>*
     p =
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPagination::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrPagination::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPagination::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrPagination>*
     p =
       dynamic_cast<visitor<S_bsrPagination>*> (v)) {
         S_bsrPagination elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPagination::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

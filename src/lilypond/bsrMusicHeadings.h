@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___bsrPageHeadings___
-#define ___bsrPageHeadings___
+#ifndef ___bsrMusicHeadings___
+#define ___bsrMusicHeadings___
 
 #include "bsrLines.h"
 
@@ -27,48 +27,51 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrPageHeading : public bsrLine
+class bsrMusicHeading : public bsrLine
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrPageHeading> create (
-      int             inputLineNumber,
-      string          pageHeadingTitle,
-      S_bsrPagination pageHeadingPagination,
-      int             pageHeadingNumber);
+    static SMARTP<bsrMusicHeading> create (
+      int inputLineNumber);
     
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrPageHeading (
-      int             inputLineNumber,
-      string          pageHeadingTitle,
-      S_bsrPagination pageHeadingPagination,
-      int             pageHeadingNumber);
+    bsrMusicHeading (
+      int inputLineNumber);
       
-    virtual ~bsrPageHeading ();
+    virtual ~bsrMusicHeading ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
                               
-    string                getPageHeadingTitle () const
-                              { return fPageHeadingTitle; }
+    void                  setMusicHeadingTempo (S_bsrTempo tempo)
+                              { fMusicHeadingTempo = tempo; }
 
-    S_bsrPagination       getPageHeadingPagination () const
-                              { return fPageHeadingPagination; }
+    S_bsrTempo            getMusicHeadingTempo () const
+                              { return fMusicHeadingTempo; }
 
-    int                   getPageHeadingNumber () const
-                              { return fPageHeadingNumber; }
+    S_bsrKey              getMusicHeadingKey () const
+                              { return fMusicHeadingKey; }
 
-    S_bsrCellsList        getPageHeadingCellsList () const
-                              { return fPageHeadingCellsList; }
+    void                  setMusicHeadingKey (S_bsrKey key)
+                              { fMusicHeadingKey = key; }
+
+    S_bsrTime             getMusicHeadingTime () const
+                              { return fMusicHeadingTime; }
+
+    void                  setMusicHeadingTime (S_bsrTime time)
+                              { fMusicHeadingTime = time; }
+
+    S_bsrCellsList        getMusicHeadingCellsList () const
+                              { return fMusicHeadingCellsList; }
 
   public:
 
@@ -101,15 +104,14 @@ class bsrPageHeading : public bsrLine
     // fields
     // ------------------------------------------------------
 
-    string                fPageHeadingTitle;
+    S_bsrTempo            fMusicHeadingTempo;
+    S_bsrKey              fMusicHeadingKey;
+    S_bsrTime             fMusicHeadingTime;
 
-    S_bsrPagination       fPageHeadingPagination; // before title
-    int                   fPageHeadingNumber;     // after title ??? JMI
-
-    S_bsrCellsList        fPageHeadingCellsList;
+    S_bsrCellsList        fMusicHeadingCellsList;
 };
-typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
-EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);
+typedef SMARTP<bsrMusicHeading> S_bsrMusicHeading;
+EXP ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt);
 
 
 }

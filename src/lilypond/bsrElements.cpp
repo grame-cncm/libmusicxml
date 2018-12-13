@@ -41,44 +41,52 @@ bsrElement::~bsrElement ()
 
 void bsrElement::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrElement::acceptIn ()" <<
       endl;
   }
+#endif
   
   if (visitor<S_bsrElement>*
     p =
       dynamic_cast<visitor<S_bsrElement>*> (v)) {
         S_bsrElement elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrElement::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrElement>*
     p =
       dynamic_cast<visitor<S_bsrElement>*> (v)) {
         S_bsrElement elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

@@ -62,22 +62,26 @@ bsrSpaces::~bsrSpaces ()
 
 void bsrSpaces::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrSpaces::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrSpaces>*
     p =
       dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
         S_bsrSpaces elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrSpaces::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
@@ -89,22 +93,26 @@ int bsrSpaces::fetchCellsNumber () const
 
 void bsrSpaces::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrSpaces::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrSpaces>*
     p =
       dynamic_cast<visitor<S_bsrSpaces>*> (v)) {
         S_bsrSpaces elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrSpaces::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

@@ -4274,7 +4274,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         "/"
         "[[:space:]]*([[:digit:]]+)[[:space:]]*");
         
-      regex  e (regularExpression);
+      regex e (regularExpression);
       smatch sm;
 
       regex_match (theString, sm, e);

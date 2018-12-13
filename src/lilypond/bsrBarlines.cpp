@@ -114,44 +114,52 @@ int bsrBarline::fetchCellsNumber() const
 
 void bsrBarline::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrBarline::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_bsrBarline>*
     p =
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrBarline::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrBarline::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrBarline::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrBarline>*
     p =
       dynamic_cast<visitor<S_bsrBarline>*> (v)) {
         S_bsrBarline elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrBarline::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

@@ -148,14 +148,14 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
     maxShortValue = scoreInstrumentAbbreviationsMaxLength;
   }
 
-  // get the paper width
-  float paperWidth = pageGeometry->getPaperWidth ();
-  
   // heuristics to determine the number of characters per centimeter
   float charactersPerCemtimeter = 4.0;
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceGeometry) {
+    // get the paper width
+    float paperWidth = pageGeometry->getPaperWidth ();
+  
     fLogOutputStream <<
       "setPaperIndentsIfNeeded():" <<
       endl;
@@ -1833,13 +1833,6 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
         getMeasureSegmentUplink ()->
           getSegmentVoiceUplink ();
     
-  // fetch the part measure position high tide
-  rational
-    partMeasureLengthHighTide = // JMI
-      fCurrentMeasureClone->
-        fetchMeasurePartUplink ()->
-          getPartMeasureLengthHighTide ();
-
   // get the measure number
   string
     measureNumber =
@@ -1860,6 +1853,13 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
+    // fetch the part measure position high tide
+    rational
+      partMeasureLengthHighTide =
+        fCurrentMeasureClone->
+          fetchMeasurePartUplink ()->
+            getPartMeasureLengthHighTide ();
+
     fLogOutputStream <<
       "Finalizing measure " << measureNumber <<
       " in voice \"" << voice->getVoiceName () <<

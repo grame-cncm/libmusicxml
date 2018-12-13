@@ -78,12 +78,12 @@ class bsrScore : public bsrElement
     void                  appendPageToScore (S_bsrPage page)
                               { fScorePagesList.push_back (page); }
                               
-    void                  appendTranscriptionNotesElementToScore (
+    void                  appendTranscriptionNotesElementToScore ( // JMI
                             S_bsrTranscriptionNotesElement
                               transcriptionNotesElement)
                               {
                                 fTranscriptionNotes->
-                                  appendNoteElementToTranscriptionNotes (
+                                  appendElementToTranscriptionNotes (
                                     transcriptionNotesElement);
                               }
 

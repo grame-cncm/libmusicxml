@@ -96,6 +96,9 @@ class musicXMLOptions : public optionsGroup
     // fields
     // ------------------------------------------------------
 
+    // trace
+    bool                  fTraceMusicXMLTreeVisitors;
+
     // worktitle
 
     bool                  fUseFilenameAsWorkTitle;
@@ -111,6 +114,7 @@ class musicXMLOptions : public optionsGroup
     bool                  fCubase;
     bool                  fNoCubase;
 
+#ifdef TRACE_OPTIONS
     // specific trace
     
     // encoding
@@ -118,10 +122,7 @@ class musicXMLOptions : public optionsGroup
 
     // divisions
     bool                  fTraceDivisions;
-
-    // visitors
-    bool                  fTraceMusicXMLTreeVisitors;
-
+#endif
     // to do JMI
     bool                  fLoopToMusicXML;
 };

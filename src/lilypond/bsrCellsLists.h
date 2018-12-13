@@ -134,12 +134,6 @@ class bsrCellsList : public smartable
                           getCellsListElements () const
                               { return fCellsListElements; }
 
-    bool                  getASpaceIsNeededBefore () const
-                              { return fASpaceIsNeededBefore; }
-
-    bool                  getASpaceIsNeededAfter () const
-                              { return fASpaceIsNeededAfter; }
-
     // services
     // ------------------------------------------------------
 
@@ -184,9 +178,6 @@ class bsrCellsList : public smartable
     // ------------------------------------------------------
 
     list<bsrCellKind>     fCellsListElements;
-    
-    bool                  fASpaceIsNeededBefore;
-    bool                  fASpaceIsNeededAfter;
 };
 EXP std::ostream& operator<< (std::ostream& os, const S_bsrCellsList& elt);
 

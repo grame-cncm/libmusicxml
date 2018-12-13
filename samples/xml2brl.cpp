@@ -404,13 +404,11 @@ void convertBsrScoreToBrailleText_Pass4 (
     ofstream brailleCodeFileOutputStream;
         
     if (outputFileNameSize) {
-#ifdef TRACE_OPTIONS
       if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
       }
-#endif
           
       brailleCodeFileOutputStream.open (
         outputFileName.c_str(),
@@ -433,14 +431,12 @@ void convertBsrScoreToBrailleText_Pass4 (
     }
     
     else {
-#ifdef TRACE_OPTIONS
       if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "Braille music will be written to standard output" <<
           endl;
       }
-#endif
           
       // create an indented output stream for the Braille music
       // to be written to cout
@@ -458,14 +454,12 @@ void convertBsrScoreToBrailleText_Pass4 (
     }
 
     if (outputFileNameSize) {
-#ifdef TRACE_OPTIONS
       if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
           endl;
       }
-#endif
           
       brailleCodeFileOutputStream.close ();
     }
@@ -681,7 +675,6 @@ int main (int argc, char *argv[])
   // welcome message
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTracePasses) {
     gLogIOstream <<
       "This is xml2brl " << currentVersionNumber () << 
@@ -745,12 +738,10 @@ int main (int argc, char *argv[])
 
     gIndenter--;
   }
-#endif
 
   // print the chosen options if so chosen
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
   if (gGeneralOptions->fDisplayOptionsValues) {
     optionsHandler->
       printAllOptionsValues (
@@ -759,20 +750,16 @@ int main (int argc, char *argv[])
     gLogIOstream <<
       endl;
   }
-#endif
 
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-#ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTracePasses) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
   }
-#endif
-
   
   // do the translation
   // ------------------------------------------------------

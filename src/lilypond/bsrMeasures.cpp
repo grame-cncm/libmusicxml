@@ -256,44 +256,52 @@ int bsrMeasure::fetchCellsNumber () const
 
 void bsrMeasure::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrMeasure::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrMeasure>*
     p =
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrMeasure::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrMeasure::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrMeasure::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrMeasure>*
     p =
       dynamic_cast<visitor<S_bsrMeasure>*> (v)) {
         S_bsrMeasure elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrMeasure::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

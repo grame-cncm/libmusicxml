@@ -62,44 +62,52 @@ S_bsrLine bsrPageElement::getBsrLineUplink () const
 
 void bsrPageElement::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageElement::acceptIn ()" <<
       endl;
   }
+#endif
   
   if (visitor<S_bsrPageElement>*
     p =
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrPageElement::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrPageElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrPageElement>*
     p =
       dynamic_cast<visitor<S_bsrPageElement>*> (v)) {
         S_bsrPageElement elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrPageElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

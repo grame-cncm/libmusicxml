@@ -37,8 +37,12 @@ class bsr2BrailleTranslator :
   
   public visitor<S_bsrPage>,
   
-  public visitor<S_bsrPageHeading>,
   public visitor<S_bsrPagination>,
+
+  public visitor<S_bsrPageHeading>,
+  public visitor<S_bsrMusicHeading>,
+  
+  public visitor<S_bsrFootNotes>,
   
   public visitor<S_bsrLine>,
   public visitor<S_bsrLineContents>,
@@ -87,11 +91,16 @@ class bsr2BrailleTranslator :
     virtual void visitStart (S_bsrPage& elt);
     virtual void visitEnd   (S_bsrPage& elt);
 
-    virtual void visitStart (S_bsrPageHeading& elt);
-    virtual void visitEnd   (S_bsrPageHeading& elt);
-
     virtual void visitStart (S_bsrPagination& elt);
     virtual void visitEnd   (S_bsrPagination& elt);
+
+    virtual void visitStart (S_bsrPageHeading& elt);
+    virtual void visitEnd   (S_bsrPageHeading& elt);
+    virtual void visitStart (S_bsrMusicHeading& elt);
+    virtual void visitEnd   (S_bsrMusicHeading& elt);
+    
+    virtual void visitStart (S_bsrFootNotes& elt);
+    virtual void visitEnd   (S_bsrFootNotes& elt);
 
     virtual void visitStart (S_bsrLine& elt);
     virtual void visitEnd   (S_bsrLine& elt);

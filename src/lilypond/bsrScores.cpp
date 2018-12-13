@@ -54,55 +54,65 @@ bsrScore::~bsrScore ()
 
 void bsrScore::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrScore>*
     p =
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrScore::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrScore::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrScore>*
     p =
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrScore::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
 
 void bsrScore::browseData (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
+#endif
 
   if (fTranscriptionNotes) {
     // browse the transcription notes
@@ -120,11 +130,13 @@ void bsrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }
+#endif
 }
 
 void bsrScore::print (ostream& os)

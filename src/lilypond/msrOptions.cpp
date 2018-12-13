@@ -342,7 +342,6 @@ R"(Write the structure of the part groups to standard error.)",
           "displayPartGroups",
           fDisplayPartGroups));
           
-#ifdef TRACE_OPTIONS
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -351,9 +350,7 @@ R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
           fDisplayMsr,
           gGeneralOptions->fTracePasses));
-#endif
           
-#ifdef TRACE_OPTIONS
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -363,7 +360,6 @@ R"(Write the contents of the MSR data with more details to standard error.)",
           fDisplayMsrDetails,
           fDisplayMsr,
           gGeneralOptions->fTracePasses));
-#endif
                     
     traceAndDisplaySubGroup->
       appendOptionsItem (

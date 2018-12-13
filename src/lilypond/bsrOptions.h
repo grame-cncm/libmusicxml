@@ -127,6 +127,7 @@ class bsrOptions : public optionsGroup
     // trace
     // --------------------------------------
 
+#ifdef TRACE_OPTIONS
     // BSR
     bool                  fTraceBsr;
 
@@ -143,6 +144,7 @@ class bsrOptions : public optionsGroup
 
     // visitors
     bool                  fTraceBsrVisitors;
+#endif
 };
 typedef SMARTP<bsrOptions> S_bsrOptions;
 EXP ostream& operator<< (ostream& os, const S_bsrOptions& elt);

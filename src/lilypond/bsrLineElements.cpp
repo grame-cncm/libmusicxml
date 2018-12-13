@@ -41,7 +41,6 @@ bsrLineElement::bsrLineElement (
     : bsrElement (inputLineNumber)
 {
   fSpacesBefore = 0;
-//  fSpacesAfter  = 0;
 }
 
 bsrLineElement::~bsrLineElement ()
@@ -62,44 +61,52 @@ S_bsrLine bsrLineElement::getBsrLineUplink () const
 
 void bsrLineElement::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLineElement::acceptIn ()" <<
       endl;
   }
+#endif
   
   if (visitor<S_bsrLineElement>*
     p =
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLineElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrLineElement::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLineElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrLineElement>*
     p =
       dynamic_cast<visitor<S_bsrLineElement>*> (v)) {
         S_bsrLineElement elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLineElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

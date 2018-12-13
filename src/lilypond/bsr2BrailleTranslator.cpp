@@ -91,33 +91,39 @@ void bsr2BrailleTranslator::generateBrailleCodeFromBsrScore ()
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrScore& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrScore& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrScore" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrSpaces" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fLogOutputStream <<
     "% --> bsrSpaces" <<
@@ -132,23 +138,27 @@ void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrSpaces" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrBarline& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrBarline" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getBarlineCellsList ());
@@ -157,33 +167,39 @@ void bsr2BrailleTranslator::visitStart (S_bsrBarline& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotes& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting S_bsrTranscriptionNotes" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotes& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting S_bsrTranscriptionNotes" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getTranscriptionNotesElementCellsList ());
@@ -191,17 +207,20 @@ void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTranscriptionNotesElement" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPage '" <<
@@ -210,10 +229,12 @@ void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPage '" <<
@@ -222,42 +243,16 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForBrailleCell (
     kCellEOP);
 }
 
 //________________________________________________________________________
-void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    fLogOutputStream <<
-      "% --> Start visiting bsrPageHeading '" <<
-      elt->asString () <<
-      "'" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  fBrailleGenerator->generateCodeForCellsList (
-    elt->getPageHeadingCellsList ());
-}
-
-void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
-{
-  if (gBsrOptions->fTraceBsrVisitors) {
-    fLogOutputStream <<
-      "% --> End visiting bsrPageHeading '" <<
-      elt->asString () <<
-      "'" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrPagination& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrPagination '" <<
@@ -266,6 +261,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrPagination& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getPaginationCellsList ());
@@ -273,6 +269,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrPagination& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPagination& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrPagination '" <<
@@ -281,11 +278,111 @@ void bsr2BrailleTranslator::visitEnd (S_bsrPagination& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
+}
+
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrPageHeading '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getPageHeadingCellsList ());
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrPageHeading '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrMusicHeading '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getMusicHeadingCellsList ());
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrMusicHeading '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void bsr2BrailleTranslator::visitStart (S_bsrFootNotes& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrFootNotes '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/* JMI
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->getFootNotesCellsList ());
+    */
+}
+
+void bsr2BrailleTranslator::visitEnd (S_bsrFootNotes& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrFootNotes '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrLine '" <<
@@ -294,10 +391,12 @@ void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrLine '" <<
@@ -306,6 +405,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForBrailleCell (
     kCellEOL);
@@ -314,6 +414,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrLineContents& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrLineContents '" <<
@@ -322,10 +423,12 @@ void bsr2BrailleTranslator::visitStart (S_bsrLineContents& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrLineContents '" <<
@@ -334,6 +437,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForBrailleCell (
     kCellEOL);
@@ -342,6 +446,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrMeasure '" <<
@@ -350,6 +455,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   // generate spaces before if needed
   int spacesBefore = elt->getSpacesBefore ();
@@ -362,6 +468,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrMeasure '" <<
@@ -370,11 +477,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrNumber '" <<
@@ -383,6 +492,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getNumberCellsList ());
@@ -390,6 +500,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNumber '" <<
@@ -398,11 +509,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrClef '" <<
@@ -411,6 +524,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getClefCellsList ());
@@ -418,6 +532,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrClef '" <<
@@ -426,11 +541,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrKey '" <<
@@ -439,6 +556,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getKeyCellsList ());
@@ -497,6 +615,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrKey '" <<
@@ -505,11 +624,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTime " <<
@@ -517,6 +638,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->asCellsList ());
@@ -524,6 +646,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTime " <<
@@ -531,11 +654,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrTempo& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrTempo " <<
@@ -543,6 +668,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTempo& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->asCellsList ());
@@ -550,6 +676,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTempo& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTempo& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrTempo " <<
@@ -557,11 +684,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrTempo& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 //________________________________________________________________________
 void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> Start visiting bsrNote " <<
@@ -569,6 +698,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->getNoteCellsList ());
@@ -576,6 +706,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNote " <<
@@ -583,6 +714,7 @@ void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+#endif
 }
 
 

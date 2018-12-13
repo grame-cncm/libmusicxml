@@ -286,7 +286,6 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
           "traceLpsrVisitors",
           fTraceLpsrVisitors));
   
-#ifdef TRACE_OPTIONS
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -295,7 +294,6 @@ R"(Write the contents of the LPSR data to standard error.)",
           "displayLpsr",
           fDisplayLpsr,
           gGeneralOptions->fTracePasses));
-#endif
   
     traceAndDisplaySubGroup->
       appendOptionsItem (

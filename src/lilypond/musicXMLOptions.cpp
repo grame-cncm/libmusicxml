@@ -244,15 +244,17 @@ R"(Prevents the default 'cubase' option.)",
    }
 
 
-  // specific trace
+  // trace
   // --------------------------------------
 
   {
     // variables
     
+#ifdef TRACE_OPTIONS
     fTraceEncoding = boolOptionsInitialValue;
     fTraceDivisions = boolOptionsInitialValue;
-  
+#endif
+
     fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
   
     // options
@@ -268,6 +270,7 @@ R"()",
   
     appendOptionsSubGroup (specificTraceSubGroup);
             
+#ifdef TRACE_OPTIONS
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -285,6 +288,7 @@ R"(Divisions)",
           "traceDivisions",
           fTraceDivisions,
           gGeneralOptions->fTracePasses));
+#endif
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -325,18 +329,19 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
     fLoopToMusicXML;
 
 
-  // specific trace
+  // trace
   // --------------------------------------
 
+#ifdef TRACE_OPTIONS
   clone->fTraceEncoding =
     fTraceEncoding;
 
   clone->fTraceDivisions =
     fTraceDivisions;
+#endif
 
   clone->fTraceMusicXMLTreeVisitors =
     fTraceMusicXMLTreeVisitors;
-
 
   return clone;
 }  
@@ -345,6 +350,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 void musicXMLOptions::setAllMusicXMLTraceOptions (
   bool boolOptionsInitialValue)
 {
+#ifdef TRACE_OPTIONS
   // specific trace    
 
     // encoding
@@ -352,6 +358,7 @@ void musicXMLOptions::setAllMusicXMLTraceOptions (
 
     // divisions
     fTraceDivisions = boolOptionsInitialValue;
+#endif
 }
 
 //______________________________________________________________________________
@@ -403,16 +410,17 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  // specific trace
+  // trace
   // --------------------------------------
   
   gLogIOstream <<
-    "Specific trace:" <<
+    "Trace:" <<
     endl;
 
   gIndenter++;
 
   gLogIOstream << left <<
+#ifdef TRACE_OPTIONS
     setw (fieldWidth) << "traceEncoding" << " : " <<
     booleanAsString (fTraceEncoding) <<
     endl <<
@@ -420,13 +428,14 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceDivisions" << " : " <<
     booleanAsString (fTraceDivisions) <<
     endl <<
+#endif
       
     setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
     booleanAsString (fTraceMusicXMLTreeVisitors) <<
     endl;
 
   gIndenter--;
-      
+
   gIndenter--;
 }
 

@@ -60,15 +60,11 @@ class bsrLineElement : public bsrElement
     int                   getSpacesBefore () const
                               { return fSpacesBefore; }
 
-/*
-    int                   getSpacesAfter () const
-                              { return fSpacesAfter; }
-*/
-
   public:
 
     // services
     // ------------------------------------------------------
+
 
     virtual S_bsrCellsList
                           asCellsList () const = 0;
@@ -106,7 +102,6 @@ class bsrLineElement : public bsrElement
 */
 
     int                   fSpacesBefore;
- // JMI   int                   fSpacesAfter;
 };
 typedef SMARTP<bsrLineElement> S_bsrLineElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineElement& elt);

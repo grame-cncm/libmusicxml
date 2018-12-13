@@ -146,44 +146,52 @@ int bsrTimeItem::getTimeBeatsNumber () const
 
 void bsrTimeItem::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTimeItem::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrTimeItem>*
     p =
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTimeItem::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrTimeItem::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTimeItem::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrTimeItem>*
     p =
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTimeItem::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -465,44 +473,52 @@ int bsrTime::fetchCellsNumber() const
 
 void bsrTime::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTime::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrTime>*
     p =
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTime::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrTime::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTime::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrTime>*
     p =
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTime::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

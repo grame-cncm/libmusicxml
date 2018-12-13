@@ -268,6 +268,7 @@ R"(Write the contents of the options handler to standard error.)",
             "displayOptionsHandler",
             fDisplayOptionsHandler));
     
+#ifdef TRACE_OPTIONS
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsNumbersSetItem::create (
@@ -282,9 +283,11 @@ debugging information to standard error for the specified measures.)",
             "measureNumbersSet",
             "traceDetailedMeasureNumbersSet",
             fTraceDetailedMeasureNumbersSet));
+#endif
   }
 
 
+#ifdef TRACE_OPTIONS
   // specific trace    
   // --------------------------------------
 
@@ -1206,6 +1209,7 @@ R"(MSR Streams API for applications)",
 
 
   fTraceMidi = boolOptionsInitialValue;
+#endif
 }
 
 S_generalOptions generalOptions::createCloneWithTrueValues ()
@@ -1258,6 +1262,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   // passes
   clone->fTracePasses = true;
 
+#ifdef TRACE_OPTIONS
   // scores
   clone->fTraceScore = true;
 
@@ -1421,6 +1426,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 
   // midi
   clone->fTraceMidi = true;
+#endif
 
 
   return clone;
@@ -1437,6 +1443,7 @@ void generalOptions::setAllGeneralTraceOptions (
   fDisplayOptionsValues  = boolOptionsInitialValue;
   fDisplayOptionsHandler = boolOptionsInitialValue;
 
+#ifdef TRACE_OPTIONS
   // specific trace    
 
     // geometry
@@ -1632,7 +1639,8 @@ void generalOptions::setAllGeneralTraceOptions (
   fTraceScore = boolOptionsInitialValue;
 
 
-  fTraceMidi = boolOptionsInitialValue;  
+  fTraceMidi = boolOptionsInitialValue;
+#endif
 }
 
 //______________________________________________________________________________
@@ -1717,6 +1725,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter--;
 
   
+#ifdef TRACE_OPTIONS
   // specific trace    
   // --------------------------------------
 
@@ -1954,6 +1963,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+#endif
 
   gIndenter--;
 }

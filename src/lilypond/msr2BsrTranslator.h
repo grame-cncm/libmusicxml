@@ -215,7 +215,19 @@ class msr2BsrTranslator :
     S_bsrLine                 fCurrentLine;
     int                       fCurrentPrintLineNumber;
 
+
+    // headings
+    // ------------------------------------------------------
+
     S_bsrPageHeading          fFirstPageHeading;
+    S_bsrMusicHeading         fFirstMusicHeading;
+
+
+    // foot notes
+    // ------------------------------------------------------
+
+// JMI    S_bsrFootNotes            fFirstFootNotes;
+
 
     // measures
     // ------------------------------------------------------    

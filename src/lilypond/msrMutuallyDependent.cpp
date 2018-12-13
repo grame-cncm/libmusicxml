@@ -3457,111 +3457,111 @@ string msrNote::noteAccidentalKindAsString (
   string result;
   
   switch (noteAccidentalKind) {
-    case kNoteAccidentalNone:
+    case msrNote::kNoteAccidentalNone:
       result = "noteAccidentalNone";
       break;
       
-    case kNoteAccidentalSharp:
+    case msrNote::kNoteAccidentalSharp:
       result = "noteAccidentalSharp";
       break;
-    case kNoteAccidentalNatural:
+    case msrNote::kNoteAccidentalNatural:
       result = "noteAccidentalNatural";
       break;
-    case kNoteAccidentalFlat:
+    case msrNote::kNoteAccidentalFlat:
       result = "noteAccidentalFlat";
       break;
-    case kNoteAccidentaldoubleSharp:
+    case msrNote::kNoteAccidentaldoubleSharp:
       result = "noteAccidentaldoubleSharp";
       break;
-    case kNoteAccidentalSharpSharp:
+    case msrNote::kNoteAccidentalSharpSharp:
       result = "noteAccidentalSharpSharp";
       break;
-    case kNoteAccidentalFlatFlat:
+    case msrNote::kNoteAccidentalFlatFlat:
       result = "noteAccidentalFlatFlat";
       break;
-    case kNoteAccidentalNaturalSharp:
+    case msrNote::kNoteAccidentalNaturalSharp:
       result = "noteAccidentalNaturalSharp";
       break;
-    case kNoteAccidentalNaturalFlat:
+    case msrNote::kNoteAccidentalNaturalFlat:
       result = "noteAccidentalNaturalFlat";
       break;
-    case kNoteAccidentalQuarterFlat:
+    case msrNote::kNoteAccidentalQuarterFlat:
       result = "noteAccidentalQuarterFlat";
       break;
-    case kNoteAccidentalQuarterSharp:
+    case msrNote::kNoteAccidentalQuarterSharp:
       result = "noteAccidentalQuarterSharp";
       break;
-    case kNoteAccidentalThreeQuartersFlat:
+    case msrNote::kNoteAccidentalThreeQuartersFlat:
       result = "noteAccidentalThreeQuartersFlat";
       break;
-    case kNoteAccidentalThreeQuartersSharp:
+    case msrNote::kNoteAccidentalThreeQuartersSharp:
       result = "noteAccidentalThreeQuartersSharp";
       break;
       
-    case kNoteAccidentalSharpDown:
+    case msrNote::kNoteAccidentalSharpDown:
       result = "noteAccidentalSharpDown";
       break;
-    case kNoteAccidentalSharpUp:
+    case msrNote::kNoteAccidentalSharpUp:
       result = "noteAccidentalSharpUp";
       break;
-    case kNoteAccidentalNaturalDown:
+    case msrNote::kNoteAccidentalNaturalDown:
       result = "noteAccidentalNaturalDown";
       break;
-    case kNoteAccidentalNaturalUp:
+    case msrNote::kNoteAccidentalNaturalUp:
       result = "noteAccidentalNaturalUp";
       break;
-    case kNoteAccidentalFlatDown:
+    case msrNote::kNoteAccidentalFlatDown:
       result = "noteAccidentalFlatDown";
       break;
-    case kNoteAccidentalFlatUp:
+    case msrNote::kNoteAccidentalFlatUp:
       result = "noteAccidentalFlatUp";
       break;
-    case kNoteAccidentalTripleSharp:
+    case msrNote::kNoteAccidentalTripleSharp:
       result = "noteAccidentalTripleSharp";
       break;
-    case kNoteAccidentalTripleFlat:
+    case msrNote::kNoteAccidentalTripleFlat:
       result = "noteAccidentalTripleFlat";
       break;
-    case kNoteAccidentalSlashQuarterSharp:
+    case msrNote::kNoteAccidentalSlashQuarterSharp:
       result = "noteAccidentalSlashQuarterSharp";
       break;
-    case kNoteAccidentalSlashSharp:
+    case msrNote::kNoteAccidentalSlashSharp:
       result = "noteAccidentalSlashSharp";
       break;
-    case kNoteAccidentalSlashFlat:
+    case msrNote::kNoteAccidentalSlashFlat:
       result = "noteAccidentalSlashFlat";
       break;
-    case kNoteAccidentaldoubleSlashFlat:
+    case msrNote::kNoteAccidentaldoubleSlashFlat:
       result = "noteAccidentaldoubleSlashFlat";
       break;
-    case kNoteAccidentalSharp_1:
+    case msrNote::kNoteAccidentalSharp_1:
       result = "noteAccidentalSharp_1";
       break;
-    case kNoteAccidentalSharp_2:
+    case msrNote::kNoteAccidentalSharp_2:
       result = "noteAccidentalSharp_2";
       break;
-    case kNoteAccidentalSharp_3:
+    case msrNote::kNoteAccidentalSharp_3:
       result = "noteAccidentalSharp_3";
       break;
-    case kNoteAccidentalSharp_5:
+    case msrNote::kNoteAccidentalSharp_5:
       result = "noteAccidentalSharp_5";
       break;
-    case kNoteAccidentalFlat_1:
+    case msrNote::kNoteAccidentalFlat_1:
       result = "noteAccidentalFlat_1";
       break;
-    case kNoteAccidentalFlat_2:
+    case msrNote::kNoteAccidentalFlat_2:
       result = "noteAccidentalFlat_2";
       break;
-    case kNoteAccidentalFlat_3:
+    case msrNote::kNoteAccidentalFlat_3:
       result = "noteAccidentalFlat_3";
       break;
-    case kNoteAccidentalFlat_4:
+    case msrNote::kNoteAccidentalFlat_4:
       result = "noteAccidentalFlat_4";
       break;
-    case kNoteAccidentalSori:
+    case msrNote::kNoteAccidentalSori:
       result = "noteAccidentalSori";
       break;
-    case kNoteAccidentalKoron:
+    case msrNote::kNoteAccidentalKoron:
       result = "noteAccidentalKoron";
       break;
   } // switch
@@ -12827,18 +12827,22 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     elem->getInputLineNumber ();
+#endif
     
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
     // and then append them
 
+#ifdef TRACE_OPTIONS
     // fetch the part measure length high tide
     rational
       partMeasureLengthHighTide =
         fetchMeasurePartUplink ()->
           getPartMeasureLengthHighTide ();
+#endif
     
     list<S_msrMeasureElement>::iterator
       iBegin = fMeasurePendingMeasureElementsList.begin (),
@@ -14748,10 +14752,12 @@ void msrMeasure::finalizeMeasure (
         getSegmentVoiceUplink ();
     
   // fetch the part measure length high tide
+#ifdef TRACE_OPTIONS
   rational
     partMeasureLengthHighTide =
       fetchMeasurePartUplink ()->
         getPartMeasureLengthHighTide ();
+#endif
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) { // JMI

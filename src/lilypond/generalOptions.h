@@ -131,6 +131,7 @@ class generalOptions : public optionsGroup
     bool                  fDisplayOptionsValues;
     bool                  fDisplayOptionsHandler;
 
+#ifdef TRACE_OPTIONS
     // score
     bool                  fTraceScore;
 
@@ -309,6 +310,7 @@ class generalOptions : public optionsGroup
     
     // midi
     bool                  fTraceMidi;
+#endif
 };
 typedef SMARTP<generalOptions> S_generalOptions;
 EXP ostream& operator<< (ostream& os, const S_generalOptions& elt);

@@ -260,44 +260,52 @@ void bsrCellsList::generateBrailleCode (ostream& os)
 
 void bsrCellsList::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrCellsList::acceptIn ()" <<
       endl;
   }
+#endif
   
   if (visitor<S_bsrCellsList>*
     p =
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrCellsList::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrCellsList::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrCellsList>*
     p =
       dynamic_cast<visitor<S_bsrCellsList>*> (v)) {
         S_bsrCellsList elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

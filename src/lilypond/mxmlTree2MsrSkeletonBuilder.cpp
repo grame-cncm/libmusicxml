@@ -1575,8 +1575,8 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
                 __FILE__, __LINE__,
                 s.str ());
             }
-          }
 #endif
+          }
     
           if (++i == iEnd) break;
           // no endl here

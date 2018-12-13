@@ -56,44 +56,52 @@ bsrParallel::~bsrParallel ()
 
 void bsrParallel::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrParallel>*
     p =
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrParallel::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrParallel>*
     p =
       dynamic_cast<visitor<S_bsrParallel>*> (v)) {
         S_bsrParallel elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

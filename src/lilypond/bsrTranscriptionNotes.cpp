@@ -22,6 +22,7 @@
 #include "utilities.h"
 
 #include "bsrOptions.h"
+#include "brailleOptions.h"
 
 
 using namespace std;
@@ -57,44 +58,52 @@ bsrTranscriptionNotesElement::~bsrTranscriptionNotesElement ()
 
 void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrTranscriptionNotesElement>*
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrTranscriptionNotesElement>*
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotesElement>*> (v)) {
         S_bsrTranscriptionNotesElement elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -151,7 +160,10 @@ S_bsrTranscriptionNotes bsrTranscriptionNotes::create (
 
 bsrTranscriptionNotes::bsrTranscriptionNotes (
   int inputLineNumber)
-    : bsrElement (inputLineNumber)
+    : bsrLine (
+        inputLineNumber,
+        0, // JMI ???
+        gBrailleOptions->fCellsPerLine)
 {}
 
 bsrTranscriptionNotes::~bsrTranscriptionNotes ()
@@ -159,44 +171,52 @@ bsrTranscriptionNotes::~bsrTranscriptionNotes ()
 
 void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrTranscriptionNotes>*
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrTranscriptionNotes>*
     p =
       dynamic_cast<visitor<S_bsrTranscriptionNotes>*> (v)) {
         S_bsrTranscriptionNotes elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

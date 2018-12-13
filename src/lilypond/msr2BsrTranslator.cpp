@@ -235,7 +235,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
 
   fBsrScore->
     getTranscriptionNotes ()->
-      appendNoteElementToTranscriptionNotes (
+      appendElementToTranscriptionNotes (
         transcriptionNotesElement);
       
   // create the first page
@@ -264,6 +264,36 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
   // append it to the first page
   fCurrentPage->
     appendPageHeadingToPage (fFirstPageHeading);
+
+  // create the first music heading
+  fFirstMusicHeading =
+    bsrMusicHeading::create (
+      inputLineNumber);
+
+  // append it to the first page
+  fCurrentPage->
+    appendMusicHeadingToPage (fFirstMusicHeading);
+
+  // create a foot notes
+  S_bsrFootNotes
+    footNotes =
+      bsrFootNotes::create (
+        inputLineNumber);
+
+  // append a first transcription note to it
+  S_bsrFootNotesElement
+    footNotesElement =
+      bsrFootNotesElement::create (
+        inputLineNumber,
+        "A sympathetic and most useful foot note");
+
+  footNotes->
+    appendElementToFootNotes (
+      footNotesElement);
+
+  // append foot notes to the first page
+  fCurrentPage->
+    appendFootNotesToPage (footNotes);
 
   // append first page to the score
   fBsrScore->
@@ -1376,8 +1406,8 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
 
     if (! fFirstKey) {
       // register key in first page heading
-      fFirstPageHeading->
-        setPageHeadingKey (key);
+      fFirstMusicHeading->
+        setMusicHeadingKey (key);
       fFirstKey = key;
     }
     else {
@@ -1510,9 +1540,9 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
   }
 
   if (! fFirstTime) {
-    fFirstPageHeading->
+    fFirstMusicHeading->
       // register time in first page heading
-      setPageHeadingTime (time);
+      setMusicHeadingTime (time);
     fFirstTime = time;
   }
   else {
@@ -2019,6 +2049,82 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
     noteOctaveIsNeeded = bsrNote::kNoteOctaveIsNeededYes;
     fCurrentNoteOctaveKind = noteOctaveKind;
   }
+
+  // is there an accidental attached to the note?
+  switch (noteAccidentalKind) {
+    case msrNote::kNoteAccidentalNone:
+      break;
+      
+    case msrNote::kNoteAccidentalSharp:
+      break;
+    case msrNote::kNoteAccidentalNatural:
+      break;
+    case msrNote::kNoteAccidentalFlat:
+      break;
+    case msrNote::kNoteAccidentaldoubleSharp:
+      break;
+    case msrNote::kNoteAccidentalSharpSharp:
+      break;
+    case msrNote::kNoteAccidentalFlatFlat:
+      break;
+    case msrNote::kNoteAccidentalNaturalSharp:
+      break;
+    case msrNote::kNoteAccidentalNaturalFlat:
+      break;
+    case msrNote::kNoteAccidentalQuarterFlat:
+      break;
+    case msrNote::kNoteAccidentalQuarterSharp:
+      break;
+    case msrNote::kNoteAccidentalThreeQuartersFlat:
+      break;
+    case msrNote::kNoteAccidentalThreeQuartersSharp:
+      break;
+      
+    case msrNote::kNoteAccidentalSharpDown:
+      break;
+    case msrNote::kNoteAccidentalSharpUp:
+      break;
+    case msrNote::kNoteAccidentalNaturalDown:
+      break;
+    case msrNote::kNoteAccidentalNaturalUp:
+      break;
+    case msrNote::kNoteAccidentalFlatDown:
+      break;
+    case msrNote::kNoteAccidentalFlatUp:
+      break;
+    case msrNote::kNoteAccidentalTripleSharp:
+      break;
+    case msrNote::kNoteAccidentalTripleFlat:
+      break;
+    case msrNote::kNoteAccidentalSlashQuarterSharp:
+      break;
+    case msrNote::kNoteAccidentalSlashSharp:
+      break;
+    case msrNote::kNoteAccidentalSlashFlat:
+      break;
+    case msrNote::kNoteAccidentaldoubleSlashFlat:
+      break;
+    case msrNote::kNoteAccidentalSharp_1:
+      break;
+    case msrNote::kNoteAccidentalSharp_2:
+      break;
+    case msrNote::kNoteAccidentalSharp_3:
+      break;
+    case msrNote::kNoteAccidentalSharp_5:
+      break;
+    case msrNote::kNoteAccidentalFlat_1:
+      break;
+    case msrNote::kNoteAccidentalFlat_2:
+      break;
+    case msrNote::kNoteAccidentalFlat_3:
+      break;
+    case msrNote::kNoteAccidentalFlat_4:
+      break;
+    case msrNote::kNoteAccidentalSori:
+      break;
+    case msrNote::kNoteAccidentalKoron:
+      break;
+  } // switch
 
   // create the note
   S_bsrNote note =

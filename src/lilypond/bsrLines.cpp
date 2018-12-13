@@ -119,44 +119,52 @@ int bsrLineContents::fetchCellsNumber () const
 
 void bsrLineContents::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLineContents::acceptIn ()" <<
       endl;
   }
+#endif
   
   if (visitor<S_bsrLineContents>*
     p =
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLineContents::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrLineContents::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLineContents::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrLineContents>*
     p =
       dynamic_cast<visitor<S_bsrLineContents>*> (v)) {
         S_bsrLineContents elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLineContents::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -419,44 +427,52 @@ int bsrLine::fetchCellsNumber () const
 
 void bsrLine::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrLine>*
     p =
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrLine::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrLine>*
     p =
       dynamic_cast<visitor<S_bsrLine>*> (v)) {
         S_bsrLine elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

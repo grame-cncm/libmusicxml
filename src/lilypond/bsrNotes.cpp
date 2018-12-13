@@ -462,44 +462,52 @@ int bsrNote::fetchCellsNumber() const
 
 void bsrNote::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrNote::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrNote>*
     p =
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrNote::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrNote::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrNote::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrNote>*
     p =
       dynamic_cast<visitor<S_bsrNote>*> (v)) {
         S_bsrNote elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrNote::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

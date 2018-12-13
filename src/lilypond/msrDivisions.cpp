@@ -251,10 +251,10 @@ string msrDivisions::divisionsAsMsrString (
   // the result is a base duration, followed by a suffix made of
   // either a sequence of dots or a multiplication factor
 
-  const int fieldWidth = 22;
-  
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceDivisions) {
+    const int fieldWidth = 16;
+  
     gLogIOstream <<
      "--> divisionsAsMsrString ():" <<
       endl <<
@@ -305,6 +305,8 @@ string msrDivisions::divisionsAsMsrString (
       
 #ifdef TRACE_OPTIONS
       if (gMusicXMLOptions->fTraceDivisions) {
+        const int fieldWidth = 22;
+  
         gLogIOstream <<
             gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -340,6 +342,8 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACE_OPTIONS
     if (gMusicXMLOptions->fTraceDivisions) {
+      const int fieldWidth = 22;
+  
       gLogIOstream <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
@@ -366,6 +370,8 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACE_OPTIONS
       if (gMusicXMLOptions->fTraceDivisions) { // JMI
+        const int fieldWidth = 22;
+  
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -394,6 +400,8 @@ string msrDivisions::divisionsAsMsrString (
   
 #ifdef TRACE_OPTIONS
         if (gMusicXMLOptions->fTraceDivisions) {
+          const int fieldWidth = 22;
+  
           gLogIOstream <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
@@ -421,6 +429,8 @@ string msrDivisions::divisionsAsMsrString (
   
 #ifdef TRACE_OPTIONS
       if (gMusicXMLOptions->fTraceDivisions) {
+        const int fieldWidth = 24;
+
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<

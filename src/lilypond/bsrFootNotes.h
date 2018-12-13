@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___bsrTranscriptionNotes___
-#define ___bsrTranscriptionNotes___
+#ifndef ___bsrFootNotes___
+#define ___bsrFootNotes___
 
 #include "bsrLines.h"
 
@@ -22,38 +22,38 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrTranscriptionNotesElement : public bsrElement
+class bsrFootNotesElement : public bsrElement
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrTranscriptionNotesElement> create (
+    static SMARTP<bsrFootNotesElement> create (
       int    inputLineNumber,
-      string transcriptionNoteText);
+      string footNoteText);
     
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTranscriptionNotesElement (
+    bsrFootNotesElement (
       int    inputLineNumber,
-      string transcriptionNoteText);
+      string footNoteText);
       
-    virtual ~bsrTranscriptionNotesElement ();
+    virtual ~bsrFootNotesElement ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    string                getTranscriptionNoteText () const
-                              { return fTranscriptionNoteText; }
+    string                getFootNoteText () const
+                              { return fFootNoteText; }
 
-    S_bsrCellsList        getTranscriptionNotesElementCellsList () const
-                              { return fTranscriptionNotesElementCellsList ;}
+    S_bsrCellsList        getFootNotesElementCellsList () const
+                              { return fFootNotesElementCellsList ;}
 
   public:
 
@@ -84,22 +84,22 @@ class bsrTranscriptionNotesElement : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    string                fTranscriptionNoteText;
+    string                fFootNoteText;
 
-    S_bsrCellsList        fTranscriptionNotesElementCellsList;
+    S_bsrCellsList        fFootNotesElementCellsList;
 };
-typedef SMARTP<bsrTranscriptionNotesElement> S_bsrTranscriptionNotesElement;
-EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt);
+typedef SMARTP<bsrFootNotesElement> S_bsrFootNotesElement;
+EXP ostream& operator<< (ostream& os, const S_bsrFootNotesElement& elt);
 
 //______________________________________________________________________________
-class bsrTranscriptionNotes : public bsrLine
+class bsrFootNotes : public bsrLine
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrTranscriptionNotes> create (
+    static SMARTP<bsrFootNotes> create (
       int inputLineNumber);
     
   protected:
@@ -107,10 +107,10 @@ class bsrTranscriptionNotes : public bsrLine
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrTranscriptionNotes (
+    bsrFootNotes (
       int inputLineNumber);
       
-    virtual ~bsrTranscriptionNotes ();
+    virtual ~bsrFootNotes ();
   
   public:
 
@@ -122,11 +122,11 @@ class bsrTranscriptionNotes : public bsrLine
     // services
     // ------------------------------------------------------
 
-    void                  appendElementToTranscriptionNotes (
-                            S_bsrTranscriptionNotesElement transcriptionNotesElement)
+    void                  appendElementToFootNotes (
+                            S_bsrFootNotesElement footNotesElement)
                               {
-                                fTranscriptionNotesElementsList.push_back (
-                                  transcriptionNotesElement);
+                                fFootNotesElementsList.push_back (
+                                  footNotesElement);
                               }
 
     int                   fetchLineContentsNumber () const
@@ -154,11 +154,11 @@ class bsrTranscriptionNotes : public bsrLine
     // fields
     // ------------------------------------------------------
 
-    list<S_bsrTranscriptionNotesElement>
-                          fTranscriptionNotesElementsList;
+    list<S_bsrFootNotesElement>
+                          fFootNotesElementsList;
 };
-typedef SMARTP<bsrTranscriptionNotes> S_bsrTranscriptionNotes;
-EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotes& elt);
+typedef SMARTP<bsrFootNotes> S_bsrFootNotes;
+EXP ostream& operator<< (ostream& os, const S_bsrFootNotes& elt);
 
 
 } // namespace MusicXML2

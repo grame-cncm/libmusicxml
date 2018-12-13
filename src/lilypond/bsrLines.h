@@ -18,8 +18,6 @@
 
 #include "bsrSpaces.h"
 
-#include "bsrPageHeadings.h"
-
 #include "bsrMeasures.h"
 
 /* JMI
@@ -84,12 +82,6 @@ class bsrLineContents : public bsrElement
                             S_bsrLine bsrLineUplink);
                               
     S_bsrLine             getBsrLineUplink () const;
-
-    bool                  getASpaceIsNeededBefore () const
-                              { return fASpaceIsNeededBefore; }
-
-    bool                  getASpaceIsNeededAfter () const
-                              { return fASpaceIsNeededAfter; }
 */
 
     bsrLineContentsKind   getLineContentsKind () const
@@ -216,11 +208,6 @@ class bsrLine : public bsrPageElement
                               { fLineElementsList.push_back (note); }
 */
 
-  private:
-
-    // public services
-    // ------------------------------------------------------
-
     void                  appendLineElementToMeasure (
                             S_bsrLineElement lineElement);
 
@@ -246,7 +233,7 @@ class bsrLine : public bsrPageElement
 
     virtual void          print (ostream& os);
 
-  private:
+  protected:
 
     // fields
     // ------------------------------------------------------

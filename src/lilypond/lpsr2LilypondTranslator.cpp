@@ -710,11 +710,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       noteDisplayPitchKindAsString ();
 //    note->notePitchAsString (); JMI
 //    quarterTonesDisplayPitchAsString;
-    
-  // in MusicXML, octave number is 4 for the octave starting with middle C
-  int noteAbsoluteOctave =
-    note->getNoteOctave ();
-    
+
   // should an absolute octave be generated?
   bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
@@ -726,6 +722,10 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotes) {
+    // in MusicXML, octave number is 4 for the octave starting with middle C
+    int noteAbsoluteOctave =
+      note->getNoteOctave ();
+      
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -789,8 +789,10 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 void lpsr2LilypondTranslator::generateCodeBeforeNote (
   S_msrNote note)
 {
+  /* JMI
   int inputLineNumber =
     note->getInputLineNumber ();
+*/
 
   // print the note ligatures if any
   list<S_msrLigature>
@@ -4722,6 +4724,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
       } // switch
 
+#ifdef TRACE_OPTIONS
       if (gGeneralOptions->fTracePartGroups) {
          fLilypondCodeIOstream <<
           " %{ " <<
@@ -4730,6 +4733,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           partGroup->getPartGroupAbsoluteNumber () <<
           " %} ";
       }
+#endif
 
       // should a '\with' block be generated?
       bool doGenerateAWithBlock = false;
@@ -12093,12 +12097,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
-
-  int chordInputLineNumber =
-    elt->getInputLineNumber ();
     
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
+    int chordInputLineNumber =
+      elt->getInputLineNumber ();
+
     msrInternalWarning (
       gGeneralOptions->fInputSourceName,
       chordInputLineNumber,
@@ -14027,9 +14031,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
       endl;
   }
 
-  int repeatMeasuresNumber =
-    elt->measuresRepeatPatternMeasuresNumber ();
-
   int replicasMeasuresNumber =
     elt->measuresRepeatReplicasMeasuresNumber ();
     
@@ -14038,6 +14039,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+    int repeatMeasuresNumber =
+      elt->measuresRepeatPatternMeasuresNumber ();
+  
     fLilypondCodeIOstream <<
       "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;

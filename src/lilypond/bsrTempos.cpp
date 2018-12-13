@@ -288,44 +288,52 @@ int bsrTempo::fetchCellsNumber() const
 
 void bsrTempo::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTempo::acceptIn ()" <<
       endl;
   }
+#endif
       
   if (visitor<S_bsrTempo>*
     p =
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
         
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTempo::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void bsrTempo::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     gLogIOstream <<
       "% ==> bsrTempo::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_bsrTempo>*
     p =
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
       
+#ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
             "% ==> Launching bsrTempo::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

@@ -23,8 +23,14 @@
 
 #include "bsrBarlines.h"
 
-#include "bsrPageHeadings.h"
 #include "bsrPaginations.h"
+
+#include "bsrPageHeadings.h"
+#include "bsrMusicHeadings.h"
+
+#include "bsrFootNotes.h"
+
+#include "bsrFootNotes.h"
 
 #include "bsrNumbers.h"
 #include "bsrStrings.h"
