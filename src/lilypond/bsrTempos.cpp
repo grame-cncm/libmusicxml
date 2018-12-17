@@ -173,7 +173,7 @@ S_bsrCellsList bsrTempo::asCellsList () const
         // append its cells to result
         result->
           appendCellsListToCellsList (
-            bNote->getNoteCellsList ());
+            bNote->asCellsList ());
 
         // append an equals to result
         result->

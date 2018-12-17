@@ -66,8 +66,6 @@ bsrNote::bsrNote (
   fNoteOctaveIsNeeded = noteOctaveIsNeeded;
   
   fNoteAccidentalKind = noteAccidentalKind;
-
-  fNoteCellsList = asCellsList ();
 }
 
 bsrNote::~bsrNote ()
@@ -498,6 +496,10 @@ S_bsrCellsList bsrNote::asCellsList () const
     result =
       bsrCellsList::create (fInputLineNumber);
 
+  // append note accidental if any
+  result->appendCellsListToCellsList (
+    noteAccidentalKindAsCellsList ());
+  
   // append note octave if needed
   switch (fNoteOctaveIsNeeded) {
     case bsrNote::kNoteOctaveIsNeededYes:
@@ -780,8 +782,8 @@ string bsrNote::asString () const
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     ", noteAccidentalKindAsString: " <<
     noteAccidentalKindAsString (fNoteAccidentalKind) <<
-    ", noteCellsList: " <<
-    fNoteCellsList->asShortString () <<
+    ", asCellsList: " <<
+    asCellsList ()->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
@@ -820,8 +822,8 @@ void bsrNote::print (ostream& os)
     noteAccidentalKindAsString (fNoteAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
-    "noteCellsList" << " : " <<
-    fNoteCellsList->asShortString () <<
+    "asCellsList" << " : " <<
+    asCellsList ()->asShortString () <<
     endl <<
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<

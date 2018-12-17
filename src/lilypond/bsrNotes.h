@@ -217,10 +217,7 @@ class bsrNote : public bsrLineElement
     bsrNoteAccidentalKind getNoteAccidentalKind () const
                               { return fNoteAccidentalKind; }
                   
-    S_bsrCellsList        getNoteCellsList () const
-                              { return fNoteCellsList; }
-
-  public:
+   public:
 
     // public services
     // ------------------------------------------------------
@@ -272,8 +269,6 @@ class bsrNote : public bsrLineElement
     bsrNoteOctaveIsNeeded fNoteOctaveIsNeeded;
 
     bsrNoteAccidentalKind fNoteAccidentalKind;
-
-    S_bsrCellsList        fNoteCellsList;
 };
 typedef SMARTP<bsrNote> S_bsrNote;
 EXP ostream& operator<< (ostream& os, const S_bsrNote& elt);

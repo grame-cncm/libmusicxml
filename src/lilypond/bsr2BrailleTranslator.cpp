@@ -739,7 +739,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getNoteCellsList ());
+    elt->asCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)
