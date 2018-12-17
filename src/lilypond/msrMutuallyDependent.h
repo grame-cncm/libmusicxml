@@ -2804,7 +2804,7 @@ class msrNote : public msrMeasureElement
     enum msrNoteAccidentalKind {
       kNoteAccidentalNone,
       
-      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentaldoubleSharp, kNoteAccidentalSharpSharp,
+      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
       kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
       
@@ -2814,7 +2814,7 @@ class msrNote : public msrMeasureElement
       kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp, kNoteAccidentalSlashFlat,kNoteAccidentaldoubleSlashFlat,
       kNoteAccidentalSharp_1, kNoteAccidentalSharp_2, kNoteAccidentalSharp_3, kNoteAccidentalSharp_5, kNoteAccidentalFlat_1, kNoteAccidentalFlat_2, kNoteAccidentalFlat_3, kNoteAccidentalFlat_4, kNoteAccidentalSori, kNoteAccidentalKoron };
   
-    string noteAccidentalKindAsString (
+    static string noteAccidentalKindAsString (
       msrNoteAccidentalKind noteAccidentalKind);
   
     enum msrNoteEditorialAccidentalKind {
@@ -6192,6 +6192,9 @@ class msrVoice : public msrElement
     void                  prepareForRepeatInVoice (
                             int inputLineNumber);
                             
+    void                  createARepeatAndAppendItToVoice (
+                            int inputLineNumber);
+                            
     void                  prepareForRepeatInVoiceClone (
                             int inputLineNumber,
                             int repeatTimes);
@@ -6420,6 +6423,11 @@ class msrVoice : public msrElement
     // the last msrRepeat in fVoiceInitialElementsList
     S_msrRepeat           fVoiceCurrentRepeat;
     S_msrRepeatCommonPart fVoiceCurrentRepeatCommonPart;
+
+    list<S_msrRepeat>     fRepeatsStack;
+    void                  displayRepeatsStack (string context);
+
+
 
     // fVoiceCurrentMeasuresRepeat is null
     // or the last msrMeasuresRepeat created with its repeated measure,
@@ -6673,6 +6681,9 @@ class msrStaff : public msrElement
     // repeats
     
     void                  prepareForRepeatInStaff (
+                            int inputLineNumber);
+    
+    void                  createARepeatAndAppendItToStaff (
                             int inputLineNumber);
     
     void                  nestContentsIntoNewRepeatInStaff (
@@ -7231,6 +7242,9 @@ class msrPart : public msrElement
     // repeats
     
     void                  prepareForRepeatInPart (
+                            int inputLineNumber);
+    
+    void                  createARepeatAndAppendItToPart (
                             int inputLineNumber);
     
     void                  nestContentsIntoNewRepeatInPart (

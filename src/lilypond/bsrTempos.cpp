@@ -113,7 +113,7 @@ S_bsrCellsList bsrTempo::asCellsList () const
 
         // determine the note sign
         bsrNote::bsrNoteValueKind
-          noteValueKind = bsrNote::kNoteKindNone;
+          noteValueKind = bsrNote::kNoteValueNone;
 
         switch (durationKind) {
           case k_NoDuration:
@@ -124,34 +124,34 @@ S_bsrCellsList bsrTempo::asCellsList () const
           case k512th:
             break;
           case k256th:
-            noteValueKind = bsrNote::kNoteKindC256th;
+            noteValueKind = bsrNote::kNoteValueC256th;
             break;
           case k128th:
-            noteValueKind = bsrNote::kNoteKindC128th;
+            noteValueKind = bsrNote::kNoteValueC128th;
             break;
           case k64th:
-            noteValueKind = bsrNote::kNoteKindC64th;
+            noteValueKind = bsrNote::kNoteValueC64th;
             break;
           case k32nd:
-            noteValueKind = bsrNote::kNoteKindC32nd;
+            noteValueKind = bsrNote::kNoteValueC32nd;
             break;
           case k16th:
-            noteValueKind = bsrNote::kNoteKindC16th;
+            noteValueKind = bsrNote::kNoteValueC16th;
             break;
           case kEighth:
-            noteValueKind = bsrNote::kNoteKindC8th;
+            noteValueKind = bsrNote::kNoteValueC8th;
             break;
           case kQuarter:
-            noteValueKind = bsrNote::kNoteKindCQuarter;
+            noteValueKind = bsrNote::kNoteValueCQuarter;
             break;
           case kHalf:
-            noteValueKind = bsrNote::kNoteKindCHalf;
+            noteValueKind = bsrNote::kNoteValueCHalf;
             break;
           case kWhole:
-            noteValueKind = bsrNote::kNoteKindCWhole;
+            noteValueKind = bsrNote::kNoteValueCWhole;
             break;
           case kBreve:
-            noteValueKind = bsrNote::kNoteKindCBreve;
+            noteValueKind = bsrNote::kNoteValueCBreve;
             break;
           case kLong:
             break;
@@ -167,7 +167,8 @@ S_bsrCellsList bsrTempo::asCellsList () const
               noteValueKind,
               dotsNumber,
               bsrNote::kNoteOctaveNone,
-              bsrNote::kNoteOctaveIsNeededNo);
+              bsrNote::kNoteOctaveIsNeededNo,
+              bsrNote::kNoteAccidentalNone);
 
         // append its cells to result
         result->

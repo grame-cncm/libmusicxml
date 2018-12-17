@@ -4532,15 +4532,15 @@ void mxmlTree2MsrTranslator::displaySlurStartsStack (
 void mxmlTree2MsrTranslator::displayTupletsStack (
   string context)
 {
-  int tupletStackSize = fTupletsStack.size ();
+  int tupletsStackSize = fTupletsStack.size ();
   
   fLogOutputStream <<
     endl <<
     ">>++++++++++++++++ " <<
-    "The tuplet starts stack contains " << tupletStackSize << " elements:" <<
+    "The tuplets starts stack contains " << tupletsStackSize << " elements:" <<
     endl;
 
-  if (tupletStackSize) {  
+  if (tupletsStackSize) {  
     list<S_msrTuplet>::const_iterator
       iBegin = fTupletsStack.begin (),
       iEnd   = fTupletsStack.end (),
@@ -4548,7 +4548,7 @@ void mxmlTree2MsrTranslator::displayTupletsStack (
         
     gIndenter++;
 
-    int n = tupletStackSize;
+    int n = tupletsStackSize;
     for ( ; ; ) {
       fLogOutputStream <<
         "v (" << n << ")" <<
@@ -7747,7 +7747,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
     else if (accidentalValue == "flat")
       fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat;
     else if (accidentalValue == "double-sharp")
-      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentaldoubleSharp;
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalDoubleSharp;
     else if (accidentalValue == "sharp-sharp")
       fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpSharp;
     else if (accidentalValue == "flat-flat")
@@ -20068,6 +20068,13 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   fCurrentPart->
     prepareForRepeatInPart (
       inputLineNumber);
+
+/* JMI
+  // create a repeat and append it to the part
+  fCurrentPart->
+    createARepeatAndAppendItToPart (
+      inputLineNumber);
+      */
 
   // append the bar line to the current part
   fCurrentPart->

@@ -30,95 +30,95 @@ class bsrNote : public bsrLineElement
     // ------------------------------------------------------
 
     enum bsrNoteValueKind {
-        kNoteKindNone,
+        kNoteValueNone,
         
-        kNoteKindRestBreve,
-        kNoteKindRestWhole,
-        kNoteKindRestHalf,
-        kNoteKindRestQuarter,
-        kNoteKindRest8th,
-        kNoteKindRest16th,
-        kNoteKindRest32nd,
-        kNoteKindRest64th,
-        kNoteKindRest128th,
-        kNoteKindRest256th,
+        kNoteValueRestBreve,
+        kNoteValueRestWhole,
+        kNoteValueRestHalf,
+        kNoteValueRestQuarter,
+        kNoteValueRest8th,
+        kNoteValueRest16th,
+        kNoteValueRest32nd,
+        kNoteValueRest64th,
+        kNoteValueRest128th,
+        kNoteValueRest256th,
         
-        kNoteKindCBreve,
-        kNoteKindCWhole,
-        kNoteKindCHalf,
-        kNoteKindCQuarter,
-        kNoteKindC8th,
-        kNoteKindC16th,
-        kNoteKindC32nd,
-        kNoteKindC64th,
-        kNoteKindC128th,
-        kNoteKindC256th,
+        kNoteValueCBreve,
+        kNoteValueCWhole,
+        kNoteValueCHalf,
+        kNoteValueCQuarter,
+        kNoteValueC8th,
+        kNoteValueC16th,
+        kNoteValueC32nd,
+        kNoteValueC64th,
+        kNoteValueC128th,
+        kNoteValueC256th,
         
-        kNoteKindDBreve,
-        kNoteKindDWhole,
-        kNoteKindDHalf,
-        kNoteKindDQuarter,
-        kNoteKindD8th,
-        kNoteKindD16th,
-        kNoteKindD32nd,
-        kNoteKindD64th,
-        kNoteKindD128th,
-        kNoteKindD256th,
+        kNoteValueDBreve,
+        kNoteValueDWhole,
+        kNoteValueDHalf,
+        kNoteValueDQuarter,
+        kNoteValueD8th,
+        kNoteValueD16th,
+        kNoteValueD32nd,
+        kNoteValueD64th,
+        kNoteValueD128th,
+        kNoteValueD256th,
         
-        kNoteKindEBreve,
-        kNoteKindEWhole,
-        kNoteKindEHalf,
-        kNoteKindEQuarter,
-        kNoteKindE8th,
-        kNoteKindE16th,
-        kNoteKindE32nd,
-        kNoteKindE64th,
-        kNoteKindE128th,
-        kNoteKindE256th,
+        kNoteValueEBreve,
+        kNoteValueEWhole,
+        kNoteValueEHalf,
+        kNoteValueEQuarter,
+        kNoteValueE8th,
+        kNoteValueE16th,
+        kNoteValueE32nd,
+        kNoteValueE64th,
+        kNoteValueE128th,
+        kNoteValueE256th,
         
-        kNoteKindFBreve,
-        kNoteKindFWhole,
-        kNoteKindFHalf,
-        kNoteKindFQuarter,
-        kNoteKindF8th,
-        kNoteKindF16th,
-        kNoteKindF32nd,
-        kNoteKindF64th,
-        kNoteKindF128th,
-        kNoteKindF256th,
+        kNoteValueFBreve,
+        kNoteValueFWhole,
+        kNoteValueFHalf,
+        kNoteValueFQuarter,
+        kNoteValueF8th,
+        kNoteValueF16th,
+        kNoteValueF32nd,
+        kNoteValueF64th,
+        kNoteValueF128th,
+        kNoteValueF256th,
         
-        kNoteKindGBreve,
-        kNoteKindGWhole,
-        kNoteKindGHalf,
-        kNoteKindGQuarter,
-        kNoteKindG8th,
-        kNoteKindG16th,
-        kNoteKindG32nd,
-        kNoteKindG64th,
-        kNoteKindG128th,
-        kNoteKindG256th,
+        kNoteValueGBreve,
+        kNoteValueGWhole,
+        kNoteValueGHalf,
+        kNoteValueGQuarter,
+        kNoteValueG8th,
+        kNoteValueG16th,
+        kNoteValueG32nd,
+        kNoteValueG64th,
+        kNoteValueG128th,
+        kNoteValueG256th,
         
-        kNoteKindABreve,
-        kNoteKindAWhole,
-        kNoteKindAHalf,
-        kNoteKindAQuarter,
-        kNoteKindA8th,
-        kNoteKindA16th,
-        kNoteKindA32nd,
-        kNoteKindA64th,
-        kNoteKindA128th,
-        kNoteKindA256th,
+        kNoteValueABreve,
+        kNoteValueAWhole,
+        kNoteValueAHalf,
+        kNoteValueAQuarter,
+        kNoteValueA8th,
+        kNoteValueA16th,
+        kNoteValueA32nd,
+        kNoteValueA64th,
+        kNoteValueA128th,
+        kNoteValueA256th,
         
-        kNoteKindBBreve,
-        kNoteKindBWhole,
-        kNoteKindBHalf,
-        kNoteKindBQuarter,
-        kNoteKindB8th,
-        kNoteKindB16th,
-        kNoteKindB32nd,
-        kNoteKindB64th,
-        kNoteKindB128th,
-        kNoteKindB256th };
+        kNoteValueBBreve,
+        kNoteValueBWhole,
+        kNoteValueBHalf,
+        kNoteValueBQuarter,
+        kNoteValueB8th,
+        kNoteValueB16th,
+        kNoteValueB32nd,
+        kNoteValueB64th,
+        kNoteValueB128th,
+        kNoteValueB256th };
 
     static string noteValueKindAsString (
       bsrNoteValueKind noteValueKind);
@@ -152,6 +152,20 @@ class bsrNote : public bsrLineElement
     static string noteOctaveIsNeededAsString (
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
 
+    enum bsrNoteAccidentalKind {
+      kNoteAccidentalNone,
+      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat,
+      kNoteAccidentalDoubleFlat, kNoteAccidentalDoubleSharp,
+      kNoteAccidentalQuarterSharp, kNoteAccidentalQuarterFlat,
+      kNoteAccidentalThreeQuarterSharp, kNoteAccidentalThreeQuarterFlat };
+  
+    static string noteAccidentalKindAsString (
+      bsrNoteAccidentalKind noteAccidentalKind);
+  
+    static S_bsrCellsList noteAccidentalKindAsCellsList (
+      int                   inputLineNumber,
+      bsrNoteAccidentalKind noteAccidentalKind);
+
     // creation
     // ------------------------------------------------------
 
@@ -160,7 +174,8 @@ class bsrNote : public bsrLineElement
       bsrNoteValueKind      noteValueKind,
       int                   noteDotsNumber,
       bsrNoteOctaveKind     noteOctaveKind,
-      bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
+      bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
+      bsrNoteAccidentalKind noteAccidentalKind);
 
   protected:
 
@@ -172,7 +187,8 @@ class bsrNote : public bsrLineElement
       bsrNoteValueKind      noteValueKind,
       int                   noteDotsNumber,
       bsrNoteOctaveKind     noteOctaveKind,
-      bsrNoteOctaveIsNeeded noteOctaveIsNeeded);
+      bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
+      bsrNoteAccidentalKind noteAccidentalKind);
       
     virtual ~bsrNote ();
   
@@ -198,6 +214,9 @@ class bsrNote : public bsrLineElement
     bsrNoteOctaveIsNeeded getNoteOctaveIsNeeded () const
                               { return fNoteOctaveIsNeeded; }
                   
+    bsrNoteAccidentalKind getNoteAccidentalKind () const
+                              { return fNoteAccidentalKind; }
+                  
     S_bsrCellsList        getNoteCellsList () const
                               { return fNoteCellsList; }
 
@@ -218,6 +237,8 @@ class bsrNote : public bsrLineElement
     S_bsrCellsList        noteValueKindAsCellsList () const;
                           
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
+    
+    S_bsrCellsList        noteAccidentalKindAsCellsList () const;
 
   public:
 
@@ -248,8 +269,9 @@ class bsrNote : public bsrLineElement
     int                   fNoteDotsNumber;
     
     bsrNoteOctaveKind     fNoteOctaveKind;
-
     bsrNoteOctaveIsNeeded fNoteOctaveIsNeeded;
+
+    bsrNoteAccidentalKind fNoteAccidentalKind;
 
     S_bsrCellsList        fNoteCellsList;
 };
