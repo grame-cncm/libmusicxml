@@ -244,7 +244,8 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
       inputLineNumber,
       fCurrentPrintPageNumber,
       gBrailleOptions->fLinesPerPage);
-    
+
+    /* JMI
   // create a pagination
   S_bsrPagination
     pagination =
@@ -264,6 +265,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
   // append it to the first page
   fCurrentPage->
     appendPageHeadingToPage (fFirstPageHeading);
+    */
 
   // create the first music heading
   fFirstMusicHeading =
@@ -274,6 +276,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
   fCurrentPage->
     appendMusicHeadingToPage (fFirstMusicHeading);
 
+/* JMI
   // create a foot notes
   S_bsrFootNotes
     footNotes =
@@ -294,6 +297,7 @@ void msr2BsrTranslator::visitStart (S_msrScore& elt)
   // append foot notes to the first page
   fCurrentPage->
     appendFootNotesToPage (footNotes);
+*/
 
   // append first page to the score
   fBsrScore->
@@ -703,9 +707,10 @@ void msr2BsrTranslator::visitStart (S_msrBarline& elt)
     case msrBarline::kBarlineStyleRegular:
       break;
     case msrBarline::kBarlineStyleDotted:
-      bBarlineKind = bsrBarline::kBarlineKindDotted;
+      bBarlineKind = bsrBarline::kBarlineKindSpecial;
       break;
     case msrBarline::kBarlineStyleDashed:
+      bBarlineKind = bsrBarline::kBarlineKindSpecial;
       break;
     case msrBarline::kBarlineStyleHeavy:
       break;

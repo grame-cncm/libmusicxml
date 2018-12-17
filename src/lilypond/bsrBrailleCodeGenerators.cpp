@@ -229,8 +229,8 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
   string stringForCell;
 
   switch (cellKind) {
-    case kCellEOL: stringForCell = ""; break; // U+000A ⠀ e2 a0 80
-    case kCellEOP: stringForCell = ""; break; // U+000C ⠀ e2 a0 80
+    case kCellEOL: stringForCell = "\x0a"; break; // U+000A ⠀ 0a
+    case kCellEOP: stringForCell = "\x0c"; break; // U+000C ⠀ 0c
 
     case kDotsNone: stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
     

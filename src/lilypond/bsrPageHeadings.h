@@ -67,9 +67,6 @@ class bsrPageHeading : public bsrLine
     int                   getPageHeadingNumber () const
                               { return fPageHeadingNumber; }
 
-    S_bsrCellsList        getPageHeadingCellsList () const
-                              { return fPageHeadingCellsList; }
-
   public:
 
     // public services
@@ -105,8 +102,6 @@ class bsrPageHeading : public bsrLine
 
     S_bsrPagination       fPageHeadingPagination; // before title
     int                   fPageHeadingNumber;     // after title ??? JMI
-
-    S_bsrCellsList        fPageHeadingCellsList;
 };
 typedef SMARTP<bsrPageHeading> S_bsrPageHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrPageHeading& elt);

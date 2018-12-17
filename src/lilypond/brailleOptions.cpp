@@ -497,6 +497,8 @@ R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
     fBrailleCompileDate   = boolOptionsInitialValue;
     
     fFacSimileKind        = kFacSimileNo;
+
+    fGenerateClefs        = boolOptionsInitialValue;
     
     // options
   
@@ -554,6 +556,15 @@ By default, non-facsimile code is generated.)",
           "YES_OR_NO",
           "facSimileKind",
           fFacSimileKind));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "clefs", "",
+R"(Generate clef Braille nusic code.
+By default, no clefs code is generated.)",
+          "generateClefs",
+          fGenerateClefs));
   }
 }
 
@@ -586,6 +597,9 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
     
   clone->fFacSimileKind =
     fFacSimileKind;
+    
+  clone->fGenerateClefs =
+    fGenerateClefs;
     
   return clone;
 }
@@ -659,6 +673,10 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     
     setw (fieldWidth) << "facSimileKind" << " : " <<
       facSimileKindAsString (fFacSimileKind) <<
+      endl <<
+    
+    setw (fieldWidth) << "generateClefs" << " : " <<
+      booleanAsString (fGenerateClefs) <<
       endl;
 
   gIndenter--;

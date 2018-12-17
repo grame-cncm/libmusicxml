@@ -38,7 +38,8 @@ class bsrBarline : public bsrLineElement
 
     enum bsrBarlineKind {
         kBarlineKindNone,
-        kBarlineKindDotted, kBarlineKindUnusual,
+        kBarlineKindSpecial, // for dotted or dashed barlines
+        kBarlineKindUnusual, // irregular spacing, ...
         kBarlineKindFinalDouble, kBarlineKindSectionalDouble };
         
     static string barlineKindAsString (

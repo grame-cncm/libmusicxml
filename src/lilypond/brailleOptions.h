@@ -338,6 +338,8 @@ class brailleOptions : public optionsGroup
 
     bsrFacSimileKind      fFacSimileKind;
 
+    bool                  fGenerateClefs;
+
   private: // JMI
 
 };

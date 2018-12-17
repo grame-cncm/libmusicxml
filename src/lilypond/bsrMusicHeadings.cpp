@@ -43,10 +43,7 @@ bsrMusicHeading::bsrMusicHeading (
         inputLineNumber,
         0, // JMI ???
         gBrailleOptions->fCellsPerLine)
-{  
-  fMusicHeadingCellsList =
-    bsrCellsList::create  (inputLineNumber);
-}
+{}
 
 bsrMusicHeading::~bsrMusicHeading ()
 {}
@@ -63,11 +60,13 @@ S_bsrCellsList bsrMusicHeading::asCellsList () const
       fMusicHeadingTempo->asCellsList ());
   }
 
-  // append 1 space to result
-  result->appendCellsListToCellsList (
-    bsrSpaces::create (
-      fInputLineNumber, 1)->
-        getSpacesCellsList ());
+  // append 1 space to result if needed
+  if (fMusicHeadingTempo) {
+    result->appendCellsListToCellsList (
+      bsrSpaces::create (
+        fInputLineNumber, 1)->
+          getSpacesCellsList ());
+  }
 
   // append the key to result if any
   if (fMusicHeadingKey) {
@@ -235,7 +234,7 @@ void bsrMusicHeading::print (ostream& os)
     "musicHeadingTempo: ";
   if (fMusicHeadingTempo) {
     os <<
-      endl <<
+      endl;
 
     gIndenter++;
   
@@ -254,7 +253,7 @@ void bsrMusicHeading::print (ostream& os)
     "musicHeadingKey: ";
   if (fMusicHeadingKey) {
     os <<
-      endl <<
+      endl;
 
     gIndenter++;
   
@@ -273,7 +272,7 @@ void bsrMusicHeading::print (ostream& os)
     "musicHeadingTime: ";
   if (fMusicHeadingTime) {
     os <<
-      endl <<
+      endl;
 
     gIndenter++;
   

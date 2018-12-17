@@ -17,6 +17,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "bsrSpaces.h"
 #include "bsrBarlines.h"
 #include "bsrNumbers.h"
 
@@ -51,6 +52,8 @@ bsrBarline::bsrBarline (
 {
   fBarlineKind = barlineKind;
 
+  fSpacesBefore = 1; // JMI
+
   fBarlineCellsList = asCellsList ();
 
 #ifdef TRACE_OPTIONS
@@ -75,35 +78,57 @@ S_bsrCellsList bsrBarline::asCellsList () const
       bsrCellsList::create (
         fInputLineNumber);
 
+  if (fSpacesBefore > 0) {
+    S_bsrSpaces
+      spaces =
+        bsrSpaces::create (
+          fInputLineNumber, fSpacesBefore);
+
+    result->
+      appendCellsListToCellsList (
+        spaces->asCellsList ());
+  }
+  
   switch (fBarlineKind) {
     case bsrBarline::kBarlineKindNone:
       break;
-    case bsrBarline::kBarlineKindDotted:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
+    case bsrBarline::kBarlineKindSpecial:
+      result->
+        appendCellKindToCellsList (
           kDots13);
       break;
     case bsrBarline::kBarlineKindUnusual:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
+      result->
+        appendCellKindToCellsList (
           kDots123);
       break;
     case bsrBarline::kBarlineKindFinalDouble:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
-          kDots126, kDots13);
+      result->
+        appendCellsListToCellsList (
+          bsrCellsList::create (
+            fInputLineNumber,
+            kDots126, kDots13));
       break;
     case bsrBarline::kBarlineKindSectionalDouble:
-      result =
-        bsrCellsList::create (
-          fInputLineNumber,
-          kDots126, kDots13, kDots3);
+      result->
+        appendCellsListToCellsList (
+          bsrCellsList::create (
+            fInputLineNumber,
+            kDots126, kDots13, kDots3));
       break;
   } // switch
 
+  if (true) { // JMI ???
+    S_bsrSpaces
+      spaces =
+        bsrSpaces::create (
+          fInputLineNumber, fSpacesBefore);
+
+    result->
+      appendCellsListToCellsList (
+        spaces->asCellsList ());
+  }
+  
   return result;
 }
 
@@ -176,8 +201,8 @@ string bsrBarline::barlineKindAsString (
     case bsrBarline::kBarlineKindNone:
       result = "barlineKindNone";
       break;
-    case bsrBarline::kBarlineKindDotted:
-      result = "barlineKindDotted";
+    case bsrBarline::kBarlineKindSpecial:
+      result = "barlineKindSpecial";
       break;
     case bsrBarline::kBarlineKindUnusual:
       result = "barlineKindUnusual";

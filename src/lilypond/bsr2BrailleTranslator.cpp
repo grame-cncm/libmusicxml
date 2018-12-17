@@ -230,6 +230,11 @@ void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
       endl;
   }
 #endif
+
+  // get page numbers
+  int
+    printPageNumber = elt->getPrintPageNumber (),
+    braillePageNumber = elt->getBraillePageNumber ();
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
@@ -296,7 +301,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getPageHeadingCellsList ());
+    elt->asCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
@@ -327,8 +332,22 @@ void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
   }
 #endif
 
+/* JMI
   fBrailleGenerator->generateCodeForCellsList (
     elt->getMusicHeadingCellsList ());
+    */
+
+  for (int i = 0; i < 6; i++) {   // JMI ???
+    if (true) {
+      fLogOutputStream <<
+        "Generating a space before S_bsrMusicHeading" <<
+        endl;
+    }
+    
+    fBrailleGenerator->generateCodeForBrailleCell (
+      kCellSpace);
+//      kCellA);
+  } // for
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
@@ -343,6 +362,15 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
       endl;
   }
 #endif
+
+  if (true) {
+    fLogOutputStream <<
+      "Generating an EOL after S_bsrMusicHeading" <<
+      endl;
+  }
+
+  fBrailleGenerator->generateCodeForBrailleCell (
+    kCellEOL);
 }
 
 //________________________________________________________________________
@@ -392,6 +420,9 @@ void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
       endl;
   }
 #endif
+
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->lineNumbersAsCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
@@ -406,9 +437,6 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
       endl;
   }
 #endif
-
-  fBrailleGenerator->generateCodeForBrailleCell (
-    kCellEOL);
 }
 
 //________________________________________________________________________
@@ -439,6 +467,12 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
   }
 #endif
 
+  if (true) {
+    fLogOutputStream <<
+      "Generating an EOL after S_bsrLineContents" <<
+      endl;
+  }
+
   fBrailleGenerator->generateCodeForBrailleCell (
     kCellEOL);
 }
@@ -457,13 +491,15 @@ void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
   }
 #endif
 
+/* JMI
   // generate spaces before if needed
   int spacesBefore = elt->getSpacesBefore ();
 
   for (int i = 0; i < spacesBefore; i++) {
     fBrailleGenerator->generateCodeForBrailleCell (
       kCellSpace);
-  }
+  } // for
+      */
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
@@ -526,8 +562,10 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
   }
 #endif
 
-  fBrailleGenerator->generateCodeForCellsList (
-    elt->getClefCellsList ());
+  if (gBrailleOptions->fGenerateClefs) {
+    fBrailleGenerator->generateCodeForCellsList (
+      elt->getClefCellsList ());
+  }
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)

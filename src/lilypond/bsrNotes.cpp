@@ -201,10 +201,10 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList (
       result->appendCellKindToCellsList (kDots1234);
       break;
     case kNoteValueEQuarter:
-      result->appendCellKindToCellsList (kDots1256);
+      result->appendCellKindToCellsList (kDots1246);
       break;
     case kNoteValueE8th:
-      result->appendCellKindToCellsList (kDots125);
+      result->appendCellKindToCellsList (kDots124);
       break;
     case kNoteValueE16th:
       result->appendCellKindToCellsList (kDots12346);
@@ -213,10 +213,10 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList (
       result->appendCellKindToCellsList (kDots1234);
       break;
     case kNoteValueE64th:
-      result->appendCellKindToCellsList (kDots1256);
+      result->appendCellKindToCellsList (kDots1246);
       break;
     case kNoteValueE128th:
-      result->appendCellKindToCellsList (kDots125);
+      result->appendCellKindToCellsList (kDots124);
       break;
     case kNoteValueE256th:
       result->appendCellKindToCellsList (kDots56);

@@ -101,9 +101,10 @@ void bsr2BsrFinalizer::visitStart (S_bsrSpaces& elt)
       endl;
   }
 #endif
-
+/* JMI
   fCurrentLine->
     appendSpacesToLine (elt);
+    */
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrSpaces& elt)

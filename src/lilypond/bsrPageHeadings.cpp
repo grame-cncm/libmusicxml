@@ -55,9 +55,6 @@ bsrPageHeading::bsrPageHeading (
   
   fPageHeadingPagination = pageHeadingPagination;
   fPageHeadingNumber     = pageHeadingNumber;
-  
-  fPageHeadingCellsList =
-    bsrCellsList::create  (inputLineNumber);
 }
 
 bsrPageHeading::~bsrPageHeading ()

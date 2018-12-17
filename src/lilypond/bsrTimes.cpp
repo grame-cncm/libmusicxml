@@ -286,11 +286,6 @@ bsrTime::bsrTime (
 {
   fTimeKind = timeKind;
 
-  /*
-  fTimeCellsList =
-    bsrCellsList::create (fInputLineNumber);
-    */
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceTimes) {
     gLogIOstream <<
@@ -566,7 +561,6 @@ string bsrTime::asString () const
     "Time" <<
     ", timeKind " << " : " <<
     timeKindAsString (fTimeKind) <<
-// JMI    ", timeCellsList: " << fTimeCellsList->asString () <<
     ", timeCellsList: " << asCellsList ()->asString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
@@ -627,7 +621,6 @@ void bsrTime::print (ostream& os)
     
   os <<
     setw (fieldWidth) <<
- // JMI   "timeCellsList" << " : " << fTimeCellsList->asString () <<
     "timeCellsList" << " : " << asCellsList ()->asString () <<
     endl <<
     setw (fieldWidth) <<

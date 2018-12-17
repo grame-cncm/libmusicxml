@@ -198,16 +198,30 @@ string bsrLineContents::lineContentsKindAsString (
   return result;
 }
 
-string bsrLineContents::asString () const
-{
-  // this is overriden all in actual elements
-  return "??? bsrLineContents::asString () ???";
-}
-
 string bsrLineContents::asShortString () const
 {
+  /* JMI
+  // this is overriden all in actual elements
+  return "??? bsrLineContents::asString () ???";
+  */
+
+  stringstream s;
+
+  s <<
+   "LineContents" <<
+    ", lineContentsKind: " <<
+    lineContentsKindAsString (fLineContentsKind) <<
+    ", " <<
+    singularOrPlural (
+      fLineElementsList.size (), "lineElement", "lineElements");
+
+  return s.str ();
+}
+
+string bsrLineContents::asString () const
+{
   // this can be overriden in actual elements
-  return asString ();
+  return asShortString ();
 }
 
 void bsrLineContents::print (ostream& os)
@@ -216,7 +230,7 @@ void bsrLineContents::print (ostream& os)
   
   os <<
     "LineContents" <<
-//    ", lineContentsKind: " <<
+    ", lineContentsKind: " <<
     lineContentsKindAsString (fLineContentsKind) <<
     ", " <<
     singularOrPlural (
@@ -409,6 +423,51 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 #endif
 
   appendLineElementToMeasure (measure);
+}
+
+S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
+  
+  // create the print line number
+  S_bsrNumber
+    printLineNumber =
+      bsrNumber::create (
+        fInputLineNumber,
+        fPrintLineNumber,
+        bsrNumber::kNumberSignIsNeededYes);
+
+  // append it to result
+  result->appendCellsListToCellsList (
+    printLineNumber->asCellsList ());
+
+  if (fBrailleLineNumber != fPrintLineNumber) { // JMI
+    // create the braille line number
+    S_bsrNumber
+      brailleLineNumber =
+        bsrNumber::create (
+          fInputLineNumber,
+          fBrailleLineNumber,
+          bsrNumber::kNumberSignIsNeededYes);
+  
+    // append it to result
+    result->appendCellsListToCellsList (
+      brailleLineNumber->asCellsList ());
+  }
+
+  // create a space
+  S_bsrSpaces
+    spaces =
+      bsrSpaces::create (
+        fInputLineNumber, 1);
+
+  // append it to result
+  result->appendCellsListToCellsList (
+    spaces->asCellsList ());
+
+  return result;
 }
 
 int bsrLine::fetchCellsNumber () const

@@ -157,11 +157,6 @@ class bsrTime : public bsrLineElement
     const vector<S_bsrTimeItem>&
                           getTimeItemsVector ()
                               { return fTimeItemsVector; }
-/* time item are appended after construction,
- * so compute cells list on the fly as needed 
-    S_bsrCellsList        getTimeCellsList () const
-                              { return fTimeCellsList; }
-*/
 
     // services
     // ------------------------------------------------------
@@ -199,8 +194,6 @@ class bsrTime : public bsrLineElement
     bsrTimeKind           fTimeKind;
     
     vector<S_bsrTimeItem> fTimeItemsVector;
-
- // JMI   S_bsrCellsList        fTimeCellsList;
 };
 typedef SMARTP<bsrTime> S_bsrTime;
 EXP ostream& operator<< (ostream& os, const S_bsrTime& elt);

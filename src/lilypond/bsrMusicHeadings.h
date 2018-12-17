@@ -71,7 +71,7 @@ class bsrMusicHeading : public bsrLine
                               { fMusicHeadingTime = time; }
 
     S_bsrCellsList        getMusicHeadingCellsList () const
-                              { return fMusicHeadingCellsList; }
+                              { return asCellsList (); }
 
   public:
 
@@ -107,8 +107,6 @@ class bsrMusicHeading : public bsrLine
     S_bsrTempo            fMusicHeadingTempo;
     S_bsrKey              fMusicHeadingKey;
     S_bsrTime             fMusicHeadingTime;
-
-    S_bsrCellsList        fMusicHeadingCellsList;
 };
 typedef SMARTP<bsrMusicHeading> S_bsrMusicHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt);

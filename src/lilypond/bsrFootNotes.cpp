@@ -265,10 +265,7 @@ void bsrFootNotes::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
-  
-      os <<
-        endl;
-        
+          
       gIndenter--;
     }
     else {

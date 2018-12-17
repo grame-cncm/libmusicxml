@@ -189,6 +189,7 @@ class bsrLine : public bsrPageElement
                               
     void                  appendMeasureToLine (S_bsrMeasure measure);
 
+    
     int                   fetchCellsNumber () const;
 
 /*                              
@@ -210,6 +211,8 @@ class bsrLine : public bsrPageElement
 
     void                  appendLineElementToMeasure (
                             S_bsrLineElement lineElement);
+
+    S_bsrCellsList        lineNumbersAsCellsList () const;
 
     int                   fetchLineContentsNumber () const
                               { return fLineContentsList.size (); }
