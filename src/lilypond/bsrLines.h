@@ -195,10 +195,11 @@ class bsrLine : public bsrPageElement
                                   
     void                  appendTempoToLine (S_bsrTempo tempo);
                                                             
-    S_bsrCellsList        lineNumbersAsCellsList () const;
-
     int                   fetchLineContentsNumber () const
                               { return fLineContentsList.size (); }
+
+    S_bsrCellsList        fetchCellsList () const
+                              { return buildLineNumberCellsList (); } // JMI ???
 
     int                   fetchCellsNumber () const;
 
@@ -206,6 +207,8 @@ class bsrLine : public bsrPageElement
 
     // private services
     // ------------------------------------------------------
+
+    S_bsrCellsList        buildLineNumberCellsList () const;
 
     void                  appendLineElementToLine (
                             S_bsrLineElement lineElement);
@@ -238,7 +241,8 @@ class bsrLine : public bsrPageElement
     int                   fBrailleLineNumber;
 
     int                   fCellsPerLine;
-    
+
+    S_bsrCellsList        fLineNumberCellsList;    
     list<S_bsrLineContents>
                           fLineContentsList;
     bool                  fASpaceIsNeeded;

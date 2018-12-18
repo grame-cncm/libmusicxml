@@ -43,9 +43,7 @@ bsrMusicHeading::bsrMusicHeading (
         inputLineNumber,
         0, // JMI ???
         gBrailleOptions->fCellsPerLine)
-{
-  fMusicHeadingCellsList = buildCellsList ();
-}
+{}
 
 bsrMusicHeading::~bsrMusicHeading ()
 {}
@@ -294,7 +292,7 @@ void bsrMusicHeading::print (ostream& os)
     endl;
   gIndenter++;
   os <<
-    fMusicHeadingCellsList <<
+    buildCellsList () <<
     endl;
   gIndenter--;
   

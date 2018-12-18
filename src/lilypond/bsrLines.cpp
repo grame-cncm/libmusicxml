@@ -302,7 +302,9 @@ bsrLine::bsrLine (
   
   fCellsPerLine = cellsPerLine;
 
-  fASpaceIsNeeded = false;
+  fLineNumberCellsList = buildLineNumberCellsList ();
+
+  fASpaceIsNeeded = true;
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
@@ -479,7 +481,7 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
   fASpaceIsNeeded = true;
 }
 
-S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
+S_bsrCellsList bsrLine::buildLineNumberCellsList () const
 {
   S_bsrCellsList
     result =
@@ -510,13 +512,6 @@ S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
     result->appendCellsListToCellsList (
       brailleLineNumber->fetchCellsList ());
   }
-
-  // append a space to the line elements list // JMI appendSpacesToLine ???
-  result->
-    appendCellsListToCellsList (
-      bsrSpaces::create (
-        fInputLineNumber, 1)->
-          fetchCellsList ());
 
   return result;
 }
@@ -640,6 +635,9 @@ void bsrLine::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "cellsPerLine" << " : " << fCellsPerLine <<
+    endl <<
+    setw (fieldWidth) <<
+    "lineNumberCellsList" << " : " << buildLineNumberCellsList () <<
     endl <<
     setw (fieldWidth) <<
     "cellsNumber" << " : " << fetchCellsNumber () <<

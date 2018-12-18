@@ -125,12 +125,14 @@ void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
   }
 #endif
 
+/* JMI
   fLogOutputStream <<
     "% --> bsrSpaces" <<
     ", numberOfSpaces: " << elt->getNumberOfSpaces () <<
     ", spacesCellsList: " << elt->fetchCellsList () <<
     ", line " << elt->getInputLineNumber () <<
     endl;
+*/
 
   fBrailleGenerator->generateCodeForCellsList (
     elt->fetchCellsList ());
@@ -419,7 +421,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->lineNumbersAsCellsList ()); // JMI ???
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)

@@ -76,7 +76,7 @@ class bsrMusicHeading : public bsrLine
     // ------------------------------------------------------
 
     S_bsrCellsList        fetchCellsList () const
-                              { return fMusicHeadingCellsList; }
+                              { return buildCellsList (); }
   
   private:
 
@@ -112,8 +112,6 @@ class bsrMusicHeading : public bsrLine
     S_bsrTempo            fMusicHeadingTempo;
     S_bsrKey              fMusicHeadingKey;
     S_bsrTime             fMusicHeadingTime;
-
-    S_bsrCellsList        fMusicHeadingCellsList;
 };
 typedef SMARTP<bsrMusicHeading> S_bsrMusicHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt);
