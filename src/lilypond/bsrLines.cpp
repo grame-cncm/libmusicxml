@@ -511,6 +511,13 @@ S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
       brailleLineNumber->fetchCellsList ());
   }
 
+  // append a space to the line elements list // JMI appendSpacesToLine ???
+  result->
+    appendCellsListToCellsList (
+      bsrSpaces::create (
+        fInputLineNumber, 1)->
+          fetchCellsList ());
+
   return result;
 }
 
