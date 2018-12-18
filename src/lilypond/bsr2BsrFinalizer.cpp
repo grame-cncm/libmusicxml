@@ -526,8 +526,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrKey& elt)
       setMusicHeadingKey (elt);
   }
   else {
-    fCurrentMeasure->
-      appendKeyToMeasure (elt);
+    fCurrentLine->
+      appendKeyToLine (elt);
   }
 }
 
@@ -563,8 +563,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrTime& elt)
       setMusicHeadingTime (elt);
   }
   else {
-    fCurrentMeasure->
-      appendTimeToMeasure (elt);
+    fCurrentLine->
+      appendTimeToLine (elt);
   }
 }
 
@@ -601,8 +601,8 @@ void bsr2BsrFinalizer::visitStart (S_bsrTempo& elt)
   }
   else {
   */
-    fCurrentMeasure->
-      appendTempoToMeasure (elt);
+    fCurrentLine->
+      appendTempoToLine (elt);
  // }
 }
 

@@ -85,18 +85,6 @@ S_bsrLine bsrLineContents::getBsrLineUplink () const
 void bsrLineContents::appendLineElementToLineContents (
   S_bsrLineElement lineElement)
 {
-  int spacesBefore = lineElement->getSpacesBefore ();
-
-  if (spacesBefore > 0) {
-    // append spaces to line elements list
-    S_bsrSpaces
-      spaces =
-        bsrSpaces::create (
-          fInputLineNumber, spacesBefore);
-      
-    fLineElementsList.push_back (spaces);
-  }
-
   fLineElementsList.push_back (lineElement);
 }
 
@@ -107,10 +95,10 @@ int bsrLineContents::fetchCellsNumber () const
   for (
     list<S_bsrLineElement>::const_iterator i = fLineElementsList.begin ();
     i != fLineElementsList.end ();
-    i++ ) {
-      S_bsrLineElement lineElement = (*i);
+    i++
+  ) {
+    S_bsrLineElement lineElement = (*i);
       
-    result += lineElement->getSpacesBefore ();
     result += lineElement->fetchCellsNumber ();
   } // for
 
@@ -314,6 +302,8 @@ bsrLine::bsrLine (
   
   fCellsPerLine = cellsPerLine;
 
+  fASpaceIsNeeded = false;
+
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
     gLogIOstream <<
@@ -354,7 +344,7 @@ S_bsrLine bsrLine::createLineNewbornClone ()
   return newbornClone;
 }
 
-void bsrLine::appendLineElementToMeasure (S_bsrLineElement lineElement)
+void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
 {
   S_bsrLineContents
     lineContentsToAppendTo;
@@ -372,7 +362,7 @@ void bsrLine::appendLineElementToMeasure (S_bsrLineElement lineElement)
         // leave it as 0
         break;
       case bsrLineContents::kLineContentsContinuation:
-        lineElement->setSpacesBefore (2);
+    // JMI    lineElement->setSpacesBefore (2);
         break;
     } // switch
 
@@ -383,10 +373,19 @@ void bsrLine::appendLineElementToMeasure (S_bsrLineElement lineElement)
     lineContentsToAppendTo = fLineContentsList.back ();
 
     // set lineElement's spacesAfter value
-    lineElement->setSpacesBefore (1);
+ // JMI   lineElement->setSpacesBefore (1);
   }
 
-
+  if (fASpaceIsNeeded) {
+    // append a space to the line elements list // JMI appendSpacesToLine ???
+    lineContentsToAppendTo->
+      appendLineElementToLineContents (
+        bsrSpaces::create (
+          fInputLineNumber, 1));
+          
+    fASpaceIsNeeded = false;
+  }
+  
   lineContentsToAppendTo->
     appendLineElementToLineContents (lineElement);
 }
@@ -405,7 +404,61 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
     }
 #endif
 
-  appendLineElementToMeasure (spaces);
+  appendLineElementToLine (spaces);
+}
+
+void bsrLine::appendKeyToLine (S_bsrKey key)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending key '" <<
+      key->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToLine (key);
+  fASpaceIsNeeded = true;
+}
+
+void bsrLine::appendTimeToLine (S_bsrTime time)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending time '" <<
+      time->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToLine (time);
+  fASpaceIsNeeded = true;
+}
+
+void bsrLine::appendTempoToLine (S_bsrTempo tempo)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTempos || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending tempo '" <<
+      tempo->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToLine (tempo);
+  fASpaceIsNeeded = true;
 }
 
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
@@ -422,7 +475,8 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
     }
 #endif
 
-  appendLineElementToMeasure (measure);
+  appendLineElementToLine (measure);
+  fASpaceIsNeeded = true;
 }
 
 S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
@@ -441,7 +495,7 @@ S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
 
   // append it to result
   result->appendCellsListToCellsList (
-    printLineNumber->asCellsList ());
+    printLineNumber->fetchCellsList ());
 
   if (fBrailleLineNumber != fPrintLineNumber) { // JMI
     // create the braille line number
@@ -454,18 +508,8 @@ S_bsrCellsList bsrLine::lineNumbersAsCellsList () const
   
     // append it to result
     result->appendCellsListToCellsList (
-      brailleLineNumber->asCellsList ());
+      brailleLineNumber->fetchCellsList ());
   }
-
-  // create a space
-  S_bsrSpaces
-    spaces =
-      bsrSpaces::create (
-        fInputLineNumber, 1);
-
-  // append it to result
-  result->appendCellsListToCellsList (
-    spaces->asCellsList ());
 
   return result;
 }

@@ -816,96 +816,98 @@ void msr2BsrTranslator::visitStart (S_msrClef& elt)
       endl;
   }
 
-  bsrClef::bsrClefKind bClefKind = bsrClef::kClefKindNone;
-
-/* JMI
-        kClefModifiedBassForRightHandPartKind,
-        kClefModifiedTrebleForLeftHandPartKind };
-        */
-
-  msrClef::msrClefKind mClefKind = elt->getClefKind ();
+  if (gBsrOptions->fIncludeClefs) {
+    bsrClef::bsrClefKind bClefKind = bsrClef::kClefKindNone;
   
-  switch (mClefKind) {
-    case msrClef::k_NoClef:
-      bClefKind = bsrClef::kClefKindNone;
-      break;
-    case msrClef::kTrebleClef:
-      bClefKind = bsrClef::kClefKindGTreble;
-      break;
-    case msrClef::kSopranoClef:
-      bClefKind = bsrClef::kClefKindNone;
-      break;
-    case msrClef::kMezzoSopranoClef:
-      break;
-    case msrClef::kAltoClef:
-      bClefKind = bsrClef::kClefKindNone;
-      break;
-    case msrClef::kTenorClef:
-      bClefKind = bsrClef::kClefKindCTenor;
-      break;
-    case msrClef::kBaritoneClef:
-      bClefKind = bsrClef::kClefKindFBaritone;
-      break;
-    case msrClef::kBassClef:
-      bClefKind = bsrClef::kClefKindFBass;
-      break;
-    case msrClef::kTrebleLine1Clef:
-      bClefKind = bsrClef::kClefKindGSoprano;
-      break;
-    case msrClef::kTrebleMinus15Clef:
-      break;
-    case msrClef::kTrebleMinus8Clef:
-      bClefKind = bsrClef::kClefKindGOttavaBassa; // JMI permute???
-      break;
-    case msrClef::kTreblePlus8Clef:
-      bClefKind = bsrClef::kClefKindGOttavaAlta; // JMI permute???
-      break;
-    case msrClef::kTreblePlus15Clef:
-      break;
-    case msrClef::kBassMinus15Clef:
-      break;
-    case msrClef::kBassMinus8Clef:
-      break;
-    case msrClef::kBassPlus8Clef:
-      break;
-    case msrClef::kBassPlus15Clef:
-      break;
-    case msrClef::kVarbaritoneClef:
-      break;
-    case msrClef::kTablature4Clef:
-      break;
-    case msrClef::kTablature5Clef:
-      break;
-    case msrClef::kTablature6Clef:
-      break;
-    case msrClef::kTablature7Clef:
-      break;
-    case msrClef::kPercussionClef:
-      break;
-    case msrClef::kJianpuClef:
-      break;
-  } // switch
-
-  if (bClefKind == bsrClef::kClefKindNone) {
-    stringstream s;
-
-    s <<
-      "MSR clef kind '" <<
-      msrClef::clefKindAsString (mClefKind) <<
-      "' is not supported in Braille music";
-      
-    notSupportedMessage (
-      inputLineNumber,
-      s.str ());
-  }
-  else {
-    S_bsrClef
-      clef =
-        bsrClef::create (
-          inputLineNumber, bClefKind);
-      
-    fCurrentMeasure->
-      appendClefToMeasure (clef);
+  /* JMI
+          kClefModifiedBassForRightHandPartKind,
+          kClefModifiedTrebleForLeftHandPartKind };
+          */
+  
+    msrClef::msrClefKind mClefKind = elt->getClefKind ();
+    
+    switch (mClefKind) {
+      case msrClef::k_NoClef:
+        bClefKind = bsrClef::kClefKindNone;
+        break;
+      case msrClef::kTrebleClef:
+        bClefKind = bsrClef::kClefKindGTreble;
+        break;
+      case msrClef::kSopranoClef:
+        bClefKind = bsrClef::kClefKindNone;
+        break;
+      case msrClef::kMezzoSopranoClef:
+        break;
+      case msrClef::kAltoClef:
+        bClefKind = bsrClef::kClefKindNone;
+        break;
+      case msrClef::kTenorClef:
+        bClefKind = bsrClef::kClefKindCTenor;
+        break;
+      case msrClef::kBaritoneClef:
+        bClefKind = bsrClef::kClefKindFBaritone;
+        break;
+      case msrClef::kBassClef:
+        bClefKind = bsrClef::kClefKindFBass;
+        break;
+      case msrClef::kTrebleLine1Clef:
+        bClefKind = bsrClef::kClefKindGSoprano;
+        break;
+      case msrClef::kTrebleMinus15Clef:
+        break;
+      case msrClef::kTrebleMinus8Clef:
+        bClefKind = bsrClef::kClefKindGOttavaBassa; // JMI permute???
+        break;
+      case msrClef::kTreblePlus8Clef:
+        bClefKind = bsrClef::kClefKindGOttavaAlta; // JMI permute???
+        break;
+      case msrClef::kTreblePlus15Clef:
+        break;
+      case msrClef::kBassMinus15Clef:
+        break;
+      case msrClef::kBassMinus8Clef:
+        break;
+      case msrClef::kBassPlus8Clef:
+        break;
+      case msrClef::kBassPlus15Clef:
+        break;
+      case msrClef::kVarbaritoneClef:
+        break;
+      case msrClef::kTablature4Clef:
+        break;
+      case msrClef::kTablature5Clef:
+        break;
+      case msrClef::kTablature6Clef:
+        break;
+      case msrClef::kTablature7Clef:
+        break;
+      case msrClef::kPercussionClef:
+        break;
+      case msrClef::kJianpuClef:
+        break;
+    } // switch
+  
+    if (bClefKind == bsrClef::kClefKindNone) {
+      stringstream s;
+  
+      s <<
+        "MSR clef kind '" <<
+        msrClef::clefKindAsString (mClefKind) <<
+        "' is not supported in Braille music";
+        
+      notSupportedMessage (
+        inputLineNumber,
+        s.str ());
+    }
+    else {
+      S_bsrClef
+        clef =
+          bsrClef::create (
+            inputLineNumber, bClefKind);
+        
+      fCurrentMeasure->
+        appendClefToMeasure (clef);
+    }
   }
 }
 
@@ -1417,8 +1419,8 @@ void msr2BsrTranslator::visitStart (S_msrKey& elt)
     }
     else {
       // append the BSR key to the current measure
-      fCurrentMeasure->
-        appendKeyToMeasure (key);
+      fCurrentLine->
+        appendKeyToLine (key);
     }
   }
 }
@@ -1552,8 +1554,8 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
   }
   else {
     // append the BSR time to the current measure
-    fCurrentMeasure->
-      appendTimeToMeasure (time);
+    fCurrentLine->
+      appendTimeToLine (time);
   }
 }
 
@@ -1588,8 +1590,8 @@ void msr2BsrTranslator::visitStart (S_msrTempo& elt)
         elt);
   
   // append the BSR tempo to the current measure
-  fCurrentMeasure->
-    appendTempoToMeasure (tempo);
+  fCurrentLine->
+    appendTempoToLine (tempo);
 }
 
 void msr2BsrTranslator::visitEnd (S_msrTempo& elt)

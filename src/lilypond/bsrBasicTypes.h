@@ -175,7 +175,7 @@ const bsrCellKind
 const bsrCellKind
   kCellFlat    = kDots126,
   kCellNatural = kDots16,
-  kCellSharp   = kDots136;
+  kCellSharp   = kDots146;
 
 // augmentation dots
 const bsrCellKind

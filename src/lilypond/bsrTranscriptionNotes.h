@@ -52,13 +52,20 @@ class bsrTranscriptionNotesElement : public bsrElement
     string                getTranscriptionNoteText () const
                               { return fTranscriptionNoteText; }
 
-    S_bsrCellsList        getTranscriptionNotesElementCellsList () const
-                              { return fTranscriptionNotesElementCellsList ;}
-
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
+
+    S_bsrCellsList        fetchCellsList () const
+                              { return buildCellsList (); }
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 
@@ -85,8 +92,6 @@ class bsrTranscriptionNotesElement : public bsrElement
     // ------------------------------------------------------
 
     string                fTranscriptionNoteText;
-
-    S_bsrCellsList        fTranscriptionNotesElementCellsList;
 };
 typedef SMARTP<bsrTranscriptionNotesElement> S_bsrTranscriptionNotesElement;
 EXP ostream& operator<< (ostream& os, const S_bsrTranscriptionNotesElement& elt);

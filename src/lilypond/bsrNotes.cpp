@@ -66,6 +66,8 @@ bsrNote::bsrNote (
   fNoteOctaveIsNeeded = noteOctaveIsNeeded;
   
   fNoteAccidentalKind = noteAccidentalKind;
+
+  fNoteCellsList = buildCellsList ();
 }
 
 bsrNote::~bsrNote ()
@@ -490,7 +492,7 @@ S_bsrCellsList bsrNote::noteAccidentalKindAsCellsList () const
       fNoteAccidentalKind);
 }
 
-S_bsrCellsList bsrNote::asCellsList () const
+S_bsrCellsList bsrNote::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -525,7 +527,7 @@ S_bsrCellsList bsrNote::asCellsList () const
 
 int bsrNote::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fNoteCellsList->fetchCellsNumber();
 }
 
 void bsrNote::acceptIn (basevisitor* v)
@@ -782,8 +784,8 @@ string bsrNote::asString () const
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     ", noteAccidentalKindAsString: " <<
     noteAccidentalKindAsString (fNoteAccidentalKind) <<
-    ", asCellsList: " <<
-    asCellsList ()->asShortString () <<
+    ", noteCellsList: " <<
+    fNoteCellsList->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
@@ -822,8 +824,8 @@ void bsrNote::print (ostream& os)
     noteAccidentalKindAsString (fNoteAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
-    "asCellsList" << " : " <<
-    asCellsList ()->asShortString () <<
+    "noteCellsList" << " : " <<
+    fNoteCellsList->asShortString () <<
     endl <<
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<

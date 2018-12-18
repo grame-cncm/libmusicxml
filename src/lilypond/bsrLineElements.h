@@ -67,7 +67,7 @@ class bsrLineElement : public bsrElement
 
 
     virtual S_bsrCellsList
-                          asCellsList () const = 0;
+                          fetchCellsList () const = 0;
 
     virtual int           fetchCellsNumber () const = 0;
 

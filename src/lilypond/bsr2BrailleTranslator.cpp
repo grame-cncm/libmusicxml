@@ -128,12 +128,12 @@ void bsr2BrailleTranslator::visitStart (S_bsrSpaces& elt)
   fLogOutputStream <<
     "% --> bsrSpaces" <<
     ", numberOfSpaces: " << elt->getNumberOfSpaces () <<
-    ", spacesCellsList: " << elt->getSpacesCellsList () <<
+    ", spacesCellsList: " << elt->fetchCellsList () <<
     ", line " << elt->getInputLineNumber () <<
     endl;
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getSpacesCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrSpaces& elt)
@@ -161,7 +161,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrBarline& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getBarlineCellsList ());
+    elt->fetchCellsList ());
 }
 
 //________________________________________________________________________
@@ -202,7 +202,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTranscriptionNotesElement& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getTranscriptionNotesElementCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTranscriptionNotesElement& elt)
@@ -230,11 +230,6 @@ void bsr2BrailleTranslator::visitStart (S_bsrPage& elt)
       endl;
   }
 #endif
-
-  // get page numbers
-  int
-    printPageNumber = elt->getPrintPageNumber (),
-    braillePageNumber = elt->getBraillePageNumber ();
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPage& elt)
@@ -269,7 +264,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrPagination& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getPaginationCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPagination& elt)
@@ -301,7 +296,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrPageHeading& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->asCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrPageHeading& elt)
@@ -334,9 +329,10 @@ void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
 
 /* JMI
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getMusicHeadingCellsList ());
+    elt->fetchCellsList ());
     */
 
+/*
   for (int i = 0; i < 6; i++) {   // JMI ???
     if (true) {
       fLogOutputStream <<
@@ -348,6 +344,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrMusicHeading& elt)
       kCellSpace);
 //      kCellA);
   } // for
+  */
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
@@ -389,7 +386,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrFootNotes& elt)
 
 /* JMI
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getFootNotesCellsList ());
+    elt->fetchCellsList ());
     */
 }
 
@@ -422,7 +419,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrLine& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->lineNumbersAsCellsList ());
+    elt->lineNumbersAsCellsList ()); // JMI ???
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrLine& elt)
@@ -490,16 +487,6 @@ void bsr2BrailleTranslator::visitStart (S_bsrMeasure& elt)
       endl;
   }
 #endif
-
-/* JMI
-  // generate spaces before if needed
-  int spacesBefore = elt->getSpacesBefore ();
-
-  for (int i = 0; i < spacesBefore; i++) {
-    fBrailleGenerator->generateCodeForBrailleCell (
-      kCellSpace);
-  } // for
-      */
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrMeasure& elt)
@@ -531,7 +518,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNumber& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getNumberCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNumber& elt)
@@ -562,10 +549,8 @@ void bsr2BrailleTranslator::visitStart (S_bsrClef& elt)
   }
 #endif
 
-  if (gBrailleOptions->fGenerateClefs) {
-    fBrailleGenerator->generateCodeForCellsList (
-      elt->getClefCellsList ());
-  }
+  fBrailleGenerator->generateCodeForCellsList (
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrClef& elt)
@@ -597,58 +582,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrKey& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->getKeyCellsList ());
-    /*
-  bsrKey::bsrKeyKind
-    keyKind = elt->getKeyKind ();
-    
-  int
-    numberOfAlterations =
-      elt->getNumberOfAlterations ();
-
-  bsrCellKind alteration = kCellNatural;
-   
-  switch (keyKind) {
-    case bsrKey::kKeyKindFlats:
-      alteration = kCellFlat;
-      break;
-    case bsrKey::kKeyKindNaturals:
-      alteration = kCellNatural;
-      break;
-    case bsrKey::kKeyKindSharps:
-      alteration = kCellSharp;
-      break;
-  } // switch
-
-  switch (numberOfAlterations) {
-    case 0:
-      break;
-    case 1:
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      break;
-    case 2:
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      break;
-    case 3:
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      break;
-    default:
-      fBrailleGenerator->generateCodeForBrailleCell (
-        alteration);
-      fBrailleCodeIOstream <<
-        kCellNumberSign <<
-        braille (numberOfAlterations);
-  } // switch
-  */
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrKey& elt)
@@ -679,7 +613,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTime& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->asCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTime& elt)
@@ -709,7 +643,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrTempo& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->asCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrTempo& elt)
@@ -739,7 +673,7 @@ void bsr2BrailleTranslator::visitStart (S_bsrNote& elt)
 #endif
 
   fBrailleGenerator->generateCodeForCellsList (
-    elt->asCellsList ());
+    elt->fetchCellsList ());
 }
 
 void bsr2BrailleTranslator::visitEnd (S_bsrNote& elt)

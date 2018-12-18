@@ -52,9 +52,7 @@ bsrBarline::bsrBarline (
 {
   fBarlineKind = barlineKind;
 
-  fSpacesBefore = 1; // JMI
-
-  fBarlineCellsList = asCellsList ();
+  fBarlineCellsList = buildCellsList ();
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceBarlines) {
@@ -71,24 +69,13 @@ bsrBarline::bsrBarline (
 bsrBarline::~bsrBarline ()
 {}
 
-S_bsrCellsList bsrBarline::asCellsList () const
+S_bsrCellsList bsrBarline::buildCellsList () const
 {
   S_bsrCellsList
     result =
       bsrCellsList::create (
         fInputLineNumber);
 
-  if (fSpacesBefore > 0) {
-    S_bsrSpaces
-      spaces =
-        bsrSpaces::create (
-          fInputLineNumber, fSpacesBefore);
-
-    result->
-      appendCellsListToCellsList (
-        spaces->asCellsList ());
-  }
-  
   switch (fBarlineKind) {
     case bsrBarline::kBarlineKindNone:
       break;
@@ -117,24 +104,13 @@ S_bsrCellsList bsrBarline::asCellsList () const
             kDots126, kDots13, kDots3));
       break;
   } // switch
-
-  if (true) { // JMI ???
-    S_bsrSpaces
-      spaces =
-        bsrSpaces::create (
-          fInputLineNumber, fSpacesBefore);
-
-    result->
-      appendCellsListToCellsList (
-        spaces->asCellsList ());
-  }
   
   return result;
 }
 
 int bsrBarline::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fBarlineCellsList->fetchCellsNumber();
 }
 
 void bsrBarline::acceptIn (basevisitor* v)

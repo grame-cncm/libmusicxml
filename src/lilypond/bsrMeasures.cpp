@@ -46,9 +46,6 @@ bsrMeasure::bsrMeasure (
   // initially, fBrailleMeasureNumber is the same as fPrintMeasureNumber
   fBrailleMeasureNumber = fPrintMeasureNumber;
 
-  fMeasureCellsList =
-    bsrCellsList::create (fInputLineNumber);
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -94,6 +91,23 @@ void bsrMeasure::appendLineElementToMeasure (
   fMeasureLineElementsList.push_back (lineElement);
 }
 
+void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending clef '" <<
+      clef->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToMeasure (clef);
+}
+
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OPTIONS
@@ -126,74 +140,6 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number) // JMI ???
 #endif
 
   appendLineElementToMeasure (number);
-}
-
-void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
-{
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Appending clef '" <<
-      clef->asShortString () <<
-      "' to measure '" <<
-      asString () <<
-      "'" <<
-      endl;
-    }
-#endif
-
-  appendLineElementToMeasure (clef);
-}
-
-void bsrMeasure::appendKeyToMeasure (S_bsrKey key)
-{
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Appending key '" <<
-      key->asShortString () <<
-      "' to measure '" <<
-      asString () <<
-      "'" <<
-      endl;
-    }
-#endif
-
-  appendLineElementToMeasure (key);
-}
-
-void bsrMeasure::appendTimeToMeasure (S_bsrTime time)
-{
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Appending time '" <<
-      time->asShortString () <<
-      "' to measure '" <<
-      asString () <<
-      "'" <<
-      endl;
-    }
-#endif
-
-  appendLineElementToMeasure (time);
-}
-
-void bsrMeasure::appendTempoToMeasure (S_bsrTempo tempo)
-{
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTempos || gGeneralOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Appending tempo '" <<
-      tempo->asShortString () <<
-      "' to measure '" <<
-      asString () <<
-      "'" <<
-      endl;
-    }
-#endif
-
-  appendLineElementToMeasure (tempo);
 }
 
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
@@ -230,7 +176,7 @@ void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
   appendLineElementToMeasure (dynamics);
 }
 
-S_bsrCellsList bsrMeasure::asCellsList () const
+S_bsrCellsList bsrMeasure::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -243,7 +189,7 @@ S_bsrCellsList bsrMeasure::asCellsList () const
     // append the braille for the element
     result->
       appendCellsListToCellsList (
-        (*i)->asCellsList ());
+        (*i)->fetchCellsList ());
   } // for
 
   return result;
@@ -251,7 +197,7 @@ S_bsrCellsList bsrMeasure::asCellsList () const
 
 int bsrMeasure::fetchCellsNumber () const
 {
-  return asCellsList ()->fetchCellsNumber ();
+  return buildCellsList ()->fetchCellsNumber ();
 }
 
 void bsrMeasure::acceptIn (basevisitor* v)

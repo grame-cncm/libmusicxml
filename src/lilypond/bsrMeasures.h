@@ -71,30 +71,24 @@ class bsrMeasure : public bsrLineElement
     string                getBrailleMeasureNumber () const
                               { return fBrailleMeasureNumber; }
 
-    S_bsrCellsList        getTimeCellsList () const
-                              { return fMeasureCellsList; }
-                              
   public:
 
     // public services
     // ------------------------------------------------------
 
+    void                  appendClefToMeasure (S_bsrClef clef);
+                              
     void                  appendBarlineToMeasure (S_bsrBarline barline);
                               
     void                  appendNumberToMeasure (S_bsrNumber number);
                               
-    void                  appendClefToMeasure (S_bsrClef clef);
-                              
-    void                  appendKeyToMeasure (S_bsrKey key);
-                              
-    void                  appendTimeToMeasure (S_bsrTime time);
-    
-    void                  appendTempoToMeasure (S_bsrTempo tempo);
-                                                            
     void                  appendNoteToMeasure (S_bsrNote note);
     
     void                  appendDynamicsToMeasure (S_bsrDynamics dynamics);
 
+    S_bsrCellsList        fetchCellsList () const
+                              { return buildCellsList (); }
+                              
     int                   fetchCellsNumber () const;
 
   private:
@@ -105,7 +99,7 @@ class bsrMeasure : public bsrLineElement
     void                  appendLineElementToMeasure (
                             S_bsrLineElement lineElement);
     
-    S_bsrCellsList        asCellsList () const;
+    S_bsrCellsList        buildCellsList () const;
     
   public:
 
@@ -136,8 +130,6 @@ class bsrMeasure : public bsrLineElement
 
     list<S_bsrLineElement>
                           fMeasureLineElementsList;
-
-    S_bsrCellsList        fMeasureCellsList;
 };
 typedef SMARTP<bsrMeasure> S_bsrMeasure;
 EXP ostream& operator<< (ostream& os, const S_bsrMeasure& elt);

@@ -5329,8 +5329,15 @@ string msrNote::asString () const
       
     case msrNote::kStandaloneNote:
       s <<
-        "standaloneNote '"<<
+        "standaloneNote" <<
+        " '"<<
         notePitchAsString () <<
+        /* JMI
+        "', " <<
+        noteDiatonicPitchKindAsString (
+          noteDiatonicPitchKind (fInputLineNumber)) <<
+        "', " <<
+        */
         noteSoundingWholeNotesAsMsrString () <<
         "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;

@@ -71,14 +71,14 @@ class bsrBarline : public bsrLineElement
     bsrBarlineKind        getBarlineKind () const
                               { return fBarlineKind; }
     
-    S_bsrCellsList        getBarlineCellsList () const
-                              { return fBarlineCellsList; }
-
   public:
 
     // public services
     // ------------------------------------------------------
                   
+    S_bsrCellsList        fetchCellsList () const
+                              { return fBarlineCellsList; }
+
     int                   fetchCellsNumber () const;
 
   private:
@@ -88,7 +88,7 @@ class bsrBarline : public bsrLineElement
                                             
     S_bsrCellsList        barlineKindAsCellsList ();
                           
-    S_bsrCellsList        asCellsList () const;
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 

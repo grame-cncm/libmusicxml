@@ -58,13 +58,10 @@ class bsrSpaces : public bsrLineElement
     int                   getNumberOfSpaces () const
                               { return fNumberOfSpaces; }
 
-    S_bsrCellsList        getSpacesCellsList () const
-                              { return fSpacesCellsList; }
-
     // services
     // ------------------------------------------------------
                   
-    S_bsrCellsList        asCellsList () const
+    S_bsrCellsList        fetchCellsList () const
                               { return fSpacesCellsList; }
 
     int                   fetchCellsNumber () const;

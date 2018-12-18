@@ -124,6 +124,11 @@ class bsrOptions : public optionsGroup
     bool                  fExit3a;
     bool                  fExit3b;
 
+    // miscellaneous
+    // --------------------------------------
+
+    bool                  fIncludeClefs;
+
     // trace
     // --------------------------------------
 

@@ -189,33 +189,26 @@ class bsrLine : public bsrPageElement
                               
     void                  appendMeasureToLine (S_bsrMeasure measure);
 
-    
-    int                   fetchCellsNumber () const;
-
-/*                              
-    void                  appendNumberToLine (S_bsrNumber number)
-                              { fLineElementsList.push_back (number); }
+    void                  appendKeyToLine (S_bsrKey key);
                               
-    void                  appendClefToLine (S_bsrClef clef)
-                              { fLineElementsList.push_back (clef); }
-                              
-    void                  appendKeyToLine (S_bsrKey key)
-                              { fLineElementsList.push_back (key); }
-                              
-    void                  appendTimeToLine (S_bsrTime time)
-                              { fLineElementsList.push_back (time); }
-                              
-    void                  appendNoteToLine (S_bsrNote note)
-                              { fLineElementsList.push_back (note); }
-*/
-
-    void                  appendLineElementToMeasure (
-                            S_bsrLineElement lineElement);
-
+    void                  appendTimeToLine (S_bsrTime time);
+                                  
+    void                  appendTempoToLine (S_bsrTempo tempo);
+                                                            
     S_bsrCellsList        lineNumbersAsCellsList () const;
 
     int                   fetchLineContentsNumber () const
                               { return fLineContentsList.size (); }
+
+    int                   fetchCellsNumber () const;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  appendLineElementToLine (
+                            S_bsrLineElement lineElement);
 
   public:
 
@@ -248,6 +241,7 @@ class bsrLine : public bsrPageElement
     
     list<S_bsrLineContents>
                           fLineContentsList;
+    bool                  fASpaceIsNeeded;
 };
 typedef SMARTP<bsrLine> S_bsrLine;
 EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);

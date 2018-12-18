@@ -83,7 +83,8 @@ class bsrNumber : public bsrLineElement
     // public services
     // ------------------------------------------------------                  
                           
-    S_bsrCellsList        asCellsList () const;
+    S_bsrCellsList        fetchCellsList () const
+                              { return fNumberCellsList; }
 
     int                   fetchCellsNumber () const;
 
@@ -93,6 +94,8 @@ class bsrNumber : public bsrLineElement
     // ------------------------------------------------------
                                             
     S_bsrCellsList        numberValueAsCellsList () const;
+
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 

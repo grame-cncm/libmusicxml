@@ -49,7 +49,7 @@ bsrClef::bsrClef (
 {
   fClefKind = clefKind;
 
-  fClefCellsList = asCellsList ();
+  fClefCellsList = buildCellsList ();
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceClefs) {
@@ -66,7 +66,7 @@ bsrClef::bsrClef (
 bsrClef::~bsrClef ()
 {}
 
-S_bsrCellsList bsrClef::asCellsList () const
+S_bsrCellsList bsrClef::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -150,7 +150,7 @@ S_bsrCellsList bsrClef::asCellsList () const
 
 int bsrClef::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fClefCellsList->fetchCellsNumber();
 }
 
 void bsrClef::acceptIn (basevisitor* v)

@@ -59,16 +59,18 @@ class bsrPagination : public bsrLineElement
     int                   getBraillePageNumber () const
                               { return fBraillePageNumber; }
                               
-    S_bsrCellsList        getPaginationCellsList () const
+    S_bsrCellsList        fetchCellsList () const
                               { return fPaginationCellsList; }
 
-    // services
-    // ------------------------------------------------------
-                  
-    S_bsrCellsList        asCellsList () const;    
-  
     int                   fetchCellsNumber () const;
 
+  private:
+
+    // private services
+    // ------------------------------------------------------
+                  
+    S_bsrCellsList        buildCellsList () const;    
+  
   public:
 
     // visitors

@@ -54,13 +54,10 @@ class bsrString : public bsrLineElement
     string                getStringContents () const
                               { return fStringContents; }
 
-    S_bsrCellsList        getStringCellsList () const
-                              { return fStringCellsList; }
-
     // services
     // ------------------------------------------------------
                   
-    S_bsrCellsList        asCellsList () const
+    S_bsrCellsList        fetchCellsList () const
                               { return fStringCellsList; }
 
     int                   fetchCellsNumber () const;

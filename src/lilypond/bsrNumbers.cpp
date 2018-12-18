@@ -54,7 +54,7 @@ bsrNumber::bsrNumber (
     
   fNumberSignIsNeededKind = numberSignIsNeededKind;
 
-  fNumberCellsList = asCellsList ();
+  fNumberCellsList = buildCellsList ();
 }
 
 bsrNumber::~bsrNumber ()
@@ -115,7 +115,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
   return result;
 }
 
-S_bsrCellsList bsrNumber::asCellsList () const
+S_bsrCellsList bsrNumber::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -142,7 +142,7 @@ S_bsrCellsList bsrNumber::asCellsList () const
 
 int bsrNumber::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fNumberCellsList->fetchCellsNumber();
 }
 
 void bsrNumber::acceptIn (basevisitor* v)

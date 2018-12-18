@@ -53,13 +53,13 @@ bsrPagination::bsrPagination (
   fPrintPageNumber   = printPageNumber;
   fBraillePageNumber = braillePageNumber;
 
-  fPaginationCellsList = asCellsList ();
+  fPaginationCellsList = buildCellsList ();
 }
 
 bsrPagination::~bsrPagination ()
 {}
 
-S_bsrCellsList bsrPagination::asCellsList () const
+S_bsrCellsList bsrPagination::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -86,7 +86,7 @@ S_bsrCellsList bsrPagination::asCellsList () const
 
   // append it to result
   result->appendCellsListToCellsList (
-    printPageNumber->asCellsList ());
+    printPageNumber->fetchCellsList ());
 
   // create the braille page number
   S_bsrNumber
@@ -98,7 +98,7 @@ S_bsrCellsList bsrPagination::asCellsList () const
 
   // append it to result
   result->appendCellsListToCellsList (
-    braillePageNumber->asCellsList ());
+    braillePageNumber->fetchCellsList ());
   return result;
 }
 

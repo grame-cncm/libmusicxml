@@ -337,11 +337,6 @@ class brailleOptions : public optionsGroup
     bool                  fBrailleCompileDate;
 
     bsrFacSimileKind      fFacSimileKind;
-
-    bool                  fGenerateClefs;
-
-  private: // JMI
-
 };
 typedef SMARTP<brailleOptions> S_brailleOptions;
 EXP ostream& operator<< (ostream& os, const S_brailleOptions& elt);

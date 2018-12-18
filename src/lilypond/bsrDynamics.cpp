@@ -48,13 +48,13 @@ bsrDynamics::bsrDynamics (
 {
   fDynamicsKind  = dynamicsKind;
 
-  fDynamicsCellsList = asCellsList ();
+  fDynamicsCellsList = buildCellsList ();
 }
 
 bsrDynamics::~bsrDynamics ()
 {}
 
-S_bsrCellsList bsrDynamics::asCellsList () const
+S_bsrCellsList bsrDynamics::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -213,7 +213,7 @@ S_bsrCellsList bsrDynamics::asCellsList () const
 
 int bsrDynamics::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fDynamicsCellsList->fetchCellsNumber();
 }
 
 void bsrDynamics::acceptIn (basevisitor* v)

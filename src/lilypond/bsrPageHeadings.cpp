@@ -60,7 +60,7 @@ bsrPageHeading::bsrPageHeading (
 bsrPageHeading::~bsrPageHeading ()
 {}
 
-S_bsrCellsList bsrPageHeading::asCellsList () const
+S_bsrCellsList bsrPageHeading::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -68,25 +68,25 @@ S_bsrCellsList bsrPageHeading::asCellsList () const
 
   // append the pagination to result
   result->appendCellsListToCellsList (
-    fPageHeadingPagination->asCellsList ());
+    fPageHeadingPagination->fetchCellsList ());
 
   // append 3 spaces to result
   result->appendCellsListToCellsList (
     bsrSpaces::create (
       fInputLineNumber, 3)->
-        getSpacesCellsList ());
+        fetchCellsList ());
 
   // append the title to result
   result->appendCellsListToCellsList (
     bsrString::create (
       fInputLineNumber, fPageHeadingTitle)->
-        getStringCellsList ());
+        fetchCellsList ());
 
   // append 3 spaces to result
   result->appendCellsListToCellsList (
     bsrSpaces::create (
       fInputLineNumber, 3)->
-        getSpacesCellsList ());
+        fetchCellsList ());
 
   // append the number to result
   result->appendCellsListToCellsList (
@@ -94,13 +94,13 @@ S_bsrCellsList bsrPageHeading::asCellsList () const
       fInputLineNumber,
       fPageHeadingNumber,
       bsrNumber::kNumberSignIsNeededYes)->
-        asCellsList ());
+        fetchCellsList ());
 
   // append 1 space to result
   result->appendCellsListToCellsList (
     bsrSpaces::create (
       fInputLineNumber, 1)->
-        getSpacesCellsList ());
+        fetchCellsList ());
 
   return result;
 }

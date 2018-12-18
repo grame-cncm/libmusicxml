@@ -74,14 +74,14 @@ class bsrClef : public bsrLineElement
     bsrClefKind           getClefKind () const
                               { return fClefKind; }
 
-    S_bsrCellsList        getClefCellsList () const
-                              { return fClefCellsList; }
-
   public:
 
     // public services
     // ------------------------------------------------------
                   
+    S_bsrCellsList        fetchCellsList () const
+                              { return fClefCellsList; }
+
     int                   fetchCellsNumber () const;
 
   private:
@@ -89,7 +89,7 @@ class bsrClef : public bsrLineElement
     // private services
     // ------------------------------------------------------
                                                                       
-    S_bsrCellsList        asCellsList () const;
+    S_bsrCellsList        buildCellsList () const;
                   
   public:
 

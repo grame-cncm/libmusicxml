@@ -67,7 +67,8 @@ class bsrTempo : public bsrLineElement
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList        asCellsList () const;    
+    S_bsrCellsList        fetchCellsList () const
+                              { return fTempoCellsList; }
   
     int                   fetchCellsNumber () const;
 
@@ -79,6 +80,8 @@ class bsrTempo : public bsrLineElement
     S_bsrCellsList        noteValueKindAsCellsList () const;
                           
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
+
+    S_bsrCellsList        buildCellsList () const;    
 
   public:
 

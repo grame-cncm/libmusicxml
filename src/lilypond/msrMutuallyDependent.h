@@ -2804,7 +2804,8 @@ class msrNote : public msrMeasureElement
     enum msrNoteAccidentalKind {
       kNoteAccidentalNone,
       
-      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
+      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat,
+      kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
       kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
       

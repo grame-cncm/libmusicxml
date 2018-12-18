@@ -159,6 +159,37 @@ of the first BSR to the second BSR.)",
   }
 
 
+  // miscellaneous  
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    fIncludeClefs        = boolOptionsInitialValue;
+
+    // options
+  
+    S_optionsSubGroup
+      miscellaneousGenerationSubGroup =
+        optionsSubGroup::create (
+          "Miscellaneous",
+          "hlpm", "help-miscellaneous",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (miscellaneousGenerationSubGroup);
+
+    miscellaneousGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "clefs", "",
+R"(Include clefs in BSR. By default, they are not.)",
+          "includeClefs",
+          fIncludeClefs));
+  }
+
+  
 #ifdef TRACE_OPTIONS
   // trace  
   // --------------------------------------
@@ -276,6 +307,10 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
   // exit after some passes
   // --------------------------------------
 
+
+  // miscellaneous
+  // --------------------------------------
+
   return clone;
 }
 
@@ -336,6 +371,22 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
     setw (fieldWidth) << "exit3b" << " : " <<
     booleanAsString (fExit3b) <<
     endl;
+
+  gIndenter--;
+    
+  // miscellaneous
+  // --------------------------------------
+  
+  gLogIOstream <<
+    "Miscellaneous:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) << "includeClefs" << " : " <<
+      booleanAsString (fIncludeClefs) <<
+      endl;
 
   gIndenter--;
   

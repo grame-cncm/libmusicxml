@@ -70,7 +70,7 @@ bsrKey::bsrKey (
       s.str ());
   }
 
-  fKeyCellsList = asCellsList ();
+  fKeyCellsList = buildCellsList ();
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceKeys) {
@@ -117,7 +117,7 @@ S_bsrCellsList bsrKey::keyKindAsCellsList () const
   return result;
 }
 
-S_bsrCellsList bsrKey::asCellsList () const
+S_bsrCellsList bsrKey::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -150,7 +150,7 @@ S_bsrCellsList bsrKey::asCellsList () const
 
         // append it to result
         result->appendCellsListToCellsList (
-          number->asCellsList ());
+          number->fetchCellsList ());
   
         // append the flat or sharp sign to result
         result->appendCellsListToCellsList (
@@ -163,7 +163,7 @@ S_bsrCellsList bsrKey::asCellsList () const
 
 int bsrKey::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fKeyCellsList->fetchCellsNumber();
 }
 
 void bsrKey::acceptIn (basevisitor* v)

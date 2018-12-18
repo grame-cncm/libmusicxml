@@ -55,15 +55,14 @@ class bsrDynamics : public bsrLineElement
                           getDynamicsKind () const
                               { return fDynamicsKind; }
                                     
-    S_bsrCellsList        getDynamicsCellsList () const
-                              { return fDynamicsCellsList; }
-
   public:
 
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList        asCellsList () const;    
+    S_bsrCellsList        fetchCellsList () const
+                              { return fDynamicsCellsList; }
+
   
     int                   fetchCellsNumber () const;
 
@@ -75,6 +74,8 @@ class bsrDynamics : public bsrLineElement
     S_bsrCellsList        noteValueKindAsCellsList () const;
                           
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
+
+    S_bsrCellsList        buildCellsList () const;    
 
   public:
 

@@ -70,16 +70,21 @@ class bsrMusicHeading : public bsrLine
     void                  setMusicHeadingTime (S_bsrTime time)
                               { fMusicHeadingTime = time; }
 
-    S_bsrCellsList        getMusicHeadingCellsList () const
-                              { return asCellsList (); }
-
   public:
 
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList        asCellsList () const;    
+    S_bsrCellsList        fetchCellsList () const
+                              { return fMusicHeadingCellsList; }
   
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    S_bsrCellsList        buildCellsList () const;    
+
   public:
 
     // visitors
@@ -107,6 +112,8 @@ class bsrMusicHeading : public bsrLine
     S_bsrTempo            fMusicHeadingTempo;
     S_bsrKey              fMusicHeadingKey;
     S_bsrTime             fMusicHeadingTime;
+
+    S_bsrCellsList        fMusicHeadingCellsList;
 };
 typedef SMARTP<bsrMusicHeading> S_bsrMusicHeading;
 EXP ostream& operator<< (ostream& os, const S_bsrMusicHeading& elt);

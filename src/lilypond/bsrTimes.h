@@ -158,14 +158,24 @@ class bsrTime : public bsrLineElement
                           getTimeItemsVector ()
                               { return fTimeItemsVector; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
                   
     void                  appendTimeItem (S_bsrTimeItem timeItem);
 
-    S_bsrCellsList        asCellsList () const;    
+    S_bsrCellsList        fetchCellsList () const
+                              { return buildCellsList (); }
 
     int                   fetchCellsNumber () const;
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+                  
+    S_bsrCellsList        buildCellsList () const;    
 
   public:
 

@@ -74,14 +74,14 @@ class bsrKey : public bsrLineElement
     int                   getNumberOfAlterations () const
                               { return fNumberOfAlterations; }
     
-    S_bsrCellsList        getKeyCellsList () const
-                              { return fKeyCellsList; }
-
   public:
 
     // public services
     // ------------------------------------------------------
                   
+    S_bsrCellsList        fetchCellsList () const
+                              { return fKeyCellsList; }
+
     int                   fetchCellsNumber () const;
 
   private:
@@ -91,7 +91,7 @@ class bsrKey : public bsrLineElement
                                             
     S_bsrCellsList        keyKindAsCellsList () const;
                           
-    S_bsrCellsList        asCellsList () const;
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 

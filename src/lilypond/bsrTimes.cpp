@@ -319,7 +319,7 @@ void bsrTime::appendTimeItem (S_bsrTimeItem timeItem)
   fTimeItemsVector.push_back (timeItem);
 }
 
-S_bsrCellsList bsrTime::asCellsList () const
+S_bsrCellsList bsrTime::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -382,7 +382,7 @@ S_bsrCellsList bsrTime::asCellsList () const
         
                 // append it to result
                 result->appendCellsListToCellsList (
-                  beatsNumber->asCellsList ());
+                  beatsNumber->fetchCellsList ());
           
                 // append the beat value sign to result
                 switch (bTimeBeatValue) {
@@ -463,7 +463,7 @@ S_bsrCellsList bsrTime::asCellsList () const
 int bsrTime::fetchCellsNumber() const
 {
   // time items may have been appended after construction
-  return asCellsList ()->fetchCellsNumber ();
+  return fetchCellsList ()->fetchCellsNumber ();
 }
 
 void bsrTime::acceptIn (basevisitor* v)
@@ -561,7 +561,7 @@ string bsrTime::asString () const
     "Time" <<
     ", timeKind " << " : " <<
     timeKindAsString (fTimeKind) <<
-    ", timeCellsList: " << asCellsList ()->asString () <<
+    ", timeCellsList: " << fetchCellsList ()->asString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
  
@@ -621,7 +621,7 @@ void bsrTime::print (ostream& os)
     
   os <<
     setw (fieldWidth) <<
-    "timeCellsList" << " : " << asCellsList ()->asString () <<
+    "timeCellsList" << " : " << fetchCellsList ()->asString () <<
     endl <<
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<

@@ -48,13 +48,19 @@ bsrTranscriptionNotesElement::bsrTranscriptionNotesElement (
     : bsrElement (inputLineNumber)
 {
   fTranscriptionNoteText = transcriptionNoteText;
-
-  fTranscriptionNotesElementCellsList =
-    bsrCellsList::create (inputLineNumber);
 }
 
 bsrTranscriptionNotesElement::~bsrTranscriptionNotesElement ()
 {}
+
+S_bsrCellsList bsrTranscriptionNotesElement::buildCellsList () const
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (fInputLineNumber);
+
+  return result;
+}
 
 void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {

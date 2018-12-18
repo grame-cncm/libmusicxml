@@ -43,12 +43,14 @@ bsrMusicHeading::bsrMusicHeading (
         inputLineNumber,
         0, // JMI ???
         gBrailleOptions->fCellsPerLine)
-{}
+{
+  fMusicHeadingCellsList = buildCellsList ();
+}
 
 bsrMusicHeading::~bsrMusicHeading ()
 {}
 
-S_bsrCellsList bsrMusicHeading::asCellsList () const
+S_bsrCellsList bsrMusicHeading::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -57,7 +59,7 @@ S_bsrCellsList bsrMusicHeading::asCellsList () const
   // append the tempo to result
   if (fMusicHeadingTempo) {
     result->appendCellsListToCellsList (
-      fMusicHeadingTempo->asCellsList ());
+      fMusicHeadingTempo->fetchCellsList ());
   }
 
   // append 1 space to result if needed
@@ -65,19 +67,19 @@ S_bsrCellsList bsrMusicHeading::asCellsList () const
     result->appendCellsListToCellsList (
       bsrSpaces::create (
         fInputLineNumber, 1)->
-          getSpacesCellsList ());
+          fetchCellsList ());
   }
 
   // append the key to result if any
   if (fMusicHeadingKey) {
     result->appendCellsListToCellsList (
-      fMusicHeadingKey->getKeyCellsList ());
+      fMusicHeadingKey->fetchCellsList ());
   }
 
   // append the time to result if any
   if (fMusicHeadingTime) {
     result->appendCellsListToCellsList (
-      fMusicHeadingTime->asCellsList ());
+      fMusicHeadingTime->fetchCellsList ());
   }
 
   return result;
@@ -286,6 +288,15 @@ void bsrMusicHeading::print (ostream& os)
       "none" <<
       endl;
   }
+
+  os <<
+    "musicHeadingCellsList: " <<
+    endl;
+  gIndenter++;
+  os <<
+    fMusicHeadingCellsList <<
+    endl;
+  gIndenter--;
   
   gIndenter--;
 }

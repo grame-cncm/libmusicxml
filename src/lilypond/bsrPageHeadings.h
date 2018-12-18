@@ -72,7 +72,15 @@ class bsrPageHeading : public bsrLine
     // public services
     // ------------------------------------------------------
 
-    S_bsrCellsList        asCellsList () const;    
+    S_bsrCellsList        fetchCellsList () const
+                              { return buildCellsList (); }
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    S_bsrCellsList        buildCellsList () const;    
   
   public:
 

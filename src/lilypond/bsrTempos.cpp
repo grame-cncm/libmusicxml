@@ -53,13 +53,13 @@ bsrTempo::bsrTempo (
 {
   fMsrTempo  = mTempo;
 
-  fTempoCellsList = asCellsList ();
+  fTempoCellsList = buildCellsList ();
 }
 
 bsrTempo::~bsrTempo ()
 {}
 
-S_bsrCellsList bsrTempo::asCellsList () const
+S_bsrCellsList bsrTempo::buildCellsList () const
 {
   S_bsrCellsList
     result =
@@ -173,7 +173,7 @@ S_bsrCellsList bsrTempo::asCellsList () const
         // append its cells to result
         result->
           appendCellsListToCellsList (
-            bNote->asCellsList ());
+            bNote->fetchCellsList ());
 
         // append an equals to result
         result->
@@ -284,7 +284,7 @@ S_bsrCellsList bsrTempo::asCellsList () const
 
 int bsrTempo::fetchCellsNumber() const
 {
-  return asCellsList ()->fetchCellsNumber();
+  return fTempoCellsList->fetchCellsNumber();
 }
 
 void bsrTempo::acceptIn (basevisitor* v)
