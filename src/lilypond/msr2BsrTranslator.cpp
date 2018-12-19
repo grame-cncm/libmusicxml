@@ -48,7 +48,8 @@ msr2BsrTranslator::msr2BsrTranslator (
   fCurrentPrintLineNumber = 1;
 
   // notes
-  fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
+  fCurrentNoteOctaveKind    = bsrNote::kNoteOctaveNone;
+  fCurrentNoteValueSizeKind = bsrNote::kNoteValueSizeLarger;
   
 /*
   // identification
@@ -2166,6 +2167,33 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   // append it to the current measure
   fCurrentMeasure->
     appendNoteToMeasure (note);
+
+  // determine the note value size kind
+  bsrNote::bsrNoteValueSizeKind
+    noteValueSizeKind =
+      bsrNote::noteValueSizeKindFromNoteValueKind (
+        noteValueKind);
+
+  // is a note value sign needed?
+  fLogOutputStream <<
+    "--> fCurrentNoteValueSizeKind = " <<
+    bsrNote::noteValueSizeKindAsString (fCurrentNoteValueSizeKind) <<
+    ", noteValueSizeKind = " <<
+    bsrNote::noteValueSizeKindAsString (noteValueSizeKind) <<
+    endl;
+      
+  if (noteValueSizeKind != fCurrentNoteValueSizeKind) {
+    fLogOutputStream <<
+      "--> note = '" <<
+      note->asShortString () <<
+      "', needs a note value size sign" <<
+      endl;
+      
+    // set the note value size kind as needed
+    note->setNoteValueSizeIsNeeded ();
+    // register new note value size kind
+    fCurrentNoteValueSizeKind = noteValueSizeKind;
+  }
 }
 
 void msr2BsrTranslator::visitEnd (S_msrNote& elt)

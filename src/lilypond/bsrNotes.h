@@ -127,6 +127,21 @@ class bsrNote : public bsrLineElement
       int              inputLineNumber,
       bsrNoteValueKind noteValueKind);
 
+    enum bsrNoteValueSizeKind {
+        kNoteValueSizeNone,
+        kNoteValueSizeLarger,
+        kNoteValueSizeSmaller };
+
+    static string noteValueSizeKindAsString (
+      bsrNoteValueSizeKind noteValueSizeKind);
+
+    static bsrNoteValueSizeKind noteValueSizeKindFromNoteValueKind (
+      bsrNoteValueKind noteValueKind);
+
+    static S_bsrCellsList noteValueSizeKindAsCellsList (
+      int                  inputLineNumber,
+      bsrNoteValueSizeKind noteValueSizeKind);
+
     enum bsrNoteOctaveKind {
         kNoteOctaveNone,
         kNoteOctaveBelow1,
@@ -203,6 +218,12 @@ class bsrNote : public bsrLineElement
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
                   
+    void                  setNoteValueSizeIsNeeded ()
+                              { fNoteValueSizeIsNeeded = true; }
+                  
+    bool                  getNoteValueSizeIsNeeded () const
+                              { return fNoteValueSizeIsNeeded; }
+                  
     void                  setNoteOctaveIsNeeded (
                             bsrNoteOctaveIsNeeded
                               noteOctaveIsNeededvalue)
@@ -223,7 +244,7 @@ class bsrNote : public bsrLineElement
     // ------------------------------------------------------
 
     S_bsrCellsList        fetchCellsList () const
-                              { return fNoteCellsList; }
+                              { return buildCellsList (); }
   
     int                   fetchCellsNumber () const;
 
@@ -233,6 +254,8 @@ class bsrNote : public bsrLineElement
     // ------------------------------------------------------
                                             
     S_bsrCellsList        noteValueKindAsCellsList () const;
+    
+    S_bsrCellsList        noteValueSizeKindAsCellsList () const;
                           
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
     
@@ -267,13 +290,13 @@ class bsrNote : public bsrLineElement
     
     bsrNoteValueKind      fNoteValueKind;
     int                   fNoteDotsNumber;
+
+    bool                  fNoteValueSizeIsNeeded;
     
     bsrNoteOctaveKind     fNoteOctaveKind;
     bsrNoteOctaveIsNeeded fNoteOctaveIsNeeded;
 
     bsrNoteAccidentalKind fNoteAccidentalKind;
-
-    S_bsrCellsList        fNoteCellsList;
 };
 typedef SMARTP<bsrNote> S_bsrNote;
 EXP ostream& operator<< (ostream& os, const S_bsrNote& elt);

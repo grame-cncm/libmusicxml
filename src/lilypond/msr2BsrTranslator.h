@@ -243,8 +243,12 @@ class msr2BsrTranslator :
     
     // notes
     // ------------------------------------------------------
+    
     bsrNote::bsrNoteOctaveKind
                               fCurrentNoteOctaveKind;
+
+    bsrNote::bsrNoteValueSizeKind
+                              fCurrentNoteValueSizeKind;
 
 
 /*

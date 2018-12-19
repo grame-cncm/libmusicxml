@@ -61,13 +61,13 @@ bsrNote::bsrNote (
 {
   fNoteValueKind  = noteValueKind;
   fNoteDotsNumber = noteDotsNumber;
+
+  fNoteValueSizeIsNeeded = false;
   
   fNoteOctaveKind = noteOctaveKind;
   fNoteOctaveIsNeeded = noteOctaveIsNeeded;
   
   fNoteAccidentalKind = noteAccidentalKind;
-
-  fNoteCellsList = buildCellsList ();
 }
 
 bsrNote::~bsrNote ()
@@ -377,6 +377,15 @@ S_bsrCellsList bsrNote::noteValueKindAsCellsList () const
       fNoteValueKind);
 }
 
+S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList () const
+{
+  return
+    noteValueSizeKindAsCellsList (
+      fInputLineNumber,
+      noteValueSizeKindFromNoteValueKind (
+        fNoteValueKind));
+}
+
 S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
   int               inputLineNumber,
   bsrNoteOctaveKind noteOctaveKind)
@@ -416,6 +425,294 @@ S_bsrCellsList bsrNote::noteOctaveKindAsCellsList (
     case kNoteOctaveAbove7:
       result->appendCellKindToCellsList (kDots6);
       result->appendCellKindToCellsList (kDots6);
+      break;
+  } // switch
+ 
+  return result;
+}
+
+bsrNote::bsrNoteValueSizeKind bsrNote::noteValueSizeKindFromNoteValueKind (
+  bsrNoteValueKind noteValueKind)
+{
+  bsrNoteValueSizeKind
+    result = bsrNote::kNoteValueSizeNone;
+    
+  switch (noteValueKind) {
+    case kNoteValueNone:
+      break;
+      
+    case kNoteValueRestBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueRestWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueRestHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueRestQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueRest8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueRest16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueRest32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueRest64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueRest128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueRest256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueCBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueCWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueCHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueCQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueC8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueC16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueC32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueC64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueC128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueC256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueDBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueDWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueDHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueDQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueD8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueD16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueD32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueD64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueD128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueD256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueEBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueEWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueEHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueEQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueE8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueE16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueE32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueE64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueE128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueE256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueFBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueFWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueFHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueFQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueF8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueF16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueF32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueF64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueF128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueF256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueGBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueGWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueGHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueGQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueG8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueG16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueG32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueG64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueG128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueG256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueABreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueAWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueAHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueAQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueA8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueA16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueA32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueA64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueA128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueA256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+
+    case kNoteValueBBreve:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueBWhole:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueBHalf:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueBQuarter:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueB8th:
+      result = bsrNote::kNoteValueSizeLarger;
+      break;
+    case kNoteValueB16th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueB32nd:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueB64th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueB128th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+    case kNoteValueB256th:
+      result = bsrNote::kNoteValueSizeSmaller;
+      break;
+  } // switch
+
+  return result;
+}
+
+S_bsrCellsList bsrNote::noteValueSizeKindAsCellsList (
+  int                  inputLineNumber,
+  bsrNoteValueSizeKind noteValueSizeKind)
+{
+  S_bsrCellsList
+    result =
+      bsrCellsList::create (inputLineNumber);
+  
+  switch (noteValueSizeKind) {
+    case bsrNote::kNoteValueSizeNone:
+      break;
+    case bsrNote::kNoteValueSizeLarger:
+      result->appendCellKindToCellsList (kDots45);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
+      break;
+    case bsrNote::kNoteValueSizeSmaller:
+      result->appendCellKindToCellsList (kDots6);
+      result->appendCellKindToCellsList (kDots126);
+      result->appendCellKindToCellsList (kDots2);
       break;
   } // switch
  
@@ -498,6 +795,12 @@ S_bsrCellsList bsrNote::buildCellsList () const
     result =
       bsrCellsList::create (fInputLineNumber);
 
+  // append the note value sign if needed
+  if (fNoteValueSizeIsNeeded) {
+    result->appendCellsListToCellsList (
+      noteValueSizeKindAsCellsList ());
+  }
+  
   // append note accidental if any
   result->appendCellsListToCellsList (
     noteAccidentalKindAsCellsList ());
@@ -527,7 +830,7 @@ S_bsrCellsList bsrNote::buildCellsList () const
 
 int bsrNote::fetchCellsNumber() const
 {
-  return fNoteCellsList->fetchCellsNumber();
+  return buildCellsList ()->fetchCellsNumber();
 }
 
 void bsrNote::acceptIn (basevisitor* v)
@@ -685,6 +988,26 @@ string bsrNote::noteValueKindAsString (
   return result;
 }
 
+string bsrNote::noteValueSizeKindAsString (
+  bsrNoteValueSizeKind noteValueSizeKind)
+{
+  string result;
+  
+  switch (noteValueSizeKind) {
+    case bsrNote::kNoteValueSizeNone:
+      result = "None";
+      break;
+    case bsrNote::kNoteValueSizeLarger:
+      result = "noteValueSizeLarger";
+      break;
+    case bsrNote::kNoteValueSizeSmaller:
+      result = "noteValueSizeSmaller";
+      break;
+  } // switch
+
+  return result;
+}
+
 string bsrNote::noteOctaveKindAsString (
   bsrNoteOctaveKind noteOctaveKind)
 {
@@ -780,12 +1103,14 @@ string bsrNote::asString () const
     ", noteDotsNumber: " << fNoteDotsNumber <<
     ", noteOctaveKind: " <<
     noteOctaveKindAsString (fNoteOctaveKind) <<
+    ", noteValueSizeIsNeeded: " <<
+    booleanAsString (fNoteValueSizeIsNeeded) <<
     ", noteOctaveIsNeeded: " <<
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     ", noteAccidentalKindAsString: " <<
     noteAccidentalKindAsString (fNoteAccidentalKind) <<
-    ", noteCellsList: " <<
-    fNoteCellsList->asShortString () <<
+    ", cellsList (): " <<
+    buildCellsList ()->asShortString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
 
@@ -816,6 +1141,10 @@ void bsrNote::print (ostream& os)
     noteOctaveKindAsString (fNoteOctaveKind) <<
     endl <<
     setw (fieldWidth) <<
+    "noteValueSizeIsNeeded" << " : " <<
+    booleanAsString (fNoteValueSizeIsNeeded) <<
+    endl <<
+    setw (fieldWidth) <<
     "noteOctaveIsNeeded" << " : " <<
     noteOctaveIsNeededAsString (fNoteOctaveIsNeeded) <<
     endl <<
@@ -824,8 +1153,8 @@ void bsrNote::print (ostream& os)
     noteAccidentalKindAsString (fNoteAccidentalKind) <<
     endl <<
     setw (fieldWidth) <<
-    "noteCellsList" << " : " <<
-    fNoteCellsList->asShortString () <<
+    "cellsList" << " : " <<
+    buildCellsList ()->asShortString () <<
     endl <<
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<
