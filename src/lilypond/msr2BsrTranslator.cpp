@@ -1553,9 +1553,12 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
     fFirstTime = time;
   }
   else {
-    // append the BSR time to the current measure
+    // this time belongs to the current measure,
+    // which has already been created and appended
+    // to the current line,
+    // but it should be placed before it in the latter, so:
     fCurrentLine->
-      appendTimeToLine (time);
+      insertTimeBeforeLastElementOfLine (time);
   }
 }
 

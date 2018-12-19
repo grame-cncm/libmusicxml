@@ -88,8 +88,8 @@ class bsrLineContents : public bsrElement
                               { return fLineContentsKind; }
 
     const list<S_bsrLineElement>&
-                          getLineElementsList () const
-                              { return fLineElementsList; }
+                          getLineContentsElementsList () const
+                              { return fLineContentsElementsList; }
 
   public:
 
@@ -97,6 +97,9 @@ class bsrLineContents : public bsrElement
     // ------------------------------------------------------
 
     void                  appendLineElementToLineContents (
+                            S_bsrLineElement lineElement);
+                            
+    void                  insertLineElementBeforeLastElementOfLineContents (
                             S_bsrLineElement lineElement);
   
     int                   fetchCellsNumber () const;
@@ -134,7 +137,7 @@ class bsrLineContents : public bsrElement
     bsrLineContentsKind   fLineContentsKind;
 
     list<S_bsrLineElement>
-                          fLineElementsList;
+                          fLineContentsElementsList;
 };
 typedef SMARTP<bsrLineContents> S_bsrLineContents;
 EXP std::ostream& operator<< (std::ostream& os, const S_bsrLineContents& elt);
@@ -192,6 +195,8 @@ class bsrLine : public bsrPageElement
     void                  appendKeyToLine (S_bsrKey key);
                               
     void                  appendTimeToLine (S_bsrTime time);
+    
+    void                  insertTimeBeforeLastElementOfLine (S_bsrTime time);
                                   
     void                  appendTempoToLine (S_bsrTempo tempo);
                                                             
@@ -211,6 +216,9 @@ class bsrLine : public bsrPageElement
     S_bsrCellsList        buildLineNumberCellsList () const;
 
     void                  appendLineElementToLine (
+                            S_bsrLineElement lineElement);
+                            
+    void                  insertElementBeforeLastElementOfLine (
                             S_bsrLineElement lineElement);
 
   public:

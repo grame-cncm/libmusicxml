@@ -487,6 +487,20 @@ ostream& operator<< (ostream& os, const wstring& wstr);
 */
 
 //______________________________________________________________________________
+EXP void bsrMusicXMLWarning (
+  std::string inputSourceName,
+  int         inputLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
+EXP void bsrInternalError (
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________
 void initializeBSRBasicTypes ();
 
 

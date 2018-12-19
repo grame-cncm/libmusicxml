@@ -85,7 +85,49 @@ S_bsrLine bsrLineContents::getBsrLineUplink () const
 void bsrLineContents::appendLineElementToLineContents (
   S_bsrLineElement lineElement)
 {
-  fLineElementsList.push_back (lineElement);
+  fLineContentsElementsList.push_back (lineElement);
+}
+
+void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
+  S_bsrLineElement lineElement)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Inserting line element '" <<
+      lineElement->asShortString () <<
+      "' before the last element of line contents '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  int
+    lineContentsElementsListSize =
+      fLineContentsElementsList.size ();
+    
+  if (lineContentsElementsListSize > 0) {
+    list<S_bsrLineElement>::iterator it = fLineContentsElementsList.begin();
+
+    std::advance (it, lineContentsElementsListSize - 1);
+
+    fLineContentsElementsList.insert (it, lineElement);
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "line contents elementslist is empty, cannot insert '" <<
+      lineElement->asShortString () <<
+      "' before its last element";
+
+    bsrInternalError (
+      gGeneralOptions->fInputSourceName,
+      lineElement->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 int bsrLineContents::fetchCellsNumber () const
@@ -93,8 +135,8 @@ int bsrLineContents::fetchCellsNumber () const
   int result = 0;
 
   for (
-    list<S_bsrLineElement>::const_iterator i = fLineElementsList.begin ();
-    i != fLineElementsList.end ();
+    list<S_bsrLineElement>::const_iterator i = fLineContentsElementsList.begin ();
+    i != fLineContentsElementsList.end ();
     i++
   ) {
     S_bsrLineElement lineElement = (*i);
@@ -160,8 +202,8 @@ void bsrLineContents::acceptOut (basevisitor* v)
 void bsrLineContents::browseData (basevisitor* v)
 {
   for (
-    list<S_bsrLineElement>::const_iterator i = fLineElementsList.begin ();
-    i != fLineElementsList.end ();
+    list<S_bsrLineElement>::const_iterator i = fLineContentsElementsList.begin ();
+    i != fLineContentsElementsList.end ();
     i++ ) {
     // browse the element
     bsrBrowser<bsrLineElement> browser (v);
@@ -201,7 +243,7 @@ string bsrLineContents::asShortString () const
     lineContentsKindAsString (fLineContentsKind) <<
     ", " <<
     singularOrPlural (
-      fLineElementsList.size (), "lineElement", "lineElements");
+      fLineContentsElementsList.size (), "lineElement", "lineElements");
 
   return s.str ();
 }
@@ -214,7 +256,7 @@ string bsrLineContents::asString () const
 
 void bsrLineContents::print (ostream& os)
 {
-  int lineElementsListSize = fLineElementsList.size ();
+  int lineElementsListSize = fLineContentsElementsList.size ();
   
   os <<
     "LineContents" <<
@@ -251,8 +293,8 @@ void bsrLineContents::print (ostream& os)
       gIndenter++;
   
       list<S_bsrLineElement>::const_iterator
-        iBegin = fLineElementsList.begin (),
-        iEnd   = fLineElementsList.end (),
+        iBegin = fLineContentsElementsList.begin (),
+        iEnd   = fLineContentsElementsList.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);
@@ -392,6 +434,30 @@ void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
     appendLineElementToLineContents (lineElement);
 }
 
+void bsrLine::insertElementBeforeLastElementOfLine (
+  S_bsrLineElement lineElement)
+{
+  S_bsrLineContents
+    lineContentsToAppendTo;
+    
+  if (! fLineContentsList.size ()) {
+    // first insertion in this line: create the first, regular line contents
+    lineContentsToAppendTo =
+      bsrLineContents::create (
+        lineElement->getInputLineNumber (),
+        bsrLineContents::kLineContentsRegular);
+
+    // append it to the line contents list
+    fLineContentsList.push_back (lineContentsToAppendTo);
+  }
+  else {
+    lineContentsToAppendTo = fLineContentsList.back ();
+  }
+
+  lineContentsToAppendTo->
+    insertLineElementBeforeLastElementOfLineContents (lineElement);
+}
+
 void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 {
 #ifdef TRACE_OPTIONS
@@ -416,7 +482,7 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
     gLogIOstream <<
       "Appending key '" <<
       key->asShortString () <<
-      "' to measure '" <<
+      "' to line '" <<
       asString () <<
       "'" <<
       endl;
@@ -434,7 +500,7 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
     gLogIOstream <<
       "Appending time '" <<
       time->asShortString () <<
-      "' to measure '" <<
+      "' to line '" <<
       asString () <<
       "'" <<
       endl;
@@ -445,6 +511,24 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
   fASpaceIsNeeded = true;
 }
 
+void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Inserting time '" <<
+      time->asShortString () <<
+      "' before the last element of line '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  insertElementBeforeLastElementOfLine (time);
+  fASpaceIsNeeded = true;
+}
+
 void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
 #ifdef TRACE_OPTIONS
@@ -452,7 +536,7 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
     gLogIOstream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
-      "' to measure '" <<
+      "' to line '" <<
       asString () <<
       "'" <<
       endl;
@@ -468,7 +552,7 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
     gLogIOstream <<
-      "Appending measure '" <<
+      "Appending line '" <<
       measure->asShortString () <<
       "' to line '" <<
       asString () <<

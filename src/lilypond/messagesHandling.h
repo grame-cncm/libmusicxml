@@ -47,12 +47,6 @@ EXP void lpsrMusicXMLWarning (
   std::string message);
 
 //______________________________________________________________________________
-EXP void bsrMusicXMLWarning (
-  std::string inputSourceName,
-  int         inputLineNumber,
-  std::string message);
-
-//______________________________________________________________________________
 EXP void msrInternalWarning (
   std::string inputSourceName,
   int         inputLineNumber,
@@ -85,14 +79,6 @@ EXP void lpsrMusicXMLError (
 
 //______________________________________________________________________________
 EXP void msrInternalError (
-  std::string inputSourceName,
-  int    inputLineNumber,
-  std::string sourceCodeFileName,
-  int    sourceCodeLineNumber,
-  std::string message);
-
-//______________________________________________________________________________
-EXP void bsrInternalError (
   std::string inputSourceName,
   int    inputLineNumber,
   std::string sourceCodeFileName,
