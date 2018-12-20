@@ -250,6 +250,14 @@ class msr2BsrTranslator :
     bsrNote::bsrNoteValueSizeKind
                               fCurrentNoteValueSizeKind;
 
+    // relative octaves
+    // ------------------------------------------------------
+    S_msrNote                 fRelativeOctaveReference;
+                                // contains absolute octave
+    
+    bsrNote::bsrNoteOctaveIsNeeded
+                              brailleOctaveMarkInNeeded (S_msrNote note);
+
 
 /*
     // it's header

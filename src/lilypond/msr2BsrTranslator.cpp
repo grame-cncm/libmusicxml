@@ -640,6 +640,8 @@ void msr2BsrTranslator::visitStart (S_msrVoice& elt)
 
   fCurrentVoice = elt;
   
+  fRelativeOctaveReference = nullptr;
+
   gIndenter++;
 }
 
@@ -1609,6 +1611,163 @@ void msr2BsrTranslator::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
+  S_msrNote note)
+{
+  bsrNote::bsrNoteOctaveIsNeeded
+    result = bsrNote::kNoteOctaveIsNeededNo;
+  
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  // select BSR octave sign relative to fRelativeOctaveReference
+
+  // in braille music, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+
+  msrDiatonicPitchKind
+    noteDiatonicPitchKind =
+      note->
+        noteDiatonicPitchKind (
+          inputLineNumber);
+
+  msrDiatonicPitchKind
+    referenceDiatonicPitchKind =
+      fRelativeOctaveReference->
+        noteDiatonicPitchKind (
+          inputLineNumber);
+
+  string
+    referenceDiatonicPitchKindAsString =
+      fRelativeOctaveReference->
+        noteDiatonicPitchKindAsString (
+          inputLineNumber);
+      
+  int
+    referenceAbsoluteOctave =
+      fRelativeOctaveReference->
+        getNoteOctave ();
+
+  /*
+    In a melodic progression:
+    
+    (a) the octave is not marked for the second of two consecutive notes if the interval is less than a fourth,
+    
+    (b) the octave is always marked in a skip greater than a fifth, and
+    
+    (c) the octave is only marked in a skip of a fourth or fifth when the second note is in a different octave from the first.
+  */
+    
+  int
+    noteAboluteDiatonicOrdinal =
+      noteAbsoluteOctave * 7
+        +
+      noteDiatonicPitchKind - kC,
+      
+    referenceAboluteDiatonicOrdinal =
+      referenceAbsoluteOctave * 7
+        +
+      referenceDiatonicPitchKind - kC;
+
+#ifdef TRACE_OPTIONS
+  if (true || gGeneralOptions->fTraceNotesDetails) {
+    const int fieldWidth = 28;
+
+    fLogOutputStream << left <<
+/*
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitch" <<
+      " = " <<
+      referenceDiatonicPitch <<
+      endl <<
+*/
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitchAsString" <<
+      " = " <<
+      referenceDiatonicPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAbsoluteOctave" <<
+       " = " <<
+      referenceAbsoluteOctave <<
+      endl <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAboluteDiatonicOrdinal" <<
+      " = " <<
+      referenceAboluteDiatonicOrdinal <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAboluteDiatonicOrdinal" <<
+      " = " <<
+      noteAboluteDiatonicOrdinal <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAboluteDiatonicOrdinal - referenceAboluteDiatonicOrdinal" <<
+      " = " <<
+      noteAboluteDiatonicOrdinal - referenceAboluteDiatonicOrdinal <<
+      endl <<
+      endl;
+  }
+#endif
+
+  stringstream s;
+  
+  // should an octave sign be used?  
+  switch (noteAboluteDiatonicOrdinal - referenceAboluteDiatonicOrdinal) {
+    case 0:
+    case 1: case -1:
+    case 2: case -2:
+    case 3: case -3:
+    case 4: case -4:
+      // less than a fourth, no octave sign needed
+      break;
+    case 5: case 6: case 7:
+      // a fourth or fifth, octave sign needed if there an octave change
+      if (noteAbsoluteOctave == referenceAbsoluteOctave) {
+        result = bsrNote::kNoteOctaveIsNeededNo;
+      }
+      else {
+        result = bsrNote::kNoteOctaveIsNeededYes;
+      }
+      break;
+    default:
+      // more that a fifth, use an octave sign
+      result = bsrNote::kNoteOctaveIsNeededYes;
+  } // switch
+
+/* JMI
+  if (useOctaveSign) {
+    switch (noteAbsoluteOctave) {
+      case 1:
+        result = bsrNote::kNoteOctave1;
+        break;
+      case 2:
+        result = bsrNote::kNoteOctave2;
+        break;
+      case 3:
+        result = bsrNote::kNoteOctave3;
+        break;
+      case 4:
+        result = bsrNote::kNoteOctave4;
+        break;
+      case 5:
+        result = bsrNote::kNoteOctave5;
+        break;
+      case 6:
+        result = bsrNote::kNoteOctave6;
+        break;
+      case 7:
+        result = bsrNote::kNoteOctave7;
+        break;
+    } // switch
+  }
+*/
+
+  return result;
+}
+
 void msr2BsrTranslator::visitStart (S_msrNote& elt)
 {
   int inputLineNumber =
@@ -2051,16 +2210,21 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   }
 
   // is the note octave needed?
-  bsrNote::bsrNoteOctaveIsNeeded noteOctaveIsNeeded;
-  
-  if (noteOctaveKind == fCurrentNoteOctaveKind) {
-    noteOctaveIsNeeded = bsrNote::kNoteOctaveIsNeededNo;
+  bsrNote::bsrNoteOctaveIsNeeded
+    noteOctaveIsNeeded =
+      bsrNote::kNoteOctaveIsNeededNo;
+
+  if (fRelativeOctaveReference) {
+    // analyse relationship to relative octave reference
+    noteOctaveIsNeeded =
+      brailleOctaveMarkInNeeded (elt);
   }
   else {
-    noteOctaveIsNeeded = bsrNote::kNoteOctaveIsNeededYes;
-    fCurrentNoteOctaveKind = noteOctaveKind;
+    // this is the first note in the voice
+    noteOctaveIsNeeded =
+      bsrNote::kNoteOctaveIsNeededYes;
   }
-
+  
   // is there an accidental attached to the note?
   bsrNote::bsrNoteAccidentalKind
     bNoteAccidentalKind =
@@ -2194,6 +2358,8 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
     // register new note value size kind
     fCurrentNoteValueSizeKind = noteValueSizeKind;
   }
+
+  fRelativeOctaveReference = elt;
 }
 
 void msr2BsrTranslator::visitEnd (S_msrNote& elt)

@@ -225,12 +225,8 @@ class bsrNote : public bsrLineElement
                               { return fNoteValueSizeIsNeeded; }
                   
     void                  setNoteOctaveIsNeeded (
-                            bsrNoteOctaveIsNeeded
-                              noteOctaveIsNeededvalue)
-                              {
-                                fNoteOctaveIsNeeded =
-                                  noteOctaveIsNeededvalue;
-                              }
+                            bsrNoteOctaveIsNeeded value)
+                              { fNoteOctaveIsNeeded = value; }
                   
     bsrNoteOctaveIsNeeded getNoteOctaveIsNeeded () const
                               { return fNoteOctaveIsNeeded; }
