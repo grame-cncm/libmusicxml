@@ -1737,56 +1737,19 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       result = bsrNote::kNoteOctaveIsNeededYes;
   } // switch
 
-/* JMI
-  if (useOctaveSign) {
-    switch (noteAbsoluteOctave) {
-      case 1:
-        result = bsrNote::kNoteOctave1;
-        break;
-      case 2:
-        result = bsrNote::kNoteOctave2;
-        break;
-      case 3:
-        result = bsrNote::kNoteOctave3;
-        break;
-      case 4:
-        result = bsrNote::kNoteOctave4;
-        break;
-      case 5:
-        result = bsrNote::kNoteOctave5;
-        break;
-      case 6:
-        result = bsrNote::kNoteOctave6;
-        break;
-      case 7:
-        result = bsrNote::kNoteOctave7;
-        break;
-    } // switch
-  }
-*/
-
   return result;
 }
 
-void msr2BsrTranslator::visitStart (S_msrNote& elt)
+void msr2BsrTranslator::createBsrForNote (S_msrNote note)
 {
   int inputLineNumber =
-    elt->getInputLineNumber ();
+    note->getInputLineNumber ();
     
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrNote '" <<
-      elt->asString () <<
-      "'" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
   // get MSR note attributes
   
   msrQuarterTonesPitchKind
     noteQuarterTonesPitchKind =
-      elt->getNoteQuarterTonesPitchKind ();
+      note->getNoteQuarterTonesPitchKind ();
 
 /* JMI
   msrSemiTonesPitchKind
@@ -1803,15 +1766,15 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
   msrNote::msrNoteAccidentalKind
     mNoteAccidentalKind =
-      elt->getNoteAccidentalKind ();
+      note->getNoteAccidentalKind ();
 
-  int noteDotsNumber = elt->getNoteDotsNumber ();
+  int noteDotsNumber = note->getNoteDotsNumber ();
 
   msrDurationKind
     noteGraphicDurationKind =
-      elt->getNoteGraphicDurationKind ();
+      note->getNoteGraphicDurationKind ();
 
-  int noteOctave = elt->getNoteOctave ();
+  int noteOctave = note->getNoteOctave ();
 
   // let's go
   
@@ -1834,7 +1797,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   
   bsrNote::bsrNoteValueKind noteValueKind;
 
-  if (elt->getNoteIsARest ()) {
+  if (note->getNoteIsARest ()) {
     switch (noteGraphicDurationKind) {
       case k_NoDuration:
         break;
@@ -2217,7 +2180,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   if (fRelativeOctaveReference) {
     // analyse relationship to relative octave reference
     noteOctaveIsNeeded =
-      brailleOctaveMarkInNeeded (elt);
+      brailleOctaveMarkInNeeded (note);
   }
   else {
     // this is the first note in the voice
@@ -2319,7 +2282,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   } // switch
 
   // create the note
-  S_bsrNote note =
+  S_bsrNote bNote =
     bsrNote::create (
       inputLineNumber,
       noteValueKind,
@@ -2330,7 +2293,7 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
 
   // append it to the current measure
   fCurrentMeasure->
-    appendNoteToMeasure (note);
+    appendNoteToMeasure (bNote);
 
   // determine the note value size kind
   bsrNote::bsrNoteValueSizeKind
@@ -2349,15 +2312,32 @@ void msr2BsrTranslator::visitStart (S_msrNote& elt)
   if (noteValueSizeKind != fCurrentNoteValueSizeKind) {
     fLogOutputStream <<
       "--> note = '" <<
-      note->asShortString () <<
+      bNote->asShortString () <<
       "', needs a note value size sign" <<
       endl;
       
     // set the note value size kind as needed
-    note->setNoteValueSizeIsNeeded ();
+    bNote->setNoteValueSizeIsNeeded ();
     // register new note value size kind
     fCurrentNoteValueSizeKind = noteValueSizeKind;
   }
+}
+
+void msr2BsrTranslator::visitStart (S_msrNote& elt)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrNote '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  createBsrForNote (elt);
 
   fRelativeOctaveReference = elt;
 }

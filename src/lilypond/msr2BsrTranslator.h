@@ -250,6 +250,8 @@ class msr2BsrTranslator :
     bsrNote::bsrNoteValueSizeKind
                               fCurrentNoteValueSizeKind;
 
+    void                      createBsrForNote (S_msrNote note);
+
     // relative octaves
     // ------------------------------------------------------
     S_msrNote                 fRelativeOctaveReference;
