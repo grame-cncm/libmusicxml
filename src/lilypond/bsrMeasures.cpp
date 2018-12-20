@@ -125,7 +125,7 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
   appendLineElementToMeasure (barline);
 }
 
-void bsrMeasure::appendNumberToMeasure (S_bsrNumber number) // JMI ???
+void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceNumbers || gGeneralOptions->fTraceMeasures) {
@@ -140,6 +140,23 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number) // JMI ???
 #endif
 
   appendLineElementToMeasure (number);
+}
+
+void bsrMeasure::appendStringToMeasure (S_bsrString str)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceNumbers || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending string '" <<
+      str->asShortString () <<
+      "' to measure '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToMeasure (str);
 }
 
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)

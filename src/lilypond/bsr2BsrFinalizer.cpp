@@ -458,7 +458,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrNumber& elt)
 #endif
 
   fCurrentMeasure->
-    appendNumberToMeasure (elt); // JMI ???
+    appendNumberToMeasure (elt);
 }
 
 void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
@@ -467,6 +467,38 @@ void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
       "% --> End visiting bsrNumber '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+}
+
+//________________________________________________________________________
+void bsr2BsrFinalizer::visitStart (S_bsrString& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> Start visiting bsrString '" <<
+      elt->asString () <<
+      "'" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fCurrentMeasure->
+    appendStringToMeasure (elt);
+}
+
+void bsr2BsrFinalizer::visitEnd (S_bsrString& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gBsrOptions->fTraceBsrVisitors) {
+    fLogOutputStream <<
+      "% --> End visiting bsrString '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<

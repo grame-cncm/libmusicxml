@@ -200,6 +200,8 @@ class bsrLine : public bsrPageElement
                                   
     void                  appendTempoToLine (S_bsrTempo tempo);
                                                             
+    void                  appendNoteToLine (S_bsrNote note);
+
     int                   fetchLineContentsNumber () const
                               { return fLineContentsList.size (); }
 
@@ -221,6 +223,9 @@ class bsrLine : public bsrPageElement
     void                  insertElementBeforeLastElementOfLine (
                             S_bsrLineElement lineElement);
 
+    void                  appendLineElementToLastMeasureOfLine (
+                            S_bsrLineElement lineElement);
+                            
   public:
 
     // visitors
@@ -253,7 +258,7 @@ class bsrLine : public bsrPageElement
     S_bsrCellsList        fLineNumberCellsList;    
     list<S_bsrLineContents>
                           fLineContentsList;
-    bool                  fASpaceIsNeeded;
+    bool                  fASpaceIsNeededInLine;
 };
 typedef SMARTP<bsrLine> S_bsrLine;
 EXP ostream& operator<< (ostream& os, const S_bsrLine& elt);

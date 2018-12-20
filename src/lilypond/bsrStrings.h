@@ -24,6 +24,16 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+// brailling characters and strings
+S_bsrCellsList brailleCharacter (
+  int  inputLineNumber,
+  char ch);
+
+S_bsrCellsList brailleString (
+  int    inputLineNumber,
+  string str);
+
+//______________________________________________________________________________
 class bsrString : public bsrLineElement
 {
   public:

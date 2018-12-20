@@ -193,8 +193,12 @@ const bsrCellKind
 //______________________________________________________________________________
 // words
 const bsrCellKind
-  kCellWordSign       = kDots345,
-  kCellWordApostrophe = kDots6;
+  kCellWordSign        = kDots345,
+  
+  kCellWordApostrophe  = kDots6,
+  
+  kCellParenthesis     = kDots2356,
+  kCellQuestionMark    = kDots26;
 
 //______________________________________________________________________________
 // braille cells

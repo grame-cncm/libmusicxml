@@ -1778,7 +1778,109 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
 
   // let's go
   
-  bsrNote::bsrNoteOctaveKind noteOctaveKind = bsrNote::kNoteOctaveNone;
+  // braille the note words if any,
+  // which should precede the articulations in LilyPond
+  // generate code for the words only
+  // if note doesn't belong to a chord,
+  // otherwise it will be generated for the chord itself
+  if (! note->getNoteBelongsToAChord ()) {
+    const list<S_msrWords>&
+      noteWords =
+        note->getNoteWords ();
+
+    if (noteWords.size ()) {
+      list<S_msrWords>::const_iterator i;
+      
+      for (
+        i=noteWords.begin ();
+        i!=noteWords.end ();
+        i++
+      ) {
+        msrPlacementKind
+          wordsPlacementKind =
+            (*i)->getWordsPlacementKind ();
+      
+        string wordsContents =
+          (*i)->getWordsContents ();
+  
+        msrFontStyleKind
+          wordsFontStyleKind =
+            (*i)->getWordsFontStyleKind ();
+          
+        S_msrFontSize
+          wordsFontSize =
+            (*i)->getWordsFontSize ();
+          
+        msrFontWeightKind
+          wordsFontWeightKind =
+            (*i)->getWordsFontWeightKind ();
+          
+        {          
+          switch (wordsPlacementKind) {
+            case kPlacementNone:
+              break;
+            case kPlacementAbove:
+              break;
+            case kPlacementBelow:
+              break;
+          } // switch
+          
+          switch (wordsFontStyleKind) {
+            case kFontStyleNone:
+              break;
+            case kFontStyleNormal:
+              break;
+            case KFontStyleItalic:
+              break;
+          } // switch
+  
+          switch (wordsFontWeightKind) {
+            case kFontWeightNone:
+              break;
+            case kFontWeightNormal:
+              break;
+            case kFontWeightBold:
+              break;
+          } // switch
+  
+          switch (wordsFontSize->getFontSizeKind ()) {
+            case msrFontSize::kFontSizeNone:
+              break;
+            case msrFontSize::kFontSizeXXSmall:
+              break;
+            case msrFontSize::kFontSizeXSmall:
+              break;
+            case msrFontSize::kFontSizeSmall:
+              break;
+            case msrFontSize::kFontSizeMedium:
+              break;
+            case msrFontSize::kFontSizeLarge:
+              break;
+            case msrFontSize::kFontSizeXLarge:
+              break;
+            case msrFontSize::kFontSizeXXLarge:
+              break;
+            case msrFontSize::kFontSizeNumeric:
+              break;
+          } // switch
+
+          // create the words string
+          S_bsrString
+            bString =
+              bsrString::create (
+                inputLineNumber, wordsContents);
+
+          // append it to the current measure
+          fCurrentMeasure->
+            appendStringToMeasure (bString);
+        }
+      } // for
+    }
+  }
+
+  bsrNote::bsrNoteOctaveKind
+    noteOctaveKind =
+      bsrNote::kNoteOctaveNone;
   
   // middle C starts octave 4, as in MusicXML
   switch (noteOctave) {

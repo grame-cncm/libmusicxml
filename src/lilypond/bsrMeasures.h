@@ -20,6 +20,7 @@
 #include "bsrBarlines.h"
 
 #include "bsrNumbers.h"
+#include "bsrStrings.h"
 
 #include "bsrClefs.h"
 #include "bsrKeys.h"
@@ -81,6 +82,8 @@ class bsrMeasure : public bsrLineElement
     void                  appendBarlineToMeasure (S_bsrBarline barline);
                               
     void                  appendNumberToMeasure (S_bsrNumber number);
+    
+    void                  appendStringToMeasure (S_bsrString str);
                               
     void                  appendNoteToMeasure (S_bsrNote note);
     

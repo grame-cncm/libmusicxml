@@ -346,7 +346,7 @@ bsrLine::bsrLine (
 
   fLineNumberCellsList = buildLineNumberCellsList ();
 
-  fASpaceIsNeeded = true;
+  fASpaceIsNeededInLine = true;
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
@@ -420,14 +420,14 @@ void bsrLine::appendLineElementToLine (S_bsrLineElement lineElement)
  // JMI   lineElement->setSpacesBefore (1);
   }
 
-  if (fASpaceIsNeeded) {
+  if (fASpaceIsNeededInLine) {
     // append a space to the line elements list // JMI appendSpacesToLine ???
     lineContentsToAppendTo->
       appendLineElementToLineContents (
         bsrSpaces::create (
           fInputLineNumber, 1));
           
-    fASpaceIsNeeded = false;
+    fASpaceIsNeededInLine = false;
   }
   
   lineContentsToAppendTo->
@@ -490,7 +490,7 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 #endif
 
   appendLineElementToLine (key);
-  fASpaceIsNeeded = true;
+  fASpaceIsNeededInLine = true;
 }
 
 void bsrLine::appendTimeToLine (S_bsrTime time)
@@ -508,7 +508,7 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 #endif
 
   appendLineElementToLine (time);
-  fASpaceIsNeeded = true;
+  fASpaceIsNeededInLine = true;
 }
 
 void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
@@ -526,7 +526,7 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 #endif
 
   insertElementBeforeLastElementOfLine (time);
-  fASpaceIsNeeded = true;
+  fASpaceIsNeededInLine = true;
 }
 
 void bsrLine::appendTempoToLine (S_bsrTempo tempo)
@@ -544,7 +544,7 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 #endif
 
   appendLineElementToLine (tempo);
-  fASpaceIsNeeded = true;
+  fASpaceIsNeededInLine = true;
 }
 
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
@@ -562,7 +562,71 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 #endif
 
   appendLineElementToLine (measure);
-  fASpaceIsNeeded = true;
+  fASpaceIsNeededInLine = true;
+}
+
+void bsrLine::appendLineElementToLastMeasureOfLine (
+  S_bsrLineElement lineElement)
+{
+  S_bsrLineContents
+    lineContentsToAppendTo;
+    
+  if (! fLineContentsList.size ()) {
+    // first insertion in this line: create the first, regular line contents
+    lineContentsToAppendTo =
+      bsrLineContents::create (
+        lineElement->getInputLineNumber (),
+        bsrLineContents::kLineContentsRegular);
+
+    // set lineElement's spacesAfter value if needed
+    switch (lineContentsToAppendTo->getLineContentsKind ()) {
+      case bsrLineContents::kLineContentsRegular:
+        // leave it as 0
+        break;
+      case bsrLineContents::kLineContentsContinuation:
+    // JMI    lineElement->setSpacesBefore (2);
+        break;
+    } // switch
+
+    // append it to the line contents list
+    fLineContentsList.push_back (lineContentsToAppendTo);
+  }
+  else {
+    lineContentsToAppendTo = fLineContentsList.back ();
+
+    // set lineElement's spacesAfter value
+ // JMI   lineElement->setSpacesBefore (1);
+  }
+
+  if (fASpaceIsNeededInLine) {
+    // append a space to the line elements list // JMI appendSpacesToLine ???
+    lineContentsToAppendTo->
+      appendLineElementToLineContents (
+        bsrSpaces::create (
+          fInputLineNumber, 1));
+          
+    fASpaceIsNeededInLine = false;
+  }
+  
+  lineContentsToAppendTo->
+    appendLineElementToLineContents (lineElement);
+}
+
+void bsrLine::appendNoteToLine (S_bsrNote note)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending note '" <<
+      note->asShortString () <<
+      "' to line '" <<
+      asString () <<
+      "'" <<
+      endl;
+    }
+#endif
+
+  appendLineElementToLastMeasureOfLine (note); // last measure? JMI
 }
 
 S_bsrCellsList bsrLine::buildLineNumberCellsList () const
