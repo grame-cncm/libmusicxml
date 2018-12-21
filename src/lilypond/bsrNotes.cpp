@@ -1014,16 +1014,16 @@ string bsrNote::noteOctaveKindAsString (
   string result;
 
   switch (noteOctaveKind) {
-    case kNoteOctaveNone:   result = "OctaveNone"; break;
-    case kNoteOctaveBelow1: result = "OctaveBelow1"; break;
-    case kNoteOctave1:      result = "Octave1"; break;
-    case kNoteOctave2:      result = "Octave2"; break;
-    case kNoteOctave3:      result = "Octave3"; break;
-    case kNoteOctave4:      result = "Octave4"; break;
-    case kNoteOctave5:      result = "Octave5"; break;
-    case kNoteOctave6:      result = "Octave6"; break;
-    case kNoteOctave7:      result = "Octave7"; break;
-    case kNoteOctaveAbove7: result = "OctaveAbove7"; break;
+    case kNoteOctaveNone:   result = "octaveNone"; break;
+    case kNoteOctaveBelow1: result = "octaveBelow1"; break;
+    case kNoteOctave1:      result = "octave1"; break;
+    case kNoteOctave2:      result = "octave2"; break;
+    case kNoteOctave3:      result = "octave3"; break;
+    case kNoteOctave4:      result = "octave4"; break;
+    case kNoteOctave5:      result = "octave5"; break;
+    case kNoteOctave6:      result = "octave6"; break;
+    case kNoteOctave7:      result = "octave7"; break;
+    case kNoteOctaveAbove7: result = "octaveAbove7"; break;
   } // switch
 
   return result;

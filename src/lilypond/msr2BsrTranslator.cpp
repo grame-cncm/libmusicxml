@@ -179,7 +179,8 @@ void msr2BsrTranslator::visitStart (S_msrLineBreak& elt)
   fCurrentPage->
     appendLineToPage (fCurrentLine);
 
-  // a note octave will be need for the next note to come
+  // a note octave will be needed for the next note to come,
+  // i.e., the first one in the new line
   fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
 }
 
@@ -1683,6 +1684,16 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       endl <<
 */
       setw (fieldWidth) <<
+      "% fRelativeOctaveReference" <<
+      " = " <<
+      fRelativeOctaveReference->asShortString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "% note" <<
+      " = " <<
+      note->asShortString () <<
+      endl <<
+      setw (fieldWidth) <<
       "% referenceDiatonicPitchAsString" <<
       " = " <<
       referenceDiatonicPitchKindAsString <<
@@ -1691,6 +1702,11 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       "% referenceAbsoluteOctave" <<
        " = " <<
       referenceAbsoluteOctave <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteOctave" <<
+       " = " <<
+      noteAbsoluteOctave <<
       endl <<
       endl <<
       setw (fieldWidth) <<
@@ -1708,22 +1724,24 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       " = " <<
       noteAboluteDiatonicOrdinal - referenceAboluteDiatonicOrdinal <<
       endl <<
+      setw (fieldWidth) <<
+      ", line " << inputLineNumber <<
+      endl <<
       endl;
   }
 #endif
 
   stringstream s;
   
-  // should an octave sign be used?  
+  // should an octave sign be used?
   switch (noteAboluteDiatonicOrdinal - referenceAboluteDiatonicOrdinal) {
     case 0:
     case 1: case -1:
     case 2: case -2:
-    case 3: case -3:
-    case 4: case -4:
       // less than a fourth, no octave sign needed
       break;
-    case 5: case 6: case 7:
+    case 3: case -3:
+    case 4: case -4:
       // a fourth or fifth, octave sign needed if there an octave change
       if (noteAbsoluteOctave == referenceAbsoluteOctave) {
         result = bsrNote::kNoteOctaveIsNeededNo;
@@ -1873,6 +1891,10 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
           // append it to the current measure
           fCurrentMeasure->
             appendStringToMeasure (bString);
+
+          // a note octave will be needed for the next note to come,
+          // i.e., the first one after the word sign
+          fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
         }
       } // for
     }
@@ -2279,16 +2301,20 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
     noteOctaveIsNeeded =
       bsrNote::kNoteOctaveIsNeededNo;
 
-  if (fRelativeOctaveReference) {
-    // analyse relationship to relative octave reference
-    noteOctaveIsNeeded =
-      brailleOctaveMarkInNeeded (note);
-  }
-  else {
-    // this is the first note in the voice
+  if (fCurrentNoteOctaveKind == bsrNote::kNoteOctaveNone) {
+    // this note is the first one in the voice,
+    // or a preceding braille element forces the octave sign for it
     noteOctaveIsNeeded =
       bsrNote::kNoteOctaveIsNeededYes;
   }
+  else if (fRelativeOctaveReference) {
+    // analyye relationship to relative octave reference
+    noteOctaveIsNeeded =
+      brailleOctaveMarkInNeeded (note);
+  }
+
+  // register note's octave kind
+  fCurrentNoteOctaveKind = noteOctaveKind;
   
   // is there an accidental attached to the note?
   bsrNote::bsrNoteAccidentalKind
@@ -2404,13 +2430,18 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
         noteValueKind);
 
   // is a note value sign needed?
-  fLogOutputStream <<
-    "--> fCurrentNoteValueSizeKind = " <<
-    bsrNote::noteValueSizeKindAsString (fCurrentNoteValueSizeKind) <<
-    ", noteValueSizeKind = " <<
-    bsrNote::noteValueSizeKindAsString (noteValueSizeKind) <<
-    endl;
-      
+  if (true || gGeneralOptions->fTraceNotesDetails) {
+    fLogOutputStream <<
+      "--> fCurrentNoteValueSizeKind = " <<
+      bsrNote::noteValueSizeKindAsString (fCurrentNoteValueSizeKind) <<
+      ", noteValueSizeKind = " <<
+      bsrNote::noteValueSizeKindAsString (noteValueSizeKind) <<
+      ", noteOctaveIsNeeded = " <<
+      bsrNote::noteOctaveIsNeededAsString (noteOctaveIsNeeded) <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+  
   if (noteValueSizeKind != fCurrentNoteValueSizeKind) {
     fLogOutputStream <<
       "--> note = '" <<
