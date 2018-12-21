@@ -1471,24 +1471,32 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
   // let's go
 
   bsrTime::bsrTimeKind bTimeKind = bsrTime::kTimeNone;
-    
+   
   switch (mTimeSymbolKind) {
+    case msrTime::kTimeSymbolNone:
+      bTimeKind = bsrTime::kTimeNone;
+      
     case msrTime::kTimeSymbolCommon:
       bTimeKind = bsrTime::kTimeCommon;
       break;
     case msrTime::kTimeSymbolCut:
       bTimeKind = bsrTime::kTimeCut;
       break;
+      
     case msrTime::kTimeSymbolNote:
+      bTimeKind = bsrTime::kTimeNote;
       break;
     case msrTime::kTimeSymbolDottedNote:
+      bTimeKind = bsrTime::kTimeDottedNote;
       break;
+      
     case msrTime::kTimeSymbolSingleNumber:
+      bTimeKind = bsrTime::kTimeSingleNumber;
       break;
+      
     case msrTime::kTimeSymbolSenzaMisura:
+      bTimeKind = bsrTime::kTimeSenzaMisura;
       break;
-    case msrTime::kTimeSymbolNone:
-      bTimeKind = bsrTime::kTimeNumerical;
     break;
   } // switch
 
@@ -1564,6 +1572,10 @@ void msr2BsrTranslator::visitStart (S_msrTime& elt)
     fCurrentLine->
       insertTimeBeforeLastElementOfLine (time);
   }
+
+  // a note octave will be needed for the next note to come,
+  // i.e., the first one after a numeric indicator
+  fCurrentNoteOctaveKind = bsrNote::kNoteOctaveNone;
 }
 
 void msr2BsrTranslator::visitEnd (S_msrTime& elt)

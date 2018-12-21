@@ -115,13 +115,11 @@ class bsrTime : public bsrLineElement
         kTimeNone,
         kTimeCommon,
         kTimeCut,
-        kTimeNumerical };
-/* JMI
+        kTimeNumerical, // JMI
         kTimeNote,
         kTimeDottedNote,
         kTimeSingleNumber,
         kTimeSenzaMisura };
-        */
 
     static string timeKindAsString (
       bsrTimeKind timeKind);

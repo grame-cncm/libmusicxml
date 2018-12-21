@@ -20,6 +20,7 @@
 #include "bsrTimes.h"
 
 #include "bsrNumbers.h"
+#include "bsrNotes.h"
 
 #include "messagesHandling.h"
 
@@ -339,7 +340,201 @@ S_bsrCellsList bsrTime::buildCellsList () const
       result->appendCellKindToCellsList (kDots14);
       break;
       
-    case bsrTime::kTimeNumerical:
+    case bsrTime::kTimeNumerical: // JMI ???
+    case bsrTime::kTimeNote:
+    case bsrTime::kTimeDottedNote:
+      {
+        if (fTimeItemsVector.size ()) {
+          vector<S_bsrTimeItem>::const_iterator
+            iBegin = fTimeItemsVector.begin (),
+            iEnd   = fTimeItemsVector.end (),
+            i      = iBegin;
+
+          S_bsrTimeItem bTimeItem = (*i);
+
+          const vector<int>&
+            timeBeatsNumbersVector =
+              bTimeItem->getTimeBeatsNumbersVector ();
+          
+          int bTimeBeatValue =
+              bTimeItem->getTimeBeatValue ();
+
+          int vectorSize =
+            timeBeatsNumbersVector.size ();
+        
+          switch (vectorSize) {
+            case 0:
+            /* JMI
+              msrInternalError (
+                gGeneralOptions->fInputSourceName,
+                fInputLineNumber,
+                __FILE__, __LINE__,
+                "time item beats numbers vector is empty");
+                */
+              break;
+              
+            case 1:
+              {
+                // determine the beats number
+                int beatsNumberToBeUsed = timeBeatsNumbersVector [0];
+                
+                switch (fTimeKind) {
+                  case bsrTime::kTimeNote:
+                    break;
+                  case bsrTime::kTimeDottedNote:
+                    beatsNumberToBeUsed /= 3;
+                    break;
+                  default:
+                    ;
+                } // switch
+
+                // create the beats number
+                S_bsrNumber
+                  beatsNumber =
+                    bsrNumber::create (
+                      fInputLineNumber,
+                      beatsNumberToBeUsed,
+                      bsrNumber::kNumberSignIsNeededYes);
+        
+                // append it to result
+                result->appendCellsListToCellsList (
+                  beatsNumber->fetchCellsList ());
+
+                // create music code indicator
+                S_bsrCellsList
+                  musicCodeIndicator =
+                    bsrCellsList::create (
+                      fInputLineNumber,
+                      kDots6, kDots3);
+        
+                // append it to result
+                result->appendCellsListToCellsList (
+                  musicCodeIndicator);
+                
+                // determine the beat value to be used
+                int beatValueToBeUsed = bTimeBeatValue;
+                
+                switch (fTimeKind) {
+                  case bsrTime::kTimeNote:
+                    break;
+                  case bsrTime::kTimeDottedNote:
+                    beatValueToBeUsed /= 2;
+                    break;
+                  default:
+                    ;
+                } // switch
+
+                // append the beat value to result
+                switch (beatValueToBeUsed) {
+                  case 1:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueCWhole));
+                    break;
+                  case 2:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueCHalf));
+                    break;
+                  case 4:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueCQuarter));
+                    break;
+                  case 8:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueC8th));
+                    break;
+                  case 16:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueC16th));
+                    break;
+                  case 32:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueC32nd));
+                    break;
+                  case 64:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueC64th));
+                    break;
+                  case 128:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueC128th));
+                    break;
+                  case 256:
+                    result->appendCellsListToCellsList (
+                      bsrNote::noteValueKindAsCellsList (
+                        fInputLineNumber,
+                        bsrNote::kNoteValueC256th));
+                    break;
+                  default:
+                    {
+                      stringstream s;
+                  
+                      s <<
+                        "MSR time beat value '" <<
+                        bTimeBeatValue <<
+                        "' is not supported in Braille music";
+                        
+                      bsrMusicXMLWarning (
+                        gGeneralOptions->fInputSourceName,
+                        fInputLineNumber,
+                        s.str ());
+                    }
+                } // switch
+
+                // append a dot to the beat number if needed
+                switch (fTimeKind) {
+                  case bsrTime::kTimeNote:
+                    break;
+                  case bsrTime::kTimeDottedNote:
+                    result->appendCellKindToCellsList (
+                      kCellAugmentationDot);
+                    break;
+                  default:
+                    ;
+                } // switch
+              }
+              break;
+              
+            default:
+              ;
+            /*
+              s <<
+                "beats numbers: ";
+        
+              for (int i = 0; i < vectorSize; i++) {
+                s <<
+                  timeBeatsNumbersVector [i];
+          
+                if (i != vectorSize - 1) {
+                  s <<
+                    " ";
+                }
+              } // for
+        
+              s <<
+                ", beat value: " << fTimeBeatValue;
+                */
+          } // switch
+        }
+      }
+      break;
+
+    case bsrTime::kTimeSingleNumber:
       {
         if (fTimeItemsVector.size ()) {
           vector<S_bsrTimeItem>::const_iterator
@@ -383,7 +578,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                 // append it to result
                 result->appendCellsListToCellsList (
                   beatsNumber->fetchCellsList ());
-          
+
                 // append the beat value sign to result
                 switch (bTimeBeatValue) {
                   case 1:
@@ -454,6 +649,9 @@ S_bsrCellsList bsrTime::buildCellsList () const
           } // switch
         }
       }
+      break;
+
+    case bsrTime::kTimeSenzaMisura:
       break;
   } // switch
 
@@ -540,14 +738,18 @@ string bsrTime::timeKindAsString (
     case bsrTime::kTimeNumerical:
       result = "timeNumerical";
       break;
-  /* 
-    case bsrTime::kTimeSymbolDottedNote:
+    case bsrTime::kTimeNote:
+      result = "timeNote";
       break;
-    case bsrTime::kTimeSymbolSingleNumber:
+    case bsrTime::kTimeDottedNote:
+      result = "timeDottedNote";
       break;
-    case bsrTime::kTimeSymbolSenzaMisura:
+    case bsrTime::kTimeSingleNumber:
+      result = "timeSingleNumber";
       break;
-      */
+    case bsrTime::kTimeSenzaMisura:
+      result = "timeSenzaMisura";
+      break;
   } // switch
 
   return result;
