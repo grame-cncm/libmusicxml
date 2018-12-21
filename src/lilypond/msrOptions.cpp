@@ -784,8 +784,10 @@ R"(Exit after pass 2a, i.e. after conversion
 of the MusicXML tree to an MSR skeleton.)",
           "exit2a",
           fExit2a);
+          /* JMI
     exit2aOptionsBooleanItem->
       setOptionsElementIsHidden ();
+      */
       
     exitAfterSomePassesSubGroup->
       appendOptionsItem (
@@ -800,8 +802,10 @@ R"(Exit after pass 2b, i.e. after conversion
 of the MusicXML tree to MSR.)",
           "exit2b",
           fExit2b);
+          /* JMI
     exit2bOptionsBooleanItem->
       setOptionsElementIsHidden ();
+      */
       
     exitAfterSomePassesSubGroup->
       appendOptionsItem (

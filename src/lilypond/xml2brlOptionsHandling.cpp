@@ -27,8 +27,11 @@
 #include "msrOptions.h"
 #include "bsrOptions.h"
 #include "brailleOptions.h"
-#include "extraOptions.h"
 
+//#define EXTRA_OPTIONS
+#ifdef EXTRA_OPTIONS
+  #include "extraOptions.h"
+#endif
 
 using namespace std;
 
@@ -344,8 +347,10 @@ void xml2brlOptionsHandler::initializeOptionsHandler ()
   initializeBrailleOptionsHandling (
     this);
 
+#ifdef EXTRA_OPTIONS
   initializeExtraOptionsHandling (
     this);
+#endif
 
   initializeXml2brlOptionsHandling (
     this);
@@ -587,9 +592,11 @@ void xml2brlOptionsHandler::enforceOptionsHandlerQuietness ()
   
   gBrailleOptions->
     enforceQuietness ();
-  
+
+#ifdef EXTRA_OPTIONS
   gExtraOptions->
     enforceQuietness ();
+#endif
 
   /* JMI
   gXml2brlOptions->
@@ -627,9 +634,11 @@ void xml2brlOptions::checkOptionsConsistency ()
   gBrailleOptions->
     checkOptionsConsistency ();
   
+#ifdef EXTRA_OPTIONS
   gExtraOptions->
     checkOptionsConsistency ();
-  
+#endif
+
   gXml2brlOptions->
     checkOptionsConsistency ();
 }
