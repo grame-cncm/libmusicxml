@@ -1176,6 +1176,7 @@ class msrMeasure : public msrElement
 
     list<S_msrMeasureElement>
                           fMeasurePendingMeasureElementsList;
+    void                  printMeasurePendingMeasureElementsList ();
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -2804,8 +2805,7 @@ class msrNote : public msrMeasureElement
     enum msrNoteAccidentalKind {
       kNoteAccidentalNone,
       
-      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat,
-      kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
+      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
       kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
       

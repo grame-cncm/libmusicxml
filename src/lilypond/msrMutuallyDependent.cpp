@@ -13297,6 +13297,40 @@ void msrMeasure::appendPartAbbreviationDisplayToMeasure (
   appendElementToMeasure (partAbbreviationDisplay);
 }
 
+void msrMeasure::printMeasurePendingMeasureElementsList ()
+{
+  gLogIOstream <<
+    endl <<
+    "===> printMeasurePendingMeasureElementsList ()" <<
+    endl;
+
+  gIndenter++;
+  
+  if (fMeasurePendingMeasureElementsList.size ()) {
+    list<S_msrMeasureElement>::const_iterator
+      iBegin = fMeasurePendingMeasureElementsList.begin (),
+      iEnd   = fMeasurePendingMeasureElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogIOstream << (*i)->asShortString ();
+      if (++i == iEnd) break;
+      gLogIOstream << endl;
+    } // for
+  }
+  else {
+    gLogIOstream <<
+      "none" <<
+      endl;
+  }
+    
+  gIndenter--;
+
+  gLogIOstream <<
+    "<===" <<
+    endl <<
+    endl;
+}
+
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
   int inputLineNumber =
@@ -13319,11 +13353,11 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       fMeasureLength);
 
   // is there already a pending barline in this voice?
-  if (fMeasurePendingMeasureElementsList.size ()) {
+  if (fMeasurePendingMeasureElementsList.size () > 1) {
     stringstream s;
   
     s <<
-      "should not have two pending measure elements in measure " << // JMI
+      "should not have more than one pending measure elements in measure " << // JMI
       fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -13331,20 +13365,22 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
           getVoiceName () <<
       "\"";
   
-    msrInternalError (
+//    msrInternalError (
+    msrInternalWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+// JMI      __FILE__, __LINE__,
       s.str ());
   }
-  
+  printMeasurePendingMeasureElementsList ();
+
   // fetch the part measure length high tide
   rational
     partMeasureLengthHighTide =
       fetchMeasurePartUplink ()->
         getPartMeasureLengthHighTide ();
 
-  if (fMeasureLength == partMeasureLengthHighTide) {
+  if (true /* JMI */ || fMeasureLength == partMeasureLengthHighTide) {
     // append barline to the measure elements list at once
     appendElementToMeasure (barline);
   }
