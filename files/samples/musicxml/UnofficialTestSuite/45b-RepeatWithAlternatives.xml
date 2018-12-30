@@ -48,7 +48,7 @@
       </barline>
       <note>
         <pitch>
-          <step>C</step>
+          <step>D</step>
           <octave>5</octave>
         </pitch>
         <duration>4</duration>
@@ -68,7 +68,7 @@
       </barline>
       <note>
         <pitch>
-          <step>C</step>
+          <step>E</step>
           <octave>5</octave>
         </pitch>
         <duration>4</duration>
@@ -83,7 +83,7 @@
     <measure number="4">
       <note>
         <pitch>
-          <step>C</step>
+          <step>F</step>
           <octave>5</octave>
         </pitch>
         <duration>4</duration>

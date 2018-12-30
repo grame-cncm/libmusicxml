@@ -98,7 +98,7 @@ class EXP timing {
     std::list<S_timingItem>
                           fTimingItemsList;
 };
-std::ostream& operator<< (std::ostream& os, const timing& tim);
+EXP std::ostream& operator<< (std::ostream& os, const timing& tim);
 
 //______________________________________________________________________________
 class EXP indenter
@@ -146,7 +146,7 @@ class EXP indenter
     int                   fIndent;
     std::string           fSpacer;
 };
-std::ostream& operator<< (std::ostream& os, const indenter& idtr);
+EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 
 // useful shortcut macros
 #define gIndenter indenter::gIndenter

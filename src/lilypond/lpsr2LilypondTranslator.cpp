@@ -13595,12 +13595,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     msrRepeatDescr::create (
       repeatEndingsNumber));
     
+  int
+    repeatTimes =
+      elt->getRepeatTimes ();
+
   stringstream s;
   
   s <<
- // JMI   "\\repeat volta " << elt->getRepeatTimes () << " {";
     "\\repeat volta " <<
-    fRepeatsDescrStack.back ()->getRepeatEndingsNumber () <<
+    repeatTimes <<
+// JMI    fRepeatsDescrStack.back ()->getRepeatEndingsNumber () <<
     " {";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
@@ -13622,10 +13626,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     endl;
 
   gIndenter++;
-
-  int
-    repeatTimes =
-      elt->getRepeatTimes ();
 
   if (repeatTimes > 2) {
     fLilypondCodeIOstream <<

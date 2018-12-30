@@ -668,9 +668,9 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasure> create (
-      int           inputLineNumber,
-      string        measureNumber,
-      S_msrSegment  measureSegmentUplink);
+      int          inputLineNumber,
+      string       measureNumber,
+      S_msrSegment measureSegmentUplink);
     
     SMARTP<msrMeasure> createMeasureNewbornClone (
       S_msrSegment containingSegment);
@@ -684,9 +684,9 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     msrMeasure (
-      int           inputLineNumber,
-      string        measureNumber,
-      S_msrSegment  measureSegmentUplink);
+      int          inputLineNumber,
+      string       measureNumber,
+      S_msrSegment measureSegmentUplink);
       
     virtual ~msrMeasure ();
   
