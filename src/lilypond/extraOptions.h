@@ -71,7 +71,7 @@ class optionsShowAllChordsStructuresItem : public optionsItem
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsShowAllChordsStructuresItem> S_optionsShowAllChordsStructuresItem;
-ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt);
 
 //______________________________________________________________________________
 class optionsShowAllChordsContentsItem : public optionsValuedItem
@@ -146,7 +146,7 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
     string&               fOptionsShowAllChordsContentsItemVariable;
 };
 typedef SMARTP<optionsShowAllChordsContentsItem> S_optionsShowAllChordsContentsItem;
-ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt);
 
 //______________________________________________________________________________
 class optionsShowChordDetailsItem : public optionsValuedItem
@@ -217,7 +217,7 @@ class optionsShowChordDetailsItem : public optionsValuedItem
     string&               fOptionsShowChordDetailsItemVariable;
 };
 typedef SMARTP<optionsShowChordDetailsItem> S_optionsShowChordDetailsItem;
-ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt);
 
 //______________________________________________________________________________
 class optionsShowChordAnalysisItem : public optionsValuedItem
@@ -288,7 +288,7 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
     string&               fOptionsShowChordAnalysisItemVariable;
 };
 typedef SMARTP<optionsShowChordAnalysisItem> S_optionsShowChordAnalysisItem;
-ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt);
 
 //______________________________________________________________________________
 class extraOptions : public optionsGroup

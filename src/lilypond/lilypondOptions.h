@@ -93,7 +93,7 @@ class optionsAccidentalStyleItem : public optionsValuedItem
                           fOptionsAccidentalStyleKindItemVariable;
 };
 typedef SMARTP<optionsAccidentalStyleItem> S_optionsAccidentalStyleItem;
-ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
 
 //______________________________________________________________________________
 class optionsMidiTempoItem : public optionsValuedItem
@@ -171,7 +171,7 @@ class optionsMidiTempoItem : public optionsValuedItem
     pair<string, int>&    fOptionsMidiTempoItemVariable;
 };
 typedef SMARTP<optionsMidiTempoItem> S_optionsMidiTempoItem;
-ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt);
 
 //______________________________________________________________________________
 class lilypondOptions : public optionsGroup

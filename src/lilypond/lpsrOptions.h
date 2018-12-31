@@ -92,7 +92,7 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
                           fOptionsLpsrPitchesLanguageKindItemVariable;
 };
 typedef SMARTP<optionsLpsrPitchesLanguageItem> S_optionsLpsrPitchesLanguageItem;
-ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
 class optionsLpsrChordsLanguageItem : public optionsValuedItem
@@ -166,7 +166,7 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
                           fOptionsLpsrChordsLanguageKindItemVariable;
 };
 typedef SMARTP<optionsLpsrChordsLanguageItem> S_optionsLpsrChordsLanguageItem;
-ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt);
 
 //______________________________________________________________________________
 class lpsrOptions : public optionsGroup

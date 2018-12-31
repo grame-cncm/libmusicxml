@@ -483,11 +483,11 @@ void write_bsrDot6Cell (ostream& os, bsrDot6Cell cell);
 
 void write_bsrDot6Cell ( bsrDot6Cell cell );
 
-ostream& operator<< (ostream& os, const bsrDot6Cell cell);
+EXP ostream& operator<< (ostream& os, const bsrDot6Cell cell);
 
 void write_wstring (ostream& os, wstring wstr );
 
-ostream& operator<< (ostream& os, const wstring& wstr);
+EXP ostream& operator<< (ostream& os, const wstring& wstr);
 */
 
 //______________________________________________________________________________

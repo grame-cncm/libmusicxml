@@ -257,7 +257,7 @@ class optionsHelpUsageItem : public optionsItem
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsHelpUsageItem> S_optionsHelpUsageItem;
-ostream& operator<< (ostream& os, const S_optionsHelpUsageItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsHelpUsageItem& elt);
 
 //______________________________________________________________________________
 class optionsHelpSummaryItem : public optionsItem
@@ -309,7 +309,7 @@ class optionsHelpSummaryItem : public optionsItem
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsHelpSummaryItem> S_optionsHelpSummaryItem;
-ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
 
 //______________________________________________________________________________
 class optionsCombinedItemsItem : public optionsItem
@@ -394,7 +394,7 @@ class optionsCombinedItemsItem : public optionsItem
                           fOptionsCombinedItemsList;
 };
 typedef SMARTP<optionsCombinedItemsItem> S_optionsCombinedItemsItem;
-ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt);
 
 //______________________________________________________________________________
 class optionsBooleanItem : public optionsItem
@@ -463,7 +463,7 @@ class optionsBooleanItem : public optionsItem
     bool&                 fOptionsBooleanItemVariable;
 };
 typedef SMARTP<optionsBooleanItem> S_optionsBooleanItem;
-ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
 
 //______________________________________________________________________________
 class optionsTwoBooleansItem : public optionsItem
@@ -539,7 +539,7 @@ class optionsTwoBooleansItem : public optionsItem
     bool&                 fOptionsTwoBooleansItemSecondaryVariable;
 };
 typedef SMARTP<optionsTwoBooleansItem> S_optionsTwoBooleansItem;
-ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
 
 //______________________________________________________________________________
 class optionsThreeBooleansItem : public optionsItem
@@ -620,7 +620,7 @@ class optionsThreeBooleansItem : public optionsItem
     bool&                 fOptionsThreeBooleansItemTertiaryVariable;
 };
 typedef SMARTP<optionsThreeBooleansItem> S_optionsThreeBooleansItem;
-ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
 
 //______________________________________________________________________________
 class optionsValuedItem : public optionsItem
@@ -757,7 +757,7 @@ class optionsItemHelpItem : public optionsValuedItem
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsItemHelpItem> S_optionsItemHelpItem;
-ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt);
 
 //______________________________________________________________________________
 class optionsIntegerItem : public optionsValuedItem
@@ -830,7 +830,7 @@ class optionsIntegerItem : public optionsValuedItem
     int&                  fOptionsIntegerItemVariable;
 };
 typedef SMARTP<optionsIntegerItem> S_optionsIntegerItem;
-ostream& operator<< (ostream& os, const S_optionsIntegerItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsIntegerItem& elt);
 
 //______________________________________________________________________________
 class optionsFloatItem : public optionsValuedItem
@@ -901,7 +901,7 @@ class optionsFloatItem : public optionsValuedItem
     float&                fOptionsFloatItemVariable;
 };
 typedef SMARTP<optionsFloatItem> S_optionsFloatItem;
-ostream& operator<< (ostream& os, const S_optionsFloatItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsFloatItem& elt);
 
 //______________________________________________________________________________
 class optionsStringItem : public optionsValuedItem
@@ -972,7 +972,7 @@ class optionsStringItem : public optionsValuedItem
     string&               fOptionsStringItemVariable;
 };
 typedef SMARTP<optionsStringItem> S_optionsStringItem;
-ostream& operator<< (ostream& os, const S_optionsStringItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsStringItem& elt);
 
 //______________________________________________________________________________
 class optionsRationalItem : public optionsValuedItem
@@ -1043,7 +1043,7 @@ class optionsRationalItem : public optionsValuedItem
     rational&             fOptionsRationalItemVariable;
 };
 typedef SMARTP<optionsRationalItem> S_optionsRationalItem;
-ostream& operator<< (ostream& os, const S_optionsRationalItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsRationalItem& elt);
 
 //______________________________________________________________________________
 class optionsNumbersSetItem : public optionsValuedItem
@@ -1114,7 +1114,7 @@ class optionsNumbersSetItem : public optionsValuedItem
     set<int>&             fOptionsNumbersSetItemVariable;
 };
 typedef SMARTP<optionsNumbersSetItem> S_optionsNumbersSetItem;
-ostream& operator<< (ostream& os, const S_optionsNumbersSetItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsNumbersSetItem& elt);
 
 //_______________________________________________________________________________
 class optionsSubGroup : public optionsElement
@@ -1243,7 +1243,7 @@ class optionsSubGroup : public optionsElement
     list<S_optionsItem>   fOptionsSubGroupItemsList;
 };
 typedef SMARTP<optionsSubGroup> S_optionsSubGroup;
-ostream& operator<< (ostream& os, const S_optionsSubGroup& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsSubGroup& elt);
 
 //_______________________________________________________________________________
 class optionsGroup : public optionsElement
@@ -1367,7 +1367,7 @@ class optionsGroup : public optionsElement
                           fOptionsGroupSubGroupsList;
 };
 typedef SMARTP<optionsGroup> S_optionsGroup;
-ostream& operator<< (ostream& os, const S_optionsGroup& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsGroup& elt);
 
 //_______________________________________________________________________________
 class EXP optionsHandler : public optionsElement
@@ -1567,7 +1567,7 @@ class EXP optionsHandler : public optionsElement
     indentedOstream&      fOptionsHandlerLogIOstream;
 };
 typedef SMARTP<optionsHandler> S_optionsHandler;
-ostream& operator<< (ostream& os, const S_optionsHandler& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsHandler& elt);
 
 
 }

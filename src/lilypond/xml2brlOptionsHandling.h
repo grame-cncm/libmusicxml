@@ -70,7 +70,7 @@ class xml2brlOptionsVersionItem : public optionsItem
     // ------------------------------------------------------
 };
 typedef SMARTP<xml2brlOptionsVersionItem> S_xml2brlOptionsVersionItem;
-ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt);
+EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt);
 
 //______________________________________________________________________________
 class xml2brlOptionsAboutItem : public optionsItem
@@ -122,7 +122,7 @@ class xml2brlOptionsAboutItem : public optionsItem
     // ------------------------------------------------------
 };
 typedef SMARTP<xml2brlOptionsAboutItem> S_xml2brlOptionsAboutItem;
-ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt);
+EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt);
 
 //______________________________________________________________________________
 class xml2brlOptionsContactItem : public optionsItem
@@ -174,7 +174,7 @@ class xml2brlOptionsContactItem : public optionsItem
     // ------------------------------------------------------
 };
 typedef SMARTP<xml2brlOptionsContactItem> S_xml2brlOptionsContactItem;
-ostream& operator<< (ostream& os, const S_xml2brlOptionsContactItem& elt);
+EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsContactItem& elt);
 
 //_______________________________________________________________________________
 class EXP xml2brlOptionsHandler : public optionsHandler
@@ -229,7 +229,7 @@ class EXP xml2brlOptionsHandler : public optionsHandler
     // ------------------------------------------------------
 };
 typedef SMARTP<xml2brlOptionsHandler> S_xml2brlOptionsHandler;
-ostream& operator<< (ostream& os, const S_xml2brlOptionsHandler& elt);
+EXP ostream& operator<< (ostream& os, const S_xml2brlOptionsHandler& elt);
 
 //______________________________________________________________________________
 class xml2brlOptions : public optionsGroup

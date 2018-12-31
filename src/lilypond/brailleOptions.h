@@ -91,7 +91,7 @@ class optionsUTFKindItem : public optionsValuedItem
     bsrUTFKind            fOptionsUTFKindItemVariable;
 };
 typedef SMARTP<optionsUTFKindItem> S_optionsUTFKindItem;
-ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt);
 
 //______________________________________________________________________________
 class optionsByteOrderingKindItem : public optionsValuedItem
@@ -162,7 +162,7 @@ class optionsByteOrderingKindItem : public optionsValuedItem
     bsrByteOrderingKind   fOptionsByteOrderingKindItemVariable;
 };
 typedef SMARTP<optionsByteOrderingKindItem> S_optionsByteOrderingKindItem;
-ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt);
 
 //______________________________________________________________________________
 class optionsFacSimileKindItem : public optionsValuedItem
@@ -233,7 +233,7 @@ class optionsFacSimileKindItem : public optionsValuedItem
     bsrFacSimileKind      fOptionsFacSimileKindItemVariable;
 };
 typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
-ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
 
 //______________________________________________________________________________
 class brailleOptions : public optionsGroup

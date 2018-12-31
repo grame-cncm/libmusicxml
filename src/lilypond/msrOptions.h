@@ -101,7 +101,7 @@ class optionsPartRenameItem : public optionsValuedItem
     map<string, string>&  fOptionsPartRenameItemVariable;
 };
 typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
-ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
 
 //______________________________________________________________________________
 class optionsMsrPitchesLanguageItem : public optionsValuedItem
@@ -175,7 +175,7 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
                           fOptionsMsrPitchesLanguageKindItemVariable;
 };
 typedef SMARTP<optionsMsrPitchesLanguageItem> S_optionsMsrPitchesLanguageItem;
-ostream& operator<< (ostream& os, const S_optionsMsrPitchesLanguageItem& elt);
+EXP ostream& operator<< (ostream& os, const S_optionsMsrPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
 class msrOptions : public optionsGroup
