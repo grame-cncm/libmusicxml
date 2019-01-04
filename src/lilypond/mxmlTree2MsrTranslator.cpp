@@ -20065,7 +20065,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
       msrBarline::kBarlineCategoryRepeatStart);
 
   // prepare for repeat in current part
-  if (true) { // JMI
+  if (false) { // JMI
   fCurrentPart->
     prepareForRepeatInPart (
       inputLineNumber);
@@ -20082,7 +20082,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
     appendBarlineToPart (barline);
 
   fOnGoingRepeat = true;
-  fOnGoingRepeatHasBeenCreated = false; 
+  fOnGoingRepeatHasBeenCreated = true; // JMI 
 }
 
 //______________________________________________________________________________
