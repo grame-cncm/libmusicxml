@@ -14,7 +14,7 @@
 
 srcdir := ../../src
 binddir := ../src
-folders := factory guido lib parser elements files interface operations	visitors lilypond
+folders := factory guido lib parser elements files interface operations	visitors #lilypond
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
 sources = $(wildcard $(srcdir)/*/*.cpp )    # reject atescofo folder
 bindsrc = $(wildcard $(binddir)/*.cpp) 
@@ -41,7 +41,7 @@ all :
 # building the library as asm.js
 ##############################################################
 ../$(library).js : $(objects)
-	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s ASM_JS=1
+	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s ASM_JS=1 -s WASM=0
 
 ##############################################################
 # building the library as web assembly
