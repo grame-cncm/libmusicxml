@@ -71,6 +71,6 @@ fi
 
 ##### Update src
 localsrcpath="$(pwd)/../src"
-rsync -avz --exclude 'antescofo' --exclude '.DS_Store' $localsrcpath $podsrcpath
+rsync -avz --exclude 'antescofo' --exclude '.DS_Store' --exclude 'lilypond' $localsrcpath $podsrcpath
 
 
