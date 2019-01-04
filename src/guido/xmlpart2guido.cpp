@@ -1737,6 +1737,12 @@ namespace MusicXML2
     {
         int n = 0;
         Sguidoelement tag;
+        if (note.fArpeggio) {
+            tag = guidotag::create("arpeggio");
+            xml2guidovisitor::addDirection(note.fArpeggio, tag);
+            push(tag);
+            n++;
+        }
         if (note.fAccent) {
             tag = guidotag::create("accent");
             if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fAccent, tag);
@@ -2310,8 +2316,8 @@ namespace MusicXML2
         checkWavyTrillBegin(*this);
         
         pendingPops += checkFermata(*this);
-        pendingPops += checkArticulation(*this);
         pendingPops += checkDynamics(thisNoteHeadPosition);
+        pendingPops += checkArticulation(*this);
         
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;

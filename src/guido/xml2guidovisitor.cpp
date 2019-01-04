@@ -403,5 +403,18 @@ namespace MusicXML2
         }
     }
     
+    /// direction attribute in MusicXML can be "up" or "down"
+    void xml2guidovisitor::addDirection( Sxmlelement elt, Sguidoelement& tag)
+    {
+        string direction = elt->getAttributeValue("direction");
+        
+        if (direction.size()) {
+            
+            stringstream s;
+            s << "direction=\"" << direction << "\"";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+    
 }
 
