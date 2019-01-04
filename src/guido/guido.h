@@ -29,6 +29,7 @@ class guidoparam;
 typedef SMARTP<guidoelement> 	Sguidoelement;
 typedef SMARTP<guidoparam> 		Sguidoparam;
 
+
 EXP std::ostream& operator<< (std::ostream& os, const Sguidoelement& elt);
 
 /*!
@@ -75,7 +76,7 @@ class EXP guidoelement : public smartable {
 		long add (Sguidoelement& elt);
 		long add (Sguidoparam& param);
 		long add (Sguidoparam param);
-		void print (std::ostream& os);
+		virtual void print (std::ostream& os) const;
 
 		//! the element name
 		void 	setName (std::string name)			{ fName = name; }
@@ -84,15 +85,23 @@ class EXP guidoelement : public smartable {
 		std::string 	getEnd () const					{ return fEndList; }
 		std::string 	getSep () const					{ return fSep; }
         void            setEnd (std::string end) 		{ fEndList=end; }
-        std::vector<Sguidoelement>& elements()		{ return fElements; }
+        std::vector<Sguidoelement>& elements()			{ return fElements; }
 		const std::vector<Sguidoelement>& elements() const 	{ return fElements; }
         const std::vector<Sguidoparam>& parameters() const 	{ return fParams; }
 		
-		bool empty () const { return fElements.empty(); }
+		bool empty () const 				{ return fElements.empty(); }
+		virtual bool isSeq () const 		{ return false; }
+		virtual bool isChord () const 		{ return false; }
+		virtual bool isTag () const 		{ return false; }
+		virtual bool isNote () const 		{ return false; }
+
+		int countNotes () const;
 
     protected:
-		guidoelement(std::string name, std::string sep=" ");
+				 guidoelement(std::string name, std::string sep=" ");
 		virtual ~guidoelement();
+
+		void printparams (std::ostream& os) const;
 
 		std::string	fName;
 		//! the contained element start marker (default to empty)
@@ -157,6 +166,8 @@ class EXP guidonote : public guidoelement {
 		char 			octave() const		{ return fOctave; }
 		const guidonoteduration& duration() const { return fDuration; }
 
+		virtual bool isNote () const { return true; }
+
 	protected:
 		guidonote(unsigned short voice);
 		guidonote(unsigned short voice, std::string name, char octave, 
@@ -215,8 +226,10 @@ class EXP guidonotestatus {
 class EXP guidoseq : public guidoelement {
 	public:
         static SMARTP<guidoseq> create();
+		virtual bool isSeq () const 		{ return true; }
+
 	protected:
-		guidoseq();
+				 guidoseq();
 		virtual ~guidoseq();
 };
 typedef SMARTP<guidoseq> Sguidoseq;
@@ -227,9 +240,13 @@ typedef SMARTP<guidoseq> Sguidoseq;
 class EXP guidochord : public guidoelement {
 	public:
         static SMARTP<guidochord> create();
+		virtual bool isChord () const 	{ return true; }
+
 	protected:
-		guidochord ();
+				 guidochord ();
 		virtual ~guidochord();
+
+		virtual void print (std::ostream& os) const;
 };
 typedef SMARTP<guidochord> Sguidochord;
 
@@ -241,12 +258,13 @@ typedef SMARTP<guidochord> Sguidochord;
 */
 class EXP guidotag : public guidoelement {
 	public:
-        static SMARTP<guidotag> create(std::string name);
-    static SMARTP<guidotag> create(std::string name, std::string sep);
+		static SMARTP<guidotag> create(std::string name);
+    	static SMARTP<guidotag> create(std::string name, std::string sep);
+		virtual bool isTag () const 		{ return true; }
 
 	protected:
-        guidotag(std::string name);
-        guidotag(std::string name, std::string sep);
+        		 guidotag(std::string name);
+        		 guidotag(std::string name, std::string sep);
 		virtual ~guidotag();
 };
 typedef SMARTP<guidotag> Sguidotag;

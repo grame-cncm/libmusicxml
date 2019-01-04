@@ -39,7 +39,7 @@ namespace MusicXML2
                               partID) != partGroupIt->second.partIDs.end() )
                 {
                     // this partID is in group number partGroupIt->first
-                    //cout<<"\t ID found in group "<< partGroupIt->first<<" "<<endl;
+                    //cerr << "\t ID found in group " << partGroupIt->first <<" "<<endl;
                     break;
                     
                 }
@@ -121,7 +121,7 @@ namespace MusicXML2
             
             fCurrentPartGroupIndex.push_back(groupIndex);
             fPartGroupIncrementer++;
-            //cout<<"Started group "<<partGroupNumber<<" index "<<groupIndex<<" ("<<fCurrentPartGroupIndex.size()<<")"<<endl;
+            //cerr << "Started group " << partGroupNumber << " index " << groupIndex<<" (" << fCurrentPartGroupIndex.size() << ")" << endl;
         }else
             if (partGroupType=="stop")
             {
@@ -141,7 +141,7 @@ namespace MusicXML2
                 {
                     fCurrentPartGroupIndex.erase(ito);
                 }else
-                    cout<<"Something is really wrong in S_PART_GROUP visitor!"<<endl;
+                    cerr << "Something is really wrong in S_PART_GROUP visitor!" << endl;
             }
     }
     
@@ -160,7 +160,6 @@ namespace MusicXML2
             for (size_t ind=0; ind < fCurrentPartGroupIndex.size(); ind++)
             {
                 fPartGroups[fCurrentPartGroupIndex[ind]].partIDs.push_back(PartID);
-                //cout<<"\tAdding "<<fCurrentPartID<<" to group "<<fCurrentPartGroupIndex[ind]<<endl;
             }
         }
     }

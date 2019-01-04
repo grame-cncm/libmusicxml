@@ -2,50 +2,39 @@
 # 
 #
 
-.PHONY : macos ios macc++11 android
+.PHONY : macos ios msys win32 win64 linux android
+
+PDIR   ?= libdir
 
 system	:= $(shell uname -s)
 system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 ifeq ($(system), Darwin)
 	TARGET ?= macos
-	OUTDIR = macos/Release
+	OUTDIR = $(PDIR)/Release
+	GENERATOR ?= Xcode
+	PREFIX ?= /usr/local
 else
 ifeq ($(system), MINGW)
 	TARGET ?= windows
+	PDIR  ?= win64
 else
 ifeq ($(system), Linux)
 	TARGET ?= linux
-	OUTDIR = linux
+	OUTDIR = $(PDIR)
+	GENERATOR ?= Unix Makefiles
+	PREFIX ?= /usr/local
 else
 	TARGET = undefined
 endif
 endif
 endif
 
-OUT  := libmusicxml2.framework libmusicxml2.a
-MACX ?= macos
 IOS  := ios
-ANDROID := android
-LINUX := linux
+MSVC   ?= Visual Studio 14 2015
+MSVC64 := $(MSVC) Win64
 
-# try to detect Visual Studio version used
-ifeq ($(TARGET), windows)
- MSVC ?= C:\Program Files (x86)\Microsoft Visual Studio 12.0
- ifneq ($(wildcard "$(MSVC)"), "") 
-  WIN32VS ?= Visual Studio 12 2013
-  WIN64VS ?= $(WIN32VS) Win64
-  endif
- else
- MSVC := C:\Program Files (x86)\Microsoft Visual Studio 10.0
- ifneq ($(wildcard "$(MSVC)"), "") 
-  WIN32VS ?= Visual Studio 10
-  WIN64VS ?= $(WIN32VS) Win64
- endif
-endif
-
-C++11 ?= no
-CMAKEOPT ?= -DC++11=$(C++11)
-TOOLS := RandomMusic readunrolled xml2midi xmlfactory xmlread xmlversion countnotes partsummary xml2guido xmlclone xmliter xmltranspose
+CMAKEOPT ?= 
+TOOLS := xml2midi xmlread xml2guido xml2ly xmlversion
 
 all :
 	make $(TARGET)
@@ -60,137 +49,143 @@ help :
 	@echo 
 	@echo "Platform targets to build the libmusicxml library are:"	
 	@echo "   macos     build the library for macos"	
-	@echo "   macc++11  build the library for macos, linked to libc"	
 	@echo "   windows   build 32 and 64 bits library for windows"
 	@echo "   linux     build the library for linux"
 	@echo "   android   build a static library for Android"	
 	@echo "   ios       build a static library for iOS"	
+	@echo "   msys      build on Windows using MSys"	
 	@echo "   js        build a javascript library"	
 	@echo "the platform targets is automatically evaluated by the default target."	
-	@echo "NOTE: windows targets are based on Visual Studio 10.0 or 12.0"	
+	@echo 	
 	@echo "Misc:"
-	@echo "   install   install the tools to ~/bin"	
+	@echo "   universal switch to universal binaries (MacOS)"	
+	@echo "   native 	switch universal binaries off (MacOS)"	
+	@echo "   cmake     re-generates the cmake project"	
+	@echo "   format    source code formatting using clang-format"	
+	@echo "   install   install library, tools and headers"	
+	@echo "   localinstall   install the tools to ~/bin"
+	@echo 
+	@echo "NOTE: windows cmake generator is $(MSVC)"	
+	@echo "      use MSVC=\"another generator\" to change"
+
+
+$(PDIR) :
+	mkdir $(PDIR)
 
 #===============================================================
 # building the javascript library
 #===============================================================
 js:
-	make -j 4 -C ../javascript/build 
+	make -j 4 -C ../javascript/build
+	make -j 4 -C ../javascript/build WASM=yes
 
 #===============================================================
 # building the library on Mac OS X
 #===============================================================
-.PHONY : $(OUTDIR)/Release/libmusicxml2.framework $(IOS)/Release-iphoneos/libmusicxml2.a
-
-macos : $(MACX)/libmusicxml2.xcodeproj libmusicxml2.framework libmusicxml2.tgz
-
-libmusicxml2.framework :  $(MACX)/libmusicxml2.xcodeproj $(MACX)/Release/libmusicxml2.framework
+macos : $(PDIR)/libmusicxml2.xcodeproj
+	cmake --build $(PDIR) --config Release -- -jobs 4
 	rm -rf libmusicxml2.framework
-	cp -R macos/Release/libmusicxml2.framework .
-
-$(MACX)/Release/libmusicxml2.framework :
-	xcodebuild -jobs 8 -project $(MACX)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
-
-$(MACX)/libmusicxml2.xcodeproj : CMakeLists.txt
-	[ -d $(MACX) ] || mkdir $(MACX)
-	cd $(MACX) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
-
-libmusicxml2.tgz : libmusicxml2.framework
+	cp -R $(PDIR)/Release/libmusicxml2.framework .
 	tar czf libmusicxml2.tgz libmusicxml2.framework
 
-macc++11:
-	[ -d macc++11 ] || mkdir macc++11
-	cd macc++11 && cmake .. -G Xcode -DC++11=yes  -Wno-dev
-	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
-	cp macc++11/Release/libmusicxml2.*.dylib macc++11
+$(PDIR)/libmusicxml2.xcodeproj : $(PDIR) CMakeLists.txt
+	cd $(PDIR) && cmake .. -G Xcode $(CMAKEOPT)  -Wno-dev
 
-macc++11/Release/libmusicxml2.dylib:
-	xcodebuild -jobs 8 -project macc++11/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
+universal: $(PDIR)
+	cd $(PDIR) && cmake .. -DUNIVERSAL=on -Wno-dev
+
+native: $(PDIR)
+	cd $(PDIR) && cmake .. -DUNIVERSAL=off -Wno-dev
+
 
 #===============================================================
 # building the library for iOS
 #===============================================================
-$(IOS) : $(IOS)/libmusicxml2.xcodeproj libmusicxml2.a
-
-libmusicxml2.a : $(IOS)/libmusicxml2.xcodeproj $(IOS)/Release-iphoneos/libmusicxml2.a
+$(IOS) : $(IOS)/libmusicxml2.xcodeproj
+	cmake --build $(IOS) --config Release -- -jobs 4
 	cp $(IOS)/Release-iphoneos/libmusicxml2.a .
 
-$(IOS)/Release-iphoneos/libmusicxml2.a :
-	xcodebuild -jobs 8 -project $(IOS)/libmusicxml2.xcodeproj -target ALL_BUILD -configuration Release
- 
 $(IOS)/libmusicxml2.xcodeproj : CMakeLists.txt
 	[ -d $(IOS) ] || mkdir $(IOS)
-	cd $(IOS) && cmake .. -G Xcode -DMIDIEXPORT=no -DC++11=yes -DIOS=yes
+	cd $(IOS) && cmake .. -G Xcode -DIOS=yes -Wno-dev $(CMAKEOPT)
 
 
 #===============================================================
 # building the library on windows
 #===============================================================
-.PHONY : win32 win64 win32/Release/libmusicxml2.dll win64/Release/libmusicxml264.dll
 
+#===============================================================
+# using msys
+msys : GENERATOR ?= MSYS Makefiles
+msys : $(PDIR)/Makefile
+	make -C $(PDIR)
+
+#===============================================================
+# using visual studio
 windows :
 	make win32
 	make win64
 
-win32 : win32/libmusicxml2.sln libmusicxml2.dll libmusicxml2.lib 
-
-libmusicxml2.lib : libmusicxml2.dll
-
-libmusicxml2.dll : win32/Release/libmusicxml2.dll
+win32 : win32/libmusicxml2.sln 
+	cmake --build win32 --config Release -- /maxcpucount:4
 	cp win32/Release/libmusicxml2.dll .
 	cp win32/Release/libmusicxml2.lib .
 
-win32/Release/libmusicxml2.dll : win32/libmusicxml2.sln
-	cmd /c "\"$(MSVC)\VC\vcvarsall.bat\" && msbuild win32/libmusicxml2.sln /maxcpucount:4 /p:Configuration=Release"
-
 win32/libmusicxml2.sln : CMakeLists.txt
 	[ -d win32 ] || mkdir win32
-	cd win32 && cmake .. -G "$(WIN32VS)" $(CMAKEOPT)
+	cd win32 && cmake .. -G "$(MSVC)" $(CMAKEOPT)
 
 
-win64 : win64/libmusicxml2.sln libmusicxml264.dll libmusicxml264.lib 
-
-libmusicxml264.lib : libmusicxml264.dll
-
-libmusicxml264.dll : win64/Release/libmusicxml264.dll
-	cp win64/Release/libmusicxml264.dll .
-	cp win64/Release/libmusicxml264.lib .
-
-win64/Release/libmusicxml264.dll : win64/libmusicxml2.sln
-	cmd /c "\"$(MSVC)\VC\vcvarsall.bat\" && msbuild win64/libmusicxml2.sln /maxcpucount:4 /p:Configuration=Release"
+win64 : win64/libmusicxml2.sln 
+	cmake --build win64 --config Release -- /maxcpucount:4 
+	cp win64/Release/libmusicxml2.dll libmusicxml2-64.dll
+	cp win64/Release/libmusicxml2.lib libmusicxml2-64.lib
 
 win64/libmusicxml2.sln : CMakeLists.txt
 	[ -d win64 ] || mkdir win64
-	cd win64 && cmake .. -G "$(WIN64VS)" $(CMAKEOPT) -DMIDIEXPORT=yes
+	cd win64 && cmake .. -G "$(MSVC64)" $(CMAKEOPT)
 
 #===============================================================
 # building the library on linux
 #===============================================================
-.PHONY : $(LINUX) libmusicxml2.so
-
-linux : $(OUTDIR)/Makefile libmusicxml2.so
-
-libmusicxml2.so :  $(OUTDIR)/Makefile  $(OUTDIR)/libmusicxml2.so
+linux : $(PDIR)/Makefile
+	make -C $(PDIR)
 	rm -rf libmusicxml2*.so*
-	make -C $(OUTDIR)
-	cp -R $(OUTDIR)/libmusicxml2*.so* .
+	cp -R $(PDIR)/libmusicxml2*.so* .
 
-$(OUTDIR)/libmusicxml2.so : 
-	make -C $(OUTDIR)
-	
-$(OUTDIR)/Makefile : CMakeLists.txt
-	[ -d $(OUTDIR) ] || mkdir $(OUTDIR)
-	cd $(OUTDIR) && cmake .. -G "Unix Makefiles" -DMIDIEXPORT=yes
+$(PDIR)/Makefile : $(PDIR) CMakeLists.txt
+	cd $(PDIR) && cmake .. -G "$(GENERATOR)"  $(CMAKEOPT)
+
+
+#===============================================================
+cmake : $(PDIR)
+	cd $(PDIR) && cmake .. -G "$(GENERATOR)" -Wno-dev $(CMAKEOPT)
 
 #===============================================================
 # building the library for Android
 #===============================================================
 android :
 	ndk-build -C android -j 4
-	cp -f android/libs/armeabi/libmusicxml2.so android/
+
+#===============================================================
+# src code formatting
+#===============================================================
+format : 
+	@which clang-format >/dev/null || (echo "clang-format must be available from your path to run the 'format' target"; false)
+	find ../src -path ../src/parser -prune -o -iname '*.cpp' -execdir clang-format -i -style=file {} \;
+	find ../src -path ../src/parser -prune -o -iname '*.h' -execdir clang-format -i -style=file {} \;
 
 #===============================================================
 # install
 #===============================================================
+installLog := $(PDIR)/install_manifest.txt
 install:
+	cd $(PDIR) && cmake .. -DCMAKE_INSTALL_PREFIX=$(PREFIX) 
+	cmake --build $(PDIR) --config Release --target install
+
+uninstall: installedfiles = $(shell cat $(installLog))
+uninstall: $(installLog)
+	rm -f $(installedfiles) $(installLog)
+
+localinstall:
 	cd $(OUTDIR) && cp $(TOOLS) $(HOME)/bin

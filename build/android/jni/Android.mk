@@ -12,7 +12,7 @@ LOCAL_MODULE := musicxml2
 LOCAL_SRC_FILES         := $(subst $(LOCAL_PATH)/,,$(wildcard $(SRC)/*/*.cpp))
 LOCAL_EXPORT_C_INCLUDES := $(addprefix $(SRC)/, interface)
 LOCAL_C_INCLUDES        := $(subst $(LOCAL_PATH)/../,,$(wildcard $(SRC)/[^.]*/))
-LOCAL_CPPFLAGS          := -Dandroid -frtti
+LOCAL_CPPFLAGS          := -Dandroid -frtti -fexceptions
 
 include $(BUILD_SHARED_LIBRARY)
 

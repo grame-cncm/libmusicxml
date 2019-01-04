@@ -1,0 +1,25 @@
+
+The source code of the MusicXML to LilyPond translator is structured so as to help finding things inside:
+
+  - in *.h files:
+
+      to find a class definition, search for the end of its name followed by ' :', such as 'core :' to find 'msrScore : public msrElement';
+
+  - in *.cpp files:
+
+      to find a class implementation, search for the end of its name followed by '::', such as 'assoc::' to find the first '*VarValAssoc' class from the current editing position;
+  
+  - to find a class method implementation, search for the end of the class name followed by '::' and the beginning of the method name, such as 'oice::pr' to find 'msrVoice::print'.
+
+
+You can also use 'grep -r' (recursive) to search all the files at once, such as:
+
+  grep -r 'ic visi' * | grep '\.h'
+
+to find all public visitor specifications in header files, such as:
+
+  lilypond/msr2LpsrVisitor.h:  public visitor<S_msrKey>,
+
+
+
+

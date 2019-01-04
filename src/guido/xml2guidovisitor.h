@@ -72,7 +72,7 @@ class EXP xml2guidovisitor :
 	int				fCurrentStaffIndex;		// the index of the current guido staff
 
 	void start (Sguidoelement& elt)		{ fStack.push(elt); }
-	void add (Sguidoelement& elt)		{ fStack.top()->add(elt); }
+	void add (Sguidoelement& elt)		{ if (fStack.size()) fStack.top()->add(elt); }
 	void push (Sguidoelement& elt)		{ add(elt); fStack.push(elt); }
 	void pop ()							{ fStack.pop(); }
 
