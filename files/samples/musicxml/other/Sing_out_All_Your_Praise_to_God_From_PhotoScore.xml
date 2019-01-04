@@ -1,0 +1,2360 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+ <work>
+  <work-title>Sing out All Your Praise to God!</work-title>
+ </work>
+ <identification>
+  <creator type="composer"></creator>
+  <creator type="poet"></creator>
+  <rights>&#x00a9;20 16 William F. Maddock</rights>
+  <encoding>
+   <software>Neuratron PhotoScore</software>
+   <encoding-description>MusicXML 2.0</encoding-description>
+  </encoding>
+  <source>Scanned sheet music</source>
+ </identification>
+ <defaults>
+  <scaling>
+   <millimeters>51</millimeters>
+   <tenths>400</tenths>
+  </scaling>
+  <page-layout>
+   <page-height>1461</page-height>
+   <page-width>1799</page-width>
+  </page-layout>
+ </defaults>
+ <part-list>
+  <score-part id="P1">
+   <part-name></part-name>
+   <part-abbreviation></part-abbreviation>
+   <score-instrument id="P1-I1">
+    <instrument-name></instrument-name>
+   </score-instrument>
+   <midi-instrument id="P1-I1">
+    <midi-channel>1</midi-channel>
+    <midi-program>1</midi-program>
+   </midi-instrument>
+  </score-part>
+  <score-part id="P2">
+   <part-name></part-name>
+   <part-abbreviation></part-abbreviation>
+   <score-instrument id="P2-I1">
+    <instrument-name></instrument-name>
+   </score-instrument>
+   <midi-instrument id="P2-I1">
+    <midi-channel>2</midi-channel>
+    <midi-program>1</midi-program>
+   </midi-instrument>
+  </score-part>
+ </part-list>
+ <part id="P1">
+  <measure number="1">
+   <attributes>
+    <divisions>2</divisions>
+    <key>
+     <fifths>-3</fifths>
+    </key>
+    <time>
+     <beats>4</beats>
+     <beat-type>4</beat-type>
+    </time>
+    <clef number="1">
+     <sign>G</sign>
+     <line>2</line>
+    </clef>
+   </attributes>
+   <direction placement="above">
+    <direction-type>
+     <metronome relative-y="27" relative-x="-90">
+      <beat-unit>quarter</beat-unit>
+      <per-minute>100</per-minute>
+     </metronome>
+    </direction-type>
+   </direction>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>For</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>No</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>For</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>5. Death</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>6. Je-</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>more</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>and</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>sus</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>Son</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>let</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>guilt</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>Christ</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>has</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>is</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>his</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>is</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>prais-</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>ris-</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>voice</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>nailed</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>min-</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>ris-</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>es</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>en</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>of</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>un-</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>ions</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>en!</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="2">
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>on</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>vic-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>turn</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>We</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>His</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>tor-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>are</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Lord!</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>day</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>y</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>tree</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>flee!</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>free!</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="3">
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>And</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>Be</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>And</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>mut-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>night</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>ed</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>sin</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>is</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>with-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>un-</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>driv-</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>in</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>en</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="4">
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>out!</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>heart!</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>cross!</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="5">
+   <print new-system="yes"/>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Lift</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>Lift</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>Lift</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>No</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>Lift</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>Guilt</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>C</step>
+     <octave>5</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>up</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>your-</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>shout-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>more</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>up</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>is</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>D</step>
+     <octave>5</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>selves</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>ing</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>let</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>for-</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>5</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>voic-</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>from</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>prais-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>de-</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>voic-</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>giv-</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>es</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>that</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>es</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>mon</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>es</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>en,</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="6">
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>in</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>slew</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>un-</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>chains</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>in</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>sin</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>joy-</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>of</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>cum-</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>vic-</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>is</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>ous</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>des-</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>the</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>ber</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>tor-</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>washed</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>C</step>
+     <octave>5</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>psalms!</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>pond!</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>King!</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>thee;</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>y!</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>clean!</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="7">
+   <note>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>Sing</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>out</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>all</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>your</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>up</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>praise</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>to</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="8">
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>4</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="2">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="3">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="4">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="5">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+    <lyric number="6">
+     <syllabic>single</syllabic>
+     <text>God!</text>
+    </lyric>
+   </note>
+   <barline location="right">
+    <bar-style>light-heavy</bar-style>
+   </barline>
+  </measure>
+ </part>
+ <part id="P2">
+  <measure number="1">
+   <attributes>
+    <divisions>2</divisions>
+    <key>
+     <fifths>-3</fifths>
+    </key>
+    <time>
+     <beats>4</beats>
+     <beat-type>4</beat-type>
+    </time>
+    <clef number="1">
+     <sign>F</sign>
+     <line>4</line>
+    </clef>
+   </attributes>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>2</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="2">
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="3">
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="4">
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="5">
+   <print new-system="yes"/>
+   <note>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>2</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Washed Clean and Forgiven!</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>2</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>2</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="6">
+   <note>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>Yirmeya House, BMI</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>4</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="7">
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>E</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">continue</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>A</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>1</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+    <lyric number="1">
+     <syllabic>single</syllabic>
+     <text>HALLELU LELOHI 9.7.9.7.</text>
+    </lyric>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>quarter</type>
+    <stem>down</stem>
+   </note>
+  </measure>
+  <measure number="8">
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>3</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+   </note>
+   <note>
+    <chord/>
+    <pitch>
+     <step>B</step>
+     <alter>-1</alter>
+     <octave>3</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>whole</type>
+    <stem>up</stem>
+   </note>
+   <barline location="right">
+    <bar-style>light-heavy</bar-style>
+   </barline>
+  </measure>
+ </part>
+</score-partwise>

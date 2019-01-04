@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN"
+                                "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+  <movement-title>越後獅子</movement-title>
+  <defaults>
+    <scaling>
+      <millimeters>7.2319</millimeters>
+      <tenths>40</tenths>
+    </scaling>
+    <lyric-font font-family="ＭＳ ゴシック" font-size="10.25" name="verse"/>
+    <lyric-language name="verse" xml:lang="ja"/>  
+  </defaults>
+  <part-list>
+    <score-part id="P1">
+      <part-name print-object="no">MusicXML Part</part-name>
+      <score-instrument id="P1-I2">
+        <instrument-name>Koto</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P1-I2">
+        <midi-channel>1</midi-channel>
+        <midi-program>108</midi-program>
+      </midi-instrument>
+    </score-part>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1" width="224">
+      <attributes>
+        <divisions>8</divisions>
+        <key>
+          <fifths>0</fifths>
+          <mode>major</mode>
+        </key>
+        <time>
+          <beats>2</beats>
+          <beat-type>4</beat-type>
+        </time>
+        <clef>
+          <sign>G</sign>
+          <line>2</line>
+        </clef>
+      </attributes>
+      <direction placement="above" directive="yes">
+        <direction-type>
+          <words default-y="23" font-size="12" font-weight="bold">Allegro</words>
+        </direction-type>
+        <sound tempo="92"/>
+      </direction>
+      <sound dynamics="98"/>
+      <note default-x="11">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-55">down</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <!--text>テ</text-->
+          <text>Ahh</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="58">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-45">down</stem>
+        <!--beam number="1">begin</beam-->
+      </note>
+      <note default-x="87">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-40">down</stem>
+        <!--beam number="1">end</beam-->
+        <lyric number="1">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="146">
+      <note default-x="23">
+        <pitch>
+          <step>F</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <accidental>sharp</accidental>
+        <stem default-y="-35">down</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text>　</text>
+        </lyric>
+      </note>
+      <note default-x="56">
+        <pitch>
+          <step>G</step>
+          <alter>1</alter>
+          <octave>5</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-35">down</stem>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text>ニ</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="111">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-39.5">down</stem>
+        <lyric number="1">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <!--measure number="3" width="161">
+      <note default-x="10">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-45">down</stem>
+        <beam number="1">begin</beam>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text>ワ</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="48">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-45">down</stem>
+        <beam number="1">continue</beam>
+        <lyric number="1">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+      <note default-x="85">
+        <pitch>
+          <step>C</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-45">down</stem>
+        <beam number="1">continue</beam>
+        <lyric default-y="-80" number="1">
+          <syllabic>single</syllabic>
+          <text>ニ</text>
+          <extend type="start"/>
+        </lyric>
+      </note>
+      <note default-x="122">
+        <pitch>
+          <step>E</step>
+          <octave>5</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-45">down</stem>
+        <beam number="1">end</beam>
+        <lyric number="1">
+          <extend type="stop"/>
+        </lyric>
+      </note>
+    </measure-->
+    <!--=======================================================-->
+  </part>
+  <!--=========================================================-->
+</score-partwise>

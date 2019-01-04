@@ -16,37 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-string rational::toString() const
-{
-    ostringstream res;
-    res << fNumerator;
-    res << "/";
-    res << fDenominator;
-    return res.str();
-}
-
-rational::operator string() const
-{
-	return toString();
-}
-
-rational::operator double() const
-{ 
-	return toDouble(); 
-}
-
-rational::operator float() const
-{ 
-	return toFloat(); 
-}
-
-rational::operator int() const
-{ 
-	const double x = toDouble();
-	return ((int)floor(x + 0.5f));
-}
-
-rational::rational(const string &str)
+//______________________________________________________________________________
+rational::rational (const string &str)
 {
     const char *cstr;
     cstr = str.c_str();
@@ -69,6 +40,7 @@ rational::rational(const rational& d)
     fDenominator = d.fDenominator;
 }
 
+//______________________________________________________________________________
 rational rational::operator +(const rational &dur) const {
     return rational(fNumerator * dur.fDenominator + dur.fNumerator * fDenominator, fDenominator * dur.fDenominator);
 }
@@ -129,88 +101,109 @@ rational& rational::operator /=(const rational &dur)
     return (*this);
 }
 
-rational& rational::operator =(const rational& dur) {
-    fNumerator   = dur.fNumerator;
-    fDenominator = dur.fDenominator;
-    return (*this);
+rational& rational::operator = (const rational& rat) {
+  fNumerator   = rat.fNumerator;
+  fDenominator = rat.fDenominator;
+  return (*this);
 }
 
-bool rational::operator >(const rational &dur) const
+//______________________________________________________________________________
+bool rational::operator > (const rational &rat) const
 {
-    // a/b > c/d if and only if a * d > b * c.
-    return ((fNumerator * dur.fDenominator) > (fDenominator * dur.fNumerator));
+  // a/b > c/d if and only if a * d > b * c.
+  return ((fNumerator * rat.fDenominator) > (fDenominator * rat.fNumerator));
 }
 
-bool rational::operator <(const rational &dur) const
+bool rational::operator < (const rational &rat) const
 {
-    // a/b < c/d if and only if a * d < b * c.
-    return ((fNumerator * dur.fDenominator) < (fDenominator * dur.fNumerator));
+  // a/b < c/d if and only if a * d < b * c.
+  return ((fNumerator * rat.fDenominator) < (fDenominator * rat.fNumerator));
 }
 
-bool rational::operator ==(const rational &dur) const
+bool rational::operator == (const rational &rat) const
 {
-    // a/b < c/d if and only if a * d < b * c.
-    return ((fNumerator * dur.fDenominator) == (fDenominator * dur.fNumerator));
+  // a/b < c/d if and only if a * d < b * c.
+	return ((fNumerator * rat.fDenominator) == (fDenominator * rat.fNumerator));
 }
 
-bool rational::operator >(double num) const
-{	
-	return (toDouble() > num);
-}
+bool rational::operator > (double num) const 	{ return (toDouble() > num); }
+bool rational::operator >= (double num) const	{ return (toDouble() >= num); }
+bool rational::operator < (double num) const	{ return (toDouble() < num); }
+bool rational::operator <= (double num) const	{ return (toDouble() <= num); }
+bool rational::operator == (double num) const	{ return (toDouble() == num); }
 
-bool rational::operator >= (double num) const
-{
-	return (toDouble() >= num);
-}
-
-bool rational::operator <(double num) const
-{
-	return (toDouble() < num);
-}
-
-bool rational::operator <=(double num) const
-{
-	return (toDouble() <= num);
-}
-
-bool rational::operator ==(double num) const
-{
-	return (toDouble() == num);
-}
-
+//______________________________________________________________________________
 // gcd(a, b) calculates the gcd of a and b using Euclid's algorithm.
-long int rational::gcd(long int a1, long int b1)
+long int rational::gcd (long int a1, long int b1)
 {
-    long int r;
+  long int r;
 
-    long int a = std::abs(a1);
-    long int b = std::abs(b1);
+  long int a = labs(a1);
+  long int b = labs(b1);
 
-    if (!(a == 0) || (b == 0)){
-        while (b > 0){
-            r = a % b;
-            a = b;
-            b = r;
-        }
-        return a;
-    }
-    return 1;
+  if (! (a == 0) || (b == 0)) {
+    while (b > 0){
+      r = a % b;
+      a = b;
+      b = r;
+    } // while
+    
+    return a;
+  }
+  
+  return 1;
 }
 
-void rational::rationalise()
+//______________________________________________________________________________
+void rational::rationalise ()
 {
-    long int g = gcd(fNumerator, fDenominator);
-    fNumerator /= g;
-    fDenominator /= g;
-    if (fNumerator == 0) fDenominator = 1;
+  long int g = gcd (fNumerator, fDenominator);
+  
+  fNumerator /= g;
+  fDenominator /= g;
+  
+  if (fNumerator == 0)
+    fDenominator = 1;
 }
 
+//______________________________________________________________________________
 double rational::toDouble() const
 {
-    return (fDenominator != 0) ? ((double)fNumerator/(double)fDenominator) : 0;
+  return (fDenominator != 0) ? ((double)fNumerator/(double)fDenominator) : 0;
 }
 
 float rational::toFloat() const
 {
-    return (fDenominator != 0) ? ((float)fNumerator/(float)fDenominator) : 0;
+  return (fDenominator != 0) ? ((float)fNumerator/(float)fDenominator) : 0;
 }
+
+//______________________________________________________________________________
+string rational::toString () const
+{
+  ostringstream res;
+  res << fNumerator << "/" << fDenominator;
+  return res.str ();
+}
+
+rational::operator string () const		{ return toString (); }
+rational::operator double () const		{ return toDouble (); }
+rational::operator float () const		{ return toFloat (); }
+rational::operator int () const
+{ 
+  const double x = toDouble ();
+  return ((int)floor(x + 0.5f));
+}
+
+//______________________________________________________________________________
+ostream& operator<< (ostream& os, const rational& rat)
+{
+  rat.print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+void rational::print (ostream& os) const
+{
+  os << string(*this);
+}
+

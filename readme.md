@@ -1,25 +1,24 @@
-# LibMusicXML Antescofo Project
-This is a private fork of the original [Grame LibMusicXML Library](https://github.com/grame-cncm/libmusicxml) from GitHub, for Antescofo's internal use.
+Welcome to the libmusicxml project
+======================================================================
 
-Before any use, make note of the following facts:
-- The main branch of this repository is `antescofo-master`. This branch is used to deploy to the _GuidoKit_ private Pod for iOS Projects.
-- Other branches such as `master` and `dev` are used to track the original Grame project and update `antescofo-master` whenever appropriate.
-- We use *Pull Requests* on `antescofo-master` branch
+[Grame](http://www.grame.fr) - Centre National de Création Musicale
+----------------------------------------------------------------------
 
-## Installation
+The MusicXML library is a portable C++ library designed close to the MusicXML format and intended to facilitate MusicXML support.
 
-- After cloning the project, open terminal and `cd` to the `build` folder. 
-- Run the `BuildXCodeProject.sh` in terminal. This will create appropriate `iOS` and `MacOS` XCode projects and folders.
+[MusicXML](http://www.musicxml.com/) is a music interchange format designed for notation, analysis, retrieval, and performance applications. The MusicXML format has been initialy developed by Recordare. It is open for use by anyone under a royalty-free license.
 
-## Deploy to Pod
 
-Once the XCode Projects are ready, just run the `deploy2pod.sh` from the `build` folder. This will compile necessary objects, and copy appropriate libraries and sources to the _Pod Project Path_ given as argument.
+The libmusicxml library runs on the main operating systems: Linux, MacOS, iOS, Windows, Android. It can also be compiled to JavaScript (using [emscripten](http://emscripten.org)) to be embedded in a web page.
 
-## Contribution
+See the [libmusicxml wiki](https://github.com/grame-cncm/libmusicxml/wiki) for building instructions.
 
-Always branch out from `antescofo-master` and create pull-requests to that branch for Antescofo internal use.
 
-## Upgrading the Library from Grame
+---
 
-Ideally you should have a secondary remote called `grame` pointing to `https://github.com/grame-cncm/libmusicxml.git`. The `dev` branch on that repository contains latest additions and upgrades.
-To upgrade latest contributions from Grame, create a new Branch and merge those contributions with that of `antescofo-master` and contribute as usual by create a Pull Request.
+Travis build and validation status:  <a href="https://travis-ci.org/grame-cncm/libmusicxml"><img src="https://travis-ci.org/grame-cncm/libmusicxml.svg?branch=dev"></a>
+
+Appveyor build status:  [![Build status](https://ci.appveyor.com/api/projects/status/7fxl66w2bgl1fucs?svg=true)](https://ci.appveyor.com/project/dfober/libmusicxml)
+
+----------------------------------------------------------------------
+[Dominique Fober](https://github.com/dfober)

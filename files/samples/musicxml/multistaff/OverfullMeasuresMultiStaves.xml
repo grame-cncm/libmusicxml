@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.0">
+  <movement-title>Excerpt from Magnificat secundi toni</movement-title>
+  <identification>
+    <creator type="composer">Gilles Binchois</creator>
+    <rights>Copyright © 2010 Recordare LLC</rights>
+    <encoding>
+      <software>Finale 2011 for Windows</software>
+      <software>Dolet 6.0 for Finale</software>
+      <encoding-date>2011-08-08</encoding-date>
+      <supports attribute="new-system" element="print" type="yes" value="yes"/>
+      <supports attribute="new-page" element="print" type="yes" value="yes"/>
+    </encoding>
+  </identification>
+  <defaults>
+    <scaling>
+      <millimeters>5.7326</millimeters>
+      <tenths>40</tenths>
+    </scaling>
+    <page-layout>
+      <page-height>1950</page-height>
+      <page-width>1506</page-width>
+      <page-margins type="both">
+        <left-margin>98</left-margin>
+        <right-margin>84</right-margin>
+        <top-margin>89</top-margin>
+        <bottom-margin>89</bottom-margin>
+      </page-margins>
+    </page-layout>
+    <system-layout>
+      <system-margins>
+        <left-margin>0</left-margin>
+        <right-margin>0</right-margin>
+      </system-margins>
+      <system-distance>101</system-distance>
+      <top-system-distance>101</top-system-distance>
+    </system-layout>
+    <staff-layout>
+      <staff-distance>93</staff-distance>
+    </staff-layout>
+    <appearance>
+      <line-width type="stem">0.957</line-width>
+      <line-width type="beam">5</line-width>
+      <line-width type="staff">1.25</line-width>
+      <line-width type="light barline">1.4583</line-width>
+      <line-width type="heavy barline">5</line-width>
+      <line-width type="leger">1.875</line-width>
+      <line-width type="ending">1.4583</line-width>
+      <line-width type="wedge">0.9375</line-width>
+      <line-width type="enclosure">1.4583</line-width>
+      <line-width type="tuplet bracket">1.4583</line-width>
+      <note-size type="grace">50</note-size>
+      <note-size type="cue">50</note-size>
+      <distance type="hyphen">60</distance>
+      <distance type="beam">8</distance>
+    </appearance>
+    <music-font font-family="Maestro,engraved" font-size="16.25"/>
+    <word-font font-family="Book Antiqua" font-size="9"/>
+    <lyric-font font-family="Book Antiqua" font-size="9"/>
+  </defaults>
+  <credit page="1">
+    <credit-words default-x="760" default-y="1727" font-size="14" justify="center" valign="top">Magnificat secundi toni</credit-words>
+  </credit>
+  <part-list>
+    <part-group number="1" type="start">
+      <group-barline>yes</group-barline>
+    </part-group>
+    <score-part id="P1">
+      <part-name print-object="no">Cantus</part-name>
+      <score-instrument id="P1-I5">
+        <instrument-name>Cantus</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P1-I5">
+        <midi-channel>1</midi-channel>
+        <midi-program>54</midi-program>
+        <volume>80</volume>
+        <pan>0</pan>
+      </midi-instrument>
+    </score-part>
+    <score-part id="P2">
+      <part-name print-object="no">Cantus 2 and Tenor</part-name>
+      <score-instrument id="P2-I4">
+        <instrument-name>Cantus 2</instrument-name>
+      </score-instrument>
+      <score-instrument id="P2-I3">
+        <instrument-name>Tenor</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P2-I4">
+        <midi-channel>2</midi-channel>
+        <midi-program>42</midi-program>
+        <volume>80</volume>
+        <pan>0</pan>
+      </midi-instrument>
+      <midi-instrument id="P2-I3">
+        <midi-channel>3</midi-channel>
+        <midi-program>43</midi-program>
+        <volume>80</volume>
+        <pan>0</pan>
+      </midi-instrument>
+    </score-part>
+    <part-group number="1" type="stop"/>
+  </part-list>
+  <!--=========================================================-->
+  <part id="P1">
+    <measure number="1" width="199">
+      <print>
+        <system-layout>
+          <top-system-distance>266</top-system-distance>
+        </system-layout>
+        <measure-numbering>none</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>8</divisions>
+        <key>
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <clef>
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+      </attributes>
+      <sound tempo="60"/>
+      <direction placement="above">
+        <direction-type>
+          <words default-y="37" relative-x="-46">Chorus</words>
+        </direction-type>
+      </direction>
+      <note default-x="70">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <lyric default-y="-64" justify="left" number="1" relative-x="-18">
+          <syllabic>begin</syllabic>
+          <text>Ma</text>
+        </lyric>
+      </note>
+      <note default-x="95">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <lyric default-y="-64" justify="left" number="1" relative-x="-12">
+          <syllabic>middle</syllabic>
+          <text>gni</text>
+        </lyric>
+      </note>
+      <note default-x="119">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <notations>
+          <slur number="1" placement="above" type="start"/>
+        </notations>
+        <lyric default-y="-64" justify="left" number="1">
+          <syllabic>middle</syllabic>
+          <text>fi</text>
+        </lyric>
+      </note>
+      <note default-x="143">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <notations>
+          <slur number="1" type="stop"/>
+        </notations>
+      </note>
+      <note default-x="170">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <lyric default-y="-64" justify="left" number="1" relative-x="-6">
+          <syllabic>end</syllabic>
+          <text>cat</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="192">
+      <print new-system="no"/>
+      <attributes>
+        <time>
+          <beats>3</beats>
+          <beat-type>4</beat-type>
+        </time>
+      </attributes>
+      <direction placement="above">
+        <direction-type>
+          <words default-y="22" relative-x="-84">(C.)</words>
+        </direction-type>
+      </direction>
+      <note default-x="105">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="134">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="162">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-20">down</stem>
+        <lyric default-y="-64" justify="left" number="1">
+          <syllabic>begin</syllabic>
+          <text>A</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--=======================================================-->
+  </part>
+  <!--=========================================================-->
+  <part id="P2">
+    <measure number="1" width="199">
+      <print>
+        <staff-layout number="1">
+          <staff-distance>101</staff-distance>
+        </staff-layout>
+        <measure-numbering>none</measure-numbering>
+      </print>
+      <attributes>
+        <divisions>8</divisions>
+        <key>
+          <fifths>-1</fifths>
+          <mode>major</mode>
+        </key>
+        <instruments>2</instruments>
+        <clef>
+          <sign>F</sign>
+          <line>4</line>
+        </clef>
+        <staff-details print-object="no" print-spacing="yes"/>
+      </attributes>
+      <sound tempo="60"/>
+      <note>
+        <rest measure="yes"/>
+        <duration>40</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="192">
+      <print new-system="no"/>
+      <attributes>
+        <time>
+          <beats>3</beats>
+          <beat-type>4</beat-type>
+        </time>
+      </attributes>
+      <attributes>
+        <staff-details print-object="yes"/>
+      </attributes>
+      <direction placement="above">
+        <direction-type>
+          <words default-y="19" relative-x="-85">(CT.)</words>
+        </direction-type>
+      </direction>
+      <note default-x="105">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I4"/>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="134">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I4"/>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="162">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <instrument id="P2-I4"/>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-45">down</stem>
+        <lyric default-y="-72" justify="left" number="1">
+          <syllabic>begin</syllabic>
+          <text>A</text>
+        </lyric>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note default-x="105">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I3"/>
+        <voice>2</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="134">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I3"/>
+        <voice>2</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="162">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <instrument id="P2-I3"/>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-45">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+  </part>
+  <!--=========================================================-->
+</score-partwise>

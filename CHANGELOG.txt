@@ -1,5 +1,19 @@
 MusicXML Library
 
+
+----------------------------------------------------------------------------------------------------
+Version 3.14
+- intended to fix release downgrade only
+  (version 3.13 was actually 3.12 the correction was a downgrade to 3.12)
+
+----------------------------------------------------------------------------------------------------
+Version 3.12
+- fix bugs in guido printer
+- includes improved xml2guido converter
+- update to MusicXML 3.1
+- xml2guido version 2.3
+- xml2ly 0.9
+
 ----------------------------------------------------------------------------------------------------
 Version 3.11
 - specific MacoS version, compiled using C++11

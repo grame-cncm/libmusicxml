@@ -63,8 +63,8 @@ xmlattribute::operator float () const	{ return (float)atof(fValue.c_str()); }
 //______________________________________________________________________________
 // xmlelement
 //______________________________________________________________________________
-Sxmlelement xmlelement::create()				{ xmlelement * o = new xmlelement; assert(o!=0); return o; }
-void xmlelement::setValue (int value)			{ setValue((long)value); }
+Sxmlelement xmlelement::create(int lineno)			{ xmlelement * o = new xmlelement(lineno); assert(o!=0); return o; }
+void xmlelement::setValue (int value)				{ setValue((long)value); }
 void xmlelement::setValue (const string& value) 	{ fValue = value; }
 void xmlelement::setName (const string& name) 		{ fName = name; }
 //______________________________________________________________________________
@@ -95,7 +95,7 @@ void xmlelement::setValue (float value)
 long xmlelement::add (const Sxmlattribute& attr)
 { 
 	fAttributes.push_back(attr);
-	return fAttributes.size()-1;
+	return long(fAttributes.size()-1);
 }
 
 //______________________________________________________________________________

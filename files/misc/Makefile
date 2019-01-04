@@ -10,6 +10,9 @@ clean :
 %.gmn: %.xml
 	xml2guido $< > $@
 
+%.ly: %.xml
+	xml2lilypond $< > $@
+
 
 05_long_ago.gmn: 05_long_ago.xml
 Alla_faglar.gmn: Alla_faglar.xml

@@ -9,65 +9,63 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.11)
-set (STRVERS "v.3.11")
-set (SSTRVERS "3.11")
+set (VERSION 3.1.4)
+set (STRVERS "v.3.14")
+set (SSTRVERS "3.14")
+set (SOVERS 3)
+set (XMLVERSION 3.1)
+
 
 #######################################
-option ( C++11 	"C++11 support" on )
+option ( FMWK 		"Generates a framework on MacOS by default"	on )
+option ( UNIVERSAL 	"Generates universal binaries"	off )
+option ( GDB 		"Activates ggdb3 option"	off )
 
+#######################################
+get_filename_component(ROOT ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+set (DOC    ${ROOT}/doc/presentation/libmusicxml2.pdf)
+set (DTDS   ${ROOT}/dtds/${XMLVERSION})
+set (SCHEMA ${ROOT}/schema/${XMLVERSION})
+
+#######################################
+set (CMAKE_CXX_STANDARD 11)
 
 if(UNIX)
-	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
-endif(UNIX)
+	if (GDB)
+		add_definitions(-Wall -DGCC -ggdb3 -Wno-overloaded-virtual)
+	else()
+		add_definitions(-Wall -DGCC -O3 -Wno-overloaded-virtual)
+	endif()
+endif()
 
-set (FMWK "true")
 set (libtype SHARED)
 
 #########################################
 # mac os specific part
 #########################################
 if(APPLE)
-	if ( IOS STREQUAL "yes" )
-		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
-		
-		#set(CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos;-iphonesimulator")
-		#set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s x86_64 i386")
-		#set (CMAKE_OSX_SYSROOT "iphoneos")
+	if ( IOS )
+		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")		
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "arm64 armv7 armv7s")
+		set (CMAKE_OSX_ARCHITECTURES "arm64  armv7 armv7s") # unsupported on iOS 11.4.0: armv7 armv7s
 		set (CMAKE_OSX_SYSROOT "iphoneos")
-		
-		set(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET 9.3)
-		
+		set (CMAKE_CXX_FLAGS "-miphoneos-version-min=9.3")
 		set (libtype STATIC)
-	else ()
-		if ( C++11 )
-			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
-			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-			#set (FMWK "false")
-		else()
-			message (STATUS "Generates project without C++11 - Use -DC++11=yes to change.")
-		endif()
+		set (FMWK "false")
+	elseif( UNIVERSAL )
+		message (STATUS "Generates universal binaries - Use -DUNIVERSAL=no to change. .")		
 		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
+		set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
 	endif()
 
 #########################################
 # windows specific part
 #########################################
 elseif(WIN32)
- add_definitions(-DWINVER=0x0400 -DWIN32)
- if(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-  add_definitions(-DVC6)
- elseif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 8 2005")
-  add_definitions(-DVC2005)
- endif(${CMAKE_GENERATOR} STREQUAL "Visual Studio 6")
-
-#########################################
-# assume linux host
-#########################################
-else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	add_definitions(-DWINVER=0x0400 -DWIN32)
+	if(MSVC)
+		add_definitions(-DMSVC)
+	endif()
 endif()
 
 
@@ -76,7 +74,7 @@ endif()
 set (LXML 		${CMAKE_CURRENT_SOURCE_DIR}/..)
 set (LXMLSRC 	${LXML}/src)
 set (LXMLSAMPLE ${LXML}/samples)
-set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors)
+set (SRCFOLDERS  factory files interface elements guido lib operations parser visitors lilypond)
 
 foreach(folder ${SRCFOLDERS})
 	set(SRC ${SRC} "${LXMLSRC}/${folder}/*.cpp")			# add source files
@@ -100,48 +98,43 @@ set_source_files_properties (${COREH} PROPERTIES HEADER_FILE_ONLY TRUE)
 
 
 #######################################
-# set library target
-if(APPLE)
-	if (IOS OR C++11)
-		set(target musicxml2)
-	else()
-		set(target libmusicxml2)
-	endif()
-elseif(MSVC)
-	set(target libmusicxml2)
-else()
-	set(target musicxml2)
-endif()
-
-if(MSVC OR MINGW)
+if(WIN32 OR MSYS)
 	enable_language(RC)
 	set(LIBCONTENT ${CORESRC} ${COREH} ${LXML}/win32/libmusicxml/libmusicxml.rc)
 else()
 	set(LIBCONTENT ${CORESRC} ${COREH})
 endif()
 
+set(target musicxml2)
 add_library(${target} ${libtype} ${LIBCONTENT})
 set_target_properties (${target} PROPERTIES 
-			FRAMEWORK ${FMWK}
 			VERSION ${VERSION}
-			FRAMEWORK_VERSION ${VERSION}
+			SOVERSION ${SOVERS}
 			PUBLIC_HEADER "${COREH}"
 			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+)
+if (MSVC)
+	set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
+endif()
+
+if (FMWK AND APPLE AND NOT IOS)
+set_target_properties (${target} PROPERTIES 
+			OUTPUT_NAME libmusicxml2
+			FRAMEWORK ${FMWK}
+			FRAMEWORK_VERSION ${VERSION}
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
 			MACOSX_FRAMEWORK_IDENTIFIER ${target}
-			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
-if ( IOS STREQUAL "no" )
-	set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )
 endif()
 
 #######################################
 # set sample targets
-set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xmltranspose)
+set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (TOOLS  xml2guido xml2ly xmlread xmltranspose xmlversion)
 
-if(NOT APPLE OR NOT IOS STREQUAL "yes" )
+if(NOT IOS )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
@@ -152,12 +145,50 @@ endif()
 
 #######################################
 # install setup
-if(NOT APPLE)
-install ( TARGETS ${target} ${TOOLS} 
-	RUNTIME DESTINATION bin 
-    	LIBRARY DESTINATION /usr/lib 
-    	ARCHIVE DESTINATION lib 
-    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
-    	PUBLIC_HEADER DESTINATION include/libmusicxml
+if (NOT IOS)
+message (STATUS "Install location is ${CMAKE_INSTALL_PREFIX}")		
+install ( TARGETS ${target} 
+	RUNTIME DESTINATION lib 
+    LIBRARY DESTINATION lib 
+    ARCHIVE DESTINATION lib 
+    FRAMEWORK DESTINATION lib CONFIGURATIONS Release
+    PUBLIC_HEADER DESTINATION include/libmusicxml
 )
+
+install ( TARGETS ${TOOLS} 
+	RUNTIME DESTINATION bin 
+    LIBRARY DESTINATION lib 
+    ARCHIVE DESTINATION lib 
+)
+
+
+####################################
+# install misc files
+set (DOCDIR  ${CMAKE_INSTALL_PREFIX}/share/libmusicxml)
+install (
+    DIRECTORY ${DTDS} DESTINATION ${DOCDIR}/dtds
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    PATTERN ".DS_Store" EXCLUDE
+)
+
+install (
+    DIRECTORY ${DTDS} ${SCHEMA} DESTINATION ${DOCDIR}/schema
+    FILE_PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+    DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+    	GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+    PATTERN ".DS_Store" EXCLUDE
+)
+
+install (
+    FILES ${DOC} DESTINATION ${DOCDIR}/doc
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+
+install (
+    FILES ${ROOT}/CHANGELOG.txt  DESTINATION ${DOCDIR}
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ
+)
+
 endif()
