@@ -15,5 +15,7 @@ packages/libmusicxml-*
 doc/html
 doc/latex
 libmusicxml.js
+libmusicxml.wasm.*
+validation/3.*
 
-validation/
+

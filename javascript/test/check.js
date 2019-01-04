@@ -9,7 +9,7 @@ console.log ("MusicXML2Guido version: " + xml.musicxml2guidoVersionStr());
 
 var args = typeof process !== 'undefined' ?  process.argv : [];
 for (var i=2; i<args.length; i++) {
-	var file = args[i];
+	let file = args[i];
 	var content = fs.readFileSync(file);
 	console.log (file + " ==>");
 	console.log (xml.string2guido (content, false));

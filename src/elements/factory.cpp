@@ -27,18 +27,31 @@
 
 using namespace std; 
 
+// libmxmllineno is outside of name space MusicXML2
+extern int libmxmllineno;
+
+
 namespace MusicXML2 
 {
 
-
+int currentInputLineNumber ()
+  { return libmxmllineno; }
+  
 template<int elt>
-class newElementFunctor : public functor<Sxmlelement> {
-	public:
-		Sxmlelement operator ()() {  return musicxml<elt>::new_musicxml(); }
+class newElementFunctor : public functor<Sxmlelement>
+{
+  public:
+  
+    Sxmlelement operator ()()
+      {
+        return
+          musicxml<elt>::new_musicxml (
+            currentInputLineNumber ());
+      }
 };
 
 
-Sxmlelement factory::create(const string& eltname) const
+Sxmlelement factory::create (const string& eltname) const
 { 
 	map<std::string, functor<Sxmlelement>*>::const_iterator i = fMap.find( eltname );
 	if (i != fMap.end()) {
@@ -86,6 +99,7 @@ factory::factory()
 	fMap["arrow"] 	= new newElementFunctor<k_arrow>;
 	fMap["arrow-direction"] 	= new newElementFunctor<k_arrow_direction>;
 	fMap["arrow-style"] 	= new newElementFunctor<k_arrow_style>;
+	fMap["arrowhead"] 	= new newElementFunctor<k_arrowhead>;
 	fMap["articulations"] 	= new newElementFunctor<k_articulations>;
 	fMap["artificial"] 	= new newElementFunctor<k_artificial>;
 	fMap["attributes"] 	= new newElementFunctor<k_attributes>;
@@ -102,6 +116,7 @@ factory::factory()
 	fMap["beat-type"] 	= new newElementFunctor<k_beat_type>;
 	fMap["beat-unit"] 	= new newElementFunctor<k_beat_unit>;
 	fMap["beat-unit-dot"] 	= new newElementFunctor<k_beat_unit_dot>;
+	fMap["beat-unit-tied"] 	= new newElementFunctor<k_beat_unit_tied>;
 	fMap["beater"] 	= new newElementFunctor<k_beater>;
 	fMap["beats"] 	= new newElementFunctor<k_beats>;
 	fMap["bend"] 	= new newElementFunctor<k_bend>;
@@ -109,6 +124,7 @@ factory::factory()
 	fMap["bookmark"] 	= new newElementFunctor<k_bookmark>;
 	fMap["bottom-margin"] 	= new newElementFunctor<k_bottom_margin>;
 	fMap["bracket"] 	= new newElementFunctor<k_bracket>;
+	fMap["brass-bend"] 	= new newElementFunctor<k_brass_bend>;
 	fMap["breath-mark"] 	= new newElementFunctor<k_breath_mark>;
 	fMap["caesura"] 	= new newElementFunctor<k_caesura>;
 	fMap["cancel"] 	= new newElementFunctor<k_cancel>;
@@ -122,6 +138,7 @@ factory::factory()
 	fMap["creator"] 	= new newElementFunctor<k_creator>;
 	fMap["credit"] 	= new newElementFunctor<k_credit>;
 	fMap["credit-image"] 	= new newElementFunctor<k_credit_image>;
+	fMap["credit-symbol"] 	= new newElementFunctor<k_credit_symbol>;
 	fMap["credit-type"] 	= new newElementFunctor<k_credit_type>;
 	fMap["credit-words"] 	= new newElementFunctor<k_credit_words>;
 	fMap["cue"] 	= new newElementFunctor<k_cue>;
@@ -163,6 +180,7 @@ factory::factory()
 	fMap["end-paragraph"] 	= new newElementFunctor<k_end_paragraph>;
 	fMap["ending"] 	= new newElementFunctor<k_ending>;
 	fMap["ensemble"] 	= new newElementFunctor<k_ensemble>;
+	fMap["except-voice"] 	= new newElementFunctor<k_except_voice>;
 	fMap["extend"] 	= new newElementFunctor<k_extend>;
 	fMap["eyeglasses"] 	= new newElementFunctor<k_eyeglasses>;
 	fMap["f"] 	= new newElementFunctor<k_f>;
@@ -181,6 +199,7 @@ factory::factory()
 	fMap["fingering"] 	= new newElementFunctor<k_fingering>;
 	fMap["fingernails"] 	= new newElementFunctor<k_fingernails>;
 	fMap["first-fret"] 	= new newElementFunctor<k_first_fret>;
+	fMap["flip"] 	= new newElementFunctor<k_flip>;
 	fMap["footnote"] 	= new newElementFunctor<k_footnote>;
 	fMap["forward"] 	= new newElementFunctor<k_forward>;
 	fMap["fp"] 	= new newElementFunctor<k_fp>;
@@ -193,6 +212,8 @@ factory::factory()
 	fMap["fz"] 	= new newElementFunctor<k_fz>;
 	fMap["glass"] 	= new newElementFunctor<k_glass>;
 	fMap["glissando"] 	= new newElementFunctor<k_glissando>;
+	fMap["glyph"] 	= new newElementFunctor<k_glyph>;
+	fMap["golpe"] 	= new newElementFunctor<k_golpe>;
 	fMap["grace"] 	= new newElementFunctor<k_grace>;
 	fMap["group"] 	= new newElementFunctor<k_group>;
 	fMap["group-abbreviation"] 	= new newElementFunctor<k_group_abbreviation>;
@@ -203,11 +224,15 @@ factory::factory()
 	fMap["group-symbol"] 	= new newElementFunctor<k_group_symbol>;
 	fMap["group-time"] 	= new newElementFunctor<k_group_time>;
 	fMap["grouping"] 	= new newElementFunctor<k_grouping>;
+	fMap["half-muted"] 	= new newElementFunctor<k_half_muted>;
 	fMap["hammer-on"] 	= new newElementFunctor<k_hammer_on>;
 	fMap["handbell"] 	= new newElementFunctor<k_handbell>;
+	fMap["harmon-closed"] 	= new newElementFunctor<k_harmon_closed>;
+	fMap["harmon-mute"] 	= new newElementFunctor<k_harmon_mute>;
 	fMap["harmonic"] 	= new newElementFunctor<k_harmonic>;
 	fMap["harmony"] 	= new newElementFunctor<k_harmony>;
 	fMap["harp-pedals"] 	= new newElementFunctor<k_harp_pedals>;
+	fMap["haydn"] 	= new newElementFunctor<k_haydn>;
 	fMap["heel"] 	= new newElementFunctor<k_heel>;
 	fMap["hole"] 	= new newElementFunctor<k_hole>;
 	fMap["hole-closed"] 	= new newElementFunctor<k_hole_closed>;
@@ -225,6 +250,7 @@ factory::factory()
 	fMap["inversion"] 	= new newElementFunctor<k_inversion>;
 	fMap["inverted-mordent"] 	= new newElementFunctor<k_inverted_mordent>;
 	fMap["inverted-turn"] 	= new newElementFunctor<k_inverted_turn>;
+	fMap["inverted-vertical-turn"] 	= new newElementFunctor<k_inverted_vertical_turn>;
 	fMap["ipa"] 	= new newElementFunctor<k_ipa>;
 	fMap["key"] 	= new newElementFunctor<k_key>;
 	fMap["key-accidental"] 	= new newElementFunctor<k_key_accidental>;
@@ -251,10 +277,12 @@ factory::factory()
 	fMap["membrane"] 	= new newElementFunctor<k_membrane>;
 	fMap["metal"] 	= new newElementFunctor<k_metal>;
 	fMap["metronome"] 	= new newElementFunctor<k_metronome>;
+	fMap["metronome-arrows"] 	= new newElementFunctor<k_metronome_arrows>;
 	fMap["metronome-beam"] 	= new newElementFunctor<k_metronome_beam>;
 	fMap["metronome-dot"] 	= new newElementFunctor<k_metronome_dot>;
 	fMap["metronome-note"] 	= new newElementFunctor<k_metronome_note>;
 	fMap["metronome-relation"] 	= new newElementFunctor<k_metronome_relation>;
+	fMap["metronome-tied"] 	= new newElementFunctor<k_metronome_tied>;
 	fMap["metronome-tuplet"] 	= new newElementFunctor<k_metronome_tuplet>;
 	fMap["metronome-type"] 	= new newElementFunctor<k_metronome_type>;
 	fMap["mf"] 	= new newElementFunctor<k_mf>;
@@ -276,6 +304,7 @@ factory::factory()
 	fMap["multiple-rest"] 	= new newElementFunctor<k_multiple_rest>;
 	fMap["music-font"] 	= new newElementFunctor<k_music_font>;
 	fMap["mute"] 	= new newElementFunctor<k_mute>;
+	fMap["n"] 	= new newElementFunctor<k_n>;
 	fMap["natural"] 	= new newElementFunctor<k_natural>;
 	fMap["non-arpeggiate"] 	= new newElementFunctor<k_non_arpeggiate>;
 	fMap["normal-dot"] 	= new newElementFunctor<k_normal_dot>;
@@ -290,6 +319,7 @@ factory::factory()
 	fMap["octave-change"] 	= new newElementFunctor<k_octave_change>;
 	fMap["octave-shift"] 	= new newElementFunctor<k_octave_shift>;
 	fMap["offset"] 	= new newElementFunctor<k_offset>;
+	fMap["open"] 	= new newElementFunctor<k_open>;
 	fMap["open-string"] 	= new newElementFunctor<k_open_string>;
 	fMap["opus"] 	= new newElementFunctor<k_opus>;
 	fMap["ornaments"] 	= new newElementFunctor<k_ornaments>;
@@ -322,6 +352,7 @@ factory::factory()
 	fMap["pedal-tuning"] 	= new newElementFunctor<k_pedal_tuning>;
 	fMap["per-minute"] 	= new newElementFunctor<k_per_minute>;
 	fMap["percussion"] 	= new newElementFunctor<k_percussion>;
+	fMap["pf"] 	= new newElementFunctor<k_pf>;
 	fMap["pitch"] 	= new newElementFunctor<k_pitch>;
 	fMap["pitched"] 	= new newElementFunctor<k_pitched>;
 	fMap["play"] 	= new newElementFunctor<k_play>;
@@ -366,6 +397,7 @@ factory::factory()
 	fMap["sfp"] 	= new newElementFunctor<k_sfp>;
 	fMap["sfpp"] 	= new newElementFunctor<k_sfpp>;
 	fMap["sfz"] 	= new newElementFunctor<k_sfz>;
+	fMap["sfzp"] 	= new newElementFunctor<k_sfzp>;
 	fMap["shake"] 	= new newElementFunctor<k_shake>;
 	fMap["sign"] 	= new newElementFunctor<k_sign>;
 	fMap["slash"] 	= new newElementFunctor<k_slash>;
@@ -373,7 +405,9 @@ factory::factory()
 	fMap["slash-type"] 	= new newElementFunctor<k_slash_type>;
 	fMap["slide"] 	= new newElementFunctor<k_slide>;
 	fMap["slur"] 	= new newElementFunctor<k_slur>;
+	fMap["smear"] 	= new newElementFunctor<k_smear>;
 	fMap["snap-pizzicato"] 	= new newElementFunctor<k_snap_pizzicato>;
+	fMap["soft-accent"] 	= new newElementFunctor<k_soft_accent>;
 	fMap["software"] 	= new newElementFunctor<k_software>;
 	fMap["solo"] 	= new newElementFunctor<k_solo>;
 	fMap["sound"] 	= new newElementFunctor<k_sound>;
@@ -385,6 +419,7 @@ factory::factory()
 	fMap["staff"] 	= new newElementFunctor<k_staff>;
 	fMap["staff-details"] 	= new newElementFunctor<k_staff_details>;
 	fMap["staff-distance"] 	= new newElementFunctor<k_staff_distance>;
+	fMap["staff-divide"] 	= new newElementFunctor<k_staff_divide>;
 	fMap["staff-layout"] 	= new newElementFunctor<k_staff_layout>;
 	fMap["staff-lines"] 	= new newElementFunctor<k_staff_lines>;
 	fMap["staff-size"] 	= new newElementFunctor<k_staff_size>;
@@ -405,6 +440,7 @@ factory::factory()
 	fMap["suffix"] 	= new newElementFunctor<k_suffix>;
 	fMap["supports"] 	= new newElementFunctor<k_supports>;
 	fMap["syllabic"] 	= new newElementFunctor<k_syllabic>;
+	fMap["symbol"] 	= new newElementFunctor<k_symbol>;
 	fMap["system-distance"] 	= new newElementFunctor<k_system_distance>;
 	fMap["system-dividers"] 	= new newElementFunctor<k_system_dividers>;
 	fMap["system-layout"] 	= new newElementFunctor<k_system_layout>;
@@ -475,6 +511,7 @@ factory::factory()
 	fType2Name[k_arrow] 	= "arrow";
 	fType2Name[k_arrow_direction] 	= "arrow-direction";
 	fType2Name[k_arrow_style] 	= "arrow-style";
+	fType2Name[k_arrowhead] 	= "arrowhead";
 	fType2Name[k_articulations] 	= "articulations";
 	fType2Name[k_artificial] 	= "artificial";
 	fType2Name[k_attributes] 	= "attributes";
@@ -491,6 +528,7 @@ factory::factory()
 	fType2Name[k_beat_type] 	= "beat-type";
 	fType2Name[k_beat_unit] 	= "beat-unit";
 	fType2Name[k_beat_unit_dot] 	= "beat-unit-dot";
+	fType2Name[k_beat_unit_tied] 	= "beat-unit-tied";
 	fType2Name[k_beater] 	= "beater";
 	fType2Name[k_beats] 	= "beats";
 	fType2Name[k_bend] 	= "bend";
@@ -498,6 +536,7 @@ factory::factory()
 	fType2Name[k_bookmark] 	= "bookmark";
 	fType2Name[k_bottom_margin] 	= "bottom-margin";
 	fType2Name[k_bracket] 	= "bracket";
+	fType2Name[k_brass_bend] 	= "brass-bend";
 	fType2Name[k_breath_mark] 	= "breath-mark";
 	fType2Name[k_caesura] 	= "caesura";
 	fType2Name[k_cancel] 	= "cancel";
@@ -511,6 +550,7 @@ factory::factory()
 	fType2Name[k_creator] 	= "creator";
 	fType2Name[k_credit] 	= "credit";
 	fType2Name[k_credit_image] 	= "credit-image";
+	fType2Name[k_credit_symbol] 	= "credit-symbol";
 	fType2Name[k_credit_type] 	= "credit-type";
 	fType2Name[k_credit_words] 	= "credit-words";
 	fType2Name[k_cue] 	= "cue";
@@ -552,6 +592,7 @@ factory::factory()
 	fType2Name[k_end_paragraph] 	= "end-paragraph";
 	fType2Name[k_ending] 	= "ending";
 	fType2Name[k_ensemble] 	= "ensemble";
+	fType2Name[k_except_voice] 	= "except-voice";
 	fType2Name[k_extend] 	= "extend";
 	fType2Name[k_eyeglasses] 	= "eyeglasses";
 	fType2Name[k_f] 	= "f";
@@ -570,6 +611,7 @@ factory::factory()
 	fType2Name[k_fingering] 	= "fingering";
 	fType2Name[k_fingernails] 	= "fingernails";
 	fType2Name[k_first_fret] 	= "first-fret";
+	fType2Name[k_flip] 	= "flip";
 	fType2Name[k_footnote] 	= "footnote";
 	fType2Name[k_forward] 	= "forward";
 	fType2Name[k_fp] 	= "fp";
@@ -582,6 +624,8 @@ factory::factory()
 	fType2Name[k_fz] 	= "fz";
 	fType2Name[k_glass] 	= "glass";
 	fType2Name[k_glissando] 	= "glissando";
+	fType2Name[k_glyph] 	= "glyph";
+	fType2Name[k_golpe] 	= "golpe";
 	fType2Name[k_grace] 	= "grace";
 	fType2Name[k_group] 	= "group";
 	fType2Name[k_group_abbreviation] 	= "group-abbreviation";
@@ -592,11 +636,15 @@ factory::factory()
 	fType2Name[k_group_symbol] 	= "group-symbol";
 	fType2Name[k_group_time] 	= "group-time";
 	fType2Name[k_grouping] 	= "grouping";
+	fType2Name[k_half_muted] 	= "half-muted";
 	fType2Name[k_hammer_on] 	= "hammer-on";
 	fType2Name[k_handbell] 	= "handbell";
+	fType2Name[k_harmon_closed] 	= "harmon-closed";
+	fType2Name[k_harmon_mute] 	= "harmon-mute";
 	fType2Name[k_harmonic] 	= "harmonic";
 	fType2Name[k_harmony] 	= "harmony";
 	fType2Name[k_harp_pedals] 	= "harp-pedals";
+	fType2Name[k_haydn] 	= "haydn";
 	fType2Name[k_heel] 	= "heel";
 	fType2Name[k_hole] 	= "hole";
 	fType2Name[k_hole_closed] 	= "hole-closed";
@@ -614,6 +662,7 @@ factory::factory()
 	fType2Name[k_inversion] 	= "inversion";
 	fType2Name[k_inverted_mordent] 	= "inverted-mordent";
 	fType2Name[k_inverted_turn] 	= "inverted-turn";
+	fType2Name[k_inverted_vertical_turn] 	= "inverted-vertical-turn";
 	fType2Name[k_ipa] 	= "ipa";
 	fType2Name[k_key] 	= "key";
 	fType2Name[k_key_accidental] 	= "key-accidental";
@@ -640,10 +689,12 @@ factory::factory()
 	fType2Name[k_membrane] 	= "membrane";
 	fType2Name[k_metal] 	= "metal";
 	fType2Name[k_metronome] 	= "metronome";
+	fType2Name[k_metronome_arrows] 	= "metronome-arrows";
 	fType2Name[k_metronome_beam] 	= "metronome-beam";
 	fType2Name[k_metronome_dot] 	= "metronome-dot";
 	fType2Name[k_metronome_note] 	= "metronome-note";
 	fType2Name[k_metronome_relation] 	= "metronome-relation";
+	fType2Name[k_metronome_tied] 	= "metronome-tied";
 	fType2Name[k_metronome_tuplet] 	= "metronome-tuplet";
 	fType2Name[k_metronome_type] 	= "metronome-type";
 	fType2Name[k_mf] 	= "mf";
@@ -665,6 +716,7 @@ factory::factory()
 	fType2Name[k_multiple_rest] 	= "multiple-rest";
 	fType2Name[k_music_font] 	= "music-font";
 	fType2Name[k_mute] 	= "mute";
+	fType2Name[k_n] 	= "n";
 	fType2Name[k_natural] 	= "natural";
 	fType2Name[k_non_arpeggiate] 	= "non-arpeggiate";
 	fType2Name[k_normal_dot] 	= "normal-dot";
@@ -679,6 +731,7 @@ factory::factory()
 	fType2Name[k_octave_change] 	= "octave-change";
 	fType2Name[k_octave_shift] 	= "octave-shift";
 	fType2Name[k_offset] 	= "offset";
+	fType2Name[k_open] 	= "open";
 	fType2Name[k_open_string] 	= "open-string";
 	fType2Name[k_opus] 	= "opus";
 	fType2Name[k_ornaments] 	= "ornaments";
@@ -711,6 +764,7 @@ factory::factory()
 	fType2Name[k_pedal_tuning] 	= "pedal-tuning";
 	fType2Name[k_per_minute] 	= "per-minute";
 	fType2Name[k_percussion] 	= "percussion";
+	fType2Name[k_pf] 	= "pf";
 	fType2Name[k_pitch] 	= "pitch";
 	fType2Name[k_pitched] 	= "pitched";
 	fType2Name[k_play] 	= "play";
@@ -755,6 +809,7 @@ factory::factory()
 	fType2Name[k_sfp] 	= "sfp";
 	fType2Name[k_sfpp] 	= "sfpp";
 	fType2Name[k_sfz] 	= "sfz";
+	fType2Name[k_sfzp] 	= "sfzp";
 	fType2Name[k_shake] 	= "shake";
 	fType2Name[k_sign] 	= "sign";
 	fType2Name[k_slash] 	= "slash";
@@ -762,7 +817,9 @@ factory::factory()
 	fType2Name[k_slash_type] 	= "slash-type";
 	fType2Name[k_slide] 	= "slide";
 	fType2Name[k_slur] 	= "slur";
+	fType2Name[k_smear] 	= "smear";
 	fType2Name[k_snap_pizzicato] 	= "snap-pizzicato";
+	fType2Name[k_soft_accent] 	= "soft-accent";
 	fType2Name[k_software] 	= "software";
 	fType2Name[k_solo] 	= "solo";
 	fType2Name[k_sound] 	= "sound";
@@ -774,6 +831,7 @@ factory::factory()
 	fType2Name[k_staff] 	= "staff";
 	fType2Name[k_staff_details] 	= "staff-details";
 	fType2Name[k_staff_distance] 	= "staff-distance";
+	fType2Name[k_staff_divide] 	= "staff-divide";
 	fType2Name[k_staff_layout] 	= "staff-layout";
 	fType2Name[k_staff_lines] 	= "staff-lines";
 	fType2Name[k_staff_size] 	= "staff-size";
@@ -794,6 +852,7 @@ factory::factory()
 	fType2Name[k_suffix] 	= "suffix";
 	fType2Name[k_supports] 	= "supports";
 	fType2Name[k_syllabic] 	= "syllabic";
+	fType2Name[k_symbol] 	= "symbol";
 	fType2Name[k_system_distance] 	= "system-distance";
 	fType2Name[k_system_dividers] 	= "system-dividers";
 	fType2Name[k_system_layout] 	= "system-layout";

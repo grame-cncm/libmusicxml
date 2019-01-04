@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#ifdef VC6
+#ifdef MSVC
 # pragma warning (disable : 4786)
 #endif
 

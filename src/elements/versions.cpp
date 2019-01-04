@@ -15,14 +15,14 @@
 namespace MusicXML2 
 {
 //______________________________________________________________________________
-float		versions::libVersion()				{ return 3.11; }
-const char*	versions::libVersionStr()			{ return "3.11"; }
+float   versions::libVersion()        { return 3.14f; }
+const char* versions::libVersionStr()     { return "3.14"; }
 
-float		versions::xml2guidoVersion()		{ return 2.11; }
-const char*	versions::xml2guidoVersionStr()		{ return "2.11"; }
+float   versions::xml2guidoVersion()    { return 2.3f; }
+const char* versions::xml2guidoVersionStr()   { return "2.3"; }
 
-//float		versions::xml2antescofoVersion()	{ return 0; }
-//const char*	versions::xml2antescofoVersionStr()	{ return "0"; }
+float   versions::xml2lilypondVersion()   { return 0.9f; }
+const char* versions::xml2lilypondVersionStr()    { return "0.9"; }
 
 }
 

@@ -82,7 +82,8 @@ class EXP rational {
 
         // Used to "rationalise" rational.
         void rationalise();
-       
+    	void print (ostream& os) const;
+
         operator string () const;
 		operator double () const;
 		operator float () const;
@@ -94,5 +95,7 @@ class EXP rational {
         float	toFloat() const;
         int		toInt() const;
 };
+
+EXP ostream& operator<< (ostream& os, const rational& rat);
 
 #endif
