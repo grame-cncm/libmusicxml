@@ -63,7 +63,7 @@ fi
 
 cp -v $universalpath $podlibpath
 if [ $? -eq 0 ]; then
-	echo Universal Library copied to Pod.
+	echo Universal Library copied to Pod $podlibpath
 else
 	echo Copy failed! Exiting... .
 	exit

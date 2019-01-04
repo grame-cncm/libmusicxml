@@ -41,6 +41,7 @@ if(APPLE)
 		set(CMAKE_XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET 9.3)
 		
 		set (libtype STATIC)
+		set (FMWK "false")
 	else ()
 		if ( C++11 )
 			message (STATUS "Generates project using C++11 - Use -DC++11=no to change.")
@@ -49,7 +50,7 @@ if(APPLE)
 		else()
 			message (STATUS "Generates project without C++11 - Use -DC++11=yes to change.")
 		endif()
-		set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
+		set (CMAKE_OSX_ARCHITECTURES "x86_64")	# removed i386 for XCode10
 	endif()
 
 #########################################
