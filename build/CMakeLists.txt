@@ -9,10 +9,10 @@ endif()
 
 #######################################
 # versions management
-set (VERSION 3.1.2)
-set (STRVERS "v.3.12")
-set (SSTRVERS "3.12")
-set (SOVERS 4)
+set (VERSION 3.1.4)
+set (STRVERS "v.3.14")
+set (SSTRVERS "3.14")
+set (SOVERS 3)
 set (XMLVERSION 3.1)
 
 
