@@ -6208,6 +6208,11 @@ class msrVoice : public msrElement
                             string measureNumber,
                             int    repeatTimes);
   
+    void                  finalizeRepeatUponItsEndInVoice (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+  
     void                  createRepeatUponItsEndAndAppendItToVoiceClone (
                             int    inputLineNumber,
                             int    repeatTimes);
@@ -6420,13 +6425,9 @@ class msrVoice : public msrElement
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;
 
-    // fVoiceCurrentRepeat is null or
-    // the last msrRepeat in fVoiceInitialElementsList
-    S_msrRepeat           fVoiceCurrentRepeat;
-    S_msrRepeatCommonPart fVoiceCurrentRepeatCommonPart;
-
-    list<S_msrRepeat>     fRepeatsStack;
-    void                  displayRepeatsStack (string context);
+    // a stack is needed to handle nested repeats
+    list<S_msrRepeat>     fVoiceRepeatsStack;
+    void                  displayVoiceRepeatsStack (string context);
 
 
 
@@ -6691,6 +6692,11 @@ class msrStaff : public msrElement
                             int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToStaff (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+    
+    void                  finalizeRepeatUponItsEndInStaff (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
@@ -7252,6 +7258,11 @@ class msrPart : public msrElement
                             int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToPart (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+    
+    void                  finalizeRepeatUponItsEndInPart (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);

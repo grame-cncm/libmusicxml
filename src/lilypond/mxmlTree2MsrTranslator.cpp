@@ -20065,7 +20065,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
       msrBarline::kBarlineCategoryRepeatStart);
 
   // prepare for repeat in current part
-  if (false) { // JMI
+  if (true) { // JMI
   fCurrentPart->
     prepareForRepeatInPart (
       inputLineNumber);
@@ -20129,18 +20129,29 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a repeat to part " <<
+      "Handling a repeat end in part " <<
       fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
+ // if (true) { // JMI
   fCurrentPart->
     createRepeatUponItsEndAndAppendItToPart (
       inputLineNumber,
       fCurrentMeasureNumber,
       barline->getBarlineTimes ());
+/*
+  }
+  else {
+  fCurrentPart->
+    finalizeRepeatUponItsEndInPart (
+      inputLineNumber,
+      fCurrentMeasureNumber,
+      barline->getBarlineTimes ());
+  }
+  */
 
   fOnGoingRepeat = false;
   fRepeatEndCounter++;
