@@ -23051,7 +23051,7 @@ else { // JMI MAXIFOO
       fVoiceCurrentRepeat);
   }
   else {
-    // this a nested repeat,
+    // this is an enclosing repeat,
     // append it to the repeat at the top of the stack
 
     S_msrRepeat
@@ -23618,7 +23618,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           gGeneralOptions->fTraceVoicesDetails) {
           gLogIOstream <<
             endl <<
-            "*********>> Current voice MMMMMM \"" <<
+            "*********>> Current voice MMMMMM 1 \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -23687,26 +23687,30 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           setRepeatCommonPart (
             repeatCommonPart);
 
-        // is there another repeat to nest newRepeat into?
+        // is there another repeat to nest into newRepeat?
         if (fVoiceRepeatsStack.size ()) {
-          // yes, this repeat is nested
+          // yes, newRepeat contains a nested repeat
 #ifdef TRACE_OPTIONS
           if (gGeneralOptions->fTraceRepeats) {
             gLogIOstream <<
-              "This repeat is nested" <<
+              "This repeat contains a nested repeat" <<
               ", line " << inputLineNumber <<
               endl;
           }
 #endif
 
-          /* JMI
           // move the voice initial elements to the new repeat common part
 #ifdef TRACE_OPTIONS
           if (gGeneralOptions->fTraceRepeats) {
             gLogIOstream <<
-              "Moving the initial elements in voice \"" <<
+              "Moving the " <<
+              singularOrPlural (
+                fVoiceInitialElementsList.size (),
+                "initial element",
+                "initial elements") <<
+              " in voice \"" <<
               getVoiceName () <<
-              "\" to the new nested repeat common part" <<
+              "\" to the new enclosing repeat common part" <<
               ", line " << inputLineNumber <<
               endl;
           }
@@ -23726,15 +23730,12 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             // remove it from the voice initial elements
             i = fVoiceInitialElementsList.erase (i);
           } // for
-  
-   //  JMI       fVoiceInitialElementsList.clear ();
-  */
-  
-          // move voice last segment into the repeat common part
+    
+          // move voice last segment into the new repeat common part
 #ifdef TRACE_OPTIONS
           if (gGeneralOptions->fTraceRepeats) {
             gLogIOstream <<
-              "Append the voice last segment to the nested repeat common part in voice \"" <<
+              "Append the voice last segment to the enclosing repeat common part in voice \"" <<
               getVoiceName () <<
               "\"" <<
               ", line " << inputLineNumber <<
@@ -23836,20 +23837,24 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           }
 #endif
 
-        // append newRepeat to the list of initial elements
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceRepeats) {
-          gLogIOstream <<
-            "Appending new repeat to the initial elements in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
+        if (true || fVoiceRepeatsStack.size () == 1) { // JMI
+          // append newRepeat to the list of initial elements
+  #ifdef TRACE_OPTIONS
+          if (gGeneralOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Appending new repeat '" <<
+              newRepeat->asString () <<
+              "' to the initial elements in voice \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+  #endif
+                        
+          fVoiceInitialElementsList.push_back (
+            newRepeat);
         }
-#endif
-                      
-        fVoiceInitialElementsList.push_back (
-          newRepeat);
       
 #ifdef TRACE_OPTIONS
         if (
@@ -23858,7 +23863,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           gGeneralOptions->fTraceVoicesDetails) {
           gLogIOstream <<
             endl <<
-            "*********>> Current voice EEEEEE \"" <<
+            "*********>> Current voice MMMMMM 2 \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -24039,9 +24044,9 @@ void msrVoice::finalizeRepeatUponItsEndInVoice (
               inputLineNumber,
               repeat);
 
-        // is there another repeat to nest repeat into?
+        // is there another repeat to nest into this repeat?
         if (! fVoiceRepeatsStack.size ()) {
-          // yes, this repeat is nested
+          // yes, this repeat contains a nested repeat
 
 /* JMI
           // move the voice initial elements to the new repeat common part
@@ -24470,7 +24475,9 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoiceClone (
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Appending new repeat to the initial elements in voice clone \"" <<
+            "Appending new repeat '" <<
+            newRepeat->asString () <<
+            "' to the initial elements in voice clone \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -24678,12 +24685,15 @@ void msrVoice::createRegularRepeatUponItsFirstEndingInVoice (
         repeat->
           setRepeatCommonPart (
             repeatCommonPart);
-          
+
+          /* JMI
         // append the repeat to the list of initial elements
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Appending repeat to the initial elements in voice \"" <<
+            "Appending repeat '" <<
+            repeat->asString () <<
+            "' to the initial elements in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -24693,6 +24703,7 @@ void msrVoice::createRegularRepeatUponItsFirstEndingInVoice (
                       
         fVoiceInitialElementsList.push_back (
           repeat);
+          */
       
         // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
@@ -24937,12 +24948,15 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
             repeatCommonPart);
 
         gIndenter--;
-          
+
+          /* DONT JMI
         // append the repeat to the list of initial elements
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Appending repeat to the initial elements in voice \"" <<
+            "Appending repeat '" <<
+            repeat->asString () <<
+            "' to the initial elements in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -24952,6 +24966,7 @@ void msrVoice::createEnclosingRepeatUponItsFirstEndingInVoice (
                       
         fVoiceInitialElementsList.push_back (
           repeat);
+          */
       
         // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
