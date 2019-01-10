@@ -138,7 +138,7 @@
   \toBeWrittenToMusicXMLInterIIOrd = sin(\toBeWrittenToMusicXMLInterIIAngle) * \toBeWrittenToMusicXMLInterRadius;
   \toBeWrittenToMusicXMLEndAbs   = \MusicXMLAbs - 0.05;
   \toBeWrittenToMusicXMLEndOrd   = \MusicXMLOrd - 0.15;
-%
+	%
   % toBeWrittenToLilyPond
   \toBeWrittenToLilyPondInterIAngle  = mod((\LPSRAngle + \MDSRAngle) * -0.1, 360);
   \toBeWrittenToLilyPondInterIIAngle = mod((\LPSRAngle + \MDSRAngle) * 0.375, 360);
@@ -151,6 +151,19 @@
   \toBeWrittenToLilyPondInterIIOrd = sin(\toBeWrittenToLilyPondInterIIAngle) * \toBeWrittenToLilyPondInterRadius;
   \toBeWrittenToLilyPondEndAbs   = \LilyPondAbs - 0.15;
   \toBeWrittenToLilyPondEndOrd   = \LilyPondOrd - 0.15;
+	%
+  % toBeWrittenToBrailleMusic
+  \toBeWrittenToBrailleMusicInterIAngle  = mod((\LPSRAngle + \MDSRAngle) * -0.1, 360);
+  \toBeWrittenToBrailleMusicInterIIAngle = mod((\LPSRAngle + \MDSRAngle) * 0.375, 360);
+  \toBeWrittenToBrailleMusicInterRadius = 0.30;
+  \toBeWrittenToBrailleMusicStartAbs = \toBeWrittenCommonEndAbs5;
+  \toBeWrittenToBrailleMusicStartOrd = \toBeWrittenCommonEndOrd;
+  \toBeWrittenToBrailleMusicInterIAbs = cos(\toBeWrittenToBrailleMusicInterIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicInterIOrd = sin(\toBeWrittenToBrailleMusicInterIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicInterIIAbs = cos(\toBeWrittenToBrailleMusicInterIIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicInterIIOrd = sin(\toBeWrittenToBrailleMusicInterIIAngle) * \toBeWrittenToBrailleMusicInterRadius;
+  \toBeWrittenToBrailleMusicEndAbs   = \BrailleMusicAbs - 0.15;
+  \toBeWrittenToBrailleMusicEndOrd   = \BrailleMusicOrd - 0.15;
   %
   % title
   \titleAbs = -2.2;
@@ -265,10 +278,10 @@
 \draw [->,thick,-{Stealth[length=10pt]}] (BSR) -- (Braille music);
 
 % MIDI -> MDSR
-\draw [->,very thick,-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MIDI) -- (MDSR);
+\draw [<->,very thick,{Stealth[length=10pt]}-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MIDI) -- (MDSR);
 
 % MDSR -> MSR
-\draw [->,very thick,-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MDSR) -- (MSR);
+\draw [<->,very thick,{Stealth[length=10pt]}-{Stealth[length=10pt]},loosely dashed,color=gray!50] (MDSR) -- (MSR);
 
 
 % Draw the tools
@@ -418,6 +431,26 @@
   (\toBeWrittenToLilyPondEndAbs,\toBeWrittenToLilyPondEndOrd);
   
   
+% Draw toBeWrittenToBrailleMusic 
+% ------------------------------------------------
+
+\filldraw [gray!30] 
+  (\toBeWrittenToBrailleMusicStartAbs,\toBeWrittenToBrailleMusicStartOrd) circle [radius=0pt]
+  (\toBeWrittenToBrailleMusicInterIAbs,\toBeWrittenToBrailleMusicInterIOrd) circle [radius=0pt] 
+  (\toBeWrittenToBrailleMusicInterIIAbs,\toBeWrittenToBrailleMusicInterIIOrd) circle [radius=0pt] 
+  (\toBeWrittenToBrailleMusicEndAbs,\toBeWrittenToBrailleMusicEndOrd) circle [radius=0pt];
+  
+\draw [-,thick,red,-{Stealth[length=10pt]},loosely dashed,color=gray!50,anchor=center]
+  (\toBeWrittenToBrailleMusicStartAbs, \toBeWrittenToBrailleMusicStartOrd)
+  ..
+  controls 
+    (\toBeWrittenToBrailleMusicInterIAbs,\toBeWrittenToBrailleMusicInterIOrd)
+    and
+    (\toBeWrittenToBrailleMusicInterIIAbs,\toBeWrittenToBrailleMusicInterIIOrd)
+  .. 
+  (\toBeWrittenToBrailleMusicEndAbs,\toBeWrittenToBrailleMusicEndOrd);
+  
+  
 % Draw the table
 % ------------------------------------------------
 
@@ -449,7 +482,7 @@ MDSR & MIDI Score Representation, to be designed
 tools & a set of other demo programs such as {\tt countnotes}, {\tt xmltranspose} and {\tt partsummary}
 \tabularnewline
 
-\texttt{toBeWritten} & should generate an MSR containing some music and write it as MusicXML and LilyPond
+\texttt{toBeWritten} & should generate an MSR containing some music and write it as MusicXML, LilyPond and Braille music
 \tabularnewline
 
 \texttt{xml2ly} & performs the 4 hops from MusicXML to LilyPond to translate the former into the latter
@@ -475,7 +508,7 @@ tools & a set of other demo programs such as {\tt countnotes}, {\tt xmltranspose
 % Draw the date
 % ------------------------------------------------
 
-\node[right,scale=1] (date) at (\dateAbs,\dateOrd) {\texttt{xml2guido} v2.3, \texttt{xml2ly} v0.9, \texttt{xml2brl} v0.01, December 2018};
+\node[right,scale=1] (date) at (\dateAbs,\dateOrd) {\texttt{xml2guido} v2.3, \texttt{xml2ly} v0.9, \texttt{xml2brl} v0.01, January 2019};
 
 
 \end{tikzpicture}
