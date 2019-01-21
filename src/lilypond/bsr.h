@@ -33,7 +33,7 @@
 #include "bsrFootNotes.h"
 
 #include "bsrNumbers.h"
-#include "bsrStrings.h"
+#include "bsrWords.h"
 
 #include "bsrClefs.h"
 #include "bsrKeys.h"

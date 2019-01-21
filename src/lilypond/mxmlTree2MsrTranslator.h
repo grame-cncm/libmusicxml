@@ -1375,33 +1375,30 @@ class mxmlTree2MsrTranslator :
     // repeats handling
     // ------------------------------------------------------
     
-    bool                      fOnGoingRepeat;
-    bool                      fOnGoingRepeatHasBeenCreated;
-    
-    void                      createAndPrependImplicitBarLine (
-                                int inputLineNumber);
-
     void                      handleRepeatStart (
                                 S_msrBarline& barline);
 
     void                      handleRepeatEnd (
                                 S_msrBarline& barline);
 
-    void                      handleEndingStart (
+    void                      handleRepeatEndingStart (
                                 S_msrBarline& barline);
+
+    int                       fCurrentRepeatEndingStartLineNumber;
+    
 /* JMI
-    void                      handleHookedEndingStart (
+    void                      handleRepeatHookedEndingStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
 */
-    void                      handleHookedEndingEnd (
+    void                      handleRepeatHookedEndingEnd (
                                 S_msrBarline& barline);
     /* JMI
-    void                      handleHooklessEndingStart (
+    void                      handleRepeatHooklessEndingStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
 */
-    void                      handleHooklessEndingEnd (
+    void                      handleRepeatHooklessEndingEnd (
                                 S_msrBarline& barline);
 
     // notes/rests handling

@@ -4588,37 +4588,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   }
 #endif
 
-/* JMI ???
-  fCurrentPartClone->
-    prepareForRepeatInPart (
-      inputLineNumber);
-      */
   fCurrentVoiceClone->
-    prepareForRepeatInVoiceClone (
+    handleRepeatStartInVoiceClone (
       inputLineNumber,
       elt->getRepeatTimes ());
-
-/* JMI
-  // create a repeat clone
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Creating a repeat newborn clone" <<
-      ", line " << inputLineNumber <<
-      ", in voice \"" <<
-      elt->
-        getRepeatVoiceUplink ()->
-          getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  fCurrentRepeatClone =
-    elt->
-      createRepeatNewbornClone (
-        fCurrentVoiceClone);
-*/
         
   fOnGoingRepeat = true; // JMI
 }
@@ -4634,26 +4607,6 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       ", line " << inputLineNumber <<
       endl;
   }
-
-/* JMI
-  // append the repeat clone to the current part clone
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Appending a repeat to part clone " <<
-      fCurrentPartClone->getPartCombinedName () << "\"" <<
-      endl;
-  }
-#endif
-
-  fCurrentPartClone-> // no test needed JMI
-    appendRepeatCloneToPart (
-      inputLineNumber,
-      fCurrentRepeatClone);
-*/
-
-  // forget about current repeat clone // JMI
-// JMI  fCurrentRepeatClone = 0;
   
   fOnGoingRepeat = false;
 }
@@ -4744,7 +4697,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 #endif
 
   fCurrentVoiceClone->
-    createRepeatUponItsEndAndAppendItToVoiceClone ( // JMI
+    handleRepeatEndInVoiceClone (
       inputLineNumber,
       elt->
         getRepeatCommonPartRepeatUplink ()->
@@ -4800,7 +4753,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 #endif
 
   fCurrentVoiceClone->
-    appendRepeatEndingToVoice (
+    handleRepeatEndingEndInVoice (
       inputLineNumber,
       elt->getRepeatEndingNumber (),
       elt->getRepeatEndingKind ());

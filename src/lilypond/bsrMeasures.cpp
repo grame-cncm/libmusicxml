@@ -142,13 +142,13 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
   appendLineElementToMeasure (number);
 }
 
-void bsrMeasure::appendStringToMeasure (S_bsrString str)
+void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceNumbers || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending string '" <<
-      str->asShortString () <<
+      "Appending words '" <<
+      words->asShortString () <<
       "' to measure '" <<
       asString () <<
       "'" <<
@@ -156,7 +156,7 @@ void bsrMeasure::appendStringToMeasure (S_bsrString str)
     }
 #endif
 
-  appendLineElementToMeasure (str);
+  appendLineElementToMeasure (words);
 }
 
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)

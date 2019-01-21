@@ -1895,14 +1895,14 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
           } // switch
 
           // create the words string
-          S_bsrString
-            bString =
-              bsrString::create (
+          S_bsrWords
+            bWords =
+              bsrWords::create (
                 inputLineNumber, wordsContents);
 
           // append it to the current measure
           fCurrentMeasure->
-            appendStringToMeasure (bString);
+            appendWordsToMeasure (bWords);
 
           // a note octave will be needed for the next note to come,
           // i.e., the first one after the word sign
@@ -5676,7 +5676,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 #endif
 
   fCurrentVoiceClone->
-    appendRepeatEndingToVoice (
+    handleRepeatEndingEndInVoice (
       inputLineNumber,
       elt->getRepeatEndingNumber (),
       elt->getRepeatEndingKind ());

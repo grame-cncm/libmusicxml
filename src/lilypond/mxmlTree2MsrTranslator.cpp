@@ -244,9 +244,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentEndingStartBarline = nullptr;
     
   // repeats handling
-  fOnGoingRepeat = false;
   fRepeatEndCounter = 0;
-  fOnGoingRepeatHasBeenCreated = false;
 
   // MusicXML notes handling
   fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
@@ -741,10 +739,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
   
-  fCurrentEndingStartBarline = nullptr; // JMI
-
-  fOnGoingRepeat = false;
-  fOnGoingRepeatHasBeenCreated = false;
+  fCurrentEndingStartBarline = nullptr;
 
   gIndenter++;
 }
@@ -763,6 +758,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 
   gIndenter--;
 
+/*
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
@@ -778,21 +774,21 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       endl;
   }
 #endif
+*/
 
-  if (fOnGoingRepeat) {
     /*
+  if (fOnGoingRepeat) {
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       "unterminated repeat in MusicXML data, exiting");
-    */
+
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "unterminated repeat in MusicXML data, ignoring the repeat altogether");
 
-    /* JMI
     // let's recover from this error
 
     // create an extra barline
@@ -829,9 +825,9 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 
     // handle it
   // JMI ???  handleRepeatEnd (barline);
-    handleHooklessEndingEnd (barline);
-  */
+    handleRepeatHooklessEndingEnd (barline);
   }
+  */
 
   // finalize the current part
   fCurrentPart->
@@ -6950,7 +6946,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineEndingNumber.size () != 0) {
     // ending start, don't know yet whether it's hooked or hookless
     // ------------------------------------------------------
-    handleEndingStart (barline);
+    handleRepeatEndingStart (barline);
 
     barlineIsAlright = true;
   }
@@ -6964,7 +6960,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward) {
     // hooked ending start
     // ------------------------------------------------------
-    handleHookedEndingStart (elt, barline);
+    handleRepeatHookedEndingStart (elt, barline);
 
     barlineIsAlright = true;
   }
@@ -6989,7 +6985,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart) { // no forward
     // hookless ending start
     // ------------------------------------------------------
-    handleHooklessEndingStart (elt, barline);
+    handleRepeatHooklessEndingStart (elt, barline);
 
     barlineIsAlright = true;
   }
@@ -7004,7 +7000,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // hooked ending end
     // ------------------------------------------------------
     
-    handleHookedEndingEnd (barline);
+    handleRepeatHookedEndingEnd (barline);
     
     barlineIsAlright = true;
   }
@@ -7038,7 +7034,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 #endif
     
       fCurrentPart->
-        createRepeatUponItsEndAndAppendItToPart (
+        handleRepeatEndInPart (
           inputLineNumber,
           fCurrentMeasureNumber,
           barline->getBarlineTimes ());
@@ -7056,7 +7052,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineEndingNumber.size () != 0) {
     // hookless ending end
     // ------------------------------------------------------
-    handleHooklessEndingEnd (barline);
+    handleRepeatHooklessEndingEnd (barline);
         
     barlineIsAlright = true;
   }
@@ -19991,51 +19987,61 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
-  int inputLineNumber)
-{     
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Prepending an implicit repeat start barline at the beginning of part" <<
-      fCurrentPart->getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentMusicXMLStaffNumber,
-        fCurrentMusicXMLVoiceNumber);
-
-  // create the implicit barline
-  S_msrBarline
-    implicitBarline =
-      msrBarline::create (
-        inputLineNumber,
-        msrBarline::kBarlineCategoryRepeatStart,
-        msrBarline::kBarlineHasSegnoNo,
-        msrBarline::kBarlineHasCodaNo,
-        msrBarline::kBarlineLocationLeft,
-        msrBarline::kBarlineStyleHeavyLight,
-        msrBarline::kBarlineEndingTypeStart,
-        fCurrentBarlineEndingNumber,
-        msrBarline::kBarlineRepeatDirectionForward,
-        fCurrentBarlineRepeatWingedKind,
-        fCurrentBarlineTimes);
-
-  // prepend the implicit barline to the voice
-  gIndenter++;
+/*
+  Repeats in MusicXML are applied to all voices in all staves of the current part
   
-  currentVoice->
-    prependBarlineToVoice (implicitBarline);
+  The currentRepeat in each voice is the top of the voice repeats stack
+  
+  A repeat is recognized in MusicXML either by:
+   
+    - it's start: handleRepeatStart
+        finalize the current measure
+        create newRepeat with an empty common part
+        if the stack is not empty, newRepeat is nested in currentRepeat:
 
-  gIndenter--;
-}
+        otherwise (45a):
+          move fVoiceLastSegment to newRepeat's common part
+          set fVoiceLastSegment to nullptr
+            //       everything that precedes it in the voice is moved to the voice initial elements
+        push newRepeat onto the stack
+        set fOnGoingRepeat to true
+
+    - it's first hooked ending (45b): handleRepeatEndingStart 
+        the elements before is moved to the new repeat's common part
+
+    - it's end: handleRepeatEnd
+        if fOnGoingRepeat is false (45a):
+          there is an implicit barline at the beginning of the voice,
+            which can be added with the suitable option
+
+          if the the voice repeats stack is empty, this is a voice level repeat:
+            this repeat encompasses everthing from at the beginning of the voice,
+              which is moved to its common part ???
+            finalize the current measure
+          
+            if is is empty:
+            otherwise:
+            
+            move the voice initial elements to the newRepeat common part
+            move the voice last segment to the newRepeat common part
+
+            append newRepeat to the list of initial elements
+             
+            push newRepeat onto the voice's repeats stack
+            
+          otherwise:
+          
+            
+        otherwise:
+          the current repeat is to be ended
+        set fOnGoingRepeat to false
+
+  Hooked endings following the first one are added to currentRepeat handleRepeatHookedEndingEnd
+  
+  A hookless ending terminates currentRepeat: handleRepeatHooklessEndingEnd
+    finalize currentRepeat
+    set fOnGoingRepeat to false
+*/
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleRepeatStart (
@@ -20065,24 +20071,13 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
       msrBarline::kBarlineCategoryRepeatStart);
 
   // prepare for repeat in current part
-  if (true) { // JMI
   fCurrentPart->
-    prepareForRepeatInPart (
+    handleRepeatStartInPart (
       inputLineNumber);
-  }
-  else {
-  // create a repeat and append it to the part
-  fCurrentPart->
-    createARepeatAndAppendItToPart (
-      inputLineNumber);
-  }
 
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
-
-  fOnGoingRepeat = true;
-  fOnGoingRepeatHasBeenCreated = true; // JMI 
 }
 
 //______________________________________________________________________________
@@ -20095,13 +20090,8 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Handling repeat end" <<
-    /* JMI
-      ", measure '" <<
-        barline->getBarlineMeasureNumber () <<
-      "', position " <<
-      barline->getBarlinePositionInMeasure () <<
-      */
+      "Handling a repeat end in part " <<
+      fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -20116,6 +20106,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   fCurrentPart->
     appendBarlineToPart (barline);
 
+/* JMI
   // prepend an implicit bar line to the part if needed
   if (
     ! fOnGoingRepeat
@@ -20125,41 +20116,19 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
     createAndPrependImplicitBarLine (
       inputLineNumber);
   }
+*/
 
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Handling a repeat end in part " <<
-      fCurrentPart->getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
- // if (true) { // JMI
   fCurrentPart->
-    createRepeatUponItsEndAndAppendItToPart (
+    handleRepeatEndInPart (
       inputLineNumber,
       fCurrentMeasureNumber,
       barline->getBarlineTimes ());
-/*
-  }
-  else {
-  fCurrentPart->
-    finalizeRepeatUponItsEndInPart (
-      inputLineNumber,
-      fCurrentMeasureNumber,
-      barline->getBarlineTimes ());
-  }
-  */
 
-  fOnGoingRepeat = false;
   fRepeatEndCounter++;
-  fOnGoingRepeatHasBeenCreated = true; // JMI
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleEndingStart (
+void mxmlTree2MsrTranslator::handleRepeatEndingStart (
   S_msrBarline& barline)
 {
   int inputLineNumber =
@@ -20168,133 +20137,43 @@ void mxmlTree2MsrTranslator::handleEndingStart (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Handling repeat ending start" <<
-    /* JMI
-      ", measure '" <<
-        barline->getBarlineMeasureNumber () <<
-      "', position " <<
-      barline->getBarlinePositionInMeasure () <<
-    */
-      ", fOnGoingRepeat = " <<
-      booleanAsString (fOnGoingRepeat) <<
-      ", fOnGoingRepeatHasBeenCreated = " <<
-      booleanAsString (fOnGoingRepeatHasBeenCreated) <<
+      "Handling a repeat ending start in part " <<
+      fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  // ending start, don't know yet whether it's hooked or hookless
+  // remember ending start barline, don't know yet whether it's hooked or hookless
   fCurrentEndingStartBarline = barline;
   
-  // is there an ongoing repeat?
-  if (fOnGoingRepeat) {
-    // yes
-
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceRepeats) {
-      fLogOutputStream <<
-        endl <<
-        endl <<
-        "****************** handleEndingStart" <<
-        ", line " << inputLineNumber <<
-        endl <<
-        fCurrentPart <<
-        endl <<
-        endl <<
-        endl;
-    }
-#endif
-
-    if (fOnGoingRepeatHasBeenCreated) {
-      /* JMI
-      fLogOutputStream <<
-        "!!!!! YESYESYES !!!!!" <<
-        endl;
-        */
-    }
-    
-    else {
-      /* JMI
-      fLogOutputStream <<
-        "!!!!! NONONO !!!!!" <<
-        endl;
-        */
-
-      // create the enclosing repeat and append it to the part
-#ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceRepeats) {
-        fLogOutputStream <<
-          "Creating a regular repeat in part " <<
-          fCurrentPart->getPartCombinedName () <<
-          ", line " << inputLineNumber <<
-          endl;
-      }
-#endif
-    
-      fCurrentPart->
-        createRegularRepeatUponItsFirstEndingInPart (
-          inputLineNumber,
-          barline->getBarlineTimes ());
-
-      fOnGoingRepeatHasBeenCreated = true;
-    }
-  }
-
-  else {
-    // no, there is an implicit repeat starting at the beginning of the part,
-    // that encloses everything from the beginning on
-
-    // append an implicit repeat to the current part
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceRepeats) {
-      fLogOutputStream <<
-        "Prepending an implicit barline ahead of part " <<
-        fCurrentPart->getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    createAndPrependImplicitBarLine (
-      inputLineNumber);
- 
-    // create the enclosing repeat and append it to the part
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceRepeats) {
-      fLogOutputStream <<
-        "Creating a repeat enclosing everything from the beginning of part " <<
-        fCurrentPart->getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-    
-    fCurrentPart->
-      createEnclosingRepeatUponItsFirstEndingInPart (
-        inputLineNumber,
-        barline->getBarlineTimes ());
-
-    fOnGoingRepeat = true;
-    fOnGoingRepeatHasBeenCreated = true;
-  }
-
-
-/* JMI
-  // create a new last segment to collect the repeat ending contents
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Creating a new last segment for a repeat ending contents for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
+      endl <<
+      endl <<
+      "****************** handleRepeatEndingStart()" <<
+      ", line " << inputLineNumber <<
+      endl <<
+      fCurrentPart <<
       endl;
   }
 #endif
-      
-  currentVoice->
-    createNewLastSegmentForVoice (
-      barline->getInputLineNumber ());
-*/
+
+  // handle the repeat ending
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Handling a repeat ending upon its start in part " <<
+      fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+  
+  fCurrentPart->
+    handleRepeatEndingStartInPart (
+      inputLineNumber);
 
 /* JMI
   // set the barline category
@@ -20309,37 +20188,36 @@ void mxmlTree2MsrTranslator::handleEndingStart (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleHookedEndingEnd (
+void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    barline->getInputLineNumber ();
+    fCurrentEndingStartBarline->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Handling repeat hooked ending end" <<
-    /* JMI
-      ", measure '" <<
-        barline->getBarlineMeasureNumber () <<
-      "', position " <<
-      barline->getBarlinePositionInMeasure () <<
-      */
+      "Handling a repeat hooked ending end in part " <<
+      fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-/* JMI
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentMusicXMLStaffNumber,
-        fCurrentMusicXMLVoiceNumber);
-*/
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      endl <<
+      endl <<
+      "****************** handleRepeatHookedEndingEnd()" <<
+      ", line " << inputLineNumber <<
+      endl <<
+      fCurrentPart <<
+      endl;
+  }
+#endif
 
+/* JMI
   if (! fOnGoingRepeat) {
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -20347,6 +20225,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
       __FILE__, __LINE__,
       "found a repeat hooked ending out of context");
   }
+*/
 
   // set current barline start category
   fCurrentEndingStartBarline->
@@ -20374,14 +20253,14 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
 #endif
           
   fCurrentPart->
-    appendRepeatEndingToPart (
+    handleRepeatEndingEndInPart (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
       msrRepeatEnding::kHookedEnding);
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
+void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
   S_msrBarline& barline)
 {
   /*
@@ -20394,33 +20273,32 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   */
 
   int inputLineNumber =
-    barline->getInputLineNumber ();
+    fCurrentEndingStartBarline->getInputLineNumber ();
   
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Handling repeat hookless ending end" <<
-    /* JMI
-      ", measure '" <<
-        barline->getBarlineMeasureNumber () <<
-      "', position " <<
-      barline->getBarlinePositionInMeasure () <<
-      */
+      "Handling a repeat hookless ending end in part " <<
+      fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-/* JMI
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentMusicXMLStaffNumber,
-        fCurrentMusicXMLVoiceNumber);
-*/
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      endl <<
+      endl <<
+      "****************** handleRepeatHooklessEndingEnd()" <<
+      ", line " << inputLineNumber <<
+      endl <<
+      fCurrentPart <<
+      endl;
+  }
+#endif
 
+/* JMI
   if (! fOnGoingRepeat) {
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -20428,6 +20306,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
       __FILE__, __LINE__,
       "found a repeat hookless ending out of context");
   }
+  */
   
   // set current barline start category
   fCurrentEndingStartBarline->
@@ -20455,16 +20334,13 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
 #endif
                 
   fCurrentPart->
-    appendRepeatEndingToPart (
+    handleRepeatEndingEndInPart (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
       msrRepeatEnding::kHooklessEnding);
 
   // forget about the current ending start barline
   fCurrentEndingStartBarline = nullptr;
-  
-  fOnGoingRepeat = false;
-  fOnGoingRepeatHasBeenCreated = false; // JMI
 }
 
 //______________________________________________________________________________

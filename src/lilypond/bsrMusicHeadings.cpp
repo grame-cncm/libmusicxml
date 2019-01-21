@@ -15,7 +15,7 @@
 #include "bsrMusicHeadings.h"
 
 #include "bsrSpaces.h"
-#include "bsrStrings.h"
+#include "bsrWords.h"
 
 #include "bsrOptions.h"
 #include "brailleOptions.h"

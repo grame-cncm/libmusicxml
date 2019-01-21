@@ -46,7 +46,7 @@ class bsr2BsrFinalizer :
   public visitor<S_bsrMeasure>,
 
   public visitor<S_bsrNumber>,
-  public visitor<S_bsrString>,
+  public visitor<S_bsrWords>,
   
   public visitor<S_bsrClef>,
   public visitor<S_bsrKey>,
@@ -109,8 +109,8 @@ class bsr2BsrFinalizer :
     virtual void visitStart (S_bsrNumber& elt);
     virtual void visitEnd   (S_bsrNumber& elt);
 
-    virtual void visitStart (S_bsrString& elt);
-    virtual void visitEnd   (S_bsrString& elt);
+    virtual void visitStart (S_bsrWords& elt);
+    virtual void visitEnd   (S_bsrWords& elt);
 
     virtual void visitStart (S_bsrClef& elt);
     virtual void visitEnd   (S_bsrClef& elt);

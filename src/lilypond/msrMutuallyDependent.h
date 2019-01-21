@@ -454,9 +454,8 @@ class msrDoubleTremolo : public msrMeasureElement
 
     string                doubleTremoloPlacementKindAsString () const;
         
-    string                asString () const;
-
     string                asShortString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
 
@@ -1509,6 +1508,8 @@ class msrSegment : public msrElement
     string                asString () const;
 
     virtual void          print (ostream& os);
+    
+    virtual void          shortPrint (ostream& os);
 
   private:
 
@@ -4859,6 +4860,8 @@ class msrRepeatCommonPart : public msrElement
                     
     virtual void          print (ostream& os);
 
+    virtual void          shortPrint (ostream& os);
+
   private:
 
     // fields
@@ -4981,6 +4984,8 @@ class msrRepeatEnding : public msrElement
 
     virtual void          print (ostream& os);
 
+    virtual void          shortPrint (ostream& os);
+
   private:
 
     // fields
@@ -5041,25 +5046,20 @@ class msrRepeat : public msrElement
     // ------------------------------------------------------
 
     // times
-
-    
     int                   getRepeatTimes () const
                               { return fRepeatTimes; }
 
+    void                  setRepeatTimes (
+                            int repeatTimes)
+                              { fRepeatTimes = repeatTimes; }
+
     // common part
-    void                  setRepeatCommonPart (
+    void                  setRepeatCommonPart ( // JMI ???
                             S_msrRepeatCommonPart repeatCommonPart);
                   
     S_msrRepeatCommonPart getRepeatCommonPart () const
                               { return fRepeatCommonPart; }
-/*
-    // common segment
-    void                  setRepeatCommonSegment (
-                            S_msrSegment repeatCommonSegment);
-                  
-    S_msrSegment          getRepeatCommonSegment () const
-                              { return fRepeatCommonSegment; }
-*/
+
     // endings
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
@@ -5067,6 +5067,8 @@ class msrRepeat : public msrElement
 
     S_msrVoice            getRepeatVoiceUplink () const
                               { return fRepeatVoiceUplink; }
+
+  public:
 
     // services
     // ------------------------------------------------------
@@ -5094,9 +5096,12 @@ class msrRepeat : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                asShortString () const;
     string                asString () const;
     
     virtual void          print (ostream& os);
+    
+    virtual void          shortPrint (ostream& os);
 
   private:
 
@@ -5929,7 +5934,9 @@ class msrVoice : public msrElement
                           getVoiceMeasuresFlatList () const
                               { return fVoiceMeasuresFlatList; }
 
-    // services
+  public:
+  
+    // public services
     // ------------------------------------------------------
 
     // uplinks
@@ -6190,51 +6197,47 @@ class msrVoice : public msrElement
 
     // repeats
     
-    void                  prepareForRepeatInVoice (
+    void                  nestContentsIntoNewRepeatInVoice ( // JMI
+                            int inputLineNumber);
+  
+    void                  handleRepeatStartInVoice (
                             int inputLineNumber);
                             
-    void                  createARepeatAndAppendItToVoice (
-                            int inputLineNumber);
-                            
-    void                  prepareForRepeatInVoiceClone (
+    void                  handleRepeatStartInVoiceClone (
                             int inputLineNumber,
                             int repeatTimes);
   
-    void                  nestContentsIntoNewRepeatInVoice (
-                            int inputLineNumber);
-  
-    void                  createRepeatUponItsEndAndAppendItToVoice (
+    void                  handleRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
   
-    void                  finalizeRepeatUponItsEndInVoice (
+    void                  handleRepeatEndInVoice (
+                            int inputLineNumber,
+                            int repeatTimes);
+  
+    void                  handleRepeatEndingStartInVoice (
+                            int inputLineNumber);
+                            
+    void                  handleRepeatEndingEndInVoice (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber, // may be "1, 2"
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind);
+                            
+    void                  finalizeRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
   
-    void                  createRepeatUponItsEndAndAppendItToVoiceClone (
+    void                  handleRepeatEndInVoiceClone (
                             int    inputLineNumber,
                             int    repeatTimes);
-  
-    void                  createRegularRepeatUponItsFirstEndingInVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
-  
-    void                  createEnclosingRepeatUponItsFirstEndingInVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
   
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
     
-    void                  appendRepeatEndingToVoice (
-                            int       inputLineNumber,
-                            string    repeatEndingNumber, // may be "1, 2"
-                            msrRepeatEnding::msrRepeatEndingKind
-                                      repeatEndingKind);
-
     void                  appendRepeatEndingCloneToVoice (
                             S_msrRepeatEnding repeatEndingClone);
 
@@ -6323,6 +6326,46 @@ class msrVoice : public msrElement
     void                  collectVoiceMeasuresIntoFlatList (
                             int inputLineNumber);
     
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    S_msrRepeat           createARepeatAndStackIt (
+                            int    inputLineNumber,
+                            string context);
+
+    void                  moveVoiceInitialElementsToCommonPart (
+                            int                   inputLineNumber,
+                            S_msrRepeatCommonPart repeatCommonPart,
+                            string                context);
+
+    void                  moveVoiceLastSegmentToCommonPart (
+                            int                   inputLineNumber,
+                            S_msrRepeatCommonPart repeatCommonPart,
+                            string                context);
+
+    void                  moveAllVoiceContentsToCommonPart (
+                            int                   inputLineNumber,
+                            S_msrRepeatCommonPart repeatCommonPart,
+                            string                context);
+
+    void                  createRegularRepeatFirstEndingInVoice (
+                            int inputLineNumber,
+                            int repeatTimes);
+  
+    void                  createEnclosingRepeatFirstEndingInVoice (
+                            int inputLineNumber,
+                            int repeatTimes);
+  
+    void                  appendHookedRepeatEndingToVoice (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber); // may be "1, 2"
+
+    void                  appendHooklessRepeatEndingToVoice (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber); // may be "1, 2"
+
   public:
 
     // visitors
@@ -6682,32 +6725,30 @@ class msrStaff : public msrElement
 
     // repeats
     
-    void                  prepareForRepeatInStaff (
+    void                  nestContentsIntoNewRepeatInStaff ( // JMI
                             int inputLineNumber);
     
-    void                  createARepeatAndAppendItToStaff (
+    void                  handleRepeatStartInStaff (
                             int inputLineNumber);
-    
-    void                  nestContentsIntoNewRepeatInStaff (
-                            int inputLineNumber);
-    
-    void                  createRepeatUponItsEndAndAppendItToStaff (
+
+    void                  handleRepeatEndInStaff (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
     
-    void                  finalizeRepeatUponItsEndInStaff (
+    void                  handleRepeatEndingStartInStaff (
+                            int inputLineNumber);
+    
+    void                  handleRepeatEndingEndInStaff (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber, // may be "1, 2"
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind);
+
+    void                  finalizeRepeatEndInStaff (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
-    
-    void                  createRegularRepeatUponItsFirstEndingInStaff (
-                            int inputLineNumber,
-                            int repeatTimes);
-    
-    void                  createEnclosingRepeatUponItsFirstEndingInStaff (
-                            int inputLineNumber,
-                            int repeatTimes);
     
     void                  createMeasuresRepeatFromItsFirstMeasuresInStaff (
                             int inputLineNumber,
@@ -6731,12 +6772,6 @@ class msrStaff : public msrElement
     void                  appendRepeatCloneToStaff (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
-
-    void                  appendRepeatEndingToStaff (
-                            int       inputLineNumber,
-                            string    repeatEndingNumber, // may be "1, 2"
-                            msrRepeatEnding::msrRepeatEndingKind
-                                      repeatEndingKind);
 
     void                  appendRepeatEndingCloneToStaff (
                             S_msrRepeatEnding repeatEndingClone);
@@ -7248,42 +7283,34 @@ class msrPart : public msrElement
               
     // repeats
     
-    void                  prepareForRepeatInPart (
+    void                  nestContentsIntoNewRepeatInPart ( // JMI
                             int inputLineNumber);
     
-    void                  createARepeatAndAppendItToPart (
+    void                  handleRepeatStartInPart (
                             int inputLineNumber);
     
-    void                  nestContentsIntoNewRepeatInPart (
-                            int inputLineNumber);
-    
-    void                  createRepeatUponItsEndAndAppendItToPart (
+    void                  handleRepeatEndInPart (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
     
-    void                  finalizeRepeatUponItsEndInPart (
-                            int    inputLineNumber,
-                            string measureNumber,
-                            int    repeatTimes);
-    
-    void                  createRegularRepeatUponItsFirstEndingInPart (
-                            int inputLineNumber,
-                            int repeatTimes);
-    
-    void                  createEnclosingRepeatUponItsFirstEndingInPart (
-                            int inputLineNumber,
-                            int repeatTimes);
-    
-    void                  appendRepeatCloneToPart (
-                            int         inputLineNumber,
-                            S_msrRepeat repeatCLone);
-    
-    void                  appendRepeatEndingToPart (
+    void                  handleRepeatEndingStartInPart (
+                            int inputLineNumber);
+        
+    void                  handleRepeatEndingEndInPart (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
+    
+    void                  finalizeRepeatEndInPart (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+    
+    void                  appendRepeatCloneToPart (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatCLone);
     
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);

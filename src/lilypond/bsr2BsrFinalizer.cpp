@@ -476,12 +476,12 @@ void bsr2BsrFinalizer::visitEnd (S_bsrNumber& elt)
 }
 
 //________________________________________________________________________
-void bsr2BsrFinalizer::visitStart (S_bsrString& elt)
+void bsr2BsrFinalizer::visitStart (S_bsrWords& elt)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
-      "% --> Start visiting bsrString '" <<
+      "% --> Start visiting bsrWords '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<
@@ -490,15 +490,15 @@ void bsr2BsrFinalizer::visitStart (S_bsrString& elt)
 #endif
 
   fCurrentMeasure->
-    appendStringToMeasure (elt);
+    appendWordsToMeasure (elt);
 }
 
-void bsr2BsrFinalizer::visitEnd (S_bsrString& elt)
+void bsr2BsrFinalizer::visitEnd (S_bsrWords& elt)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
     fLogOutputStream <<
-      "% --> End visiting bsrString '" <<
+      "% --> End visiting bsrWords '" <<
       elt->asString () <<
       "'" <<
       ", line " << elt->getInputLineNumber () <<

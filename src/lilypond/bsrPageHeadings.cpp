@@ -15,7 +15,7 @@
 #include "bsrPageHeadings.h"
 
 #include "bsrSpaces.h"
-#include "bsrStrings.h"
+#include "bsrWords.h"
 
 #include "bsrOptions.h"
 #include "brailleOptions.h"
@@ -78,7 +78,7 @@ S_bsrCellsList bsrPageHeading::buildCellsList () const
 
   // append the title to result
   result->appendCellsListToCellsList (
-    bsrString::create (
+    bsrWords::create (
       fInputLineNumber, fPageHeadingTitle)->
         fetchCellsList ());
 
