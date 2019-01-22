@@ -59,7 +59,6 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingFiguredBassVoice = false;
 
   // repeats
-  fOnGoingRepeat = false;
 
   // measures
   fMeasuresCounter = 0;
@@ -4582,8 +4581,11 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Preparing for repeat in part clone" <<
+      "Handling repeat start in voice clone '" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "' in part '" <<
       fCurrentPartClone->getPartCombinedName () <<
+      "'" <<
       endl;
   }
 #endif
@@ -4591,9 +4593,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
   fCurrentVoiceClone->
     handleRepeatStartInVoiceClone (
       inputLineNumber,
-      elt->getRepeatTimes ());
-        
-  fOnGoingRepeat = true; // JMI
+      elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
@@ -4607,8 +4607,22 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
       ", line " << inputLineNumber <<
       endl;
   }
-  
-  fOnGoingRepeat = false;
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Handling repeat end in voice clone '" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "' in part '" <<
+      fCurrentPartClone->getPartCombinedName () <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  fCurrentVoiceClone->
+    handleRepeatEndInVoiceClone (
+      inputLineNumber);
 }
 
 //________________________________________________________________________
@@ -4684,24 +4698,6 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     gIndenter--;
   }
 #endif
-
-  // create a repeat and append it to voice clone
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Appending a repeat to voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  fCurrentVoiceClone->
-    handleRepeatEndInVoiceClone (
-      inputLineNumber,
-      elt->
-        getRepeatCommonPartRepeatUplink ()->
-          getRepeatTimes ());
 }
 
 //________________________________________________________________________

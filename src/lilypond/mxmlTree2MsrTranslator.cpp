@@ -766,8 +766,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       fCurrentPart->
         getPartCombinedName () <<
         " -- end" <<
-        ", fOnGoingRepeat = " <<
-        booleanAsString (fOnGoingRepeat) <<
       endl <<
       "--------------------------------------------" <<
       endl <<
@@ -776,53 +774,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 #endif
 */
 
-    /*
-  if (fOnGoingRepeat) {
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      "unterminated repeat in MusicXML data, exiting");
-
-    msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      "unterminated repeat in MusicXML data, ignoring the repeat altogether");
-
-    // let's recover from this error
-
-    // create an extra barline
-    S_msrBarline
-      barline =
-        msrBarline::create (
-          inputLineNumber,
-          msrBarline::kBarlineCategoryRepeatEnd, // JMI
-          msrBarline::kBarlineHasSegnoNo,
-          msrBarline::kBarlineHasCodaNo,
-          msrBarline::kBarlineLocationRight,
-          msrBarline::kBarlineStyleNone,
-          msrBarline::kBarlineEndingTypeStop,
-          "0", // JMI
-          msrBarline::kBarlineRepeatDirectionBackward,
-          msrBarline::kBarlineRepeatWingedNone,
-          2); // JMI
-  
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceBarlines) {
-      fLogOutputStream <<
-        "Creating an extra barline in part " <<
-        fCurrentPart->getPartCombinedName () << ":" <<
-        endl;
-        
-      gIndenter++;
-      
-      fLogOutputStream <<
-        barline;
-        
-      gIndenter--;
-    }
-#endif
-
+/* JMI
     // handle it
   // JMI ???  handleRepeatEnd (barline);
     handleRepeatHooklessEndingEnd (barline);
@@ -19987,63 +19939,6 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
 }
 
 //______________________________________________________________________________
-/*
-  Repeats in MusicXML are applied to all voices in all staves of the current part
-  
-  The currentRepeat in each voice is the top of the voice repeats stack
-  
-  A repeat is recognized in MusicXML either by:
-   
-    - it's start: handleRepeatStart
-        finalize the current measure
-        create newRepeat with an empty common part
-        if the stack is not empty, newRepeat is nested in currentRepeat:
-
-        otherwise (45a):
-          move fVoiceLastSegment to newRepeat's common part
-          set fVoiceLastSegment to nullptr
-            //       everything that precedes it in the voice is moved to the voice initial elements
-        push newRepeat onto the stack
-        set fOnGoingRepeat to true
-
-    - it's first hooked ending (45b): handleRepeatEndingStart 
-        the elements before is moved to the new repeat's common part
-
-    - it's end: handleRepeatEnd
-        if fOnGoingRepeat is false (45a):
-          there is an implicit barline at the beginning of the voice,
-            which can be added with the suitable option
-
-          if the the voice repeats stack is empty, this is a voice level repeat:
-            this repeat encompasses everthing from at the beginning of the voice,
-              which is moved to its common part ???
-            finalize the current measure
-          
-            if is is empty:
-            otherwise:
-            
-            move the voice initial elements to the newRepeat common part
-            move the voice last segment to the newRepeat common part
-
-            append newRepeat to the list of initial elements
-             
-            push newRepeat onto the voice's repeats stack
-            
-          otherwise:
-          
-            
-        otherwise:
-          the current repeat is to be ended
-        set fOnGoingRepeat to false
-
-  Hooked endings following the first one are added to currentRepeat handleRepeatHookedEndingEnd
-  
-  A hookless ending terminates currentRepeat: handleRepeatHooklessEndingEnd
-    finalize currentRepeat
-    set fOnGoingRepeat to false
-*/
-
-//______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleRepeatStart (
   S_msrBarline& barline)
 {
@@ -20105,18 +20000,6 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
-
-/* JMI
-  // prepend an implicit bar line to the part if needed
-  if (
-    ! fOnGoingRepeat
-      &&
-    gMsrOptions->fCreateImplicitInitialRepeatBarline
-  ) {
-    createAndPrependImplicitBarLine (
-      inputLineNumber);
-  }
-*/
 
   fCurrentPart->
     handleRepeatEndInPart (
@@ -20217,16 +20100,6 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
   }
 #endif
 
-/* JMI
-  if (! fOnGoingRepeat) {
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      "found a repeat hooked ending out of context");
-  }
-*/
-
   // set current barline start category
   fCurrentEndingStartBarline->
     setBarlineCategory (
@@ -20298,16 +20171,6 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
   }
 #endif
 
-/* JMI
-  if (! fOnGoingRepeat) {
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      "found a repeat hookless ending out of context");
-  }
-  */
-  
   // set current barline start category
   fCurrentEndingStartBarline->
     setBarlineCategory (

@@ -34,6 +34,8 @@
 
 #include "msrPartNamesDisplays.h"
 
+// JMI #include "msrParts.h"
+
 #include "msrStavesDetails.h"
 
 #include "msrClefs.h"
@@ -5020,10 +5022,10 @@ class msrRepeat : public msrElement
       int        repeatTimes,
       S_msrVoice voiceUplink);
 
-    /* JMI
     SMARTP<msrRepeat> createRepeatNewbornClone (
       S_msrVoice containingVoice);
 
+    /* JMI
     SMARTP<msrRepeat> createRepeatDeepCopy (
       S_msrVoice containingVoice);
       */
@@ -6204,8 +6206,8 @@ class msrVoice : public msrElement
                             int inputLineNumber);
                             
     void                  handleRepeatStartInVoiceClone (
-                            int inputLineNumber,
-                            int repeatTimes);
+                            int         inputLineNumber,
+                            S_msrRepeat repeat);
   
     void                  handleRepeatEndInVoice (
                             int    inputLineNumber,
@@ -6231,8 +6233,7 @@ class msrVoice : public msrElement
                             int    repeatTimes);
   
     void                  handleRepeatEndInVoiceClone (
-                            int    inputLineNumber,
-                            int    repeatTimes);
+                            int    inputLineNumber);
   
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
@@ -6335,6 +6336,11 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
+    S_msrRepeat           createARepeatCloneAndStackIt (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat,
+                            string      context);
+
     void                  moveVoiceInitialElementsToCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
@@ -6358,11 +6364,11 @@ class msrVoice : public msrElement
                             int inputLineNumber,
                             int repeatTimes);
   
-    void                  appendHookedRepeatEndingToVoice (
+    void                  handleHookedRepeatEndingEndInVoice (
                             int       inputLineNumber,
                             string    repeatEndingNumber); // may be "1, 2"
 
-    void                  appendHooklessRepeatEndingToVoice (
+    void                  handleHooklessRepeatEndingEndInVoice (
                             int       inputLineNumber,
                             string    repeatEndingNumber); // may be "1, 2"
 

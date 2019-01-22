@@ -133,7 +133,8 @@ msrPartGroup::msrPartGroup (
   if (
     partGroupNameLength
       >
-    fPartGroupScoreUplink->getScorePartGroupNamesMaxLength ()) {  // JMI sanity check ???
+    fPartGroupScoreUplink->getScorePartGroupNamesMaxLength ()
+  ) {  // JMI sanity check ???
     fPartGroupScoreUplink->
       setScorePartGroupNamesMaxLength (
         partGroupNameLength);
@@ -248,10 +249,12 @@ void msrPartGroup::setPartGroupInstrumentName (
   if (
     partGroupInstrumentNameLength
       >
-    score->getScoreInstrumentNamesMaxLength ())
+    score->getScoreInstrumentNamesMaxLength ()
+  ) {
     score->
       setScoreInstrumentNamesMaxLength (
         partGroupInstrumentNameLength);
+  }
 }
 
 S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (

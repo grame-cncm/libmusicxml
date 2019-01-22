@@ -69,7 +69,6 @@ msr2BsrTranslator::msr2BsrTranslator (
   fOnGoingFiguredBassVoice = false;
 
   // repeats
-  fOnGoingRepeat = false;
 
   // measures
   fMeasuresCounter = 0;
@@ -5495,8 +5494,6 @@ void msr2BsrTranslator::visitStart (S_msrRepeat& elt)
       createRepeatNewbornClone (
         fCurrentVoiceClone);
 * /
-        
-  fOnGoingRepeat = true; // JMI
 }
 
 void msr2BsrTranslator::visitEnd (S_msrRepeat& elt)
@@ -5529,9 +5526,7 @@ void msr2BsrTranslator::visitEnd (S_msrRepeat& elt)
 * /
 
   // forget about current repeat clone // JMI
-// JMI  fCurrentRepeatClone = 0;
-  
-  fOnGoingRepeat = false;
+// JMI  fCurrentRepeatClone = 0;  
 }
 
 //________________________________________________________________________
