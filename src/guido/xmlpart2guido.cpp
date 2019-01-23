@@ -409,20 +409,6 @@ namespace MusicXML2
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
             xml2guidovisitor::addPosition(elt, tag, -2, -4);
             
-            //// Using TEXT tag:
-            /*
-             // Add font styles
-             string fattrib;
-             if (font_weight=="bold")
-             fattrib +="b";
-             if (font_style=="italic")
-             fattrib +="i";
-             if (fattrib.size())
-             rehearsalValue += ",fattrib=\""+fattrib+"\"";
-             Sguidoelement tag = guidotag::create("text");
-             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-             xml2guidovisitor::addPosition(elt, tag, 11);
-             */
             add (tag);
             
             // add an additional SPACE<0> tag in case
@@ -464,9 +450,9 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("text");
             tag->add (guidoparam::create(wordParams.c_str(), false));
             xml2guidovisitor::addPosition(wordPointer, tag, 11);
-            //add (tag);
-            push(tag);
-            fTextTagOpen++;
+            add (tag);
+            //push(tag);
+            //fTextTagOpen++;
             
             /// add an additional SPACE<0> tag in case
             //Sguidoelement tag2 = guidotag::create("space");
