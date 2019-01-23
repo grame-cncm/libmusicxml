@@ -38,7 +38,7 @@ notevisitor::notevisitor()
 //________________________________________________________________________
 void notevisitor::reset ()
 {
-	fGrace = fCue = fChord = fFermata = false;
+	fGrace = fCue = fChord = false;
 	fType		= kUndefinedType;
 	fTie		= StartStop::undefined;
 	fDuration	= 0;
@@ -64,6 +64,7 @@ void notevisitor::reset ()
     fInvertedMordent = (void*)0;
 	fBreathMark = (void*)0;
     fThisSNote = (void*)0;
+    fFermata = (void*)0;
 	fTimeModification.set(1,1);
 
 	fStep = "";
