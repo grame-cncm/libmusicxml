@@ -409,20 +409,6 @@ namespace MusicXML2
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
             xml2guidovisitor::addPosition(elt, tag, -2, -4);
             
-            //// Using TEXT tag:
-            /*
-             // Add font styles
-             string fattrib;
-             if (font_weight=="bold")
-             fattrib +="b";
-             if (font_style=="italic")
-             fattrib +="i";
-             if (fattrib.size())
-             rehearsalValue += ",fattrib=\""+fattrib+"\"";
-             Sguidoelement tag = guidotag::create("text");
-             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-             xml2guidovisitor::addPosition(elt, tag, 11);
-             */
             add (tag);
             
             // add an additional SPACE<0> tag in case
@@ -464,9 +450,9 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("text");
             tag->add (guidoparam::create(wordParams.c_str(), false));
             xml2guidovisitor::addPosition(wordPointer, tag, 11);
-            //add (tag);
-            push(tag);
-            fTextTagOpen++;
+            add (tag);
+            //push(tag);
+            //fTextTagOpen++;
             
             /// add an additional SPACE<0> tag in case
             //Sguidoelement tag2 = guidotag::create("space");
@@ -1991,6 +1977,19 @@ namespace MusicXML2
     {
         if (nv.inFermata()) {
             Sguidoelement tag = guidotag::create("fermata");
+            
+            // Determine Type ("upright" or "inverted")
+            std::string fermataType = nv.fFermata->getAttributeValue("type");
+            if (fermataType == "inverted") {
+                stringstream s;
+                s << "position=" << "\"below\"";
+                tag->add (guidoparam::create(s.str(), false));
+                
+                xml2guidovisitor::addPosY(nv.fFermata, tag, -2, 1.0);
+                
+            }else{
+                xml2guidovisitor::addPosY(nv.fFermata, tag, 2, 1.0);
+            }
             push(tag);
             return 1;
         }
