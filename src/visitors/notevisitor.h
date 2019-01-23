@@ -94,6 +94,7 @@ class EXP notevisitor :
         S_inverted_turn fInvertedTurn;
         S_accidental_mark fAccidentalMark;
         S_notehead fNotehead;
+        S_fermata   fFermata;
         std::string fGraphicType;
         std::string fAccidental;
         std::string fCautionary;
@@ -108,7 +109,7 @@ class EXP notevisitor :
         bool isGrace() const	{ return fGrace; }
         bool isCue() const		{ return fCue; }
         bool inChord() const	{ return fChord; }
-        bool inFermata() const	{ return fFermata; }
+        bool inFermata() const    { return (fFermata != (void*)0); }
 
         type	getType() const		{ return fType; }
         int		getTie() const		{ return fTie; }
@@ -176,7 +177,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_display_step& elt )	{ if (fInNote) fStep = elt->getValue(); }
 		virtual void visitStart( S_dot& elt )			{ if (fInNote) fDots++; }
 		virtual void visitStart( S_duration& elt )		{ if (fInNote) fDuration = (int)(*elt); }
-		virtual void visitStart( S_fermata& elt )		{ fFermata = true; }
+        virtual void visitStart( S_fermata& elt )		{ fFermata = elt; }
 		virtual void visitStart( S_grace& elt )			{ fGrace = true; }
 		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getValue(); }
 		virtual void visitStart( S_note& elt );
@@ -215,7 +216,7 @@ class EXP notevisitor :
         virtual void visitStart( S_notehead& elt )    { fNotehead = elt; }
     
 	private:
-		bool	fGrace, fCue, fChord, fFermata;
+		bool	fGrace, fCue, fChord;
 		type	fType;
 		int		fDots;
 		StartStop::type	fTie;

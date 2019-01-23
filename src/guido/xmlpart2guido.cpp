@@ -1977,6 +1977,19 @@ namespace MusicXML2
     {
         if (nv.inFermata()) {
             Sguidoelement tag = guidotag::create("fermata");
+            
+            // Determine Type ("upright" or "inverted")
+            std::string fermataType = nv.fFermata->getAttributeValue("type");
+            if (fermataType == "inverted") {
+                stringstream s;
+                s << "position=" << "\"below\"";
+                tag->add (guidoparam::create(s.str(), false));
+                
+                xml2guidovisitor::addPosY(nv.fFermata, tag, -2, 1.0);
+                
+            }else{
+                xml2guidovisitor::addPosY(nv.fFermata, tag, 2, 1.0);
+            }
             push(tag);
             return 1;
         }
