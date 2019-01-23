@@ -65,11 +65,12 @@ class msrElement : public smartable
     // print
     // ------------------------------------------------------
 
+    virtual std::string   asShortString () const;
     virtual std::string   asString () const;
     
-    virtual std::string   asShortString () const;
-
     virtual void          print (std::ostream& os);
+    
+    virtual void          shortPrint (std::ostream& os);
 
     virtual void          printSummary (std::ostream& os) {}
     
@@ -144,9 +145,8 @@ class msrMeasureElement : public msrElement
     // print
     // ------------------------------------------------------
 
-    virtual std::string   asString () const;
-    
     virtual std::string   asShortString () const;
+    virtual std::string   asString () const;    
 
     virtual void          print (std::ostream& os);
 

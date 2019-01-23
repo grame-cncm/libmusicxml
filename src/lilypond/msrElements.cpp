@@ -99,6 +99,11 @@ void msrElement::print (ostream& os)
   os << asString () << endl;
 }
 
+void msrElement::shortPrint (ostream& os)
+{
+  print (os);
+}
+
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {
   elt->print (os);

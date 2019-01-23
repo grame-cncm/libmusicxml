@@ -1109,6 +1109,8 @@ class msrMeasure : public msrElement
     string                asShortString () const;
 
     virtual void          print (ostream& os);
+    
+    virtual void          shortPrint (ostream& os);
 
   private:
 

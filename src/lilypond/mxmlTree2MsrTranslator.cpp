@@ -20118,7 +20118,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a new hooked repeat ending to part " <<
+      "Handling a hooked repeat ending in part " <<
       fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -20189,7 +20189,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a new hookless repeat ending to part " <<
+      "Handling a hookless repeat ending in part " <<
       fCurrentPart->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;

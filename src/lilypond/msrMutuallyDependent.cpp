@@ -15270,14 +15270,7 @@ void msrMeasure::print (ostream& os)
   os <<
     "Measure '" << fMeasureNumber <<
     "', " << measureKindAsString () <<
-/* JMI
-    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
-    ", measureLengthAsMSRString: " <<
-    measureLengthAsMSRString () <<
-    ", measureFullLengthAsMSRString: " <<
-    measureFullLengthAsMSRString () <<
     ", " << fMeasureFullLength << " per full measure" <<
-    */
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -15294,6 +15287,16 @@ void msrMeasure::print (ostream& os)
     fMeasureSegmentUplink->asShortString () <<
     endl <<
     
+    setw (fieldWidth) <<
+    "measureOrdinalNumber" << fMeasureOrdinalNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureLengthAsMSRString" << " : " << measureLengthAsMSRString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureFullLengthAsMSRString" << " : " << measureFullLengthAsMSRString () <<
+    endl <<
+
     setw (fieldWidth) <<
     "measureFirstInSegment" << " : " <<
     msrMeasure::measureFirstInSegmentKindAsString (
@@ -15389,6 +15392,106 @@ void msrMeasure::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    
+    gIndenter--;
+  }
+
+  gIndenter--;
+} 
+
+void msrMeasure::shortPrint (ostream& os)
+{
+  os <<
+    "Measure '" << fMeasureNumber <<
+    "', " << measureKindAsString () <<
+    ", " <<
+    singularOrPlural (
+      fMeasureElementsList.size (), "element", "elements") <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 28;
+      
+  os << left <<
+    setw (fieldWidth) <<
+    "measureContainsMusic" << " : " <<
+    booleanAsString (
+      fMeasureContainsMusic) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureCreatedAfterARepeat" << " : " <<
+    msrMeasure::measureCreatedForARepeatKindAsString (
+      fMeasureCreatedForARepeatKind) << 
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureIsASingleMeasureRest" << " : " <<
+    booleanAsString (fMeasureIsASingleMeasureRest) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureLength" << " : " << fMeasureLength << " whole notes" <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureFullLength" << " : ";
+    
+    // fetch the staff
+    S_msrStaff
+      staff =
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceStaffUplink ();
+        
+    // get the staff current time
+    S_msrTime
+      time =
+        staff->
+          getStaffCurrentTime ();
+
+    if (! time) {
+      os <<
+        "*** no time signature known ***";
+    }
+    os <<
+      endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "nextMeasureNumber" << " : \"" <<
+    fNextMeasureNumber <<
+    "\"" <<
+    endl;
+
+  int
+    measureElementsListSize =
+      fMeasureElementsList.size ();
+
+  os <<
+    setw (fieldWidth) <<
+    "measureElementsList" << " : " <<
+    singularOrPlural (
+      measureElementsListSize, "element", "elements") <<
+    endl;
+
+  if (measureElementsListSize) {
+    os <<
+      endl;
+    
+    gIndenter++;
+    
+    list<S_msrMeasureElement>::const_iterator
+      iBegin = fMeasureElementsList.begin (),
+      iEnd   = fMeasureElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i)->asShortString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -17805,7 +17908,7 @@ void msrSegment::shortPrint (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << (*i)->asShortString ();
+      (*i)->shortPrint (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -18199,7 +18302,7 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
       
     for ( ; ; ) {
       // print the element
-      os << (*i);
+      (*i)->shortPrint (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -18370,6 +18473,9 @@ void msrRepeatEnding::print (ostream& os)
   os <<
     endl <<
     "RepeatEnding" <<
+    ", repeatEndingKind" << " : " <<
+    repeatEndingKindAsString (
+      fRepeatEndingKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -18378,11 +18484,6 @@ void msrRepeatEnding::print (ostream& os)
   const int fieldWidth = 27;
 
   os << left <<
-    setw (fieldWidth) <<
-    "repeatEndingKind" << " : " <<
-    repeatEndingKindAsString (
-      fRepeatEndingKind) <<
-    endl <<
     setw (fieldWidth) <<
     "repeatEndingNumber" <<  " : " <<fRepeatEndingNumber <<
     endl <<
@@ -18413,6 +18514,10 @@ void msrRepeatEnding::shortPrint (ostream& os)
   os <<
     endl <<
     "RepeatEnding" <<
+// JMI    ", repeatEndingKind" << " : " <<
+    ", " <<
+    repeatEndingKindAsString (
+      fRepeatEndingKind) <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -18421,11 +18526,6 @@ void msrRepeatEnding::shortPrint (ostream& os)
   const int fieldWidth = 27;
 
   os << left <<
-    setw (fieldWidth) <<
-    "repeatEndingKind" << " : " <<
-    repeatEndingKindAsString (
-      fRepeatEndingKind) <<
-    endl <<
     setw (fieldWidth) <<
     "repeatEndingNumber" <<  " : " <<fRepeatEndingNumber <<
     /* JMI
@@ -18440,6 +18540,7 @@ void msrRepeatEnding::shortPrint (ostream& os)
     "'" <<
     endl <<
     */
+    endl <<
     endl;
 
   os <<
@@ -18762,6 +18863,8 @@ void msrRepeat::print (ostream& os)
       fRepeatCommonPart <<
       endl;
   }
+  os <<
+    endl;
   
   // print the repeat endings
   int endingsNumber =
@@ -18810,6 +18913,7 @@ void msrRepeat::shortPrint (ostream& os)
       "repeat ending",
       "repeat endings") <<
     ", line " << fInputLineNumber <<
+    endl <<
     endl;
   
   gIndenter++;
@@ -18823,6 +18927,8 @@ void msrRepeat::shortPrint (ostream& os)
   else {    
     fRepeatCommonPart->shortPrint (os);      
   }
+  os <<
+    endl;
   
   // print the repeat endings
   int endingsNumber =
@@ -24085,7 +24191,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleRepeatEndingStartInVoice()");
+    displayVoiceRepeatsStack ("handleRepeatEndingStartInVoice() 1");
   }
 #endif
 
@@ -24177,9 +24283,9 @@ void msrVoice::handleRepeatEndingStartInVoice (
               gIndenter++;
       
               // create the repeat and stack it
-              stringstream s;
+              stringstream s1;
               
-              s <<
+              s1 <<
                 "Creating a repeat upon its first ending in voice \"" <<
                 getVoiceName () <<
                 "\"" <<
@@ -24189,7 +24295,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
                 newRepeat =
                   createARepeatAndStackIt (
                     inputLineNumber,
-                    s.str ());
+                    s1.str ());
       
               // get newRepeat's common part
               S_msrRepeatCommonPart
@@ -24198,39 +24304,19 @@ void msrVoice::handleRepeatEndingStartInVoice (
                     getRepeatCommonPart ();
 
               // move voice last segment into the repeat common part
-#ifdef TRACE_OPTIONS
-              if (gGeneralOptions->fTraceRepeats) {
-                gLogIOstream <<
-                  "Moving the voice last segment to the repeat common part in voice \"" <<
-                  getVoiceName () <<
-                  "\"" <<
-                  ", line " << inputLineNumber <<
-                  endl;
-              }
-#endif
-            
-              repeatCommonPart->
-                appendElementToRepeatCommonPart (
-                  fVoiceLastSegment);
-      
-              // forget about this voice last segment
-              fVoiceLastSegment = nullptr;
-      
-              // is there another repeat to nest newRepeat into?
-              if (fVoiceRepeatsStack.size ()) {
-                
-                // yes, this repeat in nested
-                
-      
-            //    fVoiceLastSegment = nullptr;
-              }
-              
-              else {
-                
-                // no, this repeat is at the voice-level
-                
-              }
+              stringstream s2;
 
+              s2 <<
+                "Moving the voice last segment to the repeat common part in voice \"" <<
+                getVoiceName () <<
+                "\"" <<
+                ", line " << inputLineNumber;
+              
+              moveVoiceLastSegmentToCommonPart (
+                inputLineNumber,
+                repeatCommonPart,
+                s2.str ());
+                  
               // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
               if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
@@ -24269,7 +24355,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
               }
 #endif
 
-              /*
+              /* JMI
             stringstream s;
         
             s <<
@@ -24301,7 +24387,23 @@ void msrVoice::handleRepeatEndingStartInVoice (
                   currentRepeat->
                     getRepeatCommonPart ();
       
-/*      
+              // create a new last segment containing a new measure for the voice
+      #ifdef TRACE_OPTIONS
+              if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+                gLogIOstream <<
+                  "Creating a new last segment with the first ending measure for voice \"" <<
+                  fVoiceName << "\"" <<
+                  ", line " << inputLineNumber <<
+                  endl;
+              }
+      #endif
+      
+              createNewLastSegmentFromFirstMeasureForVoice (
+                inputLineNumber,
+                firstEndingMeasure);      
+
+              /* JMI
+
               // move voice last segment into the repeat common part
 #ifdef TRACE_OPTIONS
               if (gGeneralOptions->fTraceRepeats) {
@@ -24354,25 +24456,11 @@ void msrVoice::handleRepeatEndingStartInVoice (
                           
               fVoiceRepeatsStack.push_front (newRepeat);
       
-              // create a new last segment containing a new measure for the voice
-      #ifdef TRACE_OPTIONS
-              if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-                gLogIOstream <<
-                  "Creating a new last segment with the first ending measure for voice \"" <<
-                  fVoiceName << "\"" <<
-                  ", line " << inputLineNumber <<
-                  endl;
-              }
-      #endif
-      
-              createNewLastSegmentFromFirstMeasureForVoice (
-                inputLineNumber,
-                firstEndingMeasure);      
       */
 
 #ifdef TRACE_OPTIONS
               if (gGeneralOptions->fTraceRepeats) {
-                displayVoiceRepeatsStack ("handleRepeatEndingStartInVoice()");
+                displayVoiceRepeatsStack ("handleRepeatEndingStartInVoice() 2");
               }
 #endif
             }
@@ -26467,26 +26555,32 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
 */
 
   if (! fVoiceRepeatsStack.size ()) {
-    // this is a voice-level repeat
-    
-    // create the repeat and stack it
-    createARepeatAndStackIt (
-      inputLineNumber,
-      "handleHookedRepeatEndingEndInVoice()");
-  }
-    
-  else {
+    stringstream s;
+
+    s <<
+      "Repeats stack is empty when attempting to add ending '" <<
+ //     repeatEnding->asShortString () <<
+      "' in voice '" <<
+      asShortString () <<
+      "' ";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 
+  // grab currentRepeat
   S_msrRepeat
     currentRepeat =
       fVoiceRepeatsStack.front ();
 
+  // create a hooked repeat ending
   msrRepeatEnding::msrRepeatEndingKind
     repeatEndingKind =
       msrRepeatEnding::kHookedEnding;
     
-  // create a repeat ending
   S_msrRepeatEnding
     repeatEnding =
       msrRepeatEnding::create (
@@ -26515,25 +26609,6 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
 
   displayVoiceRepeatsStack ("before adddding a hooked repeat ending to current repeat");
 
-  if (! fVoiceRepeatsStack.size ()) {
-    stringstream s;
-
-    s <<
-      "Repeats stack is empty when attempting to add ending '" <<
-      repeatEnding->asShortString () <<
-      "' in voice '" <<
-      asShortString () <<
-      "' ";
-      
-    msrInternalError (
-      gGeneralOptions->fInputSourceName,
-      fInputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-  else {
-  }
-
 //     currentRepeat-> JMI
   fVoiceRepeatsStack.front ()->
     addRepeatEnding (repeatEnding);
@@ -26557,32 +26632,8 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   }
 #endif
 
-  switch (repeatEndingKind) { // JMI
-    case msrRepeatEnding::kHookedEnding:
-    /* JMI
-      createNewLastSegmentForVoice (
-        inputLineNumber);
-        */
-/* JMI ???
-      createNewLastSegmentAndANewMeasureAfterARepeat (
-        inputLineNumber,
-        1); // JMI measureFullLength);
-        */
-      break;
-      
-    case msrRepeatEnding::kHooklessEnding:
-    /* JMIJMIJMI
-      createNewLastSegmentAndANewMeasureAfterARepeat (
-        inputLineNumber,
-        1); // JMI measureFullLength);
-        */
-        
-    /*
-      createNewLastSegmentForVoice (
-        inputLineNumber);
-        */
-      break;
-  } // switch
+  createNewLastSegmentForVoice (
+    inputLineNumber);
 
   gIndenter--;
 }
@@ -26605,32 +26656,38 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
 
   gIndenter++;
 
+  if (! fVoiceRepeatsStack.size ()) {
+    stringstream s;
+
+    s <<
+      "Repeats stack is empty when attempting to add ending '" <<
+ //     repeatEnding->asShortString () <<
+      "' in voice '" <<
+      asShortString () <<
+      "' ";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
 /* JMI
         int voiceRepeatsStackSize =
           fVoiceRepeatsStack.size ();
 */
 
-  if (! fVoiceRepeatsStack.size ()) {
-    // this is a voice-level repeat
-    
-    // create the repeat and stack it
-    createARepeatAndStackIt (
-      inputLineNumber,
-      "handleHooklessRepeatEndingEndInVoice()");
-  }
-    
-  else {
-  }
-
+  // grab currentRepeat
   S_msrRepeat
     currentRepeat =
       fVoiceRepeatsStack.front ();
 
+  // create a hookless repeat ending
   msrRepeatEnding::msrRepeatEndingKind
     repeatEndingKind =
       msrRepeatEnding::kHooklessEnding;
     
-  // create a repeat ending
   S_msrRepeatEnding
     repeatEnding =
       msrRepeatEnding::create (
@@ -26659,30 +26716,30 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
 
   displayVoiceRepeatsStack ("before adddding a hookless repeat ending to current repeat");
 
-  if (! fVoiceRepeatsStack.size ()) {
-    stringstream s;
-
-    s <<
-      "Repeats stack is empty when attempting to add ending '" <<
-      repeatEnding->asShortString () <<
-      "' in voice '" <<
-      asShortString () <<
-      "' ";
-      
-    msrInternalError (
-      gGeneralOptions->fInputSourceName,
-      fInputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-  else {
-  }
-
-//     currentRepeat-> JMI
-  fVoiceRepeatsStack.front ()->
+  currentRepeat->
     addRepeatEnding (repeatEnding);
 
   displayVoiceRepeatsStack ("after adddding a hookless repeat ending to current repeat");
+
+  // append currentRepeat to the list of initial elements
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Appending currentRepeat '" <<
+      currentRepeat->asString () <<
+      "' to the initial elements in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+                
+  fVoiceInitialElementsList.push_back (
+    currentRepeat);
+
+  // pop it from repeats stack
+  fVoiceRepeatsStack.pop_front ();
 
   // create a new last segment containing a new measure for the voice
 #ifdef TRACE_OPTIONS
@@ -26701,32 +26758,8 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   }
 #endif
 
-  switch (repeatEndingKind) { // JMI
-    case msrRepeatEnding::kHookedEnding:
-    /* JMI
-      createNewLastSegmentForVoice (
-        inputLineNumber);
-        */
-/* JMI ???
-      createNewLastSegmentAndANewMeasureAfterARepeat (
-        inputLineNumber,
-        1); // JMI measureFullLength);
-        */
-      break;
-      
-    case msrRepeatEnding::kHooklessEnding:
-    /* JMIJMIJMI
-      createNewLastSegmentAndANewMeasureAfterARepeat (
-        inputLineNumber,
-        1); // JMI measureFullLength);
-        */
-        
-    /*
-      createNewLastSegmentForVoice (
-        inputLineNumber);
-        */
-      break;
-  } // switch
+  createNewLastSegmentForVoice (
+    inputLineNumber);
 
   gIndenter--;
 }
@@ -27363,7 +27396,7 @@ void msrVoice::finalizeVoice ( // JMI ???
   }
 
   // are there pending repeats in the voice repeats stack???
-  if (! fVoiceRepeatsStack.size ()) {
+  if (fVoiceRepeatsStack.size ()) {
     displayVoiceRepeatsStack ("FINALIZING VOICE");
     
     stringstream s;
