@@ -24,6 +24,112 @@ using namespace std;
 namespace MusicXML2 
 {
 
+//______________________________________________________________________________
+string facSimileKindAsString (
+  bsrFacSimileKind facSimileKind)
+{
+  string result;
+
+  switch (facSimileKind) {
+    case kFacSimileYes:
+      result = "facSimileYes";
+      break;
+    case kFacSimileNo:
+      result = "facSimileNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
+  string           optionsItemShortName,
+  string           optionsItemLongName,
+  string           optionsItemDescription,
+  string           optionsValueSpecification,
+  string           optionsFacSimileKindItemVariableDisplayName,
+  bsrFacSimileKind optionsFacSimileKindItemVariable)
+{
+  optionsFacSimileKindItem* o = new
+    optionsFacSimileKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsFacSimileKindItemVariableDisplayName,
+      optionsFacSimileKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsFacSimileKindItem::optionsFacSimileKindItem (
+  string           optionsItemShortName,
+  string           optionsItemLongName,
+  string           optionsItemDescription,
+  string           optionsValueSpecification,
+  string           optionsFacSimileKindItemVariableDisplayName,
+  bsrFacSimileKind optionsFacSimileKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsFacSimileKindItemVariableDisplayName (
+      optionsFacSimileKindItemVariableDisplayName),
+    fOptionsFacSimileKindItemVariable (
+      optionsFacSimileKindItemVariable)
+{}
+
+optionsFacSimileKindItem::~optionsFacSimileKindItem ()
+{}
+
+void optionsFacSimileKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsFacSimileKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "optionsFacSimileKindItemVariableDisplayName" << " : " <<
+    fOptionsFacSimileKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "optionsFacSimileKindItemVariable" << " : \"" <<
+    facSimileKindAsString (
+      fOptionsFacSimileKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsFacSimileKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsFacSimileKindItemVariableDisplayName <<
+    " : \"" <<
+    facSimileKindAsString (
+      fOptionsFacSimileKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_bsrOptions gBsrOptions;
 S_bsrOptions gBsrOptionsUserChoices;
@@ -106,6 +212,70 @@ R"(Write the contents of the BSR data with more details to standard error.)",
   }
 
 
+  // miscellaneous  
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    fNoBrailleLyrics      = boolOptionsInitialValue;
+    
+    fBrailleCompileDate   = boolOptionsInitialValue;
+    
+    fFacSimileKind        = kFacSimileNo;
+    
+    fIncludeClefs         = boolOptionsInitialValue;
+
+    // options
+  
+    S_optionsSubGroup
+      miscellaneousGenerationSubGroup =
+        optionsSubGroup::create (
+          "Miscellaneous",
+          "hlpm", "help-miscellaneous",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (miscellaneousGenerationSubGroup);
+
+    miscellaneousGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "nolpl", "no-braille-lyrics",
+R"(Don't generate any lyrics in the Braille code.)",
+          "noBrailleLyrics",
+          fNoBrailleLyrics));
+
+    miscellaneousGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "lpcd", "braille-compile-date",
+R"(Generate code to include the compilation date
+when Braille creates the score.)",
+          "brailleCompileDate",
+          fBrailleCompileDate));
+
+    miscellaneousGenerationSubGroup->
+      appendOptionsItem (
+        optionsFacSimileKindItem::create (
+          "fs", "facsimile",
+R"(Generate facsimile Braille nusic code.
+By default, non-facsimile code is generated.)",
+          "YES_OR_NO",
+          "facSimileKind",
+          fFacSimileKind));
+
+    miscellaneousGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "clefs", "",
+R"(Include clefs in BSR. By default, they are not.)",
+          "includeClefs",
+          fIncludeClefs));
+  }
+
+  
   // exit after some passes
   // --------------------------------------
 
@@ -163,37 +333,6 @@ of the first BSR to the second BSR.)",
   }
 
 
-  // miscellaneous  
-  // --------------------------------------
-
-  {
-    // variables  
-  
-    fIncludeClefs        = boolOptionsInitialValue;
-
-    // options
-  
-    S_optionsSubGroup
-      miscellaneousGenerationSubGroup =
-        optionsSubGroup::create (
-          "Miscellaneous",
-          "hlpm", "help-miscellaneous",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-  
-    appendOptionsSubGroup (miscellaneousGenerationSubGroup);
-
-    miscellaneousGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "clefs", "",
-R"(Include clefs in BSR. By default, they are not.)",
-          "includeClefs",
-          fIncludeClefs));
-  }
-
-  
 #ifdef TRACE_OPTIONS
   // trace  
   // --------------------------------------
@@ -307,13 +446,14 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
   clone->fDisplayBsrDetails =
     true;
 
+
+  // miscellaneous
+  // --------------------------------------
+
     
   // exit after some passes
   // --------------------------------------
 
-
-  // miscellaneous
-  // --------------------------------------
 
   return clone;
 }
@@ -388,6 +528,15 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   gIndenter++;
   
   gLogIOstream << left <<
+    setw (fieldWidth) << "noBrailleLyrics" << " : " <<
+      booleanAsString (fNoBrailleLyrics) <<
+      endl <<
+    setw (fieldWidth) << "brailleCompileDate" << " : " <<
+      booleanAsString (fBrailleCompileDate) <<
+      endl <<
+    setw (fieldWidth) << "facSimileKind" << " : " <<
+      booleanAsString (fFacSimileKind) <<
+      endl <<
     setw (fieldWidth) << "includeClefs" << " : " <<
       booleanAsString (fIncludeClefs) <<
       endl;

@@ -803,24 +803,6 @@ void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
 }
  */
  
-/* remove the whole method ??? JMI
-  // create the enclosing repeat and append it to the part
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Creating a regular repeat in part " <<
-      fCurrentPart->getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  fCurrentPart->
-    createRegularRepeatFirstEndingInPart (
-      inputLineNumber,
-      barline->getBarlineTimes ());
-*/
-
 /*
   else {
     // no, there is an implicit repeat starting at the beginning of the part,

@@ -206,7 +206,6 @@ string bsrCellKindAsString (bsrCellKind cellKind)
 }
 
 /*
-
 //______________________________________________________________________________
 void write_wchar_t ( wchar_t cell )
 {

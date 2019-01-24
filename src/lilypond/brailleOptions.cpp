@@ -203,94 +203,6 @@ ostream& operator<< (ostream& os, const S_optionsByteOrderingKindItem& elt)
   return os;
 }
 
-//______________________________________________________________________________
-S_optionsFacSimileKindItem optionsFacSimileKindItem::create (
-  string           optionsItemShortName,
-  string           optionsItemLongName,
-  string           optionsItemDescription,
-  string           optionsValueSpecification,
-  string           optionsFacSimileKindItemVariableDisplayName,
-  bsrFacSimileKind optionsFacSimileKindItemVariable)
-{
-  optionsFacSimileKindItem* o = new
-    optionsFacSimileKindItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsValueSpecification,
-      optionsFacSimileKindItemVariableDisplayName,
-      optionsFacSimileKindItemVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsFacSimileKindItem::optionsFacSimileKindItem (
-  string           optionsItemShortName,
-  string           optionsItemLongName,
-  string           optionsItemDescription,
-  string           optionsValueSpecification,
-  string           optionsFacSimileKindItemVariableDisplayName,
-  bsrFacSimileKind optionsFacSimileKindItemVariable)
-  : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsFacSimileKindItemVariableDisplayName (
-      optionsFacSimileKindItemVariableDisplayName),
-    fOptionsFacSimileKindItemVariable (
-      optionsFacSimileKindItemVariable)
-{}
-
-optionsFacSimileKindItem::~optionsFacSimileKindItem ()
-{}
-
-void optionsFacSimileKindItem::print (ostream& os) const
-{
-  const int fieldWidth = K_FIELD_WIDTH;
-  
-  os <<
-    "OptionsFacSimileKindItem:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedItemEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "optionsFacSimileKindItemVariableDisplayName" << " : " <<
-    fOptionsFacSimileKindItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "optionsFacSimileKindItemVariable" << " : \"" <<
-    facSimileKindAsString (
-      fOptionsFacSimileKindItemVariable) <<
-      "\"" <<
-    endl;
-}
-
-void optionsFacSimileKindItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{  
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsFacSimileKindItemVariableDisplayName <<
-    " : \"" <<
-    facSimileKindAsString (
-      fOptionsFacSimileKindItemVariable) <<
-    "\"" <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 //_______________________________________________________________________________
 S_brailleOptions gBrailleOptions;
 S_brailleOptions gBrailleOptionsUserChoices;
@@ -354,7 +266,7 @@ R"()",
     UTFEncodingSubGroup->
       appendOptionsItem (
         optionsUTFKindItem::create (
-          "utf", "utf-enconding",
+          "utf", "utf-encoding",
 R"(Generate Braille code using UTF ENCODING_SIZE encoding,
 which can be one of 8 or 16. Default value is 8.)",
           "ENCODING_SIZE",
@@ -376,7 +288,7 @@ which can be one of 8 or 16. Default value is 8.)",
     S_optionsSubGroup
       byteOrderingSubGroup =
         optionsSubGroup::create (
-          "Byte orderinng",
+          "Byte ordering",
           "hlpbo", "help-byte-ordering",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
@@ -492,12 +404,6 @@ R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
                 
     fNoBrailleCode        = boolOptionsInitialValue;
     
-    fNoBrailleLyrics      = boolOptionsInitialValue;
-    
-    fBrailleCompileDate   = boolOptionsInitialValue;
-    
-    fFacSimileKind        = kFacSimileNo;
-    
     // options
   
     S_optionsSubGroup
@@ -527,33 +433,6 @@ R"(Don't generate any Braille code.
 That can be useful if only a summary of the score is needed.)",
           "noBrailleCode",
           fNoBrailleCode));
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "nolpl", "no-braille-lyrics",
-R"(Don't generate any lyrics in the Braille code.)",
-          "noBrailleLyrics",
-          fNoBrailleLyrics));
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "lpcd", "braille-compile-date",
-R"(Generate code to include the compilation date
-when Braille creates the score.)",
-          "brailleCompileDate",
-          fBrailleCompileDate));
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsFacSimileKindItem::create (
-          "fs", "facsimile",
-R"(Generate facsimile Braille nusic code.
-By default, non-facsimile code is generated.)",
-          "YES_OR_NO",
-          "facSimileKind",
-          fFacSimileKind));
   }
 }
 
@@ -569,7 +448,7 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
     setOptionsHandlerUplink (
       fOptionsHandlerUplink);
 
-  // code generation
+  // code generation JMI ???
   // --------------------------------------
 
   clone->fXml2brlInfos =
@@ -577,15 +456,6 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
     
   clone->fNoBrailleCode =
     fNoBrailleCode;
-    
-  clone->fNoBrailleLyrics =
-    fNoBrailleLyrics;
-    
-  clone->fBrailleCompileDate =
-    fBrailleCompileDate;
-    
-  clone->fFacSimileKind =
-    fFacSimileKind;
     
   return clone;
 }
@@ -647,19 +517,7 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     
     setw (fieldWidth) << "noBrailleCode" << " : " <<
       booleanAsString (fNoBrailleCode) <<
-      endl <<
-    
-    setw (fieldWidth) << "noBrailleLyrics" << " : " <<
-      booleanAsString (fNoBrailleLyrics) <<
-      endl <<
-    
-    setw (fieldWidth) << "brailleCompileDate" << " : " <<
-      booleanAsString (fBrailleCompileDate) <<
-      endl <<
-    
-    setw (fieldWidth) << "facSimileKind" << " : " <<
-      facSimileKindAsString (fFacSimileKind) <<
-      endl <<
+      endl;
 
   gIndenter--;
   

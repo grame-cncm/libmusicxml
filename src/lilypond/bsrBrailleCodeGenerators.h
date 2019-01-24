@@ -47,12 +47,6 @@ enum bsrByteOrderingKind {
 string byteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind);
 
-enum bsrFacSimileKind {
-    kFacSimileYes, kFacSimileNo };
-    
-string facSimileKindAsString (
-  bsrFacSimileKind facSimileKind);
-
 //______________________________________________________________________________
 class bsrBrailleGenerator : public smartable
 {

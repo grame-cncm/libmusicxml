@@ -5457,7 +5457,7 @@ void msr2BsrTranslator::visitStart (S_msrRepeat& elt)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Preparing for repeat in part clone" <<
+      "Handling repeat start in part clone" <<
       fCurrentPartClone->getPartCombinedName () <<
       endl;
   }
@@ -5830,7 +5830,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRests) {
     fLogOutputStream <<
-      "Preparing for multiple rest in voice clone \"" <<
+      "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
@@ -5862,7 +5862,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 #endif
 
   fCurrentVoiceClone->
-    prepareForMultipleRestInVoiceClone (
+    handleMultipleRestInVoiceClone (
       inputLineNumber);
 
 #ifdef TRACE_OPTIONS

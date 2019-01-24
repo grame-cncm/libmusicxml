@@ -1233,7 +1233,7 @@ void msrStaff::handleRepeatStartInStaff (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Preparing for repeat in staff \"" <<
+      "Handling repeat start in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<

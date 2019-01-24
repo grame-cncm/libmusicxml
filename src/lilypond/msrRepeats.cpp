@@ -453,17 +453,36 @@ msrRepeatEnding::msrRepeatEnding (
   fRepeatEndingRepeatUplink = repeatUplink;
 }
 
-msrRepeatEnding::~msrRepeatEnding ()
-{}
-
 /* JMI
-void msrRepeatEnding::appendElementToRepeatEnding (
-  S_msrElement elem) // JMI ???
+S_msrRepeat msrRepeatEnding::createRepeatEndingNewbornClone (
+  S_msrRepeat containingRepeat)
 {
-  fRepeatEndingSegment->
-    appendOtherElementToSegment (elem);
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Creating a newborn clone of a multiple rest contents" <<
+      endl;
+  }
+#endif
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != nullptr,
+    "containingRepeat is null");
+    
+  msrRepeatEnding
+    newbornClone =
+      msrRepeatEnding::create (
+        fInputLineNumber,
+        fRepeatTimes,
+        containingVoice);
+
+  return newbornClone;
 }
 */
+
+msrRepeatEnding::~msrRepeatEnding ()
+{}
 
 void msrRepeatEnding::acceptIn (basevisitor* v)
 {

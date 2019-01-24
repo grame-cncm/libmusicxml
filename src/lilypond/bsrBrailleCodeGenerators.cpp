@@ -67,23 +67,6 @@ string byteOrderingKindAsString (
   return result;
 }
 
-string facSimileKindAsString (
-  bsrFacSimileKind facSimileKind)
-{
-  string result;
-
-  switch (facSimileKind) {
-    case kFacSimileYes:
-      result = "facSimileYes";
-      break;
-    case kFacSimileNo:
-      result = "facSimileNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 //______________________________________________________________________________
 // writing UTF-16 to ostreams
 void write_wchar_t (ostream& os, wchar_t cell)

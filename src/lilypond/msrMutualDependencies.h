@@ -4811,14 +4811,6 @@ class msrRepeatCommonPart : public msrElement
       int          inputLineNumber,
       S_msrRepeat  repeatUplink);
 
-    /* JMI
-    SMARTP<msrRepeatCommonPart> createRepeatCommonPartNewbornClone (
-      S_msrRepeat containingRepeat);
-
-    SMARTP<msrRepeatCommonPart> createRepeatCommonPartDeepCopy (
-      S_msrRepeat containingRepeat);
-      */
-
   protected:
 
     // constructors/destructor
@@ -4914,12 +4906,9 @@ class msrRepeatEnding : public msrElement
       msrRepeatEndingKind repeatEndingKind,
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
-    
+
     /* JMI
     SMARTP<msrRepeatEnding> createRepeatEndingNewbornClone (
-      S_msrRepeat containingRepeat);
-
-    SMARTP<msrRepeatEnding> createRepeatEndingDeepCopy (
       S_msrRepeat containingRepeat);
       */
 
@@ -4973,9 +4962,7 @@ class msrRepeatEnding : public msrElement
 
     // services
     // ------------------------------------------------------
-  
- //  JMI void                  appendElementToRepeatEnding (S_msrElement elem);
-                    
+                      
     void                  collectRepeatEndingMeasuresIntoFlatList (
                             int inputLineNumber);
     
@@ -5036,11 +5023,6 @@ class msrRepeat : public msrVoiceElement
 
     SMARTP<msrRepeat> createRepeatNewbornClone (
       S_msrVoice containingVoice);
-
-    /* JMI
-    SMARTP<msrRepeat> createRepeatDeepCopy (
-      S_msrVoice containingVoice);
-      */
 
   protected:
 
@@ -6239,6 +6221,15 @@ class msrVoice : public msrElement
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
                             
+    void                  handleRepeatEndingStartInVoiceClone (
+                            int inputLineNumber);
+                            
+    void                  handleRepeatEndingEndInVoiceClone (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber, // may be "1, 2"
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind);
+
     void                  finalizeRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6266,7 +6257,7 @@ class msrVoice : public msrElement
     void                  appendMeasuresRepeatReplicaToVoice (
                             int       inputLineNumber);
 
-    void                  prepareForMultipleRestInVoiceClone (
+    void                  handleMultipleRestInVoiceClone (
                             int inputLineNumber);
   
     void                  appendMultipleRestCloneToVoice (
@@ -6367,20 +6358,20 @@ class msrVoice : public msrElement
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
                             string                context);
-
-    void                  createRegularRepeatFirstEndingInVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
-  
-    void                  createEnclosingRepeatFirstEndingInVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
   
     void                  handleHookedRepeatEndingEndInVoice (
                             int       inputLineNumber,
                             string    repeatEndingNumber); // may be "1, 2"
 
     void                  handleHooklessRepeatEndingEndInVoice (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber); // may be "1, 2"
+
+    void                  handleHookedRepeatEndingEndInVoiceClone (
+                            int       inputLineNumber,
+                            string    repeatEndingNumber); // may be "1, 2"
+
+    void                  handleHooklessRepeatEndingEndInVoiceClone (
                             int       inputLineNumber,
                             string    repeatEndingNumber); // may be "1, 2"
 
@@ -6794,12 +6785,6 @@ class msrStaff : public msrElement
 
     void                  appendRepeatEndingCloneToStaff (
                             S_msrRepeatEnding repeatEndingClone);
-
-/* JMI
-    void                  createRepeatAndAppendItToAllStaffVoices (
-                            int inputLineNumber,
-                            int repeatTimes);
-    */
     
     // barlines
     

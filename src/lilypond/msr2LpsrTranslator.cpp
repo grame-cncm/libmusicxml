@@ -4594,6 +4594,11 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
     handleRepeatStartInVoiceClone (
       inputLineNumber,
       elt);
+/* JMI
+  fCurrentVoiceClone->
+    handleRepeatStartInVoice (
+      inputLineNumber);
+      */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
@@ -4623,6 +4628,13 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
   fCurrentVoiceClone->
     handleRepeatEndInVoiceClone (
       inputLineNumber);
+/* JMI
+  fCurrentVoiceClone->
+    handleRepeatEndInVoice (
+      inputLineNumber,
+      fCurrentMeasureClone->getMeasureNumber (),
+      elt->getRepeatTimes ());
+      */
 }
 
 //________________________________________________________________________
@@ -4703,12 +4715,44 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeatEnding" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
+
+  // handle the repeat ending start in the voice clone
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Handling a repeat ending start in voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      endl <<
+      "*********>> msrRepeatEnding start " <<
+      ", line " << inputLineNumber <<
+      " contains:" <<
+      endl <<
+      elt <<
+      endl <<
+      "<<*********" <<
+      endl <<
+      endl;
+  }
+#endif
+
+  fCurrentVoiceClone->
+    handleRepeatEndingStartInVoiceClone (
+      inputLineNumber);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
@@ -4723,11 +4767,11 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
       endl;
   }
 
-  // create a repeat ending clone and append it to voice clone
+  // handle the repeat ending end in the voice clone
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a repeat ending clone to voice clone \"" <<
+      "Handling a repeat ending end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
@@ -4749,7 +4793,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 #endif
 
   fCurrentVoiceClone->
-    handleRepeatEndingEndInVoice (
+    handleRepeatEndingEndInVoiceClone (
       inputLineNumber,
       elt->getRepeatEndingNumber (),
       elt->getRepeatEndingKind ());
@@ -4908,7 +4952,7 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRest& elt)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRests) {
     fLogOutputStream <<
-      "Preparing for multiple rest in voice clone \"" <<
+      "Handling multiple rest start !in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
@@ -4940,7 +4984,7 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRest& elt)
 #endif
 
   fCurrentVoiceClone->
-    prepareForMultipleRestInVoiceClone (
+    handleMultipleRestInVoiceClone (
       inputLineNumber);
 
 #ifdef TRACE_OPTIONS

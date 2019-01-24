@@ -23,25 +23,86 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class bsrOptions : public optionsGroup
+enum bsrFacSimileKind {
+    kFacSimileYes, kFacSimileNo };
+    
+string facSimileKindAsString (
+  bsrFacSimileKind facSimileKind);
+
+//______________________________________________________________________________
+class optionsFacSimileKindItem : public optionsValuedItem
 {
   public:
-
-    // data types
+  
+    // creation
     // ------------------------------------------------------
 
-    enum bsrByteOrderingKind {
-        kByteOrderingBigEndian, kByteOrderingSmallEndian };
-        
-    static string byteOrderingKindAsString (
-      bsrByteOrderingKind byteOrderingKind);
+    static SMARTP<optionsFacSimileKindItem> create (
+      string           optionsItemShortName,
+      string           optionsItemLongName,
+      string           optionsItemDescription,
+      string           optionsValueSpecification,
+      string           optionsFacSimileKindItemVariableDisplayName,
+      bsrFacSimileKind optionsFacSimileKindItemVariable);
+     
+  protected:
 
-    enum bsrFacSimileKind {
-        kFacSimileYes, kFacSimileNo };
-        
-    static string facSimileKindAsString (
-      bsrFacSimileKind facSimileKind);
+    // constructors/destructor
+    // ------------------------------------------------------
 
+    optionsFacSimileKindItem (
+      string           optionsItemShortName,
+      string           optionsItemLongName,
+      string           optionsItemDescription,
+      string           optionsValueSpecification,
+      string           optionsFacSimileKindItemVariableDisplayName,
+      bsrFacSimileKind optionsFacSimileKindItemVariable);
+      
+    virtual ~optionsFacSimileKindItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsFacSimileKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsFacSimileKindItemVariableDisplayName;
+                              }
+                              
+    void                  setOptionsFacSimileKindItemVariable (
+                            bsrFacSimileKind value)
+                              {
+                                fOptionsFacSimileKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsFacSimileKindItemVariableDisplayName;
+    bsrFacSimileKind      fOptionsFacSimileKindItemVariable;
+};
+typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
+
+//______________________________________________________________________________
+class bsrOptions : public optionsGroup
+{
   public:
 
     // creation
@@ -118,16 +179,22 @@ class bsrOptions : public optionsGroup
     bool                  fDisplayBsr;
     bool                  fDisplayBsrDetails;
     
+    // miscellaneous
+    // --------------------------------------
+
+    bool                  fNoBrailleLyrics;
+
+    bool                  fBrailleCompileDate;
+
+    bsrFacSimileKind      fFacSimileKind;
+
+    bool                  fIncludeClefs;
+
     // exit after some passes
     // --------------------------------------
 
     bool                  fExit3a;
     bool                  fExit3b;
-
-    // miscellaneous
-    // --------------------------------------
-
-    bool                  fIncludeClefs;
 
     // trace
     // --------------------------------------
