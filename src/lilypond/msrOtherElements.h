@@ -13,7 +13,7 @@
 #ifndef ___msrOtherElements___
 #define ___msrOtherElements___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 

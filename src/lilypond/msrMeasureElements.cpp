@@ -14,11 +14,9 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <iostream>
-#include <sstream>
 #include <climits>      // INT_MIN, INT_MAX
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrOptions.h"
 
@@ -29,82 +27,79 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-msrElement::msrElement (
+msrMeasureElement::msrMeasureElement (
   int inputLineNumber)
+    : msrElement (inputLineNumber)
 {
-  fInputLineNumber = inputLineNumber;
+  fMeasureNumber = "???";
+  fPositionInMeasure = rational (INT_MIN, 1);
 }
 
-msrElement::~msrElement ()
+msrMeasureElement::~msrMeasureElement ()
 {}
 
-void msrElement::acceptIn (basevisitor* v)
+void msrMeasureElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrElement::msrElement ()" <<
+      "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_msrElement>*
+  if (visitor<S_msrMeasureElement>*
     p =
-      dynamic_cast<visitor<S_msrElement>*> (v)) {
-        S_msrElement elem = this;
+      dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
+        S_msrMeasureElement elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrElement::visitStart ()" <<
+            "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrElement::acceptOut (basevisitor* v)
+void msrMeasureElement::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrElement::acceptOut ()" <<
+      "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrElement>*
+  if (visitor<S_msrMeasureElement>*
     p =
-      dynamic_cast<visitor<S_msrElement>*> (v)) {
-        S_msrElement elem = this;
+      dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
+        S_msrMeasureElement elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrElement::visitEnd ()" <<
+            "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-string msrElement::asString () const
+string msrMeasureElement::asString () const
 {
   // this is overriden all in actual elements
-  return "??? msrElement::asString () ???";
+  return "??? msrMeasureElement::asString () ???";
 }
 
-string msrElement::asShortString () const
+string msrMeasureElement::asShortString () const
 {
   // this can be overriden in actual elements
   return asString ();
 }
 
-void msrElement::print (ostream& os)
+void msrMeasureElement::print (ostream& os)
 {
   os << asString () << endl;
 }
 
-void msrElement::shortPrint (ostream& os)
-{
-  print (os);
-}
-
-ostream& operator<< (ostream& os, const S_msrElement& elt)
+ostream& operator<< (ostream& os, const S_msrMeasureElement& elt)
 {
   elt->print (os);
   return os;

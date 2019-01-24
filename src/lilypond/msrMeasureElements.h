@@ -10,19 +10,17 @@
   research@grame.fr
 */
 
-#ifndef ___msrElements___
-#define ___msrElements___
+#ifndef ___msrMeasureElements___
+#define ___msrMeasureElements___
 
-#include "typedefs.h"
-#include "tree_browser.h"
-#include "rational.h"
+#include "msrElements.h"
 
 
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class msrElement : public smartable
+class msrMeasureElement : public msrElement
 {
   public:
 
@@ -34,18 +32,35 @@ class msrElement : public smartable
 
   protected:
 
-    msrElement (
+    msrMeasureElement (
       int inputLineNumber);
 
-    virtual ~msrElement ();
+    virtual ~msrMeasureElement ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getInputLineNumber ()
-                              { return fInputLineNumber; }
+    void                  setMeasureNumber (
+                            string positionInMeasure)
+                              {
+                                fMeasureNumber =
+                                  positionInMeasure;
+                              }
+                      
+    string                getMeasureNumber ()
+                              { return fMeasureNumber; }
+
+    void                  setPositionInMeasure (
+                            rational positionInMeasure)
+                              {
+                                fPositionInMeasure =
+                                  positionInMeasure;
+                              }
+                      
+    rational              getPositionInMeasure ()
+                              { return fPositionInMeasure; }
 
     // services
     // ------------------------------------------------------
@@ -66,11 +81,9 @@ class msrElement : public smartable
     // ------------------------------------------------------
 
     virtual std::string   asShortString () const;
-    virtual std::string   asString () const;
-    
+    virtual std::string   asString () const;    
+
     virtual void          print (std::ostream& os);
-    
-    virtual void          shortPrint (std::ostream& os);
 
     virtual void          printSummary (std::ostream& os) {}
     
@@ -79,39 +92,11 @@ class msrElement : public smartable
     // fields
     // ------------------------------------------------------
 
-    int                   fInputLineNumber;
+    string                fMeasureNumber;
+    rational              fPositionInMeasure;
 };
-typedef SMARTP<msrElement> S_msrElement;
-EXP std::ostream& operator<< (std::ostream& os, const S_msrElement& elt);
-
-//______________________________________________________________________________
-template <typename T> class msrBrowser : public browser <T> 
-{
-  public:
-    
-    msrBrowser (basevisitor* v) : fVisitor (v) {}
-    
-    virtual ~msrBrowser () {}
-
-  public:
-
-    virtual void set (basevisitor* v) { fVisitor = v; }
-    
-    virtual void browse (T& t) {
-      enter (t);
-
-      t.browseData (fVisitor);
-      
-      leave (t);
-    }
-
-  protected:
-  
-    basevisitor*  fVisitor;
-
-    virtual void enter (T& t) { t.acceptIn  (fVisitor); }
-    virtual void leave (T& t) { t.acceptOut (fVisitor); }
-};
+typedef SMARTP<msrMeasureElement> S_msrMeasureElement;
+EXP std::ostream& operator<< (std::ostream& os, const S_msrMeasureElement& elt);
 
 
 } // namespace MusicXML2

@@ -34,8 +34,6 @@
 
 #include "msrPartNamesDisplays.h"
 
-// JMI #include "msrParts.h"
-
 #include "msrStavesDetails.h"
 
 #include "msrClefs.h"
@@ -76,7 +74,6 @@
 
 #include "msrScores.h"
 #include "msrPartGroups.h"
-// JMI #include "msrParts.h"
 
 #include "msrMidi.h"
 

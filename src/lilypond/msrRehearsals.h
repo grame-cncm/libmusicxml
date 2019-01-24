@@ -13,7 +13,7 @@
 #ifndef ___msrRehearsals___
 #define ___msrRehearsals___
 
-#include "msrElements.h"
+#include "msrMeasureElements.h"
 
 #include "msrBasicTypes.h"
 
