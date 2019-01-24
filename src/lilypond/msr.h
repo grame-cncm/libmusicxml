@@ -76,11 +76,10 @@
 
 #include "msrScores.h"
 #include "msrPartGroups.h"
-// JMI #include "msrParts.h"
+
+#include "msrMutualDependencies.h"
 
 #include "msrMidi.h"
-
-#include "msrMutuallyDependent.h"
 
 #include "generalOptions.h"
 

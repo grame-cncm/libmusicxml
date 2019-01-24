@@ -4736,7 +4736,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       endl <<
-      "*********>> msrRepeatEnding HHH " <<
+      "*********>> msrRepeatEnding end " <<
       ", line " << inputLineNumber <<
       " contains:" <<
       endl <<
