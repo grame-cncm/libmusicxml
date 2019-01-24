@@ -54,7 +54,7 @@ msrChord::msrChord (
   rational        chordSoundingWholeNotes,
   rational        chordDisplayWholeNotes,
   msrDurationKind chordGraphicDurationKind)
-    : msrMeasureElement (inputLineNumber)
+    : msrTupletElement (inputLineNumber)
 {
   fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fChordDisplayWholeNotes  = chordDisplayWholeNotes;

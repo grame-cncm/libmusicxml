@@ -13,8 +13,9 @@
 #ifndef ___msrPartGroups___
 #define ___msrPartGroups___
 
-#include "msr.h" // TEMP
-#include "msrScores.h" // TEMP
+#include "msrPartGroupElements.h"
+
+#include "msrMutualDependencies.h"
 
 
 namespace MusicXML2 
@@ -31,7 +32,7 @@ class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
 //______________________________________________________________________________
-class msrPartGroup : public msrElement
+class msrPartGroup : public msrPartGroupElement
 {
   public:
 
@@ -196,7 +197,7 @@ class msrPartGroup : public msrElement
     string                getPartGroupInstrumentName () const
                               { return fPartGroupInstrumentName; }
                 
-    const list<S_msrElement>&
+    const list<S_msrPartGroupElement>&
                           getPartGroupElements () const
                               { return fPartGroupElements; }
 
@@ -317,7 +318,8 @@ class msrPartGroup : public msrElement
                           fPartGroupPartsMap;
 
     // allowing for both parts and (sub-)part groups as elements
-    list<S_msrElement>    fPartGroupElements;
+    list<S_msrPartGroupElement>
+                          fPartGroupElements;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);

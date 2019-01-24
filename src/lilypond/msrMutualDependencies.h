@@ -72,8 +72,13 @@
 
 #include "msrSlashes.h"
 
-#include "msrScores.h"
+#include "msrTupletElements.h"
+
+#include "msrVoiceElements.h"
+
 #include "msrPartGroups.h"
+
+#include "msrScores.h"
 
 #include "msrMidi.h"
 
@@ -1182,7 +1187,7 @@ typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
 
 //______________________________________________________________________________
-class msrSegment : public msrElement
+class msrSegment : public msrVoiceElement
 {
   public:
     
@@ -2772,7 +2777,7 @@ typedef SMARTP<msrSlide> S_msrSlide;
 EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
 
 //______________________________________________________________________________
-class msrNote : public msrMeasureElement
+class msrNote : public msrTupletElement
 {
   public:
 
@@ -3874,7 +3879,7 @@ typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
 //______________________________________________________________________________
-class msrChord : public msrMeasureElement
+class msrChord : public msrTupletElement
 {
   public:
 
@@ -4350,7 +4355,7 @@ typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 
 //______________________________________________________________________________
-class msrTuplet : public msrMeasureElement
+class msrTuplet : public msrTupletElement
 {
   public:
     
@@ -4475,9 +4480,11 @@ class msrTuplet : public msrMeasureElement
     rational              getMemberNotesDisplayWholeNotes () const
                               { return fMemberNotesDisplayWholeNotes; }
 
-    const list<S_msrElement>&
+/* JMI
+    const list<S_msrTupletElement>&
                           getTupletElementsList () const
                               { return fTupletElementsList; }
+                              */
 
     rational              getTupletSoundingWholeNotes () const
                               { return fTupletSoundingWholeNotes; }
@@ -4590,7 +4597,8 @@ class msrTuplet : public msrMeasureElement
     string                fTupletMeasureNumber;
     rational              fTupletPositionInMeasure;
     
-    list<S_msrElement>    fTupletElementsList;
+    list<S_msrTupletElement>
+                          fTupletElementsList;
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
@@ -5009,7 +5017,7 @@ typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
 
 //______________________________________________________________________________
-class msrRepeat : public msrElement
+class msrRepeat : public msrVoiceElement
 {
   public:
 
@@ -5109,6 +5117,9 @@ class msrRepeat : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrVoice            fRepeatVoiceUplink;
+
     int                   fRepeatTimes;
     // common part
     S_msrRepeatCommonPart fRepeatCommonPart;
@@ -5117,9 +5128,6 @@ class msrRepeat : public msrElement
     vector<S_msrRepeatEnding>
                           fRepeatEndings;
     int                   fRepeatEndingsInternalCounter;
-
-    // uplinks
-    S_msrVoice            fRepeatVoiceUplink;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -6451,7 +6459,8 @@ class msrVoice : public msrElement
 
     // voice internal handling
     
-    list<S_msrElement>    fVoiceInitialElementsList;
+    list<S_msrVoiceElement>
+                          fInitialVoiceElementsList;
 
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,
@@ -6999,7 +7008,7 @@ class msrScore;
 typedef SMARTP<msrScore> S_msrScore;
 
 //______________________________________________________________________________
-class msrPart : public msrElement
+class msrPart : public msrPartGroupElement
 {
   public:
 

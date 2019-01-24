@@ -121,7 +121,7 @@ msrNote::msrNote (
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
-  : msrMeasureElement (inputLineNumber)
+  : msrTupletElement (inputLineNumber)
 {
   fNoteMeasureNumber = noteMeasureNumber;
   

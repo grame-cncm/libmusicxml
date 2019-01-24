@@ -105,7 +105,7 @@ msrPartGroup::msrPartGroup (
   msrPartGroupBarlineKind  partGroupBarlineKind,
   S_msrPartGroup           partGroupPartGroupUplink,
   S_msrScore               partGroupScoreUplink)
-    : msrElement (inputLineNumber)
+    : msrPartGroupElement (inputLineNumber)
 {
   // no sanity check on partGroupPartGroupUplink here,
   // it will be set after all 'real' (i.e. not implicit)
@@ -336,7 +336,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
     gIndenter++;
 
     if (fPartGroupElements.size ()) {
-      list<S_msrElement>::const_iterator
+      list<S_msrPartGroupElement>::const_iterator
         iBegin = fPartGroupElements.begin (),
         iEnd   = fPartGroupElements.end (),
         i      = iBegin;
@@ -397,9 +397,10 @@ void msrPartGroup::removePartFromPartGroup (
   gIndenter++;
   
   for (
-    list<S_msrElement>::iterator i = fPartGroupElements.begin ();
+    list<S_msrPartGroupElement>::iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++) {
+    i++
+  ) {
     S_msrElement
       element = (*i);
 
@@ -479,9 +480,10 @@ void msrPartGroup::printPartGroupParts (
 {
   if (fPartGroupElements.size ()) {
     for (
-      list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+      list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
       i != fPartGroupElements.end ();
-      i++) {
+      i++
+    ) {
       S_msrElement
         element = (*i);
   
@@ -568,19 +570,13 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
       endl;
   }
 #endif
-
-/* JMI
-  list<S_msrElement>::const_iterator
-    iBegin = fPartGroupElements.begin (),
-    iEnd   = fPartGroupElements.end (),
-    i      = iBegin;
-  */
     
   for (
-    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+    list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++) {
-    S_msrElement
+    i++
+  ) {
+    S_msrPartGroupElement
       element = (*i);
 
     if (
@@ -638,9 +634,10 @@ void msrPartGroup::collectPartGroupPartsList (
   list<S_msrPart>& partsList)
 {
   for (
-    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+    list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++) {
+    i++
+  ) {
     S_msrElement
       element = (*i);
 
@@ -735,9 +732,10 @@ void msrPartGroup::browseData (basevisitor* v)
   }
   
   for (
-    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+    list<S_msrPartGroupElement>::const_iterator i = fPartGroupElements.begin ();
     i != fPartGroupElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the part element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -954,7 +952,7 @@ void msrPartGroup::print (ostream& os)
 
   if (fPartGroupElements.size ()) {
     os << endl;
-    list<S_msrElement>::const_iterator
+    list<S_msrPartGroupElement>::const_iterator
       iBegin = fPartGroupElements.begin (),
       iEnd   = fPartGroupElements.end (),
       i      = iBegin;
@@ -1019,7 +1017,7 @@ void msrPartGroup::printSummary (ostream& os)
 
   if (fPartGroupElements.size ()) {
     os << endl;
-    list<S_msrElement>::const_iterator
+    list<S_msrPartGroupElement>::const_iterator
       iBegin = fPartGroupElements.begin (),
       iEnd   = fPartGroupElements.end (),
       i      = iBegin;

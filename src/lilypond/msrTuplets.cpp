@@ -75,7 +75,7 @@ msrTuplet::msrTuplet (
   rational                memberNotesSoundingWholeNotes,
   rational                memberNotesDisplayWholeNotes,
   rational                notePositionInMeasure)
-    : msrMeasureElement (inputLineNumber)
+    : msrTupletElement (inputLineNumber)
 {
   fTupletMeasureNumber = tupletMeasureNumber;
   
@@ -626,9 +626,10 @@ rational msrTuplet::setTupletPositionInMeasure (
   
   // compute position in measure for the tuplets elements
   for (
-    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
+    list<S_msrTupletElement>::const_iterator i = fTupletElementsList.begin ();
     i != fTupletElementsList.end ();
-    i++ ) {
+    i++
+  ) {
     // set tuplet element position in measure
     
     if (
@@ -772,9 +773,10 @@ void msrTuplet::acceptOut (basevisitor* v)
 void msrTuplet::browseData (basevisitor* v)
 {
   for (
-    list<S_msrElement>::const_iterator i = fTupletElementsList.begin ();
+    list<S_msrTupletElement>::const_iterator i = fTupletElementsList.begin ();
     i != fTupletElementsList.end ();
-    i++ ) {
+    i++
+  ) {
     // browse tuplet element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -803,7 +805,7 @@ string msrTuplet::asString () const
   s << "[[";
 
   if (fTupletElementsList.size ()) {
-    list<S_msrElement>::const_iterator
+    list<S_msrTupletElement>::const_iterator
       iBegin = fTupletElementsList.begin (),
       iEnd   = fTupletElementsList.end (),
       i      = iBegin;
@@ -919,7 +921,7 @@ void msrTuplet::print (ostream& os)
   if (fTupletElementsList.size ()) {
     gIndenter++;
 
-    list<S_msrElement>::const_iterator
+    list<S_msrTupletElement>::const_iterator
       iBegin = fTupletElementsList.begin (),
       iEnd   = fTupletElementsList.end (),
       i      = iBegin;
@@ -1009,7 +1011,7 @@ void msrTuplet::printShort (ostream& os)
       
     gIndenter++;
 
-    list<S_msrElement>::const_iterator
+    list<S_msrTupletElement>::const_iterator
       iBegin = fTupletElementsList.begin (),
       iEnd   = fTupletElementsList.end (),
       i      = iBegin;

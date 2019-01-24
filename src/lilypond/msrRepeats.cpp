@@ -673,7 +673,7 @@ msrRepeat::msrRepeat (
   int        inputLineNumber,
   int        repeatTimes,
   S_msrVoice voiceUplink)
-    : msrElement (inputLineNumber)
+    : msrVoiceElement (inputLineNumber)
 {
   fRepeatEndingsInternalCounter = 0;
   

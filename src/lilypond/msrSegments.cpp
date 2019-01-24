@@ -39,7 +39,7 @@ S_msrSegment msrSegment::create (
 msrSegment::msrSegment (
   int        inputLineNumber,
   S_msrVoice segmentVoicekUplink)
-    : msrElement (inputLineNumber)
+    : msrVoiceElement (inputLineNumber)
 {
   // sanity check
   msrAssert(

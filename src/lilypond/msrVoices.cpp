@@ -530,7 +530,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
   // initial elements
   int numberOfInitialElements =
-    fVoiceInitialElementsList.size ();
+    fInitialVoiceElementsList.size ();
     
   if (numberOfInitialElements) {
 #ifdef TRACE_OPTIONS
@@ -545,14 +545,14 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     }
 #endif
 
-   list<S_msrElement>::const_iterator
-      iBegin = fVoiceInitialElementsList.begin (),
-      iEnd   = fVoiceInitialElementsList.end (),
+   list<S_msrVoiceElement>::const_iterator
+      iBegin = fInitialVoiceElementsList.begin (),
+      iEnd   = fInitialVoiceElementsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
       // handle the deep copy
-      S_msrElement
+      S_msrVoiceElement
         elementDeepCopy;
         
       if (
@@ -592,7 +592,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   
       // append the element deep copy to the voice deep copy
       voiceDeepCopy->
-        fVoiceInitialElementsList.push_back (
+        fInitialVoiceElementsList.push_back (
           elementDeepCopy);
         
       if (++i == iEnd) break;
@@ -2648,7 +2648,7 @@ void msrVoice::moveVoiceInitialElementsToCommonPart (
     gLogIOstream <<
       "Moving the " <<
       singularOrPlural (
-        fVoiceInitialElementsList.size (),
+        fInitialVoiceElementsList.size (),
         "initial element",
         "initial elements") <<
       " in voice \"" <<
@@ -2662,10 +2662,11 @@ void msrVoice::moveVoiceInitialElementsToCommonPart (
 #endif
   
   for (
-    list<S_msrElement>::iterator i = fVoiceInitialElementsList.begin ();
-    i != fVoiceInitialElementsList.end ();
-    i++) {
-    S_msrElement element = (*i);
+    list<S_msrVoiceElement>::iterator i = fInitialVoiceElementsList.begin ();
+    i != fInitialVoiceElementsList.end ();
+    i++
+  ) {
+    S_msrVoiceElement element = (*i);
 
     // append the element to the new segment
     repeatCommonPart->
@@ -2673,7 +2674,7 @@ void msrVoice::moveVoiceInitialElementsToCommonPart (
         element);
 
     // remove it from the voice initial elements
-    i = fVoiceInitialElementsList.erase (i);
+    i = fInitialVoiceElementsList.erase (i);
   } // for
 }
 
@@ -2823,7 +2824,7 @@ void msrVoice::handleRepeatStartInVoice (
 #endif
             // split JMIJMI
 
-            fVoiceInitialElementsList.push_back (
+            fInitialVoiceElementsList.push_back (
               fVoiceLastSegment);
           }
           
@@ -2866,7 +2867,7 @@ void msrVoice::handleRepeatStartInVoice (
             }
 #endif
                         
-            fVoiceInitialElementsList.push_back (
+            fInitialVoiceElementsList.push_back (
               fVoiceLastSegment);
           }
         
@@ -3044,7 +3045,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
           }
 #endif
                         
-          fVoiceInitialElementsList.push_back (
+          fInitialVoiceElementsList.push_back (
             fVoiceLastSegment);
   
           // forget about this voice last segment
@@ -3232,7 +3233,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
           }
   #endif
                         
-          fVoiceInitialElementsList.push_back (
+          fInitialVoiceElementsList.push_back (
             currentRepeat);
         }
       
@@ -3350,7 +3351,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
           }
 #endif
                         
-          fVoiceInitialElementsList.push_back (
+          fInitialVoiceElementsList.push_back (
             fVoiceLastSegment);
 
           // forget about this voice last segment
@@ -3552,7 +3553,7 @@ void msrVoice::handleRepeatEndInVoice (
           }
   #endif
                         
-          fVoiceInitialElementsList.push_back (
+          fInitialVoiceElementsList.push_back (
             newRepeat);
         }
       
@@ -3815,7 +3816,7 @@ void msrVoice::handleRepeatEndInVoice (
         }
 #endif
                       
-        fVoiceInitialElementsList.push_back (
+        fInitialVoiceElementsList.push_back (
           newRepeat);
       
        // push newRepeat onto the voice's repeats stack
@@ -4142,7 +4143,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
               }
   #endif
                             
-              fVoiceInitialElementsList.push_back (
+              fInitialVoiceElementsList.push_back (
                 newRepeat);
             
              // push newRepeat onto the voice's repeats stack
@@ -4364,7 +4365,7 @@ void msrVoice::createRegularRepeatFirstEndingInVoice (
         }
 #endif
                       
-        fVoiceInitialElementsList.push_back (
+        fInitialVoiceElementsList.push_back (
           newRepeat);
       
        // push newRepeat onto the voice's repeats stack
@@ -4525,9 +4526,10 @@ void msrVoice::createEnclosingRepeatFirstEndingInVoice (
         gIndenter++;
         
         for (
-          list<S_msrElement>::const_iterator i = fVoiceInitialElementsList.begin ();
-          i != fVoiceInitialElementsList.end ();
-          i++) {
+          list<S_msrVoiceElement>::const_iterator i = fInitialVoiceElementsList.begin ();
+          i != fInitialVoiceElementsList.end ();
+          i++
+        ) {
           repeatCommonPart->
             appendElementToRepeatCommonPart ((*i));
         } // for
@@ -4535,7 +4537,7 @@ void msrVoice::createEnclosingRepeatFirstEndingInVoice (
         gIndenter--;
         
         // empty the initial elements list
-        fVoiceInitialElementsList.resize (0);
+        fInitialVoiceElementsList.resize (0);
 
 /* JMI
         // finalize the voice's last segment
@@ -4584,7 +4586,7 @@ void msrVoice::createEnclosingRepeatFirstEndingInVoice (
         }
 #endif
                       
-        fVoiceInitialElementsList.push_back (
+        fInitialVoiceElementsList.push_back (
           repeat);
           */
       
@@ -5206,8 +5208,8 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
         // forget about this voice last segment
         fVoiceLastSegment = nullptr;
 
-        // append pending measure repeat to the list of initial elements
-        fVoiceInitialElementsList.push_back (
+        // append pending measure repeat to the last segment
+        fVoiceLastSegment->appendMeasuresRepeatToSegment (
           fVoiceCurrentMeasuresRepeat);
 
         // create a new last segment to collect the remainder of the voice,
@@ -5364,14 +5366,14 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Appending measures repeat to the list of initial elements in voice \"" <<
+            "Appending measures repeat to the last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
         }
 #endif
-                      
-        fVoiceInitialElementsList.push_back (
+
+        fVoiceLastSegment->appendMeasuresRepeatToSegment (
           fVoiceCurrentMeasuresRepeat);
       
         // create a new last segment to collect the remainder of the voice,
@@ -5454,7 +5456,7 @@ void msrVoice::createMultipleRestInVoice (
               inputLineNumber);
 
         // move the current voice last segment to the initial elements list
-        fVoiceInitialElementsList.push_back (
+        fInitialVoiceElementsList.push_back (
           fVoiceLastSegment);
           
         // forget about this voice last segment
@@ -5698,8 +5700,8 @@ void msrVoice::appendPendingMultipleRestToVoice (
           setMultipleRestContents (
             multipleRestContents);
 
-        // append pending multiple rest to the list of initial elements
-        fVoiceInitialElementsList.push_back (
+        // append pending multiple rest to the last segment
+        fVoiceLastSegment->appendMultipleRestToSegment (
           fVoicePendingMultipleRest);
 
             /* JMI
@@ -5816,7 +5818,7 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
 #endif
 
             // append fVoiceLastSegment to the list of initial elements
-            fVoiceInitialElementsList.push_back (
+            fInitialVoiceElementsList.push_back (
               fVoiceLastSegment);
 
             // forget about this voice last segment
@@ -5861,7 +5863,7 @@ void msrVoice::prepareForMultipleRestInVoiceClone (
             }
 #endif
                         
-            fVoiceInitialElementsList.push_back (
+            fInitialVoiceElementsList.push_back (
               fVoiceLastSegment);
 
             // forget about this voice last segment
@@ -6008,8 +6010,8 @@ void msrVoice::appendMultipleRestCloneToVoice (
           // JMI ???
         }
 
-        // append the multiple rest to the list of initial elements
-        fVoiceInitialElementsList.push_back (
+        // append the multiple rest clone to the last segment
+        fVoiceLastSegment->appendMultipleRestToSegment (
           multipleRestClone);
 
         // print resulting voice contents
@@ -6118,7 +6120,7 @@ void msrVoice::appendRepeatCloneToVoice (
 #endif
       
         // append it to the list of initial elements
-        fVoiceInitialElementsList.push_back (
+        fInitialVoiceElementsList.push_back (
           repeatCLone);
 
       /* JMI
@@ -6440,7 +6442,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   }
 #endif
                 
-  fVoiceInitialElementsList.push_back (
+  fInitialVoiceElementsList.push_back (
     currentRepeat);
 
   // pop it from repeats stack
@@ -7019,7 +7021,7 @@ void msrVoice:: collectVoiceMeasuresIntoFlatList (
   int inputLineNumber)
 {
   // collect measures from the initial elements if any
-  if (fVoiceInitialElementsList.size ()) {
+  if (fInitialVoiceElementsList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
@@ -7082,10 +7084,10 @@ void msrVoice::finalizeVoice ( // JMI ???
 
   // is this voice totally empty? this should be rare...
   if (
-    fVoiceInitialElementsList.size () == 0
+    fInitialVoiceElementsList.size () == 0
       &&
     fVoiceLastSegment->getSegmentMeasuresList ().size () == 0
-    ) {
+  ) {
     stringstream s;
     
     s <<
@@ -7177,13 +7179,14 @@ void msrVoice::browseData (basevisitor* v)
   }
 
   // browse the voice initial elements
-  if (fVoiceInitialElementsList.size ()) {
+  if (fInitialVoiceElementsList.size ()) {
     for (
-      list<S_msrElement>::const_iterator i = fVoiceInitialElementsList.begin ();
-      i != fVoiceInitialElementsList.end ();
-      i++) {
+      list<S_msrVoiceElement>::const_iterator i = fInitialVoiceElementsList.begin ();
+      i != fInitialVoiceElementsList.end ();
+      i++
+    ) {
       // browse the element
-      msrBrowser<msrElement> browser (v);
+      msrBrowser<msrVoiceElement> browser (v);
       browser.browse (*(*i));
     } // for
   }
@@ -7199,7 +7202,8 @@ void msrVoice::browseData (basevisitor* v)
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++) {
+      i++
+    ) {
       S_msrStanza stanza = (*i).second;
 
       if (stanza->getStanzaTextPresent ()) {
@@ -7501,7 +7505,7 @@ void msrVoice::print (ostream& os)
   
   // print the voice initial elements
   int voiceInitialElementsListSize =
-    fVoiceInitialElementsList.size ();
+    fInitialVoiceElementsList.size ();
     
   os <<
     endl <<
@@ -7522,9 +7526,9 @@ void msrVoice::print (ostream& os)
       
     gIndenter++;
 
-    list<S_msrElement>::const_iterator
-      iBegin = fVoiceInitialElementsList.begin (),
-      iEnd   = fVoiceInitialElementsList.end (),
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fInitialVoiceElementsList.begin (),
+      iEnd   = fInitialVoiceElementsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {

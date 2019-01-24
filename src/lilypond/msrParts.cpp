@@ -43,7 +43,7 @@ msrPart::msrPart (
   int            inputLineNumber,
   string         partID,
   S_msrPartGroup partPartGroupUplink)
-    : msrElement (inputLineNumber)
+    : msrPartGroupElement (inputLineNumber)
 {
   // replace spaces in partID to set fPartID
   for_each (
