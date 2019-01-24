@@ -1610,7 +1610,8 @@ class msrGraceNotesGroup : public msrElement
                             msrGraceNotesGroupKind graceNotesGroupKind)
                               { fGraceNotesGroupKind = graceNotesGroupKind; }
 
-    list<S_msrElement>&   getGraceNotesGroupElementsList ()
+    list<S_msrMeasureElement>&
+                          getGraceNotesGroupElementsList ()
                               { return fGraceNotesGroupElementsList; }
 
     bool                  getGraceNotesGroupIsSlashed () const
@@ -1679,7 +1680,8 @@ class msrGraceNotesGroup : public msrElement
     msrGraceNotesGroupKind
                           fGraceNotesGroupKind;
                           
-    list<S_msrElement>    fGraceNotesGroupElementsList;
+    list<S_msrMeasureElement>
+                          fGraceNotesGroupElementsList;
 
     bool                  fGraceNotesGroupIsSlashed;
     bool                  fGraceNotesGroupIsTied;
@@ -1729,7 +1731,7 @@ class msrAfterGraceNotesGroupContents : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    const list<S_msrNote>&
+    const list<S_msrMeasureElement>&
                           getAfterGraceNotesGroupContentsNotesList ()
                               {
                                 return
@@ -1745,6 +1747,8 @@ class msrAfterGraceNotesGroupContents : public msrElement
     // notes
     void                  appendNoteToAfterGraceNotesGroupContents (
                             S_msrNote note);
+    void                  appendNoteToAfterGraceNotesGroupContents (
+                            S_msrChord chord);
 
   public:
 
@@ -1774,7 +1778,8 @@ class msrAfterGraceNotesGroupContents : public msrElement
     S_msrVoice            fAfterGraceNotesGroupContentsVoiceUplink;
 
     // the notes list
-    list<S_msrNote>       fAfterGraceNotesGroupContentsNotesList;
+    list<S_msrMeasureElement>
+                          fAfterGraceNotesGroupContentsNotesList;
 };
 typedef SMARTP<msrAfterGraceNotesGroupContents> S_msrAfterGraceNotesGroupContents;
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroupContents& elt);

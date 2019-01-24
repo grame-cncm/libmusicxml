@@ -31,13 +31,14 @@ msrPartGroupElement::msrPartGroupElement (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fPartGroupNumber = "???";
-  fPositionInPartGroup = rational (INT_MIN, 1);
+//  fPartGroupNumber = "???";
+//  fPositionInPartGroup = rational (INT_MIN, 1);
 }
 
 msrPartGroupElement::~msrPartGroupElement ()
 {}
 
+/* JMI
 void msrPartGroupElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -98,6 +99,7 @@ void msrPartGroupElement::print (ostream& os)
 {
   os << asString () << endl;
 }
+*/
 
 ostream& operator<< (ostream& os, const S_msrPartGroupElement& elt)
 {

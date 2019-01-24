@@ -9291,13 +9291,13 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
   // at the beginning of the grace notes
   fLastMetWholeNotes = rational (0, 1);
 
-  list<S_msrElement>&
+  list<S_msrMeasureElement>&
     graceNotesGroupElementsList =
       graceNotesGroup->
         getGraceNotesGroupElementsList ();
 
   if (graceNotesGroupElementsList.size ()) {
-    list<S_msrElement>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = graceNotesGroupElementsList.begin (),
       iEnd   = graceNotesGroupElementsList.end (),
       i      = iBegin;

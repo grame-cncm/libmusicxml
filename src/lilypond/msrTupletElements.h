@@ -42,6 +42,7 @@ class msrTupletElement : public msrMeasureElement
 
   public:
 
+/* JMI
     // set and get
     // ------------------------------------------------------
 
@@ -97,6 +98,7 @@ class msrTupletElement : public msrMeasureElement
 
     string                fTupletNumber;
     rational              fPositionInTuplet;
+    */
 };
 typedef SMARTP<msrTupletElement> S_msrTupletElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_msrTupletElement& elt);

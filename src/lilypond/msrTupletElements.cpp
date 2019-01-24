@@ -31,13 +31,14 @@ msrTupletElement::msrTupletElement (
   int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fTupletNumber = "???";
-  fPositionInTuplet = rational (INT_MIN, 1);
+// fTupletNumber = "???";
+//  fPositionInTuplet = rational (INT_MIN, 1);
 }
 
 msrTupletElement::~msrTupletElement ()
 {}
 
+/* JMI
 void msrTupletElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -98,6 +99,7 @@ void msrTupletElement::print (ostream& os)
 {
   os << asString () << endl;
 }
+*/
 
 ostream& operator<< (ostream& os, const S_msrTupletElement& elt)
 {

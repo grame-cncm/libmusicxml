@@ -42,6 +42,7 @@ class msrPartGroupElement : public msrMeasureElement
 
   public:
 
+/* JMI
     // set and get
     // ------------------------------------------------------
 
@@ -97,6 +98,7 @@ class msrPartGroupElement : public msrMeasureElement
 
     string                fPartGroupNumber;
     rational              fPositionInPartGroup;
+    */
 };
 typedef SMARTP<msrPartGroupElement> S_msrPartGroupElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_msrPartGroupElement& elt);

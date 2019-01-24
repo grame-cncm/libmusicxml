@@ -958,8 +958,6 @@ void msrRepeat::print (ostream& os)
       fRepeatCommonPart <<
       endl;
   }
-  os <<
-    endl;
   
   // print the repeat endings
   int endingsNumber =

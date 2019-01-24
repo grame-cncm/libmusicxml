@@ -39,6 +39,7 @@ class msrVoiceElement : public msrElement
 
   public:
 
+/* JMI
     // set and get
     // ------------------------------------------------------
 
@@ -94,6 +95,7 @@ class msrVoiceElement : public msrElement
 
     string                fVoiceNumber;
     rational              fPositionInVoice;
+    */
 };
 typedef SMARTP<msrVoiceElement> S_msrVoiceElement;
 EXP std::ostream& operator<< (std::ostream& os, const S_msrVoiceElement& elt);

@@ -25,19 +25,21 @@ using namespace std;
 
 namespace MusicXML2
 {
-
 //______________________________________________________________________________
 msrVoiceElement::msrVoiceElement (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
+  /* JMI
   fVoiceNumber = "???";
   fPositionInVoice = rational (INT_MIN, 1);
+  */
 }
 
 msrVoiceElement::~msrVoiceElement ()
 {}
 
+/* JMI
 void msrVoiceElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -98,12 +100,12 @@ void msrVoiceElement::print (ostream& os)
 {
   os << asString () << endl;
 }
+*/
 
 ostream& operator<< (ostream& os, const S_msrVoiceElement& elt)
 {
   elt->print (os);
   return os;
 }
-
 
 }

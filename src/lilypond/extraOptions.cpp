@@ -359,7 +359,9 @@ extraOptions::extraOptions (
   : optionsGroup (
     "Extra",
     "he", "help-extra",
-R"(These options provide features not related to translation from MusicXML to LilyPond.)",
+R"(These options provide features not related to translation from MusicXML to LilyPond.
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.)",
     optionsHandler)
 {
   // append this options group to the options handler
@@ -401,7 +403,7 @@ R"()",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsShowAllChordsStructuresItem::create (
-          "sacs", "show-all-chords-structures",
+          "scs", "show-chords-structures",
 R"(Write all known chords structures to standard output.)"));
   }
   
@@ -481,8 +483,6 @@ CHORD_SPEC can be:
 or
   "ROOT_DIATONIC_PITCH = HARMONY_NAME"
   
-The single or double quotes are used to allow spaces in the names
-and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   xml2ly/xml2brl -showChordDetails "bes ${HARMONY}" .)",
@@ -512,17 +512,15 @@ R"()",
     workSubGroup->
       appendOptionsItem (
         optionsShowChordAnalysisItem::create (
-          "sca", "show-chord-analysis",
+          "sca", "show-chord-analysis", // -sca "c dommin9 0"
 R"(Write an analysis of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 
 CHORD_SPEC can be:
-  'ROOT_DIATONIC_PITCH HARMONY_NAME'
+  'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
 or
-  "ROOT_DIATONIC_PITCH = HARMONY_NAME"
+  "ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
   
-The single or double quotes are used to allow spaces in the names
-and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   xml2ly/xml2brl -showChordAnalysis "bes ${HARMONY}" .)",

@@ -90,6 +90,12 @@ void msrAfterGraceNotesGroupContents::appendNoteToAfterGraceNotesGroupContents (
   fAfterGraceNotesGroupContentsNotesList.push_back (note);
 }
 
+void msrAfterGraceNotesGroupContents::appendNoteToAfterGraceNotesGroupContents (
+  S_msrChord chord)
+{
+  fAfterGraceNotesGroupContentsNotesList.push_back (chord);
+}
+
 void msrAfterGraceNotesGroupContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -136,14 +142,15 @@ void msrAfterGraceNotesGroupContents::acceptOut (basevisitor* v)
 
 void msrAfterGraceNotesGroupContents::browseData (basevisitor* v)
 {
-  list<S_msrNote>::const_iterator i;
+  list<S_msrMeasureElement>::const_iterator i;
 
   for (
     i=fAfterGraceNotesGroupContentsNotesList.begin ();
     i!=fAfterGraceNotesGroupContentsNotesList.end ();
-    i++) {
+    i++
+  ) {
     // browse the note
-    msrBrowser<msrNote> browser (v);
+    msrBrowser<msrMeasureElement> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -160,7 +167,7 @@ string msrAfterGraceNotesGroupContents::asShortString () const
 
 
   if (fAfterGraceNotesGroupContentsNotesList.size ()) {
-    list<S_msrNote>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = fAfterGraceNotesGroupContentsNotesList.begin (),
       iEnd   = fAfterGraceNotesGroupContentsNotesList.end (),
       i      = iBegin;
@@ -188,7 +195,7 @@ void msrAfterGraceNotesGroupContents::print (ostream& os)
   gIndenter++;
 
   if (fAfterGraceNotesGroupContentsNotesList.size ()) {
-    list<S_msrNote>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = fAfterGraceNotesGroupContentsNotesList.begin (),
       iEnd   = fAfterGraceNotesGroupContentsNotesList.end (),
       i      = iBegin;

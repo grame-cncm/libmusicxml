@@ -161,9 +161,10 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
     
   // populating the clone with skips
   for (
-    list<S_msrElement>::const_iterator i=fGraceNotesGroupElementsList.begin ();
+    list<S_msrMeasureElement>::const_iterator i=fGraceNotesGroupElementsList.begin ();
     i!=fGraceNotesGroupElementsList.end ();
-    i++) {      
+    i++
+  ) {      
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
     ) {
@@ -377,12 +378,13 @@ void msrGraceNotesGroup::acceptOut (basevisitor* v)
 
 void msrGraceNotesGroup::browseData (basevisitor* v)
 {
-  list<S_msrElement>::const_iterator i;
+  list<S_msrMeasureElement>::const_iterator i;
 
   for (
     i=fGraceNotesGroupElementsList.begin ();
     i!=fGraceNotesGroupElementsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the element (note or chord)
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -402,7 +404,7 @@ string msrGraceNotesGroup::asShortString () const
     "\", line " << fInputLineNumber << " ";
 
   if (fGraceNotesGroupElementsList.size ()) {
-    list<S_msrElement>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = fGraceNotesGroupElementsList.begin (),
       iEnd   = fGraceNotesGroupElementsList.end (),
       i      = iBegin;
@@ -427,7 +429,7 @@ string msrGraceNotesGroup::asString () const
     "\", line " << fInputLineNumber << " ";
 
   if (fGraceNotesGroupElementsList.size ()) {
-    list<S_msrElement>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = fGraceNotesGroupElementsList.begin (),
       iEnd   = fGraceNotesGroupElementsList.end (),
       i      = iBegin;
@@ -518,7 +520,7 @@ void msrGraceNotesGroup::print (ostream& os)
       
     gIndenter++;
   
-    list<S_msrElement>::const_iterator
+    list<S_msrMeasureElement>::const_iterator
       iBegin = fGraceNotesGroupElementsList.begin (),
       iEnd   = fGraceNotesGroupElementsList.end (),
       i      = iBegin;
