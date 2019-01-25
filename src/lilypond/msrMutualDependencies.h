@@ -6192,7 +6192,11 @@ class msrVoice : public msrElement
                             int inputLineNumber);
 
     // repeats
-    
+    void                  pushRepeatOntoRepeatsStack (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat,
+                            string      context);
+                            
     void                  nestContentsIntoNewRepeatInVoice ( // JMI
                             int inputLineNumber);
   
@@ -6221,6 +6225,9 @@ class msrVoice : public msrElement
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
                             
+    void                  handleRepeatCommonPartEndInVoiceClone (
+                            int       inputLineNumber);
+
     void                  handleRepeatEndingStartInVoiceClone (
                             int inputLineNumber);
                             

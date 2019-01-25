@@ -4594,11 +4594,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
     handleRepeatStartInVoiceClone (
       inputLineNumber,
       elt);
-/* JMI
-  fCurrentVoiceClone->
-    handleRepeatStartInVoice (
-      inputLineNumber);
-      */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
@@ -4628,13 +4623,6 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
   fCurrentVoiceClone->
     handleRepeatEndInVoiceClone (
       inputLineNumber);
-/* JMI
-  fCurrentVoiceClone->
-    handleRepeatEndInVoice (
-      inputLineNumber,
-      fCurrentMeasureClone->getMeasureNumber (),
-      elt->getRepeatTimes ());
-      */
 }
 
 //________________________________________________________________________
@@ -4710,6 +4698,10 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     gIndenter--;
   }
 #endif
+
+  fCurrentVoiceClone->
+    handleRepeatCommonPartEndInVoiceClone (
+      inputLineNumber);
 }
 
 //________________________________________________________________________
