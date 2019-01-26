@@ -2900,7 +2900,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kRestNote:
       s <<
-        "restNote" <<
+        "Rest note" <<
         " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
@@ -2912,7 +2912,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kSkipNote:
       s <<
-        "skipNote" <<
+        "Skip note" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -2924,7 +2924,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
     case msrNote::kUnpitchedNote:
       s <<
         notePitchAsString () <<
-        "unpitchedNote" <<
+        "Unpitched note" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -2935,7 +2935,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kStandaloneNote:
       s <<
-        "standaloneNote '" <<
+        "Standalone note '" <<
         notePitchAsString () <<
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
@@ -2949,7 +2949,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "doubleTremoloMemberNote '" <<
+        "DoubleTremoloMember note '" <<
         notePitchAsString () <<
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
@@ -2963,7 +2963,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kGraceNote:
       s <<
-        "graceNote '" <<
+        "Grace note '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
@@ -2976,7 +2976,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
 
     case msrNote::kGraceChordMemberNote:
       s <<
-        "graceChordMemberNote '" <<
+        "GraceChordMember note '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString () <<
@@ -2989,7 +2989,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kChordMemberNote:
       s <<
-        "chordMemberNote '" <<
+        "ChordMember note '" <<
         notePitchAsString () <<
         "' " <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
@@ -3002,7 +3002,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberNote:
       s <<
-        "tupletMemberNote '" <<
+        "TupletMember note '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString ();
@@ -3022,7 +3022,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kGraceTupletMemberNote:
       s <<
-        "graceTupletMemberNote '" <<
+        "GraceTupletMember note '" <<
         notePitchAsString () <<
         "' " <<
         noteGraphicDurationAsMsrString ();
@@ -3042,7 +3042,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
-        "tupletMemberUnpitchedNote " <<
+        "TupletMemberUnpitched note " <<
         noteGraphicDurationAsMsrString () <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -3072,28 +3072,28 @@ string msrNote::asShortString () const
       
     case msrNote::kRestNote:
       s <<
-        "restNote" <<
+        "RestNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kSkipNote:
       s <<
-        "skipNote" <<
+        "SkipNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kUnpitchedNote:
       s <<
-        "unpitchedNote" <<
+        "UnpitchedNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
       
     case msrNote::kStandaloneNote:
       s <<
-        "standaloneNote '" <<
+        "StandaloneNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3101,7 +3101,7 @@ string msrNote::asShortString () const
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "doubleTremoloMemberNote '" <<
+        "DoubleTremoloMemberNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3109,7 +3109,7 @@ string msrNote::asShortString () const
       
     case msrNote::kGraceNote:
       s <<
-        "graceNote '" <<
+        "GraceNote '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3121,8 +3121,8 @@ string msrNote::asShortString () const
 
    case msrNote::kGraceChordMemberNote:
       s <<
-         "graceChordMemberNote '" <<
-       notePitchAsString () <<
+        "TraceChordMemberNote '" <<
+        notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
@@ -3133,7 +3133,7 @@ string msrNote::asShortString () const
       
     case msrNote::kChordMemberNote:
       s <<
-        "chordMemberNote '" <<
+        "ChordMemberNote '" <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -3141,7 +3141,7 @@ string msrNote::asShortString () const
       
     case msrNote::kTupletMemberNote:
       s <<
-        "tupletMemberNote" <<
+        "TupletMemberNote" <<
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
@@ -3165,7 +3165,7 @@ string msrNote::asShortString () const
       break;
     case msrNote::kGraceTupletMemberNote:
       s <<
-        "graceTupletMemberNote" <<
+        "GraceTupletMemberNote" <<
         ":" <<
         notePitchAsString () <<
         ", whole notes: " <<
@@ -3190,7 +3190,7 @@ string msrNote::asShortString () const
       
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
-        "tupletMemberUnpitchedNote" <<
+        "TupletMemberUnpitchedNote" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sounding, " <<

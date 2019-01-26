@@ -13852,6 +13852,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       break;
   } // switch
 
+/* JMI
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLilypondCodeIOstream <<
@@ -13861,7 +13862,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       endl;
   }
 #endif
-  
+*/
+
   if (
     fRepeatsDescrStack.back ()->getRepeatEndingsCounter ()
       ==
