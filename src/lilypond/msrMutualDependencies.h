@@ -4800,6 +4800,102 @@ typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
 
 //______________________________________________________________________________
+class msrRepeatElement : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatElement> create (
+      int          inputLineNumber,
+      S_msrRepeat  repeatUplink);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatElement (
+      int          inputLineNumber,
+      S_msrRepeat  repeatUplink);
+      
+    virtual ~msrRepeatElement ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // uplinks
+    S_msrRepeat           getRepeatElementRepeatUplink () const
+                              { return fRepeatElementRepeatUplink; }
+
+    // elements
+    const list<S_msrVoiceElement>&
+                          getRepeatElementElementsList ()
+                              { return fRepeatElementElementsList; }
+                
+    // services
+    // ------------------------------------------------------
+  
+    void                  appendVoiceElementToRepeatElement (
+                            int               inputLineNumber,
+                            S_msrVoiceElement voiceElement,
+                            string            context);
+
+    void                  appendSegmentToRepeatElement (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            string       context);
+
+    void                  appendRepeatToRepeatElement (
+                            int          inputLineNumber,
+                            S_msrRepeat  repeat,
+                            string       context);
+
+    S_msrNote             fetchRepeatElementFirstNonGraceNote () const;
+
+    void                  collectRepeatElementMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+                    
+    virtual void          print (ostream& os);
+
+    virtual void          shortPrint (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplinks
+    S_msrRepeat           fRepeatElementRepeatUplink;
+
+    // elements list
+    list<S_msrVoiceElement>
+                          fRepeatElementElementsList;
+};
+typedef SMARTP<msrRepeatElement> S_msrRepeatElement;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatElement& elt);
+
+//______________________________________________________________________________
 class msrRepeatCommonPart : public msrElement
 {
   public:
@@ -4832,15 +4928,27 @@ class msrRepeatCommonPart : public msrElement
                               { return fRepeatCommonPartRepeatUplink; }
 
     // elements
-    const list<S_msrElement>&
+    const list<S_msrVoiceElement>&
                           getRepeatCommonPartElementsList ()
                               { return fRepeatCommonPartElementsList; }
                 
     // services
     // ------------------------------------------------------
   
-    void                  appendElementToRepeatCommonPart (
-                            S_msrElement elem);
+    void                  appendVoiceElementToRepeatCommonPart (
+                            int               inputLineNumber,
+                            S_msrVoiceElement voiceElement,
+                            string            context);
+
+    void                  appendSegmentToRepeatCommonPart (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            string       context);
+
+    void                  appendRepeatToRepeatCommonPart (
+                            int          inputLineNumber,
+                            S_msrRepeat  repeat,
+                            string       context);
 
     S_msrNote             fetchRepeatCommonPartFirstNonGraceNote () const;
 
@@ -4877,7 +4985,8 @@ class msrRepeatCommonPart : public msrElement
     S_msrRepeat           fRepeatCommonPartRepeatUplink;
 
     // elements list
-    list<S_msrElement>    fRepeatCommonPartElementsList;
+    list<S_msrVoiceElement>
+                          fRepeatCommonPartElementsList;
 };
 typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
@@ -4904,7 +5013,6 @@ class msrRepeatEnding : public msrElement
       int                 inputLineNumber,
       string              repeatEndingNumber, // may be "1, 2"
       msrRepeatEndingKind repeatEndingKind,
-      S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
 
     /* JMI
@@ -4921,7 +5029,6 @@ class msrRepeatEnding : public msrElement
       int                 inputLineNumber,
       string              repeatEndingNumber, // may be "1, 2"
       msrRepeatEndingKind repeatEndingKind,
-      S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
       
     virtual ~msrRepeatEnding ();
@@ -4930,6 +5037,10 @@ class msrRepeatEnding : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // uplinks
+    S_msrRepeat           getRepeatEndingRepeatUplink () const
+                              { return fRepeatEndingRepeatUplink; }
 
     // numbers
     string                getRepeatEndingNumber () const
@@ -4952,17 +5063,29 @@ class msrRepeatEnding : public msrElement
     msrRepeatEndingKind   getRepeatEndingKind () const
                               { return fRepeatEndingKind; }
                 
-    // segment
-    S_msrSegment          getRepeatEndingSegment () const
-                              { return fRepeatEndingSegment; }
-                
-    // uplinks
-    S_msrRepeat           getRepeatEndingRepeatUplink () const
-                              { return fRepeatEndingRepeatUplink; }
-
+    // elements
+    const list<S_msrVoiceElement>&
+                          getRepeatEndingElementsList ()
+                              { return fRepeatEndingElementsList; }
+                                
     // services
     // ------------------------------------------------------
                       
+    void                  appendVoiceElementToRepeatEnding (
+                            int               inputLineNumber,
+                            S_msrVoiceElement voiceElement,
+                            string            context);
+
+    void                  appendSegmentToRepeatEnding (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            string       context);
+
+    void                  appendRepeatToRepeatEnding (
+                            int          inputLineNumber,
+                            S_msrRepeat  repeat,
+                            string       context);
+
     void                  collectRepeatEndingMeasuresIntoFlatList (
                             int inputLineNumber);
     
@@ -5002,8 +5125,9 @@ class msrRepeatEnding : public msrElement
     // kind
     msrRepeatEndingKind   fRepeatEndingKind;
 
-    // segment
-    S_msrSegment          fRepeatEndingSegment;
+    // elements list
+    list<S_msrVoiceElement>
+                          fRepeatEndingElementsList;
 };
 typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
@@ -6197,6 +6321,16 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
                             
+    void                  appendSegmentCloneToInitialVoiceElements (
+                            int          inputLineNumber,
+                            S_msrSegment segmentClone,
+                            string       context);
+    
+    void                  appendRepeatCloneToInitialVoiceElements (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatCLone,
+                            string      context);
+    
     void                  nestContentsIntoNewRepeatInVoice ( // JMI
                             int inputLineNumber);
   
@@ -6289,7 +6423,8 @@ class msrVoice : public msrElement
     // segments
     
     void                  createNewLastSegmentForVoice (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string context);
     
     void                  createNewLastSegmentFromFirstMeasureForVoice (
                             int          inputLineNumber,
@@ -6351,21 +6486,31 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
 
-    void                  moveVoiceInitialElementsToCommonPart (
+    void                  popARepeatFromStack (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat,
+                            string      context);
+
+    void                  moveVoiceInitialElementsToRepeatCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
                             string                context);
 
-    void                  moveVoiceLastSegmentToCommonPart (
+    void                  moveVoiceLastSegmentToRepeatCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
                             string                context);
 
-    void                  moveAllVoiceContentsToCommonPart (
+    void                  moveAllVoiceContentsToRepeatCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
                             string                context);
   
+    void                  moveVoiceLastSegmentToRepeatEnding (
+                            int               inputLineNumber,
+                            S_msrRepeatEnding repeatEnding,
+                            string            context);
+
     void                  handleHookedRepeatEndingEndInVoice (
                             int       inputLineNumber,
                             string    repeatEndingNumber); // may be "1, 2"
@@ -6785,7 +6930,7 @@ class msrStaff : public msrElement
     void                  appendMultipleRestCloneToStaff (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
-  
+
     void                  appendRepeatCloneToStaff (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);

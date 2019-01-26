@@ -5072,7 +5072,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
 
   fCurrentVoiceClone->
     createNewLastSegmentForVoice (
-      inputLineNumber);
+      inputLineNumber,
+      "visitEnd (S_msrMultipleRest&)");
 
   // append the multiple rest clone to the current voice clone
   fCurrentVoiceClone->

@@ -75,6 +75,389 @@ namespace MusicXML2
 */
 
 //______________________________________________________________________________
+S_msrRepeatElement msrRepeatElement::create (
+  int                 inputLineNumber,
+  S_msrRepeat         repeatUplink)
+{
+  msrRepeatElement* o =
+    new msrRepeatElement (
+      inputLineNumber,
+      repeatUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatElement::msrRepeatElement (
+  int                 inputLineNumber,
+  S_msrRepeat         repeatUplink)
+    : msrElement (inputLineNumber)
+{
+  // sanity check
+  msrAssert (
+    repeatUplink != nullptr,
+    "repeatUplink is null");
+    
+  fRepeatElementRepeatUplink = repeatUplink;
+}
+
+msrRepeatElement::~msrRepeatElement ()
+{}
+
+void msrRepeatElement::appendSegmentToRepeatElement (
+  int          inputLineNumber,
+  S_msrSegment segment,
+  string       context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending segment '" << segment <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    segment != nullptr,
+    "segment is null");
+
+  fRepeatElementElementsList.push_back (segment);
+}
+
+void msrRepeatElement::appendRepeatToRepeatElement (
+  int          inputLineNumber,
+  S_msrRepeat  repeat,
+  string       context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending repeat '" << repeat <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    repeat != nullptr,
+    "repeat is null");
+
+  fRepeatElementElementsList.push_back (repeat);
+}
+
+void msrRepeatElement::appendVoiceElementToRepeatElement (
+  int               inputLineNumber,
+  S_msrVoiceElement voiceElement,
+  string            context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending voice element '" << voiceElement <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    voiceElement != nullptr,
+    "voiceElement is null");
+
+  fRepeatElementElementsList.push_back (voiceElement);
+}
+
+S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
+{
+  
+  S_msrNote result;
+
+  // fetch the first note in the first measure to which
+  // a grace notes group can be attached
+  // i.e. one not in a grace notes group itself,
+  // possibly inside a chord or tuplet
+
+  if (fRepeatElementElementsList.size ()) {
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fRepeatElementElementsList.begin (),
+      iEnd   = fRepeatElementElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrVoiceElement element = (*i);
+      
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(*element))
+        ) {    
+        result = note;
+        break;
+      }
+    
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
+        ) {
+        // get the chord's first note
+        result = chord->fetchChordFirstNonGraceNote ();
+        break;
+      }
+      
+      else if (
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
+        ) {
+        // get the tuplet's first note
+        result = tuplet->fetchTupletFirstNonGraceNote ();
+        break;
+      }
+      
+      else if (
+        S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
+        ) {
+        // ignore this clef
+      }
+      
+      else if (
+        S_msrKey key = dynamic_cast<msrKey*>(&(*element))
+        ) {
+        // ignore this key
+      }
+      
+      else if (
+        S_msrTime time = dynamic_cast<msrTime*>(&(*element))
+        ) {
+        // ignore this time
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "tuplet first element should be a note, a chord or another tuplet, found instead '" <<
+          element->asShortString () <<
+          "'";
+          
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+  
+      if (++i == iEnd) break;
+    } // for
+  }
+
+  return result;
+}
+
+void msrRepeatElement::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrRepeatElement::acceptIn ()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrRepeatElement>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatElement>*> (v)) {
+        S_msrRepeatElement elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrRepeatElement::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrRepeatElement::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrRepeatElement::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_msrRepeatElement>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatElement>*> (v)) {
+        S_msrRepeatElement elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrRepeatElement::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrRepeatElement::browseData (basevisitor* v)
+{
+  // browse the elements
+  if (fRepeatElementElementsList.size ()) {
+    for (
+      list<S_msrVoiceElement>::const_iterator i = fRepeatElementElementsList.begin ();
+      i != fRepeatElementElementsList.end ();
+      i++) {
+      // browse the element
+      msrBrowser<msrVoiceElement> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
+}
+
+string msrRepeatElement::asString () const
+{
+  stringstream s;
+
+  s <<
+    "RepeatElement" <<
+    ", repeat uplink: '" <<
+    fRepeatElementRepeatUplink->
+      asShortString () <<
+    "', line " << fInputLineNumber <<
+    endl;
+
+  return s.str ();
+}
+
+void msrRepeatElement::print (ostream& os)
+{
+  os <<
+    "RepeatElement" <<
+    ", line " << fInputLineNumber <<
+    endl;
+ 
+  gIndenter++;
+
+  os <<
+    "repeat uplink: '" <<
+    fRepeatElementRepeatUplink->
+      asShortString () <<
+      "'" <<
+    endl <<
+    endl;
+
+  // print the elements
+  int elementsNumber =
+    fRepeatElementElementsList.size ();
+    
+  os <<
+    "repeatElementElementsList: ";
+  if (elementsNumber) {
+    os <<
+      "(" <<
+      singularOrPlural (
+        elementsNumber, "element", "elements") <<
+      ")";
+  }
+  else {
+    os << "none";
+  }
+  os <<
+    endl;
+    
+  if (elementsNumber) {
+    os <<
+      endl;
+    
+    gIndenter++;
+
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fRepeatElementElementsList.begin (),
+      iEnd   = fRepeatElementElementsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the element
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  
+  gIndenter--;
+}
+
+void msrRepeatElement::shortPrint (ostream& os)
+{
+  os <<
+    "RepeatElement" <<
+    ", line " << fInputLineNumber <<
+    endl;
+ 
+  gIndenter++;
+
+/* JMI
+  os <<
+    "repeat uplink: '" <<
+    fRepeatElementRepeatUplink->
+      asShortString () <<
+      "'" <<
+    endl;
+*/
+
+  // print the elements
+  int elementsNumber =
+    fRepeatElementElementsList.size ();
+    
+  os <<
+    "repeatElementElementsList: ";
+  if (elementsNumber) {
+    os <<
+      "(" <<
+      singularOrPlural (
+        elementsNumber, "element", "elements") <<
+      ")";
+  }
+  else {
+    os << "none";
+  }
+  os <<
+    endl;
+    
+  if (elementsNumber) {
+    os <<
+      endl;
+    
+    gIndenter++;
+
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fRepeatElementElementsList.begin (),
+      iEnd   = fRepeatElementElementsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the element
+      (*i)->shortPrint (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatElement& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrRepeatCommonPart msrRepeatCommonPart::create (
   int                 inputLineNumber,
   S_msrRepeat         repeatUplink)
@@ -103,33 +486,76 @@ msrRepeatCommonPart::msrRepeatCommonPart (
 msrRepeatCommonPart::~msrRepeatCommonPart ()
 {}
 
-/* JMI
-void msrRepeatCommonPart::appendElementToRepeatCommonPart (
-  S_msrElement elem) // JMI ???
-{
-  fRepeatCommonPartSegment->
-    appendOtherElementToSegment (elem);
-}
-*/
-
-void msrRepeatCommonPart::appendElementToRepeatCommonPart (
-  S_msrElement elem)
+void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
+  int          inputLineNumber,
+  S_msrSegment segment,
+  string       context)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending element '" << elem <<
-      "' to repeat common part '" << asString () << "'" <<
+      "Appending segment '" << segment <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
   // sanity check
   msrAssert (
-    elem != nullptr,
-    "elem is null");
+    segment != nullptr,
+    "segment is null");
 
-  fRepeatCommonPartElementsList.push_back (elem);
+  fRepeatCommonPartElementsList.push_back (segment);
+}
+
+void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
+  int          inputLineNumber,
+  S_msrRepeat  repeat,
+  string       context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending repeat '" << repeat <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    repeat != nullptr,
+    "repeat is null");
+
+  fRepeatCommonPartElementsList.push_back (repeat);
+}
+
+void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
+  int               inputLineNumber,
+  S_msrVoiceElement voiceElement,
+  string            context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending voice element '" << voiceElement <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    voiceElement != nullptr,
+    "voiceElement is null");
+
+  fRepeatCommonPartElementsList.push_back (voiceElement);
 }
 
 S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
@@ -143,12 +569,12 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
   // possibly inside a chord or tuplet
 
   if (fRepeatCommonPartElementsList.size ()) {
-    list<S_msrElement>::const_iterator
+    list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
       iEnd   = fRepeatCommonPartElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_msrElement element = (*i);
+      S_msrVoiceElement element = (*i);
       
       if (
         S_msrNote note = dynamic_cast<msrNote*>(&(*element))
@@ -262,11 +688,11 @@ void msrRepeatCommonPart::browseData (basevisitor* v)
   // browse the elements
   if (fRepeatCommonPartElementsList.size ()) {
     for (
-      list<S_msrElement>::const_iterator i = fRepeatCommonPartElementsList.begin ();
+      list<S_msrVoiceElement>::const_iterator i = fRepeatCommonPartElementsList.begin ();
       i != fRepeatCommonPartElementsList.end ();
       i++) {
       // browse the element
-      msrBrowser<msrElement> browser (v);
+      msrBrowser<msrVoiceElement> browser (v);
       browser.browse (*(*i));
     } // for
   }
@@ -329,7 +755,7 @@ void msrRepeatCommonPart::print (ostream& os)
     
     gIndenter++;
 
-    list<S_msrElement>::const_iterator
+    list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
       iEnd   = fRepeatCommonPartElementsList.end (),
       i      = iBegin;
@@ -390,7 +816,7 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
     
     gIndenter++;
 
-    list<S_msrElement>::const_iterator
+    list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
       iEnd   = fRepeatCommonPartElementsList.end (),
       i      = iBegin;
@@ -419,7 +845,6 @@ S_msrRepeatEnding msrRepeatEnding::create (
   int                 inputLineNumber,
   string              repeatEndingNumber, // may be "1, 2"
   msrRepeatEndingKind repeatEndingKind,
-  S_msrSegment        segment,
   S_msrRepeat         repeatUplink)
 {
   msrRepeatEnding* o =
@@ -427,7 +852,6 @@ S_msrRepeatEnding msrRepeatEnding::create (
       inputLineNumber,
       repeatEndingNumber,
       repeatEndingKind,
-      segment,
       repeatUplink);
   assert(o!=0);
   return o;
@@ -437,7 +861,6 @@ msrRepeatEnding::msrRepeatEnding (
   int                 inputLineNumber,
   string              repeatEndingNumber, // may be "1, 2"
   msrRepeatEndingKind repeatEndingKind,
-  S_msrSegment        segment,
   S_msrRepeat         repeatUplink)
     : msrElement (inputLineNumber)
 {
@@ -447,42 +870,84 @@ msrRepeatEnding::msrRepeatEnding (
     // will be set by msrRepeat::addRepeatEnding ()
   
   fRepeatEndingKind = repeatEndingKind;
-  
-  fRepeatEndingSegment = segment;
-  
+    
   fRepeatEndingRepeatUplink = repeatUplink;
 }
 
-/* JMI
-S_msrRepeat msrRepeatEnding::createRepeatEndingNewbornClone (
-  S_msrRepeat containingRepeat)
+msrRepeatEnding::~msrRepeatEnding ()
+{}
+
+void msrRepeatEnding::appendSegmentToRepeatEnding (
+  int          inputLineNumber,
+  S_msrSegment segment,
+  string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "Creating a newborn clone of a multiple rest contents" <<
+      "Appending segment '" << segment <<
+      "' to repeat ending '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
-  
+
   // sanity check
-  msrAssert(
-    containingRepeat != nullptr,
-    "containingRepeat is null");
-    
-  msrRepeatEnding
-    newbornClone =
-      msrRepeatEnding::create (
-        fInputLineNumber,
-        fRepeatTimes,
-        containingVoice);
+  msrAssert (
+    segment != nullptr,
+    "segment is null");
 
-  return newbornClone;
+  fRepeatEndingElementsList.push_back (segment);
 }
-*/
 
-msrRepeatEnding::~msrRepeatEnding ()
-{}
+void msrRepeatEnding::appendRepeatToRepeatEnding (
+  int          inputLineNumber,
+  S_msrRepeat  repeat,
+  string       context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending repeat '" << repeat <<
+      "' to repeat ending '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    repeat != nullptr,
+    "repeat is null");
+
+  fRepeatEndingElementsList.push_back (repeat);
+}
+
+void msrRepeatEnding::appendVoiceElementToRepeatEnding (
+  int               inputLineNumber,
+  S_msrVoiceElement voiceElement,
+  string            context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending voice element '" << voiceElement <<
+      "' to repeat ending '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    voiceElement != nullptr,
+    "voiceElement is null");
+
+  fRepeatEndingElementsList.push_back (voiceElement);
+}
 
 void msrRepeatEnding::acceptIn (basevisitor* v)
 {
@@ -530,9 +995,17 @@ void msrRepeatEnding::acceptOut (basevisitor* v)
 
 void msrRepeatEnding::browseData (basevisitor* v)
 {
-  // browse the segment
-  msrBrowser<msrSegment> browser (v);
-  browser.browse (*fRepeatEndingSegment);
+  // browse the elements
+  if (fRepeatEndingElementsList.size ()) {
+    for (
+      list<S_msrVoiceElement>::const_iterator i = fRepeatEndingElementsList.begin ();
+      i != fRepeatEndingElementsList.end ();
+      i++) {
+      // browse the element
+      msrBrowser<msrVoiceElement> browser (v);
+      browser.browse (*(*i));
+    } // for
+  }
 }
 
 string msrRepeatEnding::repeatEndingKindAsString (
@@ -595,6 +1068,15 @@ void msrRepeatEnding::print (ostream& os)
 
   gIndenter++;
 
+/* JMI
+  os <<
+    "repeat uplink: '" <<
+    fRepeatEndingRepeatUplink->
+      asShortString () <<
+      "'" <<
+    endl;
+*/
+
   const int fieldWidth = 27;
 
   os << left <<
@@ -612,14 +1094,46 @@ void msrRepeatEnding::print (ostream& os)
     endl <<
     endl;
 
+  // print the elements
+  int elementsNumber =
+    fRepeatEndingElementsList.size ();
+    
   os <<
-    "RepeatEndingSegment:" <<
+    "repeatEndingElementsList: ";
+  if (elementsNumber) {
+    os <<
+      "(" <<
+      singularOrPlural (
+        elementsNumber, "element", "elements") <<
+      ")";
+  }
+  else {
+    os << "none";
+  }
+  os <<
     endl;
-  gIndenter++;
-  os <<
-    fRepeatEndingSegment;
-  gIndenter--;
-  
+    
+  if (elementsNumber) {
+    os <<
+      endl;
+    
+    gIndenter++;
+
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fRepeatEndingElementsList.begin (),
+      iEnd   = fRepeatEndingElementsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the element
+      (*i)->shortPrint (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+    
   gIndenter--;
 }
 
@@ -657,13 +1171,55 @@ void msrRepeatEnding::shortPrint (ostream& os)
     endl <<
     endl;
 
+/* JMI
   os <<
-    "RepeatEndingSegment:" <<
+    "repeat uplink: '" <<
+    fRepeatEndingRepeatUplink->
+      asShortString () <<
+      "'" <<
     endl;
-  gIndenter++;
-  fRepeatEndingSegment->shortPrint (os);
-  gIndenter--;
-  
+*/
+
+  // print the elements
+  int elementsNumber =
+    fRepeatEndingElementsList.size ();
+    
+  os <<
+    "repeatEndingElementsList: ";
+  if (elementsNumber) {
+    os <<
+      "(" <<
+      singularOrPlural (
+        elementsNumber, "element", "elements") <<
+      ")";
+  }
+  else {
+    os << "none";
+  }
+  os <<
+    endl;
+    
+  if (elementsNumber) {
+    os <<
+      endl;
+    
+    gIndenter++;
+
+    list<S_msrVoiceElement>::const_iterator
+      iBegin = fRepeatEndingElementsList.begin (),
+      iEnd   = fRepeatEndingElementsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the element
+      (*i)->shortPrint (os);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+   
   gIndenter--;
 }
 
@@ -718,7 +1274,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Creating a newborn clone of a multiple rest contents" <<
+      "Creating a newborn clone of a repeat" <<
       endl;
   }
 #endif
