@@ -418,9 +418,9 @@
         <type>quarter</type>
         <stem>up</stem>
         </note>
-      <barline location="right">
+      <!--barline location="right">
         <ending number="1" type="discontinue"/>
-        </barline>
+        </barline-->
       </measure>
     <measure number="7" width="205.90">
       <note default-x="20.42" default-y="-50.00">
