@@ -6345,11 +6345,7 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
-  
-    void                  handleRepeatEndInVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
-  
+
     void                  handleRepeatEndingStartInVoice (
                             int inputLineNumber);
                             

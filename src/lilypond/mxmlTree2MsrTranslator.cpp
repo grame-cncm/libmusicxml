@@ -145,6 +145,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingInterchangeable = false;
 
   // measures
+  fScoreFirstMeasureNumber = "";
+  fPartFirstMeasureNumber = "";
   fCurrentMeasureNumber = "???";
   fCurrentMeasureOrdinalNumber = 0;
   
@@ -240,11 +242,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // barline handling
   fOnGoingBarline = false;
-  
-  fCurrentEndingStartBarline = nullptr;
-    
+      
   // repeats handling
   fRepeatEndCounter = 0;
+  fCurrentRepeatStartMeasureNumber = "";
+  fCurrentRepeatEndingStartBarline = nullptr;
 
   // MusicXML notes handling
   fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
@@ -732,15 +734,19 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
       fCurrentPart->
         getPartStavesMap ();
 
-  // miscellaneous
+  // repeats
+  fCurrentRepeatStartMeasureNumber = "";
+  fCurrentRepeatEndingStartBarline = nullptr;
+
+  // measures
+  fScoreFirstMeasureNumber = "";
+  fPartFirstMeasureNumber = "";
   fCurrentMeasureNumber = "???";
   fCurrentMeasureOrdinalNumber = 0;
   
   fCurrentMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
   
-  fCurrentEndingStartBarline = nullptr;
-
   gIndenter++;
 }
 
@@ -5765,6 +5771,34 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   fCurrentMeasureNumber =
     elt->getAttributeValue ("number");
 
+  if (! fPartFirstMeasureNumber.size ()) {
+    // this is the first measure in the part
+    fPartFirstMeasureNumber = fCurrentMeasureNumber;
+
+    if (! fScoreFirstMeasureNumber.size ()) {
+      // this is the first measure of the first part in the score
+      fScoreFirstMeasureNumber = fPartFirstMeasureNumber;
+    }
+    else {
+      if (fPartFirstMeasureNumber != fScoreFirstMeasureNumber) {
+        stringstream s;
+        
+        s <<
+          "measure numbering inconsistency: first measure numbers '" <<
+          fScoreFirstMeasureNumber <<
+           "' and '" <<
+          fPartFirstMeasureNumber <<
+          "' found";
+        
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    }
+  }
+
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     fLogOutputStream <<
@@ -6965,33 +6999,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // ------------------------------------------------------
 
     handleRepeatEnd (barline);
-
-/* JMI
-    if (fRepeatEndCounter == 0 ) {
-      // this is a regular repeat end
-      handleRepeatEnd (barline);
-    }
-    else {
-      // this is the end of an implicit repeat
-      createAndPrependImplicitBarLine (
-        inputLineNumber);
-
-#ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceRepeats) {
-        fLogOutputStream <<
-          "Appending an implicit repeat to part " <<
-          fCurrentPart->getPartCombinedName () <<
-          endl;
-      }
-#endif
-    
-      fCurrentPart->
-        handleRepeatEndInPart (
-          inputLineNumber,
-          fCurrentMeasureNumber,
-          barline->getBarlineTimes ());
-    }
-    */
 
     barlineIsAlright = true;
   }
@@ -19960,6 +19967,9 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   }
 #endif
 
+  // remember repeat start measure number
+  fCurrentRepeatStartMeasureNumber = inputLineNumber;
+  
   // set the barline category
   barline->
     setBarlineCategory (
@@ -19981,13 +19991,23 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
 {
   int inputLineNumber =
     barline->getInputLineNumber ();
+    
+  string repeatStartMeasureNumber =
+    fCurrentRepeatStartMeasureNumber.size ()
+      ? // there was a repeat start before hand
+        fCurrentRepeatStartMeasureNumber
+      : // there is an implicit repeat start at the beginning of the part
+        fPartFirstMeasureNumber;
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat end in part " <<
       fCurrentPart->getPartCombinedName () <<
-      ", line " << inputLineNumber <<
+      ", fCurrentMeasureNumber: \"" << fCurrentMeasureNumber <<
+      "\", fCurrentRepeatStartMeasureNumber: \"" << fCurrentRepeatStartMeasureNumber <<
+      "\", repeatStartMeasureNumber: \"" << repeatStartMeasureNumber <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -20004,8 +20024,11 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   fCurrentPart->
     handleRepeatEndInPart (
       inputLineNumber,
-      fCurrentMeasureNumber,
+      repeatStartMeasureNumber,
       barline->getBarlineTimes ());
+
+  // forget about the current repeat start barline
+  fCurrentRepeatStartMeasureNumber = "";
 
   fRepeatEndCounter++;
 }
@@ -20027,8 +20050,9 @@ void mxmlTree2MsrTranslator::handleRepeatEndingStart (
   }
 #endif
 
-  // remember ending start barline, don't know yet whether it's hooked or hookless
-  fCurrentEndingStartBarline = barline;
+  // remember repeat ending start barline,
+  // don't know yet whether it's hooked or hookless
+  fCurrentRepeatEndingStartBarline = barline;
   
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -20075,7 +20099,8 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
   S_msrBarline& barline)
 {
   int inputLineNumber =
-    fCurrentEndingStartBarline->getInputLineNumber ();
+    fCurrentRepeatEndingStartBarline->
+      getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -20101,7 +20126,7 @@ void mxmlTree2MsrTranslator::handleRepeatHookedEndingEnd (
 #endif
 
   // set current barline start category
-  fCurrentEndingStartBarline->
+  fCurrentRepeatEndingStartBarline->
     setBarlineCategory (
       msrBarline::kBarlineCategoryHookedEndingStart);
   
@@ -20146,7 +20171,8 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
   */
 
   int inputLineNumber =
-    fCurrentEndingStartBarline->getInputLineNumber ();
+    fCurrentRepeatEndingStartBarline->
+      getInputLineNumber ();
   
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -20172,7 +20198,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
 #endif
 
   // set current barline start category
-  fCurrentEndingStartBarline->
+  fCurrentRepeatEndingStartBarline->
     setBarlineCategory (
       msrBarline::kBarlineCategoryHooklessEndingStart);
   
@@ -20203,7 +20229,7 @@ void mxmlTree2MsrTranslator::handleRepeatHooklessEndingEnd (
       msrRepeatEnding::kHooklessEnding);
 
   // forget about the current ending start barline
-  fCurrentEndingStartBarline = nullptr;
+  fCurrentRepeatEndingStartBarline = nullptr;
 }
 
 //______________________________________________________________________________

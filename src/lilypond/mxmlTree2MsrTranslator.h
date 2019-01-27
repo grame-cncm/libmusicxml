@@ -931,6 +931,8 @@ class mxmlTree2MsrTranslator :
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
     // since measure numbers are actually strings
 
+    string                    fScoreFirstMeasureNumber;
+    string                    fPartFirstMeasureNumber;
     string                    fCurrentMeasureNumber;
     int                       fCurrentMeasureOrdinalNumber;
     
@@ -1350,8 +1352,6 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingBarline;
     int                       fRepeatEndCounter;
 
-    S_msrBarline              fCurrentEndingStartBarline;
-    
     msrBarline::msrBarlineHasSegnoKind
                               fCurrentBarlineHasSegnoKind;
     msrBarline::msrBarlineHasCodaKind
@@ -1374,6 +1374,9 @@ class mxmlTree2MsrTranslator :
 
     // repeats handling
     // ------------------------------------------------------
+
+    string                    fCurrentRepeatStartMeasureNumber; // stack !!! JMI
+    S_msrBarline              fCurrentRepeatEndingStartBarline;
     
     void                      handleRepeatStart (
                                 S_msrBarline& barline);
@@ -1383,8 +1386,6 @@ class mxmlTree2MsrTranslator :
 
     void                      handleRepeatEndingStart (
                                 S_msrBarline& barline);
-
-    int                       fCurrentRepeatEndingStartLineNumber;
     
 /* JMI
     void                      handleRepeatHookedEndingStart (
