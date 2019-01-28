@@ -3554,30 +3554,33 @@ void msrVoice::handleRepeatEndInVoice (
           */
 
 
-/* JMI
-        // append a new measure with the same number as the voice last measure
-        // to the voice,
-        // in case the barline is not at the end of the measure
-        // it will be removed if it is empty in finalizeCurrentMeasureInSegment()
-        createMeasureAndAppendItToVoice (
-          inputLineNumber,
-          measureNumber,
-          999, // measure ordinal number JMI
-          msrMeasure::kMeasureImplicitNo);
+        // is there a measure splitting?
 
-        // fetch the voice's last measure
-        S_msrMeasure
-          voiceLastMeasure =
-            fetchVoiceLastMeasure (
-              inputLineNumber);
+        if (true) {
+          // append a new measure with the same number as the voice last measure
+          // to the voice,
+          // in case the barline is not at the end of the measure
+          // it will be removed if it is empty in finalizeCurrentMeasureInSegment()
+          createMeasureAndAppendItToVoice (
+            inputLineNumber,
+            measureNumber,
+            999, // measure ordinal number JMI
+            msrMeasure::kMeasureImplicitNo);
+  
+          // fetch the voice's last measure
+          S_msrMeasure
+            voiceLastMeasure =
+              fetchVoiceLastMeasure (
+                inputLineNumber);
+  
+          // set it as created after a repeat
+          voiceLastMeasure->
+            setMeasureCreatedForARepeatKind (
+              msrMeasure::kMeasureCreatedForARepeatAfter);
+        }
+        
+      // JMI  gIndenter--;
 
-        // set it as created after a repeat
-        voiceLastMeasure->
-          setMeasureCreatedForARepeatKind (
-            msrMeasure::kMeasureCreatedForARepeatAfter);
-
-        gIndenter--;
-*/
       }
       break;
   } // switch
