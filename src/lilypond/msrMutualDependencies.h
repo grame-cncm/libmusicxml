@@ -739,27 +739,21 @@ class msrMeasure : public msrElement
     S_msrNote             getMeasureLongestNote () const
                               { return fMeasureLongestNote; }
                               
-    // measure lengthes
+    // measure lengthes, in whole notes
     
-    void                  setMeasureFullLength (
-                            rational measureFullLength)
-                              {
-                                fMeasureFullLength =
-                                  measureFullLength;
-                              }
+    void                  setFullMeasureWholeNotes (
+                            rational wholeNotes)
+                              { fFullMeasureWholeNotes = wholeNotes; }
 
-    rational              getMeasureFullLength () const
-                              {
-                                return
-                                  fMeasureFullLength;
-                              }
+    rational              getFullMeasureWholeNotes () const
+                              {  return fFullMeasureWholeNotes; }
 
-    void                  setMeasureLength (
+    void                  setActualMeasureWholeNotes (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
 
-    rational              getMeasureLength () const
-                              { return fMeasureLength; }
+    rational              getActualMeasureWholeNotes () const
+                              { return fActualMeasureWholeNotes; }
                       
     // measure kind
     
@@ -841,18 +835,18 @@ class msrMeasure : public msrElement
 
     // lengthes
 
-    string                measureFullLengthAsMSRString ();
+    string                fullMeasureWholeNotesAsMSRString ();
 
-    string                measureLengthAsMSRString ();
+    string                actualMeasureWholeNotesAsMSRString ();
 
     S_msrNote             createPaddingNoteForVoice (
                             int        inputLineNumber,
                             rational   duration,
                             S_msrVoice voice);
   
-    void                  padUpToMeasureLengthInMeasure (
+    void                  padUpToActualMeasureWholeNotesInMeasure (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
 
     void                  appendPaddingNoteToMeasure (
                             int inputLineNumber,
@@ -871,7 +865,7 @@ class msrMeasure : public msrElement
 
     void                  appendTimeToMeasure (S_msrTime time);
 
-    void                  setMeasureFullLengthFromTime (
+    void                  setFullMeasureWholeNotesFromTime (
                             S_msrTime time);
   
     void                  appendTimeToMeasureClone (S_msrTime time);
@@ -1109,6 +1103,7 @@ class msrMeasure : public msrElement
     string                measureKindAsString () const;
     
     string                asShortString () const;
+    string                asString () const;
 
     virtual void          print (ostream& os);
     
@@ -1123,14 +1118,14 @@ class msrMeasure : public msrElement
     
     S_msrSegment          fMeasureSegmentUplink;
 
-    // measure lengthes
+    // measure lengthes, in whole notes
     
-    rational              fMeasureFullLength;
+    rational              fFullMeasureWholeNotes;
                             // meaningfull only
-                            // when there is a time signature, // JMI
+                            // when there is a time signature,
                             // but not for cadenzas
     
-    rational              fMeasureLength;
+    rational              fActualMeasureWholeNotes;
 
     // measure numbers
     
@@ -1258,9 +1253,9 @@ class msrSegment : public msrVoiceElement
 
     // divisions ??? JMI
     
-    void                  padUpToMeasureLengthInSegment (
+    void                  padUpToActualMeasureWholeNotesInSegment (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
   
     void                  appendPaddingNoteToSegment (
                             int inputLineNumber,
@@ -1269,7 +1264,10 @@ class msrSegment : public msrVoiceElement
   
     // measures
 
-    void                  createMeasureAndAppendItToSegment (
+    S_msrMeasure          fetchLastMeasureFromSegment (
+                            int inputLineNumber);
+
+    S_msrMeasure          createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber,
                             int    measureOrdinalNumber,
@@ -4746,9 +4744,9 @@ class msrStanza : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
-    void                  padUpToMeasureLengthInStanza ( // JMI
+    void                  padUpToActualMeasureWholeNotesInStanza ( // JMI
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
   
     void                  appendPaddingNoteToStanza (
                             int inputLineNumber,
@@ -4793,8 +4791,8 @@ class msrStanza : public msrElement
 
     bool                  fStanzaTextPresent;
 
-    // current measure length
-    rational              fStanzaCurrentMeasureLength;
+    // actual measure whole notes
+    rational              fStanzaActualMeasureWholeNotes;
 };
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
@@ -6070,7 +6068,7 @@ class msrVoice : public msrElement
 
     // measures
      
-    void                  createMeasureAndAppendItToVoice (
+    S_msrMeasure          createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumber,
                             int    measureOrdinalNumber,
@@ -6084,11 +6082,11 @@ class msrVoice : public msrElement
     void                  appendAFirstMeasureToVoiceIfNotYetDone ( // JMI ???
                              int inputLineNumber);
                                                     
-    void                  padUpToMeasureLengthInVoice (
+    void                  padUpToActualMeasureWholeNotesInVoice (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
   
-    void                  appendPaddingNoteToVoice ( // for forward
+    void                  appendPaddingNoteToVoice ( // for <forward />
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
@@ -6316,31 +6314,6 @@ class msrVoice : public msrElement
                             int inputLineNumber);
 
     // repeats
-    void                  pushRepeatOntoRepeatsStack (
-                            int         inputLineNumber,
-                            S_msrRepeat repeat,
-                            string      context);
-                            
-    void                  appendSegmentCloneToInitialVoiceElements (
-                            int          inputLineNumber,
-                            S_msrSegment segmentClone,
-                            string       context);
-    
-    void                  appendRepeatCloneToInitialVoiceElements (
-                            int         inputLineNumber,
-                            S_msrRepeat repeatCLone,
-                            string      context);
-    
-    void                  nestContentsIntoNewRepeatInVoice ( // JMI
-                            int inputLineNumber);
-  
-    void                  handleRepeatStartInVoice (
-                            int inputLineNumber);
-                            
-    void                  handleRepeatStartInVoiceClone (
-                            int         inputLineNumber,
-                            S_msrRepeat repeat);
-  
     void                  handleRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6371,6 +6344,13 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
+  
+    void                  handleRepeatStartInVoice (
+                            int inputLineNumber);
+                            
+    void                  handleRepeatStartInVoiceClone (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat);
   
     void                  handleRepeatEndInVoiceClone (
                             int    inputLineNumber);
@@ -6426,10 +6406,10 @@ class msrVoice : public msrElement
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure);
 
-    void                  createNewLastSegmentAndANewMeasureBeforeARepeat (
+    void                  createNewLastSegmentAndANewMeasureBeforeARepeat ( // JMI
                             int inputLineNumber,
                             int measureFullLength);
-    void                  createNewLastSegmentAndANewMeasureAfterARepeat (
+    void                  createNewLastSegmentAndANewMeasureAfterARepeat ( // JMI
                             int inputLineNumber,
                             int measureFullLength);
                             
@@ -6487,6 +6467,44 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
 
+    void                  pushRepeatOntoRepeatsStack (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat,
+                            string      context);
+                            
+    void                  appendRepeatToInitialVoiceElements (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat,
+                            string      context);
+    
+    void                  appendSegmentCloneToInitialVoiceElements (
+                            int          inputLineNumber,
+                            S_msrSegment segmentClone,
+                            string       context);
+    
+    void                  appendRepeatCloneToInitialVoiceElements (
+                            int         inputLineNumber,
+                            S_msrRepeat repeatCLone,
+                            string      context);
+    
+    void                  nestContentsIntoNewRepeatInVoice (
+                            int inputLineNumber);
+  
+    void                  handleVoiceLevelRepeatEndWithImplicitStartInVoice (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+
+    void                  handleVoiceLevelRepeatEndWithExplicitStartInVoice (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+
+    void                  handleNestedRepeatEndInVoice (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+
     void                  moveVoiceInitialElementsToRepeatCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
@@ -6506,6 +6524,11 @@ class msrVoice : public msrElement
                             int               inputLineNumber,
                             S_msrRepeatEnding repeatEnding,
                             string            context);
+
+    void                  splitMeasureIfItIsIncompleteInVoice (
+                            int          inputLineNumber,
+                            string       measureNumber,
+                            S_msrMeasure measure);
 
     void                  handleHookedRepeatEndingEndInVoice (
                             int       inputLineNumber,
@@ -6808,9 +6831,9 @@ class msrStaff : public msrElement
 
     // measures
 
-    void                  padUpToMeasureLengthInStaff (
+    void                  padUpToActualMeasureWholeNotesInStaff (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
   
     // clef, key, time
 
@@ -6882,9 +6905,6 @@ class msrStaff : public msrElement
                             string nextMeasureNumber);
 
     // repeats
-    
-    void                  nestContentsIntoNewRepeatInStaff ( // JMI
-                            int inputLineNumber);
     
     void                  handleRepeatStartInStaff (
                             int inputLineNumber);
@@ -7260,18 +7280,18 @@ class msrPart : public msrPartGroupElement
 
     // measures
     
-    void                  setPartMeasureLengthHighTide (
+    void                  setPartActualMeasureWholeNotesHighTide (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
                       
-    void                  updatePartMeasureLengthHighTide (
+    void                  updatePartActualMeasureWholeNotesHighTide (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
                     
-    rational              getPartMeasureLengthHighTide () const
+    rational              getPartActualMeasureWholeNotesHighTide () const
                               {
                                 return
-                                  fPartMeasureLengthHighTide;
+                                  fPartActualMeasureWholeNotesHighTide;
                               }
 
     void                  setPartCurrentMeasureNumber (
@@ -7376,9 +7396,9 @@ class msrPart : public msrPartGroupElement
   
     // measures
 
-    void                  padUpToMeasureLengthInPart (
+    void                  padUpToActualMeasureWholeNotesInPart (
                             int      inputLineNumber,
-                            rational measureLength);
+                            rational wholeNotes);
   
     // part name display
 
@@ -7434,9 +7454,6 @@ class msrPart : public msrPartGroupElement
     void                  appendBarlineToPart (S_msrBarline barline);
               
     // repeats
-    
-    void                  nestContentsIntoNewRepeatInPart ( // JMI
-                            int inputLineNumber);
     
     void                  handleRepeatStartInPart (
                             int inputLineNumber);
@@ -7632,7 +7649,7 @@ class msrPart : public msrPartGroupElement
 
     int                   fPartNumberOfMeasures;
 
-    rational              fPartMeasureLengthHighTide;
+    rational              fPartActualMeasureWholeNotesHighTide;
 
     // clef, key, time
     

@@ -926,7 +926,7 @@ void msrChord::print (ostream& os)
       fChordMeasureUplink
         ? 
           fChordMeasureUplink->
-            getMeasureFullLength ()
+            getFullMeasureWholeNotes ()
         : rational (0, 1); // JMI
     
   os <<

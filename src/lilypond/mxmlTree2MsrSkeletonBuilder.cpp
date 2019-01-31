@@ -3695,10 +3695,10 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldwidth = 28;
+      const int fieldWidth = 28;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl;
           

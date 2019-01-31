@@ -2,7 +2,7 @@
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise>
   <work>
-    <work-title>Anacrusis With Explicit Repeat From Beginning</work-title>
+    <work-title>Simple Repeat With Anacrusis And Start</work-title>
     </work>
   <identification>
     <creator type="composer">Compositeur</creator>
@@ -104,8 +104,8 @@
         </barline>
       <note default-x="75.17" default-y="-10.00">
         <pitch>
-          <step>D</step>
-          <octave>5</octave>
+          <step>F</step>
+          <octave>4</octave>
           </pitch>
         <duration>1</duration>
         <voice>1</voice>

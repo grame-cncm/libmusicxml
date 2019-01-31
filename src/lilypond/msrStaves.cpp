@@ -939,14 +939,14 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 }
 
-void msrStaff::padUpToMeasureLengthInStaff (
+void msrStaff::padUpToActualMeasureWholeNotesInStaff (
   int      inputLineNumber,
-  rational measureLength)
+  rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Padding up to measure length '" << measureLength <<
+      "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
@@ -957,11 +957,14 @@ void msrStaff::padUpToMeasureLengthInStaff (
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
-    i++) {
-    (*i).second-> // JMI msrAssert???
-      padUpToMeasureLengthInVoice (
+  i++) {
+    S_msrVoice voice = (*i).second;
+    // JMI msrAssert???
+    
+    voice-> 
+      padUpToActualMeasureWholeNotesInVoice (
         inputLineNumber,
-        measureLength);
+        wholeNotes);
   } // for
 }
 
@@ -1203,6 +1206,7 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
   gIndenter--;
 }    
 
+/* JMI
 void msrStaff::nestContentsIntoNewRepeatInStaff (
   int inputLineNumber)
 {
@@ -1226,6 +1230,7 @@ void msrStaff::nestContentsIntoNewRepeatInStaff (
         inputLineNumber);
   } // for
 }
+*/
 
 void msrStaff::handleRepeatStartInStaff (
   int inputLineNumber)
@@ -1899,9 +1904,9 @@ void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {
   rational
-    partMeasureLengthHighTide =
+    partActualMeasureWholeNotesHighTide =
       fStaffPartUplink->
-        getPartMeasureLengthHighTide ();
+        getPartActualMeasureWholeNotesHighTide ();
       
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
@@ -1909,8 +1914,8 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       "Finalizing current measure in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
-      ", partMeasureLengthHighTide = " <<
-      partMeasureLengthHighTide <<
+      ", partActualMeasureWholeNotesHighTide = " <<
+      partActualMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -2216,28 +2221,97 @@ void msrStaff::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldwidth = 28;
+  const int fieldWidth = 28;
   
   os <<
-    setw (fieldwidth) <<
+    setw (fieldWidth) <<
     "staffNumber" << " : " <<
     fStaffNumber <<
     endl <<
-    setw (fieldwidth) <<
+    setw (fieldWidth) <<
     "staffPartUplink" << " : " <<
     fStaffPartUplink->getPartCombinedName () <<
     endl <<
-    setw (fieldwidth) <<
+    setw (fieldWidth) <<
     "staffInstrumentName" << " : \"" <<
     fStaffInstrumentName <<
     "\"" <<
     endl <<
-    setw (fieldwidth) <<
+    setw (fieldWidth) <<
     "staffInstrumentAbbreviation" << " : \"" <<
     fStaffInstrumentAbbreviation <<
     "\"" <<
     endl;
 
+  // print current the staff clef if any
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceClefs) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffCurrentClef" << " : ";
+
+    if (fStaffCurrentClef) {
+      os <<
+        "'" <<
+        fStaffCurrentClef->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os <<
+      endl;
+  }
+#endif
+  
+  // print the current staff key if any
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceKeys) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffCurrentKey" << " : ";
+
+    if (fStaffCurrentKey) {
+      os <<
+        "'" <<
+        fStaffCurrentKey->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os <<
+      endl;
+  }
+#endif
+  
+  // print the current staff time if any
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTimes) {
+    os << left <<
+      setw (fieldWidth) <<
+      "staffCurrentTime" << " : ";
+
+    if (fStaffCurrentTime) {
+      os <<
+        "'" <<
+        fStaffCurrentTime->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os <<
+      endl;
+  }
+#endif
+  
   // print the staff details if any
   if (fStaffStaffDetails) {
     os <<
@@ -2245,7 +2319,7 @@ void msrStaff::print (ostream& os)
   }
   else {
     os << left <<
-      setw (fieldwidth) <<
+      setw (fieldWidth) <<
       "staffStaffDetails" << " : " << "none";
   }
   os <<

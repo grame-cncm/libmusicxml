@@ -5488,22 +5488,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldwidth = 31;
+      const int fieldWidth = 31;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentMusicXMLStaffNumber" << " = " << fCurrentMusicXMLStaffNumber <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStaffNumberToInsertInto" << " = " << fCurrentStaffNumberToInsertInto <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStanzaName" << " = \"" << fCurrentStanzaName << "\"" <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentLyricTextsList" << " = ";
 
       msrSyllable::writeTextsList (
@@ -5512,36 +5512,36 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       fLogOutputStream << left <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentSyllableExtendKind" << " = " <<
         msrSyllable::syllableExtendKindAsString (
           fCurrentSyllableExtendKind) <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentNoteIsARest" << " = " <<
         booleanAsString (fCurrentNoteIsARest) <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentRestMeasure" << " = " <<
         booleanAsString (fCurrentRestMeasure) <<
         endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentTieKind" << " = \"" <<
         msrTie::tieKindAsString (fCurrentTieKind) <<
         "\"" <<
         endl;
           
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentSlurTypeKind" << " = \"" <<
         msrSlur::slurTypeKindAsString (fCurrentSlurTypeKind) <<
         "\"" <<
         endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentLigatureKind" << " = \"" <<
         msrLigature::ligatureKindAsString (
           fCurrentLigatureKind) <<
@@ -5549,27 +5549,27 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fOnGoingSlur" << " = " <<
         booleanAsString (fOnGoingSlur) <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fOnGoingSlurHasStanza" << " = " <<
         booleanAsString (fOnGoingSlurHasStanza) <<
         endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fOnGoingLigature" << " = " <<
         booleanAsString (fOnGoingLigature) <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fOnGoingLigatureHasStanza" << " = " <<
         booleanAsString (fOnGoingLigatureHasStanza) <<
         endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fFirstSyllableInSlurKind" << " = \"" <<
         msrSyllable::syllableKindAsString (
           fFirstSyllableInSlurKind) <<
@@ -5577,7 +5577,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fFirstSyllableInLigatureKind" << " = \"" <<
         msrSyllable::syllableKindAsString (
           fFirstSyllableInLigatureKind) <<
@@ -5585,7 +5585,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       endl;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentSyllableKind" << " = \""<<
         msrSyllable::syllableKindAsString (
           fCurrentSyllableKind) <<
@@ -5617,22 +5617,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     {
       gIndenter++;
 
-      const int fieldwidth = 31;
+      const int fieldWidth = 31;
   
       fLogOutputStream << left <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentMusicXMLStaffNumber" << " = " << fCurrentMusicXMLStaffNumber <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStaffNumberToInsertInto" << " = " << fCurrentStaffNumberToInsertInto <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentStanzaName" << " = \"" << fCurrentStanzaName << "\"" <<
         endl <<
-        setw (fieldwidth) <<
+        setw (fieldWidth) <<
         "fCurrentLyricTextsList" << " = ";
 
       msrSyllable::writeTextsList (

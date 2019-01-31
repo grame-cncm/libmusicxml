@@ -96,8 +96,8 @@ void msrPart::initializePart ()
   // initialize part's number of measures
   fPartNumberOfMeasures = 0;
   
-  // initialize part measure length high tide
-  setPartMeasureLengthHighTide (
+  // initialize part actual measure whole notes high tide
+  setPartActualMeasureWholeNotesHighTide (
     fInputLineNumber,
     rational (0, 1));
 }
@@ -255,52 +255,52 @@ void msrPart::addAVoiceToStavesThatHaveNone (
   } // for
 }
 
-void msrPart::setPartMeasureLengthHighTide (
+void msrPart::setPartActualMeasureWholeNotesHighTide (
   int      inputLineNumber,
-  rational measureLength)
+  rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Setting measure length high tide for part \"" <<
+      "Setting actual measure whole notes high tide for part \"" <<
       getPartCombinedName () <<
-      "\" to " << measureLength <<
+      "\" to " << wholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  fPartMeasureLengthHighTide = measureLength;
+  fPartActualMeasureWholeNotesHighTide = wholeNotes;
 }
 
-void msrPart::updatePartMeasureLengthHighTide (
+void msrPart::updatePartActualMeasureWholeNotesHighTide (
   int      inputLineNumber,
-  rational measureLength)
+  rational wholeNotes)
 {
-  if (measureLength > fPartMeasureLengthHighTide) {
+  if (wholeNotes > fPartActualMeasureWholeNotesHighTide) {
 #ifdef TRACE_OPTIONS
     if (gMusicXMLOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
-        "Updating measure length high tide for part \"" <<
+        "Updating actual measure whole notes high tide for part \"" <<
         getPartCombinedName () <<
-        "\" to " << measureLength <<
+        "\" to " << wholeNotes <<
         ", line " << inputLineNumber <<
         endl;
     }
 #endif
 
-    fPartMeasureLengthHighTide = measureLength;
+    fPartActualMeasureWholeNotesHighTide = wholeNotes;
   }
 }
 
-void msrPart::padUpToMeasureLengthInPart (
+void msrPart::padUpToActualMeasureWholeNotesInPart (
   int      inputLineNumber,
-  rational measureLength)
+  rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Padding up to measure length '" << measureLength <<
+      "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in part \"" <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -310,15 +310,15 @@ void msrPart::padUpToMeasureLengthInPart (
 
   gIndenter++;
   
-  // pad the registered staves up to measure length  
+  // pad the registered staves up to actual measure whole notes  
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      padUpToMeasureLengthInStaff (
+      padUpToActualMeasureWholeNotesInStaff (
         inputLineNumber,
-        measureLength);
+        wholeNotes);
   } // for
 
   gIndenter--;
@@ -739,6 +739,7 @@ void msrPart::appendPartAbbreviationDisplayToPart (
   } // for
 }
 
+/* JMI
 void msrPart::nestContentsIntoNewRepeatInPart (
   int inputLineNumber)
 {
@@ -750,79 +751,6 @@ void msrPart::nestContentsIntoNewRepeatInPart (
       nestContentsIntoNewRepeatInStaff (
         inputLineNumber);
   } // for
-}
-
-/* JMI
-    void                      createAndPrependImplicitBarLine (
-                                int inputLineNumber);
-
-void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
-  int inputLineNumber)
-{     
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Prepending an implicit repeat start barline at the beginning of part" <<
-      fCurrentPart->getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentMusicXMLStaffNumber,
-        fCurrentMusicXMLVoiceNumber);
-
-  // create the implicit barline
-  S_msrBarline
-    implicitBarline =
-      msrBarline::create (
-        inputLineNumber,
-        msrBarline::kBarlineCategoryRepeatStart,
-        msrBarline::kBarlineHasSegnoNo,
-        msrBarline::kBarlineHasCodaNo,
-        msrBarline::kBarlineLocationLeft,
-        msrBarline::kBarlineStyleHeavyLight,
-        msrBarline::kBarlineEndingTypeStart,
-        fCurrentBarlineEndingNumber,
-        msrBarline::kBarlineRepeatDirectionForward,
-        fCurrentBarlineRepeatWingedKind,
-        fCurrentBarlineTimes);
-
-  // prepend the implicit barline to the voice
-  gIndenter++;
-  
-  currentVoice->
-    prependBarlineToVoice (implicitBarline);
-
-  gIndenter--;
-}
- */
- 
-/*
-  else {
-    // no, there is an implicit repeat starting at the beginning of the part,
-    // that encloses everything from the beginning on
-*/
-
-/*
-    // append an implicit repeat to the current part
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceRepeats) {
-      fLogOutputStream <<
-        "Prepending an implicit barline ahead of part " <<
-        fCurrentPart->getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    createAndPrependImplicitBarLine (
-      inputLineNumber);
 }
 */
 
@@ -1480,12 +1408,12 @@ void msrPart:: handleBackup (
   // determine the measure position 'divisions' backward
   rational
     positionInMeasure =
-      fPartMeasureLengthHighTide - backupStepLength;
+      fPartActualMeasureWholeNotesHighTide - backupStepLength;
 
   positionInMeasure.rationalise ();
 
   // bring the part back to that measure position
-  padUpToMeasureLengthInPart (
+  padUpToActualMeasureWholeNotesInPart (
     inputLineNumber,
     positionInMeasure);
 }
@@ -1498,11 +1426,11 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
     skipGraceNotesGroup->getInputLineNumber ();
 
   rational
-    graceNotesGroupOriginVoiceMeasureLength =
+    graceNotesGroupOriginVoiceActualMeasureWholeNotes =
       graceNotesGroupOriginVoice->
         getVoiceLastSegment ()->
           getSegmentMeasuresList ().back ()->
-            getMeasureLength ();
+            getActualMeasureWholeNotes ();
         
 #ifdef TRACE_OPTIONS
   if (
@@ -1515,8 +1443,8 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
     gLogIOstream <<
       "addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded () in " <<
       getPartCombinedName () <<
-      ", graceNotesGroupOriginVoiceMeasureLength = " <<
-      graceNotesGroupOriginVoiceMeasureLength <<
+      ", graceNotesGroupOriginVoiceActualMeasureWholeNotes = " <<
+      graceNotesGroupOriginVoiceActualMeasureWholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1525,7 +1453,8 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   for (
     map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin ();
     i!=fPartStavesMap.end ();
-    i++) {
+    i++
+  ) {
 
     map<int, S_msrVoice>
       staffAllVoicesMap =
@@ -1537,7 +1466,6 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
       j!=staffAllVoicesMap.end ();
       j++
     ) {
-
       S_msrVoice voice = (*j).second;
       
       if (voice != graceNotesGroupOriginVoice) {        
@@ -1575,8 +1503,8 @@ void msrPart::finalizeCurrentMeasureInPart (
         inputLineNumber);
   } // for
 
-  // reset measure length high tide
-  setPartMeasureLengthHighTide (
+  // reset actual measure whole notes high tide
+  setPartActualMeasureWholeNotesHighTide (
     fInputLineNumber,
     rational (0, 1));
 
@@ -1843,7 +1771,78 @@ void msrPart::print (ostream& os)
     setw (fieldWidth) <<
     "partNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
-    endl <<
+    endl;
+
+  // print current the part clef if any
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceClefs) {
+    os << left <<
+      setw (fieldWidth) <<
+      "partCurrentClef" << " : ";
+
+    if (fPartCurrentClef) {
+      os <<
+        "'" <<
+        fPartCurrentClef->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os <<
+      endl;
+  }
+#endif
+  
+  // print the current part key if any
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceKeys) {
+    os << left <<
+      setw (fieldWidth) <<
+      "partCurrentKey" << " : ";
+
+    if (fPartCurrentKey) {
+      os <<
+        "'" <<
+        fPartCurrentKey->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os <<
+      endl;
+  }
+#endif
+  
+  // print the current part time if any
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceTimes) {
+    os << left <<
+      setw (fieldWidth) <<
+      "partCurrentTime" << " : ";
+
+    if (fPartCurrentTime) {
+      os <<
+        "'" <<
+        fPartCurrentTime->asShortString () <<
+        "'";
+    }
+    else {
+      os <<
+        "none";
+    }
+
+    os <<
+      endl;
+  }
+#endif
+  
+  os <<
     endl;
 
   // print the registered staves
@@ -1920,7 +1919,7 @@ void msrPart::printSummary (ostream& os)
     ", " <<
     singularOrPlural (
       fPartNumberOfMeasures, "measure", "measure") <<
-    ", length high tide " << fPartMeasureLengthHighTide <<
+    ", length high tide " << fPartActualMeasureWholeNotesHighTide <<
     ")" <<
     endl;
     

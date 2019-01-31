@@ -6690,7 +6690,7 @@ else
           upbeatDuration =
             wholeNotesAsLilypondString (
               inputLineNumber,
-              elt->getMeasureLength ());
+              elt->getActualMeasureWholeNotes ());
 
         // only generate '\partial' at the beginning of a voice
         switch (elt->getMeasureCreatedForARepeatKind ()) {
@@ -6712,48 +6712,51 @@ else
     case msrMeasure::kUnderfullMeasureKind:
       {
         rational
-          measureLength =
-            elt->getMeasureLength ();
+          actualMeasureWholeNotes =
+            elt->getActualMeasureWholeNotes ();
 
         rational
-          measureFullLength =
-            elt->getMeasureFullLength ();
+          fullMeasureWholeNotes =
+            elt->getFullMeasureWholeNotes ();
 
-        // we should set the score measure length in this case
+        // we should set the score actual measure whole notes in this case
         rational
-          ratioToFullLength =
-            measureLength / measureFullLength;
-        ratioToFullLength.rationalise ();
+          ratioToFullMeasureWholeNotes =
+            actualMeasureWholeNotes / fullMeasureWholeNotes;
+        ratioToFullMeasureWholeNotes.rationalise ();
   
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceMeasuresDetails) {
           const int fieldWidth = 27;
           
           fLilypondCodeIOstream << left <<
-            "% Setting the measure length for measure " <<
+            "% Setting the actual measure whole notes for measure " <<
             setw (fieldWidth) <<
             measureNumber <<
             ", line = " << inputLineNumber <<
             endl <<
             setw (fieldWidth) <<
-            "% measureLength" << " = " << measureLength <<
+            "% actualMeasureWholeNotes" << " = " <<
+            actualMeasureWholeNotes <<
             endl <<
             setw (fieldWidth) <<
-            "% measureFullLength" << " = " << measureFullLength <<
+            "% fullMeasureWholeNotes" << " = " <<
+            fullMeasureWholeNotes <<
             endl <<
             setw (fieldWidth) <<
-            "% ratioToFullLength" << " = " << ratioToFullLength <<
+            "% ratioToFullMeasureWholeNotes" << " = " <<
+            ratioToFullMeasureWholeNotes <<
             endl <<
             endl;
         }
 #endif
 
-        if (ratioToFullLength == rational (1, 1)) {
+        if (ratioToFullMeasureWholeNotes == rational (1, 1)) {
           stringstream s;
   
           s <<
             "underfull measure '" << measureNumber <<
-            "' is actually the full measure length";
+            "' has actually the full measure whole notes";
             
      // JMI       msrInternalError (
           msrInternalWarning (
@@ -6767,7 +6770,7 @@ else
           /* JMI 
           fLilypondCodeIOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
-            measureLength.toString () <<
+            actualMeasureWholeNotes.toString () <<
             ")" <<
             endl;
     */
@@ -6830,7 +6833,7 @@ else
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->
-              getMeasureFullLength ()) <<
+              getFullMeasureWholeNotes ()) <<
           " | " <<
           endl;
       }

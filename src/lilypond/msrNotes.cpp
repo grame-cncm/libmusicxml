@@ -3452,7 +3452,7 @@ void msrNote::print (ostream& os)
       fNoteMeasureUplink
         ? 
           fNoteMeasureUplink->
-            getMeasureFullLength ()
+            getFullMeasureWholeNotes ()
         : rational (0, 1); // JMI
   
   // print the note itself and its positionInMeasure
@@ -3621,7 +3621,7 @@ void msrNote::print (ostream& os)
         break;
       } // switch
 
-    // full measure length,
+    // full measure whole notes,
     // may be unknown if there is no time signature
     os << left <<
       setw (fieldWidth) <<

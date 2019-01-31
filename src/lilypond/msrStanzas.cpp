@@ -77,7 +77,7 @@ void msrStanza::initializeStanza ()
 
   fStanzaTextPresent = false;
 
-  fStanzaCurrentMeasureLength = rational (0, 1);
+  fStanzaActualMeasureWholeNotes = rational (0, 1);
 }
 
 msrStanza::~msrStanza ()
@@ -234,8 +234,8 @@ void msrStanza::appendSyllableToStanza (
         getSyllableNoteUplink ()->
           getNoteSoundingWholeNotes ();
 
-  // update the stanza's current measure length
-  fStanzaCurrentMeasureLength +=syllableSoundingWholeNotes;
+  // update the stanza's current measure whole notes
+  fStanzaActualMeasureWholeNotes +=syllableSoundingWholeNotes;
   */
 }
 
@@ -342,8 +342,8 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   // append syllable to this stanza
   appendSyllableToStanza (syllable);
 
-  // reset current measure length
-  fStanzaCurrentMeasureLength = rational (0, 1);
+  // reset actual measure whole notes
+  fStanzaActualMeasureWholeNotes = rational (0, 1);
 
   gIndenter--;
   
@@ -501,9 +501,9 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   return syllable;
 }
 
-void msrStanza::padUpToMeasureLengthInStanza (
+void msrStanza::padUpToActualMeasureWholeNotesInStanza (
   int      inputLineNumber,
-  rational measureLength)
+  rational wholeNotes)
 {
   // JMI ???
 }

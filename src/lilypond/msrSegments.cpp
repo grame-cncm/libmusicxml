@@ -216,7 +216,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   return segmentDeepCopy;
 }
 
-void msrSegment::createMeasureAndAppendItToSegment (
+S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   int    inputLineNumber,
   string measureNumber,
   int    measureOrdinalNumber,
@@ -273,24 +273,31 @@ void msrSegment::createMeasureAndAppendItToSegment (
 #endif
 
   S_msrMeasure
-    newMeasure =
+    result =
       msrMeasure::create (
         inputLineNumber,
         measureNumber,
         this);
 
   // set 'first in segment' kind
-  newMeasure->
+  result->
     setMeasureFirstInSegmentKind (
       measureFirstInSegmentKind);
-  
+
+  // set it's ordianl number
+  result->
+    setMeasureOrdinalNumber (
+      measureOrdinalNumber);
+
   // append it to the segment's measures list
   fSegmentMeasuresList.push_back (
-    newMeasure);
+    result);
   
   fMeasureNumberHasBeenSetInSegment = true;
 
   gIndenter--;
+
+  return result;
 }
 
 void msrSegment::setNextMeasureNumberInSegment (
@@ -376,8 +383,9 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
         // is the last measure empty?
- //       if (lastMeasure->getMeasureLength ().getNumerator () == 0) { // JMI ???
-        if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
+ //       if (lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
+   //     if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
+        if (lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
           // yes, remove it
 #ifdef TRACE_OPTIONS
           if (
@@ -409,7 +417,9 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         break;
 
       case msrMeasure::kMeasureCreatedForARepeatBefore:
-        if (lastMeasure->getMeasureLength ().getNumerator () == 0) {
+        if (
+          lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0
+        ) {
           // yes, remove it
 #ifdef TRACE_OPTIONS
           if (
@@ -1406,14 +1416,14 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   gIndenter--;
 }
 
-void msrSegment::padUpToMeasureLengthInSegment (
+void msrSegment::padUpToActualMeasureWholeNotesInSegment (
   int      inputLineNumber,
-  rational measureLength)
+  rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Padding up to measure length '" << measureLength <<
+      "Padding up to actual whole notes '" << wholeNotes <<
       "' in segment '" <<
       fSegmentAbsoluteNumber <<
       "' in voice \"" <<
@@ -1460,10 +1470,11 @@ void msrSegment::padUpToMeasureLengthInSegment (
   }
 
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
-    // bring last measure to this length
+    // pad last measure up to to this actual wholes notes
     fSegmentMeasuresList.back ()->
-      padUpToMeasureLengthInMeasure (
-        inputLineNumber, measureLength);
+      padUpToActualMeasureWholeNotesInMeasure (
+        inputLineNumber,
+        wholeNotes);
   }
 }
 
@@ -2123,6 +2134,61 @@ void msrSegment::removeElementFromSegment (
       __FILE__, __LINE__,
       s.str ());
   }
+}
+
+S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
+  int inputLineNumber)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Fetching last measure from segment '" <<
+      fSegmentAbsoluteNumber <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (! fSegmentMeasuresList.size ()) {
+    stringstream s;
+
+    s <<
+      "cannot fetch last measure from segment '" <<
+      fSegmentAbsoluteNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
+      "' since it is empty";
+
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  S_msrMeasure
+    result =
+      fSegmentMeasuresList.back ();
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    gLogIOstream <<
+      endl <<
+      "This measure contains:" <<
+      endl;
+
+    gIndenter++;
+
+    gLogIOstream <<
+      result <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
+
+  return result;
 }
 
 S_msrMeasure msrSegment::removeLastMeasureFromSegment (

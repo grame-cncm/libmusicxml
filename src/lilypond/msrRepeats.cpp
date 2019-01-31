@@ -492,9 +492,10 @@ void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending segment '" << segment <<
+      "Appending segment '" <<
+      segment->asString () <<
       "' to repeat common part '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
@@ -516,9 +517,11 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending repeat '" << repeat <<
+      "Appending repeat '" <<
+    // JMI  repeat->asString () <<
+      repeat <<
       "' to repeat common part '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
@@ -540,9 +543,10 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
   string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending voice element '" << voiceElement <<
+      "Appending voice element '" <<
+      voiceElement->asString () <<
       "' to repeat common part '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
