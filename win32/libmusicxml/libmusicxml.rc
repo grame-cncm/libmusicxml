@@ -53,8 +53,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,1,4,0
- PRODUCTVERSION 3,1,4,0
+ FILEVERSION 3,1,5,0
+ PRODUCTVERSION 3,1,5,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -71,12 +71,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Grame"
             VALUE "FileDescription", "libmusicxml library"
-            VALUE "FileVersion", "3, 1, 4, 0"
+            VALUE "FileVersion", "3, 1, 5, 0"
             VALUE "InternalName", "libmusicxml"
-            VALUE "LegalCopyright", "Copyright (C) GRAME 2008-2018"
+            VALUE "LegalCopyright", "Copyright (C) GRAME 2008-2019"
             VALUE "OriginalFilename", "libmusicxml3.dll"
             VALUE "ProductName", " libmusicxml"
-            VALUE "ProductVersion", "3, 1, 4, 0"
+            VALUE "ProductVersion", "3, 1, 5, 0"
         END
     END
     BLOCK "VarFileInfo"
