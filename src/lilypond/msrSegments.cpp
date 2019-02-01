@@ -385,7 +385,10 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         // is the last measure empty?
  //       if (lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
    //     if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
-        if (lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
+        if (
+          false && // JMI
+          lastMeasure->getMeasureElementsList ().size () == 0
+        ) { // JMI ALWAYS FINALIZE ???
           // yes, remove it
 #ifdef TRACE_OPTIONS
           if (
@@ -399,7 +402,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
             gLogIOstream <<
               "Removing empty measure '" <<
               lastMeasure->getMeasureNumber () <<
-              ") in segment '" <<
+              "' in segment '" <<
               asString () <<
               "'";
           }
@@ -418,6 +421,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 
       case msrMeasure::kMeasureCreatedForARepeatBefore:
         if (
+          false && // JMI
           lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0
         ) {
           // yes, remove it

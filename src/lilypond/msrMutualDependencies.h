@@ -650,14 +650,6 @@ class msrMeasure : public msrElement
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
 
-    enum msrMeasureFirstInSegmentKind {
-        kMeasureFirstInSegmentUnknown,
-        kMeasureFirstInSegmentYes,
-        kMeasureFirstInSegmentNo };
-      
-    static string measureFirstInSegmentKindAsString (
-      msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
-
     enum msrMeasureCreatedForARepeatKind {
         kMeasureCreatedForARepeatNo,
         kMeasureCreatedForARepeatBefore,
@@ -666,6 +658,14 @@ class msrMeasure : public msrElement
       
     static string measureCreatedForARepeatKindAsString (
       msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind);
+
+    enum msrMeasureFirstInSegmentKind {
+        kMeasureFirstInSegmentUnknown,
+        kMeasureFirstInSegmentYes,
+        kMeasureFirstInSegmentNo };
+      
+    static string measureFirstInSegmentKindAsString (
+      msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -734,11 +734,6 @@ class msrMeasure : public msrElement
     string                getNextMeasureNumber () const
                               { return fNextMeasureNumber; }
 
-    // measure longest note
-    
-    S_msrNote             getMeasureLongestNote () const
-                              { return fMeasureLongestNote; }
-                              
     // measure lengthes, in whole notes
     
     void                  setFullMeasureWholeNotes (
@@ -810,6 +805,11 @@ class msrMeasure : public msrElement
     bool                  getMeasureIsASingleMeasureRest ()
                              { return fMeasureIsASingleMeasureRest; }
 
+    // measure longest note
+    
+    S_msrNote             getMeasureLongestNote () const
+                              { return fMeasureLongestNote; }
+                              
     // chords handling
     
     S_msrNote              getMeasureLastHandledNote () const
@@ -823,7 +823,9 @@ class msrMeasure : public msrElement
 
     bool                  getMeasureContainsMusic () const
                               { return fMeasureContainsMusic; }
-                              
+
+  public:
+  
     // public services
     // ------------------------------------------------------
 
@@ -1141,21 +1143,21 @@ class msrMeasure : public msrElement
 
     msrMeasureKind        fMeasureKind;
     
-    // measure implicit
+    // measure implicit kind
 
     msrMeasureImplicitKind
                           fMeasureImplicitKind;
     
-    // measure 'first in segment' kind
-
-    msrMeasureFirstInSegmentKind
-                          fMeasureFirstInSegmentKind;
-                        
     // measure 'created for a repeat' kind
 
     msrMeasureCreatedForARepeatKind
                           fMeasureCreatedForARepeatKind;
 
+    // measure 'first in segment' kind
+
+    msrMeasureFirstInSegmentKind
+                          fMeasureFirstInSegmentKind;
+                        
     // single-measure rest?
 
     bool                  fMeasureIsASingleMeasureRest;
@@ -6404,7 +6406,8 @@ class msrVoice : public msrElement
     
     void                  createNewLastSegmentFromFirstMeasureForVoice (
                             int          inputLineNumber,
-                            S_msrMeasure firstMeasure);
+                            S_msrMeasure firstMeasure,
+                            string       context);
 
     void                  createNewLastSegmentAndANewMeasureBeforeARepeat ( // JMI
                             int inputLineNumber,
@@ -6472,21 +6475,26 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
                             
+    void                  appendSegmentToInitialVoiceElements (
+                            int          inputLineNumber,
+                            S_msrSegment segmentClone,
+                            string       context);
+    
     void                  appendRepeatToInitialVoiceElements (
                             int         inputLineNumber,
                             S_msrRepeat repeat,
                             string      context);
-    
-    void                  appendSegmentCloneToInitialVoiceElements (
-                            int          inputLineNumber,
-                            S_msrSegment segmentClone,
-                            string       context);
     
     void                  appendRepeatCloneToInitialVoiceElements (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone,
                             string      context);
     
+    void                  splitMeasureIfItIsIncompleteInVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure measure,
+                            string       context);
+
     void                  nestContentsIntoNewRepeatInVoice (
                             int inputLineNumber);
   
@@ -6524,11 +6532,6 @@ class msrVoice : public msrElement
                             int               inputLineNumber,
                             S_msrRepeatEnding repeatEnding,
                             string            context);
-
-    void                  splitMeasureIfItIsIncompleteInVoice (
-                            int          inputLineNumber,
-                            string       measureNumber,
-                            S_msrMeasure measure);
 
     void                  handleHookedRepeatEndingEndInVoice (
                             int       inputLineNumber,

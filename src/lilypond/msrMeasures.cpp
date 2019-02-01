@@ -199,13 +199,15 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
         fMeasureNumber,
         containingSegment);
 
+  /*   
   // lengthes
   newbornClone->fFullMeasureWholeNotes =
     fFullMeasureWholeNotes;
     
-  // don't take fActualMeasureWholeNotes over,
-  // it will be computed on the fly
-  // while appending notes to the measure newborn clone
+  // fActualMeasureWholeNotes and fFullMeasureWholeNotes
+  // will be computed on the fly
+  // when appending notes to the measure newborn clone
+*/
 
   // measure kind
   newbornClone->fMeasureKind =
@@ -809,9 +811,9 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
               getSegmentVoiceUplink ()->
                 getVoiceName () <<
             "\"" <<
-            " has full measure whole notes " <<
+            " has " <<
             fFullMeasureWholeNotes <<
-            " whole notes" <<
+            " full measure whole notes " <<
             endl;
         }
 #endif
@@ -1706,12 +1708,28 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (
+    gGeneralOptions->fTraceNotes
+      ||
+    gGeneralOptions->fTraceMeasures
+      ||
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoices
+  ) {
     gLogIOstream <<
       "Creating a padding note for voice \"" <<
       voice->getVoiceName () <<
-      "\" in measure '" <<
-      fMeasureNumber <<
+      /*
+      "\" in measure '"
+      asShortString () <<
+      */
+      "\" in measure '";
+
+    print (gLogIOstream);
+    
+    gLogIOstream <<
+
       "', duration = '" <<
       duration <<
       "', line " << inputLineNumber <<
@@ -1719,7 +1737,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   }
 #endif
 
- // JMI abort ();
+abort ();
   
   // create a rest or a skip depending on measureVoice kind
   S_msrNote paddingNote;
@@ -2232,6 +2250,7 @@ void msrMeasure::determineMeasureKind (
 #endif
     
         fMeasureKind = kUpbeatMeasureKind;
+        fMeasureOrdinalNumber = 0; // JMI only for first one in voice
         break;
         
       case msrMeasure::kMeasureFirstInSegmentYes:
@@ -2802,13 +2821,13 @@ string msrMeasure::measureCreatedForARepeatKindAsString (
 
   switch (measureCreatedForARepeatKind) {
     case msrMeasure::kMeasureCreatedForARepeatNo:
-      result = "measureCreatedForRepeatNo";
+      result = "measureCreatedForARepeatNo";
       break;
     case msrMeasure::kMeasureCreatedForARepeatBefore:
-      result = "measureCreatedForRepeatBefore";
+      result = "measureCreatedForARepeatBefore";
       break;
     case msrMeasure::kMeasureCreatedForARepeatAfter:
-      result = "measureCreatedForRepeatAfter";
+      result = "measureCreatedForARepeatAfter";
       break;
     case msrMeasure::kMeasureCreatedForARepeatPadded:
       result = "measureCreatedForARepeatPadded";
@@ -2889,6 +2908,32 @@ void msrMeasure::print (ostream& os)
     setw (fieldWidth) <<
     "measureOrdinalNumber" << " : " << fMeasureOrdinalNumber <<
     endl <<
+    
+    setw (fieldWidth) <<
+    "actualMeasureWholeNotes" << " : " << fActualMeasureWholeNotes <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "fullMeasureWholeNotes" << " : " << fFullMeasureWholeNotes <<
+    endl <<
+
+    /* JMI
+    // fetch the staff
+    S_msrStaff
+      staff =
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceStaffUplink ();
+        
+    // get the staff current time
+    S_msrTime
+      time =
+        staff->
+          getStaffCurrentTime ();
+
+    os <<
+      endl;
+
     setw (fieldWidth) <<
     "actualMeasureWholeNotesAsMSRString" << " : " <<
     actualMeasureWholeNotesAsMSRString () <<
@@ -2897,6 +2942,7 @@ void msrMeasure::print (ostream& os)
     "fullMeasureWholeNotesAsMSRString" << " : " <<
     fullMeasureWholeNotesAsMSRString () <<
     endl <<
+      */
 
     setw (fieldWidth) <<
     "measureFirstInSegment" << " : " <<
@@ -2934,35 +2980,8 @@ void msrMeasure::print (ostream& os)
     setw (fieldWidth) <<
     "measureIsASingleMeasureRest" << " : " <<
     booleanAsString (fMeasureIsASingleMeasureRest) <<
-    endl <<
+    endl;
     
-    setw (fieldWidth) <<
-    "actualMeasureWholeNotes" << " : " << fActualMeasureWholeNotes << " whole notes" <<
-    endl <<
-    
-    setw (fieldWidth) <<
-    "fullMeasureWholeNotes" << " : ";
-    
-    // fetch the staff
-    S_msrStaff
-      staff =
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceStaffUplink ();
-        
-    // get the staff current time
-    S_msrTime
-      time =
-        staff->
-          getStaffCurrentTime ();
-
-    if (! time) {
-      os <<
-        "*** no time signature known ***";
-    }
-    os <<
-      endl;
-
   os <<
     setw (fieldWidth) <<
     "nextMeasureNumber" << " : \"" <<
@@ -3020,15 +3039,21 @@ void msrMeasure::shortPrint (ostream& os)
       
   os << left <<
     setw (fieldWidth) <<
+    "measureImplicitKind" << " : " <<
+    booleanAsString (
+      fMeasureImplicitKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "measureCreatedForARepeatKind" << " : " <<
+    msrMeasure::measureCreatedForARepeatKindAsString (
+      fMeasureCreatedForARepeatKind) << 
+    endl <<
+        
+    setw (fieldWidth) <<
     "measureContainsMusic" << " : " <<
     booleanAsString (
       fMeasureContainsMusic) <<
-    endl <<
-    
-    setw (fieldWidth) <<
-    "measureCreatedAfterARepeat" << " : " <<
-    msrMeasure::measureCreatedForARepeatKindAsString (
-      fMeasureCreatedForARepeatKind) << 
     endl <<
     
     setw (fieldWidth) <<
@@ -3066,6 +3091,12 @@ void msrMeasure::shortPrint (ostream& os)
       endl;
 
   os <<
+    setw (fieldWidth) <<
+    "measureContainsMusic" << " : " <<
+    booleanAsString (
+      fMeasureContainsMusic) <<
+    endl <<
+    
     setw (fieldWidth) <<
     "nextMeasureNumber" << " : \"" <<
     fNextMeasureNumber <<

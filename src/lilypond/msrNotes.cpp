@@ -3467,23 +3467,17 @@ void msrNote::print (ostream& os)
   if (fNoteMeasureUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteMeasureUplink";
+      "noteMeasureUplink" << " : ";
       
     if (fNoteMeasureUplink) {
       os <<
-        endl;
-      gIndenter++;
-      
-      os <<
         fNoteMeasureUplink->asShortString ();
-
-      gIndenter--;
     }
     else {
       os <<
-        " : " << "none";
+        "none";
     }
-
+    
     os <<
       endl;
   }
@@ -3491,17 +3485,11 @@ void msrNote::print (ostream& os)
   if (fNoteChordUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteChordUplink";
+      "noteChordUplink" << " : ";
       
     if (fNoteChordUplink) {
       os <<
-        endl;
-      gIndenter++;
-
-      os <<
         fNoteChordUplink->asShortString ();
-
-      gIndenter--;
     }
     else {
       os <<
@@ -3515,17 +3503,11 @@ void msrNote::print (ostream& os)
   if (fNoteGraceNotesGroupUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteGraceNoteGroupUplink";
+      "noteGraceNoteGroupUplink" << " : ";
       
     if (fNoteGraceNotesGroupUplink) {
       os <<
-        endl;
-      gIndenter++;
-
-      os <<
         fNoteGraceNotesGroupUplink->asShortString ();
-
-      gIndenter--;
     }
     else {
       os <<
@@ -3539,17 +3521,11 @@ void msrNote::print (ostream& os)
   if (fNoteTupletUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
-      "noteTupletUplink";
+      "noteTupletUplink" << " : ";
       
     if (fNoteTupletUplink) {
       os <<
-        endl;
-      gIndenter++;
-
-      os <<
         fNoteTupletUplink->asShortString ();
-
-      gIndenter--;
     }
     else {
       os <<
