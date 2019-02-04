@@ -74,19 +74,6 @@ void msrSegment::initializeSegment ()
   }
 #endif
 
-/* OLD STUFF, NO GOOD JMI
-  // create a first measure // JMI
-  S_msrMeasure
-    measure =
-      msrMeasure::create (
-        fInputLineNumber,
-        "9999",
-        this);
-
-  // append the measure to the segment
-  appendMeasureToSegment (measure);
-*/
-
   // segment's measure number has not been set yet
   fMeasureNumberHasBeenSetInSegment = false;
 }
@@ -1628,41 +1615,6 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
   }
 }
 
-void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
-  int    inputLineNumber,
-  string measureNumber)
-{
-  /* JMI BOF
-  if (! fSegmentMeasuresList.size ()) {
-    // create a new measure
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-      gLogIOstream <<
-        "Appending a new measure '" << measureNumber <<
-        "' to segment '" << asString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    S_msrMeasure
-      newMeasure =
-        msrMeasure::create (
-          inputLineNumber,
-          fSegmentPartUplink,
-          measureNumber,
-          this);
-
-    // append it to the segment
-    appendMeasureToSegment (
-      newMeasure);
-  }
-  */
-}
-
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
 #ifdef TRACE_OPTIONS
@@ -1799,11 +1751,6 @@ void msrSegment::appendVoiceStaffChangeToSegment (
 
 void msrSegment::appendNoteToSegment (S_msrNote note)
 {
-  appendMeasureToSegmentIfNotYetDone (
-    note->getInputLineNumber (),
-    fSegmentMeasureNumber);
-
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceSegments) {
     if (! fSegmentMeasuresList.size ()) { // JMI
@@ -1999,10 +1946,6 @@ void msrSegment::prependAfterGraceNotesToSegment (
 void msrSegment::prependOtherElementToSegment (
   S_msrMeasureElement elem)
 {
-  appendMeasureToSegmentIfNotYetDone ( // JMI
-    elem->getInputLineNumber (),
-    fSegmentMeasureNumber); // +1??? JMI
-  
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
@@ -2015,10 +1958,6 @@ void msrSegment::prependOtherElementToSegment (
 void msrSegment::appendOtherElementToSegment (
   S_msrMeasureElement elem)
 {
-  appendMeasureToSegmentIfNotYetDone ( // JMI
-    elem->getInputLineNumber (),
-    fSegmentMeasureNumber); // +1??? JMI
-  
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
@@ -2179,7 +2118,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       endl <<
-      "This measure contains:" <<
+      "The fetched measure contains:" <<
       endl;
 
     gIndenter++;
@@ -2234,7 +2173,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       endl <<
-      "This measure contains:" <<
+      "The removed measure contains:" <<
       endl;
 
     gIndenter++;
@@ -2271,7 +2210,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       ", line " << inputLineNumber <<
       endl;
 
-    abort ();
+    // JMI for tests abort ();
   }
 
   fSegmentMeasuresList.pop_back ();

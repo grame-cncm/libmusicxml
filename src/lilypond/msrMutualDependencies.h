@@ -1286,10 +1286,6 @@ class msrSegment : public msrVoiceElement
     void                  prependMeasureToSegment (
                             S_msrMeasure measure);
 
-    void                  appendMeasureToSegmentIfNotYetDone (  // JMI
-                            int    inputLineNumber,
-                            string measureNumber);
-
     // clef, key, time
     
     void                  appendClefToSegment  (S_msrClef clef);
@@ -5137,6 +5133,25 @@ class msrRepeat : public msrVoiceElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
+    enum msrRepeatExplicitStartKind {
+      kRepeatExplicitStartNo,
+      kRepeatExplicitStartYes };
+      
+    static string repeatExplicitStartKindAsString (
+      msrRepeatExplicitStartKind repeatExplicitStartKind);
+      
+    enum msrRepeatBuildStatusKind {
+      kRepeatBuildStatusAcceptingCommonPart,
+      kRepeatBuildStatusAcceptingHookedEndings,
+      kRepeatBuildStatusAcceptingHooklessEnding,
+      kRepeatBuildStatusCompleted};
+
+    static string repeatBuildStatusKindAsString (
+      msrRepeatBuildStatusKind repeatBuildStatusKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -5165,6 +5180,9 @@ class msrRepeat : public msrVoiceElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrVoice            getRepeatVoiceUplink () const
+                              { return fRepeatVoiceUplink; }
     // times
     int                   getRepeatTimes () const
                               { return fRepeatTimes; }
@@ -5172,6 +5190,18 @@ class msrRepeat : public msrVoiceElement
     void                  setRepeatTimes (
                             int repeatTimes)
                               { fRepeatTimes = repeatTimes; }
+
+    // implicit start?
+    void                  setRepeatExplicitStartKind (
+                            msrRepeatExplicitStartKind repeatExplicitStartKind)
+                              {
+                                fRepeatExplicitStartKind =
+                                  repeatExplicitStartKind;
+                              }
+    
+    msrRepeatExplicitStartKind
+                          getRepeatExplicitStartKind () const
+                              { return fRepeatExplicitStartKind; }
 
     // common part
     void                  setRepeatCommonPart ( // JMI ???
@@ -5185,9 +5215,18 @@ class msrRepeat : public msrVoiceElement
                           getRepeatEndings () const
                               { return fRepeatEndings; }
 
-    S_msrVoice            getRepeatVoiceUplink () const
-                              { return fRepeatVoiceUplink; }
-
+    // repeat build status
+    void                  setCurrentRepeatBuildStatusKind (
+                            msrRepeatBuildStatusKind repeatBuildStatusKind)
+                              {
+                                fCurrentRepeatBuildStatusKind =
+                                  repeatBuildStatusKind;
+                              }
+                            
+    msrRepeatBuildStatusKind
+                          getCurrentRepeatBuildStatusKind () const
+                            { return fCurrentRepeatBuildStatusKind; }
+                            
   public:
 
     // services
@@ -5231,7 +5270,13 @@ class msrRepeat : public msrVoiceElement
     // uplinks
     S_msrVoice            fRepeatVoiceUplink;
 
+    // number of repetitions
     int                   fRepeatTimes;
+
+    // explicit start?
+    msrRepeatExplicitStartKind
+                          fRepeatExplicitStartKind;
+                          
     // common part
     S_msrRepeatCommonPart fRepeatCommonPart;
 
@@ -5239,6 +5284,10 @@ class msrRepeat : public msrVoiceElement
     vector<S_msrRepeatEnding>
                           fRepeatEndings;
     int                   fRepeatEndingsInternalCounter;
+
+    // repeat build status, used when building the repeat
+    msrRepeatBuildStatusKind
+                          fCurrentRepeatBuildStatusKind;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -6498,6 +6547,12 @@ class msrVoice : public msrElement
     void                  nestContentsIntoNewRepeatInVoice (
                             int inputLineNumber);
   
+    void                  handleVoiceLevelRepeatStartInVoice (
+                            int inputLineNumber);
+                            
+    void                  handleNestedRepeatStartInVoice (
+                            int inputLineNumber);
+                            
     void                  handleVoiceLevelRepeatEndWithImplicitStartInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6508,6 +6563,15 @@ class msrVoice : public msrElement
                             string measureNumber,
                             int    repeatTimes);
 
+    void                  handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
+                            int inputLineNumber);
+                            
+    void                  handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
+                            int inputLineNumber);
+                            
+    void                  handleNestedRepeatEndingStartInVoice (
+                            int inputLineNumber);
+                            
     void                  handleNestedRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,

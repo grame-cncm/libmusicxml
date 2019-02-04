@@ -480,7 +480,7 @@ msrRepeatCommonPart::msrRepeatCommonPart (
     repeatUplink != nullptr,
     "repeatUplink is null");
     
-  fRepeatCommonPartRepeatUplink = repeatUplink;
+  fRepeatCommonPartRepeatUplink = repeatUplink;    
 }
 
 msrRepeatCommonPart::~msrRepeatCommonPart ()
@@ -1265,11 +1265,17 @@ msrRepeat::msrRepeat (
 
   fRepeatTimes = repeatTimes;
 
+  fRepeatExplicitStartKind = kRepeatExplicitStartNo; // default value
+
   // create the common part
   fRepeatCommonPart =
     msrRepeatCommonPart::create (
       inputLineNumber,
       this);
+
+  // repeat build status
+  fCurrentRepeatBuildStatusKind =
+    msrRepeat::kRepeatBuildStatusAcceptingCommonPart;
 }
 
 S_msrRepeat msrRepeat::createRepeatNewbornClone (
@@ -1342,7 +1348,116 @@ void msrRepeat::addRepeatEnding (
       endl;
   }
 #endif
-      
+
+  // get repeat ending kind
+  msrRepeatEnding::msrRepeatEndingKind
+    repeatEndingKind =
+      repeatEnding->
+        getRepeatEndingKind ();
+
+  // consistency check
+  switch (repeatEndingKind) {
+    case msrRepeatEnding::kHookedEnding:
+      switch (fCurrentRepeatBuildStatusKind) {
+        case msrRepeat::kRepeatBuildStatusAcceptingCommonPart:
+          fCurrentRepeatBuildStatusKind =
+            msrRepeat::kRepeatBuildStatusAcceptingHookedEndings;
+          break;
+        case msrRepeat::kRepeatBuildStatusAcceptingHookedEndings:
+          // there can be several successive hooked endings
+          break;
+        case msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding:
+          {
+            stringstream s;
+    
+            s <<
+              "hooked ending '" <<
+              repeatEnding->asShortString () <<
+              "'cannot follow a hookless one in a given repeat";
+              
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+        case msrRepeat::kRepeatBuildStatusCompleted:
+          {
+            stringstream s;
+    
+            s <<
+              "hooked ending '" <<
+              repeatEnding->asShortString () <<
+              "'cannot be added to a completed repeat";
+              
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+      } // switch
+      break;
+
+    case msrRepeatEnding::kHooklessEnding:
+      switch (fCurrentRepeatBuildStatusKind) {
+        case msrRepeat::kRepeatBuildStatusAcceptingCommonPart:
+          {
+            stringstream s;
+    
+            s <<
+              "hookless ending '" <<
+              repeatEnding->asShortString () <<
+              "'cannot follow the common part without a preceding hooked one in a given repeat";
+              
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+        case msrRepeat::kRepeatBuildStatusAcceptingHookedEndings:
+          fCurrentRepeatBuildStatusKind =
+            msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding;
+          break;
+        case msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding:
+          {
+            stringstream s;
+    
+            s <<
+              "hookless ending '" <<
+              repeatEnding->asShortString () <<
+              "'cannot follow another hookless one in a given repeat";
+              
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+        case msrRepeat::kRepeatBuildStatusCompleted:
+          {
+            stringstream s;
+    
+            s <<
+              "hookless ending '" <<
+              repeatEnding->asShortString () <<
+              "'cannot be added to a completed repeat";
+              
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+      } // switch
+      break;
+  } // switch
+
   fRepeatEndings.push_back (repeatEnding);
 
   // set repeat ending internal number
@@ -1426,6 +1541,46 @@ void msrRepeat::browseData (basevisitor* v)
   } // for
 }
 
+string msrRepeat::repeatExplicitStartKindAsString (
+  msrRepeatExplicitStartKind repeatExplicitStartKind)
+{
+  string result;
+  
+  switch (repeatExplicitStartKind) {
+    case msrRepeat::kRepeatExplicitStartNo:
+      result = "repeatExplicitStartNo";
+      break;
+    case msrRepeat::kRepeatExplicitStartYes:
+      result = "repeatExplicitStartYes";
+      break;
+  } // switch
+  
+  return result;
+}
+
+string msrRepeat::repeatBuildStatusKindAsString (
+  msrRepeatBuildStatusKind repeatBuildStatusKind)
+{
+  string result;
+  
+  switch (repeatBuildStatusKind) {
+    case msrRepeat::kRepeatBuildStatusAcceptingCommonPart:
+      result = "repeatBuildStatusAcceptingCommonPart";
+      break;
+    case msrRepeat::kRepeatBuildStatusAcceptingHookedEndings:
+      result = "repeatBuildStatusAcceptingHookedEndings";
+      break;
+    case msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding:
+      result = "repeatBuildStatusAcceptingHooklessEnding";
+      break;
+    case msrRepeat::kRepeatBuildStatusCompleted:
+      result = "repeatBuildStatusCompleted";
+      break;
+  } // switch
+  
+  return result;
+}
+
 string msrRepeat::asShortString () const
 {
   stringstream s;
@@ -1433,6 +1588,12 @@ string msrRepeat::asShortString () const
   s <<
     "Repeat" <<
     ", " << fRepeatTimes << " times" <<
+   ", repeatExplicitStartKind: " <<
+    repeatExplicitStartKindAsString (
+      fRepeatExplicitStartKind) <<
+    ", currentRepeatBuildStatusKind: " <<
+    repeatBuildStatusKindAsString (
+      fCurrentRepeatBuildStatusKind) <<
     ", common part: ";
 
   if (fRepeatCommonPart) {
@@ -1467,6 +1628,12 @@ string msrRepeat::asString () const
   s <<
     "Repeat" <<
     ", " << fRepeatTimes << " times" <<
+   ", repeatExplicitStartKind:: " <<
+    repeatExplicitStartKindAsString (
+      fRepeatExplicitStartKind) <<
+    ", currentRepeatBuildStatusKind: " <<
+    repeatBuildStatusKindAsString (
+      fCurrentRepeatBuildStatusKind) <<
     ", common part: ";
 
   if (fRepeatCommonPart) {
@@ -1514,6 +1681,12 @@ void msrRepeat::print (ostream& os)
   os <<
     "Repeat" <<
     ", " << fRepeatTimes << " times" <<
+   ", repeatExplicitStartKind: " <<
+    repeatExplicitStartKindAsString (
+      fRepeatExplicitStartKind) <<
+    ", currentRepeatBuildStatusKind: " <<
+    repeatBuildStatusKindAsString (
+      fCurrentRepeatBuildStatusKind) <<
     ", " <<
     singularOrPlural (
       fRepeatEndings.size (),
@@ -1584,6 +1757,9 @@ void msrRepeat::shortPrint (ostream& os)
       fRepeatEndings.size (),
       "repeat ending",
       "repeat endings") <<
+    ", repeatExplicitStartKind:: " <<
+    repeatExplicitStartKindAsString (
+      fRepeatExplicitStartKind) <<
     ", line " << fInputLineNumber <<
     endl <<
     endl;
