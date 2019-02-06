@@ -2353,6 +2353,7 @@ void msrSegment::print (ostream& os)
     "', " <<
     singularOrPlural (
       fSegmentMeasuresList.size (), "measure", "measures") <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
@@ -2400,6 +2401,7 @@ void msrSegment::shortPrint (ostream& os)
     "', " <<
     singularOrPlural (
       fSegmentMeasuresList.size (), "measure", "measures") <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;

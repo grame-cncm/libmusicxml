@@ -1729,7 +1729,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentTimeSymbolKind =
-    msrTime::kTimeSymbolNone; // default value
+    msrTime::kTimeSymbolSingleNumber; // default value
   
   if       (timeSymbol == "common") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
@@ -1746,7 +1746,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
   else  if (timeSymbol == "single-number") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
   }
-  // \numericTimeSignature par default si pas de symbol // JMI
   
   else {
     if (timeSymbol.size ()) {

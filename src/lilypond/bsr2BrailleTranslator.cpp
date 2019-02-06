@@ -362,11 +362,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrMusicHeading& elt)
   }
 #endif
 
-  if (true) {
+#ifdef TRACE_OPTIONS
+  if (false) { // JMI
     fLogOutputStream <<
       "Generating an EOL after S_bsrMusicHeading" <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForBrailleCell (
     kCellEOL);
@@ -466,11 +468,13 @@ void bsr2BrailleTranslator::visitEnd (S_bsrLineContents& elt)
   }
 #endif
 
-  if (true) {
+#ifdef TRACE_OPTIONS
+  if (false) { // JMI
     fLogOutputStream <<
       "Generating an EOL after S_bsrLineContents" <<
       endl;
   }
+#endif
 
   fBrailleGenerator->generateCodeForBrailleCell (
     kCellEOL);

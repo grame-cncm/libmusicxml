@@ -1683,7 +1683,7 @@ bsrNote::bsrNoteOctaveIsNeeded msr2BsrTranslator::brailleOctaveMarkInNeeded (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OPTIONS
-  if (true || gGeneralOptions->fTraceNotesDetails) {
+  if (gGeneralOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLogOutputStream << left <<
@@ -2441,7 +2441,7 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
         noteValueKind);
 
   // is a note value sign needed?
-  if (true || gGeneralOptions->fTraceNotesDetails) {
+  if (gGeneralOptions->fTraceNotesDetails) {
     fLogOutputStream <<
       "--> fCurrentNoteValueSizeKind = " <<
       bsrNote::noteValueSizeKindAsString (fCurrentNoteValueSizeKind) <<
