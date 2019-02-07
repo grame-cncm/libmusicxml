@@ -256,29 +256,6 @@ void msrVoice::initializeVoice (
     rational (INT_MAX, 1);
   fVoiceShortestNoteTupletFactor =
     rational (1, 1);
-    
-  // should the initial last segment be created?
-  /* JMI
-      createNewLastSegmentForVoice (
-        fInputLineNumber,
-      "appendSegnoToVoice()");
-      break;
-      
-    case msrVoice::kCreateInitialLastSegmentNo:
-#ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
-        gLogIOstream <<
-          "NO initial voice last segment is created for voice \"" <<
-          fVoiceName <<
-          "\" in staff \"" <<
-          fVoiceStaffUplink->getStaffName () <<
-          "\"" <<
-          endl;
-      }
-#endif
-      break;
-  } // switch
-  */
   
   // set voice number
   fVoiceCurrentMeasureNumber = // JMI "??";
@@ -3785,7 +3762,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
         inputLineNumber);
 
   // forget about this voice last segment
-  fVoiceLastSegment = nullptr;
+ // JMJ fVoiceLastSegment = nullptr;
 
   // create a new last segment to collect the remainder of the voice,
   createNewLastSegmentForVoice (
@@ -5447,13 +5424,6 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
 
         fVoiceLastSegment->appendMeasuresRepeatToSegment (
           fVoiceCurrentMeasuresRepeat);
-      
-        // create a new last segment to collect the remainder of the voice,
-        // containing the next, yet incomplete, measure
-            /* JMI
-        createNewLastSegmentForVoice (
-          inputLineNumber);
-          */
       }
       break;
   } // switch
@@ -6828,15 +6798,6 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   currentRepeat->
     addRepeatEnding (repeatEnding);
 
-  displayVoiceRepeatsStack ("after adding a hookless repeat ending to current repeat");
-
-/* JMI
-  // create a new last segment containing a new measure for the voice
-  createNewLastSegmentForVoice (
-    inputLineNumber,
-    "handleHooklessRepeatEndingEndInVoiceClone()");
-    */
-
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
@@ -7256,12 +7217,6 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
           
         currentRepeat->
           addRepeatEnding (repeatEndingClone);
-      
-        // create a new segment for the voice
-            /* JMI
-        createNewLastSegmentForVoice (
-          repeatEndingClone->getInputLineNumber ());
-          */
       }
       break;
   } // switch
@@ -7983,6 +7938,22 @@ void msrVoice::print (ostream& os)
     os <<
       "'" <<
       fVoiceFirstSegment->getSegmentAbsoluteNumber () <<
+      "'";
+    }
+  else {
+    os <<
+      "none";
+  }
+  os <<
+    endl;
+
+  // print the voice first measure if any
+  os <<
+    setw (fieldWidth) << "voiceFirstMeasure" << " : ";
+  if (fVoiceFirstMeasure) {
+    os <<
+      "'" <<
+      fVoiceFirstMeasure->asShortString () <<
       "'";
     }
   else {

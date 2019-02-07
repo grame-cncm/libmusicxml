@@ -65,6 +65,11 @@ msrMeasure::msrMeasure (
 
 void msrMeasure::initializeMeasure ()
 {
+  S_msrVoice
+    voiceUplink =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+      
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -72,9 +77,7 @@ void msrMeasure::initializeMeasure ()
       "' in segment '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
+      voiceUplink->getVoiceName () <<
       "\"" <<
       ", line " << fInputLineNumber <<
       endl;
@@ -114,6 +117,9 @@ void msrMeasure::initializeMeasure ()
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentUnknown;
 
+  // measure 'first in voice'
+  fMeasureFirstInVoice = false; // default value
+
   // measure 'created for a repeat' kind
   fMeasureCreatedForARepeatKind = kMeasureCreatedForARepeatNo;
 
@@ -125,18 +131,16 @@ void msrMeasure::initializeMeasure ()
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
 
-
   // fetch the staff
   S_msrStaff
-    staff =
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceStaffUplink ();
+    staffUplink =
+      voiceUplink->
+        getVoiceStaffUplink ();
 
   // get the staff time
   S_msrTime
     time =
-      staff->
+      staffUplink->
         getStaffCurrentTime ();
         
   // set the measure full length if relevant
@@ -536,6 +540,28 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
 #endif
 
   fNextMeasureNumber = nextMeasureNumber;
+}
+
+void msrMeasure::setMeasureFirstInVoice ()
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Setting measure '" <<
+      fMeasureNumber <<
+      "' as first measure in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      "' in segment '" <<
+      fMeasureSegmentUplink-> asString () <<
+      "', line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
+  fMeasureFirstInVoice = true;
 }
 
 string msrMeasure::fullMeasureWholeNotesAsMSRString ()
@@ -2910,6 +2936,12 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
+    "measureFirstInVoice" << " : " <<
+    booleanAsString (
+      fMeasureFirstInVoice) <<
+    endl <<
+
+    setw (fieldWidth) <<
     "actualMeasureWholeNotes" << " : " << fActualMeasureWholeNotes <<
     endl <<
     
@@ -3038,6 +3070,12 @@ void msrMeasure::shortPrint (ostream& os)
   const int fieldWidth = 28;
       
   os << left <<
+    setw (fieldWidth) <<
+    "measureFirstInVoice" << " : " <<
+    booleanAsString (
+      fMeasureFirstInVoice) <<
+    endl <<
+
     setw (fieldWidth) <<
     "measureImplicitKind" << " : " <<
     booleanAsString (

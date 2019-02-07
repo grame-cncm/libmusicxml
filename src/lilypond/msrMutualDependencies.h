@@ -734,6 +734,11 @@ class msrMeasure : public msrElement
     string                getNextMeasureNumber () const
                               { return fNextMeasureNumber; }
 
+    void                  setMeasureFirstInVoice ();
+
+    bool                  getMeasureFirstInVoice () const
+                              { return fMeasureFirstInVoice; }
+
     // measure lengthes, in whole notes
     
     void                  setFullMeasureWholeNotes (
@@ -1134,6 +1139,7 @@ class msrMeasure : public msrElement
     string                fMeasureNumber;
     string                fNextMeasureNumber;
     int                   fMeasureOrdinalNumber;
+    bool                  fMeasureFirstInVoice;
 
     // measure longest note
     
@@ -6082,6 +6088,13 @@ class msrVoice : public msrElement
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
+    void                  setVoiceFirstMeasure (
+                            S_msrMeasure measure)
+                              { fVoiceFirstMeasure = measure; }
+
+    const S_msrMeasure    getVoiceFirstMeasure () const
+                              { return fVoiceFirstMeasure; }
+
     // has music been inserted in the voice?
     
     void                  setMusicHasBeenInsertedInVoice ()
@@ -6715,6 +6728,9 @@ class msrVoice : public msrElement
     
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;
+
+    // fVoiceFirstMeasure is used to number voice upbeats as measure 0
+    S_msrMeasure          fVoiceFirstMeasure;
 
     // a stack is needed to handle nested repeats
     list<S_msrRepeat>     fVoiceRepeatsStack;

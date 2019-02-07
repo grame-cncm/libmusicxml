@@ -267,15 +267,15 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
         measureNumber,
         this);
 
+  // set it's ordinal number
+  result->
+    setMeasureOrdinalNumber (
+      measureOrdinalNumber);
+
   // set 'first in segment' kind
   result->
     setMeasureFirstInSegmentKind (
       measureFirstInSegmentKind);
-
-  // set it's ordianl number
-  result->
-    setMeasureOrdinalNumber (
-      measureOrdinalNumber);
 
   // append it to the segment's measures list
   fSegmentMeasuresList.push_back (
@@ -1552,6 +1552,17 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   }
 
   else { // JMI TEMP
+    // is measure the first one it the voice?
+    if (! fSegmentVoiceUplink->getVoiceFirstMeasure ()) {
+      // yes, register it as such
+      fSegmentVoiceUplink->
+        setVoiceFirstMeasure (
+          measure);
+        
+      measure->
+        setMeasureFirstInVoice ();
+    }
+
     // append measure to the segment
     fSegmentMeasuresList.push_back (measure);
   }
