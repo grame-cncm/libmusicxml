@@ -6380,7 +6380,7 @@ class msrVoice : public msrElement
                                       repeatEndingKind);
                             
     void                  handleRepeatCommonPartEndInVoiceClone (
-                            int       inputLineNumber);
+                            int inputLineNumber);
 
     void                  handleRepeatEndingStartInVoiceClone (
                             int inputLineNumber);
@@ -6404,7 +6404,7 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat);
   
     void                  handleRepeatEndInVoiceClone (
-                            int    inputLineNumber);
+                            int inputLineNumber);
   
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
@@ -6423,7 +6423,7 @@ class msrVoice : public msrElement
                             int inputLineNumber);
                             
     void                  appendMeasuresRepeatReplicaToVoice (
-                            int       inputLineNumber);
+                            int inputLineNumber);
 
     void                  handleMultipleRestInVoiceClone (
                             int inputLineNumber);

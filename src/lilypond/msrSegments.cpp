@@ -64,16 +64,17 @@ void msrSegment::initializeSegment ()
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "% ==> Initializing new segment, gets absolute number '" <<
+      "Initializing new segment '" <<
       fSegmentAbsoluteNumber <<
-      "'" <<
-      ", in voice \"" <<
+      "', in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
-      "\"" <<
+      "\", line " << fInputLineNumber <<
       endl;
   }
 #endif
 
+  // JMI if (fSegmentAbsoluteNumber == 4) abort();
+  
   // segment's measure number has not been set yet
   fMeasureNumberHasBeenSetInSegment = false;
 }

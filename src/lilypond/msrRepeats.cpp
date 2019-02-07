@@ -1806,9 +1806,9 @@ void msrRepeat::shortPrint (ostream& os)
       (*i)->shortPrint (os);
       if (++i == iEnd) break;
   // JMI    os << endl;
+    } // for
 
     gIndenter--;
-    } // for
   }
       
   gIndenter--;
