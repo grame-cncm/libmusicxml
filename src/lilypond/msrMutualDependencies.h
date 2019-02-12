@@ -5149,14 +5149,15 @@ class msrRepeat : public msrVoiceElement
     static string repeatExplicitStartKindAsString (
       msrRepeatExplicitStartKind repeatExplicitStartKind);
       
-    enum msrRepeatBuildStatusKind {
-      kRepeatBuildStatusAcceptingCommonPart,
-      kRepeatBuildStatusAcceptingHookedEndings,
-      kRepeatBuildStatusAcceptingHooklessEnding,
-      kRepeatBuildStatusCompleted};
+    enum msrRepeatBuildPhaseKind {
+      kRepeatBuildPhaseJustCreated,
+      kRepeatBuildPhaseAcceptingCommonPart,
+      kRepeatBuildPhaseAcceptingHookedEndings,
+      kRepeatBuildPhaseAcceptingHooklessEnding,
+      kRepeatBuildPhaseCompleted};
 
-    static string repeatBuildStatusKindAsString (
-      msrRepeatBuildStatusKind repeatBuildStatusKind);
+    static string repeatBuildPhaseKindAsString (
+      msrRepeatBuildPhaseKind repeatBuildPhaseKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
@@ -5193,8 +5194,7 @@ class msrRepeat : public msrVoiceElement
     int                   getRepeatTimes () const
                               { return fRepeatTimes; }
 
-    void                  setRepeatTimes (
-                            int repeatTimes)
+    void                  setRepeatTimes (int repeatTimes) // JMI
                               { fRepeatTimes = repeatTimes; }
 
     // implicit start?
@@ -5210,7 +5210,7 @@ class msrRepeat : public msrVoiceElement
                               { return fRepeatExplicitStartKind; }
 
     // common part
-    void                  setRepeatCommonPart ( // JMI ???
+    void                  setRepeatCommonPart (
                             S_msrRepeatCommonPart repeatCommonPart);
                   
     S_msrRepeatCommonPart getRepeatCommonPart () const
@@ -5221,25 +5221,31 @@ class msrRepeat : public msrVoiceElement
                           getRepeatEndings () const
                               { return fRepeatEndings; }
 
-    // repeat build status
-    void                  setCurrentRepeatBuildStatusKind (
-                            msrRepeatBuildStatusKind repeatBuildStatusKind)
+    // repeat build phase
+    void                  setCurrentRepeatBuildPhaseKind (
+                            msrRepeatBuildPhaseKind repeatBuildPhaseKind)
                               {
-                                fCurrentRepeatBuildStatusKind =
-                                  repeatBuildStatusKind;
+                                fCurrentRepeatBuildPhaseKind =
+                                  repeatBuildPhaseKind;
                               }
                             
-    msrRepeatBuildStatusKind
-                          getCurrentRepeatBuildStatusKind () const
-                            { return fCurrentRepeatBuildStatusKind; }
+    msrRepeatBuildPhaseKind
+                          getCurrentRepeatBuildPhaseKind () const
+                            { return fCurrentRepeatBuildPhaseKind; }
                             
   public:
 
     // services
     // ------------------------------------------------------
 
-    void                  addRepeatEnding (
+    void                  addRepeatEndingToRepeat (
+                            int               inputLineNumber,
                             S_msrRepeatEnding repeatEnding);
+
+    void                  appendSegmentToRepeat (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            string       context);
 
     S_msrNote             fetchRepeatFirstNonGraceNote () const;
 
@@ -5291,9 +5297,9 @@ class msrRepeat : public msrVoiceElement
                           fRepeatEndings;
     int                   fRepeatEndingsInternalCounter;
 
-    // repeat build status, used when building the repeat
-    msrRepeatBuildStatusKind
-                          fCurrentRepeatBuildStatusKind;
+    // repeat build phase, used when building the repeat
+    msrRepeatBuildPhaseKind
+                          fCurrentRepeatBuildPhaseKind;
 };
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
@@ -6047,7 +6053,10 @@ class msrVoice : public msrElement
 
     // voice last segment
     
-    void                  setVoiceCloneLastSegment (
+    void                  setVoiceLastSegmentInVoiceClone (
+                            S_msrSegment segment);
+
+    void                  appendSegmentToVoiceClone (
                             S_msrSegment segment);
 
     S_msrSegment          getVoiceLastSegment () const
@@ -6392,11 +6401,17 @@ class msrVoice : public msrElement
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
                             
+    void                  handleRepeatCommonPartStartInVoiceClone (
+                            int inputLineNumber);
+
     void                  handleRepeatCommonPartEndInVoiceClone (
                             int inputLineNumber);
 
     void                  handleRepeatEndingStartInVoiceClone (
-                            int inputLineNumber);
+                            int       inputLineNumber,
+                            msrRepeatEnding::msrRepeatEndingKind
+                                      repeatEndingKind,
+                            string    repeatEndingNumber); // may be "1, 2"
                             
     void                  handleRepeatEndingEndInVoiceClone (
                             int       inputLineNumber,
@@ -6518,6 +6533,10 @@ class msrVoice : public msrElement
     // private services
     // ------------------------------------------------------
 
+    void                  displayVoiceContents (
+                            int    inputLineNumber,
+                            string context);
+                            
     S_msrRepeat           createARepeatAndStackIt (
                             int    inputLineNumber,
                             string context);
@@ -6537,9 +6556,12 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
                             
-    void                  appendSegmentToInitialVoiceElements (
+    void                  appendVoiceLastSegmentToInitialVoiceElements (
                             int          inputLineNumber,
-                            S_msrSegment segmentClone,
+                            string       context);
+    
+    void                  moveVoiceLastSegmentToInitialVoiceElements (
+                            int          inputLineNumber,
                             string       context);
     
     void                  appendRepeatToInitialVoiceElements (

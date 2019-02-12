@@ -2657,7 +2657,7 @@ void msr2BsrTranslator::visitStart (S_msrSegment& elt)
     
   // append it to the current voice
   fCurrentVoiceClone->
-    setVoiceCloneLastSegment ( // cuts link to the one created by default JMI ???
+    appendSegmentToVoiceClone (
       segmentClone);
 }
 
@@ -2951,8 +2951,8 @@ void msr2BsrTranslator::finalizeCurrentMeasureClone (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     fLogOutputStream <<
-      "Finalizing measure " << measureNumber <<
-      " in voice \"" << voice->getVoiceName () <<
+      "Finalizing measure '" << measureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl <<
       "actualMeasureWholeNotes = " << actualMeasureWholeNotes <<

@@ -604,9 +604,9 @@ class msr2LpsrTranslator :
 
     // segments
     // ------------------------------------------------------
-    // segments can be imbedded in others,
     // the current segment clone is the one at the top of the stack
-    stack<S_msrSegment>       fCurrentSegmentClonesStack;
+    S_msrSegment              fCurrentSegmentClone;
+// JMI    stack<S_msrSegment>       fCurrentSegmentClonesStack;
 
     
     // measures

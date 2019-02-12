@@ -719,12 +719,17 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 
     gIndenter--;
 
+    S_msrVoice
+      voiceUplink =
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ();
+        
     gLogIOstream <<
       "to measure clone '" << fMeasureNumber <<
+      "' in segment clone '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ()->
-          getVoiceName () <<
+      voiceUplink->getVoiceName () <<
       "\"" <<
       endl;
   }
@@ -1185,6 +1190,8 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     gLogIOstream <<
       "Appending note '" << note->asShortString () <<
       "' to measure clone '" << fMeasureNumber <<
+      "' in segment clone '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice clone \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1602,6 +1609,8 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     gLogIOstream <<
       "Appending harmony '" << harmony->asString () <<
       "' to measure clone '" << fMeasureNumber <<
+      "' in segment clone '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice clone \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1694,6 +1703,8 @@ void msrMeasure::appendFiguredBassToMeasureClone (
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to measure clone '" << fMeasureNumber <<
+      "' in segment clone '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice clone \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->

@@ -1523,7 +1523,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     if (fSegmentMeasuresList.size () == 0)
       gLogIOstream <<
-        ", as first measure FII"; // JMI
+        ", as first measure";
     else
       gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
@@ -2310,10 +2310,9 @@ string msrSegment::asShortString () const
   stringstream s;
 
   s <<
- // JMI   "Segment " <<
-    "'" << fSegmentAbsoluteNumber <<
- // JMI   " in voice \"" <<
-    "' in \"" <<
+   "Segment '" <<
+    fSegmentAbsoluteNumber <<
+    "' in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
 

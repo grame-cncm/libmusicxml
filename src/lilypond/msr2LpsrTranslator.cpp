@@ -1557,28 +1557,19 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
       endl;
   }
 
-/* JMI
-
-  // fetch the current segment clone
-  fCurrentSegmentClone =
-    fCurrentVoiceClone->
-      getVoiceLastSegment ();
-      */
-
   // create a clone of the segment
-  S_msrSegment
-    segmentClone =
-      elt->createSegmentNewbornClone (
-        fCurrentVoiceClone);
+  fCurrentSegmentClone =
+    elt->createSegmentNewbornClone (
+      fCurrentVoiceClone);
 
-  // push it onto the segment clones stack
-  fCurrentSegmentClonesStack.push (
-    segmentClone);
-    
-  // append it to the current voice
+  // set it as the new voice last segment
   fCurrentVoiceClone->
-    setVoiceCloneLastSegment ( // cuts link to the one created by default JMI ???
-      segmentClone);
+    setVoiceLastSegmentInVoiceClone (
+      fCurrentSegmentClone);
+    
+  // push it onto the segment clones stack
+//  fCurrentSegmentClonesStack.push (
+// JMI    fCurrentSegmentClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
@@ -1590,9 +1581,17 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+    
+  // append current segment clone to the current voice
+  //* JMI NO, will be done upon msrRepeatEnding and msrRepeat ends
+  fCurrentVoiceClone->
+    appendSegmentToVoiceClone (
+      fCurrentSegmentClone);
+    //  */
 
   // forget current segment clone
-  fCurrentSegmentClonesStack.pop ();
+  fCurrentSegmentClone = nullptr;
+// JMI  fCurrentSegmentClonesStack.pop ();
 }
 
 //________________________________________________________________________
@@ -1796,10 +1795,10 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   fCurrentMeasureClone =
     elt->
       createMeasureNewbornClone (
-        fCurrentSegmentClonesStack.top ());
+        fCurrentSegmentClone);
       
   // append it to the current segment clone
-  fCurrentSegmentClonesStack.top ()->
+  fCurrentSegmentClone->
     appendMeasureToSegment (
       fCurrentMeasureClone);
       
@@ -1860,8 +1859,8 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
             getPartActualMeasureWholeNotesHighTide ();
 
     fLogOutputStream <<
-      "Finalizing measure " << measureNumber <<
-      " in voice \"" << voice->getVoiceName () <<
+      "Finalizing measure '" << measureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl <<
       "actualMeasureWholeNotes = " <<
@@ -4568,19 +4567,6 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
       endl;
   }
 
-/* JMI
-  fLogOutputStream <<
-    endl <<
-    "*********** fCurrentPartClone" <<
-    endl <<
-    endl;
-  fCurrentPartClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "*********** fCurrentPartClone" <<
-    endl <<
-    endl;
-    */
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -4664,6 +4650,10 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
     gIndenter--;
   }
 #endif
+
+  fCurrentVoiceClone->
+    handleRepeatCommonPartStartInVoiceClone (
+      inputLineNumber);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
@@ -4747,7 +4737,9 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 
   fCurrentVoiceClone->
     handleRepeatEndingStartInVoiceClone (
-      inputLineNumber);
+      inputLineNumber,
+      elt->getRepeatEndingKind (),
+      elt->getRepeatEndingNumber ());
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)

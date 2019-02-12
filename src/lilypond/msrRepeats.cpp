@@ -112,7 +112,7 @@ void msrRepeatElement::appendSegmentToRepeatElement (
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending segment '" << segment <<
-      "' to repeat common part '" << asString () <<
+      "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
       endl;
@@ -136,7 +136,7 @@ void msrRepeatElement::appendRepeatToRepeatElement (
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending repeat '" << repeat <<
-      "' to repeat common part '" << asString () <<
+      "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
       endl;
@@ -160,7 +160,7 @@ void msrRepeatElement::appendVoiceElementToRepeatElement (
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending voice element '" << voiceElement <<
-      "' to repeat common part '" << asString () <<
+      "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
       endl;
@@ -1267,15 +1267,9 @@ msrRepeat::msrRepeat (
 
   fRepeatExplicitStartKind = kRepeatExplicitStartNo; // default value
 
-  // create the common part
-  fRepeatCommonPart =
-    msrRepeatCommonPart::create (
-      inputLineNumber,
-      this);
-
-  // repeat build status
-  fCurrentRepeatBuildStatusKind =
-    msrRepeat::kRepeatBuildStatusAcceptingCommonPart;
+  // repeat build phase
+  fCurrentRepeatBuildPhaseKind =
+    msrRepeat::kRepeatBuildPhaseJustCreated;
 }
 
 S_msrRepeat msrRepeat::createRepeatNewbornClone (
@@ -1329,9 +1323,14 @@ void msrRepeat::setRepeatCommonPart (
 #endif
       
   fRepeatCommonPart = repeatCommonPart;
+
+  // now ready to accept hooked endings
+  fCurrentRepeatBuildPhaseKind =
+    msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings;
 }
 
-void msrRepeat::addRepeatEnding (
+void msrRepeat::addRepeatEndingToRepeat (
+  int               inputLineNumber,
   S_msrRepeatEnding repeatEnding)
 {
   // sanity check
@@ -1358,15 +1357,43 @@ void msrRepeat::addRepeatEnding (
   // consistency check
   switch (repeatEndingKind) {
     case msrRepeatEnding::kHookedEnding:
-      switch (fCurrentRepeatBuildStatusKind) {
-        case msrRepeat::kRepeatBuildStatusAcceptingCommonPart:
-          fCurrentRepeatBuildStatusKind =
-            msrRepeat::kRepeatBuildStatusAcceptingHookedEndings;
+      switch (fCurrentRepeatBuildPhaseKind) {
+        case msrRepeat::kRepeatBuildPhaseJustCreated:
+          {
+            stringstream s;
+    
+            s <<
+              "hooked ending '" <<
+              repeatEnding->asShortString () <<
+              "'cannot be added to a just created repeat";
+              
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;        
+        case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
+          {
+            stringstream s;
+    
+            s <<
+              "no common part present before hooked repeat ending '" <<
+              repeatEnding->asShortString () <<
+              "'";
+              
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
           break;
-        case msrRepeat::kRepeatBuildStatusAcceptingHookedEndings:
+        case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
           // there can be several successive hooked endings
           break;
-        case msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding:
+        case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
           {
             stringstream s;
     
@@ -1382,7 +1409,7 @@ void msrRepeat::addRepeatEnding (
               s.str ());
           }
           break;
-        case msrRepeat::kRepeatBuildStatusCompleted:
+        case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
     
@@ -1402,28 +1429,29 @@ void msrRepeat::addRepeatEnding (
       break;
 
     case msrRepeatEnding::kHooklessEnding:
-      switch (fCurrentRepeatBuildStatusKind) {
-        case msrRepeat::kRepeatBuildStatusAcceptingCommonPart:
+      switch (fCurrentRepeatBuildPhaseKind) {
+        case msrRepeat::kRepeatBuildPhaseJustCreated:
+        case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
           {
             stringstream s;
     
             s <<
-              "hookless ending '" <<
+              "no common part present before hookless repeat ending '" <<
               repeatEnding->asShortString () <<
-              "'cannot follow the common part without a preceding hooked one in a given repeat";
+              "'";
               
-            msrMusicXMLError (
+            msrInternalError (
               gGeneralOptions->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
           }
           break;
-        case msrRepeat::kRepeatBuildStatusAcceptingHookedEndings:
-          fCurrentRepeatBuildStatusKind =
-            msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding;
+        case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
+          fCurrentRepeatBuildPhaseKind =
+            msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding;
           break;
-        case msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding:
+        case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
           {
             stringstream s;
     
@@ -1439,7 +1467,7 @@ void msrRepeat::addRepeatEnding (
               s.str ());
           }
           break;
-        case msrRepeat::kRepeatBuildStatusCompleted:
+        case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
     
@@ -1464,6 +1492,111 @@ void msrRepeat::addRepeatEnding (
   repeatEnding->
     setRepeatEndingInternalNumber (
       ++ fRepeatEndingsInternalCounter);
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      endl <<
+      "*********>> Current repeat addRepeatEndingToRepeat() 0 \"" <<
+      asShortString () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      " contains:" <<
+      endl;
+
+    gIndenter++;
+    print (gLogIOstream);
+    gIndenter--;
+
+    gLogIOstream <<
+      "<<*********" <<
+      endl <<
+      endl;
+  }
+#endif
+}
+
+void msrRepeat::appendSegmentToRepeat (
+  int          inputLineNumber,
+  S_msrSegment segment,
+  string       context)
+{
+  switch (fCurrentRepeatBuildPhaseKind) {
+    case msrRepeat::kRepeatBuildPhaseJustCreated:
+      {
+        stringstream s;
+
+        s <<
+          "segment '" <<
+          segment->asShortString () <<
+          "'cannot be added to a just created repeat" <<
+          "(" << context << ")";
+          
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+
+    case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
+        fRepeatCommonPart->
+          appendSegmentToRepeatCommonPart (
+            inputLineNumber,
+            segment,
+            context);
+      break;
+      
+    case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
+    case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
+      fRepeatEndings.back ()->
+        appendSegmentToRepeatEnding (
+          inputLineNumber,
+          segment,
+          context);
+      break;
+      
+    case msrRepeat::kRepeatBuildPhaseCompleted:
+      {
+        stringstream s;
+
+        s <<
+          "segment '" <<
+          segment->asShortString () <<
+          "'cannot be added to a completed repeat" <<
+          "(" << context << ")";
+          
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+  } // switch
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      endl <<
+      "*********>> Current repeat appendSegmentToRepeat() 0 \"" <<
+      asShortString () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      " contains:" <<
+      endl;
+
+    gIndenter++;
+    print (gLogIOstream);
+    gIndenter--;
+
+    gLogIOstream <<
+      "<<*********" <<
+      endl <<
+      endl;
+  }
+#endif
 }
 
 S_msrNote msrRepeat::fetchRepeatFirstNonGraceNote () const
@@ -1472,7 +1605,8 @@ S_msrNote msrRepeat::fetchRepeatFirstNonGraceNote () const
 
   if (fRepeatCommonPart) {
     result =
-      fRepeatCommonPart->fetchRepeatCommonPartFirstNonGraceNote ();
+      fRepeatCommonPart->
+        fetchRepeatCommonPartFirstNonGraceNote ();
   }
 
   return result;
@@ -1558,23 +1692,26 @@ string msrRepeat::repeatExplicitStartKindAsString (
   return result;
 }
 
-string msrRepeat::repeatBuildStatusKindAsString (
-  msrRepeatBuildStatusKind repeatBuildStatusKind)
+string msrRepeat::repeatBuildPhaseKindAsString (
+  msrRepeatBuildPhaseKind repeatBuildPhaseKind)
 {
   string result;
   
-  switch (repeatBuildStatusKind) {
-    case msrRepeat::kRepeatBuildStatusAcceptingCommonPart:
-      result = "repeatBuildStatusAcceptingCommonPart";
+  switch (repeatBuildPhaseKind) {
+    case msrRepeat::kRepeatBuildPhaseJustCreated:
+      result = "repeatBuildPhaseJustCreated";
       break;
-    case msrRepeat::kRepeatBuildStatusAcceptingHookedEndings:
-      result = "repeatBuildStatusAcceptingHookedEndings";
+    case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
+      result = "repeatBuildPhaseAcceptingCommonPart";
       break;
-    case msrRepeat::kRepeatBuildStatusAcceptingHooklessEnding:
-      result = "repeatBuildStatusAcceptingHooklessEnding";
+    case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
+      result = "repeatBuildPhaseAcceptingHookedEndings";
       break;
-    case msrRepeat::kRepeatBuildStatusCompleted:
-      result = "repeatBuildStatusCompleted";
+    case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
+      result = "repeatBuildPhaseAcceptingHooklessEnding";
+      break;
+    case msrRepeat::kRepeatBuildPhaseCompleted:
+      result = "repeatBuildPhaseCompleted";
       break;
   } // switch
   
@@ -1591,9 +1728,9 @@ string msrRepeat::asShortString () const
    ", repeatExplicitStartKind: " <<
     repeatExplicitStartKindAsString (
       fRepeatExplicitStartKind) <<
-    ", currentRepeatBuildStatusKind: " <<
-    repeatBuildStatusKindAsString (
-      fCurrentRepeatBuildStatusKind) <<
+    ", currentRepeatBuildPhaseKind: " <<
+    repeatBuildPhaseKindAsString (
+      fCurrentRepeatBuildPhaseKind) <<
     ", common part: ";
 
   if (fRepeatCommonPart) {
@@ -1631,9 +1768,9 @@ string msrRepeat::asString () const
    ", repeatExplicitStartKind:: " <<
     repeatExplicitStartKindAsString (
       fRepeatExplicitStartKind) <<
-    ", currentRepeatBuildStatusKind: " <<
-    repeatBuildStatusKindAsString (
-      fCurrentRepeatBuildStatusKind) <<
+    ", currentRepeatBuildPhaseKind: " <<
+    repeatBuildPhaseKindAsString (
+      fCurrentRepeatBuildPhaseKind) <<
     ", common part: ";
 
   if (fRepeatCommonPart) {
@@ -1681,24 +1818,39 @@ void msrRepeat::print (ostream& os)
   os <<
     "Repeat" <<
     ", " << fRepeatTimes << " times" <<
-   ", repeatExplicitStartKind: " <<
-    repeatExplicitStartKindAsString (
-      fRepeatExplicitStartKind) <<
-    ", currentRepeatBuildStatusKind: " <<
-    repeatBuildStatusKindAsString (
-      fCurrentRepeatBuildStatusKind) <<
-    ", " <<
-    singularOrPlural (
-      fRepeatEndings.size (),
-      "repeat ending",
-      "repeat endings") <<
     ", line " << fInputLineNumber <<
-    endl;
-  os <<
     endl;
     
   gIndenter++;
-  
+
+  const int fieldWidth = 28;
+
+  os << left <<
+    setw (fieldWidth) <<
+   "repeatExplicitStartKind" << " : " <<
+    repeatExplicitStartKindAsString (
+      fRepeatExplicitStartKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "repeat ending(s)" << " : " <<
+    fRepeatEndings.size () <<
+    endl;
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    // print the current repeat build phase
+    os << left <<
+      setw (fieldWidth) <<
+      "currentRepeatBuildPhaseKind" << " : " <<
+      repeatBuildPhaseKindAsString (
+        fCurrentRepeatBuildPhaseKind) <<
+      endl;
+  }
+#endif
+
+  os <<
+    endl;
+
   // print the repeat common part
   if (! fRepeatCommonPart) {
     os <<
@@ -1752,20 +1904,39 @@ void msrRepeat::shortPrint (ostream& os)
   os <<
     "Repeat" <<
     ", " << fRepeatTimes << " times" <<
-    ", " <<
-    singularOrPlural (
-      fRepeatEndings.size (),
-      "repeat ending",
-      "repeat endings") <<
-    ", repeatExplicitStartKind:: " <<
-    repeatExplicitStartKindAsString (
-      fRepeatExplicitStartKind) <<
     ", line " << fInputLineNumber <<
-    endl <<
     endl;
   
   gIndenter++;
   
+  const int fieldWidth = 28;
+
+  os << left <<
+    setw (fieldWidth) <<
+   "repeatExplicitStartKind" << " : " <<
+    repeatExplicitStartKindAsString (
+      fRepeatExplicitStartKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "repeat ending(s)" << " : " <<
+    fRepeatEndings.size () <<
+    endl;
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    // print the current repeat build phase
+    os <<
+      setw (fieldWidth) <<
+      "currentRepeatBuildPhaseKind" << " : " <<
+      repeatBuildPhaseKindAsString (
+        fCurrentRepeatBuildPhaseKind) <<
+      endl;
+  }
+#endif
+
+  gLogIOstream <<
+    endl;
+      
   // print the repeat common part
   if (! fRepeatCommonPart) {
     os <<
