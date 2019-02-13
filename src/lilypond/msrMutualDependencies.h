@@ -5151,9 +5151,9 @@ class msrRepeat : public msrVoiceElement
       
     enum msrRepeatBuildPhaseKind {
       kRepeatBuildPhaseJustCreated,
-      kRepeatBuildPhaseAcceptingCommonPart,
-      kRepeatBuildPhaseAcceptingHookedEndings,
-      kRepeatBuildPhaseAcceptingHooklessEnding,
+      kRepeatBuildPhaseInCommonPart,
+      kRepeatBuildPhaseInHookedEndings,
+      kRepeatBuildPhaseInHooklessEnding,
       kRepeatBuildPhaseCompleted};
 
     static string repeatBuildPhaseKindAsString (

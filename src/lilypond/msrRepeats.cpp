@@ -1326,7 +1326,7 @@ void msrRepeat::setRepeatCommonPart (
 
   // now ready to accept hooked endings
   fCurrentRepeatBuildPhaseKind =
-    msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings;
+    msrRepeat::kRepeatBuildPhaseInCommonPart;
 }
 
 void msrRepeat::displayRepeatContents (
@@ -1401,26 +1401,14 @@ void msrRepeat::addRepeatEndingToRepeat (
               s.str ());
           }
           break;        
-        case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
-          {
-            stringstream s;
-    
-            s <<
-              "no common part present before hooked repeat ending '" <<
-              repeatEnding->asShortString () <<
-              "'";
-              
-            msrInternalError (
-              gGeneralOptions->fInputSourceName,
-              fInputLineNumber,
-              __FILE__, __LINE__,
-              s.str ());
-          }
+        case msrRepeat::kRepeatBuildPhaseInCommonPart:
+          fCurrentRepeatBuildPhaseKind =
+            msrRepeat::kRepeatBuildPhaseInHookedEndings;
           break;
-        case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
+        case msrRepeat::kRepeatBuildPhaseInHookedEndings:
           // there can be several successive hooked endings
           break;
-        case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
+        case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
           {
             stringstream s;
     
@@ -1458,7 +1446,7 @@ void msrRepeat::addRepeatEndingToRepeat (
     case msrRepeatEnding::kHooklessEnding:
       switch (fCurrentRepeatBuildPhaseKind) {
         case msrRepeat::kRepeatBuildPhaseJustCreated:
-        case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
+        case msrRepeat::kRepeatBuildPhaseInCommonPart:
           {
             stringstream s;
     
@@ -1474,11 +1462,11 @@ void msrRepeat::addRepeatEndingToRepeat (
               s.str ());
           }
           break;
-        case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
+        case msrRepeat::kRepeatBuildPhaseInHookedEndings:
           fCurrentRepeatBuildPhaseKind =
-            msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding;
+            msrRepeat::kRepeatBuildPhaseInHooklessEnding;
           break;
-        case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
+        case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
           {
             stringstream s;
     
@@ -1567,7 +1555,7 @@ void msrRepeat::appendSegmentToRepeat (
       }
       break;
 
-    case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
+    case msrRepeat::kRepeatBuildPhaseInCommonPart:
         fRepeatCommonPart->
           appendSegmentToRepeatCommonPart (
             inputLineNumber,
@@ -1575,8 +1563,8 @@ void msrRepeat::appendSegmentToRepeat (
             context);
       break;
       
-    case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
-    case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
+    case msrRepeat::kRepeatBuildPhaseInHookedEndings:
+    case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
       fRepeatEndings.back ()->
         appendSegmentToRepeatEnding (
           inputLineNumber,
@@ -1714,14 +1702,14 @@ string msrRepeat::repeatBuildPhaseKindAsString (
     case msrRepeat::kRepeatBuildPhaseJustCreated:
       result = "repeatBuildPhaseJustCreated";
       break;
-    case msrRepeat::kRepeatBuildPhaseAcceptingCommonPart:
-      result = "repeatBuildPhaseAcceptingCommonPart";
+    case msrRepeat::kRepeatBuildPhaseInCommonPart:
+      result = "repeatBuildPhaseInCommonPart";
       break;
-    case msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings:
-      result = "repeatBuildPhaseAcceptingHookedEndings";
+    case msrRepeat::kRepeatBuildPhaseInHookedEndings:
+      result = "repeatBuildPhaseInHookedEndings";
       break;
-    case msrRepeat::kRepeatBuildPhaseAcceptingHooklessEnding:
-      result = "repeatBuildPhaseAcceptingHooklessEnding";
+    case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
+      result = "repeatBuildPhaseInHooklessEnding";
       break;
     case msrRepeat::kRepeatBuildPhaseCompleted:
       result = "repeatBuildPhaseCompleted";
