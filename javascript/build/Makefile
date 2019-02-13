@@ -14,7 +14,7 @@
 
 srcdir := ../../src
 binddir := ../src
-folders := factory guido lib parser elements files interface operations	visitors #lilypond
+folders := factory guido lib parser elements files interface operations	visitors lilypond
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
 sources = $(wildcard $(srcdir)/*/*.cpp )    # reject atescofo folder
 bindsrc = $(wildcard $(binddir)/*.cpp) 
