@@ -121,8 +121,13 @@ class EXP xml2guidovisitor :
     static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset);
 	static void addPosition	 ( Sxmlelement elt, Sguidoelement& tag, int yoffset, int xoffset);
     static void addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int ymultiplier);
-    static void addPlacement	( Sxmlelement elt, Sguidoelement& tag);
+
+    static void addPlacement    ( Sxmlelement elt, Sguidoelement& tag);
+    static float getYposition    ( Sxmlelement elt, int yoffset);
+    static float getXposition	( Sxmlelement elt);
+
     static void addDirection( Sxmlelement elt, Sguidoelement& tag);
+
 };
 
 

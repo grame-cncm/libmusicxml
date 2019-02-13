@@ -192,7 +192,7 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_segno& elt);
         virtual void visitStart( S_wedge& elt);
 		virtual void visitStart( S_rehearsal& elt);
-    virtual void visitStart( S_attributes& elt);
+        virtual void visitStart( S_attributes& elt);
 
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
