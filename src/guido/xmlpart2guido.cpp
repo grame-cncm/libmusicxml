@@ -587,7 +587,7 @@ namespace MusicXML2
                     nextevent++;
                 }
                 
-                cerr<< "Measure:"<< fMeasNum <<" Wedge has "<< numberOfNotesInWedge<< " events!"<<endl;
+                //cerr<< "Measure:"<< fMeasNum <<" Wedge has "<< numberOfNotesInWedge<< " events!"<<endl;
                 
                 if (fCurrentOffset) {
                     /*rational offsetDur(fCurrentOffset, fCurrentDivision);
@@ -675,21 +675,6 @@ namespace MusicXML2
             
             
             xml2guidovisitor::addPosY(elt, tag, 12, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
-            
-            // add only RELATIVE-X since it doesn't depend on TimePosition
-            /*float posx = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
-            if (posx && wedgeStart && (type != "diminuendo")) {
-                posx = (posx / 10) * 2;   // convert to half spaces
-                
-                /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
-                //if (fCurrentOffset>0)
-                //    posx +=3;
-                
-                stringstream s;
-                s << "dx1=" << posx << "hs";
-                tag->add (guidoparam::create(s.str(), false));
-            }*/
-            
             
             if (fCurrentOffset) {
                 addDelayed(tag, fCurrentOffset);
