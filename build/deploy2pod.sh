@@ -63,7 +63,7 @@ fi
 
 cp -v $universalpath $podlibpath
 if [ $? -eq 0 ]; then
-	echo Universal Library copied to Pod.
+	echo Universal Library copied to Pod $podlibpath
 else
 	echo Copy failed! Exiting... .
 	exit
@@ -71,6 +71,6 @@ fi
 
 ##### Update src
 localsrcpath="$(pwd)/../src"
-rsync -avz --exclude 'antescofo' --exclude '.DS_Store' $localsrcpath $podsrcpath
+rsync -avz --exclude 'antescofo' --exclude '.DS_Store' --exclude 'lilypond' $localsrcpath $podsrcpath
 
 

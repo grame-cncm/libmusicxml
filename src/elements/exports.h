@@ -15,13 +15,11 @@
 
 #if defined(WIN32) // && !defined (GCC)
 
-# ifdef VC6
+# ifdef MSVC
 #  pragma warning (disable : 4267)
 #  pragma warning (disable : 4275)
 #  pragma warning (disable : 4251)
 #  pragma warning (disable : 4786)
-
-# elif defined VC2005
 #  pragma warning (disable : 4251)
 #  pragma warning (disable : 4275)
 # endif

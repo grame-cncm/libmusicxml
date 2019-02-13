@@ -38,7 +38,7 @@ notevisitor::notevisitor()
 //________________________________________________________________________
 void notevisitor::reset ()
 {
-	fGrace = fCue = fChord = fFermata = false;
+	fGrace = fCue = fChord = false;
 	fType		= kUndefinedType;
 	fTie		= StartStop::undefined;
 	fDuration	= 0;
@@ -58,19 +58,17 @@ void notevisitor::reset ()
     fTremolo    = (void*)0;
     fInvertedTurn = (void*)0;
     fAccidentalMark = (void*)0;
-    fMordent	= (void*)0;
+    fMordent    = (void*)0;
+    fArpeggio	= (void*)0;
     fNotehead	= (void*)0;
     fInvertedMordent = (void*)0;
 	fBreathMark = (void*)0;
     fThisSNote = (void*)0;
+    fFermata = (void*)0;
 	fTimeModification.set(1,1);
-#ifdef VC6
+
 	fStep = "";
 	fInstrument = "";
-#else
-	fStep.clear();
-	fInstrument.clear();
-#endif
 	fTied.clear();
 	fSlur.clear();
 	fBeam.clear();
@@ -229,7 +227,7 @@ void notevisitor::visitStart ( S_note& elt )
 void notevisitor::visitEnd ( S_note& elt )
 {
 #ifdef PRINTNOTE
-	cout << *this << endl;
+	cerr << *this << endl;
 #endif
 }
     
@@ -527,8 +525,6 @@ void notevisitor::visitEnd ( S_note& elt )
             
             // Got it reversed for F clef
             restFormatDy = -1.0 * restFormatDy;
-            
-            //cout<<"resFormat "<<display_step<<display_octave<<" on clef "<<fCurClef<<" gives "<<restFormatDy<<endl;
         }
         
         return restFormatDy;

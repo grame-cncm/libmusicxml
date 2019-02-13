@@ -53,7 +53,7 @@ namespace MusicXML2
         }
         return totalStaves;
     }
-    
+
     /// Instance methods:
     int  musicxmlQuery::getTransposeInstrumentChromatic () {
         // The chromatic element, representing the number of chromatic steps to add to the written pitch, is the one required element. The diatonic, octave-change, and double elements are optional elements.
@@ -167,4 +167,5 @@ namespace MusicXML2
         }
         clefsInPart[currentPart].insert(key);
     }
+
 }

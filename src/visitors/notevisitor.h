@@ -73,6 +73,7 @@ class EXP notevisitor :
     public visitor<S_wavy_line>,
     public visitor<S_inverted_mordent>,
     public visitor<S_mordent>,
+    public visitor<S_arpeggiate>,
     public visitor<S_accidental_mark>,
     public visitor<S_notehead>,
     public visitor<S_tuplet>,
@@ -91,9 +92,11 @@ class EXP notevisitor :
         S_mordent		fMordent;
         S_turn		fTurn;
         S_tremolo        fTremolo;
+        S_arpeggiate    fArpeggio;
         S_inverted_turn fInvertedTurn;
         S_accidental_mark fAccidentalMark;
         S_notehead fNotehead;
+        S_fermata   fFermata;
         std::string fGraphicType;
         std::string fAccidental;
         std::string fCautionary;
@@ -110,7 +113,7 @@ class EXP notevisitor :
         bool isGrace() const	{ return fGrace; }
         bool isCue() const		{ return fCue; }
         bool inChord() const	{ return fChord; }
-        bool inFermata() const	{ return fFermata; }
+        bool inFermata() const    { return (fFermata != (void*)0); }
 
         type	getType() const		{ return fType; }
         int		getTie() const		{ return fTie; }
@@ -178,7 +181,7 @@ class EXP notevisitor :
 		virtual void visitStart( S_display_step& elt )	{ if (fInNote) fStep = elt->getValue(); }
 		virtual void visitStart( S_dot& elt )			{ if (fInNote) fDots++; }
 		virtual void visitStart( S_duration& elt )		{ if (fInNote) fDuration = (int)(*elt); }
-		virtual void visitStart( S_fermata& elt )		{ fFermata = true; }
+        virtual void visitStart( S_fermata& elt )		{ fFermata = elt; }
 		virtual void visitStart( S_grace& elt )			{ fGrace = true; }
 		virtual void visitStart( S_instrument& elt )	{ if (fInNote) fInstrument = elt->getValue(); }
 		virtual void visitStart( S_note& elt );
@@ -212,13 +215,14 @@ class EXP notevisitor :
         virtual void visitStart( S_accidental_mark& elt )    { fAccidentalMark = elt; }
         virtual void visitStart( S_inverted_mordent& elt )    { fInvertedMordent = elt; }
         virtual void visitStart( S_inverted_turn& elt )    { fInvertedTurn = elt; }
+        virtual void visitStart( S_arpeggiate& elt )    { fArpeggio = elt; }
         virtual void visitStart( S_mordent& elt )    { fMordent = elt; }
         virtual void visitStart( S_notehead& elt )    { fNotehead = elt; }
         virtual void visitStart( S_fingering& elt)  {fFingering = elt;}
         virtual void visitStart( S_harmonic& elt)  {fHarmonic = elt;}
 
 	private:
-		bool	fGrace, fCue, fChord, fFermata;
+		bool	fGrace, fCue, fChord;
 		type	fType;
 		int		fDots;
 		StartStop::type	fTie;

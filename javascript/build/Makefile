@@ -14,9 +14,9 @@
 
 srcdir := ../../src
 binddir := ../src
-folders := factory guido lib parser elements files interface operations	visitors
+folders := factory guido lib parser elements files interface operations	visitors lilypond
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
-sources = $(wildcard $(srcdir)/[^a]*/*.cpp )    # reject atescofo folder
+sources = $(wildcard $(srcdir)/*/*.cpp )    # reject atescofo folder
 bindsrc = $(wildcard $(binddir)/*.cpp) 
 objects = $(patsubst $(srcdir)%, obj%, $(patsubst %.cpp,%.o,$(sources)) $(patsubst $(binddir)%.cpp, obj/binding%.o,$(bindsrc)))
 
@@ -41,7 +41,7 @@ all :
 # building the library as asm.js
 ##############################################################
 ../$(library).js : $(objects)
-	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s ASM_JS=1
+	emcc -O3 --bind --memory-init-file 0 $(objects) -o $(target) $(OPTIONS) -s ASM_JS=1 -s WASM=0
 
 ##############################################################
 # building the library as web assembly
@@ -59,7 +59,6 @@ depend :
 ##############################################################
 # rules for building the library
 ##############################################################
-#obj/binding/%.o: ../src/%.cpp
 obj/binding/%.o: $(binddir)/%.cpp
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(GCC) -c $(CXXFLAGS) -I../../src/interface $< -o $@
@@ -67,9 +66,5 @@ obj/binding/%.o: $(binddir)/%.cpp
 obj/%.o: $(srcdir)/%.cpp
 	@[ -d $(@D) ] || mkdir -p $(@D)
 	$(GCC) -c $(CXXFLAGS) $< -o $@
-
-obj/parser/xmlparse.o: $(srcdir)/parser/xmlparse.cpp
-	@[ -d $(@D) ] || mkdir -p $(@D)
-	$(GCC) -c -Wno-deprecated-register $(CXXFLAGS) $< -o $@
 
 # DO NOT DELETE

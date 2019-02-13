@@ -96,18 +96,27 @@ long guidoelement::add (Sguidoparam param) {
 	return fParams.size()-1;
 }
 
-//______________________________________________________________________________
-void guidoelement::print(ostream& os)
-{
-    os << fName;
 
-    // print the optional parameters section
+static string add_escape(const char* str)
+{
+	string out;
+	while (*str) {
+		if (*str == '"') out += '\\';
+		out += *str++;
+	}
+	return out;
+}
+
+//______________________________________________________________________________
+// print the optional parameters section
+void guidoelement::printparams(ostream& os) const
+{
     if (!fParams.empty()) {
         os << "<";
         vector<Sguidoparam>::const_iterator param;
         for (param = fParams.begin(); param != fParams.end(); ) {
             if ((*param)->quote())
-				os << "\"" << (*param)->get() << "\"";
+				os << "\"" << add_escape((*param)->get().c_str()) << "\"";
 			else
 				os << (*param)->get();
             if (++param != fParams.end())
@@ -115,73 +124,42 @@ void guidoelement::print(ostream& os)
         }
         os << ">";
     }
+}
 
-    bool isSeq = dynamic_cast<const guidoseq *>(this) != 0;
-    bool isChord = dynamic_cast<const guidochord *>(this) != 0;
-    bool prevNote = false;
-    bool prevSeq = false;
-    bool prevEnclosedTag = false;
-    // print the optional contained elements
+//______________________________________________________________________________
+// print a chord
+// note that a score is a chord of sequences
+void guidochord::print(ostream& os) const
+{
+	os << fStartList;
+	int n = countNotes();
+	const char* seqsep = "";
+	for (auto e: fElements) {
+		// checking for elements separator
+		// sequences (i.e. score) are handled as chords
+		// that's why there are special cases for seq
+		const char* sep = ((e->isNote() || (!e->isSeq() && e->countNotes())) && --n) ? ", " : " ";
+		os << seqsep  << e << sep;
+		if (e->isSeq()) seqsep = ", \n";
+	}
+	os << fEndList;
+}
+
+//______________________________________________________________________________
+void guidoelement::print(ostream& os) const
+{
+    os << fName;
+	printparams (os);
+	
+    // print the enclosed elements
     if (!fElements.empty()) {
         os << fStartList;
-        vector<Sguidoelement>::const_iterator ielt;
-        for (ielt = fElements.begin(); ielt != fElements.end(); ielt++) {
-            Sguidoseq seq;
-            seq.cast((guidoelement *)(*ielt));
-            Sguidonote note;
-            note.cast((guidoelement *)(*ielt));
-            Sguidotag tag;
-            tag.cast((guidoelement *)(*ielt));
-            bool beginTag = false, endTag = false;
-            if (tag)
-            {
-                if (tag->fName.find("End") != std::string::npos)
-                {
-                    endTag = true;
-                }else if (tag->fName.find("Begin") != std::string::npos)
-                {
-                    beginTag = true;
-                }
-            }
-            
-            // special treatment for Chord Separator
-            if (isChord) {
-                if (note) {
-                    os << (prevEnclosedTag || prevNote ? ", " : " ");
-                    prevNote = true;
-                    prevEnclosedTag = false;
-                }
-                else if (seq) {
-                    os << (prevSeq ? ", " : " ");
-                    prevSeq = true;
-                }else if (tag) {
-                    if (beginTag)
-                    {
-                        // happens BEFORE a note. So it should be closed by a separator if in the middle
-                        os << ( (prevNote||prevSeq) ? ", " : " ");
-                        // but it should NOT be followed next time by a separator!
-                        prevNote = false;
-                        
-                    }else if (endTag)
-                    {
-                        // this happens AFTER a note. So it should be preceded by a " ". It should be followed by a ',' if next is note!
-                        os << " ";
-                            
-                    }else {
-                        // A regular enclosing tag like \tag(...) . This SHOULD be followed by a ',' if next is note!
-                        os << ( (prevNote||prevSeq||prevEnclosedTag) ? ", " : " ");
-                        prevEnclosedTag = true;
-                    }
-                }
-                else os << " ";
-                
-            }
-            else os << " ";
-            os << *ielt;
-        }
-       os << fEndList;
-    }
-	if (isSeq) os << std::endl;
+		string sep = " ";
+		for (auto e: fElements) {
+			os << sep << e;
+		}
+		os << fEndList << endl;
+	}
 }
 
 //______________________________________________________________________________
@@ -233,6 +211,14 @@ void guidonote::set (unsigned short voice, string name, char octave, guidonotedu
 //______________________________________________________________________________
 guidoelement::guidoelement(string name, string sep) : fName(name), fSep(sep) {}
 guidoelement::~guidoelement() {}
+int guidoelement::countNotes () const {
+	int count = 0;
+	for (auto e: fElements) {
+		if (e->isNote()) count++;
+		else count += e->countNotes();
+	}
+	return count;
+}
 
 //______________________________________________________________________________
 guidoparam::guidoparam(string value, bool quote) : fValue(value), fQuote(quote) {}
