@@ -6756,9 +6756,13 @@ class msrVoice : public msrElement
 
     // a stack is needed to handle nested repeats
     list<S_msrRepeat>     fVoiceRepeatsStack;
-    void                  displayVoiceRepeatsStack (string context);
+    void                  displayVoiceRepeatsStack (
+                            int    inputLineNumber,
+                            string context);
 
-
+    void                  displayVoiceRepeatsStackAndContents (
+                            int    inputLineNumber,
+                            string context);
 
     // fVoiceCurrentMeasuresRepeat is null
     // or the last msrMeasuresRepeat created with its repeated measure,

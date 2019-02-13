@@ -2699,7 +2699,9 @@ S_msrMeasureElement msrVoice::fetchVoiceLastElement (
   return result;
 }
 
-void msrVoice::displayVoiceRepeatsStack (string context)
+void msrVoice::displayVoiceRepeatsStack (
+  int    inputLineNumber,
+  string context)
 {
   int repeatsStackSize = fVoiceRepeatsStack.size ();
   
@@ -2709,6 +2711,7 @@ void msrVoice::displayVoiceRepeatsStack (string context)
     endl <<
     "The repeats stack contains " <<
     singularOrPlural (repeatsStackSize, "element", "elements") <<
+    ", line " << inputLineNumber <<
     ":" <<
     endl;
 
@@ -2747,6 +2750,19 @@ void msrVoice::displayVoiceRepeatsStack (string context)
     endl;
 }
 
+void msrVoice::displayVoiceRepeatsStackAndContents (
+  int    inputLineNumber,
+  string context)
+{
+  displayVoiceRepeatsStack (
+    inputLineNumber,
+    context);
+
+  displayVoiceContents (
+    inputLineNumber,
+    context);
+}
+
 S_msrRepeat msrVoice::createARepeatAndStackIt (
   int    inputLineNumber,
   string context)
@@ -2778,7 +2794,9 @@ S_msrRepeat msrVoice::createARepeatAndStackIt (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayVoiceRepeatsStack ("createARepeatAndStackIt()");
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "after createARepeatAndStackIt()");
   }
 #endif
   return result;
@@ -2810,7 +2828,7 @@ S_msrRepeat msrVoice::createARepeatCloneAndStackIt (
   pushRepeatOntoRepeatsStack (
     inputLineNumber,
     result,
-    "createARepeatCloneAndStackIt()");
+    "after createARepeatCloneAndStackIt()");
 
   return result;
 }
@@ -3073,7 +3091,9 @@ void msrVoice::pushRepeatOntoRepeatsStack (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayVoiceRepeatsStack ("context");
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "context");
   }
 #endif
 }
@@ -3214,7 +3234,9 @@ void msrVoice::popARepeatFromStack (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayVoiceRepeatsStack ("popARepeatFromStack()");
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "after popARepeatFromStack()");
   }
 #endif
 }
@@ -3250,7 +3272,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
               ||
             gGeneralOptions->fTraceVoices
           ) {
-            displayVoiceContents (
+            displayVoiceRepeatsStackAndContents (
               inputLineNumber,
               "nestContentsIntoNewRepeatInVoice() 1");
           }
@@ -3284,7 +3306,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
               ||
             gGeneralOptions->fTraceVoicesDetails
           ) {
-            displayVoiceContents (
+            displayVoiceRepeatsStackAndContents (
               inputLineNumber,
               "nestContentsIntoNewRepeatInVoice() 2");
           }
@@ -3321,9 +3343,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatStartInVoice()");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleVoiceLevelRepeatStartInVoice() 1");
   }
@@ -3477,7 +3497,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleVoiceLevelRepeatStartInVoice() 2");
   }
@@ -3502,11 +3522,17 @@ void msrVoice::handleNestedRepeatStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleNestedRepeatStartInVoice()");
-    
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleNestedRepeatStartInVoice()");
+      "handleNestedRepeatStartInVoice() 1");
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleNestedRepeatStartInVoice() 2");
   }
 #endif
 }
@@ -3527,9 +3553,7 @@ void msrVoice::handleRepeatStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleRepeatStartInVoice()");
-    
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleRepeatStartInVoice()");
   }
@@ -3572,11 +3596,9 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
-    
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+      "handleVoiceLevelRepeatEndWithImplicitStartInVoice() 1");
   }
 #endif
 
@@ -3682,6 +3704,13 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
     newRepeat,
     "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
 
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleVoiceLevelRepeatEndWithImplicitStartInVoice() 2");
+  }
+#endif
   gIndenter--;
 }
 
@@ -3699,11 +3728,9 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
-    
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
+      "handleVoiceLevelRepeatEndWithExplicitStartInVoice() 1");
   }
 #endif
 
@@ -3739,13 +3766,6 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
   currentRepeat->
     setRepeatTimes (repeatTimes);
 
-/* JMI
-  // get repeat's common part
-  S_msrRepeatCommonPart
-    repeatCommonPart =
-      currentRepeat->
-        getRepeatCommonPart ();
-        */
   // create the currentRepeat's common part
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -3803,6 +3823,14 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
     currentRepeat,
     "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
 
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleVoiceLevelRepeatEndWithExplicitStartInVoice() 2");
+  }
+#endif
+
   gIndenter--;
 }
 
@@ -3820,7 +3848,9 @@ void msrVoice::handleNestedRepeatEndInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleNestedRepeatEndInVoice()");
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleNestedRepeatEndInVoice() 1");
   }
 #endif
 
@@ -3879,7 +3909,7 @@ void msrVoice::handleNestedRepeatEndInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleNestedRepeatEndInVoice() 2");
   }
@@ -3891,19 +3921,6 @@ void msrVoice::handleRepeatEndInVoice (
   string measureNumber,
   int    repeatTimes)
 {
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "Handling a repeat end in voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
-    displayVoiceRepeatsStack ("handleRepeatEndInVoice()");
-  }
-#endif
-
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
@@ -3919,7 +3936,7 @@ void msrVoice::handleRepeatEndInVoice (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "handleRepeatEndInVoice() 1");
         }
@@ -3953,6 +3970,18 @@ void msrVoice::handleRepeatEndInVoice (
               measureNumber,
               repeatTimes);
         } // switch
+
+#ifdef TRACE_OPTIONS
+        if (
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceVoicesDetails
+        ) {
+          displayVoiceRepeatsStackAndContents (
+            inputLineNumber,
+            "handleRepeatEndInVoice() 2");
+        }
+#endif
       }
       break;
   } // switch
@@ -3978,9 +4007,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice() 1");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice() 1");
   }
@@ -4159,9 +4186,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice() 2");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice() 2");
   }
@@ -4190,9 +4215,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice() 1");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice() 1");
   }
@@ -4345,9 +4368,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice() 2");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice() 2");
   }
@@ -4368,8 +4389,18 @@ void msrVoice::handleNestedRepeatEndingStartInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleNestedRepeatEndingStartInVoice() 1");
-  }
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleNestedRepeatEndingStartInVoice() 1");
+ }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleNestedRepeatEndingStartInVoice() 2");
+ }
 #endif
 }
 
@@ -4399,9 +4430,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
           gGeneralOptions->fTraceVoicesDetails
         ) {
 
-          displayVoiceRepeatsStack ("handleRepeatEndingStartInVoice() 1");
-
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "handleRepeatEndingStartInVoice() 1");
         }
@@ -4455,7 +4484,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "handleRepeatEndingStartInVoice() 2");
         }
@@ -4473,19 +4502,6 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
             repeatEndingKind,
   string    repeatEndingNumber) // may be "1, 2"
 {
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "Handling a repeat ending start voice clone \"" <<
-      getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
-    displayVoiceRepeatsStack ("handleRepeatEndingStartInVoiceClone() 1");
-  }
-#endif
-
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
@@ -4497,7 +4513,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "handleRepeatEndingStartInVoiceClone() 1");
         }
@@ -4618,7 +4634,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "handleRepeatEndingStartInVoiceClone() 2");
         }
@@ -4635,22 +4651,6 @@ void msrVoice::finalizeRepeatEndInVoice (
   string measureNumber,
   int    repeatTimes)
 {
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "Finalizing a repeat upon its end in voice \"" <<
-      getVoiceName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->
-          getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-
-  displayVoiceRepeatsStack ("finalizeRepeatEndInVoice()");
-  }
-#endif
-
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
@@ -4666,7 +4666,7 @@ void msrVoice::finalizeRepeatEndInVoice (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "finalizeRepeatEndInVoice() 1");
         }
@@ -4730,7 +4730,7 @@ void msrVoice::finalizeRepeatEndInVoice (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "finalizeRepeatEndInVoice() 2");
         }
@@ -4756,6 +4756,10 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
       endl;
 
  // JMI   displayVoiceRepeatsStack ("createMeasuresRepeatFromItsFirstMeasuresInVoice()");
+     
+    displayVoiceContents (
+      inputLineNumber,
+      "createMeasuresRepeatFromItsFirstMeasuresInVoice()");
   }
 #endif
 
@@ -4983,7 +4987,8 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
           ) {
           gLogIOstream <<
             "The contents of voice \"" <<
-            fVoiceName << "\" after createMeasuresRepeatFromItsFirstMeasuresInVoice () is:" <<
+            fVoiceName <<
+            "\" after createMeasuresRepeatFromItsFirstMeasuresInVoice () is:" <<
             endl;
 
           gIndenter++;
@@ -5011,6 +5016,10 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
       endl;
 
  // JMI   displayVoiceRepeatsStack ("appendPendingMeasuresRepeatToVoice()");
+     
+    displayVoiceContents (
+      inputLineNumber,
+      "appendPendingMeasuresRepeatToVoice()");
   }
 #endif
 
@@ -5191,7 +5200,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMeasuresRepeat,
-          "()");
+          "appendPendingMeasuresRepeatToVoice()");
       }
       break;
   } // switch
@@ -5202,24 +5211,28 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashesNumber)
 {
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "Creating measures repeat and appending it to voice clone \"" <<
-      getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
- // JMI   displayVoiceRepeatsStack ("createMeasuresRepeatAndAppendItToVoiceClone()");
-  }
-#endif
-
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
+#ifdef TRACE_OPTIONS
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating measures repeat and appending it to voice clone \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+      
+       // JMI   displayVoiceRepeatsStack ("createMeasuresRepeatAndAppendItToVoiceClone()");
+           
+          displayVoiceContents (
+            inputLineNumber,
+            "createMeasuresRepeatAndAppendItToVoiceClone()");
+        }
+#endif
+
         // fetch last measure's full measure whole notes
         /* JMI
         int fullMeasureWholeNotes =
@@ -5301,23 +5314,6 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
         fVoiceCurrentMeasuresRepeat->
           setMeasuresRepeatPattern (
             measuresRepeatPattern);
-
-/*
-        // create a new last segment containing a new measure for the voice
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "Creating a new last segment containing a new measure for voice \"" <<
-            fVoiceName << "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-#endif
-
-        createNewLastSegmentAndANewMeasureAfterARepeat (
-          inputLineNumber,
-          fullMeasureWholeNotes);
-          */
 
         // append the measures repeat to the list of initial elements
 #ifdef TRACE_OPTIONS
@@ -5805,9 +5801,9 @@ void msrVoice::handleMultipleRestInVoiceClone (
                 ||
               gGeneralOptions->fTraceVoicesDetails
             ) {
-              displayVoiceContents (
+             displayVoiceContents (
                 inputLineNumber,
-                "handleMultipleRestInVoiceClone()");
+                "handleMultipleRestInVoiceClone() 2");
             }
 #endif
           }
@@ -5958,7 +5954,9 @@ void msrVoice::appendRepeatCloneToVoice (
             getVoiceName () <<  "\"" <<
             endl;
 
-          displayVoiceRepeatsStack ("appendRepeatCloneToVoice()");
+          displayVoiceRepeatsStackAndContents (
+            inputLineNumber,
+            "appendRepeatCloneToVoice() 1");
         }
 #endif
 
@@ -6011,11 +6009,13 @@ void msrVoice::appendRepeatCloneToVoice (
           repeatCLone,
           "handleRepeatEndInVoice()");
 
-      /* JMI
-        // create a new segment for the voice
-        createNewLastSegmentForVoice (
-          inputLineNumber);
-          */
+#ifdef TRACE_OPTIONS
+        if (gGeneralOptions->fTraceRepeats) {
+          displayVoiceRepeatsStackAndContents (
+            inputLineNumber,
+            "appendRepeatCloneToVoice() 2");
+        }
+#endif
         }
       break;
   } // switch
@@ -6033,7 +6033,9 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleHookedRepeatEndingEndInVoice()");
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleHookedRepeatEndingEndInVoice() 1");
   }
 #endif
 
@@ -6103,14 +6105,26 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   }
 #endif
 
-  displayVoiceRepeatsStack ("before adding a hooked repeat ending to current repeat");
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "before adding a hooked repeat ending to current repeat");
+  }
+#endif
 
   currentRepeat->
     addRepeatEndingToRepeat (
       inputLineNumber,
       repeatEnding);
 
-  displayVoiceRepeatsStack ("after adding a hooked repeat ending to current repeat");
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleHookedRepeatEndingEndInVoice() 2");
+  }
+#endif
 
   gIndenter--;
 }
@@ -6127,7 +6141,9 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStack ("handleHooklessRepeatEndingEndInVoice()");
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleHooklessRepeatEndingEndInVoice() 1");
   }
 #endif
 
@@ -6190,14 +6206,26 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   }
 #endif
 
-  displayVoiceRepeatsStack ("before adding a hookless repeat ending to current repeat");
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "before adding a hookless repeat ending to current repeat");
+  }
+#endif
 
   currentRepeat->
     addRepeatEndingToRepeat (
       inputLineNumber,
       repeatEnding);
 
-  displayVoiceRepeatsStack ("after adding a hookless repeat ending to current repeat");
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "after adding a hookless repeat ending to current repeat");
+  }
+#endif
 
   // append currentRepeat to the list of initial elements
   appendRepeatCloneToInitialVoiceElements (
@@ -6215,6 +6243,14 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   createNewLastSegmentForVoice (
     inputLineNumber,
     "handleHooklessRepeatEndingEndInVoice()");
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleHooklessRepeatEndingEndInVoice() 2");
+  }
+#endif
 
   gIndenter--;
 }
@@ -6253,9 +6289,9 @@ void msrVoice::handleRepeatEndingEndInVoice (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "appendRepeatEndingToVoice() 1");
+      "appendRepeatEndingToVoice() 0");
   }
 #endif
 }
@@ -6279,11 +6315,9 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleRepeatCommonPartStartInVoiceClone() 0");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleRepeatCommonPartStartInVoiceClone() 0");
+      "handleRepeatCommonPartStartInVoiceClone() 1");
   }
 #endif
 
@@ -6330,6 +6364,18 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
   currentRepeat->
     setRepeatCommonPart (
       repeatCommonPart);      
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleRepeatCommonPartStartInVoiceClone() 2");
+  }
+#endif
 }
 
 void msrVoice::handleRepeatCommonPartEndInVoiceClone (
@@ -6351,9 +6397,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleRepeatCommonPartEndInVoiceClone() 1");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleRepeatCommonPartEndInVoiceClone() 1");
   }
@@ -6413,9 +6457,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleRepeatCommonPartEndInVoiceClone() 2");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleRepeatCommonPartEndInVoiceClone() 2");
   }
@@ -6442,9 +6484,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleHookedRepeatEndingEndInVoiceClone()");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleHookedRepeatEndingEndInVoiceClone() 1");
   }
@@ -6509,14 +6549,18 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
   }
 #endif
 
-  displayVoiceRepeatsStack ("before adding a hooked repeat ending to current repeat");
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "before adding a hooked repeat ending to current repeat");
+  }
+#endif
 
   currentRepeat->
     addRepeatEndingToRepeat (
       inputLineNumber,
       repeatEnding);
-
-  displayVoiceRepeatsStack ("after adding a hooked repeat ending to current repeat");
 
   gIndenter--;
 
@@ -6526,9 +6570,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleHookedRepeatEndingEndInVoiceClone()");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleHookedRepeatEndingEndInVoiceClone() 2");
   }
@@ -6555,9 +6597,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleHooklessRepeatEndingEndInVoiceClone()");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleHooklessRepeatEndingEndInVoiceClone() 1");
   }
@@ -6622,14 +6662,26 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   }
 #endif
 
-  displayVoiceRepeatsStack ("before adding a hookless repeat ending to current repeat");
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "before adding a hookless repeat ending to current repeat");
+  }
+#endif
 
   currentRepeat->
     addRepeatEndingToRepeat (
       inputLineNumber,
       repeatEnding);
 
-  gIndenter--;
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      "after adding a hookless repeat ending to current repeat");
+  }
+#endif
 
 #ifdef TRACE_OPTIONS
   if (
@@ -6637,13 +6689,13 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleHooklessRepeatEndingEndInVoiceClone()");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleHooklessRepeatEndingEndInVoiceClone() 2");
+      "handleHooklessRepeatEndingEndInVoiceClone()");
   }
 #endif
+
+  gIndenter--;
 }
 
 void msrVoice::handleRepeatEndingEndInVoiceClone (
@@ -6652,6 +6704,18 @@ void msrVoice::handleRepeatEndingEndInVoiceClone (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "appendRepeatEndingToVoiceClone() 1");
+  }
+#endif
+
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
@@ -6680,9 +6744,9 @@ void msrVoice::handleRepeatEndingEndInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "appendRepeatEndingToVoiceClone() 1");
+      "appendRepeatEndingToVoiceClone() 2");
   }
 #endif
 }
@@ -6712,9 +6776,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStack ("handleRepeatStartInVoiceClone()");
-
-    displayVoiceContents (
+    displayVoiceRepeatsStackAndContents (
       inputLineNumber,
       "handleRepeatStartInVoiceClone() 1");
   }
@@ -6754,7 +6816,9 @@ void msrVoice::handleRepeatStartInVoiceClone (
               ||
             gGeneralOptions->fTraceVoicesDetails
           ) {
-            displayVoiceRepeatsStack ("handleRepeatStartInVoiceClone() 1");
+            displayVoiceRepeatsStack (
+              inputLineNumber,
+              "handleRepeatStartInVoiceClone() 1");
 
             displayVoiceContents (
               inputLineNumber,
@@ -6794,9 +6858,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
           ||
         gGeneralOptions->fTraceVoicesDetails
       ) {
-        displayVoiceRepeatsStack ("handleRepeatStartInVoiceClone() 2");
-
-        displayVoiceContents (
+        displayVoiceRepeatsStackAndContents (
           inputLineNumber,
           "handleRepeatStartInVoiceClone() 2");
       }
@@ -6839,23 +6901,9 @@ void msrVoice::handleRepeatEndInVoiceClone (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceRepeatsStack ("handleRepeatEndInVoiceClone() 1");
-
-          gLogIOstream <<
-            endl <<
-            "*********>> handleRepeatEndInVoiceClone() 1 \"" <<
-            getVoiceName () <<
-            "\"" <<
-            ", line " << inputLineNumber <<
-            " contains:" <<
-            endl;
-
-          print (gLogIOstream);
-
-          gLogIOstream <<
-            "<<*********" <<
-            endl <<
-            endl;
+          displayVoiceRepeatsStackAndContents (
+            inputLineNumber,
+            "handleRepeatEndInVoiceClone() 1");
         }
 #endif
 
@@ -6951,9 +6999,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
             ||
           gGeneralOptions->fTraceVoicesDetails
         ) {
-          displayVoiceRepeatsStack ("handleRepeatEndInVoiceClone() 2");
-      
-          displayVoiceContents (
+          displayVoiceRepeatsStackAndContents (
             inputLineNumber,
             "handleRepeatEndInVoiceClone() 2");
         }
@@ -7065,6 +7111,9 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
 void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
   S_msrRepeatEnding repeatEndingClone)
 {
+  int inputLineNumber =
+    repeatEndingClone->getInputLineNumber (); // JMI
+    
   gIndenter++;
   
   switch (fVoiceKind) {
@@ -7084,7 +7133,9 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
             "\"" <<
             endl;
 
-          displayVoiceRepeatsStack ("appendRepeatEndingCloneToVoice()");
+          displayVoiceRepeatsStackAndContents (
+            inputLineNumber,
+            "appendRepeatEndingCloneToVoice() 1");
         }
 #endif
             
@@ -7115,6 +7166,14 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
           addRepeatEndingToRepeat (
             repeatEndingClone->getInputLineNumber (),
             repeatEndingClone);
+
+#ifdef TRACE_OPTIONS
+        if (gGeneralOptions->fTraceRepeats) {
+          displayVoiceRepeatsStackAndContents (
+            inputLineNumber,
+            "appendRepeatEndingCloneToVoice() 2");
+        }
+#endif
       }
       break;
   } // switch
@@ -7553,8 +7612,10 @@ void msrVoice::finalizeVoice ( // JMI ???
 
   // are there pending repeats in the voice repeats stack???
   if (fVoiceRepeatsStack.size ()) {
-    displayVoiceRepeatsStack ("FINALIZING VOICE");
-    
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "FINALIZING VOICE");
+      
     stringstream s;
 
     s <<
