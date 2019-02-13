@@ -211,7 +211,6 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   // fActualMeasureWholeNotes and fFullMeasureWholeNotes
   // will be computed on the fly
   // when appending notes to the measure newborn clone
-*/
 
   // measure kind
   newbornClone->fMeasureKind =
@@ -232,6 +231,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   // single-measure rest?
   newbornClone->fMeasureIsASingleMeasureRest =
     fMeasureIsASingleMeasureRest;
+*/
   
   // chords handling
 

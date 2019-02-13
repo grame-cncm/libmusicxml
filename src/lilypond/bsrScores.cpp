@@ -11,6 +11,7 @@
 */
 
 #include <climits>      // INT_MIN, INT_MAX
+#include <iomanip>      // for 'setw()'
 
 #include "bsrScores.h"
 

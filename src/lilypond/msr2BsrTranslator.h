@@ -16,6 +16,7 @@
 #include <map>
 #include <vector>
 
+#include "msr.h"
 #include "bsr.h"
 
 

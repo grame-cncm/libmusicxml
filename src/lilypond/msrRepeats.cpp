@@ -1329,6 +1329,29 @@ void msrRepeat::setRepeatCommonPart (
     msrRepeat::kRepeatBuildPhaseAcceptingHookedEndings;
 }
 
+void msrRepeat::displayRepeatContents (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> Repeat '" <<
+    asShortString () <<
+    "' (" << context << ")" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
+}
+
 void msrRepeat::addRepeatEndingToRepeat (
   int               inputLineNumber,
   S_msrRepeatEnding repeatEnding)
@@ -1345,6 +1368,10 @@ void msrRepeat::addRepeatEndingToRepeat (
       repeatEnding->asString () <<
       "' to repeat" <<
       endl;
+
+    displayRepeatContents (
+      inputLineNumber,
+      "addRepeatEndingToRepeat() 1");
   }
 #endif
 
@@ -1495,23 +1522,9 @@ void msrRepeat::addRepeatEndingToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      endl <<
-      "*********>> Current repeat addRepeatEndingToRepeat() 0 \"" <<
-      asShortString () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      " contains:" <<
-      endl;
-
-    gIndenter++;
-    print (gLogIOstream);
-    gIndenter--;
-
-    gLogIOstream <<
-      "<<*********" <<
-      endl <<
-      endl;
+    displayRepeatContents (
+      inputLineNumber,
+      "addRepeatEndingToRepeat() 2");
   }
 #endif
 }
@@ -1521,6 +1534,20 @@ void msrRepeat::appendSegmentToRepeat (
   S_msrSegment segment,
   string       context)
 {
+#ifdef TRACE_OPTIONS
+    gLogIOstream <<
+      "Appending segment '" <<
+      segment->asString () <<
+      "' to repeat" <<
+      endl;
+
+  if (gGeneralOptions->fTraceRepeats) {
+    displayRepeatContents (
+      inputLineNumber,
+      "appendSegmentToRepeat() 1");
+  }
+#endif
+
   switch (fCurrentRepeatBuildPhaseKind) {
     case msrRepeat::kRepeatBuildPhaseJustCreated:
       {
@@ -1578,23 +1605,9 @@ void msrRepeat::appendSegmentToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      endl <<
-      "*********>> Current repeat appendSegmentToRepeat() 0 \"" <<
-      asShortString () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      " contains:" <<
-      endl;
-
-    gIndenter++;
-    print (gLogIOstream);
-    gIndenter--;
-
-    gLogIOstream <<
-      "<<*********" <<
-      endl <<
-      endl;
+    displayRepeatContents (
+      inputLineNumber,
+      "appendSegmentToRepeat() 2");
   }
 #endif
 }

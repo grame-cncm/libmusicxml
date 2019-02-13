@@ -12,6 +12,10 @@
 
 #include "msrScores.h"
 
+#include <iomanip>      // for 'setw()'
+
+#include "msr.h"
+
 #include "generalOptions.h"
 #include "msrOptions.h"
 

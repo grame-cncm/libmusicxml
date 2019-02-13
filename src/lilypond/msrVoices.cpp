@@ -22,6 +22,65 @@ using namespace std;
 namespace MusicXML2 
 {
 
+//______________________________________________________________________________
+S_msrRepeatDescr msrRepeatDescr::create (
+  int         repeatDescrStartInputLineNumber,
+  S_msrRepeat repeatDescrRepeat)
+{
+  msrRepeatDescr* o = new
+    msrRepeatDescr (
+      repeatDescrStartInputLineNumber,
+      repeatDescrRepeat);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatDescr::msrRepeatDescr (
+  int         repeatDescrStartInputLineNumber,
+  S_msrRepeat repeatDescrRepeat)
+{
+  fRepeatDescrStartInputLineNumber =
+    repeatDescrStartInputLineNumber;
+  fRepeatDescrRepeat = repeatDescrRepeat;
+}
+
+msrRepeatDescr::~msrRepeatDescr ()
+{}
+
+string msrRepeatDescr::repeatDescrAsString () const
+{
+  stringstream s;
+
+  s <<
+    "fRepeatDescrRepeat = '" <<
+    fRepeatDescrRepeat->asShortString () <<
+    "', fRepeatDescrStartInputLineNumber = " <<
+    fRepeatDescrStartInputLineNumber;
+ 
+  return s.str ();
+}
+
+void msrRepeatDescr::print (ostream& os) const
+{
+  const int fieldWidth = 29;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "repeatDescrRepeat" << " : " <<
+    fRepeatDescrRepeat <<
+    endl <<
+    setw (fieldWidth) <<
+    "repeatDescrStartInputLineNumber" << " : " <<
+    fRepeatDescrStartInputLineNumber <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________ 
 // global variable
 int msrVoice::gVoicesCounter = 0;
@@ -173,7 +232,7 @@ void msrVoice::appendSegmentToVoiceClone (
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending segment '" <<
-      segment->asShortString () <<
+      segment->asString () <<
       "' to voice clone \"" <<
       fVoiceName <<
       "\" in staff \"" <<
@@ -187,15 +246,16 @@ void msrVoice::appendSegmentToVoiceClone (
     segment->getInputLineNumber ();
     
   // does segment belong to a repeat?
-  if (fVoiceRepeatsStack.size ()) {
+  if (fVoiceRepeatDescrsStack.size ()) {
     // yes
 
  // JMI   if (fVoiceLastSegment) {
       
-    // move segment to whichever part of the repeat is adequate
+    // append segment to whichever part of the repeat is adequate
     S_msrRepeat
       currentRepeat =
-        fVoiceRepeatsStack.front ();
+        fVoiceRepeatDescrsStack.front ()->
+          getRepeatDescrRepeat ();
 
     currentRepeat->
       appendSegmentToRepeat (
@@ -2703,34 +2763,38 @@ void msrVoice::displayVoiceRepeatsStack (
   int    inputLineNumber,
   string context)
 {
-  int repeatsStackSize = fVoiceRepeatsStack.size ();
+  int repeatDescrsStackSize = fVoiceRepeatDescrsStack.size ();
   
   gLogIOstream <<
     endl <<
     ">>++++++++++++++++ " << context <<
     endl <<
     "The repeats stack contains " <<
-    singularOrPlural (repeatsStackSize, "element", "elements") <<
+    singularOrPlural (repeatDescrsStackSize, "element", "elements") <<
     ", line " << inputLineNumber <<
     ":" <<
     endl;
 
-  if (repeatsStackSize) {  
-    list<S_msrRepeat>::const_iterator
-      iBegin = fVoiceRepeatsStack.begin (),
-      iEnd   = fVoiceRepeatsStack.end (),
+  if (repeatDescrsStackSize) {  
+    list<S_msrRepeatDescr>::const_iterator
+      iBegin = fVoiceRepeatDescrsStack.begin (),
+      iEnd   = fVoiceRepeatDescrsStack.end (),
       i      = iBegin;
         
     gIndenter++;
 
-    int n = repeatsStackSize;
+    int n = repeatDescrsStackSize;
     for ( ; ; ) {
       gLogIOstream <<
         "v (" << n << ")" <<
+        ", repeatDescrStartInputLineNumber: " <<
+        (*i)->getRepeatDescrStartInputLineNumber () <<
         endl;
 
       gIndenter++;
-      (*i)->shortPrint (gLogIOstream);
+      (*i)->
+        getRepeatDescrRepeat ()->
+          shortPrint (gLogIOstream);
       gIndenter--;
 
       n--;
@@ -2786,8 +2850,8 @@ S_msrRepeat msrVoice::createARepeatAndStackIt (
         2, // repeatTimes, default value JMI
         this);
 
-  // push it onto the voice's repeats stack
-  pushRepeatOntoRepeatsStack (
+  // push it onto the voice's repeat descrs stack
+  pushRepeatOntoRepeatDescrsStack (
     inputLineNumber,
     result,
     "createARepeatAndStackIt()");
@@ -2824,8 +2888,8 @@ S_msrRepeat msrVoice::createARepeatCloneAndStackIt (
       repeat->
         createRepeatNewbornClone (this);
 
-  // push it onto the voice's repeats stack
-  pushRepeatOntoRepeatsStack (
+  // push it onto the voice's repeat descrs stack
+  pushRepeatOntoRepeatDescrsStack (
     inputLineNumber,
     result,
     "after createARepeatCloneAndStackIt()");
@@ -3069,7 +3133,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatEnding (
   }
 }
 
-void msrVoice::pushRepeatOntoRepeatsStack (
+void msrVoice::pushRepeatOntoRepeatDescrsStack (
   int         inputLineNumber,
   S_msrRepeat repeat,
   string      context)
@@ -3087,7 +3151,10 @@ void msrVoice::pushRepeatOntoRepeatsStack (
   }
 #endif
                 
-  fVoiceRepeatsStack.push_front (repeat);
+  fVoiceRepeatDescrsStack.push_front (
+    msrRepeatDescr::create (
+      inputLineNumber,
+      repeat));
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -3193,13 +3260,13 @@ void msrVoice::appendRepeatCloneToInitialVoiceElements (
     repeatCLone);
 }
     
-void msrVoice::popARepeatFromStack (
+void msrVoice::popARepeatFromRepeatDescrsStack (
   int         inputLineNumber,
   S_msrRepeat repeat,
   string      context)
 {
 
-  if (repeat != fVoiceRepeatsStack.front ()) {
+  if (repeat != fVoiceRepeatDescrsStack.front ()->getRepeatDescrRepeat ()) {
     stringstream s;
 
     s <<
@@ -3230,13 +3297,13 @@ void msrVoice::popARepeatFromStack (
 #endif
           
   // pop it from repeats stack
-  fVoiceRepeatsStack.pop_front ();
+  fVoiceRepeatDescrsStack.pop_front ();
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     displayVoiceRepeatsStack (
       inputLineNumber,
-      "after popARepeatFromStack()");
+      "after popARepeatFromRepeatDescrsStack()");
   }
 #endif
 }
@@ -3564,7 +3631,7 @@ void msrVoice::handleRepeatStartInVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       // analyze this repeat start's context
-      switch (fVoiceRepeatsStack.size ()) {
+      switch (fVoiceRepeatDescrsStack.size ()) {
         case 0:
           // this repeat start is at the voice-level
           // -------------------------------------
@@ -3760,7 +3827,8 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
   // grab current repeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // set its repeat times field
   currentRepeat->
@@ -3943,7 +4011,7 @@ void msrVoice::handleRepeatEndInVoice (
 #endif
 
         // analyze this repeat end's context
-        switch (fVoiceRepeatsStack.size ()) {
+        switch (fVoiceRepeatDescrsStack.size ()) {
           case 0:
             // this repeat is at the voice-level and has an implicit start
             // -------------------------------------
@@ -4226,7 +4294,8 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
   // fetch currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
       
   // get currentRepeat's common part
   S_msrRepeatCommonPart
@@ -4439,7 +4508,7 @@ void msrVoice::handleRepeatEndingStartInVoice (
         gIndenter++;
 
         // analyze this repeat end's context
-        switch (fVoiceRepeatsStack.size ()) {
+        switch (fVoiceRepeatDescrsStack.size ()) {
           case 0:
             // this the first ending of a voice-level repeat without start
             // -------------------------------------
@@ -4452,7 +4521,8 @@ void msrVoice::handleRepeatEndingStartInVoice (
               // fetch currentRepeat
               S_msrRepeat
                 currentRepeat =
-                  fVoiceRepeatsStack.front ();
+                  fVoiceRepeatDescrsStack.front ()->
+                    getRepeatDescrRepeat ();
                   
               switch (currentRepeat->getRepeatExplicitStartKind ()) {
                 case msrRepeat::kRepeatExplicitStartNo:
@@ -4534,7 +4604,7 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
 #endif
         
         // is there a current repeat?
-        switch (fVoiceRepeatsStack.size ()) {
+        switch (fVoiceRepeatDescrsStack.size ()) {
           case 0:
             {
               stringstream s;
@@ -4559,7 +4629,8 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
               // fetch currentRepeat
               S_msrRepeat
                 currentRepeat =
-                  fVoiceRepeatsStack.front ();
+                  fVoiceRepeatDescrsStack.front ()->
+                    getRepeatDescrRepeat ();
                   
               // create a repeat ending
 #ifdef TRACE_OPTIONS
@@ -4606,7 +4677,8 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
             /* JMI
               moveVoiceLastSegmentToRepeatCommonPart (
                 inputLineNumber,
-                fVoiceRepeatsStack.front ()->getRepeatCommonPart (),
+                fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ()->getRepeatCommonPart (),
                 "handleRepeatEndingStartInVoiceClone()");
       */
       
@@ -4617,8 +4689,8 @@ void msrVoice::handleRepeatEndingStartInVoiceClone (
                 newRepeat,
                 "handleRepeatEndInVoice()");
             
-             // push newRepeat onto the voice's repeats stack
-         pushRepeatOntoRepeatsStack (
+             // push newRepeat onto the voice's repeat descrs stack
+         pushRepeatOntoRepeatDescrsStack (
           inputLineNumber,
           newRepeat,
           "handleRepeatEndInVoice()");
@@ -4673,7 +4745,7 @@ void msrVoice::finalizeRepeatEndInVoice (
 #endif
 
         // fetch the repeat
-        if (! fVoiceRepeatsStack.size ()) {
+        if (! fVoiceRepeatDescrsStack.size ()) {
           stringstream s;
       
           s <<
@@ -4690,7 +4762,8 @@ void msrVoice::finalizeRepeatEndInVoice (
         
         S_msrRepeat
           repeat =
-            fVoiceRepeatsStack.front ();
+            fVoiceRepeatDescrsStack.front ()->
+              getRepeatDescrRepeat ();
 
         // get repeat's common part
         S_msrRepeatCommonPart
@@ -4699,7 +4772,7 @@ void msrVoice::finalizeRepeatEndInVoice (
               getRepeatCommonPart ();
 
         // is there another repeat to nest into this repeat?
-        if (! fVoiceRepeatsStack.size ()) {
+        if (! fVoiceRepeatDescrsStack.size ()) {
           // yes, this repeat contains a nested repeat
 
 /* JMI
@@ -5722,7 +5795,7 @@ void msrVoice::handleMultipleRestInVoiceClone (
 #endif
 
           // is this multiple rest nested in a repeat?
-          if (fVoiceRepeatsStack.size ()) {
+          if (fVoiceRepeatDescrsStack.size ()) {
             // yes
 
             // fVoiceLastSegment is cumulating elements for the repeat common part:
@@ -5745,10 +5818,12 @@ void msrVoice::handleMultipleRestInVoiceClone (
             }
 #endif
 
-            // move fVoiceLastSegment to the list of initial elements
-            moveVoiceLastSegmentToRepeatCommonPart (
+            // move voice last segment to the list of initial elements
+            moveVoiceLastSegmentToRepeatCommonPart ( // JMI
               inputLineNumber,
-              fVoiceRepeatsStack.front ()->getRepeatCommonPart (), // JMI
+              fVoiceRepeatDescrsStack.front ()->
+                getRepeatDescrRepeat ()->
+                  getRepeatCommonPart (), // JMI
               "handleMultipleRestInVoiceClone()");
   
 #ifdef TRACE_OPTIONS
@@ -5875,12 +5950,13 @@ void msrVoice::appendMultipleRestCloneToVoice (
 #endif
 
         // is this multiple rest nested in a repeat?
-        if (fVoiceRepeatsStack.size ()) {
+        if (fVoiceRepeatDescrsStack.size ()) {
           // yes
 
           S_msrRepeat
             currentRepeat =
-              fVoiceRepeatsStack.front ();
+              fVoiceRepeatDescrsStack.front ()->
+                getRepeatDescrRepeat ();
               
           // grab the multiple rest segment, i.e. the voice's last segment
           S_msrSegment
@@ -5997,8 +6073,8 @@ void msrVoice::appendRepeatCloneToVoice (
         }
 #endif
       
-        // push the repeat clone onto the voice's repeats stack
-        pushRepeatOntoRepeatsStack (
+        // push the repeat clone onto the voice's repeat descrs stack
+        pushRepeatOntoRepeatDescrsStack (
           inputLineNumber,
           repeatCLone,
           "appendRepeatCloneToVoice()");
@@ -6042,11 +6118,11 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   gIndenter++;
 
 /* JMI
-        int voiceRepeatsStackSize =
-          fVoiceRepeatsStack.size ();
+        int voicerepeatDescrsStackSize =
+          fVoiceRepeatDescrsStack.size ();
 */
 
-  if (! fVoiceRepeatsStack.size ()) {
+  if (! fVoiceRepeatDescrsStack.size ()) {
     stringstream s;
 
     s <<
@@ -6068,7 +6144,8 @@ void msrVoice::handleHookedRepeatEndingEndInVoice (
   // grab currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // create a hooked repeat ending
   msrRepeatEnding::msrRepeatEndingKind
@@ -6149,7 +6226,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
 
   gIndenter++;
 
-  if (! fVoiceRepeatsStack.size ()) {
+  if (! fVoiceRepeatDescrsStack.size ()) {
     stringstream s;
 
     s <<
@@ -6171,7 +6248,8 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
   // grab currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // create a hookless repeat ending
   msrRepeatEnding::msrRepeatEndingKind
@@ -6233,8 +6311,8 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
     currentRepeat,
     "handleHooklessRepeatEndingEndInVoice()");
 
-  // pop it from the voice's repeats stack
-  popARepeatFromStack (
+  // pop it from the voice's repeat descrs stack
+  popARepeatFromRepeatDescrsStack (
     inputLineNumber,
     currentRepeat,
     "handleHooklessRepeatEndingEndInVoice");
@@ -6321,7 +6399,7 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
   }
 #endif
 
-  if (! fVoiceRepeatsStack.size ()) {
+  if (! fVoiceRepeatDescrsStack.size ()) {
     stringstream s;
 
     s <<
@@ -6340,7 +6418,8 @@ void msrVoice::handleRepeatCommonPartStartInVoiceClone (
   // grab currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // create the currentRepeat's common part
 #ifdef TRACE_OPTIONS
@@ -6405,7 +6484,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
 
   gIndenter++;
 
-  if (! fVoiceRepeatsStack.size ()) {
+  if (! fVoiceRepeatDescrsStack.size ()) {
     stringstream s;
 
     s <<
@@ -6425,7 +6504,8 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
   // grab currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // get currentRepeat's common part
   S_msrRepeatCommonPart
@@ -6492,7 +6572,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
 
   gIndenter++;
 
-  if (! fVoiceRepeatsStack.size ()) {
+  if (! fVoiceRepeatDescrsStack.size ()) {
     stringstream s;
 
     s <<
@@ -6512,7 +6592,8 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
   // grab currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // create a hooked repeat ending
   msrRepeatEnding::msrRepeatEndingKind
@@ -6605,7 +6686,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
 
   gIndenter++;
 
-  if (! fVoiceRepeatsStack.size ()) {
+  if (! fVoiceRepeatDescrsStack.size ()) {
     stringstream s;
 
     s <<
@@ -6625,7 +6706,8 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   // grab currentRepeat
   S_msrRepeat
     currentRepeat =
-      fVoiceRepeatsStack.front ();
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
 
   // create a hookless repeat ending
   msrRepeatEnding::msrRepeatEndingKind
@@ -6908,7 +6990,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
 #endif
 
         // is there a current repeat?
-        switch (fVoiceRepeatsStack.size ()) {
+        switch (fVoiceRepeatDescrsStack.size ()) {
           case 0:
             {
               stringstream s;
@@ -6933,7 +7015,8 @@ void msrVoice::handleRepeatEndInVoiceClone (
               // fetch currentRepeat
               S_msrRepeat
                 currentRepeat =
-                  fVoiceRepeatsStack.front ();
+                  fVoiceRepeatDescrsStack.front ()->
+                    getRepeatDescrRepeat ();
                   
               // get currentRepeat's common part
               S_msrRepeatCommonPart
@@ -6955,8 +7038,8 @@ void msrVoice::handleRepeatEndInVoiceClone (
                 currentRepeat,
                 "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
 
-              // pop currentRepeat from the voice's repeats stack
-              popARepeatFromStack (
+              // pop currentRepeat from the voice's repeat descrs stack
+              popARepeatFromRepeatDescrsStack (
                 inputLineNumber,
                 currentRepeat,
                 "handleRepeatEndInVoiceClone");
@@ -6970,7 +7053,8 @@ void msrVoice::handleRepeatEndInVoiceClone (
               // fetch currentRepeat
               S_msrRepeat
                 currentRepeat =
-                  fVoiceRepeatsStack.front ();
+                  fVoiceRepeatDescrsStack.front ()->
+                    getRepeatDescrRepeat ();
                   
               // get currentRepeat's common part
               S_msrRepeatCommonPart
@@ -6984,8 +7068,8 @@ void msrVoice::handleRepeatEndInVoiceClone (
                 currentRepeat,
                 "handleRepeatEndInVoiceClone()");
 
-              // pop currentRepeat from the voice's repeats stack
-              popARepeatFromStack (
+              // pop currentRepeat from the voice's repeat descrs stack
+              popARepeatFromRepeatDescrsStack (
                 inputLineNumber,
                 currentRepeat,
                 "handleRepeatEndInVoiceClone");
@@ -7140,7 +7224,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 #endif
             
         // sanity check
-        if (! fVoiceRepeatsStack.size ()) {
+        if (! fVoiceRepeatDescrsStack.size ()) {
           stringstream s;
       
           s <<
@@ -7160,7 +7244,8 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 
         S_msrRepeat
           currentRepeat =
-            fVoiceRepeatsStack.front ();
+            fVoiceRepeatDescrsStack.front ()->
+              getRepeatDescrRepeat ();
           
         currentRepeat->
           addRepeatEndingToRepeat (
@@ -7581,12 +7666,20 @@ void msrVoice::finalizeVoice ( // JMI ???
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoices
+  ) {
     gLogIOstream <<
       "Finalizing voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
+
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "finalizeVoice() 1");
   }
 #endif
 
@@ -7611,10 +7704,10 @@ void msrVoice::finalizeVoice ( // JMI ???
   }
 
   // are there pending repeats in the voice repeats stack???
-  if (fVoiceRepeatsStack.size ()) {
+  if (fVoiceRepeatDescrsStack.size ()) {
     displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "FINALIZING VOICE");
+      "finalizeVoice()");
       
     stringstream s;
 
@@ -7634,6 +7727,18 @@ void msrVoice::finalizeVoice ( // JMI ???
   // collect the voice measures into the flat list
   collectVoiceMeasuresIntoFlatList (
     inputLineNumber);
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoices
+  ) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "finalizeVoice() 2");
+  }
+#endif
 }
 
 void msrVoice::acceptIn (basevisitor* v)

@@ -20,8 +20,7 @@
 
 #include "msrIdentification.h"
 #include "msrPageGeometry.h"
-
-#include "msr.h" // TEMP
+#include "msrCredits.h"
 
 
 namespace MusicXML2 

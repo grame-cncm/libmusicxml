@@ -5235,7 +5235,7 @@ class msrRepeat : public msrVoiceElement
                             
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     void                  addRepeatEndingToRepeat (
@@ -5252,6 +5252,14 @@ class msrRepeat : public msrVoiceElement
     void                  collectRepeatMeasuresIntoFlatList (
                             int inputLineNumber);
     
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  displayRepeatContents (
+                            int    inputLineNumber,
+                            string context);
   public:
 
     // visitors
@@ -5910,6 +5918,74 @@ class msrRepeatCoda : public msrElement
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 
+//________________________________________________________________________
+struct msrRepeatDescr : public smartable
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatDescr> create (
+      int         repeatDescrStartInputLineNumber,
+      S_msrRepeat repeatDescrRepeat);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatDescr (
+      int         repeatDescrStartInputLineNumber,
+      S_msrRepeat fRepeatDescrRepeat);
+
+    virtual ~msrRepeatDescr ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrRepeat           getRepeatDescrRepeat () const
+                              { return fRepeatDescrRepeat; }
+
+    void                  setRepeatDescrStartInputLineNumber (
+                            int inputLineNumber)
+                              {
+                                fRepeatDescrStartInputLineNumber =
+                                  inputLineNumber;
+                              }
+    
+    int                   getRepeatDescrStartInputLineNumber () const
+                              {
+                                return
+                                  fRepeatDescrStartInputLineNumber;
+                              }
+    
+    // services
+    // ------------------------------------------------------
+
+    string                repeatDescrAsString () const;
+
+    // print
+    // ------------------------------------------------------
+    
+    virtual void          print (ostream& os) const;
+    
+  private:
+     
+    // fields
+    // ------------------------------------------------------
+
+    // the repeat
+    S_msrRepeat           fRepeatDescrRepeat;
+
+    // its start input line number
+    int                   fRepeatDescrStartInputLineNumber;
+};
+typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
+
 //______________________________________________________________________________
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -6546,12 +6622,12 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
 
-    void                  popARepeatFromStack (
+    void                  popARepeatFromRepeatDescrsStack (
                             int         inputLineNumber,
                             S_msrRepeat repeat,
                             string      context);
 
-    void                  pushRepeatOntoRepeatsStack (
+    void                  pushRepeatOntoRepeatDescrsStack (
                             int         inputLineNumber,
                             S_msrRepeat repeat,
                             string      context);
@@ -6755,7 +6831,9 @@ class msrVoice : public msrElement
     S_msrMeasure          fVoiceFirstMeasure;
 
     // a stack is needed to handle nested repeats
-    list<S_msrRepeat>     fVoiceRepeatsStack;
+    list<S_msrRepeatDescr>
+                          fVoiceRepeatDescrsStack;
+    
     void                  displayVoiceRepeatsStack (
                             int    inputLineNumber,
                             string context);

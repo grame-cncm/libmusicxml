@@ -2339,7 +2339,7 @@ string msrSegment::asString () const
       " (" <<
       singularOrPlural (
         fSegmentMeasuresList.size (), "measure", " measures") <<
-      "), i.e. ";
+      "), i.e. [";
 
     list<S_msrMeasure>::const_iterator
       iBegin = fSegmentMeasuresList.begin (),
@@ -2351,6 +2351,8 @@ string msrSegment::asString () const
       if (++i == iEnd) break;
       s << ", ";
     } // for
+
+    s << "]";
   }
 
   return s.str ();

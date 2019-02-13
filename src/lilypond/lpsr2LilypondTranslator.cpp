@@ -34,18 +34,18 @@ namespace MusicXML2
 const int commentFieldWidth = 30;
 
 //______________________________________________________________________________
-S_msrRepeatDescr msrRepeatDescr::create (
-      int repeatEndingsNumber)
+S_bsrRepeatDescr bsrRepeatDescr::create (
+  int repeatEndingsNumber)
 {
-  msrRepeatDescr* o = new
-    msrRepeatDescr (
+  bsrRepeatDescr* o = new
+    bsrRepeatDescr (
       repeatEndingsNumber);
   assert(o!=0);
   return o;
 }
 
-msrRepeatDescr::msrRepeatDescr (
-      int repeatEndingsNumber)
+bsrRepeatDescr::bsrRepeatDescr (
+  int repeatEndingsNumber)
 {
   fRepeatEndingsNumber  = repeatEndingsNumber;
   fRepeatEndingsCounter = 0;
@@ -53,10 +53,10 @@ msrRepeatDescr::msrRepeatDescr (
   fEndOfRepeatHasBeenGenerated = false;
 }
 
-msrRepeatDescr::~msrRepeatDescr ()
+bsrRepeatDescr::~bsrRepeatDescr ()
 {}
 
-string msrRepeatDescr::repeatDescrAsString () const
+string bsrRepeatDescr::repeatDescrAsString () const
 {
   stringstream s;
 
@@ -72,7 +72,7 @@ string msrRepeatDescr::repeatDescrAsString () const
   return s.str ();
 }
 
-void msrRepeatDescr::print (ostream& os) const
+void bsrRepeatDescr::print (ostream& os) const
 {
   const int fieldWidth = 29;
   
@@ -91,7 +91,7 @@ void msrRepeatDescr::print (ostream& os) const
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt)
+ostream& operator<< (ostream& os, const S_bsrRepeatDescr& elt)
 {
   elt->print (os);
   return os;
@@ -13594,8 +13594,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
   if (repeatEndingsNumber == 0)
     repeatEndingsNumber = 2; // implicitly JMI ???
 
-  fRepeatsDescrStack.push_back (
-    msrRepeatDescr::create (
+  fRepeatDescrsStack.push_back (
+    bsrRepeatDescr::create (
       repeatEndingsNumber));
     
   int
@@ -13607,7 +13607,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
   s <<
     "\\repeat volta " <<
     repeatTimes <<
-// JMI    fRepeatsDescrStack.back ()->getRepeatEndingsNumber () <<
+// JMI    fRepeatDescrsStack.back ()->getRepeatEndingsNumber () <<
     " {";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
@@ -13652,7 +13652,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
       before the endings are handled
   */
   
-  if (! fRepeatsDescrStack.back ()->getEndOfRepeatHasBeenGenerated ()) {
+  if (! fRepeatDescrsStack.back ()->getEndOfRepeatHasBeenGenerated ()) {
     // the end of the repeat has not been generated yet
 
     gIndenter--;
@@ -13672,7 +13672,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     }
   }
 
-  fRepeatsDescrStack.pop_back ();
+  fRepeatDescrsStack.pop_back ();
 }
 
 //________________________________________________________________________
@@ -13706,7 +13706,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       endl;
   }
 
-  fRepeatsDescrStack.back ()->
+  fRepeatDescrsStack.back ()->
     incrementRepeatEndingsCounter ();
 
   int
@@ -13731,7 +13731,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         "}" <<
         endl;
     }
-    fRepeatsDescrStack.back ()->
+    fRepeatDescrsStack.back ()->
       setEndOfRepeatHasBeenGenerated ();
 
     // first repeat ending is in charge of
@@ -13859,8 +13859,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLilypondCodeIOstream <<
-      "% ===**** fRepeatsDescrStack.back () = '" <<
-      fRepeatsDescrStack.back ()->repeatDescrAsString () <<
+      "% ===**** fRepeatDescrsStack.back () = '" <<
+      fRepeatDescrsStack.back ()->repeatDescrAsString () <<
       "'" <<
       endl;
   }
@@ -13868,9 +13868,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 */
 
   if (
-    fRepeatsDescrStack.back ()->getRepeatEndingsCounter ()
+    fRepeatDescrsStack.back ()->getRepeatEndingsCounter ()
       ==
-    fRepeatsDescrStack.back ()->getRepeatEndingsNumber ()) {
+    fRepeatDescrsStack.back ()->getRepeatEndingsNumber ()) {
       
     gIndenter--;
     

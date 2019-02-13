@@ -23,7 +23,7 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-struct msrRepeatDescr : public smartable
+struct bsrRepeatDescr : public smartable
 {
 /*
  * positions represent the order in which the parts appear in <part-list />
@@ -34,7 +34,7 @@ struct msrRepeatDescr : public smartable
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrRepeatDescr> create (
+    static SMARTP<bsrRepeatDescr> create (
       int repeatEndingsNumber);
      
   protected:
@@ -42,10 +42,10 @@ struct msrRepeatDescr : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrRepeatDescr (
+    bsrRepeatDescr (
       int repeatEndingsNumber);
 
-    virtual ~msrRepeatDescr ();
+    virtual ~bsrRepeatDescr ();
 
   public:
 
@@ -87,8 +87,8 @@ struct msrRepeatDescr : public smartable
     
     bool                  fEndOfRepeatHasBeenGenerated;
 };
-typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
-EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
+typedef SMARTP<bsrRepeatDescr> S_bsrRepeatDescr;
+EXP ostream& operator<< (ostream& os, const S_bsrRepeatDescr& elt);
 
 //________________________________________________________________________
 class lpsr2LilypondTranslator :
@@ -850,8 +850,8 @@ class lpsr2LilypondTranslator :
     
     // repeats
     // ------------------------------------------------------
-    list<S_msrRepeatDescr>
-                          fRepeatsDescrStack;
+    list<S_bsrRepeatDescr>
+                          fRepeatDescrsStack;
 
     // multiple rest measures
     // ------------------------------------------------------
