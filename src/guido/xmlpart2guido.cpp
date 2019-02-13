@@ -556,9 +556,9 @@ namespace MusicXML2
             
             }else if (type == "crescendo")
             {
-                ctree<xmlelement>::iterator nextevent = find(fCurrentPart->begin(), fCurrentPart->end(), elt);
+                ctree<xmlelement>::iterator wedgeBegin= find(fCurrentPart->begin(), fCurrentPart->end(), elt);
                 int crescendoNumber = elt->getAttributeIntValue("number", 1);   // default is 1 for wedge!
-                
+                ctree<xmlelement>::iterator nextevent  = wedgeBegin;
                 nextevent++;    // advance one step
                 
                 // find next S_direction in measure
@@ -568,13 +568,27 @@ namespace MusicXML2
                        &&
                        (nextWedge->getAttributeValue("type")!="stop") )
                 {
-                    nextWedge = fCurrentMeasure->find(k_wedge, nextevent++);
+                    nextWedge = fCurrentPart->find(k_wedge, nextevent++);
                 }
                 
-                /// fetch dx1 and dx2 value based on ending
-                float posx2 = nextWedge->getAttributeFloatValue("relative-x", 0);
-                float posx1 = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
-
+                ctree<xmlelement>::iterator wedgeEnd = nextWedge;
+                
+                /// GUID-88: Avoid parsing dx2 and dx1 on "single-event wedge"
+                int numberOfNotesInWedge = 0;
+                nextevent = wedgeBegin;nextevent++;
+                while ( nextevent != wedgeEnd ) {
+                    if (nextevent->getType() == k_note) {
+                        if (nextevent->hasSubElement(k_chord)) {
+                            // in chord, do not increment
+                        }else {
+                            numberOfNotesInWedge++;
+                        }
+                    }
+                    nextevent++;
+                }
+                
+                cerr<< "Measure:"<< fMeasNum <<" Wedge has "<< numberOfNotesInWedge<< " events!"<<endl;
+                
                 if (fCurrentOffset) {
                     /*rational offsetDur(fCurrentOffset, fCurrentDivision);
                     offsetDur.rationalise();
@@ -618,22 +632,31 @@ namespace MusicXML2
                     return;         // FIXME: Ignoring Offset wedges à la Verovio
                 }
 
+                if (numberOfNotesInWedge > 1) {
+                    /// fetch dx1 and dx2 value based on ending
+                    float posx1 = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
+
+                    //// Add dx1 and dx2 parameters
+                    if (posx1!=0.0) {
+                        posx1 = (posx1 / 10) * 2;   // convert to half spaces
+                        
+                        stringstream s;
+                        s << "dx1=" << posx1 << "hs";
+                        tag->add (guidoparam::create(s.str(), false));
+                    }
+                    
+                    /// !Important: the relative-x on the wedge end CAN NOT be directly translated to GMN as it refers to the x-position at the placement of the Wedge Stop. This should be handled by the GDevice in Guido instead.
+                    /*
+                     float posx2 = nextWedge->getAttributeFloatValue("relative-x", 0);
+                     if (posx2!=0.0) {
+                        posx2 = (posx2 / 10) * 2;   // convert to half spaces
+                        
+                        stringstream s;
+                        s << "dx2=" << posx2 << "hs";
+                        tag->add (guidoparam::create(s.str(), false));
+                    }*/
+                }
                 
-                //// Add dx1 and dx2 parameters
-                if (posx1!=0.0) {
-                    posx1 = (posx1 / 10) * 2;   // convert to half spaces
-                    
-                    stringstream s;
-                    s << "dx1=" << posx1 << "hs";
-                    tag->add (guidoparam::create(s.str(), false));
-                }
-                if (posx2!=0.0) {
-                    posx2 = (posx2 / 10) * 2;   // convert to half spaces
-                    
-                    stringstream s;
-                    s << "dx2=" << posx2 << "hs";
-                    tag->add (guidoparam::create(s.str(), false));
-                }
                 
                 //// Add spreadvalue from the Crescendo Ending
                 float spreadValue = nextWedge->getAttributeFloatValue("spread", 15.0);
