@@ -219,5 +219,11 @@ float xmlelement::getFloatValue	(int subElementType, float defaultvalue)
 	ctree<xmlelement>::iterator iter = find(subElementType);
 	return (iter != end()) ? float(*(*iter)) : defaultvalue;
 }
+    
+    bool xmlelement::hasSubElement(int subElementType)
+    {
+        ctree<xmlelement>::iterator iter = find(subElementType);
+        return (iter != end());
+    }
 
 }
