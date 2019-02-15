@@ -41,6 +41,7 @@ namespace MusicXML2
         xmlpart2guido::reset();
         fHasLyrics = false;
         directionWord = false;
+        directionDynamics = false;
         fGenerateTempo = false;
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
@@ -64,6 +65,7 @@ namespace MusicXML2
         fMeasNum = 0;
         fLyricsManualSpacing = false;
         directionWord = false;
+        directionDynamics = false;
         fGenerateTempo = false;
         fTextTagOpen = 0;
         fDynamics= (void*)0;
@@ -421,6 +423,8 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::visitEnd ( S_direction& elt )
     {
+        // !IMPORTANT: Avoid using default-x since it is measured from the beginning of the measure for S_direction!
+        
         // Generate Tempo tag here to take into account WORDS and Metronome alltogether in Tempo tag
         if (fGenerateTempo)
         {
@@ -453,6 +457,59 @@ namespace MusicXML2
             add (tag);
         }
         
+        if (directionDynamics && fDynamics) {
+            rational posInMeasure = fCurrentVoicePosition;
+            
+            ctree<xmlelement>::literator iter;
+            for (iter = fDynamics->lbegin(); iter != fDynamics->lend(); iter++) {
+                if ((*iter)->getType() != k_other_dynamics) {
+                    Sguidoelement tag = guidotag::create("intens");
+                    tag->add (guidoparam::create((*iter)->getName()));
+                    if (fGeneratePositions) xml2guidovisitor::addPosY(fDynamics, tag, 12, 1);
+                    /// Infer X-Position from TimePosition
+                    
+                    int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
+                    auto timePos4measure = timePositions.find(measureNum);
+                    float intens_default_x =fDynamics->getAttributeFloatValue("default-x", 0);
+                    float intens_relative_x =fDynamics->getAttributeFloatValue("relative-x", 0);
+                    float intens_xpos = intens_default_x + intens_relative_x;
+                    //cout<<"Measure: "<<fMeasNum <<": Got to Intens "<< (*iter)->getName()<<" with default-x="<< intens_default_x<< " relative-x="<<intens_relative_x ;
+                    
+                    if ((intens_xpos!=0)&&(timePos4measure != timePositions.end())) {
+                        auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
+                        if (voiceInTimePosition != timePos4measure->second.end()) {
+                            auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
+                            if (intens_xpos != *minXPos) {
+                                int intensDx = (intens_relative_x/10)*2;
+                                // apply default-x ONLY if it exists
+                                if (intens_default_x!=0)
+                                    intensDx = ( (intens_xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
+                                
+                                /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
+                                if (fCurrentOffset>0)
+                                    intensDx +=3;
+                                
+                                stringstream s;
+                                s << "dx=" << intensDx ;
+                                tag->add (guidoparam::create(s.str(), false));
+                            }
+                        }else {
+                            cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
+                        }
+                    }
+                    
+                    ///
+                    
+                    if (fCurrentOffset)
+                        addDelayed(tag, fCurrentOffset);
+                    else {
+                        add(tag);
+                    }
+                }
+            }
+            fDynamics= (void*)0;
+        }
+        
         
         fSkipDirection = false;
         fCurrentOffset = 0;
@@ -460,6 +517,7 @@ namespace MusicXML2
         tempoMetronome.clear();
         wordParams.clear();
         fGenerateTempo = false;
+        directionDynamics = false;
         directionWord = false;
         wordPointer = NULL;
     }
@@ -706,76 +764,6 @@ namespace MusicXML2
         fGenerateTempo = true;
     }
     
-    /// This is legacy method and should be removed later
-    int xmlpart2guido::checkDynamics(rational posInMeasure )
-    {
-        ctree<xmlelement>::literator iter;
-        
-        if (fDynamics) {
-            
-            int tagCounter=0;
-            
-            for (iter = fDynamics->lbegin(); iter != fDynamics->lend(); iter++) {
-                if ((*iter)->getType() != k_other_dynamics) {
-                    Sguidoelement tag = guidotag::create("intens");
-                    tag->add (guidoparam::create((*iter)->getName()));
-                    if (fGeneratePositions) xml2guidovisitor::addPosY(fDynamics, tag, 12, 1);
-                    //if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);  // Avoid using default-x since it is measured from the beginning of the measure for S_direction!
-                    /// Infer X-Position from TimePosition
-                    
-                    int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-                    auto timePos4measure = timePositions.find(measureNum);
-                    float intens_default_x =fDynamics->getAttributeFloatValue("default-x", 0);
-                    float intens_relative_x =fDynamics->getAttributeFloatValue("relative-x", 0);
-                    float intens_xpos = intens_default_x + intens_relative_x;
-                    //cout<<"Measure: "<<fMeasNum <<": Got to Intens "<< (*iter)->getName()<<" with default-x="<< intens_default_x<< " relative-x="<<intens_relative_x ;
-                    
-                    if ((intens_xpos!=0)&&(timePos4measure != timePositions.end())) {
-                        auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
-                        if (voiceInTimePosition != timePos4measure->second.end()) {
-                            auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                            if (intens_xpos != *minXPos) {
-                                int intensDx = (intens_relative_x/10)*2;
-                                // apply default-x ONLY if it exists
-                                if (intens_default_x!=0)
-                                    intensDx = ( (intens_xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
-                                
-                                /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
-                                if (fCurrentOffset>0)
-                                    intensDx +=3;
-                                
-                                stringstream s;
-                                s << "dx=" << intensDx ;
-                                tag->add (guidoparam::create(s.str(), false));
-                            }
-                        }else {
-                            cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
-                        }
-                    }
-                    
-                    ///
-                    
-                    if (fCurrentOffset)
-                        addDelayed(tag, fCurrentOffset);
-                    else {
-                        //push (tag);
-                        //tagCounter++;
-                        add(tag);
-                    }
-                }
-            }
-            
-            fDynamics = (void*)0;
-            return tagCounter;
-            
-        }else {
-            return 0;
-        }
-        
-        fDynamics = (void*)0;
-        return 0;
-    }
-    
     //______________________________________________________________________________
     void xmlpart2guido::visitStart( S_dynamics& elt)
     {
@@ -785,59 +773,9 @@ namespace MusicXML2
         ///         For other elements, it is measured from the left-hand side of the note or the musical position within the bar.)
         /// So in order to infer Dx out of default-x for S_dynamics, we should generate it once TimePosition has been advanced!
         
-        //fDynamics = elt;
+        fDynamics = elt;
         
-        rational posInMeasure = fCurrentVoicePosition;
-        
-        ctree<xmlelement>::literator iter;
-        for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
-            if ((*iter)->getType() != k_other_dynamics) {
-                Sguidoelement tag = guidotag::create("intens");
-                tag->add (guidoparam::create((*iter)->getName()));
-                if (fGeneratePositions) xml2guidovisitor::addPosY(elt, tag, 12, 1);
-                //if (fGeneratePositions) xml2guidovisitor::addPosition(elt, tag, 12, 1);  // Avoid using default-x since it is measured from the beginning of the measure for S_direction!
-                /// Infer X-Position from TimePosition
-                
-                int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-                auto timePos4measure = timePositions.find(measureNum);
-                float intens_default_x =elt->getAttributeFloatValue("default-x", 0);
-                float intens_relative_x =elt->getAttributeFloatValue("relative-x", 0);
-                float intens_xpos = intens_default_x + intens_relative_x;
-                //cout<<"Measure: "<<fMeasNum <<": Got to Intens "<< (*iter)->getName()<<" with default-x="<< intens_default_x<< " relative-x="<<intens_relative_x ;
-                
-                if ((intens_xpos!=0)&&(timePos4measure != timePositions.end())) {
-                    auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
-                    if (voiceInTimePosition != timePos4measure->second.end()) {
-                        auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                        if (intens_xpos != *minXPos) {
-                            int intensDx = (intens_relative_x/10)*2;
-                            // apply default-x ONLY if it exists
-                            if (intens_default_x!=0)
-                                intensDx = ( (intens_xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
-                            
-                            /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
-                            if (fCurrentOffset>0)
-                                intensDx +=3;
-                            
-                            stringstream s;
-                            s << "dx=" << intensDx ;
-                            tag->add (guidoparam::create(s.str(), false));
-                        }
-                    }else {
-                        cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
-                    }
-                }
-                
-                ///
-                
-                if (fCurrentOffset)
-                    addDelayed(tag, fCurrentOffset);
-                else {
-                    add(tag);
-                }
-            }
-        }
-        
+        directionDynamics = true;
         
         return;
     }

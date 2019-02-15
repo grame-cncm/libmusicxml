@@ -85,7 +85,7 @@ class EXP xmlpart2guido :
     int fTextTagOpen;
     
     string tempoWord, tempoMetronome, wordParams;
-    bool fGenerateTempo, directionPlacementAbove, directionWord;
+    bool fGenerateTempo, directionPlacementAbove, directionWord, directionDynamics;
     S_words wordPointer;
     
     std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
@@ -210,7 +210,6 @@ class EXP xmlpart2guido :
     
     std::map<int, float> fStaffDistance;
     
-    int checkDynamics(rational posInMeasure);
     S_dynamics fDynamics;
     
     bool fIgnoreWedgeWithOffset;
