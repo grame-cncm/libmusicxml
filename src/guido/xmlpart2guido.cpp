@@ -40,12 +40,8 @@ namespace MusicXML2
         fGenerateAutoMeasureNum = true;
         xmlpart2guido::reset();
         fHasLyrics = false;
-        directionWord = false;
-        directionDynamics = false;
-        fGenerateTempo = false;
         fNonStandardNoteHead = false;
         fLyricsManualSpacing = false;
-        fDynamics= (void*)0;
         fIgnoreWedgeWithOffset = false;
     }
     
@@ -64,11 +60,7 @@ namespace MusicXML2
         fPendingPops = 0;
         fMeasNum = 0;
         fLyricsManualSpacing = false;
-        directionWord = false;
-        directionDynamics = false;
-        fGenerateTempo = false;
         fTextTagOpen = 0;
-        fDynamics= (void*)0;
         fIgnoreWedgeWithOffset = false;
     }
     
@@ -83,7 +75,6 @@ namespace MusicXML2
         fCurrentStaffIndex = guidostaff;		// the current guido staff index
         fHasLyrics = false;
         fLyricsManualSpacing = false;
-        fDynamics= (void*)0;
         fIgnoreWedgeWithOffset = false;
         start (seq);
     }
@@ -325,19 +316,23 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::visitStart ( S_direction& elt )
     {
+        // Parse Staff and Offset first
         if (fNotesOnly || (elt->getIntValue(k_staff, 0) != fTargetStaff)) {
             fSkipDirection = true;
         }
         else {
             fCurrentOffset = elt->getLongValue(k_offset, 0);
         }
-        
+        // Parse Placement Attributes
         string placement = elt->getAttributeValue("placement");
         if (placement == "above")
         {
             directionPlacementAbove = true;
         }else
             directionPlacementAbove = false;
+        
+        ////////////
+        
     }
     
     void xmlpart2guido::visitStart ( S_words& elt )
@@ -346,31 +341,6 @@ namespace MusicXML2
         
         tempoWord = elt->getValue();
         
-        string font_family = elt->getAttributeValue("font-family");
-        string font_size = elt->getAttributeValue("font-size");
-        string font_weight = elt->getAttributeValue("font-weight");
-        string font_style = elt->getAttributeValue("font-style");
-        wordParams = "\""+tempoWord+"\"";
-        if (font_family.size())
-            wordParams += ",font=\""+font_family+"\"";
-        if (font_size.size())
-            wordParams += ",fsize="+font_size+"pt";
-        
-        // Add font styles
-        string fattrib;
-        if (font_weight=="bold")
-            fattrib +="b";
-        if (font_style=="italic")
-            fattrib +="i";
-        if (fattrib.size())
-            wordParams += ",fattrib=\""+fattrib+"\"";
-        
-        wordPointer = elt;
-        
-        if (wordParams.size())
-        {
-            directionWord = true;
-        }
     }
     
     void xmlpart2guido::visitStart ( S_rehearsal& elt )
@@ -425,101 +395,154 @@ namespace MusicXML2
     {
         // !IMPORTANT: Avoid using default-x since it is measured from the beginning of the measure for S_direction!
         
-        // Generate Tempo tag here to take into account WORDS and Metronome alltogether in Tempo tag
-        if (fGenerateTempo)
+        if (fSkipDirection) return;
+        
+        // Browse into all S_direction_type elements and parse, by preserving ordering AND grouped direction positions (if missing in proceedings calls)
+        //cerr<<"S_direction in measure"<<fMeasNum<<endl;
+        ctree<xmlelement>::literator iter = elt->lbegin();
+        
+        /// IMPORTANT: In case of "metronome", there's a coupling of WORDS and METRONOME which leads to ONE guido element. Take this into account.
+        bool generateTempo = false;
+        string tempoWording;
+        ctree<xmlelement>::iterator ito = elt->find(k_metronome);
+        if (ito != elt->end())
         {
-            Sguidoelement tag = guidotag::create("tempo");
-            string tempoParams;
-            if (directionPlacementAbove && directionWord)
-            {
-                tempoParams = "\""+tempoWord+" "+tempoMetronome+"\"";
-                directionWord = false;
-            }
-            else
-                tempoParams = "\""+tempoMetronome+"\"";
-            
-            // add a dy=4 to avoid eventual collisions
-            tempoParams += ", dy=4";
-            
-            if (tempoParams.size())
-            {
-                tag->add (guidoparam::create(tempoParams.c_str(), false));
-                if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-                add (tag);
-            }
+            generateTempo = true;   // this will allow grouping of S_Word and S_Metronome into one tag
         }
         
-        if (directionWord)
-        {
-            Sguidoelement tag = guidotag::create("text");
-            tag->add (guidoparam::create(wordParams.c_str(), false));
-            xml2guidovisitor::addPosition(wordPointer, tag, 11);
-            add (tag);
-        }
+        float commonDy = 0.0;   // This is the inherited group Dy
         
-        if (directionDynamics && fDynamics) {
-            rational posInMeasure = fCurrentVoicePosition;
+        
+        for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
+            // S_Direction can accept direction_type, offset, footnote, level, voice, staff
+            //cerr << "\tS_Direction Element in measure:"<< (*iter)->getName() <<endl;
             
-            ctree<xmlelement>::literator iter;
-            for (iter = fDynamics->lbegin(); iter != fDynamics->lend(); iter++) {
-                if ((*iter)->getType() != k_other_dynamics) {
-                    Sguidoelement tag = guidotag::create("intens");
-                    tag->add (guidoparam::create((*iter)->getName()));
-                    if (fGeneratePositions) xml2guidovisitor::addPosY(fDynamics, tag, 12, 1);
-                    /// Infer X-Position from TimePosition
+            float elementSpecificYOffset = 0.0;
+            
+            if ((*iter)->getType() == k_direction_type) {
+                
+                ctree<xmlelement>::literator directionTypeElements;
+                for (directionTypeElements = (*iter)->lbegin(); directionTypeElements != (*iter)->lend(); directionTypeElements++) {
+                    int elementType = (*directionTypeElements)->getType();
+                    auto element = (*directionTypeElements);
+                    //cerr << "\t\tS_Direction_type: " << (*directionTypeElements)->getName()<< " CommonDY="<< commonDy <<endl;
+                    Sguidoelement tag;
                     
-                    int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-                    auto timePos4measure = timePositions.find(measureNum);
-                    float intens_default_x =fDynamics->getAttributeFloatValue("default-x", 0);
-                    float intens_relative_x =fDynamics->getAttributeFloatValue("relative-x", 0);
-                    float intens_xpos = intens_default_x + intens_relative_x;
-                    //cout<<"Measure: "<<fMeasNum <<": Got to Intens "<< (*iter)->getName()<<" with default-x="<< intens_default_x<< " relative-x="<<intens_relative_x ;
-                    
-                    if ((intens_xpos!=0)&&(timePos4measure != timePositions.end())) {
-                        auto voiceInTimePosition = timePos4measure->second.find(posInMeasure);
-                        if (voiceInTimePosition != timePos4measure->second.end()) {
-                            auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                            if (intens_xpos != *minXPos) {
-                                int intensDx = (intens_relative_x/10)*2;
-                                // apply default-x ONLY if it exists
-                                if (intens_default_x!=0)
-                                    intensDx = ( (intens_xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
-                                
-                                /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
-                                if (fCurrentOffset>0)
-                                    intensDx +=3;
-                                
-                                stringstream s;
-                                s << "dx=" << intensDx ;
-                                tag->add (guidoparam::create(s.str(), false));
+                    switch (elementType) {
+                        case k_words:
+                        {
+                            if (generateTempo) {
+                                tempoWording = element->getValue();
+                                break;
                             }
-                        }else {
-                            cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
+                            
+                            std::stringstream wordParameters;
+                            wordParameters << "\"" << element->getValue() << "\"";
+                            
+                            string font_family = element->getAttributeValue("font-family");
+                            string font_size = element->getAttributeValue("font-size");
+                            string font_weight = element->getAttributeValue("font-weight");
+                            string font_style = element->getAttributeValue("font-style");
+                            if (font_family.size())
+                                wordParameters << ",font=\""+font_family+"\"";
+                            if (font_size.size())
+                                wordParameters << ",fsize="+font_size+"pt";
+                            
+                            // Add font styles
+                            string fattrib;
+                            if (font_weight=="bold")
+                                fattrib +="b";
+                            if (font_style=="italic")
+                                fattrib +="i";
+                            if (fattrib.size())
+                                wordParameters << ",fattrib=\""+fattrib+"\"";
+                            
+                            tag = guidotag::create("text");
+                            tag->add (guidoparam::create(wordParameters.str(), false));
+                            
+                            xml2guidovisitor::addPosX(element, tag, 0.0);
+                            
+                            break;
                         }
+                            
+                        case k_dynamics:
+                        {
+                            ctree<xmlelement>::literator iter2;
+                            for (iter2 = element->lbegin(); iter2 != element->lend(); iter2++) {
+                                if ((*iter)->getType() != k_other_dynamics) {
+                                    tag = guidotag::create("intens");
+                                    tag->add (guidoparam::create((*iter2)->getName()));
+                                    float intensDx = xPosFromTimePos(element->getAttributeFloatValue("default-x", 0), element->getAttributeFloatValue("relative-x", 0));
+                                    
+                                    if (intensDx != -999) {
+                                        stringstream s;
+                                        s << "dx=" << intensDx ;
+                                        tag->add (guidoparam::create(s.str(), false));
+                                    }
+                                    
+                                    elementSpecificYOffset = 2.0;
+                                }
+                            }
+                            break;
+                        }
+                            
+                        case k_metronome:
+                        {
+                            tag = guidotag::create("tempo");
+                            stringstream tempoParams;
+                            if (tempoWording.size())
+                            {
+                                tempoParams << "\""<<tempoWording<<" "<<tempoMetronome<<"\"";
+                            }
+                            else
+                                tempoParams << "\""+tempoMetronome+"\"";
+                            
+                            
+                            if (tempoParams.str().size())
+                            {
+                                tag->add (guidoparam::create(tempoParams.str(), false));
+                            }
+                            
+                            elementSpecificYOffset = -14.0;     // heuristics
+                            
+                            tempoMetronome.clear();
+                        }
+                            
+                        default:
+                            break;
                     }
                     
-                    ///
-                    
-                    if (fCurrentOffset)
-                        addDelayed(tag, fCurrentOffset);
-                    else {
-                        add(tag);
+                    // after switch
+                    if (tag) {
+                        /// Take into account group positioning
+                        float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
+                        if (posy != 0.0) {
+                            // then apply and save
+                            xml2guidovisitor::addPosY(element, tag, 11.0, 1.0);
+                            commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
+                        }else {
+                            // then apply the common position
+                            if (commonDy != 0.0) {
+                                stringstream s;
+                                s << "dy=" << commonDy+elementSpecificYOffset << "hs";
+                                tag->add (guidoparam::create(s.str(), false));
+                            }
+                        }
+                        
+                        /// Add Tag
+                        if (fCurrentOffset)
+                            addDelayed(tag, fCurrentOffset);
+                        else {
+                            add(tag);
+                        }
                     }
                 }
             }
-            fDynamics= (void*)0;
         }
         
         
         fSkipDirection = false;
         fCurrentOffset = 0;
-        tempoWord.clear();
-        tempoMetronome.clear();
-        wordParams.clear();
-        fGenerateTempo = false;
-        directionDynamics = false;
-        directionWord = false;
-        wordPointer = NULL;
     }
     
     /// Closing Guido TEXT tags; to be used once a NOTE/CHORD is embedded.
@@ -641,41 +664,8 @@ namespace MusicXML2
                 //cerr<< "Measure:"<< fMeasNum <<" Wedge has "<< numberOfNotesInWedge<< " events!"<<endl;
                 
                 if (fCurrentOffset) {
-                    /*rational offsetDur(fCurrentOffset, fCurrentDivision);
-                    offsetDur.rationalise();
-                    
-                    rational offsetPosition = fCurrentMeasurePosition + offsetDur;
-                    
-                    int measureJump = int(floor(offsetPosition.toFloat()+0.5f));    //((int)floor(x + 0.5f))
-                    rational measureJumpRat(measureJump, 1);
-                    offsetPosition -= measureJumpRat;
-                    
-                    auto timePos4measure = timePositions.find(fMeasNum+measureJump);
-
-                    cout<<"Crescendo Begin at "<< fMeasNum<< " default-x="<< elt->getAttributeIntValue("default-x", 0)<< " relative-x="<<elt->getAttributeIntValue("relative-x", 0)<<" Offset="<<fCurrentOffset<<" ENDING: default-x="<< nextWedge->getAttributeIntValue("default-x", 0) << " relative-x="<<nextWedge->getAttributeIntValue("relative-x", 0)<<endl;
-
-                    cout<<"-----Dealing with offset "<< fCurrentOffset<< " with Division "<< fCurrentDivision<<" measure jump: "<<measureJump<<endl;
-
-                    
-                    if (timePos4measure != timePositions.end()) {
-                        auto voiceInTimePosition = timePos4measure->second.find(offsetPosition);
-                        if (voiceInTimePosition != timePos4measure->second.end()) {
-                            auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
-                            posx1 = posx1 + *minXPos;
-                            cout<<"\tOFFSET TimePosition is="<< *minXPos <<" "<<posx1<<endl;;
-                            //posx2 = posx2 + *minXPos;
-                        }else {
-                            cerr<<"\tERROR: NO TIME POS FOR VOICE POSITION "<<offsetPosition.toString()<<" TO INFER WEDGE OFFSET!"<<endl;
-                        }
-                    }else
-                    {
-                        cerr<<"\tNO TIMEPOS for measure "<<fMeasNum<<" timePositions size="<<timePositions.size()<<endl;
-                    }*/
-                    
                     // FIXME: Impossible for now to handle Wedges with Direction Offset! Ignoring... .
                     fIgnoreWedgeWithOffset = true;
-
-
                 }
                 if (fIgnoreWedgeWithOffset)
                 {
@@ -756,28 +746,8 @@ namespace MusicXML2
         
         stringstream s;
         s << "[" << (string)r << "] = " << metronomevisitor::fPerMinute;
-        //tag->add (guidoparam::create("tempo=\""+s.str()+"\"", false));
         tempoMetronome = s.str();
-        //if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-        //add (tag);
         
-        fGenerateTempo = true;
-    }
-    
-    //______________________________________________________________________________
-    void xmlpart2guido::visitStart( S_dynamics& elt)
-    {
-        if (fSkipDirection) return;
-        
-        /// MusicXML Note for default-x in S_direction: For these elements, the default-x attribute is measured from the start of the current measure.
-        ///         For other elements, it is measured from the left-hand side of the note or the musical position within the bar.)
-        /// So in order to infer Dx out of default-x for S_dynamics, we should generate it once TimePosition has been advanced!
-        
-        fDynamics = elt;
-        
-        directionDynamics = true;
-        
-        return;
     }
     
     //______________________________________________________________________________
@@ -2272,7 +2242,6 @@ namespace MusicXML2
         checkWavyTrillBegin(*this);
         
         pendingPops += checkFermata(*this);
-        //pendingPops += checkDynamics(thisNoteHeadPosition);
         pendingPops += checkArticulation(*this);
         
         int chordOrnaments = checkChordOrnaments(*this);
@@ -2345,4 +2314,32 @@ namespace MusicXML2
         fCurrentDivision = (long)(*elt);
     }
     
+    // MARK: Tag Add Methods using element parsing
+    float xmlpart2guido::xPosFromTimePos(float default_x, float relative_x) {
+        auto timePos4measure = timePositions.find(fMeasNum);
+
+        float xpos = default_x + relative_x;
+        
+        if ((xpos!=0)&&(timePos4measure != timePositions.end())) {
+            auto voiceInTimePosition = timePos4measure->second.find(fCurrentVoicePosition);
+            if (voiceInTimePosition != timePos4measure->second.end()) {
+                auto minXPos = std::min_element(voiceInTimePosition->second.begin(),voiceInTimePosition->second.end() );
+                if (xpos != *minXPos) {
+                    int finalDx = (relative_x/10)*2;
+                    // apply default-x ONLY if it exists
+                    if (default_x!=0)
+                        finalDx = ( (xpos - *minXPos)/ 10 ) * 2;   // convert to half spaces
+                    
+                    /// FIXME: Can't handle OFFSET with Guido! If positive, just add a small value for coherence!
+                    if (fCurrentOffset>0)
+                        finalDx +=3;
+                    
+                    return finalDx;
+                }
+            }else {
+                cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
+            }
+        }
+        return -999;        // This is when the xpos can not be computed
+    }
 }
