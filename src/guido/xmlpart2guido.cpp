@@ -335,14 +335,6 @@ namespace MusicXML2
         
     }
     
-    void xmlpart2guido::visitStart ( S_words& elt )
-    {
-        if (fSkipDirection) return;
-        
-        tempoWord = elt->getValue();
-        
-    }
-    
     void xmlpart2guido::visitStart ( S_rehearsal& elt )
     {
         if (fSkipDirection) return;
@@ -553,11 +545,6 @@ namespace MusicXML2
                 fTextTagOpen--;
             }
         }
-    }
-    
-    void xmlpart2guido::visitEnd ( S_words& elt )
-    {
-        // Nothing to do here?
     }
     
     //______________________________________________________________________________
