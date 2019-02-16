@@ -330,7 +330,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yoffset)
+    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, float yoffset)
     {
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
         if (posx) {
@@ -350,7 +350,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int xoffset)
+    void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset)
     {
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
         if (posx) {
@@ -371,7 +371,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, int yoffset, int ymultiplier = 1.0)
+    void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier = 1.0)
     {
         float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
         if (posy) {
@@ -380,6 +380,19 @@ namespace MusicXML2
             posy = posy * ymultiplier;
             stringstream s;
             s << "dy=" << posy << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+        }
+    }
+    
+    //______________________________________________________________________________
+    void xml2guidovisitor::addPosX    ( Sxmlelement elt, Sguidoelement& tag, float xoffset)
+    {
+        float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
+        if (posx) {
+            posx = (posx / 10) * 2;   // convert to half spaces
+            posx += xoffset;          // anchor point convertion (defaults to upper line in xml)
+            stringstream s;
+            s << "dx=" << posx << "hs";
             tag->add (guidoparam::create(s.str(), false));
         }
     }
@@ -395,13 +408,11 @@ namespace MusicXML2
         }
     }
     
-    float xml2guidovisitor::getYposition(Sxmlelement elt, int yoffset){
+    float xml2guidovisitor::getYposition(Sxmlelement elt, float yoffset){
         float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
         if (posy) {
             posy = (posy / 10) * 2;   // convert to half spaces
             posy += yoffset;          // anchor point convertion (defaults to upper line in xml)
-
-            cout<< elt->getName()<<" XML PosY: "<< elt->getAttributeFloatValue("default-y", 0)<<" Guido Pos: "<< posy<<endl;
             
             return posy;
         }
