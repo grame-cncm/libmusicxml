@@ -10,10 +10,6 @@
   research@grame.fr
 */
 
-#ifdef VC6
-# pragma warning (disable : 4786)
-#endif
-
 #include <climits>      // INT_MIN, INT_MAX
 
 #include "msrVoiceElements.h"

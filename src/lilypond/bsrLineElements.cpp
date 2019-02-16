@@ -46,7 +46,6 @@ bsrLineElement::bsrLineElement (
 bsrLineElement::~bsrLineElement ()
 {}
 
-/*
 void bsrLineElement::setBsrLineUplink (
 S_bsrLine bsrLineUplink)
 {
@@ -57,7 +56,6 @@ S_bsrLine bsrLineElement::getBsrLineUplink () const
 {
   return fBsrLineUplink;
 }
-*/
 
 void bsrLineElement::acceptIn (basevisitor* v)
 {

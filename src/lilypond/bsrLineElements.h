@@ -47,12 +47,12 @@ class bsrLineElement : public bsrElement
 
     // set and get
     // ------------------------------------------------------
-/*
+
     void                  setBsrLineUplink (
                             S_bsrLine bsrLineUplink);
                               
     S_bsrLine             getBsrLineUplink () const;
-*/
+
 
     void                  setSpacesBefore (int value)
                               { fSpacesBefore = value; };
@@ -97,9 +97,7 @@ class bsrLineElement : public bsrElement
     // fields
     // ------------------------------------------------------
 
-/*
     S_bsrLine             fBsrLineUplink;
-*/
 
     int                   fSpacesBefore;
 };
