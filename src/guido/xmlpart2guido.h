@@ -53,7 +53,6 @@ class EXP xmlpart2guido :
 	public visitor<S_coda>,
 	public visitor<S_direction>,
 	public visitor<S_divisions>,
-	public visitor<S_dynamics>,
 	public visitor<S_ending>,
 	public visitor<S_forward>,
 	public visitor<S_measure>,
@@ -63,7 +62,6 @@ class EXP xmlpart2guido :
 	public visitor<S_segno>,
 	public visitor<S_sound>,
     public visitor<S_wedge>,
-    public visitor<S_words>,     // for direction-type tempo wording (added by AC)
 	public visitor<S_rehearsal>,     // for rehearsal Markup
     public visitor<S_attributes>         // to get clef, division, staves, time and key in order!
 {
@@ -84,9 +82,8 @@ class EXP xmlpart2guido :
     
     int fTextTagOpen;
     
-    string tempoWord, tempoMetronome, wordParams;
-    bool fGenerateTempo, directionPlacementAbove, directionWord;
-    S_words wordPointer;
+    string tempoMetronome;  // parsed during visit of S_Metronome
+    bool directionPlacementAbove;
     
     std::stack< std::pair<int, int> > fBeamStack; // first int: Internal num, 2nd int: XML num
     
@@ -181,9 +178,7 @@ class EXP xmlpart2guido :
 		virtual void visitStart( S_barline& elt);
 		virtual void visitStart( S_coda& elt);
 		virtual void visitStart( S_direction& elt);
-        virtual void visitStart( S_words& elt);
 		virtual void visitStart( S_divisions& elt);
-		virtual void visitStart( S_dynamics& elt);
 		virtual void visitStart( S_forward& elt);
 		virtual void visitStart( S_measure& elt);
 		virtual void visitStart( S_note& elt);
@@ -196,7 +191,6 @@ class EXP xmlpart2guido :
 
 		virtual void visitEnd  ( S_clef& elt);
 		virtual void visitEnd  ( S_direction& elt);
-        virtual void visitEnd  ( S_words& elt);
 		virtual void visitEnd  ( S_ending& elt);
 		virtual void visitEnd  ( S_key& elt);
 		virtual void visitEnd  ( S_measure& elt);
@@ -209,12 +203,12 @@ class EXP xmlpart2guido :
     rational durationInCue;
     
     std::map<int, float> fStaffDistance;
-    
-    int checkDynamics(rational posInMeasure);
-    S_dynamics fDynamics;
-    
+        
     bool fIgnoreWedgeWithOffset;
     
+    // Internal Parsing facilities
+    float xPosFromTimePos(float default_x, float relative_x);           /// Infer X-Position from TimePosition
+
     public:
 				 xmlpart2guido(bool generateComments, bool generateStem, bool generateBar=true);
 		virtual ~xmlpart2guido() {}
