@@ -4248,6 +4248,11 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
       "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice()");
   }
 
+  // set newRepeat's build phase
+  newRepeat->
+    setCurrentRepeatBuildPhaseKind (
+      msrRepeat::kRepeatBuildPhaseInHookedEndings);
+
 #ifdef TRACE_OPTIONS
   if (
     gGeneralOptions->fTraceRepeats
@@ -4430,6 +4435,11 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
       inputLineNumber,
       "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice()");
   }
+
+  // set currentRepeat's build phase
+  currentRepeat->
+    setCurrentRepeatBuildPhaseKind (
+      msrRepeat::kRepeatBuildPhaseInHookedEndings);
 
 #ifdef TRACE_OPTIONS
   if (

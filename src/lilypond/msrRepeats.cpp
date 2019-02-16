@@ -1390,9 +1390,9 @@ void msrRepeat::addRepeatEndingToRepeat (
             stringstream s;
     
             s <<
-              "hooked ending '" <<
+              "cannot add hooked ending '" <<
               repeatEnding->asShortString () <<
-              "'cannot be added to a just created repeat";
+              "' right after a repeat has been created";
               
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
@@ -1413,9 +1413,9 @@ void msrRepeat::addRepeatEndingToRepeat (
             stringstream s;
     
             s <<
-              "hooked ending '" <<
+              "cannot add hooked ending '" <<
               repeatEnding->asShortString () <<
-              "'cannot follow a hookless one in a given repeat";
+              "' in a given repeat after a hookless one";
               
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
@@ -1429,9 +1429,9 @@ void msrRepeat::addRepeatEndingToRepeat (
             stringstream s;
     
             s <<
-              "hooked ending '" <<
+              "cannot add hooked ending '" <<
               repeatEnding->asShortString () <<
-              "'cannot be added to a completed repeat";
+              "' after a repeat has been completed";
               
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
@@ -1446,14 +1446,29 @@ void msrRepeat::addRepeatEndingToRepeat (
     case msrRepeatEnding::kHooklessEnding:
       switch (fCurrentRepeatBuildPhaseKind) {
         case msrRepeat::kRepeatBuildPhaseJustCreated:
+          {
+            stringstream s;
+    
+            s <<
+              "cannot add hookless repeat ending '" <<
+              repeatEnding->asShortString () <<
+              "' right after the repeat has been created";
+              
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
+              fInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
         case msrRepeat::kRepeatBuildPhaseInCommonPart:
           {
             stringstream s;
     
             s <<
-              "no common part present before hookless repeat ending '" <<
+              "cannot add hookless repeat ending '" <<
               repeatEnding->asShortString () <<
-              "'";
+              "' right after the repeat common part";
               
             msrInternalError (
               gGeneralOptions->fInputSourceName,
@@ -1471,9 +1486,9 @@ void msrRepeat::addRepeatEndingToRepeat (
             stringstream s;
     
             s <<
-              "hookless ending '" <<
+              "cannot add hookless ending '" <<
               repeatEnding->asShortString () <<
-              "'cannot follow another hookless one in a given repeat";
+              "' to a repeat after another one";
               
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
@@ -1487,9 +1502,9 @@ void msrRepeat::addRepeatEndingToRepeat (
             stringstream s;
     
             s <<
-              "hookless ending '" <<
+              "cannot add hookless ending '" <<
               repeatEnding->asShortString () <<
-              "'cannot be added to a completed repeat";
+              "' after a repeat has been completed";
               
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
