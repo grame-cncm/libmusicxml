@@ -4251,7 +4251,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
   // set newRepeat's build phase
   newRepeat->
     setCurrentRepeatBuildPhaseKind (
-      msrRepeat::kRepeatBuildPhaseInHookedEndings);
+      msrRepeat::kRepeatBuildPhaseInEndings);
 
 #ifdef TRACE_OPTIONS
   if (
@@ -4439,7 +4439,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
   // set currentRepeat's build phase
   currentRepeat->
     setCurrentRepeatBuildPhaseKind (
-      msrRepeat::kRepeatBuildPhaseInHookedEndings);
+      msrRepeat::kRepeatBuildPhaseInEndings);
 
 #ifdef TRACE_OPTIONS
   if (

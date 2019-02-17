@@ -1403,11 +1403,12 @@ void msrRepeat::addRepeatEndingToRepeat (
           break;        
         case msrRepeat::kRepeatBuildPhaseInCommonPart:
           fCurrentRepeatBuildPhaseKind =
-            msrRepeat::kRepeatBuildPhaseInHookedEndings;
+            msrRepeat::kRepeatBuildPhaseInEndings;
           break;
-        case msrRepeat::kRepeatBuildPhaseInHookedEndings:
-          // there can be several successive hooked endings
+        case msrRepeat::kRepeatBuildPhaseInEndings:
+          // there can be several successive endings
           break;
+          /* JMI
         case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
           {
             stringstream s;
@@ -1424,6 +1425,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               s.str ());
           }
           break;
+          */
         case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
@@ -1477,6 +1479,10 @@ void msrRepeat::addRepeatEndingToRepeat (
               s.str ());
           }
           break;
+        case msrRepeat::kRepeatBuildPhaseInEndings:
+          // there can be several successive endings
+          break;
+          /* JMI
         case msrRepeat::kRepeatBuildPhaseInHookedEndings:
           fCurrentRepeatBuildPhaseKind =
             msrRepeat::kRepeatBuildPhaseInHooklessEnding;
@@ -1497,6 +1503,7 @@ void msrRepeat::addRepeatEndingToRepeat (
               s.str ());
           }
           break;
+          */
         case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
@@ -1578,8 +1585,11 @@ void msrRepeat::appendSegmentToRepeat (
             context);
       break;
       
+    case msrRepeat::kRepeatBuildPhaseInEndings:
+    /* JMI
     case msrRepeat::kRepeatBuildPhaseInHookedEndings:
     case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
+    */
       fRepeatEndings.back ()->
         appendSegmentToRepeatEnding (
           inputLineNumber,
@@ -1720,12 +1730,17 @@ string msrRepeat::repeatBuildPhaseKindAsString (
     case msrRepeat::kRepeatBuildPhaseInCommonPart:
       result = "repeatBuildPhaseInCommonPart";
       break;
+    case msrRepeat::kRepeatBuildPhaseInEndings:
+      result = "repeatBuildPhaseInEndings";
+      break;
+      /* JMI
     case msrRepeat::kRepeatBuildPhaseInHookedEndings:
       result = "repeatBuildPhaseInHookedEndings";
       break;
     case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
       result = "repeatBuildPhaseInHooklessEnding";
       break;
+      */
     case msrRepeat::kRepeatBuildPhaseCompleted:
       result = "repeatBuildPhaseCompleted";
       break;
