@@ -21,8 +21,6 @@
 
 #include "bsrTranscriptionNotes.h"
 
-#include "bsrPages.h"
-
 #include "bsrOptions.h"
 
 

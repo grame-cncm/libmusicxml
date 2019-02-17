@@ -17,33 +17,7 @@
 
 #include "bsrScores.h"
 
-#include "bsrSpaces.h"
-
 #include "bsrTranscriptionNotes.h"
-
-#include "bsrBarlines.h"
-
-#include "bsrPaginations.h"
-
-#include "bsrPageHeadings.h"
-#include "bsrMusicHeadings.h"
-
-#include "bsrFootNotes.h"
-
-#include "bsrFootNotes.h"
-
-#include "bsrNumbers.h"
-#include "bsrWords.h"
-
-#include "bsrClefs.h"
-#include "bsrKeys.h"
-#include "bsrTimes.h"
-
-#include "bsrTempos.h"
-
-#include "bsrNotes.h"
-
-#include "bsrDynamics.h"
 
 
 namespace MusicXML2 

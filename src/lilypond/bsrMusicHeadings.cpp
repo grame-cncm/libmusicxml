@@ -14,9 +14,6 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "bsrSpaces.h"
-#include "bsrWords.h"
-
 #include "bsrOptions.h"
 #include "brailleOptions.h"
 
