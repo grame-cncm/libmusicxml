@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrDynamics.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 

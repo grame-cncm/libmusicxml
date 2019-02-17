@@ -13,9 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrSpaces.h"
-#include "bsrBarlines.h"
-#include "bsrNumbers.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 

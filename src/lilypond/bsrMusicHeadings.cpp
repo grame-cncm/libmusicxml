@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "bsrMusicHeadings.h"
+#include "bsrMutualDependencies.h"
 
 #include "bsrSpaces.h"
 #include "bsrWords.h"

@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "bsrMutuallyDependent.h"
+#include "bsrMutualDependencies.h"
 
 #include "generalOptions.h"
 #include "bsrOptions.h"

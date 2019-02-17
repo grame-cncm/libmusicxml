@@ -14,10 +14,7 @@
 #include <sstream>
 #include <regex>
 
-#include "bsrTempos.h"
-
-#include "bsrNumbers.h"
-#include "bsrNotes.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 

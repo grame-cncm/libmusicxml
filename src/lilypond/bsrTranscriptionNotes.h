@@ -13,9 +13,7 @@
 #ifndef ___bsrTranscriptionNotes___
 #define ___bsrTranscriptionNotes___
 
-#include "bsrLines.h"
-
-#include "bsrCellsLists.h"
+#include "bsrMutualDependencies.h"
 
 
 namespace MusicXML2 

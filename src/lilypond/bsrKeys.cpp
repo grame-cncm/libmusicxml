@@ -13,8 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrKeys.h"
-#include "bsrNumbers.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 

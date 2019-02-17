@@ -13,9 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrPaginations.h"
-
-#include "bsrNumbers.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 

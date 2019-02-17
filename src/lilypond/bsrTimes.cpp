@@ -13,10 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "bsrTimes.h"
-
-#include "bsrNumbers.h"
-#include "bsrNotes.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 

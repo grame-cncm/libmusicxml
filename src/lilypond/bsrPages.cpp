@@ -12,7 +12,7 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
-#include "bsrPages.h"
+#include "bsrMutualDependencies.h"
 
 #include "bsrOptions.h"
 #include "brailleOptions.h"

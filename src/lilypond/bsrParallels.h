@@ -13,19 +13,7 @@
 #ifndef ___bsrParallels___
 #define ___bsrParallels___
 
-#include "bsrSpaces.h"
-
-#include "bsrPageHeadings.h"
-
-#include "bsrLines.h"
-
-#include "bsrNumbers.h"
-
-#include "bsrClefs.h"
-#include "bsrKeys.h"
-#include "bsrTimes.h"
-
-#include "bsrNotes.h"
+#include "bsrMutualDependencies.h"
 
 #include "bsrOptions.h"
 

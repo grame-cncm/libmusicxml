@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___msrMutuallyDependent___
-#define ___msrMutuallyDependent___
+#ifndef ___msrMutualDependencies___
+#define ___msrMutualDependencies___
 
 #include "typedefs.h"
 #include "tree_browser.h"
@@ -21,6 +21,10 @@
 #include "messagesHandling.h"
 
 #include "msrElements.h"
+
+#include "msrTupletElements.h"
+
+#include "msrVoiceElements.h"
 
 #include "msrVarValAssocs.h"
 
@@ -71,10 +75,6 @@
 #include "msrTremolos.h"
 
 #include "msrSlashes.h"
-
-#include "msrTupletElements.h"
-
-#include "msrVoiceElements.h"
 
 #include "msrPartGroups.h"
 

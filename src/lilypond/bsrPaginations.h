@@ -13,9 +13,7 @@
 #ifndef ___bsrPaginations___
 #define ___bsrPaginations___
 
-#include "bsrLineElements.h"
-
-#include "bsrCellsLists.h"
+//#include "bsrMutualDependencies.h"
 
 
 using namespace std;
@@ -23,85 +21,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-//______________________________________________________________________________
-class bsrPagination : public bsrLineElement
-{
-  public:
-          
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<bsrPagination> create (
-      int inputLineNumber,
-      int printPageNumber,
-      int braillePageNumber);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    bsrPagination (
-      int inputLineNumber,
-      int printPageNumber,
-      int braillePageNumber);
-      
-    virtual ~bsrPagination ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-                  
-    int                   getPrintPageNumber () const
-                              { return fPrintPageNumber; }
-
-    int                   getBraillePageNumber () const
-                              { return fBraillePageNumber; }
-                              
-    S_bsrCellsList        fetchCellsList () const
-                              { return fPaginationCellsList; }
-
-    int                   fetchCellsNumber () const;
-
-  private:
-
-    // private services
-    // ------------------------------------------------------
-                  
-    S_bsrCellsList        buildCellsList () const;    
-  
-  public:
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-  public:
-
-    // print
-    // ------------------------------------------------------
-
-    string                asString () const;
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    int                   fPrintPageNumber;
-    int                   fBraillePageNumber;
-
-    S_bsrCellsList        fPaginationCellsList;
-};
-typedef SMARTP<bsrPagination> S_bsrPagination;
-EXP ostream& operator<< (ostream& os, const S_bsrPagination& elt);
 
 
 } // namespace MusicXML2

@@ -13,7 +13,7 @@
 
 #include <sstream>
 
-#include "bsrWords.h"
+#include "bsrMutualDependencies.h"
 
 #include "messagesHandling.h"
 
