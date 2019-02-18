@@ -396,20 +396,47 @@ namespace MusicXML2
         /// IMPORTANT: In case of "metronome", there's a coupling of WORDS and METRONOME which leads to ONE guido element. Take this into account.
         bool generateTempo = false;
         string tempoWording;
+        string extraTagParameter="";
+        float textDxOffset=0;
+        float dynamicsDyOffset=0;
         ctree<xmlelement>::iterator ito = elt->find(k_metronome);
         if (ito != elt->end())
         {
             generateTempo = true;   // this will allow grouping of S_Word and S_Metronome into one tag
         }
         
-        float commonDy = 0.0;   // This is the inherited group Dy
+        /* If we have a combination of k_words and k_dynamics, then the ORDER of appearance is important for Parsing:
+                If text is BEFORE dynamics, then impose textformat="rt", dx=-2
+                If text order is AFTER dynamics, then impose textformat="lt", dx=2
+         */
+        /// Check if there's a combination of k_words and k_dynamics
+        if ((elt->find(k_words) != elt->end()) && (elt->find(k_dynamics) != elt->end()) ) {
+            // find k_dynamics first and search for k_words after.
+            ito = elt->find(k_dynamics);
+            ito++;
+            if (elt->find(k_words, ito) != elt->end()) {
+                // then there is a WORD after Dynamics
+                extraTagParameter = "textformat=\"lt\"";
+                textDxOffset = 2.0;
+                dynamicsDyOffset = 2.0;
+            }else {
+                extraTagParameter = "textformat=\"rt\"";
+                textDxOffset = -2.0;
+                dynamicsDyOffset = 2.0;
+            }
+        }
         
+        float commonDy = 0.0;   // This is the inherited group Dy
+        float commonDx = 0.0;   // This is the inherited group Dy
+
         
         for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
             // S_Direction can accept direction_type, offset, footnote, level, voice, staff
             //cerr << "\tS_Direction Element in measure:"<< (*iter)->getName() <<endl;
             
             float elementSpecificYOffset = 0.0;
+            
+            bool textPushTag = false;   // for Text Tag, use PUSH instead of TAG and make sure you close them RIGHT after the first note.
             
             if ((*iter)->getType() == k_direction_type) {
                 
@@ -452,7 +479,20 @@ namespace MusicXML2
                             tag = guidotag::create("text");
                             tag->add (guidoparam::create(wordParameters.str(), false));
                             
-                            xml2guidovisitor::addPosX(element, tag, 0.0);
+                            // enforce a minimum of |2| in case of mixture of text and dynamcis
+                            if ((textDxOffset == -2.0)&&(xml2guidovisitor::getXposition(element, textDxOffset) > textDxOffset)) {
+                                stringstream s;
+                                s << "dx=" << textDxOffset << "hs";
+                                tag->add (guidoparam::create(s.str(), false));
+                            }else {
+                                xml2guidovisitor::addPosX(element, tag, textDxOffset);
+                            }
+                            
+                            if (extraTagParameter.size()) {
+                                tag->add(guidoparam::create(extraTagParameter, false));
+                            }
+                            
+                            textPushTag = true;
                             
                             break;
                         }
@@ -472,9 +512,11 @@ namespace MusicXML2
                                         tag->add (guidoparam::create(s.str(), false));
                                     }
                                     
-                                    elementSpecificYOffset = 2.0;
                                 }
                             }
+                            
+                            elementSpecificYOffset = dynamicsDyOffset;
+                            
                             break;
                         }
                             
@@ -510,7 +552,7 @@ namespace MusicXML2
                         float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
                         if (posy != 0.0) {
                             // then apply and save
-                            xml2guidovisitor::addPosY(element, tag, 11.0, 1.0);
+                            xml2guidovisitor::addPosY(element, tag, 11.0+elementSpecificYOffset, 1.0);
                             commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
                         }else {
                             // then apply the common position
@@ -521,11 +563,16 @@ namespace MusicXML2
                             }
                         }
                         
-                        /// Add Tag
-                        if (fCurrentOffset)
-                            addDelayed(tag, fCurrentOffset);
-                        else {
-                            add(tag);
+                        if (textPushTag) {
+                            push(tag);
+                            fTextTagOpen++;
+                        }else {
+                            /// Add Tag
+                            if (fCurrentOffset)
+                                addDelayed(tag, fCurrentOffset);
+                            else {
+                                add(tag);
+                            }
                         }
                     }
                 }
@@ -1297,10 +1344,10 @@ namespace MusicXML2
         }
         
         // Experimental
-        if (beamStackSizeBeforeClosing > fBeamStack.size())
-        {
-            checkTextEnd();
-        }
+        //if (beamStackSizeBeforeClosing > fBeamStack.size())
+        //{
+        //    checkTextEnd();
+        //}
     }
     
     //_______________________Tuplets___________________________________
@@ -2272,7 +2319,6 @@ namespace MusicXML2
         checkLyricEnd (notevisitor::getLyric());
 
         checkTupletEnd(notevisitor::getTuplet());
-        checkBeamEnd (notevisitor::getBeam());
         checkSlurEnd (notevisitor::getSlur());
         if (notevisitor::fBreathMark) {
             Sguidoelement tag = guidotag::create("breathMark");
@@ -2282,12 +2328,23 @@ namespace MusicXML2
         
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
         
+        if (fTupletOpened==false)
+        {
+            // this is will close any ongoing Guido TEXT tag once a sequence is embedded
+            // In case of ongoing \tuplet, do it after the \tuplet is closed! (Potential Guido parser issue)
+            checkTextEnd();
+        }
+        
+        checkBeamEnd (notevisitor::getBeam());
+
+
+       /*
         if (fBeamStack.size()==0)
         {
             // this is will close any ongoing Guido TEXT tag once a sequence is embedded
             // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
             checkTextEnd();
-        }
+        }*/
         
         
         fMeasureEmpty = false;
