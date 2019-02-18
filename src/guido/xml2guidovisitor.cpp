@@ -374,10 +374,10 @@ namespace MusicXML2
     void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier = 1.0)
     {
         float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
-        if (posy) {
             posy = (posy / 10) * 2;   // convert to half spaces
             posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
             posy = posy * ymultiplier;
+        if (posy) {
             stringstream s;
             s << "dy=" << posy << "hs";
             tag->add (guidoparam::create(s.str(), false));
@@ -388,9 +388,10 @@ namespace MusicXML2
     void xml2guidovisitor::addPosX    ( Sxmlelement elt, Sguidoelement& tag, float xoffset)
     {
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
+        
+        posx = (posx / 10) * 2;   // convert to half spaces
+        posx += xoffset;          // anchor point convertion (defaults to upper line in xml)
         if (posx) {
-            posx = (posx / 10) * 2;   // convert to half spaces
-            posx += xoffset;          // anchor point convertion (defaults to upper line in xml)
             stringstream s;
             s << "dx=" << posx << "hs";
             tag->add (guidoparam::create(s.str(), false));
@@ -410,24 +411,18 @@ namespace MusicXML2
     
     float xml2guidovisitor::getYposition(Sxmlelement elt, float yoffset){
         float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
-        if (posy) {
-            posy = (posy / 10) * 2;   // convert to half spaces
-            posy += yoffset;          // anchor point convertion (defaults to upper line in xml)
-            
-            return posy;
-        }
-        
-        return 0.0;
+        posy = (posy / 10) * 2;   // convert to half spaces
+        posy += yoffset;          // anchor point convertion (defaults to upper line in xml)
+
+        return posy;
     }
     
-    float xml2guidovisitor::getXposition(Sxmlelement elt){
+    float xml2guidovisitor::getXposition(Sxmlelement elt, float xoffset){
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
-        if (posx) {
-            posx = (posx / 10) * 2;   // convert to half spaces
-            return posx;
-        }
+        posx = (posx / 10) * 2;   // convert to half spaces
+        posx += xoffset;
         
-        return 0.0;
+        return posx;
     }
 
     /// direction attribute in MusicXML can be "up" or "down"
