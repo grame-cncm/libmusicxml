@@ -29,44 +29,9 @@ namespace MusicXML2
   A repeat is recognized in MusicXML either by:
    
     - it's start: handleRepeatStart
-        finalize the current measure
-        create newRepeat with an empty common part
-        if the stack is not empty, newRepeat is nested in currentRepeat:
-
-        otherwise (45a):
-          move fVoiceLastSegment to newRepeat's common part
-          set fVoiceLastSegment to nullptr
-            //       everything that precedes it in the voice is moved to the voice initial elements
-        push newRepeat onto the stack
-
     - it's first hooked ending (45b): handleRepeatEndingStart 
         the elements before is moved to the new repeat's common part
-
     - it's end: handleRepeatEnd
-        if stack is empty (45a):
-          there is an implicit barline at the beginning of the voice,
-            which can be added with the suitable option
-
-          if the the voice repeats stack is empty, this is a voice-level repeat:
-            this repeat encompasses everthing from at the beginning of the voice,
-              which is moved to its common part ???
-            finalize the current measure
-          
-            if is is empty:
-            otherwise:
-            
-            move the voice initial elements to the newRepeat common part
-            move the voice last segment to the newRepeat common part
-
-            append newRepeat to the list of initial elements
-             
-            push newRepeat onto the voice's repeats stack
-            
-          otherwise:
-          
-            
-        otherwise:
-          the current repeat is to be ended
 
   Hooked endings following the first one are added to currentRepeat handleRepeatHookedEndingEnd
   
@@ -1410,24 +1375,6 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseInEndings:
           // there can be several successive endings
           break;
-          /* JMI
-        case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
-          {
-            stringstream s;
-    
-            s <<
-              "cannot add hooked ending '" <<
-              repeatEnding->asShortString () <<
-              "' in a given repeat after a hookless one";
-              
-            msrMusicXMLError (
-              gGeneralOptions->fInputSourceName,
-              fInputLineNumber,
-              __FILE__, __LINE__,
-              s.str ());
-          }
-          break;
-          */
         case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
@@ -1484,28 +1431,6 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseInEndings:
           // there can be several successive endings
           break;
-          /* JMI
-        case msrRepeat::kRepeatBuildPhaseInHookedEndings:
-          fCurrentRepeatBuildPhaseKind =
-            msrRepeat::kRepeatBuildPhaseInHooklessEnding;
-          break;
-        case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
-          {
-            stringstream s;
-    
-            s <<
-              "cannot add hookless ending '" <<
-              repeatEnding->asShortString () <<
-              "' to a repeat after another one";
-              
-            msrMusicXMLError (
-              gGeneralOptions->fInputSourceName,
-              fInputLineNumber,
-              __FILE__, __LINE__,
-              s.str ());
-          }
-          break;
-          */
         case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
@@ -1590,10 +1515,6 @@ void msrRepeat::appendSegmentToRepeat (
       break;
       
     case msrRepeat::kRepeatBuildPhaseInEndings:
-    /* JMI
-    case msrRepeat::kRepeatBuildPhaseInHookedEndings:
-    case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
-    */
       fRepeatEndings.back ()->
         appendSegmentToRepeatEnding (
           inputLineNumber,
@@ -1737,14 +1658,6 @@ string msrRepeat::repeatBuildPhaseKindAsString (
     case msrRepeat::kRepeatBuildPhaseInEndings:
       result = "repeatBuildPhaseInEndings";
       break;
-      /* JMI
-    case msrRepeat::kRepeatBuildPhaseInHookedEndings:
-      result = "repeatBuildPhaseInHookedEndings";
-      break;
-    case msrRepeat::kRepeatBuildPhaseInHooklessEnding:
-      result = "repeatBuildPhaseInHooklessEnding";
-      break;
-      */
     case msrRepeat::kRepeatBuildPhaseCompleted:
       result = "repeatBuildPhaseCompleted";
       break;

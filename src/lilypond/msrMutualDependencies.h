@@ -650,7 +650,7 @@ class msrMeasure : public msrElement
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
 
-    enum msrMeasureCreatedForARepeatKind {
+    enum msrMeasureCreatedForARepeatKind { // JMI ???
         kMeasureCreatedForARepeatNo,
         kMeasureCreatedForARepeatBefore,
         kMeasureCreatedForARepeatAfter,
@@ -5164,8 +5164,6 @@ class msrRepeat : public msrVoiceElement
       kRepeatBuildPhaseJustCreated,
       kRepeatBuildPhaseInCommonPart,
       kRepeatBuildPhaseInEndings,
- // JMI     kRepeatBuildPhaseInHookedEndings,
- // JNI     kRepeatBuildPhaseInHooklessEnding,
       kRepeatBuildPhaseCompleted};
 
     static string repeatBuildPhaseKindAsString (
@@ -6578,13 +6576,6 @@ class msrVoice : public msrElement
                             S_msrMeasure firstMeasure,
                             string       context);
 
-    void                  createNewLastSegmentAndANewMeasureBeforeARepeat ( // JMI
-                            int inputLineNumber,
-                            int measureFullLength);
-    void                  createNewLastSegmentAndANewMeasureAfterARepeat ( // JMI
-                            int inputLineNumber,
-                            int measureFullLength);
-                            
     // stanzas
 
     S_msrStanza           addStanzaToVoiceByItsNumber (

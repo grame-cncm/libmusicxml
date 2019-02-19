@@ -2018,7 +2018,7 @@ void msrSegment::appendOtherElementToSegment (
     appendOtherElementToMeasure (elem);
 }
 
-/*
+/* JMI
 S_msrElement msrSegment::removeLastElementFromSegment (
   int inputLineNumber)
 {
