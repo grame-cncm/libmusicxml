@@ -103,7 +103,7 @@ msrRepeatElement::msrRepeatElement (
 msrRepeatElement::~msrRepeatElement ()
 {}
 
-void msrRepeatElement::appendSegmentToRepeatElement (
+void msrRepeatElement::appendSegmentToRepeatElementsList ( // JMI ???
   int          inputLineNumber,
   S_msrSegment segment,
   string       context)
@@ -1091,7 +1091,7 @@ void msrRepeatEnding::print (ostream& os)
     "repeatEndingInternalNumber" <<  " : " <<fRepeatEndingInternalNumber <<
     endl <<
     setw (fieldWidth) <<
-    "Repeat uplink: " << " : '" <<
+    "repeat uplink" << " : '" <<
     fRepeatEndingRepeatUplink->
       asShortString () <<
     "'" <<
@@ -1130,7 +1130,7 @@ void msrRepeatEnding::print (ostream& os)
       
     for ( ; ; ) {
       // print the element
-      (*i)->shortPrint (os);
+      (*i)->print (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -1172,7 +1172,6 @@ void msrRepeatEnding::shortPrint (ostream& os)
     "'" <<
     endl <<
     */
-    endl <<
     endl;
 
 /* JMI
@@ -1324,7 +1323,7 @@ void msrRepeat::setRepeatCommonPart (
       
   fRepeatCommonPart = repeatCommonPart;
 
-  // now ready to accept hooked endings
+  // set currentRepeat's build phase
   fCurrentRepeatBuildPhaseKind =
     msrRepeat::kRepeatBuildPhaseInCommonPart;
 }
@@ -1367,6 +1366,9 @@ void msrRepeat::addRepeatEndingToRepeat (
       "Adding ending '" <<
       repeatEnding->asString () <<
       "' to repeat" <<
+      "' to repeat '" <<
+      asShortString () <<
+      "'" <<
       endl;
 
     displayRepeatContents (
@@ -1545,13 +1547,15 @@ void msrRepeat::appendSegmentToRepeat (
   string       context)
 {
 #ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending segment '" <<
       segment->asString () <<
-      "' to repeat" <<
+      "' to repeat '" <<
+      asShortString () <<
+      "'" <<
       endl;
 
-  if (gGeneralOptions->fTraceRepeats) {
     displayRepeatContents (
       inputLineNumber,
       "appendSegmentToRepeat() 1");
@@ -1567,7 +1571,7 @@ void msrRepeat::appendSegmentToRepeat (
           "segment '" <<
           segment->asShortString () <<
           "'cannot be added to a just created repeat" <<
-          "(" << context << ")";
+          " (" << context << ")";
           
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,

@@ -1570,21 +1570,22 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
     
-  // append current segment clone to the current voice
-  //* JMI NO, will be done upon msrRepeatEnding and msrRepeat ends
   fCurrentVoiceClone->
-    appendSegmentToVoiceClone (
+    handleSegmentCloneEndInVoiceClone (
+      inputLineNumber,
       fCurrentSegmentClone);
-    //  */
-
+      
   // forget current segment clone
   fCurrentSegmentClone = nullptr;
 // JMI  fCurrentSegmentClonesStack.pop ();

@@ -24,6 +24,8 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+int msrMeasure::gMeasureDebugNumber = 0;
+
 S_msrMeasure msrMeasure::create (
   int          inputLineNumber,
   string       measureNumber,
@@ -58,6 +60,9 @@ msrMeasure::msrMeasure (
   fMeasureNumber = measureNumber;
   fMeasureOrdinalNumber = -1; // default value
   fNextMeasureNumber = "";
+
+  // set debug number
+  fMeasureDebugNumber = ++gMeasureDebugNumber;
   
   // do other initializations
   initializeMeasure ();
@@ -73,7 +78,10 @@ void msrMeasure::initializeMeasure ()
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Initializing measure '" << fMeasureNumber <<
+      "Initializing measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
@@ -84,33 +92,26 @@ void msrMeasure::initializeMeasure ()
   }
 #endif
 
-  static int counter = 0;
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+    if (false && fMeasureDebugNumber == 3) { // JMI
+      gLogIOstream <<
+        endl <<
+        "======================= initializeMeasure()" <<
+        endl <<
   
-  counter++;
-      
-  if (
-    false &&
-    fMeasureNumber == "11"
-      &&
-    fMeasureSegmentUplink->getSegmentAbsoluteNumber () == 4
-      &&
-    counter == 1
-    ) {
-    gLogIOstream <<
-      endl <<
-      "======================= initializeMeasure()" <<
-      endl <<
-
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink () <<
-      
-      "=======================" <<
-      endl <<
-      endl;
-
-    abort ();
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink () <<
+        
+        "=======================" <<
+        endl <<
+        endl;
+  
+      abort ();
+    }
   }
-  
+#endif
+
   // measure kind
   fMeasureKind = kUnknownMeasureKind;
 
@@ -178,6 +179,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
     gLogIOstream <<
       "Creating a newborn clone of measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "'" <<
       " in segment " <<
       containingSegment->asString () <<
@@ -250,6 +253,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     gLogIOstream <<
       "Creating a deep copy of measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "'" <<
       " in segment " <<
       containingSegment->asString () <<
@@ -312,10 +317,11 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         " " <<
         singularOrPlural (
           numberOfMeasureElements, "element", "elements") <<
-        " to be deep copied" <<
-        " in measure " <<
+        " to be deep copied in measure '" <<
         fMeasureNumber <<
-        " in segment " <<
+        ", measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "' in segment " <<
         containingSegment->asString () <<
         " in voice \"" <<
           containingSegment->
@@ -362,6 +368,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
             time->asShortString () <<
             "' in measure '" <<
             fMeasureNumber <<
+            ", measureDebugNumber: '" <<
+            fMeasureDebugNumber <<
             "'deep copy" <<
             ", line " << fInputLineNumber <<
             endl;
@@ -500,6 +508,8 @@ void msrMeasure::setMeasureCreatedForARepeatKind (
     gLogIOstream <<
       "Setting measureCreatedForARepeatKind in measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment '" <<
       fMeasureSegmentUplink-> asString () <<
       /* JMI
@@ -527,6 +537,8 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
       "Setting next measure number to '" << nextMeasureNumber <<
       "' in measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment '" <<
       fMeasureSegmentUplink-> asString () <<
       /* JMI
@@ -549,6 +561,8 @@ void msrMeasure::setMeasureFirstInVoice ()
     gLogIOstream <<
       "Setting measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' as first measure in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -585,8 +599,13 @@ void msrMeasure::setActualMeasureWholeNotes (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gMusicXMLOptions->fTraceDivisions) {
     gLogIOstream <<
-      "Setting measure '" << fMeasureNumber <<
-      "' measure actual whole notes to '"  << rationalisedActualMeasureWholeNotes << "'";
+      "Setting measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' measure actual whole notes to '"  <<
+      rationalisedActualMeasureWholeNotes <<
+      "'";
 
     if (
       rationalisedActualMeasureWholeNotes.getDenominator ()
@@ -626,7 +645,10 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending clef '" << clef->asString () <<
-      "' to measure " << fMeasureNumber <<
+      "' to measure " <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       ", in voice \"" <<
       fetchMeasureVoiceUplink ()->getVoiceName () <<
       "\"" <<
@@ -644,7 +666,10 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending key '" << key->asString () <<
-      "' to measure " << fMeasureNumber <<
+      "' to measure " <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       ", in voice \"" <<
       fetchMeasureVoiceUplink ()->getVoiceName () <<
       "\"" <<
@@ -677,7 +702,10 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     gIndenter--;
 
     gLogIOstream <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -725,7 +753,10 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
           getSegmentVoiceUplink ();
         
     gLogIOstream <<
-      "to measure clone '" << fMeasureNumber <<
+      "to measure clone '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment clone '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
@@ -766,7 +797,10 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
     gIndenter--;
 
     gLogIOstream <<
-      "for measure '" << fMeasureNumber <<
+      "for measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -813,7 +847,10 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
           gIndenter--;
     
           gLogIOstream <<
-            "in measure '" << fMeasureNumber << "'" <<
+            "in measure '" <<
+            fMeasureNumber << "'" <<
+            ", measureDebugNumber: '" <<
+            fMeasureDebugNumber <<
             ", line " << fInputLineNumber <<
             "' in voice \"" <<
             fMeasureSegmentUplink->
@@ -836,7 +873,10 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
             ||
           gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
-            "Measure '" << fMeasureNumber <<
+            "Measure '" <<
+            fMeasureNumber <<
+            ", measureDebugNumber: '" <<
+            fMeasureDebugNumber <<
             "' in voice \"" <<
             fMeasureSegmentUplink->
               getSegmentVoiceUplink ()->
@@ -863,7 +903,10 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
           ||
         gGeneralOptions->fTraceMeasures) {
         gLogIOstream <<
-          "Measure '" << fMeasureNumber <<
+          "Measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
           "' in voice \"" <<
           fMeasureSegmentUplink->
             getSegmentVoiceUplink ()->
@@ -965,6 +1008,8 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     s <<
       "should not have more than one pending measure elements in measure " << // JMI
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1094,7 +1139,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" << note->asShortString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1189,7 +1237,10 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" << note->asShortString () <<
-      "' to measure clone '" << fMeasureNumber <<
+      "' to measure clone '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment clone '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice clone \"" <<
@@ -1277,7 +1328,10 @@ void msrMeasure::appendDoubleTremoloToMeasure (
     gLogIOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->asShortString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1347,7 +1401,10 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
     gLogIOstream <<
       "Appending multiple rest '" <<
       measuresRepeat->asString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1382,7 +1439,10 @@ void msrMeasure::appendMultipleRestToMeasure (
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->asString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1451,7 +1511,10 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending chord '" << chord->asString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1512,7 +1575,10 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending tuplet '" << tuplet->asString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1562,7 +1628,10 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending harmony '" << harmony->asString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1608,7 +1677,10 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending harmony '" << harmony->asString () <<
-      "' to measure clone '" << fMeasureNumber <<
+      "' to measure clone '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment clone '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice clone \"" <<
@@ -1655,7 +1727,10 @@ void msrMeasure::appendFiguredBassToMeasure (
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -1702,7 +1777,10 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
-      "' to measure clone '" << fMeasureNumber <<
+      "' to measure clone '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment clone '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice clone \"" <<
@@ -1774,7 +1852,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   }
 #endif
 
-abort ();
+abort (); // JMI
   
   // create a rest or a skip depending on measureVoice kind
   S_msrNote paddingNote;
@@ -1834,8 +1912,10 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
     gLogIOstream <<
       "Padding from actual measure whole notes '" << fActualMeasureWholeNotes <<
       "' to '" << wholeNotes <<
-      "' in measure " <<
+      "' in measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
       ", line " << inputLineNumber <<
@@ -1873,13 +1953,16 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceMeasures || gMusicXMLOptions->fTraceDivisions) {
       gLogIOstream <<
-       "Appending rest" << paddingNote->asString () <<
-       " (missingDuration " << missingDuration <<
-       " whole notes) to skip from length '" << fActualMeasureWholeNotes <<
-       " to length '" << wholeNotes << "'"
-       " in measure '" << fMeasureNumber <<
-       "in voice \"" << measureVoice->getVoiceName () <<
-       endl;
+        "Appending rest" << paddingNote->asString () <<
+        " (missingDuration " << missingDuration <<
+        " whole notes) to skip from length '" << fActualMeasureWholeNotes <<
+        " to length '" << wholeNotes << "'"
+        " in measure '" <<
+        fMeasureNumber <<
+        ", measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "in voice \"" << measureVoice->getVoiceName () <<
+        endl;
     }
 #endif
 
@@ -1911,6 +1994,8 @@ void msrMeasure::appendPaddingNoteToMeasure (
       "Appending padding note of " << divisions <<
       " divisions to measure " <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
       ", line " << inputLineNumber <<
@@ -2010,7 +2095,10 @@ void msrMeasure::appendStaffDetailsToMeasure (
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) { 
     gLogIOstream <<
       "Appending staff details '" << staffDetails->asShortString () <<
-      "' to measure '" << fMeasureNumber <<
+      "' to measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -2054,7 +2142,10 @@ void msrMeasure::removeNoteFromMeasure (
     gLogIOstream <<
       "Removing note '" <<
       note->asShortString () <<
-      "' from measure '" << fMeasureNumber <<
+      "' from measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -2125,7 +2216,10 @@ void msrMeasure::removeNoteFromMeasure (
   s <<
     "cannot remove note " <<
     note <<
-    " from measure " << fMeasureNumber <<
+    " from measure " <<
+    fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
     "' in voice \"" <<
     segmentVoiceUplink->getVoiceName () <<
     "\"," <<
@@ -2155,7 +2249,10 @@ void msrMeasure::removeElementFromMeasure (
     
     gLogIOstream <<
       endl <<
-      " from measure '" << fMeasureNumber <<
+      " from measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -2198,7 +2295,10 @@ void msrMeasure::removeElementFromMeasure (
   s <<
     "cannot remove element " <<
     element <<
-    " from measure " << fMeasureNumber <<
+    " from measure " <<
+    fMeasureNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "' in voice \"" <<
     fMeasureSegmentUplink->
       getSegmentVoiceUplink ()->
@@ -2227,6 +2327,8 @@ void msrMeasure::determineMeasureKind (
     gLogIOstream <<
     "Determining the measure kind of measure '" <<
     fMeasureNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "' in voice \"" << voice->getVoiceName () <<
     ", line " << inputLineNumber <<
     endl;
@@ -2241,7 +2343,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
-      "Measure '" << fMeasureNumber <<
+      "Measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" << voice->getVoiceName () <<
       "\", is of kind '" <<
       measureKindAsString (fMeasureKind) <<
@@ -2258,7 +2363,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
-      "Measure '" << fMeasureNumber <<
+      "Measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" << voice->getVoiceName () <<
       "\", is of kind '" <<
       measureKindAsString (fMeasureKind) <<
@@ -2277,7 +2385,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
-          "Measure '" << fMeasureNumber <<
+          "Measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
           "' in voice \"" << voice->getVoiceName () <<
           "\", is of kind '" <<
           measureKindAsString (fMeasureKind) <<
@@ -2294,7 +2405,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
-          "Measure '" << fMeasureNumber <<
+          "Measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
           "' in voice \"" << voice->getVoiceName () <<
           "\", is of kind '" <<
           measureKindAsString (fMeasureKind) <<
@@ -2310,7 +2424,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
-          "Measure '" << fMeasureNumber <<
+          "Measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
           "' in voice \"" << voice->getVoiceName () <<
           "\", is of kind '" <<
           measureKindAsString (fMeasureKind) <<
@@ -2329,7 +2446,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
-      "Measure '" << fMeasureNumber <<
+      "Measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" << voice->getVoiceName () <<
       "\", is **overfull**" <<
       ", line " << inputLineNumber <<
@@ -2345,7 +2465,10 @@ void msrMeasure::determineMeasureKind (
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
-      "Measure '" << fMeasureNumber <<
+      "Measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in voice \"" << voice->getVoiceName () <<
       "\", is in a **STRANGE** state" <<
       ", fMeasureKind = " <<
@@ -2405,8 +2528,15 @@ void msrMeasure::padUpToPositionInMeasure (
        "Appending '" << paddingNote->asString () <<
        " (" << missingDuration << " whole notes)'" <<
        " to finalize \"" << measureVoice->getVoiceName () <<
-       "\" measure: @" << fMeasureNumber << ":" << fActualMeasureWholeNotes <<
+       "\" measure: @" <<
+       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+       ":" <<
+       fActualMeasureWholeNotes <<
        " % --> @" << fMeasureNumber << // JMI
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
        ":" << partActualMeasureWholeNotesHighTide <<
         ", missingDuration = " << missingDuration <<
        endl;
@@ -2447,6 +2577,8 @@ void msrMeasure::finalizeMeasure (
     gLogIOstream <<
       "Finalizing measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
@@ -2530,6 +2662,8 @@ void msrMeasure::finalizeMeasure (
     s <<
       "Measure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       "' in segment '" <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
@@ -2672,6 +2806,8 @@ void msrMeasure::finalizeMeasure (
           fMeasureLongestNote->asShortString () <<
           "' occupies measure '" <<
           fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
           "' fully in segment '" <<
           fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
           "' in voice \"" <<
@@ -2695,6 +2831,8 @@ void msrMeasure::finalizeMeasure (
       endl <<
       "+++++++++++++++++ finalizeMeasure '" <<
       fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
       /* JMI
       "', score:" <<
       endl <<
@@ -2887,6 +3025,8 @@ string msrMeasure::asShortString () const
   s <<
     "Measure '" <<
     fMeasureNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
 /* JMI
     ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
@@ -2908,6 +3048,8 @@ string msrMeasure::asString () const
   s <<
     "Measure '" <<
     fMeasureNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
     ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
     ", actualMeasureWholeNotes: " << fActualMeasureWholeNotes <<
@@ -2923,7 +3065,10 @@ string msrMeasure::asString () const
 void msrMeasure::print (ostream& os)
 {
   os <<
-    "Measure '" << fMeasureNumber <<
+    "Measure '" <<
+    fMeasureNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
     ", " << fFullMeasureWholeNotes << " per full measure" <<
     ", " <<
@@ -3068,7 +3213,10 @@ void msrMeasure::print (ostream& os)
 void msrMeasure::shortPrint (ostream& os)
 {
   os <<
-    "Measure '" << fMeasureNumber <<
+    "Measure '" <<
+    fMeasureNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
     ", " <<
     singularOrPlural (

@@ -22,6 +22,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 int msrSegment::gSegmentsCounter = 0;
+int msrSegment::gSegmentDebugNumber = 0;
 
 S_msrSegment msrSegment::create (
   int        inputLineNumber,
@@ -60,12 +61,15 @@ msrSegment::~msrSegment ()
 void msrSegment::initializeSegment ()
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
+  fSegmentDebugNumber    = ++gSegmentDebugNumber;
   
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Initializing new segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "', in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\", line " << fInputLineNumber <<
@@ -73,7 +77,24 @@ void msrSegment::initializeSegment ()
   }
 #endif
 
-  // JMI if (fSegmentAbsoluteNumber == 4) abort();
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
+    if (false && fSegmentDebugNumber == 3) { // JMI
+      gLogIOstream <<
+        endl <<
+        "======================= initializeSegment()" <<
+        endl <<
+  
+        fSegmentVoiceUplink <<
+        
+        "=======================" <<
+        endl <<
+        endl;
+  
+      abort ();
+    }
+  }
+#endif
   
   // segment's measure number has not been set yet
   fMeasureNumberHasBeenSetInSegment = false;
@@ -109,10 +130,12 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
         fInputLineNumber,
         containingVoice);
 
-  // absolute number
+  // absolute number, for coherency between passes
   newbornClone->fSegmentAbsoluteNumber =
     fSegmentAbsoluteNumber;
-    
+
+  // keep debug number fSegmentDebugNumber unchanged
+  
   // number
   newbornClone->fSegmentMeasureNumber =
     fSegmentMeasureNumber;
@@ -153,6 +176,8 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   segmentDeepCopy->fSegmentAbsoluteNumber =
     fSegmentAbsoluteNumber;
     
+  // keep debug number fSegmentDebugNumber unchanged
+
   // number
   segmentDeepCopy->fSegmentMeasureNumber =
     fSegmentMeasureNumber;
@@ -509,6 +534,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     gLogIOstream <<
       "Segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' has no measures to finalize" <<
       endl;
   }
@@ -541,6 +568,8 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       "SegmentMeasuresList is empty"  <<
       " in segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
@@ -592,6 +621,8 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
       "SegmentMeasuresList is empty"  <<
       " in segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
@@ -1418,6 +1449,8 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
       "Padding up to actual whole notes '" << wholeNotes <<
       "' in segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -1432,6 +1465,8 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
       "SegmentMeasuresList is empty"  <<
       " in segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
@@ -1481,6 +1516,8 @@ void msrSegment::appendPaddingNoteToSegment (
       "Appendding padding tote of " << divisions <<
       " divisions to segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -1772,6 +1809,8 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
         endl <<
         "+++++++++++++++++ appendNoteToSegment '" <<
         fSegmentAbsoluteNumber <<
+        ", segmentDebugNumber: '" <<
+        fSegmentDebugNumber <<
         /* JMI
         "', score:" <<
         endl <<
@@ -2099,6 +2138,8 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
     gLogIOstream <<
       "Fetching last measure from segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -2110,6 +2151,8 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
     s <<
       "cannot fetch last measure from segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -2154,6 +2197,8 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     gLogIOstream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -2165,6 +2210,8 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     s <<
       "cannot remove last measure from segment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -2205,6 +2252,8 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       endl <<
       "+++++++++++++++++ removeLastMeasureFromSegment '" <<
       fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
       /* JMI
       "', score:" <<
       endl <<
@@ -2312,6 +2361,8 @@ string msrSegment::asShortString () const
   s <<
    "Segment '" <<
     fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
     "' in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
@@ -2326,6 +2377,8 @@ string msrSegment::asString () const
   s <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
+      ", segmentDebugNumber: '" <<
+      fSegmentDebugNumber <<
     "' in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
@@ -2363,6 +2416,8 @@ void msrSegment::print (ostream& os)
   os <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
+    ", segmentDebugNumber: '" <<
+    fSegmentDebugNumber <<
     "', " <<
     singularOrPlural (
       fSegmentMeasuresList.size (), "measure", "measures") <<
@@ -2411,6 +2466,8 @@ void msrSegment::shortPrint (ostream& os)
   os <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
+    ", segmentDebugNumber: '" <<
+    fSegmentDebugNumber <<
     "', " <<
     singularOrPlural (
       fSegmentMeasuresList.size (), "measure", "measures") <<

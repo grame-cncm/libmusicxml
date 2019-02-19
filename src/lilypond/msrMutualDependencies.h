@@ -1134,11 +1134,14 @@ class msrMeasure : public msrElement
     
     rational              fActualMeasureWholeNotes;
 
-    // measure numbers
+    // measure numbers, shared by newborn clones and deep copies
     
     string                fMeasureNumber;
     string                fNextMeasureNumber;
     int                   fMeasureOrdinalNumber;
+
+    // first measure in voice?
+    
     bool                  fMeasureFirstInVoice;
 
     // measure longest note
@@ -1185,6 +1188,10 @@ class msrMeasure : public msrElement
     list<S_msrMeasureElement>
                           fMeasurePendingMeasureElementsList;
     void                  printMeasurePendingMeasureElementsList ();
+
+    // debug number, unique for every msrMeasure instance
+    static int            gMeasureDebugNumber; 
+    int                   fMeasureDebugNumber; 
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -1530,7 +1537,7 @@ class msrSegment : public msrVoiceElement
     // counter
     static int            gSegmentsCounter;
 
-    // absolute number
+    // absolute number, shared by newborn clones and deep copies
     int                   fSegmentAbsoluteNumber;
         
     // number
@@ -1539,6 +1546,10 @@ class msrSegment : public msrVoiceElement
 
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
+
+    // debug number, unique for every msrSegment instance
+    static int            gSegmentDebugNumber; 
+    int                   fSegmentDebugNumber; 
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
@@ -4846,7 +4857,7 @@ class msrRepeatElement : public msrElement
                             S_msrVoiceElement voiceElement,
                             string            context);
 
-    void                  appendSegmentToRepeatElement (
+    void                  appendSegmentToRepeatElementsList (
                             int          inputLineNumber,
                             S_msrSegment segment,
                             string       context);
@@ -6496,6 +6507,10 @@ class msrVoice : public msrElement
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
 
+    void                  handleSegmentCloneEndInVoiceClone (
+                            int          inputLineNumber,
+                            S_msrSegment segmentClone);
+
     void                  finalizeRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6676,7 +6691,8 @@ class msrVoice : public msrElement
                             int    repeatTimes);
 
     void                  handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
-                            int inputLineNumber);
+                            int         inputLineNumber,
+                            S_msrRepeat currentRepeat);
                             
     void                  handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
                             int inputLineNumber);
