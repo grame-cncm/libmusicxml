@@ -6681,6 +6681,21 @@ else
       break;
       
     case msrMeasure::kUpbeatMeasureKind:
+      if (elt->getMeasureFirstInVoice ()) {
+        // only generate '\partial' at the beginning of a voice
+
+        string
+          upbeatDuration =
+            wholeNotesAsLilypondString (
+              inputLineNumber,
+              elt->getActualMeasureWholeNotes ());
+
+        fLilypondCodeIOstream <<
+          "\\partial " << upbeatDuration <<
+          endl;
+      }
+
+/* JMI
       {
         string
           upbeatDuration =
@@ -6703,6 +6718,7 @@ else
             break;
         } // switch
       }
+    */
       break;
       
     case msrMeasure::kUnderfullMeasureKind:
@@ -6884,7 +6900,18 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   {
     // handle the measure
     switch (measureKind) {
-      case msrMeasure::kUnknownMeasureKind:
+      case msrMeasure::kUnknownMeasureKind: // should not occur
+        fLilypondCodeIOstream <<
+          "%{ unknownMeasureKind %} |";
+  
+        if (nextMeasureNumber.size ()) {
+          fLilypondCodeIOstream <<
+            " % " <<
+            nextMeasureNumber;
+        }
+        
+        fLilypondCodeIOstream <<
+          endl;
         break;
         
       case msrMeasure::kFullMeasureKind:
@@ -6959,7 +6986,18 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
   
-      case msrMeasure::kEmptyMeasureKind:
+      case msrMeasure::kEmptyMeasureKind: // should not occur
+        fLilypondCodeIOstream <<
+          "%{ emptyMeasureKind %} |";
+  
+        if (nextMeasureNumber.size ()) {
+          fLilypondCodeIOstream <<
+            " % " <<
+            nextMeasureNumber;
+        }
+        
+        fLilypondCodeIOstream <<
+          endl;
         break;
     } // switch
       

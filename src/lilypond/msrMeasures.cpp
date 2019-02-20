@@ -499,6 +499,33 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   fMeasureElementsList.push_back (elem);
 }
 
+void msrMeasure::displayMeasureContents (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> Measure '" <<
+    fMeasureNumber <<
+    "', measureOrdinalNumber: " <<
+    fMeasureOrdinalNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
+    " (" << context << ")" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
+}
+
 void msrMeasure::setMeasureCreatedForARepeatKind (
   msrMeasureCreatedForARepeatKind
     measureCreatedForARepeatKind)
@@ -2556,7 +2583,8 @@ void msrMeasure::padUpToPositionInMeasure (
 }
 
 void msrMeasure::finalizeMeasure (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string context)
 {
   // fetch the voice
   S_msrVoice
@@ -2583,7 +2611,8 @@ void msrMeasure::finalizeMeasure (
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
       voice->getVoiceName () <<
-      "\", line " << inputLineNumber <<
+      "\" (" << context << context << ")" <<
+      ", line " << inputLineNumber <<
       endl;
 
     gIndenter++;
@@ -2822,34 +2851,15 @@ void msrMeasure::finalizeMeasure (
     }
   }
 
-  gIndenter--;
-
-  if (false && fMeasureNumber == "16") { // JMI
-    gLogIOstream <<
-      endl <<
-      endl <<
-      endl <<
-      "+++++++++++++++++ finalizeMeasure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      /* JMI
-      "', score:" <<
-      endl <<
-      fSegmentVoiceUplink->
-        getVoiceStaffUplink ()->
-          getStaffPartUplink ()->
-            getPartPartGroupUplink ()->
-              getPartGroupScoreUplink () <<
-              */
-      "', voice:" <<
-      endl <<
-      fMeasureSegmentUplink->getSegmentVoiceUplink () <<
-      endl <<
-      endl <<
-      ", line " << inputLineNumber <<
-      endl;
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures) {
+    displayMeasureContents (
+      inputLineNumber,
+      "finalizeMeasure()");
   }
+#endif
+
+  gIndenter--;
 }
 
 void msrMeasure::acceptIn (basevisitor* v)

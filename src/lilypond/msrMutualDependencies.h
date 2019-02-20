@@ -1082,7 +1082,8 @@ class msrMeasure : public msrElement
                             rational positionInMeasure);
 
     void                  finalizeMeasure (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string context);
 
   private:
   
@@ -1092,6 +1093,10 @@ class msrMeasure : public msrElement
     void                  appendElementToMeasure (
                             S_msrMeasureElement elem);
 
+    void                  displayMeasureContents (
+                            int    inputLineNumber,
+                            string context);
+  
   public:
 
     // visitors
@@ -6666,9 +6671,14 @@ class msrVoice : public msrElement
                             S_msrRepeat repeatCLone,
                             string      context);
     
-    S_msrMeasure          splitMeasureIfItIsIncompleteInVoice (
+    S_msrMeasure          createMeasureSecondPartIfItIsIncompleteInVoice (
                             int          inputLineNumber,
                             S_msrMeasure measure,
+                            string       context);
+
+    void                  handleMeasureSecondPartInVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure measureSecondPart,
                             string       context);
 
     void                  nestContentsIntoNewRepeatInVoice (

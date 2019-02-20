@@ -428,7 +428,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
           // no, finalize it
           lastMeasure->
             finalizeMeasure (
-              inputLineNumber);
+              inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatNo");
         }
         break;
 
@@ -465,7 +466,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
           // no, finalize it
           lastMeasure->
             finalizeMeasure (
-              inputLineNumber);
+              inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatBefore");
         }
         break;
 
@@ -473,14 +475,16 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         // finalize it
         lastMeasure->
           finalizeMeasure (
-            inputLineNumber);
+            inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatAfter");
         break;
 
       case msrMeasure::kMeasureCreatedForARepeatPadded:
           // finalize it JMI ???
           lastMeasure->
             finalizeMeasure (
-              inputLineNumber);
+              inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatPadded");
         break;
     } // switch
   

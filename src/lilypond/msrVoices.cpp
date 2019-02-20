@@ -2834,13 +2834,19 @@ void msrVoice::moveAllVoiceContentsToRepeatCommonPart (
     context);
 }
 
-S_msrMeasure msrVoice::splitMeasureIfItIsIncompleteInVoice (
+S_msrMeasure msrVoice::createMeasureSecondPartIfItIsIncompleteInVoice (
   int          inputLineNumber,
   S_msrMeasure measure,
   string       context)
 {
   S_msrMeasure result;
   
+  // finalize measure
+  measure->
+    finalizeMeasure (
+      inputLineNumber,
+      "createMeasureSecondPartIfItIsIncompleteInVoice()");
+
   // let's look at measure in detail
 
   switch (measure->getMeasureKind ()) {
@@ -2888,66 +2894,50 @@ S_msrMeasure msrVoice::splitMeasureIfItIsIncompleteInVoice (
       break;
   } // switch
 
+  return result;
+}
 
-/* JMI
-  // fetch its elements list
-  const list<S_msrMeasureElement>&
-    lastMeasureElementsList =
-      lastMeasureInLastSegment->
-        getMeasureElementsList ();
-
-// JMI     if (lastMeasureElementsList.size ()) {
-  // get the staff current time
-  S_msrTime
-    time =
-      fVoiceStaffUplink->
-        getStaffCurrentTime ();
-
+void msrVoice::handleMeasureSecondPartInVoice (
+  int          inputLineNumber,
+  S_msrMeasure measureSecondPart,
+  string       context)
+{
+  if (measureSecondPart) {
+    // create a new last segment for the voice
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "Time for measure '" <<
-      measure->asString () <<
-      "' is '" <<
-      time->asString () <<
-      "'" <<
-      endl;
-
-    gIndenter++;
-    
-    measure->print (gLogIOstream);
-
-    gIndenter++;
-
-    gLogIOstream <<
-      "upon a repeat end in voice \"" <<
-      getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  if (! time) {
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceRepeats) {
+    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
-        "*** no time signature known, no measure splitting ***" <<
+        "Creating a new last segment for voice \"" <<
+        fVoiceName <<
+        "\" from measure second part '" <<
+        measureSecondPart->asShortString () <<
+        ", line " << inputLineNumber <<
         endl;
     }
 #endif
-  }
-  
-  else {
-    if (
-      measure->getActualMeasureWholeNotes ()
-        <
-      measure->getFullMeasureWholeNotes ()
-    ) {
-  }
-  */
 
-  return result;
+    createNewLastSegmentFromFirstMeasureForVoice (
+      inputLineNumber,
+      measureSecondPart,
+      "handleVoiceLevelRepeatStartInVoice()");
+  }
+
+  else {
+    // create a new last segment for the voice
+#ifdef TRACE_OPTIONS
+    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Creating a new last segment for voice \"" <<
+        fVoiceName << "\"" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
+    createNewLastSegmentForVoice (
+      inputLineNumber,
+      "handleVoiceLevelRepeatStartInVoice()");
+  }
 }
 
 void msrVoice::moveVoiceLastSegmentToRepeatEnding (
@@ -3272,7 +3262,8 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       // finalize lastMeasureInLastSegment
       lastMeasureInLastSegment->
         finalizeMeasure (
-          inputLineNumber);
+          inputLineNumber,
+          "handleVoiceLevelRepeatStartInVoice()");
   
       // let's look at the last measure in detail
     
@@ -3345,7 +3336,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
             // split lastMeasureInLastSegment if it is incomplete
             S_msrMeasure
               measureSecondPart =
-                splitMeasureIfItIsIncompleteInVoice (
+                createMeasureSecondPartIfItIsIncompleteInVoice (
                   inputLineNumber,
                   lastMeasureInLastSegment,
                   "handleVoiceLevelRepeatStartInVoice()");
@@ -3355,42 +3346,11 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
               inputLineNumber,
               "handleVoiceLevelRepeatStartInVoice()");
 
-            if (measureSecondPart) {
-              // create a new last segment for the voice
-#ifdef TRACE_OPTIONS
-              if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-                gLogIOstream <<
-                  "Creating a new last segment for voice \"" <<
-                  fVoiceName <<
-                  "\" from measure second part '" <<
-                  measureSecondPart->asShortString () <<
-                  ", line " << inputLineNumber <<
-                  endl;
-              }
-#endif
-
-              createNewLastSegmentFromFirstMeasureForVoice (
-                inputLineNumber,
-                measureSecondPart,
-                "handleVoiceLevelRepeatStartInVoice()");
-            }
-
-            else {
-              // create a new last segment for the voice
-#ifdef TRACE_OPTIONS
-              if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-                gLogIOstream <<
-                  "Creating a new last segment for voice \"" <<
-                  fVoiceName << "\"" <<
-                  ", line " << inputLineNumber <<
-                  endl;
-              }
-#endif
-
-              createNewLastSegmentForVoice (
-                inputLineNumber,
-                "handleVoiceLevelRepeatStartInVoice()");
-            }
+            // handle measureSecondPart
+            handleMeasureSecondPartInVoice (
+              inputLineNumber,
+              measureSecondPart,
+              "handleVoiceLevelRepeatStartInVoice()");
           }
           break;
       } // switch
@@ -3612,7 +3572,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
   // split previousLastSegmentLastMeasure if it is incomplete
   S_msrMeasure
     measureSecondPart =
-      splitMeasureIfItIsIncompleteInVoice (
+      createMeasureSecondPartIfItIsIncompleteInVoice (
         inputLineNumber,
         previousLastSegmentLastMeasure,
         "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
@@ -3653,42 +3613,11 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
     newRepeat,
     "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
 
-  if (measureSecondPart) {
-    // create a new last segment for the voice
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Creating a new last segment for voice \"" <<
-        fVoiceName <<
-        "\" from measure second part '" <<
-        measureSecondPart->asShortString () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    createNewLastSegmentFromFirstMeasureForVoice (
-      inputLineNumber,
-      measureSecondPart,
-      "handleVoiceLevelRepeatStartInVoice()");
-  }
-
-  else {
-    // create a new last segment for the voice
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Creating a new last segment for voice \"" <<
-        fVoiceName << "\"" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    createNewLastSegmentForVoice (
-      inputLineNumber,
-      "handleVoiceLevelRepeatStartInVoice()");
-  }
+  // handle measureSecondPart
+  handleMeasureSecondPartInVoice (
+    inputLineNumber,
+    measureSecondPart,
+    "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -3741,7 +3670,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
   // split previousLastSegmentLastMeasure if it is incomplete
   S_msrMeasure
     measureSecondPart =
-      splitMeasureIfItIsIncompleteInVoice (
+      createMeasureSecondPartIfItIsIncompleteInVoice (
         inputLineNumber,
         voiceLastMeasure,
         "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
@@ -3815,42 +3744,11 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
     currentRepeat,
     "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
 
-  if (measureSecondPart) {
-    // create a new last segment for the voice
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Creating a new last segment for voice \"" <<
-        fVoiceName <<
-        "\" from measure second part '" <<
-        measureSecondPart->asShortString () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    createNewLastSegmentFromFirstMeasureForVoice (
-      inputLineNumber,
-      measureSecondPart,
-      "handleVoiceLevelRepeatStartInVoice()");
-  }
-
-  else {
-    // create a new last segment for the voice
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Creating a new last segment for voice \"" <<
-        fVoiceName << "\"" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    createNewLastSegmentForVoice (
-      inputLineNumber,
-      "handleVoiceLevelRepeatStartInVoice()");
-  }
+  // handle measureSecondPart
+  handleMeasureSecondPartInVoice (
+    inputLineNumber,
+    measureSecondPart,
+    "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -4195,7 +4093,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
     // split lastMeasureInLastSegment if it is incomplete
     S_msrMeasure
       measureSecondPart =
-        splitMeasureIfItIsIncompleteInVoice (
+        createMeasureSecondPartIfItIsIncompleteInVoice (
           inputLineNumber,
           lastMeasure,
           "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice()");
@@ -4385,7 +4283,7 @@ void msrVoice::handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
     // split lastMeasureInLastSegment if it is incomplete
     S_msrMeasure
       measureSecondPart =
-        splitMeasureIfItIsIncompleteInVoice (
+        createMeasureSecondPartIfItIsIncompleteInVoice (
           inputLineNumber,
           lastMeasure,
           "handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice()");
@@ -7565,7 +7463,6 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   gIndenter--;
 }
 
-
 void msrVoice:: collectVoiceMeasuresIntoFlatList (
   int inputLineNumber)
 {
@@ -8381,7 +8278,8 @@ msrInternalError (
       // finalize lastMeasureInLastSegment
       lastMeasureInLastSegment->
         finalizeMeasure (
-          inputLineNumber);
+          inputLineNumber,
+          "()");
   
       // let's look at the last measure in detail
     

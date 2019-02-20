@@ -1820,7 +1820,19 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
 {
   // take this measure into account
   fMeasuresCounter++;
-  
+
+  // determine fCurrentMeasureClone's kind
+  fCurrentMeasureClone->
+    determineMeasureKind (
+      inputLineNumber);
+    
+/* JMI
+  // finalize fCurrentMeasureClone
+  fCurrentMeasureClone->
+    finalizeMeasure (
+      inputLineNumber,
+      "msr2LpsrTranslator::visitEnd (S_msrMeasure&)");
+
   // fetch the voice
   S_msrVoice
     voice =
@@ -1881,7 +1893,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
   }
       
   else if (actualMeasureWholeNotes < fullMeasureWholeNotes) {
-    /*
+    / *
     if (fSegmentMeasuresList.size () == 1) { // JMI
       // this is the first measure in the segment
       measureKind =
@@ -1893,7 +1905,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       measureKind =
         msrMeasure::kIncompleteRightMeasure;
     }
-    */
+    * /
 
     // this measure is an up beat
     measureKind =
@@ -1905,26 +1917,54 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
     measureKind =
       msrMeasure::kOverfullMeasureKind;
   }
+  */
 
-  if (false && /* JMI */
-    measureKind != originalMeasure->getMeasureKind ()
+  msrMeasure::msrMeasureKind
+    fCurrentMeasureCloneMeasureKind =
+      fCurrentMeasureClone->getMeasureKind (),
+    originalMeasureMeasureKind =
+      originalMeasure->getMeasureKind ();
+      
+  if (
+     fCurrentMeasureCloneMeasureKind != originalMeasureMeasureKind
   ) {
-    stringstream s;
 
-    s <<
-      "line " << inputLineNumber << ":" <<
-      " clone measure:" <<
-      endl <<
+    gLogIOstream <<
+      "<<*********  fCurrentMeasureClone contains:" <<
       fCurrentMeasureClone <<
-      endl <<
-      "differs for measure kind from original measure:" <<
-      endl <<
-      originalMeasure;
+      endl;
+      
+    gLogIOstream <<
+      "--*********" <<
+      endl;
 
-    msrInternalError (
+    gLogIOstream <<
+      "<<*********  originalMeasure contains:" <<
+      originalMeasure <<
+      endl;
+
+    fLogOutputStream <<
+      "<<*********" <<
+      endl;
+    
+    stringstream s;
+    
+    s <<
+      "*********>> measure '" <<
+      fCurrentMeasureClone->getMeasureNumber () <<
+      "': clone measure kind '"<<
+      msrMeasure::measureKindAsString (
+        fCurrentMeasureCloneMeasureKind) <<
+      "' differs for original measure measure kind '" <<
+      msrMeasure::measureKindAsString (
+        originalMeasureMeasureKind) <<
+      "'" <<
+      ", line " << inputLineNumber;
+
+    msrInternalWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+  // JMI    __FILE__, __LINE__,
       s.str ());
   }
 }
@@ -1934,20 +1974,20 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  string
+    measureNumber =
+      elt->getMeasureNumber ();
+
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
-      elt->getMeasureNumber () <<
+      measureNumber <<
       "'" <<
       ", line " << inputLineNumber <<
       endl;
   }
 
-  string
-    measureNumber =
-      elt->getMeasureNumber ();
-
-  finalizeCurrentMeasureClone ( // JMI
+  finalizeCurrentMeasureClone (
     inputLineNumber,
     elt); // original measure
 
