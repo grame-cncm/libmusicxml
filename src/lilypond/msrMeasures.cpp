@@ -3025,11 +3025,12 @@ string msrMeasure::asShortString () const
   s <<
     "Measure '" <<
     fMeasureNumber <<
+    ", measureOrdinalNumber: " <<
+    fMeasureOrdinalNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
 /* JMI
-    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
     ", actualMeasureWholeNotes: " << fActualMeasureWholeNotes <<
     ", fullMeasureWholeNotes: " << fFullMeasureWholeNotes <<
     */
@@ -3048,10 +3049,11 @@ string msrMeasure::asString () const
   s <<
     "Measure '" <<
     fMeasureNumber <<
+    ", measureOrdinalNumber: " <<
+    fMeasureOrdinalNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
-    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
     ", actualMeasureWholeNotes: " << fActualMeasureWholeNotes <<
     ", fullMeasureWholeNotes: " << fFullMeasureWholeNotes <<
     ", " <<
@@ -3067,8 +3069,6 @@ void msrMeasure::print (ostream& os)
   os <<
     "Measure '" <<
     fMeasureNumber <<
-    ", measureDebugNumber: '" <<
-    fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
     ", " << fFullMeasureWholeNotes << " per full measure" <<
     ", " <<
@@ -3089,6 +3089,9 @@ void msrMeasure::print (ostream& os)
     
     setw (fieldWidth) <<
     "measureOrdinalNumber" << " : " << fMeasureOrdinalNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureDebugNumber" << " : " << fMeasureDebugNumber <<
     endl <<
     
     setw (fieldWidth) <<

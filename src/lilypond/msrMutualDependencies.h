@@ -1138,7 +1138,6 @@ class msrMeasure : public msrElement
     
     string                fMeasureNumber;
     string                fNextMeasureNumber;
-    int                   fMeasureOrdinalNumber;
 
     // first measure in voice?
     
@@ -1188,6 +1187,9 @@ class msrMeasure : public msrElement
     list<S_msrMeasureElement>
                           fMeasurePendingMeasureElementsList;
     void                  printMeasurePendingMeasureElementsList ();
+
+    // ordinal number, forcing anacruses to start at '0' if it's not the case
+    int                   fMeasureOrdinalNumber; 
 
     // debug number, unique for every msrMeasure instance
     static int            gMeasureDebugNumber; 
@@ -6234,6 +6236,13 @@ class msrVoice : public msrElement
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
+    S_msrMeasure          createMeasureSecondPart (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
+
     void                  setNextMeasureNumberInVoice (
                             int    inputLineNumber,
                             string nextMeasureNumber);
@@ -6657,7 +6666,7 @@ class msrVoice : public msrElement
                             S_msrRepeat repeatCLone,
                             string      context);
     
-    void                  splitMeasureIfItIsIncompleteInVoice (
+    S_msrMeasure          splitMeasureIfItIsIncompleteInVoice (
                             int          inputLineNumber,
                             S_msrMeasure measure,
                             string       context);
