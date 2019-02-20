@@ -6690,12 +6690,17 @@ class msrVoice : public msrElement
     void                  handleNestedRepeatStartInVoice (
                             int inputLineNumber);
                             
-    void                  handleVoiceLevelRepeatEndWithImplicitStartInVoice (
+    void                  handleVoiceLevelRepeatEndWithoutStartInVoice (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
 
-    void                  handleVoiceLevelRepeatEndWithExplicitStartInVoice (
+    void                  handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    repeatTimes);
+
+    void                  handleVoiceLevelRepeatEndWithStartInVoice (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);

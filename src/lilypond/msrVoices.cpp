@@ -3487,7 +3487,7 @@ void msrVoice::handleRepeatStartInVoice (
   } // switch
 }
 
-void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
+void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   int    inputLineNumber,
   string measureNumber,
   int    repeatTimes)
@@ -3495,7 +3495,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Handling a voice-level repeat end with implicit start in voice \"" <<
+      "Handling a voice-level repeat end without start in voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
@@ -3503,7 +3503,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
 
     displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithImplicitStartInVoice() 1");
+      "handleVoiceLevelRepeatEndWithoutStartInVoice() 1");
   }
 #endif
 
@@ -3575,7 +3575,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
       createMeasureSecondPartIfItIsIncompleteInVoice (
         inputLineNumber,
         previousLastSegmentLastMeasure,
-        "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+        "handleVoiceLevelRepeatEndWithoutStartInVoice()");
 
   // append the voice last segment to the new repeat common part
 #ifdef TRACE_OPTIONS
@@ -3593,13 +3593,13 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
     appendSegmentToRepeatCommonPart (
       inputLineNumber,
       fVoiceLastSegment,
-      "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+      "handleVoiceLevelRepeatEndWithoutStartInVoice()");
 
 /* JMI
   // create a new last segment for the voice
   createNewLastSegmentForVoice (
     inputLineNumber,
-    "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithoutStartInVoice()");
     */
   
   // set newRepeat's build phase to completed
@@ -3611,26 +3611,26 @@ void msrVoice::handleVoiceLevelRepeatEndWithImplicitStartInVoice (
   appendRepeatToInitialVoiceElements (
     inputLineNumber,
     newRepeat,
-    "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithoutStartInVoice()");
 
   // handle measureSecondPart
   handleMeasureSecondPartInVoice (
     inputLineNumber,
     measureSecondPart,
-    "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithoutStartInVoice()");
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithImplicitStartInVoice() 2");
+      "handleVoiceLevelRepeatEndWithoutStartInVoice() 2");
   }
 #endif
 
   gIndenter--;
 }
 
-void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
+void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
   int    inputLineNumber,
   string measureNumber,
   int    repeatTimes)
@@ -3638,7 +3638,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Handling a voice-level repeat end without implicit start in voice \"" <<
+      "Handling a voice-level rcontaining epeat end without start in voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
@@ -3646,7 +3646,175 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
 
     displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithExplicitStartInVoice() 1");
+      "handleVoiceLevelContainingRepeatEndWithoutStartInVoice() 1");
+  }
+#endif
+
+  gIndenter++;
+  
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "This repeat end without a start is at the voice-level" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // create the repeat
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Creating a repeat upon its end in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+  
+  int repeatInputLineNumber = 1; // could find first measure's input line number??? JMI
+
+  S_msrRepeat
+    newRepeat =
+      msrRepeat::create (
+        repeatInputLineNumber,
+        repeatTimes,
+        this);
+
+  // create the repeat common part
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Creating a repeat common part upon its end in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  S_msrRepeatCommonPart
+    newRepeatCommonPart =
+      msrRepeatCommonPart::create (
+        repeatInputLineNumber,
+        newRepeat);
+
+  // register it in newRepeat
+  newRepeat->
+    setRepeatCommonPart (
+      newRepeatCommonPart);
+      
+  // fetch the last segment's last measure
+  S_msrMeasure
+    previousLastSegmentLastMeasure =
+      fVoiceLastSegment->
+        fetchLastMeasureFromSegment (
+          inputLineNumber);
+
+  // split previousLastSegmentLastMeasure if it is incomplete
+  S_msrMeasure
+    measureSecondPart =
+      createMeasureSecondPartIfItIsIncompleteInVoice (
+        inputLineNumber,
+        previousLastSegmentLastMeasure,
+        "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+
+  // fetch the top of the repeats stack
+  S_msrRepeat
+    repeatsStackTopRepeat =
+      fVoiceRepeatDescrsStack.front ()->
+        getRepeatDescrRepeat ();
+
+  // pop it from the repeats stack
+  popARepeatFromRepeatDescrsStack (
+    inputLineNumber,
+    repeatsStackTopRepeat,
+    "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+
+  // append it to newRepeat's common part
+  newRepeatCommonPart->
+    appendRepeatToRepeatCommonPart (
+      inputLineNumber,
+      repeatsStackTopRepeat,
+      "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+  
+  // append newRepeat to the list of initial elements
+  appendRepeatToInitialVoiceElements (
+    inputLineNumber,
+    newRepeat,
+    "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+  
+  // append the voice last segment to the new repeat common part
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Appending the voice last segment in voice \"" <<
+      getVoiceName () <<
+      "\" to the new voice-level repeat common part" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  newRepeatCommonPart->
+    appendSegmentToRepeatCommonPart (
+      inputLineNumber,
+      fVoiceLastSegment,
+      "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+
+/* JMI
+  // create a new last segment for the voice
+  createNewLastSegmentForVoice (
+    inputLineNumber,
+    "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+    */
+  
+  // set newRepeat's build phase to completed
+  newRepeat->
+    setCurrentRepeatBuildPhaseKind (
+      msrRepeat::kRepeatBuildPhaseCompleted);
+
+  // append newRepeat to the list of initial elements
+  appendRepeatToInitialVoiceElements (
+    inputLineNumber,
+    newRepeat,
+    "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+
+  // handle measureSecondPart
+  handleMeasureSecondPartInVoice (
+    inputLineNumber,
+    measureSecondPart,
+    "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleVoiceLevelContainingRepeatEndWithoutStartInVoice() 2");
+  }
+#endif
+
+  gIndenter--;
+}
+
+void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
+  int    inputLineNumber,
+  string measureNumber,
+  int    repeatTimes)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Handling a voice-level repeat end with start in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+
+    displayVoiceRepeatsStackAndContents (
+      inputLineNumber,
+      "handleVoiceLevelRepeatEndWithStartInVoice() 1");
   }
 #endif
 
@@ -3673,7 +3841,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
       createMeasureSecondPartIfItIsIncompleteInVoice (
         inputLineNumber,
         voiceLastMeasure,
-        "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
+        "handleVoiceLevelRepeatEndWithStartInVoice()");
 
   // grab current repeat
   S_msrRepeat
@@ -3724,13 +3892,13 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
   moveVoiceLastSegmentToRepeatCommonPart (
     inputLineNumber,
     repeatCommonPart,
-    "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithStartInVoice()");
 
 /* JMI
   // create a new last segment to collect the remainder of the voice,
   createNewLastSegmentForVoice ( // JMI
     inputLineNumber,
-    "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithStartInVoice()");
     */
 
   // set currentRepeat's build phase to completed
@@ -3742,19 +3910,19 @@ void msrVoice::handleVoiceLevelRepeatEndWithExplicitStartInVoice (
   appendRepeatToInitialVoiceElements (
     inputLineNumber,
     currentRepeat,
-    "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithStartInVoice()");
 
   // handle measureSecondPart
   handleMeasureSecondPartInVoice (
     inputLineNumber,
     measureSecondPart,
-    "handleVoiceLevelRepeatEndWithExplicitStartInVoice()");
+    "handleVoiceLevelRepeatEndWithStartInVoice()");
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     displayVoiceRepeatsStackAndContents (
       inputLineNumber,
-      "handleVoiceLevelRepeatEndWithExplicitStartInVoice() 2");
+      "handleVoiceLevelRepeatEndWithStartInVoice() 2");
   }
 #endif
 
@@ -3872,21 +4040,49 @@ void msrVoice::handleRepeatEndInVoice (
         // analyze this repeat end's context
         switch (fVoiceRepeatDescrsStack.size ()) {
           case 0:
-            // this repeat is at the voice-level and has an implicit start
+            // this repeat is at the voice-level and has no start
             // -------------------------------------
-            handleVoiceLevelRepeatEndWithImplicitStartInVoice (
+            handleVoiceLevelRepeatEndWithoutStartInVoice (
               inputLineNumber,
               measureNumber,
               repeatTimes);
             break;
 
           case 1:
-            // this repeat is at the voice-level and has an explicit start
-            // -------------------------------------
-            handleVoiceLevelRepeatEndWithExplicitStartInVoice (
-              inputLineNumber,
-              measureNumber,
-              repeatTimes);
+            {
+              // fetch the top of the repeats stack
+              S_msrRepeat
+                repeatsStackTopRepeat =
+                  fVoiceRepeatDescrsStack.front ()->
+                    getRepeatDescrRepeat ();
+
+              // analyze it
+              switch (repeatsStackTopRepeat->getCurrentRepeatBuildPhaseKind ()) {
+                case msrRepeat::kRepeatBuildPhaseJustCreated:
+                  // JMI
+                  break;
+                case msrRepeat::kRepeatBuildPhaseInCommonPart:
+                  // JMI
+                  break;
+                case msrRepeat::kRepeatBuildPhaseInEndings:
+                  // this repeat is at the voice-level and has a start
+                  // -------------------------------------
+                  handleVoiceLevelRepeatEndWithStartInVoice (
+                    inputLineNumber,
+                    measureNumber,
+                    repeatTimes);
+                  break;
+                case msrRepeat::kRepeatBuildPhaseCompleted:
+                  // this repeat is at the voice-level, has no start
+                  // and contains repeatsStackTop
+                  // -------------------------------------
+                  handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
+                    inputLineNumber,
+                    measureNumber,
+                    repeatTimes);
+                  break;
+              } // switch
+            }
             break;
 
           default:
@@ -6907,13 +7103,13 @@ void msrVoice::handleRepeatEndInVoiceClone (
               appendRepeatToInitialVoiceElements (
                 inputLineNumber,
                 currentRepeat,
-                "handleVoiceLevelRepeatEndWithImplicitStartInVoice()");
+                "handleRepeatEndInVoiceClone()");
 
               // pop currentRepeat from the voice's repeat descrs stack
               popARepeatFromRepeatDescrsStack (
                 inputLineNumber,
                 currentRepeat,
-                "handleRepeatEndInVoiceClone");
+                "handleRepeatEndInVoiceClone()");
             }
             break;
         
