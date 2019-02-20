@@ -394,13 +394,11 @@ namespace MusicXML2
         ctree<xmlelement>::literator iter = elt->lbegin();
         
         /// IMPORTANT: In case of "metronome", there's a coupling of WORDS and METRONOME which leads to ONE guido element. Take this into account.
-        bool generateTempo = false;
+        bool generateTempo = false;     // Possible Composite generation of Metronome
+        bool generateCompositeDynamic = false;      // true if Dynamic and Word are present all together, resulting into one composite Guido Tag
         string tempoWording;
-        string extraTagParameter="";
-        float textDxOffset=0;
-        float dynamicsDyOffset=0;
-        ctree<xmlelement>::iterator ito = elt->find(k_metronome);
-        if (ito != elt->end())
+        ctree<xmlelement>::iterator ito;
+        if (elt->find(k_metronome) != elt->end())
         {
             generateTempo = true;   // this will allow grouping of S_Word and S_Metronome into one tag
         }
@@ -409,26 +407,22 @@ namespace MusicXML2
                 If text is BEFORE dynamics, then impose textformat="rt", dx=-2
                 If text order is AFTER dynamics, then impose textformat="lt", dx=2
          */
+        Sguidoelement tag;
         /// Check if there's a combination of k_words and k_dynamics
         if ((elt->find(k_words) != elt->end()) && (elt->find(k_dynamics) != elt->end()) ) {
+            generateCompositeDynamic = true;
             // find k_dynamics first and search for k_words after.
             ito = elt->find(k_dynamics);
             ito++;
             if (elt->find(k_words, ito) != elt->end()) {
                 // then there is a WORD after Dynamics
-                extraTagParameter = "textformat=\"lt\"";
-                textDxOffset = 2.0;
-                dynamicsDyOffset = 2.0;
-            }else {
-                extraTagParameter = "textformat=\"rt\"";
-                textDxOffset = -2.0;
-                dynamicsDyOffset = 2.0;
             }
         }
         
         float commonDy = 0.0;   // This is the inherited group Dy
-        float commonDx = 0.0;   // This is the inherited group Dy
-
+        string wordParameterBuffer = "";    // used if generateCompositeDynamic
+        
+        auto branches = elt->elements();
         
         for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
             // S_Direction can accept direction_type, offset, footnote, level, voice, staff
@@ -445,7 +439,6 @@ namespace MusicXML2
                     int elementType = (*directionTypeElements)->getType();
                     auto element = (*directionTypeElements);
                     //cerr << "\t\tS_Direction_type: " << (*directionTypeElements)->getName()<< " CommonDY="<< commonDy <<endl;
-                    Sguidoelement tag;
                     
                     switch (elementType) {
                         case k_words:
@@ -455,8 +448,27 @@ namespace MusicXML2
                                 break;
                             }
                             
+                            string wordPrefix="";
+                            // in case of composite Dynamics, detemrine whether text is Before or After
+                            if (generateCompositeDynamic) {
+                                auto itol = std::find(branches.begin(), branches.end(), *iter);
+                                if (itol != branches.end()) {
+                                    // found current element!
+                                    // check if there is a dynamic after, if yes then this word is "before"!
+                                    wordPrefix="after=";
+                                    for (auto itol2 = itol; itol2 != branches.end(); itol2++) {
+                                        if ((*itol2)->find(k_dynamics) != (*itol2)->end()) {
+                                            wordPrefix="before=";
+                                        }
+                                    }
+                                    
+                                }else {
+                                    cerr << "UNABLE to find current element in S_direction. PLEASE REPORT!"<<endl;
+                                }
+                            }
+                            
                             std::stringstream wordParameters;
-                            wordParameters << "\"" << element->getValue() << "\"";
+                            wordParameters << wordPrefix <<"\"" << element->getValue() << "\"";
                             
                             string font_family = element->getAttributeValue("font-family");
                             string font_size = element->getAttributeValue("font-size");
@@ -476,20 +488,18 @@ namespace MusicXML2
                             if (fattrib.size())
                                 wordParameters << ",fattrib=\""+fattrib+"\"";
                             
-                            tag = guidotag::create("text");
-                            tag->add (guidoparam::create(wordParameters.str(), false));
-                            
-                            // enforce a minimum of |2| in case of mixture of text and dynamcis
-                            if ((textDxOffset == -2.0)&&(xml2guidovisitor::getXposition(element, textDxOffset) > textDxOffset)) {
-                                stringstream s;
-                                s << "dx=" << textDxOffset << "hs";
-                                tag->add (guidoparam::create(s.str(), false));
+                            if (generateCompositeDynamic) {
+                                if (tag) {
+                                    // This should happen when WORD is After Dynamic
+                                    tag->add (guidoparam::create(wordParameters.str(), false));
+                                }else {
+                                    wordParameterBuffer= wordParameters.str();
+                                }
                             }else {
-                                xml2guidovisitor::addPosX(element, tag, textDxOffset);
-                            }
+                                tag = guidotag::create("text");
+                                tag->add (guidoparam::create(wordParameters.str(), false));
                             
-                            if (extraTagParameter.size()) {
-                                tag->add(guidoparam::create(extraTagParameter, false));
+                                xml2guidovisitor::addPosX(element, tag, 0);
                             }
                             
                             textPushTag = true;
@@ -512,10 +522,13 @@ namespace MusicXML2
                                         tag->add (guidoparam::create(s.str(), false));
                                     }
                                     
+                                    // add pending word parameters (for "before")
+                                    if ((generateCompositeDynamic)&&(wordParameterBuffer.size())) {
+                                        tag->add (guidoparam::create(wordParameterBuffer, false));
+                                        wordParameterBuffer = "";
+                                    }
                                 }
                             }
-                            
-                            elementSpecificYOffset = dynamicsDyOffset;
                             
                             break;
                         }
@@ -546,36 +559,46 @@ namespace MusicXML2
                             break;
                     }
                     
-                    // after switch
-                    if (tag) {
                         /// Take into account group positioning
                         float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
                         if (posy != 0.0) {
                             // then apply and save
-                            xml2guidovisitor::addPosY(element, tag, 11.0+elementSpecificYOffset, 1.0);
                             commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
-                        }else {
-                            // then apply the common position
-                            if (commonDy != 0.0) {
-                                stringstream s;
-                                s << "dy=" << commonDy+elementSpecificYOffset << "hs";
-                                tag->add (guidoparam::create(s.str(), false));
-                            }
+                        }
+                    
+                    if (tag) {
+                        // apply inherited Y-position
+                        if (commonDy != 0.0) {
+                            stringstream s;
+                            s << "dy=" << commonDy+elementSpecificYOffset << "hs";
+                            tag->add (guidoparam::create(s.str(), false));
                         }
                         
-                        if (textPushTag) {
-                            push(tag);
-                            fTextTagOpen++;
-                        }else {
-                            /// Add Tag
-                            if (fCurrentOffset)
-                                addDelayed(tag, fCurrentOffset);
-                            else {
-                                add(tag);
+                        if (!generateCompositeDynamic) {
+                            if (textPushTag) {
+                                push(tag);
+                                fTextTagOpen++;
+                            }else {
+                                /// Add Tag
+                                if (fCurrentOffset)
+                                    addDelayed(tag, fCurrentOffset);
+                                else {
+                                    add(tag);
+                                }
                             }
                         }
                     }
                 }
+            }
+        }
+        
+        // If composed tag, add here
+        if (generateCompositeDynamic) {
+            /// Add Tag
+            if (fCurrentOffset)
+                addDelayed(tag, fCurrentOffset);
+            else {
+                add(tag);
             }
         }
         
