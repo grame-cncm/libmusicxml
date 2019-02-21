@@ -555,12 +555,12 @@ S_msrNote msrNote::createNoteNewbornClone (
   // ------------------------------------------------------
 
   newbornClone->
-    fNoteBelongsToAMultipleRest =
-      fNoteBelongsToAMultipleRest;
+    fNoteBelongsToAMultipleRestMeasures =
+      fNoteBelongsToAMultipleRestMeasures;
 
   newbornClone->
-    fNoteMultipleRestSequenceNumber =
-      fNoteMultipleRestSequenceNumber;
+    fNoteMultipleRestMeasuresSequenceNumber =
+      fNoteMultipleRestMeasuresSequenceNumber;
 
   // note lyrics
   // ------------------------------------------------------
@@ -801,12 +801,12 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   noteDeepCopy->
-    fNoteBelongsToAMultipleRest =
-      fNoteBelongsToAMultipleRest;
+    fNoteBelongsToAMultipleRestMeasures =
+      fNoteBelongsToAMultipleRestMeasures;
 
   noteDeepCopy->
-    fNoteMultipleRestSequenceNumber =
-      fNoteMultipleRestSequenceNumber;
+    fNoteMultipleRestMeasuresSequenceNumber =
+      fNoteMultipleRestMeasuresSequenceNumber;
 
   // note lyrics
   // ------------------------------------------------------
@@ -3233,7 +3233,7 @@ string msrNote::asString () const
         s <<
           "R" <<
           /* JMI
-          multipleRestWholeNotesAsMsrString (
+          multipleRestMeasuresWholeNotesAsMsrString (
             fInputLineNumber,
             fNoteSoundingWholeNotes);
             */
@@ -3649,13 +3649,13 @@ void msrNote::print (ostream& os)
     // multiple rest member?
     os << left <<
       setw (fieldWidth) <<
-      "noteBelongsToAMultipleRest" << " : " <<
-      booleanAsString (fNoteBelongsToAMultipleRest) <<
+      "noteBelongsToAMultipleRestMeasures" << " : " <<
+      booleanAsString (fNoteBelongsToAMultipleRestMeasures) <<
       endl;
     os << left <<
       setw (fieldWidth) <<
-      "noteMultipleRestSequenceNumber" << " : " <<
-      fNoteMultipleRestSequenceNumber <<
+      "noteMultipleRestMeasuresSequenceNumber" << " : " <<
+      fNoteMultipleRestMeasuresSequenceNumber <<
       endl;
 
     // note print kind

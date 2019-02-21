@@ -192,15 +192,15 @@ class generalOptions : public optionsGroup
     bool                  fTraceBarlines;
     bool                  fTraceBarlinesDetails;
 
-    // multiple rests
-    bool                  fTraceMultipleRests;
-
     // repeats
     bool                  fTraceRepeats;
     bool                  fTraceRepeatsDetails;
 
-    // rmeasure repeats
+    // measure repeats
     bool                  fTraceMeasureRepeats;
+
+    // multiple rest measures
+    bool                  fTraceMultipleRestMeasures;
 
     // slashes
     bool                  fTraceSlashes;

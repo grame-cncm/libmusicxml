@@ -9,9 +9,8 @@
     </score-part>
   </part-list>
   <part id="P1">
-
     <measure number="2" width="208">
- <attributes>
+      <attributes>
         <divisions>2</divisions>
         <measure-style>
           <beat-repeat type="start"/>
@@ -92,7 +91,6 @@
           <beat-repeat type="stop"/>
         </measure-style>
       </attributes>
-
       <note>
         <pitch>
           <step>C</step>

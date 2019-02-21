@@ -92,7 +92,7 @@ string dottedDurationAsLilypondStringWithoutBackSlash (
 
 // multiple rests
 //______________________________________________________________________________
-string multipleRestWholeNoteAsLilypondString (
+string multipleRestMeasuresWholeNoteAsLilypondString (
   int      inputLineNumber, // JMI
   rational wholeNotes);
 

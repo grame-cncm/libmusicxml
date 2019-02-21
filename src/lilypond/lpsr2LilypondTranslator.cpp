@@ -1330,7 +1330,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
             fLilypondCodeIOstream <<
               "R" <<
               /* JMI
-              multipleRestWholeNoteAsLilypondString (
+              multipleRestMeasuresWholeNoteAsLilypondString (
                 inputLineNumber,
                 noteSoundingWholeNotes);
                 */
@@ -4409,7 +4409,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
 
 /* JMI ???
   if (
-    fCurrentVoice->getVoiceContainsMultipleRests ()
+    fCurrentVoice->getVoiceContainsMultipleRestMeasures ()
       ||
     gLilypondOptions->fCompressMultiMeasureRests
   ) {
@@ -6104,7 +6104,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
 
   if (
-    fCurrentVoice->getVoiceContainsMultipleRests ()
+    fCurrentVoice->getVoiceContainsMultipleRestMeasures ()
       ||
     gLilypondOptions->fCompressMultiMeasureRests
   ) {
@@ -6165,7 +6165,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   }
   
   if (
-    fCurrentVoice->getVoiceContainsMultipleRests ()
+    fCurrentVoice->getVoiceContainsMultipleRestMeasures ()
       ||
     gLilypondOptions->fCompressMultiMeasureRests
   ) {
@@ -6922,7 +6922,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
             // account for this measure
             fRemainingMultipleRestMeasuresNumber--;
   
-            // the bar check will be generated upon visitEnd (S_msrMultipleRest&)
+            // the bar check will be generated upon visitEnd (S_msrMultipleRestMeasures&)
             doGenerateBarCheck = false;
           }
   
@@ -9520,7 +9520,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   // is this a multiple rest to be ignored?
   switch (elt->getNoteKind ()) {
     case msrNote::kRestNote:
-      // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRest&)
+      // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRestMeasures&)
       if (fOnGoingMultipleRestMeasures) {
         /*
         if (elt->getNoteOccupiesAFullMeasure ()) {
@@ -10352,7 +10352,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   // is this a multiple rest to be ignored?
   switch (elt->getNoteKind ()) {
     case msrNote::kRestNote:
-      // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRest&)
+      // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRestMeasures&)
       if (fOnGoingMultipleRestMeasures) {
         if (elt->getNoteOccupiesAFullMeasure ()) {
           bool inhibitMultipleRestMeasuresBrowsing =
@@ -14215,17 +14215,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestMeasures& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting msrMultipleRest" <<
+      "% --> Start visiting msrMultipleRestMeasures" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
   // generate the code now:
-  // waiting until visitEnd (S_msrMultipleRest&)
+  // waiting until visitEnd (S_msrMultipleRestMeasures&)
   // would get barlines if any generated too early
   
   int inputLineNumber =
@@ -14237,7 +14237,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
-      "% start of multiple rest" <<
+      "% start of multiple rest measure" <<
       singularOrPlural (
         elt->getMultipleRestMeasuresNumber (),
         "measure",
@@ -14265,17 +14265,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
 
-  // get multiple rest measure sounding notes
+  // get multiple rest measures sounding notes
   rational
-    multipleRestMeasureSoundingNotes =
-      elt->getMultipleRestMeasureSoundingNotes ();
+    multipleRestMeasuresMeasureSoundingNotes =
+      elt->getMultipleRestMeasuresMeasureSoundingNotes ();
 
-  // generate multiple measure rest
+  // generate multiple measures rest
   fLilypondCodeIOstream <<
     "R" <<
-    multipleRestWholeNoteAsLilypondString (
+    multipleRestMeasuresWholeNoteAsLilypondString (
       inputLineNumber,
-      multipleRestMeasureSoundingNotes);
+      multipleRestMeasuresMeasureSoundingNotes);
 
   if (restMeasuresNumber > 1) {
     fLilypondCodeIOstream <<
@@ -14295,11 +14295,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   fOnGoingMultipleRestMeasures = true;
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> End visiting msrMultipleRest" <<
+      "% --> End visiting msrMultipleRestMeasures" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -14307,7 +14307,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   // now we can generate the bar check
   fLilypondCodeIOstream <<    
     " | % " <<
-    elt->getMultipleRestNextMeasureNumber () <<
+    elt->getMultipleRestMeasuresNextMeasureNumber () <<
     endl;
 
   /* JMI
@@ -14333,7 +14333,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
     elt->getMultipleRestMeasuresNumber ();
 
   int restSegmentMeasuresNumber =
-    elt->multipleRestContentsMeasuresNumber ();
+    elt->multipleRestMeasuresContentsMeasuresNumber ();
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
@@ -14368,15 +14368,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
 
   // get multiple rest measure sounding notes
   rational
-    multipleRestMeasureSoundingNotes =
-      elt->getMultipleRestMeasureSoundingNotes ();
+    multipleRestMeasuresMeasureSoundingNotes =
+      elt->getMultipleRestMeasuresMeasureSoundingNotes ();
 
   // generate multiple measure rest
   fLilypondCodeIOstream <<
     "R" <<
-    multipleRestWholeNoteAsLilypondString (
+    multipleRestMeasuresWholeNoteAsLilypondString (
       inputLineNumber,
-      multipleRestMeasureSoundingNotes);
+      multipleRestMeasuresMeasureSoundingNotes);
 
   if (restMeasuresNumber > 1) {
     fLilypondCodeIOstream <<
@@ -14392,27 +14392,27 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
 
   fLilypondCodeIOstream <<    
     " | % " <<
-    elt->getMultipleRestNextMeasureNumber () <<
+    elt->getMultipleRestMeasuresNextMeasureNumber () <<
     endl;
 */
 
   fOnGoingMultipleRestMeasures = false;
 }
 
-void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestMeasuresContents& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "%--> Start visiting msrMultipleRestContents" <<
+      "%--> Start visiting msrMultipleRestMeasuresContents" <<
       endl;
   }
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestMeasuresContents& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "%--> End visiting msrMultipleRestContents" <<
+      "%--> End visiting msrMultipleRestMeasuresContents" <<
       endl;
   }
 }

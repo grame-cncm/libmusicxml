@@ -1420,6 +1420,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   gIndenter--;
 }
 
+/* JMI
 void msrMeasure::appendMeasuresRepeatToMeasure (
   S_msrMeasuresRepeat measuresRepeat)
 {
@@ -1447,25 +1448,26 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
   // this measure contains music
   fMeasureContainsMusic = true;
 }
+*/
 
-void msrMeasure::appendMultipleRestToMeasure (
-  S_msrMultipleRest multipleRest)
+void msrMeasure::appendMultipleRestMeasuresToMeasure (
+  S_msrMultipleRestMeasures multipleRestMeasures)
 {
   /* JMI
   int inputLineNumber =
-    multipleRest->getInputLineNumber ();
+    multipleRestMeasures->getInputLineNumber ();
     */
     
   /* JMI  
     // populate measure uplink
-    multipleRest->setMultipleRestMeasureUplink (this);
+    multipleRestMeasures->setMultipleRestMeasuresMeasureUplink (this);
 */
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMultipleRests || gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceMultipleRestMeasures || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->asString () <<
+      multipleRestMeasures->asString () <<
       "' to measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -1480,33 +1482,33 @@ void msrMeasure::appendMultipleRestToMeasure (
 #endif
   
 /* JMI
-  // register multipleRest measure number
-  multipleRest->
-    setMultipleRestMeasureNumber (fMeasureNumber);
+  // register multipleRestMeasures measure number
+  multipleRestMeasures->
+    setMultipleRestMeasuresMeasureNumber (fMeasureNumber);
   
-  // register multipleRest measure position in measure
-  multipleRest->
-    setMultipleRestPositionInMeasure (
+  // register multipleRestMeasures measure position in measure
+  multipleRestMeasures->
+    setMultipleRestMeasuresPositionInMeasure (
       fActualMeasureWholeNotes);
 
   // copy measure number to first note, that was created beforehand
-  multipleRest->
-    setMultipleRestMeasureNumber (
+  multipleRestMeasures->
+    setMultipleRestMeasuresMeasureNumber (
       fMeasureNumber);
   
   // copy measure position in measure to first note, that was created beforehand
-  multipleRest->
-    setMultipleRestPositionInMeasure (
+  multipleRestMeasures->
+    setMultipleRestMeasuresPositionInMeasure (
       fActualMeasureWholeNotes);
 
-  // fetch multipleRest sounding whole notes
-  int multipleRestSoundingWholeNotes =
-    multipleRest->getmultipleRestSoundingWholeNotes ();
+  // fetch multipleRestMeasures sounding whole notes
+  int multipleRestMeasuresSoundingWholeNotes =
+    multipleRestMeasures->getmultipleRestMeasuresSoundingWholeNotes ();
     
-  // account for multipleRest duration in measure whole notes
+  // account for multipleRestMeasures duration in measure whole notes
   setActualMeasureWholeNotes (
     inputLineNumber,
-    fActualMeasureWholeNotes + multipleRestSoundingWholeNotes);
+    fActualMeasureWholeNotes + multipleRestMeasuresSoundingWholeNotes);
 
   // update part measure whole notes high tide if need be
   fMeasureDirectPartUplink->
@@ -1515,12 +1517,12 @@ void msrMeasure::appendMultipleRestToMeasure (
       fActualMeasureWholeNotes);
 */
 
-  // determine if the multipleRest occupies a full measure
-// XXL  JMI  if (multipleRestSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
-    // multipleRest->setmultipleRestOccupiesAFullMeasure ();
+  // determine if the multipleRestMeasures occupies a full measure
+// XXL  JMI  if (multipleRestMeasuresSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
+    // multipleRestMeasures->setmultipleRestMeasuresOccupiesAFullMeasure ();
 
-  // append the multipleRest to the measure elements list
-  appendElementToMeasure (multipleRest);
+  // append the multipleRestMeasures to the measure elements list
+  appendElementToMeasure (multipleRestMeasures);
 
   // this measure contains music
   fMeasureContainsMusic = true;

@@ -414,7 +414,7 @@ msrMeasuresRepeat::msrMeasuresRepeat (
   int        measuresRepeatMeasuresNumber,
   int        measuresRepeatSlashesNumber,
   S_msrVoice voiceUplink)
-    : msrMeasureElement (inputLineNumber)
+    : msrVoiceElement (inputLineNumber)
 {
   // sanity check
   msrAssert (

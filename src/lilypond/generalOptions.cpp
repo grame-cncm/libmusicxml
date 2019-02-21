@@ -346,9 +346,6 @@ debugging information to standard error for the specified measures.)",
     fTraceBarlines = boolOptionsInitialValue;
     fTraceBarlinesDetails = boolOptionsInitialValue;
 
-    // multiple rests
-    fTraceMultipleRests = boolOptionsInitialValue;
-
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
     fTraceRepeatsDetails = boolOptionsInitialValue;
@@ -356,6 +353,9 @@ debugging information to standard error for the specified measures.)",
     // measure repeats
     fTraceMeasureRepeats = boolOptionsInitialValue;
   
+    // multiple rest measures
+    fTraceMultipleRestMeasures = boolOptionsInitialValue;
+
     // slashes
     fTraceSlashes = boolOptionsInitialValue;
 
@@ -700,15 +700,15 @@ R"(Barlines details)",
           fTraceBarlines,
           fTracePasses));
       
-    // multiple rests
+    // multiple rest measures
     
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tmrests", "trace-multiple-rests",
+          "tmrmeas", "trace-multiple-rest-measures",
 R"(Multiple rests)",
-          "traceMultipleRests",
-          fTraceMultipleRests,
+          "traceMultipleRestMeasures",
+          fTraceMultipleRestMeasures,
           fTracePasses));
       
     // repeats
@@ -1322,8 +1322,8 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   clone->fTraceBarlines = true;
   clone->fTraceBarlinesDetails = true;
 
-  // multiple rests
-  clone->fTraceMultipleRests = true;
+  // multiple rest measures
+  clone->fTraceMultipleRestMeasures = true;
 
   // repeats
   clone->fTraceRepeats = true;
@@ -1498,9 +1498,6 @@ void generalOptions::setAllGeneralTraceOptions (
     fTraceBarlines = boolOptionsInitialValue;
     fTraceBarlinesDetails = boolOptionsInitialValue;
 
-    // multiple rests
-    fTraceMultipleRests = boolOptionsInitialValue;
-
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
     fTraceRepeatsDetails = boolOptionsInitialValue;
@@ -1508,6 +1505,9 @@ void generalOptions::setAllGeneralTraceOptions (
     // measure repeats
     fTraceMeasureRepeats = boolOptionsInitialValue;
   
+    // multiple rest measures
+    fTraceMultipleRestMeasures = boolOptionsInitialValue;
+
     // slashes
     fTraceSlashes = boolOptionsInitialValue;
 
@@ -1829,11 +1829,6 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     booleanAsString (fTraceBarlinesDetails) <<
     endl <<
     
-    // multiple rests
-    setw (fieldWidth) << "traceMultipleRests" << " : " <<
-    booleanAsString (fTraceMultipleRests) <<
-    endl <<
-
     // repeats
     setw (fieldWidth) << "traceRepeats" << " : " <<
     booleanAsString (fTraceRepeats) <<
@@ -1845,6 +1840,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     // measure repeats
     setw (fieldWidth) << "traceMeasureRepeats" << " : " <<
     booleanAsString (fTraceMeasureRepeats) <<
+    endl <<
+
+    // multiple rest measures
+    setw (fieldWidth) << "traceMultipleRestMeasures" << " : " <<
+    booleanAsString (fTraceMultipleRestMeasures) <<
     endl <<
 
     // slashes

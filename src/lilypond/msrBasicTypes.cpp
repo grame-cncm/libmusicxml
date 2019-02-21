@@ -12907,7 +12907,7 @@ string wholeNotesAsMsrString (
       dotsNumber);
 }
 
-string multipleRestWholeNotesAsMsrString (
+string multipleRestMeasuresWholeNotesAsMsrString (
   int      inputLineNumber, // JMI
   rational wholeNotes)
 {

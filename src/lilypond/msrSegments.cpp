@@ -1874,6 +1874,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
 
+/* JMI
 void msrSegment::appendMeasuresRepeatToSegment (
   S_msrMeasuresRepeat measuresRepeat)
 {
@@ -1898,15 +1899,16 @@ void msrSegment::appendMeasuresRepeatToSegment (
   fSegmentMeasuresList.back ()->
     appendMeasuresRepeatToMeasure (measuresRepeat);
 }
+*/
 
-void msrSegment::appendMultipleRestToSegment (
-  S_msrMultipleRest multipleRest)
+void msrSegment::appendMultipleRestMeasuresToSegment (
+  S_msrMultipleRestMeasures multipleRestMeasures)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->asString () <<
+      multipleRestMeasures->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -1921,7 +1923,7 @@ void msrSegment::appendMultipleRestToSegment (
     "fSegmentMeasuresList is empty");
     
   fSegmentMeasuresList.back ()->
-    appendMultipleRestToMeasure (multipleRest);
+    appendMultipleRestMeasuresToMeasure (multipleRestMeasures);
 }
 
 void msrSegment::appendChordToSegment (S_msrChord chord) // JMI

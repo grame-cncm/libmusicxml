@@ -21,34 +21,34 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_msrMultipleRestContents msrMultipleRestContents::create (
+S_msrMultipleRestMeasuresContents msrMultipleRestMeasuresContents::create (
   int        inputLineNumber,
   S_msrVoice voiceUplink)
 {
-  msrMultipleRestContents* o =
-    new msrMultipleRestContents (
+  msrMultipleRestMeasuresContents* o =
+    new msrMultipleRestMeasuresContents (
       inputLineNumber,
       voiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrMultipleRestContents::msrMultipleRestContents (
+msrMultipleRestMeasuresContents::msrMultipleRestMeasuresContents (
   int        inputLineNumber,
   S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fMultipleRestContentsVoiceUplink = voiceUplink;
+  fMultipleRestMeasuresContentsVoiceUplink = voiceUplink;
 }
 
-msrMultipleRestContents::~msrMultipleRestContents ()
+msrMultipleRestMeasuresContents::~msrMultipleRestMeasuresContents ()
 {}
 
-S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNewbornClone (
+S_msrMultipleRestMeasuresContents msrMultipleRestMeasuresContents::createMultipleRestMeasuresContentsNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
       "Creating a newborn clone of a multiple rest contents" <<
       endl;
@@ -60,24 +60,24 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
     containingVoice != nullptr,
     "containingVoice is null");
     
-  S_msrMultipleRestContents
+  S_msrMultipleRestMeasuresContents
     newbornClone =
-      msrMultipleRestContents::create (
+      msrMultipleRestMeasuresContents::create (
         fInputLineNumber,
         containingVoice);
 
   return newbornClone;
 }
 
-void msrMultipleRestContents::setMultipleRestContentsSegment (
-    S_msrSegment multipleRestContentsSegment)
+void msrMultipleRestMeasuresContents::setMultipleRestMeasuresContentsSegment (
+    S_msrSegment multipleRestMeasuresContentsSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
       "Setting multiple rest contents segment containing " <<
       singularOrPlural (
-          multipleRestContentsMeasuresNumber (),
+          multipleRestMeasuresContentsMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -86,20 +86,20 @@ void msrMultipleRestContents::setMultipleRestContentsSegment (
       
   // sanity check
   msrAssert (
-    multipleRestContentsSegment != nullptr,
-    "multipleRestContentsSegment is null");
+    multipleRestMeasuresContentsSegment != nullptr,
+    "multipleRestMeasuresContentsSegment is null");
 
-  fMultipleRestContentsSegment =
-    multipleRestContentsSegment;
+  fMultipleRestMeasuresContentsSegment =
+    multipleRestMeasuresContentsSegment;
 }
 
-int msrMultipleRestContents::multipleRestContentsMeasuresNumber () const
+int msrMultipleRestMeasuresContents::multipleRestMeasuresContentsMeasuresNumber () const
 {
   int result;
 
-  if (fMultipleRestContentsSegment) {
+  if (fMultipleRestMeasuresContentsSegment) {
     result =
-      fMultipleRestContentsSegment->
+      fMultipleRestMeasuresContentsSegment->
       getSegmentMeasuresList ().size ();
   }
   else {
@@ -109,76 +109,76 @@ int msrMultipleRestContents::multipleRestContentsMeasuresNumber () const
   return result;
 }
 
-void msrMultipleRestContents::acceptIn (basevisitor* v)
+void msrMultipleRestMeasuresContents::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRestContents::acceptIn ()" <<
+      "% ==> msrMultipleRestMeasuresContents::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_msrMultipleRestContents>*
+  if (visitor<S_msrMultipleRestMeasuresContents>*
     p =
-      dynamic_cast<visitor<S_msrMultipleRestContents>*> (v)) {
-        S_msrMultipleRestContents elem = this;
+      dynamic_cast<visitor<S_msrMultipleRestMeasuresContents>*> (v)) {
+        S_msrMultipleRestMeasuresContents elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRestContents::visitStart ()" <<
+            "% ==> Launching msrMultipleRestMeasuresContents::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrMultipleRestContents::acceptOut (basevisitor* v)
+void msrMultipleRestMeasuresContents::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRestContents::acceptOut ()" <<
+      "% ==> msrMultipleRestMeasuresContents::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrMultipleRestContents>*
+  if (visitor<S_msrMultipleRestMeasuresContents>*
     p =
-      dynamic_cast<visitor<S_msrMultipleRestContents>*> (v)) {
-        S_msrMultipleRestContents elem = this;
+      dynamic_cast<visitor<S_msrMultipleRestMeasuresContents>*> (v)) {
+        S_msrMultipleRestMeasuresContents elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRestContents::visitEnd ()" <<
+            "% ==> Launching msrMultipleRestMeasuresContents::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrMultipleRestContents::browseData (basevisitor* v)
+void msrMultipleRestMeasuresContents::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRestContents::browseData ()" <<
+      "% ==> msrMultipleRestMeasuresContents::browseData ()" <<
       endl;
   }
 
-  if (fMultipleRestContentsSegment) {
+  if (fMultipleRestMeasuresContentsSegment) {
     // browse the pattern segment
     msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMultipleRestContentsSegment);
+    browser.browse (*fMultipleRestMeasuresContentsSegment);
   }
 }
 
-string msrMultipleRestContents::asString () const
+string msrMultipleRestMeasuresContents::asString () const
 {
   stringstream s;
 
   s <<
 
-    "MultipleRestContents" <<
+    "MultipleRestMeasuresContents" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      multipleRestContentsMeasuresNumber (),
+      multipleRestMeasuresContentsMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ")"; 
@@ -186,7 +186,7 @@ string msrMultipleRestContents::asString () const
   return s.str ();
 }
 
-void msrMultipleRestContents::print (ostream& os)
+void msrMultipleRestMeasuresContents::print (ostream& os)
 {
   os <<
     endl <<
@@ -200,7 +200,7 @@ void msrMultipleRestContents::print (ostream& os)
   os <<
     "Contents segment:";
 
-  if (! fMultipleRestContentsSegment) {
+  if (! fMultipleRestMeasuresContentsSegment) {
     os <<
       " none" <<
       endl;
@@ -212,7 +212,7 @@ void msrMultipleRestContents::print (ostream& os)
     gIndenter++;
     
     os <<
-      fMultipleRestContentsSegment;
+      fMultipleRestMeasuresContentsSegment;
 
     gIndenter--;
   }
@@ -220,50 +220,50 @@ void msrMultipleRestContents::print (ostream& os)
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt)
+ostream& operator<< (ostream& os, const S_msrMultipleRestMeasuresContents& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrMultipleRest msrMultipleRest::create (
+S_msrMultipleRestMeasures msrMultipleRestMeasures::create (
   int        inputLineNumber,
-  rational   multipleRestMeasureSoundingNotes,
+  rational   multipleRestMeasuresMeasureSoundingNotes,
   int        multipleRestMeasuresNumber,
   S_msrVoice voiceUplink)
 {
-  msrMultipleRest* o =
-    new msrMultipleRest (
+  msrMultipleRestMeasures* o =
+    new msrMultipleRestMeasures (
       inputLineNumber,
-      multipleRestMeasureSoundingNotes,
+      multipleRestMeasuresMeasureSoundingNotes,
       multipleRestMeasuresNumber,
       voiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrMultipleRest::msrMultipleRest (
+msrMultipleRestMeasures::msrMultipleRestMeasures (
   int        inputLineNumber,
-  rational   multipleRestMeasureSoundingNotes,
+  rational   multipleRestMeasuresMeasureSoundingNotes,
   int        multipleRestMeasuresNumber,
   S_msrVoice voiceUplink)
     : msrMeasureElement (inputLineNumber)
 {
-  fMultipleRestMeasureSoundingNotes = multipleRestMeasureSoundingNotes;
+  fMultipleRestMeasuresMeasureSoundingNotes = multipleRestMeasuresMeasureSoundingNotes;
   fMultipleRestMeasuresNumber       = multipleRestMeasuresNumber;
 
-  fMultipleRestVoiceUplink = voiceUplink;
+  fMultipleRestMeasuresVoiceUplink = voiceUplink;
 }
 
-msrMultipleRest::~msrMultipleRest ()
+msrMultipleRestMeasures::~msrMultipleRestMeasures ()
 {}
 
-S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
+S_msrMultipleRestMeasures msrMultipleRestMeasures::createMultipleRestMeasuresNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
       "Creating a newborn clone of multiple rest " <<
       asString () <<
@@ -276,30 +276,30 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
     containingVoice != nullptr,
     "containingVoice is null");
     
-  S_msrMultipleRest
+  S_msrMultipleRestMeasures
     newbornClone =
-      msrMultipleRest::create (
+      msrMultipleRestMeasures::create (
         fInputLineNumber,
-        fMultipleRestMeasureSoundingNotes,
+        fMultipleRestMeasuresMeasureSoundingNotes,
         fMultipleRestMeasuresNumber,
         containingVoice);
 
-  newbornClone->fMultipleRestNextMeasureNumber =
-    fMultipleRestNextMeasureNumber;
+  newbornClone->fMultipleRestMeasuresNextMeasureNumber =
+    fMultipleRestMeasuresNextMeasureNumber;
     
   return newbornClone;
 }
 
-void msrMultipleRest::setMultipleRestContents (
-  S_msrMultipleRestContents multipleRestContents)
+void msrMultipleRestMeasures::setMultipleRestMeasuresContents (
+  S_msrMultipleRestMeasuresContents multipleRestMeasuresContents)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
       "Setting multiple rest contents containing " <<
       singularOrPlural (
-        multipleRestContents->
-          multipleRestContentsMeasuresNumber (),
+        multipleRestMeasuresContents->
+          multipleRestMeasuresContentsMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -308,17 +308,17 @@ void msrMultipleRest::setMultipleRestContents (
       
   // sanity check
   msrAssert (
-    multipleRestContents != nullptr,
-    "multipleRestContents is null");
+    multipleRestMeasuresContents != nullptr,
+    "multipleRestMeasuresContents is null");
 
-  fMultipleRestContents = multipleRestContents;
+  fMultipleRestMeasuresContents = multipleRestMeasuresContents;
 }
 
-void msrMultipleRest::setMultipleRestNextMeasureNumber (
+void msrMultipleRestMeasures::setMultipleRestMeasuresNextMeasureNumber (
   string measureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
       "Setting multiple rest next measure number to'" <<
       "' " <<
@@ -327,59 +327,59 @@ void msrMultipleRest::setMultipleRestNextMeasureNumber (
   }
 #endif
 
-  fMultipleRestNextMeasureNumber =
+  fMultipleRestMeasuresNextMeasureNumber =
     measureNumber;
 }
 
-void msrMultipleRest::acceptIn (basevisitor* v)
+void msrMultipleRestMeasures::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRest::acceptIn ()" <<
+      "% ==> msrMultipleRestMeasures::acceptIn ()" <<
       endl;
   }
       
-  if (visitor<S_msrMultipleRest>*
+  if (visitor<S_msrMultipleRestMeasures>*
     p =
-      dynamic_cast<visitor<S_msrMultipleRest>*> (v)) {
-        S_msrMultipleRest elem = this;
+      dynamic_cast<visitor<S_msrMultipleRestMeasures>*> (v)) {
+        S_msrMultipleRestMeasures elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRest::visitStart ()" <<
+            "% ==> Launching msrMultipleRestMeasures::visitStart ()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrMultipleRest::acceptOut (basevisitor* v)
+void msrMultipleRestMeasures::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRest::acceptOut ()" <<
+      "% ==> msrMultipleRestMeasures::acceptOut ()" <<
       endl;
   }
 
-  if (visitor<S_msrMultipleRest>*
+  if (visitor<S_msrMultipleRestMeasures>*
     p =
-      dynamic_cast<visitor<S_msrMultipleRest>*> (v)) {
-        S_msrMultipleRest elem = this;
+      dynamic_cast<visitor<S_msrMultipleRestMeasures>*> (v)) {
+        S_msrMultipleRestMeasures elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMultipleRest::visitEnd ()" <<
+            "% ==> Launching msrMultipleRestMeasures::visitEnd ()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrMultipleRest::browseData (basevisitor* v)
+void msrMultipleRestMeasures::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMultipleRest::browseData ()" <<
+      "% ==> msrMultipleRestMeasures::browseData ()" <<
       endl;
   }
 
@@ -387,7 +387,7 @@ void msrMultipleRest::browseData (basevisitor* v)
   // get the part uplink
   S_msrPart
     partUplink =
-      fMultipleRestVoiceUplink->
+      fMultipleRestMeasuresVoiceUplink->
         fetchVoicePartUplink ();
 
   // get the part group uplink
@@ -407,7 +407,7 @@ void msrMultipleRest::browseData (basevisitor* v)
       getInhibitMultipleRestMeasuresBrowsing ();
 
   if (inhibitMultipleRestMeasuresBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats) {
+    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceMultipleRestMeasures) {
       gLogIOstream <<
         "% ==> visiting multiple rest measures is inhibited" <<
         endl;
@@ -415,40 +415,40 @@ void msrMultipleRest::browseData (basevisitor* v)
   }
 */
 
-  if (fMultipleRestContents) {
+  if (fMultipleRestMeasuresContents) {
  // JMI   if (! inhibitMultipleRestMeasuresBrowsing) {
       // browse the multiple rest contents
-      msrBrowser<msrMultipleRestContents> browser (v);
-      browser.browse (*fMultipleRestContents);
+      msrBrowser<msrMultipleRestMeasuresContents> browser (v);
+      browser.browse (*fMultipleRestMeasuresContents);
 //    }
   }
 }
 
-string msrMultipleRest::asString () const
+string msrMultipleRestMeasures::asString () const
 {
   stringstream s;
 
   s <<
-    "MultipleRest" <<
+    "MultipleRestMeasures" <<
     ", line " << fInputLineNumber <<
-    ", multipleRestMeasureSoundingNotes: " <<
-    fMultipleRestMeasureSoundingNotes <<
+    ", multipleRestMeasuresMeasureSoundingNotes: " <<
+    fMultipleRestMeasuresMeasureSoundingNotes <<
     ", " <<
     singularOrPlural (
       fMultipleRestMeasuresNumber,
         "rest measure",
         "rest measures") <<
     ", next measure number: '" <<
-    fMultipleRestNextMeasureNumber <<
+    fMultipleRestMeasuresNextMeasureNumber <<
     "'";
     
   return s.str ();
 }
 
-void msrMultipleRest::print (ostream& os)
+void msrMultipleRestMeasures::print (ostream& os)
 {
   os <<
-    "MultipleRest" <<
+    "MultipleRestMeasures" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -458,45 +458,45 @@ void msrMultipleRest::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "multipleRestMeasureSoundingNotes" << " : " <<
-    fMultipleRestMeasureSoundingNotes <<
+    "multipleRestMeasuresMeasureSoundingNotes" << " : " <<
+    fMultipleRestMeasuresMeasureSoundingNotes <<
     endl <<
     setw (fieldWidth) <<
     "multipleRestMeasuresNumber" << " : " <<
     fMultipleRestMeasuresNumber <<
     endl <<
     setw (fieldWidth) <<
-    "multipleRestNextMeasureNumber" << " : '" <<
-    fMultipleRestNextMeasureNumber <<
+    "multipleRestMeasuresNextMeasureNumber" << " : '" <<
+    fMultipleRestMeasuresNextMeasureNumber <<
     "'" <<
     endl;
   
   // print the voice uplink
   os << left <<
     setw (fieldWidth) <<
-    "multipleRestVoiceUplink" << " : " <<
+    "multipleRestMeasuresVoiceUplink" << " : " <<
     "\"" <<
-    fMultipleRestVoiceUplink->getVoiceName () <<
+    fMultipleRestMeasuresVoiceUplink->getVoiceName () <<
     "\"" <<
     endl;
     
   // print the rests contents
-  if (! fMultipleRestContents) {
+  if (! fMultipleRestMeasuresContents) {
     os << left <<
       setw (fieldWidth) <<
-      "multipleRestContents" << " : " << "none" <<
+      "multipleRestMeasuresContents" << " : " << "none" <<
       endl;
   }
 
   else {
     os <<
-      fMultipleRestContents;
+      fMultipleRestMeasuresContents;
   }
       
   gIndenter--;
 }
 
-ostream& operator<< (ostream& os, const S_msrMultipleRest& elt)
+ostream& operator<< (ostream& os, const S_msrMultipleRestMeasures& elt)
 {
   elt->print (os);
   return os;

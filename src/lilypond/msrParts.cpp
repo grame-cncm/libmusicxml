@@ -994,9 +994,9 @@ void msrPart::appendPendingMeasuresRepeatToPart (
   } // for
 }
 
-void msrPart::createMultipleRestInPart (
+void msrPart::createMultipleRestMeasuresInPart (
   int inputLineNumber,
-  int multipleRestMeasuresNumber)
+  int multipleRestMeasuresMeasuresNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
@@ -1005,7 +1005,7 @@ void msrPart::createMultipleRestInPart (
       getPartCombinedName () <<
       ", " <<
       singularOrPlural (
-        multipleRestMeasuresNumber, "measure", "measures") <<
+        multipleRestMeasuresMeasuresNumber, "measure", "measures") <<
       endl;
   }
 #endif
@@ -1016,13 +1016,13 @@ void msrPart::createMultipleRestInPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      createMultipleRestInStaff (
+      createMultipleRestMeasuresInStaff (
         inputLineNumber,
-        multipleRestMeasuresNumber);
+        multipleRestMeasuresMeasuresNumber);
   } // for
 }
 
-void msrPart::appendPendingMultipleRestToPart (
+void msrPart::appendPendingMultipleRestMeasuresToPart (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
@@ -1040,20 +1040,20 @@ void msrPart::appendPendingMultipleRestToPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      appendPendingMultipleRestToStaff (
+      appendPendingMultipleRestMeasuresToStaff (
         inputLineNumber);
   } // for
 }
 
-void msrPart::appendMultipleRestCloneToPart (
+void msrPart::appendMultipleRestMeasuresCloneToPart (
   int               inputLineNumber,
-  S_msrMultipleRest multipleRest)
+  S_msrMultipleRestMeasures multipleRestMeasures)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->asString () <<
+      multipleRestMeasures->asString () <<
       "' to part clone " <<
       getPartCombinedName () <<
       endl;
@@ -1065,9 +1065,9 @@ void msrPart::appendMultipleRestCloneToPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      appendMultipleRestCloneToStaff (
+      appendMultipleRestMeasuresCloneToStaff (
         inputLineNumber,
-        multipleRest);
+        multipleRestMeasures);
   } // for
 }
 

@@ -92,7 +92,7 @@ void msrRepeatElement::appendSegmentToRepeatElementsList ( // JMI ???
   fRepeatElementElementsList.push_back (segment);
 }
 
-void msrRepeatElement::appendRepeatToRepeatElement (
+void msrRepeatElement::appendRepeatToRepeatElementsList (
   int          inputLineNumber,
   S_msrRepeat  repeat,
   string       context)
@@ -116,7 +116,7 @@ void msrRepeatElement::appendRepeatToRepeatElement (
   fRepeatElementElementsList.push_back (repeat);
 }
 
-void msrRepeatElement::appendVoiceElementToRepeatElement (
+void msrRepeatElement::appendVoiceElementToRepeatElementsList (
   int               inputLineNumber,
   S_msrVoiceElement voiceElement,
   string            context)
@@ -500,6 +500,31 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
     "repeat is null");
 
   fRepeatCommonPartElementsList.push_back (repeat);
+}
+
+void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeat,
+  string              context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Appending measures repeat '" <<
+      measuresRepeat->asString () <<
+      "' to repeat common part '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    measuresRepeat != nullptr,
+    "measuresRepeat is null");
+
+  fRepeatCommonPartElementsList.push_back (measuresRepeat);
 }
 
 void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
@@ -892,6 +917,30 @@ void msrRepeatEnding::appendRepeatToRepeatEnding (
     "repeat is null");
 
   fRepeatEndingElementsList.push_back (repeat);
+}
+
+void msrRepeatEnding::appendMeasuresRepeatToRepeatEnding (
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeat,
+  string             context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending measures repeat '" << measuresRepeat <<
+      "' to repeat ending '" << asString () <<
+      "' (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // sanity check
+  msrAssert (
+    measuresRepeat != nullptr,
+    "measuresRepeat is null");
+
+  fRepeatEndingElementsList.push_back (measuresRepeat);
 }
 
 void msrRepeatEnding::appendVoiceElementToRepeatEnding (
@@ -1546,6 +1595,174 @@ void msrRepeat::appendSegmentToRepeat (
     displayRepeatContents (
       inputLineNumber,
       "appendSegmentToRepeat() 2");
+  }
+#endif
+}
+
+void msrRepeat::appendRepeatToRepeat (
+  int         inputLineNumber,
+  S_msrRepeat repeat,
+  string      context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Appending repeat '" <<
+      repeat->asString () <<
+      "' to repeat '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+
+    displayRepeatContents (
+      inputLineNumber,
+      "appendRepeatToRepeat() 1");
+  }
+#endif
+
+  switch (fCurrentRepeatBuildPhaseKind) {
+    case msrRepeat::kRepeatBuildPhaseJustCreated:
+      {
+        stringstream s;
+
+        s <<
+          "repeat '" <<
+          repeat->asShortString () <<
+          "'cannot be added to a just created repeat" <<
+          " (" << context << ")";
+          
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+
+    case msrRepeat::kRepeatBuildPhaseInCommonPart:
+        fRepeatCommonPart->
+          appendRepeatToRepeatCommonPart (
+            inputLineNumber,
+            repeat,
+            context);
+      break;
+      
+    case msrRepeat::kRepeatBuildPhaseInEndings:
+      fRepeatEndings.back ()->
+        appendRepeatToRepeatEnding (
+          inputLineNumber,
+          repeat,
+          context);
+      break;
+      
+    case msrRepeat::kRepeatBuildPhaseCompleted:
+      {
+        stringstream s;
+
+        s <<
+          "repeat '" <<
+          repeat->asShortString () <<
+          "'cannot be added to a completed repeat" <<
+          "(" << context << ")";
+          
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+  } // switch
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayRepeatContents (
+      inputLineNumber,
+      "appendRepeatToRepeat() 2");
+  }
+#endif
+}
+
+void msrRepeat::appendMeasuresRepeatToRepeat (
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeat,
+  string              context)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Appending measures repeat '" <<
+      measuresRepeat->asString () <<
+      "' to repeat '" <<
+      asShortString () <<
+      "'" <<
+      endl;
+
+    displayRepeatContents (
+      inputLineNumber,
+      "appendMeasuresRepeatToRepeat() 1");
+  }
+#endif
+
+  switch (fCurrentRepeatBuildPhaseKind) {
+    case msrRepeat::kRepeatBuildPhaseJustCreated:
+      {
+        stringstream s;
+
+        s <<
+          "measures repeat '" <<
+          measuresRepeat->asShortString () <<
+          "'cannot be added to a just created repeat" <<
+          " (" << context << ")";
+          
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+
+    case msrRepeat::kRepeatBuildPhaseInCommonPart:
+        fRepeatCommonPart->
+          appendMeasuresRepeatToRepeatCommonPart (
+            inputLineNumber,
+            measuresRepeat,
+            context);
+      break;
+      
+    case msrRepeat::kRepeatBuildPhaseInEndings:
+      fRepeatEndings.back ()->
+        appendMeasuresRepeatToRepeatEnding (
+          inputLineNumber,
+          measuresRepeat,
+          context);
+      break;
+      
+    case msrRepeat::kRepeatBuildPhaseCompleted:
+      {
+        stringstream s;
+
+        s <<
+          "measures repeat '" <<
+          measuresRepeat->asShortString () <<
+          "'cannot be added to a completed repeat" <<
+          "(" << context << ")";
+          
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+  } // switch
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRepeats) {
+    displayRepeatContents (
+      inputLineNumber,
+      "appendMeasuresRepeatToRepeat() 2");
   }
 #endif
 }

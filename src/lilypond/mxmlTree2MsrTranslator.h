@@ -950,12 +950,12 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentMeasuresRepeatMeasuresNumber;
     int                       fCurrentMeasuresRepeatSlashesNumber;
     
-    msrMultipleRest::msrMultipleRestKind
-                              fCurrentMultipleRestKind;
-    int                       fCurrentMultipleRestMeasuresNumber;
-    int                       fRemainingMultipleRestMeasuresNumber;
-    bool                      fOnGoingMultipleRest;
-    bool                      fCurrentMultipleRestHasBeenCreated;
+    msrMultipleRestMeasures::msrMultipleRestMeasuresKind
+                              fCurrentMultipleRestMeasuresKind;
+    int                       fCurrentMultipleRestMeasuresMeasuresNumber;
+    int                       fRemainingMultipleRestMeasuresMeasuresNumber;
+    bool                      fOnGoingMultipleRestMeasures;
+    bool                      fCurrentMultipleRestMeasuresHasBeenCreated;
 
     msrDurationKind           fCurrentSlashGraphicDurationKind;
     int                       fCurrentSlashDotsNumber;

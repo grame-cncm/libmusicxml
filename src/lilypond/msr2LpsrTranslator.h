@@ -235,8 +235,8 @@ class msr2LpsrTranslator :
   public visitor<S_msrMeasuresRepeatPattern>,
   public visitor<S_msrMeasuresRepeatReplicas>,
   
-  public visitor<S_msrMultipleRest>,
-  public visitor<S_msrMultipleRestContents>,
+  public visitor<S_msrMultipleRestMeasures>,
+  public visitor<S_msrMultipleRestMeasuresContents>,
   
   // midi
 
@@ -455,10 +455,10 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
     virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
 
-    virtual void visitStart (S_msrMultipleRest& elt);
-    virtual void visitEnd   (S_msrMultipleRest& elt);
-    virtual void visitStart (S_msrMultipleRestContents& elt);
-    virtual void visitEnd   (S_msrMultipleRestContents& elt);
+    virtual void visitStart (S_msrMultipleRestMeasures& elt);
+    virtual void visitEnd   (S_msrMultipleRestMeasures& elt);
+    virtual void visitStart (S_msrMultipleRestMeasuresContents& elt);
+    virtual void visitEnd   (S_msrMultipleRestMeasuresContents& elt);
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
@@ -598,8 +598,8 @@ class msr2LpsrTranslator :
     // multiple rests
     // ------------------------------------------------------
 
-    S_msrMultipleRest         fCurrentMultipleRestClone; // JMI
-    S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
+    S_msrMultipleRestMeasures         fCurrentMultipleRestMeasuresClone; // JMI
+    S_msrMultipleRestMeasuresContents fCurrentMultipleRestMeasuresContentsClone;
 
 
     // segments

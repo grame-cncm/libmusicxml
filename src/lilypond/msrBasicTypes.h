@@ -560,7 +560,7 @@ string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
 
-string multipleRestWholeNotesAsMsrString (
+string multipleRestMeasuresWholeNotesAsMsrString (
   int      inputLineNumber, // JMI
   rational wholeNotes);
 

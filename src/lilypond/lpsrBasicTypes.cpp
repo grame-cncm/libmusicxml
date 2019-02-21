@@ -554,8 +554,8 @@ string dottedDurationAsLilypondStringWithoutBackSlash (
 }
 
 //_______________________________________________________________________________
-string multipleRestWholeNoteAsLilypondString (
-  int      inputLineNumber, // JMI
+string multipleRestMeasuresWholeNoteAsLilypondString (
+  int      inputLineNumber,
   rational wholeNotes)
 {
   stringstream s;

@@ -117,8 +117,8 @@ typedef SMARTP<msrHarmony> S_msrHarmony;
 class msrFiguredBass;
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 
-class msrMultipleRest;
-typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
+class msrMultipleRestMeasures;
+typedef SMARTP<msrMultipleRestMeasures> S_msrMultipleRestMeasures;
 
 class msrMeasuresRepeat;
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
@@ -963,12 +963,14 @@ class msrMeasure : public msrElement
                             S_msrDoubleTremolo doubleTremolo);
 
     // repeats
-    
+
+    /* JMI
     void                  appendMeasuresRepeatToMeasure (
                             S_msrMeasuresRepeat measuresRepeat);
+                            */
 
-    void                  appendMultipleRestToMeasure (
-                            S_msrMultipleRest multipleRest);
+    void                  appendMultipleRestMeasuresToMeasure ( // JMI
+                            S_msrMultipleRestMeasures multipleRestMeasures);
 
     // chords
     
@@ -1406,13 +1408,16 @@ class msrSegment : public msrVoiceElement
     void                  appendDoubleTremoloToSegment (
                             S_msrDoubleTremolo doubleTremolo);
 
+    /* JMI
+
     void                  appendMeasuresRepeatToSegment (
                             S_msrMeasuresRepeat measuresRepeat);
+                            */
 
-    // repeats
+    // multiple rest
     
-    void                  appendMultipleRestToSegment (
-                            S_msrMultipleRest multipleRest);
+    void                  appendMultipleRestMeasuresToSegment (
+                            S_msrMultipleRestMeasures multipleRestMeasures);
 
     // chords
     
@@ -3713,8 +3718,8 @@ class msrNote : public msrTupletElement
     // multiple rest member?
     // ------------------------------------------------------
 
-    bool                  fNoteBelongsToAMultipleRest; // JMI
-    int                   fNoteMultipleRestSequenceNumber; // JMI
+    bool                  fNoteBelongsToAMultipleRestMeasures; // JMI
+    int                   fNoteMultipleRestMeasuresSequenceNumber; // JMI
 
     // note lyrics
     // ------------------------------------------------------
@@ -4856,29 +4861,41 @@ class msrRepeatElement : public msrElement
                           getRepeatElementElementsList ()
                               { return fRepeatElementElementsList; }
                 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
   
-    void                  appendVoiceElementToRepeatElement (
-                            int               inputLineNumber,
-                            S_msrVoiceElement voiceElement,
-                            string            context);
-
     void                  appendSegmentToRepeatElementsList (
                             int          inputLineNumber,
                             S_msrSegment segment,
                             string       context);
 
-    void                  appendRepeatToRepeatElement (
+    void                  appendRepeatToRepeatElementsList (
                             int          inputLineNumber,
                             S_msrRepeat  repeat,
                             string       context);
+
+    void                  appendMeasuresRepeatToRepeatElementsList (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string              context);
 
     S_msrNote             fetchRepeatElementFirstNonGraceNote () const;
 
     void                  collectRepeatElementMeasuresIntoFlatList (
                             int inputLineNumber);
     
+  private:
+
+    // private services
+    // ------------------------------------------------------
+  
+    void                  appendVoiceElementToRepeatElementsList ( // JMI
+                            int               inputLineNumber,
+                            S_msrVoiceElement voiceElement,
+                            string            context);
+
   public:
 
     // visitors
@@ -4952,6 +4969,8 @@ class msrRepeatCommonPart : public msrElement
                           getRepeatCommonPartElementsList ()
                               { return fRepeatCommonPartElementsList; }
                 
+  public:
+
     // services
     // ------------------------------------------------------
   
@@ -4969,6 +4988,11 @@ class msrRepeatCommonPart : public msrElement
                             int          inputLineNumber,
                             S_msrRepeat  repeat,
                             string       context);
+
+    void                  appendMeasuresRepeatToRepeatCommonPart (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string              context);
 
     S_msrNote             fetchRepeatCommonPartFirstNonGraceNote () const;
 
@@ -5091,7 +5115,7 @@ class msrRepeatEnding : public msrElement
     // services
     // ------------------------------------------------------
                       
-    void                  appendVoiceElementToRepeatEnding (
+    void                  appendVoiceElementToRepeatEnding ( // JMI
                             int               inputLineNumber,
                             S_msrVoiceElement voiceElement,
                             string            context);
@@ -5105,6 +5129,11 @@ class msrRepeatEnding : public msrElement
                             int          inputLineNumber,
                             S_msrRepeat  repeat,
                             string       context);
+
+    void                  appendMeasuresRepeatToRepeatEnding (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string             context);
 
     void                  collectRepeatEndingMeasuresIntoFlatList (
                             int inputLineNumber);
@@ -5263,6 +5292,16 @@ class msrRepeat : public msrVoiceElement
                             int          inputLineNumber,
                             S_msrSegment segment,
                             string       context);
+
+    void                  appendRepeatToRepeat (
+                            int         inputLineNumber,
+                            S_msrRepeat repeat,
+                            string      context);
+
+    void                  appendMeasuresRepeatToRepeat (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string              context);
 
     S_msrNote             fetchRepeatFirstNonGraceNote () const;
 
@@ -5507,7 +5546,7 @@ typedef SMARTP<msrMeasuresRepeatReplicas> S_msrMeasuresRepeatReplicas;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt);
 
 //______________________________________________________________________________
-class msrMeasuresRepeat : public msrMeasureElement
+class msrMeasuresRepeat : public msrVoiceElement
 {
   public:
 
@@ -5648,21 +5687,21 @@ typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt);
 
 //______________________________________________________________________________
-class msrMultipleRestContents : public msrElement
+class msrMultipleRestMeasuresContents : public msrElement
 {
   public:
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrMultipleRestContents> create (
+    static SMARTP<msrMultipleRestMeasuresContents> create (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMultipleRestContents> createMultipleRestContentsNewbornClone (
+    SMARTP<msrMultipleRestMeasuresContents> createMultipleRestMeasuresContentsNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrMultipleRestContents> createMultipleRestContentsDeepCopy (
+    SMARTP<msrMultipleRestMeasuresContents> createMultipleRestMeasuresContentsDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -5670,11 +5709,11 @@ class msrMultipleRestContents : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMultipleRestContents (
+    msrMultipleRestMeasuresContents (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMultipleRestContents ();
+    virtual ~msrMultipleRestMeasuresContents ();
   
   public:
 
@@ -5682,21 +5721,21 @@ class msrMultipleRestContents : public msrElement
     // ------------------------------------------------------
 
     // uplink
-    S_msrVoice            getMultipleRestContentsVoiceUplink () const
-                            { return fMultipleRestContentsVoiceUplink; }
+    S_msrVoice            getMultipleRestMeasuresContentsVoiceUplink () const
+                            { return fMultipleRestMeasuresContentsVoiceUplink; }
 
-    void                  setMultipleRestContentsSegment (
-                            S_msrSegment multipleRestContentsSegment);
+    void                  setMultipleRestMeasuresContentsSegment (
+                            S_msrSegment multipleRestMeasuresContentsSegment);
 
-    S_msrSegment          getMultipleRestContentsSegment () const
-                              { return fMultipleRestContentsSegment; }
+    S_msrSegment          getMultipleRestMeasuresContentsSegment () const
+                              { return fMultipleRestMeasuresContentsSegment; }
 
     // services
     // ------------------------------------------------------
 
-    int                   multipleRestContentsMeasuresNumber () const;
+    int                   multipleRestMeasuresContentsMeasuresNumber () const;
 
-    void                  collectMultipleRestContentsMeasuresIntoFlatList (
+    void                  collectMultipleRestMeasuresContentsMeasuresIntoFlatList (
                             int inputLineNumber);
     
   public:
@@ -5724,41 +5763,41 @@ class msrMultipleRestContents : public msrElement
     // ------------------------------------------------------
 
     // uplink
-    S_msrVoice            fMultipleRestContentsVoiceUplink;
+    S_msrVoice            fMultipleRestMeasuresContentsVoiceUplink;
     
-    S_msrSegment          fMultipleRestContentsSegment;
+    S_msrSegment          fMultipleRestMeasuresContentsSegment;
 };
-typedef SMARTP<msrMultipleRestContents> S_msrMultipleRestContents;
-EXP ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt);
+typedef SMARTP<msrMultipleRestMeasuresContents> S_msrMultipleRestMeasuresContents;
+EXP ostream& operator<< (ostream& os, const S_msrMultipleRestMeasuresContents& elt);
 
 //______________________________________________________________________________
-class msrMultipleRest : public msrMeasureElement
+class msrMultipleRestMeasures : public msrMeasureElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrMultipleRestKind {
-      kStartMultipleRest, kStopMultipleRest, 
-      k_NoMultipleRest };
+    enum msrMultipleRestMeasuresKind {
+      kStartMultipleRestMeasures, kStopMultipleRestMeasures, 
+      k_NoMultipleRestMeasures };
 
-    static string multipleRestKindAsString (
-      msrMultipleRestKind multipleRestKind);
+    static string multipleRestMeasuresKindAsString (
+      msrMultipleRestMeasuresKind multipleRestMeasuresKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrMultipleRest> create (
+    static SMARTP<msrMultipleRestMeasures> create (
       int        inputLineNumber,
-      rational   multipleRestMeasureSoundingNotes,
+      rational   multipleRestMeasuresMeasureSoundingNotes,
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMultipleRest> createMultipleRestNewbornClone (
+    SMARTP<msrMultipleRestMeasures> createMultipleRestMeasuresNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrMultipleRest> createMultipleRestDeepCopy (
+    SMARTP<msrMultipleRestMeasures> createMultipleRestMeasuresDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -5766,49 +5805,49 @@ class msrMultipleRest : public msrMeasureElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMultipleRest (
+    msrMultipleRestMeasures (
       int        inputLineNumber,
-      rational   multipleRestMeasureSoundingNotes,
+      rational   multipleRestMeasuresMeasureSoundingNotes,
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMultipleRest ();
+    virtual ~msrMultipleRestMeasures ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    S_msrVoice            getMultipleRestVoiceUplink () const
-                            { return fMultipleRestVoiceUplink; }
+    S_msrVoice            getMultipleRestMeasuresVoiceUplink () const
+                            { return fMultipleRestMeasuresVoiceUplink; }
 
     int                   getMultipleRestMeasuresNumber () const
                               { return fMultipleRestMeasuresNumber; }
                               
-    void                  setMultipleRestContents (
-                            S_msrMultipleRestContents multipleRestContents);
+    void                  setMultipleRestMeasuresContents (
+                            S_msrMultipleRestMeasuresContents multipleRestMeasuresContents);
                   
-    S_msrMultipleRestContents
-                          getMultipleRestContents () const
-                              { return fMultipleRestContents; }
+    S_msrMultipleRestMeasuresContents
+                          getMultipleRestMeasuresContents () const
+                              { return fMultipleRestMeasuresContents; }
 
-    void                  setMultipleRestNextMeasureNumber (
+    void                  setMultipleRestMeasuresNextMeasureNumber (
                             string measureNumber);
 
-    string                getMultipleRestNextMeasureNumber () const
-                              { return fMultipleRestNextMeasureNumber; }
+    string                getMultipleRestMeasuresNextMeasureNumber () const
+                              { return fMultipleRestMeasuresNextMeasureNumber; }
 
-    rational              getMultipleRestMeasureSoundingNotes () const
-                              { return fMultipleRestMeasureSoundingNotes; }
+    rational              getMultipleRestMeasuresMeasureSoundingNotes () const
+                              { return fMultipleRestMeasuresMeasureSoundingNotes; }
 
     // services
     // ------------------------------------------------------
 
-    int                   multipleRestContentsMeasuresNumber () const
+    int                   multipleRestMeasuresContentsMeasuresNumber () const
                             {
                               return
-                                fMultipleRestContents->
-                                  multipleRestContentsMeasuresNumber ();
+                                fMultipleRestMeasuresContents->
+                                  multipleRestMeasuresContentsMeasuresNumber ();
                             }
 
     void                  collectMultipleRestMeasuresIntoFlatList (
@@ -5838,20 +5877,20 @@ class msrMultipleRest : public msrMeasureElement
     // fields
     // ------------------------------------------------------
 
-    S_msrVoice            fMultipleRestVoiceUplink;
+    S_msrVoice            fMultipleRestMeasuresVoiceUplink;
 
     int                   fMultipleRestMeasuresNumber;
     
-    S_msrMultipleRestContents
-                          fMultipleRestContents;
+    S_msrMultipleRestMeasuresContents
+                          fMultipleRestMeasuresContents;
 
-    string                fMultipleRestNextMeasureNumber;
+    string                fMultipleRestMeasuresNextMeasureNumber;
 
     // shortcut for efficiency
-    rational              fMultipleRestMeasureSoundingNotes;
+    rational              fMultipleRestMeasuresMeasureSoundingNotes;
 };
-typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
-EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
+typedef SMARTP<msrMultipleRestMeasures> S_msrMultipleRestMeasures;
+EXP ostream& operator<< (ostream& os, const S_msrMultipleRestMeasures& elt);
 
 //______________________________________________________________________________
 class msrRepeatCoda : public msrElement
@@ -6207,11 +6246,11 @@ class msrVoice : public msrElement
 
     // multiple rests
     
-    void                  setVoiceContainsMultipleRests (
+    void                  setVoiceContainsMultipleRestMeasures (
                             int inputLineNumber);
 
-    bool                  getVoiceContainsMultipleRests () const
-                              { return fVoiceContainsMultipleRests; }
+    bool                  getVoiceContainsMultipleRestMeasures () const
+                              { return fVoiceContainsMultipleRestMeasures; }
 
     // measures flat list
     const list<S_msrMeasure>&
@@ -6487,6 +6526,7 @@ class msrVoice : public msrElement
                             int inputLineNumber);
 
     // repeats
+    
     void                  handleRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6545,24 +6585,29 @@ class msrVoice : public msrElement
     void                  appendRepeatEndingCloneToVoice (
                             S_msrRepeatEnding repeatEndingClone);
 
-    // multiple rests
+    // measures repeats
 
-    void                  createMultipleRestInVoice (
+    void                  appendMeasuresRepeatToVoice (
+                            S_msrMeasuresRepeat measuresRepeat);
+
+    // multiple rests JMI
+
+    void                  createMultipleRestMeasuresInVoice (
                             int inputLineNumber,
                             int multipleRestMeasuresNumber);
 
-    void                  appendPendingMultipleRestToVoice (
+    void                  appendPendingMultipleRestMeasuresToVoice (
                             int inputLineNumber);
                             
     void                  appendMeasuresRepeatReplicaToVoice (
                             int inputLineNumber);
 
-    void                  handleMultipleRestInVoiceClone (
+    void                  handleMultipleRestMeasuresInVoiceClone (
                             int inputLineNumber);
   
-    void                  appendMultipleRestCloneToVoice (
+    void                  appendMultipleRestMeasuresCloneToVoice (
                             int               inputLineNumber,
-                            S_msrMultipleRest multipleRestClone);
+                            S_msrMultipleRestMeasures multipleRestMeasuresClone);
   
     // measures repeats
     
@@ -6879,18 +6924,18 @@ class msrVoice : public msrElement
     // but not yet appended to the voice
     S_msrMeasuresRepeat   fVoiceCurrentMeasuresRepeat;
 
-    // fVoicePendingMultipleRest is null
-    // or the last msrMultipleRest created,
+    // fVoicePendingMultipleRestMeasures is null
+    // or the last msrMultipleRestMeasures created,
     // but not yet appended to the voice
-    S_msrMultipleRest     fVoicePendingMultipleRest;
+    S_msrMultipleRestMeasures     fVoicePendingMultipleRestMeasures;
     
-    // fVoiceMultipleRestWaitingForItsNextMeasureNumber is null
-    // or the last msrMultipleRest created and appended to the voice,
+    // fVoiceMultipleRestMeasuresWaitingForItsNextMeasureNumber is null
+    // or the last msrMultipleRestMeasures created and appended to the voice,
     // but with its next measure number not yet set
-    S_msrMultipleRest     fVoiceMultipleRestWaitingForItsNextMeasureNumber;
+    S_msrMultipleRestMeasures     fVoiceMultipleRestMeasuresWaitingForItsNextMeasureNumber;
     int                   fVoiceRemainingRestMeasures;
     
-    bool                  fVoiceContainsMultipleRests;
+    bool                  fVoiceContainsMultipleRestMeasures;
  
     // stanzas
         
@@ -7155,16 +7200,16 @@ class msrStaff : public msrElement
     void                  appendPendingMeasuresRepeatToStaff (
                             int inputLineNumber);
                             
-    void                  createMultipleRestInStaff (
+    void                  createMultipleRestMeasuresInStaff (
                             int inputLineNumber,
                             int multipleRestMeasuresNumber);
     
-    void                  appendPendingMultipleRestToStaff (
+    void                  appendPendingMultipleRestMeasuresToStaff (
                             int inputLineNumber);
                             
-    void                  appendMultipleRestCloneToStaff (
+    void                  appendMultipleRestMeasuresCloneToStaff (
                             int               inputLineNumber,
-                            S_msrMultipleRest multipleRest);
+                            S_msrMultipleRestMeasures multipleRestMeasures);
 
     void                  appendRepeatCloneToStaff (
                             int         inputLineNumber,
@@ -7713,18 +7758,20 @@ class msrPart : public msrPartGroupElement
                             
     void                  appendMeasuresRepeatCloneToPart (
                             int               inputLineNumber,
-                            S_msrMultipleRest multipleRest);
+                            S_msrMultipleRestMeasures
+                                              multipleRestMeasures);
   
-    void                  createMultipleRestInPart (
+    void                  createMultipleRestMeasuresInPart (
                             int inputLineNumber,
                             int multipleRestMeasuresNumber);
 
-    void                  appendPendingMultipleRestToPart (
+    void                  appendPendingMultipleRestMeasuresToPart (
                             int inputLineNumber);
                             
-    void                  appendMultipleRestCloneToPart (
+    void                  appendMultipleRestMeasuresCloneToPart (
                             int               inputLineNumber,
-                            S_msrMultipleRest multipleRest);
+                            S_msrMultipleRestMeasures
+                                              multipleRestMeasures);
 
     // staves
     
