@@ -248,7 +248,7 @@ msrMultipleRestMeasures::msrMultipleRestMeasures (
   rational   multipleRestMeasuresMeasureSoundingNotes,
   int        multipleRestMeasuresNumber,
   S_msrVoice voiceUplink)
-    : msrMeasureElement (inputLineNumber)
+    : msrVoiceElement (inputLineNumber)
 {
   fMultipleRestMeasuresMeasureSoundingNotes = multipleRestMeasuresMeasureSoundingNotes;
   fMultipleRestMeasuresNumber       = multipleRestMeasuresNumber;

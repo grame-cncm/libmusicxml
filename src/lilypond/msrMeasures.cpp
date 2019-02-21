@@ -1450,19 +1450,10 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
 }
 */
 
+/* JMI
 void msrMeasure::appendMultipleRestMeasuresToMeasure (
   S_msrMultipleRestMeasures multipleRestMeasures)
 {
-  /* JMI
-  int inputLineNumber =
-    multipleRestMeasures->getInputLineNumber ();
-    */
-    
-  /* JMI  
-    // populate measure uplink
-    multipleRestMeasures->setMultipleRestMeasuresMeasureUplink (this);
-*/
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRestMeasures || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -1481,52 +1472,13 @@ void msrMeasure::appendMultipleRestMeasuresToMeasure (
   }
 #endif
   
-/* JMI
-  // register multipleRestMeasures measure number
-  multipleRestMeasures->
-    setMultipleRestMeasuresMeasureNumber (fMeasureNumber);
-  
-  // register multipleRestMeasures measure position in measure
-  multipleRestMeasures->
-    setMultipleRestMeasuresPositionInMeasure (
-      fActualMeasureWholeNotes);
-
-  // copy measure number to first note, that was created beforehand
-  multipleRestMeasures->
-    setMultipleRestMeasuresMeasureNumber (
-      fMeasureNumber);
-  
-  // copy measure position in measure to first note, that was created beforehand
-  multipleRestMeasures->
-    setMultipleRestMeasuresPositionInMeasure (
-      fActualMeasureWholeNotes);
-
-  // fetch multipleRestMeasures sounding whole notes
-  int multipleRestMeasuresSoundingWholeNotes =
-    multipleRestMeasures->getmultipleRestMeasuresSoundingWholeNotes ();
-    
-  // account for multipleRestMeasures duration in measure whole notes
-  setActualMeasureWholeNotes (
-    inputLineNumber,
-    fActualMeasureWholeNotes + multipleRestMeasuresSoundingWholeNotes);
-
-  // update part measure whole notes high tide if need be
-  fMeasureDirectPartUplink->
-    updatePartActualMeasureWholeNotesHighTide (
-      inputLineNumber,
-      fActualMeasureWholeNotes);
-*/
-
-  // determine if the multipleRestMeasures occupies a full measure
-// XXL  JMI  if (multipleRestMeasuresSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
-    // multipleRestMeasures->setmultipleRestMeasuresOccupiesAFullMeasure ();
-
   // append the multipleRestMeasures to the measure elements list
   appendElementToMeasure (multipleRestMeasures);
 
   // this measure contains music
   fMeasureContainsMusic = true;
 }
+*/
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 {

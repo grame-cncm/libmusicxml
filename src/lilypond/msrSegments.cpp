@@ -1901,6 +1901,7 @@ void msrSegment::appendMeasuresRepeatToSegment (
 }
 */
 
+/* JMI
 void msrSegment::appendMultipleRestMeasuresToSegment (
   S_msrMultipleRestMeasures multipleRestMeasures)
 {
@@ -1925,6 +1926,7 @@ void msrSegment::appendMultipleRestMeasuresToSegment (
   fSegmentMeasuresList.back ()->
     appendMultipleRestMeasuresToMeasure (multipleRestMeasures);
 }
+*/
 
 void msrSegment::appendChordToSegment (S_msrChord chord) // JMI
 {
