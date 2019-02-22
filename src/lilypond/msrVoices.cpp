@@ -4059,11 +4059,26 @@ void msrVoice::handleRepeatEndInVoice (
               // analyze it
               switch (repeatsStackTopRepeat->getCurrentRepeatBuildPhaseKind ()) {
                 case msrRepeat::kRepeatBuildPhaseJustCreated:
-                  // JMI
+                  {
+                    stringstream s;
+              
+                    s <<
+                      "attempting to end repeat '" <<
+                      repeatsStackTopRepeat->asShortString () <<
+                      "' right after it has been created" <<
+                      " in voice '" <<
+                      asShortString () <<
+                      "' ";
+                      
+                    msrInternalError (
+                      gGeneralOptions->fInputSourceName,
+                      fInputLineNumber,
+                      __FILE__, __LINE__,
+                      s.str ());
+                  }
                   break;
+                  
                 case msrRepeat::kRepeatBuildPhaseInCommonPart:
-                  // JMI
-                  break;
                 case msrRepeat::kRepeatBuildPhaseInEndings:
                   // this repeat is at the voice-level and has a start
                   // -------------------------------------
@@ -4072,6 +4087,7 @@ void msrVoice::handleRepeatEndInVoice (
                     measureNumber,
                     repeatTimes);
                   break;
+                  
                 case msrRepeat::kRepeatBuildPhaseCompleted:
                   // this repeat is at the voice-level, has no start
                   // and contains repeatsStackTop
