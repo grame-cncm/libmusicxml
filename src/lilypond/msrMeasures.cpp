@@ -499,33 +499,6 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   fMeasureElementsList.push_back (elem);
 }
 
-void msrMeasure::displayMeasureContents (
-  int    inputLineNumber,
-  string context)
-{
-  gLogIOstream <<
-    endl <<
-    "*********>> Measure '" <<
-    fMeasureNumber <<
-    "', measureOrdinalNumber: " <<
-    fMeasureOrdinalNumber <<
-    ", measureDebugNumber: '" <<
-    fMeasureDebugNumber <<
-    " (" << context << ")" <<
-    ", line " << inputLineNumber <<
-    " contains:" <<
-    endl;
-
-  gIndenter++;
-  print (gLogIOstream);
-  gIndenter--;
-
-  gLogIOstream <<
-    "<<*********" <<
-    endl <<
-    endl;
-}
-
 void msrMeasure::setMeasureCreatedForARepeatKind (
   msrMeasureCreatedForARepeatKind
     measureCreatedForARepeatKind)
@@ -2807,7 +2780,7 @@ void msrMeasure::finalizeMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
-    displayMeasureContents (
+    displayMeasure (
       inputLineNumber,
       "finalizeMeasure()");
   }
@@ -3028,6 +3001,33 @@ string msrMeasure::asString () const
   return s.str ();
 }
       
+void msrMeasure::displayMeasure (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> Measure '" <<
+    fMeasureNumber <<
+    "', measureOrdinalNumber: " <<
+    fMeasureOrdinalNumber <<
+    ", measureDebugNumber: '" <<
+    fMeasureDebugNumber <<
+    " (" << context << ")" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
+}
+
 void msrMeasure::print (ostream& os)
 {
   os <<

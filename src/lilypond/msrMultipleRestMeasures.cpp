@@ -50,7 +50,7 @@ S_msrMultipleRestMeasuresContents msrMultipleRestMeasuresContents::createMultipl
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
-      "Creating a newborn clone of a multiple rest contents" <<
+      "Creating a newborn clone of a multiple rest measures contents" <<
       endl;
   }
 #endif
@@ -75,7 +75,7 @@ void msrMultipleRestMeasuresContents::setMultipleRestMeasuresContentsSegment (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRestMeasures) {
     gLogIOstream <<
-      "Setting multiple rest contents segment containing " <<
+      "Setting multiple rest measures contents segment containing " <<
       singularOrPlural (
           multipleRestMeasuresContentsMeasuresNumber (),
         "measure",
@@ -443,6 +443,29 @@ string msrMultipleRestMeasures::asString () const
     "'";
     
   return s.str ();
+}
+
+void msrMultipleRestMeasures::displayMultipleRestMeasures (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> Multple rest measures " << context << " \"" <<
+ // JMI   getVoiceName () <<
+    "\"" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
 }
 
 void msrMultipleRestMeasures::print (ostream& os)

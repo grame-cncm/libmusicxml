@@ -1807,29 +1807,9 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceSegments) {
     if (! fSegmentMeasuresList.size ()) { // JMI
-      gLogIOstream <<
-        endl <<
-        endl <<
-        endl <<
-        "+++++++++++++++++ appendNoteToSegment '" <<
-        fSegmentAbsoluteNumber <<
-        ", segmentDebugNumber: '" <<
-        fSegmentDebugNumber <<
-        /* JMI
-        "', score:" <<
-        endl <<
-        fSegmentVoiceUplink->
-          getVoiceStaffUplink ()->
-            getStaffPartUplink ()->
-              getPartPartGroupUplink ()->
-                getPartGroupScoreUplink () <<
-                */
-        "', voice:" <<
-        endl <<
-        fSegmentVoiceUplink <<
-        endl <<
-        endl <<
-        endl;
+      displaySegment (
+        note->getInputLineNumber (),
+        "appendNoteToSegment()");
     }
   }
 #endif
@@ -2254,30 +2234,9 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 #endif
 
   if (false) { // JMI
-    gLogIOstream <<
-      endl <<
-      endl <<
-      endl <<
-      "+++++++++++++++++ removeLastMeasureFromSegment '" <<
-      fSegmentAbsoluteNumber <<
-      ", segmentDebugNumber: '" <<
-      fSegmentDebugNumber <<
-      /* JMI
-      "', score:" <<
-      endl <<
-      fSegmentVoiceUplink->
-        getVoiceStaffUplink ()->
-          getStaffPartUplink ()->
-            getPartPartGroupUplink ()->
-              getPartGroupScoreUplink () <<
-              */
-      "', voice:" <<
-      endl <<
-      fSegmentVoiceUplink <<
-      endl <<
-      endl <<
-      ", line " << inputLineNumber <<
-      endl;
+    displaySegment (
+      inputLineNumber,
+      "removeLastMeasureFromSegment()");
 
     // JMI for tests abort ();
   }
@@ -2417,6 +2376,43 @@ string msrSegment::asString () const
   }
 
   return s.str ();
+}
+
+void msrSegment::displaySegment (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> Segment '" <<
+    fSegmentAbsoluteNumber <<
+    ", segmentDebugNumber: '" <<
+    fSegmentDebugNumber <<
+    /* JMI
+    "', score:" <<
+    endl <<
+    fSegmentVoiceUplink->
+      getVoiceStaffUplink ()->
+        getStaffPartUplink ()->
+          getPartPartGroupUplink ()->
+            getPartGroupScoreUplink () <<
+            */
+    "', voice:" <<
+    endl <<
+    fSegmentVoiceUplink->getVoiceName () <<
+    " (" << context << ")" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
 }
 
 void msrSegment::print (ostream& os)

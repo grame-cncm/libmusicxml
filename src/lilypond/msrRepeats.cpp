@@ -1393,29 +1393,6 @@ void msrRepeat::setRepeatCommonPart (
     msrRepeat::kRepeatBuildPhaseInCommonPart;
 }
 
-void msrRepeat::displayRepeatContents (
-  int    inputLineNumber,
-  string context)
-{
-  gLogIOstream <<
-    endl <<
-    "*********>> Repeat '" <<
-    asShortString () <<
-    "' (" << context << ")" <<
-    ", line " << inputLineNumber <<
-    " contains:" <<
-    endl;
-
-  gIndenter++;
-  print (gLogIOstream);
-  gIndenter--;
-
-  gLogIOstream <<
-    "<<*********" <<
-    endl <<
-    endl;
-}
-
 void msrRepeat::addRepeatEndingToRepeat (
   int               inputLineNumber,
   S_msrRepeatEnding repeatEnding)
@@ -1436,7 +1413,7 @@ void msrRepeat::addRepeatEndingToRepeat (
       "'" <<
       endl;
 
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 1");
   }
@@ -1559,7 +1536,7 @@ void msrRepeat::addRepeatEndingToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 2");
   }
@@ -1581,7 +1558,7 @@ void msrRepeat::appendSegmentToRepeat (
       "'" <<
       endl;
 
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendSegmentToRepeat() 1");
   }
@@ -1643,7 +1620,7 @@ void msrRepeat::appendSegmentToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendSegmentToRepeat() 2");
   }
@@ -1665,7 +1642,7 @@ void msrRepeat::appendRepeatToRepeat (
       "'" <<
       endl;
 
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendRepeatToRepeat() 1");
   }
@@ -1727,7 +1704,7 @@ void msrRepeat::appendRepeatToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendRepeatToRepeat() 2");
   }
@@ -1749,7 +1726,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
       "'" <<
       endl;
 
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendMeasuresRepeatToRepeat() 1");
   }
@@ -1811,7 +1788,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendMeasuresRepeatToRepeat() 2");
   }
@@ -1833,7 +1810,7 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
       "'" <<
       endl;
 
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendMultipleRestMeasuresToRepeat() 1");
   }
@@ -1895,7 +1872,7 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
-    displayRepeatContents (
+    displayRepeat (
       inputLineNumber,
       "appendMultipleRestMeasuresToRepeat() 2");
   }
@@ -2111,6 +2088,29 @@ string msrRepeat::asString () const
     ", line " << fInputLineNumber;
 
   return s.str ();
+}
+
+void msrRepeat::displayRepeat (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> Repeat '" <<
+    asShortString () <<
+    "' (" << context << ")" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
 }
 
 void msrRepeat::print (ostream& os)

@@ -617,6 +617,35 @@ string msrMeasuresRepeat::asString () const
   return s.str ();
 }
 
+void msrMeasuresRepeat::displayMeasuresRepeat (
+  int    inputLineNumber,
+  string context)
+{
+  gLogIOstream <<
+    endl <<
+    "*********>> MeasuresRepeat " <<
+    ", measuresRepeatMeasuresNumber: '" <<
+    fMeasuresRepeatMeasuresNumber <<
+    ", measuresRepeatSlashesNumber: '" <<
+    fMeasuresRepeatSlashesNumber <<
+    "', voice:" <<
+    endl <<
+    fMeasuresRepeatVoiceUplink->getVoiceName () <<
+    " (" << context << ")" <<
+    ", line " << inputLineNumber <<
+    " contains:" <<
+    endl;
+
+  gIndenter++;
+  print (gLogIOstream);
+  gIndenter--;
+
+  gLogIOstream <<
+    "<<*********" <<
+    endl <<
+    endl;
+}
+
 void msrMeasuresRepeat::print (ostream& os)
 {
   os <<

@@ -1085,10 +1085,6 @@ class msrMeasure : public msrElement
     void                  appendElementToMeasure (
                             S_msrMeasureElement elem);
 
-    void                  displayMeasureContents (
-                            int    inputLineNumber,
-                            string context);
-  
   public:
 
     // visitors
@@ -1109,6 +1105,10 @@ class msrMeasure : public msrElement
     string                asShortString () const;
     string                asString () const;
 
+    void                  displayMeasure (
+                            int    inputLineNumber,
+                            string context);
+  
     virtual void          print (ostream& os);
     
     virtual void          shortPrint (ostream& os);
@@ -1513,6 +1513,10 @@ class msrSegment : public msrVoiceElement
     string                asShortString () const;
     string                asString () const;
 
+    void                  displaySegment (
+                            int    inputLineNumber,
+                            string context);
+  
     virtual void          print (ostream& os);
     
     virtual void          shortPrint (ostream& os);
@@ -5307,14 +5311,6 @@ class msrRepeat : public msrVoiceElement
     void                  collectRepeatMeasuresIntoFlatList (
                             int inputLineNumber);
     
-  private:
-
-    // private services
-    // ------------------------------------------------------
-
-    void                  displayRepeatContents (
-                            int    inputLineNumber,
-                            string context);
   public:
 
     // visitors
@@ -5333,6 +5329,10 @@ class msrRepeat : public msrVoiceElement
     string                asShortString () const;
     string                asString () const;
     
+    void                  displayRepeat (
+                            int    inputLineNumber,
+                            string context);
+
     virtual void          print (ostream& os);
     
     virtual void          shortPrint (ostream& os);
@@ -5592,6 +5592,10 @@ class msrMeasuresRepeat : public msrVoiceElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrVoice            getMeasuresRepeatVoiceUplink () const
+                            { return fMeasuresRepeatVoiceUplink; }
+
     // numbers
     int                   getMeasuresRepeatMeasuresNumber () const
                               { return fMeasuresRepeatMeasuresNumber; }
@@ -5616,10 +5620,6 @@ class msrMeasuresRepeat : public msrVoiceElement
     S_msrMeasuresRepeatReplicas
                           getMeasuresRepeatReplicas () const
                               { return fMeasuresRepeatReplicas; }
-
-    // uplinks
-    S_msrVoice            getMeasuresRepeatVoiceUplink () const
-                            { return fMeasuresRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -5660,12 +5660,19 @@ class msrMeasuresRepeat : public msrVoiceElement
 
     string                asString () const;
 
+    void                  displayMeasuresRepeat (
+                            int    inputLineNumber,
+                            string context);
+
     virtual void          print (ostream& os);
 
   private:
 
     // fields
     // ------------------------------------------------------
+
+    // uplinks
+    S_msrVoice            fMeasuresRepeatVoiceUplink;
 
     // numbers
     int                   fMeasuresRepeatMeasuresNumber;
@@ -5678,9 +5685,6 @@ class msrMeasuresRepeat : public msrVoiceElement
     // repeat replicas
     S_msrMeasuresRepeatReplicas
                           fMeasuresRepeatReplicas;
-
-    // uplinks
-    S_msrVoice            fMeasuresRepeatVoiceUplink;
 };
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt);
@@ -5748,7 +5752,7 @@ class msrMultipleRestMeasuresContents : public msrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-
+    
     // print
     // ------------------------------------------------------
 
@@ -5869,6 +5873,10 @@ class msrMultipleRestMeasures : public msrVoiceElement
 
     string                asString () const;
     
+    void                  displayMultipleRestMeasures (
+                            int    inputLineNumber,
+                            string context);
+                            
     virtual void          print (ostream& os);
 
   private:
@@ -6600,10 +6608,14 @@ class msrVoice : public msrElement
     void                  appendPendingMultipleRestMeasuresToVoice (
                             int inputLineNumber);
                             
-    void                  handleMultipleRestMeasuresInVoiceClone (
+    void                  handleMultipleRestMeasuresStartInVoiceClone (
                             int inputLineNumber);
   
-    void                  appendMultipleRestMeasuresCloneToVoice (
+    void                  handleMultipleRestMeasuresEndInVoiceClone (
+                            int                       inputLineNumber,
+                            S_msrMultipleRestMeasures multipleRestMeasuresClone);
+  
+    void                  appendMultipleRestMeasuresCloneToVoice ( // JMI ???
                             int                       inputLineNumber,
                             S_msrMultipleRestMeasures multipleRestMeasuresClone);
   
@@ -6678,16 +6690,12 @@ class msrVoice : public msrElement
     
     void                  collectVoiceMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   private:
 
     // private services
     // ------------------------------------------------------
 
-    void                  displayVoiceContents (
-                            int    inputLineNumber,
-                            string context);
-                            
     S_msrRepeat           createARepeatAndStackIt (
                             int    inputLineNumber,
                             string context);
@@ -6834,6 +6842,10 @@ class msrVoice : public msrElement
     string                asShortString () const;
     string                asString () const;
     
+    void                  displayVoice (
+                            int    inputLineNumber,
+                            string context);
+                            
     virtual void          print (ostream& os);
 
   private:
@@ -6924,7 +6936,19 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    void                  displayVoiceRepeatsStackAndContents (
+    void                  displayVoiceRepeatsStackAndVoice (
+                            int    inputLineNumber,
+                            string context);
+
+    // a variable is needed to handle multiple rest measures
+    S_msrMultipleRestMeasures
+                          fVoiceMultipleRestMeasures;
+    
+    void                  displayVoiceMultipleRestMeasures (
+                            int    inputLineNumber,
+                            string context);
+
+    void                  displayVoiceMultipleRestMeasuresAndVoice (
                             int    inputLineNumber,
                             string context);
 

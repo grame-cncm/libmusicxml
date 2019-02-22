@@ -4897,26 +4897,15 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasures& elt)
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    gLogIOstream <<
-      endl <<
-      "Upon I visitStart (S_msrMultipleRestMeasures&(), voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      ", contains:" <<
-      endl;
-
-    gIndenter++;
-      
-    gLogIOstream <<
-      fCurrentVoiceClone;
-
-    gIndenter--;
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitStart (S_msrMultipleRestMeasures&) 1");
   }
 #endif
 
   fCurrentVoiceClone->
-    handleMultipleRestMeasuresInVoiceClone (
+    handleMultipleRestMeasuresStartInVoiceClone (
       inputLineNumber);
 
 #ifdef TRACE_OPTIONS
@@ -4925,21 +4914,10 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasures& elt)
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    gLogIOstream <<
-      endl <<
-      "Upon II visitStart (S_msrMultipleRestMeasures&(), voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      ", contains:" <<
-      endl;
-
-    gIndenter++;
-      
-    gLogIOstream <<
-      fCurrentVoiceClone;
-
-    gIndenter--;
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitStart (S_msrMultipleRestMeasures&) 2");
   }
 #endif
 }
@@ -4956,7 +4934,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
       endl;
   }
 
-  // create the multiple rest clone
 #ifdef TRACE_OPTIONS
   if (
     gGeneralOptions->fTraceMultipleRestMeasures
@@ -4965,64 +4942,24 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
       ||
     gGeneralOptions->fTraceVoices
   ) {
-    fLogOutputStream <<
-      "Creating a clone of multiple rest '" <<
-      "'" <<
-      elt->asShortString () <<
-      "' in voice \"" <<
-      fCurrentVoiceClone->getVoiceName () << "\"" <<
-      ", fCurrentMultipleRestMeasuresContentsClone =" <<
-      endl;
-
-    gIndenter++;
-
-    fLogOutputStream <<
-      fCurrentMultipleRestMeasuresContentsClone;
-
-    gIndenter--;
-  }
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitEnd (S_msrMultipleRestMeasures&) 1");
+    }
 #endif
 
+  // create the multiple rest clone
   S_msrMultipleRestMeasures
     multipleRestMeasuresClone =
-      elt->createMultipleRestMeasuresNewbornClone (
-        fCurrentVoiceClone);
-
-  // set the multiple rest clone's contents
-  multipleRestMeasuresClone->
-    setMultipleRestMeasuresContents (
-      fCurrentMultipleRestMeasuresContentsClone);
-    
-  // create a new last segment to collect the remainder of the voice,
-  // containing the next, yet incomplete, measure
-#ifdef TRACE_OPTIONS
-  if (
-    gGeneralOptions->fTraceMultipleRestMeasures
-      ||
-    gGeneralOptions->fTraceSegments
-      ||
-    gGeneralOptions->fTraceVoices
-  ) {
-    fLogOutputStream <<
-      "Creating a new last segment for the remainder of voice \"" <<
-      fCurrentVoiceClone->getVoiceName () << "\"" <<
-      endl;
-  }
-#endif
+      elt->
+        createMultipleRestMeasuresNewbornClone (
+          fCurrentVoiceClone);
 
   fCurrentVoiceClone->
-    createNewLastSegmentForVoice (
+    handleMultipleRestMeasuresEndInVoiceClone (
       inputLineNumber,
-      "visitEnd (S_msrMultipleRestMeasures&)");
-
-  // append the multiple rest clone to the current voice clone
-  fCurrentVoiceClone->
-    appendMultipleRestMeasuresCloneToVoice (
-      inputLineNumber, // JMI ???
       multipleRestMeasuresClone);
-      
-  // forget about the current multiple rest contents clone
-  fCurrentMultipleRestMeasuresContentsClone = nullptr;
 
 #ifdef TRACE_OPTIONS
   if (
@@ -5030,21 +4967,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    gLogIOstream <<
-      endl <<
-      "Upon visitEnd (S_msrMultipleRestMeasures&(), voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      ", contains:" <<
-      endl;
-
-    gIndenter++;
-      
-    gLogIOstream <<
-      fCurrentVoiceClone;
-
-    gIndenter--;
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitEnd (S_msrMultipleRestMeasures&) 2");
   }
 #endif
 }
@@ -5070,21 +4996,10 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasuresContents& elt)
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    gLogIOstream <<
-      endl <<
-      "Upon visitStart (S_msrMultipleRestMeasuresContents&(), voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      ", contains:" <<
-      endl;
-
-    gIndenter++;
-      
-    gLogIOstream <<
-      fCurrentVoiceClone;
-
-    gIndenter--;
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitStart (S_msrMultipleRestMeasuresContents&)");
   }
 #endif
 }
@@ -5094,6 +5009,19 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasuresContents& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceMultipleRestMeasures
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitEnd (S_msrMultipleRestMeasuresContents&) 1");
+  }
+#endif
+
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMultipleRestMeasuresContents" <<
@@ -5130,21 +5058,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasuresContents& elt)
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    gLogIOstream <<
-      endl <<
-      "Upon visitEnd (S_msrMultipleRestMeasuresContents&(), voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      ", contains:" <<
-      endl;
-
-    gIndenter++;
-      
-    gLogIOstream <<
-      fCurrentVoiceClone;
-
-    gIndenter--;
+    fCurrentVoiceClone->
+      displayVoice (
+        inputLineNumber,
+        "visitEnd (S_msrMultipleRestMeasuresContents&) 2");
   }
 #endif
 }
