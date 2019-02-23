@@ -3018,8 +3018,8 @@ void msrVoice::displayVoiceMultipleRestMeasures (
 
   gIndenter++;
 
-  if (fVoiceMultipleRestMeasures) {
-    fVoiceMultipleRestMeasures->
+  if (fCurrentVoiceMultipleRestMeasures) {
+    fCurrentVoiceMultipleRestMeasures->
       displayMultipleRestMeasures (
         inputLineNumber,
         context);
@@ -6124,7 +6124,8 @@ void msrVoice::appendPendingMultipleRestMeasuresToVoice (
 }
 
 void msrVoice::handleMultipleRestMeasuresStartInVoiceClone (
-  int inputLineNumber)
+  int                       inputLineNumber,
+  S_msrMultipleRestMeasures multipleRestMeasures)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRestMeasures) {
@@ -6152,6 +6153,20 @@ void msrVoice::handleMultipleRestMeasuresStartInVoiceClone (
       "handleMultipleRestMeasuresStartInVoiceClone() 1");
   }
 #endif
+
+
+
+
+  // create the multiple rest clone
+  S_msrMultipleRestMeasures
+    multipleRestMeasuresClone =
+      multipleRestMeasures->
+        createMultipleRestMeasuresNewbornClone (
+          this);
+
+
+
+
 
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -6269,8 +6284,7 @@ void msrVoice::handleMultipleRestMeasuresStartInVoiceClone (
 }
 
 void msrVoice::handleMultipleRestMeasuresEndInVoiceClone (
-  int                       inputLineNumber,
-  S_msrMultipleRestMeasures multipleRestMeasuresClone)
+  int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMultipleRestMeasures) {
@@ -6333,7 +6347,7 @@ void msrVoice::handleMultipleRestMeasuresEndInVoiceClone (
   // append the multiple rest clone to the current voice clone
   appendMultipleRestMeasuresCloneToVoice (
     inputLineNumber, // JMI ???
-    multipleRestMeasuresClone);
+    fCurrentVoiceMultipleRestMeasures);
       
   // forget about the current multiple rest contents clone
  // JMI fCurrentMultipleRestMeasuresContentsClone = nullptr;
@@ -6434,6 +6448,330 @@ void msrVoice::handleMultipleRestMeasuresEndInVoiceClone (
     displayVoiceMultipleRestMeasuresAndVoice (
       inputLineNumber,
       "handleMultipleRestMeasuresEndInVoiceClone() 2");
+  }
+#endif
+}
+
+void msrVoice::handleMultipleRestMeasuresContentsStartInVoiceClone (
+  int inputLineNumber)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+    gLogIOstream <<
+      "Handling multiple rest measures start in voice clone \"" <<
+      getVoiceName () <<
+      "\" in staff \"" <<
+      fVoiceStaffUplink->getStaffName () <<
+      "\" in part " <<
+      fVoiceStaffUplink->
+        getStaffPartUplink ()->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceMultipleRestMeasuresAndVoice (
+      inputLineNumber,
+      "handleMultipleRestMeasuresContentsStartInVoiceClone() 1");
+  }
+#endif
+
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      // is there a voice last segment?
+      if (fVoiceLastSegment) {
+        
+        // are there measures in the voice last segment?
+        if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
+                          
+          // finalize current measure in voice
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+  
+          // is this multiple rest nested in a repeat?
+          if (fVoiceRepeatDescrsStack.size ()) {
+            // yes
+
+            // fVoiceLastSegment is cumulating elements for the repeat common part:
+            // this should be set aside, and later re-installed as the voice last segment
+#ifdef TRACE_OPTIONS
+            if (
+              gGeneralOptions->fTraceMultipleRestMeasures
+                ||
+              gGeneralOptions->fTraceSegments
+                ||
+              gGeneralOptions->fTraceVoices
+            ) {
+              gLogIOstream <<
+                "Putting voice last segment " <<
+                fVoiceLastSegment->asString () <<
+                "' aside for multiple rest in voice \"" <<
+                fVoiceName << "\"" <<
+                ", line " << inputLineNumber <<
+                endl;
+            }
+#endif
+
+            // move voice last segment to the list of initial elements
+            moveVoiceLastSegmentToRepeatCommonPart ( // JMI
+              inputLineNumber,
+              fVoiceRepeatDescrsStack.front ()->
+                getRepeatDescrRepeat ()->
+                  getRepeatCommonPart (), // JMI
+              "handleMultipleRestMeasuresContentsStartInVoiceClone()");
+  
+#ifdef TRACE_OPTIONS
+            if (
+              gGeneralOptions->fTraceMultipleRestMeasures
+                ||
+              gGeneralOptions->fTraceVoicesDetails
+            ) {
+              displayVoice (
+                inputLineNumber,
+                "handleMultipleRestMeasuresContentsStartInVoiceClone()");
+            }
+#endif
+          }
+          
+          else {
+            // no
+          
+            // move current last segment to the list of initial elements
+            moveVoiceLastSegmentToInitialVoiceElements ( // JMI
+              inputLineNumber,
+              "handleMultipleRestMeasuresContentsStartInVoiceClone()");
+  
+#ifdef TRACE_OPTIONS
+            if (
+              gGeneralOptions->fTraceMultipleRestMeasures
+                ||
+              gGeneralOptions->fTraceVoicesDetails
+            ) {
+             displayVoice (
+                inputLineNumber,
+                "handleMultipleRestMeasuresContentsStartInVoiceClone() 2");
+            }
+#endif
+          }
+
+#ifdef TRACE_OPTIONS
+          if (
+            gGeneralOptions->fTraceMultipleRestMeasures
+              ||
+            gGeneralOptions->fTraceVoicesDetails) {
+            gLogIOstream <<
+              endl <<
+              "After handleMultipleRestMeasuresContentsStartInVoiceClone(), voice \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              ", contains:" <<
+              endl;
+  
+            print (gLogIOstream);
+          }
+#endif
+        }
+      }
+      break;
+  } // switch
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceMultipleRestMeasuresAndVoice (
+      inputLineNumber,
+      "handleMultipleRestMeasuresContentsStartInVoiceClone() 2");
+  }
+#endif
+}
+
+void msrVoice::handleMultipleRestMeasuresContentsEndInVoiceClone (
+  int inputLineNumber)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+    gLogIOstream <<
+      "Handling multiple rest measures end in voice clone \"" <<
+      getVoiceName () <<
+      "\" in staff \"" <<
+      fVoiceStaffUplink->getStaffName () <<
+      "\" in part " <<
+      fVoiceStaffUplink->
+        getStaffPartUplink ()->getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceMultipleRestMeasuresAndVoice (
+      inputLineNumber,
+      "handleMultipleRestMeasuresContentsEndInVoiceClone() 1");
+  }
+#endif
+
+
+/*
+  // create a multiple rest contents clone
+  fCurrentMultipleRestMeasuresContentsClone =
+    elt->createMultipleRestMeasuresContentsNewbornClone (
+      fCurrentVoiceClone);
+
+  // set last segment as the multiple rest contents segment
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+    fLogOutputStream <<
+      "Setting current last segment as multiple rest contents segment in voice \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+#endif
+
+  fCurrentMultipleRestMeasuresContentsClone->
+    setMultipleRestMeasuresContentsSegment (
+      fCurrentVoiceClone->
+        getVoiceLastSegment ());
+        */
+
+
+/* JMI
+  // set the multiple rest clone's contents
+  fCurrentVoiceMultipleRestMeasures->
+    setMultipleRestMeasuresContents (
+      fCurrentMultipleRestMeasuresContentsClone);
+      */
+    
+  // create a new last segment to collect the remainder of the voice,
+  // containing the next, yet incomplete, measure
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceMultipleRestMeasures
+      ||
+    gGeneralOptions->fTraceSegments
+      ||
+    gGeneralOptions->fTraceVoices
+  ) {
+    gLogIOstream <<
+      "Creating a new last segment for the remainder of voice \"" <<
+      fVoiceName << "\"" <<
+      endl;
+  }
+#endif
+
+  createNewLastSegmentForVoice (
+    inputLineNumber,
+    "visitEnd (S_msrMultipleRestMeasures&)");
+
+  // append the multiple rest clone to the current voice clone
+  appendMultipleRestMeasuresCloneToVoice (
+    inputLineNumber, // JMI ???
+    fCurrentVoiceMultipleRestMeasures);
+      
+  // forget about the current multiple rest contents clone
+ // JMI fCurrentMultipleRestMeasuresContentsClone = nullptr;
+
+
+
+
+  switch (fVoiceKind) {
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      // is there a voice last segment?
+      if (fVoiceLastSegment) {
+        
+        // are there measures in the voice last segment?
+        if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
+                          
+          // finalize current measure in voice
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+  
+          // is this multiple rest nested in a repeat?
+          if (fVoiceRepeatDescrsStack.size ()) {
+            // yes
+
+            // fVoiceLastSegment is cumulating elements for the repeat common part:
+            // this should be set aside, and later re-installed as the voice last segment
+#ifdef TRACE_OPTIONS
+            if (
+              gGeneralOptions->fTraceMultipleRestMeasures
+                ||
+              gGeneralOptions->fTraceSegments
+                ||
+              gGeneralOptions->fTraceVoices
+            ) {
+              gLogIOstream <<
+                "Putting voice last segment " <<
+                fVoiceLastSegment->asString () <<
+                "' aside for multiple rest in voice \"" <<
+                fVoiceName << "\"" <<
+                ", line " << inputLineNumber <<
+                endl;
+            }
+#endif
+
+            // move voice last segment to the list of initial elements
+            moveVoiceLastSegmentToRepeatCommonPart ( // JMI
+              inputLineNumber,
+              fVoiceRepeatDescrsStack.front ()->
+                getRepeatDescrRepeat ()->
+                  getRepeatCommonPart (), // JMI
+              "handleMultipleRestMeasuresContentsEndInVoiceClone()");
+  
+#ifdef TRACE_OPTIONS
+            if (
+              gGeneralOptions->fTraceMultipleRestMeasures
+                ||
+              gGeneralOptions->fTraceVoicesDetails
+            ) {
+              displayVoice (
+                inputLineNumber,
+                "handleMultipleRestMeasuresContentsEndInVoiceClone()");
+            }
+#endif
+          }
+          
+          else {
+            // no
+          
+            // move current last segment to the list of initial elements
+            moveVoiceLastSegmentToInitialVoiceElements ( // JMI
+              inputLineNumber,
+              "handleMultipleRestMeasuresContentsEndInVoiceClone()");
+          }
+        }
+      }
+      break;
+  } // switch
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRepeats
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceMultipleRestMeasuresAndVoice (
+      inputLineNumber,
+      "handleMultipleRestMeasuresContentsEndInVoiceClone() 2");
   }
 #endif
 }

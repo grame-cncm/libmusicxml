@@ -6609,11 +6609,17 @@ class msrVoice : public msrElement
                             int inputLineNumber);
                             
     void                  handleMultipleRestMeasuresStartInVoiceClone (
-                            int inputLineNumber);
+                            int                       inputLineNumber,
+                            S_msrMultipleRestMeasures multipleRestMeasures);
   
     void                  handleMultipleRestMeasuresEndInVoiceClone (
-                            int                       inputLineNumber,
-                            S_msrMultipleRestMeasures multipleRestMeasuresClone);
+                            int inputLineNumber);
+  
+    void                  handleMultipleRestMeasuresContentsStartInVoiceClone (
+                            int inputLineNumber);
+  
+    void                  handleMultipleRestMeasuresContentsEndInVoiceClone (
+                            int inputLineNumber);
   
     void                  appendMultipleRestMeasuresCloneToVoice ( // JMI ???
                             int                       inputLineNumber,
@@ -6942,7 +6948,7 @@ class msrVoice : public msrElement
 
     // a variable is needed to handle multiple rest measures
     S_msrMultipleRestMeasures
-                          fVoiceMultipleRestMeasures;
+                          fCurrentVoiceMultipleRestMeasures;
     
     void                  displayVoiceMultipleRestMeasures (
                             int    inputLineNumber,
