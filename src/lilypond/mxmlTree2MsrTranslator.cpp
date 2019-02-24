@@ -65,10 +65,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentMeasuresRepeatMeasuresNumber = -1;
   fCurrentMeasuresRepeatSlashesNumber  = -1;
   
-  fCurrentMultipleRestMeasuresMeasuresNumber   = 0;
-  fRemainingMultipleRestMeasuresMeasuresNumber = 0;
-  fOnGoingMultipleRestMeasures = false;
-  fCurrentMultipleRestMeasuresHasBeenCreated = false;
+  fCurrentRestMeasuresMeasuresNumber   = 0;
+  fRemainingRestMeasuresMeasuresNumber = 0;
+  fOnGoingRestMeasures = false;
+  fCurrentRestMeasuresHasBeenCreated = false;
 
   fCurrentSlashDotsNumber = -1;
   fCurrentSlashGraphicDurationKind = k_NoDuration;
@@ -6012,26 +6012,26 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
   // handle an on going multiple rest if any only now,
   // JMI do it before???
-  if (fOnGoingMultipleRestMeasures) {
+  if (fOnGoingRestMeasures) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceMultipleRestMeasures) {
+    if (gGeneralOptions->fTraceRestMeasures) {
       const int fieldWidth = 37;
       
       fLogOutputStream <<
-        "--> onGoingMultipleRestMeasures" <<
+        "--> onGoingRestMeasures" <<
         endl;
 
       gIndenter++;
       
       fLogOutputStream <<
         setw (fieldWidth) <<
-        "currentMultipleRestMeasuresHasBeenCreated " << " : " <<
+        "currentRestMeasuresHasBeenCreated " << " : " <<
         booleanAsString (
-          fCurrentMultipleRestMeasuresHasBeenCreated) <<
+          fCurrentRestMeasuresHasBeenCreated) <<
         endl <<
         setw (fieldWidth) <<
-        "remainingMultipleRestMeasuresMeasuresNumber" << " : " <<
-        fRemainingMultipleRestMeasuresMeasuresNumber <<
+        "remainingRestMeasuresMeasuresNumber" << " : " <<
+        fRemainingRestMeasuresMeasuresNumber <<
         endl <<
         endl;
         
@@ -6039,37 +6039,37 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     }
 #endif
     
-    if (! fCurrentMultipleRestMeasuresHasBeenCreated) {
+    if (! fCurrentRestMeasuresHasBeenCreated) {
       // create a pending multiple rest,
-      // that will be handled when fRemainingMultipleRestMeasuresMeasuresNumber
+      // that will be handled when fRemainingRestMeasuresMeasuresNumber
       // comes down to 0 later in this same method'
       fCurrentPart->
-        createMultipleRestMeasuresInPart (
+        createRestMeasuresInPart (
           inputLineNumber,
-          fCurrentMultipleRestMeasuresMeasuresNumber);
+          fCurrentRestMeasuresMeasuresNumber);
 
-      fCurrentMultipleRestMeasuresHasBeenCreated = true;
+      fCurrentRestMeasuresHasBeenCreated = true;
     }
 
-    if (fRemainingMultipleRestMeasuresMeasuresNumber <= 0) {
+    if (fRemainingRestMeasuresMeasuresNumber <= 0) {
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "remainingMultipleRestMeasuresMeasuresNumber problem");
+        "remainingRestMeasuresMeasuresNumber problem");
     }
     
     // account for one more rest measure in the multiple rest
-    fRemainingMultipleRestMeasuresMeasuresNumber--;
+    fRemainingRestMeasuresMeasuresNumber--;
     
-    if (fRemainingMultipleRestMeasuresMeasuresNumber == 0) {
+    if (fRemainingRestMeasuresMeasuresNumber == 0) {
       // all rest measures have been met,
       // the current one is the first after the multiple rest
       fCurrentPart->
-        appendPendingMultipleRestMeasuresToPart (
+        appendPendingRestMeasuresToPart (
           inputLineNumber);
 
-      if (fRemainingMultipleRestMeasuresMeasuresNumber == 1) {
+      if (fRemainingRestMeasuresMeasuresNumber == 1) {
         fCurrentPart-> // JMI ??? BOF
           setNextMeasureNumberInPart (
             inputLineNumber,
@@ -6077,35 +6077,35 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
       }
   
       // forget about and multiple rest having been created
-      fCurrentMultipleRestMeasuresHasBeenCreated = false;
+      fCurrentRestMeasuresHasBeenCreated = false;
       
-      fOnGoingMultipleRestMeasures = false;
+      fOnGoingRestMeasures = false;
     }
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceMultipleRestMeasures) {
+    if (gGeneralOptions->fTraceRestMeasures) {
       const int fieldWidth = 37;
       
       fLogOutputStream <<
-        "--> onGoingMultipleRestMeasures" <<
+        "--> onGoingRestMeasures" <<
         endl;
 
       gIndenter++;
       
       fLogOutputStream <<
         setw (fieldWidth) <<
-        "fCurrentMultipleRestMeasuresHasBeenCreated " << " : " <<
+        "fCurrentRestMeasuresHasBeenCreated " << " : " <<
         booleanAsString (
-          fCurrentMultipleRestMeasuresHasBeenCreated) <<
+          fCurrentRestMeasuresHasBeenCreated) <<
         endl <<
         setw (fieldWidth) <<
-        "fRemainingMultipleRestMeasuresMeasuresNumber" << " : " <<
-        fRemainingMultipleRestMeasuresMeasuresNumber <<
+        "fRemainingRestMeasuresMeasuresNumber" << " : " <<
+        fRemainingRestMeasuresMeasuresNumber <<
         endl <<
         setw (fieldWidth) <<
-        "fOnGoingMultipleRestMeasures " << " : " <<
+        "fOnGoingRestMeasures " << " : " <<
         booleanAsString (
-          fOnGoingMultipleRestMeasures) <<
+          fOnGoingRestMeasures) <<
         endl;
         
       gIndenter--;
@@ -8073,23 +8073,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
       endl;
   }
   
-  fCurrentMultipleRestMeasuresMeasuresNumber = (int)(*elt);
+  fCurrentRestMeasuresMeasuresNumber = (int)(*elt);
 
-  string multipleRestMeasuresUseSymbols = elt->getAttributeValue ("use-symbols");
+  string restMeasuresUseSymbols = elt->getAttributeValue ("use-symbols");
 
-  if      (multipleRestMeasuresUseSymbols == "yes") {
+  if      (restMeasuresUseSymbols == "yes") {
     // JMI
   }
-  else if (multipleRestMeasuresUseSymbols == "no") {
+  else if (restMeasuresUseSymbols == "no") {
     // JMI
   }
   else {
-    if (multipleRestMeasuresUseSymbols.size ()) {
+    if (restMeasuresUseSymbols.size ()) {
       stringstream s;
       
       s <<
         "multiple rest use symbols " <<
-        multipleRestMeasuresUseSymbols <<
+        restMeasuresUseSymbols <<
         " is unknown";
       
       msrMusicXMLError (
@@ -8101,13 +8101,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
   }
 
   // register number of remeaining rest measures
-  fRemainingMultipleRestMeasuresMeasuresNumber =
-    fCurrentMultipleRestMeasuresMeasuresNumber;
+  fRemainingRestMeasuresMeasuresNumber =
+    fCurrentRestMeasuresMeasuresNumber;
 
   // the multiple rest will created at the end of its first measure,
   // so that the needed staves/voices have been created
   
-  fOnGoingMultipleRestMeasures = true;
+  fOnGoingRestMeasures = true;
 }
        
 void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )

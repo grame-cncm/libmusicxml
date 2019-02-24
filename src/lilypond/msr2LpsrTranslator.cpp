@@ -5060,7 +5060,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasures& elt)
+void msr2LpsrTranslator::visitStart (S_msrRestMeasures& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5068,14 +5068,14 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasures& elt)
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMultipleRestMeasures" <<
+      "--> Start visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+  if (gGeneralOptions->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5085,12 +5085,12 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasures& elt)
 #endif
 
   fCurrentVoiceClone->
-    handleMultipleRestMeasuresStartInVoiceClone (
+    handleRestMeasuresStartInVoiceClone (
       inputLineNumber,
       elt);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
+void msr2LpsrTranslator::visitEnd (S_msrRestMeasures& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5098,14 +5098,14 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMultipleRestMeasures" <<
+      "--> End visiting msrRestMeasures" <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+  if (gGeneralOptions->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5115,12 +5115,12 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasures& elt)
 #endif
 
   fCurrentVoiceClone->
-    handleMultipleRestMeasuresEndInVoiceClone (
+    handleRestMeasuresEndInVoiceClone (
       inputLineNumber);
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasuresContents& elt)
+void msr2LpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5128,7 +5128,7 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasuresContents& elt)
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMultipleRestMeasuresContents" <<
+      "--> Start visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -5136,23 +5136,23 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestMeasuresContents& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
-        "Upon visitStart (S_msrMultipleRestMeasuresContents&)");
+        "Upon visitStart (S_msrRestMeasuresContents&)");
   }
 #endif
 
   fCurrentVoiceClone->
-    handleMultipleRestMeasuresContentsStartInVoiceClone (
+    handleRestMeasuresContentsStartInVoiceClone (
       inputLineNumber);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasuresContents& elt)
+void msr2LpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5160,7 +5160,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasuresContents& elt)
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMultipleRestMeasuresContents" <<
+      "--> End visiting msrRestMeasuresContents" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -5168,19 +5168,19 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestMeasuresContents& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
-        "Upon visitEnd (S_msrMultipleRestMeasuresContents&) 1");
+        "Upon visitEnd (S_msrRestMeasuresContents&) 1");
   }
 #endif
 
   fCurrentVoiceClone->
-    handleMultipleRestMeasuresContentsEndInVoiceClone (
+    handleRestMeasuresContentsEndInVoiceClone (
       inputLineNumber);
 }
 

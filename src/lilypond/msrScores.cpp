@@ -67,8 +67,8 @@ msrScore::msrScore (
   // measure repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
 
-  // multiple rest measures should be browsed by default
-  fInhibitMultipleRestMeasuresBrowsing = false;
+  // rest measures should be browsed by default
+  fInhibitRestMeasuresBrowsing = false;
 }
 
 msrScore::~msrScore ()
@@ -116,8 +116,8 @@ S_msrScore msrScore::createScoreNewbornClone ()
   newbornClone->fInhibitMeasuresRepeatReplicasBrowsing =
     fInhibitMeasuresRepeatReplicasBrowsing;
     
-  newbornClone->fInhibitMultipleRestMeasuresBrowsing =
-    fInhibitMultipleRestMeasuresBrowsing;
+  newbornClone->fInhibitRestMeasuresBrowsing =
+    fInhibitRestMeasuresBrowsing;
     
   return newbornClone;
 }
@@ -576,9 +576,9 @@ void msrScore::print (ostream& os)
     endl<<
 
     setw (fieldWidth) <<
-    "inhibitMultipleRestMeasuresBrowsing" <<  " : " <<
+    "inhibitRestMeasuresBrowsing" <<  " : " <<
     booleanAsString (
-      fInhibitMultipleRestMeasuresBrowsing) <<
+      fInhibitRestMeasuresBrowsing) <<
     endl<<
     endl;
 
@@ -688,9 +688,9 @@ void msrScore::printSummary (ostream& os)
     endl<<
 
     setw (fieldWidth) <<
-    "inhibitMultipleRestMeasuresBrowsing" <<  " : " <<
+    "inhibitRestMeasuresBrowsing" <<  " : " <<
     booleanAsString (
-      fInhibitMultipleRestMeasuresBrowsing) <<
+      fInhibitRestMeasuresBrowsing) <<
     endl<<
     endl;
 

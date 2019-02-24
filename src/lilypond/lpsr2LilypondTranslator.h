@@ -327,8 +327,8 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrMeasuresRepeatPattern>,
   public visitor<S_msrMeasuresRepeatReplicas>,
   
-  public visitor<S_msrMultipleRestMeasures>,
-  public visitor<S_msrMultipleRestMeasuresContents>,
+  public visitor<S_msrRestMeasures>,
+  public visitor<S_msrRestMeasuresContents>,
       
   // rehearsal
 
@@ -617,10 +617,10 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
     virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
     
-    virtual void visitStart (S_msrMultipleRestMeasures& elt);
-    virtual void visitEnd   (S_msrMultipleRestMeasures& elt);
-    virtual void visitStart (S_msrMultipleRestMeasuresContents& elt);
-    virtual void visitEnd   (S_msrMultipleRestMeasuresContents& elt);
+    virtual void visitStart (S_msrRestMeasures& elt);
+    virtual void visitEnd   (S_msrRestMeasures& elt);
+    virtual void visitStart (S_msrRestMeasuresContents& elt);
+    virtual void visitEnd   (S_msrRestMeasuresContents& elt);
     
     virtual void visitStart (S_msrRehearsal& elt);
     virtual void visitEnd   (S_msrRehearsal& elt);
@@ -853,10 +853,10 @@ class lpsr2LilypondTranslator :
     list<S_bsrRepeatDescr>
                           fRepeatDescrsStack;
 
-    // multiple rest measures
+    // rest measures
     // ------------------------------------------------------
-    int                   fRemainingMultipleRestMeasuresNumber;
-    bool                  fOnGoingMultipleRestMeasures;
+    int                   fRemainingRestMeasuresNumber;
+    bool                  fOnGoingRestMeasures;
     
     // segments
     // ------------------------------------------------------

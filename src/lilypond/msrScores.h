@@ -134,17 +134,17 @@ class msrScore : public msrElement
                                   fInhibitMeasuresRepeatReplicasBrowsing;
                               };
 
-    void                  setInhibitMultipleRestMeasuresBrowsing ()
+    void                  setInhibitRestMeasuresBrowsing ()
                               {
-                                fInhibitMultipleRestMeasuresBrowsing =
+                                fInhibitRestMeasuresBrowsing =
                                   true;
                               }
                             
-    bool                  getInhibitMultipleRestMeasuresBrowsing ()
+    bool                  getInhibitRestMeasuresBrowsing ()
                             const
                               {
                                 return
-                                  fInhibitMultipleRestMeasuresBrowsing;
+                                  fInhibitRestMeasuresBrowsing;
                               };
 
     // services
@@ -226,7 +226,7 @@ class msrScore : public msrElement
 
     // in <multiple-rest/>, the rest measures are explicit,
     // whereas LilyPond only needs the number of rest measures
-    bool                  fInhibitMultipleRestMeasuresBrowsing;
+    bool                  fInhibitRestMeasuresBrowsing;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);

@@ -994,7 +994,7 @@ void msrPart::appendPendingMeasuresRepeatToPart (
   } // for
 }
 
-void msrPart::createMultipleRestMeasuresInPart (
+void msrPart::createRestMeasuresInPart (
   int inputLineNumber,
   int multipleRestMeasuresMeasuresNumber)
 {
@@ -1016,13 +1016,13 @@ void msrPart::createMultipleRestMeasuresInPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      createMultipleRestMeasuresInStaff (
+      createRestMeasuresInStaff (
         inputLineNumber,
         multipleRestMeasuresMeasuresNumber);
   } // for
 }
 
-void msrPart::appendPendingMultipleRestMeasuresToPart (
+void msrPart::appendPendingRestMeasuresToPart (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
@@ -1040,14 +1040,14 @@ void msrPart::appendPendingMultipleRestMeasuresToPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      appendPendingMultipleRestMeasuresToStaff (
+      appendPendingRestMeasuresToStaff (
         inputLineNumber);
   } // for
 }
 
-void msrPart::appendMultipleRestMeasuresCloneToPart (
+void msrPart::appendRestMeasuresCloneToPart (
   int               inputLineNumber,
-  S_msrMultipleRestMeasures multipleRestMeasures)
+  S_msrRestMeasures multipleRestMeasures)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
@@ -1065,7 +1065,7 @@ void msrPart::appendMultipleRestMeasuresCloneToPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      appendMultipleRestMeasuresCloneToStaff (
+      appendRestMeasuresCloneToStaff (
         inputLineNumber,
         multipleRestMeasures);
   } // for

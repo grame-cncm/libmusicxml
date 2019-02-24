@@ -527,16 +527,16 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
   fRepeatCommonPartElementsList.push_back (measuresRepeat);
 }
 
-void msrRepeatCommonPart::appendMultipleRestMeasuresToRepeatCommonPart (
+void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
   int                       inputLineNumber,
-  S_msrMultipleRestMeasures multipleRestMeasures,
+  S_msrRestMeasures restMeasures,
   string                    context)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending multiple rest measures '" <<
-      multipleRestMeasures->asString () <<
+      "Appending rest measures '" <<
+      restMeasures->asString () <<
       "' to repeat common part '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
@@ -546,10 +546,10 @@ void msrRepeatCommonPart::appendMultipleRestMeasuresToRepeatCommonPart (
 
   // sanity check
   msrAssert (
-    multipleRestMeasures != nullptr,
-    "multipleRestMeasures is null");
+    restMeasures != nullptr,
+    "restMeasures is null");
 
-  fRepeatCommonPartElementsList.push_back (multipleRestMeasures);
+  fRepeatCommonPartElementsList.push_back (restMeasures);
 }
 
 void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
@@ -969,16 +969,16 @@ void msrRepeatEnding::appendMeasuresRepeatToRepeatEnding (
   fRepeatEndingElementsList.push_back (measuresRepeat);
 }
 
-void msrRepeatEnding::appendMultipleRestMeasuresToRepeatEnding (
+void msrRepeatEnding::appendRestMeasuresToRepeatEnding (
   int                       inputLineNumber,
-  S_msrMultipleRestMeasures multipleRestMeasures,
+  S_msrRestMeasures restMeasures,
   string                    context)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending multiple rest measures '" <<
-      multipleRestMeasures->asShortString () <<
+      "Appending rest measures '" <<
+      restMeasures->asShortString () <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
       ", line " << inputLineNumber <<
@@ -988,10 +988,10 @@ void msrRepeatEnding::appendMultipleRestMeasuresToRepeatEnding (
 
   // sanity check
   msrAssert (
-    multipleRestMeasures != nullptr,
-    "multipleRestMeasures is null");
+    restMeasures != nullptr,
+    "restMeasures is null");
 
-  fRepeatEndingElementsList.push_back (multipleRestMeasures);
+  fRepeatEndingElementsList.push_back (restMeasures);
 }
 
 void msrRepeatEnding::appendVoiceElementToRepeatEnding (
@@ -1795,16 +1795,16 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
 #endif
 }
 
-void msrRepeat::appendMultipleRestMeasuresToRepeat (
+void msrRepeat::appendRestMeasuresToRepeat (
   int                       inputLineNumber,
-  S_msrMultipleRestMeasures multipleRestMeasures,
+  S_msrRestMeasures restMeasures,
   string                    context)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending multiple rest measures '" <<
-      multipleRestMeasures->asString () <<
+      "Appending rest measures '" <<
+      restMeasures->asString () <<
       "' to repeat '" <<
       asShortString () <<
       "'" <<
@@ -1812,7 +1812,7 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
 
     displayRepeat (
       inputLineNumber,
-      "appendMultipleRestMeasuresToRepeat() 1");
+      "appendRestMeasuresToRepeat() 1");
   }
 #endif
 
@@ -1822,8 +1822,8 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
         stringstream s;
 
         s <<
-          "multiple rest measures '" <<
-          multipleRestMeasures->asShortString () <<
+          "rest measures '" <<
+          restMeasures->asShortString () <<
           "'cannot be added to a just created repeat" <<
           " (" << context << ")";
           
@@ -1837,17 +1837,17 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
 
     case msrRepeat::kRepeatBuildPhaseInCommonPart:
       fRepeatCommonPart->
-        appendMultipleRestMeasuresToRepeatCommonPart (
+        appendRestMeasuresToRepeatCommonPart (
           inputLineNumber,
-          multipleRestMeasures,
+          restMeasures,
           context);
       break;
       
     case msrRepeat::kRepeatBuildPhaseInEndings:
       fRepeatEndings.back ()->
-        appendMultipleRestMeasuresToRepeatEnding (
+        appendRestMeasuresToRepeatEnding (
           inputLineNumber,
-          multipleRestMeasures,
+          restMeasures,
           context);
       break;
       
@@ -1856,8 +1856,8 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
         stringstream s;
 
         s <<
-          "multiple rest measures '" <<
-          multipleRestMeasures->asShortString () <<
+          "rest measures '" <<
+          restMeasures->asShortString () <<
           "'cannot be added to a completed repeat" <<
           "(" << context << ")";
           
@@ -1874,7 +1874,7 @@ void msrRepeat::appendMultipleRestMeasuresToRepeat (
   if (gGeneralOptions->fTraceRepeats) {
     displayRepeat (
       inputLineNumber,
-      "appendMultipleRestMeasuresToRepeat() 2");
+      "appendRestMeasuresToRepeat() 2");
   }
 #endif
 }

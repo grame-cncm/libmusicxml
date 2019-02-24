@@ -555,12 +555,12 @@ S_msrNote msrNote::createNoteNewbornClone (
   // ------------------------------------------------------
 
   newbornClone->
-    fNoteBelongsToAMultipleRestMeasures =
-      fNoteBelongsToAMultipleRestMeasures;
+    fNoteBelongsToARestMeasures =
+      fNoteBelongsToARestMeasures;
 
   newbornClone->
-    fNoteMultipleRestMeasuresSequenceNumber =
-      fNoteMultipleRestMeasuresSequenceNumber;
+    fNoteRestMeasuresSequenceNumber =
+      fNoteRestMeasuresSequenceNumber;
 
   // note lyrics
   // ------------------------------------------------------
@@ -801,12 +801,12 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   noteDeepCopy->
-    fNoteBelongsToAMultipleRestMeasures =
-      fNoteBelongsToAMultipleRestMeasures;
+    fNoteBelongsToARestMeasures =
+      fNoteBelongsToARestMeasures;
 
   noteDeepCopy->
-    fNoteMultipleRestMeasuresSequenceNumber =
-      fNoteMultipleRestMeasuresSequenceNumber;
+    fNoteRestMeasuresSequenceNumber =
+      fNoteRestMeasuresSequenceNumber;
 
   // note lyrics
   // ------------------------------------------------------
@@ -3649,13 +3649,13 @@ void msrNote::print (ostream& os)
     // multiple rest member?
     os << left <<
       setw (fieldWidth) <<
-      "noteBelongsToAMultipleRestMeasures" << " : " <<
-      booleanAsString (fNoteBelongsToAMultipleRestMeasures) <<
+      "noteBelongsToARestMeasures" << " : " <<
+      booleanAsString (fNoteBelongsToARestMeasures) <<
       endl;
     os << left <<
       setw (fieldWidth) <<
-      "noteMultipleRestMeasuresSequenceNumber" << " : " <<
-      fNoteMultipleRestMeasuresSequenceNumber <<
+      "noteRestMeasuresSequenceNumber" << " : " <<
+      fNoteRestMeasuresSequenceNumber <<
       endl;
 
     // note print kind

@@ -1445,9 +1445,9 @@ void msrStaff::appendPendingMeasuresRepeatToStaff (
   } // for
 }
 
-void msrStaff::createMultipleRestMeasuresInStaff (
+void msrStaff::createRestMeasuresInStaff (
   int inputLineNumber,
-  int multipleRestMeasuresMeasuresNumber)
+  int restMeasuresMeasuresNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -1458,7 +1458,7 @@ void msrStaff::createMultipleRestMeasuresInStaff (
       fStaffPartUplink->getPartCombinedName () <<
       ", " <<
       singularOrPlural (
-        multipleRestMeasuresMeasuresNumber, "measure", "measures") <<
+        restMeasuresMeasuresNumber, "measure", "measures") <<
       endl;
   }
 #endif
@@ -1468,13 +1468,13 @@ void msrStaff::createMultipleRestMeasuresInStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
-      createMultipleRestMeasuresInVoice (
+      createRestMeasuresInVoice (
         inputLineNumber,
-        multipleRestMeasuresMeasuresNumber);
+        restMeasuresMeasuresNumber);
   } // for
 }
 
-void msrStaff::appendPendingMultipleRestMeasuresToStaff (
+void msrStaff::appendPendingRestMeasuresToStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
@@ -1493,20 +1493,20 @@ void msrStaff::appendPendingMultipleRestMeasuresToStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
-      appendPendingMultipleRestMeasuresToVoice (
+      appendPendingRestMeasuresToVoice (
         inputLineNumber);
   } // for
 }
 
-void msrStaff::appendMultipleRestMeasuresCloneToStaff (
+void msrStaff::appendRestMeasuresCloneToStaff (
   int               inputLineNumber,
-  S_msrMultipleRestMeasures multipleRestMeasures)
+  S_msrRestMeasures restMeasures)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRestMeasures->asString () <<
+      restMeasures->asString () <<
       "' to staff clone \"" <<
       getStaffName () <<
       "\"" <<
@@ -1519,9 +1519,9 @@ void msrStaff::appendMultipleRestMeasuresCloneToStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
-      appendMultipleRestMeasuresCloneToVoice (
+      appendRestMeasuresCloneToVoice (
         inputLineNumber,
-        multipleRestMeasures);
+        restMeasures);
   } // for
 }
 

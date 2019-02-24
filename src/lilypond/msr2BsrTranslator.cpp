@@ -6100,7 +6100,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+  if (gGeneralOptions->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6111,7 +6111,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
@@ -6139,7 +6139,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRest& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
@@ -6179,7 +6179,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // create the multiple rest clone
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceSegments
       ||
@@ -6217,7 +6217,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
   // containing the next, yet incomplete, measure
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceSegments
       ||
@@ -6245,7 +6245,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRest& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
@@ -6287,7 +6287,7 @@ void msr2BsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
@@ -6333,7 +6333,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
   // set last segment as the multiple rest contents segment
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMultipleRestMeasures) {
+  if (gGeneralOptions->fTraceRestMeasures) {
     fLogOutputStream <<
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -6349,7 +6349,7 @@ void msr2BsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMultipleRestMeasures
+    gGeneralOptions->fTraceRestMeasures
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {

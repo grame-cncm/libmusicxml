@@ -353,8 +353,8 @@ debugging information to standard error for the specified measures.)",
     // measure repeats
     fTraceMeasureRepeats = boolOptionsInitialValue;
   
-    // multiple rest measures
-    fTraceMultipleRestMeasures = boolOptionsInitialValue;
+    // rest measures
+    fTraceRestMeasures = boolOptionsInitialValue;
 
     // slashes
     fTraceSlashes = boolOptionsInitialValue;
@@ -700,15 +700,15 @@ R"(Barlines details)",
           fTraceBarlines,
           fTracePasses));
       
-    // multiple rest measures
+    // rest measures
     
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
           "tmrmeas", "trace-multiple-rest-measures",
 R"(Multiple rests)",
-          "traceMultipleRestMeasures",
-          fTraceMultipleRestMeasures,
+          "traceRestMeasures",
+          fTraceRestMeasures,
           fTracePasses));
       
     // repeats
@@ -1322,8 +1322,8 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   clone->fTraceBarlines = true;
   clone->fTraceBarlinesDetails = true;
 
-  // multiple rest measures
-  clone->fTraceMultipleRestMeasures = true;
+  // rest measures
+  clone->fTraceRestMeasures = true;
 
   // repeats
   clone->fTraceRepeats = true;
@@ -1505,8 +1505,8 @@ void generalOptions::setAllGeneralTraceOptions (
     // measure repeats
     fTraceMeasureRepeats = boolOptionsInitialValue;
   
-    // multiple rest measures
-    fTraceMultipleRestMeasures = boolOptionsInitialValue;
+    // rest measures
+    fTraceRestMeasures = boolOptionsInitialValue;
 
     // slashes
     fTraceSlashes = boolOptionsInitialValue;
@@ -1842,9 +1842,9 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     booleanAsString (fTraceMeasureRepeats) <<
     endl <<
 
-    // multiple rest measures
-    setw (fieldWidth) << "traceMultipleRestMeasures" << " : " <<
-    booleanAsString (fTraceMultipleRestMeasures) <<
+    // rest measures
+    setw (fieldWidth) << "traceRestMeasures" << " : " <<
+    booleanAsString (fTraceRestMeasures) <<
     endl <<
 
     // slashes
