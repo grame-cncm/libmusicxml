@@ -705,7 +705,7 @@ R"(Barlines details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tmrmeas", "trace-multiple-rest-measures",
+          "trmeas", "trace-rest-measures",
 R"(Multiple rests)",
           "traceRestMeasures",
           fTraceRestMeasures,

@@ -6793,6 +6793,11 @@ class msrVoice : public msrElement
                             string measureNumber,
                             int    repeatTimes);
 
+    void                  appendRestMeasuresToInitialVoiceElements (
+                            int               inputLineNumber,
+                            S_msrRestMeasures restMeasures,
+                            string            context);
+    
     void                  moveVoiceInitialElementsToRepeatCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
