@@ -180,8 +180,8 @@ string msrRestMeasuresContents::asString () const
     " (" <<
     singularOrPlural (
       restMeasuresContentsMeasuresNumber (),
-      "repeated measure",
-      "repeated measures") <<
+      "contents measure",
+      "contents measures") <<
     ")"; 
 
   return s.str ();

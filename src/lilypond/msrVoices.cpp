@@ -4903,9 +4903,25 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
   }
 #endif
 
-  // does segment belong to a repeat?
-  if (fVoiceRepeatDescrsStack.size ()) {
-    // yes
+  // analyze segmentClone's context, rest measures first,
+  // since they can be nested in repeats
+  if (fCurrentVoiceRestMeasures) {
+    // segment belongs to a rest measures
+
+    // get fCurrentVoiceRestMeasures's contents
+    S_msrRestMeasuresContents
+      restMeasuresContents =
+        fCurrentVoiceRestMeasures->
+          getRestMeasuresContents ();
+
+    // set segmentClone as the segment
+    restMeasuresContents->
+      setRestMeasuresContentsSegment (
+        segmentClone);
+  }
+  
+  else if (fVoiceRepeatDescrsStack.size ()) {
+    // segmentClone belongs to a repeat
 
  // JMI   if (fVoiceLastSegment) {
       
@@ -4919,42 +4935,16 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
       appendSegmentToRepeat (
         inputLineNumber,
         segmentClone,
-        "setVoiceCloneLastSegment()");
+        "handleSegmentCloneEndInVoiceClone()");
   }
   
   else {
-    // no
+    // segmentClone is a voice-level segment
 
     // move fVoiceLastSegment to the initial voice elements list
     moveVoiceLastSegmentToInitialVoiceElements (
       inputLineNumber,
       "handleSegmentCloneEndInVoiceClone()");
-  }
-
-  {
-/* JMI
-      
-    // segment becomes the fVoiceLastSegment
-#ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
-      gLogIOstream <<
-        "Segment '" <<
-        segment->asShortString () <<
-        "' becomes the new last segment in voice clone \"" <<
-        fVoiceName <<
-        "\" in staff \"" <<
-        fVoiceStaffUplink->getStaffName () <<
-        "\"" <<
-        endl;
-    }
-#endif
-
-    fVoiceLastSegment = segment;
-  
-    if (! fVoiceFirstSegment) {
-      fVoiceFirstSegment = fVoiceLastSegment;
-    }
-      */
   }
 
 #ifdef TRACE_OPTIONS
@@ -6466,7 +6456,7 @@ void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
       fVoiceLastSegment);
 
   // forget about fVoiceLastSegment
-  fVoiceLastSegment = nullptr;
+ // fVoiceLastSegment = nullptr;
   
 #ifdef TRACE_OPTIONS
   if (
