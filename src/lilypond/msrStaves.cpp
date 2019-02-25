@@ -1519,7 +1519,7 @@ void msrStaff::appendRestMeasuresCloneToStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
-      appendRestMeasuresCloneToVoice (
+      appendRestMeasuresCloneToVoiceClone (
         inputLineNumber,
         restMeasures);
   } // for
@@ -1545,7 +1545,7 @@ void msrStaff::appendRepeatCloneToStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
-      appendRepeatCloneToVoice (
+      appendRepeatCloneToVoiceClone (
         inputLineNumber, repeatCLone);
   } // for
 }

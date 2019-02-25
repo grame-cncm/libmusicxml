@@ -6590,7 +6590,7 @@ class msrVoice : public msrElement
     void                  handleRepeatEndInVoiceClone (
                             int inputLineNumber);
   
-    void                  appendRepeatCloneToVoice (
+    void                  appendRepeatCloneToVoiceClone (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
     
@@ -6626,8 +6626,8 @@ class msrVoice : public msrElement
     void                  handleRestMeasuresContentsEndInVoiceClone (
                             int inputLineNumber);
   
-    void                  appendRestMeasuresCloneToVoice ( // JMI ???
-                            int                       inputLineNumber,
+    void                  appendRestMeasuresCloneToVoiceClone ( // JMI ???
+                            int               inputLineNumber,
                             S_msrRestMeasures restMeasuresClone);
   
     // measures repeats

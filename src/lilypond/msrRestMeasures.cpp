@@ -266,7 +266,7 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Creating a newborn clone of multiple rest " <<
+      "Creating a newborn clone of rest measures " <<
       asString () <<
       endl;
   }
@@ -297,7 +297,7 @@ void msrRestMeasures::setRestMeasuresContents (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Setting multiple rest contents containing " <<
+      "Setting rest measures contents containing " <<
       singularOrPlural (
         restMeasuresContents->
           restMeasuresContentsMeasuresNumber (),
@@ -321,7 +321,7 @@ void msrRestMeasures::setRestMeasuresNextMeasureNumber (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Setting multiple rest next measure number to'" <<
+      "Setting rest measures next measure number to'" <<
       "' " <<
       measureNumber <<
       endl;
@@ -418,7 +418,7 @@ void msrRestMeasures::browseData (basevisitor* v)
 
   if (fRestMeasuresContents) {
  // JMI   if (! inhibitRestMeasuresBrowsing) {
-      // browse the multiple rest contents
+      // browse the rest measures contents
       msrBrowser<msrRestMeasuresContents> browser (v);
       browser.browse (*fRestMeasuresContents);
 //    }
@@ -452,7 +452,7 @@ void msrRestMeasures::displayRestMeasures (
 {
   gLogIOstream <<
     endl <<
-    "*********>> Multple rest measures " << context << " \"" <<
+    "*********>> Rest measures " << context << " \"" <<
  // JMI   getVoiceName () <<
     "\"" <<
     ", line " << inputLineNumber <<
