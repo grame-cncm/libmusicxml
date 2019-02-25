@@ -5812,6 +5812,8 @@ void msrVoice::createRestMeasuresInVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
+        gIndenter++;
+        
         // create a rest measures
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceRepeats) {
@@ -5827,6 +5829,14 @@ void msrVoice::createRestMeasuresInVoice (
         }
 #endif
       
+#ifdef TRACE_OPTIONS
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          displayVoiceRestMeasuresAndVoice (
+            inputLineNumber,
+            "createRestMeasuresInVoice() 1");
+        }
+#endif
+
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
         //   <multiple-rest ... type="start">2</multiple-rest>)
@@ -5908,7 +5918,7 @@ void msrVoice::createRestMeasuresInVoice (
         // create a new segment to collect the rest measures,
         // containing the first, rest measure
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
@@ -5920,7 +5930,7 @@ void msrVoice::createRestMeasuresInVoice (
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           firstRestMeasure,
-          "()");
+          "createRestMeasuresInVoice()");
 
 /* JMI
         // append the first rest measure to the new last segment
@@ -5936,19 +5946,15 @@ void msrVoice::createRestMeasuresInVoice (
         // print resulting voice contents
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "The contents of voice \"" <<
-            fVoiceName <<
-            "\" after createRestMeasuresInVoice() is:" <<
-            endl;
-  
-          gIndenter++;
-          print (gLogIOstream);
-          gIndenter--;
+          displayVoiceRestMeasuresAndVoice (
+            inputLineNumber,
+            "createRestMeasuresInVoice() 2");
         }
 #endif
 
         // keep the rest measures pending
+
+        gIndenter--;
       }
       break;
   } // switch
@@ -6137,7 +6143,7 @@ void msrVoice::appendPendingRestMeasuresToVoice (
 }
 
 void msrVoice::handleRestMeasuresStartInVoiceClone (
-  int                       inputLineNumber,
+  int               inputLineNumber,
   S_msrRestMeasures restMeasures)
 {
 #ifdef TRACE_OPTIONS
@@ -6155,25 +6161,24 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
   }
 #endif
 
-#ifdef TRACE_OPTIONS
-  if (
-    gGeneralOptions->fTraceRestMeasures
-      ||
-    gGeneralOptions->fTraceVoicesDetails
-  ) {
-    displayVoiceRestMeasuresAndVoice (
-      inputLineNumber,
-      "handleRestMeasuresStartInVoiceClone() 1");
-  }
-#endif
-
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       gIndenter++;
 
-/* JMI
+#ifdef TRACE_OPTIONS
+      if (
+        gGeneralOptions->fTraceRestMeasures
+          ||
+        gGeneralOptions->fTraceVoicesDetails
+      ) {
+        displayVoiceRestMeasuresAndVoice (
+          inputLineNumber,
+          "handleRestMeasuresStartInVoiceClone() 1");
+      }
+#endif
+
       // is there a voice last segment?
       if (fVoiceLastSegment) {
         
@@ -6189,6 +6194,14 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
             inputLineNumber,
             "handleRestMeasuresStartInVoiceClone()");
 
+          // forget about fCurrentVoiceRestMeasures
+          fCurrentVoiceRestMeasures = nullptr;
+
+          // create a new last segment containing a new measure for the voice
+          createNewLastSegmentForVoice (
+            inputLineNumber,
+            "handleRestMeasuresStartInVoiceClone()");
+
 #ifdef TRACE_OPTIONS
           if (
             gGeneralOptions->fTraceRestMeasures
@@ -6197,12 +6210,11 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
           ) {
             displayVoiceRestMeasuresAndVoice (
               inputLineNumber,
-              "handleRepeatStartInVoiceClone() 1");
+              "handleRestMeasuresStartInVoiceClone()");
           }
 #endif
         }
       }
-*/
 
       // is there already a current rest measures in this voice?
       if (fCurrentVoiceRestMeasures) {

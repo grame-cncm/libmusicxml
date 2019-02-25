@@ -4433,11 +4433,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     gTab << "\\Score" <<
     endl;
 
-/* JMI ???
+/*
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
-    gLilypondOptions->fCompressMultiMeasureRests
+    gLilypondOptions->fCompressRestMeasures
   ) {
     fLilypondCodeIOstream <<
       gTab << "skipBars = ##t % to compress multiple measure rests" <<
@@ -6220,7 +6220,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
-    gLilypondOptions->fCompressMultiMeasureRests
+    gLilypondOptions->fCompressRestMeasures
   ) {
     fLilypondCodeIOstream <<
       "\\compressMMRests {" <<
@@ -6283,7 +6283,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
-    gLilypondOptions->fCompressMultiMeasureRests
+    gLilypondOptions->fCompressRestMeasures
   ) {
     fLilypondCodeIOstream <<
       "}" <<

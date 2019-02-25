@@ -460,7 +460,7 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
     
     fAccidentalStyleKind = kDefaultStyle;
   
-    fCompressMultiMeasureRests = boolOptionsInitialValue;
+    fCompressRestMeasures = boolOptionsInitialValue;
   
     fNoteInputLineNumbers = boolOptionsInitialValue;
   
@@ -553,7 +553,7 @@ The default is... 'default'.)",
 R"(Generate '\compressMMRests' at the beginning of voices.
 By default, this command is commented.)",
           "compressMultiMeasureRests",
-          fCompressMultiMeasureRests));
+          fCompressRestMeasures));
 */
 
     notesSubGroup->
@@ -1210,8 +1210,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fAccidentalStyleKind =
     fAccidentalStyleKind;
 
-  clone->fCompressMultiMeasureRests =
-    fCompressMultiMeasureRests;
+  clone->fCompressRestMeasures =
+    fCompressRestMeasures;
 
   clone->fNoteInputLineNumbers =
     true;
@@ -1514,8 +1514,8 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       fAccidentalStyleKind <<
       endl <<
     
-    setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<
-      booleanAsString (fCompressMultiMeasureRests) <<
+    setw (fieldWidth) << "compressRestMeasures" << " : " <<
+      booleanAsString (fCompressRestMeasures) <<
       endl <<
     
     setw (fieldWidth) << "inputLineNumbers" << " : " <<

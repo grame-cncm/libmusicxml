@@ -370,7 +370,7 @@ pickCopyright
     lpsrAccidentalStyleKind
                           fAccidentalStyleKind;
 
-    bool                  fCompressMultiMeasureRests;
+    bool                  fCompressRestMeasures;
 
     bool                  fNoteInputLineNumbers;
 
