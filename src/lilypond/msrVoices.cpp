@@ -5974,7 +5974,7 @@ void msrVoice::createRestMeasuresInVoice (
             firstRestMeasure);
 */
 
-        // force multiple measure rests compression JMI ???
+        // this voice contails rest measures
         this->setVoiceContainsRestMeasures (
           inputLineNumber);
             
@@ -6273,6 +6273,10 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
         restMeasures->
           createRestMeasuresNewbornClone (
             this);
+
+      // this voice contails rest measures
+      this->setVoiceContainsRestMeasures (
+        inputLineNumber);
 
 #ifdef TRACE_OPTIONS
       if (

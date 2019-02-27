@@ -5769,8 +5769,7 @@ class msrRestMeasuresContents : public msrElement
     // ------------------------------------------------------
 
     // uplink
-    S_msrRestMeasures
-                          fRestMeasuresContentsRestMeasuresUplink;
+    S_msrRestMeasures     fRestMeasuresContentsRestMeasuresUplink;
     
     S_msrSegment          fRestMeasuresContentsSegment;
 };

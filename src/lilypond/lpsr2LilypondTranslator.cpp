@@ -4433,18 +4433,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     gTab << "\\Score" <<
     endl;
 
-/*
-  if (
-    fCurrentVoice->getVoiceContainsRestMeasures ()
-      ||
-    gLilypondOptions->fCompressRestMeasures
-  ) {
-    fLilypondCodeIOstream <<
-      gTab << "skipBars = ##t % to compress rest measuress" <<
-      endl;
-  }
-*/
-
   fLilypondCodeIOstream <<
     gTab << "autoBeaming = ##f % to display tuplets brackets" <<
     endl <<
@@ -6223,7 +6211,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     gLilypondOptions->fCompressRestMeasures
   ) {
     fLilypondCodeIOstream <<
-      "\\compressMMRests {" <<
+      "\\compressMMRests" <<
       endl;
 
     gIndenter++;
@@ -6286,7 +6274,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
     gLilypondOptions->fCompressRestMeasures
   ) {
     fLilypondCodeIOstream <<
-      "}" <<
+  // JMI    "}" <<
       endl;
 
     gIndenter--;
@@ -14625,18 +14613,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasures& elt)
   // start counting measures
   fRemainingRestMeasuresNumber =
     elt->getRestMeasuresNumber ();
-
-  if (gLilypondOptions->fComments) {
-    fLilypondCodeIOstream << left <<
-      setw (commentFieldWidth) <<
-      "% start of rest measures, " <<
-      singularOrPlural (
-        elt->getRestMeasuresNumber (),
-        "measure",
-        "measures") <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
 
   // get rest measures sounding notes
   rational
