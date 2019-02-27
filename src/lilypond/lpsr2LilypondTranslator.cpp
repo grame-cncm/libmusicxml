@@ -7025,8 +7025,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   }
 #endif
 
- // JMI if (! fOnGoingRestMeasures) {}
-  {
+  if (! fOnGoingRestMeasures) {
     // handle the measure
     switch (measureKind) {
       case msrMeasure::kUnknownMeasureKind: // should not occur
