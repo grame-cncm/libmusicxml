@@ -1191,6 +1191,9 @@ class msrMeasure : public msrElement
     // debug number, unique for every msrMeasure instance
     static int            gMeasureDebugNumber; 
     int                   fMeasureDebugNumber; 
+
+    // measure finalization
+    bool                  fMeasureHasBeenFinalized;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -6919,6 +6922,10 @@ class msrVoice : public msrElement
     
     list<S_msrVoiceElement>
                           fInitialVoiceElementsList;
+
+    // voice finalization
+
+    bool                  fVoiceHasBeenFinalized;
 
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,

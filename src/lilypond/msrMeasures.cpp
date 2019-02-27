@@ -152,6 +152,9 @@ void msrMeasure::initializeMeasure ()
 
   // measure doesn't contain music yet
   fMeasureContainsMusic = false;
+
+  // measure finalization
+  fMeasureHasBeenFinalized = false;
 }
 
 msrMeasure::~msrMeasure ()
@@ -2513,6 +2516,21 @@ void msrMeasure::finalizeMeasure (
   int    inputLineNumber,
   string context)
 {
+  if (fMeasureHasBeenFinalized) {
+    stringstream s;
+
+    s <<
+      "Attempting to finalize  measure \"" <<
+      asShortString () <<
+      "\" more than once";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());  
+  }
+  
   // fetch the voice
   S_msrVoice
     voice =
@@ -2777,6 +2795,8 @@ void msrMeasure::finalizeMeasure (
         setNoteOccupiesAFullMeasure ();
     }
   }
+
+  fMeasureHasBeenFinalized = true;
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {

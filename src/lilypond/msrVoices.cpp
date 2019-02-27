@@ -410,6 +410,9 @@ void msrVoice::initializeVoice (
   fVoiceSkipsCounter           = 0;
   fVoiceActualHarmoniesCounter = 0;
 
+  // voice finalization
+  fVoiceHasBeenFinalized = false;
+  
   // rest measures
   fVoiceContainsRestMeasures  = false;
   fVoiceRemainingRestMeasures = 0;
@@ -8215,6 +8218,21 @@ void msrVoice::finalizeVoice ( // JMI ???
   }
 #endif
 
+  if (fVoiceHasBeenFinalized) {
+    stringstream s;
+
+    s <<
+      "Attempting to finalize  voice \"" <<
+      asShortString () <<
+      "\" more than once";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  
   // is this voice totally empty? this should be rare...
   if (
     fInitialVoiceElementsList.size () == 0
@@ -8260,6 +8278,8 @@ void msrVoice::finalizeVoice ( // JMI ???
   collectVoiceMeasuresIntoFlatList (
     inputLineNumber);
 
+  fVoiceHasBeenFinalized = true;
+  
 #ifdef TRACE_OPTIONS
   if (
     gGeneralOptions->fTraceRepeats
@@ -8559,6 +8579,11 @@ void msrVoice::print (ostream& os)
     endl <<
     setw (fieldWidth) << "voiceShortestNoteTupletFactor" << " : " <<
     fVoiceShortestNoteTupletFactor <<
+    endl;
+    
+  os << left <<
+    setw (fieldWidth) << "voiceHasBeenFinalized" << " : " <<
+    booleanAsString (fVoiceHasBeenFinalized) <<
     endl;
     
   os << left <<

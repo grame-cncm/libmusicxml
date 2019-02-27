@@ -6204,7 +6204,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
 // JMI   \set Score.alternativeNumberingStyle = #'numbers-with-letters
 
-
+/* JMI
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
@@ -6216,6 +6216,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
     gIndenter++;
   }
+*/
 
   if (gLilypondOptions->fAccidentalStyleKind != kDefaultStyle) {
     fLilypondCodeIOstream <<
@@ -6267,7 +6268,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       endl;
   }
 #endif
-  
+
+  /* JMI
   if (
     fCurrentVoice->getVoiceContainsRestMeasures ()
       ||
@@ -6278,7 +6280,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       endl;
 
     gIndenter--;
-  }
+  */
 
   if (gLilypondOptions->fDisplayMusic) {
     fLilypondCodeIOstream <<
@@ -14584,10 +14586,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasures& elt)
       endl;
   }
 #endif
-
-  // generate the code now:
-  // waiting until visitEnd (S_msrRestMeasures&)
-  // would get barlines if any generated too early
   
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -14610,37 +14608,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRestMeasures& elt)
     gIndenter++;
   }
 
-  // start counting measures
-  fRemainingRestMeasuresNumber =
-    elt->getRestMeasuresNumber ();
-
-  // get rest measures sounding notes
-  rational
-    restMeasuresMeasureSoundingNotes =
-      elt->getRestMeasuresMeasureSoundingNotes ();
-
-  // generate multiple measures rest
-  fLilypondCodeIOstream <<
-    "R" <<
-    restMeasuresWholeNoteAsLilypondString (
-      inputLineNumber,
-      restMeasuresMeasureSoundingNotes);
-
-  if (restMeasuresNumber > 1) {
-    fLilypondCodeIOstream <<
-      "*" <<
-      restMeasuresNumber;
-  }
-
-  if (gLilypondOptions->fNoteInputLineNumbers) {
-    // print the rest measures line number as a comment
-    fLilypondCodeIOstream <<
-      " %{ " << inputLineNumber << " %} ";
-  }
-
-  // wait until all measures have be visited
-  // before the bar check is generated
-
   fOnGoingRestMeasures = true;
 }
 
@@ -14660,6 +14627,50 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
     
   int restMeasuresNumber =
     elt->getRestMeasuresNumber ();
+
+  // start counting measures
+  fRemainingRestMeasuresNumber =
+    elt->getRestMeasuresNumber ();
+
+  // get rest measures sounding notes
+  rational
+    restMeasuresMeasureSoundingNotes =
+      elt->getRestMeasuresMeasureSoundingNotes ();
+
+  // generate rest measures compression if relevant
+  // right befoe Ri*n, because if affects only the next music element
+  if (
+    fCurrentVoice->getVoiceContainsRestMeasures ()
+      ||
+    gLilypondOptions->fCompressRestMeasures
+  ) {
+    fLilypondCodeIOstream <<
+      "\\compressMMRests" <<
+      endl;
+  }
+
+  // generate rest measures only now, in case there are
+  // clef, keys or times before them in the first measure
+  fLilypondCodeIOstream <<
+    "R" <<
+    restMeasuresWholeNoteAsLilypondString (
+      inputLineNumber,
+      restMeasuresMeasureSoundingNotes);
+
+  if (restMeasuresNumber > 1) {
+    fLilypondCodeIOstream <<
+      "*" <<
+      restMeasuresNumber;
+  }
+
+  if (gLilypondOptions->fNoteInputLineNumbers) {
+    // print the rest measures line number as a comment
+    fLilypondCodeIOstream <<
+      " %{ " << inputLineNumber << " %} ";
+  }
+
+  // wait until all measures have be visited
+  // before the bar check is generated // JMI ???
 
   // now we can generate the bar check
   fLilypondCodeIOstream <<    
@@ -14681,72 +14692,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
       endl <<
       endl;      
   }
-
-  /* JMI
-
-  int restSegmentMeasuresNumber =
-    elt->restMeasuresContentsMeasuresNumber ();
-    
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
-    fLilypondCodeIOstream <<
-      "% rest measures, line " << inputLineNumber << ":" <<
-      endl;
-
-    const int fieldWidth = 24;
-
-    fLilypondCodeIOstream << left <<
-      setw (fieldWidth) <<
-      "% restMeasuresNumber" << " = " << restMeasuresNumber <<
-      endl <<
-      setw (fieldWidth) <<
-      "% restSegmentMeasuresNumber" << " = " << restSegmentMeasuresNumber <<
-      endl <<
-      endl;
-  }
-#endif
-
-  if (gLilypondOptions->fComments) {
-    fLilypondCodeIOstream << left <<
-      setw (commentFieldWidth) <<
-      "% start of rest measures" <<
-      singularOrPlural (
-        restMeasuresNumber),
-        "measure",
-        "measures") <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  // get rest measures sounding notes
-  rational
-    restMeasuresMeasureSoundingNotes =
-      elt->getRestMeasuresMeasureSoundingNotes ();
-
-  // generate rest measures
-  fLilypondCodeIOstream <<
-    "R" <<
-    restMeasuresWholeNoteAsLilypondString (
-      inputLineNumber,
-      restMeasuresMeasureSoundingNotes);
-
-  if (restMeasuresNumber > 1) {
-    fLilypondCodeIOstream <<
-      "*" <<
-      restMeasuresNumber;
-  }
-
-  if (gLilypondOptions->fNoteInputLineNumbers) {
-    // print the rest measures line number as a comment
-    fLilypondCodeIOstream <<
-      " %{ " << inputLineNumber << " %} ";
-  }
-
-  fLilypondCodeIOstream <<    
-    " | % " <<
-    elt->getRestMeasuresNextMeasureNumber () <<
-    endl;
-*/
 
   fOnGoingRestMeasures = false;
 }
@@ -14809,7 +14754,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasuresContents& elt)
       endl <<
       endl;      
 
-    gIndenter++;
+    gIndenter--;
   }
 }
 
