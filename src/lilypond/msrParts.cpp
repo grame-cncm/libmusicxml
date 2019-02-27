@@ -100,6 +100,9 @@ void msrPart::initializePart ()
   setPartActualMeasureWholeNotesHighTide (
     fInputLineNumber,
     rational (0, 1));
+
+  // rest measures
+  fPartContainsRestMeasures = false;    
 }
 
 msrPart::~msrPart ()
@@ -1010,6 +1013,8 @@ void msrPart::createRestMeasuresInPart (
   }
 #endif
 
+  fPartContainsRestMeasures = true;
+  
   // create multiple rest in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -1771,6 +1776,10 @@ void msrPart::print (ostream& os)
     setw (fieldWidth) <<
     "partNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
+
+    setw (fieldWidth) << "partContainsRestMeasures" << " : " <<
+    booleanAsString (fPartContainsRestMeasures) <<
+    endl <<
     endl;
 
   // print current the part clef if any
@@ -1974,6 +1983,10 @@ void msrPart::printSummary (ostream& os)
     setw (fieldWidth) <<
     "partNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
+    endl <<
+    
+    setw (fieldWidth) << "partContainsRestMeasures" << " : " <<
+    booleanAsString (fPartContainsRestMeasures) <<
     endl <<
     endl;
 

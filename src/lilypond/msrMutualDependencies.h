@@ -7402,6 +7402,10 @@ class msrStaff : public msrElement
     // staff details
 
     S_msrStaffDetails     fStaffStaffDetails;
+
+    // rest measures
+    
+    bool                  fStaffContainsRestMeasures;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
@@ -7992,6 +7996,10 @@ class msrPart : public msrPartGroupElement
     // counter
     
     static int            gPartsCounter;
+
+    // rest measures
+    
+    bool                  fPartContainsRestMeasures;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

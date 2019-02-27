@@ -554,7 +554,7 @@ string dottedDurationAsLilypondStringWithoutBackSlash (
 }
 
 //_______________________________________________________________________________
-string multipleRestMeasuresWholeNoteAsLilypondString (
+string restMeasuresWholeNoteAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes)
 {

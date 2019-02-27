@@ -88,6 +88,16 @@ class msrScore : public msrElement
                                   
     int                   getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
+
+    void                  setStaffContainsRestMeasures (
+                            bool staffContainsRestMeasures)
+                              {
+                                fStaffContainsRestMeasures =
+                                  staffContainsRestMeasures;
+                              }
+                                  
+    bool                  getStaffContainsRestMeasures () const
+                              { return fStaffContainsRestMeasures; }
         
     // part group names max length
 
@@ -204,6 +214,10 @@ class msrScore : public msrElement
     // number of measures
     
     int                   fScoreNumberOfMeasures;
+
+    // rest measures
+    
+    bool                  fStaffContainsRestMeasures;
 
     // part group names max length
 

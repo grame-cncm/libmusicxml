@@ -261,6 +261,9 @@ void msrStaff::initializeStaff ()
     fStaffPartUplink->
       getPartInstrumentAbbreviation ();
 
+  // rest measures
+  fStaffContainsRestMeasures = false;
+
   gIndenter--;
 }
 
@@ -1462,6 +1465,8 @@ void msrStaff::createRestMeasuresInStaff (
       endl;
   }
 #endif
+
+  fStaffContainsRestMeasures = true;
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
