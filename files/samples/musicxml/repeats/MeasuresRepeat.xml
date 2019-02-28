@@ -67,7 +67,7 @@
       <sound tempo="120"/>
       <note default-x="86">
         <pitch>
-          <step>D</step>
+          <step>C</step>
           <octave>4</octave>
         </pitch>
         <duration>8</duration>
@@ -84,7 +84,7 @@
       </attributes>
       <note>
         <pitch>
-          <step>D</step>
+          <step>C</step>
           <octave>4</octave>
         </pitch>
         <duration>8</duration>
@@ -96,7 +96,7 @@
     <measure number="3" width="167">
       <note>
         <pitch>
-          <step>D</step>
+          <step>C</step>
           <octave>4</octave>
         </pitch>
         <duration>8</duration>

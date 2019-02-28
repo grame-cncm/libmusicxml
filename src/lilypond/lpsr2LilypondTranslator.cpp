@@ -4118,8 +4118,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
 {
-  fOnGoingHeader = false;
-
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
@@ -4134,6 +4132,8 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
   fLilypondCodeIOstream <<
     "}" <<
     endl << endl;
+
+  fOnGoingHeader = false;
 }
 
 //________________________________________________________________________
@@ -4523,6 +4523,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
     endl;
 
   gIndenter++;
+  
 /* JMI
   if (elt->getScoreBlockElements ().size ()) {
     fLilypondCodeIOstream <<
@@ -9793,7 +9794,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             if (
               gMsrOptions->fTraceMsrVisitors
                 ||
-              gGeneralOptions->fTraceRepeats) {
+              gGeneralOptions->ffTraceRestMeasures) {
               gLogIOstream <<
                 "% ==> visiting rest measures is ignored" <<
                 endl;
@@ -9816,7 +9817,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceRepeats
+          gGeneralOptions->fTraceRestMeasures
         ) {
           gLogIOstream <<
             "% ==> start visiting rest measures is ignored" <<
@@ -10627,7 +10628,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             if (
               gGeneralOptions->fTraceNotes
                 ||
-              gGeneralOptions->fTraceRepeats
+              gGeneralOptions->fTraceRestMeasures
             ) {
               gLogIOstream <<
                 "% ==> end visiting rest measures is ignored" <<
@@ -14427,7 +14428,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
     elt->measuresRepeatReplicasNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasureRepeats) {
     int repeatMeasuresNumber =
       elt->measuresRepeatPatternMeasuresNumber ();
   

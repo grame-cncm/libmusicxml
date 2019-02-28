@@ -2524,10 +2524,11 @@ void msrMeasure::finalizeMeasure (
       asShortString () <<
       "\" more than once";
       
-    msrInternalError (
+ //   msrInternalError (
+    msrInternalWarning (
       gGeneralOptions->fInputSourceName,
       fInputLineNumber,
-      __FILE__, __LINE__,
+  //    __FILE__, __LINE__,
       s.str ());  
   }
   
