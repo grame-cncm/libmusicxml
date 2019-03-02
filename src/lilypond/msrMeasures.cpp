@@ -1808,8 +1808,6 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
       endl;
   }
 #endif
-
-abort (); // JMI
   
   // create a rest or a skip depending on measureVoice kind
   S_msrNote paddingNote;

@@ -23,7 +23,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-enum bsrCellKind : unsigned char { // to map them to ASCII braille for BRF
+enum bsrCellKind {
   // non 6dots values
   kCellEOL     , // L'\u000a'
   kCellEOP     , // L'\u000c'

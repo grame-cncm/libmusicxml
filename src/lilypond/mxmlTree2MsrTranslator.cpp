@@ -314,7 +314,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // backup handling
   fCurrentBackupDurationDivisions = -1;
-  fOnGoingBackup  = false;
+  fOnGoingBackup      = false;
+  fOnGoingBackupPhase = false;
 
   // forward handling
   fCurrentForwardDurationDivisions = 1;
@@ -4197,7 +4198,8 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
     inputLineNumber);
     */
   
-  fOnGoingBackup = true;
+  fOnGoingBackup      = true;
+  fOnGoingBackupPhase = true;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
@@ -7352,15 +7354,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 #endif
 
   if (fOnGoingBackup) {
-  
     fCurrentBackupDurationDivisions = duration;
-
   }
   
   else if (fOnGoingForward) {
-  
     fCurrentForwardDurationDivisions = duration;
-    
   }
   
   else if (fOnGoingNote) {
@@ -13960,7 +13958,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
       </rest>
 
 */
-  //  fLogOutputStream << "--> mxmlTree2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
+
   fCurrentNoteQuarterTonesPitchKind = k_Rest_QTP;
   fCurrentNoteIsARest = true;
 
@@ -17109,39 +17107,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 #endif
   } // switch
 
-/* JMI
-  // fetch the staff
-  S_msrStaff
-    staff =
-      fetchStaffFromCurrentPart (
-        inputLineNumber,
-        fCurrentMusicXMLStaffNumber, // JMI fCurrentStaffNumberToInsertInto
-        );
-
-#ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceVoices) {
-    fLogOutputStream <<
-      "--> fCurrentMusicXMLVoiceNumber        = " <<
-      fCurrentMusicXMLVoiceNumber <<
-      endl <<
-      "--> S_voice, fCurrentStaffNumberToInsertInto = " <<
-      fCurrentStaffNumberToInsertInto <<
-      endl <<
-      "--> S_voice, current staff name  = " <<
-      staff->getStaffName() <<
-      endl;
-  }
-#endif
-
-  // fetch the voice
-  S_msrVoice
-    voice =
-      fetchVoiceFromPart (
-        inputLineNumber,
-        fCurrentStaffNumberToInsertInto,
-        fCurrentMusicXMLVoiceNumber);
-*/
-
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotes) {
     fLogOutputStream <<
@@ -17343,6 +17308,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteSoundingWholeNotes; // same value by default
     }
     */
+
+    fOnGoingBackupPhase = false;
   }
 
   // create the (new) note
@@ -18045,9 +18012,16 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else {
     // standalone or unpitched note or rest
     if (fCurrentNoteIsARest) {
+      // a rest should become a skip after a <backup />
+      msrNote::msrNoteKind
+        noteKind =
+          fOnGoingBackupPhase
+            ? msrNote::kSkipNote
+            : msrNote::kRestNote;
+            
       newNote->
         setNoteKind (
-          msrNote::kRestNote);
+          noteKind);
     }
     else if (fCurrentNoteIsUnpitched) {
       newNote->

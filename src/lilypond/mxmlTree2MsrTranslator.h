@@ -1886,6 +1886,9 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentBackupDurationDivisions;
     bool                      fOnGoingBackup;
+    
+    // rests between a <backup /> and the next non-rest note are skips in fact
+    bool                      fOnGoingBackupPhase;
 
     // forward handling
     // ------------------------------------------------------
