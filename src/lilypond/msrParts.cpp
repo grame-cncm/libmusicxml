@@ -970,7 +970,7 @@ void msrPart::createMeasuresRepeatFromItsFirstMeasuresInPart (
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashes)
 {
-  // create measure repeat from its first measure in registered staves
+  // create measures repeat from its first measure in registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();
@@ -986,7 +986,7 @@ void msrPart::createMeasuresRepeatFromItsFirstMeasuresInPart (
 void msrPart::appendPendingMeasuresRepeatToPart (
   int inputLineNumber)
 {
-  // append pending measure repeat to registered staves
+  // append pending measures repeat to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
     i != fPartStavesMap.end ();

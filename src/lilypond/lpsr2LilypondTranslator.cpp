@@ -111,7 +111,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // the LPSR score we're visiting
   fVisitedLpsrScore = lpsrScore;
 
-  // inhibit the browsing of measure repeats replicas,
+  // inhibit the browsing of measures repeats replicas,
   // since Lilypond only needs the repeat measure
   fVisitedLpsrScore->
     getMsrScore ()->
@@ -14428,12 +14428,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
     elt->measuresRepeatReplicasNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasureRepeats) {
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasuresRepeats) {
     int repeatMeasuresNumber =
       elt->measuresRepeatPatternMeasuresNumber ();
   
     fLilypondCodeIOstream <<
-      "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
+      "% measures repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
 
     const int fieldWidth = 24;
@@ -14454,7 +14454,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
-      "% start of measure repeat" <<
+      "% start of measures repeat" <<
       singularOrPlural (
         elt->measuresRepeatReplicasNumber (),
         "replica",
@@ -14496,7 +14496,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream <<
       setw (commentFieldWidth) << left <<
-      "% end of measure repeat" <<
+      "% end of measures repeat" <<
       singularOrPlural (
         elt->measuresRepeatReplicasNumber (),
         "replica",

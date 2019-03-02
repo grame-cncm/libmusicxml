@@ -334,7 +334,7 @@ class msr2BsrTranslator :
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
 
 
-    // measure repeats
+    // measures repeats
     // ------------------------------------------------------
 
     S_msrMeasuresRepeatPattern

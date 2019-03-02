@@ -196,8 +196,8 @@ class generalOptions : public optionsGroup
     bool                  fTraceRepeats;
     bool                  fTraceRepeatsDetails;
 
-    // measure repeats
-    bool                  fTraceMeasureRepeats;
+    // measures repeats
+    bool                  fTraceMeasuresRepeats;
 
     // multiple rest measures
     bool                  fTraceRestMeasures;

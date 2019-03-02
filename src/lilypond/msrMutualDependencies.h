@@ -4811,6 +4811,7 @@ typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
 
 //______________________________________________________________________________
+/* JMI
 class msrRepeatElement : public msrElement
 {
   public:
@@ -4922,6 +4923,7 @@ class msrRepeatElement : public msrElement
 };
 typedef SMARTP<msrRepeatElement> S_msrRepeatElement;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatElement& elt);
+*/
 
 //______________________________________________________________________________
 class msrRepeatCommonPart : public msrElement
@@ -5371,6 +5373,117 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 //______________________________________________________________________________
+/* JMI
+class msrMeasuresRepeatElement : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrMeasuresRepeatElement> create (
+      int                 inputLineNumber,
+      S_msrMeasuresRepeat measuresRepeatUplink);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrMeasuresRepeatElement (
+      int                 inputLineNumber,
+      S_msrMeasuresRepeat measuresRepeatUplink);
+      
+    virtual ~msrMeasuresRepeatElement ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // uplinks
+    S_msrMeasuresRepeat   getMeasuresRepeatElementMeasuresRepeatUplink () const
+                              { return fMeasuresRepeatElementMeasuresRepeatUplink; }
+
+    // elements
+    const list<S_msrVoiceElement>&
+                          getMeasuresRepeatElementElementsList ()
+                              { return fMeasuresRepeatElementElementsList; }
+                
+  public:
+
+    // public services
+    // ------------------------------------------------------
+  
+    void                  appendSegmentToMeasuresRepeatElementsList (
+                            int          inputLineNumber,
+                            S_msrSegment segment,
+                            string       context);
+
+    void                  appendMeasuresRepeatToMeasuresRepeatElementsList (
+                            int                  inputLineNumber,
+                            S_msrMeasuresRepeat  measuresRepeat,
+                            string               context);
+
+
+    void                  appendRestMeasuresToMeasuresRepeatElementsList (
+                            int                         inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string                      context);
+
+    S_msrNote             fetchMeasuresRepeatElementFirstNonGraceNote () const;
+
+    void                  collectMeasuresRepeatElementMeasuresIntoFlatList (
+                            int inputLineNumber);
+    
+  private:
+
+    // private services
+    // ------------------------------------------------------
+  
+    void                  appendVoiceElementToMeasuresRepeatElementsList ( // JMI
+                            int               inputLineNumber,
+                            S_msrVoiceElement voiceElement,
+                            string            context);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    string                asString () const;
+                    
+    virtual void          print (ostream& os);
+
+    virtual void          shortPrint (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplinks
+    S_msrMeasuresRepeat   fMeasuresRepeatElementMeasuresRepeatUplink;
+
+    // elements list
+    list<S_msrVoiceElement>
+                          fMeasuresRepeatElementElementsList;
+};
+typedef SMARTP<msrMeasuresRepeatElement> S_msrMeasuresRepeatElement;
+EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatElement& elt);
+*/
+
+//______________________________________________________________________________
 class msrMeasuresRepeatPattern : public msrElement
 {
   public:
@@ -5606,7 +5719,7 @@ class msrMeasuresRepeat : public msrVoiceElement
     int                   getMeasuresRepeatSlashesNumber () const
                               { return fMeasuresRepeatSlashesNumber; }
                               
-    // repeat pattern
+    // measuresRepeat pattern
     void                  setMeasuresRepeatPattern (
                             S_msrMeasuresRepeatPattern
                               measuresRepeatPattern);
@@ -5615,7 +5728,7 @@ class msrMeasuresRepeat : public msrVoiceElement
                           getMeasuresRepeatPattern () const
                               { return fMeasuresRepeatPattern; }
 
-    // repeat replicas
+    // measuresRepeat replicas
     void                  setMeasuresRepeatReplicas (
                             S_msrMeasuresRepeatReplicas
                               measuresRepeatReplicas);
@@ -5681,11 +5794,11 @@ class msrMeasuresRepeat : public msrVoiceElement
     int                   fMeasuresRepeatMeasuresNumber;
     int                   fMeasuresRepeatSlashesNumber;
 
-    // repeat pattern
+    // measuresRepeat pattern
     S_msrMeasuresRepeatPattern
                           fMeasuresRepeatPattern;
     
-    // repeat replicas
+    // measuresRepeat replicas
     S_msrMeasuresRepeatReplicas
                           fMeasuresRepeatReplicas;
 };
@@ -6974,15 +7087,22 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    // fVoiceCurrentMeasuresRepeat is null
-    // or the last msrMeasuresRepeat created with its repeated measure,
-    // but not yet appended to the voice
-    S_msrMeasuresRepeat   fVoiceCurrentMeasuresRepeat;
+    // a variable is needed to handle measures repeats
+    S_msrMeasuresRepeat
+                          fCurrentVoiceMeasuresRepeat;
+    
+    void                  displayVoiceMeasuresRepeat (
+                            int    inputLineNumber,
+                            string context);
+
+    void                  displayVoiceMeasuresRepeatAndVoice (
+                            int    inputLineNumber,
+                            string context);
 
     // fVoicePendingRestMeasures is null  JMI ???
     // or the last msrRestMeasures created,
     // but not yet appended to the voice
-    S_msrRestMeasures     fVoicePendingRestMeasures;
+    S_msrRestMeasures     fVoicePendingRestMeasures; // JMI
     
     // fVoiceRestMeasuresWaitingForItsNextMeasureNumber is null
     // or the last msrRestMeasures created and appended to the voice,

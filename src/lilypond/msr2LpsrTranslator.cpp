@@ -4938,11 +4938,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 
   gIndenter--;
 
-  // set last segment as the measure repeat pattern segment
+  // set last segment as the measures repeat pattern segment
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Setting current last segment as measure repeat pattern segment in voice \"" <<
+      "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
@@ -4988,7 +4988,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
   // create a measures repeat and append it to voice clone
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasureRepeats) {
+  if (gGeneralOptions->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Appending a measures repeat to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5005,7 +5005,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
       measuresRepeat->
         getMeasuresRepeatSlashesNumber ());
 
-  // forget about the current measure repeat pattern clone
+  // forget about the current measures repeat pattern clone
   fCurrentMeasuresRepeatPatternClone = nullptr;
 }
 
@@ -5055,7 +5055,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
     appendMeasuresRepeatReplicaToVoice (
       inputLineNumber);
 
-  // forget about the current measure repeat replicas clone
+  // forget about the current measures repeat replicas clone
  // JMI ??? fCurrentMeasuresRepeatReplicasClone = nullptr;
 }
 

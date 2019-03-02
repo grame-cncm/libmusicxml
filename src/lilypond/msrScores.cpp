@@ -64,7 +64,7 @@ msrScore::msrScore (
   fScoreInstrumentNamesMaxLength      = -1;
   fScoreInstrumentAbbreviationsMaxLength = -1;
   
-  // measure repeats replicas should be browsed by default
+  // measures repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
 
   // rest measures should be browsed by default

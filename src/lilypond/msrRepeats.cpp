@@ -40,6 +40,7 @@ namespace MusicXML2
 */
 
 //______________________________________________________________________________
+/* JMI
 S_msrRepeatElement msrRepeatElement::create (
   int                 inputLineNumber,
   S_msrRepeat         repeatUplink)
@@ -364,14 +365,14 @@ void msrRepeatElement::shortPrint (ostream& os)
  
   gIndenter++;
 
-/* JMI
+/ * JMI
   os <<
     "repeat uplink: '" <<
     fRepeatElementRepeatUplink->
       asShortString () <<
       "'" <<
     endl;
-*/
+* /
 
   // print the elements
   int elementsNumber =
@@ -421,6 +422,7 @@ ostream& operator<< (ostream& os, const S_msrRepeatElement& elt)
   elt->print (os);
   return os;
 }
+*/
 
 //______________________________________________________________________________
 S_msrRepeatCommonPart msrRepeatCommonPart::create (

@@ -1861,7 +1861,7 @@ void msrSegment::appendMeasuresRepeatToSegment (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending measure repeat '" <<
+      "Appending measures repeat '" <<
       measuresRepeat->asString () <<
       "' to segment '" << asString () << "'" <<
       "' in voice \"" <<

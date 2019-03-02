@@ -350,8 +350,8 @@ debugging information to standard error for the specified measures.)",
     fTraceRepeats = boolOptionsInitialValue;
     fTraceRepeatsDetails = boolOptionsInitialValue;
   
-    // measure repeats
-    fTraceMeasureRepeats = boolOptionsInitialValue;
+    // measures repeats
+    fTraceMeasuresRepeats = boolOptionsInitialValue;
   
     // rest measures
     fTraceRestMeasures = boolOptionsInitialValue;
@@ -732,15 +732,15 @@ R"(Repeats details)",
           fTraceRepeats,
           fTracePasses));
       
-    // measure repeats
+    // measures repeats
     
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tmreps", "trace-measure-repeats",
-R"(Measure repeats)",
+          "tmreps", "trace-measures-repeats",
+R"(Measures repeats)",
           "traceMeasureRepeats",
-          fTraceMeasureRepeats,
+          fTraceMeasuresRepeats,
           fTracePasses));
       
     // slashes
@@ -1329,8 +1329,8 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   clone->fTraceRepeats = true;
   clone->fTraceRepeatsDetails = true;
 
-  // measure repeats
-  clone->fTraceMeasureRepeats = true;
+  // measures repeats
+  clone->fTraceMeasuresRepeats = true;
 
   // slashes
   clone->fTraceSlashes = true;
@@ -1502,8 +1502,8 @@ void generalOptions::setAllGeneralTraceOptions (
     fTraceRepeats = boolOptionsInitialValue;
     fTraceRepeatsDetails = boolOptionsInitialValue;
   
-    // measure repeats
-    fTraceMeasureRepeats = boolOptionsInitialValue;
+    // measures repeats
+    fTraceMeasuresRepeats = boolOptionsInitialValue;
   
     // rest measures
     fTraceRestMeasures = boolOptionsInitialValue;
@@ -1837,9 +1837,9 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     booleanAsString (fTraceRepeatsDetails) <<
     endl <<
     
-    // measure repeats
-    setw (fieldWidth) << "traceMeasureRepeats" << " : " <<
-    booleanAsString (fTraceMeasureRepeats) <<
+    // measures repeats
+    setw (fieldWidth) << "traceMeasuresRepeats" << " : " <<
+    booleanAsString (fTraceMeasuresRepeats) <<
     endl <<
 
     // rest measures

@@ -1404,7 +1404,7 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Creating a measure repeat from it's first measure in staff \"" <<
+      "Creating a measures repeat from it's first measure in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
@@ -1430,7 +1430,7 @@ void msrStaff::appendPendingMeasuresRepeatToStaff (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "Appending the pending measure repeat to staff \"" <<
+      "Appending the pending measures repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
