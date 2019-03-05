@@ -430,7 +430,7 @@ namespace MusicXML2
             
             float elementSpecificYOffset = 0.0;
             
-            bool textPushTag = false;   // for Text Tag, use PUSH instead of TAG and make sure you close them RIGHT after the first note.
+            bool textPushTag = false;   // for Text Tag, use PUSH instead of ADD and make sure you close them RIGHT after the first note.
             
             if ((*iter)->getType() == k_direction_type) {
                 
@@ -1295,6 +1295,8 @@ namespace MusicXML2
     {
         /// !IMPORTANT NOTE from MXML DOC: Note that the beam number does not distinguish sets of beams that overlap, as it does for slur and other elements.
         ///             So we need to track them with s Stack
+        /// ! IMPORTANT NOTE from MXML DOC: "Beaming groups are distinguished by being in different voices and/or the presence or absence of grace and cue elements."
+        ///             This means that we should treate Grace and Cue elements separately.
         
         std::vector<S_beam>::const_iterator i = findValue(beams, "begin");
         if (i != beams.end()) {
@@ -1304,23 +1306,27 @@ namespace MusicXML2
                 std::pair<int, int> toto = fBeamStack.top();
                 lastBeamInternalNumber = toto.first + 1;
             }
-            std::pair<int,int> toto2(lastBeamInternalNumber, (*i)->getAttributeIntValue("number", 0));
-            fBeamStack.push(toto2);
+            
+            //cerr << "Measure "<< fMeasNum << " beam BEGIN "<< lastBeamInternalNumber<< " Beam-level="<<(*i)->getAttributeIntValue("number", 0)<< " fBeamOpened?="<<fBeamOpened<< " Grace?"<<fInGrace;
             
             /// Using \beamBegin:NUMBER
             // GUID-79: Guido Engine does not deal well with nested Beams! Just keep the TOP level and store its number for later closing.
-            if (fBeamOpened == false) {
+            if ((fBeamOpened == false) || (fInGrace) || (fInCue)) {
                 stringstream tagName;
                 tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
                 Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
                 add (tag);
-                fBeamOpened = true;
+                if ( (!fInCue)&&(!fInGrace)) {
+                    fBeamOpened = true;
+                }
                 fCurrentBeamNumber = lastBeamInternalNumber;
+                
+                // Add to stack:
+                std::pair<int,int> toto2(lastBeamInternalNumber, (*i)->getAttributeIntValue("number", 0));
+                fBeamStack.push(toto2);
+                
+                //cerr << " Created!"<<endl;
             }
-            
-            /// OR using \beam(...)
-            //Sguidoelement tag = guidotag::create("beam");
-            //push (tag);
         }
         
         if (beams.empty() && fBeamStack.empty() && notevisitor::getType()!=kRest)
@@ -1336,10 +1342,9 @@ namespace MusicXML2
         /// IMPORTANT: Beam Numbering in MusicXML is not the same as in Slurs and are NOT incremental.
         ///            The only assumption we make here is that the numbers are sorted. So we use a REVERSE iterator to close Beams in Order.
         std::vector<S_beam>::const_reverse_iterator i ;
-        size_t beamStackSizeBeforeClosing = fBeamStack.size();
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
-            if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 1) == fBeamStack.top().second)) {
+            if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 0) == fBeamStack.top().second)) {
                 // There is a Beam End. create tag and pop from stack
                 int lastBeamInternalNumber = 0;
                 if (!fBeamStack.empty()) {
@@ -1349,18 +1354,20 @@ namespace MusicXML2
                     return;
                 }
                 
+                //cerr << "Measure "<< fMeasNum << " beam END "<< lastBeamInternalNumber<< " - Beam-Level="<<(*i)->getAttributeIntValue("number", 1)<< " isBeamOpened? "<< fBeamOpened;
+
                 /// using \beamEnd:NUMBER
                 // GUID-79: Only close the initial Beam
-                if (fBeamOpened && (fCurrentBeamNumber == lastBeamInternalNumber)) {
+                if ((fBeamOpened) || (fInGrace) || (fInCue)) {     // && (fCurrentBeamNumber == lastBeamInternalNumber)
                     stringstream tagName;
                     tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
                     Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
                     add (tag);
-                    fBeamOpened = false;
+                    if ((fBeamOpened) && (!fInCue) && (!fInGrace)) {
+                        fBeamOpened = false;
+                    }
+                    //cerr<< " ---> CLOSED! fBeamOpened="<<fBeamOpened<< " Grace?="<<fInGrace<<" Cue?="<<fInCue<<endl;
                 }
-                
-                /// OR using \beam(...)
-                //pop();
 				
                 fBeamStack.pop();
             }
@@ -2348,7 +2355,8 @@ namespace MusicXML2
             add(tag);
         }
         
-        
+        checkBeamEnd (notevisitor::getBeam());
+
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
         
         if (fTupletOpened==false)
@@ -2357,9 +2365,6 @@ namespace MusicXML2
             // In case of ongoing \tuplet, do it after the \tuplet is closed! (Potential Guido parser issue)
             checkTextEnd();
         }
-        
-        checkBeamEnd (notevisitor::getBeam());
-
 
        /*
         if (fBeamStack.size()==0)
