@@ -6371,13 +6371,21 @@ class msrVoice : public msrElement
     bool                  getMusicHasBeenInsertedInVoice () const
                               { return fMusicHasBeenInsertedInVoice; }
 
-    // multiple rests
+    // rests measures
     
     void                  setVoiceContainsRestMeasures (
                             int inputLineNumber);
 
     bool                  getVoiceContainsRestMeasures () const
                               { return fVoiceContainsRestMeasures; }
+
+    // measures repeats
+    
+    void                  setVoiceContainsMeasuresRepeats (
+                            int inputLineNumber);
+
+    bool                  getVoiceContainsMeasuresRepeats () const
+                              { return fVoiceContainsMeasuresRepeats; }
 
     // measures flat list
     const list<S_msrMeasure>&
@@ -6652,6 +6660,17 @@ class msrVoice : public msrElement
     S_msrMeasure          removeLastMeasureFromVoice (
                             int inputLineNumber);
 
+    // segments
+    
+    void                  createNewLastSegmentForVoice (
+                            int    inputLineNumber,
+                            string context);
+    
+    void                  createNewLastSegmentFromFirstMeasureForVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure firstMeasure,
+                            string       context);
+
     // repeats
     
     void                  handleRepeatEndInVoice (
@@ -6722,14 +6741,14 @@ class msrVoice : public msrElement
                             int restMeasuresNumber);
 
     void                  appendRestMeasuresToVoice (
-                            int                       inputLineNumber,
+                            int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
                             
     void                  appendPendingRestMeasuresToVoice (
                             int inputLineNumber);
                             
     void                  handleRestMeasuresStartInVoiceClone (
-                            int                       inputLineNumber,
+                            int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
   
     void                  handleRestMeasuresEndInVoiceClone (
@@ -6752,12 +6771,11 @@ class msrVoice : public msrElement
 
     void                  appendMeasuresRepeatReplicaToVoice (
                             int inputLineNumber);
-
     
     void                  createMeasuresRepeatFromItsFirstMeasuresInVoice (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
-                            int measuresRepeatSlashes);
+                            int measuresRepeatSlashesNumber);
 
     void                  appendMeasuresRepeatToVoice (
                             int                 inputLineNumber,
@@ -6771,16 +6789,28 @@ class msrVoice : public msrElement
                             int measuresRepeatMeasuresNumber,
                             int measuresRepeatSlashesNumber);
 
-    // segments
-    
-    void                  createNewLastSegmentForVoice (
-                            int    inputLineNumber,
-                            string context);
-    
-    void                  createNewLastSegmentFromFirstMeasureForVoice (
-                            int          inputLineNumber,
-                            S_msrMeasure firstMeasure,
-                            string       context);
+    void                  handleMeasuresRepeatStartInVoiceClone (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat);
+  
+    void                  handleMeasuresRepeatEndInVoiceClone (
+                            int inputLineNumber);
+  
+    void                  handleMeasuresRepeatPatternStartInVoiceClone (
+                            int inputLineNumber);
+  
+    void                  handleMeasuresRepeatPatternEndInVoiceClone (
+                            int inputLineNumber);
+  
+    void                  handleMeasuresRepeatReplicasStartInVoiceClone (
+                            int inputLineNumber);
+  
+    void                  handleMeasuresRepeatReplicasEndInVoiceClone (
+                            int inputLineNumber);
+  
+    void                  appendMeasuresRepeatCloneToVoiceClone ( // JMI ???
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeatClone);
 
     // stanzas
 
@@ -6822,6 +6852,30 @@ class msrVoice : public msrElement
     // private services
     // ------------------------------------------------------
 
+    // voice last segment
+    
+    void                  appendVoiceLastSegmentToInitialVoiceElements (
+                            int          inputLineNumber,
+                            string       context);
+    
+    void                  moveVoiceLastSegmentToInitialVoiceElements (
+                            int          inputLineNumber,
+                            string       context);
+    
+    // incomplete measures
+    
+    S_msrMeasure          createMeasureSecondPartIfItIsIncompleteInVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure measure,
+                            string       context);
+
+    void                  handleMeasureSecondPartInVoice (
+                            int          inputLineNumber,
+                            S_msrMeasure measureSecondPart,
+                            string       context);
+
+    // repeats
+    
     S_msrRepeat           createARepeatAndStackIt (
                             int    inputLineNumber,
                             string context);
@@ -6841,14 +6895,6 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
                             
-    void                  appendVoiceLastSegmentToInitialVoiceElements (
-                            int          inputLineNumber,
-                            string       context);
-    
-    void                  moveVoiceLastSegmentToInitialVoiceElements (
-                            int          inputLineNumber,
-                            string       context);
-    
     void                  appendRepeatToInitialVoiceElements (
                             int         inputLineNumber,
                             S_msrRepeat repeat,
@@ -6858,16 +6904,6 @@ class msrVoice : public msrElement
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone,
                             string      context);
-    
-    S_msrMeasure          createMeasureSecondPartIfItIsIncompleteInVoice (
-                            int          inputLineNumber,
-                            S_msrMeasure measure,
-                            string       context);
-
-    void                  handleMeasureSecondPartInVoice (
-                            int          inputLineNumber,
-                            S_msrMeasure measureSecondPart,
-                            string       context);
 
     void                  nestContentsIntoNewRepeatInVoice (
                             int inputLineNumber);
@@ -6908,11 +6944,6 @@ class msrVoice : public msrElement
                             string measureNumber,
                             int    repeatTimes);
 
-    void                  appendRestMeasuresToInitialVoiceElements (
-                            int               inputLineNumber,
-                            S_msrRestMeasures restMeasures,
-                            string            context);
-    
     void                  moveVoiceInitialElementsToRepeatCommonPart (
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
@@ -6949,6 +6980,20 @@ class msrVoice : public msrElement
                             int       inputLineNumber,
                             string    repeatEndingNumber); // may be "1, 2"
 
+    // rest measures
+    
+    void                  appendRestMeasuresToInitialVoiceElements (
+                            int               inputLineNumber,
+                            S_msrRestMeasures restMeasures,
+                            string            context);
+    
+    // measures repeats
+    
+    void                  appendMeasuresRepeatToInitialVoiceElements (
+                            int                 inputLineNumber,
+                            S_msrMeasuresRepeat measuresRepeat,
+                            string              context);
+    
   public:
 
     // visitors
@@ -6976,7 +7021,11 @@ class msrVoice : public msrElement
     void                  displayVoice (
                             int    inputLineNumber,
                             string context);
-                            
+                                
+    void                  displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+                            int    inputLineNumber,
+                            string context);
+
     virtual void          print (ostream& os);
 
   private:
@@ -7040,6 +7089,8 @@ class msrVoice : public msrElement
 
     bool                  fVoiceHasBeenFinalized;
 
+    // segments
+    
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,
     // it is thus logically the end of the latter,
@@ -7048,6 +7099,22 @@ class msrVoice : public msrElement
     // because it is not a mere S_msrElement, but a S_msrSegment
     S_msrSegment          fVoiceLastSegment;
 
+    // fVoiceFirstSegment is used to work around LilyPond issue 34
+    S_msrSegment          fVoiceFirstSegment;
+
+    // measures
+    
+    // fVoiceFirstMeasure is used to number voice upbeats as measure 0
+    S_msrMeasure          fVoiceFirstMeasure;
+
+    // measures flat list
+    // i.e. without segments nor repeats,
+    // gathered from fVoiceInitialElementsList and fVoiceLastSegment
+    // by finalizeMeasure()
+    list<S_msrMeasure>    fVoiceMeasuresFlatList;
+
+    // notes
+    
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
 
@@ -7057,15 +7124,11 @@ class msrVoice : public msrElement
     rational              fVoiceShortestNoteDuration;
     rational              fVoiceShortestNoteTupletFactor;
     
-    // fVoiceFirstSegment is used to work around LilyPond issue 34
-    S_msrSegment          fVoiceFirstSegment;
-
-    // fVoiceFirstMeasure is used to number voice upbeats as measure 0
-    S_msrMeasure          fVoiceFirstMeasure;
-
-    // a stack is needed to handle nested repeats
+    // repeats
+    
+    // a stack is needed to handle pending repeats, which can be nested
     list<S_msrRepeatDescr>
-                          fVoiceRepeatDescrsStack;
+                          fVoicePendingRepeatDescrsStack;
     
     void                  displayVoiceRepeatsStack (
                             int    inputLineNumber,
@@ -7075,9 +7138,12 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    // a variable is needed to handle rest measures
-    S_msrRestMeasures
-                          fCurrentVoiceRestMeasures;
+    // rest measures
+    
+    // fVoicePendingRestMeasures is either null
+    // or the last msrRestMeasures created,
+    // but not yet appended to the voice
+    S_msrRestMeasures     fVoicePendingRestMeasures;
     
     void                  displayVoiceRestMeasures (
                             int    inputLineNumber,
@@ -7087,9 +7153,20 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    // a variable is needed to handle measures repeats
-    S_msrMeasuresRepeat
-                          fCurrentVoiceMeasuresRepeat;
+    // fVoiceRestMeasuresWaitingForItsNextMeasureNumber is either null
+    // or the last msrRestMeasures created and appended to the voice,
+    // but with its next measure number not yet set
+    S_msrRestMeasures     fVoiceRestMeasuresWaitingForItsNextMeasureNumber;
+    int                   fVoiceRemainingRestMeasures;
+    
+    bool                  fVoiceContainsRestMeasures;
+
+    // measure repeats
+    
+    // fVoicePendingMeasuresRepeat is either null
+    // or the last msrMeasuresRepeat created,
+    // but not yet appended to the voice
+    S_msrMeasuresRepeat   fVoicePendingMeasuresRepeat;
     
     void                  displayVoiceMeasuresRepeat (
                             int    inputLineNumber,
@@ -7098,30 +7175,13 @@ class msrVoice : public msrElement
     void                  displayVoiceMeasuresRepeatAndVoice (
                             int    inputLineNumber,
                             string context);
+    
+    bool                  fVoiceContainsMeasuresRepeats;
 
-    // fVoicePendingRestMeasures is null  JMI ???
-    // or the last msrRestMeasures created,
-    // but not yet appended to the voice
-    S_msrRestMeasures     fVoicePendingRestMeasures; // JMI
-    
-    // fVoiceRestMeasuresWaitingForItsNextMeasureNumber is null
-    // or the last msrRestMeasures created and appended to the voice,
-    // but with its next measure number not yet set
-    S_msrRestMeasures     fVoiceRestMeasuresWaitingForItsNextMeasureNumber;
-    int                   fVoiceRemainingRestMeasures;
-    
-    bool                  fVoiceContainsRestMeasures;
- 
     // stanzas
         
     map<string, S_msrStanza>
                           fVoiceStanzasMap;
-
-    // measures flat list
-    // i.e. without segments nor repeats,
-    // gathered from fVoiceInitialElementsList and fVoiceLastSegment
-    // by finalizeMeasure()
-    list<S_msrMeasure>    fVoiceMeasuresFlatList;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
@@ -7370,7 +7430,7 @@ class msrStaff : public msrElement
     void                  createMeasuresRepeatFromItsFirstMeasuresInStaff (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
-                            int measuresRepeatSlashes);
+                            int measuresRepeatSlashesNumber);
     
     void                  appendPendingMeasuresRepeatToStaff (
                             int inputLineNumber);
@@ -7927,18 +7987,6 @@ class msrPart : public msrPartGroupElement
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);
 
-    void                  createMeasuresRepeatFromItsFirstMeasuresInPart (
-                            int inputLineNumber,
-                            int measuresRepeatMeasuresNumber,
-                            int measuresRepeatSlashes);
-
-    void                  appendPendingMeasuresRepeatToPart (
-                            int inputLineNumber);
-                            
-    void                  appendMeasuresRepeatCloneToPart (
-                            int               inputLineNumber,
-                            S_msrRestMeasures restMeasures);
-  
     void                  createRestMeasuresInPart (
                             int inputLineNumber,
                             int restMeasuresNumber);
@@ -7950,6 +7998,18 @@ class msrPart : public msrPartGroupElement
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
 
+    void                  createMeasuresRepeatFromItsFirstMeasuresInPart (
+                            int inputLineNumber,
+                            int measuresRepeatMeasuresNumber,
+                            int measuresRepeatSlashesNumber);
+
+    void                  appendPendingMeasuresRepeatToPart (
+                            int inputLineNumber);
+                            
+    void                  appendMeasuresRepeatCloneToPart (
+                            int               inputLineNumber,
+                            S_msrRestMeasures restMeasures);
+  
     // staves
     
     S_msrStaff            addStaffToPartByItsNumber (

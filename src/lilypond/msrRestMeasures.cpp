@@ -266,8 +266,9 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Creating a newborn clone of rest measures " <<
+      "Creating a newborn clone of rest measures '" <<
       asString () <<
+      "'" <<
       endl;
   }
 #endif

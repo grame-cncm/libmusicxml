@@ -5824,7 +5824,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       elt->getAttributeValue ("implicit");
 
   msrMeasure::msrMeasureImplicitKind
-    measureImplicitKind = msrMeasure::kMeasureImplicitNo; // default value
+    measureImplicitKind =
+      msrMeasure::kMeasureImplicitNo; // default value
   
   if       (implicit == "yes") {
     measureImplicitKind =
@@ -8024,10 +8025,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   string measuresRepeatType =
     elt->getAttributeValue ("type");
 
-  fCurrentMeasuresRepeatKind = msrMeasuresRepeat::k_NoMeasuresRepeat;
+  fCurrentMeasuresRepeatKind =
+    msrMeasuresRepeat::k_NoMeasuresRepeat;
   
   if      (measuresRepeatType == "start") {
-    fCurrentMeasuresRepeatKind = msrMeasuresRepeat::kStartMeasuresRepeat; // JMI
+    fCurrentMeasuresRepeatKind =
+      msrMeasuresRepeat::kStartMeasuresRepeat; // JMI
 
     fCurrentPart->
       createMeasuresRepeatFromItsFirstMeasuresInPart (
@@ -8037,7 +8040,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   }
   
   else if (measuresRepeatType == "stop") {
-    fCurrentMeasuresRepeatKind = msrMeasuresRepeat::kStopMeasuresRepeat; // JMI
+    fCurrentMeasuresRepeatKind =
+      msrMeasuresRepeat::kStopMeasuresRepeat; // JMI
 
     fCurrentPart->
       appendPendingMeasuresRepeatToPart (

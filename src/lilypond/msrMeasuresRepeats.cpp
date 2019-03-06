@@ -621,7 +621,7 @@ msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas ()
 {}
 
 void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
-    S_msrSegment measuresRepeatReplicasSegment)
+  S_msrSegment measuresRepeatReplicasSegment)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRepeats) {
@@ -820,6 +820,35 @@ msrMeasuresRepeat::msrMeasuresRepeat (
 
 msrMeasuresRepeat::~msrMeasuresRepeat ()
 {}
+
+S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
+  S_msrVoice containingVoice)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasuresRepeats) {
+    gLogIOstream <<
+      "Creating a newborn clone of measures repeat '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+  
+  // sanity check
+  msrAssert(
+    containingVoice != nullptr,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeat
+    newbornClone =
+      msrMeasuresRepeat::create (
+        fInputLineNumber,
+        fMeasuresRepeatMeasuresNumber,
+        fMeasuresRepeatSlashesNumber,
+        containingVoice);
+    
+  return newbornClone;
+}
 
 void msrMeasuresRepeat::setMeasuresRepeatPattern (
   S_msrMeasuresRepeatPattern measuresRepeatPattern)
@@ -1034,22 +1063,25 @@ void msrMeasuresRepeat::displayMeasuresRepeat (
 void msrMeasuresRepeat::print (ostream& os)
 {
   os <<
-    endl <<
     "MeasuresRepeat" <<
     ", line " << fInputLineNumber <<
+    /* JMI ???
     " (" <<
     singularOrPlural (
-      measuresRepeatPatternMeasuresNumber (),
+      fMeasuresRepeatPattern
+        ? measuresRepeatPatternMeasuresNumber ()
+        : 0,
       "pattern measure",
       "pattern measures") <<
     ", " <<
-    /* JMI ???
     singularOrPlural (
-      measuresRepeatReplicasMeasuresNumber (),
+      fMeasuresRepeatPattern
+        ? measuresRepeatReplicasMeasuresNumber ()
+        : 0,
       "replica measure",
       "replicas measures") <<
-      */
     ")" <<
+    */
     endl;
   
   gIndenter++;
@@ -1063,8 +1095,7 @@ void msrMeasuresRepeat::print (ostream& os)
 
   else {
     os <<
-      fMeasuresRepeatPattern <<
-      endl;
+      fMeasuresRepeatPattern;
   }
   
   // print the measures repeat replicas
