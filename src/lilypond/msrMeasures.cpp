@@ -2545,7 +2545,7 @@ void msrMeasure::finalizeMeasure (
 #endif
     
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) { // JMI
+  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Finalizing measure '" <<
       fMeasureNumber <<
@@ -2558,7 +2558,20 @@ void msrMeasure::finalizeMeasure (
       "\" (" << context << context << ")" <<
       ", line " << inputLineNumber <<
       endl;
+  }
+#endif
 
+  gIndenter++;
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeMeasure() 1");
+  }
+#endif
+
+/* JMI
     gIndenter++;
 
     const int fieldWidth = 34;
@@ -2605,6 +2618,37 @@ void msrMeasure::finalizeMeasure (
     gIndenter--;
   }
 #endif
+* */
+
+  // sanity check
+  switch (fMeasureKind) {
+    case msrMeasure::kEmptyMeasureKind:
+      {
+        stringstream s;
+      
+        s <<
+          "measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' in segment '" <<
+          fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+          "' in voice \"" <<
+          voice->getVoiceName () <<
+          "\" (" << context << context << ")" <<
+          ", line " << inputLineNumber <<
+          " IS EMPTY";
+      
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+    default:
+      ;
+  } // switch
 
   // fetch the staff
   S_msrStaff
@@ -2650,8 +2694,6 @@ void msrMeasure::finalizeMeasure (
       inputLineNumber,
       s.str ());
   }
-
-  gIndenter++;
 
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
@@ -2801,7 +2843,7 @@ void msrMeasure::finalizeMeasure (
   if (gGeneralOptions->fTraceMeasures) {
     displayMeasure (
       inputLineNumber,
-      "finalizeMeasure()");
+      "finalizeMeasure() 2");
   }
 #endif
 
