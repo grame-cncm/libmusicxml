@@ -1715,19 +1715,12 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
     if (
       gGeneralOptions->fTraceBarlinesDetails
         ||
-      gGeneralOptions->fTraceSegmentsDetails) { // JMI
-      gLogIOstream <<
-        endl <<
-        "*********>> Current voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        ", line " << barline->getInputLineNumber () <<
-        " contains:" <<
-        endl <<
-        fSegmentVoiceUplink <<
-        "<<*********" <<
-        endl <<
-        endl;
+      gGeneralOptions->fTraceSegmentsDetails
+    ) { // JMI
+      fSegmentVoiceUplink->
+        displayVoice (
+          barline->getInputLineNumber (),
+          "appendBarlineToSegment (S_msrBarline)");
     }
 #endif
   }

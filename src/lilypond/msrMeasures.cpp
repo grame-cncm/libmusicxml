@@ -3095,7 +3095,8 @@ void msrMeasure::print (ostream& os)
     "Measure '" <<
     fMeasureNumber <<
     "', " << measureKindAsString () <<
-    ", " << fFullMeasureWholeNotes << " per full measure" <<
+    ", actualMeasureWholeNotes: " << fActualMeasureWholeNotes <<
+    ", fullMeasureWholeNotes: " << fFullMeasureWholeNotes <<
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -3124,15 +3125,7 @@ void msrMeasure::print (ostream& os)
     booleanAsString (
       fMeasureFirstInVoice) <<
     endl <<
-
-    setw (fieldWidth) <<
-    "actualMeasureWholeNotes" << " : " << fActualMeasureWholeNotes <<
-    endl <<
     
-    setw (fieldWidth) <<
-    "fullMeasureWholeNotes" << " : " << fFullMeasureWholeNotes <<
-    endl <<
-
     /* JMI
     // fetch the staff
     S_msrStaff

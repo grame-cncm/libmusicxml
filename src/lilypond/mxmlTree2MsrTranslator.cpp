@@ -1726,7 +1726,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentTimeSymbolKind =
-    msrTime::kTimeSymbolSingleNumber; // default value
+    msrTime::kTimeSymbolNone; // default value
   
   if       (timeSymbol == "common") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;

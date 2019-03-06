@@ -1776,10 +1776,11 @@ void msrPart::print (ostream& os)
     setw (fieldWidth) <<
     "partNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
-
-    setw (fieldWidth) << "partContainsRestMeasures" << " : " <<
-    booleanAsString (fPartContainsRestMeasures) <<
     endl <<
+
+    setw (fieldWidth) <<
+    "partContainsRestMeasures" << " : " <<
+    booleanAsString (fPartContainsRestMeasures) <<
     endl;
 
   // print current the part clef if any
