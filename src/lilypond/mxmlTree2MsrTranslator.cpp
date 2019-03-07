@@ -141,10 +141,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingInterchangeable = false;
 
   // measures
+  fPartMeasuresCounter = 0;
   fScoreFirstMeasureNumber = "";
   fPartFirstMeasureNumber = "";
   fCurrentMeasureNumber = "???";
-  fCurrentMeasureOrdinalNumber = 0;
   
   // transpose handling
   fCurrentTransposeNumber = -213;
@@ -736,10 +736,10 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentRepeatEndingStartBarline = nullptr;
 
   // measures
+  fPartMeasuresCounter = 0;
   fScoreFirstMeasureNumber = "";
   fPartFirstMeasureNumber = "";
   fCurrentMeasureNumber = "???";
-  fCurrentMeasureOrdinalNumber = 0;
   
   fCurrentMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentMusicXMLVoiceNumber = K_NO_VOICE_NUMBER;
@@ -5746,14 +5746,14 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   }
 
   // take this measure into account
-  fCurrentMeasureOrdinalNumber++;
+  fPartMeasuresCounter++;
   
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasuresDetails) {
     gLogIOstream <<
       "==> visitStart (S_measure" <<
-      ", fCurrentMeasureOrdinalNumber = '" <<
-        fCurrentMeasureOrdinalNumber <<
+      ", fPartMeasuresCounter = '" <<
+        fPartMeasuresCounter <<
       "', fCurrentMeasureNumber = '" <<
         fCurrentMeasureNumber <<
       "', line " << inputLineNumber <<
@@ -5764,10 +5764,19 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 #endif
 
   // number
-
   fCurrentMeasureNumber =
     elt->getAttributeValue ("number");
 
+  // set next measure number in current part' previous measure
+  // if this measure is not the first one
+  if (fPartMeasuresCounter > 1) {
+    fCurrentPart->
+      setNextMeasureNumberInPart (
+        inputLineNumber,
+        fCurrentMeasureNumber);
+  }
+    
+  // consistency check
   if (! fPartFirstMeasureNumber.size ()) {
     // this is the first measure in the part
     fPartFirstMeasureNumber = fCurrentMeasureNumber;
@@ -5856,22 +5865,13 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
     createMeasureAndAppendItToPart (
       inputLineNumber,
       fCurrentMeasureNumber,
-      fCurrentMeasureOrdinalNumber,
+      fPartMeasuresCounter, // JMI
       measureImplicitKind);
 
   // reset staff change detection
   fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentStaffNumberToInsertInto  = 1; // default value JMI K_NO_STAFF_NUMBER;
   
-  // set next measure number in current part
-  // if this measure is not the first one
-  if (fCurrentMeasureOrdinalNumber > 1) {
-    fCurrentPart->
-      setNextMeasureNumberInPart (
-        inputLineNumber,
-        fCurrentMeasureNumber);
-  }
-    
 /* JMI
   // is this measure number in the debug set?
 #ifdef TRACE_OPTIONS

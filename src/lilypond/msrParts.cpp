@@ -392,7 +392,7 @@ string msrPart::getPartCombinedName () const
 void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
   string measureNumber,
-  int    measureOrdinalNumber,
+  int    measurePuristNumber,
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
@@ -425,7 +425,7 @@ void msrPart::createMeasureAndAppendItToPart (
       createMeasureAndAppendItToStaff (
         inputLineNumber,
         measureNumber,
-        measureOrdinalNumber,
+        measurePuristNumber,
         measureImplicitKind);
   } // for
 
@@ -494,7 +494,7 @@ void msrPart::complementPartVoicesUpToMeasure (
       createMeasureAndAppendItToStaff (
         inputLineNumber,
         measureNumber,
-        measureOrdinalNumber,
+        measurePuristNumber,
         measureImplicitKind);
   } // for
 }

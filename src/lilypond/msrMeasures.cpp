@@ -58,7 +58,7 @@ msrMeasure::msrMeasure (
 
   // set measure numbers
   fMeasureNumber = measureNumber;
-  fMeasureOrdinalNumber = -1; // default value
+  fMeasurePuristNumber = -1; // default value
   fNextMeasureNumber = "";
 
   // set debug number
@@ -410,9 +410,9 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         " in segment " <<
         containingSegment->asString () <<
         " in voice \"" <<
-          containingSegment->
-            getSegmentVoiceUplink ()->
-              getVoiceName () <<
+        containingSegment->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
         "\"" <<
         endl;
     }
@@ -424,6 +424,31 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // fMeasureSegmentUplink JMI ???
   
   return measureDeepCopy;
+}
+
+void msrMeasure::setMeasurePuristNumber (
+  int measurePuristNumber)
+{
+#ifdef TRACE_OPTIONS
+    if (gGeneralOptions->fTraceMeasures) {
+      gLogIOstream <<
+        "Setting ordinal number of measure '" <<
+        fMeasureNumber <<
+        "' to " <<
+        measurePuristNumber <<
+        " in segment " <<
+        fMeasureSegmentUplink->asString () <<
+        " in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+  fMeasurePuristNumber =
+    measurePuristNumber;
 }
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
@@ -2360,7 +2385,7 @@ void msrMeasure::determineMeasureKind (
 #endif
     
         fMeasureKind = kUpbeatMeasureKind;
-        fMeasureOrdinalNumber = 0; // JMI only for first one in voice
+        fMeasurePuristNumber = -999; // JMI should not occur
         break;
         
       case msrMeasure::kMeasureFirstInSegmentYes:
@@ -2380,6 +2405,7 @@ void msrMeasure::determineMeasureKind (
 #endif
     
         fMeasureKind = kUpbeatMeasureKind;
+        fMeasurePuristNumber = 0; // JMI this is an anacrusis
         break;
         
       case msrMeasure::kMeasureFirstInSegmentNo:
@@ -3267,8 +3293,8 @@ string msrMeasure::asShortString () const
   s <<
     "Measure '" <<
     fMeasureNumber <<
-    ", measureOrdinalNumber: " <<
-    fMeasureOrdinalNumber <<
+    ", measurePuristNumber: " <<
+    fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
@@ -3291,8 +3317,8 @@ string msrMeasure::asString () const
   s <<
     "Measure '" <<
     fMeasureNumber <<
-    ", measureOrdinalNumber: " <<
-    fMeasureOrdinalNumber <<
+    ", measurePuristNumber: " <<
+    fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
@@ -3314,8 +3340,8 @@ void msrMeasure::displayMeasure (
     endl <<
     "*********>> Measure '" <<
     fMeasureNumber <<
-    "', measureOrdinalNumber: " <<
-    fMeasureOrdinalNumber <<
+    "', measurePuristNumber: " <<
+    fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     " (" << context << ")" <<
@@ -3358,7 +3384,7 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "measureOrdinalNumber" << " : " << fMeasureOrdinalNumber <<
+    "measurePuristNumber" << " : " << fMeasurePuristNumber <<
     endl <<
     setw (fieldWidth) <<
     "measureDebugNumber" << " : " << fMeasureDebugNumber <<

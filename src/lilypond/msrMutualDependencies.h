@@ -718,15 +718,11 @@ class msrMeasure : public msrElement
     string                getMeasureNumber () const
                               { return fMeasureNumber; }
 
-    void                  setMeasureOrdinalNumber (
-                            int measureOrdinalNumber)
-                              {
-                                fMeasureOrdinalNumber =
-                                  measureOrdinalNumber;
-                              }
+    void                  setMeasurePuristNumber (
+                            int measurePuristNumber);
 
-    int                   getMeasureOrdinalNumber () const
-                              { return fMeasureOrdinalNumber; }
+    int                   getMeasurePuristNumber () const
+                              { return fMeasurePuristNumber; }
 
 
     void                  setNextMeasureNumber (string nextMeasureNumber);
@@ -757,9 +753,6 @@ class msrMeasure : public msrElement
                       
     // measure kind
     
- // JMI   void                  setMeasureKind (msrMeasureKind measureKind)
-   //                           { fMeasureKind = measureKind; }
-
     msrMeasureKind        getMeasureKind () const
                               { return fMeasureKind; }
 
@@ -1194,8 +1187,9 @@ class msrMeasure : public msrElement
                           fMeasurePendingMeasureElementsList;
     void                  printMeasurePendingMeasureElementsList ();
 
-    // ordinal number, forcing anacruses to start at '0' if it's not the case
-    int                   fMeasureOrdinalNumber; 
+    // purist measure number, forcing anacruses to start at '0' if it's not the case
+    // and not shared among repeats components
+    int                   fMeasurePuristNumber; 
 
     // debug number, unique for every msrMeasure instance
     static int            gMeasureDebugNumber; 
@@ -1299,7 +1293,7 @@ class msrSegment : public msrVoiceElement
     S_msrMeasure          createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber,
+                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
                       
@@ -6368,6 +6362,9 @@ class msrVoice : public msrElement
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
+    const int             getVoiceCurrentMeasurePuristNumber () const
+                              { return fVoiceCurrentMeasurePuristNumber; }
+
     void                  setVoiceFirstMeasure (
                             S_msrMeasure measure)
                               { fVoiceFirstMeasure = measure; }
@@ -6432,14 +6429,14 @@ class msrVoice : public msrElement
     S_msrMeasure          createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber,
+                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
     S_msrMeasure          createMeasureSecondPart (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber,
+                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
@@ -7097,6 +7094,12 @@ class msrVoice : public msrElement
     
     string                fVoiceCurrentMeasureNumber;
     
+    int                   fVoiceCurrentMeasurePuristNumber;
+                            // this is a 'purist' measure number,
+                            // that starts at 0 if there is an anacrusis,
+                            // and 1 otherwise,
+                            // and is shared by incomplete (sub)measure parts
+    
     // musically empty voices
     
     bool                  fMusicHasBeenInsertedInVoice;
@@ -7420,7 +7423,7 @@ class msrStaff : public msrElement
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber,
+                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
@@ -7948,7 +7951,7 @@ class msrPart : public msrPartGroupElement
     void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber,
+                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 

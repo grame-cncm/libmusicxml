@@ -931,10 +931,10 @@ class mxmlTree2MsrTranslator :
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
     // since measure numbers are actually strings
 
+    int                       fPartMeasuresCounter;
     string                    fScoreFirstMeasureNumber;
     string                    fPartFirstMeasureNumber;
     string                    fCurrentMeasureNumber;
-    int                       fCurrentMeasureOrdinalNumber;
     
     // measure style handling
     // ------------------------------------------------------
