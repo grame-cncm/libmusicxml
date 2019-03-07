@@ -401,8 +401,8 @@ void msrVoice::initializeVoice (
     fetchVoicePartUplink ()->
       getPartCurrentMeasureNumber ();
 
-  // set voice current measure ordinal number
-  fVoiceCurrentMeasurePuristNumber = 1; // default value
+  // set voice current measure purist number
+  fVoiceCurrentMeasurePuristNumber = 0;
   
   // music has not been inserted in voice yet
   fMusicHasBeenInsertedInVoice = false;
@@ -880,7 +880,6 @@ void msrVoice::createNewLastSegmentForVoice (
 S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
   string measureNumber,
-  int    measurePuristNumber,
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
@@ -913,8 +912,12 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
         createMeasureAndAppendItToSegment (
           inputLineNumber,
           measureNumber,
-          measurePuristNumber,
           measureImplicitKind);
+
+  // set it's purist number
+  result->
+    setMeasurePuristNumber (
+      ++fVoiceCurrentMeasurePuristNumber);
 
   // handle voice kind
   switch (fVoiceKind) {
@@ -927,7 +930,6 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
-            measurePuristNumber,
             measureImplicitKind);
       }
       break;
@@ -975,8 +977,15 @@ S_msrMeasure msrVoice::createMeasureSecondPart ( // JMI
         createMeasureAndAppendItToSegment (
           inputLineNumber,
           measureNumber,
-          measurePuristNumber,
           measureImplicitKind);
+
+  // set it's purist number
+  result->
+    setMeasurePuristNumber (
+      measurePuristNumber);
+
+  // free its original purist number
+  fVoiceCurrentMeasurePuristNumber--;
 
   // handle voice kind
   switch (fVoiceKind) {
@@ -989,7 +998,6 @@ S_msrMeasure msrVoice::createMeasureSecondPart ( // JMI
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
-            measurePuristNumber,
             measureImplicitKind);
       }
       break;
@@ -2307,7 +2315,6 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
       inputLineNumber,
       graceNotesGroup->
         getGraceNotesGroupMeasureNumber (),
-      1, //    measurePuristNumber,
       msrMeasure::kMeasureImplicitNo);
   }
   
@@ -2991,12 +2998,15 @@ S_msrMeasure msrVoice::createMeasureSecondPartIfItIsIncompleteInVoice (
             createMeasureNewbornClone (
               measure->getMeasureSegmentUplink ());
 
-        // the new measure has the same ordinal measure as measure
+        // the new measure has the same purist measure as measure
         result->
           setMeasurePuristNumber ( // JMI
             measure->getMeasurePuristNumber ());
         
-        // set it as created after a repeat
+        // free its original purist number
+        fVoiceCurrentMeasurePuristNumber--;
+
+        // set new measure as created after a repeat
         result->
           setMeasureCreatedForARepeatKind (
             msrMeasure::kMeasureCreatedForARepeatAfter);
@@ -4164,7 +4174,6 @@ void msrVoice::handleNestedRepeatEndInVoice (
     createMeasureAndAppendItToVoice (
       inputLineNumber,
       measureNumber,
-      997, // measure ordinal number JMI
       msrMeasure::kMeasureImplicitNo);
   
     // set it as created after a repeat

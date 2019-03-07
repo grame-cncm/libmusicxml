@@ -5865,7 +5865,6 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
     createMeasureAndAppendItToPart (
       inputLineNumber,
       fCurrentMeasureNumber,
-      fPartMeasuresCounter, // JMI
       measureImplicitKind);
 
   // reset staff change detection

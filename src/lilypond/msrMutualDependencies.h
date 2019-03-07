@@ -1293,7 +1293,6 @@ class msrSegment : public msrVoiceElement
     S_msrMeasure          createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
                       
@@ -6362,6 +6361,9 @@ class msrVoice : public msrElement
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
+    void                  decrementVoiceCurrentMeasurePuristNumber ()
+                              {  fVoiceCurrentMeasurePuristNumber--; }
+                              
     const int             getVoiceCurrentMeasurePuristNumber () const
                               { return fVoiceCurrentMeasurePuristNumber; }
 
@@ -6429,7 +6431,6 @@ class msrVoice : public msrElement
     S_msrMeasure          createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
@@ -7423,7 +7424,6 @@ class msrStaff : public msrElement
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
@@ -7951,7 +7951,6 @@ class msrPart : public msrPartGroupElement
     void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measurePuristNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 

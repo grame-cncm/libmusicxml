@@ -232,7 +232,6 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   int    inputLineNumber,
   string measureNumber,
-  int    measurePuristNumber,
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
@@ -291,11 +290,6 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
         inputLineNumber,
         measureNumber,
         this);
-
-  // set it's ordinal number
-  result->
-    setMeasurePuristNumber (
-      measurePuristNumber);
 
   // set 'first in segment' kind
   result->

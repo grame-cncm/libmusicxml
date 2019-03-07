@@ -432,7 +432,7 @@ void msrMeasure::setMeasurePuristNumber (
 #ifdef TRACE_OPTIONS
     if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
-        "Setting ordinal number of measure '" <<
+        "Setting purist number of measure '" <<
         fMeasureNumber <<
         "' to " <<
         measurePuristNumber <<
@@ -447,8 +447,7 @@ void msrMeasure::setMeasurePuristNumber (
     }
 #endif
 
-  fMeasurePuristNumber =
-    measurePuristNumber;
+  fMeasurePuristNumber = measurePuristNumber;
 }
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
@@ -2846,6 +2845,10 @@ void msrMeasure::finalizeMeasure (
   else {
     // this is no regular measure end
 
+    // free its purist number for sharing by next measure
+    voice->
+      decrementVoiceCurrentMeasurePuristNumber ();
+
     // increment voice whole notes since last regular measure end
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (
@@ -2926,6 +2929,49 @@ void msrMeasure::finalizeMeasureClone (
       inputLineNumber,
   // JMI    __FILE__, __LINE__,
       s.str ());
+  }
+
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+
+  // regular measure ends detection
+  rational
+    wholeNotesSinceLastRegularMeasureEnd =
+      voice->
+        getWholeNotesSinceLastRegularMeasureEnd ();
+
+  rational
+    newWholeNotesSinceLastRegularMeasureEnd =
+      wholeNotesSinceLastRegularMeasureEnd
+        +
+      fActualMeasureWholeNotes;
+    
+  if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
+    // this is a regular measure end
+
+    // reset voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (0);
+  
+    fMeasureEndIsRegular = true;
+  }
+
+  else {
+    // this is no regular measure end
+
+    // free its purist number for sharing by next measure
+    voice->
+      decrementVoiceCurrentMeasurePuristNumber ();
+
+    // increment voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (
+        newWholeNotesSinceLastRegularMeasureEnd);
+
+    fMeasureEndIsRegular = false;
   }
 
   /* JMI

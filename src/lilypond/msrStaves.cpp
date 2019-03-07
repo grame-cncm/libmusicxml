@@ -373,7 +373,6 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
   string measureNumber,
-  int    measurePuristNumber,
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
@@ -419,7 +418,6 @@ void msrStaff::createMeasureAndAppendItToStaff (
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
-            measurePuristNumber,
             measureImplicitKind);
         break;
         
