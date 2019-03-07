@@ -6761,7 +6761,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   if (
     fOnGoingVoiceCadenza
       &&
-    measureKind != msrMeasure::kOverfullMeasureKind) {
+    measureKind != msrMeasure::kOverfullMeasureKind
+  ) {
     fLilypondCodeIOstream <<
       endl <<
       "\\cadenzaOff" <<
@@ -7086,6 +7087,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         break;
         
       case msrMeasure::kUnderfullMeasureKind:
+        if (elt-> getMeasureEndIsRegular ()) {
+          fLilypondCodeIOstream <<
+            "|";
+    
+          if (nextMeasureNumber.size ()) {
+            fLilypondCodeIOstream <<
+              " % " <<
+              nextMeasureNumber;
+          }
+          
+          fLilypondCodeIOstream <<
+            endl;
+        }
+        
       /* JMI
         fLilypondCodeIOstream <<
           endl <<

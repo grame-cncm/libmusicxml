@@ -817,7 +817,7 @@ class msrMeasure : public msrElement
                               
     // chords handling
     
-    S_msrNote              getMeasureLastHandledNote () const
+    S_msrNote             getMeasureLastHandledNote () const
                               { return fMeasureLastHandledNote; }
 
     // elements list
@@ -828,6 +828,11 @@ class msrMeasure : public msrElement
 
     bool                  getMeasureContainsMusic () const
                               { return fMeasureContainsMusic; }
+
+    // regular measure ends detection
+    
+    bool                  getMeasureEndIsRegular () const
+                              { return fMeasureEndIsRegular; }
 
   public:
   
@@ -1077,6 +1082,10 @@ class msrMeasure : public msrElement
                             int    inputLineNumber,
                             string context);
 
+    void                  finalizeMeasureClone (
+                            int          inputLineNumber,
+                            S_msrMeasure originalMeasure);
+
   private:
   
     // private services
@@ -1191,6 +1200,9 @@ class msrMeasure : public msrElement
     // debug number, unique for every msrMeasure instance
     static int            gMeasureDebugNumber; 
     int                   fMeasureDebugNumber; 
+
+    // regular measure ends detection
+    bool                  fMeasureEndIsRegular;
 
     // measure finalization
     bool                  fMeasureHasBeenFinalized;
@@ -6371,7 +6383,16 @@ class msrVoice : public msrElement
     bool                  getMusicHasBeenInsertedInVoice () const
                               { return fMusicHasBeenInsertedInVoice; }
 
-    // rests measures
+    // regular measure ends detection
+
+    void                  setWholeNotesSinceLastRegularMeasureEnd (
+                            rational value)
+                              { fWholeNotesSinceLastRegularMeasureEnd += value; }
+
+    rational              getWholeNotesSinceLastRegularMeasureEnd () const
+                              { return fWholeNotesSinceLastRegularMeasureEnd; }
+
+   // rests measures
     
     void                  setVoiceContainsRestMeasures (
                             int inputLineNumber);
@@ -7080,6 +7101,10 @@ class msrVoice : public msrElement
     
     bool                  fMusicHasBeenInsertedInVoice;
 
+    // regular measure ends detection
+
+    rational              fWholeNotesSinceLastRegularMeasureEnd;
+    
     // voice internal handling
     
     list<S_msrVoiceElement>

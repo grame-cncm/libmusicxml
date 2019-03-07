@@ -268,22 +268,26 @@ S_msrBarline msrBarline::create (
   msrBarlineCategoryKind        barlineCategoryKind,
   msrBarlineHasSegnoKind        barlineHasSegnoKind,
   msrBarlineHasCodaKind         barlineHasCodaKind,
-  msrBarlineLocationKind        locationKind,
-  msrBarlineStyleKind           styleKind,
-  msrBarlineEndingTypeKind      endingTypeKind,
+  msrBarlineLocationKind        barlineLocationKind,
+  msrBarlineStyleKind           barlineStyleKind,
+  msrBarlineEndingTypeKind      barlineEndingTypeKind,
   string                        endingNumber,
-  msrBarlineRepeatDirectionKind repeatDirectionKind,
-  msrBarlineRepeatWingedKind    repeatWingedKind,
+  msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+  msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
   int                           barlineTimes)
 {
   msrBarline* o =
     new msrBarline (
       inputLineNumber,
       barlineCategoryKind,
-      barlineHasSegnoKind, barlineHasCodaKind,
-      locationKind, styleKind,
-      endingTypeKind, endingNumber,
-      repeatDirectionKind, repeatWingedKind,
+      barlineHasSegnoKind,
+      barlineHasCodaKind,
+      barlineLocationKind,
+      barlineStyleKind,
+      barlineEndingTypeKind,
+      endingNumber,
+      barlineRepeatDirectionKind,
+      barlineRepeatWingedKind,
       barlineTimes);
   assert(o!=0);
   return o;
@@ -294,12 +298,12 @@ msrBarline::msrBarline (
   msrBarlineCategoryKind        barlineCategoryKind,
   msrBarlineHasSegnoKind        barlineHasSegnoKind,
   msrBarlineHasCodaKind         barlineHasCodaKind,
-  msrBarlineLocationKind        locationKind,
-  msrBarlineStyleKind           styleKind,
-  msrBarlineEndingTypeKind      endingTypeKind,
+  msrBarlineLocationKind        barlineLocationKind,
+  msrBarlineStyleKind           barlineStyleKind,
+  msrBarlineEndingTypeKind      barlineEndingTypeKind,
   string                        endingNumber,
-  msrBarlineRepeatDirectionKind repeatDirectionKind,
-  msrBarlineRepeatWingedKind    repeatWingedKind,
+  msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+  msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
   int                           barlineTimes)
     : msrMeasureElement (inputLineNumber)
 {
@@ -308,12 +312,12 @@ msrBarline::msrBarline (
   fBarlineHasSegnoKind = barlineHasSegnoKind;
   fBarlineHasCodaKind  = barlineHasCodaKind;
   
-  fLocationKind        = locationKind;
-  fStyleKind           = styleKind;
-  fEndingTypeKind      = endingTypeKind;
+  fLocationKind        = barlineLocationKind;
+  fStyleKind           = barlineStyleKind;
+  fEndingTypeKind      = barlineEndingTypeKind;
   fEndingNumber        = endingNumber;
-  fRepeatDirectionKind = repeatDirectionKind;
-  fRepeatWingedKind    = repeatWingedKind;
+  fRepeatDirectionKind = barlineRepeatDirectionKind;
+  fRepeatWingedKind    = barlineRepeatWingedKind;
 
   fBarlineTimes = barlineTimes;
   
@@ -713,7 +717,7 @@ void msrBarline::print (ostream& os)
     barlineStyleKindAsString (fStyleKind) <<
     endl <<
     setw (fieldWidth) <<
-    "endingType" << " : " <<
+    "endingTypeKind" << " : " <<
     barlineEndingTypeKindAsString (fEndingTypeKind) <<
     endl <<
     

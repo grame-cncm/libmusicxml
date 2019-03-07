@@ -153,6 +153,9 @@ void msrMeasure::initializeMeasure ()
   // measure doesn't contain music yet
   fMeasureContainsMusic = false;
 
+  // regular measure ends detection
+  fMeasureEndIsRegular = true; // default value
+
   // measure finalization
   fMeasureHasBeenFinalized = false;
 }
@@ -228,6 +231,10 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   // single-measure rest?
   newbornClone->fMeasureIsASingleMeasureRest =
     fMeasureIsASingleMeasureRest;
+
+  // regular measure ends detection // JMI TEMP
+  newbornClone->fMeasureEndIsRegular =
+    fMeasureEndIsRegular;
 
   /*   
   // fActualMeasureWholeNotes and fFullMeasureWholeNotes
@@ -2535,7 +2542,7 @@ void msrMeasure::finalizeMeasure (
     voice =
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ();
-    
+
   // fetch the part measure whole notes high tide
 #ifdef TRACE_OPTIONS
   rational
@@ -2570,55 +2577,6 @@ void msrMeasure::finalizeMeasure (
       "finalizeMeasure() 1");
   }
 #endif
-
-/* JMI
-    gIndenter++;
-
-    const int fieldWidth = 34;
-    
-    gLogIOstream << left <<
-      setw (fieldWidth) <<
-      "actualMeasureWholeNotes" << " = " << fActualMeasureWholeNotes <<
-      endl <<
-      setw (fieldWidth) <<
-      "fullMeasureWholeNotes" << " = " << fFullMeasureWholeNotes <<
-      endl <<
-      setw (fieldWidth) <<
-      "partActualMeasureWholeNotesHighTide" << " = " <<
-      partActualMeasureWholeNotesHighTide <<
-      endl <<
-      setw (fieldWidth) <<
-      "measurePendingMeasureElementsList" << " = " <<
-      endl;
-
-    gIndenter++;
-
-    if (fMeasurePendingMeasureElementsList.size ()) {
-      list<S_msrMeasureElement>::const_iterator
-        iBegin = fMeasurePendingMeasureElementsList.begin (),
-        iEnd   = fMeasurePendingMeasureElementsList.end (),
-        i      = iBegin;
-      for ( ; ; ) {
-        gLogIOstream << (*i)->asShortString ();
-        if (++i == iEnd) break;
-        gLogIOstream << endl;
-      } // for
-      
-      gLogIOstream <<
-        endl;
-    }
-    else {
-      gLogIOstream <<
-        "none" <<
-        endl;
-    }
-        
-    gIndenter--;
-    
-    gIndenter--;
-  }
-#endif
-* */
 
   // sanity check
   switch (fMeasureKind) {
@@ -2837,6 +2795,39 @@ void msrMeasure::finalizeMeasure (
     }
   }
 
+  // regular measure ends detection
+  rational
+    wholeNotesSinceLastRegularMeasureEnd =
+      voice->
+        getWholeNotesSinceLastRegularMeasureEnd ();
+
+  rational
+    newWholeNotesSinceLastRegularMeasureEnd =
+      wholeNotesSinceLastRegularMeasureEnd
+        +
+      fActualMeasureWholeNotes;
+    
+  if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
+    // this is a regular measure end
+
+    // reset voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (0);
+  
+    fMeasureEndIsRegular = true;
+  }
+
+  else {
+    // this is no regular measure end
+
+    // increment voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (
+        newWholeNotesSinceLastRegularMeasureEnd);
+
+    fMeasureEndIsRegular = false;
+  }
+
   fMeasureHasBeenFinalized = true;
 
 #ifdef TRACE_OPTIONS
@@ -2846,6 +2837,259 @@ void msrMeasure::finalizeMeasure (
       "finalizeMeasure() 2");
   }
 #endif
+
+  gIndenter--;
+}
+
+void msrMeasure::finalizeMeasureClone (
+  int          inputLineNumber,
+  S_msrMeasure originalMeasure)
+{
+  if (fMeasureHasBeenFinalized) {
+    stringstream s;
+
+    s <<
+      "Attempting to finalize  measure \"" <<
+      asShortString () <<
+      "\" more than once";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());  
+  }
+
+  gIndenter++;
+
+  // determine the measure kind
+  determineMeasureKind (inputLineNumber);
+
+  // consistency check
+  msrMeasure::msrMeasureKind
+    originalMeasureMeasureKind =
+      originalMeasure->getMeasureKind ();
+      
+  if (fMeasureKind != originalMeasureMeasureKind) {
+    this->
+      displayMeasure (
+        inputLineNumber,
+        "finalizeMeasureClone() cloneMeasure");
+
+    originalMeasure->
+      displayMeasure (
+        inputLineNumber,
+        "finalizeMeasureClone() originalMeasure");
+
+    stringstream s;
+    
+    s <<
+      "*********>> measure '" <<
+      fMeasureNumber <<
+      "': clone measure kind '"<<
+      msrMeasure::measureKindAsString (
+        fMeasureKind) <<
+      "' differs for original measure measure kind '" <<
+      msrMeasure::measureKindAsString (
+        originalMeasureMeasureKind) <<
+      "'" <<
+      ", line " << inputLineNumber;
+
+    msrInternalWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+  // JMI    __FILE__, __LINE__,
+      s.str ());
+  }
+
+  /* JMI
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+
+  // fetch the part measure whole notes high tide
+#ifdef TRACE_OPTIONS
+  rational
+    partActualMeasureWholeNotesHighTide =
+      fetchMeasurePartUplink ()->
+        getPartActualMeasureWholeNotesHighTide ();
+#endif
+    
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Finalizing measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      voice->getVoiceName () <<
+      "\" (" << context << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeMeasureClone() 1");
+  }
+#endif
+
+  // sanity check
+  switch (fMeasureKind) {
+    case msrMeasure::kEmptyMeasureKind:
+      {
+        stringstream s;
+      
+        s <<
+          "measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' in segment '" <<
+          fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+          "' in voice \"" <<
+          voice->getVoiceName () <<
+          "\" (" << context << context << ")" <<
+          ", line " << inputLineNumber <<
+          " IS EMPTY";
+      
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+    default:
+      ;
+  } // switch
+
+  // fetch the staff
+  S_msrStaff
+    staff =
+      getMeasureSegmentUplink ()->
+        getSegmentVoiceUplink ()->
+          getVoiceStaffUplink ();
+      
+  // get the staff current time
+  S_msrTime
+    time =
+      staff->
+        getStaffCurrentTime ();
+        
+  if (! time) {
+    // take the implicit 4/4 measure whole notes into account
+    fFullMeasureWholeNotes = rational (1, 1);
+  }
+  else {
+    // set the full length from time
+    setFullMeasureWholeNotesFromTime (
+      time);
+  }
+
+  if (fActualMeasureWholeNotes.getNumerator () == 0) {
+    stringstream s;
+    
+    s <<
+      "Measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+      "' in voice \"" <<
+      voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      ", doesn't contain any music" <<
+      endl;
+
+    msrMusicXMLWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      s.str ());
+  }
+
+  // is there a single note or rest occupying the full measure?
+  if (fMeasureLongestNote) {
+    if (
+      fMeasureLongestNote-> getNoteSoundingWholeNotes ()
+        ==
+      fFullMeasureWholeNotes
+    ) {
+#ifdef TRACE_OPTIONS
+      if (gGeneralOptions->fTraceMeasures) {
+        gLogIOstream <<
+          "Note '" <<
+          fMeasureLongestNote->asShortString () <<
+          "' occupies measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' fully in segment '" <<
+          fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+          "' in voice \"" <<
+          voice->getVoiceName () <<
+          "\", line " << inputLineNumber <<
+          endl;
+      }
+#endif
+
+      fMeasureLongestNote->
+        setNoteOccupiesAFullMeasure ();
+    }
+  }
+
+  // regular measure ends detection
+  rational
+    wholeNotesSinceLastRegularMeasureEnd =
+      voice->
+        getWholeNotesSinceLastRegularMeasureEnd ();
+
+  rational
+    newWholeNotesSinceLastRegularMeasureEnd =
+      wholeNotesSinceLastRegularMeasureEnd
+        +
+      fActualMeasureWholeNotes;
+    
+  if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
+    // this is a regular measure end
+
+    // reset voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (0);
+  
+    fMeasureEndIsRegular = true;
+  }
+
+  else {
+    // this is no regular measure end
+
+    // increment voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (
+        newWholeNotesSinceLastRegularMeasureEnd);
+
+    fMeasureEndIsRegular = false;
+  }
+
+  fMeasureHasBeenFinalized = true;
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeMeasureClone() 2");
+  }
+#endif
+*/
 
   gIndenter--;
 }
@@ -3181,6 +3425,18 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
+    "measureEndIsRegular" << " : " <<
+    booleanAsString (
+      fMeasureEndIsRegular) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureHasBeenFinalized" << " : " <<
+    booleanAsString (
+      fMeasureHasBeenFinalized) <<
+    endl <<
+
+    setw (fieldWidth) <<
     "measureCreatedAfterARepeat" << " : " <<
     msrMeasure::measureCreatedForARepeatKindAsString (
       fMeasureCreatedForARepeatKind) << 
@@ -3313,6 +3569,18 @@ void msrMeasure::shortPrint (ostream& os)
     "measureContainsMusic" << " : " <<
     booleanAsString (
       fMeasureContainsMusic) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureEndIsRegular" << " : " <<
+    booleanAsString (
+      fMeasureEndIsRegular) <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureHasBeenFinalized" << " : " <<
+    booleanAsString (
+      fMeasureHasBeenFinalized) <<
     endl <<
     
     setw (fieldWidth) <<

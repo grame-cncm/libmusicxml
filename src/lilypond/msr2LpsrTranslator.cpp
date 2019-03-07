@@ -57,7 +57,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // repeats
 
   // measures
-  fMeasuresCounter = 0;
+  fMeasuresCounter = 0; // JMI
     
   // notes
   fOnGoingNote = false;
@@ -1886,60 +1886,11 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
   // take this measure into account
   fMeasuresCounter++;
 
-  // determine fCurrentMeasureClone's kind
+  // finalize fCurrentMeasureClone
   fCurrentMeasureClone->
-    determineMeasureKind (
-      inputLineNumber);
-
-  // consistency check
-  msrMeasure::msrMeasureKind
-    fCurrentMeasureCloneMeasureKind =
-      fCurrentMeasureClone->getMeasureKind (),
-    originalMeasureMeasureKind =
-      originalMeasure->getMeasureKind ();
-      
-  if (
-     fCurrentMeasureCloneMeasureKind != originalMeasureMeasureKind
-  ) {
-
-    gLogIOstream <<
-      "<<*********  fCurrentMeasureClone contains:" <<
-      fCurrentMeasureClone <<
-      endl;
-      
-    gLogIOstream <<
-      "--*********" <<
-      endl;
-
-    gLogIOstream <<
-      "<<*********  originalMeasure contains:" <<
-      originalMeasure <<
-      endl;
-
-    fLogOutputStream <<
-      "<<*********" <<
-      endl;
-    
-    stringstream s;
-    
-    s <<
-      "*********>> measure '" <<
-      fCurrentMeasureClone->getMeasureNumber () <<
-      "': clone measure kind '"<<
-      msrMeasure::measureKindAsString (
-        fCurrentMeasureCloneMeasureKind) <<
-      "' differs for original measure measure kind '" <<
-      msrMeasure::measureKindAsString (
-        originalMeasureMeasureKind) <<
-      "'" <<
-      ", line " << inputLineNumber;
-
-    msrInternalWarning (
-      gGeneralOptions->fInputSourceName,
+    finalizeMeasureClone (
       inputLineNumber,
-  // JMI    __FILE__, __LINE__,
-      s.str ());
-  }
+      originalMeasure);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)

@@ -410,6 +410,9 @@ void msrVoice::initializeVoice (
   fVoiceSkipsCounter           = 0;
   fVoiceActualHarmoniesCounter = 0;
 
+  // regular measure ends detection
+  fWholeNotesSinceLastRegularMeasureEnd = rational (0, 1);
+  
   // voice finalization
   fVoiceHasBeenFinalized = false;
   
@@ -610,6 +613,10 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // musically empty voices
   voiceDeepCopy->fMusicHasBeenInsertedInVoice =
     fMusicHasBeenInsertedInVoice;
+
+  // regular measure ends detection
+  voiceDeepCopy->fWholeNotesSinceLastRegularMeasureEnd =
+    fWholeNotesSinceLastRegularMeasureEnd;
 
   // initial elements
   int numberOfInitialElements =

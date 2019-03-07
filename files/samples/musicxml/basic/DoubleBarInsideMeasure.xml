@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 2.0 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="2.0">
+ <work>
+  <work-title>CHACONNE DES SCARAMOUCHES</work-title>
+ </work>
+ <identification>
+  <creator type="composer"></creator>
+  <creator type="poet">CA</creator>
+  <rights></rights>
+  <encoding>
+   <software>Neuratron PhotoScore</software>
+   <encoding-description>MusicXML 2.0</encoding-description>
+  </encoding>
+  <source>Scanned sheet music</source>
+ </identification>
+ <defaults>
+  <scaling>
+   <millimeters>74</millimeters>
+   <tenths>400</tenths>
+  </scaling>
+  <page-layout>
+   <page-height>1132</page-height>
+   <page-width>1156</page-width>
+  </page-layout>
+ </defaults>
+ <part-list>
+  <score-part id="P1">
+   <part-name></part-name>
+   <part-abbreviation></part-abbreviation>
+   <score-instrument id="P1-I1">
+    <instrument-name></instrument-name>
+   </score-instrument>
+   <midi-instrument id="P1-I1">
+    <midi-channel>1</midi-channel>
+    <midi-program>1</midi-program>
+   </midi-instrument>
+  </score-part>
+ </part-list>
+ <part id="P1">
+  <measure number="1">
+   <attributes>
+    <divisions>4</divisions>
+    <time>
+     <beats>3</beats>
+     <beat-type>4</beat-type>
+    </time>
+    <clef number="1">
+     <sign>G</sign>
+     <line>2</line>
+    </clef>
+   </attributes>
+   <note>
+    <pitch>
+     <step>C</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>12</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <dot />
+    <stem>up</stem>
+   </note>
+  </measure>
+  <measure number="2">
+   <note>
+    <pitch>
+     <step>D</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>8</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <stem>up</stem>
+   </note>
+   <barline location="middle">
+    <bar-style>light-light</bar-style>
+   </barline>
+   <note>
+    <pitch>
+     <step>E</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">begin</beam>
+   </note>
+   <note>
+    <pitch>
+     <step>F</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>2</duration>
+    <voice>1</voice>
+    <type>eighth</type>
+    <stem>down</stem>
+    <beam number="1">end</beam>
+   </note>
+  </measure>
+  <measure number="3">
+   <note>
+    <pitch>
+     <step>G</step>
+     <octave>4</octave>
+    </pitch>
+    <duration>12</duration>
+    <voice>1</voice>
+    <type>half</type>
+    <dot />
+    <stem>down</stem>
+   </note>
+  </measure>
+ </part>
+</score-partwise>

@@ -244,12 +244,12 @@ class msrBarline : public msrMeasureElement
       msrBarlineCategoryKind        barlineCategoryKind,
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineLocationKind        location,
-      msrBarlineStyleKind           style,
-      msrBarlineEndingTypeKind      endingType,
+      msrBarlineLocationKind        barlineLocationKind,
+      msrBarlineStyleKind           barlineStyleKind,
+      msrBarlineEndingTypeKind      barlineEndingTypeKind,
       string                        endingNumber,
-      msrBarlineRepeatDirectionKind repeatDirection,
-      msrBarlineRepeatWingedKind    repeatWinged,
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+      msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
       int                           barlineTimes);
 
   protected:
@@ -262,12 +262,12 @@ class msrBarline : public msrMeasureElement
       msrBarlineCategoryKind        barlineCategoryKind,
       msrBarlineHasSegnoKind        barlineHasSegnoKind,
       msrBarlineHasCodaKind         barlineHasCodaKind,
-      msrBarlineLocationKind        location,
-      msrBarlineStyleKind           style,
-      msrBarlineEndingTypeKind      endingType,
+      msrBarlineLocationKind        barlineLocationKind,
+      msrBarlineStyleKind           barlineStyleKind,
+      msrBarlineEndingTypeKind      barlineEndingTypeKind,
       string                        endingNumber,
-      msrBarlineRepeatDirectionKind repeatDirection,
-      msrBarlineRepeatWingedKind    repeatWinged,
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind,
+      msrBarlineRepeatWingedKind    barlineRepeatWingedKind,
       int                           barlineTimes);
       
     virtual ~msrBarline ();
