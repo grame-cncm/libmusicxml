@@ -27,7 +27,11 @@
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
-#include "extraOptions.h"
+
+#define EXTRA_OPTIONS
+#ifdef EXTRA_OPTIONS
+  #include "extraOptions.h"
+#endif
 
 
 using namespace std;
@@ -280,16 +284,19 @@ ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt)
 
 //______________________________________________________________________________
 S_xml2lyOptionsHandler xml2lyOptionsHandler::create (
+  string           executableName,
   indentedOstream& ios)
 {
   xml2lyOptionsHandler* o = new
     xml2lyOptionsHandler (
+      executableName,
       ios);
   assert(o!=0);
   return o;
 }
 
 xml2lyOptionsHandler::xml2lyOptionsHandler (
+  string           executableName,
   indentedOstream& ios)
   : optionsHandler (
     "Available options",
@@ -338,12 +345,14 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   initializeLilypondOptionsHandling (
     this);
 
+#ifdef EXTRA_OPTIONS
   initializeExtraOptionsHandling (
     this);
-
+#endif
+    
   initializeXml2lyOptionsHandling (
     this);
-    
+
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
@@ -506,9 +515,6 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   // register command line informations in gGeneralOptions
   // ------------------------------------------------------
 
-  gGeneralOptions->fProgramName =
-    fProgramName;
-
   gGeneralOptions->fCommandLineWithShortOptions =
     fCommandLineWithShortOptions;
   gGeneralOptions->fCommandLineWithLongOptions =
@@ -538,8 +544,10 @@ void xml2lyOptionsHandler::enforceOptionsHandlerQuietness ()
   gLilypondOptions->
     enforceQuietness ();
   
+#ifdef EXTRA_OPTIONS
   gExtraOptions->
     enforceQuietness ();
+#endif
   
   gXml2lyOptions->
     enforceQuietness ();
@@ -575,8 +583,10 @@ void xml2lyOptions::checkOptionsConsistency ()
   gLilypondOptions->
     checkOptionsConsistency ();
   
+#ifdef EXTRA_OPTIONS
   gExtraOptions->
     checkOptionsConsistency ();
+#endif
 
 /* JMI
   gXml2lyOptions->

@@ -27,6 +27,7 @@
 #include "lpsrBasicTypes.h"
 
 #include "setTraceOptionsIfDesired.h"
+#include "setExtraOptionsIfDesired.h"
 
 
 using namespace std;
@@ -1438,8 +1439,8 @@ class EXP optionsHandler : public optionsElement
                           getOptionsHandlerLogIOstream ()
                               { return fOptionsHandlerLogIOstream; }
 
-    string                getProgramName () const
-                              { return fProgramName; }
+    string                getExecutableName () const
+                              { return fExecutableName; }
                               
     const list<S_optionsElement>&
                           getCommandOptionsElements () const
@@ -1559,7 +1560,7 @@ class EXP optionsHandler : public optionsElement
     list<S_optionsElement>
                           fCommandOptionsElements;
 
-    string                fProgramName;
+    string                fExecutableName;
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;

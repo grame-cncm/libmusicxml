@@ -478,7 +478,7 @@ void optionsHelpSummaryItem::print (ostream& os) const
 void optionsHelpSummaryItem::printHelpSummary (ostream& os) const
 {  
   os <<
-    "xml2ly/xml2brl"<<
+    gGeneralOptions->fExecutableName <<
     endl;
 }
 
@@ -3524,10 +3524,10 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #endif
 
   // fetch program name
-  fProgramName = string (argv [0]);
+  fExecutableName = string (argv [0]);
   
-  fCommandLineWithShortOptions = fProgramName;
-  fCommandLineWithLongOptions  = fProgramName;
+  fCommandLineWithShortOptions = fExecutableName;
+  fCommandLineWithLongOptions  = fExecutableName;
   
   // decipher the command options and arguments
   int n = 1;

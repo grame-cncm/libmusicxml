@@ -367,6 +367,23 @@ string replicateString (
 }
 
 //______________________________________________________________________________
+string replaceSubstringInString (
+  std::string str,
+  std::string subString,
+  std::string ersatz)
+{
+  string result = str;
+  
+  size_t found = result.find (subString);
+
+  if (found != string::npos) {
+    result.replace (found, subString.size (), ersatz);
+  }
+
+  return result;
+}
+
+//______________________________________________________________________________
 string int2EnglishWord (int n)
 {
   stringstream s;

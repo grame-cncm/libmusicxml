@@ -614,7 +614,7 @@ void convertMusicXMLToBraille (
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
-
+  // register executable name in gGeneralOptions
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 
@@ -627,6 +627,7 @@ int main (int argc, char *argv[])
   S_xml2brlOptionsHandler
     optionsHandler =
       xml2brlOptionsHandler::create (
+        argv [0],
         gOutputIOstream);
     
   // analyze the command line options and arguments

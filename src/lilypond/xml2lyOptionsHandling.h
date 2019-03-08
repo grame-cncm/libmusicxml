@@ -185,6 +185,7 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2lyOptionsHandler> create (
+      string           executableName,
       indentedOstream& ios);
      
   protected:
@@ -193,6 +194,7 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     // ------------------------------------------------------
 
     xml2lyOptionsHandler (
+      string           executableName,
       indentedOstream& ios);
       
     virtual ~xml2lyOptionsHandler ();
@@ -289,10 +291,6 @@ class xml2lyOptions : public optionsGroup
     void                  printXml2lyOptionsValues (int fieldWidth);
     
   public:
-
-    // input
-    // --------------------------------------
-
 
     // output file
     // --------------------------------------

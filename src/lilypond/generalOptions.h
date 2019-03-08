@@ -96,7 +96,8 @@ class generalOptions : public optionsGroup
     // command line
     // --------------------------------------
 
-    string                fProgramName;
+    string                fExecutableName;
+    
     string                fInputSourceName;
     string                fTranslationDate;
     

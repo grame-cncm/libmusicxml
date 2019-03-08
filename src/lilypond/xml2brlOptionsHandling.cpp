@@ -28,10 +28,10 @@
 #include "bsrOptions.h"
 #include "brailleOptions.h"
 
-//#define EXTRA_OPTIONS
 #ifdef EXTRA_OPTIONS
   #include "extraOptions.h"
 #endif
+
 
 using namespace std;
 
@@ -289,16 +289,19 @@ ostream& operator<< (ostream& os, const S_xml2brlOptionsContactItem& elt)
 
 //______________________________________________________________________________
 S_xml2brlOptionsHandler xml2brlOptionsHandler::create (
+  string           executableName,
   indentedOstream& ios)
 {
   xml2brlOptionsHandler* o = new
     xml2brlOptionsHandler (
+      executableName,
       ios);
   assert(o!=0);
   return o;
 }
 
 xml2brlOptionsHandler::xml2brlOptionsHandler (
+  string           executableName,
   indentedOstream& ios)
   : optionsHandler (
     "Available options",
@@ -560,9 +563,6 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
 
   // register command line informations in gGeneralOptions
   // ------------------------------------------------------
-
-  gGeneralOptions->fProgramName =
-    fProgramName;
 
   gGeneralOptions->fCommandLineWithShortOptions =
     fCommandLineWithShortOptions;

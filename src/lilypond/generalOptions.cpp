@@ -160,8 +160,11 @@ R"(Ignore errors and proceed.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "aoe", "abort-on-errors",
+          replaceSubstringInString (
 R"(Abort execution on errors instead of gracefully exiting.
-This is useful when debugging xml2ly/xml2brl.)",
+This is useful when debugging EXECUTABLE.)",
+           "EXECUTABLE",
+            fExecutableName),
           "abortOnErrors",
           fAbortOnErrors));
   
@@ -169,9 +172,12 @@ This is useful when debugging xml2ly/xml2brl.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "dscp", "display-source-code-position",
+          replaceSubstringInString (
 R"(Display the source code file name and line number
 in warning and error messages.
-This is useful when debugging xml2ly/xml2brl.)",
+This is useful when debugging EXECUTABLE.)",
+           "EXECUTABLE",
+            fExecutableName),
           "displaySourceCodePosition",
           fDisplaySourceCodePosition));
   }
@@ -1228,8 +1234,8 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   // command line
   // --------------------------------------
 
-  clone->fProgramName =
-    fProgramName;
+  clone->fExecutableName =
+    fExecutableName;
       
   clone->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;

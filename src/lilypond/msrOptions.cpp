@@ -458,6 +458,7 @@ R"()",
       appendOptionsItem (
         optionsPartRenameItem::create (
           "mpr", "msr-part-rename", // JMI
+          replaceSubstringInString (
 R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
 the names in the score or a summary of the latter in a first run with options
 '-dmnames, -display-msr-names' or 'dmsum, -display-msr-summary'.
@@ -469,8 +470,10 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   DESSUS="Cor anglais"
-  xml2ly/xml2brl -msrPartRename "P1 = ${DESSUS}" .
+  EXECUTABLE -msrPartRename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
+           "EXECUTABLE",
+            gGeneralOptions->fExecutableName),
           "PART_RENAME_SPEC",
           "partRename",
           fPartsRenamingMap));

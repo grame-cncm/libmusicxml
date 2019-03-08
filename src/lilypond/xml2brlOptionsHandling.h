@@ -185,6 +185,7 @@ class EXP xml2brlOptionsHandler : public optionsHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2brlOptionsHandler> create (
+      string           executableName,
       indentedOstream& ios);
      
   protected:
@@ -193,6 +194,7 @@ class EXP xml2brlOptionsHandler : public optionsHandler
     // ------------------------------------------------------
 
     xml2brlOptionsHandler (
+      string           executableName,
       indentedOstream& ios);
       
     virtual ~xml2brlOptionsHandler ();

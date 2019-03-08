@@ -475,6 +475,7 @@ R"()",
       appendOptionsItem (
         optionsShowChordDetailsItem::create (
           "scd", "show-chord-details",
+          replaceSubstringInString (
 R"(Write the details of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 
@@ -485,7 +486,9 @@ or
   
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
-  xml2ly/xml2brl -showChordDetails "bes ${HARMONY}" .)",
+  EXECUTABLE -showChordDetails "bes ${HARMONY}" .)",
+           "EXECUTABLE",
+            gGeneralOptions->fExecutableName),
           "CHORD_SPEC",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
@@ -513,6 +516,7 @@ R"()",
       appendOptionsItem (
         optionsShowChordAnalysisItem::create (
           "sca", "show-chord-analysis", // -sca "c dommin9 0"
+          replaceSubstringInString (
 R"(Write an analysis of the chord for the given diatonic (semitones) pitch
 in the current language and the given harmony to standard output.
 
@@ -523,7 +527,9 @@ or
   
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
-  xml2ly/xml2brl -showChordAnalysis "bes ${HARMONY}" .)",
+  EXECUTABLE -showChordAnalysis "bes ${HARMONY}" .)",
+            "EXECUTABLE",
+            gGeneralOptions->fExecutableName),
           "CHORD_SPEC",
           "diatonic (semitones) pitch",
           fChordsRootAsString));

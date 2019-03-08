@@ -486,7 +486,6 @@ void convertMusicXMLToLilypond (
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
-
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 
@@ -499,6 +498,7 @@ int main (int argc, char *argv[])
   S_xml2lyOptionsHandler
     optionsHandler =
       xml2lyOptionsHandler::create (
+        argv [0],
         gOutputIOstream);
     
   // analyze the command line options and arguments
