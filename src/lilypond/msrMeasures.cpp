@@ -2952,6 +2952,14 @@ void msrMeasure::finalizeMeasureClone (
   if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
     // this is a regular measure end
 
+    // set it's purist number
+    voice->
+      incrementVoiceCurrentMeasurePuristNumber ();
+      
+    setMeasurePuristNumber (
+      voice->
+        getVoiceCurrentMeasurePuristNumber ());
+
     // reset voice whole notes since last regular measure end
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (0);
@@ -2963,8 +2971,10 @@ void msrMeasure::finalizeMeasureClone (
     // this is no regular measure end
 
     // free its purist number for sharing by next measure
+    /* JMI
     voice->
       decrementVoiceCurrentMeasurePuristNumber ();
+      */
 
     // increment voice whole notes since last regular measure end
     voice->

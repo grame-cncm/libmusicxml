@@ -204,7 +204,8 @@ class EXP xml2brlOptionsHandler : public optionsHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeOptionsHandler ();
+    void                  initializeOptionsHandler (
+                            string executableName);
 
   public:
 

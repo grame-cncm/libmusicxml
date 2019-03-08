@@ -1413,7 +1413,8 @@ class EXP optionsHandler : public optionsElement
     // initialization
     // ------------------------------------------------------
 
-    virtual void          initializeOptionsHandler () = 0;
+    virtual void          initializeOptionsHandler (
+                            string executableName) = 0;
 
   public:
 

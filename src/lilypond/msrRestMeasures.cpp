@@ -251,10 +251,13 @@ msrRestMeasures::msrRestMeasures (
   S_msrVoice voiceUplink)
     : msrVoiceElement (inputLineNumber)
 {
-  fRestMeasuresMeasureSoundingNotes = restMeasuresMeasureSoundingNotes;
-  fRestMeasuresNumber       = restMeasuresNumber;
-
   fRestMeasuresVoiceUplink = voiceUplink;
+
+  fRestMeasuresMeasureSoundingNotes = restMeasuresMeasureSoundingNotes;
+  
+  fRestMeasuresNumber = restMeasuresNumber;
+
+  fRestMeasuresLastMeasurePuristNumber = -1;
 }
 
 msrRestMeasures::~msrRestMeasures ()
@@ -286,8 +289,10 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
         fRestMeasuresNumber,
         containingVoice);
 
+/* JMI
   newbornClone->fRestMeasuresNextMeasureNumber =
     fRestMeasuresNextMeasureNumber;
+    */
     
   return newbornClone;
 }
@@ -317,20 +322,37 @@ void msrRestMeasures::setRestMeasuresContents (
 }
 
 void msrRestMeasures::setRestMeasuresNextMeasureNumber (
-  string measureNumber)
+  string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Setting rest measures next measure number to'" <<
+      "Setting rest measures next measure number to '" <<
       "' " <<
-      measureNumber <<
+      nextMeasureNumber <<
       endl;
   }
 #endif
 
   fRestMeasuresNextMeasureNumber =
-    measureNumber;
+    nextMeasureNumber;
+}
+
+void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
+  int puristMeasureNumber)
+{
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRestMeasures) {
+    gLogIOstream <<
+      "Setting rest measures last measure purist number to '" <<
+      "' " <<
+      puristMeasureNumber <<
+      endl;
+  }
+#endif
+
+  fRestMeasuresLastMeasurePuristNumber =
+    puristMeasureNumber;
 }
 
 void msrRestMeasures::acceptIn (basevisitor* v)
@@ -440,8 +462,11 @@ string msrRestMeasures::asString () const
       fRestMeasuresNumber,
         "rest measure",
         "rest measures") <<
-    ", next measure number: '" <<
+    ", restMeasuresNextMeasureNumber: '" <<
     fRestMeasuresNextMeasureNumber <<
+    "'" <<
+    ", restMeasuresLastMeasurePuristNumber: '" <<
+    fRestMeasuresLastMeasurePuristNumber <<
     "'";
     
   return s.str ();
@@ -493,6 +518,10 @@ void msrRestMeasures::print (ostream& os)
     setw (fieldWidth) <<
     "restMeasuresNextMeasureNumber" << " : '" <<
     fRestMeasuresNextMeasureNumber <<
+    "'" <<
+    setw (fieldWidth) <<
+    "restMeasuresLastMeasurePuristNumber" << " : '" <<
+    fRestMeasuresLastMeasurePuristNumber <<
     "'" <<
     endl;
   

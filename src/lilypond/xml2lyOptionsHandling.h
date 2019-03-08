@@ -204,7 +204,8 @@ class EXP xml2lyOptionsHandler : public optionsHandler
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeOptionsHandler ();
+    void                  initializeOptionsHandler (
+                            string executableName);
 
   public:
 

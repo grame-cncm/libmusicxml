@@ -29,6 +29,7 @@ class generalOptions : public optionsGroup
   public:
 
     static SMARTP<generalOptions> create (
+      string           executableName,
       S_optionsHandler optionsHandler);
         
     SMARTP<generalOptions>        createCloneWithTrueValues (); // JMI
@@ -47,6 +48,7 @@ class generalOptions : public optionsGroup
     // ------------------------------------------------------
 
     generalOptions (
+      string           executableName,
       S_optionsHandler optionsHandler);
   
     virtual ~generalOptions ();
@@ -322,6 +324,7 @@ EXP extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
+  string           executableName,
   S_optionsHandler optionsHandler);
 
 

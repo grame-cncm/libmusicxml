@@ -324,18 +324,20 @@ while '-hs, -helpSummary' only prints a help summary.)",
     ios
     )
 {
-  initializeOptionsHandler ();
+  initializeOptionsHandler (executableName);
 }
 
 xml2brlOptionsHandler::~xml2brlOptionsHandler ()
 {}
 
-void xml2brlOptionsHandler::initializeOptionsHandler ()
+void xml2brlOptionsHandler::initializeOptionsHandler (
+  string executableName)
 {
   // initialize options handling
   // ------------------------------------------------------
 
   initializeGeneralOptionsHandling (
+    executableName,
     this);
     
   initializeMusicXMLOptionsHandling (

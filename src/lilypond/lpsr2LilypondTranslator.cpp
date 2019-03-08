@@ -6995,6 +6995,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     nextMeasureNumber =
       elt->getNextMeasureNumber ();
 
+  int
+    puristMeasureNumber =
+      elt->getMeasurePuristNumber ();
+
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
     fLogOutputStream <<
@@ -7037,7 +7041,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         if (nextMeasureNumber.size ()) {
           fLilypondCodeIOstream <<
             " % " <<
-            nextMeasureNumber;
+            puristMeasureNumber + 1; // nextMeasureNumber;
         }
         
         fLilypondCodeIOstream <<
@@ -7060,10 +7064,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
             fLilypondCodeIOstream <<
               "|";
       
-            if (nextMeasureNumber.size ()) {
+            if (nextMeasureNumber.size ()) { // JMI ???
               fLilypondCodeIOstream <<
                 " % " <<
-                nextMeasureNumber;
+                puristMeasureNumber + 1; // nextMeasureNumber;
             }
             
             fLilypondCodeIOstream <<
@@ -7076,10 +7080,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fLilypondCodeIOstream <<
           "|";
   
-        if (nextMeasureNumber.size ()) {
+        if (nextMeasureNumber.size ()) { // JMI
           fLilypondCodeIOstream <<
             " % " <<
-            nextMeasureNumber;
+            puristMeasureNumber + 1; // nextMeasureNumber;
         }
         
         fLilypondCodeIOstream <<
@@ -7091,10 +7095,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           fLilypondCodeIOstream <<
             "|";
     
-          if (nextMeasureNumber.size ()) {
+          if (nextMeasureNumber.size ()) { // JMI
             fLilypondCodeIOstream <<
               " % " <<
-              nextMeasureNumber;
+              puristMeasureNumber + 1; // nextMeasureNumber;
           }
           
           fLilypondCodeIOstream <<
@@ -7134,10 +7138,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fLilypondCodeIOstream <<
           "%{ emptyMeasureKind %} |";
   
-        if (nextMeasureNumber.size ()) {
+        if (nextMeasureNumber.size ()) { // JMI
           fLilypondCodeIOstream <<
             " % " <<
-            nextMeasureNumber;
+            puristMeasureNumber + 1; // nextMeasureNumber;
         }
         
         fLilypondCodeIOstream <<
@@ -14690,7 +14694,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   // now we can generate the bar check
   fLilypondCodeIOstream <<    
     " | % " <<
-    elt->getRestMeasuresNextMeasureNumber () <<
+    elt->getRestMeasuresLastMeasurePuristMeasureNumber () + 1 <<
+ //   elt->getRestMeasuresNextMeasureNumber () << // JMI
     endl;
 
   if (gLilypondOptions->fComments) {

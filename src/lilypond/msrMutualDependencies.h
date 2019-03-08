@@ -5960,10 +5960,16 @@ class msrRestMeasures : public msrVoiceElement
                               { return fRestMeasuresContents; }
 
     void                  setRestMeasuresNextMeasureNumber (
-                            string measureNumber);
+                            string nextMeasureNumber);
 
     string                getRestMeasuresNextMeasureNumber () const
                               { return fRestMeasuresNextMeasureNumber; }
+
+    void                  setRestMeasuresLastMeasurePuristMeasureNumber (
+                            int puristMeasureNumber);
+
+    int                   getRestMeasuresLastMeasurePuristMeasureNumber () const
+                              { return fRestMeasuresLastMeasurePuristNumber; }
 
     rational              getRestMeasuresMeasureSoundingNotes () const
                               { return fRestMeasuresMeasureSoundingNotes; }
@@ -6017,6 +6023,7 @@ class msrRestMeasures : public msrVoiceElement
                           fRestMeasuresContents;
 
     string                fRestMeasuresNextMeasureNumber;
+    int                   fRestMeasuresLastMeasurePuristNumber;
 
     // shortcut for efficiency
     rational              fRestMeasuresMeasureSoundingNotes;
@@ -6361,6 +6368,9 @@ class msrVoice : public msrElement
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
+    void                  incrementVoiceCurrentMeasurePuristNumber ()
+                              {  fVoiceCurrentMeasurePuristNumber++; }
+                              
     void                  decrementVoiceCurrentMeasurePuristNumber ()
                               {  fVoiceCurrentMeasurePuristNumber--; }
                               

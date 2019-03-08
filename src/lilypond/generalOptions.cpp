@@ -25,9 +25,11 @@ S_generalOptions gGeneralOptions;
 S_generalOptions gGeneralOptionsUserChoices;
 
 S_generalOptions generalOptions::create (
+  string           executableName,
   S_optionsHandler optionsHandler)
 {
   generalOptions* o = new generalOptions (
+    executableName,
     optionsHandler);
   assert(o!=0);
 
@@ -35,13 +37,15 @@ S_generalOptions generalOptions::create (
 }
 
 generalOptions::generalOptions (
+  string           executableName,
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "General",
     "hg", "help-general",
 R"(Options that are used by various components of the library
 are grouped here.)",
-    optionsHandler)
+    optionsHandler),
+    fExecutableName (executableName)
 {
   // append this options group to the options handler
   // if relevant
@@ -1222,8 +1226,10 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 {
   S_generalOptions
     clone =
-      generalOptions::create (0);
-      // 0 not to have it inserted twice in the option handler
+      generalOptions::create (
+        fExecutableName,
+        nullptr);
+      // nullptr not to have it inserted twice in the option handler
 
   // set the options handler uplink
   clone->
@@ -1991,12 +1997,14 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
+  string           executableName,
   S_optionsHandler optionsHandler)
 {  
   // create the options variables
   // ------------------------------------------------------
   
   gGeneralOptionsUserChoices = generalOptions::create (
+    executableName,
     optionsHandler);
   assert(gGeneralOptionsUserChoices != 0);
 

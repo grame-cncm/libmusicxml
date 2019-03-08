@@ -945,8 +945,6 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentBeatRepeatSlashes;
 
-    msrRestMeasures::msrRestMeasuresKind
-                              fCurrentRestMeasuresKind;
     int                       fCurrentRestMeasuresMeasuresNumber;
     int                       fRemainingRestMeasuresMeasuresNumber;
     bool                      fOnGoingRestMeasures;

@@ -6044,7 +6044,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     if (! fCurrentRestMeasuresHasBeenCreated) {
       // create a pending multiple rest,
       // that will be handled when fRemainingRestMeasuresMeasuresNumber
-      // comes down to 0 later in this same method'
+      // comes down to 0 later in this same method
       fCurrentPart->
         createRestMeasuresInPart (
           inputLineNumber,

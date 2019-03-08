@@ -985,7 +985,7 @@ S_msrMeasure msrVoice::createMeasureSecondPart ( // JMI
       measurePuristNumber);
 
   // free its original purist number
-  fVoiceCurrentMeasurePuristNumber--;
+ // fVoiceCurrentMeasurePuristNumber--;
 
   // handle voice kind
   switch (fVoiceKind) {
@@ -3004,7 +3004,7 @@ S_msrMeasure msrVoice::createMeasureSecondPartIfItIsIncompleteInVoice (
             measure->getMeasurePuristNumber ());
         
         // free its original purist number
-        fVoiceCurrentMeasurePuristNumber--;
+    //    fVoiceCurrentMeasurePuristNumber--;
 
         // set new measure as created after a repeat
         result->
@@ -3028,7 +3028,13 @@ void msrVoice::handleMeasureSecondPartInVoice (
   if (measureSecondPart) {
     // create a new last segment for the voice
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+    if (
+      gGeneralOptions->fTraceMeasures
+        ||
+      gGeneralOptions->fTraceSegments
+        ||
+      gGeneralOptions->fTraceVoices
+    ) {
       gLogIOstream <<
         "Creating a new last segment for voice \"" <<
         fVoiceName <<
@@ -3048,7 +3054,13 @@ void msrVoice::handleMeasureSecondPartInVoice (
   else {
     // create a new last segment for the voice
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+    if (
+      gGeneralOptions->fTraceMeasures
+        ||
+      gGeneralOptions->fTraceSegments
+        ||
+      gGeneralOptions->fTraceVoices
+    ) {
       gLogIOstream <<
         "Creating a new last segment for voice \"" <<
         fVoiceName << "\"" <<
@@ -5944,6 +5956,29 @@ void msrVoice::createRestMeasuresInVoice (
   int inputLineNumber,
   int restMeasuresNumber)
 {
+  // create a rest measures
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRestMeasures) {
+    gLogIOstream <<
+      "Creating a rest measures in voice \"" <<
+      getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      ", " <<
+      singularOrPlural (
+        restMeasuresNumber, "measure", "measures") <<
+      endl;
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceVoices) {
+    displayVoiceRestMeasuresAndVoice (
+      inputLineNumber,
+      "createRestMeasuresInVoice() 1");
+  }
+#endif
+
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
     case msrVoice::kHarmonyVoice:
@@ -5951,29 +5986,6 @@ void msrVoice::createRestMeasuresInVoice (
       {
         gIndenter++;
         
-        // create a rest measures
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceRestMeasures) {
-          gLogIOstream <<
-            "Creating a rest measures in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            ", line " << inputLineNumber <<
-            ", " <<
-            singularOrPlural (
-              restMeasuresNumber, "measure", "measures") <<
-            endl;
-        }
-#endif
-      
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          displayVoiceRestMeasuresAndVoice (
-            inputLineNumber,
-            "createRestMeasuresInVoice() 1");
-        }
-#endif
-
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
         //   <multiple-rest ... type="start">2</multiple-rest>)
@@ -6067,21 +6079,21 @@ void msrVoice::createRestMeasuresInVoice (
         this->setVoiceContainsRestMeasures (
           inputLineNumber);
             
-        // print resulting voice contents
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          displayVoiceRestMeasuresAndVoice (
-            inputLineNumber,
-            "createRestMeasuresInVoice() 2");
-        }
-#endif
-
         // keep the rest measures pending
 
         gIndenter--;
       }
       break;
   } // switch
+
+  // print resulting voice contents
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceVoices) {
+    displayVoiceRestMeasuresAndVoice (
+      inputLineNumber,
+      "createRestMeasuresInVoice() 2");
+  }
+#endif
 }
 
 void msrVoice::appendPendingRestMeasuresToVoice (
@@ -6089,6 +6101,14 @@ void msrVoice::appendPendingRestMeasuresToVoice (
 {
   // a rest measures is a voice element,
   // and can be voice-level as well as part of a repeat
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceVoices) {
+    displayVoiceRestMeasuresAndVoice (
+      inputLineNumber,
+      "appendPendingRestMeasuresToVoice() 1");
+  }
+#endif
 
   switch (fVoiceKind) {
     case msrVoice::kRegularVoice:
@@ -6197,9 +6217,6 @@ void msrVoice::appendPendingRestMeasuresToVoice (
           setRestMeasuresContentsSegment (
             fVoiceLastSegment);
 
-        // forget about this voice last segment
-        fVoiceLastSegment = nullptr;
-
         // set restMeasuresContents as the rest measures contents
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceRestMeasures) {
@@ -6214,6 +6231,57 @@ void msrVoice::appendPendingRestMeasuresToVoice (
         fVoicePendingRestMeasures->
           setRestMeasuresContents (
             restMeasuresContents);
+
+        // get rest measures contents segment measures list
+        const list<S_msrMeasure>&
+          contentsSegmentMeasuresList =
+            fVoiceLastSegment->
+              getSegmentMeasuresList ();
+
+        // get rest measures contents last measure's purist number
+        int lastMeasuresPuristNumber = -1;
+        
+        if (contentsSegmentMeasuresList.size ()) {
+          lastMeasuresPuristNumber =
+            contentsSegmentMeasuresList.back ()->
+              getMeasurePuristNumber ();
+        }
+        else {
+          stringstream s;
+      
+          s <<
+            "cannot get rest measures contents last measure purist number" <<
+            " because its measures list is empty" <<
+            " in voice clone '" <<
+            asShortString () <<
+            "' ";
+            
+          msrInternalError (
+            gGeneralOptions->fInputSourceName,
+            fInputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+        
+        // set pending rest measures last measure purist number
+#ifdef TRACE_OPTIONS
+        if (gGeneralOptions->fTraceRestMeasures) {
+          gLogIOstream <<
+            "Setting rest measures last measure purist number to '" <<
+            lastMeasuresPuristNumber <<
+            "' in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+#endif
+
+        fVoicePendingRestMeasures->
+          setRestMeasuresLastMeasurePuristMeasureNumber (
+            lastMeasuresPuristNumber);
+            
+        // forget about this voice last segment
+        fVoiceLastSegment = nullptr;
 
         // append pending rest measures to the voice
         appendRestMeasuresToVoice (
@@ -6244,26 +6312,20 @@ void msrVoice::appendPendingRestMeasuresToVoice (
           appendMeasureToSegment (
             nextMeasureAfterRestMeasures);
 */
-        // print resulting voice contents
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "The contents of voice \"" <<
-            fVoiceName <<
-            "\" after appendPendingRestMeasuresToVoice () is:" <<
-            endl;
-
-          gIndenter++;
-          print (gLogIOstream);
-          gIndenter--;
-        }
-#endif
 
         // forget about this pending rest measures
         fVoicePendingRestMeasures = nullptr;
       }
       break;
   } // switch
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceVoices) {
+    displayVoiceRestMeasuresAndVoice (
+      inputLineNumber,
+      "appendPendingRestMeasuresToVoice() 2");
+  }
+#endif
 }
 
 void msrVoice::handleRestMeasuresStartInVoiceClone (
