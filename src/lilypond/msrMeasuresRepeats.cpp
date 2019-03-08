@@ -346,7 +346,7 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os)
  
   gIndenter++;
 
-//* JMI
+/ / * JMI
   os <<
     "measuresRepeat uplink: '" <<
     fMeasuresRepeatElementMeasuresRepeatUplink->

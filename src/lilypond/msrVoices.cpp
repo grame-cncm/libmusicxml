@@ -1980,8 +1980,10 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendVoiceStaffChangeToVoice (
   S_msrVoiceStaffChange voiceStaffChange)
 {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     voiceStaffChange->getInputLineNumber ();
+#endif
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
@@ -2006,8 +2008,10 @@ void msrVoice::appendVoiceStaffChangeToVoice (
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     note->getInputLineNumber ();
+#endif
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceVoices) {
@@ -2097,8 +2101,10 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     note->getInputLineNumber ();
+#endif
     
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceVoices) {
@@ -8468,8 +8474,10 @@ void msrVoice::appendMeasuresRepeatToVoiceElementsList (
 void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
   S_msrRepeatEnding repeatEndingClone)
 {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     repeatEndingClone->getInputLineNumber (); // JMI
+#endif
     
   gIndenter++;
   

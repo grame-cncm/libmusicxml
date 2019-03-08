@@ -1906,10 +1906,12 @@ void msrStaff::appendHarpPedalsTuningToStaff (
 void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {
+#ifdef TRACE_OPTIONS
   rational
     partActualMeasureWholeNotesHighTide =
       fStaffPartUplink->
         getPartActualMeasureWholeNotesHighTide ();
+#endif
       
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {

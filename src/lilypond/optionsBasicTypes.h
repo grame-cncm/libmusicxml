@@ -27,7 +27,6 @@
 #include "lpsrBasicTypes.h"
 
 #include "setTraceOptionsIfDesired.h"
-#include "setExtraOptionsIfDesired.h"
 
 
 using namespace std;

@@ -10,12 +10,12 @@
   research@grame.fr
 */
 
-#ifndef ___setTraceOptionsIfDesired___
-#define ___setTraceOptionsIfDesired___
+#ifndef ___setExtraOptionsIfDesired___
+#define ___setExtraOptionsIfDesired___
 
 
 // comment the following definition if no trace options are wanted
-#define TRACE_OPTIONS
+#define EXTRA_OPTIONS
 
 
 #endif

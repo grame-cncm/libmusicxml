@@ -23,7 +23,16 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-struct bsrRepeatDescr : public smartable
+enum lilypondOctavesMode {
+  kLilypondOctavesModeAbsolute,
+  kLilypondOctavesModeRelative,
+  kLilypondOctavesModeFixed };
+
+string lilypondOctavesModeAsString (
+  lilypondOctavesMode octavesMode);
+
+//________________________________________________________________________
+struct lpsrRepeatDescr : public smartable
 {
 /*
  * positions represent the order in which the parts appear in <part-list />
@@ -34,7 +43,7 @@ struct bsrRepeatDescr : public smartable
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<bsrRepeatDescr> create (
+    static SMARTP<lpsrRepeatDescr> create (
       int repeatEndingsNumber);
      
   protected:
@@ -42,10 +51,10 @@ struct bsrRepeatDescr : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    bsrRepeatDescr (
+    lpsrRepeatDescr (
       int repeatEndingsNumber);
 
-    virtual ~bsrRepeatDescr ();
+    virtual ~lpsrRepeatDescr ();
 
   public:
 
@@ -87,8 +96,8 @@ struct bsrRepeatDescr : public smartable
     
     bool                  fEndOfRepeatHasBeenGenerated;
 };
-typedef SMARTP<bsrRepeatDescr> S_bsrRepeatDescr;
-EXP ostream& operator<< (ostream& os, const S_bsrRepeatDescr& elt);
+typedef SMARTP<lpsrRepeatDescr> S_lpsrRepeatDescr;
+EXP ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt);
 
 //________________________________________________________________________
 class lpsr2LilypondTranslator :
@@ -686,7 +695,10 @@ class lpsr2LilypondTranslator :
     msrNote::msrNotePrintKind
                           fCurrentNotePrintKind;
 
-    string                lilypondRelativeOctave (
+    string                lilypondRelativeModeOctave (
+                            S_msrNote note);
+
+    string                lilypondFixedModeOctave (
                             S_msrNote note);
 
     string                notePitchAsLilypondString (S_msrNote note);
@@ -843,14 +855,19 @@ class lpsr2LilypondTranslator :
     bool                  fOnGoingHarmonyVoice;
     bool                  fOnGoingFiguredBassVoice;
     
-    // relative octaves
+    // octaves modes
     // ------------------------------------------------------
+    lilypondOctavesMode   fLilypondOctavesMode;
+    
     S_msrNote             fRelativeOctaveReference;
-                            // contains absolute octave
+                            // contains the absolute octave
+                            
+    S_msrNote             fFixedOctaveReference;
+                            // contains the absolute octave
     
     // repeats
     // ------------------------------------------------------
-    list<S_bsrRepeatDescr>
+    list<S_lpsrRepeatDescr>
                           fRepeatDescrsStack;
 
     // rest measures

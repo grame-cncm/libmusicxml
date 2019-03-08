@@ -90,7 +90,7 @@ string dottedDurationAsLilypondStringWithoutBackSlash (
   int               inputLineNumber,
   msrDottedDuration dottedDuration);
 
-// multiple rests
+// rests measures
 //______________________________________________________________________________
 string restMeasuresWholeNoteAsLilypondString (
   int      inputLineNumber,

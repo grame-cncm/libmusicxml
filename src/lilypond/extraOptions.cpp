@@ -10,6 +10,11 @@
   research@grame.fr
 */
 
+#include "extraOptions.h"
+
+#ifdef EXTRA_OPTIONS
+
+
 #include <iomanip>      // setw, setprecision, ...
 
 #include <regex>
@@ -19,7 +24,6 @@
 
 #include "generalOptions.h"
 #include "lpsrOptions.h" // remove JMI
-#include "extraOptions.h"
 
 
 using namespace std;
@@ -1187,3 +1191,5 @@ void initializeExtraOptionsHandling (
 
 
 }
+
+#endif

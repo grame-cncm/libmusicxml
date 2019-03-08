@@ -966,8 +966,10 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     elt->getInputLineNumber ();
+#endif
     
   string
     partCombinedName =
@@ -1821,9 +1823,11 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {    
+#ifdef TRACE_OPTIONS
   int
     inputLineNumber =
       elt->getInputLineNumber ();
+#endif
 
   string
     measureNumber =
@@ -5262,8 +5266,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     elt->getInputLineNumber ();
+#endif
     
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {

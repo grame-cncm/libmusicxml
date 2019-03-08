@@ -2495,6 +2495,7 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
         noteValueKind);
 
   // is a note value sign needed?
+#ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceNotesDetails) {
     fLogOutputStream <<
       "--> fCurrentNoteValueSizeKind = " <<
@@ -2506,7 +2507,8 @@ void msr2BsrTranslator::createBsrForNote (S_msrNote note)
       ", line " << inputLineNumber <<
       endl;
   }
-  
+#endif
+
   if (noteValueSizeKind != fCurrentNoteValueSizeKind) {
     fLogOutputStream <<
       "--> note = '" <<

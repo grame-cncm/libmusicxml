@@ -13,6 +13,12 @@
 #ifndef ___extraOptions___
 #define ___extraOptions___
 
+
+#include "setExtraOptionsIfDesired.h"
+
+#ifdef EXTRA_OPTIONS
+
+
 #include "optionsBasicTypes.h"
 
 #include "exports.h"
@@ -378,6 +384,9 @@ void initializeExtraOptionsHandling (
 
 
 }
+
+
+#endif
 
 
 #endif

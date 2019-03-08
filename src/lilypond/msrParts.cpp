@@ -1424,6 +1424,7 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   S_msrVoice           graceNotesGroupOriginVoice,
   S_msrGraceNotesGroup skipGraceNotesGroup)
 {
+#ifdef TRACE_OPTIONS
   int inputLineNumber =
     skipGraceNotesGroup->getInputLineNumber ();
 
@@ -1433,6 +1434,7 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
         getVoiceLastSegment ()->
           getSegmentMeasuresList ().back ()->
             getActualMeasureWholeNotes ();
+#endif
         
 #ifdef TRACE_OPTIONS
   if (

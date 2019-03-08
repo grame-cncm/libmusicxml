@@ -30,17 +30,38 @@ namespace MusicXML2
 const int commentFieldWidth = 30;
 
 //______________________________________________________________________________
-S_bsrRepeatDescr bsrRepeatDescr::create (
+string lilypondOctavesModeAsString (
+  lilypondOctavesMode octavesMode)
+{
+  string result;
+  
+  switch (octavesMode) {
+    case kLilypondOctavesModeAbsolute: // default value
+      result = "lilypondOctavesModeAbsolute";
+      break;
+    case kLilypondOctavesModeRelative:
+      result = "lilypondOctavesModeRelative";
+      break;
+    case kLilypondOctavesModeFixed:
+      result = "lilypondOctavesModeFixed";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+S_lpsrRepeatDescr lpsrRepeatDescr::create (
   int repeatEndingsNumber)
 {
-  bsrRepeatDescr* o = new
-    bsrRepeatDescr (
+  lpsrRepeatDescr* o = new
+    lpsrRepeatDescr (
       repeatEndingsNumber);
   assert(o!=0);
   return o;
 }
 
-bsrRepeatDescr::bsrRepeatDescr (
+lpsrRepeatDescr::lpsrRepeatDescr (
   int repeatEndingsNumber)
 {
   fRepeatEndingsNumber  = repeatEndingsNumber;
@@ -49,10 +70,10 @@ bsrRepeatDescr::bsrRepeatDescr (
   fEndOfRepeatHasBeenGenerated = false;
 }
 
-bsrRepeatDescr::~bsrRepeatDescr ()
+lpsrRepeatDescr::~lpsrRepeatDescr ()
 {}
 
-string bsrRepeatDescr::repeatDescrAsString () const
+string lpsrRepeatDescr::repeatDescrAsString () const
 {
   stringstream s;
 
@@ -68,7 +89,7 @@ string bsrRepeatDescr::repeatDescrAsString () const
   return s.str ();
 }
 
-void bsrRepeatDescr::print (ostream& os) const
+void lpsrRepeatDescr::print (ostream& os) const
 {
   const int fieldWidth = 29;
   
@@ -87,7 +108,7 @@ void bsrRepeatDescr::print (ostream& os) const
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_bsrRepeatDescr& elt)
+ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt)
 {
   elt->print (os);
   return os;
@@ -323,7 +344,7 @@ string lpsr2LilypondTranslator::alterationKindAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::lilypondRelativeOctave (
+string lpsr2LilypondTranslator::lilypondRelativeModeOctave (
   S_msrNote note)
 {
   int inputLineNumber =
@@ -434,6 +455,119 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
   return s.str ();
 }
 
+//________________________________________________________________________
+string lpsr2LilypondTranslator::lilypondFixedModeOctave (
+  S_msrNote note)
+{
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  // generate LilyPond octave relative to fFixedOctaveReference
+
+  // in MusicXML, octave number is 4 for the octave starting with middle C
+  int noteAbsoluteOctave =
+    note->getNoteOctave ();
+
+  msrDiatonicPitchKind
+    noteDiatonicPitchKind =
+      note->
+        noteDiatonicPitchKind (
+          inputLineNumber);
+
+  msrDiatonicPitchKind
+    referenceDiatonicPitchKind =
+      fFixedOctaveReference->
+        noteDiatonicPitchKind (
+          inputLineNumber);
+
+  string
+    referenceDiatonicPitchKindAsString =
+      fFixedOctaveReference->
+        noteDiatonicPitchKindAsString (
+          inputLineNumber);
+      
+  int
+    referenceAbsoluteOctave =
+      fRelativeOctaveReference->
+        getNoteOctave ();
+
+  /*
+    If no octave changing mark is used on a pitch, its octave is calculated
+    so that the interval with the previous note is less than a fifth.
+    This interval is determined without considering accidentals.
+  */
+    
+  int
+    noteAboluteDiatonicOrdinal =
+      noteAbsoluteOctave * 7
+        +
+      noteDiatonicPitchKind - kC,
+      
+    referenceAboluteDiatonicOrdinal =
+      referenceAbsoluteOctave * 7
+        +
+      referenceDiatonicPitchKind - kC;
+
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceNotesDetails) {
+    const int fieldWidth = 28;
+
+    fLilypondCodeIOstream << left <<
+/*
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitch" <<
+      " = " <<
+      referenceDiatonicPitch <<
+      endl <<
+*/
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitchAsString" <<
+      " = " <<
+      referenceDiatonicPitchKindAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAbsoluteOctave" <<
+       " = " <<
+      referenceAbsoluteOctave <<
+      endl <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAboluteDiatonicOrdinal" <<
+      " = " <<
+      referenceAboluteDiatonicOrdinal <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAboluteDiatonicOrdinal" <<
+      " = " <<
+      noteAboluteDiatonicOrdinal <<
+      endl <<
+      endl;
+  }
+#endif
+
+  stringstream s;
+  
+  // generate the octaves as needed
+  if (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+    noteAboluteDiatonicOrdinal -= 4;
+    while (noteAboluteDiatonicOrdinal >= referenceAboluteDiatonicOrdinal) {
+      s << "'";
+      noteAboluteDiatonicOrdinal -= 7;
+    } // while
+  }
+  
+  else {
+    noteAboluteDiatonicOrdinal += 4;
+    while (noteAboluteDiatonicOrdinal <= referenceAboluteDiatonicOrdinal) {
+      s << ",";
+      noteAboluteDiatonicOrdinal += 7;
+    } // while
+  }
+
+  return s.str ();
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::stringTuningAsLilypondString (
   int               inputLineNumber,
   S_msrStringTuning stringTuning)
@@ -604,6 +738,15 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   }
 #endif
 
+  switch (fLilypondOctavesMode) {
+    case kLilypondOctavesModeAbsolute:
+      break;
+    case kLilypondOctavesModeRelative:
+      break;
+    case kLilypondOctavesModeFixed:
+      break;
+  } // switch
+
   if (generateAbsoluteOctave) {
     // generate LilyPond absolute octave
     s <<
@@ -614,7 +757,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   else {
     // generate LilyPond octave relative to fRelativeOctaveReference
     s <<
-      lilypondRelativeOctave (note);
+      lilypondRelativeModeOctave (note);
   }
 
   // should an accidental be generated? JMI this can be fine tuned with cautionary
@@ -713,6 +856,15 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       ||
     ! fRelativeOctaveReference;
 
+  switch (fLilypondOctavesMode) {
+    case kLilypondOctavesModeAbsolute:
+      break;
+    case kLilypondOctavesModeRelative:
+      break;
+    case kLilypondOctavesModeFixed:
+      break;
+  } // switch
+
   int noteAbsoluteDisplayOctave =
     note->getNoteDisplayOctave ();
 
@@ -765,7 +917,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   else {
     // generate LilyPond octave relative to fRelativeOctaveReference
     s <<
-      lilypondRelativeOctave (note);
+      lilypondRelativeModeOctave (note);
   }
 
   // generate the skip duration
@@ -13975,7 +14127,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     repeatEndingsNumber = 2; // implicitly JMI ???
 
   fRepeatDescrsStack.push_back (
-    bsrRepeatDescr::create (
+    lpsrRepeatDescr::create (
       repeatEndingsNumber));
     
   int
@@ -14440,8 +14592,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
   }
 #endif
 
+#ifdef TRACE_OPTIONS
   int replicasMeasuresNumber =
     elt->measuresRepeatReplicasMeasuresNumber ();
+#endif
     
   int replicasNumber =
     elt->measuresRepeatReplicasNumber ();

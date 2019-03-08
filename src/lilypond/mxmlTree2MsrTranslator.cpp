@@ -5769,12 +5769,14 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
   // set next measure number in current part' previous measure
   // if this measure is not the first one
+  /* JMI ??? SUPERFLOUS ???
   if (fPartMeasuresCounter > 1) {
     fCurrentPart->
       setNextMeasureNumberInPart (
         inputLineNumber,
         fCurrentMeasureNumber);
   }
+    */
     
   // consistency check
   if (! fPartFirstMeasureNumber.size ()) {

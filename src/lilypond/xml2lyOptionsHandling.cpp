@@ -28,7 +28,6 @@
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
 
-#define EXTRA_OPTIONS
 #ifdef EXTRA_OPTIONS
   #include "extraOptions.h"
 #endif

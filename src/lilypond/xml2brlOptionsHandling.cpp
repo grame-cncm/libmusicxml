@@ -600,10 +600,8 @@ void xml2brlOptionsHandler::enforceOptionsHandlerQuietness ()
     enforceQuietness ();
 #endif
 
-  /* JMI
   gXml2brlOptions->
     enforceQuietness ();
-    */
 }
 
 //______________________________________________________________________________
