@@ -5852,6 +5852,7 @@ class msrRestMeasuresContents : public msrElement
                             }
 
     void                  setRestMeasuresContentsSegment (
+                            int          inputLineNumber,
                             S_msrSegment restMeasuresContentsSegment);
 
     S_msrSegment          getRestMeasuresContentsSegment () const
@@ -5966,7 +5967,7 @@ class msrRestMeasures : public msrVoiceElement
                               { return fRestMeasuresNextMeasureNumber; }
 
     void                  setRestMeasuresLastMeasurePuristMeasureNumber (
-                            int puristMeasureNumber);
+                            int inputLineNumber);
 
     int                   getRestMeasuresLastMeasurePuristMeasureNumber () const
                               { return fRestMeasuresLastMeasurePuristNumber; }
@@ -6887,7 +6888,7 @@ class msrVoice : public msrElement
                             int          inputLineNumber,
                             string       context);
     
-    void                  moveVoiceLastSegmentToInitialVoiceElements (
+    void                  moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
                             int          inputLineNumber,
                             string       context);
     

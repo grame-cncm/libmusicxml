@@ -2317,7 +2317,7 @@ string msrSegment::asShortString () const
     fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
       fSegmentDebugNumber <<
-    "' in voice \"" <<
+    "', voice: \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
 
@@ -2420,7 +2420,8 @@ void msrSegment::print (ostream& os)
   const int fieldWidth = 20;
   
   os <<
-    setw (fieldWidth) << "voiceUplink" << " : " <<
+    setw (fieldWidth) <<
+    "voiceUplink" << " : " <<
     "\"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"" <<

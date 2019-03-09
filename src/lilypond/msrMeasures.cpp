@@ -3435,15 +3435,15 @@ void msrMeasure::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "segmentUplink" << " : " <<
-    fMeasureSegmentUplink->asShortString () <<
-    endl <<
-    
-    setw (fieldWidth) <<
     "measurePuristNumber" << " : " << fMeasurePuristNumber <<
     endl <<
     setw (fieldWidth) <<
     "measureDebugNumber" << " : " << fMeasureDebugNumber <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "segmentUplink" << " : " <<
+    fMeasureSegmentUplink->asShortString () <<
     endl <<
     
     setw (fieldWidth) <<

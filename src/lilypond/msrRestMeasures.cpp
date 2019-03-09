@@ -71,16 +71,18 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
 }
 
 void msrRestMeasuresContents::setRestMeasuresContentsSegment (
+  int          inputLineNumber,
   S_msrSegment restMeasuresContentsSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Setting rest measures contents segment containing " <<
       singularOrPlural (
         restMeasuresContentsMeasuresNumber (),
         "measure",
         "measures") <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -192,7 +194,6 @@ void msrRestMeasuresContents::print (ostream& os)
   os <<
     endl <<
     asString () <<
-    endl <<
     endl;
   
   gIndenter++;
@@ -339,20 +340,67 @@ void msrRestMeasures::setRestMeasuresNextMeasureNumber (
 }
 
 void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
-  int puristMeasureNumber)
+  int inputLineNumber)
 {
+  // sanity check
+  msrAssert (
+    fRestMeasuresContents != nullptr,
+    "fRestMeasuresContents is null");
+
+  S_msrSegment
+    restMeasuresContentsSegment =
+      fRestMeasuresContents->
+        getRestMeasuresContentsSegment ();
+        
+  // sanity check
+  msrAssert (
+    restMeasuresContentsSegment != nullptr,
+    "restMeasuresContentsSegment is null");
+
+  // get rest measures contents segment measures list
+  const list<S_msrMeasure>&
+    contentsSegmentMeasuresList =
+      restMeasuresContentsSegment->
+        getSegmentMeasuresList ();
+
+  // get rest measures contents last measure's purist number
+  int lastMeasuresPuristNumber = -1;
+  
+  if (contentsSegmentMeasuresList.size ()) {
+    lastMeasuresPuristNumber =
+      contentsSegmentMeasuresList.back ()->
+        getMeasurePuristNumber ();
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "cannot get rest measures contents last measure purist number" <<
+      " because its measures list is empty" <<
+      " in voice clone '" <<
+      asShortString () <<
+      "' ";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
       "Setting rest measures last measure purist number to '" <<
       "' " <<
-      puristMeasureNumber <<
+      lastMeasuresPuristNumber <<
+      "', line " << inputLineNumber <<
       endl;
   }
 #endif
 
   fRestMeasuresLastMeasurePuristNumber =
-    puristMeasureNumber;
+    lastMeasuresPuristNumber;
 }
 
 void msrRestMeasures::acceptIn (basevisitor* v)
@@ -454,7 +502,9 @@ string msrRestMeasures::asString () const
 
   s <<
     "RestMeasures" <<
-    ", line " << fInputLineNumber <<
+    ", restMeasuresLastMeasurePuristNumber: '" <<
+    fRestMeasuresLastMeasurePuristNumber <<
+    "'" <<
     ", restMeasuresMeasureSoundingNotes: " <<
     fRestMeasuresMeasureSoundingNotes <<
     ", " <<
@@ -465,9 +515,7 @@ string msrRestMeasures::asString () const
     ", restMeasuresNextMeasureNumber: '" <<
     fRestMeasuresNextMeasureNumber <<
     "'" <<
-    ", restMeasuresLastMeasurePuristNumber: '" <<
-    fRestMeasuresLastMeasurePuristNumber <<
-    "'";
+    ", line " << fInputLineNumber;
     
   return s.str ();
 }
@@ -504,9 +552,13 @@ void msrRestMeasures::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 33;
+  const int fieldWidth = 36;
 
   os << left <<
+    setw (fieldWidth) <<
+    "restMeasuresLastMeasurePuristNumber" << " : " <<
+    fRestMeasuresLastMeasurePuristNumber <<
+    endl <<
     setw (fieldWidth) <<
     "restMeasuresMeasureSoundingNotes" << " : " <<
     fRestMeasuresMeasureSoundingNotes <<
@@ -518,10 +570,6 @@ void msrRestMeasures::print (ostream& os)
     setw (fieldWidth) <<
     "restMeasuresNextMeasureNumber" << " : '" <<
     fRestMeasuresNextMeasureNumber <<
-    "'" <<
-    setw (fieldWidth) <<
-    "restMeasuresLastMeasurePuristNumber" << " : '" <<
-    fRestMeasuresLastMeasurePuristNumber <<
     "'" <<
     endl;
   

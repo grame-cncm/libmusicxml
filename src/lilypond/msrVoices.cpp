@@ -205,8 +205,6 @@ void msrVoice::setVoiceLastSegmentInVoiceClone (
       segment->asShortString () <<
       "' as last segment in voice clone \"" <<
       fVoiceName <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
       "\"" <<
       ", line " << segment->getInputLineNumber () <<
       endl;
@@ -235,8 +233,6 @@ void msrVoice::appendSegmentToVoiceClone ( //JMI VIRER???
       segment->asString () <<
       "' to voice clone \"" <<
       fVoiceName <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
       "\"" <<
       endl;
   }
@@ -271,7 +267,7 @@ void msrVoice::appendSegmentToVoiceClone ( //JMI VIRER???
   {
 /* JMI
     // move fVoiceLastSegment to the initial voice elements list
-    moveVoiceLastSegmentToInitialVoiceElements (
+    moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
       inputLineNumber,
       "setVoiceCloneLastSegment()");
       */
@@ -284,8 +280,6 @@ void msrVoice::appendSegmentToVoiceClone ( //JMI VIRER???
         segment->asShortString () <<
         "' becomes the new last segment in voice clone \"" <<
         fVoiceName <<
-        "\" in staff \"" <<
-        fVoiceStaffUplink->getStaffName () <<
         "\"" <<
         endl;
     }
@@ -841,16 +835,6 @@ void msrVoice::createNewLastSegmentForVoice (
   int    inputLineNumber,
   string context)
 {
-  // create the last segment
-  fVoiceLastSegment =
-    msrSegment::create (
-      inputLineNumber,
-      this);
-
-  if (! fVoiceFirstSegment) {
-    fVoiceFirstSegment = fVoiceLastSegment;
-  }
-
 #ifdef TRACE_OPTIONS
   if (
     gGeneralOptions->fTraceMeasures
@@ -866,15 +850,23 @@ void msrVoice::createNewLastSegmentForVoice (
     gGeneralOptions->fTraceVoices
   ) {
     gLogIOstream <<
-      "Creating a new last segment '" <<
-      fVoiceLastSegment->asShortString () <<
-     "' for voice \"" <<
+      "Creating a new last segment for voice \"" <<
       getVoiceName () <<
       "\" (" << context << ")" <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
+
+  // create the last segment
+  fVoiceLastSegment =
+    msrSegment::create (
+      inputLineNumber,
+      this);
+
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
 }
 
 S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
@@ -1042,7 +1034,7 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
     gLogIOstream <<
       "Creating a new last segment '" <<
       fVoiceLastSegment->asShortString () <<
-      "' with first measure '" <<
+      "' fromt its first measure '" <<
       firstMeasure->getMeasureNumber () <<
       "' for voice \"" <<
       getVoiceName () <<
@@ -1088,8 +1080,10 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
       ||
     gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
-      "Creating harmony voice for regular voice \"" << getVoiceName () << "\"" <<
-      " with voice number " << harmonyVoiceForRegularVoiceNumber <<
+      "Creating harmony voice for regular voice \"" <<
+      getVoiceName () <<
+      "\" with voice number " <<
+      harmonyVoiceForRegularVoiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -2869,8 +2863,6 @@ void msrVoice::moveVoiceInitialElementsToRepeatCommonPart (
       "\" to repeat common part '" <<
       repeatCommonPart->asShortString () <<
       "' (" << context << ")" <<
-      "' in voice \"" <<
-      getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -3243,38 +3235,111 @@ void msrVoice::appendVoiceLastSegmentToInitialVoiceElements (
     fVoiceLastSegment);
 }
     
-void msrVoice::moveVoiceLastSegmentToInitialVoiceElements (
+void msrVoice::moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
   int          inputLineNumber,
   string       context)
 {
-  // append segment to the list of initial elements
+  if (fVoiceLastSegment) {
+    const list<S_msrMeasure>&
+      segmentMeasuresList =
+        fVoiceLastSegment->
+          getSegmentMeasuresList ();
+
+    if (segmentMeasuresList.size ()) {
 #ifdef TRACE_OPTIONS
-  if (
-    gGeneralOptions->fTraceVoices
-      ||
-    gGeneralOptions->fTraceRepeats
-      ||
-    gGeneralOptions->fTraceMeasuresRepeats
-      ||
-    gGeneralOptions->fTraceRestMeasures
-  ) {
-    gLogIOstream <<
-      "Moving voice last segment '" <<
-      fVoiceLastSegment->asString () <<
-      "' to the initial elements in voice \"" <<
-      getVoiceName () <<
-      "\" (" << context << ")" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
+      if (
+        gGeneralOptions->fTraceVoices
+          ||
+        gGeneralOptions->fTraceRepeats
+          ||
+        gGeneralOptions->fTraceMeasuresRepeats
+          ||
+        gGeneralOptions->fTraceRestMeasures
+      ) {
+        gLogIOstream <<
+          "Moving voice last segment '" <<
+          fVoiceLastSegment->asString () <<
+          "' to the initial elements in voice \"" <<
+          getVoiceName () <<
+          "\" (" << context << ")" <<
+          ", line " << inputLineNumber <<
+          endl;
+  
+        displayVoice (
+          inputLineNumber,
+          "moveVoiceLastSegmentToInitialVoiceElementsIfRelevant() 1");
+      }
 #endif
           
-  if (fVoiceLastSegment) { // JMI should not be necessary?
-    fInitialVoiceElementsList.push_back (
-      fVoiceLastSegment);
-  
-    // forget about this last segment
-    fVoiceLastSegment = nullptr;
+      // append segment to the list of initial elements
+      fInitialVoiceElementsList.push_back (
+        fVoiceLastSegment);
+    
+      // forget about this last segment
+      fVoiceLastSegment = nullptr;
+
+#ifdef TRACE_OPTIONS
+      if (
+        gGeneralOptions->fTraceVoices
+          ||
+        gGeneralOptions->fTraceRepeats
+          ||
+        gGeneralOptions->fTraceMeasuresRepeats
+          ||
+        gGeneralOptions->fTraceRestMeasures
+      ) {
+        displayVoice (
+          inputLineNumber,
+          "moveVoiceLastSegmentToInitialVoiceElementsIfRelevant() 2");
+      }
+#endif
+    }
+
+    else {
+#ifdef TRACE_OPTIONS
+      if (
+        gGeneralOptions->fTraceVoices
+          ||
+        gGeneralOptions->fTraceRepeats
+          ||
+        gGeneralOptions->fTraceMeasuresRepeats
+          ||
+        gGeneralOptions->fTraceRestMeasures
+      ) {
+        gLogIOstream <<
+          "Voice last segment '" <<
+          fVoiceLastSegment->asString () <<
+          "' contains no measure, not moved to the initial elements in voice \"" <<
+          getVoiceName () <<
+          "\" (" << context << ")" <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+#endif
+    }
+  }
+
+  else {
+#ifdef TRACE_OPTIONS
+    if (
+      gGeneralOptions->fTraceVoices
+        ||
+      gGeneralOptions->fTraceRepeats
+        ||
+      gGeneralOptions->fTraceMeasuresRepeats
+        ||
+      gGeneralOptions->fTraceRestMeasures
+    ) {
+      gLogIOstream <<
+        "Voice last segment '" <<
+        fVoiceLastSegment->asString () <<
+        "' is null, not moved to the initial elements in voice \"" <<
+        getVoiceName () <<
+        "\" (" << context << ")" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
   }
 }
     
@@ -3387,7 +3452,7 @@ void msrVoice::nestContentsIntoNewRepeatInVoice (
 #endif
   
           // move voice last segment to the list of initial elements
-          moveVoiceLastSegmentToInitialVoiceElements (
+          moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
             inputLineNumber,
             "nestContentsIntoNewRepeatInVoice()");
 
@@ -3416,13 +3481,6 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
     gLogIOstream <<
       "Handling a voice-level repeat start in voice \"" <<
       getVoiceName () <<
-      /* JMI
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->getPartCombinedName () <<
-        */
       ", line " << inputLineNumber <<
       endl;
   }
@@ -3622,11 +3680,7 @@ void msrVoice::handleNestedRepeatStartInVoice (
     gLogIOstream <<
       "Handling a nested repeat start in voice \"" <<
       getVoiceName () <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->getPartCombinedName () <<
+      "\"" <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -3653,11 +3707,7 @@ void msrVoice::handleRepeatStartInVoice (
     gLogIOstream <<
       "Handling repeat start in voice \"" <<
       getVoiceName () <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->getPartCombinedName () <<
+      "\"" <<
       ", line " << inputLineNumber <<
       endl;
 
@@ -5033,11 +5083,9 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Handling segment '" <<
-      segmentClone->asString () <<
+      segmentClone->asShortString () <<
       "' in voice clone \"" <<
       fVoiceName <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
       "\"" <<
       endl;
   }
@@ -5047,11 +5095,13 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
 
 #ifdef TRACE_OPTIONS
   if (
+    gGeneralOptions->fTraceSegments
+      ||
     gGeneralOptions->fTraceRepeats
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
       inputLineNumber,
       "handleSegmentCloneEndInVoiceClone() 1");
   }
@@ -5072,10 +5122,11 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
     // set segmentClone as the segment
     restMeasuresContents->
       setRestMeasuresContentsSegment (
+        inputLineNumber,
         segmentClone);
   }
   
-  if (fVoicePendingMeasuresRepeat) {
+  else if (fVoicePendingMeasuresRepeat) {
     // segment belongs to a measures repeat
 
     // get fVoicePendingMeasuresRepeat's contents
@@ -5087,6 +5138,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
     // set segmentClone as the segment
     restMeasuresContents->
       setRestMeasuresContentsSegment (
+        inputLineNumber,
         segmentClone);
   }
   
@@ -5112,18 +5164,20 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
     // segmentClone is a voice-level segment
 
     // move fVoiceLastSegment to the initial voice elements list
-    moveVoiceLastSegmentToInitialVoiceElements (
+    moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
       inputLineNumber,
       "handleSegmentCloneEndInVoiceClone()");
   }
 
 #ifdef TRACE_OPTIONS
   if (
+    gGeneralOptions->fTraceSegments
+      ||
     gGeneralOptions->fTraceRepeats
       ||
     gGeneralOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStackAndVoice (
+    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
       inputLineNumber,
       "handleSegmentCloneEndInVoiceClone() 2");
   }
@@ -6002,7 +6056,7 @@ void msrVoice::createRestMeasuresInVoice (
               inputLineNumber);
 
         // move the current voice last segment to the initial elements list
-        moveVoiceLastSegmentToInitialVoiceElements ( //JMI
+        moveVoiceLastSegmentToInitialVoiceElementsIfRelevant ( //JMI
           inputLineNumber,
           "createRestMeasuresInVoice()");
           
@@ -6147,51 +6201,7 @@ void msrVoice::appendPendingRestMeasuresToVoice (
             endl;
         }
 #endif
-
-        /* JMI
-        // fetch the last segment's measure list
-        list<S_msrMeasure>&
-          voiceLastSegmentMeasureList =
-            fVoiceLastSegment->
-              getSegmentMeasuresListToModify ();
-       
-        // grab the just created last measure in the last segment's measure list,
-        // which is the next measure after the rest measures
-        if (! voiceLastSegmentMeasureList.size ()) {
-          stringstream s;
-
-          s <<
-            "attempting to grab first measure of voice last segment, that contains none";
-
-          msrInternalError (
-            gGeneralOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
-
-        S_msrMeasure
-          nextMeasureAfterRestMeasures =
-            voiceLastSegmentMeasureList.back ();
-
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            endl <<
-            "==========> nextMeasureAfterRestMeasures:" <<
-            endl;
-  
-            
-          nextMeasureAfterRestMeasures->
-            print (gLogIOstream);
-            
-          gLogIOstream <<
-            endl;
-        }
-        */
           
-        // remove the next measure from the last segment's measure list
-    // JMI    voiceLastSegmentMeasureList.pop_back ();
-
         // create the rest measures contents
 #ifdef TRACE_OPTIONS
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
@@ -6221,6 +6231,7 @@ void msrVoice::appendPendingRestMeasuresToVoice (
       
         restMeasuresContents->
           setRestMeasuresContentsSegment (
+            inputLineNumber,
             fVoiceLastSegment);
 
         // set restMeasuresContents as the rest measures contents
@@ -6233,58 +6244,15 @@ void msrVoice::appendPendingRestMeasuresToVoice (
             endl;
         }
 #endif
-      
+
         fVoicePendingRestMeasures->
           setRestMeasuresContents (
             restMeasuresContents);
 
-        // get rest measures contents segment measures list
-        const list<S_msrMeasure>&
-          contentsSegmentMeasuresList =
-            fVoiceLastSegment->
-              getSegmentMeasuresList ();
-
-        // get rest measures contents last measure's purist number
-        int lastMeasuresPuristNumber = -1;
-        
-        if (contentsSegmentMeasuresList.size ()) {
-          lastMeasuresPuristNumber =
-            contentsSegmentMeasuresList.back ()->
-              getMeasurePuristNumber ();
-        }
-        else {
-          stringstream s;
-      
-          s <<
-            "cannot get rest measures contents last measure purist number" <<
-            " because its measures list is empty" <<
-            " in voice clone '" <<
-            asShortString () <<
-            "' ";
-            
-          msrInternalError (
-            gGeneralOptions->fInputSourceName,
-            fInputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
-        
         // set pending rest measures last measure purist number
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceRestMeasures) {
-          gLogIOstream <<
-            "Setting rest measures last measure purist number to '" <<
-            lastMeasuresPuristNumber <<
-            "' in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
-            endl;
-        }
-#endif
-
         fVoicePendingRestMeasures->
           setRestMeasuresLastMeasurePuristMeasureNumber (
-            lastMeasuresPuristNumber);
+            inputLineNumber);
             
         // forget about this voice last segment
         fVoiceLastSegment = nullptr;
@@ -6343,13 +6311,20 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
     gLogIOstream <<
       "Handling rest measures start in voice clone \"" <<
       getVoiceName () <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->getPartCombinedName () <<
       ", line " << inputLineNumber <<
       endl;
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRestMeasures
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceRestMeasuresAndVoice (
+      inputLineNumber,
+      "handleRestMeasuresStartInVoiceClone() 1");
   }
 #endif
 
@@ -6358,18 +6333,6 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       gIndenter++;
-
-#ifdef TRACE_OPTIONS
-      if (
-        gGeneralOptions->fTraceRestMeasures
-          ||
-        gGeneralOptions->fTraceVoicesDetails
-      ) {
-        displayVoiceRestMeasuresAndVoice (
-          inputLineNumber,
-          "handleRestMeasuresStartInVoiceClone() 1");
-      }
-#endif
 
       // is there a voice last segment?
       if (fVoiceLastSegment) {
@@ -6382,7 +6345,7 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
             inputLineNumber);
   
           // move voice last segment to the list of initial elements
-          moveVoiceLastSegmentToInitialVoiceElements (
+          moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
             inputLineNumber,
             "handleRestMeasuresStartInVoiceClone()");
 
@@ -6435,22 +6398,22 @@ void msrVoice::handleRestMeasuresStartInVoiceClone (
       this->setVoiceContainsRestMeasures (
         inputLineNumber);
 
-#ifdef TRACE_OPTIONS
-      if (
-        gGeneralOptions->fTraceRestMeasures
-          ||
-        gGeneralOptions->fTraceVoicesDetails
-      ) {
-        displayVoiceRestMeasuresAndVoice (
-          inputLineNumber,
-          "handleRestMeasuresStartInVoiceClone() 2");
-      }
-#endif
-
       gIndenter--;
 
       break;
   } // switch
+
+#ifdef TRACE_OPTIONS
+  if (
+    gGeneralOptions->fTraceRestMeasures
+      ||
+    gGeneralOptions->fTraceVoicesDetails
+  ) {
+    displayVoiceRestMeasuresAndVoice (
+      inputLineNumber,
+      "handleRestMeasuresStartInVoiceClone() 2");
+  }
+#endif
 }
 
 void msrVoice::handleRestMeasuresEndInVoiceClone (
@@ -6501,6 +6464,11 @@ void msrVoice::handleRestMeasuresEndInVoiceClone (
           s.str ());
       }
 
+      // set pending rest measures last measure purist number
+      fVoicePendingRestMeasures->
+        setRestMeasuresLastMeasurePuristMeasureNumber (
+          inputLineNumber);
+
       // append current voice rest measure to the initial voice elements list
       appendRestMeasuresToInitialVoiceElements (
         inputLineNumber,
@@ -6534,7 +6502,7 @@ void msrVoice::handleRestMeasuresContentsStartInVoiceClone (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Handling rest measures start in voice clone \"" <<
+      "Handling rest measures contents start in voice clone \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
@@ -6615,7 +6583,7 @@ void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceRestMeasures) {
     gLogIOstream <<
-      "Handling rest measures end in voice clone \"" <<
+      "Handling rest measures contents end in voice clone \"" <<
       getVoiceName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -6661,6 +6629,7 @@ void msrVoice::handleRestMeasuresContentsEndInVoiceClone (
   // set fVoiceLastSegment as restMeasuresContents' segment
   restMeasuresContents->
     setRestMeasuresContentsSegment (
+      inputLineNumber,
       fVoiceLastSegment);
 
   // forget about fVoiceLastSegment
@@ -6851,11 +6820,7 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
     gLogIOstream <<
       "Handling measures repeat start in voice clone \"" <<
       getVoiceName () <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->getPartCombinedName () <<
+      "\"" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -6890,7 +6855,7 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
             inputLineNumber);
   
           // move voice last segment to the list of initial elements
-          moveVoiceLastSegmentToInitialVoiceElements (
+          moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
             inputLineNumber,
             "handleMeasuresRepeatStartInVoiceClone()");
 
@@ -8102,11 +8067,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
     gLogIOstream <<
       "Handling repeat start in voice clone \"" <<
       getVoiceName () <<
-      "\" in staff \"" <<
-      fVoiceStaffUplink->getStaffName () <<
-      "\" in part " <<
-      fVoiceStaffUplink->
-        getStaffPartUplink ()->getPartCombinedName () <<
+      "\"" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -8155,7 +8116,7 @@ void msrVoice::handleRepeatStartInVoiceClone (
             inputLineNumber);  
 
           // move current last segment to the list of initial elements
-          moveVoiceLastSegmentToInitialVoiceElements (
+          moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
             inputLineNumber,
             "handleRepeatStartInVoiceClone()");
 
