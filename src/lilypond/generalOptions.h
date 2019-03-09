@@ -202,7 +202,7 @@ class generalOptions : public optionsGroup
     // measures repeats
     bool                  fTraceMeasuresRepeats;
 
-    // multiple rest measures
+    // rest measures
     bool                  fTraceRestMeasures;
 
     // slashes

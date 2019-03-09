@@ -350,7 +350,7 @@ void msrSegment::setNextMeasureNumberInSegment (
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
-  int    inputLineNumber)
+  int inputLineNumber)
 {
   string
     currentMeasureNumber =
@@ -369,6 +369,11 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       "\"" <<
       ", line " << inputLineNumber <<
       endl;
+
+    fSegmentVoiceUplink->
+      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+        inputLineNumber,
+        "finalizeCurrentMeasureInSegment() 1");
   }
 #endif
 
@@ -504,38 +509,15 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   }
 
   else {
-    /* JMI
-#ifdef TRACE_OPTIONS
-    if (
-      gGeneralOptions->fTraceMeasuresDetails
-        ||
-      gGeneralOptions->fTraceSegmentsDetails) {
-      gLogIOstream <<
-        endl <<
-        "*********>> HOUHOU Current voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        ", line " << inputLineNumber <<
-        " contains:" <<
-        endl <<
-        fSegmentVoiceUplink <<
-        "<<*********" <<
-        endl <<
-        endl;
-    }
-#endif
-    */
+    // JMI
   }
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-    gLogIOstream <<
-      "Segment '" <<
-      fSegmentAbsoluteNumber <<
-      ", segmentDebugNumber: '" <<
-      fSegmentDebugNumber <<
-      "' has no measures to finalize" <<
-      endl;
+    fSegmentVoiceUplink->
+      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+        inputLineNumber,
+        "finalizeCurrentMeasureInSegment() 2");
   }
 #endif
 
@@ -2106,7 +2088,8 @@ void msrSegment::removeElementFromSegment (
 }
 
 S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string context)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
@@ -2115,6 +2098,7 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
       fSegmentDebugNumber <<
+      " (" << context << ")" <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -2165,7 +2149,8 @@ S_msrMeasure msrSegment::fetchLastMeasureFromSegment (
 }
 
 S_msrMeasure msrSegment::removeLastMeasureFromSegment (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string context)
 {
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
@@ -2174,8 +2159,14 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       fSegmentAbsoluteNumber <<
       ", segmentDebugNumber: '" <<
       fSegmentDebugNumber <<
+      " (" << context << ")" <<
       "', line " << inputLineNumber <<
       endl;
+
+    fSegmentVoiceUplink->
+      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+        inputLineNumber,
+        "removeLastMeasureFromSegment() 1");
   }
 #endif
 
@@ -2220,16 +2211,19 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   }
 #endif
 
-  if (false) { // JMI
-    displaySegment (
-      inputLineNumber,
-      "removeLastMeasureFromSegment()");
-
-    // JMI for tests abort ();
-  }
+  // JMI for tests abort ();
 
   fSegmentMeasuresList.pop_back ();
   
+#ifdef TRACE_OPTIONS
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    fSegmentVoiceUplink->
+      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+        inputLineNumber,
+        "removeLastMeasureFromSegment() 2");
+  }
+#endif
+
   return result;
 }
 

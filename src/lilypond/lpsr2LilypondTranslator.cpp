@@ -7222,12 +7222,28 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         break;
         
       case msrMeasure::kUnderfullMeasureKind:
-        if (elt-> getMeasureEndIsRegular ()) {
-          fLilypondCodeIOstream <<
-            "| % " <<
-            puristMeasureNumber + 1 <<
-            endl;
-        }
+        switch (elt-> getMeasureEndRegularKind ()) {
+          case msrMeasure::kMeasureEndRegularUnknown:
+            fLilypondCodeIOstream <<
+              "%{ measureEndRegularUnknown, " <<
+              puristMeasureNumber + 1 <<
+              " %}" <<
+              endl;
+            break;
+          case msrMeasure::kMeasureEndRegularYes:
+            fLilypondCodeIOstream <<
+              "| % " <<
+              puristMeasureNumber + 1 <<
+              endl;
+            break;
+          case msrMeasure::kMeasureEndRegularNo:
+            fLilypondCodeIOstream <<
+              "%{ measureEndRegularNo, " <<
+              puristMeasureNumber + 1 <<
+              " %}" <<
+              endl;
+            break;
+        } // switch
         
       /* JMI
         fLilypondCodeIOstream <<

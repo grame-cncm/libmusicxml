@@ -154,7 +154,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureContainsMusic = false;
 
   // regular measure ends detection
-  fMeasureEndIsRegular = true; // default value
+  fMeasureEndRegularKind = kMeasureEndRegularUnknown;
 
   // measure finalization
   fMeasureHasBeenFinalized = false;
@@ -233,8 +233,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
     fMeasureIsASingleMeasureRest;
 
   // regular measure ends detection // JMI TEMP
-  newbornClone->fMeasureEndIsRegular =
-    fMeasureEndIsRegular;
+  newbornClone->fMeasureEndRegularKind =
+    fMeasureEndRegularKind;
 
   /*   
   // fActualMeasureWholeNotes and fFullMeasureWholeNotes
@@ -2839,7 +2839,7 @@ void msrMeasure::finalizeMeasure (
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (0);
   
-    fMeasureEndIsRegular = true;
+    fMeasureEndRegularKind = kMeasureEndRegularYes;
   }
 
   else {
@@ -2854,10 +2854,8 @@ void msrMeasure::finalizeMeasure (
       setWholeNotesSinceLastRegularMeasureEnd (
         newWholeNotesSinceLastRegularMeasureEnd);
 
-    fMeasureEndIsRegular = false;
+    fMeasureEndRegularKind = kMeasureEndRegularNo;
   }
-
-  fMeasureHasBeenFinalized = true;
 
 #ifdef TRACE_OPTIONS
   if (gGeneralOptions->fTraceMeasures) {
@@ -2964,7 +2962,7 @@ void msrMeasure::finalizeMeasureClone (
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (0);
   
-    fMeasureEndIsRegular = true;
+    fMeasureEndRegularKind = kMeasureEndRegularYes;
   }
 
   else {
@@ -2981,7 +2979,7 @@ void msrMeasure::finalizeMeasureClone (
       setWholeNotesSinceLastRegularMeasureEnd (
         newWholeNotesSinceLastRegularMeasureEnd);
 
-    fMeasureEndIsRegular = false;
+    fMeasureEndRegularKind = kMeasureEndRegularNo;
   }
 
 /* JMI
@@ -3157,6 +3155,26 @@ string msrMeasure::measureCreatedForARepeatKindAsString (
   return result;
 }
 
+string msrMeasure::measureEndRegularKindAsString (
+    msrMeasureEndRegularKind measureEndRegularKind)
+{
+  string result;
+
+  switch (measureEndRegularKind) {
+    case msrMeasure::kMeasureEndRegularUnknown:
+      result = "measureEndRegularUnknown";
+      break;
+    case msrMeasure::kMeasureEndRegularYes:
+      result = "measureEndRegularYes";
+      break;
+    case msrMeasure::kMeasureEndRegularNo:
+      result = "measureEndRegularNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrMeasure::measureKindAsString () const
 {
   return
@@ -3263,6 +3281,12 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
+    "measureEndRegularKind" << " : " <<
+    measureEndRegularKindAsString (
+      fMeasureEndRegularKind) <<
+    endl <<
+    
+    setw (fieldWidth) <<
     "segmentUplink" << " : " <<
     fMeasureSegmentUplink->asShortString () <<
     endl <<
@@ -3325,12 +3349,6 @@ void msrMeasure::print (ostream& os)
     "measureContainsMusic" << " : " <<
     booleanAsString (
       fMeasureContainsMusic) << 
-    endl <<
-    
-    setw (fieldWidth) <<
-    "measureEndIsRegular" << " : " <<
-    booleanAsString (
-      fMeasureEndIsRegular) <<
     endl <<
     
     setw (fieldWidth) <<
@@ -3410,6 +3428,12 @@ void msrMeasure::shortPrint (ostream& os)
       
   os << left <<
     setw (fieldWidth) <<
+    "measureEndRegularKind" << " : " <<
+    measureEndRegularKindAsString (
+      fMeasureEndRegularKind) <<
+    endl <<
+    
+    setw (fieldWidth) <<
     "measureFirstInVoice" << " : " <<
     booleanAsString (
       fMeasureFirstInVoice) <<
@@ -3472,12 +3496,6 @@ void msrMeasure::shortPrint (ostream& os)
     "measureContainsMusic" << " : " <<
     booleanAsString (
       fMeasureContainsMusic) <<
-    endl <<
-    
-    setw (fieldWidth) <<
-    "measureEndIsRegular" << " : " <<
-    booleanAsString (
-      fMeasureEndIsRegular) <<
     endl <<
     
     setw (fieldWidth) <<

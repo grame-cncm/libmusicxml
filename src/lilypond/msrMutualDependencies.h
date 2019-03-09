@@ -667,6 +667,14 @@ class msrMeasure : public msrElement
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
+    enum msrMeasureEndRegularKind {
+        kMeasureEndRegularUnknown,
+        kMeasureEndRegularYes,
+        kMeasureEndRegularNo };
+      
+    static string measureEndRegularKindAsString (
+      msrMeasureEndRegularKind measureEndRegularKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -724,7 +732,6 @@ class msrMeasure : public msrElement
     int                   getMeasurePuristNumber () const
                               { return fMeasurePuristNumber; }
 
-
     void                  setNextMeasureNumber (string nextMeasureNumber);
 
     string                getNextMeasureNumber () const
@@ -753,16 +760,17 @@ class msrMeasure : public msrElement
                       
     // measure kind
     
-    msrMeasureKind        getMeasureKind () const
+    msrMeasureKind
+                          getMeasureKind () const
                               { return fMeasureKind; }
-
+    
     // measure implicit kind
     
     void                  setMeasureImplicitKind (
                             msrMeasureImplicitKind measureImplicitKind)
                               {
                                 fMeasureImplicitKind =
-                                measureImplicitKind;
+                                  measureImplicitKind;
                               }
 
     msrMeasureImplicitKind
@@ -824,8 +832,9 @@ class msrMeasure : public msrElement
 
     // regular measure ends detection
     
-    bool                  getMeasureEndIsRegular () const
-                              { return fMeasureEndIsRegular; }
+    msrMeasureEndRegularKind
+                          getMeasureEndRegularKind () const
+                              { return fMeasureEndRegularKind; }
 
   public:
   
@@ -1196,7 +1205,8 @@ class msrMeasure : public msrElement
     int                   fMeasureDebugNumber; 
 
     // regular measure ends detection
-    bool                  fMeasureEndIsRegular;
+    msrMeasureEndRegularKind
+                          fMeasureEndRegularKind;
 
     // measure finalization
     bool                  fMeasureHasBeenFinalized;
@@ -1288,7 +1298,8 @@ class msrSegment : public msrVoiceElement
     // measures
 
     S_msrMeasure          fetchLastMeasureFromSegment (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string context);
 
     S_msrMeasure          createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
@@ -1496,7 +1507,8 @@ class msrSegment : public msrVoiceElement
                             S_msrElement element);
 
     S_msrMeasure          removeLastMeasureFromSegment (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string context);
 
     // finalization
 
