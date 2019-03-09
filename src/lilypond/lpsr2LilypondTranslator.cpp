@@ -7143,9 +7143,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   string
     measureNumber =
       elt->getMeasureNumber ();
-  string
-    nextMeasureNumber =
-      elt->getNextMeasureNumber ();
+  int
+    measurePuristNumber =
+      elt->getMeasurePuristNumber ();
 
   int
     puristMeasureNumber =
@@ -7156,8 +7156,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
-      ", nextMeasureNumber = '" << nextMeasureNumber << "'" <<
-      ", fOnGoingRestMeasures = '" <<
+      ", measurePuristNumber = '" << measurePuristNumber << "'" <<
+      ", onGoingRestMeasures = '" <<
       booleanAsString (
         fOnGoingRestMeasures) <<
       "'" <<
@@ -7188,15 +7188,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     switch (measureKind) {
       case msrMeasure::kUnknownMeasureKind: // should not occur
         fLilypondCodeIOstream <<
-          "%{ unknownMeasureKind %} |";
-  
-        if (nextMeasureNumber.size ()) {
-          fLilypondCodeIOstream <<
-            " % " <<
-            puristMeasureNumber + 1; // nextMeasureNumber;
-        }
-        
-        fLilypondCodeIOstream <<
+          "%{ unknownMeasureKind %} | " <<
+          measurePuristNumber + 1 <<
           endl;
         break;
         
@@ -7214,15 +7207,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   
           if (doGenerateBarCheck) {
             fLilypondCodeIOstream <<
-              "|";
-      
-            if (nextMeasureNumber.size ()) { // JMI ???
-              fLilypondCodeIOstream <<
-                " % " <<
-                puristMeasureNumber + 1; // nextMeasureNumber;
-            }
-            
-            fLilypondCodeIOstream <<
+              "| % " <<
+              puristMeasureNumber + 1 <<
               endl;
           }
         }
@@ -7230,30 +7216,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         
       case msrMeasure::kUpbeatMeasureKind:
         fLilypondCodeIOstream <<
-          "|";
-  
-        if (nextMeasureNumber.size ()) { // JMI
-          fLilypondCodeIOstream <<
-            " % " <<
-            puristMeasureNumber + 1; // nextMeasureNumber;
-        }
-        
-        fLilypondCodeIOstream <<
+          "| % " <<
+          puristMeasureNumber + 1 <<
           endl;
         break;
         
       case msrMeasure::kUnderfullMeasureKind:
         if (elt-> getMeasureEndIsRegular ()) {
           fLilypondCodeIOstream <<
-            "|";
-    
-          if (nextMeasureNumber.size ()) { // JMI
-            fLilypondCodeIOstream <<
-              " % " <<
-              puristMeasureNumber + 1; // nextMeasureNumber;
-          }
-          
-          fLilypondCodeIOstream <<
+            "| % " <<
+            puristMeasureNumber + 1 <<
             endl;
         }
         
@@ -7288,15 +7260,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   
       case msrMeasure::kEmptyMeasureKind: // should not occur
         fLilypondCodeIOstream <<
-          "%{ emptyMeasureKind %} |";
-  
-        if (nextMeasureNumber.size ()) { // JMI
-          fLilypondCodeIOstream <<
-            " % " <<
-            puristMeasureNumber + 1; // nextMeasureNumber;
-        }
-        
-        fLilypondCodeIOstream <<
+          "%{ emptyMeasureKind %} | " <<
+          puristMeasureNumber + 1 <<
           endl;
         break;
     } // switch
@@ -14849,7 +14814,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRestMeasures& elt)
   fLilypondCodeIOstream <<    
     " | % " <<
     elt->getRestMeasuresLastMeasurePuristMeasureNumber () + 1 <<
- //   elt->getRestMeasuresNextMeasureNumber () << // JMI
     endl;
 
   if (gLilypondOptions->fComments) {

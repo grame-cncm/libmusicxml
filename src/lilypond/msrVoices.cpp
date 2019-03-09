@@ -6262,31 +6262,6 @@ void msrVoice::appendPendingRestMeasuresToVoice (
           inputLineNumber,
           fVoicePendingRestMeasures);
 
-            /* JMI
-        // create a new segment to collect the remainder of the voice,
-        // containing the next, yet incomplete, measure
-#ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "Creating a new last segment with the measure after the rest measures for voice \"" <<
-            fVoiceName << "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-#endif
-
-        createNewLastSegmentForVoice (
-          inputLineNumber);
-          */
-
-/* JMI
-        // append the next measure after the rest measures
-        // to the new last segment
-        fVoiceLastSegment->
-          appendMeasureToSegment (
-            nextMeasureAfterRestMeasures);
-*/
-
         // forget about this pending rest measures
         fVoicePendingRestMeasures = nullptr;
       }

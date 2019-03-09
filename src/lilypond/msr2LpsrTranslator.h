@@ -606,7 +606,6 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     // the current segment clone is the one at the top of the stack
     S_msrSegment              fCurrentSegmentClone;
-// JMI    stack<S_msrSegment>       fCurrentSegmentClonesStack;
 
     
     // measures

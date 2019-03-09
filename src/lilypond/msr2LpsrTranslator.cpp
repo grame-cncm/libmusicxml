@@ -1611,10 +1611,6 @@ void msr2LpsrTranslator::visitStart (S_msrSegment& elt)
   fCurrentVoiceClone->
     setVoiceLastSegmentInVoiceClone (
       fCurrentSegmentClone);
-    
-  // push it onto the segment clones stack
-//  fCurrentSegmentClonesStack.push (
-// JMI    fCurrentSegmentClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
@@ -1639,7 +1635,6 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
       
   // forget current segment clone
   fCurrentSegmentClone = nullptr;
-// JMI  fCurrentSegmentClonesStack.pop ();
 }
 
 //________________________________________________________________________
