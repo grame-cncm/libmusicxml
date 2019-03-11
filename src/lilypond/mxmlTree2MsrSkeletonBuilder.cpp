@@ -1568,10 +1568,13 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
 
             s <<
               endl <<
+              replaceSubstringInString (
 R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
-either you found a bug in the translator,
-or this MusicXML data is the first-ever real-world case
-of a score exhibiting overlapping part groups)";
+  either you found a bug in the EXECUTABLE translator,
+  or this MusicXML data is the first-ever real-world case
+  of a score exhibiting overlapping part groups.)",
+              "EXECUTABLE",
+              gGeneralOptions->fExecutableName);
             
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
