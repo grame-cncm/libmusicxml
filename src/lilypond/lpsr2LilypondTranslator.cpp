@@ -7153,10 +7153,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
 
-  int
-    puristMeasureNumber =
-      elt->getMeasurePuristNumber ();
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
@@ -7214,7 +7210,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           if (doGenerateBarCheck) {
             fLilypondCodeIOstream <<
               "| % " <<
-              puristMeasureNumber + 1 <<
+              measurePuristNumber + 1 <<
               endl;
           }
         }
@@ -7223,7 +7219,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       case msrMeasure::kUpbeatMeasureKind:
         fLilypondCodeIOstream <<
           "| % " <<
-          puristMeasureNumber + 1 <<
+          measurePuristNumber + 1 <<
           endl;
         break;
         
@@ -7232,20 +7228,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<
               "%{ measureEndRegularUnknown, " <<
-              puristMeasureNumber + 1 <<
+              measurePuristNumber + 1 <<
               " %}" <<
               endl;
             break;
           case msrMeasure::kMeasureEndRegularYes:
             fLilypondCodeIOstream <<
               "| % " <<
-              puristMeasureNumber + 1 <<
+              measurePuristNumber + 1 <<
               endl;
             break;
           case msrMeasure::kMeasureEndRegularNo:
             fLilypondCodeIOstream <<
               "%{ measureEndRegularNo, " <<
-              puristMeasureNumber + 1 <<
+              measurePuristNumber + 1 <<
               " %}" <<
               endl;
             break;
@@ -7283,7 +7279,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       case msrMeasure::kEmptyMeasureKind: // should not occur
         fLilypondCodeIOstream <<
           "%{ emptyMeasureKind %} | " <<
-          puristMeasureNumber + 1 <<
+          measurePuristNumber + 1 <<
           endl;
         break;
     } // switch

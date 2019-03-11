@@ -1432,13 +1432,6 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
 #ifdef TRACE_OPTIONS
   int inputLineNumber =
     skipGraceNotesGroup->getInputLineNumber ();
-
-  rational
-    graceNotesGroupOriginVoiceActualMeasureWholeNotes =
-      graceNotesGroupOriginVoice->
-        getVoiceLastSegment ()->
-          getSegmentMeasuresList ().back ()->
-            getActualMeasureWholeNotes ();
 #endif
         
 #ifdef TRACE_OPTIONS
@@ -1452,8 +1445,6 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
     gLogIOstream <<
       "addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded () in " <<
       getPartCombinedName () <<
-      ", graceNotesGroupOriginVoiceActualMeasureWholeNotes = " <<
-      graceNotesGroupOriginVoiceActualMeasureWholeNotes <<
       ", line " << inputLineNumber <<
       endl;
   }

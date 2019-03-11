@@ -1508,6 +1508,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               showPartGroupsData (
                 stopInputLineNumber,
                 "UPON overlapping part groups");
+#endif
 
               // fetch the positions in the intersection
               int
@@ -1577,7 +1578,6 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
                 __FILE__, __LINE__,
                 s.str ());
             }
-#endif
           }
     
           if (++i == iEnd) break;
@@ -3136,7 +3136,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPart (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
-      "Resitering part " <<
+      "Registering part " <<
       part->getPartCombinedName () <<
       " in the parts data" <<
       ", partPosition = " << partPosition <<
@@ -3642,10 +3642,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
+#endif
 
         fCurrentStanzaName = K_NO_STANZA_NAME;
       }
-#endif
     }
     
     else {
