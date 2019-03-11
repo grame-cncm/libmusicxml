@@ -650,15 +650,6 @@ class msrMeasure : public msrElement
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
 
-    enum msrMeasureCreatedForARepeatKind { // JMI ???
-        kMeasureCreatedForARepeatNo,
-        kMeasureCreatedForARepeatBefore,
-        kMeasureCreatedForARepeatAfter,
-        kMeasureCreatedForARepeatPadded };
-      
-    static string measureCreatedForARepeatKindAsString (
-      msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind);
-
     enum msrMeasureFirstInSegmentKind {
         kMeasureFirstInSegmentUnknown,
         kMeasureFirstInSegmentYes,
@@ -791,16 +782,6 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
-
-    // measure 'created for a repeat' kind
-    
-    void                  setMeasureCreatedForARepeatKind (
-                            msrMeasureCreatedForARepeatKind
-                              measureCreatedForARepeatKind);
-
-    msrMeasureCreatedForARepeatKind
-                          getMeasureCreatedForARepeatKind () const
-                              { return fMeasureCreatedForARepeatKind; }
 
     // single-measure rest?
 
@@ -1164,11 +1145,6 @@ class msrMeasure : public msrElement
     msrMeasureImplicitKind
                           fMeasureImplicitKind;
     
-    // measure 'created for a repeat' kind
-
-    msrMeasureCreatedForARepeatKind
-                          fMeasureCreatedForARepeatKind;
-
     // measure 'first in segment' kind
 
     msrMeasureFirstInSegmentKind
@@ -6467,9 +6443,6 @@ class msrVoice : public msrElement
     void                  setNextMeasureNumberInVoice (
                             int    inputLineNumber,
                             string nextMeasureNumber);
-
-    void                  appendAFirstMeasureToVoiceIfNotYetDone ( // JMI ???
-                             int inputLineNumber);
                                                     
     void                  padUpToActualMeasureWholeNotesInVoice (
                             int      inputLineNumber,

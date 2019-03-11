@@ -6981,31 +6981,6 @@ else
           "\\partial " << upbeatDuration <<
           endl;
       }
-
-/* JMI
-      {
-        string
-          upbeatDuration =
-            wholeNotesAsLilypondString (
-              inputLineNumber,
-              elt->getActualMeasureWholeNotes ());
-
-        // only generate '\partial' at the beginning of a voice
-        switch (elt->getMeasureCreatedForARepeatKind ()) {
-          case msrMeasure::kMeasureCreatedForARepeatNo:
-            fLilypondCodeIOstream <<
-              "\\partial " << upbeatDuration <<
-              endl;
-            break;
-  
-          case msrMeasure::kMeasureCreatedForARepeatBefore:
-          case msrMeasure::kMeasureCreatedForARepeatAfter:
-          case msrMeasure::kMeasureCreatedForARepeatPadded:
-            // such a measure does not need a \partial
-            break;
-        } // switch
-      }
-    */
       break;
       
     case msrMeasure::kUnderfullMeasureKind:

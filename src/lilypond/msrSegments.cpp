@@ -385,12 +385,18 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   gIndenter++;
   
   // don't finalize it it ain't been created
-  if (fSegmentMeasuresList.size ()) {
-    // finalize or remove segment's last measure
+  if (fSegmentMeasuresList.size ()) { // JMI ALWAYS ???
+    // finalize last measure
     S_msrMeasure
       lastMeasure =
         fSegmentMeasuresList.back ();
 
+    lastMeasure->
+      finalizeMeasure (
+        inputLineNumber,
+        "finalizeCurrentMeasureInSegment()");
+
+/* JMI
     // is last measure an empty measure that was created for a repeat?
     msrMeasure::msrMeasureCreatedForARepeatKind
       lastMeasureCreatedForARepeatKind =
@@ -491,30 +497,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
               "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatPadded");
         break;
     } // switch
-  
-#ifdef TRACE_OPTIONS
-    if (
-      gTraceOptions->fTraceMeasuresDetails
-        ||
-      gTraceOptions->fTraceSegmentsDetails) {
-      gLogIOstream <<
-        endl <<
-        "*********>> Current voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        ", line " << inputLineNumber <<
-        " contains:" <<
-        endl <<
-        fSegmentVoiceUplink <<
-        "<<*********" <<
-        endl <<
-        endl;
-    }
-#endif
-  }
-
-  else {
-    // JMI
+    */
   }
 
 #ifdef TRACE_OPTIONS

@@ -4315,11 +4315,13 @@ void msrVoice::handleNestedRepeatEndInVoice (
       inputLineNumber,
       measureNumber,
       msrMeasure::kMeasureImplicitNo);
-  
+
+  /* JMI
     // set it as created after a repeat
     voiceLastMeasure->
       setMeasureCreatedForARepeatKind (
         msrMeasure::kMeasureCreatedForARepeatAfter);
+        */
   }
 
 #ifdef TRACE_OPTIONS
@@ -9369,6 +9371,25 @@ void msrVoice::print (ostream& os)
 
   const int fieldWidth = 34;
 
+  // fetch the staff
+  S_msrStaff
+    staff =
+      fVoiceStaffUplink;
+      
+  // get the staff current clef, key and time
+  S_msrClef
+    staffCurrentClef =
+      staff->
+        getStaffCurrentClef ();
+  S_msrKey
+    staffCurrentKey =
+      staff->
+        getStaffCurrentKey ();
+  S_msrTime
+    staffCurrentTime =
+      staff->
+        getStaffCurrentTime ();
+
   os << left <<
     setw (fieldWidth) << "staffUplink" << " : " <<
     fVoiceStaffUplink->getStaffName () <<
@@ -9382,6 +9403,36 @@ void msrVoice::print (ostream& os)
     setw (fieldWidth) << "regularVoiceStaffSequentialNumber" << " : " <<
     regularVoiceStaffSequentialNumberAsString () <<
     endl;
+    
+  os << left <<
+    setw (fieldWidth) << "staffCurrentClef" << " : ";
+  if (staffCurrentClef) {
+    os <<
+      staffCurrentClef;
+  }
+  else {
+    os << "null" << endl;
+  }
+    
+  os << left <<
+    setw (fieldWidth) << "staffCurrentKey" << " : ";
+  if (staffCurrentKey) {
+    os <<
+      staffCurrentKey;
+  }
+  else {
+    os << "null" << endl;
+  }
+
+  os << left <<
+    setw (fieldWidth) << "staffCurrentTime" << " : ";
+  if (staffCurrentTime) {
+    os <<
+      staffCurrentTime;
+  }
+  else {
+    os << "null" << endl;
+  }
 
   // print the harmony voice name if any
   os << left <<

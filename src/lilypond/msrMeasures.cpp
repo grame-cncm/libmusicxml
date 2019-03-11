@@ -126,9 +126,6 @@ void msrMeasure::initializeMeasure ()
   // measure 'first in voice'
   fMeasureFirstInVoice = false; // default value
 
-  // measure 'created for a repeat' kind
-  fMeasureCreatedForARepeatKind = kMeasureCreatedForARepeatNo;
-
   // single-measure rest?
   fMeasureIsASingleMeasureRest = false;
   
@@ -145,14 +142,14 @@ void msrMeasure::initializeMeasure ()
 
   // get the staff time
   S_msrTime
-    time =
+    staffCurrentTime =
       staffUplink->
         getStaffCurrentTime ();
         
   // set the measure full length if relevant
-  if (time) {
+  if (staffCurrentTime) {
     setFullMeasureWholeNotesFromTime (
-      time);
+      staffCurrentTime);
   }
 
   // measure doesn't contain music yet
@@ -224,14 +221,14 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   // next measure number
   newbornClone->fNextMeasureNumber =
     fNextMeasureNumber;
+    
+  // measure purist number
+  newbornClone->fMeasurePuristNumber = // JMI don't compute that again for clones ???
+    fMeasurePuristNumber;
 
   // measure 'first in segment' kind
   newbornClone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
-
-  // measure 'created after a repeat' kind
-  newbornClone->fMeasureCreatedForARepeatKind =
-    fMeasureCreatedForARepeatKind;
 
   // single-measure rest?
   newbornClone->fMeasureIsASingleMeasureRest =
@@ -313,10 +310,6 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // measure 'first in segment' kind
   measureDeepCopy->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
-
-  // measure 'created after a repeat' kind
-  measureDeepCopy->fMeasureCreatedForARepeatKind =
-    fMeasureCreatedForARepeatKind;
 
   // elements
 
@@ -536,36 +529,6 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
   }
 
   fMeasureElementsList.push_back (elem);
-}
-
-void msrMeasure::setMeasureCreatedForARepeatKind (
-  msrMeasureCreatedForARepeatKind
-    measureCreatedForARepeatKind)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Setting measureCreatedForARepeatKind in measure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in segment '" <<
-      fMeasureSegmentUplink-> asString () <<
-      /* JMI
-      "' in voice \"" <<
-      fSegmentVoiceUplink->getVoiceName () <<
-      "\"" <<
-      */
-      "' to '" <<
-      msrMeasure::measureCreatedForARepeatKindAsString (
-        measureCreatedForARepeatKind) << 
-      "', line " << fInputLineNumber <<
-      endl;
-  }
-#endif
-
-  fMeasureCreatedForARepeatKind =
-    measureCreatedForARepeatKind;
 }
 
 void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
@@ -1962,10 +1925,12 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
     // if it happens to be the first note of a chord
     appendNoteToMeasure (paddingNote);
 
+/* JMI
     // set this measure as being padded // JMI
     this->
       setMeasureCreatedForARepeatKind (
         msrMeasure::kMeasureCreatedForARepeatPadded);
+    */
     
     // this measure contains music
     fMeasureContainsMusic = true;
@@ -2592,7 +2557,7 @@ void msrMeasure::finalizeMeasure (
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       "' in voice \"" <<
       voice->getVoiceName () <<
-      "\" (" << context << context << ")" <<
+      "\" (" << context << ")" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -2647,18 +2612,18 @@ void msrMeasure::finalizeMeasure (
       
   // get the staff current time
   S_msrTime
-    time =
+    staffCurrentTime =
       staff->
         getStaffCurrentTime ();
         
-  if (! time) {
+  if (! staffCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
     fFullMeasureWholeNotes = rational (1, 1);
   }
   else {
     // set the full length from time
     setFullMeasureWholeNotesFromTime (
-      time);
+      staffCurrentTime);
   }
 
   if (fActualMeasureWholeNotes.getNumerator () == 0) {
@@ -2765,6 +2730,17 @@ void msrMeasure::finalizeMeasure (
 
     case msrMeasure::kUnknownMeasureKind:
     case msrMeasure::kEmptyMeasureKind:
+      // fetch the part measure whole notes high tide
+      rational
+        partActualMeasureWholeNotesHighTide =
+          fetchMeasurePartUplink ()->
+            getPartActualMeasureWholeNotesHighTide ();
+        
+      padUpToPositionInMeasure ( // JMI ???
+        inputLineNumber,
+        partActualMeasureWholeNotesHighTide);
+
+        /* JMI
       switch (fMeasureCreatedForARepeatKind) {
         case msrMeasure::kMeasureCreatedForARepeatNo:
           {
@@ -2789,6 +2765,7 @@ void msrMeasure::finalizeMeasure (
           // should not occur
           break;
       } // switch
+      */
   
       determineMeasureKind ( // JMI ???
         inputLineNumber);
@@ -2836,7 +2813,29 @@ void msrMeasure::finalizeMeasure (
       wholeNotesSinceLastRegularMeasureEnd
         +
       fActualMeasureWholeNotes;
+   newWholeNotesSinceLastRegularMeasureEnd.rationalise ();
     
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Determining the end regular kind of measure '" <<
+      fMeasureNumber <<
+      "'" <<
+      endl <<
+      "===> " <<
+      "fullMeasureWholeNotes: " <<
+      fFullMeasureWholeNotes <<
+      ", wholeNotesSinceLastRegularMeasureEnd: " <<
+      wholeNotesSinceLastRegularMeasureEnd <<
+      ", newWholeNotesSinceLastRegularMeasureEnd: " <<
+      newWholeNotesSinceLastRegularMeasureEnd <<
+      ", in voice \"" <<
+      voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
     // this is a regular measure end
 
@@ -3137,29 +3136,6 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   return result;
 }
 
-string msrMeasure::measureCreatedForARepeatKindAsString (
-  msrMeasureCreatedForARepeatKind measureCreatedForARepeatKind)
-{
-  string result;
-
-  switch (measureCreatedForARepeatKind) {
-    case msrMeasure::kMeasureCreatedForARepeatNo:
-      result = "measureCreatedForARepeatNo";
-      break;
-    case msrMeasure::kMeasureCreatedForARepeatBefore:
-      result = "measureCreatedForARepeatBefore";
-      break;
-    case msrMeasure::kMeasureCreatedForARepeatAfter:
-      result = "measureCreatedForARepeatAfter";
-      break;
-    case msrMeasure::kMeasureCreatedForARepeatPadded:
-      result = "measureCreatedForARepeatPadded";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrMeasure::measureEndRegularKindAsString (
     msrMeasureEndRegularKind measureEndRegularKind)
 {
@@ -3312,7 +3288,7 @@ void msrMeasure::print (ostream& os)
         
     // get the staff current time
     S_msrTime
-      time =
+      staffCurrentTime =
         staff->
           getStaffCurrentTime ();
 
@@ -3362,12 +3338,6 @@ void msrMeasure::print (ostream& os)
       fMeasureHasBeenFinalized) <<
     endl <<
 
-    setw (fieldWidth) <<
-    "measureCreatedAfterARepeat" << " : " <<
-    msrMeasure::measureCreatedForARepeatKindAsString (
-      fMeasureCreatedForARepeatKind) << 
-    endl <<
-    
     setw (fieldWidth) <<
     "measureIsASingleMeasureRest" << " : " <<
     booleanAsString (fMeasureIsASingleMeasureRest) <<
@@ -3451,12 +3421,6 @@ void msrMeasure::shortPrint (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "measureCreatedForARepeatKind" << " : " <<
-    msrMeasure::measureCreatedForARepeatKindAsString (
-      fMeasureCreatedForARepeatKind) << 
-    endl <<
-        
-    setw (fieldWidth) <<
     "measureContainsMusic" << " : " <<
     booleanAsString (
       fMeasureContainsMusic) <<
@@ -3485,11 +3449,11 @@ void msrMeasure::shortPrint (ostream& os)
         
     // get the staff current time
     S_msrTime
-      time =
+      staffCurrentTime =
         staff->
           getStaffCurrentTime ();
 
-    if (! time) {
+    if (! staffCurrentTime) {
       os <<
         "*** no time signature known ***";
     }

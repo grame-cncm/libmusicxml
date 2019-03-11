@@ -999,7 +999,8 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     if (
       gMusicXMLOptions->fIgnoreRedundantClefs
         &&
-      clef->isEqualTo (fStaffCurrentClef)) {
+      clef->isEqualTo (fStaffCurrentClef)
+    ) {
       doAppendClefToStaff = false;
     }
   }
@@ -1029,7 +1030,8 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     for (
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
       i != fStaffAllVoicesMap.end ();
-      i++) {
+      i++
+    ) {
       (*i).second-> // JMI msrAssert???
         appendClefToVoice (clef);
     } // for
@@ -1076,7 +1078,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
     if (
       gMusicXMLOptions->fIgnoreRedundantKeys
         &&
-      fStaffCurrentKey->isEqualTo (key)) {
+      fStaffCurrentKey->isEqualTo (key)
+    ) {
       doAppendKeyToStaff = false;
     }
     
@@ -1108,7 +1111,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
     for (
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
       i != fStaffAllVoicesMap.end ();
-      i++) {
+      i++
+    ) {
       (*i).second-> // JMI msrAssert???
         appendKeyToVoice (key);
     } // for
@@ -1125,8 +1129,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
       "Appending time '" << time->asString () <<
       "' to staff \"" <<
       getStaffName () <<
-      "\" in part " <<
-      fStaffPartUplink->getPartCombinedName () <<
+      "\"" <<
       endl;
   }
 #endif
@@ -1140,7 +1143,8 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
     if (
       gMusicXMLOptions->fIgnoreRedundantTimes
         &&
-      fStaffCurrentTime->isEqualTo (time)) {
+      fStaffCurrentTime->isEqualTo (time)
+    ) {
       doAppendTimeToStaff = false;
     }
     
@@ -1172,7 +1176,8 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
     for (
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
       i != fStaffAllVoicesMap.end ();
-      i++) {
+      i++
+    ) {
       (*i).second-> // JMI msrAssert???
         appendTimeToVoice (time);
     } // for
