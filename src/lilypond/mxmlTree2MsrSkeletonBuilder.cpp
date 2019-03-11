@@ -1504,80 +1504,80 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
 
           else {
 #ifdef TRACE_OPTIONS
-            if (gTraceOptions->fTracePartGroupsDetails) {
+            if (gTraceOptions->fTracePartGroups) {
               showPartGroupsData (
                 stopInputLineNumber,
                 "UPON overlapping part groups");
+            }
 #endif
 
-              // fetch the positions in the intersection
-              int
-                startOne =
-                  partGroupDescr->getStartPosition (),
-                startTwo =
-                  partGroupsDescrStackTop->getStartPosition (),
-                stopOne =
-                  partGroupDescr->getStopPosition (),
-                stopTwo =
-                  partGroupsDescrStackTop->getStopPosition ();
-  
-              int firstCommonPosision = startOne;
-              if (startTwo > startOne) {
-                firstCommonPosision = startTwo;
-              }
-                
-              int lastCommonPosision = stopOne;
-              if (stopTwo < stopOne) {
-                lastCommonPosision = stopTwo;
-              }
-                
-              stringstream s;
-                
-              s <<
-                endl <<
-                "There are overlapping part groups, namely: " <<
-                endl <<
-                gTab << partGroupDescr->partGroupDescrAsString () <<
-                endl <<
-                "and" <<
-                endl <<
-                gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
-                endl <<
-                endl <<
-                "The parts they share are:" <<
-                endl;
-  
-              s <<
-                "(positions range is " <<
-                firstCommonPosision << ".." << lastCommonPosision <<
-                ")" <<
-                endl;
-  
-              for (int m = firstCommonPosision; m < lastCommonPosision; m++) {
-                S_msrPart
-                  part =
-                    fPartsVector [m];
-                  
-                s <<
-                  gTab <<
-                  part->getPartCombinedName () <<
-                  ", line " << part->getInputLineNumber () <<
-                  endl;
-              } // for
-  
-              s <<
-                endl <<
-R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
-  either you found a bug in the translator,
-  or this MusicXML data is the first-ever real-world case
-  of a score exhibiting overlapping part groups)";
-              
-              msrMusicXMLError (
-                gGeneralOptions->fInputSourceName,
-                stopInputLineNumber,
-                __FILE__, __LINE__,
-                s.str ());
+            // fetch the positions in the intersection
+            int
+              startOne =
+                partGroupDescr->getStartPosition (),
+              startTwo =
+                partGroupsDescrStackTop->getStartPosition (),
+              stopOne =
+                partGroupDescr->getStopPosition (),
+              stopTwo =
+                partGroupsDescrStackTop->getStopPosition ();
+
+            int firstCommonPosision = startOne;
+            if (startTwo > startOne) {
+              firstCommonPosision = startTwo;
             }
+              
+            int lastCommonPosision = stopOne;
+            if (stopTwo < stopOne) {
+              lastCommonPosision = stopTwo;
+            }
+              
+            stringstream s;
+              
+            s <<
+              endl <<
+              "There are overlapping part groups, namely: " <<
+              endl <<
+              gTab << partGroupDescr->partGroupDescrAsString () <<
+              endl <<
+              "and" <<
+              endl <<
+              gTab << partGroupsDescrStackTop->partGroupDescrAsString () <<
+              endl <<
+              endl <<
+              "The parts they share are:" <<
+              endl;
+
+            s <<
+              "(positions range is " <<
+              firstCommonPosision << ".." << lastCommonPosision <<
+              ")" <<
+              endl;
+
+            for (int m = firstCommonPosision; m < lastCommonPosision; m++) {
+              S_msrPart
+                part =
+                  fPartsVector [m];
+                
+              s <<
+                gTab <<
+                part->getPartCombinedName () <<
+                ", line " << part->getInputLineNumber () <<
+                endl;
+            } // for
+
+            s <<
+              endl <<
+R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
+either you found a bug in the translator,
+or this MusicXML data is the first-ever real-world case
+of a score exhibiting overlapping part groups)";
+            
+            msrMusicXMLError (
+              gGeneralOptions->fInputSourceName,
+              stopInputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
           }
     
           if (++i == iEnd) break;
