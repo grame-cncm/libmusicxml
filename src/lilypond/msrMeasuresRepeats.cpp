@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -56,7 +61,7 @@ void msrMeasuresRepeatElement::appendSegmentToMeasuresRepeatElementsList ( // JM
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending segment '" << segment <<
       "' to measuresRepeat element elements list '" << asString () <<
@@ -80,7 +85,7 @@ void msrMeasuresRepeatElement::appendMeasuresRepeatToMeasuresRepeatElementsList 
   string               context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending measuresRepeat '" << measuresRepeat <<
       "' to measuresRepeat element elements list '" << asString () <<
@@ -104,7 +109,7 @@ void msrMeasuresRepeatElement::appendVoiceElementToMeasuresRepeatElementsList (
   string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending voice element '" << voiceElement <<
       "' to measuresRepeat element elements list '" << asString () <<
@@ -438,7 +443,7 @@ void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
     S_msrSegment measuresRepeatPatternSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measures repeat pattern segment containing " <<
       singularOrPlural (
@@ -624,7 +629,7 @@ void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
   S_msrSegment measuresRepeatReplicasSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measures repeat replicas segment containing " <<
       singularOrPlural (
@@ -825,7 +830,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of measures repeat '" <<
       asString () <<
@@ -854,7 +859,7 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
   S_msrMeasuresRepeatPattern measuresRepeatPattern)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measures repeat pattern containing " <<
       singularOrPlural (
@@ -878,7 +883,7 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
   S_msrMeasuresRepeatReplicas measuresRepeatReplicas)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measures repeat replicas containing " <<
       singularOrPlural (
@@ -988,7 +993,7 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
       gMsrOptions->fTraceMsrVisitors
 #ifdef TRACE_OPTIONS
         ||
-      gGeneralOptions->fTraceRepeats
+      gTraceOptions->fTraceRepeats
 #endif
     ) {
       gLogIOstream <<

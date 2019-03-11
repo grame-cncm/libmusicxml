@@ -17,7 +17,11 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 
 
@@ -49,7 +53,7 @@ bsrBarline::bsrBarline (
   fBarlineCellsList = buildCellsList ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarlines) {
     gLogIOstream <<
       "Creating bsrBarline '" <<
       asString () <<

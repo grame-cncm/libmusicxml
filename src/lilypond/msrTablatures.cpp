@@ -17,6 +17,12 @@
 #include "msrTablatures.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 #include "messagesHandling.h"
@@ -63,7 +69,7 @@ msrFrameNote::msrFrameNote (
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating frame note '" <<
       asString () <<
@@ -228,7 +234,7 @@ msrFrame::msrFrame (
   fFrameContainsFingerings = false;
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating frame '" <<
       asString () <<

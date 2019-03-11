@@ -26,6 +26,11 @@
 
 #include "generalOptions.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
 
 #include "mxmlTree2MsrSkeletonBuilder.h"
@@ -51,7 +56,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   

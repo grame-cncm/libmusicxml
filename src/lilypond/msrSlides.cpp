@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -61,7 +66,7 @@ msrSlide::~msrSlide ()
 S_msrSlide msrSlide::createSlideNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSlides) {
+  if (gTraceOptions->fTraceSlides) {
     gLogIOstream <<
       "Creating a newborn clone of slide '" <<
       asString () <<

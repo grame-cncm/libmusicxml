@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -61,7 +66,7 @@ msrGlissando::~msrGlissando ()
 S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGlissandos) {
+  if (gTraceOptions->fTraceGlissandos) {
     gLogIOstream <<
       "Creating a newborn clone of glissando '" <<
       asString () <<

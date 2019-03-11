@@ -19,6 +19,12 @@
 #include "msr2LpsrTranslator.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "lilypondOptions.h"
@@ -147,7 +153,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   float charactersPerCemtimeter = 4.0;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGeometry) {
+  if (gTraceOptions->fTraceGeometry) {
     // get the paper width
     float paperWidth = pageGeometry->getPaperWidth ();
   
@@ -220,7 +226,7 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   S_msrGraceNotesGroup skipGraceNotesGroup)
 {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceGraceNotes) {
+    if (gTraceOptions->fTraceGraceNotes) {
       fLogOutputStream <<
         "--> prepending a skip graceNotesGroup clone " <<
         skipGraceNotesGroup->asShortString () <<
@@ -806,7 +812,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
   // push it onto this visitors's stack,
   // making it the current partGroup block
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Pushing part group clone " <<
       partGroupClone->getPartGroupCombinedName () <<
@@ -865,7 +871,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // if it is the top-level one, i.e it's alone in the stack
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gTraceOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Adding part group clone " <<
         currentPartGroup->getPartGroupCombinedName () <<
@@ -884,7 +890,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 
     // pop current partGroup from this visitors's stack
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gTraceOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Popping part group clone " <<
         fPartGroupsStack.top ()->getPartGroupCombinedName () <<
@@ -916,7 +922,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // if it is the top-level one, i.e it's alone in the stack
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gTraceOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Adding part group block clone for part group " <<
         currentPartGroupBlock->
@@ -942,7 +948,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
   else {
     // pop current partGroup block from this visitors's stack
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gTraceOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Popping part group block clone for part group " <<
         currentPartGroupBlock->
@@ -986,7 +992,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -1004,7 +1010,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
   // add it to the partGroup clone
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Adding part clone " <<
       fCurrentPartClone->getPartCombinedName () <<
@@ -1025,7 +1031,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
   // append it to the current partGroup block
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Appending part block " <<
       fPartGroupsStack.top ()->getPartGroupCombinedName () <<
@@ -1411,7 +1417,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               getPartCombinedName ();
                           
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceHarmonies) {
+          if (gTraceOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Creating a ChordNames context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1429,7 +1435,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   
           // append it to the current part block
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceHarmonies) {
+          if (gTraceOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Appending the ChordNames context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1493,7 +1499,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               getPartCombinedName ();
                           
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceHarmonies) {
+          if (gTraceOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Creating a FiguredBass context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1511,7 +1517,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   
           // append it to the current part block
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceHarmonies) {
+          if (gTraceOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Appending the FiguredBass context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
@@ -1840,7 +1846,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<
@@ -2100,7 +2106,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   
         // create the words
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceLyrics || gGeneralOptions->fTraceWords) {
+        if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceWords) {
           fLogOutputStream <<
             "Changing lyrics '" <<
             wordsValue <<
@@ -2129,7 +2135,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   
         // append it to the current non-grace note
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceLyrics || gGeneralOptions->fTraceWords) {
+        if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceWords) {
           fLogOutputStream <<
             "Appending words '" <<
             words->asShortString () <<
@@ -3218,7 +3224,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   if (doCreateAGraceNoteClone) {
     // create a clone of this graceNotesGroup
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceGraceNotes) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
       fLogOutputStream <<
         "Creating a clone of grace notes group '" << 
         elt->asShortString () <<
@@ -3254,7 +3260,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   }
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 1" <<
       endl <<
@@ -3298,11 +3304,11 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   // is noteNotesGroupIsAttachedTo the first one in its voice?
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceGraceNotes
+    gTraceOptions->fTraceGraceNotes
       ||
-    gGeneralOptions->fTraceNotes
+    gTraceOptions->fTraceNotes
       ||
-    gGeneralOptions->fTraceVoices
+    gTraceOptions->fTraceVoices
   ) {
     fLogOutputStream <<
       "The noteNotesGroupIsAttachedTo voice clone PEOJIOFEIOJEF '" <<
@@ -3325,11 +3331,11 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceGraceNotes
+    gTraceOptions->fTraceGraceNotes
       ||
-    gGeneralOptions->fTraceNotes
+    gTraceOptions->fTraceNotes
       ||
-    gGeneralOptions->fTraceVoices
+    gTraceOptions->fTraceVoices
   ) {
     fLogOutputStream <<
       "The first note of voice clone KLJWLPOEF '" <<
@@ -3364,11 +3370,11 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // create the skip grace notes group
   #ifdef TRACE_OPTIONS
         if (
-            gGeneralOptions->fTraceGraceNotes
+            gTraceOptions->fTraceGraceNotes
               ||
-            gGeneralOptions->fTraceNotes
+            gTraceOptions->fTraceNotes
               ||
-            gGeneralOptions->fTraceVoices
+            gTraceOptions->fTraceVoices
         ) {
           fLogOutputStream <<
             "Creating a skip clone of grace notes group '" <<
@@ -3402,7 +3408,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // the afterGraceNotesGroup to use
       
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceGraceNotesGroup) {
+      if (gTraceOptions->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Optimising grace notes '" << 
           elt->asShortString () <<
@@ -3450,7 +3456,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
   
       // create skip graceNotesGroup clone
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceGraceNotesGroup) {
+      if (gTraceOptions->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Creating a skip clone of grace notes '" <<
           elt->asShortString () <<
@@ -3483,7 +3489,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // create the after grace notes
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceGraceNotesGroup) {
+      if (gTraceOptions->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Converting grace notes '" <<
           elt->asShortString () <<
@@ -3508,7 +3514,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 
       // append it to the current note clone
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceGraceNotesGroup) {
+      if (gTraceOptions->fTraceGraceNotesGroup) {
         fLogOutputStream <<
           "Appending the after grace notes to current note clone" <<
           endl;
@@ -3537,7 +3543,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceGraceNotes) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     fLogOutputStream <<
       "+++++++++++++++++++++++++ 2" <<
       endl <<
@@ -3566,7 +3572,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
     // remove the current afterGraceNotesGroup note clone
     // from the current voice clone
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceGraceNotesGroup) {
+    if (gTraceOptions->fTraceGraceNotesGroup) {
       fLogOutputStream <<
         "Removing the after grace notes element from the current voice clone" <<
         endl;
@@ -3614,7 +3620,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   // but as the current grace note clone instead
 /* JMI
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone GFFF '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -3651,7 +3657,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
           fCurrentNonGraceNoteClone;
 
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
           fLogOutputStream <<
             "The first note of voice clone RJIRWR '" <<
             fCurrentVoiceClone->getVoiceName () <<
@@ -3674,7 +3680,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     elt->getNoteTrillOrnament ()) {
     // yes, create the after grace notes
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceNotesGroup) {
+    if (gTraceOptions->fTraceNotesGroup) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
         elt->asShortString () <<
@@ -3714,7 +3720,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
       "FAA fCurrentNonGraceNoteClone = " <<
       endl;
@@ -3750,7 +3756,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kRestNote:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending rest note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -3766,7 +3772,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kSkipNote: // JMI
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending skip note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -3782,7 +3788,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kUnpitchedNote:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending unpitched note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -3798,7 +3804,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       
     case msrNote::kStandaloneNote:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending standalone note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "' to voice clone " <<
@@ -3817,7 +3823,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceNotes) {
+          if (gTraceOptions->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
               fCurrentNonGraceNoteClone->asString () <<
@@ -3837,7 +3843,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         
         else if (fCurrentNonGraceNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceNotes) {
+          if (gTraceOptions->fTraceNotes) {
             fLogOutputStream <<
               "Setting note '" <<
               fCurrentNonGraceNoteClone->asString () <<
@@ -3909,7 +3915,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
       else {
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
+        if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Appending grace note '" <<
             fCurrentGraceNoteClone->asShortString () <<
@@ -3929,7 +3935,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     /* JMI ???
       if (fCurrentGraceNotesGroupClone) {
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
+        if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -3946,7 +3952,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
       else if (fPendingAfterGraceNotes) {
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
+        if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Appending note '" <<
             fCurrentNonGraceNoteClone->asShortString () <<
@@ -4032,7 +4038,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending note clone '" <<
           fCurrentNonGraceNoteClone->asShortString () << "'' to voice clone " <<
@@ -4358,7 +4364,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 
   // register it in this visitor
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tupletClone->asString () <<
@@ -4391,7 +4397,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
       elt->asString () <<
@@ -4405,7 +4411,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
   if (fTupletClonesStack.size ()) {
     // tuplet is a nested tuplet
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceTuplets) {
+    if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
       elt->asString () <<
@@ -4424,7 +4430,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
     // tuplet is a top level tuplet
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceTuplets) {
+    if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
       elt->asString () <<
@@ -4710,7 +4716,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4740,7 +4746,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4812,7 +4818,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 
   // handle the repeat ending start in the voice clone
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4844,7 +4850,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 
   // handle the repeat ending end in the voice clone
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling a repeat ending end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4878,7 +4884,7 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasures& elt)
   gIndenter++;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4910,7 +4916,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasures& elt)
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     fLogOutputStream <<
       "Handling multiple rest start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -4943,9 +4949,9 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceRestMeasures
+    gTraceOptions->fTraceRestMeasures
       ||
-    gGeneralOptions->fTraceVoicesDetails
+    gTraceOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
@@ -4977,9 +4983,9 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceRestMeasures
+    gTraceOptions->fTraceRestMeasures
       ||
-    gGeneralOptions->fTraceVoicesDetails
+    gTraceOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
@@ -5011,7 +5017,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
   gIndenter++;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat start in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5045,7 +5051,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 /* JMI
   // set last segment as the measures repeat pattern segment
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measures repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5056,7 +5062,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 */
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Handling measures repeat end in voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5089,9 +5095,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMeasuresRepeats
+    gTraceOptions->fTraceMeasuresRepeats
       ||
-    gGeneralOptions->fTraceVoicesDetails
+    gTraceOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
@@ -5123,9 +5129,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMeasuresRepeats
+    gTraceOptions->fTraceMeasuresRepeats
       ||
-    gGeneralOptions->fTraceVoicesDetails
+    gTraceOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
@@ -5146,7 +5152,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 
   // create a measures repeat and append it to voice clone
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fLogOutputStream <<
       "Appending a measures repeat to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5187,9 +5193,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMeasuresRepeats
+    gTraceOptions->fTraceMeasuresRepeats
       ||
-    gGeneralOptions->fTraceVoicesDetails
+    gTraceOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
@@ -5222,9 +5228,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMeasuresRepeats
+    gTraceOptions->fTraceMeasuresRepeats
       ||
-    gGeneralOptions->fTraceVoicesDetails
+    gTraceOptions->fTraceVoicesDetails
   ) {
     fCurrentVoiceClone->
       displayVoice (
@@ -5240,7 +5246,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 /* JMI
   // create a measures repeat replica clone and append it to voice clone
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat replica clone to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
@@ -5276,7 +5282,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarlines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

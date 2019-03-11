@@ -17,6 +17,12 @@
 #include "msrPageGeometry.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 #include "messagesHandling.h"
@@ -124,7 +130,7 @@ float msrPageGeometry::globalStaffSize () const
   float staffSize = lilyPondDefaultStaffSize * ratio;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGeometry) {
+  if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
       "globalStaffSize ():" <<
       endl;
@@ -154,7 +160,7 @@ float msrPageGeometry::globalStaffSize () const
   
   if (staffSize < 1.0 || staffSize > 100.0) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceGeometry) {
+    if (gTraceOptions->fTraceGeometry) {
       stringstream s;
 
       s <<

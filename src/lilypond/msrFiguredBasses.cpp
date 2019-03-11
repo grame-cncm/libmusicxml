@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -62,7 +67,7 @@ msrFigure::msrFigure (
   fFigureSuffixKind = figureSuffixKind;
  
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating figure '" <<
       asString () <<
@@ -79,7 +84,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a newborn clone of figure '" <<
       asString () <<
@@ -109,7 +114,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a deep copy of figure '" <<
       asString () <<
@@ -361,7 +366,7 @@ msrFiguredBass::msrFiguredBass (
     figuredBassParenthesesKind;
     
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating figuredBass '" <<
       asString () <<
@@ -378,7 +383,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a newborn clone of figuredBass '" <<
       asString () <<
@@ -407,7 +412,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a deep copy of figuredBass '" <<
       asString () <<
@@ -436,7 +441,7 @@ void msrFiguredBass::appendFiguredFigureToFiguredBass (
   S_msrFigure figure)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Appending figure'" << figure->asString () <<
       "' to figuredBass '" <<

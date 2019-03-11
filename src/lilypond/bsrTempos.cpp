@@ -19,6 +19,12 @@
 #include "messagesHandling.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 
 
@@ -195,7 +201,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
   
         if (sm.size ()) {
   #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             gLogIOstream <<
               "There are " << sm.size () << " matches" <<
               " for rational string '" << tempoPerMinuteString <<

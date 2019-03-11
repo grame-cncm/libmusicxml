@@ -17,7 +17,11 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 
 
@@ -48,7 +52,7 @@ bsrClef::bsrClef (
   fClefCellsList = buildCellsList ();
     
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceClefs) {
+  if (gTraceOptions->fTraceClefs) {
     gLogIOstream <<
       "Creating bsrClef '" <<
       asString () <<

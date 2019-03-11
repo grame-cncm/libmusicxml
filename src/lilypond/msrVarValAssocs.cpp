@@ -16,7 +16,11 @@
 
 #include "msrVarValAssocs.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -55,7 +59,7 @@ msrVarValAssoc::~msrVarValAssoc ()
 void msrVarValAssoc::setVariableValue (string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting the value of marVarValAssoc \"" <<
       varValAssocKindAsString (fVarValAssocKind) <<

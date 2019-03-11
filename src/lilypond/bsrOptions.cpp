@@ -15,7 +15,11 @@
 
 #include "utilities.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 
 
@@ -169,7 +173,7 @@ bsrOptions::~bsrOptions ()
 void bsrOptions::initializeBsrOptions (
   bool boolOptionsInitialValue)
 {
-
+#ifdef TRACE_OPTIONS
   // display
   // --------------------------------------
 
@@ -199,7 +203,7 @@ R"()",
 R"(Write the contents of the BSR data to standard error.)",
           "displayBsr",
           fDisplayBsr,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
   
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -208,8 +212,9 @@ R"(Write the contents of the BSR data to standard error.)",
 R"(Write the contents of the BSR data with more details to standard error.)",
           "displayBsrDetails",
           fDisplayBsrDetails,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
   }
+#endif
 
 
   // miscellaneous  
@@ -380,7 +385,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 R"()",
           "tracePages",
           fTracePages,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
       
     specificTraceSubGroup->
       appendOptionsItem (
@@ -412,7 +417,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 R"()",
           "traceParallels",
           fTraceParallels,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
 
     specificTraceSubGroup->
       appendOptionsItem (
@@ -596,7 +601,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
         dynamic_cast<optionsBsrPitchesLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsBsrPitchesLanguageItem'" <<
         endl;
@@ -614,7 +619,7 @@ S_optionsItem bsrOptions::handleOptionsItem (
         dynamic_cast<optionsBsrChordsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsBsrChordsLanguageItem'" <<
         endl;

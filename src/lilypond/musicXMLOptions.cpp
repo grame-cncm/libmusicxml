@@ -15,7 +15,11 @@
 #include "version.h"
 #include "utilities.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 
 
@@ -278,7 +282,7 @@ R"()",
 R"(Encoding)",
           "traceEncoding",
           fTraceEncoding,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
           
     specificTraceSubGroup->
       appendOptionsItem (
@@ -287,7 +291,7 @@ R"(Encoding)",
 R"(Divisions)",
           "traceDivisions",
           fTraceDivisions,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
 #endif
       
     specificTraceSubGroup->

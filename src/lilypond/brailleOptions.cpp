@@ -17,7 +17,10 @@
 
 #include "utilities.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
 
 #include "brailleOptions.h"
 
@@ -537,7 +540,7 @@ S_optionsItem brailleOptions::handleOptionsItem (
         dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
@@ -555,7 +558,7 @@ S_optionsItem brailleOptions::handleOptionsItem (
         dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
@@ -583,7 +586,7 @@ void brailleOptions::handleOptionsItemValue (
     // theString contains the UTF size    
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsUTFKindItem'" <<
         endl;
@@ -632,7 +635,7 @@ void brailleOptions::handleOptionsItemValue (
     // theString contains the byte ordering name   
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsByteOrderingKindItem'" <<
         endl;

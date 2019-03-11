@@ -18,6 +18,12 @@
 #include "messagesHandling.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 
 
@@ -68,7 +74,7 @@ bsrKey::bsrKey (
   fKeyCellsList = buildCellsList ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Creating bsrKey '" <<
       asString () <<

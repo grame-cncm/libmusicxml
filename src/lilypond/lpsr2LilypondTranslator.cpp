@@ -15,6 +15,12 @@
 #include <string>
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "lilypondOptions.h"
 
@@ -242,7 +248,7 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   string result;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     fLilypondCodeIOstream <<
       endl <<
       "%{ absoluteOctave = " << absoluteOctave << " %} " <<
@@ -397,7 +403,7 @@ string lpsr2LilypondTranslator::lilypondRelativeModeOctave (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -509,7 +515,7 @@ string lpsr2LilypondTranslator::lilypondFixedModeOctave (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -596,7 +602,7 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
         stringTuningAlterationKind);
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceScordaturas) {
+  if (gTraceOptions->fTraceScordaturas) {
     int
       getStringTuningNumber =
         stringTuning->
@@ -701,7 +707,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     ! fRelativeOctaveReference;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     int noteAbsoluteDisplayOctave =
       note->getNoteDisplayOctave ();
   
@@ -869,7 +875,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
     note->getNoteDisplayOctave ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     // in MusicXML, octave number is 4 for the octave starting with middle C
     int noteAbsoluteOctave =
       note->getNoteOctave ();
@@ -992,7 +998,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
             } // switch
 
 #ifdef TRACE_OPTIONS
-            if (gGeneralOptions->fTraceLigatures) {
+            if (gTraceOptions->fTraceLigatures) {
               fLogOutputStream <<
                 "Ligature vertical flipping factore for note '" <<
                 note->asString () <<
@@ -2877,7 +2883,7 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   }
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     fLogOutputStream <<
       "singleTremoloDurationAsLilypondString()" <<
       ", line " << singleTremolo->getInputLineNumber () <<
@@ -4900,7 +4906,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       } // switch
 
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTracePartGroups) {
+      if (gTraceOptions->fTracePartGroups) {
          fLilypondCodeIOstream <<
           " %{ " <<
           partGroup->getPartGroupCombinedName () <<
@@ -6125,7 +6131,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -6532,7 +6538,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 
   if (fOnGoingNote) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceHarmonies) {
+    if (gTraceOptions->fTraceHarmonies) {
       fLilypondCodeIOstream <<
         "%{ " << elt->asString () << " %}" <<
         endl;
@@ -6584,7 +6590,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFrame& elt)
   
   if (fOnGoingNote) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceFrames) {
+    if (gTraceOptions->fTraceFrames) {
       fLilypondCodeIOstream <<
         "%{ " << elt->asString () << " %}" <<
         endl;
@@ -6844,7 +6850,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasureNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
@@ -7019,7 +7025,7 @@ else
         ratioToFullMeasureWholeNotes.rationalise ();
   
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceMeasuresDetails) {
+        if (gTraceOptions->fTraceMeasuresDetails) {
           const int fieldWidth = 27;
           
           fLilypondCodeIOstream << left <<
@@ -7152,7 +7158,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       elt->getMeasurePuristNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
@@ -7397,7 +7403,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableSingle %} ";
           }
@@ -7413,7 +7419,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " -- ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableBegin %} ";
           }
@@ -7429,7 +7435,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " -- ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableMiddle %} ";
           }
@@ -7445,7 +7451,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableEnd %} ";
           }
@@ -7460,7 +7466,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableSkip %} ";
           }
@@ -7518,7 +7524,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeIOstream <<
             "__ ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableExtendSingle %} ";
           }
@@ -7531,7 +7537,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeIOstream <<
             "__ ";
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableExtendStart %} ";
           }
@@ -7540,7 +7546,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           
         case msrSyllable::kSyllableExtendContinue:
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableExtendContinue %} ";
           }
@@ -7549,7 +7555,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           
         case msrSyllable::kSyllableExtendStop:
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTraceLyrics) {
+          if (gTraceOptions->fTraceLyrics) {
             fLilypondCodeIOstream <<
               "%{ kSyllableExtendStop %} ";
           }
@@ -8458,7 +8464,7 @@ If the double element is present, it indicates that the music is doubled one oct
 
 /* JMI
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions) {
+  if (gTraceOptions->fTraceTranspositions) {
     fLilypondCodeIOstream << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
@@ -9398,7 +9404,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     elt->getDoubleTremoloNumberOfRepeats ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     fLilypondCodeIOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl;
@@ -9953,7 +9959,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             }
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     gLogIOstream <<
       "% ==> returning from visitStart (S_msrNote&)" <<
     endl;
@@ -9969,7 +9975,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceRestMeasures
+          gTraceOptions->fTraceRestMeasures
         ) {
           gLogIOstream <<
             "% ==> start visiting rest measures is ignored" <<
@@ -9987,7 +9993,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceNotes
+          gTraceOptions->fTraceNotes
         ) {
           gLogIOstream <<
             "% ==> start visiting skip notes is ignored" <<
@@ -10004,7 +10010,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceGraceNotes
+          gTraceOptions->fTraceGraceNotes
         ) {
           gLogIOstream <<
             "% ==> start visiting grace notes is ignored" <<
@@ -10020,7 +10026,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceGraceNotes
+          gTraceOptions->fTraceGraceNotes
         ) {
           gLogIOstream <<
             "% ==> start visiting chord grace notes is ignored" <<
@@ -10778,9 +10784,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           if (inhibitRestMeasuresBrowsing) {
 #ifdef TRACE_OPTIONS
             if (
-              gGeneralOptions->fTraceNotes
+              gTraceOptions->fTraceNotes
                 ||
-              gGeneralOptions->fTraceRestMeasures
+              gTraceOptions->fTraceRestMeasures
             ) {
               gLogIOstream <<
                 "% ==> end visiting rest measures is ignored" <<
@@ -10789,7 +10795,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 #endif
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     gLogIOstream <<
       "% ==> returning from visitEnd (S_msrNote&)" <<
       endl;
@@ -10808,7 +10814,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceNotes
+          gTraceOptions->fTraceNotes
         ) {
           gLogIOstream <<
             "% ==> end visiting skip notes is ignored" <<
@@ -10825,7 +10831,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         if (
           gMsrOptions->fTraceMsrVisitors
             ||
-          gGeneralOptions->fTraceGraceNotes) {
+          gTraceOptions->fTraceGraceNotes) {
           gLogIOstream <<
             "% ==> end visiting grace notes is ignored" <<
             endl;
@@ -14380,7 +14386,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 
 /* JMI
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLilypondCodeIOstream <<
       "% ===**** fRepeatDescrsStack.back () = '" <<
       fRepeatDescrsStack.back ()->repeatDescrAsString () <<
@@ -14582,7 +14588,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
     elt->measuresRepeatReplicasNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceMeasuresRepeats) {
     int repeatMeasuresNumber =
       elt->measuresRepeatPatternMeasuresNumber ();
   

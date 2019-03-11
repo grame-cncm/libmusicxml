@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -75,7 +80,7 @@ void msrRepeatElement::appendSegmentToRepeatElementsList ( // JMI ???
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending segment '" << segment <<
       "' to repeat element elements list '" << asString () <<
@@ -99,7 +104,7 @@ void msrRepeatElement::appendRepeatToRepeatElementsList (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending repeat '" << repeat <<
       "' to repeat element elements list '" << asString () <<
@@ -123,7 +128,7 @@ void msrRepeatElement::appendVoiceElementToRepeatElementsList (
   string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending voice element '" << voiceElement <<
       "' to repeat element elements list '" << asString () <<
@@ -459,7 +464,7 @@ void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending segment '" <<
       segment->asString () <<
@@ -484,7 +489,7 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat '" <<
     // JMI  repeat->asString () <<
@@ -510,7 +515,7 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
   string              context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
@@ -535,7 +540,7 @@ void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
   string                    context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
@@ -560,7 +565,7 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
   string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending voice element '" <<
       voiceElement->asString () <<
@@ -904,7 +909,7 @@ void msrRepeatEnding::appendSegmentToRepeatEnding (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending segment '" << segment <<
       "' to repeat ending '" << asString () <<
@@ -928,7 +933,7 @@ void msrRepeatEnding::appendRepeatToRepeatEnding (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending repeat '" << repeat <<
       "' to repeat ending '" << asString () <<
@@ -952,7 +957,7 @@ void msrRepeatEnding::appendMeasuresRepeatToRepeatEnding (
   string              context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asShortString () <<
@@ -977,7 +982,7 @@ void msrRepeatEnding::appendRestMeasuresToRepeatEnding (
   string                    context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asShortString () <<
@@ -1002,7 +1007,7 @@ void msrRepeatEnding::appendVoiceElementToRepeatEnding (
   string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending voice element '" << voiceElement <<
       "' to repeat ending '" << asString () <<
@@ -1342,7 +1347,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a repeat" <<
       endl;
@@ -1376,7 +1381,7 @@ void msrRepeat::setRepeatCommonPart (
     "repeatCommonPart is null");
     
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting repeat common part containing " <<
       singularOrPlural (
@@ -1405,7 +1410,7 @@ void msrRepeat::addRepeatEndingToRepeat (
     "repeatEnding is null");
     
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Adding ending '" <<
       repeatEnding->asString () <<
@@ -1537,7 +1542,7 @@ void msrRepeat::addRepeatEndingToRepeat (
       ++ fRepeatEndingsInternalCounter);
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     displayRepeat (
       inputLineNumber,
       "addRepeatEndingToRepeat() 2");
@@ -1551,7 +1556,7 @@ void msrRepeat::appendSegmentToRepeat (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending segment '" <<
       segment->asString () <<
@@ -1621,7 +1626,7 @@ void msrRepeat::appendSegmentToRepeat (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     displayRepeat (
       inputLineNumber,
       "appendSegmentToRepeat() 2");
@@ -1635,7 +1640,7 @@ void msrRepeat::appendRepeatToRepeat (
   string      context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat '" <<
       repeat->asString () <<
@@ -1705,7 +1710,7 @@ void msrRepeat::appendRepeatToRepeat (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     displayRepeat (
       inputLineNumber,
       "appendRepeatToRepeat() 2");
@@ -1719,7 +1724,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
   string              context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
@@ -1789,7 +1794,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     displayRepeat (
       inputLineNumber,
       "appendMeasuresRepeatToRepeat() 2");
@@ -1803,7 +1808,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
   string                    context)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
@@ -1873,7 +1878,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     displayRepeat (
       inputLineNumber,
       "appendRestMeasuresToRepeat() 2");
@@ -2139,7 +2144,7 @@ void msrRepeat::print (ostream& os)
     endl;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     // print the current repeat build phase
     os << left <<
       setw (fieldWidth) <<
@@ -2225,7 +2230,7 @@ void msrRepeat::shortPrint (ostream& os)
     endl;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     // print the current repeat build phase
     os <<
       setw (fieldWidth) <<

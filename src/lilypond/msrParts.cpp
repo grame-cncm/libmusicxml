@@ -14,6 +14,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 
@@ -71,7 +76,7 @@ msrPart::msrPart (
 void msrPart::initializePart ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Creating part \"" << getPartCombinedName () << "\"" <<
       endl;
@@ -111,7 +116,7 @@ msrPart::~msrPart ()
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Creating a newborn clone of part " <<
       getPartCombinedName () <<
@@ -168,13 +173,13 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
     // create the part figured bass staff
 #ifdef TRACE_OPTIONS
     if (
-      gGeneralOptions->fTraceParts
+      gTraceOptions->fTraceParts
         ||
-      gGeneralOptions->fTraceFiguredBass
+      gTraceOptions->fTraceFiguredBass
         ||
-      gGeneralOptions->fTraceStaves
+      gTraceOptions->fTraceStaves
         ||
-      gGeneralOptions->fTraceVoices) {
+      gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Creating the figured bass staff" <<
         " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
@@ -195,7 +200,7 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
       
     // create the part figured bass voice  
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Creating figured bass voice " <<
         " number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
@@ -263,7 +268,7 @@ void msrPart::setPartActualMeasureWholeNotesHighTide (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
+  if (gMusicXMLOptions->fTraceDivisions || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting actual measure whole notes high tide for part \"" <<
       getPartCombinedName () <<
@@ -282,7 +287,7 @@ void msrPart::updatePartActualMeasureWholeNotesHighTide (
 {
   if (wholeNotes > fPartActualMeasureWholeNotesHighTide) {
 #ifdef TRACE_OPTIONS
-    if (gMusicXMLOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
+    if (gMusicXMLOptions->fTraceDivisions || gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Updating actual measure whole notes high tide for part \"" <<
         getPartCombinedName () <<
@@ -301,7 +306,7 @@ void msrPart::padUpToActualMeasureWholeNotesInPart (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in part \"" <<
@@ -339,7 +344,7 @@ void msrPart::setPartMsrName (string partMsrName)
     fPartMsrName = (*it).second;
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceParts) {
+    if (gTraceOptions->fTraceParts) {
       gLogIOstream <<
         "Setting part name of " << getPartCombinedName () <<
         " to \"" << fPartMsrName << "\"" <<
@@ -352,7 +357,7 @@ void msrPart::setPartMsrName (string partMsrName)
     fPartMsrName = partMsrName;
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceParts) {
+    if (gTraceOptions->fTraceParts) {
       gLogIOstream <<
         "Keeping partID \"" << partMsrName <<
         "\" as part name  for " << getPartCombinedName () <<
@@ -396,7 +401,7 @@ void msrPart::createMeasureAndAppendItToPart (
          measureImplicitKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
@@ -435,7 +440,7 @@ void msrPart::setNextMeasureNumberInPart (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
@@ -471,7 +476,7 @@ void msrPart::complementPartVoicesUpToMeasure (
   string measureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Complement part voices up to measure number " << measureNumber <<
       ", line " << inputLineNumber <<
@@ -501,7 +506,7 @@ void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending staff details\"" <<
       staffDetails->asShortString () <<
@@ -530,7 +535,7 @@ void msrPart::appendStaffDetailsToPart (
 void msrPart::appendClefToPart (S_msrClef clef)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceClefs) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceClefs) {
     gLogIOstream <<
       "Appending clef '" <<
       clef->asString () <<
@@ -557,7 +562,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
 void msrPart::appendKeyToPart  (S_msrKey  key)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending key '" <<
       key->asString () <<
@@ -590,7 +595,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 void msrPart::appendTimeToPart (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending time '" <<
       time->asString () <<
@@ -623,7 +628,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
 void msrPart::appendTimeToPartClone (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending time '" <<
       time->asString () <<
@@ -656,7 +661,7 @@ void msrPart::appendTransposeToPart (
   S_msrTranspose transpose)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending transpose \"" <<
       transpose->asString () <<
@@ -685,7 +690,7 @@ void msrPart::appendPartNameDisplayToPart (
   S_msrPartNameDisplay partNameDisplay)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending part name display \"" <<
       partNameDisplay->asString () <<
@@ -714,7 +719,7 @@ void msrPart::appendPartAbbreviationDisplayToPart (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending part abbreviation display \"" <<
       partAbbreviationDisplay->asString () <<
@@ -758,7 +763,7 @@ void msrPart::handleRepeatStartInPart (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a repeat start in part \"" <<
       getPartCombinedName () <<
@@ -787,7 +792,7 @@ void msrPart::handleRepeatEndInPart (
   int    repeatTimes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a repeat end in part \"" <<
       getPartCombinedName () <<
@@ -817,7 +822,7 @@ void msrPart::handleRepeatEndingStartInPart (
   int    inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a repeat ending start in part \"" <<
       getPartCombinedName () <<
@@ -848,7 +853,7 @@ void msrPart::handleRepeatEndingEndInPart (
             repeatEndingKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a " <<
       msrRepeatEnding::repeatEndingKindAsString (
@@ -883,7 +888,7 @@ void msrPart::finalizeRepeatEndInPart (
   int    repeatTimes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Finalizing a repeat upon its end in part \"" <<
       getPartCombinedName () <<
@@ -999,7 +1004,7 @@ void msrPart::createRestMeasuresInPart (
   int multipleRestMeasuresMeasuresNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Creating a multiple rest in part " <<
       getPartCombinedName () <<
@@ -1028,7 +1033,7 @@ void msrPart::appendPendingRestMeasuresToPart (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<
@@ -1052,7 +1057,7 @@ void msrPart::appendRestMeasuresCloneToPart (
   S_msrRestMeasures multipleRestMeasures)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRestMeasures->asString () <<
@@ -1108,7 +1113,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
@@ -1160,7 +1165,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
@@ -1206,7 +1211,7 @@ void msrPart::appendFiguredBassToPart (
     
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->asString () <<
@@ -1266,7 +1271,7 @@ void msrPart::appendFiguredBassToPartClone (
     
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts) {
+      if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->asString () <<
@@ -1308,7 +1313,7 @@ void msrPart::appendScordaturaToPart (
   S_msrScordatura scordatura)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending scordatura '" <<
       scordatura->asString () <<
@@ -1333,7 +1338,7 @@ void msrPart::appendAccordionRegistrationToPart (
     accordionRegistration)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -1358,7 +1363,7 @@ void msrPart::appendHarpPedalsTuningToPart (
     harpPedalsTuning)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<
@@ -1385,11 +1390,11 @@ void msrPart:: handleBackup (
 {
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
       ||
     gMusicXMLOptions->fTraceDivisions
       ||
-    gGeneralOptions->fTraceMeasures) {
+    gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Handling backup, divisions = '" <<
       divisions <<
@@ -1438,11 +1443,11 @@ void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
         
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceMeasures
+    gTraceOptions->fTraceMeasures
       ||
-    gGeneralOptions->fTraceGraceNotes
+    gTraceOptions->fTraceGraceNotes
       ||
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
     ) {
     gLogIOstream <<
       "addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded () in " <<
@@ -1486,7 +1491,7 @@ void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Finalizing current measure in part " <<
       getPartCombinedName () <<
@@ -1551,7 +1556,7 @@ void msrPart::finalizePart (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Finalizing part " <<
       getPartCombinedName () <<
@@ -1598,7 +1603,7 @@ void msrPart::finalizePartClone (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Finalizing part clone " <<
       getPartCombinedName () <<
@@ -1784,7 +1789,7 @@ void msrPart::print (ostream& os)
 
   // print current the part clef if any
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceClefs) {
+  if (gTraceOptions->fTraceClefs) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentClef" << " : ";
@@ -1807,7 +1812,7 @@ void msrPart::print (ostream& os)
   
   // print the current part key if any
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentKey" << " : ";
@@ -1830,7 +1835,7 @@ void msrPart::print (ostream& os)
   
   // print the current part time if any
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     os << left <<
       setw (fieldWidth) <<
       "partCurrentTime" << " : ";

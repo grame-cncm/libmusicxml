@@ -20,6 +20,12 @@
 #include "utilities.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
@@ -297,11 +303,13 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     ofstream outFileStream;
         
     if (outputFileNameSize) {
-      if (gGeneralOptions->fTracePasses) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTracePasses) {
         gLogIOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
       }
+#endif
           
       outFileStream.open (
         outputFileName.c_str(),
@@ -324,12 +332,14 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
     
     else {
-      if (gGeneralOptions->fTracePasses) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
           endl;
       }
+#endif
           
       // create an indented output stream for the LilyPond code
       // to be written to cout
@@ -348,12 +358,14 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
 
     if (outputFileNameSize) {
-      if (gGeneralOptions->fTracePasses) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
           endl;
       }
+#endif
           
       outFileStream.close ();
     }
@@ -547,7 +559,8 @@ int main (int argc, char *argv[])
   // welcome message
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTracePasses) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTracePasses) {
     gLogIOstream <<
       "This is xml2ly " << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -610,11 +623,13 @@ int main (int argc, char *argv[])
 
     gIndenter--;
   }
+#endif
 
   // print the chosen options if so chosen
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fDisplayOptionsValues) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fDisplayOptionsValues) {
     optionsHandler->
       printAllOptionsValues (
         gLogIOstream);
@@ -622,15 +637,18 @@ int main (int argc, char *argv[])
     gLogIOstream <<
       endl;
   }
+#endif
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTracePasses) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTracePasses) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;
   }
+#endif
   
   // do the translation
   // ------------------------------------------------------

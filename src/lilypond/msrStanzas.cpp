@@ -12,6 +12,13 @@
 
 #include "msrMutualDependencies.h"
 
+#include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -68,7 +75,7 @@ void msrStanza::initializeStanza ()
           fStanzaNumber));
  
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Initializing stanza " << getStanzaName () <<
       endl;
@@ -87,7 +94,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
@@ -133,7 +140,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
@@ -188,7 +195,7 @@ void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" << syllable->asString () <<
       "' to stanza " << getStanzaName () <<
@@ -244,7 +251,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -281,7 +288,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -317,7 +324,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Measure end' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -358,7 +365,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   rational        wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
@@ -396,7 +403,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'line break' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -432,7 +439,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -469,7 +476,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -514,7 +521,7 @@ void msrStanza::appendPaddingNoteToStanza (
   int divisionsPerQuarterNote)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Apending padding note of " << divisions <<
       " divisions in stanza \"" <<

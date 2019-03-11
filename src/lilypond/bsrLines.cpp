@@ -15,6 +15,12 @@
 #include "bsrMutualDependencies.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 #include "brailleOptions.h"
 
@@ -92,7 +98,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
   S_bsrLineElement lineElement)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Inserting line element '" <<
       lineElement->asShortString () <<
@@ -478,7 +484,7 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 void bsrLine::appendKeyToLine (S_bsrKey key)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending key '" <<
       key->asShortString () <<
@@ -496,7 +502,7 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 void bsrLine::appendTimeToLine (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending time '" <<
       time->asShortString () <<
@@ -514,7 +520,7 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Inserting time '" <<
       time->asShortString () <<
@@ -532,7 +538,7 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTempos || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
@@ -550,7 +556,7 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
+  if (gTraceOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
     gLogIOstream <<
       "Appending line '" <<
       measure->asShortString () <<
@@ -615,7 +621,7 @@ void bsrLine::appendLineElementToLastMeasureOfLine (
 void bsrLine::appendNoteToLine (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" <<
       note->asShortString () <<

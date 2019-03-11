@@ -18,6 +18,11 @@
 
 #include "generalOptions.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "lpsr2LilypondTranslator.h"
 
 #include "lpsr2LilypondInterface.h"
@@ -47,7 +52,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     logIOstream <<
       endl <<
       separator <<

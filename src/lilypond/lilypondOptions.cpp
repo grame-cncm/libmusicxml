@@ -17,7 +17,11 @@
 
 #include "utilities.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "lilypondOptions.h"
 
 
@@ -1790,7 +1794,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
         dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
@@ -1808,7 +1812,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
         dynamic_cast<optionsMidiTempoItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
@@ -1837,7 +1841,7 @@ void lilypondOptions::handleOptionsItemValue (
     // is it in the accidental styles map?
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
@@ -1891,7 +1895,7 @@ void lilypondOptions::handleOptionsItemValue (
     // decipher it to extract duration and perSecond values
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
@@ -1909,7 +1913,7 @@ void lilypondOptions::handleOptionsItemValue (
     regex_match (theString, sm, e);
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for MIDI tempo string '" << theString <<
@@ -1955,7 +1959,7 @@ void lilypondOptions::handleOptionsItemValue (
     }
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "midiTempoDuration  = " <<
         midiTempoDuration <<

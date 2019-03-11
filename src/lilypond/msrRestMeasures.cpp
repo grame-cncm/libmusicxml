@@ -12,6 +12,13 @@
 
 #include "msrMutualDependencies.h"
 
+#include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -49,7 +56,7 @@ S_msrRestMeasuresContents msrRestMeasuresContents::createRestMeasuresContentsNew
   S_msrRestMeasures restMeasures)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     gLogIOstream <<
       "Creating a newborn clone of a rest measures contents" <<
       endl;
@@ -75,7 +82,7 @@ void msrRestMeasuresContents::setRestMeasuresContentsSegment (
   S_msrSegment restMeasuresContentsSegment)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceRestMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Setting rest measures contents segment containing " <<
       singularOrPlural (
@@ -268,7 +275,7 @@ S_msrRestMeasures msrRestMeasures::createRestMeasuresNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     gLogIOstream <<
       "Creating a newborn clone of rest measures '" <<
       asString () <<
@@ -302,7 +309,7 @@ void msrRestMeasures::setRestMeasuresContents (
   S_msrRestMeasuresContents restMeasuresContents)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     gLogIOstream <<
       "Setting rest measures contents containing " <<
       singularOrPlural (
@@ -326,7 +333,7 @@ void msrRestMeasures::setRestMeasuresNextMeasureNumber (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     gLogIOstream <<
       "Setting rest measures next measure number to '" <<
       "' " <<
@@ -389,7 +396,7 @@ void msrRestMeasures::setRestMeasuresLastMeasurePuristMeasureNumber (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceRestMeasures) {
     gLogIOstream <<
       "Setting rest measures last measure purist number to '" <<
       "' " <<
@@ -479,7 +486,7 @@ void msrRestMeasures::browseData (basevisitor* v)
       getInhibitRestMeasuresBrowsing ();
 
   if (inhibitRestMeasuresBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRestMeasures) {
+    if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRestMeasures) {
       gLogIOstream <<
         "% ==> visiting rest measures is inhibited" <<
         endl;

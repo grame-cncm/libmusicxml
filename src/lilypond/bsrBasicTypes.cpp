@@ -21,7 +21,6 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
 #include "brailleOptions.h"
 
 

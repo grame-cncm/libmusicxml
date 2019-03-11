@@ -17,7 +17,11 @@
 
 #include "utilities.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -50,7 +54,7 @@ void msrIdentification::setWorkNumber (
   string val)
   {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting workNumber to \"" << val << "\"" <<
       endl;
@@ -68,7 +72,7 @@ void msrIdentification::setWorkTitle (
   string val)
   {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
@@ -86,7 +90,7 @@ void msrIdentification::setMovementNumber (
   string val)
   {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting movementNumber to \"" << val << "\"" <<
       endl;
@@ -104,7 +108,7 @@ void msrIdentification::setMovementTitle (
   string val)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting movementTitle to \"" << val << "\"" <<
       endl;
@@ -122,7 +126,7 @@ void msrIdentification::setEncodingDate (
   string val)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting encodingDate to \"" << val << "\"" <<
       endl;
@@ -140,7 +144,7 @@ void msrIdentification::setScoreInstrument (
   string val)
 {
  #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting scoreInstrument to \"" << val << "\"" <<
       endl;
@@ -158,7 +162,7 @@ void msrIdentification::setMiscellaneousField (
   string val)
 {
  #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Setting workTitle to \"" << val << "\"" <<
       endl;
@@ -176,7 +180,7 @@ void msrIdentification::addRights (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding right \"" << value << "\"" <<
       endl;
@@ -199,7 +203,7 @@ void msrIdentification::addComposer (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding composer \"" << value << "\"" <<
       endl;
@@ -222,7 +226,7 @@ void msrIdentification::addArranger (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding arranger \"" << value << "\"" <<
       endl;
@@ -245,7 +249,7 @@ void msrIdentification::addLyricist (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding lyricist \"" << value << "\"" <<
       endl;
@@ -268,7 +272,7 @@ void msrIdentification::addPoet (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding poet \"" << value << "\"" <<
       endl;
@@ -291,7 +295,7 @@ void msrIdentification::addTranslator (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding translator \"" << value << "\"" <<
       endl;
@@ -314,7 +318,7 @@ void msrIdentification::addSoftware (
   string value)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVarValAssocs) {
+  if (gTraceOptions->fTraceVarValAssocs) {
     gLogIOstream <<
       "Adding software \"" << value << "\"" <<
       endl;

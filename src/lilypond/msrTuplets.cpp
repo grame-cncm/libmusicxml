@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -105,7 +110,7 @@ msrTuplet::~msrTuplet ()
 S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Creating a newborn clone of tuplet '" <<
       asString () <<
@@ -248,7 +253,7 @@ void msrTuplet::addNoteToTuplet (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding note '" <<
       note->asShortString () <<
@@ -283,7 +288,7 @@ void msrTuplet::addNoteToTuplet (
 void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding chord '" <<
       chord->asString () <<
@@ -317,7 +322,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->asString () <<
@@ -366,7 +371,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->asString () <<
@@ -434,7 +439,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
   S_msrNote result;
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Removing first note from tuplet '" <<
       asString () <<
@@ -543,7 +548,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   S_msrNote result;
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Removing last note from tuplet '" <<
       asString () <<
@@ -597,7 +602,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "This last note from grace notes '" <<
       asString () <<
@@ -683,7 +688,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   */
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "unapplySoundingFactorToTupletMembers ()" <<
       endl;

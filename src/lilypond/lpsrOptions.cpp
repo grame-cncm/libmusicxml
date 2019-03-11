@@ -15,7 +15,11 @@
 
 #include "utilities.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "lpsrOptions.h"
 
 
@@ -242,7 +246,7 @@ lpsrOptions::~lpsrOptions ()
 void lpsrOptions::initializeLpsrOptions (
   bool boolOptionsInitialValue)
 {
-
+#ifdef TRACE_OPTIONS
   // trace and display
   // --------------------------------------
 
@@ -293,7 +297,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
 R"(Write the contents of the LPSR data to standard error.)",
           "displayLpsr",
           fDisplayLpsr,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
   
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -303,7 +307,7 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
           "traceSchemeFunctions",
           fTraceSchemeFunctions));
   }
-
+#endif
 
   // lyrics vs words
   // --------------------------------------
@@ -634,7 +638,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
         dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
         endl;
@@ -652,7 +656,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
         dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;
@@ -681,7 +685,7 @@ void lpsrOptions::handleOptionsItemValue (
     // is it in the pitches languages map?
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
         endl;
@@ -737,7 +741,7 @@ void lpsrOptions::handleOptionsItemValue (
     // is it in the chords languages map?
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;

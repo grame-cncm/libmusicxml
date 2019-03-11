@@ -23,6 +23,12 @@
 #include "xml2brlOptionsHandling.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "bsrOptions.h"
@@ -340,6 +346,11 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
     executableName,
     this);
     
+#ifdef TRACE_OPTIONS
+  initializeTraceOptionsHandling (
+    this);
+#endif
+
   initializeMusicXMLOptionsHandling (
     this);
     
@@ -361,7 +372,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
     this);
     
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
     fOptionsHandlerLogIOstream <<
       "xml2brlOptionsHandler has been initialized as:" <<
@@ -385,7 +396,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
     registerOptionsHandlerInItself ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fOptionsHandlerLogIOstream <<
       "xml2brlOptionsHandler help:" <<
       endl;
@@ -403,7 +414,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
     fArgumentsVector.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
       fOptionsHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
@@ -522,9 +533,9 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
       } // switch
     }
     
-    // append '.brl' extension
+    // append '.txt' extension
     potentialOutputFileName +=
-      ".brl";
+      ".txt";
   }
 
   // check auto output file option usage
@@ -898,7 +909,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
   S_optionsItem result;
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
       "---> Handling options item '" <<
       item <<
@@ -914,7 +925,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
         dynamic_cast<xml2brlOptionsVersionItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> optionsItem is of type 'optionsVersionItem'" <<
         endl;
@@ -936,7 +947,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
         dynamic_cast<xml2brlOptionsAboutItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> optionsItem is of type 'optionsAboutItem'" <<
         endl;
@@ -958,7 +969,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
         dynamic_cast<xml2brlOptionsContactItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       os <<
         "==> optionsItem is of type 'optionsContactItem'" <<
         endl;

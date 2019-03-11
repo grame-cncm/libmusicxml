@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -72,7 +77,7 @@ msrSyllable::msrSyllable (
   fSyllableTupletFactor = syllableTupletFactor;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a syllable containing:" <<
       endl;
@@ -93,7 +98,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
@@ -140,7 +145,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
@@ -186,7 +191,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending text \"" <<
       text <<
@@ -224,7 +229,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
 
   // set it uplink to note
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Setting syllable note uplink for:" <<
       endl;

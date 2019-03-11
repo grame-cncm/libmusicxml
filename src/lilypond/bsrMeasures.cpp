@@ -14,7 +14,11 @@
 
 #include "bsrMutualDependencies.h"
 
-#include "generalOptions.h"
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "bsrOptions.h"
 #include "brailleOptions.h"
 
@@ -47,7 +51,7 @@ bsrMeasure::bsrMeasure (
   fBrailleMeasureNumber = fPrintMeasureNumber;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating bsrMeasure '" <<
       asString () <<
@@ -64,7 +68,7 @@ bsrMeasure::~bsrMeasure ()
 S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a newborn clone of measure " <<
       asString () <<
@@ -94,7 +98,7 @@ void bsrMeasure::appendLineElementToMeasure (
 void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending clef '" <<
       clef->asShortString () <<
@@ -111,7 +115,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barline '" <<
       barline->asShortString () <<
@@ -128,7 +132,7 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 {
 #ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceNumbers || gGeneralOptions->fTraceMeasures) {
+  if (gBsrOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending number '" <<
       number->asShortString () <<
@@ -145,7 +149,7 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 {
 #ifdef TRACE_OPTIONS
-  if (gBsrOptions->fTraceNumbers || gGeneralOptions->fTraceMeasures) {
+  if (gBsrOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending words '" <<
       words->asShortString () <<
@@ -162,7 +166,7 @@ void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" <<
       note->asShortString () <<
@@ -179,7 +183,7 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceDynamics || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending dynamics '" <<
       dynamics->asShortString () <<

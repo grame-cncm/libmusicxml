@@ -23,7 +23,12 @@
 #include "utilities.h"
 
 #include "generalOptions.h"
-#include "lpsrOptions.h" // remove JMI
+
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
+#include "lpsrOptions.h"
 
 
 using namespace std;
@@ -604,7 +609,7 @@ S_optionsItem extraOptions::handleOptionsItem (
         dynamic_cast<optionsShowAllChordsStructuresItem*>(&(*item))
   ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsStructuresItem'" <<
         endl;
@@ -626,7 +631,7 @@ S_optionsItem extraOptions::handleOptionsItem (
         dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
         endl;
@@ -644,7 +649,7 @@ S_optionsItem extraOptions::handleOptionsItem (
         dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
         endl;
@@ -662,7 +667,7 @@ S_optionsItem extraOptions::handleOptionsItem (
         dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
         endl;
@@ -691,7 +696,7 @@ void extraOptions::handleOptionsItemValue (
     // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
         ", theString = \"" << theString << "\"" << 
@@ -791,7 +796,7 @@ void extraOptions::handleOptionsItemValue (
     // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
         ", theString = \"" << theString << "\"" << 
@@ -813,7 +818,7 @@ void extraOptions::handleOptionsItemValue (
     regex_match (theString, sm, e);
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for chord details string '" << theString <<
@@ -825,7 +830,7 @@ void extraOptions::handleOptionsItemValue (
 
     if (sm.size ()) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions) {
         os <<
           sm.size () << " elements: ";
         for (unsigned i = 0; i < sm.size (); ++i) {
@@ -860,7 +865,7 @@ void extraOptions::handleOptionsItemValue (
       harmonyName = sm [2];
       
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "--> rootName = \"" << rootName << "\", " <<
         "--> harmonyName = \"" << harmonyName << "\"" <<
@@ -966,7 +971,7 @@ void extraOptions::handleOptionsItemValue (
     // is it in the accidental styles map?
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
         ", theString = \"" << theString << "\"" << 
@@ -990,7 +995,7 @@ void extraOptions::handleOptionsItemValue (
     regex_match (theString, sm, e);
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for chord analysis string '" << theString <<
@@ -1002,7 +1007,7 @@ void extraOptions::handleOptionsItemValue (
 
     if (sm.size ()) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions) {
         os <<
           sm.size () << " elements: ";
         for (unsigned i = 0; i < sm.size (); ++i) {
@@ -1047,7 +1052,7 @@ void extraOptions::handleOptionsItemValue (
     s >> inversion;
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "--> rootName = \"" << rootName << "\", " <<
         "--> harmonyName = \"" << harmonyName << "\"" <<

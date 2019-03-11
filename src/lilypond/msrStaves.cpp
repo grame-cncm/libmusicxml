@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 
@@ -110,7 +115,7 @@ void msrStaff::initializeStaff ()
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Initializing staff \"" << fStaffName <<
       "\" in part " <<
@@ -187,7 +192,7 @@ void msrStaff::initializeStaff ()
   
     if (clef) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Appending part clef '" << clef->asString () <<
           "' as initial clef to staff \"" <<
@@ -212,7 +217,7 @@ void msrStaff::initializeStaff ()
   
     if (key) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceKeys) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceKeys) {
         gLogIOstream <<
           "Appending part key '" << key->asString () <<
           "' as initial key to staff \"" <<
@@ -236,7 +241,7 @@ void msrStaff::initializeStaff ()
         
     if (transpose) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceStaves /* JMI ||       gGeneralOptions->fTraceTransposes */) {
+      if (gTraceOptions->fTraceStaves /* JMI ||       gTraceOptions->fTraceTransposes */) {
         gLogIOstream <<
           "Appending part transpose '" << transpose->asString () <<
           "' as initial transpose to staff \"" <<
@@ -274,7 +279,7 @@ S_msrStaff msrStaff::createStaffNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating a newborn clone of staff \"" <<
       fStaffName <<
@@ -377,7 +382,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
          measureImplicitKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
@@ -404,7 +409,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
     switch (voice->getVoiceKind ()) {
       case msrVoice::kRegularVoice:
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+        if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Propagating the creation and appending of measure '" <<
             measureNumber <<
@@ -435,7 +440,7 @@ void msrStaff::setNextMeasureNumberInStaff (
   string nextMeasureNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
@@ -460,7 +465,7 @@ void msrStaff::setNextMeasureNumberInStaff (
       "voice is null");
     
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Propagating the setting of next measure number '" <<
         nextMeasureNumber <<
@@ -491,7 +496,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       fStaffRegularVoicesCounter++;
 
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         gLogIOstream <<
           "Creating regular voice number '" <<
           voiceNumber <<
@@ -511,7 +516,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       
     case msrVoice::kHarmonyVoice:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         gLogIOstream <<
           "Creating harmony voice number '" <<
           voiceNumber <<
@@ -529,7 +534,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       
     case msrVoice::kFiguredBassVoice:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         gLogIOstream <<
           "Creating figured bass voice number '" <<
           voiceNumber <<
@@ -591,7 +596,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
     case msrVoice::kRegularVoice:
       // register the voice by its relative number
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceVoices) {
+      if (gTraceOptions->fTraceVoices) {
         gLogIOstream <<
           "Voice " << voiceNumber <<
           " in staff " << getStaffName () <<
@@ -628,7 +633,7 @@ void msrStaff::registerVoiceByItsNumber (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Registering voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
@@ -651,7 +656,7 @@ void msrStaff::registerVoiceByItsNumber (
 
     case msrVoice::kHarmonyVoice:
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         gLogIOstream <<
           "Sorting the voices in staff \"" <<
           getStaffName () << "\"" <<
@@ -726,7 +731,7 @@ void msrStaff::registerVoiceInRegularVoicesMap (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Registering regular voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
@@ -751,7 +756,7 @@ void msrStaff::registerVoiceInAllVoicesList (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Registering voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
@@ -771,7 +776,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   S_msrVoice result; // JMI avoid repetitive messages!
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Fetching voice number " <<
       voiceNumber <<
@@ -793,7 +798,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
         ==
       voiceNumber) {
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+        if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Voice " << voiceNumber <<
             " in staff \"" << getStaffName () << "\"" <<
@@ -815,7 +820,7 @@ void msrStaff::addAVoiceToStaffIfItHasNone (
 {
   if (fStaffAllVoicesMap.size () == 0) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Staff \"" <<
         getStaffName () <<
@@ -889,7 +894,7 @@ void msrStaff::registerVoiceInStaff (
 
   // register voice in this staff
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " <<
@@ -915,7 +920,7 @@ void msrStaff::registerVoiceInStaff (
         
         // register the voice by its number
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Registering regular voice '" << voiceNumber <<
             "' " << voice->getVoiceName () <<
@@ -945,7 +950,7 @@ void msrStaff::padUpToActualMeasureWholeNotesInStaff (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in staff \"" <<
@@ -972,7 +977,7 @@ void msrStaff::padUpToActualMeasureWholeNotesInStaff (
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending clef '" << clef->asString () <<
       "' to staff \"" <<
@@ -1032,7 +1037,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
   else {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+    if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Clef '" <<
         clef->asString () <<
@@ -1051,7 +1056,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending key '" << key->asString () <<
       "' to staff \"" <<
@@ -1078,7 +1083,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
     else {
       if (key->isEqualTo (fStaffCurrentKey)) {
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
+        if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Key '" <<
             key->asString () <<
@@ -1115,7 +1120,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 void msrStaff::appendTimeToStaff (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending time '" << time->asString () <<
       "' to staff \"" <<
@@ -1142,7 +1147,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
     else {
       if (time->isEqualTo (fStaffCurrentTime)) {
 #ifdef TRACE_OPTIONS
-        if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+        if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Time '" <<
             time->asString () <<
@@ -1179,7 +1184,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 void msrStaff::appendTimeToStaffClone (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending time '" << time->asString () <<
       "' to staff clone \"" <<
@@ -1212,7 +1217,7 @@ void msrStaff::nestContentsIntoNewRepeatInStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Nesting contents into new repeat in staff \"" <<
       getStaffName () <<
@@ -1237,7 +1242,7 @@ void msrStaff::handleRepeatStartInStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling repeat start in staff \"" <<
       getStaffName () <<
@@ -1268,7 +1273,7 @@ void msrStaff::handleRepeatEndInStaff (
   int    repeatTimes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a repeat end in staff \"" <<
       getStaffName () <<
@@ -1299,7 +1304,7 @@ void msrStaff::handleRepeatEndingStartInStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a repeat ending start in staff \"" <<
       getStaffName () <<
@@ -1331,7 +1336,7 @@ void msrStaff::handleRepeatEndingEndInStaff (
             repeatEndingKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Handling a " <<
       msrRepeatEnding::repeatEndingKindAsString (
@@ -1367,7 +1372,7 @@ void msrStaff::finalizeRepeatEndInStaff (
   int    repeatTimes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Finalizing a repeat upon its end in staff \"" <<
       getStaffName () <<
@@ -1400,7 +1405,7 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
   int measuresRepeatSlashes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a measures repeat from it's first measure in staff \"" <<
       getStaffName () <<
@@ -1426,7 +1431,7 @@ void msrStaff::appendPendingMeasuresRepeatToStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending the pending measures repeat to staff \"" <<
       getStaffName () <<
@@ -1451,7 +1456,7 @@ void msrStaff::createRestMeasuresInStaff (
   int restMeasuresMeasuresNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a multiple rest in staff \"" <<
       getStaffName () <<
@@ -1481,7 +1486,7 @@ void msrStaff::appendPendingRestMeasuresToStaff (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending the pending multiple rest to staff \"" <<
       getStaffName () <<
@@ -1506,7 +1511,7 @@ void msrStaff::appendRestMeasuresCloneToStaff (
   S_msrRestMeasures restMeasures)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       restMeasures->asString () <<
@@ -1533,7 +1538,7 @@ void msrStaff::appendRepeatCloneToStaff (
   S_msrRepeat repeatCLone)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat clone to staff \"" <<
       getStaffName () <<
@@ -1557,7 +1562,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
   S_msrRepeatEnding repeatEndingClone)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending a repeat ending clone to staff \"" <<
       getStaffName () <<
@@ -1585,7 +1590,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barline '" << barline->asString () <<
       "' to staff " <<
@@ -1613,7 +1618,7 @@ void msrStaff::appendTransposeToStaff (
   S_msrTranspose transpose)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting transpose '" <<
       transpose->asString () <<
@@ -1635,7 +1640,7 @@ void msrStaff::appendTransposeToStaff (
   else {
     if (transpose->isEqualTo (fStaffCurrentTranspose)) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Transpose '" <<
           transpose->asString () <<
@@ -1664,7 +1669,7 @@ void msrStaff::appendPartNameDisplayToStaff (
   S_msrPartNameDisplay partNameDisplay)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting part name display '" <<
       partNameDisplay->asString () <<
@@ -1687,7 +1692,7 @@ void msrStaff::appendPartNameDisplayToStaff (
   else {
     if (partNameDisplay->isEqualTo (fStaffCurrentTranspose)) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Transpose '" <<
           partNameDisplay->asString () <<
@@ -1717,7 +1722,7 @@ void msrStaff::appendPartAbbreviationDisplayToStaff (
   S_msrPartAbbreviationDisplay partAbbreviationDisplay)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting part abbreviation display '" <<
       partAbbreviationDisplay->asString () <<
@@ -1740,7 +1745,7 @@ void msrStaff::appendPartAbbreviationDisplayToStaff (
   else {
     if (partAbbreviationDisplay->isEqualTo (fStaffCurrentTranspose)) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Transpose '" <<
           transpose->asString () <<
@@ -1770,7 +1775,7 @@ void msrStaff::appendStaffDetailsToStaff (
   S_msrStaffDetails staffDetails)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->asShortString () <<
@@ -1805,7 +1810,7 @@ void msrStaff::appendStaffDetailsToStaff (
   } // switch
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting staff kind to '" <<
       staffKindAsString (fStaffKind) <<
@@ -1914,7 +1919,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 #endif
       
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Finalizing current measure in staff \"" <<
       getStaffName () <<
@@ -2030,7 +2035,7 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Finalizing staff \"" <<
       getStaffName () << "\"" <<
@@ -2043,7 +2048,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   
   // finalize the voices
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Finalizing the voices in staff \"" <<
       getStaffName () << "\"" <<
@@ -2250,7 +2255,7 @@ void msrStaff::print (ostream& os)
 
   // print current the staff clef if any
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceClefs) {
+  if (gTraceOptions->fTraceClefs) {
     os << left <<
       setw (fieldWidth) <<
       "staffCurrentClef" << " : ";
@@ -2273,7 +2278,7 @@ void msrStaff::print (ostream& os)
   
   // print the current staff key if any
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     os << left <<
       setw (fieldWidth) <<
       "staffCurrentKey" << " : ";
@@ -2296,7 +2301,7 @@ void msrStaff::print (ostream& os)
   
   // print the current staff time if any
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     os << left <<
       setw (fieldWidth) <<
       "staffCurrentTime" << " : ";
@@ -2604,7 +2609,7 @@ msrVoiceStaffChange::~msrVoiceStaffChange ()
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff change '" <<
       asString () <<

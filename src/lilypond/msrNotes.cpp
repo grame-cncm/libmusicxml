@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -196,7 +201,7 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     gLogIOstream <<
       endl <<
       "Initializing a note" <<
@@ -392,13 +397,13 @@ void msrNote::setNoteKind (msrNoteKind noteKind)
 {
 #ifdef TRACE_OPTIONS
   if (
-    gGeneralOptions->fTraceNotes
+    gTraceOptions->fTraceNotes
       ||
-    gGeneralOptions->fTraceChords
+    gTraceOptions->fTraceChords
       ||
-    gGeneralOptions->fTraceTuplets
+    gTraceOptions->fTraceTuplets
       ||
-    gGeneralOptions->fTraceGraceNotes
+    gTraceOptions->fTraceGraceNotes
   ) {
     gLogIOstream <<
       "Setting the kind of note '" <<
@@ -443,7 +448,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of note '" <<
       asString () <<
@@ -685,7 +690,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a deep copy of note " <<
       asString () <<
@@ -1754,7 +1759,7 @@ void msrNote::setNoteStem (S_msrStem stem)
 void msrNote::setNoteBelongsToAChord ()
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting note '" <<
       asShortString () <<
@@ -1793,7 +1798,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   */
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
@@ -1816,7 +1821,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   fNoteSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "The result is: '" <<
       asShortString () <<
@@ -1828,7 +1833,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 void msrNote::appendBeamToNote (S_msrBeam beam)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBeams || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding beam '" <<
       beam->asShortString () <<
@@ -1845,7 +1850,7 @@ void msrNote::appendBeamToNote (S_msrBeam beam)
 void msrNote::appendArticulationToNote (S_msrArticulation art)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceArticulations || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceArticulations || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding articulation '" <<
       art->asShortString () <<
@@ -1862,7 +1867,7 @@ void msrNote::appendArticulationToNote (S_msrArticulation art)
 void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSpanners || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding spanner '" <<
       spanner->spannerKindAsString () <<
@@ -1902,7 +1907,7 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 void msrNote::appendTechnicalToNote (S_msrTechnical technical)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical '" <<
       technical->asString () <<
@@ -1920,7 +1925,7 @@ void msrNote::appendTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->asString () <<
@@ -1939,7 +1944,7 @@ void msrNote::appendTechnicalWithFloatToNote (
   S_msrTechnicalWithFloat technicalWithFloat)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with float '" <<
       technicalWithFloat->asString () <<
@@ -1958,7 +1963,7 @@ void msrNote::appendTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with string'" <<
       technicalWithString->asString () <<
@@ -1976,7 +1981,7 @@ void msrNote::appendTechnicalWithStringToNote (
 void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceOrnaments || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceOrnaments || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding ornament '" <<
       ornament->asShortString () <<
@@ -2019,7 +2024,7 @@ void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGlissandos || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceGlissandos || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding glissando '" <<
       glissando->asShortString () <<
@@ -2037,7 +2042,7 @@ void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 void msrNote::appendSlideToNote (S_msrSlide slide)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSlides || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceSlides || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding slide '" <<
       slide->asShortString () <<
@@ -2056,7 +2061,7 @@ void msrNote::setNoteGraceNotesGroupBefore (
   S_msrGraceNotesGroup graceNotesGroupBefore)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Attaching grace notes group '" <<
       graceNotesGroupBefore->asString () <<
@@ -2080,7 +2085,7 @@ void msrNote::setNoteGraceNotesGroupAfter (
   S_msrGraceNotesGroup graceNotesGroupAfter)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Attaching grace notes group '" <<
       graceNotesGroupAfter->asString () <<
@@ -2104,7 +2109,7 @@ void msrNote::setNoteGraceNotesGroupAfter (
 void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesGroup)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGraceNotes || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Attaching afterGraceNotesGroup '" << afterGraceNotesGroup->asString () <<
       "' to note '" << asShortString () <<
@@ -2121,7 +2126,7 @@ void msrNote::setNoteAfterGraceNotesGroup (S_msrGraceNotesGroup afterGraceNotesG
 void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding singleTremolo '" << trem->asString () <<
       "' to note '" << asShortString () <<
@@ -2137,7 +2142,7 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGraceDynamics || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceGraceDynamics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Attaching dynamics '" <<
       dynamics->asString () <<
@@ -2163,7 +2168,7 @@ void msrNote::appendWordsToNote (S_msrWords words)
 void msrNote::appendSlurToNote (S_msrSlur slur)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSlurs || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceSlurs || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding slur '" << slur <<
       "' to note '" << asString () << "'" <<
@@ -2177,7 +2182,7 @@ void msrNote::appendSlurToNote (S_msrSlur slur)
 void msrNote::appendLigatureToNote (S_msrLigature ligature)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLigatures || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceLigatures || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending ligature " << ligature << " to note " << asString () <<
        endl;
@@ -2210,7 +2215,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
         
       // remove 'ligature start'
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceLigatures) {
+      if (gTraceOptions->fTraceLigatures) {
         gLogIOstream <<
           "Removing last ligature (start) for note '" <<
           asShortString () <<
@@ -2235,7 +2240,7 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
 void msrNote::appendPedalToNote (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePedals || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTracePedals || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending pedal " << pedal << " to note " << asString () <<
        endl;
@@ -2266,7 +2271,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
         
       // rmeove 'pedal start'
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTracePedals) {
+      if (gTraceOptions->fTracePedals) {
         gLogIOstream <<
           "Removing last pedal (start) for note '" <<
           asShortString () <<
@@ -2290,7 +2295,7 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
 void msrNote::appendSlashToNote (S_msrSlash slash)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSlashes || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceSlashes || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending slash '" <<
       slash <<
@@ -2332,7 +2337,7 @@ void msrNote::appendScordaturaToNote (S_msrScordatura scordatura)
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceDynamics || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Removing first dynamics from note '" <<
       asShortString () <<
@@ -2355,7 +2360,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 S_msrWedge msrNote::removeFirstWedge () // JMI
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceDynamics || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Removing first wedge from note '" <<
       asShortString () <<
@@ -2376,7 +2381,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending syllable '" <<
       syllable->asString () <<
@@ -2392,7 +2397,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " harmony to '" << harmony->asString () << "'" <<
@@ -2411,7 +2416,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 void msrNote::setNoteFrame (S_msrFrame frame)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " frame to '" << frame->asString () << "'" <<
@@ -2425,7 +2430,7 @@ void msrNote::setNoteFrame (S_msrFrame frame)
 void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " figured bass to '" << figuredBass->asString () << "'" <<

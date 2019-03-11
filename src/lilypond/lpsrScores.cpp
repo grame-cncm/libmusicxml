@@ -16,6 +16,11 @@
 
 #include "generalOptions.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 
 using namespace std;
 
@@ -65,7 +70,7 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
@@ -86,7 +91,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName () <<
@@ -105,7 +110,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName () <<

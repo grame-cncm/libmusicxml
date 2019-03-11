@@ -28,6 +28,12 @@
 #include "musicXML2MxmlTreeInterface.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "musicXMLOptions.h"
 
 
@@ -270,7 +276,7 @@ string uncompressMXLFile (
   
         if (sm.size ()) {
 #ifdef TRACE_OPTIONS
-          if (gGeneralOptions->fTracePasses) { // JMI ???
+          if (gTraceOptions->fTracePasses) { // JMI ???
             logIOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
@@ -409,7 +415,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   string fileNameAsString = fileName;
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -533,7 +539,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   
   if (encoding == desiredEncoding) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTracePasses) {
+    if (gTraceOptions->fTracePasses) {
       logIOstream <<
         "% MusicXML data uses \"" <<
         desiredEncoding <<
@@ -595,7 +601,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   clock_t startClock = clock ();
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -724,7 +730,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   clock_t startClock = clock ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
     

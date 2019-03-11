@@ -19,6 +19,12 @@
 #include "utilities.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -288,6 +294,7 @@ msrOptions::~msrOptions ()
 void msrOptions::initializeMsrOptions (
   bool boolOptionsInitialValue)
 {
+#ifdef TRACE_OPTIONS
   // trace and display
   // --------------------------------------
 
@@ -349,7 +356,7 @@ R"(Write the structure of the part groups to standard error.)",
 R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
           fDisplayMsr,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -359,7 +366,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
           "displayMsrDetails",
           fDisplayMsrDetails,
           fDisplayMsr,
-          gGeneralOptions->fTracePasses));
+          gTraceOptions->fTracePasses));
                     
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -379,7 +386,7 @@ This implies that no LilyPond code is generated.)",
           "displayMsrSummary",
           fDisplayMsrSummary));
   }
-
+#endif
   
   // languages
   // --------------------------------------
@@ -1247,7 +1254,7 @@ S_optionsItem msrOptions::handleOptionsItem (
         dynamic_cast<optionsPartRenameItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsPartRenameItem'" <<
         endl;
@@ -1265,7 +1272,7 @@ S_optionsItem msrOptions::handleOptionsItem (
         dynamic_cast<optionsMsrPitchesLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
         endl;
@@ -1294,7 +1301,7 @@ void msrOptions::handleOptionsItemValue (
     // decipher it to extract the old and new part names
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsPartRenameItem'" <<
         endl;
@@ -1312,7 +1319,7 @@ void msrOptions::handleOptionsItemValue (
     regex_match (theString, sm, e);
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for part rename string '" << theString <<
@@ -1324,7 +1331,7 @@ void msrOptions::handleOptionsItemValue (
   
     if (sm.size ()) {
 #ifdef TRACE_OPTIONS
-      if (gGeneralOptions->fTraceOptions) {
+      if (gTraceOptions->fTraceOptions) {
         for (unsigned i = 0; i < sm.size (); ++i) {
           os <<
             "[" << sm [i] << "] ";
@@ -1357,7 +1364,7 @@ void msrOptions::handleOptionsItemValue (
       newPartName = sm [2];
       
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "--> oldPartName = \"" << oldPartName << "\", " <<
         "--> newPartName = \"" << newPartName << "\"" <<
@@ -1404,7 +1411,7 @@ void msrOptions::handleOptionsItemValue (
     // is it in the pitches languages map?
 
 #ifdef TRACE_OPTIONS
-    if (gGeneralOptions->fTraceOptions) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
         endl;

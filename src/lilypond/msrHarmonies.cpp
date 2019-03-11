@@ -12,6 +12,13 @@
 
 #include "msrMutualDependencies.h"
 
+#include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -50,7 +57,7 @@ msrHarmonyDegree::msrHarmonyDegree (
   fHarmonyDegreeTypeKind       = harmonyDegreeTypeKind;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating harmony degree '" <<
       asString () <<
@@ -337,7 +344,7 @@ msrHarmony::msrHarmony (
     harmonySoundingWholeNotes;
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating harmony '" <<
       asString () <<
@@ -414,7 +421,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating a newborn clone of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
@@ -447,7 +454,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating a deep copy of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<

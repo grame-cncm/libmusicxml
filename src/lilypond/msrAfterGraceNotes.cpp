@@ -12,6 +12,11 @@
 
 #include "msrMutualDependencies.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -63,7 +68,7 @@ S_msrAfterGraceNotesGroupContents msrAfterGraceNotesGroupContents::createAfterGr
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of after grace notes group" <<
       endl;
@@ -279,7 +284,7 @@ S_msrAfterGraceNotesGroup msrAfterGraceNotesGroup::createAfterGraceNotesGroupNew
   S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of after grace notes group '" <<
       asShortString () <<

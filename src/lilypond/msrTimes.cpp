@@ -16,6 +16,12 @@
 #include "msrTimes.h"
 
 #include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 #include "messagesHandling.h"
@@ -45,7 +51,7 @@ msrTimeItem::msrTimeItem (
   fTimeBeatValue = -1;
   
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -93,7 +99,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Appending beat number '" <<
       beatsNumber <<
@@ -112,7 +118,7 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
 void msrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
@@ -340,7 +346,7 @@ void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Append item '" <<
       timeItem->asString () <<

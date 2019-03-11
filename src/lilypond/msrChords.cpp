@@ -12,6 +12,13 @@
 
 #include "msrMutualDependencies.h"
 
+#include "generalOptions.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -28,7 +35,7 @@ S_msrChord msrChord::create (
   msrDurationKind chordGraphicDurationKind)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
@@ -72,7 +79,7 @@ S_msrChord msrChord::createChordNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Creating a newborn clone of chord '" <<
       asString () <<
@@ -113,7 +120,7 @@ void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
@@ -131,7 +138,7 @@ void msrChord::setChordDisplayWholeNotes (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
@@ -150,7 +157,7 @@ void msrChord::addFirstNoteToChord (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding first note '" <<
       note->asString () <<
@@ -195,7 +202,7 @@ void msrChord::addAnotherNoteToChord (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding another note '" <<
       note->asShortString () <<
@@ -274,7 +281,7 @@ void msrChord::appendArticulationToChord (S_msrArticulation art)
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceArticulations || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceArticulations || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending articulation '" <<
       art->articulationKindAsString () <<
@@ -303,7 +310,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceSpanners || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending spanner '" <<
       span->spannerKindAsString () <<
@@ -320,7 +327,7 @@ void msrChord::appendSpannerToChord (S_msrSpanner span)
 void msrChord::setChordSingleTremolo (S_msrSingleTremolo trem)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding singleTremolo '" <<
       trem->asString () <<
@@ -350,7 +357,7 @@ void msrChord::appendTechnicalToChord (S_msrTechnical tech)
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending technical '" <<
       tech->asString () <<
@@ -381,7 +388,7 @@ void msrChord::appendTechnicalWithIntegerToChord (
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending technical with integer '" <<
       tech->asString () <<
@@ -412,7 +419,7 @@ void msrChord::appendTechnicalWithFloatToChord (
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending technical with integer '" <<
       tech->asString () <<
@@ -443,7 +450,7 @@ void msrChord::appendTechnicalWithStringToChord (
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending technical with string '" <<
       tech->asString () <<
@@ -472,7 +479,7 @@ void msrChord::appendOrnamentToChord (S_msrOrnament orn)
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending ornament '" <<
       orn->ornamentKindAsString () <<
@@ -501,7 +508,7 @@ void msrChord::appendGlissandoToChord (S_msrGlissando gliss)
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending glissando '" <<
       gliss->asString () <<
@@ -530,7 +537,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
   } // for
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending slide '" <<
       slide->asString () <<
@@ -545,7 +552,7 @@ void msrChord::appendSlideToChord (S_msrSlide slide)
 void msrChord::appendBeamToChord (S_msrBeam beam)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceBeams || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending beam '" <<
       beam->asString () <<
@@ -767,7 +774,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
