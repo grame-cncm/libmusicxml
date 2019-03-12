@@ -221,10 +221,12 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   // next measure number
   newbornClone->fNextMeasureNumber =
     fNextMeasureNumber;
-    
+
+    /* JMI
   // measure purist number
   newbornClone->fMeasurePuristNumber = // JMI don't compute that again for clones ???
     fMeasurePuristNumber;
+    */
 
   // measure 'first in segment' kind
   newbornClone->fMeasureFirstInSegmentKind =
@@ -234,9 +236,11 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureIsASingleMeasureRest =
     fMeasureIsASingleMeasureRest;
 
+/* JMI
   // regular measure ends detection // JMI TEMP
   newbornClone->fMeasureEndRegularKind =
     fMeasureEndRegularKind;
+*/
 
   /*   
   // fActualMeasureWholeNotes and fFullMeasureWholeNotes
@@ -2354,10 +2358,11 @@ void msrMeasure::determineMeasureKind (
 #endif
     
         fMeasureKind = kUpbeatMeasureKind;
-        fMeasurePuristNumber = -999; // JMI should not occur
+        setMeasurePuristNumber (-999); // JMI should not occur
         break;
         
       case msrMeasure::kMeasureFirstInSegmentYes:
+        // this is an anacrusis
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
@@ -2374,7 +2379,7 @@ void msrMeasure::determineMeasureKind (
 #endif
     
         fMeasureKind = kUpbeatMeasureKind;
-        fMeasurePuristNumber = 0; // JMI this is an anacrusis
+        setMeasurePuristNumber (0);
         break;
         
       case msrMeasure::kMeasureFirstInSegmentNo:
@@ -2603,27 +2608,19 @@ void msrMeasure::finalizeMeasure (
       ;
   } // switch
 
-  // fetch the staff
-  S_msrStaff
-    staff =
-      getMeasureSegmentUplink ()->
-        getSegmentVoiceUplink ()->
-          getVoiceStaffUplink ();
-      
-  // get the staff current time
+  // fetch the voice's time
   S_msrTime
-    staffCurrentTime =
-      staff->
-        getStaffCurrentTime ();
+    voiceCurrentTime =
+      voice->getVoiceCurrentTime ();
         
-  if (! staffCurrentTime) {
+  if (! voiceCurrentTime) {
     // take the implicit 4/4 measure whole notes into account
     fFullMeasureWholeNotes = rational (1, 1);
   }
   else {
     // set the full length from time
     setFullMeasureWholeNotesFromTime (
-      staffCurrentTime);
+      voiceCurrentTime);
   }
 
   if (fActualMeasureWholeNotes.getNumerator () == 0) {
@@ -2851,7 +2848,8 @@ void msrMeasure::finalizeMeasure (
 
     // free its purist number for sharing by next measure
     voice->
-      decrementVoiceCurrentMeasurePuristNumber ();
+      decrementVoiceCurrentMeasurePuristNumber (
+        inputLineNumber);
 
     // increment voice whole notes since last regular measure end
     voice->
@@ -2876,6 +2874,14 @@ void msrMeasure::finalizeMeasureClone (
   int          inputLineNumber,
   S_msrMeasure originalMeasure)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeMeasureClone() 1");
+  }
+#endif
+
   if (fMeasureHasBeenFinalized) {
     stringstream s;
 
@@ -2956,7 +2962,8 @@ void msrMeasure::finalizeMeasureClone (
 
     // set it's purist number
     voice->
-      incrementVoiceCurrentMeasurePuristNumber ();
+      incrementVoiceCurrentMeasurePuristNumber (
+        inputLineNumber);
       
     setMeasurePuristNumber (
       voice->
@@ -2972,11 +2979,10 @@ void msrMeasure::finalizeMeasureClone (
   else {
     // this is no regular measure end
 
-    // free its purist number for sharing by next measure
-    /* JMI
-    voice->
-      decrementVoiceCurrentMeasurePuristNumber ();
-      */
+    // set it's purist number
+    setMeasurePuristNumber (
+      voice->
+        getVoiceCurrentMeasurePuristNumber ());
 
     // increment voice whole notes since last regular measure end
     voice->
@@ -2986,15 +2992,13 @@ void msrMeasure::finalizeMeasureClone (
     fMeasureEndRegularKind = kMeasureEndRegularNo;
   }
 
-/* JMI
-  // set this measure's purist number // for last measure in voice only??? JMI
-  voice->
-    incrementVoiceCurrentMeasurePuristNumber ();
-     
-  setMeasurePuristNumber (
-    voice->
-      getVoiceCurrentMeasurePuristNumber ());
-*/
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "finalizeMeasureClone() 2");
+  }
+#endif
 
   gIndenter--;
 }
@@ -3276,24 +3280,59 @@ void msrMeasure::print (ostream& os)
     "measureFirstInVoice" << " : " <<
     booleanAsString (
       fMeasureFirstInVoice) <<
-    endl <<
+    endl;
     
-    /* JMI
-    // fetch the staff
-    S_msrStaff
-      staff =
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceStaffUplink ();
-        
-    // get the staff current time
-    S_msrTime
-      staffCurrentTime =
-        staff->
-          getStaffCurrentTime ();
+#ifdef TRACE_OPTIONS
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
 
+  // fetch voice's clef, key and time
+  S_msrClef
+    voiceCurrentClef =
+      voice->getVoiceCurrentClef ();
+  S_msrKey
+    voiceCurrentKey =
+      voice->getVoiceCurrentKey ();
+  S_msrTime
+    voiceCurrentTime =
+      voice->getVoiceCurrentTime ();
+        
+  // print the voice current clef, key and time
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentClef" << " : ";
+  if (voiceCurrentClef) {
     os <<
-      endl;
+      voiceCurrentClef;
+  }
+  else {
+    os << "null" << endl;
+  }
+    
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentKey" << " : ";
+  if (voiceCurrentKey) {
+    os <<
+      voiceCurrentKey;
+  }
+  else {
+    os << "null" << endl;
+  }
+
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentTime" << " : ";
+  if (voiceCurrentTime) {
+    os <<
+      voiceCurrentTime;
+  }
+  else {
+    os << "null" << endl;
+  }
+#endif
+
+    /* JMI
 
     setw (fieldWidth) <<
     "actualMeasureWholeNotesAsMSRString" << " : " <<
@@ -3305,6 +3344,8 @@ void msrMeasure::print (ostream& os)
     endl <<
       */
 
+  os << left <<
+    setw (fieldWidth) <<
     setw (fieldWidth) <<
     "measureFirstInSegment" << " : " <<
     msrMeasure::measureFirstInSegmentKindAsString (
@@ -3434,32 +3475,63 @@ void msrMeasure::shortPrint (ostream& os)
     setw (fieldWidth) <<
     "actualMeasureWholeNotes" << " : " <<
     fActualMeasureWholeNotes <<
-    " whole notes" <<
     endl <<
     
     setw (fieldWidth) <<
-    "fullMeasureWholeNotes" << " : ";
+    "fullMeasureWholeNotes" << " : " <<
+    fActualMeasureWholeNotes <<
+    endl;
     
-    // fetch the staff
-    S_msrStaff
-      staff =
-        getMeasureSegmentUplink ()->
-          getSegmentVoiceUplink ()->
-            getVoiceStaffUplink ();
+#ifdef TRACE_OPTIONS
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
         
-    // get the staff current time
-    S_msrTime
-      staffCurrentTime =
-        staff->
-          getStaffCurrentTime ();
-
-    if (! staffCurrentTime) {
-      os <<
-        "*** no time signature known ***";
-    }
+  // fetch voice's clef, key and time
+  S_msrClef
+    voiceCurrentClef =
+      voice->getVoiceCurrentClef ();
+  S_msrKey
+    voiceCurrentKey =
+      voice->getVoiceCurrentKey ();
+  S_msrTime
+    voiceCurrentTime =
+      voice->getVoiceCurrentTime ();
+        
+  // print the voice current clef, key and time
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentClef" << " : ";
+  if (voiceCurrentClef) {
     os <<
-      endl;
+      voiceCurrentClef;
+  }
+  else {
+    os << "null" << endl;
+  }
+    
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentKey" << " : ";
+  if (voiceCurrentKey) {
+    os <<
+      voiceCurrentKey;
+  }
+  else {
+    os << "null" << endl;
+  }
 
+  os << left <<
+    setw (fieldWidth) << "voiceCurrentTime" << " : ";
+  if (voiceCurrentTime) {
+    os <<
+      voiceCurrentTime;
+  }
+  else {
+    os << "null" << endl;
+  }
+#endif
+    
   os <<
     setw (fieldWidth) <<
     "measureContainsMusic" << " : " <<

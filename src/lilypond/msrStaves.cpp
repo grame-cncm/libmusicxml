@@ -326,6 +326,11 @@ void msrStaff::setStaffCurrentKey (S_msrKey key)
   fStaffCurrentKey = key;
 };
 
+void msrStaff::setStaffCurrentTime (S_msrTime time)
+{
+  fStaffCurrentTime = time;
+};
+
 string msrStaff::staffNumberAsString ()
 {
   string result;

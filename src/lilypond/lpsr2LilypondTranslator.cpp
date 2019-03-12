@@ -7214,11 +7214,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
               endl;
             break;
           case msrMeasure::kMeasureEndRegularNo:
-            fLilypondCodeIOstream <<
-              "%{ measureEndRegularNo, " <<
-              measurePuristNumber + 1 <<
-              " %}" <<
-              endl;
+            if (gLilypondOptions->fComments) {
+              fLilypondCodeIOstream <<
+                "%{ measureEndRegularNo, " <<
+                measurePuristNumber + 1 <<
+                " %}" <<
+                endl;
+            }
             break;
         } // switch
         

@@ -2253,7 +2253,7 @@ void msr2LpsrTranslator::visitStart (S_msrTime& elt)
 
   // append time to voice clone
   fCurrentVoiceClone->
-    appendTimeToVoiceClone (elt);
+    appendTimeToVoice (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTime& elt)

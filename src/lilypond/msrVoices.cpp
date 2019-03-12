@@ -425,7 +425,7 @@ void msrVoice::initializeVoice (
   // measures repests
   fVoiceContainsMeasuresRepeats = false;
   
-  // get the initial staff details from the staff if any
+  // get the initial staff details from the staff if any JMI
 /*
   S_msrStaffDetails
     staffStaffDetails =
@@ -836,6 +836,40 @@ void msrVoice::setNextMeasureNumberInVoice (
   gIndenter--;
 }
 
+void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
+  int inputLineNumber)
+{
+  fVoiceCurrentMeasurePuristNumber++;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Incrementing current measure purist number to '" <<
+      fVoiceCurrentMeasurePuristNumber <<
+      ", in voice \"" << getVoiceName () << "\"" <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+}
+
+void msrVoice::decrementVoiceCurrentMeasurePuristNumber (
+  int inputLineNumber)
+{
+  fVoiceCurrentMeasurePuristNumber--;
+  
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Decrementing current measure purist number to '" <<
+      fVoiceCurrentMeasurePuristNumber <<
+      ", in voice \"" << getVoiceName () << "\"" <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+}
+                              
 void msrVoice::createNewLastSegmentForVoice (
   int    inputLineNumber,
   string context)
@@ -940,9 +974,12 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
           measureImplicitKind);
 
   // set it's purist number
+  incrementVoiceCurrentMeasurePuristNumber (
+    inputLineNumber);
+  
   result->
     setMeasurePuristNumber (
-      ++fVoiceCurrentMeasurePuristNumber);
+      fVoiceCurrentMeasurePuristNumber);
 
   // handle voice kind
   switch (fVoiceKind) {
@@ -1314,6 +1351,21 @@ S_msrStanza msrVoice::fetchStanzaInVoice (
   return stanza;
 }
 
+void msrVoice::setVoiceCurrentClef (S_msrClef clef)
+{
+  fVoiceCurrentClef = clef;
+};
+
+void msrVoice::setVoiceCurrentKey (S_msrKey key)
+{
+  fVoiceCurrentKey = key;
+};
+
+void msrVoice::setVoiceCurrentTime (S_msrTime time)
+{
+  fVoiceCurrentTime = time;
+};
+
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
 #ifdef TRACE_OPTIONS
@@ -1327,6 +1379,9 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
   gIndenter++;
   
+  // set voice current clef
+  this->setVoiceCurrentClef (clef);
+
   if (fMusicHasBeenInsertedInVoice) {
     // append clef to last segment
     fVoiceLastSegment->
@@ -1355,6 +1410,13 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
   gIndenter++;
 
+  // set voice current clef
+  this->setVoiceCurrentKey (key);
+
+  // append key to last segment
+  fVoiceLastSegment->
+    appendKeyToSegment (key);
+
 #ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceRepeats
@@ -1371,10 +1433,6 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
   }
 #endif
   
-  // append key to last segment
-  fVoiceLastSegment->
-    appendKeyToSegment (key);
-
   gIndenter--;
 }
 
@@ -1390,6 +1448,9 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 #endif
 
   gIndenter++;
+
+  // set voice current time
+  this->setVoiceCurrentTime (time);
   
   // append time to the last segment
   fVoiceLastSegment->
@@ -1398,7 +1459,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
   gIndenter--;
 }
 
-void msrVoice::appendTimeToVoiceClone (S_msrTime time)
+void msrVoice::appendTimeToVoiceClone (S_msrTime time) // superflous ??? JMI 
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceVoices) {
@@ -1411,6 +1472,9 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 
   gIndenter++;
   
+  // set voice current time
+  this->setVoiceCurrentTime (time);
+
   // append time to the last segment
   fVoiceLastSegment->
     appendTimeToSegmentClone (time);
@@ -9371,68 +9435,56 @@ void msrVoice::print (ostream& os)
 
   const int fieldWidth = 34;
 
-  // fetch the staff
-  S_msrStaff
-    staff =
-      fVoiceStaffUplink;
-      
-  // get the staff current clef, key and time
-  S_msrClef
-    staffCurrentClef =
-      staff->
-        getStaffCurrentClef ();
-  S_msrKey
-    staffCurrentKey =
-      staff->
-        getStaffCurrentKey ();
-  S_msrTime
-    staffCurrentTime =
-      staff->
-        getStaffCurrentTime ();
-
   os << left <<
-    setw (fieldWidth) << "staffUplink" << " : " <<
+    setw (fieldWidth) <<
+    "staffUplink" << " : " <<
     fVoiceStaffUplink->getStaffName () <<
     endl <<
-    setw (fieldWidth) << "voiceNumber" << " : " <<
+    setw (fieldWidth) <<
+    "voiceNumber" << " : " <<
     voiceNumberAsString () <<
     endl <<
-    setw (fieldWidth) << "voiceCurrentMeasurePuristNumber" << " : " <<
+    setw (fieldWidth) <<
+    "voiceCurrentMeasurePuristNumber" << " : " <<
     fVoiceCurrentMeasurePuristNumber <<
     endl <<
-    setw (fieldWidth) << "regularVoiceStaffSequentialNumber" << " : " <<
+    setw (fieldWidth) <<
+    "regularVoiceStaffSequentialNumber" << " : " <<
     regularVoiceStaffSequentialNumberAsString () <<
     endl;
     
+#ifdef TRACE_OPTIONS
+  // print the voice current clef, key and time
   os << left <<
-    setw (fieldWidth) << "staffCurrentClef" << " : ";
-  if (staffCurrentClef) {
+    setw (fieldWidth) << "voiceCurrentClef" << " : ";
+  if (fVoiceCurrentClef) {
     os <<
-      staffCurrentClef;
+      fVoiceCurrentClef;
   }
   else {
     os << "null" << endl;
   }
     
   os << left <<
-    setw (fieldWidth) << "staffCurrentKey" << " : ";
-  if (staffCurrentKey) {
+    setw (fieldWidth) << "voiceCurrentKey" << " : ";
+  if (fVoiceCurrentKey) {
     os <<
-      staffCurrentKey;
+      fVoiceCurrentKey;
   }
   else {
     os << "null" << endl;
   }
 
   os << left <<
-    setw (fieldWidth) << "staffCurrentTime" << " : ";
-  if (staffCurrentTime) {
+    setw (fieldWidth) << "voiceCurrentTime" << " : ";
+  if (fVoiceCurrentTime) {
     os <<
-      staffCurrentTime;
+      fVoiceCurrentTime;
   }
   else {
     os << "null" << endl;
   }
+#endif
 
   // print the harmony voice name if any
   os << left <<

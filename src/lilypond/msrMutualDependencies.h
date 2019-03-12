@@ -6297,6 +6297,23 @@ class msrVoice : public msrElement
     string                getVoiceName () const
                               { return fVoiceName; }
 
+    // clef, key, time
+    
+    void                  setVoiceCurrentClef (S_msrClef clef);
+                              
+    S_msrClef             getVoiceCurrentClef () const
+                              { return fVoiceCurrentClef; };
+                              
+    void                  setVoiceCurrentKey (S_msrKey key);
+                              
+    S_msrKey              getVoiceCurrentKey  () const
+                              { return fVoiceCurrentKey; };
+                              
+    void                  setVoiceCurrentTime (S_msrTime time);
+
+    S_msrTime             getVoiceCurrentTime () const
+                              { return fVoiceCurrentTime; };
+
     // harmonies
 
     S_msrVoice            getHarmonyVoiceForRegularVoice () const
@@ -6357,12 +6374,11 @@ class msrVoice : public msrElement
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
-    void                  incrementVoiceCurrentMeasurePuristNumber ()
-                              {  fVoiceCurrentMeasurePuristNumber++; }
-                              
-    void                  decrementVoiceCurrentMeasurePuristNumber ()
-                              {  fVoiceCurrentMeasurePuristNumber--; }
-                              
+    void                  incrementVoiceCurrentMeasurePuristNumber (
+                            int inputLineNumber);
+    void                  decrementVoiceCurrentMeasurePuristNumber (
+                            int inputLineNumber);
+
     const int             getVoiceCurrentMeasurePuristNumber () const
                               { return fVoiceCurrentMeasurePuristNumber; }
 
@@ -7071,7 +7087,6 @@ class msrVoice : public msrElement
 
     string                fVoiceName;
 
-    // harmonies
 
     // two-way links
     S_msrVoice            fHarmonyVoiceForRegularVoice;
@@ -7086,6 +7101,15 @@ class msrVoice : public msrElement
     int                   fVoiceSkipsCounter;
     int                   fVoiceActualHarmoniesCounter;
     int                   fVoiceActualFiguredBassCounter;
+
+    // clef, key, time
+    // needed at the voice level, because adding such to voice clones
+    // is done directly, without going down the part-staff-voice hierarchy
+    S_msrClef             fVoiceCurrentClef;
+                            
+    S_msrKey              fVoiceCurrentKey;
+
+    S_msrTime             fVoiceCurrentTime;
 
     // measures
     
@@ -7312,9 +7336,11 @@ class msrStaff : public msrElement
     S_msrKey              getStaffCurrentKey  () const
                               { return fStaffCurrentKey; };
                               
+    void                  setStaffCurrentTime (S_msrTime time);
+
     S_msrTime             getStaffCurrentTime () const
                               { return fStaffCurrentTime; };
-
+                              
     // transpose
     
     S_msrTranspose        getStaffCurrentTranspose () const
