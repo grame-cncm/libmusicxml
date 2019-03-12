@@ -2273,7 +2273,7 @@ void msrMeasure::removeElementFromMeasure (
     s.str ());
 }
 
-void msrMeasure::determineMeasureKind (
+void msrMeasure::determineMeasureKindAndPuristNumber (
   int inputLineNumber)
 {
   // fetch the voice
@@ -2335,7 +2335,17 @@ void msrMeasure::determineMeasureKind (
     }
 #endif
 
+    // set it's measure kind
     fMeasureKind = kFullMeasureKind;
+    
+    // set it's measure purist number
+    voice->
+      incrementVoiceCurrentMeasurePuristNumber (
+        inputLineNumber);
+    
+    setMeasurePuristNumber (
+      voice->
+        getVoiceCurrentMeasurePuristNumber ());
   }
   
   else if (fActualMeasureWholeNotes < fFullMeasureWholeNotes) {
@@ -2357,7 +2367,9 @@ void msrMeasure::determineMeasureKind (
         }
 #endif
     
+        // set it's measure kind
         fMeasureKind = kUpbeatMeasureKind;
+
         setMeasurePuristNumber (-999); // JMI should not occur
         break;
         
@@ -2378,7 +2390,16 @@ void msrMeasure::determineMeasureKind (
         }
 #endif
     
+        // set it's measure kind
         fMeasureKind = kUpbeatMeasureKind;
+
+        // sanity check
+        msrAssert (
+          true || // JMI
+          voice->getVoiceCurrentMeasurePuristNumber () == 0,
+          "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
+          
+        // set it's measure purist number            
         setMeasurePuristNumber (0);
         break;
         
@@ -2398,13 +2419,25 @@ void msrMeasure::determineMeasureKind (
         }
 #endif
     
+        // set it's measure kind
         fMeasureKind = kUnderfullMeasureKind;
+    
+        // set it's measure purist number
+        /* JMI
+        voice->
+          incrementVoiceCurrentMeasurePuristNumber (
+            inputLineNumber);
+        */
+        
+        setMeasurePuristNumber (
+          voice->
+            getVoiceCurrentMeasurePuristNumber ());
         break;
     } // switch
   }
 
   else if (fActualMeasureWholeNotes > fFullMeasureWholeNotes) {
-    // overfull measure
+    // this is an overfull measure
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
@@ -2419,7 +2452,17 @@ void msrMeasure::determineMeasureKind (
     }
 #endif
 
+    // set it's measure kind
     fMeasureKind = kOverfullMeasureKind;
+    
+    // set it's measure purist number
+    voice->
+      incrementVoiceCurrentMeasurePuristNumber (
+        inputLineNumber);
+    
+    setMeasurePuristNumber (
+      voice->
+        getVoiceCurrentMeasurePuristNumber ());
   }
   
   else {
@@ -2764,7 +2807,7 @@ void msrMeasure::finalizeMeasure (
       } // switch
       */
   
-      determineMeasureKind ( // JMI ???
+      determineMeasureKindAndPuristNumber ( // JMI ???
         inputLineNumber);
       break;
   } // switch
@@ -2900,7 +2943,8 @@ void msrMeasure::finalizeMeasureClone (
   gIndenter++;
 
   // determine the measure kind
-  determineMeasureKind (inputLineNumber);
+  determineMeasureKindAndPuristNumber (
+    inputLineNumber);
 
   // consistency check
   msrMeasure::msrMeasureKind

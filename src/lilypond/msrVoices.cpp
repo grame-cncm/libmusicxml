@@ -973,6 +973,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
           measureNumber,
           measureImplicitKind);
 
+/* JMI
   // set it's purist number
   incrementVoiceCurrentMeasurePuristNumber (
     inputLineNumber);
@@ -980,6 +981,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
   result->
     setMeasurePuristNumber (
       fVoiceCurrentMeasurePuristNumber);
+  */
 
   // handle voice kind
   switch (fVoiceKind) {

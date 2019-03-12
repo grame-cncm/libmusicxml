@@ -1054,7 +1054,7 @@ class msrMeasure : public msrElement
 
     // finalization
 
-    void                  determineMeasureKind (
+    void                  determineMeasureKindAndPuristNumber (
                             int inputLineNumber);
 
     void                  padUpToPositionInMeasure (
