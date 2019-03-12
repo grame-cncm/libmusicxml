@@ -632,13 +632,13 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     enum msrMeasureKind {
-        kUnknownMeasureKind,
-        kFullMeasureKind,
-        kUpbeatMeasureKind,
-        kUnderfullMeasureKind,
-        kOverfullMeasureKind,
-        kSenzaMisuraMeasureKind,
-        kEmptyMeasureKind}; // for <measure ... /> without nested contents
+        kMeasureKindUnknown,
+        kMeasureKindRegular,
+        kMeasureKindAnacrusis,
+        kMeasureKindIncomplete,
+        kMeasureKindOvercomplete,
+        kMeasureKindCadenza,
+        kMeasureKindEmpty}; // for <measure ... /> without nested contents
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
@@ -6375,9 +6375,12 @@ class msrVoice : public msrElement
                               { return fVoiceCurrentMeasureNumber; }
 
     void                  incrementVoiceCurrentMeasurePuristNumber (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string context)
+                            ;
     void                  decrementVoiceCurrentMeasurePuristNumber (
-                            int inputLineNumber);
+                            int    inputLineNumber,
+                            string context);
 
     const int             getVoiceCurrentMeasurePuristNumber () const
                               { return fVoiceCurrentMeasurePuristNumber; }

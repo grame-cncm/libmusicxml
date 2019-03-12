@@ -837,16 +837,18 @@ void msrVoice::setNextMeasureNumberInVoice (
 }
 
 void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string context)
 {
   fVoiceCurrentMeasurePuristNumber++;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Incrementing current measure purist number to '" <<
+      "Incrementing voice current measure purist number to '" <<
       fVoiceCurrentMeasurePuristNumber <<
-      ", in voice \"" << getVoiceName () << "\"" <<
+      "' (" << context << ")" <<
+      " in voice \"" << getVoiceName () << "\"" <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -854,16 +856,18 @@ void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
 }
 
 void msrVoice::decrementVoiceCurrentMeasurePuristNumber (
-  int inputLineNumber)
+  int    inputLineNumber,
+  string context)
 {
   fVoiceCurrentMeasurePuristNumber--;
   
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Decrementing current measure purist number to '" <<
+      "Decrementing voice current measure purist number to '" <<
       fVoiceCurrentMeasurePuristNumber <<
-      ", in voice \"" << getVoiceName () << "\"" <<
+      "' (" << context << ")" <<
+      " in voice \"" << getVoiceName () << "\"" <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -972,16 +976,6 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
           inputLineNumber,
           measureNumber,
           measureImplicitKind);
-
-/* JMI
-  // set it's purist number
-  incrementVoiceCurrentMeasurePuristNumber (
-    inputLineNumber);
-  
-  result->
-    setMeasurePuristNumber (
-      fVoiceCurrentMeasurePuristNumber);
-  */
 
   // handle voice kind
   switch (fVoiceKind) {
@@ -3671,7 +3665,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
     
     // JMI     if (lastMeasureElementsList.size ()) {
       switch (lastMeasureInLastSegment->getMeasureKind ()) {
-        case msrMeasure::kEmptyMeasureKind:
+        case msrMeasure::kMeasureKindEmpty:
           {
             // the last measure is empty:
             // keep it for a new voice last segment
@@ -9581,8 +9575,7 @@ void msrVoice::print (ostream& os)
     }
     else {
       os <<
-        "none" <<
-        endl;
+        "none";
     }
     os <<
       endl;
@@ -9954,7 +9947,7 @@ msrInternalError (
 
     // JMI     if (lastMeasureElementsList.size ()) {
       switch (lastMeasureInLastSegment->getMeasureKind ()) {
-        case msrMeasure::kEmptyMeasureKind:
+        case msrMeasure::kMeasureKindEmpty:
           {
             // the last measure is empty:
             // keep it for a new voice last segment

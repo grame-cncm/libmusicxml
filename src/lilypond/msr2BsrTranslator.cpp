@@ -3150,7 +3150,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
 
   switch (elt->getMeasureKind ()) {
     
-    case msrMeasure::kUnknownMeasureKind:
+    case msrMeasure::kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -3171,27 +3171,27 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kFullMeasureKind:
+    case msrMeasure::kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kUpbeatMeasureKind:
+    case msrMeasure::kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kUnderfullMeasureKind:
+    case msrMeasure::kMeasureKindIncomplete:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kOverfullMeasureKind:
+    case msrMeasure::kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kSenzaMisuraMeasureKind:
+    case msrMeasure::kMeasureKindCadenza:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kEmptyMeasureKind:
+    case msrMeasure::kMeasureKindEmpty:
       // JMI
       break;
   } // switch

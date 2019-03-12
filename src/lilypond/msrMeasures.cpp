@@ -118,7 +118,7 @@ void msrMeasure::initializeMeasure ()
 #endif
 
   // measure kind
-  fMeasureKind = kUnknownMeasureKind;
+  fMeasureKind = kMeasureKindUnknown;
 
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentUnknown;
@@ -436,9 +436,9 @@ void msrMeasure::setMeasurePuristNumber (
       gLogIOstream <<
         "Setting purist number of measure '" <<
         fMeasureNumber <<
-        "' to " <<
+        "' to '" <<
         measurePuristNumber <<
-        " in segment " <<
+        "' in segment " <<
         fMeasureSegmentUplink->asString () <<
         " in voice \"" <<
         fMeasureSegmentUplink->
@@ -923,7 +923,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
       }
 #endif
   
-      fMeasureKind = kSenzaMisuraMeasureKind;
+      fMeasureKind = kMeasureKindCadenza;
       
       fFullMeasureWholeNotes =
         rational (INT_MAX, 1);
@@ -2315,7 +2315,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     }
 #endif
 
-    fMeasureKind = kEmptyMeasureKind;
+    fMeasureKind = kMeasureKindEmpty;
   }
   
   else if (fActualMeasureWholeNotes == fFullMeasureWholeNotes) {
@@ -2336,12 +2336,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
 
     // set it's measure kind
-    fMeasureKind = kFullMeasureKind;
+    fMeasureKind = kMeasureKindRegular;
     
     // set it's measure purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
-        inputLineNumber);
+        inputLineNumber,
+        "determineMeasureKindAndPuristNumber() kMeasureKindRegular");
     
     setMeasurePuristNumber (
       voice->
@@ -2368,7 +2369,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
     
         // set it's measure kind
-        fMeasureKind = kUpbeatMeasureKind;
+        fMeasureKind = kMeasureKindAnacrusis;
 
         setMeasurePuristNumber (-999); // JMI should not occur
         break;
@@ -2391,7 +2392,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
     
         // set it's measure kind
-        fMeasureKind = kUpbeatMeasureKind;
+        fMeasureKind = kMeasureKindAnacrusis;
 
         // sanity check
         msrAssert (
@@ -2420,13 +2421,14 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
     
         // set it's measure kind
-        fMeasureKind = kUnderfullMeasureKind;
+        fMeasureKind = kMeasureKindIncomplete;
     
         // set it's measure purist number
         /* JMI
         voice->
           incrementVoiceCurrentMeasurePuristNumber (
-            inputLineNumber);
+            inputLineNumber,
+            "determineMeasureKindAndPuristNumber() kMeasureKindIncomplete");
         */
         
         setMeasurePuristNumber (
@@ -2453,12 +2455,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
 
     // set it's measure kind
-    fMeasureKind = kOverfullMeasureKind;
+    fMeasureKind = kMeasureKindOvercomplete;
     
     // set it's measure purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
-        inputLineNumber);
+        inputLineNumber,
+        "determineMeasureKindAndPuristNumber() kMeasureKindOvercomplete");
     
     setMeasurePuristNumber (
       voice->
@@ -2623,7 +2626,7 @@ void msrMeasure::finalizeMeasure (
 
   // sanity check
   switch (fMeasureKind) {
-    case msrMeasure::kEmptyMeasureKind:
+    case msrMeasure::kMeasureKindEmpty:
       {
         stringstream s;
       
@@ -2759,17 +2762,17 @@ void msrMeasure::finalizeMeasure (
   // pad measure up to part measure whole notes high tide
   // and determine its measure kind if relevant
   switch (fMeasureKind) {
-    case msrMeasure::kSenzaMisuraMeasureKind:
+    case msrMeasure::kMeasureKindCadenza:
       break;
 
-    case msrMeasure::kOverfullMeasureKind:
-    case msrMeasure::kUpbeatMeasureKind:
-    case msrMeasure::kFullMeasureKind:
-    case msrMeasure::kUnderfullMeasureKind: // JMI
+    case msrMeasure::kMeasureKindOvercomplete:
+    case msrMeasure::kMeasureKindAnacrusis:
+    case msrMeasure::kMeasureKindRegular:
+    case msrMeasure::kMeasureKindIncomplete: // JMI
       break;
 
-    case msrMeasure::kUnknownMeasureKind:
-    case msrMeasure::kEmptyMeasureKind:
+    case msrMeasure::kMeasureKindUnknown:
+    case msrMeasure::kMeasureKindEmpty:
       // fetch the part measure whole notes high tide
       rational
         partActualMeasureWholeNotesHighTide =
@@ -2877,29 +2880,28 @@ void msrMeasure::finalizeMeasure (
 #endif
 
   if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
-    // this is a regular measure end
+    // this is a regular measure end  
+    fMeasureEndRegularKind = kMeasureEndRegularYes;
 
     // reset voice whole notes since last regular measure end
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (0);
-  
-    fMeasureEndRegularKind = kMeasureEndRegularYes;
   }
 
   else {
     // this is no regular measure end
+    fMeasureEndRegularKind = kMeasureEndRegularNo;
 
     // free its purist number for sharing by next measure
     voice->
       decrementVoiceCurrentMeasurePuristNumber (
-        inputLineNumber);
+        inputLineNumber,
+        "finalizeMeasure() kMeasureEndRegularNo");
 
     // increment voice whole notes since last regular measure end
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (
         newWholeNotesSinceLastRegularMeasureEnd);
-
-    fMeasureEndRegularKind = kMeasureEndRegularNo;
   }
 
 #ifdef TRACE_OPTIONS
@@ -3003,11 +3005,13 @@ void msrMeasure::finalizeMeasureClone (
     
   if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
     // this is a regular measure end
+    fMeasureEndRegularKind = kMeasureEndRegularYes;
 
     // set it's purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
-        inputLineNumber);
+        inputLineNumber,
+        "finalizeMeasureClone() kMeasureEndRegularYes");
       
     setMeasurePuristNumber (
       voice->
@@ -3016,12 +3020,11 @@ void msrMeasure::finalizeMeasureClone (
     // reset voice whole notes since last regular measure end
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (0);
-  
-    fMeasureEndRegularKind = kMeasureEndRegularYes;
   }
 
   else {
     // this is no regular measure end
+    fMeasureEndRegularKind = kMeasureEndRegularNo;
 
     // set it's purist number
     setMeasurePuristNumber (
@@ -3032,8 +3035,6 @@ void msrMeasure::finalizeMeasureClone (
     voice->
       setWholeNotesSinceLastRegularMeasureEnd (
         newWholeNotesSinceLastRegularMeasureEnd);
-
-    fMeasureEndRegularKind = kMeasureEndRegularNo;
   }
 
 #ifdef TRACE_OPTIONS
@@ -3121,26 +3122,26 @@ string msrMeasure::measureKindAsString (
   string result;
 
   switch (measureKind) {
-    case msrMeasure::kUnknownMeasureKind:
+    case msrMeasure::kMeasureKindUnknown:
       result = "***unknownMeasureKind***";
       break;
-    case msrMeasure::kFullMeasureKind:
-      result = "fullMeasureKind";
+    case msrMeasure::kMeasureKindRegular:
+      result = "measureKindRegular";
       break;
-    case msrMeasure::kUpbeatMeasureKind:
-      result = "upbeatMeasureKind";
+    case msrMeasure::kMeasureKindAnacrusis:
+      result = "measureKindAnacrusis";
       break;
-    case msrMeasure::kUnderfullMeasureKind:
-      result = "underfullMeasureKind";
+    case msrMeasure::kMeasureKindIncomplete:
+      result = "measureKindIncomplete";
       break;
-    case msrMeasure::kOverfullMeasureKind:
-      result = "overfullMeasureKind";
+    case msrMeasure::kMeasureKindOvercomplete:
+      result = "measureKindOvercomplete";
       break;
-    case msrMeasure::kSenzaMisuraMeasureKind:
-      result = "senzaMisuraMeasureKind";
+    case msrMeasure::kMeasureKindCadenza:
+      result = "measureKindCadenza";
       break;
-    case msrMeasure::kEmptyMeasureKind:
-      result = "emptyMeasureKind";
+    case msrMeasure::kMeasureKindEmpty:
+      result = "measureKindEmpty";
       break;
   } // switch
 
