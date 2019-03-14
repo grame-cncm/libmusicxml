@@ -415,9 +415,9 @@ void msrVoice::initializeVoice (
   // regular measure ends detection
   fWholeNotesSinceLastRegularMeasureEnd = rational (0, 1);
   
-  // voice finalization
-  fVoiceHasBeenFinalized = false;
-  
+  // incomplete measures after repeats detection
+  fVoiceLastMeasureIsAtARepeatComponentEnd = false;
+
   // rest measures
   fVoiceContainsRestMeasures  = false;
   fVoiceRemainingRestMeasures = 0;
@@ -439,6 +439,9 @@ void msrVoice::initializeVoice (
   }
   */
 
+  // voice finalization
+  fVoiceHasBeenFinalized = false;
+  
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
@@ -621,6 +624,10 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   // regular measure ends detection
   voiceDeepCopy->fWholeNotesSinceLastRegularMeasureEnd =
     fWholeNotesSinceLastRegularMeasureEnd;
+
+  // incomplete measures after repeats detection
+  voiceDeepCopy->fVoiceLastMeasureIsAtARepeatComponentEnd =
+    fVoiceLastMeasureIsAtARepeatComponentEnd;
 
   // initial elements
   int numberOfInitialElements =
@@ -3976,6 +3983,9 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   voiceLastSegmentLastMeasure->
     setMeasureRelativeToARepeatKind (
       msrMeasure::kMeasureRelativeToARepeatLastMeasure);
+
+  // incomplete measures after repeats detection
+  fVoiceLastMeasureIsAtARepeatComponentEnd = true;
     
   // append the voice last segment to the new repeat common part
 #ifdef TRACE_OPTIONS
@@ -4236,6 +4246,14 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
       fetchVoiceLastMeasure (
         inputLineNumber);
 
+  // set voiceLastMeasure's 'relative to a repeat' kind
+  voiceLastMeasure->
+    setMeasureRelativeToARepeatKind (
+      msrMeasure::kMeasureRelativeToARepeatLastMeasure);
+    
+  // incomplete measures after repeats detection
+  fVoiceLastMeasureIsAtARepeatComponentEnd = true;
+    
   // split voiceLastSegmentLastMeasure if it is incomplete
   S_msrMeasure
     measureSecondPart =

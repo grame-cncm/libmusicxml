@@ -6464,6 +6464,16 @@ class msrVoice : public msrElement
     rational              getWholeNotesSinceLastRegularMeasureEnd () const
                               { return fWholeNotesSinceLastRegularMeasureEnd; }
 
+    // incomplete measures after repeats detection
+
+    void                  setVoiceLastMeasureIsAtARepeatComponentEnd (
+                            bool value)
+                              { fVoiceLastMeasureIsAtARepeatComponentEnd = value; }
+
+    bool                  getVoiceLastMeasureIsAtARepeatComponentEnd () const
+                              { return fVoiceLastMeasureIsAtARepeatComponentEnd; }
+
+
    // rests measures
     
     void                  setVoiceContainsRestMeasures (
@@ -7186,17 +7196,21 @@ class msrVoice : public msrElement
     // regular measure ends detection
 
     rational              fWholeNotesSinceLastRegularMeasureEnd;
+
+    // incomplete measures after repeats detection
+    bool                  fVoiceLastMeasureIsAtARepeatComponentEnd;
     
     // voice internal handling
     
     list<S_msrVoiceElement>
                           fInitialVoiceElementsList;
 
-    // voice finalization
+     // stanzas
+        
+    map<string, S_msrStanza>
+                          fVoiceStanzasMap;
 
-    bool                  fVoiceHasBeenFinalized;
-
-    // segments
+   // segments
     
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,
@@ -7285,10 +7299,9 @@ class msrVoice : public msrElement
     
     bool                  fVoiceContainsMeasuresRepeats;
 
-    // stanzas
-        
-    map<string, S_msrStanza>
-                          fVoiceStanzasMap;
+    // voice finalization
+
+    bool                  fVoiceHasBeenFinalized;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 

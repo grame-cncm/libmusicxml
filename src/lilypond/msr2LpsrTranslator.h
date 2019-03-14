@@ -555,7 +555,7 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------    
     S_msrVoice                fCurrentVoiceClone;
     S_msrVoice                fCurrentVoiceOriginal;
-    map<S_msrNote, S_msrNote> fVoiceNotesMap;
+    map<S_msrNote, S_msrNote> fVoiceNotesMap; // JMI
 
 
     // harmonies
@@ -567,39 +567,10 @@ class msr2LpsrTranslator :
     list<S_msrHarmony>        fPendingHarmoniesList;
 
 
-    // frames
-    // ------------------------------------------------------    
- //   bool                      fOnGoingFramesVoice; JMI
-    
- //   list<S_msrFrame>          fPendingFramesList; // JMI
-
-
     // figured bass
     // ------------------------------------------------------    
     bool                      fOnGoingFiguredBassVoice;
     S_msrFiguredBass          fCurrentFiguredBass;
-
-    
-    // repeats
-    // ------------------------------------------------------
-
-// JMI    S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
-    S_msrRepeatEnding         fCurrentRepeatEndingClone;
-
-
-    // measures repeats
-    // ------------------------------------------------------
-
-    S_msrMeasuresRepeatPattern
-                              fCurrentMeasuresRepeatPatternClone;
-    S_msrMeasuresRepeatReplicas
-                              fCurrentMeasuresRepeatReplicasClone;
-
-    // multiple rests
-    // ------------------------------------------------------
-
-    S_msrRestMeasures         fCurrentRestMeasuresClone; // JMI
-    S_msrRestMeasuresContents fCurrentRestMeasuresContentsClone;
 
 
     // segments

@@ -5133,35 +5133,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   fCurrentVoiceClone->
     handleMeasuresRepeatPatternEndInVoiceClone (
       inputLineNumber);
-
-/* JMI
-  // get the measures repeat uplink
-  S_msrMeasuresRepeat
-    measuresRepeat =
-      elt->getMeasuresRepeatUplink ();
-
-  // create a measures repeat and append it to voice clone
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
-    fLogOutputStream <<
-      "Appending a measures repeat to voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  fCurrentVoiceClone->
-    createMeasuresRepeatAndAppendItToVoiceClone (
-      inputLineNumber,
-      measuresRepeat->
-        getMeasuresRepeatMeasuresNumber (),
-      measuresRepeat->
-        getMeasuresRepeatSlashesNumber ());
-
-  // forget about the current measures repeat pattern clone
-  fCurrentMeasuresRepeatPatternClone = nullptr;
-  */
 }
 
 //________________________________________________________________________
@@ -5232,26 +5203,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
   fCurrentVoiceClone->
     handleMeasuresRepeatReplicasEndInVoiceClone (
       inputLineNumber);
-
-/* JMI
-  // create a measures repeat replica clone and append it to voice clone
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Appending a repeat replica clone to voice clone \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-#endif
-
-  fCurrentVoiceClone->
-    appendMeasuresRepeatReplicaToVoice (
-      inputLineNumber);
-
-  // forget about the current measures repeat replicas clone
- // JMI ??? fCurrentMeasuresRepeatReplicasClone = nullptr;
- */
 }
 
 //________________________________________________________________________

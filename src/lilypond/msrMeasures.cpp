@@ -2406,10 +2406,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
             case msrMeasure::kMeasureEndRegularUnknown:
               // JMI ???
               break;
+              
             case msrMeasure::kMeasureEndRegularYes:
               // don't increment the voice current measure purist number,
               // this has already been done for 'first part' of the measure
               break;
+              
             case msrMeasure::kMeasureEndRegularNo:
               // increment voice current measure purist number
               voice->
@@ -2470,6 +2472,20 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());  
+  }
+
+  // incomplete measures after repeats detection
+  bool
+    voiceLastMeasureIsAtARepeatComponentEnd =
+      voice->
+        getVoiceLastMeasureIsAtARepeatComponentEnd ();
+      
+  if (voiceLastMeasureIsAtARepeatComponentEnd) {
+    fMeasureRelativeToARepeatKind =
+      kMeasureRelativeToARepeatNextMeasure;
+      
+    voice->
+      setVoiceLastMeasureIsAtARepeatComponentEnd (false);
   }
 
   // set measure purist number
