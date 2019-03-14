@@ -5265,7 +5265,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
   // rest measures and measures repeats first,
   // since they can be nested in repeats
   if (fVoicePendingRestMeasures) {
-    // segment belongs to a rest measures
+    // segmentClone belongs to a rest measures
 
     // get fVoicePendingRestMeasures's contents
     S_msrRestMeasuresContents
@@ -5281,39 +5281,81 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
   }
   
   else if (fVoicePendingMeasuresRepeat) {
-    // segment belongs to a measures repeat
+    // segmentClone belongs to a measures repeat
 
-    // get fVoicePendingMeasuresRepeat's pattern // JMI replicas ???
-    S_msrMeasuresRepeatPattern
-      measuresRepeatPattern =
-        fVoicePendingMeasuresRepeat->
-          getMeasuresRepeatPattern ();
-
-    // set segmentClone as the pattern's segment
-    measuresRepeatPattern->
-      setMeasuresRepeatPatternSegment (
-  // JMI      inputLineNumber,
-        segmentClone);
-
-        /* JMI
-    // get fVoicePendingMeasuresRepeat's pattern // JMI replicas ???
-    S_msrMeasuresRepeatPattern
-      measuresRepeatPattern =
-        fVoicePendingMeasuresRepeat->
-          getMeasuresRepeatPattern ();
-
-    // set segmentClone as the pattern's segment
-    measuresRepeatPattern->
-      setMeasuresRepeatPatternSegment (
-  // JMI      inputLineNumber,
-        segmentClone);
-        */
+    switch (
+      fVoicePendingMeasuresRepeat->getCurrentMeasuresRepeatBuildPhaseKind ()
+    ) {
+      case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseJustCreated:
+        {
+          stringstream s;
+  
+          s <<
+            "segment '" <<
+            segmentClone->asShortString () <<
+            "'cannot be added to a just created measures repeat";
+            
+          msrMusicXMLError (
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+        break;
+  
+      case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInPattern:
+        {
+          // get fVoicePendingMeasuresRepeat's pattern
+          S_msrMeasuresRepeatPattern
+            measuresRepeatPattern =
+              fVoicePendingMeasuresRepeat->
+                getMeasuresRepeatPattern ();
+      
+          // set segmentClone as the pattern's segment
+          measuresRepeatPattern->
+            setMeasuresRepeatPatternSegment (
+        // JMI      inputLineNumber,
+              segmentClone);
+        }
+        break;
+        
+      case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInReplicas:
+        {
+          // get fVoicePendingMeasuresRepeat's replicas
+          S_msrMeasuresRepeatReplicas
+            measuresRepeatReplicas =
+              fVoicePendingMeasuresRepeat->
+                getMeasuresRepeatReplicas ();
+      
+          // set segmentClone as the replicas's segment
+          measuresRepeatReplicas->
+            setMeasuresRepeatReplicasSegment (
+        // JMI      inputLineNumber,
+              segmentClone);
+        }
+        break;
+        
+      case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseCompleted:
+        {
+          stringstream s;
+  
+          s <<
+            "segment '" <<
+            segmentClone->asShortString () <<
+            "'cannot be added to a completed measures repeat";
+            
+          msrMusicXMLError (
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+        break;
+    } // switch
   }
   
   else if (fVoicePendingRepeatDescrsStack.size ()) {
     // segmentClone belongs to a repeat
-
- // JMI   if (fVoiceLastSegment) {
       
     // append segment to whichever part of the repeat is adequate
     S_msrRepeat
@@ -7056,6 +7098,11 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
       this->setVoiceContainsMeasuresRepeats (
         inputLineNumber);
 
+      // set fVoicePendingMeasuresRepeat's build phase to completed
+      fVoicePendingMeasuresRepeat->
+        setCurrentMeasuresRepeatBuildPhaseKind (
+          msrMeasuresRepeat::kMeasuresRepeatBuildPhaseJustCreated);
+
 #ifdef TRACE_OPTIONS
       if (
         gTraceOptions->fTraceMeasuresRepeats
@@ -7067,7 +7114,7 @@ void msrVoice::handleMeasuresRepeatStartInVoiceClone (
           "handleMeasuresRepeatStartInVoiceClone() 2");
       }
 #endif
-      break;
+      break;  
   } // switch
 
 #ifdef TRACE_OPTIONS

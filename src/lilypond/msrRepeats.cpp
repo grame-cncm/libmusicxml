@@ -1395,7 +1395,7 @@ void msrRepeat::setRepeatCommonPart (
       
   fRepeatCommonPart = repeatCommonPart;
 
-  // set currentRepeat's build phase
+  // set repeat's build phase
   fCurrentRepeatBuildPhaseKind =
     msrRepeat::kRepeatBuildPhaseInCommonPart;
 }

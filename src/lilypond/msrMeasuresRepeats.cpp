@@ -821,6 +821,10 @@ msrMeasuresRepeat::msrMeasuresRepeat (
   fMeasuresRepeatSlashesNumber  = measuresRepeatSlashesNumber;
 
   fMeasuresRepeatVoiceUplink = voiceUplink;
+
+  // measures repeat build phase
+  fCurrentMeasuresRepeatBuildPhaseKind =
+    msrMeasuresRepeat::kMeasuresRepeatBuildPhaseJustCreated;
 }
 
 msrMeasuresRepeat::~msrMeasuresRepeat ()
@@ -877,6 +881,10 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
     "measuresRepeatPattern is null");
 
   fMeasuresRepeatPattern = measuresRepeatPattern;
+
+  // set currentRepeat's build phase
+  fCurrentMeasuresRepeatBuildPhaseKind =
+    msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInPattern;
 }
 
 void msrMeasuresRepeat::setMeasuresRepeatReplicas (
@@ -901,6 +909,10 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
     "measuresRepeatReplicas is null");
 
   fMeasuresRepeatReplicas = measuresRepeatReplicas;
+
+  // set currentRepeat's build phase
+  fCurrentMeasuresRepeatBuildPhaseKind =
+    msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInReplicas;
 }
 
 int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
@@ -1011,6 +1023,29 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
   }
 }
 
+string msrMeasuresRepeat::measuresRepeatBuildPhaseKindAsString (
+  msrMeasuresRepeatBuildPhaseKind measuresRepeatBuildPhaseKind)
+{
+  string result;
+  
+  switch (measuresRepeatBuildPhaseKind) {
+    case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseJustCreated:
+      result = "measuresRepeatBuildPhaseJustCreated";
+      break;
+    case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInPattern:
+      result = "measuresRepeatBuildPhaseInPattern";
+      break;
+    case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseInReplicas:
+      result = "measuresRepeatBuildPhaseInReplicas";
+      break;
+    case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseCompleted:
+      result = "measuresRepeatBuildPhaseCompleted";
+      break;
+  } // switch
+  
+  return result;
+}
+
 string msrMeasuresRepeat::asString () const
 {
   stringstream s;
@@ -1091,6 +1126,20 @@ void msrMeasuresRepeat::print (ostream& os)
   
   gIndenter++;
   
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasuresRepeats) {
+    // print the current measures repeat build phase
+    const int fieldWidth = 36;
+    
+    os <<
+      setw (fieldWidth) <<
+      "currentMeasuresRepeatBuildPhaseKind" << " : " <<
+      measuresRepeatBuildPhaseKindAsString (
+        fCurrentMeasuresRepeatBuildPhaseKind) <<
+      endl;
+  }
+#endif
+
   // print the measures repeat pattern
   if (! fMeasuresRepeatPattern) {
     os <<

@@ -62,9 +62,6 @@ msr2LpsrTranslator::msr2LpsrTranslator (
 
   // repeats
 
-  // measures
-  fMeasuresCounter = 0; // JMI
-    
   // notes
   fOnGoingNote = false;
 
@@ -1884,20 +1881,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   }
 }
 
-void msr2LpsrTranslator::finalizeCurrentMeasureClone (
-  int          inputLineNumber,
-  S_msrMeasure originalMeasure)
-{
-  // take this measure into account
-  fMeasuresCounter++;
-
-  // finalize fCurrentMeasureClone
-  fCurrentMeasureClone->
-    finalizeMeasureClone (
-      inputLineNumber,
-      originalMeasure);
-}
-
 void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 {
   int inputLineNumber =
@@ -1918,9 +1901,10 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   }
 #endif
 
-  finalizeCurrentMeasureClone (
-    inputLineNumber,
-    elt); // original measure
+  fCurrentMeasureClone->
+    finalizeMeasureClone (
+      inputLineNumber,
+      elt); // original measure
 
   bool doCreateABarCheck = false; // JMI
 

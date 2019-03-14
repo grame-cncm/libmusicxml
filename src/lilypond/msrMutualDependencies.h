@@ -5697,6 +5697,15 @@ class msrMeasuresRepeat : public msrVoiceElement
     static string measuresRepeatKindAsString (
       msrMeasuresRepeatKind measuresRepeatKind);
       
+    enum msrMeasuresRepeatBuildPhaseKind {
+      kMeasuresRepeatBuildPhaseJustCreated,
+      kMeasuresRepeatBuildPhaseInPattern,
+      kMeasuresRepeatBuildPhaseInReplicas,
+      kMeasuresRepeatBuildPhaseCompleted};
+
+    static string measuresRepeatBuildPhaseKindAsString (
+      msrMeasuresRepeatBuildPhaseKind measuresRepeatBuildPhaseKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -5750,7 +5759,7 @@ class msrMeasuresRepeat : public msrVoiceElement
                           getMeasuresRepeatPattern () const
                               { return fMeasuresRepeatPattern; }
 
-    // measuresRepeat replicas
+    // measures repeat replicas
     void                  setMeasuresRepeatReplicas (
                             S_msrMeasuresRepeatReplicas
                               measuresRepeatReplicas);
@@ -5759,6 +5768,19 @@ class msrMeasuresRepeat : public msrVoiceElement
                           getMeasuresRepeatReplicas () const
                               { return fMeasuresRepeatReplicas; }
 
+    // measures repeat build phase
+    void                  setCurrentMeasuresRepeatBuildPhaseKind (
+                            msrMeasuresRepeatBuildPhaseKind
+                              measuresRepeatBuildPhaseKind)
+                              {
+                                fCurrentMeasuresRepeatBuildPhaseKind =
+                                  measuresRepeatBuildPhaseKind;
+                              }
+                            
+    msrMeasuresRepeatBuildPhaseKind
+                          getCurrentMeasuresRepeatBuildPhaseKind () const
+                            { return fCurrentMeasuresRepeatBuildPhaseKind; }
+                            
     // services
     // ------------------------------------------------------
 
@@ -5816,13 +5838,17 @@ class msrMeasuresRepeat : public msrVoiceElement
     int                   fMeasuresRepeatMeasuresNumber;
     int                   fMeasuresRepeatSlashesNumber;
 
-    // measuresRepeat pattern
+    // measures repeat pattern
     S_msrMeasuresRepeatPattern
                           fMeasuresRepeatPattern;
     
-    // measuresRepeat replicas
+    // measures repeat replicas
     S_msrMeasuresRepeatReplicas
                           fMeasuresRepeatReplicas;
+
+    // measures repeat build phase, used when building the measures repeat
+    msrMeasuresRepeatBuildPhaseKind
+                          fCurrentMeasuresRepeatBuildPhaseKind;
 };
 typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt);
