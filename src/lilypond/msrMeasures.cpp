@@ -123,6 +123,9 @@ void msrMeasure::initializeMeasure ()
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentUnknown;
 
+  // measure 'relative to a repeat' kind
+  fMeasureRelativeToARepeatKind = kMeasureRelativeToARepeatIrrelevant;
+  
   // measure 'first in voice'
   fMeasureFirstInVoice = false; // default value
 
@@ -226,11 +229,11 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   // measure purist number
   newbornClone->fMeasurePuristNumber = // JMI don't compute that again for clones ???
     fMeasurePuristNumber;
-    */
 
   // measure 'first in segment' kind
   newbornClone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
+    */
 
   // single-measure rest?
   newbornClone->fMeasureIsASingleMeasureRest =
@@ -2285,174 +2288,153 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-    "Determining the measure kind of measure '" <<
+    "Determining the measure kind and purist number of measure '" <<
     fMeasureNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
     "' in voice \"" << voice->getVoiceName () <<
     ", line " << inputLineNumber <<
     endl;
+
+  displayMeasure (
+    inputLineNumber,
+    "determineMeasureKindAndPuristNumber() 1");
   }
 #endif
 
   gIndenter++;
 
+  // regular measure ends detection
+  rational
+    wholeNotesSinceLastRegularMeasureEnd =
+      voice->
+        getWholeNotesSinceLastRegularMeasureEnd ();
+
+  rational
+    newWholeNotesSinceLastRegularMeasureEnd =
+      wholeNotesSinceLastRegularMeasureEnd
+        +
+      fActualMeasureWholeNotes;
+   newWholeNotesSinceLastRegularMeasureEnd.rationalise ();
+    
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Determining the end regular kind of measure '" <<
+      fMeasureNumber <<
+      "'" <<
+      endl <<
+      "===> " <<
+      "fullMeasureWholeNotes: " <<
+      fFullMeasureWholeNotes <<
+      ", wholeNotesSinceLastRegularMeasureEnd: " <<
+      wholeNotesSinceLastRegularMeasureEnd <<
+      ", newWholeNotesSinceLastRegularMeasureEnd: " <<
+      newWholeNotesSinceLastRegularMeasureEnd <<
+      ", in voice \"" <<
+      voice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+    
+  if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
+    // this is a regular measure end
+    fMeasureEndRegularKind = kMeasureEndRegularYes;
+
+    // reset voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (0);
+  }
+
+  else {
+    // this is no regular measure end
+    fMeasureEndRegularKind = kMeasureEndRegularNo;
+
+    // increment voice whole notes since last regular measure end
+    voice->
+      setWholeNotesSinceLastRegularMeasureEnd (
+        newWholeNotesSinceLastRegularMeasureEnd);
+  }
+
   // determine the measure kind
   if (fActualMeasureWholeNotes.getNumerator () == 0) { // JMI
     // empty measure
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-      "Measure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is of kind '" <<
-      measureKindAsString (fMeasureKind) <<
-      "', line " << inputLineNumber <<
-      endl;
-    }
-#endif
-
+    
+    // set it's measure kind
     fMeasureKind = kMeasureKindEmpty;
   }
   
   else if (fActualMeasureWholeNotes == fFullMeasureWholeNotes) {
-    // full measure
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-      "Measure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is of kind '" <<
-      measureKindAsString (fMeasureKind) <<
-      "', line " << inputLineNumber <<
-      endl;
-    }
-#endif
+    // regular measure
 
     // set it's measure kind
     fMeasureKind = kMeasureKindRegular;
     
-    // set it's measure purist number
+    // increment voice current measure purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
         inputLineNumber,
         "determineMeasureKindAndPuristNumber() kMeasureKindRegular");
-    
-    setMeasurePuristNumber (
-      voice->
-        getVoiceCurrentMeasurePuristNumber ());
   }
   
   else if (fActualMeasureWholeNotes < fFullMeasureWholeNotes) {
     //  incomplete measure
-    switch (fMeasureFirstInSegmentKind) {
-      case msrMeasure::kMeasureFirstInSegmentUnknown:
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
-          "Measure '" <<
-          fMeasureNumber <<
-          ", measureDebugNumber: '" <<
-          fMeasureDebugNumber <<
-          "' in voice \"" << voice->getVoiceName () <<
-          "\", is of kind '" <<
-          measureKindAsString (fMeasureKind) <<
-          "', line " << inputLineNumber <<
-          endl;
-        }
-#endif
     
-        // set it's measure kind
-        fMeasureKind = kMeasureKindAnacrusis;
+    if (fMeasureFirstInVoice) {
+      // this is an anacrusis
+      
+      // set it's measure kind
+      fMeasureKind = kMeasureKindAnacrusis;
 
-        setMeasurePuristNumber (-999); // JMI should not occur
-        break;
-        
-      case msrMeasure::kMeasureFirstInSegmentYes:
-        // this is an anacrusis
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
-          "Measure '" <<
-          fMeasureNumber <<
-          ", measureDebugNumber: '" <<
-          fMeasureDebugNumber <<
-          "' in voice \"" << voice->getVoiceName () <<
-          "\", is of kind '" <<
-          measureKindAsString (fMeasureKind) <<
-          "', line " << inputLineNumber <<
-          endl;
-        }
-#endif
-    
-        // set it's measure kind
-        fMeasureKind = kMeasureKindAnacrusis;
+      // sanity check
+      msrAssert (
+   //     true || // JMI
+        voice->getVoiceCurrentMeasurePuristNumber () == 0,
+        "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
+    }
 
-        // sanity check
-        msrAssert (
-          true || // JMI
-          voice->getVoiceCurrentMeasurePuristNumber () == 0,
-          "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
+    else {
+      // this is an incomplete measure within the voice
+
+      switch (fMeasureRelativeToARepeatKind) {
+        case msrMeasure::kMeasureRelativeToARepeatIrrelevant:
+          // set it's measure kind
+          fMeasureKind = kMeasureKindIncompleteIrrelevantToAnyRepeat;
+
+          switch (fMeasureEndRegularKind) {
+            case msrMeasure::kMeasureEndRegularUnknown:
+              // JMI ???
+              break;
+            case msrMeasure::kMeasureEndRegularYes:
+              // don't increment the voice current measure purist number,
+              // this has already been done for 'first part' of the measure
+              break;
+            case msrMeasure::kMeasureEndRegularNo:
+              // increment voice current measure purist number
+              voice->
+                incrementVoiceCurrentMeasurePuristNumber (
+                  inputLineNumber,
+                  "determineMeasureKindAndPuristNumber() kMeasureKindIncompleteIrrelevantToAnyRepeat");
+              break;
+          } // switch
+          break;
           
-        // set it's measure purist number            
-        setMeasurePuristNumber (0);
-        break;
-        
-      case msrMeasure::kMeasureFirstInSegmentNo:
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
-          "Measure '" <<
-          fMeasureNumber <<
-          ", measureDebugNumber: '" <<
-          fMeasureDebugNumber <<
-          "' in voice \"" << voice->getVoiceName () <<
-          "\", is of kind '" <<
-          measureKindAsString (fMeasureKind) <<
-          "', line " << inputLineNumber <<
-          endl;
-        }
-#endif
-    
-        // set it's measure kind
-        fMeasureKind = kMeasureKindIncomplete;
-    
-        // set it's measure purist number
-        /* JMI
-        voice->
-          incrementVoiceCurrentMeasurePuristNumber (
-            inputLineNumber,
-            "determineMeasureKindAndPuristNumber() kMeasureKindIncomplete");
-        */
-        
-        setMeasurePuristNumber (
-          voice->
-            getVoiceCurrentMeasurePuristNumber ());
-        break;
-    } // switch
+        case msrMeasure::kMeasureRelativeToARepeatLastMeasure:
+          // set it's measure kind
+          fMeasureKind = kMeasureKindIncompleteLastInRepeat;
+          break;
+          
+        case msrMeasure::kMeasureRelativeToARepeatNextMeasure:
+          // set it's measure kind
+          fMeasureKind = kMeasureKindIncompleteAfterRepeat;
+          break;
+      } // switch
+    }
   }
 
   else if (fActualMeasureWholeNotes > fFullMeasureWholeNotes) {
     // this is an overfull measure
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-      "Measure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **overfull**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-#endif
 
     // set it's measure kind
     fMeasureKind = kMeasureKindOvercomplete;
@@ -2470,22 +2452,38 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   
   else {
     // strange measure...
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceMeasures) {
-      gLogIOstream <<
-      "Measure '" <<
+    stringstream s;
+
+    displayMeasure (
+      inputLineNumber,
+      "determineMeasureKindAndPuristNumber() strange measure...");
+      
+    s <<
+      "measure '" <<
       fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is in a **STRANGE** state" <<
-      ", fMeasureKind = " <<
-      measureKindAsString (fMeasureKind) <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-#endif
+      "' is in a strange state" <<
+      asShortString () <<
+      ", line " << inputLineNumber;
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());  
   }
+
+  // set measure purist number
+  setMeasurePuristNumber (
+    voice->
+      getVoiceCurrentMeasurePuristNumber ());
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "determineMeasureKindAndPuristNumber() 2");
+  }
+#endif
 
   gIndenter--;
 }
@@ -2768,7 +2766,9 @@ void msrMeasure::finalizeMeasure (
     case msrMeasure::kMeasureKindOvercomplete:
     case msrMeasure::kMeasureKindAnacrusis:
     case msrMeasure::kMeasureKindRegular:
-    case msrMeasure::kMeasureKindIncomplete: // JMI
+    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat: // JMI
+    case msrMeasure::kMeasureKindIncompleteLastInRepeat: // JMI
+    case msrMeasure::kMeasureKindIncompleteAfterRepeat: // JMI
       break;
 
     case msrMeasure::kMeasureKindUnknown:
@@ -2808,12 +2808,16 @@ void msrMeasure::finalizeMeasure (
           // should not occur
           break;
       } // switch
-      */
   
       determineMeasureKindAndPuristNumber ( // JMI ???
         inputLineNumber);
+      */
       break;
   } // switch
+
+  // determine the measure kind and purist number
+  determineMeasureKindAndPuristNumber (
+    inputLineNumber);
 
   // is there a single note or rest occupying the full measure?
   if (fMeasureLongestNote) {
@@ -2843,65 +2847,6 @@ void msrMeasure::finalizeMeasure (
       fMeasureLongestNote->
         setNoteOccupiesAFullMeasure ();
     }
-  }
-
-  // regular measure ends detection
-  rational
-    wholeNotesSinceLastRegularMeasureEnd =
-      voice->
-        getWholeNotesSinceLastRegularMeasureEnd ();
-
-  rational
-    newWholeNotesSinceLastRegularMeasureEnd =
-      wholeNotesSinceLastRegularMeasureEnd
-        +
-      fActualMeasureWholeNotes;
-   newWholeNotesSinceLastRegularMeasureEnd.rationalise ();
-    
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Determining the end regular kind of measure '" <<
-      fMeasureNumber <<
-      "'" <<
-      endl <<
-      "===> " <<
-      "fullMeasureWholeNotes: " <<
-      fFullMeasureWholeNotes <<
-      ", wholeNotesSinceLastRegularMeasureEnd: " <<
-      wholeNotesSinceLastRegularMeasureEnd <<
-      ", newWholeNotesSinceLastRegularMeasureEnd: " <<
-      newWholeNotesSinceLastRegularMeasureEnd <<
-      ", in voice \"" <<
-      voice->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
-    // this is a regular measure end  
-    fMeasureEndRegularKind = kMeasureEndRegularYes;
-
-    // reset voice whole notes since last regular measure end
-    voice->
-      setWholeNotesSinceLastRegularMeasureEnd (0);
-  }
-
-  else {
-    // this is no regular measure end
-    fMeasureEndRegularKind = kMeasureEndRegularNo;
-
-    // free its purist number for sharing by next measure
-    voice->
-      decrementVoiceCurrentMeasurePuristNumber (
-        inputLineNumber,
-        "finalizeMeasure() kMeasureEndRegularNo");
-
-    // increment voice whole notes since last regular measure end
-    voice->
-      setWholeNotesSinceLastRegularMeasureEnd (
-        newWholeNotesSinceLastRegularMeasureEnd);
   }
 
 #ifdef TRACE_OPTIONS
@@ -2944,7 +2889,7 @@ void msrMeasure::finalizeMeasureClone (
 
   gIndenter++;
 
-  // determine the measure kind
+  // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber);
 
@@ -2954,15 +2899,19 @@ void msrMeasure::finalizeMeasureClone (
       originalMeasure->getMeasureKind ();
       
   if (fMeasureKind != originalMeasureMeasureKind) {
-    this->
-      displayMeasure (
-        inputLineNumber,
-        "finalizeMeasureClone() cloneMeasure");
-
-    originalMeasure->
-      displayMeasure (
-        inputLineNumber,
-        "finalizeMeasureClone() originalMeasure");
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceMeasures) {
+      this->
+        displayMeasure (
+          inputLineNumber,
+          "finalizeMeasureClone() cloneMeasure");
+  
+      originalMeasure->
+        displayMeasure (
+          inputLineNumber,
+          "finalizeMeasureClone() originalMeasure");
+    }
+#endif
 
     stringstream s;
     
@@ -2978,63 +2927,11 @@ void msrMeasure::finalizeMeasureClone (
       "'" <<
       ", line " << inputLineNumber;
 
-    msrInternalWarning (
+    msrInternalError (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
-  // JMI    __FILE__, __LINE__,
+       __FILE__, __LINE__,
       s.str ());
-  }
-
-  // fetch the voice
-  S_msrVoice
-    voice =
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ();
-
-  // regular measure ends detection
-  rational
-    wholeNotesSinceLastRegularMeasureEnd =
-      voice->
-        getWholeNotesSinceLastRegularMeasureEnd ();
-
-  rational
-    newWholeNotesSinceLastRegularMeasureEnd =
-      wholeNotesSinceLastRegularMeasureEnd
-        +
-      fActualMeasureWholeNotes;
-    
-  if (newWholeNotesSinceLastRegularMeasureEnd == fFullMeasureWholeNotes) {
-    // this is a regular measure end
-    fMeasureEndRegularKind = kMeasureEndRegularYes;
-
-    // set it's purist number
-    voice->
-      incrementVoiceCurrentMeasurePuristNumber (
-        inputLineNumber,
-        "finalizeMeasureClone() kMeasureEndRegularYes");
-      
-    setMeasurePuristNumber (
-      voice->
-        getVoiceCurrentMeasurePuristNumber ());
-
-    // reset voice whole notes since last regular measure end
-    voice->
-      setWholeNotesSinceLastRegularMeasureEnd (0);
-  }
-
-  else {
-    // this is no regular measure end
-    fMeasureEndRegularKind = kMeasureEndRegularNo;
-
-    // set it's purist number
-    setMeasurePuristNumber (
-      voice->
-        getVoiceCurrentMeasurePuristNumber ());
-
-    // increment voice whole notes since last regular measure end
-    voice->
-      setWholeNotesSinceLastRegularMeasureEnd (
-        newWholeNotesSinceLastRegularMeasureEnd);
   }
 
 #ifdef TRACE_OPTIONS
@@ -3123,7 +3020,7 @@ string msrMeasure::measureKindAsString (
 
   switch (measureKind) {
     case msrMeasure::kMeasureKindUnknown:
-      result = "***unknownMeasureKind***";
+      result = "***measureKindUnknown***";
       break;
     case msrMeasure::kMeasureKindRegular:
       result = "measureKindRegular";
@@ -3131,8 +3028,14 @@ string msrMeasure::measureKindAsString (
     case msrMeasure::kMeasureKindAnacrusis:
       result = "measureKindAnacrusis";
       break;
-    case msrMeasure::kMeasureKindIncomplete:
-      result = "measureKindIncomplete";
+    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+      result = "measureKindIncompleteIrrelevantToAnyRepeat";
+      break;
+    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+      result = "measureKindIncompleteLastInRepeat";
+      break;
+    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
+      result = "measureKindIncompleteAfterRepeat";
       break;
     case msrMeasure::kMeasureKindOvercomplete:
       result = "measureKindOvercomplete";
@@ -3179,6 +3082,26 @@ string msrMeasure::measureFirstInSegmentKindAsString (
       break;
     case msrMeasure::kMeasureFirstInSegmentNo:
       result = "measureFirstInSegmentNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrMeasure::measureRelativeToARepeatKindAsString (
+  msrMeasureRelativeToARepeatKind measureRelativeToARepeatKind)
+{
+  string result;
+
+  switch (measureRelativeToARepeatKind) {
+    case msrMeasure::kMeasureRelativeToARepeatIrrelevant:
+      result = "measureRelativeToARepeatIrrelevant";
+      break;
+    case msrMeasure::kMeasureRelativeToARepeatLastMeasure:
+      result = "measureRelativeToARepeatLastMeasure";
+      break;
+    case msrMeasure::kMeasureRelativeToARepeatNextMeasure:
+      result = "measureRelativeToARepeatNextMeasure";
       break;
   } // switch
 
@@ -3304,10 +3227,12 @@ void msrMeasure::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "measurePuristNumber" << " : " << fMeasurePuristNumber <<
+    "measurePuristNumber" << " : " <<
+    fMeasurePuristNumber <<
     endl <<
     setw (fieldWidth) <<
-    "measureDebugNumber" << " : " << fMeasureDebugNumber <<
+    "measureDebugNumber" << " : " <<
+    fMeasureDebugNumber <<
     endl <<
     
     setw (fieldWidth) <<
@@ -3391,10 +3316,15 @@ void msrMeasure::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    setw (fieldWidth) <<
     "measureFirstInSegment" << " : " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureRelativeToARepeat" << " : " <<
+    msrMeasure::measureRelativeToARepeatKindAsString (
+      fMeasureRelativeToARepeatKind) << 
     endl;
     
   os << left <<
@@ -3474,8 +3404,6 @@ void msrMeasure::shortPrint (ostream& os)
   os <<
     "Measure '" <<
     fMeasureNumber <<
-    ", measureDebugNumber: '" <<
-    fMeasureDebugNumber <<
     "', " << measureKindAsString () <<
     ", " <<
     singularOrPlural (
@@ -3489,6 +3417,15 @@ void msrMeasure::shortPrint (ostream& os)
       
   os << left <<
     setw (fieldWidth) <<
+    "measurePuristNumber" << " : " <<
+    fMeasurePuristNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureDebugNumber" << " : " <<
+    fMeasureDebugNumber <<
+    endl <<
+    
+    setw (fieldWidth) <<
     "measureEndRegularKind" << " : " <<
     measureEndRegularKindAsString (
       fMeasureEndRegularKind) <<
@@ -3499,6 +3436,19 @@ void msrMeasure::shortPrint (ostream& os)
     booleanAsString (
       fMeasureFirstInVoice) <<
     endl <<
+
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureFirstInSegment" << " : " <<
+    msrMeasure::measureFirstInSegmentKindAsString (
+      fMeasureFirstInSegmentKind) << 
+    endl <<
+
+    setw (fieldWidth) <<
+    "measureRelativeToARepeat" << " : " <<
+    msrMeasure::measureRelativeToARepeatKindAsString (
+      fMeasureRelativeToARepeatKind) << 
 
     setw (fieldWidth) <<
     "measureImplicitKind" << " : " <<
@@ -3637,3 +3587,120 @@ ostream& operator<< (ostream& os, const S_msrMeasure& elt)
 
 
 }
+
+
+/* JMI
+    switch (fMeasureFirstInSegmentKind) {
+      case msrMeasure::kMeasureFirstInSegmentUnknown:
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceMeasures) {
+          gLogIOstream <<
+          "Measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is of kind '" <<
+          measureKindAsString (fMeasureKind) <<
+          "', line " << inputLineNumber <<
+          endl;
+        }
+#endif
+    
+        // set it's measure kind
+    // JMI    fMeasureKind = kMeasureKindUnknown;  // JMI should not occur
+
+        // set it's measure purist number            
+        setMeasurePuristNumber (-999); // JMI should not occur
+        break;
+        
+      case msrMeasure::kMeasureFirstInSegmentYes:
+        if (fMeasureFirstInVoice) {
+          // this is an anacrusis
+          
+          // set it's measure kind
+          fMeasureKind = kMeasureKindAnacrusis;
+  
+          // sanity check
+          msrAssert (
+            true || // JMI
+            voice->getVoiceCurrentMeasurePuristNumber () == 0,
+            "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
+            
+          // set it's measure purist number            
+          setMeasurePuristNumber (0);
+
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceMeasures) {
+            gLogIOstream <<
+            "Measure '" <<
+            fMeasureNumber <<
+            ", measureDebugNumber: '" <<
+            fMeasureDebugNumber <<
+            "' in voice \"" << voice->getVoiceName () <<
+            "\", is of kind '" <<
+            measureKindAsString (fMeasureKind) <<
+            "', line " << inputLineNumber <<
+            endl;
+          }
+#endif
+        }
+
+        else {
+          // this is an incomplete measure withing the voice
+
+          switch (fMeasureRelativeToARepeatKind) {
+            case msrMeasure::kMeasureRelativeToARepeatIrrelevant:
+              // set it's measure kind
+              fMeasureKind = kMeasureKindIncomplete;
+      
+              // set it's measure purist number
+              setMeasurePuristNumber (
+                voice->
+                  getVoiceCurrentMeasurePuristNumber ());
+              break;
+
+            case msrMeasure::kMeasureRelativeToARepeatLastMeasure:
+              // set it's measure kind
+              fMeasureKind = kMeasureKindIncomplete;
+      
+              // set it's measure purist number
+              setMeasurePuristNumber (
+                voice->
+                  getVoiceCurrentMeasurePuristNumber ());
+              break;
+          } // switch
+        }
+        break;
+        
+      case msrMeasure::kMeasureFirstInSegmentNo:
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceMeasures) {
+          gLogIOstream <<
+          "Measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is of kind '" <<
+          measureKindAsString (fMeasureKind) <<
+          "', line " << inputLineNumber <<
+          endl;
+        }
+#endif
+    
+        // set it's measure kind
+        fMeasureKind = kMeasureKindIncomplete;
+    
+        // set it's measure purist number
+        voice->
+          incrementVoiceCurrentMeasurePuristNumber (
+            inputLineNumber,
+            "determineMeasureKindAndPuristNumber() kMeasureKindIncomplete");
+        
+        setMeasurePuristNumber (
+          voice->
+            getVoiceCurrentMeasurePuristNumber ());
+        break;
+    } // switch
+  */

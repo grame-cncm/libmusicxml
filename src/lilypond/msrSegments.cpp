@@ -301,6 +301,18 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
     setMeasureFirstInSegmentKind (
       measureFirstInSegmentKind);
 
+  // is measure the first one it the voice?
+  // this is necessary for voice clones
+  if (! fSegmentVoiceUplink->getVoiceFirstMeasure ()) {
+    // yes, register it as such
+    fSegmentVoiceUplink->
+      setVoiceFirstMeasure (
+        result);
+      
+    result->
+      setMeasureFirstInVoice ();
+  }
+ 
   // append it to the segment's measures list
   fSegmentMeasuresList.push_back (
     result);
@@ -1556,8 +1568,10 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       s.str ());
   }
 
-  else { // JMI TEMP
+  else {
     // is measure the first one it the voice?
+    // this is necessary for voice clones,
+    // which don't go down the part-staff-voice-segment hierarchy
     if (! fSegmentVoiceUplink->getVoiceFirstMeasure ()) {
       // yes, register it as such
       fSegmentVoiceUplink->

@@ -635,7 +635,9 @@ class msrMeasure : public msrElement
         kMeasureKindUnknown,
         kMeasureKindRegular,
         kMeasureKindAnacrusis,
-        kMeasureKindIncomplete,
+        kMeasureKindIncompleteIrrelevantToAnyRepeat,
+        kMeasureKindIncompleteLastInRepeat,
+        kMeasureKindIncompleteAfterRepeat,
         kMeasureKindOvercomplete,
         kMeasureKindCadenza,
         kMeasureKindEmpty}; // for <measure ... /> without nested contents
@@ -657,6 +659,14 @@ class msrMeasure : public msrElement
       
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
+
+    enum msrMeasureRelativeToARepeatKind {
+        kMeasureRelativeToARepeatIrrelevant,
+        kMeasureRelativeToARepeatLastMeasure,
+        kMeasureRelativeToARepeatNextMeasure };
+      
+    static string measureRelativeToARepeatKindAsString (
+      msrMeasureRelativeToARepeatKind measureRelativeToARepeatKind);
 
     enum msrMeasureEndRegularKind {
         kMeasureEndRegularUnknown,
@@ -782,6 +792,20 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
+
+    // measure 'follows a repeat' kind
+    
+    void                  setMeasureRelativeToARepeatKind (
+                            msrMeasureRelativeToARepeatKind
+                              measureRelativeToARepeatKind)
+                              {
+                                fMeasureRelativeToARepeatKind =
+                                  measureRelativeToARepeatKind;
+                              }
+
+    msrMeasureRelativeToARepeatKind
+                          getMeasureRelativeToARepeatKind () const
+                              { return fMeasureRelativeToARepeatKind; }
 
     // single-measure rest?
 
@@ -1149,6 +1173,11 @@ class msrMeasure : public msrElement
 
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
+                        
+    // measure 'follows a repeat' kind
+
+    msrMeasureRelativeToARepeatKind
+                          fMeasureRelativeToARepeatKind;
                         
     // single-measure rest?
 

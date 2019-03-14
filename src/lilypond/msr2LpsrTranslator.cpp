@@ -1955,7 +1955,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureKindIncomplete:
+    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+      doCreateABarCheck = true;
+      break;
+    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+      doCreateABarCheck = true;
+      break;
+    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
       doCreateABarCheck = true;
       break;
       

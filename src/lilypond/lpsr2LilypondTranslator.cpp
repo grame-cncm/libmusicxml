@@ -6870,7 +6870,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindAnacrusis:
       // keep fCurrentVoiceMeasuresCounter at 0
       break;
-    case msrMeasure::kMeasureKindIncomplete:
+    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
       fCurrentVoiceMeasuresCounter++;
       break;
     case msrMeasure::kMeasureKindOvercomplete:
@@ -6983,7 +6989,9 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureKindIncomplete:
+    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
       {
         rational
           actualMeasureWholeNotes =
@@ -7165,7 +7173,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     switch (measureKind) {
       case msrMeasure::kMeasureKindUnknown: // should not occur
         fLilypondCodeIOstream <<
-          "%{ unknownMeasureKind %} | " <<
+          "%{ measureKindUnknown %} | % " <<
           measurePuristNumber + 1 <<
           endl;
         break;
@@ -7198,7 +7206,75 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           endl;
         break;
         
-      case msrMeasure::kMeasureKindIncomplete:
+      case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+        switch (elt-> getMeasureEndRegularKind ()) {
+          case msrMeasure::kMeasureEndRegularUnknown:
+            fLilypondCodeIOstream <<
+              "%{ measureEndRegularUnknown, " <<
+              measurePuristNumber + 1 <<
+              " %}" <<
+              endl;
+            break;
+          case msrMeasure::kMeasureEndRegularYes:
+            fLilypondCodeIOstream <<
+              "| % " <<
+              measurePuristNumber + 1 <<
+              endl;
+            break;
+          case msrMeasure::kMeasureEndRegularNo:
+            if (gLilypondOptions->fComments) {
+              fLilypondCodeIOstream <<
+                "%{ measureEndRegularNo, " <<
+                measurePuristNumber + 1 <<
+                " %}" <<
+                endl;
+            }
+            break;
+        } // switch
+        
+      /* JMI
+        fLilypondCodeIOstream <<
+          endl <<
+          "\\unset Score.measureLength" <<
+          endl;
+          */
+        break;
+  
+      case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+        switch (elt-> getMeasureEndRegularKind ()) {
+          case msrMeasure::kMeasureEndRegularUnknown:
+            fLilypondCodeIOstream <<
+              "%{ measureEndRegularUnknown, " <<
+              measurePuristNumber + 1 <<
+              " %}" <<
+              endl;
+            break;
+          case msrMeasure::kMeasureEndRegularYes:
+            fLilypondCodeIOstream <<
+              "| % " <<
+              measurePuristNumber + 1 <<
+              endl;
+            break;
+          case msrMeasure::kMeasureEndRegularNo:
+            if (gLilypondOptions->fComments) {
+              fLilypondCodeIOstream <<
+                "%{ measureEndRegularNo, " <<
+                measurePuristNumber + 1 <<
+                " %}" <<
+                endl;
+            }
+            break;
+        } // switch
+        
+      /* JMI
+        fLilypondCodeIOstream <<
+          endl <<
+          "\\unset Score.measureLength" <<
+          endl;
+          */
+        break;
+  
+      case msrMeasure::kMeasureKindIncompleteAfterRepeat:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<
@@ -7255,7 +7331,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   
       case msrMeasure::kMeasureKindEmpty: // should not occur
         fLilypondCodeIOstream <<
-          "%{ emptyMeasureKind %} | " <<
+          "%{ emptyMeasureKind %} | % " <<
           measurePuristNumber + 1 <<
           endl;
         break;
