@@ -570,6 +570,7 @@ void lpsrVarValsListAssoc::print (ostream& os)
     lilyPondVarValsListAssocKindAsString () <<
     endl <<
         
+    setw (fieldWidth) <<
     "variable values" << " : " <<
     endl;
 
