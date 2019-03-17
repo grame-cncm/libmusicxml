@@ -1940,21 +1940,12 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
-      doCreateABarCheck = true;
-      break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
-      doCreateABarCheck = true;
-      break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
       doCreateABarCheck = true;
       break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
-      doCreateABarCheck = true;
-      break;
-    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
-      doCreateABarCheck = true;
-      break;
-      
+
     case msrMeasure::kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;

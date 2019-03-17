@@ -4030,7 +4030,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
     setMeasureRelativeToARepeatKind (
-      msrMeasure::kMeasureRelativeToARepeatEndLastMeasure);
+      msrMeasure::kMeasureRelativeToARepeatCommonPartLastMeasure);
 
   // incomplete measures after repeats detection
     setAfterRepeatComponentPhaseKind (
@@ -4299,7 +4299,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
   // set voiceLastMeasure's 'relative to a repeat' kind
   voiceLastMeasure->
     setMeasureRelativeToARepeatKind (
-      msrMeasure::kMeasureRelativeToARepeatEndLastMeasure);
+      msrMeasure::kMeasureRelativeToARepeatCommonPartLastMeasure);
     
   // incomplete measures after repeats detection
     setAfterRepeatComponentPhaseKind (
@@ -8165,7 +8165,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
     setMeasureRelativeToARepeatKind (
-      msrMeasure::kMeasureRelativeToARepeatEndingLastMeasure);
+      msrMeasure::kMeasureRelativeToARepeatHookedEndingLastMeasure);
 
   // incomplete measures after repeats detection
     setAfterRepeatComponentPhaseKind (
@@ -8268,7 +8268,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
     setMeasureRelativeToARepeatKind (
-      msrMeasure::kMeasureRelativeToARepeatEndingLastMeasure);
+      msrMeasure::kMeasureRelativeToARepeatHooklessEndingLastMeasure);
 
   // incomplete measures after repeats detection
     setAfterRepeatComponentPhaseKind (

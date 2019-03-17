@@ -636,13 +636,15 @@ class msrMeasure : public msrElement
         kMeasureKindRegular,
         kMeasureKindAnacrusis,
         kMeasureKindIncompleteIrrelevantToAnyRepeat,
-        kMeasureKindIncompleteLastInRepeatEnd,
         kMeasureKindIncompleteLastInRepeatCommonPart,
-        kMeasureKindIncompleteLastInRepeatEnding,
-        kMeasureKindIncompleteAfterRepeatComponent,
+        kMeasureKindIncompleteLastInRepeatHookedEnding,
+        kMeasureKindIncompleteLastInRepeatHooklessEnding,
+        kMeasureKindIncompleteNextMeasureAfterCommonPart,
+        kMeasureKindIncompleteNextMeasureAfterHookedEnding,
+        kMeasureKindIncompleteNextMeasureAfterHooklessEnding,
         kMeasureKindOvercomplete,
         kMeasureKindCadenza,
-        kMeasureKindEmpty}; // for <measure ... /> without nested contents
+        kMeasureKindEmpty}; // for <measure ... /> without nested contents JMI ???
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
@@ -664,10 +666,9 @@ class msrMeasure : public msrElement
 
     enum msrMeasureRelativeToARepeatKind {
         kMeasureRelativeToARepeatIrrelevant,
-        kMeasureRelativeToARepeatEndLastMeasure,
         kMeasureRelativeToARepeatCommonPartLastMeasure,
-        kMeasureRelativeToARepeatEndingLastMeasure,
-        kMeasureRelativeToARepeatNextMeasureAfterEnd,
+        kMeasureRelativeToARepeatHookedEndingLastMeasure,
+        kMeasureRelativeToARepeatHooklessEndingLastMeasure,
         kMeasureRelativeToARepeatNextMeasureAfterCommonPart,
         kMeasureRelativeToARepeatNextMeasureAfterHookedEnding,
         kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding };

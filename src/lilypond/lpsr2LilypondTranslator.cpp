@@ -6871,18 +6871,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       // keep fCurrentVoiceMeasuresCounter at 0
       break;
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
-      fCurrentVoiceMeasuresCounter++;
-      break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
       fCurrentVoiceMeasuresCounter++;
       break;
     case msrMeasure::kMeasureKindOvercomplete:
@@ -6996,10 +6987,9 @@ else
       break;
       
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
-    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
       {
         rational
           actualMeasureWholeNotes =
@@ -7239,18 +7229,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
             }
             break;
         } // switch
-        
-      /* JMI
-        fLilypondCodeIOstream <<
-          endl <<
-          "\\unset Score.measureLength" <<
-          endl;
-          */
         break;
   
-      case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
       case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-      case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<
@@ -7275,40 +7258,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
             }
             break;
         } // switch
-        break;
-  
-      case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
-        switch (elt-> getMeasureEndRegularKind ()) {
-          case msrMeasure::kMeasureEndRegularUnknown:
-            fLilypondCodeIOstream <<
-              "%{ measureEndRegularUnknown, " <<
-              measurePuristNumber + 1 <<
-              " %}" <<
-              endl;
-            break;
-          case msrMeasure::kMeasureEndRegularYes:
-            fLilypondCodeIOstream <<
-              "| % " <<
-              measurePuristNumber + 1 <<
-              endl;
-            break;
-          case msrMeasure::kMeasureEndRegularNo:
-            if (gLilypondOptions->fComments) {
-              fLilypondCodeIOstream <<
-                "%{ measureEndRegularNo, " <<
-                measurePuristNumber + 1 <<
-                " %}" <<
-                endl;
-            }
-            break;
-        } // switch
-        
-      /* JMI
-        fLilypondCodeIOstream <<
-          endl <<
-          "\\unset Score.measureLength" <<
-          endl;
-          */
         break;
   
       case msrMeasure::kMeasureKindOvercomplete:

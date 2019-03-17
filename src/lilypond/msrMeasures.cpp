@@ -2370,34 +2370,30 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
             } // switch
             break;
             
-          case msrMeasure::kMeasureRelativeToARepeatEndLastMeasure:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteLastInRepeatEnd;
-            break;
           case msrMeasure::kMeasureRelativeToARepeatCommonPartLastMeasure:
             // set it's measure kind
             fMeasureKind = kMeasureKindIncompleteLastInRepeatCommonPart;
             break;
-          case msrMeasure::kMeasureRelativeToARepeatEndingLastMeasure:
+          case msrMeasure::kMeasureRelativeToARepeatHookedEndingLastMeasure:
             // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteLastInRepeatEnding;
+            fMeasureKind = kMeasureKindIncompleteLastInRepeatHookedEnding;
+            break;
+          case msrMeasure::kMeasureRelativeToARepeatHooklessEndingLastMeasure:
+            // set it's measure kind
+            fMeasureKind = kMeasureKindIncompleteLastInRepeatHooklessEnding;
             break;
             
-          case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterEnd:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteAfterRepeatComponent;
-            break;
           case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterCommonPart:
             // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteAfterRepeatComponent;
+            fMeasureKind = kMeasureKindIncompleteNextMeasureAfterCommonPart;
             break;
           case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHookedEnding:
             // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteAfterRepeatComponent;
+            fMeasureKind = kMeasureKindIncompleteNextMeasureAfterHookedEnding;
             break;
           case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding:
             // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteAfterRepeatComponent;
+            fMeasureKind = kMeasureKindIncompleteNextMeasureAfterHooklessEnding;
             break;
         } // switch
       }
@@ -2453,16 +2449,6 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     case msrVoice::kAfterRepeatComponentPhaseIrrelevant:
       break;
       
-    case msrVoice::kAfterRepeatComponentPhaseAfterEnd:
-      fMeasureRelativeToARepeatKind =
-        kMeasureRelativeToARepeatNextMeasureAfterEnd;
-
-      voice->
-        setAfterRepeatComponentPhaseKind (
-          inputLineNumber,
-          msrVoice::kAfterRepeatComponentPhaseIrrelevant);
-      break;
-
     case msrVoice::kAfterRepeatComponentPhaseAfterCommonPart:
       fMeasureRelativeToARepeatKind =
         kMeasureRelativeToARepeatNextMeasureAfterCommonPart;
@@ -2794,10 +2780,9 @@ void msrMeasure::finalizeMeasure (
     case msrMeasure::kMeasureKindAnacrusis:
     case msrMeasure::kMeasureKindRegular:
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat: // JMI
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd: // JMI
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding: // JMI
-    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent: // JMI
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
       break;
 
     case msrMeasure::kMeasureKindUnknown:
@@ -3060,17 +3045,14 @@ string msrMeasure::measureKindAsString (
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
       result = "measureKindIncompleteIrrelevantToAnyRepeat";
       break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
-      result = "measureKindIncompleteLastInRepeatEnd";
-      break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
       result = "measureKindIncompleteLastInRepeatCommonPart";
       break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
-      result = "measureKindIncompleteLastInRepeatEnding";
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+      result = "measureKindIncompleteLastInRepeatHookedEnding";
       break;
-    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
-      result = "measureKindIncompleteAfterRepeatComponent";
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      result = "measureKindIncompleteLastInRepeatHooklessEnding";
       break;
     case msrMeasure::kMeasureKindOvercomplete:
       result = "measureKindOvercomplete";
@@ -3132,17 +3114,14 @@ string msrMeasure::measureRelativeToARepeatKindAsString (
     case msrMeasure::kMeasureRelativeToARepeatIrrelevant:
       result = "measureRelativeToARepeatIrrelevant";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatEndLastMeasure:
-      result = "measureRelativeToARepeatEndLastMeasure";
-      break;
     case msrMeasure::kMeasureRelativeToARepeatCommonPartLastMeasure:
       result = "measureRelativeToARepeatCommonPartLastMeasure";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatEndingLastMeasure:
-      result = "measureRelativeToARepeatEndingLastMeasure";
+    case msrMeasure::kMeasureRelativeToARepeatHookedEndingLastMeasure:
+      result = "measureRelativeToARepeatHookedEndingLastMeasure";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterEnd:
-      result = "measureRelativeToARepeatNextMeasureAfterEnd";
+    case msrMeasure::kMeasureRelativeToARepeatHooklessEndingLastMeasure:
+      result = "measureRelativeToARepeatHooklessEndingLastMeasure";
       break;
     case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterCommonPart:
       result = "measureRelativeToARepeatNextMeasureAfterCommonPart";
