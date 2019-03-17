@@ -801,15 +801,11 @@ class msrMeasure : public msrElement
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
 
-    // measure 'follows a repeat' kind
+    // measure 'relative a repeat' kind
     
     void                  setMeasureRelativeToARepeatKind (
                             msrMeasureRelativeToARepeatKind
-                              measureRelativeToARepeatKind)
-                              {
-                                fMeasureRelativeToARepeatKind =
-                                  measureRelativeToARepeatKind;
-                              }
+                              measureRelativeToARepeatKind);
 
     msrMeasureRelativeToARepeatKind
                           getMeasureRelativeToARepeatKind () const
@@ -1182,7 +1178,7 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
                         
-    // measure 'follows a repeat' kind
+    // measure 'relative a repeatt' kind
 
     msrMeasureRelativeToARepeatKind
                           fMeasureRelativeToARepeatKind;

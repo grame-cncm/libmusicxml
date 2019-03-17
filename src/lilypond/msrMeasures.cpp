@@ -455,6 +455,33 @@ void msrMeasure::setMeasurePuristNumber (
   fMeasurePuristNumber = measurePuristNumber;
 }
 
+void msrMeasure::setMeasureRelativeToARepeatKind (
+  msrMeasureRelativeToARepeatKind
+    measureRelativeToARepeatKind)
+{
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceMeasures) {
+      gLogIOstream <<
+        "Setting relative to a repeat kind of measure '" <<
+        fMeasureNumber <<
+        "' to '" <<
+        measureRelativeToARepeatKindAsString (
+          measureRelativeToARepeatKind) <<
+        "' in segment " <<
+        fMeasureSegmentUplink->asString () <<
+        " in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+  fMeasureRelativeToARepeatKind =
+    measureRelativeToARepeatKind;
+}
+
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
 {
 #ifdef TRACE_OPTIONS
@@ -2783,6 +2810,9 @@ void msrMeasure::finalizeMeasure (
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart: // JMI
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding: // JMI
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding: // JMI
       break;
 
     case msrMeasure::kMeasureKindUnknown:
@@ -3053,6 +3083,15 @@ string msrMeasure::measureKindAsString (
       break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
       result = "measureKindIncompleteLastInRepeatHooklessEnding";
+      break;
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      result = "measureKindIncompleteNextMeasureAfterCommonPart";
+      break;
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      result = "measureKindIncompleteNextMeasureAfterHookedEnding";
+      break;
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      result = "measureKindIncompleteNextMeasureAfterHooklessEnding";
       break;
     case msrMeasure::kMeasureKindOvercomplete:
       result = "measureKindOvercomplete";

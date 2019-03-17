@@ -6874,6 +6874,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       fCurrentVoiceMeasuresCounter++;
       break;
     case msrMeasure::kMeasureKindOvercomplete:
@@ -6990,6 +6993,9 @@ else
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       {
         rational
           actualMeasureWholeNotes =
@@ -7234,6 +7240,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
       case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
       case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<

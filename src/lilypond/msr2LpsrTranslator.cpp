@@ -1943,6 +1943,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       doCreateABarCheck = true;
       break;
 
