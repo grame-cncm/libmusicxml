@@ -100,9 +100,6 @@ void msrSegment::initializeSegment ()
     }
   }
 #endif
-  
-  // segment's measure number has not been set yet
-  fMeasureNumberHasBeenSetInSegment = false;
 }
 
 S_msrPart msrSegment::fetchSegmentPartUplink () const
@@ -141,16 +138,6 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 
   // keep debug number fSegmentDebugNumber unchanged
   
-  // number
-  newbornClone->fSegmentMeasureNumber =
-    fSegmentMeasureNumber;
-  newbornClone->fMeasureNumberHasBeenSetInSegment =
-    fMeasureNumberHasBeenSetInSegment;
-
-  // the measures in the segment contain the mmusic
-
-  // uplinks
-
   return newbornClone;
 }
 
@@ -182,12 +169,6 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
     fSegmentAbsoluteNumber;
     
   // keep debug number fSegmentDebugNumber unchanged
-
-  // number
-  segmentDeepCopy->fSegmentMeasureNumber =
-    fSegmentMeasureNumber;
-  segmentDeepCopy->fMeasureNumberHasBeenSetInSegment =
-    fMeasureNumberHasBeenSetInSegment;
 
   // the measures in the segment contain the mmusic
   int numberOfSegmentMeasures =
@@ -255,8 +236,6 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
 
   gIndenter++;
   
-  fSegmentMeasureNumber = measureNumber; // JMI
-
   // determine new measure 'first in segment' kind
   msrMeasure::msrMeasureFirstInSegmentKind
     measureFirstInSegmentKind;
@@ -296,29 +275,9 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
         measureNumber,
         this);
 
-  // set 'first in segment' kind
-  result->
-    setMeasureFirstInSegmentKind (
-      measureFirstInSegmentKind);
-
-  // is measure the first one it the voice?
-  // this is necessary for voice clones
-  if (! fSegmentVoiceUplink->getVoiceFirstMeasure ()) {
-    // yes, register it as such
-    fSegmentVoiceUplink->
-      setVoiceFirstMeasure (
-        result);
-      
-    result->
-      setMeasureFirstInVoice ();
-  }
- 
-  // append it to the segment's measures list
-  fSegmentMeasuresList.push_back (
-    result);
+  // append it to the segment
+  appendMeasureToSegment (result);
   
-  fMeasureNumberHasBeenSetInSegment = true;
-
   gIndenter--;
 
   return result;
@@ -1526,9 +1485,12 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     
   string measureNumber =
     measure->getMeasureNumber ();
-  
+
+  int segmentMeasuresListSize =
+    fSegmentMeasuresList.size ();
+    
   string currentMeasureNumber =
-    fSegmentMeasuresList.size () == 0
+    segmentMeasuresListSize == 0
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
@@ -1561,30 +1523,39 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       "measure number '" << measureNumber <<
       "' occurs twice in a row";
 
-    // JMI  msrInternalError (
-    msrInternalWarning (
+    msrInternalError (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
-  else {
-    // is measure the first one it the voice?
-    // this is necessary for voice clones,
-    // which don't go down the part-staff-voice-segment hierarchy
-    if (! fSegmentVoiceUplink->getVoiceFirstMeasure ()) {
-      // yes, register it as such
-      fSegmentVoiceUplink->
-        setVoiceFirstMeasure (
-          measure);
-        
-      measure->
-        setMeasureFirstInVoice ();
-    }
-
-    // append measure to the segment
-    fSegmentMeasuresList.push_back (measure);
+  // is measure the first one this segment?
+  if (segmentMeasuresListSize == 0) {
+    measure->
+      setMeasureFirstInSegmentKind (
+        msrMeasure::kMeasureFirstInSegmentYes);
   }
+  else {
+    measure->
+      setMeasureFirstInSegmentKind (
+        msrMeasure::kMeasureFirstInSegmentNo);
+  }
+  
+  // is measure the first one it the voice?
+  // this is necessary for voice clones,
+  // which don't go down the part-staff-voice-segment hierarchy
+  if (! fSegmentVoiceUplink->getVoiceFirstMeasure ()) {
+    // yes, register it as such
+    fSegmentVoiceUplink->
+      setVoiceFirstMeasure (measure);
+      
+    measure->
+      setMeasureFirstInVoice ();
+  }
+
+  // append measure to the segment
+  fSegmentMeasuresList.push_back (measure);
 }
 
 void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
@@ -1595,8 +1566,11 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
   string measureNumber =
     measure->getMeasureNumber ();
   
+  int segmentMeasuresListSize =
+    fSegmentMeasuresList.size ();
+    
   string currentMeasureNumber =
-    fSegmentMeasuresList.size () == 0
+    segmentMeasuresListSize == 0
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
@@ -1606,7 +1580,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       "Prepending measure " << measureNumber <<
       " to segment " << asString ();
 
-    if (fSegmentMeasuresList.size () == 0) {
+    if (segmentMeasuresListSize == 0) {
       gLogIOstream <<
         ", as first measure FOO"; // JMI
     }
@@ -1640,10 +1614,11 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       s.str ());
   }
 
-  else { // JMI TEMP
-    // append measure to the segment
-    fSegmentMeasuresList.push_back (measure); // push_front ??? JMI
-  }
+  measure->
+    setMeasureFirstInVoice ();
+
+  // prepend measure to the segment
+  fSegmentMeasuresList.push_front (measure);
 }
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
@@ -1824,60 +1799,6 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
-
-/* JMI
-void msrSegment::appendMeasuresRepeatToSegment (
-  S_msrMeasuresRepeat measuresRepeat)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
-    gLogIOstream <<
-      "Appending measures repeat '" <<
-      measuresRepeat->asString () <<
-      "' to segment '" << asString () << "'" <<
-      "' in voice \"" <<
-      fSegmentVoiceUplink->getVoiceName () <<
-      "\"," <<
-      endl;
-  }
-#endif
-      
-  // sanity check
-  msrAssert (
-    fSegmentMeasuresList.size () > 0,
-    "fSegmentMeasuresList is empty");
-    
-  fSegmentMeasuresList.back ()->
-    appendMeasuresRepeatToMeasure (measuresRepeat);
-}
-*/
-
-/* JMI
-void msrSegment::appendMultipleRestMeasuresToSegment (
-  S_msrMultipleRestMeasures multipleRestMeasures)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
-    gLogIOstream <<
-      "Appending multiple rest '" <<
-      multipleRestMeasures->asString () <<
-      "' to segment '" << asString () << "'" <<
-      "' in voice \"" <<
-      fSegmentVoiceUplink->getVoiceName () <<
-      "\"," <<
-      endl;
-  }
-#endif
-      
-  // sanity check
-  msrAssert (
-    fSegmentMeasuresList.size () > 0,
-    "fSegmentMeasuresList is empty");
-    
-  fSegmentMeasuresList.back ()->
-    appendMultipleRestMeasuresToMeasure (multipleRestMeasures);
-}
-*/
 
 void msrSegment::appendChordToSegment (S_msrChord chord) // JMI
 {

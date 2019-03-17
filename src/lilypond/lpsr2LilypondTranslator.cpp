@@ -6873,10 +6873,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
       fCurrentVoiceMeasuresCounter++;
       break;
     case msrMeasure::kMeasureKindOvercomplete:
@@ -6990,8 +6996,10 @@ else
       break;
       
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
-    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
+    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
       {
         rational
           actualMeasureWholeNotes =
@@ -7240,7 +7248,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           */
         break;
   
-      case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<
@@ -7265,16 +7275,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
             }
             break;
         } // switch
-        
-      /* JMI
-        fLilypondCodeIOstream <<
-          endl <<
-          "\\unset Score.measureLength" <<
-          endl;
-          */
         break;
   
-      case msrMeasure::kMeasureKindIncompleteAfterRepeat:
+      case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<

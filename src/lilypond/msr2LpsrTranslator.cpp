@@ -1942,10 +1942,16 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
       doCreateABarCheck = true;
       break;
-    case msrMeasure::kMeasureKindIncompleteLastInRepeat:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnd:
       doCreateABarCheck = true;
       break;
-    case msrMeasure::kMeasureKindIncompleteAfterRepeat:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+      doCreateABarCheck = true;
+      break;
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatEnding:
+      doCreateABarCheck = true;
+      break;
+    case msrMeasure::kMeasureKindIncompleteAfterRepeatComponent:
       doCreateABarCheck = true;
       break;
       
@@ -1970,23 +1976,9 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       msrBarCheck::create (
         inputLineNumber);
 
-           /* JMI   
-  fLogOutputStream <<
-    endl <<
-    "***********" <<
-    endl <<
-    endl;
-  fCurrentPartClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "***********" <<
-    endl <<
-    endl;
-    */
-/* JMI
     // append it to the current voice clone
     fCurrentVoiceClone->
       appendBarCheckToVoice (fLastBarCheck);
-      */
   }
 }
 

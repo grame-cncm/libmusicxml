@@ -636,8 +636,10 @@ class msrMeasure : public msrElement
         kMeasureKindRegular,
         kMeasureKindAnacrusis,
         kMeasureKindIncompleteIrrelevantToAnyRepeat,
-        kMeasureKindIncompleteLastInRepeat,
-        kMeasureKindIncompleteAfterRepeat,
+        kMeasureKindIncompleteLastInRepeatEnd,
+        kMeasureKindIncompleteLastInRepeatCommonPart,
+        kMeasureKindIncompleteLastInRepeatEnding,
+        kMeasureKindIncompleteAfterRepeatComponent,
         kMeasureKindOvercomplete,
         kMeasureKindCadenza,
         kMeasureKindEmpty}; // for <measure ... /> without nested contents
@@ -662,8 +664,13 @@ class msrMeasure : public msrElement
 
     enum msrMeasureRelativeToARepeatKind {
         kMeasureRelativeToARepeatIrrelevant,
-        kMeasureRelativeToARepeatLastMeasure,
-        kMeasureRelativeToARepeatNextMeasure };
+        kMeasureRelativeToARepeatEndLastMeasure,
+        kMeasureRelativeToARepeatCommonPartLastMeasure,
+        kMeasureRelativeToARepeatEndingLastMeasure,
+        kMeasureRelativeToARepeatNextMeasureAfterEnd,
+        kMeasureRelativeToARepeatNextMeasureAfterCommonPart,
+        kMeasureRelativeToARepeatNextMeasureAfterHookedEnding,
+        kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding };
       
     static string measureRelativeToARepeatKindAsString (
       msrMeasureRelativeToARepeatKind measureRelativeToARepeatKind);
@@ -1276,12 +1283,9 @@ class msrSegment : public msrVoiceElement
                           getSegmentMeasuresList () const
                               { return fSegmentMeasuresList; }
                                             
-    list<S_msrMeasure>&   getSegmentMeasuresListToModify ()
+    list<S_msrMeasure>&   getSegmentMeasuresListToModify () // JMI
                               { return fSegmentMeasuresList; }
                                             
-    const string          getSegmentMeasureNumber () const
-                              { return fSegmentMeasureNumber; }
-
     // services
     // ------------------------------------------------------
 
@@ -1560,10 +1564,6 @@ class msrSegment : public msrVoiceElement
     // absolute number, shared by newborn clones and deep copies
     int                   fSegmentAbsoluteNumber;
         
-    // number
-    string                fSegmentMeasureNumber;
-    bool                  fMeasureNumberHasBeenSetInSegment; // JMI
-
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
 
@@ -6251,6 +6251,16 @@ class msrVoice : public msrElement
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
       
+    enum msrAfterRepeatComponentPhaseKind {
+        kAfterRepeatComponentPhaseIrrelevant,
+        kAfterRepeatComponentPhaseAfterEnd,
+        kAfterRepeatComponentPhaseAfterCommonPart,
+        kAfterRepeatComponentPhaseAfterHookedEnding,
+        kAfterRepeatComponentPhaseAfterHooklessEnding };
+      
+    static string afterRepeatComponentPhaseKindAsString (
+      msrAfterRepeatComponentPhaseKind afterRepeatComponentPhaseKind);
+
     enum msrVoiceFinalizationStatusKind { // JMI ???
       kKeepVoice,
       kEraseVoice };
@@ -6458,20 +6468,22 @@ class msrVoice : public msrElement
     // regular measure ends detection
 
     void                  setWholeNotesSinceLastRegularMeasureEnd (
-                            rational value)
-                              { fWholeNotesSinceLastRegularMeasureEnd += value; }
+                            int      inputLineNumber,
+                            rational value);
 
     rational              getWholeNotesSinceLastRegularMeasureEnd () const
                               { return fWholeNotesSinceLastRegularMeasureEnd; }
 
     // incomplete measures after repeats detection
 
-    void                  setVoiceLastMeasureIsAtARepeatComponentEnd (
-                            bool value)
-                              { fVoiceLastMeasureIsAtARepeatComponentEnd = value; }
+    void                  setAfterRepeatComponentPhaseKind (
+                            int      inputLineNumber,
+                            msrAfterRepeatComponentPhaseKind
+                                     afterRepeatComponentPhaseKind);
 
-    bool                  getVoiceLastMeasureIsAtARepeatComponentEnd () const
-                              { return fVoiceLastMeasureIsAtARepeatComponentEnd; }
+    msrAfterRepeatComponentPhaseKind
+                          getAfterRepeatComponentPhaseKind () const
+                              { return fAfterRepeatComponentPhaseKind; }
 
 
    // rests measures
@@ -7198,7 +7210,8 @@ class msrVoice : public msrElement
     rational              fWholeNotesSinceLastRegularMeasureEnd;
 
     // incomplete measures after repeats detection
-    bool                  fVoiceLastMeasureIsAtARepeatComponentEnd;
+    msrAfterRepeatComponentPhaseKind
+                          fAfterRepeatComponentPhaseKind;
     
     // voice internal handling
     
