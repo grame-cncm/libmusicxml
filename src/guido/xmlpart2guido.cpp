@@ -158,7 +158,7 @@ namespace MusicXML2
             fCurrentStaffIndex += offset;
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
-			
+            
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
         }
@@ -404,8 +404,8 @@ namespace MusicXML2
         }
         
         /* If we have a combination of k_words and k_dynamics, then the ORDER of appearance is important for Parsing:
-                If text is BEFORE dynamics, then impose textformat="rt", dx=-2
-                If text order is AFTER dynamics, then impose textformat="lt", dx=2
+         If text is BEFORE dynamics, then impose textformat="rt", dx=-2
+         If text order is AFTER dynamics, then impose textformat="lt", dx=2
          */
         Sguidoelement tag;
         /// Check if there's a combination of k_words and k_dynamics
@@ -498,7 +498,7 @@ namespace MusicXML2
                             }else {
                                 tag = guidotag::create("text");
                                 tag->add (guidoparam::create(wordParameters.str(), false));
-                            
+                                
                                 xml2guidovisitor::addPosX(element, tag, 0);
                             }
                             
@@ -559,12 +559,12 @@ namespace MusicXML2
                             break;
                     }
                     
-                        /// Take into account group positioning
-                        float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
-                        if (posy != 0.0) {
-                            // then apply and save
-                            commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
-                        }
+                    /// Take into account group positioning
+                    float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
+                    if (posy != 0.0) {
+                        // then apply and save
+                        commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
+                    }
                     
                     if (tag) {
                         // apply inherited Y-position
@@ -666,7 +666,7 @@ namespace MusicXML2
                 fIgnoreWedgeWithOffset = false;
                 return; // FIXME: Ignore Offset Wedge à la Verovio
             }
-
+            
             tag = guidotag::create(fCrescPending ? "crescEnd" : "dimEnd");
         }
         
@@ -682,9 +682,9 @@ namespace MusicXML2
                 }
                 
                 /*stringstream s;
-                s << "autopos=\"on\"";
-                tag->add (guidoparam::create(s.str(), false));*/
-            
+                 s << "autopos=\"on\"";
+                 tag->add (guidoparam::create(s.str(), false));*/
+                
             }else if (type == "crescendo")
             {
                 ctree<xmlelement>::iterator wedgeBegin= find(fCurrentPart->begin(), fCurrentPart->end(), elt);
@@ -729,11 +729,11 @@ namespace MusicXML2
                     cerr <<"\tIgnoring Wedge with Offset on measure "<<fMeasNum<<endl;
                     return;         // FIXME: Ignoring Offset wedges à la Verovio
                 }
-
+                
                 if (numberOfNotesInWedge > 1) {
                     /// fetch dx1 and dx2 value based on ending
                     float posx1 = elt->getAttributeFloatValue("relative-x", 0);  //elt->getAttributeFloatValue("default-x", 0) +
-
+                    
                     //// Add dx1 and dx2 parameters
                     if (posx1!=0.0) {
                         posx1 = (posx1 / 10) * 2;   // convert to half spaces
@@ -747,12 +747,12 @@ namespace MusicXML2
                     /*
                      float posx2 = nextWedge->getAttributeFloatValue("relative-x", 0);
                      if (posx2!=0.0) {
-                        posx2 = (posx2 / 10) * 2;   // convert to half spaces
-                        
-                        stringstream s;
-                        s << "dx2=" << posx2 << "hs";
-                        tag->add (guidoparam::create(s.str(), false));
-                    }*/
+                     posx2 = (posx2 / 10) * 2;   // convert to half spaces
+                     
+                     stringstream s;
+                     s << "dx2=" << posx2 << "hs";
+                     tag->add (guidoparam::create(s.str(), false));
+                     }*/
                 }
                 
                 
@@ -767,8 +767,8 @@ namespace MusicXML2
                 
                 // Add new AutoPos="on"
                 /*stringstream s;
-                s << "autopos=\"on\"";
-                tag->add (guidoparam::create(s.str(), false));*/
+                 s << "autopos=\"on\"";
+                 tag->add (guidoparam::create(s.str(), false));*/
             }
             
             
@@ -1001,7 +1001,7 @@ namespace MusicXML2
          </transpose>
          </clef>
          *****/
-		
+        
         ctree<xmlelement>::iterator iter = elt->begin();
         
         // set division
@@ -1055,7 +1055,7 @@ namespace MusicXML2
             
             std::pair<rational, std::string> foo = std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign);
             staffClefMap.insert(std::pair<int, std::pair < int , std::pair<rational, std::string> > >(fCurrentStaffIndex, std::pair< int, std::pair< rational, std::string > >(fMeasNum, foo) ) );
-			
+            
             /// Search again for other clefs:
             iter++;
             iter = elt->find(k_clef, iter);
@@ -1087,7 +1087,7 @@ namespace MusicXML2
             // IOSEPRAC-185: Get all pairs for Composite Time Signatures
             ctree<xmlelement>::iterator iter_beat = iter->find(k_beats);
             ctree<xmlelement>::iterator iter_beatType = iter->find(k_beat_type);
-
+            
             while (iter_beat != iter->end())
             {
                 //                fTimeSignInternal.push_back(make_pair(iter_beat->getValue(k_beats), iter2->getValue(k_beat_type)));
@@ -1125,7 +1125,7 @@ namespace MusicXML2
                     fCurrentTimeSign = rational(2,2);
                 }
                 else {
-
+                    
                     stringstream s; string sep ="";
                     fCurrentTimeSign.set(0,1);
                     for (unsigned int i = 0; i < fTimeSignInternal.size(); i++) {
@@ -1355,7 +1355,7 @@ namespace MusicXML2
                 }
                 
                 //cerr << "Measure "<< fMeasNum << " beam END "<< lastBeamInternalNumber<< " - Beam-Level="<<(*i)->getAttributeIntValue("number", 1)<< " isBeamOpened? "<< fBeamOpened;
-
+                
                 /// using \beamEnd:NUMBER
                 // GUID-79: Only close the initial Beam
                 if ((fBeamOpened) || (fInGrace) || (fInCue)) {     // && (fCurrentBeamNumber == lastBeamInternalNumber)
@@ -1368,7 +1368,7 @@ namespace MusicXML2
                     }
                     //cerr<< " ---> CLOSED! fBeamOpened="<<fBeamOpened<< " Grace?="<<fInGrace<<" Cue?="<<fInCue<<endl;
                 }
-				
+                
                 fBeamStack.pop();
             }
         }
@@ -1638,7 +1638,7 @@ namespace MusicXML2
         if (notevisitor::getSyllabic()== "single")
         {
             pop();
-			
+            
             if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
@@ -1653,7 +1653,7 @@ namespace MusicXML2
                  ||(notevisitor::getSyllabic()== "begin"))
         {
             pop();
-			
+            
             if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
@@ -1789,7 +1789,7 @@ namespace MusicXML2
                 int stepi = ( stepString == "B" ? notevisitor::C :  step2i(stepString) + 1);
                 string newName = i2step(stepi);
                 if (!newName.empty()) newName[0]=tolower(newName[0]);
-
+                
                 stringstream s;
                 s << newName << guidoAccident;
                 
@@ -1816,8 +1816,8 @@ namespace MusicXML2
     
     void xmlpart2guido::checkWavyTrillEnd	 ( const notevisitor& nv )
     {
-		if (nv.fTrill) pop();
-
+        if (nv.fTrill) pop();
+        
         if (nv.getWavylines().size() > 0)
         {
             std::vector<S_wavy_line>::const_iterator i;
@@ -1853,9 +1853,9 @@ namespace MusicXML2
             if (note.fMordent) {
                 // Calculating the ornament note to add requires knowing the KEY! CHEAT: put "-"
                 string stepString = note.getStep();
-                 int stepi = ( step2i(stepString) == 0 ? notevisitor::B :  step2i(stepString) - 1);
-                 string newName = i2step(stepi);
-                 
+                int stepi = ( step2i(stepString) == 0 ? notevisitor::B :  step2i(stepString) - 1);
+                string newName = i2step(stepi);
+                
                 if (!newName.empty()) {
                     newName[0]=tolower(newName[0]);
                 }
@@ -1897,7 +1897,7 @@ namespace MusicXML2
                 push(tag);
                 n++;
             }
-
+            
         }
         
         if (note.fTrill) {
@@ -2123,7 +2123,7 @@ namespace MusicXML2
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
         if ( (nv.fNotehead
-             || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
+              || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
             &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
@@ -2231,7 +2231,7 @@ namespace MusicXML2
         std::string thisClef = "g";
         if (staffClefMap.size()>0) {
             auto staffRange = staffClefMap.equal_range(staffIndex);
-
+            
             for (auto i = staffRange.first ; i != staffRange.second; i++ )
             {
                 // Get the measure number
@@ -2260,7 +2260,7 @@ namespace MusicXML2
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
             //////// Track all voice default-x parameters, as positions in measures
-
+            
             if (true) {     // had fNotesOnly
                 int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
                 auto timePos4measure = timePositions.find(measureNum);
@@ -2347,7 +2347,7 @@ namespace MusicXML2
         
         checkWavyTrillEnd(*this);
         checkLyricEnd (notevisitor::getLyric());
-
+        
         checkTupletEnd(notevisitor::getTuplet());
         checkSlurEnd (notevisitor::getSlur());
         if (notevisitor::fBreathMark) {
@@ -2356,7 +2356,7 @@ namespace MusicXML2
         }
         
         checkBeamEnd (notevisitor::getBeam());
-
+        
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
         
         if (fTupletOpened==false)
@@ -2365,14 +2365,14 @@ namespace MusicXML2
             // In case of ongoing \tuplet, do it after the \tuplet is closed! (Potential Guido parser issue)
             checkTextEnd();
         }
-
-       /*
-        if (fBeamStack.size()==0)
-        {
-            // this is will close any ongoing Guido TEXT tag once a sequence is embedded
-            // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
-            checkTextEnd();
-        }*/
+        
+        /*
+         if (fBeamStack.size()==0)
+         {
+         // this is will close any ongoing Guido TEXT tag once a sequence is embedded
+         // In case of ongoing \Beam, do it after the \beam is closed! (Potential Guido parser issue)
+         checkTextEnd();
+         }*/
         
         
         fMeasureEmpty = false;
@@ -2389,7 +2389,7 @@ namespace MusicXML2
     // MARK: Tag Add Methods using element parsing
     float xmlpart2guido::xPosFromTimePos(float default_x, float relative_x) {
         auto timePos4measure = timePositions.find(fMeasNum);
-
+        
         float xpos = default_x + relative_x;
         
         if ((xpos!=0)&&(timePos4measure != timePositions.end())) {
