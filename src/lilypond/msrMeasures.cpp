@@ -2277,6 +2277,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ();
     
+  // get voice after repeat component phase kind
+  msrVoice::msrVoiceAfterRepeatComponentPhaseKind
+    currentVoiceAfterRepeatComponentPhaseKind =
+      voice->
+        getCurrentVoiceAfterRepeatComponentPhaseKind ();
+
   // regular measure ends detection
   rational
     wholeNotesSinceLastRegularMeasureEnd =
@@ -2293,25 +2299,22 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-    "Determining the measure kind and purist number of measure '" <<
-    fMeasureNumber <<
-    ", measureDebugNumber: '" <<
-    fMeasureDebugNumber <<
-      "fullMeasureWholeNotes: " <<
+      "Determining the measure kind and purist number of measure '" <<
+      fMeasureNumber <<
+      "', measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "', fullMeasureWholeNotes: " <<
       fFullMeasureWholeNotes <<
       ", wholeNotesSinceLastRegularMeasureEnd: " <<
       wholeNotesSinceLastRegularMeasureEnd <<
       ", newWholeNotesSinceLastRegularMeasureEnd: " <<
       newWholeNotesSinceLastRegularMeasureEnd <<
+      ", currentVoiceAfterRepeatComponentPhaseKind: " <<
+      msrVoice::voiceAfterRepeatComponentPhaseKindAsString (
+        currentVoiceAfterRepeatComponentPhaseKind) <<
     "' in voice \"" << voice->getVoiceName () <<
     ", line " << inputLineNumber <<
     endl;
-
-  voice->
-//   displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
-    displayVoice (
-      inputLineNumber,
-      "determineMeasureKindAndPuristNumber() 1");
 
   displayMeasure (
     inputLineNumber,
@@ -2321,12 +2324,6 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
   gIndenter++;
 
-  // get voice after repeat component phase kind
-  msrVoice::msrVoiceAfterRepeatComponentPhaseKind
-    currentVoiceAfterRepeatComponentPhaseKind =
-      voice->
-        getCurrentVoiceAfterRepeatComponentPhaseKind ();
-
   if (fActualMeasureWholeNotes.getNumerator () == 0) { // JMI
     // empty measure
     
@@ -2334,7 +2331,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
     displayMeasure (
       inputLineNumber,
-      "determineMeasureKindAndPuristNumber() empty measure...");
+      "determineMeasureKindAndPuristNumber() empty measure");
       
     s <<
       "measure '" <<
@@ -2485,7 +2482,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
                 voice->
                   incrementVoiceCurrentMeasurePuristNumber (
                     inputLineNumber,
-                    "determineMeasureKindAndPuristNumber() kMeasureKindIncompleteStandalone");
+                    "determineMeasureKindAndPuristNumber() kMeasureEndRegularNo");
                 break;
             } // switch
             break;
@@ -2593,12 +2590,6 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    voice->
-//   displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
-    displayVoice (
-        inputLineNumber,
-        "determineMeasureKindAndPuristNumber() 2");
-
     displayMeasure (
       inputLineNumber,
       "determineMeasureKindAndPuristNumber() 2");
@@ -2932,9 +2923,6 @@ void msrMeasure::finalizeMeasure (
           // should not occur
           break;
       } // switch
-  
-      determineMeasureKindAndPuristNumber ( // JMI ???
-        inputLineNumber);
       */
       break;
   } // switch

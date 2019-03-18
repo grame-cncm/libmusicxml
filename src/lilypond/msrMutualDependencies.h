@@ -6258,8 +6258,9 @@ class msrVoice : public msrElement
         kVoiceAfterRepeatComponentPhaseAfterHookedEnding,
         kVoiceAfterRepeatComponentPhaseAfterHooklessEnding };
       
-    static string afterRepeatComponentPhaseKindAsString (
-      msrVoiceAfterRepeatComponentPhaseKind afterRepeatComponentPhaseKind);
+    static string voiceAfterRepeatComponentPhaseKindAsString (
+      msrVoiceAfterRepeatComponentPhaseKind
+        afterRepeatComponentPhaseKind);
 
     enum msrVoiceFinalizationStatusKind { // JMI ???
       kKeepVoice,

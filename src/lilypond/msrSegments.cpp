@@ -366,109 +366,6 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       finalizeMeasure (
         inputLineNumber,
         "finalizeCurrentMeasureInSegment()");
-
-/* JMI
-    // is last measure an empty measure that was created for a repeat?
-    msrMeasure::msrMeasureCreatedForARepeatKind
-      lastMeasureCreatedForARepeatKind =
-        lastMeasure->
-          getMeasureCreatedForARepeatKind ();
-        
-    switch (lastMeasureCreatedForARepeatKind) {
-      case msrMeasure::kMeasureCreatedForARepeatNo:
-        // is the last measure empty?
- //       if (lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
-   //     if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
-        if (
-          false && // JMI
-          lastMeasure->getMeasureElementsList ().size () == 0
-        ) { // JMI ALWAYS FINALIZE ???
-          // yes, remove it
-#ifdef TRACE_OPTIONS
-          if (
-            gTraceOptions->fTraceMeasures
-              ||
-            gTraceOptions->fTraceSegments
-              ||
-            gTraceOptions->fTraceRepeats) {
-            stringstream s;
-        
-            gLogIOstream <<
-              "Removing empty measure '" <<
-              lastMeasure->getMeasureNumber () <<
-              "' in segment '" <<
-              asString () <<
-              "'";
-          }
-#endif
-    
-          fSegmentMeasuresList.pop_back ();
-        }
-        
-        else {
-          // no, finalize it
-          lastMeasure->
-            finalizeMeasure (
-              inputLineNumber,
-              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatNo");
-        }
-        break;
-
-      case msrMeasure::kMeasureCreatedForARepeatBefore:
-        if (
-          false && // JMI
-          lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0
-        ) {
-          // yes, remove it
-#ifdef TRACE_OPTIONS
-          if (
-            gTraceOptions->fTraceMeasures
-              ||
-            gTraceOptions->fTraceSegments
-              ||
-            gTraceOptions->fTraceRepeats) {
-            stringstream s;
-        
-            gLogIOstream <<
-              "Removing empty measure '" <<
-              lastMeasure->getMeasureNumber () <<
-              "' that was created for a repeat (" <<
-                msrMeasure::measureCreatedForARepeatKindAsString (
-                  lastMeasureCreatedForARepeatKind) <<
-              ") in segment '" <<
-              asString () <<
-              "'";
-          }
-#endif
-    
-          fSegmentMeasuresList.pop_back ();
-        }
-        else {
-          // no, finalize it
-          lastMeasure->
-            finalizeMeasure (
-              inputLineNumber,
-              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatBefore");
-        }
-        break;
-
-      case msrMeasure::kMeasureCreatedForARepeatAfter:
-        // finalize it
-        lastMeasure->
-          finalizeMeasure (
-            inputLineNumber,
-              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatAfter");
-        break;
-
-      case msrMeasure::kMeasureCreatedForARepeatPadded:
-          // finalize it JMI ???
-          lastMeasure->
-            finalizeMeasure (
-              inputLineNumber,
-              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatPadded");
-        break;
-    } // switch
-    */
   }
 
 #ifdef TRACE_OPTIONS
@@ -2429,3 +2326,107 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
 
 
 }
+
+
+/* JMI
+    // is last measure an empty measure that was created for a repeat?
+    msrMeasure::msrMeasureCreatedForARepeatKind
+      lastMeasureCreatedForARepeatKind =
+        lastMeasure->
+          getMeasureCreatedForARepeatKind ();
+        
+    switch (lastMeasureCreatedForARepeatKind) {
+      case msrMeasure::kMeasureCreatedForARepeatNo:
+        // is the last measure empty?
+ //       if (lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0) { // JMI ???
+   //     if (false && lastMeasure->getMeasureElementsList ().size () == 0) { // JMI ALWAYS FINALIZE ???
+        if (
+          false && // JMI
+          lastMeasure->getMeasureElementsList ().size () == 0
+        ) { // JMI ALWAYS FINALIZE ???
+          // yes, remove it
+#ifdef TRACE_OPTIONS
+          if (
+            gTraceOptions->fTraceMeasures
+              ||
+            gTraceOptions->fTraceSegments
+              ||
+            gTraceOptions->fTraceRepeats) {
+            stringstream s;
+        
+            gLogIOstream <<
+              "Removing empty measure '" <<
+              lastMeasure->getMeasureNumber () <<
+              "' in segment '" <<
+              asString () <<
+              "'";
+          }
+#endif
+    
+          fSegmentMeasuresList.pop_back ();
+        }
+        
+        else {
+          // no, finalize it
+          lastMeasure->
+            finalizeMeasure (
+              inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatNo");
+        }
+        break;
+
+      case msrMeasure::kMeasureCreatedForARepeatBefore:
+        if (
+          false && // JMI
+          lastMeasure->getActualMeasureWholeNotes ().getNumerator () == 0
+        ) {
+          // yes, remove it
+#ifdef TRACE_OPTIONS
+          if (
+            gTraceOptions->fTraceMeasures
+              ||
+            gTraceOptions->fTraceSegments
+              ||
+            gTraceOptions->fTraceRepeats) {
+            stringstream s;
+        
+            gLogIOstream <<
+              "Removing empty measure '" <<
+              lastMeasure->getMeasureNumber () <<
+              "' that was created for a repeat (" <<
+                msrMeasure::measureCreatedForARepeatKindAsString (
+                  lastMeasureCreatedForARepeatKind) <<
+              ") in segment '" <<
+              asString () <<
+              "'";
+          }
+#endif
+    
+          fSegmentMeasuresList.pop_back ();
+        }
+        else {
+          // no, finalize it
+          lastMeasure->
+            finalizeMeasure (
+              inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatBefore");
+        }
+        break;
+
+      case msrMeasure::kMeasureCreatedForARepeatAfter:
+        // finalize it
+        lastMeasure->
+          finalizeMeasure (
+            inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatAfter");
+        break;
+
+      case msrMeasure::kMeasureCreatedForARepeatPadded:
+          // finalize it JMI ???
+          lastMeasure->
+            finalizeMeasure (
+              inputLineNumber,
+              "finalizeCurrentMeasureInSegment() kMeasureCreatedForARepeatPadded");
+        break;
+    } // switch
+    */

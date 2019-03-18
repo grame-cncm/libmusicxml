@@ -415,7 +415,7 @@ void msrVoice::initializeVoice (
   // regular measure ends detection
   fWholeNotesSinceLastRegularMeasureEnd = rational (0, 1);
   
-  // incomplete measures after repeats detection
+  // set voice current after repeat component phase kind 
   setCurrentVoiceAfterRepeatComponentPhaseKind (
     fInputLineNumber,
     kVoiceAfterRepeatComponentPhaseNone);
@@ -911,7 +911,8 @@ void msrVoice::setCurrentVoiceAfterRepeatComponentPhaseKind (
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Setting voice current after repeat component phase kind to '" <<
-      afterRepeatComponentPhaseKindAsString (afterRepeatComponentPhaseKind) <<
+      voiceAfterRepeatComponentPhaseKindAsString (
+        afterRepeatComponentPhaseKind) <<
  // JMI     "' (" << context << ")" <<
       " in voice \"" << getVoiceName () << "\"" <<
       "', line " << inputLineNumber <<
@@ -3081,30 +3082,31 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
 #endif
 
   if (fVoiceLastSegment) { // JMI should not be necessary?
-    repeatCommonPart->
-      appendSegmentToRepeatCommonPart (
-        inputLineNumber,
-        fVoiceLastSegment,
-        context);
-
-  // fetch the last segment's last measure
-  S_msrMeasure
-    voiceLastSegmentLastMeasure =
-      fVoiceLastSegment->
-        fetchLastMeasureFromSegment (
-          inputLineNumber,
-          "handleVoiceLevelRepeatEndWithoutStartInVoice()");
+    // fetch the last segment's last measure
+    S_msrMeasure
+      voiceLastSegmentLastMeasure =
+        fVoiceLastSegment->
+          fetchLastMeasureFromSegment (
+            inputLineNumber,
+            "handleVoiceLevelRepeatEndWithoutStartInVoice()");
 
     // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
     voiceLastSegmentLastMeasure->
       setMeasureRelationToRepeatsKind (
         msrMeasure::kMeasureRelationToRepeatsCommonPartLastMeasure);
   
-    // incomplete measures after repeats detection 
+    // set voice current after repeat component phase kind 
     setCurrentVoiceAfterRepeatComponentPhaseKind (
       inputLineNumber,
       kVoiceAfterRepeatComponentPhaseAfterCommonPart);
-    
+
+    // append fVoiceLastSegment to the repeat common part
+    repeatCommonPart->
+      appendSegmentToRepeatCommonPart (
+        inputLineNumber,
+        fVoiceLastSegment,
+        context);
+
     // forget about this voice last segment
     fVoiceLastSegment = nullptr;
   }
@@ -4035,10 +4037,10 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
     setMeasureRelationToRepeatsKind (
       msrMeasure::kMeasureRelationToRepeatsCommonPartLastMeasure);
 
-  // incomplete measures after repeats detection
-    setCurrentVoiceAfterRepeatComponentPhaseKind (
-      inputLineNumber,
-      kVoiceAfterRepeatComponentPhaseAfterCommonPart);
+  // set voice current after repeat component phase kind 
+  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    inputLineNumber,
+    kVoiceAfterRepeatComponentPhaseAfterCommonPart);
     
   // append the voice last segment to the new repeat common part
 #ifdef TRACE_OPTIONS
@@ -4304,10 +4306,10 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
     setMeasureRelationToRepeatsKind (
       msrMeasure::kMeasureRelationToRepeatsCommonPartLastMeasure);
     
-  // incomplete measures after repeats detection
-    setCurrentVoiceAfterRepeatComponentPhaseKind (
-      inputLineNumber,
-      kVoiceAfterRepeatComponentPhaseAfterCommonPart);
+  // set voice current after repeat component phase kind 
+  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    inputLineNumber,
+    kVoiceAfterRepeatComponentPhaseAfterCommonPart);
     
   // split voiceLastSegmentLastMeasure if it is incomplete
   S_msrMeasure
@@ -8073,10 +8075,10 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
     setMeasureRelationToRepeatsKind (
       msrMeasure::kMeasureRelationToRepeatsCommonPartLastMeasure);
 
-  // incomplete measures after repeats detection
-    setCurrentVoiceAfterRepeatComponentPhaseKind (
-      inputLineNumber,
-      kVoiceAfterRepeatComponentPhaseAfterCommonPart);
+  // set voice current after repeat component phase kind 
+  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    inputLineNumber,
+    kVoiceAfterRepeatComponentPhaseAfterCommonPart);
 
 #ifdef TRACE_OPTIONS
   if (
@@ -8170,10 +8172,10 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
     setMeasureRelationToRepeatsKind (
       msrMeasure::kMeasureRelationToRepeatsHookedEndingLastMeasure);
 
-  // incomplete measures after repeats detection
-    setCurrentVoiceAfterRepeatComponentPhaseKind (
-      inputLineNumber,
-      kVoiceAfterRepeatComponentPhaseAfterHookedEnding);
+  // set voice current after repeat component phase kind 
+  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    inputLineNumber,
+    kVoiceAfterRepeatComponentPhaseAfterHookedEnding);
 
   // move the voice last segment to repeatEnding
   moveVoiceLastSegmentToRepeatEnding (
@@ -8273,10 +8275,10 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
     setMeasureRelationToRepeatsKind (
       msrMeasure::kMeasureRelationToRepeatsHooklessEndingLastMeasure);
 
-  // incomplete measures after repeats detection
-    setCurrentVoiceAfterRepeatComponentPhaseKind (
-      inputLineNumber,
-      kVoiceAfterRepeatComponentPhaseAfterHooklessEnding);
+  // set voice current after repeat component phase kind 
+  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    inputLineNumber,
+    kVoiceAfterRepeatComponentPhaseAfterHooklessEnding);
 
 #ifdef TRACE_OPTIONS
   if (
@@ -9468,8 +9470,9 @@ string msrVoice::regularVoiceStaffSequentialNumberAsString () const
   return result;
 }
          
-string msrVoice::afterRepeatComponentPhaseKindAsString (
-  msrVoiceAfterRepeatComponentPhaseKind afterRepeatComponentPhaseKind)
+string msrVoice::voiceAfterRepeatComponentPhaseKindAsString (
+  msrVoiceAfterRepeatComponentPhaseKind
+    afterRepeatComponentPhaseKind)
 {
   string result;
   
@@ -9651,7 +9654,7 @@ void msrVoice::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "currentVoiceAfterRepeatComponentPhaseKind" << " : " <<
-    afterRepeatComponentPhaseKindAsString (
+    voiceAfterRepeatComponentPhaseKindAsString (
       fCurrentVoiceAfterRepeatComponentPhaseKind) <<
     endl;
     
