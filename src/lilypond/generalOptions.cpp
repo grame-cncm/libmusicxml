@@ -127,8 +127,8 @@ R"(Print help about ITEM_NAME.)",
     // variables
     
     fQuiet                     = false;
-    fIgnoreErrors              = false;
-    fAbortOnErrors             = false;
+    fDontShowErrors            = false;
+    fDontAbortOnErrors         = false;
     fDisplaySourceCodePosition = false;
   
     // options
@@ -155,22 +155,22 @@ R"(Don't issue any warning or error messages.)",
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "i", "ignore-errors",
-R"(Ignore errors and proceed.)",
-          "ignoreErrors",
-          fIgnoreErrors));
+          "dse", "dont-show-errors",
+R"(Don't show errors in the log.)",
+          "dontShowErrors",
+          fDontShowErrors));
   
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "aoe", "abort-on-errors",
+          "daoe", "dont-abort-on-errors",
           replaceSubstringInString (
-R"(Abort execution on errors instead of gracefully exiting.
-This is useful when debugging EXECUTABLE.)",
+R"(Do not abort execution on errors and go ahead.
+This may be useful when debugging EXECUTABLE.)",
            "EXECUTABLE",
             fExecutableName),
-          "abortOnErrors",
-          fAbortOnErrors));
+          "dontAbortOnErrors",
+          fDontAbortOnErrors));
   
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
@@ -250,10 +250,10 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 
   clone->fQuiet =
     fQuiet;
-  clone->fIgnoreErrors =
-    fIgnoreErrors;
-  clone->fAbortOnErrors =
-    fAbortOnErrors;
+  clone->fDontShowErrors =
+    fDontShowErrors;
+  clone->fDontAbortOnErrors =
+    fDontAbortOnErrors;
   clone->fDisplaySourceCodePosition =
     fDisplaySourceCodePosition;
 
@@ -333,11 +333,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     setw (fieldWidth) << "quiet" << " : " <<
     booleanAsString (fQuiet) <<
     endl <<
-    setw (fieldWidth) << "ignoreErrors" << " : " <<
-    booleanAsString (fIgnoreErrors) <<
+    setw (fieldWidth) << "dontShowErrors" << " : " <<
+    booleanAsString (fDontShowErrors) <<
     endl <<
-    setw (fieldWidth) << "abortOnErrors" << " : " <<
-    booleanAsString (fAbortOnErrors) <<
+    setw (fieldWidth) << "dontAbortOnErrors" << " : " <<
+    booleanAsString (fDontAbortOnErrors) <<
     endl <<
     setw (fieldWidth) << "displaySourceCodePosition" << " : " <<
     booleanAsString (fDisplaySourceCodePosition) <<

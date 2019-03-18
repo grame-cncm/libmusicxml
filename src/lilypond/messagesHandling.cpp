@@ -110,7 +110,7 @@ void msrError (
         " ";
     }
 
-    if (! gGeneralOptions->fIgnoreErrors) {
+    if (! gGeneralOptions->fDontShowErrors) {
       gLogIOstream <<
         "### " << context << " ERROR ### " <<
         inputSourceName << ":" << inputLineNumber << ": " << message <<
@@ -137,8 +137,8 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fIgnoreErrors) {
-    if (gGeneralOptions->fAbortOnErrors) {
+  if (! gGeneralOptions->fDontShowErrors) {
+    if (! gGeneralOptions->fDontAbortOnErrors) {
       abort ();
     }
     else {
@@ -163,7 +163,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fIgnoreErrors) {
+  if (! gGeneralOptions->fDontShowErrors) {
     exit (16);
   }
 }
@@ -194,7 +194,7 @@ void msrLimitation (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
     if (gGeneralOptions->fDisplaySourceCodePosition) {
       gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
@@ -217,7 +217,7 @@ void msrStreamsError (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
     if (gGeneralOptions->fDisplaySourceCodePosition) {
       gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
@@ -239,7 +239,7 @@ void msrStreamsWarning (
   int    sourceCodeLineNumber,
   string  message)
 {
-  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fDontShowErrors)) {  
     if (gGeneralOptions->fDisplaySourceCodePosition) {
       gLogIOstream <<
         baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<

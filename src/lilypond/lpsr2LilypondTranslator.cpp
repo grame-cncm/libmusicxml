@@ -6255,17 +6255,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
     staffLinesNumber =
       elt->getStaffLinesNumber ();
 
-  if (staffLinesNumber != 5) { // handle current staff lines number??? JMI
-    fLilypondCodeIOstream <<
-      endl <<
-      "\\stopStaff " <<
-      endl <<
-      "\\override Staff.StaffSymbol.line-count = " <<
-      staffLinesNumber <<
-      endl <<
-      "\\startStaff" <<
-      endl;
-  }
+  fLilypondCodeIOstream <<
+    endl <<
+    "\\stopStaff " <<
+    endl <<
+    "\\override Staff.StaffSymbol.line-count = " <<
+    staffLinesNumber <<
+    endl <<
+    "\\startStaff" <<
+    endl;
 }
 
 //________________________________________________________________________
@@ -6870,7 +6868,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindAnacrusis:
       // keep fCurrentVoiceMeasuresCounter at 0
       break;
-    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+    case msrMeasure::kMeasureKindIncompleteStandalone:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
@@ -6989,7 +6987,7 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+    case msrMeasure::kMeasureKindIncompleteStandalone:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
@@ -7210,7 +7208,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           endl;
         break;
         
-      case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+      case msrMeasure::kMeasureKindIncompleteStandalone:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<

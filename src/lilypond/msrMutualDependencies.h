@@ -635,7 +635,7 @@ class msrMeasure : public msrElement
         kMeasureKindUnknown,
         kMeasureKindRegular,
         kMeasureKindAnacrusis,
-        kMeasureKindIncompleteIrrelevantToAnyRepeat,
+        kMeasureKindIncompleteStandalone,
         kMeasureKindIncompleteLastInRepeatCommonPart,
         kMeasureKindIncompleteLastInRepeatHookedEnding,
         kMeasureKindIncompleteLastInRepeatHooklessEnding,
@@ -664,17 +664,18 @@ class msrMeasure : public msrElement
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
-    enum msrMeasureRelativeToARepeatKind {
-        kMeasureRelativeToARepeatIrrelevant,
-        kMeasureRelativeToARepeatCommonPartLastMeasure,
-        kMeasureRelativeToARepeatHookedEndingLastMeasure,
-        kMeasureRelativeToARepeatHooklessEndingLastMeasure,
-        kMeasureRelativeToARepeatNextMeasureAfterCommonPart,
-        kMeasureRelativeToARepeatNextMeasureAfterHookedEnding,
-        kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding };
+    enum msrMeasureRelationToRepeatsKind {
+        kMeasureRelationToRepeatsUnknown,
+        kMeasureRelationToRepeatsNone,
+        kMeasureRelationToRepeatsCommonPartLastMeasure,
+        kMeasureRelationToRepeatsHookedEndingLastMeasure,
+        kMeasureRelationToRepeatsHooklessEndingLastMeasure,
+        kMeasureRelationToRepeatsNextMeasureAfterCommonPart,
+        kMeasureRelationToRepeatsNextMeasureAfterHookedEnding,
+        kMeasureRelationToRepeatsNextMeasureAfterHooklessEnding };
       
-    static string measureRelativeToARepeatKindAsString (
-      msrMeasureRelativeToARepeatKind measureRelativeToARepeatKind);
+    static string measureRelationToRepeatsKindAsString (
+      msrMeasureRelationToRepeatsKind measureRelationToRepeatsKind);
 
     enum msrMeasureEndRegularKind {
         kMeasureEndRegularUnknown,
@@ -769,6 +770,9 @@ class msrMeasure : public msrElement
                       
     // measure kind
     
+    void                  setMeasureKind (
+                            msrMeasureKind measureKind);
+
     msrMeasureKind
                           getMeasureKind () const
                               { return fMeasureKind; }
@@ -803,13 +807,13 @@ class msrMeasure : public msrElement
 
     // measure 'relative a repeat' kind
     
-    void                  setMeasureRelativeToARepeatKind (
-                            msrMeasureRelativeToARepeatKind
-                              measureRelativeToARepeatKind);
+    void                  setMeasureRelationToRepeatsKind (
+                            msrMeasureRelationToRepeatsKind
+                              measureRelationToRepeatsKind);
 
-    msrMeasureRelativeToARepeatKind
-                          getMeasureRelativeToARepeatKind () const
-                              { return fMeasureRelativeToARepeatKind; }
+    msrMeasureRelationToRepeatsKind
+                          getMeasureRelationToRepeatsKind () const
+                              { return fMeasureRelationToRepeatsKind; }
 
     // single-measure rest?
 
@@ -1180,8 +1184,8 @@ class msrMeasure : public msrElement
                         
     // measure 'relative a repeatt' kind
 
-    msrMeasureRelativeToARepeatKind
-                          fMeasureRelativeToARepeatKind;
+    msrMeasureRelationToRepeatsKind
+                          fMeasureRelationToRepeatsKind;
                         
     // single-measure rest?
 
@@ -6243,20 +6247,20 @@ class msrVoice : public msrElement
     enum msrVoiceKind {
       kRegularVoice,
       kHarmonyVoice,       // for MusicXML <harmony/>, LilyPond ChordNames
-      kFiguredBassVoice }; // for MusicXML <figured-bass/>, LilyPond ChordNames
+      kFiguredBassVoice }; // for MusicXML <figured-bass/>, LilyPond FiguredBass
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
       
-    enum msrAfterRepeatComponentPhaseKind {
-        kAfterRepeatComponentPhaseIrrelevant,
-        kAfterRepeatComponentPhaseAfterEnd,
-        kAfterRepeatComponentPhaseAfterCommonPart,
-        kAfterRepeatComponentPhaseAfterHookedEnding,
-        kAfterRepeatComponentPhaseAfterHooklessEnding };
+    enum msrVoiceAfterRepeatComponentPhaseKind {
+        kVoiceAfterRepeatComponentPhaseUnknown,
+        kVoiceAfterRepeatComponentPhaseNone,
+        kVoiceAfterRepeatComponentPhaseAfterCommonPart,
+        kVoiceAfterRepeatComponentPhaseAfterHookedEnding,
+        kVoiceAfterRepeatComponentPhaseAfterHooklessEnding };
       
     static string afterRepeatComponentPhaseKindAsString (
-      msrAfterRepeatComponentPhaseKind afterRepeatComponentPhaseKind);
+      msrVoiceAfterRepeatComponentPhaseKind afterRepeatComponentPhaseKind);
 
     enum msrVoiceFinalizationStatusKind { // JMI ???
       kKeepVoice,
@@ -6473,14 +6477,14 @@ class msrVoice : public msrElement
 
     // incomplete measures after repeats detection
 
-    void                  setAfterRepeatComponentPhaseKind (
+    void                  setCurrentVoiceAfterRepeatComponentPhaseKind (
                             int      inputLineNumber,
-                            msrAfterRepeatComponentPhaseKind
+                            msrVoiceAfterRepeatComponentPhaseKind
                                      afterRepeatComponentPhaseKind);
 
-    msrAfterRepeatComponentPhaseKind
-                          getAfterRepeatComponentPhaseKind () const
-                              { return fAfterRepeatComponentPhaseKind; }
+    msrVoiceAfterRepeatComponentPhaseKind
+                          getCurrentVoiceAfterRepeatComponentPhaseKind () const
+                              { return fCurrentVoiceAfterRepeatComponentPhaseKind; }
 
 
    // rests measures
@@ -7207,8 +7211,8 @@ class msrVoice : public msrElement
     rational              fWholeNotesSinceLastRegularMeasureEnd;
 
     // incomplete measures after repeats detection
-    msrAfterRepeatComponentPhaseKind
-                          fAfterRepeatComponentPhaseKind;
+    msrVoiceAfterRepeatComponentPhaseKind
+                          fCurrentVoiceAfterRepeatComponentPhaseKind;
     
     // voice internal handling
     

@@ -118,13 +118,13 @@ void msrMeasure::initializeMeasure ()
 #endif
 
   // measure kind
-  fMeasureKind = kMeasureKindUnknown;
+  setMeasureKind (kMeasureKindUnknown);
 
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentUnknown;
 
   // measure 'relative to a repeat' kind
-  fMeasureRelativeToARepeatKind = kMeasureRelativeToARepeatIrrelevant;
+  fMeasureRelationToRepeatsKind = kMeasureRelationToRepeatsUnknown;
   
   // measure 'first in voice'
   fMeasureFirstInVoice = false; // default value
@@ -455,9 +455,9 @@ void msrMeasure::setMeasurePuristNumber (
   fMeasurePuristNumber = measurePuristNumber;
 }
 
-void msrMeasure::setMeasureRelativeToARepeatKind (
-  msrMeasureRelativeToARepeatKind
-    measureRelativeToARepeatKind)
+void msrMeasure::setMeasureRelationToRepeatsKind (
+  msrMeasureRelationToRepeatsKind
+    measureRelationToRepeatsKind)
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
@@ -465,8 +465,8 @@ void msrMeasure::setMeasureRelativeToARepeatKind (
         "Setting relative to a repeat kind of measure '" <<
         fMeasureNumber <<
         "' to '" <<
-        measureRelativeToARepeatKindAsString (
-          measureRelativeToARepeatKind) <<
+        measureRelationToRepeatsKindAsString (
+          measureRelationToRepeatsKind) <<
         "' in segment " <<
         fMeasureSegmentUplink->asString () <<
         " in voice \"" <<
@@ -478,8 +478,8 @@ void msrMeasure::setMeasureRelativeToARepeatKind (
     }
 #endif
 
-  fMeasureRelativeToARepeatKind =
-    measureRelativeToARepeatKind;
+  fMeasureRelationToRepeatsKind =
+    measureRelationToRepeatsKind;
 }
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
@@ -673,6 +673,30 @@ string msrMeasure::actualMeasureWholeNotesAsMSRString ()
     wholeNotesAsMsrString (
       fInputLineNumber,
       fActualMeasureWholeNotes);
+}
+
+void msrMeasure::setMeasureKind (
+  msrMeasureKind measureKind)
+{
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceMeasures) {
+      gLogIOstream <<
+        "Setting measure kind of measure '" <<
+        fMeasureNumber <<
+        "' to '" <<
+        measureKindAsString (measureKind) <<
+        "' in segment " <<
+        fMeasureSegmentUplink->asString () <<
+        " in voice \"" <<
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+  fMeasureKind = measureKind;
 }
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
@@ -954,7 +978,7 @@ void msrMeasure::setFullMeasureWholeNotesFromTime (
       }
 #endif
   
-      fMeasureKind = kMeasureKindCadenza;
+      setMeasureKind (kMeasureKindCadenza);
       
       fFullMeasureWholeNotes =
         rational (INT_MAX, 1);
@@ -2284,7 +2308,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     endl;
 
   voice->
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+//   displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "determineMeasureKindAndPuristNumber() 1");
 
@@ -2295,7 +2320,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
 
   gIndenter++;
-    
+
+  // get voice after repeat component phase kind
+  msrVoice::msrVoiceAfterRepeatComponentPhaseKind
+    currentVoiceAfterRepeatComponentPhaseKind =
+      voice->
+        getCurrentVoiceAfterRepeatComponentPhaseKind ();
+
   if (fActualMeasureWholeNotes.getNumerator () == 0) { // JMI
     // empty measure
     
@@ -2319,7 +2350,11 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       s.str ());  
 
     // set it's measure kind
-    fMeasureKind = kMeasureKindEmpty;
+    setMeasureKind (kMeasureKindEmpty);
+
+    // set it's 'relative to a repeat' kind
+    fMeasureRelationToRepeatsKind =
+      kMeasureRelationToRepeatsNone;
   }
   
   else if (fActualMeasureWholeNotes == fFullMeasureWholeNotes) {
@@ -2335,8 +2370,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         0);
 
     // set it's measure kind
-    fMeasureKind = kMeasureKindRegular;
-    
+    setMeasureKind (kMeasureKindRegular);
+
+    // set it's 'relative to a repeat' kind
+    fMeasureRelationToRepeatsKind =
+      kMeasureRelationToRepeatsNone;
+
     // increment voice current measure purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
@@ -2366,16 +2405,74 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
           "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
         
         // set it's measure kind
-        fMeasureKind = kMeasureKindAnacrusis;
+        setMeasureKind (kMeasureKindAnacrusis);
+
+        // set it's 'relative to a repeat' kind
+        fMeasureRelationToRepeatsKind =
+          kMeasureRelationToRepeatsNone;
       }
   
       else {
         // this is an incomplete measure within the voice
   
-        switch (fMeasureRelativeToARepeatKind) {
-          case msrMeasure::kMeasureRelativeToARepeatIrrelevant:
+        // set measure's 'relative to a repeat' kind
+        // if this measure is in an after repeat component phase
+        switch (currentVoiceAfterRepeatComponentPhaseKind) {
+          case msrVoice::kVoiceAfterRepeatComponentPhaseUnknown:
+          case msrVoice::kVoiceAfterRepeatComponentPhaseNone:
+            fMeasureRelationToRepeatsKind =
+              kMeasureRelationToRepeatsNone;
+            break;
+            
+          case msrVoice::kVoiceAfterRepeatComponentPhaseAfterCommonPart:
+            fMeasureRelationToRepeatsKind =
+              kMeasureRelationToRepeatsNextMeasureAfterCommonPart;
+            break;
+      
+          case msrVoice::kVoiceAfterRepeatComponentPhaseAfterHookedEnding:
+            fMeasureRelationToRepeatsKind =
+              msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterHookedEnding;
+            break;
+      
+          case msrVoice::kVoiceAfterRepeatComponentPhaseAfterHooklessEnding:
+            fMeasureRelationToRepeatsKind =
+              msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterHooklessEnding;
+            break;
+        } // switch
+
+        // set measure's kind if it is the next measure after a repeat component 
+        switch (fMeasureRelationToRepeatsKind) {
+          case msrMeasure::kMeasureRelationToRepeatsUnknown:
             // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteIrrelevantToAnyRepeat;
+            setMeasureKind (kMeasureKindIncompleteStandalone);
+            /* JMI
+            {
+              // JMI ???
+              stringstream s;
+          
+              displayMeasure (
+                inputLineNumber,
+                "determineMeasureKindAndPuristNumber() kMeasureRelationToRepeatsUnknown");
+                
+              s <<
+                "measure '" <<
+                fMeasureNumber <<
+                "' is kMeasureRelationToRepeatsUnknown " <<
+                asShortString () <<
+                ", line " << inputLineNumber;
+                
+              msrInternalError (
+                gGeneralOptions->fInputSourceName,
+                inputLineNumber,
+                __FILE__, __LINE__,
+                s.str ());
+              }
+              */
+            break;
+            
+          case msrMeasure::kMeasureRelationToRepeatsNone:
+            // set it's measure kind
+            setMeasureKind (kMeasureKindIncompleteStandalone);
   
             switch (fMeasureEndRegularKind) {
               case msrMeasure::kMeasureEndRegularUnknown:
@@ -2384,7 +2481,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
                 
               case msrMeasure::kMeasureEndRegularYes:
                 // don't increment the voice current measure purist number,
-                // this has already been done for 'first part' of the measure
+                // this has already been done for the 'first part' of the measure
                 break;
                 
               case msrMeasure::kMeasureEndRegularNo:
@@ -2392,35 +2489,29 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
                 voice->
                   incrementVoiceCurrentMeasurePuristNumber (
                     inputLineNumber,
-                    "determineMeasureKindAndPuristNumber() kMeasureKindIncompleteIrrelevantToAnyRepeat");
+                    "determineMeasureKindAndPuristNumber() kMeasureKindIncompleteStandalone");
                 break;
             } // switch
             break;
             
-          case msrMeasure::kMeasureRelativeToARepeatCommonPartLastMeasure:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteLastInRepeatCommonPart;
+          case msrMeasure::kMeasureRelationToRepeatsCommonPartLastMeasure:
+            setMeasureKind (kMeasureKindIncompleteLastInRepeatCommonPart);
             break;
-          case msrMeasure::kMeasureRelativeToARepeatHookedEndingLastMeasure:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteLastInRepeatHookedEnding;
+          case msrMeasure::kMeasureRelationToRepeatsHookedEndingLastMeasure:
+            setMeasureKind (kMeasureKindIncompleteLastInRepeatHookedEnding);
             break;
-          case msrMeasure::kMeasureRelativeToARepeatHooklessEndingLastMeasure:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteLastInRepeatHooklessEnding;
+          case msrMeasure::kMeasureRelationToRepeatsHooklessEndingLastMeasure:
+            setMeasureKind (kMeasureKindIncompleteLastInRepeatHooklessEnding);
             break;
             
-          case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterCommonPart:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteNextMeasureAfterCommonPart;
+          case msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterCommonPart:
+            setMeasureKind (kMeasureKindIncompleteNextMeasureAfterCommonPart);
             break;
-          case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHookedEnding:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteNextMeasureAfterHookedEnding;
+          case msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterHookedEnding:
+            setMeasureKind (kMeasureKindIncompleteNextMeasureAfterHookedEnding);
             break;
-          case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding:
-            // set it's measure kind
-            fMeasureKind = kMeasureKindIncompleteNextMeasureAfterHooklessEnding;
+          case msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterHooklessEnding:
+            setMeasureKind (kMeasureKindIncompleteNextMeasureAfterHooklessEnding);
             break;
         } // switch
       }
@@ -2430,8 +2521,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       // this is an overfull measure
   
       // set it's measure kind
-      fMeasureKind = kMeasureKindOvercomplete;
+      setMeasureKind (kMeasureKindOvercomplete);
       
+      // set it's 'relative to a repeat' kind
+      fMeasureRelationToRepeatsKind =
+        kMeasureRelationToRepeatsNone;
+
       // set it's measure purist number
       voice->
         incrementVoiceCurrentMeasurePuristNumber (
@@ -2442,9 +2537,15 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         voice->
           getVoiceCurrentMeasurePuristNumber ());
     }
-    
+
+    /* JMI
     else {
       // strange measure...
+
+      // set it's 'relative to a repeat' kind
+      fMeasureRelationToRepeatsKind =
+        kMeasureRelationToRepeatsNone;
+
       stringstream s;
   
       displayMeasure (
@@ -2464,46 +2565,27 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         __FILE__, __LINE__,
         s.str ());  
     }
+    */
   }
 
   // incomplete measures after repeats detection
-  msrVoice::msrAfterRepeatComponentPhaseKind
-    afterRepeatComponentPhaseKind =
-      voice->
-        getAfterRepeatComponentPhaseKind ();
-      
-  switch (afterRepeatComponentPhaseKind) {
-    case msrVoice::kAfterRepeatComponentPhaseIrrelevant:
+  // forget about voice after repeat component phase kind
+  switch (currentVoiceAfterRepeatComponentPhaseKind) {
+    case msrVoice::kVoiceAfterRepeatComponentPhaseUnknown:
+      // JMI ???
       break;
       
-    case msrVoice::kAfterRepeatComponentPhaseAfterCommonPart:
-      fMeasureRelativeToARepeatKind =
-        kMeasureRelativeToARepeatNextMeasureAfterCommonPart;
-
-      voice->
-        setAfterRepeatComponentPhaseKind (
-          inputLineNumber,
-          msrVoice::kAfterRepeatComponentPhaseIrrelevant);
+    case msrVoice::kVoiceAfterRepeatComponentPhaseNone:
       break;
-
-    case msrVoice::kAfterRepeatComponentPhaseAfterHookedEnding:
-      fMeasureRelativeToARepeatKind =
-        msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHookedEnding;
-
+      
+    case msrVoice::kVoiceAfterRepeatComponentPhaseAfterCommonPart:
+    case msrVoice::kVoiceAfterRepeatComponentPhaseAfterHookedEnding:
+    case msrVoice::kVoiceAfterRepeatComponentPhaseAfterHooklessEnding:
+      // reset incomplete measures after repeats detection
       voice->
-        setAfterRepeatComponentPhaseKind (
+        setCurrentVoiceAfterRepeatComponentPhaseKind (
           inputLineNumber,
-          msrVoice::kAfterRepeatComponentPhaseIrrelevant);
-      break;
-
-    case msrVoice::kAfterRepeatComponentPhaseAfterHooklessEnding:
-      fMeasureRelativeToARepeatKind =
-        msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding;
-
-      voice->
-        setAfterRepeatComponentPhaseKind (
-          inputLineNumber,
-          msrVoice::kAfterRepeatComponentPhaseIrrelevant);
+          msrVoice::kVoiceAfterRepeatComponentPhaseNone);
       break;
   } // switch
 
@@ -2515,7 +2597,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     voice->
-      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+//   displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
         inputLineNumber,
         "determineMeasureKindAndPuristNumber() 2");
 
@@ -2806,7 +2889,7 @@ void msrMeasure::finalizeMeasure (
     case msrMeasure::kMeasureKindOvercomplete:
     case msrMeasure::kMeasureKindAnacrusis:
     case msrMeasure::kMeasureKindRegular:
-    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat: // JMI
+    case msrMeasure::kMeasureKindIncompleteStandalone: // JMI
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart: // JMI
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding: // JMI
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding: // JMI
@@ -3072,8 +3155,8 @@ string msrMeasure::measureKindAsString (
     case msrMeasure::kMeasureKindAnacrusis:
       result = "measureKindAnacrusis";
       break;
-    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
-      result = "measureKindIncompleteIrrelevantToAnyRepeat";
+    case msrMeasure::kMeasureKindIncompleteStandalone:
+      result = "measureKindIncompleteStandalone";
       break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
       result = "measureKindIncompleteLastInRepeatCommonPart";
@@ -3100,7 +3183,7 @@ string msrMeasure::measureKindAsString (
       result = "measureKindCadenza";
       break;
     case msrMeasure::kMeasureKindEmpty:
-      result = "measureKindEmpty";
+      result = "***measureKindEmpty***";
       break;
   } // switch
 
@@ -3131,7 +3214,7 @@ string msrMeasure::measureFirstInSegmentKindAsString (
 
   switch (measureFirstInSegmentKind) {
     case msrMeasure::kMeasureFirstInSegmentUnknown:
-      result = "measureFirstInSegmentUnknown";
+      result = "***measureFirstInSegmentUnknown***";
       break;
     case msrMeasure::kMeasureFirstInSegmentYes:
       result = "measureFirstInSegmentYes";
@@ -3144,32 +3227,35 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   return result;
 }
 
-string msrMeasure::measureRelativeToARepeatKindAsString (
-  msrMeasureRelativeToARepeatKind measureRelativeToARepeatKind)
+string msrMeasure::measureRelationToRepeatsKindAsString (
+  msrMeasureRelationToRepeatsKind measureRelationToRepeatsKind)
 {
   string result;
 
-  switch (measureRelativeToARepeatKind) {
-    case msrMeasure::kMeasureRelativeToARepeatIrrelevant:
-      result = "measureRelativeToARepeatIrrelevant";
+  switch (measureRelationToRepeatsKind) {
+    case msrMeasure::kMeasureRelationToRepeatsUnknown:
+      result = "***measureRelationToRepeatsUnknown***";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatCommonPartLastMeasure:
-      result = "measureRelativeToARepeatCommonPartLastMeasure";
+    case msrMeasure::kMeasureRelationToRepeatsNone:
+      result = "measureRelationToRepeatsNone";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatHookedEndingLastMeasure:
-      result = "measureRelativeToARepeatHookedEndingLastMeasure";
+    case msrMeasure::kMeasureRelationToRepeatsCommonPartLastMeasure:
+      result = "measureRelationToRepeatsCommonPartLastMeasure";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatHooklessEndingLastMeasure:
-      result = "measureRelativeToARepeatHooklessEndingLastMeasure";
+    case msrMeasure::kMeasureRelationToRepeatsHookedEndingLastMeasure:
+      result = "measureRelationToRepeatsHookedEndingLastMeasure";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterCommonPart:
-      result = "measureRelativeToARepeatNextMeasureAfterCommonPart";
+    case msrMeasure::kMeasureRelationToRepeatsHooklessEndingLastMeasure:
+      result = "measureRelationToRepeatsHooklessEndingLastMeasure";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHookedEnding:
-      result = "measureRelativeToARepeatNextMeasureAfterHookedEnding";
+    case msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterCommonPart:
+      result = "measureRelationToRepeatsNextMeasureAfterCommonPart";
       break;
-    case msrMeasure::kMeasureRelativeToARepeatNextMeasureAfterHooklessEnding:
-      result = "measureRelativeToARepeatNextMeasureAfterHooklessEnding";
+    case msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterHookedEnding:
+      result = "measureRelationToRepeatsNextMeasureAfterHookedEnding";
+      break;
+    case msrMeasure::kMeasureRelationToRepeatsNextMeasureAfterHooklessEnding:
+      result = "measureRelationToRepeatsNextMeasureAfterHooklessEnding";
       break;
   } // switch
 
@@ -3183,7 +3269,7 @@ string msrMeasure::measureEndRegularKindAsString (
 
   switch (measureEndRegularKind) {
     case msrMeasure::kMeasureEndRegularUnknown:
-      result = "measureEndRegularUnknown";
+      result = "***measureEndRegularUnknown***";
       break;
     case msrMeasure::kMeasureEndRegularYes:
       result = "measureEndRegularYes";
@@ -3321,9 +3407,9 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "measureRelativeToARepeatKind" << " : " <<
-    msrMeasure::measureRelativeToARepeatKindAsString (
-      fMeasureRelativeToARepeatKind) << 
+    "measureRelationToRepeatsKind" << " : " <<
+    msrMeasure::measureRelationToRepeatsKindAsString (
+      fMeasureRelationToRepeatsKind) << 
     endl <<
     
     setw (fieldWidth) <<
@@ -3513,9 +3599,9 @@ void msrMeasure::shortPrint (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "measureRelativeToARepeatKind" << " : " <<
-    msrMeasure::measureRelativeToARepeatKindAsString (
-      fMeasureRelativeToARepeatKind) << 
+    "measureRelationToRepeatsKind" << " : " <<
+    msrMeasure::measureRelationToRepeatsKindAsString (
+      fMeasureRelationToRepeatsKind) << 
 
     setw (fieldWidth) <<
     "measureImplicitKind" << " : " <<

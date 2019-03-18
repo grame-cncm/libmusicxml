@@ -3179,7 +3179,7 @@ void msr2BsrTranslator::visitEnd (S_msrMeasure& elt)
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureKindIncompleteIrrelevantToAnyRepeat:
+    case msrMeasure::kMeasureKindIncompleteStandalone:
       doCreateABarCheck = true;
       break;
     case msrMeasure::kMeasureKindIncompleteLastInRepeat:
