@@ -408,6 +408,7 @@ namespace MusicXML2
          If text order is AFTER dynamics, then impose textformat="lt", dx=2
          */
         Sguidoelement tag;
+        bool generateAfter= false;  // hold on to generation until everything is visited
         /// Check if there's a combination of k_words and k_dynamics
         if ((elt->find(k_words) != elt->end()) && (elt->find(k_dynamics) != elt->end()) ) {
             generateCompositeDynamic = true;
@@ -416,6 +417,7 @@ namespace MusicXML2
             ito++;
             if (elt->find(k_words, ito) != elt->end()) {
                 // then there is a WORD after Dynamics
+                generateAfter = true;
             }
         }
         
@@ -430,8 +432,6 @@ namespace MusicXML2
             
             float elementSpecificYOffset = 0.0;
             
-            bool textPushTag = false;   // for Text Tag, use PUSH instead of ADD and make sure you close them RIGHT after the first note.
-            
             if ((*iter)->getType() == k_direction_type) {
                 
                 ctree<xmlelement>::literator directionTypeElements;
@@ -439,6 +439,13 @@ namespace MusicXML2
                     int elementType = (*directionTypeElements)->getType();
                     auto element = (*directionTypeElements);
                     //cerr << "\t\tS_Direction_type: " << (*directionTypeElements)->getName()<< " CommonDY="<< commonDy <<endl;
+                    
+                    /// Take into account group positioning
+                    float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
+                    if (posy != 0.0) {
+                        // then apply and save
+                        commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
+                    }
                     
                     switch (elementType) {
                         case k_words:
@@ -500,9 +507,17 @@ namespace MusicXML2
                                 tag->add (guidoparam::create(wordParameters.str(), false));
                                 
                                 xml2guidovisitor::addPosX(element, tag, 0);
+                                
+                                // apply inherited Y-position
+                                if (commonDy != 0.0) {
+                                    stringstream s;
+                                    s << "dy=" << commonDy+elementSpecificYOffset << "hs";
+                                    tag->add (guidoparam::create(s.str(), false));
+                                }
+                                
+                                push(tag);
+                                fTextTagOpen++;
                             }
-                            
-                            textPushTag = true;
                             
                             break;
                         }
@@ -510,23 +525,46 @@ namespace MusicXML2
                         case k_dynamics:
                         {
                             ctree<xmlelement>::literator iter2;
+                            float dynamicsDx = 0.0;
                             for (iter2 = element->lbegin(); iter2 != element->lend(); iter2++) {
-                                if ((*iter)->getType() != k_other_dynamics) {
+                                if ((*iter2)->getType() != k_other_dynamics) {
                                     tag = guidotag::create("intens");
                                     tag->add (guidoparam::create((*iter2)->getName()));
                                     float intensDx = xPosFromTimePos(element->getAttributeFloatValue("default-x", 0), element->getAttributeFloatValue("relative-x", 0));
                                     
-                                    if (intensDx != -999) {
-                                        stringstream s;
-                                        s << "dx=" << intensDx ;
-                                        tag->add (guidoparam::create(s.str(), false));
-                                    }
-                                    
                                     // add pending word parameters (for "before")
-                                    if ((generateCompositeDynamic)&&(wordParameterBuffer.size())) {
-                                        tag->add (guidoparam::create(wordParameterBuffer, false));
-                                        wordParameterBuffer = "";
+                                    if (!generateAfter) {
+                                        if (wordParameterBuffer.size()) {
+                                            tag->add (guidoparam::create(wordParameterBuffer, false));
+                                            wordParameterBuffer = "";
+                                        }
+                                        
+                                        // apply inherited Y-position
+                                        if (commonDy != 0.0) {
+                                            stringstream s;
+                                            s << "dy=" << commonDy+elementSpecificYOffset << "hs";
+                                            tag->add (guidoparam::create(s.str(), false));
+                                        }
+                                        
+                                        // Apply dx in case of consecutive dynamics (e.g. "sf ff")
+                                        if (dynamicsDx != 0.0) {
+                                            stringstream s;
+                                            s << "dx=" << dynamicsDx << "hs";
+                                            tag->add (guidoparam::create(s.str(), false));
+                                        }else if (intensDx != -999) {
+                                            stringstream s;
+                                            s << "dx=" << intensDx ;
+                                            tag->add (guidoparam::create(s.str(), false));
+                                        }
+                                        
+                                        /// Add Tag
+                                        if (fCurrentOffset)
+                                            addDelayed(tag, fCurrentOffset);
+                                        else {
+                                            add(tag);
+                                        }
                                     }
+                                    dynamicsDx = 4.0;   // heuristic HS to avoid collision between consecutive dynamics
                                 }
                             }
                             
@@ -550,50 +588,34 @@ namespace MusicXML2
                                 tag->add (guidoparam::create(tempoParams.str(), false));
                             }
                             
-                            elementSpecificYOffset = -14.0;     // heuristics
+                            elementSpecificYOffset = -19.0;     // heuristics
                             
                             tempoMetronome.clear();
+                            
+                            // apply inherited Y-position
+                            if (commonDy != 0.0) {
+                                stringstream s;
+                                s << "dy=" << commonDy+elementSpecificYOffset << "hs";
+                                tag->add (guidoparam::create(s.str(), false));
+                            }
+                            
+                            /// Add Tag
+                            if (fCurrentOffset)
+                                addDelayed(tag, fCurrentOffset);
+                            else {
+                                add(tag);
+                            }
                         }
                             
                         default:
                             break;
-                    }
-                    
-                    /// Take into account group positioning
-                    float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
-                    if (posy != 0.0) {
-                        // then apply and save
-                        commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
-                    }
-                    
-                    if (tag) {
-                        // apply inherited Y-position
-                        if (commonDy != 0.0) {
-                            stringstream s;
-                            s << "dy=" << commonDy+elementSpecificYOffset << "hs";
-                            tag->add (guidoparam::create(s.str(), false));
-                        }
-                        
-                        if (!generateCompositeDynamic) {
-                            if (textPushTag) {
-                                push(tag);
-                                fTextTagOpen++;
-                            }else {
-                                /// Add Tag
-                                if (fCurrentOffset)
-                                    addDelayed(tag, fCurrentOffset);
-                                else {
-                                    add(tag);
-                                }
-                            }
-                        }
                     }
                 }
             }
         }
         
         // If composed tag, add here
-        if (generateCompositeDynamic) {
+        if (generateAfter) {
             /// Add Tag
             if (fCurrentOffset)
                 addDelayed(tag, fCurrentOffset);
@@ -2408,9 +2430,9 @@ namespace MusicXML2
                     
                     return finalDx;
                 }
-            }else {
-                cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
-            }
+            }//else {
+            //    cerr<<"ERROR: NO TIME POS FOR VOICE POSITION"<<fCurrentVoicePosition.toString()<<" TO INFER Dx for DYNAMICS!"<<endl;
+            //}
         }
         return -999;        // This is when the xpos can not be computed
     }
