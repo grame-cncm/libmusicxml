@@ -416,8 +416,9 @@ void msrVoice::initializeVoice (
   fWholeNotesSinceLastRegularMeasureEnd = rational (0, 1);
   
   // incomplete measures after repeats detection
-  fCurrentVoiceAfterRepeatComponentPhaseKind =
-    kVoiceAfterRepeatComponentPhaseUnknown;
+  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    fInputLineNumber,
+    kVoiceAfterRepeatComponentPhaseNone);
 
   // rest measures
   fVoiceContainsRestMeasures  = false;
@@ -918,7 +919,8 @@ void msrVoice::setCurrentVoiceAfterRepeatComponentPhaseKind (
   }
 #endif
 
-  fCurrentVoiceAfterRepeatComponentPhaseKind = afterRepeatComponentPhaseKind;
+  fCurrentVoiceAfterRepeatComponentPhaseKind =
+    afterRepeatComponentPhaseKind;
 }
                
 void msrVoice::createNewLastSegmentForVoice (
@@ -9472,9 +9474,6 @@ string msrVoice::afterRepeatComponentPhaseKindAsString (
   string result;
   
   switch (afterRepeatComponentPhaseKind) {
-    case msrVoice::kVoiceAfterRepeatComponentPhaseUnknown:
-      result = "voiceAfterRepeatComponentPhaseUnknown";
-      break;
     case msrVoice::kVoiceAfterRepeatComponentPhaseNone:
       result = "voiceAfterRepeatComponentPhaseNone";
       break;

@@ -6253,7 +6253,6 @@ class msrVoice : public msrElement
       msrVoiceKind voiceKind);
       
     enum msrVoiceAfterRepeatComponentPhaseKind {
-        kVoiceAfterRepeatComponentPhaseUnknown,
         kVoiceAfterRepeatComponentPhaseNone,
         kVoiceAfterRepeatComponentPhaseAfterCommonPart,
         kVoiceAfterRepeatComponentPhaseAfterHookedEnding,
