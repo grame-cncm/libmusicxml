@@ -326,7 +326,9 @@ void msrSegment::setNextMeasureNumberInSegment (
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
-  int inputLineNumber)
+  int     inputLineNumber,
+  msrMeasure::msrMeasureRepeatKind
+          measureRepeatKind)
 {
   string
     currentMeasureNumber =
@@ -365,6 +367,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     lastMeasure->
       finalizeMeasure (
         inputLineNumber,
+        measureRepeatKind,
         "finalizeCurrentMeasureInSegment()");
   }
 

@@ -632,19 +632,19 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     enum msrMeasureKind {
-        kMeasureKindUnknown,
-        kMeasureKindRegular,
-        kMeasureKindAnacrusis,
-        kMeasureKindIncompleteStandalone,
-        kMeasureKindIncompleteLastInRepeatCommonPart,
-        kMeasureKindIncompleteLastInRepeatHookedEnding,
-        kMeasureKindIncompleteLastInRepeatHooklessEnding,
-        kMeasureKindIncompleteNextMeasureAfterCommonPart,
-        kMeasureKindIncompleteNextMeasureAfterHookedEnding,
-        kMeasureKindIncompleteNextMeasureAfterHooklessEnding,
-        kMeasureKindOvercomplete,
-        kMeasureKindCadenza,
-        kMeasureKindEmpty}; // for <measure ... /> without nested contents JMI ???
+        kMeasureUnknown,
+        kMeasureRegular,
+        kMeasureAnacrusis,
+        kMeasureIncompleteStandalone,
+        kMeasureIncompleteLastInRepeatCommonPart,
+        kMeasureIncompleteLastInRepeatHookedEnding,
+        kMeasureIncompleteLastInRepeatHooklessEnding,
+        kMeasureIncompleteNextMeasureAfterCommonPart,
+        kMeasureIncompleteNextMeasureAfterHookedEnding,
+        kMeasureIncompleteNextMeasureAfterHooklessEnding,
+        kMeasureOvercomplete,
+        kMeasureCadenza,
+        kMeasureEmpty}; // for <measure ... /> without nested contents JMI ???
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
@@ -664,18 +664,18 @@ class msrMeasure : public msrElement
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
-    enum msrMeasureRelationToRepeatsKind {
-        kMeasureRelationToRepeatsUnknown,
-        kMeasureRelationToRepeatsNone,
-        kMeasureRelationToRepeatsCommonPartLastMeasure,
-        kMeasureRelationToRepeatsHookedEndingLastMeasure,
-        kMeasureRelationToRepeatsHooklessEndingLastMeasure,
-        kMeasureRelationToRepeatsNextMeasureAfterCommonPart,
-        kMeasureRelationToRepeatsNextMeasureAfterHookedEnding,
-        kMeasureRelationToRepeatsNextMeasureAfterHooklessEnding };
+    enum msrMeasureRepeatKind {
+        kMeasureRepeatUnknown,
+        kMeasureRepeatNone,
+        kMeasureRepeatCommonPartLastMeasure,
+        kMeasureRepeatHookedEndingLastMeasure,
+        kMeasureRepeatHooklessEndingLastMeasure,
+        kMeasureRepeatNextMeasureAfterCommonPart,
+        kMeasureRepeatNextMeasureAfterHookedEnding,
+        kMeasureRepeatNextMeasureAfterHooklessEnding };
       
-    static string measureRelationToRepeatsKindAsString (
-      msrMeasureRelationToRepeatsKind measureRelationToRepeatsKind);
+    static string measureRepeatKindAsString (
+      msrMeasureRepeatKind measureRepeatKind);
 
     enum msrMeasureEndRegularKind {
         kMeasureEndRegularUnknown,
@@ -807,13 +807,13 @@ class msrMeasure : public msrElement
 
     // measure 'relative a repeat' kind
     
-    void                  setMeasureRelationToRepeatsKind (
-                            msrMeasureRelationToRepeatsKind
-                              measureRelationToRepeatsKind);
+    void                  setMeasureRepeatKind (
+                            msrMeasureRepeatKind
+                              measureRepeatKind);
 
-    msrMeasureRelationToRepeatsKind
-                          getMeasureRelationToRepeatsKind () const
-                              { return fMeasureRelationToRepeatsKind; }
+    msrMeasureRepeatKind
+                          getMeasureRepeatKind () const
+                              { return fMeasureRepeatKind; }
 
     // single-measure rest?
 
@@ -1087,19 +1087,23 @@ class msrMeasure : public msrElement
     // finalization
 
     void                  determineMeasureKindAndPuristNumber (
-                            int inputLineNumber);
+                            int     inputLineNumber,
+                            msrMeasureRepeatKind
+                                    measureRepeatKind);
 
     void                  padUpToPositionInMeasure (
                             int      inputLineNumber,
                             rational positionInMeasure);
 
     void                  finalizeMeasure (
-                            int    inputLineNumber,
-                            string context);
+                            int                  inputLineNumber,
+                            msrMeasureRepeatKind measureRepeatKind,
+                            string               context);
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,
-                            S_msrMeasure originalMeasure);
+                            S_msrMeasure originalMeasure,
+                            S_msrVoice   voiceClone);
 
   private:
   
@@ -1184,8 +1188,8 @@ class msrMeasure : public msrElement
                         
     // measure 'relative a repeatt' kind
 
-    msrMeasureRelationToRepeatsKind
-                          fMeasureRelationToRepeatsKind;
+    msrMeasureRepeatKind
+                          fMeasureRepeatKind;
                         
     // single-measure rest?
 
@@ -1523,7 +1527,9 @@ class msrSegment : public msrVoiceElement
     // finalization
 
     void                  finalizeCurrentMeasureInSegment (
-                            int inputLineNumber);
+                            int     inputLineNumber,
+                            msrMeasure::msrMeasureRepeatKind
+                                    measureRepeatKind);
 
   public:
 
@@ -6252,14 +6258,14 @@ class msrVoice : public msrElement
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
       
-    enum msrVoiceAfterRepeatComponentPhaseKind {
-        kVoiceAfterRepeatComponentPhaseNone,
-        kVoiceAfterRepeatComponentPhaseAfterCommonPart,
-        kVoiceAfterRepeatComponentPhaseAfterHookedEnding,
-        kVoiceAfterRepeatComponentPhaseAfterHooklessEnding };
+    enum msrVoiceRepeatPhaseKind {
+        kVoiceRepeatPhaseNone,
+        kVoiceRepeatPhaseAfterCommonPart,
+        kVoiceRepeatPhaseAfterHookedEnding,
+        kVoiceRepeatPhaseAfterHooklessEnding };
       
-    static string voiceAfterRepeatComponentPhaseKindAsString (
-      msrVoiceAfterRepeatComponentPhaseKind
+    static string voiceRepeatPhaseKindAsString (
+      msrVoiceRepeatPhaseKind
         afterRepeatComponentPhaseKind);
 
     enum msrVoiceFinalizationStatusKind { // JMI ???
@@ -6477,14 +6483,14 @@ class msrVoice : public msrElement
 
     // incomplete measures after repeats detection
 
-    void                  setCurrentVoiceAfterRepeatComponentPhaseKind (
+    void                  setCurrentVoiceRepeatPhaseKind (
                             int      inputLineNumber,
-                            msrVoiceAfterRepeatComponentPhaseKind
+                            msrVoiceRepeatPhaseKind
                                      afterRepeatComponentPhaseKind);
 
-    msrVoiceAfterRepeatComponentPhaseKind
-                          getCurrentVoiceAfterRepeatComponentPhaseKind () const
-                              { return fCurrentVoiceAfterRepeatComponentPhaseKind; }
+    msrVoiceRepeatPhaseKind
+                          getCurrentVoiceRepeatPhaseKind () const
+                              { return fCurrentVoiceRepeatPhaseKind; }
 
 
    // rests measures
@@ -6974,18 +6980,6 @@ class msrVoice : public msrElement
                             int          inputLineNumber,
                             string       context);
     
-    // incomplete measures
-    
-    S_msrMeasure          createMeasureSecondPartIfItIsIncompleteInVoice (
-                            int          inputLineNumber,
-                            S_msrMeasure measure,
-                            string       context);
-
-    void                  handleMeasureSecondPartInVoice (
-                            int          inputLineNumber,
-                            S_msrMeasure measureSecondPart,
-                            string       context);
-
     // repeats
     
     S_msrRepeat           createARepeatAndStackIt (
@@ -7211,8 +7205,8 @@ class msrVoice : public msrElement
     rational              fWholeNotesSinceLastRegularMeasureEnd;
 
     // incomplete measures after repeats detection
-    msrVoiceAfterRepeatComponentPhaseKind
-                          fCurrentVoiceAfterRepeatComponentPhaseKind;
+    msrVoiceRepeatPhaseKind
+                          fCurrentVoiceRepeatPhaseKind;
     
     // voice internal handling
     

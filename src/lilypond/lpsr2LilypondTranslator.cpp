@@ -6859,31 +6859,31 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
   // take this measure into account for counting
   switch (elt->getMeasureKind ()) {
-    case msrMeasure::kMeasureKindUnknown:
+    case msrMeasure::kMeasureUnknown:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindRegular:
+    case msrMeasure::kMeasureRegular:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindAnacrusis:
+    case msrMeasure::kMeasureAnacrusis:
       // keep fCurrentVoiceMeasuresCounter at 0
       break;
-    case msrMeasure::kMeasureKindIncompleteStandalone:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+    case msrMeasure::kMeasureIncompleteStandalone:
+    case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindOvercomplete:
+    case msrMeasure::kMeasureOvercomplete:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindCadenza:
+    case msrMeasure::kMeasureCadenza:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureKindEmpty:
+    case msrMeasure::kMeasureEmpty:
       fCurrentVoiceMeasuresCounter++;
       break;
   } // switch
@@ -6923,7 +6923,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   if (
     fOnGoingVoiceCadenza
       &&
-    measureKind != msrMeasure::kMeasureKindOvercomplete
+    measureKind != msrMeasure::kMeasureOvercomplete
   ) {
     fLilypondCodeIOstream <<
       endl <<
@@ -6934,7 +6934,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     if (gLilypondOptions->fComments) {
       fLilypondCodeIOstream <<
-        " % kMeasureKindOvercomplete End";
+        " % kMeasureOvercomplete End";
     }
 
     fLilypondCodeIOstream<<
@@ -6946,7 +6946,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   fSegmentNotesAndChordsCountersStack.push (0);
 
   switch (measureKind) {
-    case msrMeasure::kMeasureKindUnknown:
+    case msrMeasure::kMeasureUnknown:
       {
         stringstream s;
 
@@ -6968,10 +6968,10 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureKindRegular:
+    case msrMeasure::kMeasureRegular:
       break;
       
-    case msrMeasure::kMeasureKindAnacrusis:
+    case msrMeasure::kMeasureAnacrusis:
       if (elt->getMeasureFirstInVoice ()) {
         // only generate '\partial' at the beginning of a voice
 
@@ -6987,13 +6987,13 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureKindIncompleteStandalone:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+    case msrMeasure::kMeasureIncompleteStandalone:
+    case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
       {
         rational
           actualMeasureWholeNotes =
@@ -7069,7 +7069,7 @@ else
       }
       break;
 
-    case msrMeasure::kMeasureKindOvercomplete:
+    case msrMeasure::kMeasureOvercomplete:
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
           endl <<
@@ -7077,7 +7077,7 @@ else
           " \\omit Staff.TimeSignature";
 
         if (gLilypondOptions->fComments) {
-          fLilypondCodeIOstream << " % kMeasureKindOvercomplete Start";
+          fLilypondCodeIOstream << " % kMeasureOvercomplete Start";
         }
 
         fLilypondCodeIOstream <<
@@ -7087,14 +7087,14 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureKindCadenza:
+    case msrMeasure::kMeasureCadenza:
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
-          fLilypondCodeIOstream << " % kMeasureKindCadenza Start";
+          fLilypondCodeIOstream << " % kMeasureCadenza Start";
         }
 
         fLilypondCodeIOstream <<
@@ -7108,7 +7108,7 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureKindEmpty:
+    case msrMeasure::kMeasureEmpty:
       {
         // generate a skip the duration of the measure
         // followed by a bar check
@@ -7173,14 +7173,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   if (! fOnGoingRestMeasures) {
     // handle the measure
     switch (measureKind) {
-      case msrMeasure::kMeasureKindUnknown: // should not occur
+      case msrMeasure::kMeasureUnknown: // should not occur
         fLilypondCodeIOstream <<
           "%{ measureKindUnknown %} | % " <<
           measurePuristNumber + 1 <<
           endl;
         break;
         
-      case msrMeasure::kMeasureKindRegular:
+      case msrMeasure::kMeasureRegular:
         {
           bool doGenerateBarCheck = true;
           
@@ -7201,14 +7201,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         }
         break;
         
-      case msrMeasure::kMeasureKindAnacrusis:
+      case msrMeasure::kMeasureAnacrusis:
         fLilypondCodeIOstream <<
           "| % " <<
           measurePuristNumber + 1 <<
           endl;
         break;
         
-      case msrMeasure::kMeasureKindIncompleteStandalone:
+      case msrMeasure::kMeasureIncompleteStandalone:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<
@@ -7235,12 +7235,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         } // switch
         break;
   
-      case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-      case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-      case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
+      case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
+      case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
+      case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
+      case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
+      case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
         switch (elt-> getMeasureEndRegularKind ()) {
           case msrMeasure::kMeasureEndRegularUnknown:
             fLilypondCodeIOstream <<
@@ -7267,7 +7267,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         } // switch
         break;
   
-      case msrMeasure::kMeasureKindOvercomplete:
+      case msrMeasure::kMeasureOvercomplete:
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
@@ -7277,7 +7277,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
   
-      case msrMeasure::kMeasureKindCadenza:
+      case msrMeasure::kMeasureCadenza:
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
@@ -7288,7 +7288,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
   
-      case msrMeasure::kMeasureKindEmpty: // should not occur
+      case msrMeasure::kMeasureEmpty: // should not occur
         fLilypondCodeIOstream <<
           "%{ emptyMeasureKind %} | % " <<
           measurePuristNumber + 1 <<
@@ -13995,7 +13995,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
 
   // don't generate a bar check before the end of measure 1 // JMI ???
   fLilypondCodeIOstream <<
-    "| % " << nextBarNumber << " % bar check" <<
+    "| % " << nextBarNumber <<
     endl;
 }
 

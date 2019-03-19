@@ -1904,13 +1904,14 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   fCurrentMeasureClone->
     finalizeMeasureClone (
       inputLineNumber,
-      elt); // original measure
+      elt, // original measure
+      fCurrentVoiceClone);
 
   bool doCreateABarCheck = false; // JMI
 
   switch (elt->getMeasureKind ()) {
     
-    case msrMeasure::kMeasureKindUnknown:
+    case msrMeasure::kMeasureUnknown:
       {
         stringstream s;
 
@@ -1931,33 +1932,33 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kMeasureKindRegular:
+    case msrMeasure::kMeasureRegular:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureKindAnacrusis:
+    case msrMeasure::kMeasureAnacrusis:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureKindIncompleteStandalone:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+    case msrMeasure::kMeasureIncompleteStandalone:
+    case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
       doCreateABarCheck = true;
       break;
 
-    case msrMeasure::kMeasureKindOvercomplete:
+    case msrMeasure::kMeasureOvercomplete:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureKindCadenza:
+    case msrMeasure::kMeasureCadenza:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureKindEmpty:
+    case msrMeasure::kMeasureEmpty:
       // JMI
       break;
   } // switch
