@@ -3549,9 +3549,11 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       switch (lastMeasureInLastSegment->getMeasureKind ()) {
         case msrMeasure::kMeasureMusicallyEmpty:
           {
-            // the last measure is empty:
-            // keep it for a new voice last segment
-    
+            // the last measure is musically empty:
+            // keep it as it is
+
+
+    /* JMI
 #ifdef TRACE_OPTIONS
             if (
               gTraceOptions->fTraceMeasures
@@ -3599,12 +3601,13 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
               inputLineNumber,
               lastMeasureInLastSegment,
               "handleVoiceLevelRepeatStartInVoice()");
+            */
           }
           break;
     
         default:
           {
-            // the last measure it not empty:
+            // the last measure it not musically empty:
     
             // append last segment to initial voice elements list
             appendVoiceLastSegmentToInitialVoiceElements (

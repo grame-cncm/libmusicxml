@@ -2642,6 +2642,22 @@ void msrMeasure::padUpToPositionInMeasure (
   int      inputLineNumber,
   rational positionInMeasure)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Padding up to postion '" <<
+      positionInMeasure <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      ", measureDebugNumber: '" <<
+      fMeasureDebugNumber <<
+      "' in segment " <<
+      fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   gIndenter++;
   
   // fetch the part measure whole notes high tide
@@ -2942,7 +2958,8 @@ void msrMeasure::finalizeMeasure (
         partActualMeasureWholeNotesHighTide =
           fetchMeasurePartUplink ()->
             getPartActualMeasureWholeNotesHighTide ();
-        
+
+      if (false)
       padUpToPositionInMeasure ( // JMI ???
         inputLineNumber,
         partActualMeasureWholeNotesHighTide);
