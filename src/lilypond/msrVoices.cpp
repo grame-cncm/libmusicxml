@@ -1027,6 +1027,9 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
           measureNumber,
           measureImplicitKind);
 
+  // result is the new voice current measure
+  fVoiceCurrentMeasure = result;
+
   // handle voice kind
   switch (fVoiceKind) {
     case msrVoice::kHarmonyVoice:
@@ -1052,74 +1055,6 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
       "createMeasureAndAppendItToVoice() 2");
   }
 #endif
-
-  gIndenter--;
-
-  return result;
-}
-
-S_msrMeasure msrVoice::createMeasureSecondPart ( // JMI
-  int    inputLineNumber,
-  string measureNumber,
-  int    measurePuristNumber,
-  msrMeasure::msrMeasureImplicitKind
-         measureImplicitKind)
-{
-  fVoiceCurrentMeasureNumber = measureNumber;
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Creating second part for measure '" <<
-      measureNumber <<
-      "', line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
-  
-  // create the voice last segment if needed
-  if (! fVoiceLastSegment) {
-    createNewLastSegmentForVoice (
-      inputLineNumber,
-      "createMeasureAndAppendItToVoice()");
-  }
-
-  // append new measure with given number
-  S_msrMeasure
-    result =
-      fVoiceLastSegment->
-        createMeasureAndAppendItToSegment (
-          inputLineNumber,
-          measureNumber,
-          measureImplicitKind);
-
-  // set it's purist number
-  result->
-    setMeasurePuristNumber (
-      measurePuristNumber);
-
-  // free its original purist number
- // fVoiceCurrentMeasurePuristNumber--; // JMI
-
-  // handle voice kind
-  switch (fVoiceKind) {
-    case msrVoice::kHarmonyVoice:
-      break;
-    case msrVoice::kRegularVoice:
-      // append new measure with given number to voice harmony voice if any
-      if (fHarmonyVoiceForRegularVoice) {
-        fHarmonyVoiceForRegularVoice->
-          createMeasureAndAppendItToVoice (
-            inputLineNumber,
-            measureNumber,
-            measureImplicitKind);
-      }
-      break;
-    case msrVoice::kFiguredBassVoice:
-      break;
-  } // switch
 
   gIndenter--;
 
@@ -1158,7 +1093,7 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
     gLogIOstream <<
       "Creating a new last segment '" <<
       fVoiceLastSegment->asShortString () <<
-      "' fromt its first measure '" <<
+      "' from its first measure '" <<
       firstMeasure->getMeasureNumber () <<
       "' for voice \"" <<
       getVoiceName () <<
@@ -1168,9 +1103,12 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
   }
 #endif
 
-  // append firstMeasure to it
+  // append firstMeasure to fVoiceLastSegment
   fVoiceLastSegment->
     appendMeasureToSegment (firstMeasure);
+
+  // firstMeasure is the new voice current measure
+  fVoiceCurrentMeasure = firstMeasure;
 
   // is firstMeasure the first one it the voice?
   if (! fVoiceFirstMeasure) {
@@ -3583,7 +3521,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
     
     // JMI     if (lastMeasureElementsList.size ()) {
       switch (lastMeasureInLastSegment->getMeasureKind ()) {
-        case msrMeasure::kMeasureEmpty:
+        case msrMeasure::kMeasureMusicallyEmpty:
           {
             // the last measure is empty:
             // keep it for a new voice last segment
@@ -6200,13 +6138,6 @@ void msrVoice::createRestMeasuresInVoice (
           inputLineNumber,
           firstRestMeasure,
           "createRestMeasuresInVoice()");
-
-/* JMI
-        // append the first rest measure to the new last segment
-        fVoiceLastSegment->
-          appendMeasureToSegment (
-            firstRestMeasure);
-*/
 
         // this voice contails rest measures
         this->setVoiceContainsRestMeasures (
@@ -8893,28 +8824,18 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 #endif
 
   gIndenter++;
-  
-  // finalize last segment's current measure
-  if (fVoiceLastSegment) {
-    fVoiceLastSegment->
-      finalizeCurrentMeasureInSegment (
-        inputLineNumber,
-        measureRepeatKind);
-  }
-  else {
-    stringstream s;
 
-    s <<
-      "Cannot finalize current measure in voice \"" <<
-      asShortString () <<
-      "\": fVoiceLastSegment is null" ;
-      
-    msrInternalError (
-      gGeneralOptions->fInputSourceName,
-      fInputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
+  // sanity check
+  msrAssert (
+    fVoiceCurrentMeasure != nullptr,
+    "fVoiceCurrentMeasure is null");
+    
+  // finalize fVoiceCurrentMeasure
+  fVoiceCurrentMeasure->
+    finalizeMeasure (
+      inputLineNumber,
+      measureRepeatKind,
+      "finalizeCurrentMeasureInVoice()");
 
   // append a measure end syllable to the voice stanzas if any
   if (fVoiceStanzasMap.size ()) {
@@ -9528,6 +9449,22 @@ void msrVoice::print (ostream& os)
     os <<
       "'" <<
       fVoiceFirstSegment->getSegmentAbsoluteNumber () <<
+      "'";
+    }
+  else {
+    os <<
+      "none";
+  }
+  os <<
+    endl;
+
+  // print the voice current measure if any
+  os <<
+    setw (fieldWidth) << "voiceCurrentMeasure" << " : ";
+  if (fVoiceCurrentMeasure) {
+    os <<
+      "'" <<
+      fVoiceCurrentMeasure->asShortString () <<
       "'";
     }
   else {

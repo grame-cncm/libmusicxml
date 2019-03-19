@@ -2326,30 +2326,38 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
   gIndenter++;
 
-  if (fActualMeasureWholeNotes.getNumerator () == 0) { // JMI
+  if (fActualMeasureWholeNotes.getNumerator () == 0) {
     // empty measure
     
     stringstream s;
 
-    displayMeasure (
-      inputLineNumber,
-      "determineMeasureKindAndPuristNumber() empty measure");
+    voice->
+      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+        inputLineNumber,
+        "determineMeasureKindAndPuristNumber() measure has 0 fActualMeasureWholeNotes");
       
     s <<
       "measure '" <<
       fMeasureNumber <<
-      "' is EMPTY" <<
-      asShortString () <<
+      "' has 0 fActualMeasureWholeNotes" <<
+      ", " <<
+      asString () <<
       ", line " << inputLineNumber;
       
-    msrInternalError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());  
+    if (false) // JMI
+      msrInternalError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    else
+      msrInternalWarning (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        s.str ());
 
     // set it's measure kind
-    setMeasureKind (kMeasureEmpty);
+    setMeasureKind (kMeasureMusicallyEmpty);
 
     // set it's 'relative to a repeat' kind
     setMeasureRepeatKind (
@@ -2767,7 +2775,7 @@ void msrMeasure::finalizeMeasure (
 
   // sanity check
   switch (fMeasureKind) {
-    case msrMeasure::kMeasureEmpty:
+    case msrMeasure::kMeasureMusicallyEmpty:
       {
         stringstream s;
       
@@ -2783,11 +2791,17 @@ void msrMeasure::finalizeMeasure (
           "\" (" << context << context << ")" <<
           ", line " << inputLineNumber <<
           " IS EMPTY";
-      
+
+      if (false) // JMI
         msrInternalError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
+          s.str ());
+      else
+        msrInternalWarning (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
           s.str ());
       }
       break;
@@ -2922,7 +2936,7 @@ void msrMeasure::finalizeMeasure (
       // JMI ???
       break;
       
-    case msrMeasure::kMeasureEmpty:
+    case msrMeasure::kMeasureMusicallyEmpty:
       // fetch the part measure whole notes high tide
       rational
         partActualMeasureWholeNotesHighTide =
@@ -3214,8 +3228,8 @@ string msrMeasure::measureKindAsString (
     case msrMeasure::kMeasureCadenza:
       result = "measureCadenza";
       break;
-    case msrMeasure::kMeasureEmpty:
-      result = "***measureEmpty***";
+    case msrMeasure::kMeasureMusicallyEmpty:
+      result = "measureMusicallyEmpty";
       break;
   } // switch
 
@@ -3621,8 +3635,6 @@ void msrMeasure::shortPrint (ostream& os)
     booleanAsString (
       fMeasureFirstInVoice) <<
     endl <<
-
-    endl <<
     
     setw (fieldWidth) <<
     "measureFirstInSegmentKind" << " : " <<
@@ -3743,9 +3755,6 @@ void msrMeasure::shortPrint (ostream& os)
     endl;
 
   if (measureElementsListSize) {
-    os <<
-      endl;
-    
     gIndenter++;
     
     list<S_msrMeasureElement>::const_iterator
@@ -3757,7 +3766,8 @@ void msrMeasure::shortPrint (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    
+    os << endl;
+
     gIndenter--;
   }
 

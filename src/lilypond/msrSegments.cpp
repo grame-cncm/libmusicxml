@@ -325,64 +325,6 @@ void msrSegment::setNextMeasureNumberInSegment (
   gIndenter--;   
 }
 
-void msrSegment::finalizeCurrentMeasureInSegment (
-  int     inputLineNumber,
-  msrMeasure::msrMeasureRepeatKind
-          measureRepeatKind)
-{
-  string
-    currentMeasureNumber =
-      fetchSegmentPartUplink ()->
-        getPartCurrentMeasureNumber ();
-      
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    gLogIOstream <<
-      "Finalizing current measure '" <<
-      currentMeasureNumber <<
-      "' in segment " <<
-      asString () <<
-      ", in voice \"" <<
-      fSegmentVoiceUplink->getVoiceName () <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-
-    fSegmentVoiceUplink->
-      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
-        inputLineNumber,
-        "finalizeCurrentMeasureInSegment() 1");
-  }
-#endif
-
-  gIndenter++;
-  
-  // don't finalize it it ain't been created
-  if (fSegmentMeasuresList.size ()) { // JMI ALWAYS ???
-    // finalize last measure
-    S_msrMeasure
-      lastMeasure =
-        fSegmentMeasuresList.back ();
-
-    lastMeasure->
-      finalizeMeasure (
-        inputLineNumber,
-        measureRepeatKind,
-        "finalizeCurrentMeasureInSegment()");
-  }
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
-    fSegmentVoiceUplink->
-      displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
-        inputLineNumber,
-        "finalizeCurrentMeasureInSegment() 2");
-  }
-#endif
-
-  gIndenter--;
-}
-
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
 #ifdef TRACE_OPTIONS

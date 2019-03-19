@@ -6883,7 +6883,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     case msrMeasure::kMeasureCadenza:
       fCurrentVoiceMeasuresCounter++;
       break;
-    case msrMeasure::kMeasureEmpty:
+    case msrMeasure::kMeasureMusicallyEmpty:
       fCurrentVoiceMeasuresCounter++;
       break;
   } // switch
@@ -7108,7 +7108,7 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureEmpty:
+    case msrMeasure::kMeasureMusicallyEmpty:
       {
         // generate a skip the duration of the measure
         // followed by a bar check
@@ -7288,7 +7288,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
   
-      case msrMeasure::kMeasureEmpty: // should not occur
+      case msrMeasure::kMeasureMusicallyEmpty: // should not occur
         fLilypondCodeIOstream <<
           "%{ emptyMeasureKind %} | % " <<
           measurePuristNumber + 1 <<

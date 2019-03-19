@@ -644,7 +644,7 @@ class msrMeasure : public msrElement
         kMeasureIncompleteNextMeasureAfterHooklessEnding,
         kMeasureOvercomplete,
         kMeasureCadenza,
-        kMeasureEmpty}; // for <measure ... /> without nested contents JMI ???
+        kMeasureMusicallyEmpty};
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
@@ -1523,13 +1523,6 @@ class msrSegment : public msrVoiceElement
     S_msrMeasure          removeLastMeasureFromSegment (
                             int    inputLineNumber,
                             string context);
-
-    // finalization
-
-    void                  finalizeCurrentMeasureInSegment (
-                            int     inputLineNumber,
-                            msrMeasure::msrMeasureRepeatKind
-                                    measureRepeatKind);
 
   public:
 
@@ -6536,13 +6529,6 @@ class msrVoice : public msrElement
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
 
-    S_msrMeasure          createMeasureSecondPart (
-                            int    inputLineNumber,
-                            string measureNumber,
-                            int    measurePuristNumber,
-                            msrMeasure::msrMeasureImplicitKind
-                                   measureImplicitKind);
-
     void                  setNextMeasureNumberInVoice (
                             int    inputLineNumber,
                             string nextMeasureNumber);
@@ -7232,6 +7218,9 @@ class msrVoice : public msrElement
     S_msrSegment          fVoiceFirstSegment;
 
     // measures
+
+    // fVoiceCurrentMeasure contains the last measure append to the voice
+    S_msrMeasure          fVoiceCurrentMeasure;
     
     // fVoiceFirstMeasure is used to number voice upbeats as measure 0
     S_msrMeasure          fVoiceFirstMeasure;

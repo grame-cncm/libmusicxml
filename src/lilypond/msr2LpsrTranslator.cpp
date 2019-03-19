@@ -1958,7 +1958,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureEmpty:
+    case msrMeasure::kMeasureMusicallyEmpty:
       // JMI
       break;
   } // switch
