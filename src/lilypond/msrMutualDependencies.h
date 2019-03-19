@@ -6457,6 +6457,10 @@ class msrVoice : public msrElement
     const S_msrMeasure    getVoiceFirstMeasure () const
                               { return fVoiceFirstMeasure; }
 
+    void                  appendMeasureCloneToVoiceClone (
+                            int          inputLineNumber,
+                            S_msrMeasure measureClone);
+
     // has music been inserted in the voice?
     
     void                  setMusicHasBeenInsertedInVoice ()

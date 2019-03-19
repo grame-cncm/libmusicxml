@@ -883,6 +883,32 @@ void msrVoice::decrementVoiceCurrentMeasurePuristNumber (
 #endif
 }
 
+void msrVoice::appendMeasureCloneToVoiceClone (
+  int          inputLineNumber,
+  S_msrMeasure measureClone)
+{
+  fVoiceCurrentMeasurePuristNumber--;
+  
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending measure clone '" <<
+      measureClone->asShortString () <<
+      "' to voice '" << getVoiceName () << "\"" <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // append measureClone to the voice last segment
+  fVoiceLastSegment->
+    appendMeasureToSegment (
+      measureClone);
+    
+  // measureClone is the new voice current measure
+  fVoiceCurrentMeasure = measureClone;
+}
+
 void msrVoice::setWholeNotesSinceLastRegularMeasureEnd (
   int      inputLineNumber,
   rational value)

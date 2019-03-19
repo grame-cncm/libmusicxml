@@ -1861,9 +1861,10 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       createMeasureNewbornClone (
         fCurrentSegmentClone);
       
-  // append it to the current segment clone
-  fCurrentSegmentClone->
-    appendMeasureToSegment (
+  // append it to the current voice clone
+  fCurrentVoiceClone->
+    appendMeasureCloneToVoiceClone (
+      inputLineNumber,
       fCurrentMeasureClone);
       
 // JMI utile???

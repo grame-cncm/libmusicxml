@@ -193,8 +193,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
       segmentDeepCopy->
         appendMeasureToSegment (
           (*i)->
-            createMeasureDeepCopy (
-              this));
+            createMeasureDeepCopy (this));
     } // for
   }
   
