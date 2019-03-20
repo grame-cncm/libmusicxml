@@ -42,7 +42,7 @@ traceOptions::traceOptions (
     "Trace",
     "ht", "help-trace",
 R"(Options that are used by various components of the library
-are grouped here.)",
+  are grouped here.)",
     optionsHandler)
 {
   // append this options group to the options handler

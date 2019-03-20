@@ -203,14 +203,13 @@ R"()",
   
     appendOptionsSubGroup (combinedOptionsSubGroup);
 
-
     // create the 'cubase' combined item
     S_optionsCombinedItemsItem
       cubaseCombinedItemsItem =
         optionsCombinedItemsItem::create (
           "cubase", "",
 R"(Useful settings for MusicXML data exported from Cubase.
-This option is set by default, and can be unset by 'noCubase'.)",
+  This option is set by default, and can be unset by 'noCubase'.)",
           "cubase",
           fCubase);
 

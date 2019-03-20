@@ -43,7 +43,7 @@ generalOptions::generalOptions (
     "General",
     "hg", "help-general",
 R"(Options that are used by various components of the library
-are grouped here.)",
+  are grouped here.)",
     optionsHandler),
     fExecutableName (executableName)
 {

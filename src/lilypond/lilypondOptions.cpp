@@ -260,7 +260,7 @@ void lilypondOptions::initializeLilypondOptions (
           "Identification",
           "hlpi", "help-lilypond-identification",
 R"(These options can be used to enforce values in the generated LilyPond code,
-thus overriding the ones that may be present in the MSR data.
+  thus overriding the ones that may be present in the MSR data.
 )",
         optionsSubGroup::kAlwaysShowDescription,
         this);

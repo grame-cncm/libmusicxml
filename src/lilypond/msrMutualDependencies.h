@@ -1186,7 +1186,7 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
                         
-    // measure 'relative a repeatt' kind
+    // measure 'relative a repeat' kind
 
     msrMeasureRepeatKind
                           fMeasureRepeatKind;
@@ -1206,13 +1206,6 @@ class msrMeasure : public msrElement
     
     bool                  fMeasureContainsMusic;
 
-    // pending measure elements, which may have to be delayed
-    // because of <backup />
-
-    list<S_msrMeasureElement>
-                          fMeasurePendingMeasureElementsList;
-    void                  printMeasurePendingMeasureElementsList ();
-
     // purist measure number, forcing anacruses to start at '0' if it's not the case
     // and not shared among repeats components
     int                   fMeasurePuristNumber; 
@@ -1224,6 +1217,29 @@ class msrMeasure : public msrElement
     // regular measure ends detection
     msrMeasureEndRegularKind
                           fMeasureEndRegularKind;
+
+  public:
+
+    // public work services
+    // ------------------------------------------------------
+
+  private:
+
+    // private work services
+    // ------------------------------------------------------
+
+    void                  printMeasurePendingMeasureElementsList ();
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
+    // pending measure elements, which may have to be delayed
+    // because of <backup />
+
+    list<S_msrMeasureElement>
+                          fMeasurePendingMeasureElementsList;
 
     // measure finalization
     bool                  fMeasureHasBeenFinalized;
@@ -1298,7 +1314,7 @@ class msrSegment : public msrVoiceElement
     
     S_msrPart             fetchSegmentPartUplink () const;
 
-    // divisions ??? JMI
+    // backup and padding
     
     void                  padUpToActualMeasureWholeNotesInSegment (
                             int      inputLineNumber,
@@ -5291,18 +5307,6 @@ class msrRepeat : public msrVoiceElement
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
                               { return fRepeatEndings; }
-
-    // repeat build phase
-    void                  setCurrentRepeatBuildPhaseKind (
-                            msrRepeatBuildPhaseKind repeatBuildPhaseKind)
-                              {
-                                fCurrentRepeatBuildPhaseKind =
-                                  repeatBuildPhaseKind;
-                              }
-                            
-    msrRepeatBuildPhaseKind
-                          getCurrentRepeatBuildPhaseKind () const
-                            { return fCurrentRepeatBuildPhaseKind; }
                             
   public:
 
@@ -5386,6 +5390,35 @@ class msrRepeat : public msrVoiceElement
     vector<S_msrRepeatEnding>
                           fRepeatEndings;
     int                   fRepeatEndingsInternalCounter;
+
+  public:
+
+    // public work services
+    // ------------------------------------------------------
+
+    // repeat build phase
+    void                  setCurrentRepeatBuildPhaseKind (
+                            msrRepeatBuildPhaseKind repeatBuildPhaseKind)
+                              {
+                                fCurrentRepeatBuildPhaseKind =
+                                  repeatBuildPhaseKind;
+                              }
+                            
+    msrRepeatBuildPhaseKind
+                          getCurrentRepeatBuildPhaseKind () const
+                            { return fCurrentRepeatBuildPhaseKind; }
+
+  private:
+
+    // private work services
+    // ------------------------------------------------------
+
+    void                  printMeasurePendingMeasureElementsList ();
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
 
     // repeat build phase, used when building the repeat
     msrRepeatBuildPhaseKind
@@ -6362,23 +6395,6 @@ class msrVoice : public msrElement
     string                getVoiceName () const
                               { return fVoiceName; }
 
-    // clef, key, time
-    
-    void                  setVoiceCurrentClef (S_msrClef clef);
-                              
-    S_msrClef             getVoiceCurrentClef () const
-                              { return fVoiceCurrentClef; };
-                              
-    void                  setVoiceCurrentKey (S_msrKey key);
-                              
-    S_msrKey              getVoiceCurrentKey  () const
-                              { return fVoiceCurrentKey; };
-                              
-    void                  setVoiceCurrentTime (S_msrTime time);
-
-    S_msrTime             getVoiceCurrentTime () const
-                              { return fVoiceCurrentTime; };
-
     // harmonies
 
     S_msrVoice            getHarmonyVoiceForRegularVoice () const
@@ -6433,33 +6449,6 @@ class msrVoice : public msrElement
 
     int                   getVoiceActualFiguredBassCounter () const
                               { return fVoiceActualFiguredBassCounter; }
-
-     // measures
-     
-    const string          getVoiceCurrentMeasureNumber () const
-                              { return fVoiceCurrentMeasureNumber; }
-
-    void                  incrementVoiceCurrentMeasurePuristNumber (
-                            int    inputLineNumber,
-                            string context)
-                            ;
-    void                  decrementVoiceCurrentMeasurePuristNumber (
-                            int    inputLineNumber,
-                            string context);
-
-    const int             getVoiceCurrentMeasurePuristNumber () const
-                              { return fVoiceCurrentMeasurePuristNumber; }
-
-    void                  setVoiceFirstMeasure (
-                            S_msrMeasure measure)
-                              { fVoiceFirstMeasure = measure; }
-
-    const S_msrMeasure    getVoiceFirstMeasure () const
-                              { return fVoiceFirstMeasure; }
-
-    void                  appendMeasureCloneToVoiceClone (
-                            int          inputLineNumber,
-                            S_msrMeasure measureClone);
 
     // has music been inserted in the voice?
     
@@ -7167,25 +7156,6 @@ class msrVoice : public msrElement
     int                   fVoiceActualHarmoniesCounter;
     int                   fVoiceActualFiguredBassCounter;
 
-    // clef, key, time
-    // needed at the voice level, because adding such to voice clones
-    // is done directly, without going down the part-staff-voice hierarchy
-    S_msrClef             fVoiceCurrentClef;
-                            
-    S_msrKey              fVoiceCurrentKey;
-
-    S_msrTime             fVoiceCurrentTime;
-
-    // measures
-    
-    string                fVoiceCurrentMeasureNumber;
-    
-    int                   fVoiceCurrentMeasurePuristNumber;
-                            // this is a 'purist' measure number,
-                            // that starts at 0 if there is an anacrusis,
-                            // and 1 otherwise,
-                            // and is shared by incomplete (sub)measure parts
-    
     // musically empty voices
     
     bool                  fMusicHasBeenInsertedInVoice;
@@ -7223,9 +7193,6 @@ class msrVoice : public msrElement
 
     // measures
 
-    // fVoiceCurrentMeasure contains the last measure append to the voice
-    S_msrMeasure          fVoiceCurrentMeasure;
-    
     // fVoiceFirstMeasure is used to number voice upbeats as measure 0
     S_msrMeasure          fVoiceFirstMeasure;
 
@@ -7239,19 +7206,70 @@ class msrVoice : public msrElement
     
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
+    rational              fVoiceShortestNoteDuration;
 
     // fVoiceShortestNoteDuration and fVoiceShortestNoteTupletFactor
     // are used to compute a number of divisions per quarter note
     // if needed, such as when generating MusicXML from MSR
-    rational              fVoiceShortestNoteDuration;
+    rational              fVoiceShorftestNoteDuration;
     rational              fVoiceShortestNoteTupletFactor;
     
     // repeats
     
-    // a stack is needed to handle pending repeats, which can be nested
-    list<S_msrRepeatDescr>
-                          fVoicePendingRepeatDescrsStack;
+  public:
+
+    // public work services
+    // ------------------------------------------------------
+
+    // clef, key, time
     
+    void                  setVoiceCurrentClef (S_msrClef clef);
+                              
+    S_msrClef             getVoiceCurrentClef () const
+                              { return fVoiceCurrentClef; };
+                              
+    void                  setVoiceCurrentKey (S_msrKey key);
+                              
+    S_msrKey              getVoiceCurrentKey  () const
+                              { return fVoiceCurrentKey; };
+                              
+    void                  setVoiceCurrentTime (S_msrTime time);
+
+    S_msrTime             getVoiceCurrentTime () const
+                              { return fVoiceCurrentTime; };
+
+     // measures
+     
+    const string          getVoiceCurrentMeasureNumber () const
+                              { return fVoiceCurrentMeasureNumber; }
+
+    void                  incrementVoiceCurrentMeasurePuristNumber (
+                            int    inputLineNumber,
+                            string context)
+                            ;
+    void                  decrementVoiceCurrentMeasurePuristNumber (
+                            int    inputLineNumber,
+                            string context);
+
+    const int             getVoiceCurrentMeasurePuristNumber () const
+                              { return fVoiceCurrentMeasurePuristNumber; }
+
+    void                  setVoiceFirstMeasure (
+                            S_msrMeasure measure)
+                              { fVoiceFirstMeasure = measure; }
+
+    const S_msrMeasure    getVoiceFirstMeasure () const
+                              { return fVoiceFirstMeasure; }
+
+    void                  appendMeasureCloneToVoiceClone (
+                            int          inputLineNumber,
+                            S_msrMeasure measureClone);
+
+  private:
+
+    // private work services
+    // ------------------------------------------------------
+
     void                  displayVoiceRepeatsStack (
                             int    inputLineNumber,
                             string context);
@@ -7260,13 +7278,6 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    // rest measures
-    
-    // fVoicePendingRestMeasures is either null
-    // or the last msrRestMeasures created,
-    // but not yet appended to the voice
-    S_msrRestMeasures     fVoicePendingRestMeasures;
-    
     void                  displayVoiceRestMeasures (
                             int    inputLineNumber,
                             string context);
@@ -7275,6 +7286,52 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
+    void                  displayVoiceMeasuresRepeat (
+                            int    inputLineNumber,
+                            string context);
+
+    void                  displayVoiceMeasuresRepeatAndVoice (
+                            int    inputLineNumber,
+                            string context);
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
+    // clef, key, time
+    // needed at the voice level, because adding such to voice clones
+    // is done directly, without going down the part-staff-voice hierarchy
+    S_msrClef             fVoiceCurrentClef;
+                            
+    S_msrKey              fVoiceCurrentKey;
+
+    S_msrTime             fVoiceCurrentTime;
+
+    // measures
+    
+    string                fVoiceCurrentMeasureNumber;
+    
+    int                   fVoiceCurrentMeasurePuristNumber;
+                            // this is a 'purist' measure number,
+                            // that starts at 0 if there is an anacrusis,
+                            // and 1 otherwise,
+                            // and is shared by incomplete (sub)measure parts
+    
+    // fVoiceCurrentMeasure contains the last measure append to the voice
+    S_msrMeasure          fVoiceCurrentMeasure;
+    
+    // a stack is needed to handle pending repeats, which can be nested
+    list<S_msrRepeatDescr>
+                          fVoicePendingRepeatDescrsStack;
+    
+    // rest measures
+    
+    // fVoicePendingRestMeasures is either null
+    // or the last msrRestMeasures created,
+    // but not yet appended to the voice
+    S_msrRestMeasures     fVoicePendingRestMeasures;
+    
     // fVoiceRestMeasuresWaitingForItsNextMeasureNumber is either null
     // or the last msrRestMeasures created and appended to the voice,
     // but with its next measure number not yet set
@@ -7290,16 +7347,8 @@ class msrVoice : public msrElement
     // but not yet appended to the voice
     S_msrMeasuresRepeat   fVoicePendingMeasuresRepeat;
     
-    void                  displayVoiceMeasuresRepeat (
-                            int    inputLineNumber,
-                            string context);
-
-    void                  displayVoiceMeasuresRepeatAndVoice (
-                            int    inputLineNumber,
-                            string context);
-    
     bool                  fVoiceContainsMeasuresRepeats;
-
+    
     // voice finalization
 
     bool                  fVoiceHasBeenFinalized;
@@ -7396,28 +7445,6 @@ class msrStaff : public msrElement
     int                   getStaffRegularVoicesCounter () const
                               { return fStaffRegularVoicesCounter; }
 
-    // clef, key, time
-    
-    void                  setStaffCurrentClef (S_msrClef clef);
-                              
-    S_msrClef             getStaffCurrentClef () const
-                              { return fStaffCurrentClef; };
-                              
-    void                  setStaffCurrentKey (S_msrKey key);
-                              
-    S_msrKey              getStaffCurrentKey  () const
-                              { return fStaffCurrentKey; };
-                              
-    void                  setStaffCurrentTime (S_msrTime time);
-
-    S_msrTime             getStaffCurrentTime () const
-                              { return fStaffCurrentTime; };
-                              
-    // transpose
-    
-    S_msrTranspose        getStaffCurrentTranspose () const
-                              { return fStaffCurrentTranspose; };
-    
     // staff details
 
     S_msrStaffDetails     getStaffStaffDetails () const
@@ -7611,20 +7638,6 @@ class msrStaff : public msrElement
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
-    // finalization
-
-    void                  finalizeCurrentMeasureInStaff (
-                            int inputLineNumber);
-
-    void                  finalizeStaff (
-                            int inputLineNumber);
-
-    // voices ordering in staves
-    
-    static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
-                            const S_msrVoice& first,
-                            const S_msrVoice& second);
-
     // strings
     
   public:
@@ -7695,6 +7708,67 @@ class msrStaff : public msrElement
     // but with harmony voices right before the corresponding regular voices
     list<S_msrVoice>      fStaffAllVoicesList;
                               
+    // staff details
+
+    S_msrStaffDetails     fStaffStaffDetails;
+
+    // rest measures
+    
+    bool                  fStaffContainsRestMeasures;
+
+  public:
+
+    // public work services
+    // ------------------------------------------------------
+
+    // clef, key, time
+    
+    void                  setStaffCurrentClef (S_msrClef clef);
+                              
+    S_msrClef             getStaffCurrentClef () const
+                              { return fStaffCurrentClef; };
+                              
+    void                  setStaffCurrentKey (S_msrKey key);
+                              
+    S_msrKey              getStaffCurrentKey  () const
+                              { return fStaffCurrentKey; };
+                              
+    void                  setStaffCurrentTime (S_msrTime time);
+
+    S_msrTime             getStaffCurrentTime () const
+                              { return fStaffCurrentTime; };
+
+    // finalization
+
+    void                  finalizeCurrentMeasureInStaff (
+                            int inputLineNumber);
+
+    void                  finalizeStaff (
+                            int inputLineNumber);
+
+  private:
+
+    // private work services
+    // ------------------------------------------------------
+                              
+    // transpose
+    
+    S_msrTranspose        getStaffCurrentTranspose () const
+                              { return fStaffCurrentTranspose; };
+    
+    void                  printMeasurePendingMeasureElementsList ();
+
+    // voices ordering in staves
+    
+    static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
+                            const S_msrVoice& first,
+                            const S_msrVoice& second);
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
     // clef, key, time
     
     S_msrClef             fStaffCurrentClef;
@@ -7706,14 +7780,6 @@ class msrStaff : public msrElement
     // transpose
     
     S_msrTranspose        fStaffCurrentTranspose;
-
-    // staff details
-
-    S_msrStaffDetails     fStaffStaffDetails;
-
-    // rest measures
-    
-    bool                  fStaffContainsRestMeasures;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
@@ -7919,16 +7985,6 @@ class msrPart : public msrPartGroupElement
                                   fPartActualMeasureWholeNotesHighTide;
                               }
 
-    void                  setPartCurrentMeasureNumber (
-                            string measureNumber)
-                              {
-                                fPartCurrentMeasureNumber =
-                                  measureNumber;
-                              }
-
-    const string          getPartCurrentMeasureNumber () const
-                              { return fPartCurrentMeasureNumber; }
-
     void                  setPartNumberOfMeasures (
                             int partNumberOfMeasures)
                               {
@@ -7938,12 +7994,6 @@ class msrPart : public msrPartGroupElement
 
     const int             getPartNumberOfMeasures () const
                               { return fPartNumberOfMeasures; }
-
-    // staff details
-
-    S_msrStaffDetails     getCurrentPartStaffDetails () const
-                              { return fCurrentPartStaffDetails; }
-
     // instrument name
 
     void                  setPartInstrumentName (
@@ -7987,25 +8037,6 @@ class msrPart : public msrPartGroupElement
 
     S_msrVoice            getPartFiguredBassVoice () const
                               { return fPartFiguredBassVoice; }
-                  
-    // clef, key, time
-    
-    S_msrClef             getPartCurrentClef () const
-                              { return fPartCurrentClef; };
-
-    S_msrKey              getPartCurrentKey  () const
-                              { return fPartCurrentKey; };
-
-    void                  setPartCurrentTime (S_msrTime time)
-                              { fPartCurrentTime = time; };
-
-    S_msrTime             getPartCurrentTime () const
-                              { return fPartCurrentTime; };
-
-    // transpose
-
-    S_msrTranspose        getPartCurrentTranspose () const
-                              { return fPartCurrentTranspose; };
 
     // staves map
     
@@ -8201,17 +8232,6 @@ class msrPart : public msrPartGroupElement
                             S_msrGraceNotes skipGraceNotes);
                             
                             */
-                            
-    // finalization
-
-    void                  finalizeCurrentMeasureInPart (
-                            int inputLineNumber);
-
-    void                  finalizePart (
-                            int inputLineNumber);
-
-    void                  finalizePartClone (
-                            int inputLineNumber);
 
   public:
 
@@ -8307,6 +8327,74 @@ class msrPart : public msrPartGroupElement
     // rest measures
     
     bool                  fPartContainsRestMeasures;
+
+  public:
+
+    // public work services
+    // ------------------------------------------------------
+
+    // measure number
+    
+    void                  setPartCurrentMeasureNumber (
+                            string measureNumber)
+                              {
+                                fPartCurrentMeasureNumber =
+                                  measureNumber;
+                              }
+
+    const string          getPartCurrentMeasureNumber () const
+                              { return fPartCurrentMeasureNumber; }
+
+    // clef, key, time
+    
+    S_msrClef             getPartCurrentClef () const
+                              { return fPartCurrentClef; };
+
+    S_msrKey              getPartCurrentKey  () const
+                              { return fPartCurrentKey; };
+
+    void                  setPartCurrentTime (S_msrTime time)
+                              { fPartCurrentTime = time; };
+
+    S_msrTime             getPartCurrentTime () const
+                              { return fPartCurrentTime; };
+
+    // transpose
+
+    S_msrTranspose        getPartCurrentTranspose () const
+                              { return fPartCurrentTranspose; };
+
+    // staff details
+
+    S_msrStaffDetails     getCurrentPartStaffDetails () const
+                              { return fCurrentPartStaffDetails; }
+
+                            
+    // finalization
+
+    void                  finalizeCurrentMeasureInPart (
+                            int inputLineNumber);
+
+    void                  finalizePart (
+                            int inputLineNumber);
+
+    void                  finalizePartClone (
+                            int inputLineNumber);
+
+  private:
+
+    // private work services
+    // ------------------------------------------------------
+
+    // measure elements
+    
+    void                  printMeasurePendingMeasureElementsList ();
+
+  private:
+
+    // work fields
+    // ------------------------------------------------------
+
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

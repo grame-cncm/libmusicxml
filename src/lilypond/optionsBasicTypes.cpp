@@ -702,7 +702,6 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
 {
   os <<
     optionsElementNames () <<
-    endl <<
     endl;
 
   if (fOptionsElementDescription.size ()) {
@@ -1198,7 +1197,6 @@ void optionsValuedItem::printHelp (ostream& os) const
     optionsElementNames () <<
     " " <<
     fOptionsValueSpecification <<
-    endl <<
     endl;
 
   if (fOptionsElementDescription.size ()) {
@@ -1848,8 +1846,7 @@ void optionsSubGroup::underlineHeader (ostream& os) const
   for (unsigned int i = 0; i < fOptionsSubGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
-  os <<
-    endl;
+  os << endl;
 }
 
 void optionsSubGroup::registerOptionsSubGroupInHandler (
@@ -1961,7 +1958,6 @@ void optionsSubGroup::print (ostream& os) const
 
 void optionsSubGroup::printHelp (ostream& os) const
 {
-  
   // print the header and option names
   os <<
     fOptionsSubGroupHelpHeader;
@@ -1982,9 +1978,7 @@ void optionsSubGroup::printHelp (ostream& os) const
       break;
   } // switch
 
-  os <<
-    endl <<
-    endl;
+  os << endl;
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
@@ -1995,8 +1989,7 @@ void optionsSubGroup::printHelp (ostream& os) const
       endl;
     gIndenter--;
 
-    os <<
-      endl;  
+    os << endl;  
   }
   
   switch (fOptionsSubGroupDescriptionVisibilityKind) {
@@ -2022,8 +2015,7 @@ void optionsSubGroup::printHelp (ostream& os) const
           }
           if (++i == iEnd) break;
           if (! optionsItemIsHidden) {
-            os <<
-              endl;
+   // JMI         os << endl;
           }
         } // for
           
@@ -2308,8 +2300,7 @@ void optionsGroup::underlineHeader (ostream& os) const
   for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
-  os <<
-    endl;
+  os << endl;
 }
 
 void optionsGroup::registerOptionsGroupInHandler (
@@ -2464,8 +2455,6 @@ void optionsGroup::printHelp (ostream& os) const
 
   // underline the options group header
   underlineHeader (os);
-  os <<
-    endl;
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
@@ -2475,9 +2464,6 @@ void optionsGroup::printHelp (ostream& os) const
         fOptionsElementDescription) <<
       endl;
     gIndenter--;
-
-    os <<
-      endl;  
   }
     
   // print the options subgroups
@@ -2492,7 +2478,7 @@ void optionsGroup::printHelp (ostream& os) const
       // print the options subgroup help
       (*i)->printHelp (os);
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
       
     gIndenter--;
@@ -3116,8 +3102,7 @@ void optionsHandler::printHelp (ostream& os) const
   // print the options handler preamble
   os <<
     gIndenter.indentMultiLineString (
-      fOptionHandlerPreamble) <<
-      endl;
+      fOptionHandlerPreamble);
 
   // print the options handler help header and element names
   os <<
@@ -3131,11 +3116,13 @@ void optionsHandler::printHelp (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-      endl <<
-    endl;
+      fOptionsElementDescription);
   gIndenter--;
-    
+
+  os <<
+    endl <<
+    endl;
+  
   // print the options groups helps
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     gIndenter++;

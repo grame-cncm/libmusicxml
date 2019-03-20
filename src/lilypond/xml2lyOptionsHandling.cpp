@@ -315,12 +315,11 @@ R"(
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 
 Usage:
-
     xml2ly [options] [MusicXMLFile|-] [options] 
 )",
 R"(
 Option '-h, -help' prints the full help,
-while '-hs, -helpSummary' only prints a help summary.)",
+  while '-hs, -helpSummary' only prints a help summary.)",
     ios
     )
 {
