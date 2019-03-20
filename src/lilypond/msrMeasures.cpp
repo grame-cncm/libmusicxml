@@ -124,7 +124,7 @@ void msrMeasure::initializeMeasure ()
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentUnknown;
 
   // measure 'relative to a repeat' kind
-  setMeasureRepeatKind (kMeasureRepeatUnknown);
+  setMeasureRepeatContextKind (kMeasureRepeatUnknown);
   
   // measure 'first in voice'
   fMeasureFirstInVoice = false; // default value
@@ -455,9 +455,9 @@ void msrMeasure::setMeasurePuristNumber (
   fMeasurePuristNumber = measurePuristNumber;
 }
 
-void msrMeasure::setMeasureRepeatKind (
-  msrMeasureRepeatKind
-    measureRepeatKind)
+void msrMeasure::setMeasureRepeatContextKind (
+  msrMeasureRepeatContextKind
+    measureRepeatContextKind)
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures) {
@@ -465,8 +465,8 @@ void msrMeasure::setMeasureRepeatKind (
         "Setting relative to a repeat kind of measure '" <<
         fMeasureNumber <<
         "' to '" <<
-        measureRepeatKindAsString (
-          measureRepeatKind) <<
+        measureRepeatContextKindAsString (
+          measureRepeatContextKind) <<
         "' in segment " <<
         fMeasureSegmentUplink->asString () <<
         " in voice \"" <<
@@ -478,8 +478,8 @@ void msrMeasure::setMeasureRepeatKind (
     }
 #endif
 
-  fMeasureRepeatKind =
-    measureRepeatKind;
+  fMeasureRepeatContextKind =
+    measureRepeatContextKind;
 }
 
 void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
@@ -2270,8 +2270,8 @@ void msrMeasure::removeElementFromMeasure (
 
 void msrMeasure::determineMeasureKindAndPuristNumber (
   int     inputLineNumber,
-  msrMeasure::msrMeasureRepeatKind
-          measureRepeatKind)
+  msrMeasure::msrMeasureRepeatContextKind
+          measureRepeatContextKind)
 {
   // fetch the voice
   S_msrVoice
@@ -2360,7 +2360,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     setMeasureKind (kMeasureMusicallyEmpty);
 
     // set it's 'relative to a repeat' kind
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       kMeasureRepeatNone);
   }
   
@@ -2380,7 +2380,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     setMeasureKind (kMeasureRegular);
 
     // set it's 'relative to a repeat' kind
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       kMeasureRepeatNone);
 
     // increment voice current measure purist number
@@ -2415,7 +2415,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         setMeasureKind (kMeasureAnacrusis);
 
         // set it's 'relative to a repeat' kind
-        setMeasureRepeatKind (
+        setMeasureRepeatContextKind (
           kMeasureRepeatNone);
       }
   
@@ -2437,9 +2437,9 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
               s <<
                 "measure '" <<
                 fMeasureNumber <<
-                "' keeps it's measureRepeatKind '" <<
-                msrMeasure::measureRepeatKindAsString (
-                  fMeasureRepeatKind) <<
+                "' keeps it's measureRepeatContextKind '" <<
+                msrMeasure::measureRepeatContextKindAsString (
+                  fMeasureRepeatContextKind) <<
                 "', line " << inputLineNumber;
                 
         // JMI      msrInternalError (
@@ -2450,30 +2450,30 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
                 s.str ());
             }
           /* JMI
-            setMeasureRepeatKind (
+            setMeasureRepeatContextKind (
               kMeasureRepeatNone);
               */
             break;
             
           case msrVoice::kVoiceRepeatPhaseAfterCommonPart:
-            setMeasureRepeatKind (
+            setMeasureRepeatContextKind (
               kMeasureRepeatNextMeasureAfterCommonPart);
             break;
       
           case msrVoice::kVoiceRepeatPhaseAfterHookedEnding:
-            setMeasureRepeatKind (
+            setMeasureRepeatContextKind (
               msrMeasure::kMeasureRepeatNextMeasureAfterHookedEnding);
             break;
       
           case msrVoice::kVoiceRepeatPhaseAfterHooklessEnding:
-            setMeasureRepeatKind (
+            setMeasureRepeatContextKind (
               msrMeasure::kMeasureRepeatNextMeasureAfterHooklessEnding);
             break;
         } // switch
 
         // set measure's kind if it is the next measure after a repeat component
         // (it is already set otherwise) // JMI ???
-        switch (fMeasureRepeatKind) {
+        switch (fMeasureRepeatContextKind) {
           case msrMeasure::kMeasureRepeatUnknown: // JMI ???
             {
               stringstream s;
@@ -2562,7 +2562,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       setMeasureKind (kMeasureOvercomplete);
       
       // set it's 'relative to a repeat' kind
-      setMeasureRepeatKind (
+      setMeasureRepeatContextKind (
         kMeasureRepeatNone);
 
       // set it's measure purist number
@@ -2581,7 +2581,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       // strange measure...
 
       // set it's 'relative to a repeat' kind
-      setMeasureRepeatKind (
+      setMeasureRepeatContextKind (
         kMeasureRepeatNone);
 
       stringstream s;
@@ -2729,7 +2729,7 @@ void msrMeasure::padUpToPositionInMeasure (
 
 void msrMeasure::finalizeMeasure (
   int                  inputLineNumber,
-  msrMeasureRepeatKind measureRepeatKind,
+  msrMeasureRepeatContextKind measureRepeatContextKind,
   string               context)
 {
   if (fMeasureHasBeenFinalized) {
@@ -2996,7 +2996,7 @@ void msrMeasure::finalizeMeasure (
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
-    measureRepeatKind);
+    measureRepeatContextKind);
 
   // is there a single note or rest occupying the full measure?
   if (fMeasureLongestNote) {
@@ -3071,10 +3071,10 @@ void msrMeasure::finalizeMeasureClone (
 
 /* JMI
   // get voiceClone
-  msrMeasureRepeatKind
-    measureRepeatKind =
+  msrMeasureRepeatContextKind
+    measureRepeatContextKind =
       voiceClone->
-        getMeasureRepeatKind ();
+        getMeasureRepeatContextKind ();
   */
   
   // determine the measure kind and purist number
@@ -3290,12 +3290,12 @@ string msrMeasure::measureFirstInSegmentKindAsString (
   return result;
 }
 
-string msrMeasure::measureRepeatKindAsString (
-  msrMeasureRepeatKind measureRepeatKind)
+string msrMeasure::measureRepeatContextKindAsString (
+  msrMeasureRepeatContextKind measureRepeatContextKind)
 {
   string result;
 
-  switch (measureRepeatKind) {
+  switch (measureRepeatContextKind) {
     case msrMeasure::kMeasureRepeatUnknown:
       result = "***measureRepeatUnknown***";
       break;
@@ -3470,9 +3470,9 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "measureRepeatKind" << " : " <<
-    msrMeasure::measureRepeatKindAsString (
-      fMeasureRepeatKind) << 
+    "measureRepeatContextKind" << " : " <<
+    msrMeasure::measureRepeatContextKindAsString (
+      fMeasureRepeatContextKind) << 
     endl <<
     
     setw (fieldWidth) <<
@@ -3660,9 +3660,9 @@ void msrMeasure::shortPrint (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "measureRepeatKind" << " : " <<
-    msrMeasure::measureRepeatKindAsString (
-      fMeasureRepeatKind) << 
+    "measureRepeatContextKind" << " : " <<
+    msrMeasure::measureRepeatContextKindAsString (
+      fMeasureRepeatContextKind) << 
 
     setw (fieldWidth) <<
     "measureImplicitKind" << " : " <<

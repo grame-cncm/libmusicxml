@@ -3056,7 +3056,7 @@ void msrVoice::moveVoiceLastSegmentToRepeatCommonPart (
 
     // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
     voiceLastSegmentLastMeasure->
-      setMeasureRepeatKind (
+      setMeasureRepeatContextKind (
         msrMeasure::kMeasureRepeatCommonPartLastMeasure);
   
     // set voice current after repeat component phase kind 
@@ -3840,7 +3840,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
     
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       msrMeasure::kMeasureRepeatCommonPartLastMeasure);
 
   // finalize current measure in voice
@@ -4092,7 +4092,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
 
   // set voiceLastMeasure's 'relative to a repeat' kind
   voiceLastMeasure->
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       msrMeasure::kMeasureRepeatCommonPartLastMeasure);
     
   // set voice current after repeat component phase kind 
@@ -7820,7 +7820,7 @@ void msrVoice::handleRepeatCommonPartEndInVoiceClone (
 
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       msrMeasure::kMeasureRepeatCommonPartLastMeasure);
 
   // set voice current after repeat component phase kind 
@@ -7917,7 +7917,7 @@ void msrVoice::handleHookedRepeatEndingEndInVoiceClone (
 
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       msrMeasure::kMeasureRepeatHookedEndingLastMeasure);
 
   // set voice current after repeat component phase kind 
@@ -8020,7 +8020,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoiceClone (
 
   // set voiceLastSegmentLastMeasure's 'relative to a repeat' kind
   voiceLastSegmentLastMeasure->
-    setMeasureRepeatKind (
+    setMeasureRepeatContextKind (
       msrMeasure::kMeasureRepeatHooklessEndingLastMeasure);
 
   // set voice current after repeat component phase kind 
@@ -8810,8 +8810,8 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 void msrVoice::finalizeCurrentMeasureInVoice (
   int inputLineNumber)
 {
-  msrMeasure::msrMeasureRepeatKind
-    measureRepeatKind = // JMI
+  msrMeasure::msrMeasureRepeatContextKind
+    measureRepeatContextKind = // JMI
       msrMeasure::kMeasureRepeatUnknown;
       
 #ifdef TRACE_OPTIONS
@@ -8863,7 +8863,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   fVoiceCurrentMeasure->
     finalizeMeasure (
       inputLineNumber,
-      measureRepeatKind,
+      measureRepeatContextKind,
       "finalizeCurrentMeasureInVoice()");
 
   // append a measure end syllable to the voice stanzas if any

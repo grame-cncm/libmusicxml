@@ -664,7 +664,7 @@ class msrMeasure : public msrElement
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
-    enum msrMeasureRepeatKind {
+    enum msrMeasureRepeatContextKind {
         kMeasureRepeatUnknown,
         kMeasureRepeatNone,
         kMeasureRepeatCommonPartLastMeasure,
@@ -674,8 +674,8 @@ class msrMeasure : public msrElement
         kMeasureRepeatNextMeasureAfterHookedEnding,
         kMeasureRepeatNextMeasureAfterHooklessEnding };
       
-    static string measureRepeatKindAsString (
-      msrMeasureRepeatKind measureRepeatKind);
+    static string measureRepeatContextKindAsString (
+      msrMeasureRepeatContextKind measureRepeatContextKind);
 
     enum msrMeasureEndRegularKind {
         kMeasureEndRegularUnknown,
@@ -807,13 +807,13 @@ class msrMeasure : public msrElement
 
     // measure 'relative a repeat' kind
     
-    void                  setMeasureRepeatKind (
-                            msrMeasureRepeatKind
-                              measureRepeatKind);
+    void                  setMeasureRepeatContextKind (
+                            msrMeasureRepeatContextKind
+                              measureRepeatContextKind);
 
-    msrMeasureRepeatKind
-                          getMeasureRepeatKind () const
-                              { return fMeasureRepeatKind; }
+    msrMeasureRepeatContextKind
+                          getMeasureRepeatContextKind () const
+                              { return fMeasureRepeatContextKind; }
 
     // single-measure rest?
 
@@ -1088,8 +1088,8 @@ class msrMeasure : public msrElement
 
     void                  determineMeasureKindAndPuristNumber (
                             int     inputLineNumber,
-                            msrMeasureRepeatKind
-                                    measureRepeatKind);
+                            msrMeasureRepeatContextKind
+                                    measureRepeatContextKind);
 
     void                  padUpToPositionInMeasure (
                             int      inputLineNumber,
@@ -1097,7 +1097,7 @@ class msrMeasure : public msrElement
 
     void                  finalizeMeasure (
                             int                  inputLineNumber,
-                            msrMeasureRepeatKind measureRepeatKind,
+                            msrMeasureRepeatContextKind measureRepeatContextKind,
                             string               context);
 
     void                  finalizeMeasureClone (
@@ -1188,8 +1188,8 @@ class msrMeasure : public msrElement
                         
     // measure 'relative a repeat' kind
 
-    msrMeasureRepeatKind
-                          fMeasureRepeatKind;
+    msrMeasureRepeatContextKind
+                          fMeasureRepeatContextKind;
                         
     // single-measure rest?
 
