@@ -1570,6 +1570,89 @@ class EXP optionsHandler : public optionsElement
 typedef SMARTP<optionsHandler> S_optionsHandler;
 EXP ostream& operator<< (ostream& os, const S_optionsHandler& elt);
 
+//______________________________________________________________________________
+class optionsPrefix;
+typedef SMARTP<optionsPrefix> S_optionsPrefix;
+
+class optionsPrefix : public smartable
+/*
+An options prefix 'trace' --> 'trace-' allows:
+  -trace=abc,def,gh
+to be developped into :
+  -trace-abc -trace-def -trace-gh
+*/
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsPrefix> create (
+      string optionsPrefixName,
+      string optionsPrefixErsatz);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsPrefix (
+      string optionsPrefixName,
+      string optionsPrefixErsatz);
+
+    virtual ~optionsPrefix ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsPrefixName () const
+                              { return fOptionsPrefixName; }
+
+    string                getOptionsPrefixErsatz () const
+                              { return fOptionsPrefixErsatz; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                optionsPrefixNames () const;
+    string                optionsPrefixNamesInColumns (
+                            int subGroupsShortNameFieldWidth) const;
+    
+    string                optionsPrefixNamesBetweenParentheses () const;
+    string                optionsPrefixNamesInColumnsBetweenParentheses (
+                            int subGroupsShortNameFieldWidth) const;
+
+    string                operator () () const
+                              { return fOptionsPrefixErsatz; }
+  
+    S_optionsPrefix       fetchOptionElement ( // JMI
+                            string optiontElementName);
+                            
+    // print
+    // ------------------------------------------------------
+    
+    virtual void          printHeader (ostream& os) const;
+    
+    virtual void          printElementEssentials (
+                            ostream& os,
+                            int      fieldWidth) const;
+    
+    virtual void          print (ostream& os) const;
+    
+    virtual void          printHelp (ostream& os) const;
+    
+  protected:
+     
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsPrefixName;
+    string                fOptionsPrefixErsatz;
+};
+EXP ostream& operator<< (ostream& os, const S_optionsPrefix& elt);
+
 
 }
 

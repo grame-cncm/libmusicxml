@@ -270,8 +270,7 @@ optionsItem::optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
-{
-}
+{}
     
 optionsItem::~optionsItem ()
 {}
@@ -402,7 +401,7 @@ The options are organized in a group-subgroup-item hierarchy.
 Help can be obtained for groups or subgroups at will,
 as well as for any option with the '-ih, itemHelp' option.
 
-A subgroup displayed with '***' has its description printed
+A subgroup can be hidden by default, in which case its description is printed
 only when the corresponding item short or long names are used.
 
 Both '-' and '--' can be used to introduce options in the command line,
@@ -963,8 +962,7 @@ void optionsTwoBooleansItem::print (ostream& os) const
   gIndenter++;
   os <<
     gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
+      fOptionsElementDescription);
   gIndenter--;
 
   os << left <<
@@ -1974,7 +1972,7 @@ void optionsSubGroup::printHelp (ostream& os) const
       
     case kHideDescriptionByDefault:
       os <<
-        " ***";
+        " (hidden by default)";
       break;
   } // switch
 
@@ -1985,8 +1983,7 @@ void optionsSubGroup::printHelp (ostream& os) const
     gIndenter++;
     os <<
       gIndenter.indentMultiLineString (
-        fOptionsElementDescription) <<
-      endl;
+        fOptionsElementDescription);
     gIndenter--;
 
     os << endl;  
@@ -2046,7 +2043,7 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       
     case kHideDescriptionByDefault:
       os <<
-        " *** :";
+        " (hidden by default) :";
       break;
   } // switch
 
@@ -2117,7 +2114,7 @@ void optionsSubGroup::printHelpSummary (
       
     case kHideDescriptionByDefault:
       os <<
-        " ***";
+        " (hidden by default)";
       break;
   } // switch
 
@@ -3147,8 +3144,7 @@ void optionsHandler::printHelpSummary (ostream& os) const
   // print the options handler preamble
   os <<
     gIndenter.indentMultiLineString (
-      fOptionHandlerPreamble) <<
-      endl;
+      fOptionHandlerPreamble);
     
   // print the options handler help header and element names
   os <<
@@ -4394,6 +4390,162 @@ void optionsHandler::handleOptionsItemValueOrArgument (
     // theString is an argument
     fArgumentsVector.push_back (theString);
   }
+}
+
+//______________________________________________________________________________
+S_optionsPrefix optionsPrefix::create (
+  string optionsPrefixName,
+  string optionsPrefixErsatz)
+{
+  optionsPrefix* o = new
+    optionsPrefix (
+      optionsPrefixName,
+      optionsPrefixErsatz);
+  assert(o!=0);
+  return o;
+}
+
+optionsPrefix::optionsPrefix (
+  string optionsPrefixName,
+  string optionsPrefixErsatz)
+{
+  fOptionsPrefixName   = optionsPrefixName;  
+  fOptionsPrefixErsatz = optionsPrefixErsatz;
+}
+
+optionsPrefix::~optionsPrefix ()
+{}
+
+S_optionsPrefix optionsPrefix::fetchOptionElement (
+  string optiontElementName)
+{
+  S_optionsPrefix result;
+
+  if (optiontElementName == fOptionsPrefixName) {
+    result = this;
+  }
+  
+  return result;
+}
+
+string optionsPrefix::optionsPrefixNames () const
+{
+  stringstream s;
+  
+  if (fOptionsPrefixName.size ()) {
+      s <<
+        "-" << fOptionsPrefixName;
+  }
+
+  return s.str ();
+}
+
+string optionsPrefix::optionsPrefixNamesInColumns (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+  
+  if (fOptionsPrefixName.size ()) {
+      s << left <<
+        setw (subGroupsShortNameFieldWidth) <<
+        "-" + fOptionsPrefixName;
+  }
+
+  return s.str ();
+}
+
+string optionsPrefix::optionsPrefixNamesBetweenParentheses () const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    optionsPrefixNames () <<
+    ")";
+  
+  return s.str ();
+}
+
+string optionsPrefix::optionsPrefixNamesInColumnsBetweenParentheses (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    optionsPrefixNamesInColumns (
+      subGroupsShortNameFieldWidth) <<
+    ")";
+  
+  return s.str ();
+}
+
+void optionsPrefix::printHeader (ostream& os) const
+{
+  os <<
+    "-" << fOptionsPrefixName <<
+    endl;
+
+  if (fOptionsPrefixErsatz.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsPrefixErsatz) <<
+      endl;
+  
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+}
+
+void optionsPrefix::printElementEssentials (
+  ostream& os,
+  int      fieldWidth) const
+{
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsPrefixName" << " : " <<
+    fOptionsPrefixName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsPrefixErsatz" << " : " <<
+    fOptionsPrefixErsatz <<
+    endl;
+}
+
+void optionsPrefix::print (ostream& os) const
+{
+  os <<
+    "??? optionsPrefix ???" <<
+    endl;
+
+  printElementEssentials (os, 35);  
+}
+
+void optionsPrefix::printHelp (ostream& os) const
+{
+  os <<
+    optionsPrefixNames () <<
+    endl;
+
+  if (fOptionsPrefixErsatz.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsPrefixErsatz) <<
+      endl;
+  
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+}
+
+ostream& operator<< (ostream& os, const S_optionsPrefix& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 

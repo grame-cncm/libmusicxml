@@ -362,7 +362,7 @@ R"(Note: the options in this group imply '-t, -trace-passes'.)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tvvas", "trace-varv-val-assocs",
+          "tvvas", "trace-var-val-assocs",
 R"(VarValAssocs)",
           "traceVarValAssocs",
           fTraceVarValAssocs,
