@@ -128,7 +128,8 @@ class EXP xmlpart2guido :
 	int  checkArticulation ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     int  checkChordOrnaments ( const notevisitor& note );			// returns the count of articulations pushed on the stack
     
-	std::vector<Sxmlelement>  getChord ( const S_note& note );	// build a chord vector
+    std::vector<Sxmlelement>  getChord ( const S_note& note );    // build a chord vector
+	std::vector<Sxmlelement>  getChord ( const Sxmlelement& note );	// build a chord vector
 	void checkStaff		 (int staff );					// check for staff change
 	void checkStem		 ( const S_stem& stem );
 	void checkBeamBegin	 ( const std::vector<S_beam>& beams );
@@ -151,10 +152,12 @@ class EXP xmlpart2guido :
     void checkWavyTrillBegin	 ( const notevisitor& nv );
     void checkWavyTrillEnd	 ( const notevisitor& nv );
     void checkTextEnd();
-	void newNote		 ( const notevisitor& nv, rational posInMeasure );
-
+	void newNote		 ( const notevisitor& nv, rational posInMeasure);
+    
+    int checkTremolo(const notevisitor& note, const S_note& elt);
+    
 	std::string			noteName		( const notevisitor& nv );
-	guidonoteduration	noteDuration	( const notevisitor& nv );
+	guidonoteduration	noteDuration	( const notevisitor& nv);
 
 	std::vector<S_beam>::const_iterator findValue ( const std::vector<S_beam>& beams, const std::string& val ) const;
 	std::vector<S_slur>::const_iterator findTypeValue ( const std::vector<S_slur>& slurs, const std::string& val ) const;
