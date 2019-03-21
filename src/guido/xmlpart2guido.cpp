@@ -1708,22 +1708,22 @@ namespace MusicXML2
         Sguidoelement tag;
         if (stem) {
             if (stem->getValue() == "down") {
-                if (fCurrentStemDirection != kStemDown || fInCue) {
+                //if (fCurrentStemDirection != kStemDown || fInCue) {
                     tag = guidotag::create("stemsDown");
                     fCurrentStemDirection = kStemDown;
-                }
+                //}
             }
             else if (stem->getValue() == "up") {
-                if (fCurrentStemDirection != kStemUp || fInCue) {
+                //if (fCurrentStemDirection != kStemUp || fInCue) {
                     tag = guidotag::create("stemsUp");
                     fCurrentStemDirection = kStemUp;
-                }
+                //}
             }
             else if (stem->getValue() == "none") {
-                if (fCurrentStemDirection != kStemNone || fInCue) {
+                //if (fCurrentStemDirection != kStemNone || fInCue) {
                     tag = guidotag::create("stemsOff");
                     fCurrentStemDirection = kStemNone;
-                }
+                //}
             }
             else if (stem->getValue() == "double") {
             }
