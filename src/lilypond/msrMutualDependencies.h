@@ -665,14 +665,14 @@ class msrMeasure : public msrElement
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
     enum msrMeasureRepeatContextKind {
-        kMeasureRepeatUnknown,
-        kMeasureRepeatNone,
-        kMeasureRepeatCommonPartLastMeasure,
-        kMeasureRepeatHookedEndingLastMeasure,
-        kMeasureRepeatHooklessEndingLastMeasure,
-        kMeasureRepeatNextMeasureAfterCommonPart,
-        kMeasureRepeatNextMeasureAfterHookedEnding,
-        kMeasureRepeatNextMeasureAfterHooklessEnding };
+        kMeasureRepeatContextUnknown,
+        kMeasureRepeatContextNone,
+        kMeasureRepeatContextCommonPartLastMeasure,
+        kMeasureRepeatContextHookedEndingLastMeasure,
+        kMeasureRepeatContextHooklessEndingLastMeasure,
+        kMeasureRepeatContextNextMeasureAfterCommonPart,
+        kMeasureRepeatContextNextMeasureAfterHookedEnding,
+        kMeasureRepeatContextNextMeasureAfterHooklessEnding };
       
     static string measureRepeatContextKindAsString (
       msrMeasureRepeatContextKind measureRepeatContextKind);
@@ -804,16 +804,6 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
-
-    // measure 'relative a repeat' kind
-    
-    void                  setMeasureRepeatContextKind (
-                            msrMeasureRepeatContextKind
-                              measureRepeatContextKind);
-
-    msrMeasureRepeatContextKind
-                          getMeasureRepeatContextKind () const
-                              { return fMeasureRepeatContextKind; }
 
     // single-measure rest?
 
@@ -1096,9 +1086,9 @@ class msrMeasure : public msrElement
                             rational positionInMeasure);
 
     void                  finalizeMeasure (
-                            int                  inputLineNumber,
+                            int                         inputLineNumber,
                             msrMeasureRepeatContextKind measureRepeatContextKind,
-                            string               context);
+                            string                      context);
 
     void                  finalizeMeasureClone (
                             int          inputLineNumber,
@@ -1185,11 +1175,6 @@ class msrMeasure : public msrElement
 
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
-                        
-    // measure 'relative a repeat' kind
-
-    msrMeasureRepeatContextKind
-                          fMeasureRepeatContextKind;
                         
     // single-measure rest?
 
@@ -6806,10 +6791,12 @@ class msrVoice : public msrElement
                             int          inputLineNumber,
                             S_msrSegment segmentClone);
 
+/* JMI
     void                  finalizeRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
+                            */
   
     void                  handleRepeatStartInVoice (
                             int inputLineNumber);
@@ -7571,10 +7558,12 @@ class msrStaff : public msrElement
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
 
+/* JMI
     void                  finalizeRepeatEndInStaff (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
+    */
     
     void                  createMeasuresRepeatFromItsFirstMeasuresInStaff (
                             int inputLineNumber,
@@ -8126,11 +8115,13 @@ class msrPart : public msrPartGroupElement
                             string    repeatEndingNumber, // may be "1, 2"
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
-    
+
+    /* JMI ???
     void                  finalizeRepeatEndInPart (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
+                            */
     
     void                  appendRepeatCloneToPart (
                             int         inputLineNumber,

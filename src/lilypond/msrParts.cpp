@@ -882,6 +882,7 @@ void msrPart::handleRepeatEndingEndInPart (
   gIndenter--;
 }
 
+/* JMI
 void msrPart::finalizeRepeatEndInPart (
   int    inputLineNumber,
   string measureNumber,
@@ -914,6 +915,7 @@ void msrPart::finalizeRepeatEndInPart (
 
   gIndenter--;
 }
+*/
 
 void msrPart::appendRepeatCloneToPart (
   int         inputLineNumber,

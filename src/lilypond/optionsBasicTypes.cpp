@@ -2752,6 +2752,182 @@ ostream& operator<< (ostream& os, const S_optionsGroup& elt)
 }
 
 //______________________________________________________________________________
+S_optionsPrefix optionsPrefix::create (
+  string optionsPrefixName,
+  string optionsPrefixErsatz,
+  string optionsPrefixDescription)
+{
+  optionsPrefix* o = new
+    optionsPrefix (
+      optionsPrefixName,
+      optionsPrefixErsatz,
+      optionsPrefixDescription);
+  assert(o!=0);
+  return o;
+}
+
+optionsPrefix::optionsPrefix (
+  string optionsPrefixName,
+  string optionsPrefixErsatz,
+  string optionsPrefixDescription)
+{
+  fOptionsPrefixName        = optionsPrefixName;  
+  fOptionsPrefixErsatz      = optionsPrefixErsatz;
+  fOptionsPrefixDescription = optionsPrefixDescription;
+}
+
+optionsPrefix::~optionsPrefix ()
+{}
+
+S_optionsPrefix optionsPrefix::fetchOptionElement (
+  string optiontElementName)
+{
+  S_optionsPrefix result;
+
+  if (optiontElementName == fOptionsPrefixName) {
+    result = this;
+  }
+  
+  return result;
+}
+
+string optionsPrefix::optionsPrefixNames () const
+{
+  stringstream s;
+  
+  if (fOptionsPrefixName.size ()) {
+      s <<
+        "-" << fOptionsPrefixName;
+  }
+
+  return s.str ();
+}
+
+string optionsPrefix::optionsPrefixNamesInColumns (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+  
+  if (fOptionsPrefixName.size ()) {
+      s << left <<
+        setw (subGroupsShortNameFieldWidth) <<
+        "-" + fOptionsPrefixName;
+  }
+
+  return s.str ();
+}
+
+string optionsPrefix::optionsPrefixNamesBetweenParentheses () const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    optionsPrefixNames () <<
+    ")";
+  
+  return s.str ();
+}
+
+string optionsPrefix::optionsPrefixNamesInColumnsBetweenParentheses (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    optionsPrefixNamesInColumns (
+      subGroupsShortNameFieldWidth) <<
+    ")";
+  
+  return s.str ();
+}
+
+void optionsPrefix::printHeader (ostream& os) const
+{
+  os <<
+    "-" << fOptionsPrefixName <<
+    endl;
+
+  if (fOptionsPrefixErsatz.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsPrefixErsatz) <<
+      endl;
+  
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+}
+
+void optionsPrefix::printElementEssentials (
+  ostream& os,
+  int      fieldWidth) const
+{
+  os << left <<
+    setw (fieldWidth) <<
+    "optionsPrefixName" << " : " <<
+    fOptionsPrefixName <<
+    endl <<
+    setw (fieldWidth) <<
+    "optionsPrefixErsatz" << " : " <<
+    fOptionsPrefixErsatz <<
+    endl <<
+    setw (fieldWidth) <<
+    "optionsPrefixDescription" << " : " <<
+    fOptionsPrefixDescription <<
+    endl;
+}
+
+void optionsPrefix::print (ostream& os) const
+{
+  os <<
+    "??? optionsPrefix ???" <<
+    endl;
+
+  printElementEssentials (os, 35);  
+}
+
+void optionsPrefix::printHelp (ostream& os) const
+{
+  os <<
+    optionsPrefixNames () <<
+    endl;
+
+  if (fOptionsPrefixErsatz.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsPrefixErsatz) <<
+      endl;
+  
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+
+  if (fOptionsPrefixDescription.size ()) {
+    // indent a bit more for readability
+    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    
+    os <<
+      gIndenter.indentMultiLineString (
+        fOptionsPrefixDescription) <<
+      endl;
+  
+    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+  }
+}
+
+ostream& operator<< (ostream& os, const S_optionsPrefix& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 /* JMI
 S_optionsHandler optionsHandler::create (
   string           optionsHandlerHelpHeader,
@@ -4390,162 +4566,6 @@ void optionsHandler::handleOptionsItemValueOrArgument (
     // theString is an argument
     fArgumentsVector.push_back (theString);
   }
-}
-
-//______________________________________________________________________________
-S_optionsPrefix optionsPrefix::create (
-  string optionsPrefixName,
-  string optionsPrefixErsatz)
-{
-  optionsPrefix* o = new
-    optionsPrefix (
-      optionsPrefixName,
-      optionsPrefixErsatz);
-  assert(o!=0);
-  return o;
-}
-
-optionsPrefix::optionsPrefix (
-  string optionsPrefixName,
-  string optionsPrefixErsatz)
-{
-  fOptionsPrefixName   = optionsPrefixName;  
-  fOptionsPrefixErsatz = optionsPrefixErsatz;
-}
-
-optionsPrefix::~optionsPrefix ()
-{}
-
-S_optionsPrefix optionsPrefix::fetchOptionElement (
-  string optiontElementName)
-{
-  S_optionsPrefix result;
-
-  if (optiontElementName == fOptionsPrefixName) {
-    result = this;
-  }
-  
-  return result;
-}
-
-string optionsPrefix::optionsPrefixNames () const
-{
-  stringstream s;
-  
-  if (fOptionsPrefixName.size ()) {
-      s <<
-        "-" << fOptionsPrefixName;
-  }
-
-  return s.str ();
-}
-
-string optionsPrefix::optionsPrefixNamesInColumns (
-  int subGroupsShortNameFieldWidth) const
-{
-  stringstream s;
-  
-  if (fOptionsPrefixName.size ()) {
-      s << left <<
-        setw (subGroupsShortNameFieldWidth) <<
-        "-" + fOptionsPrefixName;
-  }
-
-  return s.str ();
-}
-
-string optionsPrefix::optionsPrefixNamesBetweenParentheses () const
-{
-  stringstream s;
-
-  s <<
-    "(" <<
-    optionsPrefixNames () <<
-    ")";
-  
-  return s.str ();
-}
-
-string optionsPrefix::optionsPrefixNamesInColumnsBetweenParentheses (
-  int subGroupsShortNameFieldWidth) const
-{
-  stringstream s;
-
-  s <<
-    "(" <<
-    optionsPrefixNamesInColumns (
-      subGroupsShortNameFieldWidth) <<
-    ")";
-  
-  return s.str ();
-}
-
-void optionsPrefix::printHeader (ostream& os) const
-{
-  os <<
-    "-" << fOptionsPrefixName <<
-    endl;
-
-  if (fOptionsPrefixErsatz.size ()) {
-    // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
-    os <<
-      gIndenter.indentMultiLineString (
-        fOptionsPrefixErsatz) <<
-      endl;
-  
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  }
-}
-
-void optionsPrefix::printElementEssentials (
-  ostream& os,
-  int      fieldWidth) const
-{
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsPrefixName" << " : " <<
-    fOptionsPrefixName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsPrefixErsatz" << " : " <<
-    fOptionsPrefixErsatz <<
-    endl;
-}
-
-void optionsPrefix::print (ostream& os) const
-{
-  os <<
-    "??? optionsPrefix ???" <<
-    endl;
-
-  printElementEssentials (os, 35);  
-}
-
-void optionsPrefix::printHelp (ostream& os) const
-{
-  os <<
-    optionsPrefixNames () <<
-    endl;
-
-  if (fOptionsPrefixErsatz.size ()) {
-    // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
-    os <<
-      gIndenter.indentMultiLineString (
-        fOptionsPrefixErsatz) <<
-      endl;
-  
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-  }
-}
-
-ostream& operator<< (ostream& os, const S_optionsPrefix& elt)
-{
-  elt->print (os);
-  return os;
 }
 
 

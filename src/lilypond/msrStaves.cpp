@@ -1376,6 +1376,7 @@ void msrStaff::handleRepeatEndingEndInStaff (
   gIndenter--;
 }
 
+/* JMI
 void msrStaff::finalizeRepeatEndInStaff (
   int    inputLineNumber,
   string measureNumber,
@@ -1408,6 +1409,7 @@ void msrStaff::finalizeRepeatEndInStaff (
 
   gIndenter--;
 }
+*/
 
 void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
   int inputLineNumber,
