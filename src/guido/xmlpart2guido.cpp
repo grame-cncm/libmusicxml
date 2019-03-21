@@ -390,7 +390,6 @@ namespace MusicXML2
         if (fSkipDirection) return;
         
         // Browse into all S_direction_type elements and parse, by preserving ordering AND grouped direction positions (if missing in proceedings calls)
-        //cerr<<"S_direction in measure"<<fMeasNum<<endl;
         ctree<xmlelement>::literator iter = elt->lbegin();
         
         /// IMPORTANT: In case of "metronome", there's a coupling of WORDS and METRONOME which leads to ONE guido element. Take this into account.
@@ -428,7 +427,6 @@ namespace MusicXML2
         
         for (iter = elt->lbegin(); iter != elt->lend(); iter++) {
             // S_Direction can accept direction_type, offset, footnote, level, voice, staff
-            //cerr << "\tS_Direction Element in measure:"<< (*iter)->getName() <<endl;
             
             float elementSpecificYOffset = 0.0;
             
@@ -438,7 +436,6 @@ namespace MusicXML2
                 for (directionTypeElements = (*iter)->lbegin(); directionTypeElements != (*iter)->lend(); directionTypeElements++) {
                     int elementType = (*directionTypeElements)->getType();
                     auto element = (*directionTypeElements);
-                    //cerr << "\t\tS_Direction_type: " << (*directionTypeElements)->getName()<< " CommonDY="<< commonDy <<endl;
                     
                     /// Take into account group positioning
                     float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
@@ -1711,22 +1708,22 @@ namespace MusicXML2
         Sguidoelement tag;
         if (stem) {
             if (stem->getValue() == "down") {
-                if (fCurrentStemDirection != kStemDown || fInCue) {
+                //if (fCurrentStemDirection != kStemDown || fInCue) {
                     tag = guidotag::create("stemsDown");
                     fCurrentStemDirection = kStemDown;
-                }
+                //}
             }
             else if (stem->getValue() == "up") {
-                if (fCurrentStemDirection != kStemUp || fInCue) {
+                //if (fCurrentStemDirection != kStemUp || fInCue) {
                     tag = guidotag::create("stemsUp");
                     fCurrentStemDirection = kStemUp;
-                }
+                //}
             }
             else if (stem->getValue() == "none") {
-                if (fCurrentStemDirection != kStemNone || fInCue) {
+                //if (fCurrentStemDirection != kStemNone || fInCue) {
                     tag = guidotag::create("stemsOff");
                     fCurrentStemDirection = kStemNone;
-                }
+                //}
             }
             else if (stem->getValue() == "double") {
             }
@@ -1902,26 +1899,6 @@ namespace MusicXML2
             n++;
         }
         
-        if (note.fTremolo) {
-            std::string tremType = note.fTremolo->getAttributeValue("type");
-            if (tremType == "single") {
-                tag = guidotag::create("trem");
-                // trem style is the number int value
-                int numDashes = int(*(note.fTremolo));
-                stringstream ss;
-                ss << "style=\"";
-                for (int id=0; id<numDashes;id++) {
-                    ss << "/";
-                }
-                ss << "\"";
-                tag->add (guidoparam::create(ss.str(), false));
-                
-                push(tag);
-                n++;
-            }
-            
-        }
-        
         if (note.fTrill) {
             tag = guidotag::create("trill");
             //n++;
@@ -1942,6 +1919,91 @@ namespace MusicXML2
         return n;
     }
     
+    int xmlpart2guido::checkTremolo(const notevisitor& note, const S_note& elt) {
+        // Starting FINALE 24, there is Tremolo types "Single", "start" and "stop". The "Start" type should search for a "stop" to construct the tremolo
+        if (note.fTremolo) {
+            Sguidoelement tag;
+            stringstream s;
+
+            std::string tremType = note.fTremolo->getAttributeValue("type");
+            if (tremType == "single") {
+                tag = guidotag::create("trem");
+                // trem style is the number int value
+                int numDashes = int(*(note.fTremolo));
+                s << "style=\"";
+                for (int id=0; id<numDashes;id++) {
+                    s << "/";
+                }
+                s << "\"";
+                tag->add (guidoparam::create(s.str(), false));
+                
+                push(tag);
+                return 1;
+            }else
+                if (tremType == "start") {
+                    tag = guidotag::create("trem");
+
+                    /// Find "stop" pitch
+                    ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
+                    if (nextnote != fCurrentMeasure->end()) nextnote++;    // advance one step
+                    while (nextnote != fCurrentMeasure->end()) {
+                        // looking for the next note on the target voice
+                        if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
+                            ctree<xmlelement>::iterator iter;            // and when there is one
+                            iter = nextnote->find(k_tremolo);
+                            if (iter != nextnote->end() && (iter->getAttributeValue("type")=="stop") ) {
+                                vector<Sxmlelement> chordStop = getChord( (*nextnote) );
+                                s << "pitch=\"";
+                                if (chordStop.size())
+                                    s<< "{";
+                                
+                                notevisitor nv;xml_tree_browser browser(&nv);
+                                Sxmlelement note = *nextnote;
+                                browser.browse(*note);
+                                
+                                // Add main stop note
+                                int octave = nv.getOctave() - 3;            // octave offset between MusicXML and GUIDO is -3
+                                string accident = alter2accident(nv.getAlter());
+                                string name = noteName(nv);
+                                s << name<<accident<<(int)octave;
+                                
+                                // Add chords if any
+                                if (chordStop.size()) {
+                                    for (vector<Sxmlelement>::const_iterator chordIter = chordStop.begin(); chordIter != chordStop.end(); chordIter++) {
+                                        s<<",";
+                                        notevisitor nv;xml_tree_browser browser(&nv);
+                                        Sxmlelement note = *chordIter;
+                                        browser.browse(*note);
+                                        int octave = nv.getOctave() - 3;            // octave offset between MusicXML and GUIDO is -3
+                                        string accident = alter2accident(nv.getAlter());
+                                        string name = noteName(nv);
+                                        s << name<<accident<<(int)octave;
+                                    }
+                                    s<<"}";
+                                }
+                                
+                                s<<"\"";
+                                
+                                break;
+                            }
+                        }
+                        nextnote++;
+                    }
+                    
+                    // Only add tag if the Stop has been correctly detected
+                    if (s.str().size()) {
+                        tag->add (guidoparam::create(s.str(), false));
+                        
+                        push(tag);
+                        return 1;
+                    }
+                    
+                }
+        }
+        
+        return 0;
+    }
+    
     //______________________________________________________________________________
     vector<Sxmlelement> xmlpart2guido::getChord ( const S_note& elt )
     {
@@ -1952,6 +2014,25 @@ namespace MusicXML2
             // looking for the next note on the target voice
             if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
                 ctree<xmlelement>::iterator iter;			// and when there is one
+                iter = nextnote->find(k_chord);
+                if (iter != nextnote->end())
+                    v.push_back(*nextnote);
+                else break;
+            }
+            nextnote++;
+        }
+        return v;
+    }
+    
+    vector<Sxmlelement> xmlpart2guido::getChord ( const Sxmlelement& elt )
+    {
+        vector<Sxmlelement> v;
+        ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
+        if (nextnote != fCurrentMeasure->end()) nextnote++;    // advance one step
+        while (nextnote != fCurrentMeasure->end()) {
+            // looking for the next note on the target voice
+            if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
+                ctree<xmlelement>::iterator iter;            // and when there is one
                 iter = nextnote->find(k_chord);
                 if (iter != nextnote->end())
                     v.push_back(*nextnote);
@@ -2079,7 +2160,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    guidonoteduration xmlpart2guido::noteDuration ( const notevisitor& nv )
+    guidonoteduration xmlpart2guido::noteDuration ( const notevisitor& nv)
     {
         guidonoteduration dur(0,0);
         if (nv.getType() == kRest) {
@@ -2120,7 +2201,7 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
-    void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure )
+    void xmlpart2guido::newNote ( const notevisitor& nv, rational posInMeasure)
     {
         //checkTiedBegin (nv.getTied());
         
@@ -2273,6 +2354,10 @@ namespace MusicXML2
         
         if (inChord()) return;					// chord notes have already been handled
         
+        if (fTremolo && (fTremolo->getAttributeValue("type")=="stop")) {
+            return;
+        }
+        
         isProcessingChord = false;
         
         rational thisNoteHeadPosition = fCurrentVoicePosition;
@@ -2332,6 +2417,9 @@ namespace MusicXML2
         
         int chordOrnaments = checkChordOrnaments(*this);
         pendingPops += chordOrnaments;
+        
+        pendingPops += checkTremolo(*this, elt);
+        
         
         if (notevisitor::getType()==kRest)
             pendingPops += checkRestFormat(*this);
