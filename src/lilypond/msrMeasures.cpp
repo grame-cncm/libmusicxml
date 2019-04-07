@@ -158,6 +158,9 @@ void msrMeasure::initializeMeasure ()
   // regular measure ends detection
   fMeasureEndRegularKind = kMeasureEndRegularUnknown;
 
+  // repeat context
+  fMeasureRepeatContextKind = msrMeasure::kMeasureRepeatContextUnknown;
+                          
   // measure finalization
   fMeasureHasBeenFinalized = false;
 }
@@ -2272,6 +2275,9 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   msrMeasure::msrMeasureRepeatContextKind
           measureRepeatContextKind)
 {
+  // register measureRepeatContextKind
+  fMeasureRepeatContextKind = measureRepeatContextKind;
+  
   // fetch the voice
   S_msrVoice
     voice =
@@ -2974,7 +2980,7 @@ void msrMeasure::finalizeMeasureClone (
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,
-    kMeasureRepeatContextNextMeasureAfterHooklessEnding); // JMI
+    originalMeasure->getMeasureRepeatContextKind ());
 
   // consistency check
   msrMeasure::msrMeasureKind
@@ -3299,10 +3305,12 @@ void msrMeasure::displayMeasure (
     endl <<
     "*********>> Measure '" <<
     fMeasureNumber <<
+    /* JMI
     "', measurePuristNumber: " <<
     fMeasurePuristNumber <<
     ", measureDebugNumber: '" <<
     fMeasureDebugNumber <<
+    */
     " (" << context << ")" <<
     ", line " << inputLineNumber <<
     " contains:" <<
@@ -3350,6 +3358,11 @@ void msrMeasure::print (ostream& os)
     "measureEndRegularKind" << " : " <<
     measureEndRegularKindAsString (
       fMeasureEndRegularKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureRepeatContextKind" << " : " <<
+    measureRepeatContextKindAsString (
+      fMeasureRepeatContextKind) <<
     endl <<
     
     setw (fieldWidth) <<
@@ -3533,6 +3546,11 @@ void msrMeasure::shortPrint (ostream& os)
     "measureEndRegularKind" << " : " <<
     measureEndRegularKindAsString (
       fMeasureEndRegularKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureRepeatContextKind" << " : " <<
+    measureRepeatContextKindAsString (
+      fMeasureRepeatContextKind) <<
     endl <<
     
     setw (fieldWidth) <<

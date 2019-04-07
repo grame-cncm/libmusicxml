@@ -839,6 +839,12 @@ class msrMeasure : public msrElement
                           getMeasureEndRegularKind () const
                               { return fMeasureEndRegularKind; }
 
+    // repeat context
+    
+    msrMeasureRepeatContextKind
+                          getMeasureRepeatContextKind () const
+                              { return fMeasureRepeatContextKind; }
+
   public:
   
     // public services
@@ -1203,6 +1209,10 @@ class msrMeasure : public msrElement
     msrMeasureEndRegularKind
                           fMeasureEndRegularKind;
 
+    // repeat context
+    msrMeasureRepeatContextKind
+                          fMeasureRepeatContextKind;
+                          
   public:
 
     // public work services
