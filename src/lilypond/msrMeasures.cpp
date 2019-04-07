@@ -2398,6 +2398,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         // this is an anacrusis
   
         // sanity check
+        if (false) // JMI
         msrAssert (
           voice->getVoiceCurrentMeasurePuristNumber () == 0,
           "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
