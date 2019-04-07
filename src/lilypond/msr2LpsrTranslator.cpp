@@ -1908,7 +1908,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       elt, // original measure
       fCurrentVoiceClone);
 
-  bool doCreateABarCheck = false; // JMI
+  bool doCreateABarCheck = false;
 
   switch (elt->getMeasureKind ()) {
     
@@ -4573,6 +4573,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarCheck" <<
+      ", nextBarNumber: " <<
+      elt->getNextBarNumber () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

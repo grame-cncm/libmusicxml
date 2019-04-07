@@ -5638,6 +5638,8 @@ void msr2BsrTranslator::visitStart (S_msrBarCheck& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrBarCheck" <<
+      ", nextBarNumber: " <<
+      elt->getNextBarNumber () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

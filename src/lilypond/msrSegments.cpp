@@ -1538,8 +1538,8 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending bar check " << barCheck->asString () <<
-      " to segment '" << asString () << "'" <<
+      "Appending bar check '" << barCheck->asString () <<
+      "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<

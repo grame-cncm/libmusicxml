@@ -7203,8 +7203,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     switch (measureKind) {
       case msrMeasure::kMeasureUnknown: // should not occur
         fLilypondCodeIOstream <<
-          "%{ measureKindUnknown %} | % " <<
+          "%{ measureKindUnknown, " <<
           measurePuristNumber + 1 <<
+          " %}" <<
           endl;
         break;
         
@@ -14042,6 +14043,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrBarCheck" <<
+      ", nextBarNumber: " <<
+      elt->getNextBarNumber () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
