@@ -101,7 +101,8 @@ class EXP indenter
     virtual ~indenter ();
 
     // get the indent
-    int                   getIndent () const  { return fIndent; }
+    int                   getIndent () const
+                              { return fIndent; }
                          
     // increase the indentation by 1
     indenter&             operator++ (const int value);
@@ -113,7 +114,8 @@ class EXP indenter
     indenter&             decrement (int value);
 
     // reset the indentation
-    void                  resetToZero ()    { fIndent = 0; }
+    void                  resetToZero ()
+                              { fIndent = 0; }
 
     // check indentation value
     bool                  operator == (const int &value) const
@@ -129,7 +131,7 @@ class EXP indenter
                               { return fSpacer; }
 
     // indent a multiline 'R"(...)"' std::string
-    std::string                indentMultiLineString (std::string value);
+    std::string           indentMultiLineString (std::string value);
     
     // global variable for general use
     static indenter       gIndenter; 
@@ -145,11 +147,64 @@ EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 #define gTab      indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
+// a stream buffer that prefixes each line
+// with the current indentation, i.e. spaces
+
+/*
+std::endl declaration:
+
+  std::endl for ostream 
+  ostream& endl (ostream& os);
+  
+  basic template  
+  template <class charT, class traits>
+  basic_ostream<charT,traits>& endl (basic_ostream<charT,traits>& os);
+  
+  Insert newline and flush
+  Inserts a new-line character and flushes the stream.
+  
+  Its behavior is equivalent to calling os.put('\n') (or os.put(os.widen('\n')) for character types other than char), and then os.flush().
+
+--
+
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+*/
+
+class indentedStreamBuf: public std::stringbuf
+{
+  private:
+  
+    std::ostream&         fOutputSteam;
+    indenter&             fIndenter;
+
+  public:
+  
+    // constructor
+    indentedStreamBuf (
+      std::ostream& outputStream,
+      indenter&     idtr)
+      : fOutputSteam (outputStream),
+        fIndenter (idtr)
+        {}
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndenter; }
+
+    // flush
+    void                  flush ()
+                              { fOutputSteam.flush (); }
+  
+    virtual int           sync ();
+};
+
+//______________________________________________________________________________
 class EXP indentedOstream: public std::ostream
 {
 /*
-Reference:
- https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
   indentedOstream myStream (std::cout);
@@ -160,46 +215,8 @@ Usage:
     7 << 8 << std::endl;
 */
  
-  // a stream buffer that prefixes each line
-  // with the current indentation
-  class indentedStreamBuf: public std::stringbuf
-  {
-    private:
-    
-      std::ostream& fOutput;
-      indenter&     fIndenter;
-
-    public:
-    
-      // constructor
-      indentedStreamBuf (
-        std::ostream& str,
-        indenter&     idtr)
-        : fOutput (str),
-          fIndenter (idtr)
-          {}
-
-      // flush
-      void flush ()
-          {
-            fOutput.flush ();
-          }
-    
-      // When we sync the stream with fOutput:
-      // 1) output the indentation then the buffer
-      // 2) reset the buffer
-      // 3) flush the actual output stream we are using.
-      virtual int sync ()
-          {
-            fOutput << fIndenter << str ();
-            str ("");
-            fOutput.flush ();
-            return 0;
-          }
-  };
-
   private:
-    // indentedOstream just uses a version of indentedStreamBuf
+    // indentedOstream just uses an indentedStreamBuf
     indentedStreamBuf     fIndentedStreamBuf;
   
   public:
@@ -209,19 +226,26 @@ Usage:
       std::ostream&  str,
       indenter&      idtr)
       : std::ostream (&fIndentedStreamBuf),
-        fIndentedStreamBuf (
-          str, idtr)
-      {}
+        fIndentedStreamBuf (str, idtr)
+        {}
 
     // destructor
     virtual ~indentedOstream ()
         {};
 
     // flush
-    void flush ()
-        {
-          fIndentedStreamBuf.flush ();
-        }
+    void                  flush ()
+                              { fIndentedStreamBuf.flush (); }
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndentedStreamBuf.getIndenter (); }
+
+    void                  incrIdentation ()
+                              { fIndentedStreamBuf.getIndenter ()++; }
+      
+    void                  decrIdentation ()
+                              { fIndentedStreamBuf.getIndenter ()--; }
     
     // global variables for general use
     static indentedOstream
@@ -236,6 +260,84 @@ Usage:
 #define gOutputIOstream indentedOstream::gOutputIndentedOstream
 #define gLogIOstream    indentedOstream::gLogIndentedOstream
 #define gNullIOstream   indentedOstream::gNullIndentedOstream
+
+//______________________________________________________________________________
+class EXP segmentedLinesOstream
+{
+/*
+  // in order to avoid spaces at the end of a line,
+  // an end of segment causes a space to be output later,
+  // by the next '<<' operator
+
+--
+* 
+Reference for this class:
+  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+
+Usage:
+  segmentedLinesOstream myStream (std::cout);
+   
+  myStream <<
+    1 << 2 << 3 << std::endl <<
+    5 << 6 << std::endl <<
+    7 << 8 << std::endl;
+*/
+ 
+  private:
+    // segmentedLinesOstream just uses an indentedOstream
+    indentedOstream&      fIndentedOstream;
+
+    // an end of segment causes a space to be output by the next '<<' operator
+    bool                  fAtEndOfSegment;
+  
+  public:
+  
+    // constructor
+    segmentedLinesOstream (
+      indentedOstream& indentedOstream)
+      : fIndentedOstream (indentedOstream)
+        { fAtEndOfSegment = false; }
+
+    // destructor
+    virtual ~segmentedLinesOstream ()
+        {};
+
+    // flush
+    void                  flush ()
+                              { fIndentedOstream.flush (); }
+
+    // set and get
+    indentedOstream&      getIndentedOstream ()
+                              { return fIndentedOstream; }
+
+    // indentation
+    indenter&             getIndenter ()
+                              { return fIndentedOstream.getIndenter (); }
+
+    void                  incrIdentation ()
+                              { fIndentedOstream.incrIdentation (); }
+      
+    void                  decrIdentation ()
+                              { fIndentedOstream.decrIdentation (); }
+    
+    // segments
+    void                  setAtEndOfSegment (bool value)
+                              { fAtEndOfSegment = value; }
+    bool                  getAtEndOfSegment ()
+                              { return fAtEndOfSegment; }
+};
+
+// '<<' operators to implement segments
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const std::string& str);
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str);
+
+// the manipulators
+segmentedLinesOstream& endline (segmentedLinesOstream& os);
+segmentedLinesOstream& endseg (segmentedLinesOstream& os);
 
 //______________________________________________________________________________
 struct stringQuoteEscaper

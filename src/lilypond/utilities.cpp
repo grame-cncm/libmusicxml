@@ -184,6 +184,8 @@ timing timing::gTiming;
 //______________________________________________________________________________
 //#define DEBUG_INDENTER
 
+indenter indenter::gIndenter;
+
 indenter::indenter (string spacer)
 {
   fIndent = 0;
@@ -316,7 +318,42 @@ void indenter::print (ostream& os) const
   while (i-- > 0) os << fSpacer;
 }
 
-indenter indenter::gIndenter;
+//______________________________________________________________________________
+int indentedStreamBuf::sync ()
+{
+  // When we sync the stream with fOutputSteam:
+  // 1) output the indentation then the buffer
+  // 2) reset the buffer
+  // 3) flush the actual output stream we are using.
+
+  // fetch the last non-space character in the buffer
+  // caution: the '\n' is present as the last character!
+  std::size_t found = str ().find_last_not_of(' ', str ().size () - 2);
+
+  // this can be uncommented to see low level informations
+  // fOutputSteam << "% str ().size (): " << str ().size () << ", found: " << found << '\n';
+  
+  // output the indenter
+  fOutputSteam << fIndenter;
+
+  // output the buffer
+  if (found == str ().size () - 3) {
+    // don't output the trailing spaces, but output the end of line
+    fOutputSteam << str ().substr (0, found + 1) << '\n'; 
+  }
+  else {
+    // output the whole buffer
+    fOutputSteam << str ();
+  }
+  
+  // reset the buffer
+  str ("");
+  
+  // flush the output stream
+  fOutputSteam.flush ();
+  
+  return 0;
+}
 
 //______________________________________________________________________________
 indentedOstream indentedOstream::gOutputIndentedOstream (
@@ -352,6 +389,103 @@ std::ostream cnull  (& cnull_obj);
 
 indentedOstream indentedOstream::gNullIndentedOstream (
   cnull, indenter::gIndenter);
+
+//______________________________________________________________________________
+// the manipulators
+segmentedLinesOstream& endline (segmentedLinesOstream& os)
+{
+  if (! os.getAtEndOfSegment ()) {
+    // don't output multiple spaces after a segment
+    os.setAtEndOfSegment (true);
+  }
+
+  os.getIndentedOstream () << endl;
+  
+  return os;
+}
+
+segmentedLinesOstream& endseg (segmentedLinesOstream& os)
+{
+  if (! os.getAtEndOfSegment ()) {
+    // don't output multiple spaces after a segment
+    os.setAtEndOfSegment (true);
+  }
+  
+  return os;
+}
+
+// '<<' operators to implement segments
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char ch)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << ch;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, int i)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << i;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, unsigned int i)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << i;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, float f)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << f;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, const string& str)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << str;
+
+  return os;
+}
+
+EXP segmentedLinesOstream& operator<< (segmentedLinesOstream& os, char * str)
+{
+  if (os.getAtEndOfSegment ()) {
+    os << ' ';
+    os.setAtEndOfSegment (false);
+  }
+
+  os.getIndentedOstream () << str;
+
+  return os;
+}
 
 //______________________________________________________________________________
 string replicateString (
@@ -908,7 +1042,7 @@ string quoteStringIfNonAlpha (
     else {
       // (*i) is not a letter
       if ((*i) == ' ')
-        result += " "; // TEMP JMI
+        result += ' '; // TEMP JMI
       else
         result += (*i);
 
@@ -946,7 +1080,7 @@ string quoteString (
     else {
       // (*i) is not a letter
       if ((*i) == ' ')
-        result += " "; // TEMP JMI
+        result += ' '; // TEMP JMI
       else
         result += (*i);
     }
@@ -972,7 +1106,7 @@ string singularOrPlural (
   stringstream s;
 
   s <<
-    number << " ";
+    number << ' ';
   
   if (number <= 1) {
     s <<

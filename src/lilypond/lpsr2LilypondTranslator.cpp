@@ -132,6 +132,31 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
       fLilypondCodeIOstream (
         lilypondOutputStream)
 {
+/* JMI
+  segmentedLinesOstream
+    testSegmentedLinesOstream (fLogOutputStream);
+
+  fLogOutputStream <<
+    "getAtEndOfSegment: " <<
+    booleanAsString (
+      testSegmentedLinesOstream.getAtEndOfSegment ()) <<
+    endl;
+
+  testSegmentedLinesOstream.setAtEndOfSegment (true);
+  
+  fLogOutputStream <<
+    "getAtEndOfSegment: " <<
+    booleanAsString (
+      testSegmentedLinesOstream.getAtEndOfSegment ()) <<
+    endl;
+
+  testSegmentedLinesOstream <<
+    "FOO" << endl; // <<
+ //   endline;
+
+  testSegmentedLinesOstream.getIndentedOstream () << flush;
+  */
+  
   fMsrOptions  = msrOpts;
   fLpsrOptions = lpsrOpts;
   
@@ -3794,7 +3819,7 @@ void lpsr2LilypondTranslator::generateLpsrVarValsListAssocValues (
 
       fLilypondCodeIOstream <<
         "}" <<
-        endl <<
+        endl;
 
       gIndenter--;
 
