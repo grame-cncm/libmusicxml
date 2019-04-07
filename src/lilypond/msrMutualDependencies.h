@@ -835,12 +835,18 @@ class msrMeasure : public msrElement
 
     // regular measure ends detection
     
+    void                  setMeasureEndRegularKind (
+                            msrMeasureEndRegularKind measureEndRegularKind);
+
     msrMeasureEndRegularKind
                           getMeasureEndRegularKind () const
                               { return fMeasureEndRegularKind; }
 
     // repeat context
     
+    void                  setMeasureRepeatContextKind (
+                            msrMeasureRepeatContextKind measureRepeatContextKind);
+
     msrMeasureRepeatContextKind
                           getMeasureRepeatContextKind () const
                               { return fMeasureRepeatContextKind; }

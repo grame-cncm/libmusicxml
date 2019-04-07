@@ -8783,8 +8783,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   int inputLineNumber)
 {
   msrMeasure::msrMeasureRepeatContextKind
-    measureRepeatContextKind = // JMI
-      msrMeasure::kMeasureRepeatContextUnknown;
+    measureRepeatContextKind = msrMeasure::kMeasureRepeatContextNone;
       
 #ifdef TRACE_OPTIONS
   if (

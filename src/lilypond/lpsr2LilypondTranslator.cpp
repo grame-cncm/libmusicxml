@@ -6925,9 +6925,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting msrMeasure " <<
+      "% --> Start visiting msrMeasure '" <<
       measureNumber <<
-      ", measureKind:" <<
+      "', measureKind:" <<
       msrMeasure::measureKindAsString (measureKind) <<
       ", line " << inputLineNumber <<
       endl;
