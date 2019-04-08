@@ -2319,7 +2319,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   }
   
   // register measureRepeatContextKind
-// JMI ???  setMeasureRepeatContextKind (measureRepeatContextKind);
+// JMI ???
+  setMeasureRepeatContextKind (measureRepeatContextKind);
   
   // fetch the voice
   S_msrVoice
@@ -2375,7 +2376,6 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
 
   gIndenter++;
-
 
   // set measure purist number
   setMeasurePuristNumber (

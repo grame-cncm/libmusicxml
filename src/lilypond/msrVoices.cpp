@@ -867,9 +867,7 @@ void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
 void msrVoice::appendMeasureCloneToVoiceClone (
   int          inputLineNumber,
   S_msrMeasure measureClone)
-{
-  fVoiceCurrentMeasurePuristNumber--;
-  
+{  
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
