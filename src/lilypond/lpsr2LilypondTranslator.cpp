@@ -6870,6 +6870,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   msrMeasure::msrMeasureEndRegularKind
     measureEndRegularKind =
       elt-> getMeasureEndRegularKind ();
+
+  int
+    measurePuristNumber =
+      elt->getMeasurePuristNumber ();
       
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -6882,7 +6886,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
       ", measurePuristNumber = '" <<
-      elt->getMeasurePuristNumber () <<
+      measurePuristNumber <<
       "', onGoingRestMeasures = '" <<
       booleanAsString (
         fOnGoingRestMeasures) <<
@@ -6900,7 +6904,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
       ", measurePuristNumber = '" <<
-      elt->getMeasurePuristNumber () <<
+      measurePuristNumber <<
       "', onGoingRestMeasures = '" <<
       booleanAsString (
         fOnGoingRestMeasures) <<
@@ -7195,7 +7199,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
       ", measurePuristNumber = '" <<
-      elt->getMeasurePuristNumber () <<
+      measurePuristNumber <<
       "', onGoingRestMeasures = '" <<
       booleanAsString (
         fOnGoingRestMeasures) <<

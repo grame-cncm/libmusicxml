@@ -401,7 +401,7 @@ void msrVoice::initializeVoice (
       getPartCurrentMeasureNumber ();
 
   // set voice current measure purist number
-  fVoiceCurrentMeasurePuristNumber = 0;
+  fVoiceCurrentMeasurePuristNumber = 1; // default value
   
   // music has not been inserted in voice yet
   fMusicHasBeenInsertedInVoice = false;
@@ -855,25 +855,6 @@ void msrVoice::incrementVoiceCurrentMeasurePuristNumber (
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Incrementing voice current measure purist number to '" <<
-      fVoiceCurrentMeasurePuristNumber <<
-      "' (" << context << ")" <<
-      " in voice \"" << getVoiceName () << "\"" <<
-      "', line " << inputLineNumber <<
-      endl;
-  }
-#endif
-}
-
-void msrVoice::decrementVoiceCurrentMeasurePuristNumber (
-  int    inputLineNumber,
-  string context)
-{
-  fVoiceCurrentMeasurePuristNumber--;
-  
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Decrementing voice current measure purist number to '" <<
       fVoiceCurrentMeasurePuristNumber <<
       "' (" << context << ")" <<
       " in voice \"" << getVoiceName () << "\"" <<

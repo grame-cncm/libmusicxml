@@ -57,7 +57,7 @@ class msrBarCheck : public msrMeasureElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setNextBarNumber ( string number);
+    void                  setNextBarNumber (string number);
                               
     string                getNextBarNumber () const
                               { return fNextBarNumber; }

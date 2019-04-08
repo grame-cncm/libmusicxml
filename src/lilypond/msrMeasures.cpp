@@ -63,7 +63,7 @@ msrMeasure::msrMeasure (
 
   // set measure numbers
   fMeasureNumber = measureNumber;
-  fMeasurePuristNumber = -1; // default value
+  fMeasurePuristNumber = -1; // default irrealist value
   fNextMeasureNumber = "";
 
   // set debug number
@@ -118,7 +118,7 @@ void msrMeasure::initializeMeasure ()
 #endif
 
   // measure kind
-  setMeasureKind (kMeasureKindUnknown);
+  fMeasureKind = kMeasureKindUnknown;
 
   // measure 'first in segment' kind
   fMeasureFirstInSegmentKind = kMeasureFirstInSegmentKindUnknown;
@@ -163,6 +163,7 @@ void msrMeasure::initializeMeasure ()
                           
   // measure finalization
   fMeasureHasBeenFinalized = false;
+  fMeasureKindAndPuristNumberHaveBeenDetermined = false;
 }
 
 msrMeasure::~msrMeasure ()
@@ -2302,6 +2303,21 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   msrMeasure::msrMeasureRepeatContextKind
           measureRepeatContextKind)
 {
+  if (fMeasureKindAndPuristNumberHaveBeenDetermined) {
+    stringstream s;
+
+    s <<
+      "Attempting to determine kind and purist number for measure \"" <<
+      asShortString () <<
+      "\" more than once";
+      
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());  
+  }
+  
   // register measureRepeatContextKind
 // JMI ???  setMeasureRepeatContextKind (measureRepeatContextKind);
   
@@ -2339,6 +2355,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       fMeasureDebugNumber <<
       "', fullMeasureWholeNotes: " <<
       fFullMeasureWholeNotes <<
+      "', actualMeasureWholeNotes: " <<
+      fActualMeasureWholeNotes <<
       ", wholeNotesSinceLastRegularMeasureEnd: " <<
       wholeNotesSinceLastRegularMeasureEnd <<
       ", newWholeNotesSinceLastRegularMeasureEnd: " <<
@@ -2357,6 +2375,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 #endif
 
   gIndenter++;
+
+
+  // set measure purist number
+  setMeasurePuristNumber (
+    voice->
+      getVoiceCurrentMeasurePuristNumber ());
 
   if (fActualMeasureWholeNotes.getNumerator () == 0) {
     // empty measure
@@ -2390,7 +2414,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
     // set it's measure kind
     setMeasureKind (kMeasureKindMusicallyEmpty);
-  }
+ }
   
   else if (fActualMeasureWholeNotes == fFullMeasureWholeNotes) {
     // this is a regular measure
@@ -2398,23 +2422,17 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     // this is a regular measure end
     setMeasureEndRegularKind (kMeasureEndRegularKindYes);
 
-    // reset voice whole notes since last regular measure end
-    voice->
-      setWholeNotesSinceLastRegularMeasureEnd (
-        inputLineNumber,
-        0);
-
     // set it's measure kind
     setMeasureKind (kMeasureKindRegular);
 
     // this is a regular measure end
     setMeasureEndRegularKind (kMeasureEndRegularKindYes);
 
-    // increment voice current measure purist number
+    // increment voice's current measure purist number
     voice->
       incrementVoiceCurrentMeasurePuristNumber (
         inputLineNumber,
-        "determineMeasureKindAndPuristNumber() kMeasureKindRegular");
+        "determineMeasureKindAndPuristNumber() kMeasureEndRegularKindYes");
 
     // reset voice whole notes since last regular measure end
     voice->
@@ -2437,18 +2455,15 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       
       if (fMeasureFirstInVoice) {
         // this is an anacrusis
-  
-        // sanity check
-        if (false) // JMI
-        msrAssert (
-          voice->getVoiceCurrentMeasurePuristNumber () == 0,
-          "voiceCurrentMeasurePuristNumber is not 0 upon anacrusis");
-        
+          
         // set it's measure kind
         setMeasureKind (kMeasureKindAnacrusis);
 
         // this is a regular measure end
         setMeasureEndRegularKind (kMeasureEndRegularKindYes);
+
+        // fix measure purist number
+        setMeasurePuristNumber (0);
       }
   
       else {
@@ -2459,6 +2474,18 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         ) {
           // this is a regular measure end
           setMeasureEndRegularKind (kMeasureEndRegularKindYes);
+
+          // increment voice's current measure purist number
+          voice->
+            incrementVoiceCurrentMeasurePuristNumber (
+              inputLineNumber,
+              "determineMeasureKindAndPuristNumber() kMeasureEndRegularKindYes");
+
+          // reset voice whole notes since last regular measure end
+          voice->
+            setWholeNotesSinceLastRegularMeasureEnd (
+              inputLineNumber,
+              0);
         }
         else {
           // this is no regular measure end
@@ -2489,10 +2516,12 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
          //       __FILE__, __LINE__,
                 s.str ());
             }
+            
+            // set it's measure kind
+            setMeasureKind (kMeasureKindIncompleteStandalone); // JMI
             break;
             
           case msrMeasure::kMeasureRepeatContextKindNone:
-          /*
             // update the voice current measure purist number if relevant
             switch (fMeasureEndRegularKind) {
               case msrMeasure::kMeasureEndRegularKindUnknown:
@@ -2510,15 +2539,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
               case msrMeasure::kMeasureEndRegularKindNo:
                 // set it's measure kind
                 setMeasureKind (kMeasureKindIncompleteStandalone);
-    
-                // increment voice current measure purist number
-                voice->
-                  incrementVoiceCurrentMeasurePuristNumber (
-                    inputLineNumber,
-                    "determineMeasureKindAndPuristNumber() kMeasureEndRegularKindNo");
                 break;
             } // switch
-            */
             break;
             
           case msrMeasure::kMeasureRepeatContextKindCommonPartLastMeasure:
@@ -2559,15 +2581,17 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       // this is a regular measure end
       setMeasureEndRegularKind (kMeasureEndRegularKindYes);
 
-      // set it's measure purist number
+      // increment voice's current measure purist number
       voice->
         incrementVoiceCurrentMeasurePuristNumber (
           inputLineNumber,
           "determineMeasureKindAndPuristNumber() kMeasureKindOvercomplete");
-      
-      setMeasurePuristNumber (
-        voice->
-          getVoiceCurrentMeasurePuristNumber ());
+
+      // reset voice whole notes since last regular measure end
+      voice->
+        setWholeNotesSinceLastRegularMeasureEnd (
+          inputLineNumber,
+          0);
     }
   }
 
@@ -2587,10 +2611,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
       break;
   } // switch
 
-  // set measure purist number
-  setMeasurePuristNumber (
-    voice->
-      getVoiceCurrentMeasurePuristNumber ());
+  fMeasureKindAndPuristNumberHaveBeenDetermined = true;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
@@ -2698,18 +2719,21 @@ void msrMeasure::finalizeMeasure (
   string                      context)
 {
   if (fMeasureHasBeenFinalized) {
+    return; // JMI
+  }
+  
+  if (false && fMeasureHasBeenFinalized) { // JMI
     stringstream s;
 
     s <<
-      "Attempting to finalize  measure \"" <<
+      "Attempting to finalize measure \"" <<
       asShortString () <<
       "\" more than once";
       
- //   msrInternalError (
-    msrInternalWarning (
+    msrInternalError (
       gGeneralOptions->fInputSourceName,
       fInputLineNumber,
-  //    __FILE__, __LINE__,
+      __FILE__, __LINE__,
       s.str ());  
   }
   
@@ -2993,6 +3017,8 @@ void msrMeasure::finalizeMeasure (
     }
   }
 
+  fMeasureHasBeenFinalized = true;
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     displayMeasure (
@@ -3000,7 +3026,7 @@ void msrMeasure::finalizeMeasure (
       "finalizeMeasure() 2");
   }
 #endif
-
+  
   gIndenter--;
 }
 
@@ -3021,7 +3047,7 @@ void msrMeasure::finalizeMeasureClone (
     stringstream s;
 
     s <<
-      "Attempting to finalize  measure \"" <<
+      "Attempting to finalize measure clone \"" <<
       asShortString () <<
       "\" more than once";
       
@@ -3080,6 +3106,8 @@ void msrMeasure::finalizeMeasureClone (
  //      __FILE__, __LINE__,
       s.str ());
   }
+
+  fMeasureHasBeenFinalized = true;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
@@ -3527,6 +3555,11 @@ void msrMeasure::print (ostream& os)
     booleanAsString (
       fMeasureHasBeenFinalized) <<
     endl <<
+    setw (fieldWidth) <<
+    "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
+    booleanAsString (
+      fMeasureKindAndPuristNumberHaveBeenDetermined) <<
+    endl <<
 
     setw (fieldWidth) <<
     "measureIsASingleMeasureRest" << " : " <<
@@ -3710,6 +3743,11 @@ void msrMeasure::shortPrint (ostream& os)
     "measureHasBeenFinalized" << " : " <<
     booleanAsString (
       fMeasureHasBeenFinalized) <<
+    endl <<
+    setw (fieldWidth) <<
+    "measureKindAndPuristNumberHaveBeenDetermined" << " : " <<
+    booleanAsString (
+      fMeasureKindAndPuristNumberHaveBeenDetermined) <<
     endl <<
     
     setw (fieldWidth) <<

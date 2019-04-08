@@ -1244,6 +1244,7 @@ class msrMeasure : public msrElement
 
     // measure finalization
     bool                  fMeasureHasBeenFinalized;
+    bool                  fMeasureKindAndPuristNumberHaveBeenDetermined;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -7247,10 +7248,6 @@ class msrVoice : public msrElement
                               { return fVoiceCurrentMeasureNumber; }
 
     void                  incrementVoiceCurrentMeasurePuristNumber (
-                            int    inputLineNumber,
-                            string context)
-                            ;
-    void                  decrementVoiceCurrentMeasurePuristNumber (
                             int    inputLineNumber,
                             string context);
 

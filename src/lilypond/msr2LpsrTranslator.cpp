@@ -1831,13 +1831,18 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
 
+  int
+    measurePuristNumber =
+      elt->getMeasurePuristNumber ();
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasure '" <<
       measureNumber <<
-      "'" <<
-      ", line " << inputLineNumber <<
+      "', measurePuristNumber = '" <<
+      measurePuristNumber <<
+      "', line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1872,11 +1877,15 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     setPartCurrentMeasureNumber (
       measureNumber);
 
-  // should the last bar check's measure be set?
+  // should the last bar check's measure number be set?
   if (fLastBarCheck) {
+    stringstream s;
+
+    s << measurePuristNumber;
+    
     fLastBarCheck->
       setNextBarNumber (
-        measureNumber);
+        s.str ());
       
     fLastBarCheck = nullptr;
   }
@@ -1891,13 +1900,18 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
 
+  int
+    measurePuristNumber =
+      elt->getMeasurePuristNumber ();
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMeasure '" <<
       measureNumber <<
-      "'" <<
-      ", line " << inputLineNumber <<
+      "', measurePuristNumber = '" <<
+      measurePuristNumber <<
+      "', line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -1975,7 +1989,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
   if (doCreateABarCheck) {
     // create a bar check without next bar number,
-    // it will be set upon visitStart (S_msrMeasure&)
+    // it will be set with setNextBarNumber() upon visitStart (S_msrMeasure&)
     // for the next measure
     fLastBarCheck =
       msrBarCheck::create (
