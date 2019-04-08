@@ -877,9 +877,6 @@ class lpsr2LilypondTranslator :
     
     // segments
     // ------------------------------------------------------
-    // we need to handle nested msrSegment's to indent notes
-    // in a consistent way
-    stack<int>            fSegmentNotesAndChordsCountersStack;
 
     // measures
     // ------------------------------------------------------

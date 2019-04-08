@@ -6829,8 +6829,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
 
     gIndenter++;
   }
-
-  fSegmentNotesAndChordsCountersStack.push (0);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
@@ -6852,13 +6850,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
       "% end of segment" <<
       endl;
   }
-  /* JMI
-  else
-    fLilypondCodeIOstream <<
-      endl;
-*/
-
-  fSegmentNotesAndChordsCountersStack.pop ();
 }
 
 //________________________________________________________________________
@@ -6872,68 +6863,53 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
-    fLogOutputStream <<
-      endl <<
-      "% <!--=== measure '" << measureNumber <<
-      "', line " << inputLineNumber << " ===-->" <<
-      endl;
-  }
-#endif
-
-  // take this measure into account for counting
-  switch (elt->getMeasureKind ()) {
-    case msrMeasure::kMeasureUnknown:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureRegular:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureAnacrusis:
-      // keep fCurrentVoiceMeasuresCounter at 0
-      break;
-    case msrMeasure::kMeasureIncompleteStandalone:
-    case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureOvercomplete:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureCadenza:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-    case msrMeasure::kMeasureMusicallyEmpty:
-      fCurrentVoiceMeasuresCounter++;
-      break;
-  } // switch
-  
-  // force durations to be displayed explicitly
-  // at the beginning of the measure
-  fLastMetWholeNotes = rational (0, 1);
-
-  // get measure kind
   msrMeasure::msrMeasureKind
     measureKind =
       elt->getMeasureKind ();
+      
+  msrMeasure::msrMeasureEndRegularKind
+    measureEndRegularKind =
+      elt-> getMeasureEndRegularKind ();
       
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrMeasure '" <<
       measureNumber <<
-      "', measureKind:" <<
+      "', " <<
       msrMeasure::measureKindAsString (measureKind) <<
+      ", " <<
+      msrMeasure::measureEndRegularKindAsString (
+        measureEndRegularKind) <<
+      ", measurePuristNumber = '" <<
+      elt->getMeasurePuristNumber () <<
+      "', onGoingRestMeasures = '" <<
+      booleanAsString (
+        fOnGoingRestMeasures) <<
       ", line " << inputLineNumber <<
       endl;
   }
 #endif
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    fLogOutputStream <<
+      endl <<
+      "% <!--=== measure '" << measureNumber <<
+      "'start, " <<
+      msrMeasure::measureEndRegularKindAsString (
+        measureEndRegularKind) <<
+      ", measurePuristNumber = '" <<
+      elt->getMeasurePuristNumber () <<
+      "', onGoingRestMeasures = '" <<
+      booleanAsString (
+        fOnGoingRestMeasures) <<
+      "' , line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
+#endif
+
+  // generate comment if relevant
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
@@ -6947,11 +6923,46 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     gIndenter++;
   }
 
+  // take this measure into account for counting
+  switch (elt->getMeasureKind ()) {
+    case msrMeasure::kMeasureKindUnknown:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindRegular:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindAnacrusis:
+      // keep fCurrentVoiceMeasuresCounter at 0
+      break;
+    case msrMeasure::kMeasureKindIncompleteStandalone:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindOvercomplete:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindCadenza:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+    case msrMeasure::kMeasureKindMusicallyEmpty:
+      fCurrentVoiceMeasuresCounter++;
+      break;
+  } // switch
+  
+  // force durations to be displayed explicitly
+  // for the notes at the beginning of the measure
+  fLastMetWholeNotes = rational (0, 1);
+
   // is this the end of a cadenza?
   if (
     fOnGoingVoiceCadenza
       &&
-    measureKind != msrMeasure::kMeasureOvercomplete
+    measureKind != msrMeasure::kMeasureKindOvercomplete
   ) {
     fLilypondCodeIOstream <<
       endl <<
@@ -6962,7 +6973,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     if (gLilypondOptions->fComments) {
       fLilypondCodeIOstream <<
-        " % kMeasureOvercomplete End";
+        " % kMeasureKindOvercomplete End";
     }
 
     fLilypondCodeIOstream<<
@@ -6971,10 +6982,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fOnGoingVoiceCadenza = false;
   }
 
-  fSegmentNotesAndChordsCountersStack.push (0);
-
   switch (measureKind) {
-    case msrMeasure::kMeasureUnknown:
+    case msrMeasure::kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -6996,10 +7005,10 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureRegular:
+    case msrMeasure::kMeasureKindRegular:
       break;
       
-    case msrMeasure::kMeasureAnacrusis:
+    case msrMeasure::kMeasureKindAnacrusis:
       if (elt->getMeasureFirstInVoice ()) {
         // only generate '\partial' at the beginning of a voice
 
@@ -7015,13 +7024,13 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureIncompleteStandalone:
-    case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteStandalone:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
       {
         rational
           actualMeasureWholeNotes =
@@ -7097,7 +7106,7 @@ else
       }
       break;
 
-    case msrMeasure::kMeasureOvercomplete:
+    case msrMeasure::kMeasureKindOvercomplete:
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
           endl <<
@@ -7105,7 +7114,7 @@ else
           " \\omit Staff.TimeSignature";
 
         if (gLilypondOptions->fComments) {
-          fLilypondCodeIOstream << " % kMeasureOvercomplete Start";
+          fLilypondCodeIOstream << " % kMeasureKindOvercomplete Start";
         }
 
         fLilypondCodeIOstream <<
@@ -7115,14 +7124,14 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureCadenza:
+    case msrMeasure::kMeasureKindCadenza:
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
-          fLilypondCodeIOstream << " % kMeasureCadenza Start";
+          fLilypondCodeIOstream << " % kMeasureKindCadenza Start";
         }
 
         fLilypondCodeIOstream <<
@@ -7136,7 +7145,7 @@ else
       }
       break;
       
-    case msrMeasure::kMeasureMusicallyEmpty:
+    case msrMeasure::kMeasureKindMusicallyEmpty:
       {
         // generate a skip the duration of the measure
         // followed by a bar check
@@ -7162,38 +7171,52 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   string
     measureNumber =
       elt->getMeasureNumber ();
+
+  msrMeasure::msrMeasureKind
+    measureKind =
+      elt->getMeasureKind ();
+
+  msrMeasure::msrMeasureEndRegularKind
+    measureEndRegularKind =
+      elt-> getMeasureEndRegularKind ();
+      
   int
     measurePuristNumber =
       elt->getMeasurePuristNumber ();
+
+#ifdef TRACE_OPTIONS
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrMeasure '" <<
+      measureNumber <<
+      "', " <<
+      msrMeasure::measureKindAsString (measureKind) <<
+      ", " <<
+      msrMeasure::measureEndRegularKindAsString (
+        measureEndRegularKind) <<
+      ", measurePuristNumber = '" <<
+      elt->getMeasurePuristNumber () <<
+      "', onGoingRestMeasures = '" <<
+      booleanAsString (
+        fOnGoingRestMeasures) <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
-      ", measurePuristNumber = '" << measurePuristNumber << "'" <<
+      "'end, " <<
+      msrMeasure::measureEndRegularKindAsString (
+        measureEndRegularKind) <<
+     "' end, measurePuristNumber = '" << measurePuristNumber << "'" <<
       ", onGoingRestMeasures = '" <<
       booleanAsString (
         fOnGoingRestMeasures) <<
-      "'" <<
       "', line " << inputLineNumber << " ===-->" <<
-      endl;
-  }
-#endif
-
-  // get measure kind
-  msrMeasure::msrMeasureKind
-    measureKind =
-      elt->getMeasureKind ();
-      
-#ifdef TRACE_OPTIONS
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondCodeIOstream <<
-      "% --> End visiting msrMeasure " <<
-      measureNumber <<
-      ", measureKind:" <<
-      msrMeasure::measureKindAsString (measureKind) <<
-      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -7201,7 +7224,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   if (! fOnGoingRestMeasures) {
     // handle the measure
     switch (measureKind) {
-      case msrMeasure::kMeasureUnknown: // should not occur
+      case msrMeasure::kMeasureKindUnknown: // should not occur
         fLilypondCodeIOstream <<
           "%{ measureKindUnknown, " <<
           measurePuristNumber + 1 <<
@@ -7209,121 +7232,26 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           endl;
         break;
         
-      case msrMeasure::kMeasureRegular:
+      case msrMeasure::kMeasureKindRegular:
         {
-          bool doGenerateBarCheck = false; // JMI ??? true;
-          
-          if (fRemainingRestMeasuresNumber > 0) {
-            // account for this measure
-            fRemainingRestMeasuresNumber--;
-  
-            // the bar check will be generated upon visitEnd (S_msrRestMeasures&)
-            doGenerateBarCheck = false;
-          }
-  
-          if (doGenerateBarCheck) {
-            fLilypondCodeIOstream <<
-              "| % " <<
-              measurePuristNumber + 1 <<
-              endl;
-          }
         }
         break;
         
-      case msrMeasure::kMeasureAnacrusis:
-      /* NOTHING TO DO JMI
-        if (gLilypondOptions->fComments) {
-          fLilypondCodeIOstream <<
-            "%{ measureAnacrusis, " <<
-            measurePuristNumber + 1 <<
-            " %}" <<
-            endl;
-        }
-
-        fLilypondCodeIOstream <<
-          "| % " <<
-          measurePuristNumber + 1 <<
-          endl;
-          */
+      case msrMeasure::kMeasureKindAnacrusis:
         break;
         
-      case msrMeasure::kMeasureIncompleteStandalone:
-        switch (elt-> getMeasureEndRegularKind ()) {
-          case msrMeasure::kMeasureEndRegularUnknown:
-            fLilypondCodeIOstream <<
-              "%{ measureEndRegularUnknown, " <<
-              measurePuristNumber + 1 <<
-              " %}" <<
-              endl;
-            break;
-          case msrMeasure::kMeasureEndRegularYes:
-            if (gLilypondOptions->fComments) {
-              fLilypondCodeIOstream <<
-                "%{ measureEndRegularYes, " <<
-                measurePuristNumber + 1 <<
-                " %}" <<
-                endl;
-            }
-            
-            fLilypondCodeIOstream << // JMI ???
-              "| % " <<
-              measurePuristNumber + 1 <<
-              endl;
-            break;
-          case msrMeasure::kMeasureEndRegularNo:
-            if (gLilypondOptions->fComments) {
-              fLilypondCodeIOstream <<
-                "%{ measureEndRegularNo, " <<
-                measurePuristNumber + 1 <<
-                " %}" <<
-                endl;
-            }
-            break;
-        } // switch
+      case msrMeasure::kMeasureKindIncompleteStandalone:
         break;
   
-      case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
-      case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
-      case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
-      case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
-      case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
-      case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
-        switch (elt-> getMeasureEndRegularKind ()) {
-          case msrMeasure::kMeasureEndRegularUnknown:
-            fLilypondCodeIOstream <<
-              "%{ measureEndRegularUnknown, " <<
-              measurePuristNumber + 1 <<
-              " %}" <<
-              endl;
-            break;
-          case msrMeasure::kMeasureEndRegularYes:
-          /* JMI
-            fLilypondCodeIOstream <<
-              "| % " <<
-              measurePuristNumber + 1 <<
-              endl;
-              */
-            if (gLilypondOptions->fComments) {
-              fLilypondCodeIOstream <<
-                "%{ measureEndRegularYes, " <<
-                measurePuristNumber + 1 <<
-                " %}" <<
-                endl;
-            }
-            break;
-          case msrMeasure::kMeasureEndRegularNo:
-            if (gLilypondOptions->fComments) {
-              fLilypondCodeIOstream <<
-                "%{ measureEndRegularNo, " <<
-                measurePuristNumber + 1 <<
-                " %}" <<
-                endl;
-            }
-            break;
-        } // switch
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+      case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
         break;
   
-      case msrMeasure::kMeasureOvercomplete:
+      case msrMeasure::kMeasureKindOvercomplete:
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
@@ -7333,7 +7261,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
   
-      case msrMeasure::kMeasureCadenza:
+      case msrMeasure::kMeasureKindCadenza:
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
@@ -7344,14 +7272,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         fOnGoingVoiceCadenza = false;
         break;
   
-      case msrMeasure::kMeasureMusicallyEmpty: // should not occur
+      case msrMeasure::kMeasureKindMusicallyEmpty: // should not occur
         fLilypondCodeIOstream <<
           "%{ emptyMeasureKind %} | % " <<
           measurePuristNumber + 1 <<
           endl;
         break;
     } // switch
-      
+
     if (gLilypondOptions->fComments) {
       gIndenter--;
   
@@ -7379,8 +7307,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
           endl <<
           endl;
     }
-    
-    fSegmentNotesAndChordsCountersStack.pop ();
   }
 }
 
@@ -14707,7 +14633,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting msrMeasuresRepeat" <<
+      "% --> End visiting msrMeasuresRepeat" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

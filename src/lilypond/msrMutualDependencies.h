@@ -632,55 +632,55 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     enum msrMeasureKind {
-        kMeasureUnknown,
-        kMeasureRegular,
-        kMeasureAnacrusis,
-        kMeasureIncompleteStandalone,
-        kMeasureIncompleteLastInRepeatCommonPart,
-        kMeasureIncompleteLastInRepeatHookedEnding,
-        kMeasureIncompleteLastInRepeatHooklessEnding,
-        kMeasureIncompleteNextMeasureAfterCommonPart,
-        kMeasureIncompleteNextMeasureAfterHookedEnding,
-        kMeasureIncompleteNextMeasureAfterHooklessEnding,
-        kMeasureOvercomplete,
-        kMeasureCadenza,
-        kMeasureMusicallyEmpty};
+        kMeasureKindUnknown,
+        kMeasureKindRegular,
+        kMeasureKindAnacrusis,
+        kMeasureKindIncompleteStandalone,
+        kMeasureKindIncompleteLastInRepeatCommonPart,
+        kMeasureKindIncompleteLastInRepeatHookedEnding,
+        kMeasureKindIncompleteLastInRepeatHooklessEnding,
+        kMeasureKindIncompleteNextMeasureAfterCommonPart,
+        kMeasureKindIncompleteNextMeasureAfterHookedEnding,
+        kMeasureKindIncompleteNextMeasureAfterHooklessEnding,
+        kMeasureKindOvercomplete,
+        kMeasureKindCadenza,
+        kMeasureKindMusicallyEmpty};
     
     static string measureKindAsString (
       msrMeasureKind measureKind);
 
     enum msrMeasureImplicitKind {
-        kMeasureImplicitYes,
-        kMeasureImplicitNo };
+        kMeasureImplicitKindYes,
+        kMeasureImplicitKindNo };
       
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
 
     enum msrMeasureFirstInSegmentKind {
-        kMeasureFirstInSegmentUnknown,
-        kMeasureFirstInSegmentYes,
-        kMeasureFirstInSegmentNo };
+        kMeasureFirstInSegmentKindUnknown,
+        kMeasureFirstInSegmentKindYes,
+        kMeasureFirstInSegmentKindNo };
       
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
     enum msrMeasureRepeatContextKind {
-        kMeasureRepeatContextUnknown,
-        kMeasureRepeatContextNone,
-        kMeasureRepeatContextCommonPartLastMeasure,
-        kMeasureRepeatContextHookedEndingLastMeasure,
-        kMeasureRepeatContextHooklessEndingLastMeasure,
-        kMeasureRepeatContextNextMeasureAfterCommonPart,
-        kMeasureRepeatContextNextMeasureAfterHookedEnding,
-        kMeasureRepeatContextNextMeasureAfterHooklessEnding };
+        kMeasureRepeatContextKindUnknown,
+        kMeasureRepeatContextKindNone,
+        kMeasureRepeatContextKindCommonPartLastMeasure,
+        kMeasureRepeatContextKindHookedEndingLastMeasure,
+        kMeasureRepeatContextKindHooklessEndingLastMeasure,
+        kMeasureRepeatContextKindNextMeasureAfterCommonPart,
+        kMeasureRepeatContextKindNextMeasureAfterHookedEnding,
+        kMeasureRepeatContextKindNextMeasureAfterHooklessEnding };
       
     static string measureRepeatContextKindAsString (
       msrMeasureRepeatContextKind measureRepeatContextKind);
 
     enum msrMeasureEndRegularKind {
-        kMeasureEndRegularUnknown,
-        kMeasureEndRegularYes,
-        kMeasureEndRegularNo };
+        kMeasureEndRegularKindUnknown,
+        kMeasureEndRegularKindYes,
+        kMeasureEndRegularKindNo };
       
     static string measureEndRegularKindAsString (
       msrMeasureEndRegularKind measureEndRegularKind);

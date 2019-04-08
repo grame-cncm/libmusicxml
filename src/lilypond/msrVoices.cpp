@@ -2440,7 +2440,7 @@ void msrVoice::addGraceNotesGroupBeforeAheadOfVoiceIfNeeded (
       inputLineNumber,
       graceNotesGroup->
         getGraceNotesGroupMeasureNumber (),
-      msrMeasure::kMeasureImplicitNo);
+      msrMeasure::kMeasureImplicitKindNo);
   }
   
   // such grace notes groups should be attached to the voice's first note,
@@ -3529,7 +3529,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       lastMeasureInLastSegment->
         finalizeMeasure (
           inputLineNumber,
-          msrMeasure::kMeasureRepeatContextNone, // JMI ???
+          msrMeasure::kMeasureRepeatContextKindNone, // JMI ???
           "handleVoiceLevelRepeatStartInVoice()");
   
       // let's look at the last measure in detail
@@ -3542,7 +3542,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
     
     // JMI     if (lastMeasureElementsList.size ()) {
       switch (lastMeasureInLastSegment->getMeasureKind ()) {
-        case msrMeasure::kMeasureMusicallyEmpty:
+        case msrMeasure::kMeasureKindMusicallyEmpty:
           {
             // the last measure is musically empty:
             // keep it as it is
@@ -3837,7 +3837,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
   voiceLastSegmentLastMeasure->
     finalizeMeasure (
       inputLineNumber,
-      msrMeasure::kMeasureRepeatContextCommonPartLastMeasure,
+      msrMeasure::kMeasureRepeatContextKindCommonPartLastMeasure,
       "handleVoiceLevelRepeatEndWithoutStartInVoice()"
       );
           
@@ -4225,7 +4225,7 @@ void msrVoice::handleNestedRepeatEndInVoice (
     createMeasureAndAppendItToVoice (
       inputLineNumber,
       measureNumber,
-      msrMeasure::kMeasureImplicitNo);
+      msrMeasure::kMeasureImplicitKindNo);
 
   /* JMI
     // set it as created after a repeat
@@ -8783,7 +8783,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   int inputLineNumber)
 {
   msrMeasure::msrMeasureRepeatContextKind
-    measureRepeatContextKind = msrMeasure::kMeasureRepeatContextNone;
+    measureRepeatContextKind = msrMeasure::kMeasureRepeatContextKindNone;
       
 #ifdef TRACE_OPTIONS
   if (

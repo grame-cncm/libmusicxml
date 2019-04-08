@@ -1912,7 +1912,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 
   switch (elt->getMeasureKind ()) {
     
-    case msrMeasure::kMeasureUnknown:
+    case msrMeasure::kMeasureKindUnknown:
       {
         stringstream s;
 
@@ -1933,33 +1933,42 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       }
       break;
       
-    case msrMeasure::kMeasureRegular:
+    case msrMeasure::kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureAnacrusis:
+    case msrMeasure::kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureIncompleteStandalone:
-    case msrMeasure::kMeasureIncompleteLastInRepeatCommonPart:
-    case msrMeasure::kMeasureIncompleteLastInRepeatHookedEnding:
-    case msrMeasure::kMeasureIncompleteLastInRepeatHooklessEnding:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterCommonPart:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterHookedEnding:
-    case msrMeasure::kMeasureIncompleteNextMeasureAfterHooklessEnding:
-      doCreateABarCheck = true;
+    case msrMeasure::kMeasureKindIncompleteStandalone:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteLastInRepeatHooklessEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterCommonPart:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHookedEnding:
+    case msrMeasure::kMeasureKindIncompleteNextMeasureAfterHooklessEnding:
+      // generate a bar check if relevant
+      switch (elt-> getMeasureEndRegularKind ()) {
+        case msrMeasure::kMeasureEndRegularKindUnknown:
+          break;
+        case msrMeasure::kMeasureEndRegularKindYes:
+          doCreateABarCheck = true;
+          break;
+        case msrMeasure::kMeasureEndRegularKindNo:
+          break;
+      } // switch
       break;
 
-    case msrMeasure::kMeasureOvercomplete:
+    case msrMeasure::kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureCadenza:
+    case msrMeasure::kMeasureKindCadenza:
       doCreateABarCheck = true;
       break;
       
-    case msrMeasure::kMeasureMusicallyEmpty:
+    case msrMeasure::kMeasureKindMusicallyEmpty:
       // JMI
       break;
   } // switch

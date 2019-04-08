@@ -5842,15 +5842,15 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
   msrMeasure::msrMeasureImplicitKind
     measureImplicitKind =
-      msrMeasure::kMeasureImplicitNo; // default value
+      msrMeasure::kMeasureImplicitKindNo; // default value
   
   if       (implicit == "yes") {
     measureImplicitKind =
-      msrMeasure::kMeasureImplicitYes;
+      msrMeasure::kMeasureImplicitKindYes;
   }
   else  if (implicit == "no") {
     measureImplicitKind =
-      msrMeasure::kMeasureImplicitNo;
+      msrMeasure::kMeasureImplicitKindNo;
   }
   else {
     if (implicit.size ()) {

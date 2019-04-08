@@ -242,12 +242,12 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
   if (fSegmentMeasuresList.size () == 0) {
     // this is the first measure in the segment
     measureFirstInSegmentKind =
-      msrMeasure::kMeasureFirstInSegmentYes;
+      msrMeasure::kMeasureFirstInSegmentKindYes;
   }
   else {
     // this is not the first measure in the segment
     measureFirstInSegmentKind =
-      msrMeasure::kMeasureFirstInSegmentNo;
+      msrMeasure::kMeasureFirstInSegmentKindNo;
   }
       
   // create a measure
@@ -1375,12 +1375,12 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   if (segmentMeasuresListSize == 0) {
     measure->
       setMeasureFirstInSegmentKind (
-        msrMeasure::kMeasureFirstInSegmentYes);
+        msrMeasure::kMeasureFirstInSegmentKindYes);
   }
   else {
     measure->
       setMeasureFirstInSegmentKind (
-        msrMeasure::kMeasureFirstInSegmentNo);
+        msrMeasure::kMeasureFirstInSegmentKindNo);
   }
   
   // is measure the first one it the voice?
