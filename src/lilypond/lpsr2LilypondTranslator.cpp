@@ -14121,6 +14121,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 
   stringstream s;
   
+  fLilypondCodeIOstream <<
+    endl;
+
   s <<
     "\\repeat volta " <<
     repeatTimes <<
