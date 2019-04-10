@@ -13498,15 +13498,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
       break;
     case msrTuplet::kTupletShowTypeBoth:
       fLilypondCodeIOstream <<
-        "\\once \\override TupletNumber.text = #(tuplet-number::fraction-with-notes \"" <<
+        "\\once \\override TupletNumber.text = #(tuplet-number::fraction-with-notes" <<
+        " #{ " <<
         wholeNotesAsLilypondString (
           inputLineNumber,
           memberNoteDisplayWholeNotes) <<
-        "\" \"" <<
+        " #} #{ " <<
         wholeNotesAsLilypondString (
           inputLineNumber,
           memberNoteDisplayWholeNotes) <<
-        "\")" <<
+        " #})" <<
         endl;
       break;
     case msrTuplet::kTupletShowTypeNone:
