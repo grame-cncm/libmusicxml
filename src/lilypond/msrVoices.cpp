@@ -9000,9 +9000,13 @@ void msrVoice::finalizeVoice (
 
   // are there pending repeats in the voice repeats stack???
   if (fVoicePendingRepeatDescrsStack.size ()) {
-    displayVoiceRepeatsStackAndVoice (
-      inputLineNumber,
-      "finalizeVoice()");
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceMeasures) {
+        displayVoiceRepeatsStackAndVoice (
+          inputLineNumber,
+          "finalizeVoice()");
+      }
+#endif
       
     stringstream s;
 

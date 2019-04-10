@@ -2385,13 +2385,17 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
   if (fActualMeasureWholeNotes.getNumerator () == 0) {
     // empty measure
     
-    stringstream s;
-
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
     voice->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,
         "determineMeasureKindAndPuristNumber() measure has 0 fActualMeasureWholeNotes");
+  }
+#endif
       
+    stringstream s;
+
     s <<
       "measure '" <<
       fMeasureNumber <<

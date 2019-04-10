@@ -910,10 +910,15 @@ void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (
+    gTraceOptions->fTraceStaffTuning
+      ||
+    gTraceOptions->fTraceSegments
+  ) {
     gLogIOstream <<
-      "Appending staff details " <<
-      " to segment " << asString () <<
+      "Appending staff details '" <<
+      staffDetails->asShortString () <<
+      "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -923,29 +928,12 @@ void msrSegment::appendStaffDetailsToSegment (
 
   gIndenter++;
   
-  // sanity check
-  if (fSegmentMeasuresList.size () == 0) { // JMI
-    stringstream s;
-
-    s <<
-      "fSegmentMeasuresList is empty" <<
-      " while appending staff details:" <<
-      endl <<
-      staffDetails <<
-      "segment contains:";
-
-    this->print (s);
-    
-    msrAssert (
-      fSegmentMeasuresList.size () > 0,
-      s.str ());
-  }
-  
+  // sanity check 
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
     
-  // append it to this segment
+  // append staffDetails to this segment
   fSegmentMeasuresList.back ()->
     appendStaffDetailsToMeasure (staffDetails);
 
@@ -957,8 +945,9 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending break " <<
-      " to segment " << asString () <<
+      "Appending break '" <<
+      lineBreak->asShortString () <<
+      "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
