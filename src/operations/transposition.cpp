@@ -79,10 +79,11 @@ void transposition::transpose ( string& pitch, float& alter, int& octave, int ta
 	int ialter = round(alter);
 	float diff = alter - ialter;
 	int pitch1 = notevisitor::step2i(pitch);
-	for (int i=0; i < fFifthCycle.size(); i++) {
+	int fcsize = int(fFifthCycle.size());
+	for (int i=0; i < fcsize; i++) {
 		if ((fFifthCycle[i].second == ialter) && (fFifthCycle[i].first == pitch)) {
 			i += tableshift;
-			if (i > fFifthCycle.size()) i -= 12;
+			if (i > fcsize) i -= 12;
 			else if (i < 0) i += 12;
 
 			pitch = fFifthCycle[i].first;
