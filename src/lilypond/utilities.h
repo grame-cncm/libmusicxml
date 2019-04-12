@@ -29,6 +29,14 @@
 
 #include <string.h> 
 
+/* JMI
+#ifdef WIN32
+  // JMI
+#else
+  #include <iconv.h> 
+#endif
+*/
+
 #include "smartpointer.h"
 #include "basevisitor.h"
 
@@ -140,6 +148,7 @@ class EXP indenter
     int                   fIndent;
     std::string           fSpacer;
 };
+
 EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 
 // useful shortcut macros

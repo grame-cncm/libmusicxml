@@ -33,6 +33,11 @@ echo " updating $PKG"
 sed "s/\(VERSION *:= *\)[0-9]*\.[0-9]*/\1$VERSION/" $PKG > TMP$$
 mv -f TMP$$ $PKG
 
+NPM=$ROOT/javascript/npm/package.json
+echo " updating $NPM"
+sed "s/\(\"version\": \"\)[0-9]*\.[0-9]*\.[0-9]*/\1$VERSION/" $NPM > TMP$$
+mv -f TMP$$ $NPM
+
 echo "==> change manually info.plist, rc files in win32 folder and AndroiManifest"
 open -t $ROOT/src/elements/versions.cpp $ROOT/win32/libmusicxml/libmusicxml.rc
 

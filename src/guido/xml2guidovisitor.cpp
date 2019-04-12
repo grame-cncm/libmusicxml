@@ -247,7 +247,7 @@ namespace MusicXML2
                 if (previousStaffHasLyrics)
                 {
                     tag2->add (guidoparam::create("dy=-5", false));
-                }else if (ps.fStaffDistances.size()> (targetStaff-1)) {
+                }else if (ps.fStaffDistances.size()> size_t(targetStaff-1)) {
                     
                     if (ps.fStaffDistances[targetStaff-1] > 0) {
                         float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;

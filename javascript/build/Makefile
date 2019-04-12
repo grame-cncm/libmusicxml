@@ -12,8 +12,9 @@
 # Compilation option -Oz is discouraged, it provoke undefined results and assertion errors at runtime.
 #
 
-srcdir := ../../src
+srcdir  := ../../src
 binddir := ../src
+npmdir  := ../npm
 folders := factory guido lib parser elements files interface operations	visitors lilypond
 subprojects :=  $(patsubst %, $(srcdir)/%, $(folders))
 sources = $(wildcard $(srcdir)/*/*.cpp )    # reject atescofo folder
@@ -36,6 +37,18 @@ endif
 
 all :
 	make $(target)
+	
+
+##############################################################
+# publishing to npm
+##############################################################
+npm: $(npmdir)/$(library).js
+	npm publish $(npmdir) --access public
+	
+$(npmdir)/$(library).js : ../$(library).js
+	cp ../$(library).js $(npmdir)/$(library).js
+
+
 	
 ##############################################################
 # building the library as asm.js

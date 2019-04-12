@@ -15,7 +15,8 @@
 
 
 // comment the following definition if no trace options are wanted
+#ifndef TRACE_OPTIONS
 #define TRACE_OPTIONS
-
+#endif
 
 #endif
