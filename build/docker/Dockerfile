@@ -13,7 +13,7 @@ RUN \
 RUN mkdir grame
 WORKDIR /grame
 
-RUN git clone --single-branch -b dev --depth 1 https://github.com/grame-cncm/libmusicxml.git
+RUN git clone --depth 1 https://github.com/grame-cncm/libmusicxml.git
 WORKDIR /grame/libmusicxml/build
 RUN  cmake . && make -j 4 && make install
 WORKDIR /grame
