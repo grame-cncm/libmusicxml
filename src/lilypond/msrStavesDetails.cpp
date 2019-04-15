@@ -64,7 +64,7 @@ msrStaffTuning::~ msrStaffTuning ()
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaffDetails) {
     gLogIOstream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<

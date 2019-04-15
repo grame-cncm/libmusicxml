@@ -7447,8 +7447,8 @@ class msrStaff : public msrElement
 
     // staff details
 
-    S_msrStaffDetails     getStaffStaffDetails () const
-                            { return fStaffStaffDetails; }
+    S_msrStaffDetails     getCurrentStaffStaffDetails () const
+                            { return fCurrentStaffStaffDetails; }
 
     // staff voices
     
@@ -7712,7 +7712,7 @@ class msrStaff : public msrElement
                               
     // staff details
 
-    S_msrStaffDetails     fStaffStaffDetails;
+    S_msrStaffDetails     fCurrentStaffStaffDetails;
 
     // rest measures
     

@@ -5433,13 +5433,13 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   // generate the string tunings if any
   S_msrStaffDetails
-    staffDetails =
-      staff->getStaffStaffDetails ();
+    currentStaffDetails =
+      staff->getCurrentStaffStaffDetails ();
 
-  if (staffDetails) {
+  if (currentStaffDetails) {
     const list<S_msrStaffTuning>&
       staffTuningsList =
-        staffDetails->getStaffTuningsList ();
+        currentStaffDetails->getStaffTuningsList ();
 
     if (staffTuningsList.size ()) {
       fLilypondCodeIOstream <<
@@ -5479,7 +5479,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       gIndenter--;
 
       // should letters be used for frets?
-      switch (staffDetails->getShowFretsKind ()) {
+      switch (currentStaffDetails->getShowFretsKind ()) {
         case msrStaffDetails::kShowFretsNumbers:
           break;
         case msrStaffDetails::kShowFretsLetters:
@@ -6896,7 +6896,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<

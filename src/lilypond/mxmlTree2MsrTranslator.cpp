@@ -4086,7 +4086,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 
   // create the staff tuning
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaffDetails) {
     fLogOutputStream <<
       "Creating staff tuning:" <<
       endl;
@@ -21526,7 +21526,7 @@ void mxmlTree2MsrTranslator::visitStart (S_harp_pedals& elt )
 
   // create the harp pedals tuning
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarpPedalsTuning) {
+  if (gTraceOptions->fTraceHarpPedalsTunings) {
     fLogOutputStream <<
       "Creating harp pedals tuning:" <<
       endl;
@@ -21624,7 +21624,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
 
   // create a harp pedals tuning
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceHarpPedalsTunings) {
     fLogOutputStream <<
       "Creating harp pedal tuning:" <<
       endl;

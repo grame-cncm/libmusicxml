@@ -909,9 +909,12 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
 void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
+  int inputLineNumber =
+    staffDetails->getInputLineNumber ();
+    
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceStaffTuning
+    gTraceOptions->fTraceStaffDetails
       ||
     gTraceOptions->fTraceSegments
   ) {
@@ -921,11 +924,24 @@ void msrSegment::appendStaffDetailsToSegment (
       "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
-      "\"" <<
+      "\" line " << inputLineNumber <<
       endl;
   }
 #endif
 
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceStaffDetails
+      ||
+    gTraceOptions->fTraceSegments
+  ) {
+    fSegmentVoiceUplink->
+      displayVoice (
+        inputLineNumber,
+        "appendStaffDetailsToSegment() 1");
+  }
+#endif
+  
   gIndenter++;
   
   // sanity check 
@@ -937,6 +953,19 @@ void msrSegment::appendStaffDetailsToSegment (
   fSegmentMeasuresList.back ()->
     appendStaffDetailsToMeasure (staffDetails);
 
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceStaffDetails
+      ||
+    gTraceOptions->fTraceSegments
+  ) {
+    fSegmentVoiceUplink->
+      displayVoice (
+        inputLineNumber,
+        "appendStaffDetailsToSegment() 2");
+  }
+#endif
+  
   gIndenter--;
 }
 

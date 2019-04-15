@@ -329,14 +329,14 @@ debugging information to standard error for the specified measures.)",
     // wedges
     fTraceWedges = boolOptionsInitialValue;
 
-    // staff tuning
-    fTraceStaffTuning = boolOptionsInitialValue;
+    // staff details
+    fTraceStaffDetails = boolOptionsInitialValue;
     
     // scordaturas
     fTraceScordaturas = boolOptionsInitialValue;
     
     // harp pedals tuning
-    fTraceHarpPedalsTuning = boolOptionsInitialValue;
+    fTraceHarpPedalsTunings = boolOptionsInitialValue;
     
     // extra chords
     fTraceExtraChords = boolOptionsInitialValue;
@@ -1007,15 +1007,15 @@ R"(Pedals)",
           fTracePedals,
           fTracePasses));
       
-    // staff tuning
+    // staff details
     
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "trace-staff-tuning", "",
-R"(Staff tuning)",
-          "traceStaffTuning",
-          fTraceStaffTuning,
+          "tst", "trace-staff-details",
+R"(Staff details)",
+          "traceStaffDetails",
+          fTraceStaffDetails,
           fTracePasses));
       
     // scordaturas
@@ -1034,10 +1034,10 @@ R"(Scordaturas)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "traceHarpPedalsTuning", "",
+          "thpt", "traceHarpPedalsTunings",
 R"(Harp pedals tuning)",
-          "traceHarpPedalsTuning",
-          fTraceHarpPedalsTuning,
+          "traceHarpPedalsTunings",
+          fTraceHarpPedalsTunings,
           fTracePasses));
       
     // extra chords
@@ -1074,7 +1074,7 @@ R"(MSR Streams API for applications)",
   fTracePedals = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
   
-  fTraceStaffTuning = boolOptionsInitialValue;
+  fTraceStaffDetails = boolOptionsInitialValue;
   fTraceScordaturas = boolOptionsInitialValue;
   
 
@@ -1257,8 +1257,8 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // wedges
   clone->fTraceWedges = true;
   
-  // stafftuning
-  clone->fTraceStaffTuning = true;
+  // staff details
+  clone->fTraceStaffDetails = true;
 
   // scordaturas
   clone->fTraceScordaturas = true;
@@ -1444,14 +1444,14 @@ void traceOptions::setAllGeneralTraceOptions (
     // wedges
     fTraceWedges = boolOptionsInitialValue;
 
-    // staff tuning
-    fTraceStaffTuning = boolOptionsInitialValue;
+    // staff details
+    fTraceStaffDetails = boolOptionsInitialValue;
     
     // scordaturas
     fTraceScordaturas = boolOptionsInitialValue;
     
     // harp pedals tuning
-    fTraceHarpPedalsTuning = boolOptionsInitialValue;
+    fTraceHarpPedalsTunings = boolOptionsInitialValue;
     
     // extra chords
     fTraceExtraChords = boolOptionsInitialValue;
@@ -1468,7 +1468,7 @@ void traceOptions::setAllGeneralTraceOptions (
   fTracePedals = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
   
-  fTraceStaffTuning = boolOptionsInitialValue;
+  fTraceStaffDetails = boolOptionsInitialValue;
   fTraceScordaturas = boolOptionsInitialValue;
   
 

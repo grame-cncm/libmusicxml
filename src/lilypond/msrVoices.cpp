@@ -427,20 +427,6 @@ void msrVoice::initializeVoice (
   // measures repests
   fVoiceContainsMeasuresRepeats = false;
   
-  // get the initial staff details from the staff if any JMI
-/*
-  S_msrStaffDetails
-    staffStaffDetails =
-      fVoiceStaffUplink->
-        getStaffStaffDetails ();
-
-  if (staffStaffDetails) {
-    // append it to the voice
-    appendStaffDetailsToVoice (
-      staffStaffDetails);
-  }
-  */
-
   // voice finalization
   fVoiceHasBeenFinalized = false;
   

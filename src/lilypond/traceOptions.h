@@ -273,14 +273,14 @@ class traceOptions : public optionsGroup
     // wedges
     bool                  fTraceWedges;
 
-    // staff tuning
-    bool                  fTraceStaffTuning;
+    // staff details
+    bool                  fTraceStaffDetails;
     
     // scordaturas
     bool                  fTraceScordaturas;
     
     // harp pedals tuning
-    bool                  fTraceHarpPedalsTuning;
+    bool                  fTraceHarpPedalsTunings;
 
     // extra chords
     bool                  fTraceExtraChords;

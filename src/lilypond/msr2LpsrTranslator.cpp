@@ -989,7 +989,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -1155,29 +1155,10 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
   }
 #endif
 
-  // append the staff details to the current staff clone
-  fCurrentStaffClone->
-    appendStaffDetailsToStaff (
+  // append the staff details to the current voice clone
+  fCurrentVoiceClone->
+    appendStaffDetailsToVoice (
       elt);
-
-        
-/* JMI
-  // add it to the staff clone
-  fCurrentStaffClone->
-    addStaffTuningToStaff (
-      fCurrentStaffTuningClone);
-
-  // create a staff tuning block
-  S_lpsrNewStaffTuningBlock
-    newStaffTuningBlock =
-      lpsrNewStaffTuningBlock::create (
-        fCurrentStaffTuningClone->getInputLineNumber (),
-        fCurrentStaffTuningClone);
-
-  // append it to the current staff block
-  fCurrentStaffBlock->
-    appendElementToStaffBlock (newStaffTuningBlock);
-    */
 }
 
 //________________________________________________________________________
@@ -1848,7 +1829,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTracePasses) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<

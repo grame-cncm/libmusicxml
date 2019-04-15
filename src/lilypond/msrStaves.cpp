@@ -1805,7 +1805,7 @@ void msrStaff::appendStaffDetailsToStaff (
     "staffDetails is null");
     
   // register staff details in staff
-  fStaffStaffDetails = staffDetails;
+  fCurrentStaffStaffDetails = staffDetails;
 
   // set staff kind accordingly if relevant
   switch (staffDetails->getStaffLinesNumber ()) {
@@ -2334,44 +2334,22 @@ void msrStaff::print (ostream& os)
   }
 #endif
   
-  // print the staff details if any
-  if (fStaffStaffDetails) {
-    os <<
-      fStaffStaffDetails;
-  }
-  else {
-    os << left <<
-      setw (fieldWidth) <<
-      "staffStaffDetails" << " : " << "none";
-  }
-  os <<
-    endl;
-
-/* JMI
-  // print the staff tunings if any
-  if (fStaffTuningsList.size ()) {
-    os <<
-      "staffTuningsList:" <<
-      endl;
-      
-    list<S_msrStaffTuning>::const_iterator
-      iBegin = fStaffTuningsList.begin (),
-      iEnd   = fStaffTuningsList.end (),
-      i      = iBegin;
-      
-    gIndenter++;
-    for ( ; ; ) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceStaffDetails) {
+    // print the staff details if any
+    if (fCurrentStaffStaffDetails) {
       os <<
-        (*i)->asString ();
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-    os << endl;
-    gIndenter--;
+        fCurrentStaffStaffDetails;
+    }
+    else {
+      os << left <<
+        setw (fieldWidth) <<
+        "currentStaffStaffDetails" << " : " << "none";
+    }
+    os <<
+      endl;
   }
-  os <<
-    endl;
-*/
+#endif
 
   // print the all voices map
   if (fStaffAllVoicesMap.size ()) {
@@ -2621,9 +2599,9 @@ msrVoiceStaffChange::~msrVoiceStaffChange ()
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Creating a newborn clone of staff change '" <<
+      "Creating a newborn clone of voice staff change '" <<
       asString () <<
       "'" <<
       endl;
