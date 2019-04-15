@@ -3755,11 +3755,11 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
     fCurrentPrintObjectKind =
       msrStaffDetails::kPrintObjectYes; // default value
     
-    if       (printObject == "yes") {
+    if      (printObject == "yes") {
     fCurrentPrintObjectKind =
       msrStaffDetails::kPrintObjectYes;
     }
-    else  if (printObject == "no") {
+    else if (printObject == "no") {
     fCurrentPrintObjectKind =
       msrStaffDetails::kPrintObjectNo;
     }
@@ -3787,13 +3787,13 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
   fCurrentPrintSpacingKind =
     msrStaffDetails::kPrintSpacingNo; // default value ??? JMI
   
-  if       (printSpacing == "yes") {
-    fCurrentPrintObjectKind =
-      msrStaffDetails::kPrintObjectYes;
+  if      (printSpacing == "yes") {
+    fCurrentPrintSpacingKind =
+      msrStaffDetails::kPrintSpacingYes;
   }
-  else  if (printSpacing == "no") {
-    fCurrentPrintObjectKind =
-      msrStaffDetails::kPrintObjectNo;
+  else if (printSpacing == "no") {
+    fCurrentPrintSpacingKind =
+      msrStaffDetails::kPrintSpacingNo;
   }
   else {
     if (printSpacing.size ()) {

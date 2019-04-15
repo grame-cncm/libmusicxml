@@ -1095,7 +1095,7 @@ class msrMeasure : public msrElement
 
     void                  padUpToPositionInMeasure (
                             int      inputLineNumber,
-                            rational positionInMeasure);
+                            rational positionInMeasureToPadUpTo);
 
     void                  finalizeMeasure (
                             int                         inputLineNumber,

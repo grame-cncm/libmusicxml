@@ -2390,7 +2390,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     voice->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,
-        "determineMeasureKindAndPuristNumber() measure has 0 fActualMeasureWholeNotes");
+        "determineMeasureKindAndPuristNumber() measure has 0 actual measure whole notes");
   }
 #endif
       
@@ -2399,7 +2399,7 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     s <<
       "measure '" <<
       fMeasureNumber <<
-      "' has 0 fActualMeasureWholeNotes" <<
+      "' has 0 actual measure whole notes" <<
       ", " <<
       asString () <<
       ", line " << inputLineNumber;
@@ -2630,13 +2630,13 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
 
 void msrMeasure::padUpToPositionInMeasure (
   int      inputLineNumber,
-  rational positionInMeasure)
+  rational positionInMeasureToPadUpTo)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Padding up to postion '" <<
-      positionInMeasure <<
+      positionInMeasureToPadUpTo <<
       "' in measure '" <<
       fMeasureNumber <<
       ", measureDebugNumber: '" <<
@@ -2648,6 +2648,14 @@ void msrMeasure::padUpToPositionInMeasure (
   }
 #endif
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "padUpToPositionInMeasure() 1");
+  }
+#endif
+
   gIndenter++;
   
   // fetch the part measure whole notes high tide
@@ -2656,15 +2664,11 @@ void msrMeasure::padUpToPositionInMeasure (
       fetchMeasurePartUplink ()->
         getPartActualMeasureWholeNotesHighTide ();
     
-  rational
-    lengthToReach =
-      partActualMeasureWholeNotesHighTide;
-
-  if (fActualMeasureWholeNotes < lengthToReach) {
-    // appending a rest to this measure to reach lengthToReach 
+  if (fActualMeasureWholeNotes < positionInMeasureToPadUpTo) {
+    // appending a rest to this measure to reach positionInMeasureToPadUpTo 
     rational
       missingDuration =
-        lengthToReach - fActualMeasureWholeNotes;
+        positionInMeasureToPadUpTo - fActualMeasureWholeNotes;
       
     // fetch the voice
     S_msrVoice
@@ -2713,6 +2717,14 @@ void msrMeasure::padUpToPositionInMeasure (
     // this measure contains music
     fMeasureContainsMusic = true;
   }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures) {
+    displayMeasure (
+      inputLineNumber,
+      "padUpToPositionInMeasure() 2");
+  }
+#endif
 
   gIndenter--;
 }
@@ -2767,6 +2779,8 @@ void msrMeasure::finalizeMeasure (
       "' in voice \"" <<
       voice->getVoiceName () <<
       "\" (" << context << ")" <<
+      ", partActualMeasureWholeNotesHighTide = " <<
+      partActualMeasureWholeNotesHighTide <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -2781,42 +2795,6 @@ void msrMeasure::finalizeMeasure (
       "finalizeMeasure() 1");
   }
 #endif
-
-  // sanity check
-  switch (fMeasureKind) {
-    case msrMeasure::kMeasureKindMusicallyEmpty:
-      {
-        stringstream s;
-      
-        s <<
-          "measure '" <<
-          fMeasureNumber <<
-          ", measureDebugNumber: '" <<
-          fMeasureDebugNumber <<
-          "' in segment '" <<
-          fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
-          "' in voice \"" <<
-          voice->getVoiceName () <<
-          "\" (" << context << context << ")" <<
-          ", line " << inputLineNumber <<
-          " IS EMPTY";
-
-      if (false) // JMI
-        msrInternalError (
-          gGeneralOptions->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      else
-        msrInternalWarning (
-          gGeneralOptions->fInputSourceName,
-          inputLineNumber,
-          s.str ());
-      }
-      break;
-    default:
-      ;
-  } // switch
 
   // fetch the voice's time
   S_msrTime
@@ -2923,8 +2901,12 @@ void msrMeasure::finalizeMeasure (
     } // for    
   }
   
+  // determine the measure kind and purist number
+  determineMeasureKindAndPuristNumber (
+    inputLineNumber,
+    measureRepeatContextKind);
+
   // pad measure up to part measure whole notes high tide
-  // and determine its measure kind if relevant
   switch (fMeasureKind) {
     case msrMeasure::kMeasureKindCadenza:
       break;
@@ -2946,50 +2928,74 @@ void msrMeasure::finalizeMeasure (
       break;
       
     case msrMeasure::kMeasureKindMusicallyEmpty:
-      // fetch the part measure whole notes high tide
-      rational
-        partActualMeasureWholeNotesHighTide =
-          fetchMeasurePartUplink ()->
-            getPartActualMeasureWholeNotesHighTide ();
+      {
+        stringstream s;
+      
+        s <<
+          "measure '" <<
+          fMeasureNumber <<
+          ", measureDebugNumber: '" <<
+          fMeasureDebugNumber <<
+          "' in segment '" <<
+          fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+          "' in voice \"" <<
+          voice->getVoiceName () <<
+          "\" (" << context << context << ")" <<
+          ", line " << inputLineNumber <<
+          " IS MUSICALLY EMPTY";
 
-      if (false)
-      padUpToPositionInMeasure ( // JMI ???
-        inputLineNumber,
-        partActualMeasureWholeNotesHighTide);
+        msrInternalWarning (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          s.str ());
 
-        /* JMI
-      switch (fMeasureCreatedForARepeatKind) {
-        case msrMeasure::kMeasureKindCreatedForARepeatNo:
-          {
-            // fetch the part measure whole notes high tide
-            rational
-              partActualMeasureWholeNotesHighTide =
-                fetchMeasurePartUplink ()->
-                  getPartActualMeasureWholeNotesHighTide ();
+        // fetch the part measure whole notes high tide
+        rational
+          partActualMeasureWholeNotesHighTide =
+            fetchMeasurePartUplink ()->
+              getPartActualMeasureWholeNotesHighTide ();
+
+        // pad up to partActualMeasureWholeNotesHighTide if > 0
+        // or fFullMeasureWholeNotes otherwise
+        rational
+          positionToPadUpto =
+            partActualMeasureWholeNotesHighTide.getNumerator ()
+              ? partActualMeasureWholeNotesHighTide
+              : fFullMeasureWholeNotes;
               
-            padUpToPositionInMeasure (
-              inputLineNumber,
-              partActualMeasureWholeNotesHighTide);
-          }
-          break;
-
-        case msrMeasure::kMeasureKindCreatedForARepeatBefore:
-        case msrMeasure::kMeasureKindCreatedForARepeatAfter:
-          // such a measure should not be padded with a rest
-          break;
-
-        case msrMeasure::kMeasureKindCreatedForARepeatPadded:
-          // should not occur
-          break;
-      } // switch
-      */
+        padUpToPositionInMeasure (
+          inputLineNumber,
+          positionToPadUpto);
+  
+          /* JMI
+        switch (fMeasureCreatedForARepeatKind) {
+          case msrMeasure::kMeasureKindCreatedForARepeatNo:
+            {
+              // fetch the part measure whole notes high tide
+              rational
+                partActualMeasureWholeNotesHighTide =
+                  fetchMeasurePartUplink ()->
+                    getPartActualMeasureWholeNotesHighTide ();
+                
+              padUpToPositionInMeasure (
+                inputLineNumber,
+                partActualMeasureWholeNotesHighTide);
+            }
+            break;
+  
+          case msrMeasure::kMeasureKindCreatedForARepeatBefore:
+          case msrMeasure::kMeasureKindCreatedForARepeatAfter:
+            // such a measure should not be padded with a rest
+            break;
+  
+          case msrMeasure::kMeasureKindCreatedForARepeatPadded:
+            // should not occur
+            break;
+        } // switch
+        */
+      }
       break;
   } // switch
-
-  // determine the measure kind and purist number
-  determineMeasureKindAndPuristNumber (
-    inputLineNumber,
-    measureRepeatContextKind);
 
   // is there a single note or rest occupying the full measure?
   if (fMeasureLongestNote) {

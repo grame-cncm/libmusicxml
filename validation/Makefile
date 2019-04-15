@@ -52,8 +52,20 @@ all:
 	$(MAKE) guido
 	$(MAKE) lilyshouldfail
 	$(MAKE) lily
+	$(MAKE) lilypdf
+	$(MAKE) lilypng
 	$(MAKE) lilyjianpu
+	$(MAKE) lilyjianpupdf
 #	$(MAKE) brl
+
+clean:
+	$(MAKE) lilyshouldfailclean
+	$(MAKE) lilyclean
+	$(MAKE) lilypdfclean
+	$(MAKE) lilypngclean
+	$(MAKE) lilyjianpuclean
+	$(MAKE) lilyjianpupdfclean
+#	$(MAKE) brlclean
 
 travis:
 	$(MAKE) read
@@ -66,7 +78,7 @@ help:
 	@echo "Makefile for testing the libmusicxml library output."
 	@echo "Testing is based on the xml files located in the 'files' folder." 
 	@echo "Available targets are:"
-	@echo "  'all' (default)  : call the 'read', 'guido' and 'lily' targets."
+	@echo "  'all' (default)  : call the 'read', 'guido', 'lilyshouldfail', 'lily' and 'lilyjianpu' targets."
 	@echo "  'read'           : reads the set of xml files and writes the corresponding output"
 	@echo "  'guido'          : converts the set of xml files to guido"
 	@echo "  'guidosvg'       : converts the output of 'guido' target to svg"

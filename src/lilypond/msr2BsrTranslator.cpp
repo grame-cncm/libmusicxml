@@ -547,7 +547,7 @@ void msr2BsrTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -569,7 +569,7 @@ void msr2BsrTranslator::visitEnd (S_msrPart& elt)
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
-  if (gMsrOptions->fTraceMsrVisitors) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       "--> End visiting msrPart " <<
       elt->getPartCombinedName () <<
