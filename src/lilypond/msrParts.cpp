@@ -166,32 +166,49 @@ void msrPart::setPartInstrumentAbbreviation (
     }
 */
 
+/* JMI
 void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
 {
-  if (! fPartFiguredBassStaff) {    
-    // create the part figured bass staff
 #ifdef TRACE_OPTIONS
-    if (
-      gTraceOptions->fTraceParts
-        ||
-      gTraceOptions->fTraceFiguredBass
-        ||
-      gTraceOptions->fTraceStaves
-        ||
-      gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Creating the figured bass staff" <<
-        " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
-        " for part " <<
-        getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
+  if (
+    gTraceOptions->fTraceParts
+      ||
+    gTraceOptions->fTraceFiguredBass
+      ||
+    gTraceOptions->fTraceStaves
+      ||
+    gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Creating the figured bass staff" <<
+      " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
+      " and corredponding voice for part " <<
+      getPartCombinedName () <<
+      " if not yet done" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
 #endif
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      endl <<
+      "*********** createPartFiguredBassStaffAndVoiceIfNotYetDone() 1" <<
+      endl <<
+      endl;
+    print (gLogIOstream);
+    gLogIOstream <<
+      "***********" <<
+      endl <<
+      endl;
+  }
+#endif
+
+  if (! fPartFiguredBassStaff) {
     gIndenter++;
 
+    // create the part figured bass staff
     fPartFiguredBassStaff =
       addStaffToPartByItsNumber (
         inputLineNumber,
@@ -236,19 +253,22 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
     gIndenter--;
   }
 
-/* JMI
-  gLogIOstream <<
-    endl <<
-    "***********" <<
-    endl <<
-    endl;
-  print (gLogIOstream);
-  gLogIOstream <<
-    "***********" <<
-    endl <<
-    endl;
-  */  
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      endl <<
+      "*********** createPartFiguredBassStaffAndVoiceIfNotYetDone() 2" <<
+      endl <<
+      endl;
+    print (gLogIOstream);
+    gLogIOstream <<
+      "***********" <<
+      endl <<
+      endl;
+  }
+#endif
 }
+*/
 
 void msrPart::addAVoiceToStavesThatHaveNone (
   int inputLineNumber)
@@ -1199,18 +1219,7 @@ void msrPart::appendFiguredBassToPart (
     figuredBass->getInputLineNumber ();
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
-      // create the figured bass staff and voice if not yet done
-      createPartFiguredBassStaffAndVoiceIfNotYetDone (
-        inputLineNumber);
-
-      /* JMI ???
-      // register this voice as the part figured bass supplier voice
-      setPartFiguredBassSupplierVoice (
-        inputLineNumber,
-        figuredBassSupplierVoice);
-    */
-    
+    case msrVoice::kRegularVoice:    
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
@@ -1259,18 +1268,7 @@ void msrPart::appendFiguredBassToPartClone (
     figuredBass->getInputLineNumber ();
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kFiguredBassVoice:
-      // create the figured bass staff and voice if not yet done
-      createPartFiguredBassStaffAndVoiceIfNotYetDone (
-        inputLineNumber);
-
-      /* JMI NON
-      // register this voice as the part figuredBass supplier voice
-      setPartfiguredBassSupplierVoice (
-        inputLineNumber,
-        figuredBassSupplierVoice);
-        */
-    
+    case msrVoice::kFiguredBassVoice:    
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceParts) {
@@ -1865,7 +1863,12 @@ void msrPart::print (ostream& os)
       S_msrStaff
         staff =
           (*i).second;
-          
+
+      // sanity check
+      msrAssert (
+        staff != nullptr,
+        "staff is null");
+        
       msrStaff::msrStaffKind
         staffKind =
           staff->getStaffKind ();
@@ -2013,7 +2016,7 @@ void msrPart::printSummary (ostream& os)
   // print the figured bass staff if any // JMI
   if (fPartFiguredBassStaff) {
     os <<
-"partFiguredBassStaff" <<
+      "partFiguredBassStaff" <<
       endl;
             
     gIndenter++;

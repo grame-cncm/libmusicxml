@@ -1433,18 +1433,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       
     case msrVoice::kFiguredBassVoice:
       {
-        /* JMI
-        // create the figured bass staff and voice if not yet done
-        fCurrentPartClone->
-          createPartFiguredBassStaffAndVoiceIfNotYetDone (
-            inputLineNumber);
-          
-        // fetch figured bass voice
-        fCurrentVoiceClone =
-          fCurrentPartClone->
-            getPartFiguredBassVoice ();
-*/
-
         // create a voice clone
         fCurrentVoiceClone =
           elt->createVoiceNewbornClone (
@@ -1737,8 +1725,8 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
   // create a deep copy of the figured bass
   fCurrentFiguredBass =
     elt->
-      createFiguredBassDeepCopy (
-        fCurrentPartClone);
+      createFiguredBassDeepCopy ();
+    // JMI    fCurrentPartClone);
   
   if (fOnGoingNote) {
     // register the figured bass in the current non-grace note clone
@@ -1756,10 +1744,16 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
   }
   
   else if (fOnGoingFiguredBassVoice) { // JMI
+    /*
     // register the figured bass in the part clone figured bass
     fCurrentPartClone->
       appendFiguredBassToPartClone (
         fCurrentVoiceClone,
+        fCurrentFiguredBass);
+        */
+    // append the figured bass in the current voice clone
+    fCurrentVoiceClone->
+      appendFiguredBassToVoice (
         fCurrentFiguredBass);
   }
 }
@@ -5615,50 +5609,3 @@ void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
 
 
 } // namespace
-
-
-/* JMI
- *   fCurrentVoiceClone =
-    elt->createVoiceNewbornClone (fCurrentStaffClone);
-    
-  fCurrentStaffClone->
-    registerVoiceInStaff (fCurrentVoiceClone);
-
-  // append the voice to the LPSR score elements list
-  fLpsrScore ->
-    appendVoiceToScoreElements (fCurrentVoiceClone);
-
-  // append the voice use to the LPSR score block
-  fLpsrScore ->
-    appendVoiceUseToStoreBlock (fCurrentVoiceClone);
-*/
-
-
-
-
-
-           /* JMI   
-  fLogOutputStream <<
-    endl <<
-    "*********** fCurrentPartClone" <<
-    endl <<
-    endl;
-  fCurrentPartClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "*********** fCurrentPartClone" <<
-    endl <<
-    endl;
-    */
-/* JMI
-  fLogOutputStream <<
-    endl <<
-    "*********** fCurrentRepeatClone" <<
-    endl <<
-    endl;
-  fCurrentRepeatClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "*********** fCurrentRepeatClone" <<
-    endl <<
-    endl;
-*/
-

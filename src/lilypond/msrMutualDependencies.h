@@ -2515,21 +2515,21 @@ class msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrFiguredBass> create (
-      int       inputLineNumber,
-      S_msrPart figuredBassPartUplink); // set by part ??? JMI
+      int       inputLineNumber); // ,
+  //    S_msrPart figuredBassPartUplink); // set by part ??? JMI
     
     static SMARTP<msrFiguredBass> create (
       int       inputLineNumber,
-      S_msrPart figuredBassPartUplink,
+ //     S_msrPart figuredBassPartUplink,
       rational  figuredBassSoundingWholeNotes,
       msrFiguredBassParenthesesKind
                 figuredBassParenthesesKind);
     
-    SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
-      S_msrPart containingPart);
+    SMARTP<msrFiguredBass> createFiguredBassNewbornClone ();
+ // JMI     S_msrPart containingPart);
 
-    SMARTP<msrFiguredBass> createFiguredBassDeepCopy ( // JMI ???
-      S_msrPart containingPart);
+    SMARTP<msrFiguredBass> createFiguredBassDeepCopy (); // JMI ???
+   // JMI   S_msrPart containingPart);
 
   protected:
 
@@ -2538,7 +2538,7 @@ class msrFiguredBass : public msrMeasureElement
 
     msrFiguredBass (
       int       inputLineNumber,
-      S_msrPart figuredBassPartUplink,
+ //     S_msrPart figuredBassPartUplink,
       rational  figuredBassSoundingWholeNotes,
       msrFiguredBassParenthesesKind
                 figuredBassParenthesesKind);
@@ -2549,9 +2549,24 @@ class msrFiguredBass : public msrMeasureElement
 
     // set and get
     // ------------------------------------------------------
+    void                  setFiguredBassNoteUplink (
+                            S_msrNote note)
+                              { fFiguredBassNoteUplink = note; }
 
+    S_msrNote             getFiguredBassNoteUplink () const
+                             { return fFiguredBassNoteUplink; }
+
+    void                  setFiguredBassVoiceUplink (
+                            S_msrVoice voice)
+                              { fFiguredBassVoiceUplink = voice; }
+
+    S_msrVoice            getFiguredBassVoiceUplink () const
+                             { return fFiguredBassVoiceUplink; }
+
+/* JMI
     S_msrPart             getFiguredBassPartUplink () const
                               { return fFiguredBassPartUplink; }
+*/
 
     void                  setFiguredBassSoundingWholeNotes ( // JMI
                             rational figuredBassSoundingWholeNotes)
@@ -2602,7 +2617,9 @@ class msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrPart             fFiguredBassPartUplink;
+ // JMI   S_msrPart             fFiguredBassPartUplink;
+    S_msrNote             fFiguredBassNoteUplink;
+    S_msrVoice            fFiguredBassVoiceUplink;
 
     rational              fFiguredBassSoundingWholeNotes;
 
@@ -6405,6 +6422,14 @@ class msrVoice : public msrElement
     S_msrVoice            getRegularVoiceForHarmonyVoice () const
                               { return fRegularVoiceForHarmonyVoice; }
 
+    // figured bass
+
+    S_msrVoice            getFiguredBassVoiceForRegularVoice () const
+                              { return fFiguredBassVoiceForRegularVoice; }
+
+    S_msrVoice            getRegularVoiceForFiguredBassVoice () const
+                              { return fRegularVoiceForFiguredBassVoice; }
+
     // stanzas
                    
     const map<string, S_msrStanza>&
@@ -6560,6 +6585,12 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string currentMeasureNumber);
 
+    // figured bass
+
+    S_msrVoice            createFiguredBassVoiceForRegularVoice (
+                            int    inputLineNumber,
+                            string currentMeasureNumber);
+
     // transpose
 
     void                  appendTransposeToVoice (
@@ -6642,14 +6673,6 @@ class msrVoice : public msrElement
     void                  appendHarmonyToVoiceClone (
                             S_msrHarmony harmony);
 
-    // frames
-
-    void                  appendFrameToVoice (
-                            S_msrFrame frame);
-    
-    void                  appendFrameToVoiceClone (
-                            S_msrFrame frame);
-
     // figured bass
 
     void                  appendFiguredBassToVoice (
@@ -6657,6 +6680,14 @@ class msrVoice : public msrElement
     
     void                  appendFiguredBassToVoiceClone (
                             S_msrFiguredBass figuredBass);
+
+    // frames
+
+    void                  appendFrameToVoice (
+                            S_msrFrame frame);
+    
+    void                  appendFrameToVoiceClone (
+                            S_msrFrame frame);
 
     // grace notes
 
@@ -7149,6 +7180,9 @@ class msrVoice : public msrElement
     // two-way links
     S_msrVoice            fHarmonyVoiceForRegularVoice;
     S_msrVoice            fRegularVoiceForHarmonyVoice;
+    
+    S_msrVoice            fFiguredBassVoiceForRegularVoice;
+    S_msrVoice            fRegularVoiceForFiguredBassVoice;
 
     // counters
     
@@ -8068,10 +8102,12 @@ class msrPart : public msrPartGroupElement
     void                  appendPartAbbreviationDisplayToPart (
                             S_msrPartAbbreviationDisplay partAbbreviationDisplay);
 
+/* JMI
     // figured bass staff and voice
     
     void                  createPartFiguredBassStaffAndVoiceIfNotYetDone (
                             int inputLineNumber);
+        */
         
     // measures
     

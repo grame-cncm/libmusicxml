@@ -223,8 +223,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentHarmonyDegreeAlterationKind  = k_NoAlteration;
 
   // figured bass handling
+  fFiguredBassVoicesCounter = 0;
+
   fOnGoingFiguredBass                   = false;
-  fPendingFiguredBass                   = false;
+ // JMI fPendingFiguredBass                   = false;
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
   fCurrentFiguredBassParenthesesKind =
     msrFiguredBass::kFiguredBassParenthesesNo; // default value
@@ -17814,26 +17816,43 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fHarmonyVoicesCounter = 0;
   }
 
-  // handling the current pending frames if any,
-  // so that they get attached to the note right now
-  if (fPendingFramesList.size ()) {    
-    while (fPendingFramesList.size ()) {
-      S_msrFrame
-        frame =
-          fPendingFramesList.front ();
-  
-      // attach the frame to the note
-      newNote->
-        setNoteFrame (frame);
-  
-      // remove it from the list
-      fPendingFramesList.pop_front ();
-    } // while
-  }
-
   // handling the current pending figured bass if any,
   // so that it gets attached to the note right now
-  if (fPendingFiguredBass) {
+  if (fPendingFiguredBassesList.size ()) {
+    while (fPendingHarmoniesList.size ()) {
+      S_msrFiguredBass
+        figuredBass =
+          fPendingFiguredBassesList.front ();
+
+      // set the figured bass's voice uplink
+      figuredBass->
+        setFiguredBassVoiceUplink (
+          voiceToInsertInto);
+      
+      // set the figured bass's whole notes
+      figuredBass->
+        setFiguredBassSoundingWholeNotes (
+          fCurrentNoteSoundingWholeNotes);
+      
+      // attach the figured bass to the note
+      newNote->
+        setNoteFiguredBass (figuredBass);
+  
+      // append the figured bass to the figured bass voice for the current voice
+      S_msrVoice
+        voiceFiguredBassVoice =
+          voiceToInsertInto->
+            getFiguredBassVoiceForRegularVoice ();
+            
+      voiceFiguredBassVoice->
+        appendFiguredBassToVoice (
+          figuredBass);
+  
+      // remove it from the list
+      fPendingFiguredBassesList.pop_front ();
+    } // while
+
+/* JMI
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceFiguredBass) {
       fLogOutputStream <<
@@ -17892,9 +17911,30 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     fCurrentPart->
       appendFiguredBassToPart (
         voiceToInsertInto,
-        figuredBass);
+        figuredBass);  
+    */
+    
+    // reset figured bass counter
+    fFiguredBassVoicesCounter = 0;
+
+ // JMI   fPendingFiguredBass = false;
+  }
+
+  // handling the current pending frames if any,
+  // so that they get attached to the note right now
+  if (fPendingFramesList.size ()) {    
+    while (fPendingFramesList.size ()) {
+      S_msrFrame
+        frame =
+          fPendingFramesList.front ();
   
-    fPendingFiguredBass = false;
+      // attach the frame to the note
+      newNote->
+        setNoteFrame (frame);
+  
+      // remove it from the list
+      fPendingFramesList.pop_front ();
+    } // while
   }
 
   // handling the pending grace notes group if any
@@ -21210,6 +21250,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
       endl;
   }
 
+  fFiguredBassVoicesCounter++;
+
   string parentheses = elt->getAttributeValue("parentheses");
   
   fCurrentFiguredBassParenthesesKind =
@@ -21249,7 +21291,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
   
   fOnGoingFiguredBass = true;
-  fPendingFiguredBass = true;
+ // JMI fPendingFiguredBass = true;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_figure& elt )

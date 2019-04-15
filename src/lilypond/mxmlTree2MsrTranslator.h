@@ -1302,6 +1302,30 @@ class mxmlTree2MsrTranslator :
     msrQuarterTonesPitchKind  fCurrentHarmonyRootQuarterTonesPitchKind;
     msrQuarterTonesPitchKind  fCurrentHarmonyBassQuarterTonesPitchKind;
 
+    // figured bass handling
+    // ------------------------------------------------------
+    
+    int                       fFiguredBassVoicesCounter;
+    list<S_msrFiguredBass>    fPendingFiguredBassesList;
+    
+    bool                      fOnGoingFiguredBass;
+//    bool                      fPendingFiguredBass; // JMI ???
+    
+    int                       fCurrentFiguredBassInputLineNumber;
+
+    msrFigure::msrFigurePrefixKind
+                              fCurrentFigurePrefixKind;
+    int                       fCurrentFigureNumber;
+    msrFigure::msrFigureSuffixKind
+                              fCurrentFigureSuffixKind;
+
+    rational                  fCurrentFiguredBassSoundingWholeNotes;
+
+    msrFiguredBass::msrFiguredBassParenthesesKind
+                              fCurrentFiguredBassParenthesesKind;
+
+    list<S_msrFigure>         fPendingFiguredBassFigures; 
+
     // frames handling
     // ------------------------------------------------------
 
@@ -1323,27 +1347,6 @@ class mxmlTree2MsrTranslator :
 
     list<S_msrFrameNote>      fPendingFramesNotesList;
     
-    // figured bass handling
-    // ------------------------------------------------------
-    
-    bool                      fOnGoingFiguredBass;
-    bool                      fPendingFiguredBass;
-    
-    int                       fCurrentFiguredBassInputLineNumber;
-
-    msrFigure::msrFigurePrefixKind
-                              fCurrentFigurePrefixKind;
-    int                       fCurrentFigureNumber;
-    msrFigure::msrFigureSuffixKind
-                              fCurrentFigureSuffixKind;
-
-    rational                  fCurrentFiguredBassSoundingWholeNotes;
-
-    msrFiguredBass::msrFiguredBassParenthesesKind
-                              fCurrentFiguredBassParenthesesKind;
-
-    list<S_msrFigure>         fPendingFiguredBassFigures; 
-
     // barline handling
     // ------------------------------------------------------
     

@@ -1141,8 +1141,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   if (fNoteFiguredBass) {
     noteDeepCopy->fNoteFiguredBass =
       fNoteFiguredBass->
-        createFiguredBassDeepCopy (
-          containingVoice->fetchVoicePartUplink ()); // JMI
+        createFiguredBassDeepCopy ();
+     //     containingVoice->fetchVoicePartUplink ()); // JMI
   }
 
   // note measure information

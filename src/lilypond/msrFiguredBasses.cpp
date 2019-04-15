@@ -310,13 +310,14 @@ ostream& operator<< (ostream& os, const S_msrFigure& elt)
 
 //______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
-  int       inputLineNumber,
-  S_msrPart figuredBassPartUplink)
+  // no harmonyVoiceUplink yet
+  int       inputLineNumber) // ,
+// JMI  S_msrPart figuredBassPartUplink)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-      figuredBassPartUplink,
+  //    figuredBassPartUplink,
       rational (0, 1),    // figuredBassSoundingWholeNotes
       kFiguredBassParenthesesNo);
   assert(o!=0);
@@ -326,7 +327,7 @@ S_msrFiguredBass msrFiguredBass::create (
 
 S_msrFiguredBass msrFiguredBass::create (
   int       inputLineNumber,
-  S_msrPart figuredBassPartUplink,
+ // S_msrPart figuredBassPartUplink,
   rational  figuredBassSoundingWholeNotes,
     msrFiguredBassParenthesesKind
               figuredBassParenthesesKind)
@@ -334,7 +335,7 @@ S_msrFiguredBass msrFiguredBass::create (
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-      figuredBassPartUplink,
+ //     figuredBassPartUplink,
       figuredBassSoundingWholeNotes,
       figuredBassParenthesesKind);
   assert(o!=0);
@@ -344,20 +345,23 @@ S_msrFiguredBass msrFiguredBass::create (
 
 msrFiguredBass::msrFiguredBass (
   int       inputLineNumber,
-  S_msrPart figuredBassPartUplink,
+ // S_msrPart figuredBassPartUplink,
   rational  figuredBassSoundingWholeNotes,
   msrFiguredBassParenthesesKind
             figuredBassParenthesesKind)
     : msrMeasureElement (inputLineNumber)
 {
+  /* JMI
   // sanity check
   msrAssert(
     figuredBassPartUplink != nullptr,
     "figuredBassPartUplink is null");
-     
+*/
+     /* JMI
   // set figuredBass's part uplink
   fFiguredBassPartUplink =
     figuredBassPartUplink;
+    */
 
   fFiguredBassSoundingWholeNotes =
     figuredBassSoundingWholeNotes;
@@ -379,8 +383,8 @@ msrFiguredBass::msrFiguredBass (
 msrFiguredBass::~msrFiguredBass ()
 {}
 
-S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
-  S_msrPart containingPart)
+S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone ()
+ // S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBass) {
@@ -392,24 +396,26 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   }
 #endif
 
+/*
   // sanity check
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
+    */
     
   S_msrFiguredBass
     newbornClone =
       msrFiguredBass::create (
         fInputLineNumber,
-        containingPart,
+ //       containingPart,
         fFiguredBassSoundingWholeNotes,
         fFiguredBassParenthesesKind);
         
   return newbornClone;
 }
 
-S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
-  S_msrPart containingPart)
+S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
+ // S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBass) {
@@ -421,16 +427,18 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   }
 #endif
 
+/* JMi
   // sanity check
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
+    */
     
   S_msrFiguredBass
     figuredBassDeepCopy =
       msrFiguredBass::create (
         fInputLineNumber,
-        containingPart,
+   //     containingPart,
         fFiguredBassSoundingWholeNotes,
         fFiguredBassParenthesesKind);
         

@@ -178,6 +178,8 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fHarmonyVoicesCounter = 0;
   
   // figured bass handling
+  fThereAreFiguredBassToBeAttachedToCurrentNote = false;
+  fFiguredBassVoicesCounter = 0;
     
   // ongoing note
   fOnGoingNote = false;
@@ -1743,6 +1745,29 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceForVoiceIfNotYetDone (
   }
   
   return harmonyVoice;
+}
+
+//______________________________________________________________________________
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createFiguredBassVoiceForVoiceIfNotYetDone (
+  int        inputLineNumber,
+  S_msrVoice voice)
+{
+  // is the figured bass voice already present in voice?
+  S_msrVoice
+    figuredBassVoice =
+      voice->
+        getFiguredBassVoiceForRegularVoice ();
+  
+  if (! figuredBassVoice) {
+    // create the voice and append it to the staff
+    figuredBassVoice =
+      voice->
+        createFiguredBassVoiceForRegularVoice (
+          inputLineNumber,
+          fCurrentMeasureNumber);
+  }
+  
+  return figuredBassVoice;
 }
 
 //________________________________________________________________________
@@ -3575,6 +3600,18 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
   }
     
+  // are there figured bass attached to the current note?
+  if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
+    // should the figured bass voice be created?
+    S_msrVoice
+      figuredBassVoice =
+        createFiguredBassVoiceForVoiceIfNotYetDone (
+          inputLineNumber,
+          voice);
+  
+    fThereAreFiguredBassToBeAttachedToCurrentNote = false;
+  }
+    
   fOnGoingNote = false;
 }
 
@@ -3738,7 +3775,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_harmony" <<
-      ", fHarmonyVoicesCounter = " << fHarmonyVoicesCounter <<
+      ", harmonyVoicesCounter = " << fHarmonyVoicesCounter <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -3763,14 +3800,22 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_figured_bass" <<
+      ", figuredBassVoicesCounter = " << fFiguredBassVoicesCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
 
+  // take figured bass voice into account
+  fHarmonyVoicesCounter++;
+
+/*
   // append a figured bass staff and voice to the current part
   fCurrentPart->
     createPartFiguredBassStaffAndVoiceIfNotYetDone (
       inputLineNumber);
+*/
+
+  fThereAreFiguredBassToBeAttachedToCurrentNote = true;
 }
 
 

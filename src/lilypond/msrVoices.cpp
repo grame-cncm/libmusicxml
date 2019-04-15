@@ -1173,6 +1173,67 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
   return fHarmonyVoiceForRegularVoice;
 }
 
+S_msrVoice msrVoice::createFiguredBassVoiceForRegularVoice (
+  int    inputLineNumber,
+  string currentMeasureNumber)
+{
+  if (fFiguredBassVoiceForRegularVoice) {
+    stringstream s;
+
+    s <<
+      "Voice \"" <<
+      getVoiceName () <<
+      "\" already has a figured bass voice";
+
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // create the voice figured bass voice
+  int figuredBassVoiceForRegularVoiceNumber =
+    K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber;
+    
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceHarmonies
+      ||
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Creating figured bass voice for regular voice \"" <<
+      getVoiceName () <<
+      "\" with voice number " <<
+      figuredBassVoiceForRegularVoiceNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  fFiguredBassVoiceForRegularVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kFiguredBassVoice,
+      figuredBassVoiceForRegularVoiceNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+      fVoiceStaffUplink);
+
+  // register it in the staff
+  fVoiceStaffUplink->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fFiguredBassVoiceForRegularVoice);
+
+  // set back link
+  fFiguredBassVoiceForRegularVoice->
+    fRegularVoiceForFiguredBassVoice = this;
+
+  return fFiguredBassVoiceForRegularVoice;
+}
+
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
   int    inputLineNumber,
   string stanzaNumber)

@@ -2397,6 +2397,8 @@ void msrStaff::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
+      if (i == iEnd) break; // JMI ???
+
       int        voiceNumber = (*i).first;
       S_msrVoice voice       = (*i).second;
 
@@ -2404,6 +2406,7 @@ void msrStaff::print (ostream& os)
       msrAssert (
         voice != nullptr,
         "voice is null");
+        
       os <<
         voiceNumber << " : " <<
         "regularVoiceStaffSequentialNumber = " <<

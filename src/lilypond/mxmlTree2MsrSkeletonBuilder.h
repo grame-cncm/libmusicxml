@@ -616,6 +616,12 @@ class mxmlTree2MsrSkeletonBuilder :
     // figured bass handling
     // ------------------------------------------------------
     
+    bool                      fThereAreFiguredBassToBeAttachedToCurrentNote;
+    int                       fFiguredBassVoicesCounter;
+    
+    S_msrVoice                createFiguredBassVoiceForVoiceIfNotYetDone (
+                                int        inputLineNumber,
+                                S_msrVoice voice);
 };
 
 
