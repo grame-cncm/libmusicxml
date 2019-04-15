@@ -7410,7 +7410,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   else if (fOnGoingFiguredBass) {
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceFiguredBass) {
+    if (gTraceOptions->fTraceFiguredBasses) {
       fLogOutputStream <<
         "fCurrentDivisionsPerQuarterNote: " <<
         fCurrentDivisionsPerQuarterNote <<
@@ -7427,7 +7427,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     fCurrentFiguredBassSoundingWholeNotes.rationalise ();
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceFiguredBass) {
+    if (gTraceOptions->fTraceFiguredBasses) {
       fLogOutputStream <<
         "fCurrentFiguredBassSoundingWholeNotes: " <<
         fCurrentFiguredBassSoundingWholeNotes <<
@@ -17854,7 +17854,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
 /* JMI
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceFiguredBass) {
+    if (gTraceOptions->fTraceFiguredBasses) {
       fLogOutputStream <<
         "--> figured bass" <<
         ", line " << inputLineNumber << ":" <<
@@ -21481,12 +21481,51 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
       endl;
   }
 
+  // create the harmony
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceFiguredBasses) {
+    fLogOutputStream <<
+      "Creating a figred bass" <<
+      ", line " << inputLineNumber << ":" <<
+      endl;
+
+    gIndenter++;
+  }
+#endif
+
+  // create the figured bass
+  // if the sounding whole notes is 0/1 (no <duration /> was met), JMI ???
+  // it will be set to the next note's sounding whole notes later
+  S_msrFiguredBass
+    figuredBass =
+      msrFiguredBass::create (
+        inputLineNumber,
+  // JMI      fCurrentPart,
+        fCurrentFiguredBassSoundingWholeNotes,
+        fCurrentFiguredBassParenthesesKind);
+
+  // attach pending figures to the figured bass
+  if (fPendingFiguredBassFigures.size ()) {
+    for (
+      list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
+      i!=fPendingFiguredBassFigures.end ();
+      i++) {
+      figuredBass->
+        appendFiguredFigureToFiguredBass ((*i));
+    } // for
+
+    fPendingFiguredBassFigures.clear ();
+  }
+
   if (! fPendingFiguredBassFigures.size ()) {
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
       "figured-bass has no figures contents");
   }
+
+  // append the figured bass to the pending figured basses list
+  fPendingFiguredBassesList.push_back (figuredBass);
 
   fOnGoingFiguredBass = false;
 }

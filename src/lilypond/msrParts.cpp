@@ -174,7 +174,7 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
   if (
     gTraceOptions->fTraceParts
       ||
-    gTraceOptions->fTraceFiguredBass
+    gTraceOptions->fTraceFiguredBasses
       ||
     gTraceOptions->fTraceStaves
       ||
@@ -1271,7 +1271,7 @@ void msrPart::appendFiguredBassToPartClone (
     case msrVoice::kFiguredBassVoice:    
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceParts) {
+      if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->asString () <<

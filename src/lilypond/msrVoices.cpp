@@ -1782,7 +1782,7 @@ void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -1826,7 +1826,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
   S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->asString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<

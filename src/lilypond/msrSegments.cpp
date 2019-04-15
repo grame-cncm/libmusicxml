@@ -594,7 +594,7 @@ void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to segment " << asString () <<
@@ -623,7 +623,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
   S_msrFiguredBass figuredBass)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending figured bass " << figuredBass->asString () <<
       " to segment clone " << asString () <<

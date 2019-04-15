@@ -67,7 +67,7 @@ msrFigure::msrFigure (
   fFigureSuffixKind = figureSuffixKind;
  
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Creating figure '" <<
       asString () <<
@@ -84,7 +84,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Creating a newborn clone of figure '" <<
       asString () <<
@@ -114,7 +114,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Creating a deep copy of figure '" <<
       asString () <<
@@ -370,7 +370,7 @@ msrFiguredBass::msrFiguredBass (
     figuredBassParenthesesKind;
     
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Creating figuredBass '" <<
       asString () <<
@@ -387,7 +387,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone ()
  // S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Creating a newborn clone of figuredBass '" <<
       asString () <<
@@ -418,7 +418,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
  // S_msrPart containingPart)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Creating a deep copy of figuredBass '" <<
       asString () <<
@@ -449,7 +449,7 @@ void msrFiguredBass::appendFiguredFigureToFiguredBass (
   S_msrFigure figure)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
       "Appending figure'" << figure->asString () <<
       "' to figuredBass '" <<

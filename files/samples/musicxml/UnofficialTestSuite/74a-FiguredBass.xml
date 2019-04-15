@@ -76,7 +76,7 @@
       </note>
       <figured-bass>
         <figure><figure-number>5</figure-number><suffix>slash</suffix></figure>
-        <figure><prefix>flat</prefix><figure-number>127</figure-number><suffix>slash</suffix></figure>
+        <figure><prefix>flat</prefix><figure-number>7</figure-number><suffix>slash</suffix></figure>
         <duration>8</duration>
       </figured-bass>
       <note>

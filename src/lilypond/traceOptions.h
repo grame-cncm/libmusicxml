@@ -252,8 +252,8 @@ class traceOptions : public optionsGroup
     // frames
     bool                  fTraceFrames;
 
-    // figured bass
-    bool                  fTraceFiguredBass;
+    // figured basses
+    bool                  fTraceFiguredBasses;
 
     // dynamics
     bool                  fTraceDynamics;

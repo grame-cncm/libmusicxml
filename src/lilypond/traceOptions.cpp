@@ -305,8 +305,8 @@ debugging information to standard error for the specified measures.)",
     // frames
     fTraceFrames = boolOptionsInitialValue;
 
-    // figured bass
-    fTraceFiguredBass = boolOptionsInitialValue;
+    // figured basses
+    fTraceFiguredBasses = boolOptionsInitialValue;
       
     // credits
     fTraceCredits = boolOptionsInitialValue;
@@ -921,15 +921,15 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
           fTraceFrames,
           fTracePasses));
       
-    // figured bass
+    // figured basses
     
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tfigbass", "trace-figured-bass",
+          "tfigbass", "trace-figured-basses",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
-          "traceFiguredBass",
-          fTraceFiguredBass,
+          "traceFiguredBasses",
+          fTraceFiguredBasses,
           fTracePasses));
       
     // credits
@@ -1233,8 +1233,8 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // frames
   clone->fTraceFrames = true;
 
-  // figured bass
-  clone->fTraceFiguredBass = true;
+  // figured basses
+  clone->fTraceFiguredBasses = true;
     
   // credits
   clone->fTraceCredits = true;
@@ -1420,8 +1420,8 @@ void traceOptions::setAllGeneralTraceOptions (
     // frames
     fTraceFrames = boolOptionsInitialValue;
 
-    // figured bass
-    fTraceFiguredBass = boolOptionsInitialValue;
+    // figured basses
+    fTraceFiguredBasses = boolOptionsInitialValue;
       
     // credits
     fTraceCredits = boolOptionsInitialValue;
@@ -1727,9 +1727,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     booleanAsString (fTraceFrames) <<
     endl <<
     
-    // figured bass
-    setw (fieldWidth) << "traceFiguredBass" << " : " <<
-    booleanAsString (fTraceFiguredBass) <<
+    // figured basses
+    setw (fieldWidth) << "traceFiguredBasses" << " : " <<
+    booleanAsString (fTraceFiguredBasses) <<
     endl <<
     
     // credits
