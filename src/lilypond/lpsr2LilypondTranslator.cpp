@@ -6635,6 +6635,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
       "% --> Start visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
+      ", fOnGoingFiguredBassVoice = " << booleanAsString (fOnGoingFiguredBassVoice) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -6643,9 +6644,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   fCurrentFiguredBass = elt;
   
   if (fOnGoingNote) {
-    fLilypondCodeIOstream <<
-      "%{ " << fCurrentFiguredBass->asString () << " %}" <<
-      endl;
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceFiguredBasses) {
+      fLilypondCodeIOstream <<
+        "%{ FOO " << fCurrentFiguredBass->asString () << " %}" <<
+        endl;
+    }
+#endif
   }
   
   else if (fOnGoingChord) { // JMI
@@ -6690,99 +6695,102 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
   }
 #endif
 
-  fCurrentFiguredBassFiguresCounter++;
-  
-  // is the figured bass parenthesized?
-  msrFiguredBass::msrFiguredBassParenthesesKind
-    figuredBassParenthesesKind =
-      fCurrentFiguredBass->
-        getFiguredBassParenthesesKind ();
-        
-  // generate the figure number
-  switch (figuredBassParenthesesKind) {
-    case msrFiguredBass::kFiguredBassParenthesesYes:
-      fLilypondCodeIOstream << "[";
-      break;
-    case msrFiguredBass::kFiguredBassParenthesesNo:
-      break;
-  } // switch
-
-  fLilypondCodeIOstream <<
-    elt->getFigureNumber ();
+  if (fOnGoingFiguredBassVoice) {
+    fCurrentFiguredBassFiguresCounter++;
     
-  switch (figuredBassParenthesesKind) {
-    case msrFiguredBass::kFiguredBassParenthesesYes:
-      fLilypondCodeIOstream << "]";
-      break;
-    case msrFiguredBass::kFiguredBassParenthesesNo:
-      break;
-  } // switch
-
-  // handle the figure prefix
-  switch (elt->getFigurePrefixKind ()) {
-    case msrFigure::k_NoFigurePrefix:
-      break;
-    case msrFigure::kDoubleFlatPrefix:
-      fLilypondCodeIOstream << "--";
-      break;
-    case msrFigure::kFlatPrefix:
-      fLilypondCodeIOstream << "-";
-      break;
-    case msrFigure::kFlatFlatPrefix:
-      fLilypondCodeIOstream << "flat flat";
-      break;
-    case msrFigure::kNaturalPrefix:
-      fLilypondCodeIOstream << "!";
-      break;
-    case msrFigure::kSharpSharpPrefix:
-      fLilypondCodeIOstream << "sharp sharp";
-      break;
-    case msrFigure::kSharpPrefix:
-      fLilypondCodeIOstream << "+";
-      break;
-    case msrFigure::kDoubleSharpPrefix:
-      fLilypondCodeIOstream << "++";
-      break;
-  } // switch
-
-  // handle the figure suffix
-  switch (elt->getFigureSuffixKind ()) {
-    case msrFigure::k_NoFigureSuffix:
-      break;
-    case msrFigure::kDoubleFlatSuffix:
-      fLilypondCodeIOstream << "double flat";
-      break;
-    case msrFigure::kFlatSuffix:
-      fLilypondCodeIOstream << "flat";
-      break;
-    case msrFigure::kFlatFlatSuffix:
-      fLilypondCodeIOstream << "flat flat";
-      break;
-    case msrFigure::kNaturalSuffix:
-      fLilypondCodeIOstream << "natural";
-      break;
-    case msrFigure::kSharpSharpSuffix:
-      fLilypondCodeIOstream << "sharp sharp";
-      break;
-    case msrFigure::kSharpSuffix:
-      fLilypondCodeIOstream << "sharp";
-      break;
-    case msrFigure::kDoubleSharpSuffix:
-      fLilypondCodeIOstream << "souble sharp";
-      break;
-    case msrFigure::kSlashSuffix:
-      fLilypondCodeIOstream << "/";
-      break;
-  } // switch
-
-  // generate a space if not last figure in figured bass
-  if (
-    fCurrentFiguredBassFiguresCounter
-      <
-    fCurrentFiguredBass->getFiguredBassFiguresList ().size ()) {
-    fLilypondCodeIOstream << ' ';
+    // is the figured bass parenthesized?
+    msrFiguredBass::msrFiguredBassParenthesesKind
+      figuredBassParenthesesKind =
+        fCurrentFiguredBass->
+          getFiguredBassParenthesesKind ();
+          
+    // generate the figure number
+    switch (figuredBassParenthesesKind) {
+      case msrFiguredBass::kFiguredBassParenthesesYes:
+        fLilypondCodeIOstream << "[";
+        break;
+      case msrFiguredBass::kFiguredBassParenthesesNo:
+        break;
+    } // switch
+  
+    fLilypondCodeIOstream <<
+      elt->getFigureNumber ();
+      
+    switch (figuredBassParenthesesKind) {
+      case msrFiguredBass::kFiguredBassParenthesesYes:
+        fLilypondCodeIOstream << "]";
+        break;
+      case msrFiguredBass::kFiguredBassParenthesesNo:
+        break;
+    } // switch
+  
+    // handle the figure prefix
+    switch (elt->getFigurePrefixKind ()) {
+      case msrFigure::k_NoFigurePrefix:
+        break;
+      case msrFigure::kDoubleFlatPrefix:
+        fLilypondCodeIOstream << "--";
+        break;
+      case msrFigure::kFlatPrefix:
+        fLilypondCodeIOstream << "-";
+        break;
+      case msrFigure::kFlatFlatPrefix:
+        fLilypondCodeIOstream << "flat flat";
+        break;
+      case msrFigure::kNaturalPrefix:
+        fLilypondCodeIOstream << "!";
+        break;
+      case msrFigure::kSharpSharpPrefix:
+        fLilypondCodeIOstream << "sharp sharp";
+        break;
+      case msrFigure::kSharpPrefix:
+        fLilypondCodeIOstream << "+";
+        break;
+      case msrFigure::kDoubleSharpPrefix:
+        fLilypondCodeIOstream << "++";
+        break;
+    } // switch
+  
+    // handle the figure suffix
+    switch (elt->getFigureSuffixKind ()) {
+      case msrFigure::k_NoFigureSuffix:
+        break;
+      case msrFigure::kDoubleFlatSuffix:
+        fLilypondCodeIOstream << "double flat";
+        break;
+      case msrFigure::kFlatSuffix:
+        fLilypondCodeIOstream << "flat";
+        break;
+      case msrFigure::kFlatFlatSuffix:
+        fLilypondCodeIOstream << "flat flat";
+        break;
+      case msrFigure::kNaturalSuffix:
+        fLilypondCodeIOstream << "natural";
+        break;
+      case msrFigure::kSharpSharpSuffix:
+        fLilypondCodeIOstream << "sharp sharp";
+        break;
+      case msrFigure::kSharpSuffix:
+        fLilypondCodeIOstream << "sharp";
+        break;
+      case msrFigure::kDoubleSharpSuffix:
+        fLilypondCodeIOstream << "souble sharp";
+        break;
+      case msrFigure::kSlashSuffix:
+        fLilypondCodeIOstream << "/";
+        break;
+    } // switch
+  
+    // generate a space if not last figure in figured bass
+    if (
+      fCurrentFiguredBassFiguresCounter
+        <
+      fCurrentFiguredBass->getFiguredBassFiguresList ().size ()
+    ) {
+      fLilypondCodeIOstream << ' ';
+    }
   }
-  }
+}
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
 {
@@ -6797,13 +6805,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
   }
 #endif
 
-  fLilypondCodeIOstream <<
-    ">" <<
-    wholeNotesAsLilypondString (
-      elt->getInputLineNumber (),
-      elt->
-        getFiguredBassSoundingWholeNotes ()) <<
-    ' ';
+  if (fOnGoingFiguredBassVoice) {
+    fLilypondCodeIOstream <<
+      ">" <<
+      wholeNotesAsLilypondString (
+        elt->getInputLineNumber (),
+        elt->
+          getFiguredBassSoundingWholeNotes ()) <<
+      ' ';
+  }
 }
 
 //________________________________________________________________________

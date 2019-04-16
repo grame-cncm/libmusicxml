@@ -17819,7 +17819,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // handling the current pending figured bass if any,
   // so that it gets attached to the note right now
   if (fPendingFiguredBassesList.size ()) {
-    while (fPendingHarmoniesList.size ()) {
+    while (fPendingFiguredBassesList.size ()) {
       S_msrFiguredBass
         figuredBass =
           fPendingFiguredBassesList.front ();
@@ -17851,68 +17851,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // remove it from the list
       fPendingFiguredBassesList.pop_front ();
     } // while
-
-/* JMI
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceFiguredBasses) {
-      fLogOutputStream <<
-        "--> figured bass" <<
-        ", line " << inputLineNumber << ":" <<
-        endl;
-  
-      gIndenter++;
-
-      const int fieldWidth = 31;
-      
-      fLogOutputStream << left <<
-        setw (fieldWidth) << "fCurrentPart" << " = " <<
-        fCurrentPart->getPartCombinedName () <<
-        endl <<
-        setw (fieldWidth) << "fCurrentFiguredBassSoundingWholeNotes" << " = " <<
-        fCurrentFiguredBassSoundingWholeNotes <<
-        endl;
-          
-      gIndenter--;
-    }
-#endif
-  
-    if (fCurrentFiguredBassSoundingWholeNotes.getNumerator () == 0) {
-      // no duration has been found,
-      // use the note's sounding whole notes
-      fCurrentFiguredBassSoundingWholeNotes =
-        fCurrentNoteSoundingWholeNotes;
-    }
-  
-    // create the figured bass
-    // if the sounding whole notes is 0/1 (no <duration /> was met),
-    // it will be set to the next note's sounding whole notes later
-    S_msrFiguredBass
-      figuredBass =
-        msrFiguredBass::create (
-          inputLineNumber,
-          fCurrentPart,
-          fCurrentFiguredBassSoundingWholeNotes,
-          fCurrentFiguredBassParenthesesKind);
-  
-    // attach pending figures to the figured bass
-    if (fPendingFiguredBassFigures.size ()) {
-      for (
-        list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
-        i!=fPendingFiguredBassFigures.end ();
-        i++) {
-        figuredBass->
-          appendFiguredFigureToFiguredBass ((*i));
-      } // for
-  
-      fPendingFiguredBassFigures.clear ();
-    }
-  
-    // append the figured bass to the current part
-    fCurrentPart->
-      appendFiguredBassToPart (
-        voiceToInsertInto,
-        figuredBass);  
-    */
     
     // reset figured bass counter
     fFiguredBassVoicesCounter = 0;
@@ -20972,25 +20910,33 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
         
         rational (1, 1)); // will be set upon next note handling
 
-  // append pending harmony degrees if any to harmony
-  while (fCurrentHarmonyDegreesList.size ()) {
-    S_msrHarmonyDegree
-      harmonyDegree =
-        fCurrentHarmonyDegreesList.front ();
-
-    // set harmony degree harmony uplink
-    harmonyDegree->
-      setHarmonyDegreeHarmonyUplink (
-        harmony);
-
-    // append it to harmony's degrees list
-    harmony->
-      appendHarmonyDegreeToHarmony (
-        harmonyDegree);
-
-    // remove it from the list
-    fCurrentHarmonyDegreesList.pop_front ();
-  } // while
+  // append pending harmony degrees if any to the harmony
+  if (! fCurrentHarmonyDegreesList.size ()) {
+    msrMusicXMLWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      "harmony has no degrees contents");
+  }
+  else {
+    while (fCurrentHarmonyDegreesList.size ()) {
+      S_msrHarmonyDegree
+        harmonyDegree =
+          fCurrentHarmonyDegreesList.front ();
+  
+      // set harmony degree harmony uplink
+      harmonyDegree->
+        setHarmonyDegreeHarmonyUplink (
+          harmony);
+  
+      // append it to harmony's degrees list
+      harmony->
+        appendHarmonyDegreeToHarmony (
+          harmonyDegree);
+  
+      // remove it from the list
+      fCurrentHarmonyDegreesList.pop_front ();
+    } // while
+  }
 
   // append the harmony to the pending harmonies list
   fPendingHarmoniesList.push_back (harmony);
@@ -21481,7 +21427,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
       endl;
   }
 
-  // create the harmony
+  // create the figured bass
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
     fLogOutputStream <<
@@ -21505,7 +21451,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
         fCurrentFiguredBassParenthesesKind);
 
   // attach pending figures to the figured bass
-  if (fPendingFiguredBassFigures.size ()) {
+  if (! fPendingFiguredBassFigures.size ()) {
+    msrMusicXMLWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      "figured-bass has no figures contents");
+  }
+  else {
     for (
       list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
       i!=fPendingFiguredBassFigures.end ();
@@ -21515,13 +21467,68 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     } // for
 
     fPendingFiguredBassFigures.clear ();
-  }
+    
+/* JMI
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceFiguredBasses) {
+      fLogOutputStream <<
+        "--> figured bass" <<
+        ", line " << inputLineNumber << ":" <<
+        endl;
+  
+      gIndenter++;
 
-  if (! fPendingFiguredBassFigures.size ()) {
-    msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      "figured-bass has no figures contents");
+      const int fieldWidth = 31;
+      
+      fLogOutputStream << left <<
+        setw (fieldWidth) << "fCurrentPart" << " = " <<
+        fCurrentPart->getPartCombinedName () <<
+        endl <<
+        setw (fieldWidth) << "fCurrentFiguredBassSoundingWholeNotes" << " = " <<
+        fCurrentFiguredBassSoundingWholeNotes <<
+        endl;
+          
+      gIndenter--;
+    }
+#endif
+  
+    if (fCurrentFiguredBassSoundingWholeNotes.getNumerator () == 0) {
+      // no duration has been found,
+      // use the note's sounding whole notes
+      fCurrentFiguredBassSoundingWholeNotes =
+        fCurrentNoteSoundingWholeNotes;
+    }
+  
+    // create the figured bass
+    // if the sounding whole notes is 0/1 (no <duration /> was met),
+    // it will be set to the next note's sounding whole notes later
+    S_msrFiguredBass
+      figuredBass =
+        msrFiguredBass::create (
+          inputLineNumber,
+          fCurrentPart,
+          fCurrentFiguredBassSoundingWholeNotes,
+          fCurrentFiguredBassParenthesesKind);
+  
+    // attach pending figures to the figured bass
+    if (fPendingFiguredBassFigures.size ()) {
+      for (
+        list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
+        i!=fPendingFiguredBassFigures.end ();
+        i++) {
+        figuredBass->
+          appendFiguredFigureToFiguredBass ((*i));
+      } // for
+  
+      fPendingFiguredBassFigures.clear ();
+    }
+  
+    // append the figured bass to the current part
+    fCurrentPart->
+      appendFiguredBassToPart (
+        voiceToInsertInto,
+        figuredBass);  
+    */
   }
 
   // append the figured bass to the pending figured basses list

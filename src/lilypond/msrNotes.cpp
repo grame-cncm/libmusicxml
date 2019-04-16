@@ -4094,6 +4094,7 @@ void msrNote::print (ostream& os)
     if (fNoteStem) {
       os <<
         endl;
+        
       gIndenter++;
         
       os <<
@@ -4906,14 +4907,13 @@ void msrNote::print (ostream& os)
       setw (fieldWidth) <<
       "noteHarmony";
     if (fNoteHarmony) {
-      gIndenter++;
-      
       os <<
         endl;
 
+      gIndenter++;
+      
       os <<
-        fNoteHarmony <<
-        endl;
+        fNoteHarmony;
         
       gIndenter--;
     }

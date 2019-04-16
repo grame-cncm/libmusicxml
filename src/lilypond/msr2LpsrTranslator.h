@@ -570,7 +570,7 @@ class msr2LpsrTranslator :
     // figured bass
     // ------------------------------------------------------    
     bool                      fOnGoingFiguredBassVoice;
-    S_msrFiguredBass          fCurrentFiguredBass;
+    S_msrFiguredBass          fCurrentFiguredBassClone;
 
 
     // segments

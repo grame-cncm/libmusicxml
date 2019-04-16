@@ -41,13 +41,13 @@
         <duration>4</duration>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
+        <pitch><step>C</step><octave>4</octave></pitch>
         <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
       </note>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
+        <pitch><step>D</step><octave>4</octave></pitch>
         <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
@@ -59,7 +59,7 @@
         <duration>6</duration>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
+        <pitch><step>E</step><octave>4</octave></pitch>
         <duration>6</duration>
         <voice>1</voice>
         <type>eighth</type>
@@ -69,7 +69,7 @@
         <figure><figure-number>6</figure-number></figure>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
+        <pitch><step>F</step><octave>4</octave></pitch>
         <duration>2</duration>
         <voice>1</voice>
         <type>16th</type>
@@ -90,7 +90,7 @@
       <figured-bass>
       </figured-bass>
       <note>
-        <pitch><step>G</step><octave>4</octave></pitch>
+        <pitch><step>A</step><octave>4</octave></pitch>
         <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
