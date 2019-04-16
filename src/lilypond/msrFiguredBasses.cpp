@@ -383,25 +383,23 @@ msrFiguredBass::msrFiguredBass (
 msrFiguredBass::~msrFiguredBass ()
 {}
 
-S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone ()
- // S_msrPart containingPart)
+S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
+  S_msrVoice containingVoice)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
-      "Creating a newborn clone of figuredBass '" <<
-      asString () <<
+      "Creating a newborn clone of figured bass '" <<
+      asShortString () <<
       "'" <<
       endl;
   }
 #endif
 
-/*
   // sanity check
   msrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    */
+    containingVoice != nullptr,
+    "containingVoice is null");
     
   S_msrFiguredBass
     newbornClone =

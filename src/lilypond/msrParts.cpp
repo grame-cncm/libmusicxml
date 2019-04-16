@@ -232,7 +232,7 @@ void msrPart::createPartFiguredBassStaffAndVoiceIfNotYetDone (
     fPartFiguredBassVoice =
       msrVoice::create (
         inputLineNumber,
-        msrVoice::kFiguredBassVoice,
+        msrVoice::kVoiceFiguredBass,
         K_PART_FIGURED_BASS_VOICE_NUMBER,
         msrVoice::kCreateInitialLastSegmentYes,
         fPartFiguredBassStaff);
@@ -1219,7 +1219,7 @@ void msrPart::appendFiguredBassToPart (
     figuredBass->getInputLineNumber ();
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:    
+    case msrVoice::kVoiceRegular:    
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
@@ -1237,8 +1237,8 @@ void msrPart::appendFiguredBassToPart (
         appendFiguredBassToVoice (figuredBass);
       break;
       
-    case msrVoice::kHarmonyVoice:
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
       {
         stringstream s;
     
@@ -1268,7 +1268,7 @@ void msrPart::appendFiguredBassToPartClone (
     figuredBass->getInputLineNumber ();
 
   switch (figuredBassSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kFiguredBassVoice:    
+    case msrVoice::kVoiceFiguredBass:    
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceParts) {
@@ -1286,8 +1286,8 @@ void msrPart::appendFiguredBassToPartClone (
         appendFiguredBassToVoiceClone (figuredBass);
       break;
       
-    case msrVoice::kRegularVoice:
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceRegular:
+    case msrVoice::kVoiceHarmony:
       {
         stringstream s;
     

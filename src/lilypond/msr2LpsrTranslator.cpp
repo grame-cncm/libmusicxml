@@ -1331,7 +1331,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
   switch (elt->getVoiceKind ()) {
     
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
         elt->createVoiceNewbornClone (
@@ -1353,7 +1353,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           fCurrentVoiceClone);
       break;
       
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceHarmony:
       {
         /* JMI
         // create the harmony staff and voice if not yet done
@@ -1431,7 +1431,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       }
       break;
       
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceFiguredBass:
       {
         // create a voice clone
         fCurrentVoiceClone =
@@ -1522,15 +1522,15 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 #endif
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       // JMI
       break;
       
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
       
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch
@@ -1646,6 +1646,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingHarmonyVoice) {
+    // append the harmony to the current voice clone
     fCurrentVoiceClone->
       appendHarmonyToVoiceClone (
         fCurrentHarmonyClone);
@@ -1725,8 +1726,8 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
   // create a deep copy of the figured bass
   fCurrentFiguredBass =
     elt->
-      createFiguredBassDeepCopy ();
-    // JMI    fCurrentPartClone);
+      createFiguredBassNewbornClone (
+        fCurrentVoiceClone);
   
   if (fOnGoingNote) {
     // register the figured bass in the current non-grace note clone
@@ -1736,12 +1737,14 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
   // don't append the figured bass to the part figured bass,
   // this will be done below
   }
-  
+
+  /* JMI
   else if (fOnGoingChord) {
     // register the figured bass in the current chord clone
     fCurrentChordClone->
       setChordFiguredBass (fCurrentFiguredBass); // JMI
   }
+  */
   
   else if (fOnGoingFiguredBassVoice) { // JMI
     /*
@@ -1751,7 +1754,7 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
         fCurrentVoiceClone,
         fCurrentFiguredBass);
         */
-    // append the figured bass in the current voice clone
+    // append the figured bass to the current voice clone
     fCurrentVoiceClone->
       appendFiguredBassToVoice (
         fCurrentFiguredBass);

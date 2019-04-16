@@ -2525,7 +2525,8 @@ class msrFiguredBass : public msrMeasureElement
       msrFiguredBassParenthesesKind
                 figuredBassParenthesesKind);
     
-    SMARTP<msrFiguredBass> createFiguredBassNewbornClone ();
+    SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
+      S_msrVoice containingVoice);
  // JMI     S_msrPart containingPart);
 
     SMARTP<msrFiguredBass> createFiguredBassDeepCopy (); // JMI ???
@@ -6289,16 +6290,17 @@ class msrVoice : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_VOICE_NUMBER                 -39
-    #define K_VOICE_HARMONY_VOICE_BASE_NUMBER 20
+    #define K_NO_VOICE_NUMBER                     -99
+    #define K_VOICE_HARMONY_VOICE_BASE_NUMBER      20
+    #define K_VOICE_FIGURED_BASS_VOICE_BASE_NUMBER 40
 
     // data types
     // ------------------------------------------------------
 
     enum msrVoiceKind {
-      kRegularVoice,
-      kHarmonyVoice,       // for MusicXML <harmony/>, LilyPond ChordNames
-      kFiguredBassVoice }; // for MusicXML <figured-bass/>, LilyPond FiguredBass
+      kVoiceRegular,
+      kVoiceHarmony,       // for MusicXML <harmony/>, LilyPond ChordNames
+      kVoiceFiguredBass }; // for MusicXML <figured-bass/>, LilyPond FiguredBass
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -6474,8 +6476,8 @@ class msrVoice : public msrElement
     int                   getVoiceActualHarmoniesCounter () const
                               { return fVoiceActualHarmoniesCounter; }
 
-    int                   getVoiceActualFiguredBassCounter () const
-                              { return fVoiceActualFiguredBassCounter; }
+    int                   getVoiceActualFiguredBassesCounter () const
+                              { return fVoiceActualFiguredBassesCounter; }
 
     // has music been inserted in the voice?
     
@@ -7192,7 +7194,7 @@ class msrVoice : public msrElement
     int                   fVoiceRestsCounter;
     int                   fVoiceSkipsCounter;
     int                   fVoiceActualHarmoniesCounter;
-    int                   fVoiceActualFiguredBassCounter;
+    int                   fVoiceActualFiguredBassesCounter;
 
     // musically empty voices
     
@@ -7797,6 +7799,10 @@ class msrStaff : public msrElement
     // voices ordering in staves
     
     static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
+                            const S_msrVoice& first,
+                            const S_msrVoice& second);
+
+    static bool           compareVoicesToHaveFiguredBassesBelowCorrespondingVoice (
                             const S_msrVoice& first,
                             const S_msrVoice& second);
 

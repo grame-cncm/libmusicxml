@@ -1664,8 +1664,8 @@ R"(Please contact the maintainers of libmusicxml2 (see option '-c, -contact'):
 
 //______________________________________________________________________________
 S_msrStaff mxmlTree2MsrSkeletonBuilder::createStaffInCurrentPartIfNotYetDone (
-  int            inputLineNumber,
-  int            staffNumber)
+  int inputLineNumber,
+  int staffNumber)
 {    
   // is staffNumber already present in part?
   S_msrStaff
@@ -1716,7 +1716,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
       staff->
         createVoiceInStaffByItsNumber (
           inputLineNumber,
-          msrVoice::kRegularVoice,
+          msrVoice::kVoiceRegular,
           voiceNumber,
           fCurrentMeasureNumber);
   }
@@ -3601,7 +3601,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
   }
     
   // are there figured bass attached to the current note?
-  if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
+  if (fThereAreFiguredBassToBeAttachedToCurrentNote) {
     // should the figured bass voice be created?
     S_msrVoice
       figuredBassVoice =
@@ -3794,19 +3794,21 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
 //______________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 {
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_figured_bass" <<
       ", figuredBassVoicesCounter = " << fFiguredBassVoicesCounter <<
-      ", line " << inputLineNumber <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
   }
 
+  /*
+    several figured basses can be attached to a given note,
+    leading to as many figured bass voices in the current part JMI TRUE???
+  */
+
   // take figured bass voice into account
-  fHarmonyVoicesCounter++;
+  fFiguredBassVoicesCounter++;
 
 /*
   // append a figured bass staff and voice to the current part

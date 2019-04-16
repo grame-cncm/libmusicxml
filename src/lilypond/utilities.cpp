@@ -326,18 +326,20 @@ int indentedStreamBuf::sync ()
   // 2) reset the buffer
   // 3) flush the actual output stream we are using.
 
+  int strSize = str ().size ();
+  
   // fetch the last non-space character in the buffer
   // caution: the '\n' is present as the last character!
-  std::size_t found = str ().find_last_not_of(' ', str ().size () - 2);
+  std::size_t found = str ().find_last_not_of(' ', strSize - 2);
 
   // this can be uncommented to see low level informations
-  // fOutputSteam << "% str ().size (): " << str ().size () << ", found: " << found << '\n';
+  // fOutputSteam << "% strSize: " << strSize << ", found: " << found << '\n';
   
   // output the indenter
   fOutputSteam << fIndenter;
 
   // output the buffer
-  if (found == str ().size () - 3) {
+  if (found == strSize - 3) {
     // don't output the trailing spaces, but output the end of line
     fOutputSteam << str ().substr (0, found + 1) << '\n'; 
   }

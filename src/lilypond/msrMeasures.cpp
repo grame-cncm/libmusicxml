@@ -1841,7 +1841,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   S_msrNote paddingNote;
 
   switch (voice->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       paddingNote =
       /* JMI ???
         msrNote::createRestNote (
@@ -1867,8 +1867,8 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
             getVoiceNumber ());
       break;
       
-    case msrVoice::kHarmonyVoice:
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
       paddingNote =
         msrNote::createSkipNote (
           inputLineNumber,

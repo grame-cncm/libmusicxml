@@ -567,8 +567,8 @@ class mxmlTree2MsrSkeletonBuilder :
     int                       fCurrentStaffMusicXMLNumber; // used throughout
     
     S_msrStaff                createStaffInCurrentPartIfNotYetDone (
-                                int            inputLineNumber,
-                                int            staffNumber);
+                                int inputLineNumber,
+                                int staffNumber);
 
 
     // voice handling

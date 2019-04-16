@@ -6314,7 +6314,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   // generate the beginning of the voice definition
   switch (fCurrentVoice->getVoiceKind ()) {
     
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       if (gLilypondOptions->fAbsoluteOctaves) {
         fLilypondCodeIOstream <<
           "{" <<
@@ -6327,13 +6327,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       }
       break;
       
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceHarmony:
       fLilypondCodeIOstream <<
         "\\chordmode {" <<
         endl;
       break;
       
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceFiguredBass:
       fLilypondCodeIOstream <<
         "\\figuremode {" <<
         endl;
@@ -6416,14 +6416,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   fOnGoingVoice = true;
 
   switch (fCurrentVoice->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       break;
       
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceHarmony:
       fOnGoingHarmonyVoice = true;
       break;
       
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = true;
       break;
   } // switch
@@ -6474,21 +6474,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
     
   // generate the end of the voice definition
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       fLilypondCodeIOstream <<
         "}" <<
         endl <<
         endl;
       break;
       
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceHarmony:
       fLilypondCodeIOstream <<
         "}" <<
         endl <<
         endl;
       break;
       
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceFiguredBass:
       fLilypondCodeIOstream <<
         "}" <<
         endl <<
@@ -6497,14 +6497,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   } // switch
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
+    case msrVoice::kVoiceRegular:
       break;
       
-    case msrVoice::kHarmonyVoice:
+    case msrVoice::kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
       
-    case msrVoice::kFiguredBassVoice:
+    case msrVoice::kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
   } // switch
