@@ -83,6 +83,7 @@ void notevisitor::reset ()
     fCautionary = "";
     fFingering = (void*)0;
     fHarmonic = (void*)0;
+    fSnapPizzicato = (void*)0;
 }
 
 //________________________________________________________________________
