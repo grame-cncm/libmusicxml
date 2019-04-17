@@ -1776,6 +1776,14 @@ namespace MusicXML2
             push(tag);
             n++;
         }
+        if (note.fSnapPizzicato) {
+            tag = guidotag::create("pizz");
+            stringstream s;
+            s << "type=\"snap\"";
+            tag->add (guidoparam::create(s.str(), false));
+            push(tag);
+            n++;
+        }
         
         return n;
     }
