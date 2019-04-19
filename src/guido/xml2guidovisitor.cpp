@@ -371,9 +371,18 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
+    
+    /**
+     Infers MusicXML Y-Position of element and converts to Guido Half-Space
+     
+     @param elt XML Element visiting
+     @param tag The Guido Tag element to append dY position
+     @param yoffset Half-space offset to add
+     @param .0 Multiplier: can be 1.0 or -1.0 (to invert)
+     */
     void xml2guidovisitor::addPosY	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float ymultiplier = 1.0)
     {
-        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
+        float posy = elt->getAttributeFloatValue("relative-y", 0);
             posy = (posy / 10) * 2;   // convert to half spaces
             posy += yoffset;		  // anchor point convertion (defaults to upper line in xml)
             posy = posy * ymultiplier;
@@ -409,8 +418,17 @@ namespace MusicXML2
         }
     }
     
-    float xml2guidovisitor::getYposition(Sxmlelement elt, float yoffset){
-        float posy = elt->getAttributeFloatValue("default-y", 0) + elt->getAttributeFloatValue("relative-y", 0);
+    /**
+     Converts total relative and default Y for element from MusicXML Tenths to Guido Half-Space
+
+     @param elt Music XML element
+     @param yoffset half-space offset to be added after conversion
+     @param useDefault true to use default-y position, false otherwise
+     @return returns half-space in float
+     */
+    float xml2guidovisitor::getYposition(Sxmlelement elt, float yoffset, bool useDefault = true){
+        float posy = (useDefault ? elt->getAttributeFloatValue("default-y", 0) : 0.0)
+                + elt->getAttributeFloatValue("relative-y", 0);
         posy = (posy / 10) * 2;   // convert to half spaces
         posy += yoffset;          // anchor point convertion (defaults to upper line in xml)
 
