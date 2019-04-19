@@ -84,7 +84,7 @@ void timing::appendTimingItem (
         kind,
         startClock,
         endClock);
-    
+
   fTimingItemsList.push_back (timingItem);
 }
 
@@ -106,7 +106,7 @@ void timing::print (ostream& os) const
     totalClock          = 0.0,
     totalMandatoryClock = 0.0,
     totalOptionalClock  = 0.0;
-    
+
   os << endl << "Timing information:" << endl << endl <<
     setw (activityWidth) << "Activity" << "  " <<
     setw (descriptionWidth) << "Description" << "  " <<
@@ -120,7 +120,7 @@ void timing::print (ostream& os) const
   for ( list<S_timingItem>::const_iterator i=fTimingItemsList.begin (); i!=fTimingItemsList.end (); i++) {
     clock_t timingItemClock = (*i)->fEndClock - (*i)->fStartClock;
     totalClock += timingItemClock;
-    
+
     os << left <<
       setw (activityWidth) << (*i)->fActivity << "  " <<
       setw (descriptionWidth) << (*i)->fDescription << "  ";
@@ -155,7 +155,7 @@ void timing::print (ostream& os) const
     "  " <<
     setw (totalOptionalClockWidth)    << "Optional" <<
     endl <<
-    
+
     setw (totalClockWidth) <<
     replicateString ("-", totalClockWidth) <<
     "    " <<
@@ -166,7 +166,7 @@ void timing::print (ostream& os) const
     replicateString ("-", secondsWidth) <<
     setprecision(totalsPrecision) <<
     endl <<
-    
+
     setw (totalClockWidth) <<
     float(totalClock) / CLOCKS_PER_SEC <<
     "    " <<
@@ -198,7 +198,7 @@ indenter::~indenter ()
 indenter& indenter::operator++ (const int value)
 {
   fIndent++;
-  
+
 #ifdef DEBUG_INDENTER
   gLogIOstream <<
     "% INDENTER: " << fIndent <<
@@ -289,11 +289,11 @@ indenter& indenter::decrement (int value)
 string indenter::indentMultiLineString (string value)
 {
   stringstream  s;
-  
+
   // add indentation ahead of all lines inside 'value'
   istringstream inputStream (value);
   string        line;
-  
+
   while (getline (inputStream, line)) {
     s << line;
 
@@ -312,9 +312,9 @@ ostream& operator<< (ostream& os, const indenter& idtr) {
 }
 
 void indenter::print (ostream& os) const
-{ 
+{
   int i = fIndent;
-  
+
   while (i-- > 0) os << fSpacer;
 }
 
@@ -326,34 +326,34 @@ int indentedStreamBuf::sync ()
   // 2) reset the buffer
   // 3) flush the actual output stream we are using.
 
-  int strSize = str ().size ();
-  
+  std::size_t strSize = str ().size ();
+
   // fetch the last non-space character in the buffer
   // caution: the '\n' is present as the last character!
   std::size_t found = str ().find_last_not_of(' ', strSize - 2);
 
   // this can be uncommented to see low level informations
   // fOutputSteam << "% strSize: " << strSize << ", found: " << found << '\n';
-  
+
   // output the indenter
   fOutputSteam << fIndenter;
 
   // output the buffer
   if (found == strSize - 3) {
     // don't output the trailing spaces, but output the end of line
-    fOutputSteam << str ().substr (0, found + 1) << '\n'; 
+    fOutputSteam << str ().substr (0, found + 1) << '\n';
   }
   else {
     // output the whole buffer
     fOutputSteam << str ();
   }
-  
+
   // reset the buffer
   str ("");
-  
+
   // flush the output stream
   fOutputSteam.flush ();
-  
+
   return 0;
 }
 
@@ -372,7 +372,7 @@ struct basic_nullbuf : std::basic_streambuf<Ch, Traits>
   typedef std::basic_streambuf<Ch, Traits> base_type;
   typedef typename base_type::int_type int_type;
   typedef typename base_type::traits_type traits_type;
-  
+
   virtual int_type overflow (int_type c) {
     return traits_type::not_eof (c);
   }
@@ -402,7 +402,7 @@ segmentedLinesOstream& endline (segmentedLinesOstream& os)
   }
 
   os.getIndentedOstream () << endl;
-  
+
   return os;
 }
 
@@ -412,7 +412,7 @@ segmentedLinesOstream& endseg (segmentedLinesOstream& os)
     // don't output multiple spaces after a segment
     os.setAtEndOfSegment (true);
   }
-  
+
   return os;
 }
 
@@ -495,7 +495,7 @@ string replicateString (
   int    times)
 {
   string result;
-  
+
   for (int i = 0; i < times; i++)
     result += str;
 
@@ -509,7 +509,7 @@ string replaceSubstringInString (
   std::string ersatz)
 {
   string result = str;
-  
+
   size_t found = result.find (subString);
 
   if (found != string::npos) {
@@ -538,7 +538,7 @@ string int2EnglishWord (int n)
     return
       int2EnglishWord (nDiv1000) +
       "Thousand" +
-      int2EnglishWord (nModulo1000);    
+      int2EnglishWord (nModulo1000);
   }
 
   else if (n >= 100) {
@@ -549,7 +549,7 @@ string int2EnglishWord (int n)
     return
       int2EnglishWord (nDiv100) +
       "HundredAnd" +
-      int2EnglishWord (nModulo100);    
+      int2EnglishWord (nModulo100);
   }
 
   else {
@@ -614,12 +614,12 @@ string int2EnglishWord (int n)
       case 19:
         s << "Nineteen";
         break;
-        
+
       default: {
         // n >= 20
         int nDiv10    = n / 10;
         int nModulo10 = n % 10;
-        
+
         switch (nDiv10) {
           case 2:
             s << "Twenty";
@@ -650,7 +650,7 @@ string int2EnglishWord (int n)
       } // default
     } // switch
   }
-  
+
   return s.str ();
 }
 
@@ -660,23 +660,23 @@ string stringNumbersToEnglishWords (string str)
   if (! str.size ()) {
     return "NONE";
   }
-  
+
   enum workState {
     kInitialState, kWorkingOnDigits, kWorkingOnNonDigits };
-      
+
   vector<string> chunks;
   vector<int>    states;
-    
+
   workState state = kInitialState;
-  
+
   string::const_iterator
     iBegin = str.begin (),
     iEnd   = str.end (),
     i      = iBegin;
-    
+
   for ( ; ; ) {
     char ch = (*i);
-    
+
     if( isdigit(ch)) {
       // digit
       if (state != kWorkingOnDigits) {
@@ -699,24 +699,24 @@ string stringNumbersToEnglishWords (string str)
     }
     if (++i == iEnd) break;
   } // for
-   
+
   string result = "";
 
   for (unsigned int i = 0; i < chunks.size (); i++) {
     if (states[i] == kWorkingOnDigits) {
       int integerValue;
-    
+
       istringstream inputStream (chunks[i]);
-    
+
       inputStream >> integerValue;
-      
+
       result += int2EnglishWord (integerValue);
     }
     else {
       result += chunks[i];
     }
   } // for
-    
+
   return result;
 };
 
@@ -746,7 +746,7 @@ int consumeDecimalNumber (
     }
 
     number = number*10 + (*cursor-'0');
-    
+
     cursor++;
   } // while
 
@@ -771,7 +771,7 @@ set<int> decipherNumbersSetSpecification (
 //  A numbersSetSpecification sample is: "7,15-19,^16-17"
 
   set<int> selectedNumbers;
-  
+
   if (debugMode) {
     gLogIOstream <<
       "--> decipherNumbersSetSpecification, theString = |" << theString <<
@@ -813,7 +813,7 @@ set<int> decipherNumbersSetSpecification (
           endl <<
           endl;
       }
-  
+
       intervalEndNumber =
         consumeDecimalNumber (cursor, cursor, debugMode);
     }
@@ -848,7 +848,7 @@ set<int> decipherNumbersSetSpecification (
           endl <<
           endl;
       }
-      break; 
+      break;
     }
 
     cursor++;
@@ -858,10 +858,10 @@ set<int> decipherNumbersSetSpecification (
         "--> decipherNumbersSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
-        << endl << 
+        << endl <<
         endl;
     }
-  } // while 
+  } // while
 
   if (* cursor != '\0') {
     gLogIOstream <<
@@ -893,7 +893,7 @@ list<int> extractNumbersFromString (
   while (1) {
     if (cursor == theString.end ())
       break;
-      
+
     if (debugMode) {
       gLogIOstream <<
         "--> extractNumbersFromString: cursor = |" <<
@@ -944,7 +944,7 @@ pair<string, string> extractNamesPairFromString (
   while (1) {
     if (cursor == theString.end ())
       break;
-      
+
     if (debugMode) {
       gLogIOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
@@ -956,7 +956,7 @@ pair<string, string> extractNamesPairFromString (
       // found the separator
       break;
     }
-    
+
     // append the character to name1
     name1 += *cursor;
     cursor++;
@@ -985,7 +985,7 @@ pair<string, string> extractNamesPairFromString (
   while (1) {
     if (cursor == theString.end ())
       break;
-      
+
     if (debugMode) {
       gLogIOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
@@ -1002,7 +1002,7 @@ pair<string, string> extractNamesPairFromString (
         endl;
       break;
     }
-    
+
     // append the character to name2
     name2 += *cursor;
     cursor++;
@@ -1025,9 +1025,9 @@ string quoteStringIfNonAlpha (
   string theString)
 {
   string result;
-  
+
   bool   stringShouldBeQuoted = false;
-  
+
   for (
     string::const_iterator i = theString.begin ();
     i != theString.end ();
@@ -1065,7 +1065,7 @@ string quoteString (
   string theString)
 {
   string result;
-    
+
   for (
     string::const_iterator i = theString.begin ();
     i != theString.end ();
@@ -1109,7 +1109,7 @@ string singularOrPlural (
 
   s <<
     number << ' ';
-  
+
   if (number <= 1) {
     s <<
       singularName;
@@ -1118,7 +1118,7 @@ string singularOrPlural (
     s <<
       pluralName;
   }
-      
+
   return s.str ();
 }
 
@@ -1135,7 +1135,7 @@ string singularOrPluralWithoutNumber (
     s <<
       pluralName;
   }
-      
+
   return s.str ();
 }
 
@@ -1175,7 +1175,7 @@ string escapeDoubleQuotes (string s)
 
     result.replace (found, lookedFor.size (), ersatz);
   } // for
-      
+
   return result;
 }
 
@@ -1183,7 +1183,7 @@ string escapeDoubleQuotes (string s)
 void convertHTMLEntitiesToPlainCharacters (string& s)
 {
   map<string, string> conversionMap;
-  
+
   conversionMap ["&"] = "&amp;";
   conversionMap ["\""] = "&quot;";
   conversionMap ["'"] = "&apos;";
@@ -1196,7 +1196,7 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
     string
       lookedFor = i->second,
       ersatz    = i->first;
-    
+
     // replace all occurrences of lookedFor by ersatz
     for ( ; ; ) {
       size_t found = s.find (lookedFor);
@@ -1206,7 +1206,7 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 
       s.replace (found, lookedFor.size (), ersatz);
     } // for
-    
+
   } // for
 }
 
@@ -1225,7 +1225,7 @@ void splitRegularStringContainingEndOfLines (
 #endif
 
   int theStringSize = theString.size ();
-  
+
   size_t currentPosition = 0;
 
 #ifdef DEBUG_SPLITTING
@@ -1246,13 +1246,13 @@ void splitRegularStringContainingEndOfLines (
       // we have a last chunk
       // from currentPosition to theStringSize
       int chunkLength = theStringSize - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
             currentPosition,
             chunkLength);
-      
+
       chunksList.push_back (
         chunk);
 
@@ -1273,11 +1273,11 @@ void splitRegularStringContainingEndOfLines (
 
       break;
     }
-    
+
     else {
       // we have a chunk from currentPosition to found
       int chunkLength = found - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
@@ -1315,7 +1315,7 @@ void splitRegularStringContainingEndOfLines (
         endl <<
         "chunk = \"" << chunk << "\"" <<
         endl <<
-        endl;      
+        endl;
 #endif
     }
   } // while
@@ -1336,15 +1336,15 @@ void splitHTMLStringContainingEndOfLines (
 #endif
 
   int theStringSize = theString.size ();
-  
+
   map<string, string> conversionMap; // JMI
-  
+
   conversionMap ["&"] = "&amp;";
   conversionMap ["\""] = "&quot;";
   conversionMap ["'"] = "&apos;";
   conversionMap ["<"] = "&lt;";
   conversionMap [">"] = "&gt;";
-  
+
   size_t currentPosition = 0;
 
 #ifdef DEBUG_SPLITTING
@@ -1375,13 +1375,13 @@ void splitHTMLStringContainingEndOfLines (
       // we have a last chunk
       // from currentPosition to theStringSize
       int chunkLength = theStringSize - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
             currentPosition,
             chunkLength);
-      
+
       chunksList.push_back (
         chunk);
 
@@ -1402,11 +1402,11 @@ void splitHTMLStringContainingEndOfLines (
 
       break;
     }
-    
+
     else {
       // we have a chunk from currentPosition to found
       int chunkLength = found - currentPosition;
-      
+
       string
         chunk =
           theString.substr (
@@ -1444,7 +1444,7 @@ void splitHTMLStringContainingEndOfLines (
         endl <<
         "chunk = \"" << chunk << "\"" <<
         endl <<
-        endl;      
+        endl;
 #endif
     }
   } // while
@@ -1499,7 +1499,7 @@ string makeSingleWordFromString (const string& theString)
       result.push_back ((*i));
     }
   } // for
-  
+
   return result;
 }
 
