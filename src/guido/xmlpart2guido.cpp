@@ -437,13 +437,6 @@ namespace MusicXML2
                     int elementType = (*directionTypeElements)->getType();
                     auto element = (*directionTypeElements);
                     
-                    /// Take into account group positioning
-                    float posy = element->getAttributeFloatValue("default-y", 0) + element->getAttributeFloatValue("relative-y", 0);
-                    if (posy != 0.0) {
-                        // then apply and save
-                        commonDy += xml2guidovisitor::getYposition(element, 11.0);  // Should this be additive?
-                    }
-                    
                     switch (elementType) {
                         case k_words:
                         {
@@ -500,6 +493,13 @@ namespace MusicXML2
                                     wordParameterBuffer= wordParameters.str();
                                 }
                             }else {
+                                /// Take into account group positioning
+                                float posy = xml2guidovisitor::getYposition(element, 0, true);
+                                if (posy != 0.0) {
+                                    // then apply and save
+                                    commonDy += xml2guidovisitor::getYposition(element, 11.0, true);  // Should this be additive?
+                                }
+                                
                                 tag = guidotag::create("text");
                                 tag->add (guidoparam::create(wordParameters.str(), false));
                                 
@@ -522,6 +522,7 @@ namespace MusicXML2
                         case k_dynamics:
                         {
                             ctree<xmlelement>::literator iter2;
+                            elementSpecificYOffset = 0;
                             float dynamicsDx = 0.0;
                             for (iter2 = element->lbegin(); iter2 != element->lend(); iter2++) {
                                 if ((*iter2)->getType() != k_other_dynamics) {
@@ -536,12 +537,17 @@ namespace MusicXML2
                                             wordParameterBuffer = "";
                                         }
                                         
-                                        // apply inherited Y-position
-                                        if (commonDy != 0.0) {
-                                            stringstream s;
-                                            s << "dy=" << commonDy+elementSpecificYOffset << "hs";
-                                            tag->add (guidoparam::create(s.str(), false));
+                                        /// Take into account group positioning
+                                        float posy = xml2guidovisitor::getYposition(element, 0, true);
+                                        if (posy != 0.0) {
+                                            // then apply and save
+                                            commonDy += xml2guidovisitor::getYposition(element, 13, true);  // Should this be additive?
                                         }
+                                        
+                                        // apply inherited Y-position
+                                        stringstream s;
+                                        s << "dy=" << commonDy+elementSpecificYOffset << "hs";
+                                        tag->add (guidoparam::create(s.str(), false));
                                         
                                         // Apply dx in case of consecutive dynamics (e.g. "sf ff")
                                         if (dynamicsDx != 0.0) {
@@ -583,6 +589,13 @@ namespace MusicXML2
                             if (tempoParams.str().size())
                             {
                                 tag->add (guidoparam::create(tempoParams.str(), false));
+                            }
+                            
+                            /// Take into account group positioning
+                            float posy = xml2guidovisitor::getYposition(element, 0, true);
+                            if (posy != 0.0) {
+                                // then apply and save
+                                commonDy += xml2guidovisitor::getYposition(element, 11.0, true);  // Should this be additive?
                             }
                             
                             elementSpecificYOffset = -19.0;     // heuristics
@@ -783,15 +796,16 @@ namespace MusicXML2
                     tag->add (guidoparam::create(s.str(), false));
                 }
                 
-                
                 // Add new AutoPos="on"
                 /*stringstream s;
                  s << "autopos=\"on\"";
                  tag->add (guidoparam::create(s.str(), false));*/
             }
             
-            
-            xml2guidovisitor::addPosY(elt, tag, 12, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
+            stringstream s;
+            s << "dy=" << xml2guidovisitor::getYposition(elt, 13, true) << "hs";
+            tag->add (guidoparam::create(s.str(), false));
+            //xml2guidovisitor::addPosY(elt, tag, -2, 1.0);    // removed negative multiplier. Fixed in GuidoLib 1.6.5
             
             if (fCurrentOffset) {
                 addDelayed(tag, fCurrentOffset);
@@ -2141,10 +2155,10 @@ namespace MusicXML2
                 s << "position=" << "\"below\"";
                 tag->add (guidoparam::create(s.str(), false));
                 
-                xml2guidovisitor::addPosY(nv.fFermata, tag, -2, 1.0);
+                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
                 
             }else{
-                xml2guidovisitor::addPosY(nv.fFermata, tag, 2, 1.0);
+                xml2guidovisitor::addPosY(nv.fFermata, tag, 0, 1.0);
             }
             push(tag);
             return 1;
