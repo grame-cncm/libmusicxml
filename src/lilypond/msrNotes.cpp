@@ -22,30 +22,30 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 S_msrNote msrNote::create (
   int                        inputLineNumber,
   string                     noteMeasureNumber,
-  
+
   msrNoteKind                noteKind,
 
   msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
-  
+
   rational                   noteSoundingWholeNotes,
   rational                   noteDisplayWholeNotes,
-  
+
   int                        noteDotsNumber,
-  
+
   msrDurationKind            noteGraphicDurationKind,
-  
+
   int                        noteOctave,
-  
+
   msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
   int                        noteDisplayOctave,
-  
+
   bool                       noteIsARest,
   bool                       noteIsUnpitched,
 
@@ -53,32 +53,32 @@ S_msrNote msrNote::create (
   bool                       noteIsAGraceNote,
 
   msrNotePrintKind           msrNotePrintKind,
-  
+
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
-{  
+{
   msrNote * o =
     new msrNote (
       inputLineNumber,
       noteMeasureNumber,
-      
+
       noteKind,
-      
+
       noteQuarterTonesPitchKind,
-      
+
       noteSoundingWholeNotes,
       noteDisplayWholeNotes,
-      
+
       noteDotsNumber,
-      
+
       noteGraphicDurationKind,
-      
+
       noteOctave,
 
       noteQuarterTonesDisplayPitchKind,
       noteDisplayOctave,
-      
+
       noteIsARest,
       noteIsUnpitched,
 
@@ -98,23 +98,23 @@ S_msrNote msrNote::create (
 msrNote::msrNote (
   int                        inputLineNumber,
   string                     noteMeasureNumber,
-  
+
   msrNoteKind                noteKind,
 
   msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
-  
+
   rational                   noteSoundingWholeNotes,
   rational                   noteDisplayWholeNotes,
-  
+
   int                        noteDotsNumber,
-  
+
   msrDurationKind            noteGraphicDurationKind,
-  
+
   int                        noteOctave,
-  
+
   msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
   int                        noteDisplayOctave,
-  
+
   bool                       noteIsARest,
   bool                       noteIsUnpitched,
 
@@ -122,26 +122,26 @@ msrNote::msrNote (
   bool                       noteIsAGraceNote,
 
   msrNotePrintKind           notePrintKind,
-  
+
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
   : msrTupletElement (inputLineNumber)
 {
   fNoteMeasureNumber = noteMeasureNumber;
-  
+
   // basic note description
   fNoteKind = noteKind;
 
   fNoteQuarterTonesPitchKind  = noteQuarterTonesPitchKind;
-  
+
   fNoteSoundingWholeNotes = noteSoundingWholeNotes;
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
-  
+
   fNoteDotsNumber = noteDotsNumber;
-  
+
   fNoteGraphicDurationKind = noteGraphicDurationKind;
-  
+
   fNoteOctave = noteOctave;
 
   fNoteQuarterTonesDisplayPitchKind = noteQuarterTonesDisplayPitchKind;
@@ -154,7 +154,7 @@ msrNote::msrNote (
   fNoteIsAGraceNote = noteIsAGraceNote;
 
   fNotePrintKind = notePrintKind;
-  
+
   fNoteHeadKind            = noteHeadKind;
   fNoteHeadFilledKind      = noteHeadFilledKind;
   fNoteHeadParenthesesKind = noteHeadParenthesesKind;
@@ -167,7 +167,7 @@ void msrNote::initializeNote ()
 {
   // rests handling
   // ------------------------------------------------------
-  
+
   if (fNoteIsARest && fNoteDisplayOctave != K_NO_OCTAVE) {
     // this note is a pitched rest:
     // copy the display octave to the the note octave, // JMI
@@ -181,13 +181,13 @@ void msrNote::initializeNote ()
 
   fNoteAccidentalKind =
     msrNote::kNoteAccidentalNone; // default value
-  
+
   fNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
-  
+
   fNoteCautionaryAccidentalKind =
     msrNote::kNoteCautionaryAccidentalNo; // default value
-  
+
   // note context
   // ------------------------------------------------------
 
@@ -199,7 +199,7 @@ void msrNote::initializeNote ()
 
   // note lyrics
   // ------------------------------------------------------
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
     gLogIOstream <<
@@ -217,9 +217,9 @@ void msrNote::initializeNote ()
       endl;
 
     gIndenter++;
-    
+
     const int fieldWidth = 30;
-    
+
     gLogIOstream <<
       left <<
         setw (fieldWidth) <<
@@ -235,14 +235,14 @@ void msrNote::initializeNote ()
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
         endl;
-      
+
     gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
-      
+
     gLogIOstream <<
       left <<
         setw (fieldWidth) <<
@@ -339,7 +339,7 @@ void msrNote::initializeNote ()
         noteCautionaryAccidentalKindAsString (
           fNoteCautionaryAccidentalKind) <<
         endl <<
-            
+
       left <<
         setw (fieldWidth) <<
         "fStaffNumber" << " = " <<
@@ -356,14 +356,14 @@ void msrNote::initializeNote ()
         "fNoteBelongsToAChord" << " = " <<
          booleanAsString (fNoteBelongsToAChord) <<
         endl <<
-            
+
       left <<
         setw (fieldWidth) <<
         "fNoteBelongsToATuplet" << " = " <<
          booleanAsString (fNoteBelongsToATuplet) <<
         endl <<
       endl;
-          
+
     gIndenter--;
   }
 #endif
@@ -372,21 +372,21 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNotePositionInMeasure = K_NO_POSITION_MEASURE_NUMBER;
-  
+
   fNoteOccupiesAFullMeasure = false;
 
   // note redundant information (for speed)
   // ------------------------------------------------------
 
   fNoteIsStemless = false;
-  
+
   fNoteIsAChordsFirstMemberNote = false;
-  
+
   fNoteIsAChordsFirstMemberNote = false;
 
   fNoteIsFirstNoteInADoubleTremolo  = false;
   fNoteIsSecondNoteInADoubleTremolo = false;
-  
+
   fNoteIsFollowedByGraceNotesGroup = false;
 }
 
@@ -423,7 +423,7 @@ void msrNote::setNoteSoundingWholeNotes (
 {
   fNoteSoundingWholeNotes = wholeNotes;
 
-  // is wholeNotes the shortest one in this voice?      
+  // is wholeNotes the shortest one in this voice?
 /* JMI
   if (fNoteSoundingWholeNotes < fVoiceShortestNoteDuration) {
     fVoiceShortestNoteDuration = fNoteSoundingWholeNotes;
@@ -454,7 +454,7 @@ S_msrNote msrNote::createNoteNewbornClone (
       asString () <<
       "' in part " <<
       containingPart->
-        getPartCombinedName () << 
+        getPartCombinedName () <<
       endl;
   }
 #endif
@@ -463,29 +463,29 @@ S_msrNote msrNote::createNoteNewbornClone (
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
-    
+
   S_msrNote
     newbornClone =
       msrNote::create (
         fInputLineNumber,
         fNoteMeasureNumber,
-        
+
         fNoteKind,
-        
+
         fNoteQuarterTonesPitchKind,
-        
+
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
-        
+
         fNoteDotsNumber,
-        
+
         fNoteGraphicDurationKind,
-        
+
         fNoteOctave,
-        
+
         fNoteQuarterTonesDisplayPitchKind,
         fNoteDisplayOctave,
-        
+
         fNoteIsARest,
         fNoteIsUnpitched,
 
@@ -493,7 +493,7 @@ S_msrNote msrNote::createNoteNewbornClone (
         fNoteIsAGraceNote,
 
         fNotePrintKind,
-  
+
         fNoteHeadKind,
         fNoteHeadFilledKind,
         fNoteHeadParenthesesKind);
@@ -525,13 +525,13 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   newbornClone->fNoteAccidentalKind =
     fNoteAccidentalKind;
-  
+
   newbornClone->fNoteEditorialAccidentalKind =
     fNoteEditorialAccidentalKind;
-  
+
   newbornClone->fNoteCautionaryAccidentalKind =
     fNoteCautionaryAccidentalKind;
-  
+
   // staff and voice context
   // ------------------------------------------------------
 
@@ -641,7 +641,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
-    
+
   // note redundant information (for speed)
   // ------------------------------------------------------
 
@@ -709,37 +709,37 @@ S_msrNote msrNote::createNoteDeepCopy (
     containingVoice != nullptr,
     "containingVoice is null");
     */
-    
+
   S_msrNote
     noteDeepCopy =
       msrNote::create (
         fInputLineNumber,
         fNoteMeasureNumber,
-        
+
         fNoteKind,
-        
+
         fNoteQuarterTonesPitchKind,
-        
+
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
-        
+
         fNoteDotsNumber,
-        
+
         fNoteGraphicDurationKind,
-        
+
         fNoteOctave,
-        
+
         fNoteQuarterTonesDisplayPitchKind,
         fNoteDisplayOctave,
-        
+
         fNoteIsARest,
         fNoteIsUnpitched,
 
         fNoteIsACueNote,
         fNoteIsAGraceNote,
-  
+
         fNotePrintKind,
-        
+
         fNoteHeadKind,
         fNoteHeadFilledKind,
         fNoteHeadParenthesesKind);
@@ -771,13 +771,13 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteAccidentalKind =
     fNoteAccidentalKind;
-  
+
   noteDeepCopy->fNoteEditorialAccidentalKind =
     fNoteEditorialAccidentalKind;
-  
+
   noteDeepCopy->fNoteCautionaryAccidentalKind =
     fNoteCautionaryAccidentalKind;
-  
+
   // staff and voice context
   // ------------------------------------------------------
 
@@ -845,7 +845,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteBeams.push_back ((*i));
     } // for
   }
-  
+
   // articulations
   // ------------------------------------------------------
 
@@ -886,7 +886,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteTechnicals.push_back ((*i));
     } // for
   }
-  
+
   {
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
@@ -898,7 +898,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteTechnicalWithIntegers.push_back ((*i));
     } // for
   }
-  
+
   {
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
@@ -910,7 +910,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteTechnicalWithStrings.push_back ((*i));
     } // for
   }
-  
+
   // ornaments
   // ------------------------------------------------------
 
@@ -922,7 +922,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteOrnaments.push_back ((*i));
     } // for
   }
-  
+
   // glissandos
   // ------------------------------------------------------
 
@@ -934,7 +934,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteGlissandos.push_back ((*i));
     } // for
   }
-  
+
   // slides
   // ------------------------------------------------------
 
@@ -946,7 +946,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteSlides.push_back ((*i));
     } // for
   }
-  
+
   // grace notes
   // ------------------------------------------------------
 
@@ -996,7 +996,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteOtherDynamics.push_back ((*i));
     } // for
   }
-  
+
   // slashes
   // ------------------------------------------------------
 
@@ -1008,7 +1008,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteSlashes.push_back ((*i));
     } // for
   }
-  
+
   // wedges
   // ------------------------------------------------------
 
@@ -1020,7 +1020,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteWedges.push_back ((*i));
     } // for
   }
-  
+
   // eyeglasses
   // ------------------------------------------------------
 
@@ -1032,7 +1032,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteEyeGlasses.push_back ((*i));
     } // for
   }
-  
+
   // damps
   // ------------------------------------------------------
 
@@ -1044,7 +1044,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteDamps.push_back ((*i));
     } // for
   }
-  
+
   // damp alls
   // ------------------------------------------------------
 
@@ -1056,7 +1056,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteDampAlls.push_back ((*i));
     } // for
   }
-  
+
   // scordaturas
   // ------------------------------------------------------
 
@@ -1068,7 +1068,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteScordaturas.push_back ((*i));
     } // for
   }
-  
+
   // words
   // ------------------------------------------------------
 
@@ -1080,7 +1080,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteWords.push_back ((*i));
     } // for
   }
-  
+
   // slurs
   // ------------------------------------------------------
 
@@ -1092,11 +1092,11 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteSlurs.push_back ((*i));
     } // for
   }
-  
+
   // ligatures
   // ------------------------------------------------------
 
-  { 
+  {
     list<S_msrLigature>::const_iterator i;
     for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); i++) {
       // share this data
@@ -1104,11 +1104,11 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteLigatures.push_back ((*i));
     } // for
   }
-  
+
   // pedals
   // ------------------------------------------------------
 
-  { 
+  {
     list<S_msrPedal>::const_iterator i;
     for (i=fNotePedals.begin (); i!=fNotePedals.end (); i++) {
       // share this data
@@ -1154,7 +1154,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->
     fNotePositionInMeasure =
       fNotePositionInMeasure;
-      
+
   noteDeepCopy->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
@@ -1216,31 +1216,31 @@ S_msrNote msrNote::createRestNote (
   int       dotsNumber,
   int       staffNumber,
   int       voiceNumber)
-{    
+{
   msrNote * o =
     new msrNote (
       inputLineNumber,
       noteMeasureNumber,
-      
+
       kRestNote, // noteKind
-      
+
       k_NoQuarterTonesPitch_QTP,
-      
+
       soundingWholeNotes,
       displayWholeNotes,
-      
+
       dotsNumber,
-      
+
       k_NoDuration, // noteGraphicDuration
-      
+
       K_NO_OCTAVE, // noteOctave,
-      
+
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
-      
+
       false, // noteIsARest
       false, // noteIsUnpitched
-      
+
       false, // noteIsACueNote
       false, // noteIsAGraceNote
 
@@ -1250,9 +1250,9 @@ S_msrNote msrNote::createRestNote (
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
   assert(o!=0);
-  
+
   return o;
-}    
+}
 
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
@@ -1262,31 +1262,31 @@ S_msrNote msrNote::createSkipNote (
   int       dotsNumber,
   int       staffNumber,
   int       voiceNumber)
-{    
+{
   msrNote * o =
     new msrNote (
       inputLineNumber,
       noteMeasureNumber,
-      
+
       kSkipNote, // noteKind
-      
+
       k_NoQuarterTonesPitch_QTP,
-      
+
       soundingWholeNotes,
       displayWholeNotes,
-      
+
       dotsNumber,
-      
+
       k_NoDuration, // noteGraphicDuration
-      
+
       K_NO_OCTAVE, // noteOctave,
-      
+
       k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
-      
+
       false, // noteIsARest
       false, // noteIsUnpitched
-      
+
       false, // noteIsACueNote
       false, // noteIsAGraceNote
 
@@ -1296,9 +1296,9 @@ S_msrNote msrNote::createSkipNote (
       kNoteHeadFilledYes, // JMI
       kNoteHeadParenthesesNo); // JMI
   assert(o!=0);
-  
+
   return o;
-}    
+}
 
 void msrNote::setNoteOccupiesAFullMeasure ()
 {
@@ -1347,52 +1347,52 @@ string msrNote::noteKindAsString (
   msrNoteKind noteKind)
 {
   string result;
-  
+
   switch (noteKind) {
     case msrNote::k_NoNoteKind:
       result = "noNoteKind???";
       break;
-      
+
     case msrNote::kRestNote:
       result = "restNote";
       break;
-      
+
     case msrNote::kSkipNote:
       result = "skipNote";
       break;
-      
+
     case msrNote::kUnpitchedNote:
       result = "unpitchedNote";
       break;
-      
+
     case msrNote::kStandaloneNote:
       result = "standaloneNote";
       break;
-      
+
     case msrNote::kDoubleTremoloMemberNote:
       result = "doubleTremoloMemberNote";
       break;
-      
+
     case msrNote::kGraceNote:
       result = "graceNote";
       break;
-      
+
     case msrNote::kGraceChordMemberNote:
       result = "graceChordMemberNote";
       break;
-      
+
     case msrNote::kChordMemberNote:
       result = "chordMemberNote";
       break;
-      
+
     case msrNote::kTupletMemberNote:
       result = "tupletMemberNote";
       break;
-      
+
     case msrNote::kGraceTupletMemberNote:
       result = "graceTupletMemberNote";
       break;
-      
+
     case msrNote::kTupletMemberUnpitchedNote:
       result = "tupletMemberUnpitchedNote";
       break;
@@ -1407,12 +1407,12 @@ string msrNote::noteAccidentalKindAsString (
   msrNoteAccidentalKind noteAccidentalKind)
 {
   string result;
-  
+
   switch (noteAccidentalKind) {
     case msrNote::kNoteAccidentalNone:
       result = "noteAccidentalNone";
       break;
-      
+
     case msrNote::kNoteAccidentalSharp:
       result = "noteAccidentalSharp";
       break;
@@ -1449,7 +1449,7 @@ string msrNote::noteAccidentalKindAsString (
     case msrNote::kNoteAccidentalThreeQuartersSharp:
       result = "noteAccidentalThreeQuartersSharp";
       break;
-      
+
     case msrNote::kNoteAccidentalSharpDown:
       result = "noteAccidentalSharpDown";
       break;
@@ -1525,7 +1525,7 @@ string msrNote::noteEditorialAccidentalKindAsString (
   msrNoteEditorialAccidentalKind noteEditorialAccidentalKind)
 {
   string result;
-  
+
   switch (noteEditorialAccidentalKind) {
     case msrNote::kNoteEditorialAccidentalYes:
       result = "noteEditorialAccidentalYes";
@@ -1542,7 +1542,7 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind)
 {
   string result;
-  
+
   switch (noteCautionaryAccidentalKind) {
     case msrNote::kNoteCautionaryAccidentalYes:
       result = "noteCautionaryAccidentalYes";
@@ -1559,7 +1559,7 @@ string msrNote::notePrintKindAsString (
   msrNotePrintKind notePrintKind)
 {
   string result;
-  
+
   switch (notePrintKind) {
     case msrNote::kNotePrintYes:
       result = "notePrintYes";
@@ -1576,7 +1576,7 @@ string msrNote::noteHeadKindAsString (
   msrNoteHeadKind noteHeadKind)
 {
   string result;
- 
+
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
       result = "noteHeadSlash";
@@ -1665,7 +1665,7 @@ string msrNote::noteHeadFilledKindAsString (
   msrNoteHeadFilledKind noteHeadFilledKind)
 {
   string result;
- 
+
   switch (noteHeadFilledKind) {
     case msrNote::kNoteHeadFilledYes:
       result = "noteHeadFilledYes";
@@ -1682,7 +1682,7 @@ string msrNote::noteHeadParenthesesKindAsString (
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
 {
   string result;
- 
+
   switch (noteHeadParenthesesKind) {
     case msrNote::kNoteHeadParenthesesYes:
       result = "noteHeadParenthesesYes";
@@ -1882,7 +1882,7 @@ void msrNote::appendSpannerToNote (S_msrSpanner spanner)
   switch (spanner->getSpannerKind ()) {
     case msrSpanner::kSpannerDashes:
       break;
-      
+
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
@@ -1916,7 +1916,7 @@ void msrNote::appendTechnicalToNote (S_msrTechnical technical)
       endl;
   }
 #endif
-  
+
   // append the technical to the note technicals list
   fNoteTechnicals.push_back (technical);
 }
@@ -2201,18 +2201,18 @@ void msrNote::appendLigatureToNote (S_msrLigature ligature)
       // and a 'ligature stop' in sequence, ignore both
 
       stringstream s;
-      
+
       s <<
         "a 'ligature start' is immediately followed by a 'ligature stop'" <<
         endl <<
         "with the same number, ignoring both of them at line " <<
         ligature->getInputLineNumber ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         ligature->getInputLineNumber (),
         s.str ());
-        
+
       // remove 'ligature start'
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceLigatures) {
@@ -2257,18 +2257,18 @@ void msrNote::appendPedalToNote (S_msrPedal pedal)
       // and a 'pedal stop' in sequence, ignore both            // JMI ???
 
       stringstream s;
-      
+
       s <<
         "a 'pedal start' is immediately followed by a 'pedal stop'" <<
         endl <<
         "with the same number, ignoring both of them at line " <<
         pedal->getInputLineNumber ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         pedal->getInputLineNumber (),
         s.str ());
-        
+
       // rmeove 'pedal start'
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePedals) {
@@ -2353,7 +2353,7 @@ S_msrDynamics msrNote::removeFirstDynamics () // JMI
 
   S_msrDynamics dyn = fNoteDynamics.front ();
   fNoteDynamics.pop_front ();
-  
+
   return dyn;
 }
 
@@ -2390,7 +2390,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
       endl;
   }
 #endif
-  
+
   fNoteSyllables.push_back (syllable);
 }
 
@@ -2405,7 +2405,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
       endl;
   }
 #endif
-  
+
   fNoteHarmony = harmony;
 
   // register this note as the harmony uplink
@@ -2423,7 +2423,7 @@ void msrNote::setNoteFrame (S_msrFrame frame)
       endl;
   }
 #endif
-  
+
   fNoteFrame = frame;
 }
 
@@ -2437,8 +2437,12 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
       endl;
   }
 #endif
-      
+
   fNoteFiguredBass = figuredBass;
+
+  // register this note as the figured bass uplink TICINO
+  figuredBass->
+    setFiguredBassNoteUplink (this);
 }
 
 void msrNote::acceptIn (basevisitor* v)
@@ -2448,12 +2452,12 @@ void msrNote::acceptIn (basevisitor* v)
       "% ==> msrNote::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrNote>*
     p =
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrNote::visitStart ()" <<
@@ -2475,7 +2479,7 @@ void msrNote::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrNote::visitEnd ()" <<
@@ -2510,7 +2514,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the articulations if any
   if (fNoteArticulations.size ()) {
     gIndenter++;
@@ -2522,7 +2526,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the spanners if any
   if (fNoteSpanners.size ()) {
     gIndenter++;
@@ -2534,7 +2538,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the technicals if any
   if (fNoteTechnicals.size ()) {
     gIndenter++;
@@ -2549,7 +2553,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the technicals with integer if any
   if (fNoteTechnicalWithIntegers.size ()) {
     gIndenter++;
@@ -2564,7 +2568,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the technicals with float if any
   if (fNoteTechnicalWithFloats.size ()) {
     gIndenter++;
@@ -2579,7 +2583,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the technicals with string if any
   if (fNoteTechnicalWithStrings.size ()) {
     gIndenter++;
@@ -2594,7 +2598,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the ornaments if any
   if (fNoteOrnaments.size ()) {
     gIndenter++;
@@ -2606,7 +2610,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the glissandos if any
   if (fNoteGlissandos.size ()) {
     gIndenter++;
@@ -2618,7 +2622,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the slides if any
   if (fNoteSlides.size ()) {
     gIndenter++;
@@ -2630,28 +2634,28 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the grace notes group before if any
   if (fNoteGraceNotesGroupBefore) {
     // browse the grace notes group
     msrBrowser<msrGraceNotesGroup> browser (v);
     browser.browse (*fNoteGraceNotesGroupBefore);
   }
-  
+
   // browse the after grace notes group after if any
   if (fNoteGraceNotesGroupAfter) {
     // browse the after grace notes grup
     msrBrowser<msrGraceNotesGroup> browser (v);
     browser.browse (*fNoteGraceNotesGroupAfter);
   }
-  
+
   // browse the single tremolo if any
   if (fNoteSingleTremolo) {
     // browse the singleTremolo
     msrBrowser<msrSingleTremolo> browser (v);
     browser.browse (*fNoteSingleTremolo);
   }
-  
+
   if (fNoteTie) {
     // browse the tie
     msrBrowser<msrTie> browser (v);
@@ -2693,7 +2697,7 @@ void msrNote::browseData (basevisitor* v)
     } // for
     gIndenter--;
   }
-  
+
   // browse the slurs if any
   if (fNoteSlurs.size ()) {
     gIndenter++;
@@ -2836,7 +2840,7 @@ void msrNote::browseData (basevisitor* v)
 string msrNote::notePitchAsString () const
 {
   stringstream s;
-  
+
   if (fNoteIsUnpitched) {
     s << "unpitched ";
   }
@@ -2846,19 +2850,19 @@ string msrNote::notePitchAsString () const
         gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
         fNoteQuarterTonesPitchKind);
   }
-  
+
   return s.str ();
 }
 
 string msrNote::noteDisplayPitchKindAsString () const
 {
   stringstream s;
-  
+
   s <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fNoteQuarterTonesDisplayPitchKind);  
-  
+      fNoteQuarterTonesDisplayPitchKind);
+
   return s.str ();
 }
 
@@ -2868,7 +2872,7 @@ string msrNote::noteGraphicDurationAsMsrString () const
     result =
       msrDurationKindAsString (
         fNoteGraphicDurationKind);
-    
+
   return result;
 }
 
@@ -2902,7 +2906,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       s <<
         "noNoteKind";
       break;
-      
+
     case msrNote::kRestNote:
       s <<
         "Rest note" <<
@@ -2914,7 +2918,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kSkipNote:
       s <<
         "Skip note" <<
@@ -2925,7 +2929,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kUnpitchedNote:
       s <<
         notePitchAsString () <<
@@ -2937,7 +2941,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kStandaloneNote:
       s <<
         "Standalone note '" <<
@@ -2951,7 +2955,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         "DoubleTremoloMember note '" <<
@@ -2965,7 +2969,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kGraceNote:
       s <<
         "Grace note '" <<
@@ -2973,7 +2977,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "' " <<
         noteGraphicDurationAsMsrString () <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-        
+
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
@@ -2986,12 +2990,12 @@ string msrNote::asShortStringWithRawWholeNotes () const
         "' " <<
         noteGraphicDurationAsMsrString () <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-        
+
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
       break;
-      
+
     case msrNote::kChordMemberNote:
       s <<
         "ChordMember note '" <<
@@ -3004,7 +3008,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kTupletMemberNote:
       s <<
         "TupletMember note '" <<
@@ -3016,7 +3020,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         s <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
-      
+
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -3024,7 +3028,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kGraceTupletMemberNote:
       s <<
         "GraceTupletMember note '" <<
@@ -3036,7 +3040,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         s <<
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
-      
+
       s <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -3044,7 +3048,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
         fNoteDisplayWholeNotes <<
         " displayed";
       break;
-      
+
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
         "TupletMemberUnpitched note " <<
@@ -3074,28 +3078,28 @@ string msrNote::asShortString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kRestNote:
       s <<
         "RestNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kSkipNote:
       s <<
         "SkipNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kUnpitchedNote:
       s <<
         "UnpitchedNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kStandaloneNote:
       s <<
         "StandaloneNote '" <<
@@ -3103,7 +3107,7 @@ string msrNote::asShortString () const
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
-      
+
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         "DoubleTremoloMemberNote '" <<
@@ -3111,14 +3115,14 @@ string msrNote::asShortString () const
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
-      
+
     case msrNote::kGraceNote:
       s <<
         "GraceNote '" <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-        
+
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
@@ -3130,12 +3134,12 @@ string msrNote::asShortString () const
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-        
+
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
       break;
-      
+
     case msrNote::kChordMemberNote:
       s <<
         "ChordMemberNote '" <<
@@ -3143,7 +3147,7 @@ string msrNote::asShortString () const
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
-      
+
     case msrNote::kTupletMemberNote:
       s <<
         "TupletMemberNote" <<
@@ -3192,7 +3196,7 @@ string msrNote::asShortString () const
         "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
       break;
-      
+
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
         "TupletMemberUnpitchedNote" <<
@@ -3224,13 +3228,13 @@ string msrNote::asString () const
 
   s <<
     "[=== ";
-    
+
   switch (fNoteKind) {
     case msrNote::k_NoNoteKind:
       s <<
         "noNoteKind???";
       break;
-      
+
     case msrNote::kRestNote:
       s <<
         "restNote, ";
@@ -3264,21 +3268,21 @@ string msrNote::asString () const
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kSkipNote:
       s <<
         "skipNote" <<
         ":" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kUnpitchedNote:
       s <<
         "unpitchedNote"<<
         " " <<
         noteSoundingWholeNotesAsMsrString ();
       break;
-      
+
     case msrNote::kStandaloneNote:
       s <<
         "standaloneNote" <<
@@ -3293,7 +3297,7 @@ string msrNote::asString () const
         noteSoundingWholeNotesAsMsrString () <<
         "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
-      
+
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         "doubleTremoloMemberNote '"<<
@@ -3301,7 +3305,7 @@ string msrNote::asString () const
         noteSoundingWholeNotesAsMsrString () <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
-      
+
     case msrNote::kGraceNote:
       s <<
         "graceNote '"<<
@@ -3309,7 +3313,7 @@ string msrNote::asString () const
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-        
+
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
@@ -3323,12 +3327,12 @@ string msrNote::asString () const
  // JMI       noteGraphicDurationAsMsrString () <<
         noteDisplayWholeNotesAsMsrString () <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-        
+
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
       } // for
       break;
-      
+
     case msrNote::kChordMemberNote:
       s <<
         "chordMemberNote '"<<
@@ -3337,7 +3341,7 @@ string msrNote::asString () const
  // JMI       ", " << fNoteSoundingWholeNotes << " sounding whole notes, " <<
         "' [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
-      
+
     case msrNote::kTupletMemberNote:
       s <<
         "tupletMemberNote '"<<
@@ -3360,7 +3364,7 @@ string msrNote::asString () const
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
       break;
-      
+
     case msrNote::kGraceTupletMemberNote:
       s <<
         "graceTupletMemberNote '"<<
@@ -3383,7 +3387,7 @@ string msrNote::asString () const
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       }
       break;
-      
+
     case msrNote::kTupletMemberUnpitchedNote:
       s <<
         "tupletMemberUnpitchedNote "<<
@@ -3412,27 +3416,27 @@ string msrNote::asString () const
     s <<
       ", has a trill ornament";
   }
-  
+
   if (fNoteDashesOrnament) {
     s <<
       ", has a dashes ornament";
   }
-  
+
   if (fNoteWavyLineSpannerStart) {
     s <<
       ", has a wavy line spanner start";
   }
-  
+
   if (fNoteWavyLineSpannerStop) {
     s <<
       ", has a wavy line spanner stop";
   }
-  
+
   if (fNoteIsFollowedByGraceNotesGroup) {
     s <<
       ", followed by grace notes group";
   }
-  
+
   if (fNoteTie) {
     s <<
       ", " << fNoteTie->tieKindAsString ();
@@ -3455,11 +3459,11 @@ void msrNote::print (ostream& os)
   rational
     measureFullLength =
       fNoteMeasureUplink
-        ? 
+        ?
           fNoteMeasureUplink->
             getFullMeasureWholeNotes ()
         : rational (0, 1); // JMI
-  
+
   // print the note itself and its positionInMeasure
   os <<
     asString () <<
@@ -3473,7 +3477,7 @@ void msrNote::print (ostream& os)
     os <<
       setw (fieldWidth) <<
       "noteMeasureUplink" << " : ";
-      
+
     if (fNoteMeasureUplink) {
       os <<
         fNoteMeasureUplink->asShortString ();
@@ -3482,16 +3486,16 @@ void msrNote::print (ostream& os)
       os <<
         "none";
     }
-    
+
     os <<
       endl;
   }
-  
+
   if (fNoteChordUplink || gMsrOptions->fDisplayMsrDetails) {
     os <<
       setw (fieldWidth) <<
       "noteChordUplink" << " : ";
-      
+
     if (fNoteChordUplink) {
       os <<
         fNoteChordUplink->asShortString ();
@@ -3509,7 +3513,7 @@ void msrNote::print (ostream& os)
     os <<
       setw (fieldWidth) <<
       "noteGraceNoteGroupUplink" << " : ";
-      
+
     if (fNoteGraceNotesGroupUplink) {
       os <<
         fNoteGraceNotesGroupUplink->asShortString ();
@@ -3527,7 +3531,7 @@ void msrNote::print (ostream& os)
     os <<
       setw (fieldWidth) <<
       "noteTupletUplink" << " : ";
-      
+
     if (fNoteTupletUplink) {
       os <<
         fNoteTupletUplink->asShortString ();
@@ -3561,7 +3565,7 @@ void msrNote::print (ostream& os)
           fNoteDisplayWholeNotes <<
           endl;
         break;
-  
+
       case msrNote::kGraceNote:
       case msrNote::kGraceChordMemberNote:
         os <<
@@ -3570,7 +3574,7 @@ void msrNote::print (ostream& os)
           fNoteDisplayWholeNotes <<
           endl;
         break;
-  
+
       case msrNote::kTupletMemberNote:
       case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
@@ -3684,7 +3688,7 @@ void msrNote::print (ostream& os)
       "noteHeadParentheses" << " : " <<
       noteHeadParenthesesKindAsString () <<
       endl;
-        
+
     // accidentals
     os << left <<
       setw (fieldWidth) <<
@@ -3695,12 +3699,12 @@ void msrNote::print (ostream& os)
 
     os << left <<
       setw (fieldWidth) <<
-      "noteEditorialAccidentalKind" << " : " << 
+      "noteEditorialAccidentalKind" << " : " <<
       noteEditorialAccidentalKindAsString (
         fNoteEditorialAccidentalKind) <<
       endl <<
       setw (fieldWidth) <<
-      "noteCautionaryAccidentalKind" << " : " << 
+      "noteCautionaryAccidentalKind" << " : " <<
       noteCautionaryAccidentalKindAsString (
         fNoteCautionaryAccidentalKind) <<
       endl;
@@ -3724,7 +3728,7 @@ void msrNote::print (ostream& os)
         "noteMeasureNumber is empty in note '" <<
         this->asString () <<
         "'";
-      
+
  // JMI     msrInternalError (
       msrInternalWarning (
         gGeneralOptions->fInputSourceName,
@@ -3741,7 +3745,7 @@ void msrNote::print (ostream& os)
       os << "unknown";
     else
       os << fNotePositionInMeasure;
-      
+
     // print rationalized position in measure if relevant JMI ???
     if (fNoteMeasureUplink) {
       // the note measure uplink may not have been set yet
@@ -3749,7 +3753,7 @@ void msrNote::print (ostream& os)
         notePositionBis =
           fNotePositionInMeasure;
       notePositionBis.rationalise ();
-      
+
       if (
         notePositionBis.getNumerator ()
           !=
@@ -3759,7 +3763,7 @@ void msrNote::print (ostream& os)
           " ( = " << notePositionBis << ")";
       }
     }
-  
+
     os <<
       endl ;
   }
@@ -3768,7 +3772,7 @@ void msrNote::print (ostream& os)
     // note redundant information (for speed)
 
     stringstream s;
-    
+
     if (fNoteIsStemless || gMsrOptions->fDisplayMsrDetails) {
       os <<
         setw (fieldWidth) <<
@@ -3778,7 +3782,7 @@ void msrNote::print (ostream& os)
           fNoteIsStemless) <<
         endl;
     }
-  
+
     if (fNoteIsFirstNoteInADoubleTremolo || gMsrOptions->fDisplayMsrDetails) {
       os <<
         setw (fieldWidth) <<
@@ -3797,7 +3801,7 @@ void msrNote::print (ostream& os)
           fNoteIsSecondNoteInADoubleTremolo) <<
         endl;
     }
-  
+
     if (fNoteTrillOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
         setw (fieldWidth) <<
@@ -3807,7 +3811,7 @@ void msrNote::print (ostream& os)
           fNoteTrillOrnament) <<
         endl;
     }
-        
+
     if (fNoteDashesOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
         setw (fieldWidth) <<
@@ -3817,7 +3821,7 @@ void msrNote::print (ostream& os)
           fNoteDashesOrnament) <<
         endl;
     }
-          
+
     if (fNoteDelayedTurnOrnament || gMsrOptions->fDisplayMsrDetails) {
       os <<
         setw (fieldWidth) <<
@@ -3853,7 +3857,7 @@ void msrNote::print (ostream& os)
         fNoteWavyLineSpannerStop->asShortString () <<
         endl;
     }
-        
+
     if (fNoteIsFollowedByGraceNotesGroup || gMsrOptions->fDisplayMsrDetails) {
       os <<
         setw (fieldWidth) <<
@@ -3864,15 +3868,15 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   {
     // note MSR strings
-    
+
     // print whole notes durations as MSR string
     switch (fNoteKind) {
       case msrNote::k_NoNoteKind:
         break;
-        
+
       case msrNote::kRestNote:
         {
           os << left <<
@@ -3883,7 +3887,7 @@ void msrNote::print (ostream& os)
             endl;
         }
         break;
-        
+
       case msrNote::kSkipNote:
         {
           os << left <<
@@ -3894,7 +3898,7 @@ void msrNote::print (ostream& os)
             endl;
         }
         break;
-        
+
       case msrNote::kUnpitchedNote:
         {
           os << left <<
@@ -3915,7 +3919,7 @@ void msrNote::print (ostream& os)
             endl;
         }
         break;
-        
+
       case msrNote::kStandaloneNote:
         {
           os << left <<
@@ -3936,13 +3940,13 @@ void msrNote::print (ostream& os)
             endl;
         }
         break;
-        
+
       case msrNote::kDoubleTremoloMemberNote:
         {
           // JMI
         }
         break;
-        
+
       case msrNote::kGraceNote:
       case msrNote::kGraceChordMemberNote:
         {
@@ -3954,13 +3958,13 @@ void msrNote::print (ostream& os)
             endl;
         }
         break;
-        
+
       case msrNote::kChordMemberNote:
         {
           // JMI
         }
         break;
-        
+
       case msrNote::kTupletMemberNote:
       case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
@@ -4015,7 +4019,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-            
+
       list<S_msrSyllable>::const_iterator
         iBegin = fNoteSyllables.begin (),
         iEnd   = fNoteSyllables.end (),
@@ -4023,21 +4027,21 @@ void msrNote::print (ostream& os)
       for ( ; ; ) {
         S_msrSyllable
           syllable = (*i);
-  
+
         os <<
           syllable;
-          
+
   /* JMI
         os <<
           syllable->syllableKindAsString () <<
           ", " <<
           syllable->syllableExtendKindAsString () <<
           " : ";
-  
+
         msrSyllable::writeTextsList (
           syllable->getSyllableTextsList (),
           os);
-  
+
         os <<
           ", stanza " <<
           syllable->
@@ -4049,11 +4053,11 @@ void msrNote::print (ostream& os)
             getSyllableNoteUplink ()->
               asShortString ();
   */
-              
+
         if (++i == iEnd) break;
         // no endl here
       } // for
-    
+
       gIndenter--;
     }
     else {
@@ -4073,10 +4077,10 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os <<
         fNoteOctaveShift;
-        
+
       gIndenter--;
     }
     else {
@@ -4094,9 +4098,9 @@ void msrNote::print (ostream& os)
     if (fNoteStem) {
       os <<
         endl;
-        
+
       gIndenter++;
-        
+
       os <<
         fNoteStem;
 
@@ -4108,7 +4112,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-    
+
   // print the beams if any
   int noteBeamsSize = fNoteBeams.size ();
 
@@ -4121,7 +4125,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       list<S_msrBeam>::const_iterator
         iBegin = fNoteBeams.begin (),
         iEnd   = fNoteBeams.end (),
@@ -4131,7 +4135,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-              
+
       gIndenter--;
     }
     else {
@@ -4140,7 +4144,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the articulations if any
   int noteArticulationsSize = fNoteArticulations.size ();
 
@@ -4153,7 +4157,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       list<S_msrArticulation>::const_iterator
         iBegin = fNoteArticulations.begin (),
         iEnd   = fNoteArticulations.end (),
@@ -4163,7 +4167,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-              
+
       gIndenter--;
     }
     else {
@@ -4172,7 +4176,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the spanners if any
   int noteSpannersSize = fNoteSpanners.size ();
 
@@ -4185,7 +4189,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrSpanner>::const_iterator
         iBegin = fNoteSpanners.begin (),
         iEnd   = fNoteSpanners.end (),
@@ -4195,7 +4199,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4204,7 +4208,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the technicals if any
   int noteTechnicalsSize = fNoteTechnicals.size ();
 
@@ -4217,7 +4221,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrTechnical>::const_iterator
         iBegin = fNoteTechnicals.begin (),
         iEnd   = fNoteTechnicals.end (),
@@ -4227,7 +4231,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4236,7 +4240,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the technicals with integer if any
   int noteTechnicalWithIntegersSize = fNoteTechnicalWithIntegers.size ();
 
@@ -4249,7 +4253,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrTechnicalWithInteger>::const_iterator
         iBegin = fNoteTechnicalWithIntegers.begin (),
         iEnd   = fNoteTechnicalWithIntegers.end (),
@@ -4259,7 +4263,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4268,7 +4272,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the technicals with float if any
   int noteTechnicalWithFloatsSize = fNoteTechnicalWithFloats.size ();
 
@@ -4281,7 +4285,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrTechnicalWithFloat>::const_iterator
         iBegin = fNoteTechnicalWithFloats.begin (),
         iEnd   = fNoteTechnicalWithFloats.end (),
@@ -4291,7 +4295,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4300,7 +4304,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the technicals with string if any
   int noteTechnicalWithStringsSize = fNoteTechnicalWithStrings.size ();
 
@@ -4313,7 +4317,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrTechnicalWithString>::const_iterator
         iBegin = fNoteTechnicalWithStrings.begin (),
         iEnd   = fNoteTechnicalWithStrings.end (),
@@ -4323,7 +4327,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4332,7 +4336,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the ornaments if any
   int noteOrnamentsSize = fNoteOrnaments.size ();
 
@@ -4345,7 +4349,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrOrnament>::const_iterator
         iBegin = fNoteOrnaments.begin (),
         iEnd   = fNoteOrnaments.end (),
@@ -4355,7 +4359,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4364,7 +4368,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the glissandos if any
   int noteGlissandosSize = fNoteGlissandos.size ();
 
@@ -4377,7 +4381,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrGlissando>::const_iterator
         iBegin = fNoteGlissandos.begin (),
         iEnd   = fNoteGlissandos.end (),
@@ -4387,7 +4391,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4396,7 +4400,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the slides if any
   int noteSlidesSize = fNoteSlides.size ();
 
@@ -4409,7 +4413,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-          
+
       list<S_msrSlide>::const_iterator
         iBegin = fNoteSlides.begin (),
         iEnd   = fNoteSlides.end (),
@@ -4419,7 +4423,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-                
+
       gIndenter--;
     }
     else {
@@ -4428,7 +4432,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the grace notes group before if any
   if (fNoteGraceNotesGroupBefore || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -4439,9 +4443,9 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os << fNoteGraceNotesGroupBefore;
-      
+
       gIndenter--;
     }
     else {
@@ -4450,7 +4454,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-    
+
   // print the after grace group notes after if any
   if (fNoteGraceNotesGroupAfter || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -4461,9 +4465,9 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os << fNoteGraceNotesGroupAfter;
-      
+
       gIndenter--;
     }
     else {
@@ -4472,7 +4476,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-    
+
   // print the singleTremolo if any
   if (fNoteSingleTremolo || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -4483,9 +4487,9 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os << fNoteSingleTremolo;
-      
+
       gIndenter--;
     }
     else {
@@ -4494,7 +4498,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-    
+
   // print the tie if any
   if (fNoteTie || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -4505,10 +4509,10 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os <<
         fNoteTie;
-      
+
       gIndenter--;
     }
     else {
@@ -4530,7 +4534,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrDynamics>::const_iterator
         iBegin = fNoteDynamics.begin (),
         iEnd   = fNoteDynamics.end (),
@@ -4540,7 +4544,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
+
       gIndenter--;
     }
     else {
@@ -4562,7 +4566,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrOtherDynamics>::const_iterator
         iBegin = fNoteOtherDynamics.begin (),
         iEnd   = fNoteOtherDynamics.end (),
@@ -4572,7 +4576,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-        
+
       gIndenter--;
     }
     else {
@@ -4603,7 +4607,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-        
+
       gIndenter--;
     }
     else {
@@ -4625,7 +4629,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       list<S_msrSlur>::const_iterator
         iBegin = fNoteSlurs.begin (),
         iEnd   = fNoteSlurs.end (),
@@ -4635,7 +4639,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
+
       gIndenter--;
     }
     else {
@@ -4644,7 +4648,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the ligatures if any
   int noteLigaturesSize = fNoteLigatures.size ();
 
@@ -4657,7 +4661,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrLigature>::const_iterator
         iBegin = fNoteLigatures.begin (),
         iEnd   = fNoteLigatures.end (),
@@ -4667,7 +4671,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4676,7 +4680,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the pedals if any
   int notePedalsSize = fNotePedals.size ();
 
@@ -4689,7 +4693,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrPedal>::const_iterator
         iBegin = fNotePedals.begin (),
         iEnd   = fNotePedals.end (),
@@ -4699,7 +4703,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-      
+
       gIndenter--;
     }
     else {
@@ -4708,7 +4712,7 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
-  
+
   // print the slashes if any
   int noteSlashesSize = fNoteSlashes.size ();
 
@@ -4721,7 +4725,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       list<S_msrSlash>::const_iterator
         iBegin = fNoteSlashes.begin (),
         iEnd   = fNoteSlashes.end (),
@@ -4731,7 +4735,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4753,7 +4757,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrWedge>::const_iterator
         iBegin = fNoteWedges.begin (),
         iEnd   = fNoteWedges.end (),
@@ -4763,7 +4767,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4785,7 +4789,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrEyeGlasses>::const_iterator
         iBegin = fNoteEyeGlasses.begin (),
         iEnd   = fNoteEyeGlasses.end (),
@@ -4795,7 +4799,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4817,7 +4821,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrDamp>::const_iterator
         iBegin = fNoteDamps.begin (),
         iEnd   = fNoteDamps.end (),
@@ -4827,7 +4831,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4849,7 +4853,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrDampAll>::const_iterator
         iBegin = fNoteDampAlls.begin (),
         iEnd   = fNoteDampAlls.end (),
@@ -4859,7 +4863,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4881,7 +4885,7 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-              
+
       list<S_msrScordatura>::const_iterator
         iBegin = fNoteScordaturas.begin (),
         iEnd   = fNoteScordaturas.end (),
@@ -4891,7 +4895,7 @@ void msrNote::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here;
       } // for
-            
+
       gIndenter--;
     }
     else {
@@ -4911,10 +4915,10 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-      
+
       os <<
         fNoteHarmony;
-        
+
       gIndenter--;
     }
     else {
@@ -4934,11 +4938,11 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os <<
         fNoteFrame <<
         endl;
-      
+
       gIndenter--;
     }
     else {
@@ -4958,11 +4962,11 @@ void msrNote::print (ostream& os)
         endl;
 
       gIndenter++;
-        
+
       os <<
         fNoteFiguredBass <<
         endl;
-      
+
       gIndenter--;
     }
     else {

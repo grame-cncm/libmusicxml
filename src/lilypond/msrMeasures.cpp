@@ -1131,7 +1131,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
       fetchMeasurePartUplink ()->
         getPartActualMeasureWholeNotesHighTide ();
 
-  if (true /* JMI */ ||
+  if (true /* JMI */ || // TICINO
     fActualMeasureWholeNotes == partActualMeasureWholeNotesHighTide
   ) {
     // append barline to the measure elements list at once
@@ -2869,6 +2869,10 @@ void msrMeasure::finalizeMeasure (
         measureElement->getPositionInMeasure () <= fActualMeasureWholeNotes
       ) { // JMI
         // this is where measureElement should be appended at last
+
+        padUpToActualMeasureWholeNotesInMeasure ( // JMI ??? TICINO
+          inputLineNumber,
+          measureElement->getPositionInMeasure ()); // ??? rational (1, 4));
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
