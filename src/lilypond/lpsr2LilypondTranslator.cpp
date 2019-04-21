@@ -1039,7 +1039,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
             // compute ligature start edge height
             const float edgeHeightAbsValue = 0.75;
 
-            float       ligatureStartEdgeHeight;
+            float       ligatureStartEdgeHeight = 0.0; // TICINO
 
             switch (ligature->getLigatureLineEndKind ()) {
               case msrLigature::kLigatureLineEndUp:
