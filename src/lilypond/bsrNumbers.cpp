@@ -47,7 +47,7 @@ bsrNumber::bsrNumber (
     : bsrLineElement (inputLineNumber)
 {
   fNumberValue = numberValue;
-    
+
   fNumberSignIsNeededKind = numberSignIsNeededKind;
 
   fNumberCellsList = buildCellsList ();
@@ -63,9 +63,9 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
       bsrCellsList::create (fInputLineNumber);
 
   int n = fNumberValue;
-  
+
   bool numberValueIsNegative = false;
-  
+
   if (n < 0) {
     numberValueIsNegative = true;
     n = -n;
@@ -76,7 +76,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
     int mod = n % 10;
 
     bsrCellKind
-      cellKind;
+      cellKind = kDotsNone;
 
     switch (mod) {
       case 1: cellKind = kCell1; break;
@@ -92,7 +92,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
       default:
         ;
     } // switch
-    
+
     result->prependCellsListToCellsList (
       bsrCellsList::create (
         fInputLineNumber,
@@ -150,12 +150,12 @@ void bsrNumber::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrNumber>*
     p =
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -181,7 +181,7 @@ void bsrNumber::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrNumber>*> (v)) {
         S_bsrNumber elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -200,7 +200,7 @@ string bsrNumber::numberSignIsNeededKindAsString (
   bsrNumberSignIsNeededKind numberSignIsNeededKind)
 {
   string result;
-  
+
   switch (numberSignIsNeededKind) {
     case bsrNumber::kNumberSignIsNeededYes:
       result = "numberSignIsNeededYes";
@@ -218,7 +218,7 @@ string bsrNumber::asString () const
   stringstream s;
 
   s <<
-    "Number" << 
+    "Number" <<
     ", numberValue: " << fNumberValue <<
     ", numberSignIsNeeded: " <<
     numberSignIsNeededKindAsString (
@@ -239,7 +239,7 @@ void bsrNumber::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 21;
 
   os <<
@@ -257,7 +257,7 @@ void bsrNumber::print (ostream& os)
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
-    
+
   gIndenter--;
 }
 
