@@ -6,6 +6,6 @@ FILES	:= $(F:%=$(SCHEMA)/%)
 
 all :
 	make -C $(SCHEMA)
-	cp $(FILES) .
+	mv $(FILES) .
 
 
