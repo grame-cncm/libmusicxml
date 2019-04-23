@@ -1,6 +1,6 @@
 /*
   MusicXML Library
-  Copyright (C) Grame 2006-2013
+  Copyright (C) Grame 2006-2019
 
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,7 @@
 */
 
 //======================================================================
-// You should not modify this file!
+// DON'T MODIFY THIS FILE!
 // It is automatically generated from the MusicXML DTDs and from 
 // template files (located in the templates folder). 
 //======================================================================
@@ -34,28 +34,22 @@ extern int libmxmllineno;
 namespace MusicXML2 
 {
 
-int currentInputLineNumber ()
-  { return libmxmllineno; }
-  
+
 template<int elt>
 class newElementFunctor : public functor<Sxmlelement>
 {
   public:
   
     Sxmlelement operator ()()
-      {
-        return
-          musicxml<elt>::new_musicxml (
-            currentInputLineNumber ());
-      }
+        { return musicxml<elt>::new_musicxml (libmxmllineno); }
 };
 
 
 Sxmlelement factory::create (const string& eltname) const
 { 
-	map<std::string, functor<Sxmlelement>*>::const_iterator i = fMap.find( eltname );
+	map<std::string, functor<Sxmlelement>*>::const_iterator i = fMap.find (eltname);
 	if (i != fMap.end()) {
-		functor<Sxmlelement>* f= i->second;
+		functor<Sxmlelement>* f = i->second;
 		if (f) {
 			Sxmlelement elt = (*f)();
 			elt->setName(eltname);
@@ -68,7 +62,7 @@ Sxmlelement factory::create (const string& eltname) const
 
 Sxmlelement factory::create(int type) const
 { 
-	map<int, const char*>::const_iterator i = fType2Name.find( type );
+	map<int, const char*>::const_iterator i = fType2Name.find (type);
 	if (i != fType2Name.end()) {
 		return create (i->second);
 	}
@@ -79,10 +73,11 @@ Sxmlelement factory::create(int type) const
 
 factory::factory() 
 {
-	fMap["comment"] 	= new newElementFunctor<kComment>;
-	fMap["pi"] 	= new newElementFunctor<kProcessingInstruction>;
-	fType2Name[kComment] 				= "comment";
-	fType2Name[kProcessingInstruction] 	= "pi";
+	fMap["comment"] 		= new newElementFunctor<kComment>;
+	fMap["pi"] 				= new newElementFunctor<kProcessingInstruction>;
+	fType2Name[kComment] 	= "comment";
+	fType2Name[kProcessingInstruction]  = "pi";
+
 	fMap["accent"] 	= new newElementFunctor<k_accent>;
 	fMap["accidental"] 	= new newElementFunctor<k_accidental>;
 	fMap["accidental-mark"] 	= new newElementFunctor<k_accidental_mark>;

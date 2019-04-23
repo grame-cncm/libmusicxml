@@ -13,12 +13,12 @@ case $3 in
     cat $2/license.txt $2/elements.txt
     for a in $(cat $1 | cut -d' ' -f1 | sort -u )
     do
-      echo "  $(kname $a),"
+      echo "	$(kname $a),"
     done
 
     # generate epiloque
     cat << ! 
-  kEndElement
+	kEndElement
 };
 
 }
@@ -36,14 +36,14 @@ case $3 in
     # generate fMap entries for the markups found in the DTD
    for a in $(cat $1 | cut -d' ' -f1 | sort -u)
     do
-      echo "  fMap[\"$a\"]  = new newElementFunctor<$(kname $a)>;"
+      echo "	fMap[\"$a\"] 	= new newElementFunctor<$(kname $a)>;"
     done
     echo
 
     # generate fType2Name entries for the markups found in the DTD
     for a in $(cat $1 | cut -d' ' -f1 | sort -u)
     do
-      echo "  fType2Name[$(kname $a)]   = \"$a\";"
+      echo "	fType2Name[$(kname $a)] 	= \"$a\";"
     done
 
     # generate epiloque
@@ -77,7 +77,7 @@ case $3 in
     # generate typedefs for the markups found in the DTD
     for a in $(cat $1 | cut -d' ' -f1 | sort -u)
     do
-      echo "typedef SMARTP<musicxml<$(kname $a), \"$a\"> >    S_$(echo $a | tr '-' '_');"
+      echo "typedef SMARTP<musicxml<$(kname $a)> >		S_$(echo $a | tr '-' '_');"
     done
 
     # generate epiloque
