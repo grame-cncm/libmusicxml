@@ -33,7 +33,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -67,7 +67,7 @@ optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem ()
 void optionsShowAllChordsStructuresItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsShowAllChordsStructuresItem:" <<
     endl;
@@ -98,7 +98,7 @@ void optionsShowAllChordsStructuresItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt)
 {
   elt->print (os);
@@ -150,7 +150,7 @@ optionsShowAllChordsContentsItem::~optionsShowAllChordsContentsItem ()
 void optionsShowAllChordsContentsItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "optionsShowAllChordsContentsItem:" <<
     endl;
@@ -173,7 +173,7 @@ void optionsShowAllChordsContentsItem::print (ostream& os) const
 void optionsShowAllChordsContentsItem::printAllChordsContents (
   ostream&              os,
   msrSemiTonesPitchKind semiTonesPitchKind) const
-{  
+{
   msrChordContents::printAllChordsContents (
     os,
     semiTonesPitchKind);
@@ -185,7 +185,7 @@ void optionsShowAllChordsContentsItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt)
 {
   elt->print (os);
@@ -237,7 +237,7 @@ optionsShowChordDetailsItem::~optionsShowChordDetailsItem ()
 void optionsShowChordDetailsItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "optionsShowChordDetailsItem:" <<
     endl;
@@ -263,7 +263,7 @@ void optionsShowChordDetailsItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt)
 {
   elt->print (os);
@@ -315,7 +315,7 @@ optionsShowChordAnalysisItem::~optionsShowChordAnalysisItem ()
 void optionsShowChordAnalysisItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "optionsShowChordAnalysisItem:" <<
     endl;
@@ -341,7 +341,7 @@ void optionsShowChordAnalysisItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt)
 {
   elt->print (os);
@@ -395,9 +395,9 @@ void extraOptions::initializeExtraOptions (
 
   {
     // variables
-      
+
     // options
-  
+
     S_optionsSubGroup
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
@@ -406,24 +406,24 @@ void extraOptions::initializeExtraOptions (
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (traceAndDisplaySubGroup);
-        
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsShowAllChordsStructuresItem::create (
           "scs", "show-chords-structures",
 R"(Write all known chords structures to standard output.)"));
   }
-  
-  
+
+
   // show all chords contents
 
   {
     // variables
-      
+
     // options
-  
+
     S_optionsSubGroup
       workSubGroup =
         optionsSubGroup::create (
@@ -447,9 +447,9 @@ R"(In the options below:
 )",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (workSubGroup);
-        
+
     workSubGroup->
       appendOptionsItem (
         optionsShowAllChordsContentsItem::create (
@@ -460,15 +460,15 @@ in the current language to standard output.)",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
   }
-  
-  
+
+
   // show chord details
 
   {
     // variables
-      
+
     // options
-  
+
     S_optionsSubGroup
       workSubGroup =
         optionsSubGroup::create (
@@ -477,9 +477,9 @@ in the current language to standard output.)",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (workSubGroup);
-        
+
     workSubGroup->
       appendOptionsItem (
         optionsShowChordDetailsItem::create (
@@ -492,7 +492,7 @@ CHORD_SPEC can be:
   'ROOT_DIATONIC_PITCH HARMONY_NAME'
 or
   "ROOT_DIATONIC_PITCH = HARMONY_NAME"
-  
+
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   EXECUTABLE -showChordDetails "bes ${HARMONY}" .)",
@@ -502,14 +502,14 @@ Using double quotes allows for shell variables substitutions, as in:
           "diatonic (semitones) pitch",
           fChordsRootAsString));
   }
-  
+
   // show chord analysis
 
   {
     // variables
-      
+
     // options
-  
+
     S_optionsSubGroup
       workSubGroup =
         optionsSubGroup::create (
@@ -518,9 +518,9 @@ Using double quotes allows for shell variables substitutions, as in:
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (workSubGroup);
-        
+
     workSubGroup->
       appendOptionsItem (
         optionsShowChordAnalysisItem::create (
@@ -533,7 +533,7 @@ CHORD_SPEC can be:
   'ROOT_DIATONIC_PITCH HARMONY_NAME INVERSION'
 or
   "ROOT_DIATONIC_PITCH = HARMONY_NAME INVERSION"
-  
+
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   EXECUTABLE -showChordAnalysis "bes ${HARMONY}" .)",
@@ -563,9 +563,9 @@ S_extraOptions extraOptions::createCloneWithDetailedTrace ()
 
   // chord notes
   // --------------------------------------
-    
+
   return clone;
-}  
+}
 
 //______________________________________________________________________________
 void extraOptions::enforceQuietness ()
@@ -580,7 +580,7 @@ void extraOptions::checkOptionsConsistency ()
 
 //______________________________________________________________________________
 void extraOptions::printExtraOptionsValues (int fieldWidth)
-{  
+{
   gLogIOstream <<
     "The extra options are:" << // JMI
     endl;
@@ -601,7 +601,7 @@ S_optionsItem extraOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   if (
     // show all chords intervals item?
     S_optionsShowAllChordsStructuresItem
@@ -623,7 +623,7 @@ S_optionsItem extraOptions::handleOptionsItem (
     // exit
     exit (0);
   }
-  
+
   else if (
     // show all chords notes item?
     S_optionsShowAllChordsContentsItem
@@ -641,7 +641,7 @@ S_optionsItem extraOptions::handleOptionsItem (
     // wait until the value is met
     result = showAllChordsContentsItem;
   }
-  
+
   else if (
     // show chord details item?
     S_optionsShowChordDetailsItem
@@ -659,7 +659,7 @@ S_optionsItem extraOptions::handleOptionsItem (
     // wait until the value is met
     result = showChordDetailsItem;
   }
-  
+
   else if (
     // show chord analysis item?
     S_optionsShowChordAnalysisItem
@@ -679,13 +679,13 @@ S_optionsItem extraOptions::handleOptionsItem (
   }
 
   return result;
-}   
+}
 
 void extraOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
   string        theString)
-{  
+{
   if (
     // show all chord notes item?
     S_optionsShowAllChordsContentsItem
@@ -699,7 +699,7 @@ void extraOptions::handleOptionsItemValue (
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
-        ", theString = \"" << theString << "\"" << 
+        ", theString = \"" << theString << "\"" <<
         endl;
     }
 #endif
@@ -711,11 +711,11 @@ void extraOptions::handleOptionsItemValue (
           theString);
 
     switch (semiTonesPitchKind) {
-      case k_NoQuarterTonesPitch_QTP:
-      case k_Rest_QTP:
+      case k_NoSemiTonesPitch_STP:
+   //   case k_Rest_QTP: // TICINO
         {
           stringstream s;
-      
+
           s <<
             "'" << theString <<
             "' is no diatonic (semitones) pitch" <<
@@ -725,13 +725,13 @@ void extraOptions::handleOptionsItemValue (
                 fLpsrQuarterTonesPitchesLanguageKind) <<
             "'" <<
             endl;
-            
+
           optionError (s.str ());
-                    
+
           exit (4);
         }
         break;
-  
+
       case kA_Flat_STP:
       case kA_Natural_STP:
       case kA_Sharp_STP:
@@ -760,18 +760,18 @@ void extraOptions::handleOptionsItemValue (
       case kG_Natural_STP:
       case kG_Sharp_STP:
         break;
-  
+
       default:
         {
           stringstream s;
-      
+
           s <<
             "'" << theString <<
             "' is no diatonic (semitones) pitch" <<
             endl;
-            
+
           optionError (s.str ());
-                    
+
           exit (4);
         }
     } // switch
@@ -785,7 +785,7 @@ void extraOptions::handleOptionsItemValue (
   // exit
   exit (23);
   }
-  
+
   else if (
     // show chord details item?
     S_optionsShowChordDetailsItem
@@ -799,7 +799,7 @@ void extraOptions::handleOptionsItemValue (
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
-        ", theString = \"" << theString << "\"" << 
+        ", theString = \"" << theString << "\"" <<
         endl;
     }
 #endif
@@ -811,7 +811,7 @@ void extraOptions::handleOptionsItemValue (
       "[[:space:]]*"
       "([[:alnum:]]+)"
       "[[:space:]]*");
-      
+
     regex  e (regularExpression);
     smatch sm;
 
@@ -842,28 +842,28 @@ void extraOptions::handleOptionsItemValue (
       }
 #endif
     }
-    
+
     else {
       stringstream s;
 
       s <<
         "-chord details argument '" << theString <<
         "' is ill-formed";
-        
+
       optionError (s.str ());
-      
+
       printSpecificSubGroupHelp (
         os,
         showChordDetailsItem->
           getOptionsSubGroupUplink ());
-          
+
       exit (4);
     }
 
     string
       rootName    = sm [1],
       harmonyName = sm [2];
-      
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
@@ -884,7 +884,7 @@ void extraOptions::handleOptionsItemValue (
       case k_Rest_QTP:
         {
           stringstream s;
-      
+
           s <<
             "'" << rootName <<
             "' is no diatonic (semitones) root pitch" <<
@@ -894,13 +894,13 @@ void extraOptions::handleOptionsItemValue (
                 fLpsrQuarterTonesPitchesLanguageKind) <<
             "'" <<
             endl;
-            
+
           optionError (s.str ());
-                    
+
           exit (4);
         }
         break;
-  
+
       case kA_Flat_STP:
       case kA_Natural_STP:
       case kA_Sharp_STP:
@@ -929,18 +929,18 @@ void extraOptions::handleOptionsItemValue (
       case kG_Natural_STP:
       case kG_Sharp_STP:
         break;
-  
+
       default:
         {
           stringstream s;
-      
+
           s <<
             "'" << rootName <<
             "' is no diatonic (semitones) pitch" <<
             endl;
-            
+
           optionError (s.str ());
-                    
+
           exit (4);
         }
     } // switch
@@ -960,7 +960,7 @@ void extraOptions::handleOptionsItemValue (
     // exit
     exit (23);
   }
-  
+
   else if (
     // show chord analysis item?
     S_optionsShowChordAnalysisItem
@@ -974,7 +974,7 @@ void extraOptions::handleOptionsItemValue (
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
-        ", theString = \"" << theString << "\"" << 
+        ", theString = \"" << theString << "\"" <<
         endl;
     }
 #endif
@@ -988,7 +988,7 @@ void extraOptions::handleOptionsItemValue (
       "[[:space:]]*"
       "([[:digit:]]+)"
       "[[:space:]]*");
-      
+
     regex  e (regularExpression);
     smatch sm;
 
@@ -1019,21 +1019,21 @@ void extraOptions::handleOptionsItemValue (
       }
 #endif
     }
-    
+
     else {
       stringstream s;
 
       s <<
         "-chord analysis argument '" << theString <<
         "' is ill-formed";
-        
+
       optionError (s.str ());
-      
+
       printSpecificSubGroupHelp (
         os,
         showChordAnalysisItem->
           getOptionsSubGroupUplink ());
-          
+
       exit (4);
     }
 
@@ -1044,13 +1044,13 @@ void extraOptions::handleOptionsItemValue (
 
     int
       inversion;
-      
+
     stringstream s;
 
     s << inversionAsString;
 
     s >> inversion;
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
@@ -1072,7 +1072,7 @@ void extraOptions::handleOptionsItemValue (
       case k_Rest_QTP:
         {
           stringstream s;
-      
+
           s <<
             "'" << rootName <<
             "' is no diatonic (semitones) root pitch" <<
@@ -1082,13 +1082,13 @@ void extraOptions::handleOptionsItemValue (
                 fLpsrQuarterTonesPitchesLanguageKind) <<
             "'" <<
             endl;
-            
+
           optionError (s.str ());
-                    
+
           exit (4);
         }
         break;
-  
+
       case kA_Flat_STP:
       case kA_Natural_STP:
       case kA_Sharp_STP:
@@ -1117,18 +1117,18 @@ void extraOptions::handleOptionsItemValue (
       case kG_Natural_STP:
       case kG_Sharp_STP:
         break;
-  
+
       default:
         {
           stringstream s;
-      
+
           s <<
             "'" << rootName <<
             "' is no diatonic (semitones) pitch" <<
             endl;
-            
+
           optionError (s.str ());
-                    
+
           exit (4);
         }
     } // switch
@@ -1141,26 +1141,26 @@ void extraOptions::handleOptionsItemValue (
 
     if (harmonyKind == k_NoHarmony) {
       stringstream s;
-  
+
       s <<
         "'" << harmonyName <<
         "' is no harmony name, valid names are:" <<
         endl <<
         "maj, min,aug, dim, dom, maj7, min7, dim7, aug7, halfdim, minmaj7, maj6, min6, dom9, maj9, min9, dom11, maj11, min11, dom13, maj13, min13, sus2, sus4, neapolitan, italian, french, german, pedal, power, tristan, minmaj9, domsus4, domaug5, dommin9, domaug9dim5, domaug9aug5, domaug11 and maj7aug11" <<
         endl;
-        
+
       optionError (s.str ());
-                
+
       exit (4);
     }
-    
+
     // print the chord analysis
     printChordAnalysis (
       os,
       semiTonesPitchKind,
       harmonyKind,
       inversion);
-      
+
     // exit
     exit (23);
   }
@@ -1178,7 +1178,7 @@ void initializeExtraOptionsHandling (
 {
   // create the extra options
   // ------------------------------------------------------
-  
+
   gExtraOptionsUserChoices = extraOptions::create (
     optionsHandler);
   assert(gExtraOptionsUserChoices != 0);

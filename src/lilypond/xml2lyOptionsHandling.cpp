@@ -41,7 +41,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -75,7 +75,7 @@ xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem ()
 void xml2lyOptionsVersionItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "xml2lyOptionsVersionItem:" <<
     endl;
@@ -96,7 +96,7 @@ void xml2lyOptionsVersionItem::print (ostream& os) const
 }
 
 void xml2lyOptionsVersionItem::printVersion (ostream& os) const
-{  
+{
   os <<
     endl <<
     "This is xml2ly" <<
@@ -114,7 +114,7 @@ void xml2lyOptionsVersionItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt)
 {
   elt->print (os);
@@ -152,7 +152,7 @@ xml2lyOptionsAboutItem::~xml2lyOptionsAboutItem ()
 void xml2lyOptionsAboutItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "xml2lyOptionsAboutItem:" <<
     endl;
@@ -173,7 +173,7 @@ void xml2lyOptionsAboutItem::print (ostream& os) const
 }
 
 void xml2lyOptionsAboutItem::printAbout (ostream& os) const
-{  
+{
   os <<
     endl <<
 R"(What xml2ly does:
@@ -187,7 +187,7 @@ R"(What xml2ly does:
                  Music Score Representation (MSR);
         Pass 3:  converts the MSR into a
                  LilyPond Score Representation (LPSR);
-        Pass 4:  converts the LPSR to LilyPond source code 
+        Pass 4:  converts the LPSR to LilyPond source code
                  and writes it to standard output.
 
     Other passes are performed according to the options, such as
@@ -204,7 +204,7 @@ void xml2lyOptionsAboutItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt)
 {
   elt->print (os);
@@ -242,7 +242,7 @@ xml2lyOptionsContactItem::~xml2lyOptionsContactItem ()
 void xml2lyOptionsContactItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "xml2lyOptionsContactItem:" <<
     endl;
@@ -263,7 +263,7 @@ void xml2lyOptionsContactItem::print (ostream& os) const
 }
 
 void xml2lyOptionsContactItem::printContact (ostream& os) const
-{  
+{
   os <<
     endl <<
 R"(To contact xml2ly maintainers:
@@ -280,7 +280,7 @@ void xml2lyOptionsContactItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt)
 {
   elt->print (os);
@@ -309,13 +309,13 @@ xml2lyOptionsHandler::xml2lyOptionsHandler (
     "h", "help",
     "hs", "helpSummary",
 R"(
-                      Welcome to xml2ly, 
+                      Welcome to xml2ly,
               the MusicXML to LilyPond translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 
 Usage:
-    xml2ly [options] [MusicXMLFile|-] [options] 
+    xml2ly [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,
@@ -338,7 +338,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
   initializeGeneralOptionsHandling (
     executableName,
     this);
-    
+
 #ifdef TRACE_OPTIONS
   initializeTraceOptionsHandling (
     this);
@@ -346,13 +346,13 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
 
   initializeMusicXMLOptionsHandling (
     this);
-    
+
   initializeMsrOptionsHandling (
     this);
-    
+
   initializeLpsrOptionsHandling (
     this);
-    
+
   initializeLilypondOptionsHandling (
     this);
 
@@ -360,7 +360,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
   initializeExtraOptionsHandling (
     this);
 #endif
-    
+
   initializeXml2lyOptionsHandling (
     this);
 
@@ -370,15 +370,15 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
     fOptionsHandlerLogIOstream <<
       "xml2lyOptionsHandler has been initialized as:" <<
       endl;
-  
+
     gIndenter++;
-  
+
     print (
       fOptionsHandlerLogIOstream);
     fOptionsHandlerLogIOstream <<
       endl <<
       endl;
-    
+
     gIndenter--;
   }
 #endif
@@ -421,7 +421,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
         endl;
 
       gIndenter++;
-      
+
       for (unsigned int i = 0; i < argumentsNumber; i++) {
         fOptionsHandlerLogIOstream <<
           i << " : " << fArgumentsVector [i] <<
@@ -466,7 +466,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   // ------------------------------------------------------
 
   string potentialOutputFileName;
-    
+
   if (gGeneralOptions->fInputSourceName != "-") {
     // determine potential output file name,
     // may be set differently by '--ofn, --outputFileName' option
@@ -478,7 +478,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     size_t
       posInString =
         potentialOutputFileName.rfind ('.');
-      
+
     if (posInString != string::npos) {
       potentialOutputFileName.replace (
         posInString,
@@ -493,25 +493,25 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   if (gXml2lyOptions->fAutoOutputFile) {
     if (gXml2lyOptions->fOutputFileName.size ()) {
       stringstream s;
-  
+
       s <<
         "options '--aofn, --autoOutputFileName' and '--ofn, --outputFileName'"  <<
         endl <<
         "cannot be chosen simultaneously";
-        
+
       optionError (s.str ());
 
       exit (3);
     }
-  
+
     else if (gGeneralOptions->fInputSourceName == "-") {
       stringstream s;
-  
+
       s <<
         "option '--aofn, --autoOutputFileName'"  <<
         endl <<
         "cannot be used when reading from standard input";
-        
+
       optionError (s.str ());
 
       exit (4);
@@ -539,27 +539,27 @@ void xml2lyOptionsHandler::enforceOptionsHandlerQuietness ()
   gGeneralOptions->
     enforceQuietness ();
 #endif
-  
+
   gGeneralOptions->
     enforceQuietness ();
-  
+
   gMusicXMLOptions->
     enforceQuietness ();
-  
+
   gMsrOptions->
     enforceQuietness ();
-  
+
   gLpsrOptions->
     enforceQuietness ();
-  
+
   gLilypondOptions->
     enforceQuietness ();
-  
+
 #ifdef EXTRA_OPTIONS
   gExtraOptions->
     enforceQuietness ();
 #endif
-  
+
   gXml2lyOptions->
     enforceQuietness ();
 }
@@ -574,32 +574,32 @@ void xml2lyOptions::checkOptionsConsistency ()
   gLogIOstream <<
     "xml2lyOptions::checkOptionsConsistency ()" <<
     endl;
-    
+
 #ifdef TRACE_OPTIONS
   gGeneralOptions->
     checkOptionsConsistency ();
 #endif
   gGeneralOptions->
     checkOptionsConsistency ();
-  
+
   gMusicXMLOptions->
     checkOptionsConsistency ();
-  
+
   gMsrOptions->
     checkOptionsConsistency ();
-  
+
   gLpsrOptions->
     checkOptionsConsistency ();
-  
+
   gLilypondOptions->
     checkOptionsConsistency ();
-  
+
 #ifdef EXTRA_OPTIONS
   gExtraOptions->
     checkOptionsConsistency ();
 #endif
 
-/* JMI
+/* JMI TICINO
   gXml2lyOptions->
     checkOptionsConsistency ();
     */
@@ -609,7 +609,7 @@ void xml2lyOptions::checkOptionsConsistency ()
 void xml2lyOptionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
-  
+
   os <<
     "xml2lyOptionsHandler:" <<
     endl;
@@ -637,7 +637,7 @@ void xml2lyOptionsHandler::print (ostream& os) const
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;
-    
+
     gIndenter++;
 
     list<S_optionsGroup>::const_iterator
@@ -655,7 +655,7 @@ void xml2lyOptionsHandler::print (ostream& os) const
   }
 
   gIndenter--;
-  
+
   os << endl;
 }
 
@@ -706,10 +706,10 @@ void xml2lyOptions::initializeXml2lyOptions ()
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       versionSubGroup =
         optionsSubGroup::create (
@@ -718,9 +718,9 @@ void xml2lyOptions::initializeXml2lyOptions ()
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
     appendOptionsSubGroup (versionSubGroup);
-  
+
     versionSubGroup->
       appendOptionsItem (
         xml2lyOptionsVersionItem::create (
@@ -733,10 +733,10 @@ R"(Display xml2ly's version number and history and exit.)"));
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       aboutSubGroup =
         optionsSubGroup::create (
@@ -745,9 +745,9 @@ R"(Display xml2ly's version number and history and exit.)"));
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
     appendOptionsSubGroup (aboutSubGroup);
-  
+
     aboutSubGroup->
       appendOptionsItem (
         xml2lyOptionsAboutItem::create (
@@ -760,10 +760,10 @@ R"(Display information about xml2ly and exit.)"));
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       contactSubGroup =
         optionsSubGroup::create (
@@ -772,9 +772,9 @@ R"(Display information about xml2ly and exit.)"));
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
     appendOptionsSubGroup (contactSubGroup);
-  
+
     contactSubGroup->
       appendOptionsItem (
         xml2lyOptionsContactItem::create (
@@ -787,12 +787,12 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fAutoOutputFile = false;
-    
+
     // options
-  
+
     S_optionsSubGroup
       outputFileSubGroup =
         optionsSubGroup::create (
@@ -801,9 +801,9 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-            
+
     appendOptionsSubGroup (outputFileSubGroup);
-    
+
     outputFileSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
@@ -811,8 +811,8 @@ R"()",
 R"(Write LilyPond code to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
-          fOutputFileName));  
-  
+          fOutputFileName));
+
     outputFileSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -828,7 +828,7 @@ or adding '.ly' if none is present.)",
 }
 
 void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
-{  
+{
   gLogIOstream <<
     "The xml2ly options are:" <<
     endl;
@@ -844,7 +844,7 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  gLogIOstream << left <<        
+  gLogIOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -858,7 +858,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
@@ -890,7 +890,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
     // exit
     exit (0);
   }
-  
+
   else if (
     // about item?
     S_xml2lyOptionsAboutItem
@@ -912,7 +912,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
     // exit
     exit (0);
   }
-  
+
   else if (
     // contact item?
     S_xml2lyOptionsContactItem
@@ -941,24 +941,24 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 //______________________________________________________________________________
 void initializeXml2lyOptionsHandling (
   S_optionsHandler optionsHandler)
-{  
+{
   // enlist versions information
   // ------------------------------------------------------
 
   enlistVersion (
     "Initial", "early 2016",
     "Start as xml2lilypond, a clone of xml2guido");
-    
+
   enlistVersion (
     musicxml2lilypondVersionStr (), "October 2018",
     "First draft version");
-  
+
   // create the options variables
   // ------------------------------------------------------
-  
+
   gXml2lyOptions = xml2lyOptions::create (
     optionsHandler);
-  assert (gXml2lyOptions != 0);  
+  assert (gXml2lyOptions != 0);
 }
 
 

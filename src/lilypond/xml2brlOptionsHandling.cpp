@@ -41,7 +41,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -75,7 +75,7 @@ xml2brlOptionsVersionItem::~xml2brlOptionsVersionItem ()
 void xml2brlOptionsVersionItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "xml2brlOptionsVersionItem:" <<
     endl;
@@ -96,7 +96,7 @@ void xml2brlOptionsVersionItem::print (ostream& os) const
 }
 
 void xml2brlOptionsVersionItem::printVersion (ostream& os) const
-{  
+{
   os <<
     endl <<
     "This is xml2brl" <<
@@ -114,7 +114,7 @@ void xml2brlOptionsVersionItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_xml2brlOptionsVersionItem& elt)
 {
   elt->print (os);
@@ -152,7 +152,7 @@ xml2brlOptionsAboutItem::~xml2brlOptionsAboutItem ()
 void xml2brlOptionsAboutItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "xml2brlOptionsAboutItem:" <<
     endl;
@@ -173,7 +173,7 @@ void xml2brlOptionsAboutItem::print (ostream& os) const
 }
 
 void xml2brlOptionsAboutItem::printAbout (ostream& os) const
-{  
+{
   os <<
     endl <<
 R"(What xml2brl does:
@@ -191,7 +191,7 @@ R"(What xml2brl does:
         Pass 3b: converts the BSR into to another BSR
                  with as many Braille pages as needed
                  to fit the line and page lengthes;
-        Pass 4:  converts the BSR to Unicode text 
+        Pass 4:  converts the BSR to Unicode text
                  and writes it to standard output.
 
     In this preliminary version, pass 3b merely clones the BSR it receives.
@@ -210,7 +210,7 @@ void xml2brlOptionsAboutItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_xml2brlOptionsAboutItem& elt)
 {
   elt->print (os);
@@ -248,7 +248,7 @@ xml2brlOptionsContactItem::~xml2brlOptionsContactItem ()
 void xml2brlOptionsContactItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "xml2brlOptionsContactItem:" <<
     endl;
@@ -269,7 +269,7 @@ void xml2brlOptionsContactItem::print (ostream& os) const
 }
 
 void xml2brlOptionsContactItem::printContact (ostream& os) const
-{  
+{
   os <<
     endl <<
 R"(To contact xml2brl maintainers:
@@ -286,7 +286,7 @@ void xml2brlOptionsContactItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_xml2brlOptionsContactItem& elt)
 {
   elt->print (os);
@@ -315,13 +315,13 @@ xml2brlOptionsHandler::xml2brlOptionsHandler (
     "h", "help",
     "hs", "helpSummary",
 R"(
-                      Welcome to xml2brl, 
+                      Welcome to xml2brl,
             the MusicXML to Braille music translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 
 Usage:
-    xml2brl [options] [MusicXMLFile|-] [options] 
+    xml2brl [options] [MusicXMLFile|-] [options]
 )",
 R"(
 Option '-h, -help' prints the full help,
@@ -344,7 +344,7 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
   initializeGeneralOptionsHandling (
     executableName,
     this);
-    
+
 #ifdef TRACE_OPTIONS
   initializeTraceOptionsHandling (
     this);
@@ -352,10 +352,10 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
 
   initializeMusicXMLOptionsHandling (
     this);
-    
+
   initializeMsrOptionsHandling (
     this);
-    
+
   initializeBsrOptionsHandling (
     this);
 
@@ -369,22 +369,22 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
 
   initializeXml2brlOptionsHandling (
     this);
-    
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
     fOptionsHandlerLogIOstream <<
       "xml2brlOptionsHandler has been initialized as:" <<
       endl;
-  
+
     gIndenter++;
-  
+
     print (
       fOptionsHandlerLogIOstream);
     fOptionsHandlerLogIOstream <<
       endl <<
       endl;
-    
+
     gIndenter--;
   }
 #endif
@@ -427,7 +427,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
         endl;
 
       gIndenter++;
-      
+
       for (unsigned int i = 0; i < argumentsNumber; i++) {
         fOptionsHandlerLogIOstream <<
           i << " : " << fArgumentsVector [i] <<
@@ -472,7 +472,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
   // ------------------------------------------------------
 
   string potentialOutputFileName;
-    
+
   if (gGeneralOptions->fInputSourceName != "-") {
     // determine potential output file name,
     // may be set differently by '--ofn, --outputFileName' option
@@ -510,19 +510,19 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
               break;
           } // switch
           break;
-          
+
         case kUTF16:
           potentialOutputFileName +=
             "_UTF16";
           switch (gBrailleOptions->fByteOrderingKind) {
             case kByteOrderingNone:
               break;
-              
+
             case kByteOrderingBigEndian:
               potentialOutputFileName +=
                 "_BE";
               break;
-              
+
             case kByteOrderingSmallEndian:
               potentialOutputFileName +=
                 "_SE";
@@ -531,7 +531,7 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
           break;
       } // switch
     }
-    
+
     // append '.txt' extension
     potentialOutputFileName +=
       ".txt";
@@ -543,25 +543,25 @@ void xml2brlOptionsHandler::checkOptionsAndArguments ()
   if (gXml2brlOptions->fAutoOutputFile) {
     if (gXml2brlOptions->fOutputFileName.size ()) {
       stringstream s;
-  
+
       s <<
         "options '--aofn, --autoOutputFileName' and '--ofn, --outputFileName'"  <<
         endl <<
         "cannot be chosen simultaneously";
-        
+
       optionError (s.str ());
 
       exit (3);
     }
-  
+
     else if (gGeneralOptions->fInputSourceName == "-") {
       stringstream s;
-  
+
       s <<
         "option '--aofn, --autoOutputFileName'"  <<
         endl <<
         "cannot be used when reading from standard input";
-        
+
       optionError (s.str ());
 
       exit (4);
@@ -589,19 +589,19 @@ void xml2brlOptionsHandler::enforceOptionsHandlerQuietness ()
   gGeneralOptions->
     enforceQuietness ();
 #endif
-  
+
   gGeneralOptions->
     enforceQuietness ();
-  
+
   gMusicXMLOptions->
     enforceQuietness ();
-  
+
   gMsrOptions->
     enforceQuietness ();
-  
+
   gBsrOptions->
     enforceQuietness ();
-  
+
   gBrailleOptions->
     enforceQuietness ();
 
@@ -624,40 +624,41 @@ void xml2brlOptions::checkOptionsConsistency ()
   gLogIOstream <<
     "xml2brlOptions::checkOptionsConsistency ()" <<
     endl;
-    
+
 #ifdef TRACE_OPTIONS
   gGeneralOptions->
     checkOptionsConsistency ();
 #endif
+
   gGeneralOptions->
     checkOptionsConsistency ();
-  
+
   gMusicXMLOptions->
     checkOptionsConsistency ();
-  
+
   gMsrOptions->
     checkOptionsConsistency ();
-  
+
   gBsrOptions->
     checkOptionsConsistency ();
-  
+
   gBrailleOptions->
     checkOptionsConsistency ();
-  
+
 #ifdef EXTRA_OPTIONS
   gExtraOptions->
     checkOptionsConsistency ();
 #endif
 
-  gXml2brlOptions->
-    checkOptionsConsistency ();
+// JMI???  gXml2brlOptions-> // TICINO
+//    checkOptionsConsistency ();
 }
 
 //______________________________________________________________________________
 void xml2brlOptionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
-  
+
   os <<
     "xml2brlOptionsHandler:" <<
     endl;
@@ -685,7 +686,7 @@ void xml2brlOptionsHandler::print (ostream& os) const
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;
-    
+
     gIndenter++;
 
     list<S_optionsGroup>::const_iterator
@@ -703,7 +704,7 @@ void xml2brlOptionsHandler::print (ostream& os) const
   }
 
   gIndenter--;
-  
+
   os << endl;
 }
 
@@ -754,10 +755,10 @@ void xml2brlOptions::initializeXml2brlOptions ()
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       versionSubGroup =
         optionsSubGroup::create (
@@ -766,9 +767,9 @@ void xml2brlOptions::initializeXml2brlOptions ()
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
     appendOptionsSubGroup (versionSubGroup);
-  
+
     versionSubGroup->
       appendOptionsItem (
         xml2brlOptionsVersionItem::create (
@@ -781,10 +782,10 @@ R"(Display xml2brl's version number and history and exit.)"));
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       aboutSubGroup =
         optionsSubGroup::create (
@@ -793,9 +794,9 @@ R"(Display xml2brl's version number and history and exit.)"));
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
     appendOptionsSubGroup (aboutSubGroup);
-  
+
     aboutSubGroup->
       appendOptionsItem (
         xml2brlOptionsAboutItem::create (
@@ -808,10 +809,10 @@ R"(Display information about xml2brl and exit.)"));
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       contactSubGroup =
         optionsSubGroup::create (
@@ -820,9 +821,9 @@ R"(Display information about xml2brl and exit.)"));
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
     appendOptionsSubGroup (contactSubGroup);
-  
+
     contactSubGroup->
       appendOptionsItem (
         xml2brlOptionsContactItem::create (
@@ -835,12 +836,12 @@ R"(Display information about how to contacct xml2brl maintainers and exit.)"));
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fAutoOutputFile = false;
-    
+
     // options
-  
+
     S_optionsSubGroup
       outputFileSubGroup =
         optionsSubGroup::create (
@@ -849,9 +850,9 @@ R"(Display information about how to contacct xml2brl maintainers and exit.)"));
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-            
+
     appendOptionsSubGroup (outputFileSubGroup);
-    
+
     outputFileSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
@@ -859,8 +860,8 @@ R"()",
 R"(Write Braille music to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
-          fOutputFileName));  
-  
+          fOutputFileName));
+
     outputFileSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -876,7 +877,7 @@ or adding '.brl' if none is present.)",
 }
 
 void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
-{  
+{
   gLogIOstream <<
     "The xml2brl options are:" <<
     endl;
@@ -892,7 +893,7 @@ void xml2brlOptions::printXml2brlOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  gLogIOstream << left <<        
+  gLogIOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -906,7 +907,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     os <<
@@ -938,7 +939,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
     // exit
     exit (0);
   }
-  
+
   else if (
     // about item?
     S_xml2brlOptionsAboutItem
@@ -960,7 +961,7 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
     // exit
     exit (0);
   }
-  
+
   else if (
     // contact item?
     S_xml2brlOptionsContactItem
@@ -989,24 +990,24 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
 //______________________________________________________________________________
 void initializeXml2brlOptionsHandling (
   S_optionsHandler optionsHandler)
-{  
+{
   // enlist versions information
   // ------------------------------------------------------
 
   enlistVersion (
     "Initial", "october 2018",
     "Derived from xml2ly, with an embryonic BSR");
-      
+
   enlistVersion (
     musicxml2brailleVersionStr (), "Nobember 2018",
     "First draft version");
-    
+
   // create the options variables
   // ------------------------------------------------------
-  
+
   gXml2brlOptions = xml2brlOptions::create (
     optionsHandler);
-  assert (gXml2brlOptions != 0);  
+  assert (gXml2brlOptions != 0);
 }
 
 

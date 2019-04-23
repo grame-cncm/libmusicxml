@@ -19,11 +19,13 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 enum bsrCellKind {
+	kCellUnknown,
+
   // non 6dots values
   kCellEOL     , // L'\u000a'
   kCellEOP     , // L'\u000c'
@@ -116,7 +118,7 @@ const bsrCellKind
   kCellH = kDots125,
   kCellI = kDots24,
   kCellJ = kDots245,
-  
+
   kCellK = kDots13,
   kCellL = kDots123,
   kCellM = kDots134,
@@ -194,9 +196,9 @@ const bsrCellKind
 // words
 const bsrCellKind
   kCellWordSign        = kDots345,
-  
+
   kCellWordApostrophe  = kDots6,
-  
+
   kCellParenthesis     = kDots2356,
   kCellQuestionMark    = kDots26;
 
@@ -223,7 +225,7 @@ enum bsrCellKind2 {
   kCellLower9, // kDots35,
   kCellLower0, // kDots356;
 
-  
+
   // punctuation
   kCellDot             , // kDots256,
   kCellComma           , // kDots2,
@@ -284,7 +286,7 @@ enum bsrCellKind2 {
   // other symbols
   kCellParagraph           , //{ kDots5, kDots1234 },
   kCellAmpersand           , //{ kDots5, kDots123456 },
-  kCellUpsilon             , //{ kDots45, kDots13456 }, // better name JMI ??? 
+  kCellUpsilon             , //{ kDots45, kDots13456 }, // better name JMI ???
   kCellEuro                , //{ kDots45, kDots15 },
   kCellDollar              , //{ kDots45, kDots234 },
   kCellPound               , //{ kDots45, kDots123 },
@@ -375,10 +377,10 @@ FROM http://unicode.org/faq/utf_bom.html#BOM :
 Q: How do I write a UTF converter?
 
 A: The freely available open source project International Components for Unicode (ICU) has UTF conversion built into it. The latest version may be downloaded from the ICU Project web site.
-* 
+*
 http://site.icu-project.org
 
- 
+
 Bytes Encoding Form
 00 00 FE FF UTF-32, big-endian
 FF FE 00 00 UTF-32, little-endian
@@ -391,7 +393,7 @@ Q: Is there a standard method to package a Unicode character so it fits an 8-Bit
 
 A: There are three or four options for making Unicode fit into an 8-bit format.
 
-a) Use UTF-8. This preserves ASCII, but not Latin-1, because the characters >127 are different from Latin-1. UTF-8 uses the bytes in the ASCII only for ASCII characters. Therefore, it works well in any environment where ASCII characters have a significance as syntax characters, e.g. file name syntaxes, markup languages, etc., but where the all other characters may use arbitrary bytes. 
+a) Use UTF-8. This preserves ASCII, but not Latin-1, because the characters >127 are different from Latin-1. UTF-8 uses the bytes in the ASCII only for ASCII characters. Therefore, it works well in any environment where ASCII characters have a significance as syntax characters, e.g. file name syntaxes, markup languages, etc., but where the all other characters may use arbitrary bytes.
 Example: “Latin Small Letter s with Acute” (015B) would be encoded as two bytes: C5 9B.
 
 b) Use Java or C style escapes, of the form \uXXXXX or \xXXXXX. This format is not standard for text files, but well defined in the framework of the languages in question, primarily for source files.
@@ -404,7 +406,7 @@ d) Use SCSU. This format compresses Unicode into 8-bit format, preserving most o
 Example: “<SC2> wyjÛcie” where <SC2> indicates the byte 0x12 and “Û” corresponds to byte 0xDB. [AF]
 
 
-A: The following table summarizes some of the properties of each of the UTFs. 
+A: The following table summarizes some of the properties of each of the UTFs.
 
 Name  UTF-8 UTF-16  UTF-16BE  UTF-16LE  UTF-32  UTF-32BE  UTF-32LE
 Smallest code point 0000  0000  0000  0000  0000  0000  0000
@@ -464,7 +466,7 @@ UTF32 codepoint, // (lead << 10) + trail + SURROGATE_OFFSET;
 /*
 //______________________________________________________________________________
 
-  
+
 
 
 //______________________________________________________________________________
@@ -519,21 +521,21 @@ from https://brltty.app/pipermail/brltty/2012-October/009556.html :
 
 [BRLTTY] Braille Code
 
-Dave Mielke dave at mielke.cc 
+Dave Mielke dave at mielke.cc
 Wed Oct 10 14:15:08 EDT 2012
 Previous message: [BRLTTY] Braille Code
 Next message: [BRLTTY] Braille Code
 Messages sorted by: [ date ] [ thread ] [ subject ] [ author ]
 [quoted lines by Dave Mielke on 2012/10/10 at 14:13 -0400]
 
->Each language has its own mapping. That being said, the NABCC (North American 
->Braille Computer Code) is probably as good a place to start as any. You can 
->find a table for that mapping within the file Tables/en-nabcc.ttb in brltty's 
+>Each language has its own mapping. That being said, the NABCC (North American
+>Braille Computer Code) is probably as good a place to start as any. You can
+>find a table for that mapping within the file Tables/en-nabcc.ttb in brltty's
 >source tree. I've attached it to this message, as well.
 
 I forgot to attach the table. Here it is.
 
--- 
+--
 Dave Mielke           | 2213 Fox Crescent | The Bible is the very Word of God.
 Phone: 1-613-726-0014 | Ottawa, Ontario   | 2011 May 21 is the End of Salvation.
 EMail: dave at mielke.cc | Canada  K2A 1H7   | http://Mielke.cc/now.html
@@ -559,7 +561,7 @@ http://FamilyRadio.com/                   | http://Mielke.cc/bible/
 
 # BRLTTY Text Table - English (North American Braille Computer Code)
 
-# This is a description of the default text table used by BRLTTY.  
+# This is a description of the default text table used by BRLTTY.
 # It's based on the North American Braille Computer Code, but defines the full
 # Latin1 (ISO-8859-1) character set.
 
@@ -577,7 +579,7 @@ http://FamilyRadio.com/                   | http://Mielke.cc/bible/
 # reason couldn't be found, have a very close logical relationship within the
 # US-ASCII code. Dot 8 isn't used at all.
 
-# The space and the 26 lowercase letters (a-z) are the same as in literary 
+# The space and the 26 lowercase letters (a-z) are the same as in literary
 # braille:
 
      #Hex    Dots       Dec Char Description
@@ -609,7 +611,7 @@ char \X78 (1 34 6  )  # 120   x  latin small letter x
 char \X79 (1 3456  )  # 121   y  latin small letter y
 char \X7A (1 3 56  )  # 122   z  latin small letter z
 
-# The 26 uppercase letters (A-Z) are the same as their lowercase counterparts 
+# The 26 uppercase letters (A-Z) are the same as their lowercase counterparts
 # except that dot 7 is added:
 
      #Hex    Dots       Dec Char Description
@@ -666,15 +668,15 @@ char \X2F (  34    )  #  47   /  solidus
 char \X28 (123 56  )  #  40   (  left parenthesis
 char \X29 ( 23456  )  #  41   )  right parenthesis
 
-# With all of these major considerations having been taken into account, 
-# convenient representations were still available, and are used, for some of 
+# With all of these major considerations having been taken into account,
+# convenient representations were still available, and are used, for some of
 # the remaining characters:
 
      #Hex    Dots       Dec Char Description
 char \X26 (1234 6  )  #  38   &  ampersand
 char \X23 (  3456  )  #  35   #  number sign
 
-# The remaining characters are what they are. Dot 7 isn't used either within 
+# The remaining characters are what they are. Dot 7 isn't used either within
 # the number block (32-63) or, with the exception of the DEL control character
 # (127), within the lowercase block (96-127). With the exception of the
 # underscore (95), dot 7 is used for every character within the uppercase block
@@ -745,7 +747,7 @@ char \X1D (12 45678)  #  29  ^]  group separator
 char \X1E (   45 78)  #  30  ^^  record separator
 char \X1F (   45678)  #  31  ^_  unit separator
 
-# Each of the characters within the extended control character block (128-159)  
+# Each of the characters within the extended control character block (128-159)
 # is the same as its corresponding character within the basic control character
 # block (0-31) except that only dot 8 is used.
 

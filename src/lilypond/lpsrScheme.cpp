@@ -19,7 +19,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -30,7 +30,7 @@ S_lpsrSchemeVariable lpsrSchemeVariable::create (
   int               inputLineNumber,
   lpsrCommentedKind commentedKind,
   string            variableName,
-  string            value, 
+  string            value,
   string            comment,
   lpsrEndlKind      endlKind)
 {
@@ -46,7 +46,7 @@ lpsrSchemeVariable::lpsrSchemeVariable (
   int               inputLineNumber,
   lpsrCommentedKind commentedKind,
   string            variableName,
-  string            value, 
+  string            value,
   string            comment,
   lpsrEndlKind      endlKind)
     : lpsrElement (inputLineNumber)
@@ -57,7 +57,7 @@ lpsrSchemeVariable::lpsrSchemeVariable (
   fVariableValue = value;
 
   fComment       = comment;
-  
+
   fEndlKind      = endlKind;
 }
 
@@ -71,12 +71,12 @@ void lpsrSchemeVariable::acceptIn (basevisitor* v)
       "% ==> lpsrSchemeVariable::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrSchemeVariable>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
         S_lpsrSchemeVariable elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeVariable::visitStart ()" <<
@@ -98,7 +98,7 @@ void lpsrSchemeVariable::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
         S_lpsrSchemeVariable elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeVariable::visitEnd ()" <<
@@ -117,10 +117,10 @@ string lpsrSchemeVariable::commentedKindAsString (
   string result;
 
   switch (commentedKind) {
-    case lpsrVarValAssoc::kCommentedYes:
+    case lpsrSchemeVariable::kCommentedYes:
       result = "commentedYes";
       break;
-    case lpsrVarValAssoc::kCommentedNo:
+    case lpsrSchemeVariable::kCommentedNo:
       result = "commentedNo";
       break;
   } // switch
@@ -134,13 +134,13 @@ string lpsrSchemeVariable::endlKindAsString (
   string result;
 
   switch (endlKind) {
-    case lpsrVarValAssoc::kEndlOnce:
+    case lpsrSchemeVariable::kEndlOnce:
       result = "endlOnce";
       break;
-    case lpsrVarValAssoc::kEndlTwice:
+    case lpsrSchemeVariable::kEndlTwice:
       result = "endlTwice";
       break;
-    case lpsrVarValAssoc::kEndlNone:
+    case lpsrSchemeVariable::kEndlNone:
       result = "endlNone";
       break;
   } // switch
@@ -190,12 +190,12 @@ void lpsrSchemeVariable::print (ostream& os)
   // backSlashKindAsString ??? JMI
   // varValSeparatorKindAsString ??? JMI
   // quotesKindAsString ??? JMI
-  
+
     setw (fieldWidth) <<
     "endlKind" << " : " <<
     endlKindAsString (fEndlKind) <<
     endl;
-  
+
   gIndenter--;
 }
 
@@ -242,12 +242,12 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v)
       "% ==> lpsrSchemeFunction::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart ()" <<
@@ -269,7 +269,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd ()" <<

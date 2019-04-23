@@ -75,8 +75,7 @@ S_bsrCellsList bsrNumber::numberValueAsCellsList () const
     int div = n / 10;
     int mod = n % 10;
 
-    bsrCellKind
-      cellKind = kDotsNone;
+    bsrCellKind cellKind = kCellUnknown; // TICINO
 
     switch (mod) {
       case 1: cellKind = kCell1; break;
