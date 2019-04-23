@@ -49,7 +49,7 @@ bsrTimeItem::bsrTimeItem (
     : bsrElement (inputLineNumber)
 {
   fTimeBeatValue = -1;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
@@ -64,11 +64,11 @@ bsrTimeItem::~bsrTimeItem ()
 {}
 
 bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
-{  
+{
   if (! otherTimeItem) {
     return false;
   }
-    
+
   if (
     ! (
         fTimeBeatValue == otherTimeItem->fTimeBeatValue
@@ -80,7 +80,7 @@ bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
     ) {
     return false;
   }
-    
+
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     if (
       ! (
@@ -92,7 +92,7 @@ bool bsrTimeItem::isEqualTo (S_bsrTimeItem otherTimeItem) const
       return false;
     }
   } // for
- 
+
   return true;
 }
 
@@ -135,7 +135,7 @@ void bsrTimeItem::setTimeBeatValue (int timeBeatValue)
 int bsrTimeItem::getTimeBeatsNumber () const
 {
   int result = 0;
-  
+
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     result +=
       fTimeBeatsNumbersVector [i];
@@ -153,12 +153,12 @@ void bsrTimeItem::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrTimeItem>*
     p =
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -184,7 +184,7 @@ void bsrTimeItem::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrTimeItem>*> (v)) {
         S_bsrTimeItem elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -222,13 +222,13 @@ string bsrTimeItem::asString () const
         "time item beats numbers vector is empty");
         */
       break;
-      
+
     case 1:
       s <<
         ", " <<
         fTimeBeatsNumbersVector [0] << "/" << fTimeBeatValue;
       break;
-      
+
     default:
       s <<
         ", beats numbers: ";
@@ -236,7 +236,7 @@ string bsrTimeItem::asString () const
       for (int i = 0; i < timeBeatsNumbersVectorSize; i++) {
         s <<
           fTimeBeatsNumbersVector [i];
-  
+
         if (i != timeBeatsNumbersVectorSize - 1) {
           s <<
             " ";
@@ -246,10 +246,10 @@ string bsrTimeItem::asString () const
       s <<
         ", beat value: " << fTimeBeatValue;
   } // switch
-  
+
   s <<
     ", line " << fInputLineNumber;
-     
+
   return s.str ();
 }
 
@@ -333,12 +333,12 @@ S_bsrCellsList bsrTime::buildCellsList () const
       result->appendCellKindToCellsList (kDots46);
       result->appendCellKindToCellsList (kDots14);
       break;
-      
+
     case bsrTime::kTimeCut:
       result->appendCellKindToCellsList (kDots456);
       result->appendCellKindToCellsList (kDots14);
       break;
-      
+
     case bsrTime::kTimeNumerical: // JMI ???
     case bsrTime::kTimeNote:
     case bsrTime::kTimeDottedNote:
@@ -354,13 +354,13 @@ S_bsrCellsList bsrTime::buildCellsList () const
           const vector<int>&
             timeBeatsNumbersVector =
               bTimeItem->getTimeBeatsNumbersVector ();
-          
+
           int bTimeBeatValue =
               bTimeItem->getTimeBeatValue ();
 
           int vectorSize =
             timeBeatsNumbersVector.size ();
-        
+
           switch (vectorSize) {
             case 0:
             /* JMI
@@ -371,12 +371,12 @@ S_bsrCellsList bsrTime::buildCellsList () const
                 "time item beats numbers vector is empty");
                 */
               break;
-              
+
             case 1:
               {
                 // determine the beats number
                 int beatsNumberToBeUsed = timeBeatsNumbersVector [0];
-                
+
                 switch (fTimeKind) {
                   case bsrTime::kTimeNote:
                     break;
@@ -394,7 +394,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                       fInputLineNumber,
                       beatsNumberToBeUsed,
                       bsrNumber::kNumberSignIsNeededYes);
-        
+
                 // append it to result
                 result->appendCellsListToCellsList (
                   beatsNumber->fetchCellsList ());
@@ -405,14 +405,14 @@ S_bsrCellsList bsrTime::buildCellsList () const
                     bsrCellsList::create (
                       fInputLineNumber,
                       kDots6, kDots3);
-        
+
                 // append it to result
                 result->appendCellsListToCellsList (
                   musicCodeIndicator);
-                
+
                 // determine the beat value to be used
                 int beatValueToBeUsed = bTimeBeatValue;
-                
+
                 switch (fTimeKind) {
                   case bsrTime::kTimeNote:
                     break;
@@ -482,12 +482,12 @@ S_bsrCellsList bsrTime::buildCellsList () const
                   default:
                     {
                       stringstream s;
-                  
+
                       s <<
                         "MSR time beat value '" <<
                         bTimeBeatValue <<
                         "' is not supported in Braille music";
-                        
+
                       bsrMusicXMLWarning (
                         gGeneralOptions->fInputSourceName,
                         fInputLineNumber,
@@ -508,23 +508,23 @@ S_bsrCellsList bsrTime::buildCellsList () const
                 } // switch
               }
               break;
-              
+
             default:
               ;
             /*
               s <<
                 "beats numbers: ";
-        
+
               for (int i = 0; i < vectorSize; i++) {
                 s <<
                   timeBeatsNumbersVector [i];
-          
+
                 if (i != vectorSize - 1) {
                   s <<
                     " ";
                 }
               } // for
-        
+
               s <<
                 ", beat value: " << fTimeBeatValue;
                 */
@@ -546,13 +546,13 @@ S_bsrCellsList bsrTime::buildCellsList () const
           const vector<int>&
             timeBeatsNumbersVector =
               bTimeItem->getTimeBeatsNumbersVector ();
-          
+
           int bTimeBeatValue =
               bTimeItem->getTimeBeatValue ();
 
           int vectorSize =
             timeBeatsNumbersVector.size ();
-        
+
           switch (vectorSize) {
             case 0:
             /* JMI
@@ -563,7 +563,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                 "time item beats numbers vector is empty");
                 */
               break;
-              
+
             case 1:
               {
                 // create the beats number
@@ -573,7 +573,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
                       fInputLineNumber,
                       timeBeatsNumbersVector [0],
                       bsrNumber::kNumberSignIsNeededYes);
-        
+
                 // append it to result
                 result->appendCellsListToCellsList (
                   beatsNumber->fetchCellsList ());
@@ -611,12 +611,12 @@ S_bsrCellsList bsrTime::buildCellsList () const
                   default:
                     {
                       stringstream s;
-                  
+
                       s <<
                         "MSR time beat value '" <<
                         bTimeBeatValue <<
                         "' is not supported in Braille music";
-                        
+
                       bsrMusicXMLWarning (
                         gGeneralOptions->fInputSourceName,
                         fInputLineNumber,
@@ -625,23 +625,23 @@ S_bsrCellsList bsrTime::buildCellsList () const
                 } // switch
               }
               break;
-              
+
             default:
               ;
             /*
               s <<
                 "beats numbers: ";
-        
+
               for (int i = 0; i < vectorSize; i++) {
                 s <<
                   timeBeatsNumbersVector [i];
-          
+
                 if (i != vectorSize - 1) {
                   s <<
                     " ";
                 }
               } // for
-        
+
               s <<
                 ", beat value: " << fTimeBeatValue;
                 */
@@ -672,12 +672,12 @@ void bsrTime::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrTime>*
     p =
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -703,7 +703,7 @@ void bsrTime::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrTime>*> (v)) {
         S_bsrTime elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -722,7 +722,7 @@ string bsrTime::timeKindAsString (
   bsrTimeKind timeKind)
 {
   string result;
- 
+
   switch (timeKind) {
     case bsrTime::kTimeNone:
       result = "timeNone";
@@ -765,14 +765,14 @@ string bsrTime::asString () const
     ", timeCellsList: " << fetchCellsList ()->asString () <<
     ", spacesBefore: " << fSpacesBefore <<
     ", line " << fInputLineNumber;
- 
+
   return s.str ();
 }
 
 void bsrTime::print (ostream& os)
 {
   int timeItemsVectorSize = fTimeItemsVector.size ();
-  
+
   os <<
     "Time" <<
     ", " <<
@@ -797,29 +797,29 @@ void bsrTime::print (ostream& os)
   if (timeItemsVectorSize) {
     os <<
       endl;
-      
+
     gIndenter++;
-    
+
     vector<S_bsrTimeItem>::const_iterator
       iBegin = fTimeItemsVector.begin (),
       iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
+
     gIndenter--;
   }
-  
+
   else {
     os <<
       " none" <<
       endl;
   }
-    
+
   os <<
     setw (fieldWidth) <<
     "timeCellsList" << " : " << fetchCellsList ()->asString () <<

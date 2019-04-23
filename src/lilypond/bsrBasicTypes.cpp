@@ -37,13 +37,15 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   string result;
 
   switch (cellKind) {
+    case kCellUnknown : result = "***cellUnknown***"; break;
+
     // non 6dots values
     case kCellEOL     : result = "EOL"; break;
     case kCellEOP     : result = "EOP"; break;
-    
+
     // 6dots values for Braille music
     case kDotsNone    : result = ".Space"; break;
-    
+
     case kDots1       : result = ".1"; break;
     case kDots2       : result = ".2"; break;
     case kDots12      : result = ".12"; break;
@@ -111,7 +113,7 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
     case kDots23456   : result = ".23456"; break;
     case kDots123456  : result = ".123456"; break;
   } // switch
-  
+
   return result;
 }
 
@@ -124,10 +126,10 @@ string bsrCellKindAsString (bsrCellKind cellKind)
     // non 6dots values
     case kCellEOL     : result = "CellEOL"; break;
     case kCellEOP     : result = "CellEOP"; break;
-    
+
     // 6dots values for Braille music
     case kDotsNone    : result = "Space"; break;
-    
+
     case kDots1       : result = "Dots1"; break;
     case kDots2       : result = "Dots2"; break;
     case kDots12      : result = "Dots12"; break;
@@ -210,7 +212,7 @@ void write_wchar_t ( wchar_t cell )
   } conversion;
 
   conversion.cellar = cell;
-     
+
   // write in reverse order!
   cout << conversion.chars [0] << conversion.chars [1];
 }
@@ -227,14 +229,14 @@ ostream& operator<< (ostream& os, const wstring& wstr)
 {
   for (unsigned int i = 0; i < wstr.size (); i++) {
     wchar_t cell = wstr [i];
-    
+
     union Conversion {
       wchar_t       cellar;
       unsigned char chars [2];
     } conversion;
-  
+
     conversion.cellar = cell;
-  
+
     // write in reverse order!
     os << conversion.chars [0] << conversion.chars [1];
     } // for
@@ -287,7 +289,7 @@ void initializeBSRBasicTypes ()
   switch (cell) {
     case kBOMBigEndian   = L'\ufeff'; break;
     case kBOMSmallEndian = L'\ufeff'; break;
-  
+
     case kBrailleEOL = L'\u000a'; break;
     case kBrailleEOP = L'\u000c'; break;
 
@@ -362,7 +364,7 @@ void initializeBSRBasicTypes ()
     default: result = "Dot6???";
   } // switch
   */
-  
+
 //______________________________________________________________________________
 /*
 string bsrCellKindAsShortString (bsrCellKind cellKind)
@@ -382,7 +384,7 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   case kCellH: result = "kCellH"; break; // kDots125,
   case kCellI: result = "kCellI"; break; // kDots24,
   case kCellJ: result = "kCellJ"; break; // kDots245,
-  
+
   case kCellK: result = "kCellK"; break; // kDots13,
   case kCellL: result = "kCellL"; break; // kDots123,
   case kCellM: result = "kCellM"; break; // kDots134,
@@ -419,7 +421,7 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   case kCell_ac_times    : result = "FOO"; break; // kDots35,
   case kCell_ac_dividedBy: result = "FOO"; break; // kDots25,
   case kCell_ac_equals   : result = "FOO"; break; // kDots2356;
-  
+
   // punctuation
   case kCellDot             : result = "FOO"; break; // kDots256,
   case kCellComma           : result = "FOO"; break; // kDots2,
@@ -478,10 +480,10 @@ string bsrCellKindAsShortString (bsrCellKind cellKind)
   case kCellLiteraryRightParenthesis : result = "kCellLiteraryRightParenthesis"; break; //{ kDots5, kDots345 },
   case kCellMusicParentheses         : result = "kCellMusicParentheses"; break; //{ kDots6, kDots3 },
   case kCellSpecialParentheses       : result = "kCellSpecialParentheses"; break; //{ kDots2356, kDots2356 };
- 
+
   case kCellParagraph           : result = "FOO"; break; //{ kDots5, kDots1234 },
   case kCellAmpersand           : result = "FOO"; break; //{ kDots5, kDots123456 },
-  case kCellUpsilon             : result = "FOO"; break; //{ kDots45, kDots13456 }: result = "FOO"; break; // better name JMI ??? 
+  case kCellUpsilon             : result = "FOO"; break; //{ kDots45, kDots13456 }: result = "FOO"; break; // better name JMI ???
   case kCellEuro                : result = "FOO"; break; //{ kDots45, kDots15 },
   case kCellDollar              : result = "FOO"; break; //{ kDots45, kDots234 },
   case kCellPound               : result = "FOO"; break; //{ kDots45, kDots123 },

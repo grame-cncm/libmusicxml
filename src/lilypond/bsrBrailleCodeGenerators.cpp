@@ -17,6 +17,7 @@
 
 #include "messagesHandling.h"
 
+#include "generalOptions.h"
 #include "bsrOptions.h"
 
 
@@ -30,7 +31,7 @@ string bsrUTFKindAsString (
   bsrUTFKind UTFKind)
 {
   string result;
-  
+
   switch (UTFKind) {
     case kUTF8:
       result = "UTF8";
@@ -47,7 +48,7 @@ string byteOrderingKindAsString (
   bsrByteOrderingKind byteOrderingKind)
 {
   string result;
-  
+
   switch (byteOrderingKind) {
     case kByteOrderingNone:
       result = "byteOrderingNone";
@@ -135,7 +136,7 @@ void bsrBrailleGenerator::generateCodeForCellsList (
       generateCodeForBrailleCell ((*i));
       if (++i == iEnd) break;
       // JMI s << " ";
-    } // for  
+    } // for
   }
 }
 
@@ -144,7 +145,7 @@ string bsrBrailleGenerator::asString () const
   stringstream s;
 
   s <<
-    "BrailleGenerator" << 
+    "BrailleGenerator" <<
     ", byteOrderingKind: " <<
     byteOrderingKindAsString (
       fByteOrderingKind);
@@ -208,11 +209,27 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
   string stringForCell;
 
   switch (cellKind) {
+    case kCellUnknown:
+      {
+        stringstream s;
+
+        s <<
+          "cannot generate code for braille cell '" <<
+          bsrCellKindAsString (cellKind) <<
+          "'";
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
+          -999, // TICINO inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+
     case kCellEOL: stringForCell = "\x0a"; break; // U+000A ⠀ 0a
     case kCellEOP: stringForCell = "\x0c"; break; // U+000C ⠀ 0c
 
     case kDotsNone: stringForCell = "\xe2\xa0\x80"; break; // U+2800 ⠀ e2 a0 80 BLANK
-    
+
     case kDots1: stringForCell = "\xe2\xa0\x81"; break; // U+2801 ⠀ e2 a0 81 DOTS-1
     case kDots2: stringForCell = "\xe2\xa0\x82"; break; // U+2802 ⠀ e2 a0 82 DOTS-2
     case kDots12: stringForCell = "\xe2\xa0\x83"; break; // U+2803 ⠀ e2 a0 83 DOTS-12
@@ -228,7 +245,7 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
     case kDots134: stringForCell = "\xe2\xa0\x8d"; break; // U+280D  ⠍ e2 a0 8d DOTS-134
     case kDots234: stringForCell = "\xe2\xa0\x8e"; break; // U+280E  ⠎ e2 a0 8e DOTS-234
     case kDots1234: stringForCell = "\xe2\xa0\x8f"; break; // U+280F  ⠏ e2 a0 8f DOTS-1234
-    
+
     case kDots5: stringForCell = "\xe2\xa0\x90"; break; // U+2810  ⠐ e2 a0 90 DOTS-5
     case kDots15: stringForCell = "\xe2\xa0\x91"; break; // U+2811  ⠑ e2 a0 91 DOTS-15
     case kDots25: stringForCell = "\xe2\xa0\x92"; break; // U+2812  ⠒ e2 a0 92 DOTS-25
@@ -245,7 +262,7 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
     case kDots1345: stringForCell = "\xe2\xa0\x9d"; break; // U+281D  ⠝ e2 a0 9d DOTS-1345
     case kDots2345: stringForCell = "\xe2\xa0\x9e"; break; // U+281E  ⠞ e2 a0 9e DOTS-2345
     case kDots12345: stringForCell = "\xe2\xa0\x9f"; break; // U+281F  ⠟ e2 a0 9f DOTS-12345
-    
+
     case kDots6: stringForCell = "\xe2\xa0\xa0"; break; // U+2820  ⠠ e2 a0 a0 DOTS-6
     case kDots16: stringForCell = "\xe2\xa0\xa1"; break; // U+2821  ⠡ e2 a0 a1 DOTS-16
     case kDots26: stringForCell = "\xe2\xa0\xa2"; break; // U+2822  ⠢ e2 a0 a2 DOTS-26
@@ -262,7 +279,7 @@ void bsrUTF8BrailleGenerator::generateCodeForBrailleCell (
     case kDots1346: stringForCell = "\xe2\xa0\xad"; break; // U+282D  ⠭ e2 a0 ad DOTS-1346
     case kDots2346: stringForCell = "\xe2\xa0\xae"; break; // U+282E  ⠮ e2 a0 ae DOTS-2346
     case kDots12346: stringForCell = "\xe2\xa0\xaf"; break; // U+282F  ⠯ e2 a0 af DOTS-12346
-    
+
     case kDots56: stringForCell = "\xe2\xa0\xb0"; break; // U+2830  ⠰ e2 a0 b0 DOTS-56
     case kDots156: stringForCell = "\xe2\xa0\xb1"; break; // U+2831  ⠱ e2 a0 b1 DOTS-156
     case kDots256: stringForCell = "\xe2\xa0\xb2"; break; // U+2832  ⠲ e2 a0 b2 DOTS-256
@@ -290,7 +307,7 @@ string bsrUTF8BrailleGenerator::asString () const
   stringstream s;
 
   s <<
-    "UTF8BrailleGenerator" << 
+    "UTF8BrailleGenerator" <<
     ", byteOrderingKind: " <<
     byteOrderingKindAsString (
       fByteOrderingKind);
@@ -346,7 +363,7 @@ string bsrUTF16BigEndianBrailleGenerator::asString () const
   stringstream s;
 
   s <<
-    "UTF16BigEndianBrailleGenerator" << 
+    "UTF16BigEndianBrailleGenerator" <<
     ", byteOrderingKind: " <<
     byteOrderingKindAsString (
       fByteOrderingKind);
@@ -402,7 +419,7 @@ string bsrUTF16SmallEndianBrailleGenerator::asString () const
   stringstream s;
 
   s <<
-    "UTF16SmallEndianBrailleGenerator" << 
+    "UTF16SmallEndianBrailleGenerator" <<
     ", byteOrderingKind: " <<
     byteOrderingKindAsString (
       fByteOrderingKind);
@@ -438,7 +455,7 @@ ostream& operator<< (ostream& os, const S_bsrUTF16SmallEndianBrailleGenerator& e
       } // for
       fBrailleOutputStream << kBrailleEOL;
       fBrailleOutputStream << kBrailleEOP;
-      
+
       for (wchar_t wch = L'\u2820'; wch <= L'\u282f'; wch++) {
         fBrailleOutputStream << wch;
       } // for
