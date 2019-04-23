@@ -1,6 +1,6 @@
 
 APPL = xml
-OUT  = xmllex.cpp xmlparse.cpp xmlparse.hpp
+OUT  = xmllex.c++ xmlparse.cpp xmlparse.hpp
 OBJ  = xmllex.o xmlparse.o
 CXXFLAGS = -I.. -DMAIN
 YACC = bison
@@ -18,7 +18,7 @@ xmlparse.cpp : xml.y
 xmlparse.hpp : xml.y
 	$(YACC) -d -o xmlparse.cpp  -p $(PREFIX) xml.y
 
-xmllex.cpp : xml.l xmlparse.hpp
+xmllex.c++ : xml.l xmlparse.hpp
 	$(LEX)  -oxmllex.c++ -I -P$(PREFIX) xml.l
 
 clean:
