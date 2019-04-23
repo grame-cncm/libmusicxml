@@ -1,5 +1,5 @@
 
-schema 		:= current/musicxml.xsd
+schema 		?= 3.1/musicxml.xsd
 template	:= ../src/elements/templates
 
 elts  	:= elements.txt

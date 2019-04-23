@@ -110,16 +110,16 @@ endif()
 
 set(target musicxml2)
 add_library(${target} ${libtype} ${LIBCONTENT})
-set_target_properties (${target} PROPERTIES
-      VERSION ${VERSION}
-      SOVERSION ${SOVERS}
-      ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
-      ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
-      LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
-      LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
-      PUBLIC_HEADER "${COREH}"
-      DEFINE_SYMBOL LIBMUSICXML_EXPORTS
-      XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
+set_target_properties (${target} PROPERTIES 
+			VERSION ${VERSION}
+			SOVERSION ${SOVERS}
+			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
+			ARCHIVE_OUTPUT_DIRECTORY_RELEASE  ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY ${LIBDIR}
+			LIBRARY_OUTPUT_DIRECTORY_RELEASE ${LIBDIR}
+			PUBLIC_HEADER "${COREH}"
+			DEFINE_SYMBOL LIBMUSICXML_EXPORTS
+			XCODE_ATTRIBUTE_ENABLE_BITCODE "NO"
 )
 if (MSVC)
   set_target_properties( ${target}  PROPERTIES OUTPUT_NAME libmusicxml2)
@@ -143,12 +143,12 @@ set (TOOLS  xml2guido xml2ly xml2brl xmlread xmltranspose xmlversion)
 
 if(NOT IOS )
 foreach(sample ${SAMPLES})
-  add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
-  target_link_libraries( ${sample} ${target})
-  set_target_properties (${sample} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
-    RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
-  add_dependencies(${sample} ${target})
+	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
+	target_link_libraries( ${sample} ${target})
+	set_target_properties (${sample} PROPERTIES  
+		RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
+		RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
+	add_dependencies(${sample} ${target})
 endforeach(sample)
 endif()
 
