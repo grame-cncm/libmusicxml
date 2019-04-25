@@ -1039,7 +1039,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
             // compute ligature start edge height
             const float edgeHeightAbsValue = 0.75;
 
-            float       ligatureStartEdgeHeight = 0.0; // TICINO
+            float       ligatureStartEdgeHeight = 0.0;
 
             switch (ligature->getLigatureLineEndKind ()) {
               case msrLigature::kLigatureLineEndUp:
@@ -1074,7 +1074,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
                   getLigatureOtherEndSidelink ();
 
             // compute ligature end edge height
-            float ligatureEndEdgeHeight;
+            float ligatureEndEdgeHeight = 0.0;
 
             switch (ligatureOtherEnd->getLigatureLineEndKind ()) {
               case msrLigature::kLigatureLineEndUp:
@@ -4096,10 +4096,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
   }
 
   switch (elt->getCommentedKind ()) {
-    case lpsrVarValAssoc::kCommentedYes:
+    case lpsrSchemeVariable::kCommentedYes:
       fLilypondCodeIOstream << "% ";
       break;
-    case lpsrVarValAssoc::kCommentedNo:
+    case lpsrSchemeVariable::kCommentedNo:
       break;
   } // switch
 

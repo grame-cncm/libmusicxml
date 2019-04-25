@@ -69,11 +69,11 @@ msrXMLLangKind msrXMLLangKindFromString (
   else {
     if (XMLLangString.size ()) {
       stringstream s;
-      
+
       s <<
         "xml:lang value '" << XMLLangString <<
         "' should be 'it', 'en', 'de' or 'fr'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -128,6 +128,9 @@ msrDottedDuration::msrDottedDuration (
   fDurationKind = durationKind;
   fDotsNumber   = dotsNumber;
 }
+
+msrDottedDuration::~msrDottedDuration ()
+{}
 
 rational msrDottedDuration::dottedDurationAsWholeNotes (
   int inputLineNumber) const
@@ -205,7 +208,7 @@ string msrTupletFactor::asString () const
     "tupletActualNotes: " << fTupletActualNotes <<
     ", tupletNormalNotes" << " : " << fTupletNormalNotes <<
     "'";
-  
+
   return s.str ();
 }
 
@@ -238,7 +241,7 @@ int msrIntervalKindAsSemiTones (
   switch (intervalKind) {
     case k_NoIntervalKind:
       break;
-      
+
     case kDiminishedUnisson:
       result = -1;
       break;
@@ -248,7 +251,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedUnison:
       result = 1;
       break;
-      
+
     case kDiminishedSecond:
       result = 0;
       break;
@@ -261,7 +264,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedSecond:
       result = 4;
       break;
-      
+
     case kDiminishedThird:
       result = 2;
       break;
@@ -274,7 +277,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedThird:
       result = 5;
       break;
-      
+
     case kDiminishedFourth:
       result = 4;
       break;
@@ -284,7 +287,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedFourth:
       result = 6;
       break;
-      
+
     case kDiminishedFifth:
       result = 6;
       break;
@@ -307,7 +310,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedSixth:
       result = 10;
       break;
-      
+
     case kDiminishedSeventh:
       result = 9;
       break;
@@ -330,7 +333,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedOctave:
       result = 13;
       break;
-      
+
     case kDiminishedNinth:
       result = 12;
       break;
@@ -343,7 +346,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedNinth:
       result = 15;
       break;
-      
+
     case kDiminishedTenth:
       result = 14;
       break;
@@ -356,7 +359,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedTenth:
       result = 17;
       break;
-      
+
     case kDiminishedEleventh:
       result = 16;
       break;
@@ -366,7 +369,7 @@ int msrIntervalKindAsSemiTones (
     case kAugmentedEleventh:
       result = 18;
       break;
-      
+
     case kDiminishedTwelfth:
       result = 18;
       break;
@@ -421,7 +424,7 @@ string msrIntervalKindAsString (
     case kAugmentedUnison:
       result = "augmentedUnison";
       break;
-      
+
     case kDiminishedSecond:
       result = "diminishedSecond";
       break;
@@ -434,7 +437,7 @@ string msrIntervalKindAsString (
     case kAugmentedSecond:
       result = "augmentedSecond";
       break;
-      
+
     case kDiminishedThird:
       result = "diminishedThird";
       break;
@@ -447,7 +450,7 @@ string msrIntervalKindAsString (
     case kAugmentedThird:
       result = "augmentedThird";
       break;
-      
+
     case kDiminishedFourth:
       result = "diminishedFourth";
       break;
@@ -457,7 +460,7 @@ string msrIntervalKindAsString (
     case kAugmentedFourth:
       result = "augmentedFourth";
       break;
-      
+
     case kDiminishedFifth:
       result = "diminishedFifth";
       break;
@@ -480,7 +483,7 @@ string msrIntervalKindAsString (
     case kAugmentedSixth:
       result = "augmentedSixth";
       break;
-      
+
     case kDiminishedSeventh:
       result = "diminishedSeventh";
       break;
@@ -503,7 +506,7 @@ string msrIntervalKindAsString (
     case kAugmentedOctave:
       result = "augmentedOctave";
       break;
-      
+
     case kDiminishedNinth:
       result = "diminishedNinth";
       break;
@@ -516,7 +519,7 @@ string msrIntervalKindAsString (
     case kAugmentedNinth:
       result = "sugmentedNinth";
       break;
-      
+
     case kDiminishedTenth:
       result = "diminishedTenth";
       break;
@@ -529,7 +532,7 @@ string msrIntervalKindAsString (
     case kAugmentedTenth:
       result = "augmentedTenth";
       break;
-      
+
     case kDiminishedEleventh:
       result = "diminishedEleventh";
       break;
@@ -539,7 +542,7 @@ string msrIntervalKindAsString (
     case kAugmentedEleventh:
       result = "augmentedEleventh";
       break;
-      
+
     case kDiminishedTwelfth:
       result = "diminishedTwelfth";
       break;
@@ -571,7 +574,7 @@ string msrIntervalAsShortString (
   msrIntervalKind intervalKind)
 {
   string result;
-  
+
   switch (intervalKind) {
     case k_NoIntervalKind:
       result = "noInterval";
@@ -586,7 +589,7 @@ string msrIntervalAsShortString (
     case kAugmentedUnison:
       result = "#u";
       break;
-      
+
     case kDiminishedSecond:
       result = "bb2";
       break;
@@ -599,7 +602,7 @@ string msrIntervalAsShortString (
     case kAugmentedSecond:
       result = "#2";
       break;
-      
+
     case kDiminishedThird:
       result = "bb3";
       break;
@@ -612,7 +615,7 @@ string msrIntervalAsShortString (
     case kAugmentedThird:
       result = "#3";
       break;
-      
+
     case kDiminishedFourth:
       result = "b4";
       break;
@@ -622,7 +625,7 @@ string msrIntervalAsShortString (
     case kAugmentedFourth:
       result = "#4";
       break;
-      
+
     case kDiminishedFifth:
       result = "b5";
       break;
@@ -645,7 +648,7 @@ string msrIntervalAsShortString (
     case kAugmentedSixth:
       result = "#6";
       break;
-      
+
     case kDiminishedSeventh:
       result = "b7";
       break;
@@ -668,7 +671,7 @@ string msrIntervalAsShortString (
     case kAugmentedOctave:
       result = "#8";
       break;
-      
+
     case kDiminishedNinth:
       result = "bb9";
       break;
@@ -681,7 +684,7 @@ string msrIntervalAsShortString (
     case kAugmentedNinth:
       result = "#9";
       break;
-      
+
     case kDiminishedTenth:
       result = "bb10";
       break;
@@ -694,7 +697,7 @@ string msrIntervalAsShortString (
     case kAugmentedTenth:
       result = "#10";
       break;
-      
+
     case kDiminishedEleventh:
       result = "b11";
       break;
@@ -704,7 +707,7 @@ string msrIntervalAsShortString (
     case kAugmentedEleventh:
       result = "#11";
       break;
-      
+
     case kDiminishedTwelfth:
       result = "b12";
       break;
@@ -736,7 +739,7 @@ msrIntervalKind invertIntervalKind (
   msrIntervalKind intervalKind)
 {
   msrIntervalKind result = k_NoIntervalKind;
-  
+
   switch (intervalKind) {
     case k_NoIntervalKind:
       break;
@@ -750,7 +753,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedUnison:
       result = kDiminishedOctave;
       break;
-      
+
     case kDiminishedSecond:
       result = kAugmentedSeventh;
       break;
@@ -763,7 +766,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedSecond:
       result = kDiminishedSeventh;
       break;
-      
+
     case kDiminishedThird:
       result = kAugmentedSixth;
       break;
@@ -776,7 +779,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedThird:
       result = kDiminishedSixth;
       break;
-      
+
     case kDiminishedFourth:
       result = kAugmentedFifth;
       break;
@@ -786,7 +789,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedFourth:
       result = kDiminishedFifth;
       break;
-      
+
     case kDiminishedFifth:
       result = kAugmentedFourth;
       break;
@@ -809,7 +812,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedSixth:
       result = kDiminishedThird;
       break;
-      
+
     case kDiminishedSeventh:
       result = kAugmentedSecond;
       break;
@@ -832,7 +835,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedOctave:
       result = kDiminishedUnisson;
       break;
-      
+
     case kDiminishedNinth:
       result = kAugmentedSeventh;
       break;
@@ -845,7 +848,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedNinth:
       result = kDiminishedSeventh;
       break;
-      
+
     case kDiminishedTenth:
       result = kAugmentedSixth;
       break;
@@ -858,7 +861,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedTenth:
       result = kDiminishedSixth;
       break;
-      
+
     case kDiminishedEleventh:
       result = kAugmentedFifth;
       break;
@@ -868,7 +871,7 @@ msrIntervalKind invertIntervalKind (
     case kAugmentedEleventh:
       result = kDiminishedFifth;
       break;
-      
+
     case kDiminishedTwelfth:
       result = kAugmentedFourth;
       break;
@@ -892,7 +895,7 @@ msrIntervalKind invertIntervalKind (
       result = kDiminishedThird;
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -900,7 +903,7 @@ int intervalKindAsSemitones (
   msrIntervalKind intervalKind)
 {
   int result = INT_MIN;
-  
+
   switch (intervalKind) {
     case k_NoIntervalKind:
       break;
@@ -914,7 +917,7 @@ int intervalKindAsSemitones (
     case kAugmentedUnison:
       result = 1;
       break;
-      
+
     case kDiminishedSecond:
       result = 0;
       break;
@@ -927,7 +930,7 @@ int intervalKindAsSemitones (
     case kAugmentedSecond:
       result = 3;
       break;
-      
+
     case kDiminishedThird:
       result = 2;
       break;
@@ -940,7 +943,7 @@ int intervalKindAsSemitones (
     case kAugmentedThird:
       result = 5;
       break;
-      
+
     case kDiminishedFourth:
       result = 4;
       break;
@@ -950,7 +953,7 @@ int intervalKindAsSemitones (
     case kAugmentedFourth:
       result = 6;
       break;
-      
+
     case kDiminishedFifth:
       result = 7;
       break;
@@ -973,7 +976,7 @@ int intervalKindAsSemitones (
     case kAugmentedSixth:
       result = 10;
       break;
-      
+
     case kDiminishedSeventh:
       result = 9;
       break;
@@ -996,7 +999,7 @@ int intervalKindAsSemitones (
     case kAugmentedOctave:
       result = 13;
       break;
-      
+
     case kDiminishedNinth:
       result = 12;
       break;
@@ -1009,7 +1012,7 @@ int intervalKindAsSemitones (
     case kAugmentedNinth:
       result = 15;
       break;
-      
+
     case kDiminishedTenth:
       result = 14;
       break;
@@ -1022,7 +1025,7 @@ int intervalKindAsSemitones (
     case kAugmentedTenth:
       result = 17;
       break;
-      
+
     case kDiminishedEleventh:
       result = 16;
       break;
@@ -1032,7 +1035,7 @@ int intervalKindAsSemitones (
     case kAugmentedEleventh:
       result = 18;
       break;
-      
+
     case kDiminishedTwelfth:
       result = 18;
       break;
@@ -1093,7 +1096,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedUnison:
           break;
-          
+
         case kDiminishedSecond:
           break;
         case kMinorSecond:
@@ -1102,7 +1105,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedSecond:
           break;
-          
+
         case kDiminishedThird:
           break;
         case kMinorThird:
@@ -1111,21 +1114,21 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedThird:
           break;
-          
+
         case kDiminishedFourth:
           break;
         case kPerfectFourth:
           break;
         case kAugmentedFourth:
           break;
-          
+
         case kDiminishedFifth:
           break;
         case kPerfectFifth:
           break;
         case kAugmentedFifth:
           break;
-    
+
         case kDiminishedSixth:
           break;
         case kMinorSixth:
@@ -1134,7 +1137,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedSixth:
           break;
-          
+
         case kDiminishedSeventh:
           break;
         case kMinorSeventh:
@@ -1143,14 +1146,14 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedSeventh:
           break;
-    
+
         case kDiminishedOctave:
           break;
         case kPerfectOctave:
           break;
         case kAugmentedOctave:
           break;
-          
+
         case kDiminishedNinth:
           break;
         case kMinorNinth:
@@ -1159,7 +1162,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedNinth:
           break;
-          
+
         case kDiminishedTenth:
           break;
         case kMinorTenth:
@@ -1168,21 +1171,21 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
         case kAugmentedTenth:
           break;
-          
+
         case kDiminishedEleventh:
           break;
         case kPerfectEleventh:
           break;
         case kAugmentedEleventh:
           break;
-          
+
         case kDiminishedTwelfth:
           break;
         case kPerfectTwelfth:
           break;
         case kAugmentedTwelfth:
           break;
-    
+
         case kDiminishedThirteenth:
           break;
         case kMinorThirteenth:
@@ -1193,12 +1196,12 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
       } // switch
       break;
-          
+
     case kC_Natural_STP:
       break;
     case kD_DoubleFlat_STP:
       break;
-      
+
     case kC_Sharp_STP:
       break;
     case kB_DoubleSharp_STP:
@@ -1217,47 +1220,47 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
       break;
     case kE_Flat_STP:
       break;
-      
+
     case kE_Natural_STP:
       break;
     case kD_DoubleSharp_STP:
       break;
     case kF_Flat_STP:
       break;
-      
+
     case kF_Natural_STP:
       break;
     case kE_Sharp_STP:
       break;
     case kG_DoubleFlat_STP:
       break;
-      
+
     case kF_Sharp_STP:
       break;
     case kE_DoubleSharp_STP:
       break;
     case kG_Flat_STP:
       break;
-      
+
     case kG_Natural_STP:
       break;
     case kF_DoubleSharp_STP:
       break;
     case kA_DoubleFlat_STP:
       break;
-      
+
     case kG_Sharp_STP:
       break;
     case kA_Flat_STP:
       break;
-      
+
     case kA_Natural_STP:
       break;
     case kG_DoubleSharp_STP:
       break;
     case kB_DoubleFlat_STP:
       break;
-      
+
     case kA_Sharp_STP:
       break;
     case kB_Flat_STP:
@@ -1286,7 +1289,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
     case k_NoSemiTonesPitch_STP:
       result = k_NoSemiTonesPitch_STP;
       break;
-          
+
     case kC_Flat_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -1301,7 +1304,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kC_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kD_TripleFlat_STP;
           break;
@@ -1314,7 +1317,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kE_DoubleFlat_STP;
           break;
@@ -1327,7 +1330,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kF_DoubleFlat_STP;
           break;
@@ -1337,7 +1340,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kF_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kG_DoubleFlat_STP;
           break;
@@ -1347,7 +1350,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kG_Natural_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kA_TripleFlat_STP;
           break;
@@ -1360,7 +1363,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kB_TripleFlat_STP;
           break;
@@ -1373,7 +1376,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kB_Natural_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kC_DoubleFlat_STP;
           break;
@@ -1383,7 +1386,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kC_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kD_TripleFlat_STP;
           break;
@@ -1396,7 +1399,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kE_TripleFlat_STP;
           break;
@@ -1409,7 +1412,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kF_DoubleFlat_STP;
           break;
@@ -1419,7 +1422,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kF_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kG_DoubleFlat_STP;
           break;
@@ -1429,7 +1432,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kG_Natural_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kA_TripleFlat_STP;
           break;
@@ -1459,7 +1462,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kD_DoubleFlat_STP;
           break;
@@ -1472,7 +1475,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kE_DoubleFlat_STP;
           break;
@@ -1485,7 +1488,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kF_Flat_STP;
           break;
@@ -1495,7 +1498,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kG_Flat_STP;
           break;
@@ -1505,7 +1508,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kG_Sharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kA_DoubleFlat_STP;
           break;
@@ -1518,7 +1521,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kB_DoubleFlat_STP;
           break;
@@ -1531,7 +1534,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kB_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kC_Flat_STP;
           break;
@@ -1541,7 +1544,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kD_DoubleFlat_STP;
           break;
@@ -1554,7 +1557,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kE_DoubleFlat_STP;
           break;
@@ -1567,7 +1570,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kF_Flat_STP;
           break;
@@ -1577,7 +1580,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kG_Flat_STP;
           break;
@@ -1587,7 +1590,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kG_Sharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kA_DoubleFlat_STP;
           break;
@@ -1602,7 +1605,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kC_Sharp_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -1617,7 +1620,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kD_Flat_STP;
           break;
@@ -1630,7 +1633,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kE_Flat_STP;
           break;
@@ -1643,7 +1646,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kF_Natural_STP;
           break;
@@ -1653,7 +1656,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kG_Natural_STP;
           break;
@@ -1663,7 +1666,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kG_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kA_Flat_STP;
           break;
@@ -1676,7 +1679,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kB_Flat_STP;
           break;
@@ -1689,7 +1692,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kB_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kC_Natural_STP;
           break;
@@ -1699,7 +1702,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kD_Flat_STP;
           break;
@@ -1712,7 +1715,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kE_Flat_STP;
           break;
@@ -1725,7 +1728,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kF_Natural_STP;
           break;
@@ -1735,7 +1738,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kG_Natural_STP;
           break;
@@ -1745,7 +1748,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kG_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kA_Flat_STP;
           break;
@@ -1775,7 +1778,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kE_TripleFlat_STP;
           break;
@@ -1788,7 +1791,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kF_DoubleFlat_STP;
           break;
@@ -1801,7 +1804,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kG_DoubleFlat_STP;
           break;
@@ -1811,7 +1814,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kG_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kA_DoubleFlat_STP;
           break;
@@ -1821,7 +1824,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kA_Natural_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kB_TripleFlat_STP;
           break;
@@ -1834,7 +1837,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kC_DoubleFlat_STP;
           break;
@@ -1847,7 +1850,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kC_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kD_DoubleFlat_STP;
           break;
@@ -1857,7 +1860,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kE_TripleFlat_STP;
           break;
@@ -1870,7 +1873,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kF_DoubleFlat_STP;
           break;
@@ -1883,7 +1886,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kG_DoubleFlat_STP;
           break;
@@ -1893,7 +1896,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kG_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kA_DoubleFlat_STP;
           break;
@@ -1903,7 +1906,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kA_Natural_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kB_TripleFlat_STP;
           break;
@@ -1933,7 +1936,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kE_DoubleFlat_STP;
           break;
@@ -1946,7 +1949,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kF_Flat_STP;
           break;
@@ -1959,7 +1962,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kG_Flat_STP;
           break;
@@ -1969,7 +1972,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kA_Flat_STP;
           break;
@@ -1979,7 +1982,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kA_Sharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kB_DoubleFlat_STP;
           break;
@@ -1992,7 +1995,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kC_Flat_STP;
           break;
@@ -2005,7 +2008,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kC_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kD_Flat_STP;
           break;
@@ -2015,7 +2018,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kE_DoubleFlat_STP;
           break;
@@ -2028,7 +2031,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kF_Flat_STP;
           break;
@@ -2041,7 +2044,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kG_Flat_STP;
           break;
@@ -2051,7 +2054,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kA_Flat_STP;
           break;
@@ -2061,7 +2064,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kA_Sharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kB_DoubleFlat_STP;
           break;
@@ -2091,7 +2094,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kE_Flat_STP;
           break;
@@ -2104,7 +2107,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kF_Flat_STP;
           break;
@@ -2117,7 +2120,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kG_Natural_STP;
           break;
@@ -2127,7 +2130,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kA_Natural_STP;
           break;
@@ -2137,7 +2140,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kA_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kB_Flat_STP;
           break;
@@ -2150,7 +2153,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kC_Natural_STP;
           break;
@@ -2163,7 +2166,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kC_TripleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kD_Natural_STP;
           break;
@@ -2173,7 +2176,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kE_Flat_STP;
           break;
@@ -2186,7 +2189,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kF_Natural_STP;
           break;
@@ -2199,7 +2202,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kG_Natural_STP;
           break;
@@ -2209,7 +2212,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kA_Natural_STP;
           break;
@@ -2219,7 +2222,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kA_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kB_Flat_STP;
           break;
@@ -2249,7 +2252,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kF_DoubleFlat_STP;
           break;
@@ -2262,7 +2265,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kG_DoubleFlat_STP;
           break;
@@ -2275,7 +2278,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kA_DoubleFlat_STP;
           break;
@@ -2285,7 +2288,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kB_DoubleFlat_STP;
           break;
@@ -2295,7 +2298,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kB_Natural_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kC_DoubleFlat_STP;
           break;
@@ -2308,7 +2311,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kD_DoubleFlat_STP;
           break;
@@ -2321,7 +2324,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kD_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kE_DoubleFlat_STP;
           break;
@@ -2331,7 +2334,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kF_DoubleFlat_STP;
           break;
@@ -2344,7 +2347,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kG_DoubleFlat_STP;
           break;
@@ -2357,7 +2360,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kA_DoubleFlat_STP;
           break;
@@ -2367,7 +2370,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kB_DoubleFlat_STP;
           break;
@@ -2377,7 +2380,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kB_Natural_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kC_DoubleFlat_STP;
           break;
@@ -2392,7 +2395,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kE_Natural_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -2407,7 +2410,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kF_Flat_STP;
           break;
@@ -2420,7 +2423,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kG_Flat_STP;
           break;
@@ -2433,7 +2436,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kA_Flat_STP;
           break;
@@ -2443,7 +2446,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kB_Natural_STP;
           break;
@@ -2453,7 +2456,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kB_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kC_Flat_STP;
           break;
@@ -2466,7 +2469,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kD_Flat_STP;
           break;
@@ -2479,7 +2482,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kD_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kE_Flat_STP;
           break;
@@ -2489,7 +2492,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kF_Flat_STP;
           break;
@@ -2502,7 +2505,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kG_Flat_STP;
           break;
@@ -2515,7 +2518,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kA_Flat_STP;
           break;
@@ -2525,7 +2528,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kB_Natural_STP;
           break;
@@ -2535,7 +2538,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kB_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kC_Flat_STP;
           break;
@@ -2565,7 +2568,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kF_Natural_STP;
           break;
@@ -2578,7 +2581,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kF_TripleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kG_Natural_STP;
           break;
@@ -2591,7 +2594,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kG_TripleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kA_Natural_STP;
           break;
@@ -2601,7 +2604,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kB_Natural_STP;
           break;
@@ -2611,7 +2614,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kB_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kC_Natural_STP;
           break;
@@ -2624,7 +2627,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kC_TripleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kD_Natural_STP;
           break;
@@ -2637,7 +2640,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kD_TripleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kE_Natural_STP;
           break;
@@ -2647,7 +2650,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kF_Natural_STP;
           break;
@@ -2660,7 +2663,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kF_TripleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kG_Natural_STP;
           break;
@@ -2673,7 +2676,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kG_TripleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kA_Natural_STP;
           break;
@@ -2683,7 +2686,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kB_Natural_STP;
           break;
@@ -2693,7 +2696,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kB_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kC_Natural_STP;
           break;
@@ -2723,7 +2726,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kF_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kG_TripleFlat_STP;
           break;
@@ -2736,7 +2739,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kG_Natural_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kA_TripleFlat_STP;
           break;
@@ -2749,7 +2752,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kB_TripleFlat_STP;
           break;
@@ -2759,7 +2762,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kB_Flat_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kC_DoubleFlat_STP;
           break;
@@ -2769,7 +2772,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kC_Natural_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kD_TripleFlat_STP;
           break;
@@ -2782,7 +2785,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kE_TripleFlat_STP;
           break;
@@ -2795,7 +2798,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kE_Natural_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kF_DoubleFlat_STP;
           break;
@@ -2805,7 +2808,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kF_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kG_TripleFlat_STP;
           break;
@@ -2818,7 +2821,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kG_Natural_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kA_TripleFlat_STP;
           break;
@@ -2831,7 +2834,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kB_TripleFlat_STP;
           break;
@@ -2841,7 +2844,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kB_Flat_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kC_DoubleFlat_STP;
           break;
@@ -2851,7 +2854,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kC_Natural_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kD_TripleFlat_STP;
           break;
@@ -2866,7 +2869,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kF_Natural_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -2881,7 +2884,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kG_DoubleFlat_STP;
           break;
@@ -2894,7 +2897,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kA_DoubleFlat_STP;
           break;
@@ -2907,7 +2910,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kB_DoubleFlat_STP;
           break;
@@ -2917,7 +2920,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kC_Flat_STP;
           break;
@@ -2927,7 +2930,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kC_Sharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kD_DoubleFlat_STP;
           break;
@@ -2940,7 +2943,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kE_DoubleFlat_STP;
           break;
@@ -2953,7 +2956,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kE_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kF_Flat_STP;
           break;
@@ -2963,7 +2966,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kG_DoubleFlat_STP;
           break;
@@ -2976,7 +2979,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kA_DoubleFlat_STP;
           break;
@@ -2989,7 +2992,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kB_DoubleFlat_STP;
           break;
@@ -2999,7 +3002,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kC_Flat_STP;
           break;
@@ -3009,7 +3012,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kC_Sharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kD_DoubleFlat_STP;
           break;
@@ -3024,7 +3027,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kF_Sharp_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -3039,7 +3042,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kG_Flat_STP;
           break;
@@ -3052,7 +3055,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kA_Flat_STP;
           break;
@@ -3065,7 +3068,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kB_Sharp_STP;
           break;
@@ -3075,7 +3078,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kB_TripleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kC_Natural_STP;
           break;
@@ -3085,7 +3088,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kC_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kD_Flat_STP;
           break;
@@ -3098,7 +3101,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kE_Flat_STP;
           break;
@@ -3111,7 +3114,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kE_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kF_Natural_STP;
           break;
@@ -3121,7 +3124,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kG_Flat_STP;
           break;
@@ -3134,7 +3137,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kA_Natural_STP;
           break;
@@ -3147,7 +3150,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kB_Sharp_STP;
           break;
@@ -3157,7 +3160,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kB_TripleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kC_Natural_STP;
           break;
@@ -3167,7 +3170,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kC_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_Flat_STP;
           break;
@@ -3197,7 +3200,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kG_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kA_TripleFlat_STP;
           break;
@@ -3210,7 +3213,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kB_TripleFlat_STP;
           break;
@@ -3223,7 +3226,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kC_DoubleFlat_STP;
           break;
@@ -3233,7 +3236,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kC_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kD_DoubleFlat_STP;
           break;
@@ -3243,7 +3246,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kD_Natural_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kE_TripleFlat_STP;
           break;
@@ -3256,7 +3259,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kF_DoubleFlat_STP;
           break;
@@ -3269,7 +3272,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kF_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kG_DoubleFlat_STP;
           break;
@@ -3279,7 +3282,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kG_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kA_TripleFlat_STP;
           break;
@@ -3292,7 +3295,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kB_TripleFlat_STP;
           break;
@@ -3305,7 +3308,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kC_DoubleFlat_STP;
           break;
@@ -3315,7 +3318,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kC_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kD_DoubleFlat_STP;
           break;
@@ -3325,7 +3328,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kD_Natural_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_TripleFlat_STP;
           break;
@@ -3340,7 +3343,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kG_Natural_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -3355,7 +3358,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kA_DoubleFlat_STP;
           break;
@@ -3368,7 +3371,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kB_DoubleFlat_STP;
           break;
@@ -3381,7 +3384,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kC_Flat_STP;
           break;
@@ -3391,7 +3394,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kD_Flat_STP;
           break;
@@ -3401,7 +3404,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kD_Sharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kE_DoubleFlat_STP;
           break;
@@ -3414,7 +3417,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kF_Flat_STP;
           break;
@@ -3427,7 +3430,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kF_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kG_Flat_STP;
           break;
@@ -3437,7 +3440,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kA_DoubleFlat_STP;
           break;
@@ -3450,7 +3453,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kB_DoubleFlat_STP;
           break;
@@ -3463,7 +3466,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kC_Flat_STP;
           break;
@@ -3473,7 +3476,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kD_Flat_STP;
           break;
@@ -3483,7 +3486,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kD_Sharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_DoubleFlat_STP;
           break;
@@ -3498,7 +3501,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kG_Sharp_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -3513,7 +3516,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kA_Flat_STP;
           break;
@@ -3526,7 +3529,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kB_Flat_STP;
           break;
@@ -3539,7 +3542,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kC_Natural_STP;
           break;
@@ -3549,7 +3552,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kD_Natural_STP;
           break;
@@ -3559,7 +3562,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kD_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kE_Flat_STP;
           break;
@@ -3572,7 +3575,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kF_Natural_STP;
           break;
@@ -3585,7 +3588,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kF_TripleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kG_Natural_STP;
           break;
@@ -3595,7 +3598,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kA_Flat_STP;
           break;
@@ -3608,7 +3611,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kB_Flat_STP;
           break;
@@ -3621,7 +3624,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kC_Natural_STP;
           break;
@@ -3631,7 +3634,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kD_Natural_STP;
           break;
@@ -3641,7 +3644,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kD_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_Flat_STP;
           break;
@@ -3671,7 +3674,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kB_TripleFlat_STP;
           break;
@@ -3684,7 +3687,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kC_DoubleFlat_STP;
           break;
@@ -3697,7 +3700,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kD_DoubleFlat_STP;
           break;
@@ -3707,7 +3710,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kE_DoubleFlat_STP;
           break;
@@ -3717,7 +3720,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kE_Natural_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kF_DoubleFlat_STP;
           break;
@@ -3730,7 +3733,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kF_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kG_DoubleFlat_STP;
           break;
@@ -3743,7 +3746,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kG_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kA_DoubleFlat_STP;
           break;
@@ -3753,7 +3756,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kA_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kB_TripleFlat_STP;
           break;
@@ -3766,7 +3769,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kC_DoubleFlat_STP;
           break;
@@ -3779,7 +3782,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kD_DoubleFlat_STP;
           break;
@@ -3789,7 +3792,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kD_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kE_DoubleFlat_STP;
           break;
@@ -3799,7 +3802,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kE_Natural_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kF_TripleFlat_STP;
           break;
@@ -3814,7 +3817,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kA_Natural_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -3829,7 +3832,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kB_DoubleFlat_STP;
           break;
@@ -3842,7 +3845,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kC_Flat_STP;
           break;
@@ -3855,7 +3858,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kD_Flat_STP;
           break;
@@ -3865,7 +3868,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kE_Flat_STP;
           break;
@@ -3875,7 +3878,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kE_Sharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kF_Flat_STP;
           break;
@@ -3888,7 +3891,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kF_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kG_Flat_STP;
           break;
@@ -3901,7 +3904,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kG_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kA_Flat_STP;
           break;
@@ -3911,7 +3914,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kA_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kB_DoubleFlat_STP;
           break;
@@ -3924,7 +3927,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kC_Flat_STP;
           break;
@@ -3937,7 +3940,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kD_Flat_STP;
           break;
@@ -3947,7 +3950,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kE_Flat_STP;
           break;
@@ -3957,7 +3960,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kE_Sharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kF_Flat_STP;
           break;
@@ -3972,7 +3975,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kA_Sharp_STP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -3987,7 +3990,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kB_Flat_STP;
           break;
@@ -4000,7 +4003,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kC_Natural_STP;
           break;
@@ -4013,7 +4016,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kC_TripleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kD_Natural_STP;
           break;
@@ -4023,7 +4026,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kE_Natural_STP;
           break;
@@ -4033,7 +4036,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kE_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kF_Natural_STP;
           break;
@@ -4046,7 +4049,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kF_TripleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kG_Natural_STP;
           break;
@@ -4059,7 +4062,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kG_TripleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kA_Natural_STP;
           break;
@@ -4069,7 +4072,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kA_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kB_Flat_STP;
           break;
@@ -4082,7 +4085,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kC_Natural_STP;
           break;
@@ -4095,7 +4098,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kC_TripleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kD_Natural_STP;
           break;
@@ -4105,7 +4108,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kE_Natural_STP;
           break;
@@ -4115,7 +4118,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kE_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kF_Natural_STP;
           break;
@@ -4145,7 +4148,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kC_DoubleFlat_STP;
           break;
@@ -4158,7 +4161,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kD_DoubleFlat_STP;
           break;
@@ -4171,7 +4174,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kE_DoubleFlat_STP;
           break;
@@ -4181,7 +4184,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kF_Flat_STP;
           break;
@@ -4191,7 +4194,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kF_Sharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kG_DoubleFlat_STP;
           break;
@@ -4204,7 +4207,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kG_Sharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kA_DoubleFlat_STP;
           break;
@@ -4217,7 +4220,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kA_Sharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kB_DoubleFlat_STP;
           break;
@@ -4227,7 +4230,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kB_Natural_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kC_DoubleFlat_STP;
           break;
@@ -4240,7 +4243,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kC_Sharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kD_DoubleFlat_STP;
           break;
@@ -4253,7 +4256,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kD_Sharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kE_DoubleFlat_STP;
           break;
@@ -4263,7 +4266,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kE_Natural_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kF_Flat_STP;
           break;
@@ -4273,7 +4276,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kF_Sharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kG_DoubleFlat_STP;
           break;
@@ -4303,7 +4306,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kC_Flat_STP;
           break;
@@ -4316,7 +4319,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kD_Flat_STP;
           break;
@@ -4329,7 +4332,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kE_Flat_STP;
           break;
@@ -4339,7 +4342,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kF_Natural_STP;
           break;
@@ -4349,7 +4352,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kF_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kG_Flat_STP;
           break;
@@ -4362,7 +4365,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kG_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kA_Flat_STP;
           break;
@@ -4375,7 +4378,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kA_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kB_Flat_STP;
           break;
@@ -4385,7 +4388,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kB_Sharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kC_Flat_STP;
           break;
@@ -4398,7 +4401,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kC_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kD_Flat_STP;
           break;
@@ -4411,7 +4414,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kD_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kE_Flat_STP;
           break;
@@ -4421,7 +4424,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kE_Sharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kF_Natural_STP;
           break;
@@ -4431,7 +4434,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kF_DoubleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kG_Flat_STP;
           break;
@@ -4461,7 +4464,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedUnison:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedSecond:
           result = kC_Natural_STP;
           break;
@@ -4474,7 +4477,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSecond:
           result = kC_TripleSharp_STP;
           break;
-          
+
         case kDiminishedThird:
           result = kD_Natural_STP;
           break;
@@ -4487,7 +4490,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedThird:
           result = kD_TripleSharp_STP;
           break;
-          
+
         case kDiminishedFourth:
           result = kE_Natural_STP;
           break;
@@ -4497,7 +4500,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFourth:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedFifth:
           result = kF_Sharp_STP;
           break;
@@ -4507,7 +4510,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedFifth:
           result = kF_TripleSharp_STP;
           break;
-    
+
         case kDiminishedSixth:
           result = kG_Natural_STP;
           break;
@@ -4520,7 +4523,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSixth:
           result = kG_TripleSharp_STP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kA_Natural_STP;
           break;
@@ -4533,7 +4536,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedSeventh:
           result = kA_TripleSharp_STP;
           break;
-    
+
         case kDiminishedOctave:
           result = kB_Natural_STP;
           break;
@@ -4543,7 +4546,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedOctave:
           result = kB_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedNinth:
           result = kC_Natural_STP;
           break;
@@ -4556,7 +4559,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedNinth:
           result = kC_TripleSharp_STP;
           break;
-          
+
         case kDiminishedTenth:
           result = kD_Natural_STP;
           break;
@@ -4569,7 +4572,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTenth:
           result = kD_TripleSharp_STP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kE_Natural_STP;
           break;
@@ -4579,7 +4582,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedEleventh:
           result = kE_DoubleSharp_STP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kF_Sharp_STP;
           break;
@@ -4589,7 +4592,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kAugmentedTwelfth:
           result = kF_TripleSharp_STP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kG_Natural_STP;
           break;
@@ -4640,7 +4643,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
     case k_NoQuarterTonesPitch_QTP:
       result = k_NoQuarterTonesPitch_QTP;
       break;
-          
+
     case kC_Flat_QTP:
       break;
 
@@ -4658,7 +4661,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kD_DoubleFlat_QTP;
           break;
@@ -4671,7 +4674,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kE_DoubleFlat_QTP;
           break;
@@ -4684,7 +4687,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kF_Flat_QTP;
           break;
@@ -4694,7 +4697,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kG_Flat_QTP;
           break;
@@ -4704,7 +4707,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kG_Sharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -4717,7 +4720,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kB_DoubleFlat_QTP;
           break;
@@ -4730,7 +4733,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kB_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kC_Flat_QTP;
           break;
@@ -4740,7 +4743,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -4753,7 +4756,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -4766,7 +4769,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kF_Flat_QTP;
           break;
@@ -4776,7 +4779,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kG_Flat_QTP;
           break;
@@ -4786,7 +4789,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kG_Sharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -4801,7 +4804,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kC_Sharp_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -4816,7 +4819,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kD_Flat_QTP;
           break;
@@ -4829,7 +4832,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kE_Flat_QTP;
           break;
@@ -4842,7 +4845,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kF_Natural_QTP;
           break;
@@ -4852,7 +4855,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kG_Natural_QTP;
           break;
@@ -4862,7 +4865,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kG_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kA_Flat_QTP;
           break;
@@ -4875,7 +4878,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kB_Flat_QTP;
           break;
@@ -4888,7 +4891,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kB_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kC_Natural_QTP;
           break;
@@ -4898,7 +4901,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kD_Flat_QTP;
           break;
@@ -4911,7 +4914,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kE_Flat_QTP;
           break;
@@ -4924,7 +4927,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kF_Natural_QTP;
           break;
@@ -4934,7 +4937,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kG_Natural_QTP;
           break;
@@ -4944,7 +4947,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kG_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kA_Flat_QTP;
           break;
@@ -4974,7 +4977,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kD_Natural_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kE_TripleFlat_QTP;
           break;
@@ -4987,7 +4990,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kF_DoubleFlat_QTP;
           break;
@@ -5000,7 +5003,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kG_DoubleFlat_QTP;
           break;
@@ -5010,7 +5013,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kG_Natural_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -5020,7 +5023,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kA_Natural_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kB_TripleFlat_QTP;
           break;
@@ -5033,7 +5036,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kC_DoubleFlat_QTP;
           break;
@@ -5046,7 +5049,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kC_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kD_DoubleFlat_QTP;
           break;
@@ -5056,7 +5059,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kD_Natural_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kE_TripleFlat_QTP;
           break;
@@ -5069,7 +5072,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kF_DoubleFlat_QTP;
           break;
@@ -5082,7 +5085,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kG_DoubleFlat_QTP;
           break;
@@ -5092,7 +5095,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kG_Natural_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -5102,7 +5105,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kA_Natural_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kB_TripleFlat_QTP;
           break;
@@ -5132,7 +5135,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kE_DoubleFlat_QTP;
           break;
@@ -5145,7 +5148,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kF_Flat_QTP;
           break;
@@ -5158,7 +5161,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kG_Flat_QTP;
           break;
@@ -5168,7 +5171,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kA_Flat_QTP;
           break;
@@ -5178,7 +5181,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kA_Sharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -5191,7 +5194,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kC_Flat_QTP;
           break;
@@ -5204,7 +5207,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kC_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kD_Flat_QTP;
           break;
@@ -5214,7 +5217,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -5227,7 +5230,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kF_Flat_QTP;
           break;
@@ -5240,7 +5243,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kG_Flat_QTP;
           break;
@@ -5250,7 +5253,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kA_Flat_QTP;
           break;
@@ -5260,7 +5263,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kA_Sharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -5290,7 +5293,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kE_Flat_QTP;
           break;
@@ -5303,7 +5306,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kF_Flat_QTP;
           break;
@@ -5316,7 +5319,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kG_Natural_QTP;
           break;
@@ -5326,7 +5329,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kA_Natural_QTP;
           break;
@@ -5336,7 +5339,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kA_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kB_Flat_QTP;
           break;
@@ -5349,7 +5352,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kB_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kC_Natural_QTP;
           break;
@@ -5362,7 +5365,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kC_TripleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kD_Natural_QTP;
           break;
@@ -5372,7 +5375,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kE_Flat_QTP;
           break;
@@ -5385,7 +5388,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kF_Natural_QTP;
           break;
@@ -5398,7 +5401,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kG_Natural_QTP;
           break;
@@ -5408,7 +5411,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kA_Natural_QTP;
           break;
@@ -5418,7 +5421,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kA_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kB_Flat_QTP;
           break;
@@ -5448,7 +5451,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kF_DoubleFlat_QTP;
           break;
@@ -5461,7 +5464,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kG_DoubleFlat_QTP;
           break;
@@ -5474,7 +5477,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -5484,7 +5487,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kA_Natural_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -5494,7 +5497,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kB_Natural_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kC_DoubleFlat_QTP;
           break;
@@ -5507,7 +5510,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kD_DoubleFlat_QTP;
           break;
@@ -5520,7 +5523,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kD_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kE_DoubleFlat_QTP;
           break;
@@ -5530,7 +5533,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kF_DoubleFlat_QTP;
           break;
@@ -5543,7 +5546,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kG_DoubleFlat_QTP;
           break;
@@ -5556,7 +5559,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kA_DoubleFlat_QTP;
           break;
@@ -5566,7 +5569,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kA_Natural_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -5576,7 +5579,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kB_Natural_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kC_DoubleFlat_QTP;
           break;
@@ -5591,7 +5594,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kE_Natural_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -5606,7 +5609,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kF_Flat_QTP;
           break;
@@ -5619,7 +5622,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kG_Flat_QTP;
           break;
@@ -5632,7 +5635,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kA_Flat_QTP;
           break;
@@ -5642,7 +5645,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kB_Natural_QTP;
           break;
@@ -5652,7 +5655,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kB_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kC_Flat_QTP;
           break;
@@ -5665,7 +5668,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kD_Flat_QTP;
           break;
@@ -5678,7 +5681,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kD_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kE_Flat_QTP;
           break;
@@ -5688,7 +5691,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kF_Flat_QTP;
           break;
@@ -5701,7 +5704,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kG_Flat_QTP;
           break;
@@ -5714,7 +5717,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kA_Flat_QTP;
           break;
@@ -5724,7 +5727,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kB_Natural_QTP;
           break;
@@ -5734,7 +5737,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kB_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kC_Flat_QTP;
           break;
@@ -5764,7 +5767,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kF_Natural_QTP;
           break;
@@ -5777,7 +5780,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kF_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kG_Natural_QTP;
           break;
@@ -5790,7 +5793,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kG_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kA_Natural_QTP;
           break;
@@ -5800,7 +5803,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kB_Natural_QTP;
           break;
@@ -5810,7 +5813,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kB_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kC_Natural_QTP;
           break;
@@ -5823,7 +5826,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kC_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kD_Natural_QTP;
           break;
@@ -5836,7 +5839,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kD_TripleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kE_Natural_QTP;
           break;
@@ -5846,7 +5849,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kF_Natural_QTP;
           break;
@@ -5859,7 +5862,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kF_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kG_Natural_QTP;
           break;
@@ -5872,7 +5875,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kG_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kA_Natural_QTP;
           break;
@@ -5882,7 +5885,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kB_Natural_QTP;
           break;
@@ -5892,7 +5895,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kB_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kC_Natural_QTP;
           break;
@@ -5910,7 +5913,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
 
     case kF_Flat_QTP:
       break;
-      
+
     case kF_Natural_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -5925,7 +5928,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kG_DoubleFlat_QTP;
           break;
@@ -5938,7 +5941,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kA_DoubleFlat_QTP;
           break;
@@ -5951,7 +5954,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -5961,7 +5964,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kC_Flat_QTP;
           break;
@@ -5971,7 +5974,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kC_Sharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -5984,7 +5987,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kE_DoubleFlat_QTP;
           break;
@@ -5997,7 +6000,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kE_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kF_Flat_QTP;
           break;
@@ -6007,7 +6010,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kG_DoubleFlat_QTP;
           break;
@@ -6020,7 +6023,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -6033,7 +6036,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kB_DoubleFlat_QTP;
           break;
@@ -6043,7 +6046,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kC_Flat_QTP;
           break;
@@ -6053,7 +6056,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kC_Sharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -6068,7 +6071,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kF_Sharp_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -6083,7 +6086,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kG_Flat_QTP;
           break;
@@ -6096,7 +6099,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kA_Flat_QTP;
           break;
@@ -6109,7 +6112,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kB_Sharp_QTP;
           break;
@@ -6119,7 +6122,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kB_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kC_Natural_QTP;
           break;
@@ -6129,7 +6132,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kC_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kD_Flat_QTP;
           break;
@@ -6142,7 +6145,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kE_Flat_QTP;
           break;
@@ -6155,7 +6158,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kE_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kF_Natural_QTP;
           break;
@@ -6165,7 +6168,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kG_Flat_QTP;
           break;
@@ -6178,7 +6181,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kA_Natural_QTP;
           break;
@@ -6191,7 +6194,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kB_Sharp_QTP;
           break;
@@ -6201,7 +6204,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kB_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kC_Natural_QTP;
           break;
@@ -6211,7 +6214,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kC_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_Flat_QTP;
           break;
@@ -6241,7 +6244,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kG_Natural_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kA_TripleFlat_QTP;
           break;
@@ -6254,7 +6257,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kA_Natural_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kB_TripleFlat_QTP;
           break;
@@ -6267,7 +6270,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kC_DoubleFlat_QTP;
           break;
@@ -6277,7 +6280,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kC_Natural_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -6287,7 +6290,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kD_Natural_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kE_TripleFlat_QTP;
           break;
@@ -6300,7 +6303,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kF_DoubleFlat_QTP;
           break;
@@ -6313,7 +6316,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kF_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kG_DoubleFlat_QTP;
           break;
@@ -6323,7 +6326,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kG_Natural_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kA_TripleFlat_QTP;
           break;
@@ -6336,7 +6339,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kA_Natural_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kB_TripleFlat_QTP;
           break;
@@ -6349,7 +6352,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kC_DoubleFlat_QTP;
           break;
@@ -6359,7 +6362,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kC_Natural_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -6369,7 +6372,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kD_Natural_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_TripleFlat_QTP;
           break;
@@ -6384,7 +6387,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kG_Natural_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -6399,7 +6402,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kA_DoubleFlat_QTP;
           break;
@@ -6412,7 +6415,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kB_DoubleFlat_QTP;
           break;
@@ -6425,7 +6428,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kC_Flat_QTP;
           break;
@@ -6435,7 +6438,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kD_Flat_QTP;
           break;
@@ -6445,7 +6448,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kD_Sharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -6458,7 +6461,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kF_Flat_QTP;
           break;
@@ -6471,7 +6474,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kF_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kG_Flat_QTP;
           break;
@@ -6481,7 +6484,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kA_DoubleFlat_QTP;
           break;
@@ -6494,7 +6497,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -6507,7 +6510,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kC_Flat_QTP;
           break;
@@ -6517,7 +6520,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kD_Flat_QTP;
           break;
@@ -6527,7 +6530,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kD_Sharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -6542,7 +6545,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kG_Sharp_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -6557,7 +6560,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kA_Flat_QTP;
           break;
@@ -6570,7 +6573,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kB_Flat_QTP;
           break;
@@ -6583,7 +6586,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kB_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kC_Natural_QTP;
           break;
@@ -6593,7 +6596,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kD_Natural_QTP;
           break;
@@ -6603,7 +6606,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kD_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kE_Flat_QTP;
           break;
@@ -6616,7 +6619,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kF_Natural_QTP;
           break;
@@ -6629,7 +6632,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kF_TripleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kG_Natural_QTP;
           break;
@@ -6639,7 +6642,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kA_Flat_QTP;
           break;
@@ -6652,7 +6655,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kA_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kB_Flat_QTP;
           break;
@@ -6665,7 +6668,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kB_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kC_Natural_QTP;
           break;
@@ -6675,7 +6678,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kD_Natural_QTP;
           break;
@@ -6685,7 +6688,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kD_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kE_Flat_QTP;
           break;
@@ -6715,7 +6718,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kA_Natural_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kB_TripleFlat_QTP;
           break;
@@ -6728,7 +6731,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kC_DoubleFlat_QTP;
           break;
@@ -6741,7 +6744,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -6751,7 +6754,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kD_Natural_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -6761,7 +6764,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kE_Natural_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kF_DoubleFlat_QTP;
           break;
@@ -6774,7 +6777,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kF_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kG_DoubleFlat_QTP;
           break;
@@ -6787,7 +6790,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kG_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kA_DoubleFlat_QTP;
           break;
@@ -6797,7 +6800,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kA_Natural_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kB_TripleFlat_QTP;
           break;
@@ -6810,7 +6813,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kC_DoubleFlat_QTP;
           break;
@@ -6823,7 +6826,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kD_DoubleFlat_QTP;
           break;
@@ -6833,7 +6836,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kD_Natural_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -6843,7 +6846,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kE_Natural_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kF_TripleFlat_QTP;
           break;
@@ -6858,7 +6861,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kA_Natural_QTP:
       switch (intervalKind) {
         case k_NoIntervalKind:
@@ -6873,7 +6876,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kB_DoubleFlat_QTP;
           break;
@@ -6886,7 +6889,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kC_Flat_QTP;
           break;
@@ -6899,7 +6902,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kD_Flat_QTP;
           break;
@@ -6909,7 +6912,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kE_Flat_QTP;
           break;
@@ -6919,7 +6922,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kE_Sharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kF_Flat_QTP;
           break;
@@ -6932,7 +6935,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kF_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kG_Flat_QTP;
           break;
@@ -6945,7 +6948,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kG_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kA_Flat_QTP;
           break;
@@ -6955,7 +6958,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kA_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kB_DoubleFlat_QTP;
           break;
@@ -6968,7 +6971,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kC_Flat_QTP;
           break;
@@ -6981,7 +6984,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kD_Flat_QTP;
           break;
@@ -6991,7 +6994,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kE_Flat_QTP;
           break;
@@ -7001,7 +7004,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kE_Sharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kF_Flat_QTP;
           break;
@@ -7016,7 +7019,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
           break;
       } // switch
       break;
-      
+
     case kA_Sharp_QTP:
       break;
 
@@ -7034,7 +7037,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kC_DoubleFlat_QTP;
           break;
@@ -7047,7 +7050,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kD_DoubleFlat_QTP;
           break;
@@ -7060,7 +7063,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kE_DoubleFlat_QTP;
           break;
@@ -7070,7 +7073,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kF_Flat_QTP;
           break;
@@ -7080,7 +7083,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kF_Sharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kG_DoubleFlat_QTP;
           break;
@@ -7093,7 +7096,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kG_Sharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kA_DoubleFlat_QTP;
           break;
@@ -7106,7 +7109,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kA_Sharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kB_DoubleFlat_QTP;
           break;
@@ -7116,7 +7119,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kB_Natural_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kC_DoubleFlat_QTP;
           break;
@@ -7129,7 +7132,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kC_Sharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kD_DoubleFlat_QTP;
           break;
@@ -7142,7 +7145,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kD_Sharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kE_DoubleFlat_QTP;
           break;
@@ -7152,7 +7155,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kE_Natural_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kF_Flat_QTP;
           break;
@@ -7162,7 +7165,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kF_Sharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kG_DoubleFlat_QTP;
           break;
@@ -7192,7 +7195,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kC_Flat_QTP;
           break;
@@ -7205,7 +7208,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kD_Flat_QTP;
           break;
@@ -7218,7 +7221,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kE_Flat_QTP;
           break;
@@ -7228,7 +7231,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kF_Natural_QTP;
           break;
@@ -7238,7 +7241,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kF_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kG_Flat_QTP;
           break;
@@ -7251,7 +7254,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kG_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kA_Flat_QTP;
           break;
@@ -7264,7 +7267,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kA_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kB_Flat_QTP;
           break;
@@ -7274,7 +7277,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kB_Sharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kC_Flat_QTP;
           break;
@@ -7287,7 +7290,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kC_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kD_Flat_QTP;
           break;
@@ -7300,7 +7303,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kD_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kE_Flat_QTP;
           break;
@@ -7310,7 +7313,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kE_Sharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kF_Natural_QTP;
           break;
@@ -7320,7 +7323,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kF_DoubleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kG_Flat_QTP;
           break;
@@ -7350,7 +7353,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedUnison:
           result = kB_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedSecond:
           result = kC_Natural_QTP;
           break;
@@ -7363,7 +7366,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSecond:
           result = kC_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedThird:
           result = kD_Natural_QTP;
           break;
@@ -7376,7 +7379,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedThird:
           result = kD_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedFourth:
           result = kE_Natural_QTP;
           break;
@@ -7386,7 +7389,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFourth:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedFifth:
           result = kF_Sharp_QTP;
           break;
@@ -7396,7 +7399,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedFifth:
           result = kF_TripleSharp_QTP;
           break;
-    
+
         case kDiminishedSixth:
           result = kG_Natural_QTP;
           break;
@@ -7409,7 +7412,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSixth:
           result = kG_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedSeventh:
           result = kA_Natural_QTP;
           break;
@@ -7422,7 +7425,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedSeventh:
           result = kA_TripleSharp_QTP;
           break;
-    
+
         case kDiminishedOctave:
           result = kB_Natural_QTP;
           break;
@@ -7432,7 +7435,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedOctave:
           result = kB_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedNinth:
           result = kC_Natural_QTP;
           break;
@@ -7445,7 +7448,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedNinth:
           result = kC_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedTenth:
           result = kD_Natural_QTP;
           break;
@@ -7458,7 +7461,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTenth:
           result = kD_TripleSharp_QTP;
           break;
-          
+
         case kDiminishedEleventh:
           result = kE_Natural_QTP;
           break;
@@ -7468,7 +7471,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedEleventh:
           result = kE_DoubleSharp_QTP;
           break;
-          
+
         case kDiminishedTwelfth:
           result = kF_Sharp_QTP;
           break;
@@ -7478,7 +7481,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kAugmentedTwelfth:
           result = kF_TripleSharp_QTP;
           break;
-    
+
         case kDiminishedThirteenth:
           result = kG_Natural_QTP;
           break;
@@ -7534,17 +7537,17 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   // workSemiTonesPitch1 is greater or equal to workSemiTonesPitch2
   // according to the enum type
   bool invertInterval = false;
-  
+
   if (semiTonesPitch1 < semiTonesPitch2) {
     workSemiTonesPitch1 = semiTonesPitch2;
     workSemiTonesPitch2 = semiTonesPitch1;
     invertInterval = true;
   }
-    
+
   switch (workSemiTonesPitch1) {
     case k_NoSemiTonesPitch_STP:
       break;
-      
+
     case kC_TripleFlat_STP:
       switch (workSemiTonesPitch2) {
         case k_NoSemiTonesPitch_STP:
@@ -7552,33 +7555,33 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
  /*
      kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
-  
+
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
-  
+
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
-  
+
   kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
-  
+
   kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
-  
+
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
-  
+
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
-  
+
   kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
-  
+
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
-  
+
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
-  
+
   kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
-  
+
   kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
-  
+
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
 */
-         
+
         case kC_TripleFlat_STP:
           break;
         case kC_DoubleFlat_STP:
@@ -7593,7 +7596,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kC_TripleSharp_STP:
           break;
-    
+
         case kD_TripleFlat_STP:
           break;
         case kD_DoubleFlat_STP:
@@ -7601,14 +7604,14 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kD_Flat_STP:
           break;
         case kD_Natural_STP:
-          break;      
+          break;
         case kD_Sharp_STP:
           break;
         case kD_DoubleSharp_STP:
           break;
         case kD_TripleSharp_STP:
           break;
-          
+
         case kE_TripleFlat_STP:
           break;
         case kE_DoubleFlat_STP:
@@ -7623,7 +7626,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kE_TripleSharp_STP:
           break;
-          
+
         case kF_TripleFlat_STP:
           break;
         case kF_DoubleFlat_STP:
@@ -7633,12 +7636,12 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kF_Natural_STP:
           break;
         case kF_Sharp_STP:
-          break;      
+          break;
         case kF_DoubleSharp_STP:
           break;
         case kF_TripleSharp_STP:
           break;
-          
+
         case kG_TripleFlat_STP:
           break;
         case kG_DoubleFlat_STP:
@@ -7653,7 +7656,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kG_TripleSharp_STP:
           break;
-    
+
         case kA_TripleFlat_STP:
           break;
         case kA_DoubleFlat_STP:
@@ -7668,11 +7671,11 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kA_TripleSharp_STP:
           break;
-    
+
         case kB_TripleFlat_STP:
           break;
         case kB_DoubleFlat_STP:
-          break;      
+          break;
         case kB_Flat_STP:
           break;
         case kB_Natural_STP:
@@ -7685,7 +7688,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
       } // switch
       break;
-     
+
     case kC_DoubleFlat_STP:
       break;
     case kC_Flat_STP:
@@ -7706,14 +7709,14 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
     case kD_Flat_STP:
       break;
     case kD_Natural_STP:
-      break;      
+      break;
     case kD_Sharp_STP:
       break;
     case kD_DoubleSharp_STP:
       break;
     case kD_TripleSharp_STP:
       break;
-      
+
     case kE_TripleFlat_STP:
       break;
     case kE_DoubleFlat_STP:
@@ -7728,7 +7731,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
       break;
     case kE_TripleSharp_STP:
       break;
-      
+
     case kF_TripleFlat_STP:
       break;
     case kF_DoubleFlat_STP:
@@ -7738,12 +7741,12 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
     case kF_Natural_STP:
       break;
     case kF_Sharp_STP:
-      break;      
+      break;
     case kF_DoubleSharp_STP:
       break;
     case kF_TripleSharp_STP:
       break;
-      
+
     case kG_TripleFlat_STP:
       break;
     case kG_DoubleFlat_STP:
@@ -7777,7 +7780,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
     case kB_TripleFlat_STP:
       break;
     case kB_DoubleFlat_STP:
-      break;      
+      break;
     case kB_Flat_STP:
       break;
     case kB_Natural_STP:
@@ -7792,33 +7795,33 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
  /*
      kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
-  
+
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
-  
+
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
-  
+
   kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
-  
+
   kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
-  
+
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
-  
+
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
-  
+
   kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
-  
+
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
-  
+
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
-  
+
   kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
-  
+
   kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
-  
+
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
 */
-         
+
         case kC_TripleFlat_STP:
           break;
         case kC_DoubleFlat_STP:
@@ -7833,7 +7836,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kC_TripleSharp_STP:
           break;
-    
+
         case kD_TripleFlat_STP:
           break;
         case kD_DoubleFlat_STP:
@@ -7841,14 +7844,14 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kD_Flat_STP:
           break;
         case kD_Natural_STP:
-          break;      
+          break;
         case kD_Sharp_STP:
           break;
         case kD_DoubleSharp_STP:
           break;
         case kD_TripleSharp_STP:
           break;
-          
+
         case kE_TripleFlat_STP:
           break;
         case kE_DoubleFlat_STP:
@@ -7863,7 +7866,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kE_TripleSharp_STP:
           break;
-          
+
         case kF_TripleFlat_STP:
           break;
         case kF_DoubleFlat_STP:
@@ -7873,12 +7876,12 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kF_Natural_STP:
           break;
         case kF_Sharp_STP:
-          break;      
+          break;
         case kF_DoubleSharp_STP:
           break;
         case kF_TripleSharp_STP:
           break;
-          
+
         case kG_TripleFlat_STP:
           break;
         case kG_DoubleFlat_STP:
@@ -7893,7 +7896,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kG_TripleSharp_STP:
           break;
-    
+
         case kA_TripleFlat_STP:
           break;
         case kA_DoubleFlat_STP:
@@ -7908,11 +7911,11 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kA_TripleSharp_STP:
           break;
-    
+
         case kB_TripleFlat_STP:
           break;
         case kB_DoubleFlat_STP:
-          break;      
+          break;
         case kB_Flat_STP:
           break;
         case kB_Natural_STP:
@@ -7936,33 +7939,33 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
 
  /*
      kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
-  
+
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
-  
+
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
-  
+
   kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
-  
+
   kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
-  
+
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
-  
+
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
-  
+
   kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
-  
+
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
-  
+
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
-  
+
   kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
-  
+
   kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
-  
+
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
 */
-         
+
         case kC_TripleFlat_STP:
           break;
         case kC_DoubleFlat_STP:
@@ -7977,7 +7980,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kC_TripleSharp_STP:
           break;
-    
+
         case kD_TripleFlat_STP:
           break;
         case kD_DoubleFlat_STP:
@@ -7985,14 +7988,14 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kD_Flat_STP:
           break;
         case kD_Natural_STP:
-          break;      
+          break;
         case kD_Sharp_STP:
           break;
         case kD_DoubleSharp_STP:
           break;
         case kD_TripleSharp_STP:
           break;
-          
+
         case kE_TripleFlat_STP:
           break;
         case kE_DoubleFlat_STP:
@@ -8007,7 +8010,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kE_TripleSharp_STP:
           break;
-          
+
         case kF_TripleFlat_STP:
           break;
         case kF_DoubleFlat_STP:
@@ -8017,12 +8020,12 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kF_Natural_STP:
           break;
         case kF_Sharp_STP:
-          break;      
+          break;
         case kF_DoubleSharp_STP:
           break;
         case kF_TripleSharp_STP:
           break;
-          
+
         case kG_TripleFlat_STP:
           break;
         case kG_DoubleFlat_STP:
@@ -8037,7 +8040,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kG_TripleSharp_STP:
           break;
-    
+
         case kA_TripleFlat_STP:
           break;
         case kA_DoubleFlat_STP:
@@ -8052,11 +8055,11 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
         case kA_TripleSharp_STP:
           break;
-    
+
         case kB_TripleFlat_STP:
           break;
         case kB_DoubleFlat_STP:
-          break;      
+          break;
         case kB_Flat_STP:
           break;
         case kB_Natural_STP:
@@ -8076,7 +8079,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
   if (invertInterval) {
     result = invertIntervalKind (result);
   }
-  
+
   return result;
 }
 
@@ -8086,7 +8089,7 @@ string msrHarmonyKindAsString (
   msrHarmonyKind harmonyKind)
 {
   string result;
-  
+
   switch (harmonyKind) {
     case k_NoHarmony:
       result = "noHarmony";
@@ -8172,7 +8175,7 @@ string msrHarmonyKindAsString (
     case kSuspendedFourthHarmony:
       result = "suspendedFourth";
       break;
-      
+
     case kNeapolitanHarmony:
       result = "neapolitan";
       break;
@@ -8195,13 +8198,13 @@ string msrHarmonyKindAsString (
     case kTristanHarmony:
       result = "tristan";
       break;
-      
+
     // jazz-specific chords
 
     case kMinorMajorNinth: // -maj9, minmaj9
       result = "minorMajorNinth";
       break;
-    
+
     case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
       result = "dominantSuspendedFourthHarmony";
       break;
@@ -8220,13 +8223,13 @@ string msrHarmonyKindAsString (
     case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
       result = "dominantAugmentedEleventhHarmony";
       break;
-    
+
     case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
       result = "majorSeventhAugmentedEleventhHarmony";
       break;
 
     // other
-    
+
     case kOtherHarmony:
       result = "other";
       break;
@@ -8242,7 +8245,7 @@ string msrHarmonyKindAsShortString (
   msrHarmonyKind harmonyKind)
 {
   string result;
-  
+
   switch (harmonyKind) {
     case k_NoHarmony:
       result = "noHarmony";
@@ -8328,7 +8331,7 @@ string msrHarmonyKindAsShortString (
     case kSuspendedFourthHarmony:
       result = "sus4";
       break;
-      
+
     case kNeapolitanHarmony:
       result = "Neapolitan";
       break;
@@ -8357,7 +8360,7 @@ string msrHarmonyKindAsShortString (
     case kMinorMajorNinth: // -maj9, minmaj9
       result = "m∆9";
       break;
-    
+
     case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
       result = "7sus4";
       break;
@@ -8376,13 +8379,13 @@ string msrHarmonyKindAsShortString (
     case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
       result = "7#11";
       break;
-    
+
     case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
       result = "maj7#11";
       break;
 
     // other
-    
+
     case kOtherHarmony:
       result = "Other";
       break;
@@ -8398,7 +8401,7 @@ string msrHarmonyKindShortName (
   msrHarmonyKind harmonyKind)
 {
   string result;
-  
+
   switch (harmonyKind) {
     case k_NoHarmony:
       result = "noHarmony";
@@ -8484,7 +8487,7 @@ string msrHarmonyKindShortName (
     case kSuspendedFourthHarmony:
       result = "sus4";
       break;
-      
+
     case kNeapolitanHarmony:
       result = "neapolitan";
       break;
@@ -8513,7 +8516,7 @@ string msrHarmonyKindShortName (
     case kMinorMajorNinth: // -maj9, minmaj9
       result = "minmaj9";
       break;
-    
+
     case kDominantSuspendedFourthHarmony: // 7sus4, domsus4
       result = "domsus4";
       break;
@@ -8532,13 +8535,13 @@ string msrHarmonyKindShortName (
     case kDominantAugmentedEleventhHarmony: // 7#11, domaug11
       result = "domaug11";
       break;
-    
+
     case kMajorSeventhAugmentedEleventhHarmony: // maj7#11, maj7aug11
       result = "maj7aug11";
       break;
 
     // other
-    
+
     case kOtherHarmony:
       result = "other";
       break;
@@ -8674,7 +8677,7 @@ msrHarmonyKind msrHarmonyKindFromString (
   else if (theString == "domaug11") {
     result = kDominantAugmentedEleventhHarmony;             // 7#11, domaug11
   }
-  else if (theString == "maj7aug11") {  
+  else if (theString == "maj7aug11") {
     result = kMajorSeventhAugmentedEleventhHarmony;         // maj7#11, maj7aug11
   }
 
@@ -8720,7 +8723,7 @@ void printChordStructuresMap ()
       endl;
 
     gIndenter++;
-    
+
     S_msrChordStructure
       chordStructure =
         gChordStructuresMap [harmonyKind];
@@ -8737,7 +8740,7 @@ void printChordStructuresMap ()
     }
 
     gIndenter--;
-    
+
     gLogIOstream <<
       endl;
   } // for
@@ -8785,7 +8788,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // nederlands
   gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gNederlandsPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gNederlandsPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
   gNederlandsPitchNamesMap [kA_SesquiFlat_QTP]  = "aeseh";
   gNederlandsPitchNamesMap [kA_Flat_QTP]        = "aes";
@@ -8795,7 +8798,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kA_Sharp_QTP]       = "ais";
   gNederlandsPitchNamesMap [kA_SesquiSharp_QTP] = "aisih";
   gNederlandsPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
-    
+
   gNederlandsPitchNamesMap [kB_DoubleFlat_QTP]  = "beses";
   gNederlandsPitchNamesMap [kB_SesquiFlat_QTP]  = "beseh";
   gNederlandsPitchNamesMap [kB_Flat_QTP]        = "bes";
@@ -8805,7 +8808,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kB_Sharp_QTP]       = "bis";
   gNederlandsPitchNamesMap [kB_SesquiSharp_QTP] = "bisih";
   gNederlandsPitchNamesMap [kB_DoubleSharp_QTP] = "bisis";
-    
+
   gNederlandsPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
   gNederlandsPitchNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
   gNederlandsPitchNamesMap [kC_Flat_QTP]        = "ces";
@@ -8815,7 +8818,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kC_Sharp_QTP]       = "cis";
   gNederlandsPitchNamesMap [kC_SesquiSharp_QTP] = "cisih";
   gNederlandsPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
-    
+
   gNederlandsPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
   gNederlandsPitchNamesMap [kD_SesquiFlat_QTP]  = "deseh";
   gNederlandsPitchNamesMap [kD_Flat_QTP]        = "des";
@@ -8835,7 +8838,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kE_Sharp_QTP]       = "eis";
   gNederlandsPitchNamesMap [kE_SesquiSharp_QTP] = "eisih";
   gNederlandsPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
-    
+
   gNederlandsPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
   gNederlandsPitchNamesMap [kF_SesquiFlat_QTP]  = "feseh";
   gNederlandsPitchNamesMap [kF_Flat_QTP]        = "fes";
@@ -8845,7 +8848,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchNamesMap [kF_Sharp_QTP]       = "fis";
   gNederlandsPitchNamesMap [kF_SesquiSharp_QTP] = "fisih";
   gNederlandsPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
-    
+
   gNederlandsPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
   gNederlandsPitchNamesMap [kG_SesquiFlat_QTP]  = "geseh";
   gNederlandsPitchNamesMap [kG_Flat_QTP]        = "ges";
@@ -8859,7 +8862,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // catalan
   gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gCatalanPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gCatalanPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gCatalanPitchNamesMap [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
   gCatalanPitchNamesMap [kA_Flat_QTP]        = "lab";
@@ -8869,7 +8872,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kA_Sharp_QTP]       = "lad";
   gCatalanPitchNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
   gCatalanPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
-    
+
   gCatalanPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
   gCatalanPitchNamesMap [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
   gCatalanPitchNamesMap [kB_Flat_QTP]        = "sib";
@@ -8879,7 +8882,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kB_Sharp_QTP]       = "sid";
   gCatalanPitchNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
   gCatalanPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
-    
+
   gCatalanPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
   gCatalanPitchNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
   gCatalanPitchNamesMap [kC_Flat_QTP]        = "dob";
@@ -8889,7 +8892,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kC_Sharp_QTP]       = "dod";
   gCatalanPitchNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
   gCatalanPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
-    
+
   gCatalanPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
   gCatalanPitchNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
   gCatalanPitchNamesMap [kD_Flat_QTP]        = "reb";
@@ -8909,7 +8912,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kE_Sharp_QTP]       = "mid";
   gCatalanPitchNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
   gCatalanPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
-    
+
   gCatalanPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
   gCatalanPitchNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
   gCatalanPitchNamesMap [kF_Flat_QTP]        = "fab";
@@ -8919,7 +8922,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchNamesMap [kF_Sharp_QTP]       = "fad";
   gCatalanPitchNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
   gCatalanPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
-    
+
   gCatalanPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
   gCatalanPitchNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
   gCatalanPitchNamesMap [kG_Flat_QTP]        = "solb";
@@ -8933,7 +8936,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // deutsch
   gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gDeutschPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gDeutschPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
   gDeutschPitchNamesMap [kA_SesquiFlat_QTP]  = "asah";
   gDeutschPitchNamesMap [kA_Flat_QTP]        = "as";
@@ -8943,7 +8946,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kA_Sharp_QTP]       = "ais";
   gDeutschPitchNamesMap [kA_SesquiSharp_QTP] = "aisih";
   gDeutschPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
-    
+
   gDeutschPitchNamesMap [kB_DoubleFlat_QTP]  = "heses";
   gDeutschPitchNamesMap [kB_SesquiFlat_QTP]  = "heseh";
   gDeutschPitchNamesMap [kB_Flat_QTP]        = "b";
@@ -8953,7 +8956,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kB_Sharp_QTP]       = "his";
   gDeutschPitchNamesMap [kB_SesquiSharp_QTP] = "hisih";
   gDeutschPitchNamesMap [kB_DoubleSharp_QTP] = "hisis";
-    
+
   gDeutschPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
   gDeutschPitchNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
   gDeutschPitchNamesMap [kC_Flat_QTP]        = "ces";
@@ -8963,7 +8966,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kC_Sharp_QTP]       = "cis";
   gDeutschPitchNamesMap [kC_SesquiSharp_QTP] = "cisih";
   gDeutschPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
-    
+
   gDeutschPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
   gDeutschPitchNamesMap [kD_SesquiFlat_QTP]  = "deseh";
   gDeutschPitchNamesMap [kD_Flat_QTP]        = "des";
@@ -8983,7 +8986,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kE_Sharp_QTP]       = "eis";
   gDeutschPitchNamesMap [kE_SesquiSharp_QTP] = "eisih";
   gDeutschPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
-    
+
   gDeutschPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
   gDeutschPitchNamesMap [kF_SesquiFlat_QTP]  = "feseh";
   gDeutschPitchNamesMap [kF_Flat_QTP]        = "fes";
@@ -8993,7 +8996,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchNamesMap [kF_Sharp_QTP]       = "fis";
   gDeutschPitchNamesMap [kF_SesquiSharp_QTP] = "fisih";
   gDeutschPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
-    
+
   gDeutschPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
   gDeutschPitchNamesMap [kG_SesquiFlat_QTP]  = "geseh";
   gDeutschPitchNamesMap [kG_Flat_QTP]        = "ges";
@@ -9007,7 +9010,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // english
   gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gEnglishPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gEnglishPitchNamesMap [kA_DoubleFlat_QTP]  = "aff";
   gEnglishPitchNamesMap [kA_SesquiFlat_QTP]  = "atqf";
   gEnglishPitchNamesMap [kA_Flat_QTP]        = "af";
@@ -9017,7 +9020,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kA_Sharp_QTP]       = "as";
   gEnglishPitchNamesMap [kA_SesquiSharp_QTP] = "atqs";
   gEnglishPitchNamesMap [kA_DoubleSharp_QTP] = "a";
-    
+
   gEnglishPitchNamesMap [kB_DoubleFlat_QTP]  = "bfqf";
   gEnglishPitchNamesMap [kB_SesquiFlat_QTP]  = "btqf";
   gEnglishPitchNamesMap [kB_Flat_QTP]        = "bf";
@@ -9027,7 +9030,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kB_Sharp_QTP]       = "bs";
   gEnglishPitchNamesMap [kB_SesquiSharp_QTP] = "btqs";
   gEnglishPitchNamesMap [kB_DoubleSharp_QTP] = "bx";
-    
+
   gEnglishPitchNamesMap [kC_DoubleFlat_QTP]  = "cff";
   gEnglishPitchNamesMap [kC_SesquiFlat_QTP]  = "ctqf";
   gEnglishPitchNamesMap [kC_Flat_QTP]        = "cf";
@@ -9037,7 +9040,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kC_Sharp_QTP]       = "cs";
   gEnglishPitchNamesMap [kC_SesquiSharp_QTP] = "ctqs";
   gEnglishPitchNamesMap [kC_DoubleSharp_QTP] = "cx";
-    
+
   gEnglishPitchNamesMap [kD_DoubleFlat_QTP]  = "dff";
   gEnglishPitchNamesMap [kD_SesquiFlat_QTP]  = "dtqf";
   gEnglishPitchNamesMap [kD_Flat_QTP]        = "df";
@@ -9057,7 +9060,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kE_Sharp_QTP]       = "es";
   gEnglishPitchNamesMap [kE_SesquiSharp_QTP] = "etqs";
   gEnglishPitchNamesMap [kE_DoubleSharp_QTP] = "ex";
-    
+
   gEnglishPitchNamesMap [kF_DoubleFlat_QTP]  = "fff";
   gEnglishPitchNamesMap [kF_SesquiFlat_QTP]  = "ftqf";
   gEnglishPitchNamesMap [kF_Flat_QTP]        = "ff";
@@ -9067,7 +9070,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchNamesMap [kF_Sharp_QTP]       = "fs";
   gEnglishPitchNamesMap [kF_SesquiSharp_QTP] = "ftqs";
   gEnglishPitchNamesMap [kF_DoubleSharp_QTP] = "fx";
-    
+
   gEnglishPitchNamesMap [kG_DoubleFlat_QTP]  = "gff";
   gEnglishPitchNamesMap [kG_SesquiFlat_QTP]  = "gtqf";
   gEnglishPitchNamesMap [kG_Flat_QTP]        = "gf";
@@ -9081,7 +9084,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // espanol
   gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gEspanolPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gEspanolPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gEspanolPitchNamesMap [kA_SesquiFlat_QTP]  = "latcb";
   gEspanolPitchNamesMap [kA_Flat_QTP]        = "lab";
@@ -9091,7 +9094,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kA_Sharp_QTP]       = "las";
   gEspanolPitchNamesMap [kA_SesquiSharp_QTP] = "latcs";
   gEspanolPitchNamesMap [kA_DoubleSharp_QTP] = "lax";
-    
+
   gEspanolPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
   gEspanolPitchNamesMap [kB_SesquiFlat_QTP]  = "sitcb";
   gEspanolPitchNamesMap [kB_Flat_QTP]        = "sib";
@@ -9101,7 +9104,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kB_Sharp_QTP]       = "sis";
   gEspanolPitchNamesMap [kB_SesquiSharp_QTP] = "sitcs";
   gEspanolPitchNamesMap [kB_DoubleSharp_QTP] = "six";
-    
+
   gEspanolPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
   gEspanolPitchNamesMap [kC_SesquiFlat_QTP]  = "dotcb";
   gEspanolPitchNamesMap [kC_Flat_QTP]        = "dob";
@@ -9111,7 +9114,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kC_Sharp_QTP]       = "dos";
   gEspanolPitchNamesMap [kC_SesquiSharp_QTP] = "dotcs";
   gEspanolPitchNamesMap [kC_DoubleSharp_QTP] = "dox";
-    
+
   gEspanolPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
   gEspanolPitchNamesMap [kD_SesquiFlat_QTP]  = "retcb";
   gEspanolPitchNamesMap [kD_Flat_QTP]        = "reb";
@@ -9131,7 +9134,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kE_Sharp_QTP]       = "mis";
   gEspanolPitchNamesMap [kE_SesquiSharp_QTP] = "mitcs";
   gEspanolPitchNamesMap [kE_DoubleSharp_QTP] = "mix";
-    
+
   gEspanolPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
   gEspanolPitchNamesMap [kF_SesquiFlat_QTP]  = "fatcb";
   gEspanolPitchNamesMap [kF_Flat_QTP]        = "fab";
@@ -9141,7 +9144,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchNamesMap [kF_Sharp_QTP]       = "fas";
   gEspanolPitchNamesMap [kF_SesquiSharp_QTP] = "fatcs";
   gEspanolPitchNamesMap [kF_DoubleSharp_QTP] = "fax";
-    
+
   gEspanolPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
   gEspanolPitchNamesMap [kG_SesquiFlat_QTP]  = "soltcb";
   gEspanolPitchNamesMap [kG_Flat_QTP]        = "solb";
@@ -9155,7 +9158,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // francais
   gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gFrancaisPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gFrancaisPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gFrancaisPitchNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
   gFrancaisPitchNamesMap [kA_Flat_QTP]        = "lab";
@@ -9165,7 +9168,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kA_Sharp_QTP]       = "lad";
   gFrancaisPitchNamesMap [kA_SesquiSharp_QTP] = "lastqt";
   gFrancaisPitchNamesMap [kA_DoubleSharp_QTP] = "lass";
-    
+
   gFrancaisPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
   gFrancaisPitchNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
   gFrancaisPitchNamesMap [kB_Flat_QTP]        = "sib";
@@ -9175,7 +9178,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kB_Sharp_QTP]       = "sid";
   gFrancaisPitchNamesMap [kB_SesquiSharp_QTP] = "sistqt";
   gFrancaisPitchNamesMap [kB_DoubleSharp_QTP] = "siss";
-    
+
   gFrancaisPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
   gFrancaisPitchNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
   gFrancaisPitchNamesMap [kC_Flat_QTP]        = "dob";
@@ -9185,7 +9188,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kC_Sharp_QTP]       = "dod";
   gFrancaisPitchNamesMap [kC_SesquiSharp_QTP] = "dostqt";
   gFrancaisPitchNamesMap [kC_DoubleSharp_QTP] = "doss";
-    
+
   gFrancaisPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
   gFrancaisPitchNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
   gFrancaisPitchNamesMap [kD_Flat_QTP]        = "reb";
@@ -9205,7 +9208,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kE_Sharp_QTP]       = "mid";
   gFrancaisPitchNamesMap [kE_SesquiSharp_QTP] = "mistqt";
   gFrancaisPitchNamesMap [kE_DoubleSharp_QTP] = "miss";
-    
+
   gFrancaisPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
   gFrancaisPitchNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
   gFrancaisPitchNamesMap [kF_Flat_QTP]        = "fab";
@@ -9215,7 +9218,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchNamesMap [kF_Sharp_QTP]       = "fad";
   gFrancaisPitchNamesMap [kF_SesquiSharp_QTP] = "fastqt";
   gFrancaisPitchNamesMap [kF_DoubleSharp_QTP] = "fass";
-    
+
   gFrancaisPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
   gFrancaisPitchNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
   gFrancaisPitchNamesMap [kG_Flat_QTP]        = "solb";
@@ -9229,7 +9232,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // italiano
   gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gItalianoPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gItalianoPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gItalianoPitchNamesMap [kA_SesquiFlat_QTP]  = "labsb";
   gItalianoPitchNamesMap [kA_Flat_QTP]        = "lab";
@@ -9239,7 +9242,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kA_Sharp_QTP]       = "lad";
   gItalianoPitchNamesMap [kA_SesquiSharp_QTP] = "ladsd";
   gItalianoPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
-    
+
   gItalianoPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
   gItalianoPitchNamesMap [kB_SesquiFlat_QTP]  = "sibsb";
   gItalianoPitchNamesMap [kB_Flat_QTP]        = "sib";
@@ -9249,7 +9252,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kB_Sharp_QTP]       = "sid";
   gItalianoPitchNamesMap [kB_SesquiSharp_QTP] = "sidsd";
   gItalianoPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
-    
+
   gItalianoPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
   gItalianoPitchNamesMap [kC_SesquiFlat_QTP]  = "dobsb";
   gItalianoPitchNamesMap [kC_Flat_QTP]        = "dob";
@@ -9259,7 +9262,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kC_Sharp_QTP]       = "dod";
   gItalianoPitchNamesMap [kC_SesquiSharp_QTP] = "dodsd";
   gItalianoPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
-    
+
   gItalianoPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
   gItalianoPitchNamesMap [kD_SesquiFlat_QTP]  = "rebsb";
   gItalianoPitchNamesMap [kD_Flat_QTP]        = "reb";
@@ -9279,7 +9282,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kE_Sharp_QTP]       = "mid";
   gItalianoPitchNamesMap [kE_SesquiSharp_QTP] = "midsd";
   gItalianoPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
-    
+
   gItalianoPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
   gItalianoPitchNamesMap [kF_SesquiFlat_QTP]  = "fabsb";
   gItalianoPitchNamesMap [kF_Flat_QTP]        = "fab";
@@ -9289,7 +9292,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchNamesMap [kF_Sharp_QTP]       = "fad";
   gItalianoPitchNamesMap [kF_SesquiSharp_QTP] = "fadsd";
   gItalianoPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
-    
+
   gItalianoPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
   gItalianoPitchNamesMap [kG_SesquiFlat_QTP]  = "solbsb";
   gItalianoPitchNamesMap [kG_Flat_QTP]        = "solb";
@@ -9303,7 +9306,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // norsk
   gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gNorskPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gNorskPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
   gNorskPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
   gNorskPitchNamesMap [kA_Flat_QTP]        = "aes";
@@ -9313,7 +9316,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kA_Sharp_QTP]       = "ais";
   gNorskPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
   gNorskPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
-    
+
   gNorskPitchNamesMap [kB_DoubleFlat_QTP]  = "beses";
   gNorskPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
   gNorskPitchNamesMap [kB_Flat_QTP]        = "bes";
@@ -9323,7 +9326,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kB_Sharp_QTP]       = "bis";
   gNorskPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
   gNorskPitchNamesMap [kB_DoubleSharp_QTP] = "bisis";
-    
+
   gNorskPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
   gNorskPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
   gNorskPitchNamesMap [kC_Flat_QTP]        = "ces";
@@ -9333,7 +9336,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kC_Sharp_QTP]       = "cis";
   gNorskPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
   gNorskPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
-    
+
   gNorskPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
   gNorskPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
   gNorskPitchNamesMap [kD_Flat_QTP]        = "des";
@@ -9353,7 +9356,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kE_Sharp_QTP]       = "eis";
   gNorskPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
   gNorskPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
-    
+
   gNorskPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
   gNorskPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
   gNorskPitchNamesMap [kF_Flat_QTP]        = "fes";
@@ -9363,7 +9366,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchNamesMap [kF_Sharp_QTP]       = "fis";
   gNorskPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
   gNorskPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
-    
+
   gNorskPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
   gNorskPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
   gNorskPitchNamesMap [kG_Flat_QTP]        = "ges";
@@ -9377,7 +9380,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // portugues
   gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gPortuguesPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gPortuguesPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gPortuguesPitchNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
   gPortuguesPitchNamesMap [kA_Flat_QTP]        = "lab";
@@ -9387,7 +9390,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kA_Sharp_QTP]       = "lad";
   gPortuguesPitchNamesMap [kA_SesquiSharp_QTP] = "ladsd";
   gPortuguesPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
-    
+
   gPortuguesPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
   gPortuguesPitchNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
   gPortuguesPitchNamesMap [kB_Flat_QTP]        = "sib";
@@ -9397,7 +9400,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kB_Sharp_QTP]       = "sid";
   gPortuguesPitchNamesMap [kB_SesquiSharp_QTP] = "sidsd";
   gPortuguesPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
-    
+
   gPortuguesPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
   gPortuguesPitchNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
   gPortuguesPitchNamesMap [kC_Flat_QTP]        = "dob";
@@ -9407,7 +9410,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kC_Sharp_QTP]       = "dod";
   gPortuguesPitchNamesMap [kC_SesquiSharp_QTP] = "dodsd";
   gPortuguesPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
-    
+
   gPortuguesPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
   gPortuguesPitchNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
   gPortuguesPitchNamesMap [kD_Flat_QTP]        = "reb";
@@ -9427,7 +9430,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kE_Sharp_QTP]       = "mid";
   gPortuguesPitchNamesMap [kE_SesquiSharp_QTP] = "midsd";
   gPortuguesPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
-    
+
   gPortuguesPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
   gPortuguesPitchNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
   gPortuguesPitchNamesMap [kF_Flat_QTP]        = "fab";
@@ -9437,7 +9440,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchNamesMap [kF_Sharp_QTP]       = "fad";
   gPortuguesPitchNamesMap [kF_SesquiSharp_QTP] = "fadsd";
   gPortuguesPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
-    
+
   gPortuguesPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
   gPortuguesPitchNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
   gPortuguesPitchNamesMap [kG_Flat_QTP]        = "solb";
@@ -9451,7 +9454,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // suomi
   gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gSuomiPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gSuomiPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
   gSuomiPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
   gSuomiPitchNamesMap [kA_Flat_QTP]        = "as";
@@ -9461,7 +9464,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kA_Sharp_QTP]       = "ais";
   gSuomiPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
   gSuomiPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
-    
+
   gSuomiPitchNamesMap [kB_DoubleFlat_QTP]  = "bes";
   gSuomiPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
   gSuomiPitchNamesMap [kB_Flat_QTP]        = "b";
@@ -9471,7 +9474,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kB_Sharp_QTP]       = "his";
   gSuomiPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
   gSuomiPitchNamesMap [kB_DoubleSharp_QTP] = "hisis";
-    
+
   gSuomiPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
   gSuomiPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
   gSuomiPitchNamesMap [kC_Flat_QTP]        = "ces";
@@ -9481,7 +9484,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kC_Sharp_QTP]       = "cis";
   gSuomiPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
   gSuomiPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
-    
+
   gSuomiPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
   gSuomiPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
   gSuomiPitchNamesMap [kD_Flat_QTP]        = "des";
@@ -9501,7 +9504,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kE_Sharp_QTP]       = "eis";
   gSuomiPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
   gSuomiPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
-    
+
   gSuomiPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
   gSuomiPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
   gSuomiPitchNamesMap [kF_Flat_QTP]        = "fes";
@@ -9511,7 +9514,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchNamesMap [kF_Sharp_QTP]       = "fis";
   gSuomiPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
   gSuomiPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
-    
+
   gSuomiPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
   gSuomiPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
   gSuomiPitchNamesMap [kG_Flat_QTP]        = "ges";
@@ -9525,7 +9528,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // svenska
   gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
   gSvenskaPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gSvenskaPitchNamesMap [kA_DoubleFlat_QTP]  = "assess";
   gSvenskaPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
   gSvenskaPitchNamesMap [kA_Flat_QTP]        = "ass";
@@ -9535,7 +9538,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kA_Sharp_QTP]       = "aiss";
   gSvenskaPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
   gSvenskaPitchNamesMap [kA_DoubleSharp_QTP] = "aississ";
-    
+
   gSvenskaPitchNamesMap [kB_DoubleFlat_QTP]  = "hessess";
   gSvenskaPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
   gSvenskaPitchNamesMap [kB_Flat_QTP]        = "b";
@@ -9545,7 +9548,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kB_Sharp_QTP]       = "hiss";
   gSvenskaPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
   gSvenskaPitchNamesMap [kB_DoubleSharp_QTP] = "hississ";
-    
+
   gSvenskaPitchNamesMap [kC_DoubleFlat_QTP]  = "cessess";
   gSvenskaPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
   gSvenskaPitchNamesMap [kC_Flat_QTP]        = "cess";
@@ -9555,7 +9558,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kC_Sharp_QTP]       = "ciss";
   gSvenskaPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
   gSvenskaPitchNamesMap [kC_DoubleSharp_QTP] = "cississ";
-    
+
   gSvenskaPitchNamesMap [kD_DoubleFlat_QTP]  = "dessess";
   gSvenskaPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
   gSvenskaPitchNamesMap [kD_Flat_QTP]        = "dess";
@@ -9575,7 +9578,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kE_Sharp_QTP]       = "eiss";
   gSvenskaPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
   gSvenskaPitchNamesMap [kE_DoubleSharp_QTP] = "eississ";
-    
+
   gSvenskaPitchNamesMap [kF_DoubleFlat_QTP]  = "fessess";
   gSvenskaPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
   gSvenskaPitchNamesMap [kF_Flat_QTP]        = "fess";
@@ -9585,7 +9588,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchNamesMap [kF_Sharp_QTP]       = "fiss";
   gSvenskaPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
   gSvenskaPitchNamesMap [kF_DoubleSharp_QTP] = "fississ";
-    
+
   gSvenskaPitchNamesMap [kG_DoubleFlat_QTP]  = "gessess";
   gSvenskaPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
   gSvenskaPitchNamesMap [kG_Flat_QTP]        = "gess";
@@ -9599,7 +9602,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   // vlaams
   gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "none";
   gVlaamsPitchNamesMap [k_Rest_QTP]                 = "r";
-  
+
   gVlaamsPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
   gVlaamsPitchNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
   gVlaamsPitchNamesMap [kA_Flat_QTP]        = "lab";
@@ -9609,7 +9612,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gVlaamsPitchNamesMap [kA_Sharp_QTP]       = "lak";
   gVlaamsPitchNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
   gVlaamsPitchNamesMap [kA_DoubleSharp_QTP] = "lakk";
-    
+
   gVlaamsPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
   gVlaamsPitchNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
   gVlaamsPitchNamesMap [kB_Flat_QTP]        = "sib";
@@ -9619,7 +9622,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gVlaamsPitchNamesMap [kB_Sharp_QTP]       = "sik";
   gVlaamsPitchNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
   gVlaamsPitchNamesMap [kB_DoubleSharp_QTP] = "sikk";
-    
+
   gVlaamsPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
   gVlaamsPitchNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
   gVlaamsPitchNamesMap [kC_Flat_QTP]        = "dob";
@@ -9629,7 +9632,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gVlaamsPitchNamesMap [kC_Sharp_QTP]       = "dok";
   gVlaamsPitchNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
   gVlaamsPitchNamesMap [kC_DoubleSharp_QTP] = "dokk";
-    
+
   gVlaamsPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
   gVlaamsPitchNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
   gVlaamsPitchNamesMap [kD_Flat_QTP]        = "reb";
@@ -9649,7 +9652,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gVlaamsPitchNamesMap [kE_Sharp_QTP]       = "mik";
   gVlaamsPitchNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
   gVlaamsPitchNamesMap [kE_DoubleSharp_QTP] = "mikk";
-    
+
   gVlaamsPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
   gVlaamsPitchNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
   gVlaamsPitchNamesMap [kF_Flat_QTP]        = "fab";
@@ -9659,7 +9662,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gVlaamsPitchNamesMap [kF_Sharp_QTP]       = "fak";
   gVlaamsPitchNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
   gVlaamsPitchNamesMap [kF_DoubleSharp_QTP] = "fakk";
-    
+
   gVlaamsPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
   gVlaamsPitchNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
   gVlaamsPitchNamesMap [kG_Flat_QTP]        = "solb";
@@ -9703,7 +9706,7 @@ string msrDiatonicPitchKindAsString (
       result = "G";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -9711,7 +9714,7 @@ msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName)
 {
   msrDiatonicPitchKind result = k_NoDiatonicPitch;
-  
+
   switch (diatonicNoteName) {
     case 'a':
     case 'A':
@@ -9752,7 +9755,7 @@ string msrDiatonicPitchKindAsString (
   msrDiatonicPitchKind               diatonicPitchKind)
 {
   string result;
-  
+
   switch (diatonicPitchKind) {
     case k_NoDiatonicPitch:
       result = "k_NoDiatonicPitch";
@@ -9788,7 +9791,7 @@ string msrQuarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind)
 {
   string result;
-  
+
   switch (languageKind) {
     case kNederlands:
       result = "nederlands";
@@ -9845,47 +9848,47 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
 */
 
   msrAlterationKind result = k_NoAlteration;
-  
+
   if      (alter == 0 ) {
     result = kNatural;
   }
-  
+
   else if (alter == -1 ) {
     result = kFlat;
   }
-  
+
   else if (alter == 1 ) {
     result = kSharp;
   }
-  
+
   else if (alter == -0.5 ) {
     result = kSemiFlat;
   }
-  
+
   else if (alter == +0.5 ) {
     result = kSemiSharp;
   }
-  
+
   else if (alter == -1.5 ) {
     result = kSesquiFlat;
   }
-  
+
   else if (alter == +1.5 ) {
     result = kSesquiSharp;
   }
-  
+
   else if (alter == -2 ) {
     result = kDoubleFlat;
   }
-  
+
   else if (alter == +2 ) {
     result = kDoubleSharp;
   }
-  
+
   else if (alter == -3 ) {
     result = kTripleFlat;
   }
-  
+
   else if (alter == +3 ) {
     result = kTripleSharp;
   }
@@ -9899,7 +9902,7 @@ string msrAlterationKindAsString (
   msrAlterationKind alterationKind)
 {
   string result;
-  
+
   switch (alterationKind) {
     case k_NoAlteration:
       result = "noAlteration";
@@ -10268,11 +10271,11 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kG;
       alterationKind    = kTripleSharp;
       break;
-      
+
     case k_Rest_QTP:
       diatonicPitchKind = kA; // any value would fit JMI
       alterationKind    = k_NoAlteration;
-      
+
       break;
   } // switch
 }
@@ -10285,7 +10288,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
   msrQuarterTonesPitchKind
     result =
       k_NoQuarterTonesPitch_QTP;
-  
+
   switch (diatonicPitchKind) {
     case kA:
       switch (alterationKind) {
@@ -10339,7 +10342,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-      
+
     case kB:
       switch (alterationKind) {
         case kTripleFlat:
@@ -10392,9 +10395,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-      
+
       break;
-      
+
     case kC:
       switch (alterationKind) {
         case kTripleFlat:
@@ -10447,7 +10450,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-      
+
     case kD:
       switch (alterationKind) {
         case kTripleFlat:
@@ -10500,7 +10503,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-      
+
     case kE:
       switch (alterationKind) {
         case kTripleFlat:
@@ -10553,7 +10556,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-      
+
     case kF:
       switch (alterationKind) {
         case kTripleFlat:
@@ -10606,7 +10609,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
       } // switch
       break;
-      
+
     case kG:
       switch (alterationKind) {
         case kTripleFlat:
@@ -10677,7 +10680,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           s.str ());
           */
       }
-      break;    
+      break;
   } // switch
 
   return result;
@@ -10688,7 +10691,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
   msrDiatonicPitchKind result = k_NoDiatonicPitch;
-  
+
   switch (quarterTonesPitchKind) {
     case kA_TripleFlat_QTP:
     case kA_DoubleFlat_QTP:
@@ -10802,11 +10805,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           __FILE__, __LINE__,
           s.str ());
       }
-      
+
     case k_NoQuarterTonesPitch_QTP:
       {
         result = k_NoDiatonicPitch;
-        
+
         /* JMI
         stringstream s;
 
@@ -10830,11 +10833,11 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
   msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
-  
+
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
       break;
-      
+
     case kC_TripleFlat_STP:
       result = kC_TripleFlat_QTP;
       break;
@@ -10856,7 +10859,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     case kC_TripleSharp_STP:
       result = kC_TripleSharp_QTP;
       break;
-      
+
     case kD_TripleFlat_STP:
       result = kD_TripleFlat_QTP;
       break;
@@ -10878,7 +10881,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     case kD_TripleSharp_STP:
       result = kD_TripleSharp_QTP;
       break;
-      
+
     case kE_TripleFlat_STP:
       result = kE_TripleFlat_QTP;
       break;
@@ -10900,7 +10903,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     case kE_TripleSharp_STP:
       result = kE_TripleSharp_QTP;
       break;
-      
+
     case kF_TripleFlat_STP:
       result = kF_TripleFlat_QTP;
       break;
@@ -10922,7 +10925,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     case kF_TripleSharp_STP:
       result = kF_TripleSharp_QTP;
       break;
-      
+
     case kG_TripleFlat_STP:
       result = kG_TripleFlat_QTP;
       break;
@@ -10944,7 +10947,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     case kG_TripleSharp_STP:
       result = kG_TripleSharp_QTP;
       break;
-      
+
     case kA_TripleFlat_STP:
       result = kA_TripleFlat_QTP;
       break;
@@ -10966,7 +10969,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     case kA_TripleSharp_STP:
       result = kA_TripleSharp_QTP;
       break;
-      
+
     case kB_TripleFlat_STP:
       result = kB_TripleFlat_QTP;
       break;
@@ -10997,14 +11000,14 @@ msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
   msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
-  
+
     switch (quarterTonesPitchKind) {
       case k_NoQuarterTonesPitch_QTP:
         break;
 
       case k_Rest_QTP:
         break;
-  
+
       case kA_Flat_QTP:
         result = kA_Flat_STP;
         break;
@@ -11074,7 +11077,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
       case kG_Sharp_QTP:
         result = kG_Sharp_STP;
         break;
-  
+
       default:
         ;
     } // switch
@@ -11087,7 +11090,7 @@ string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchKind           quarterTonesPitchKind)
 {
   string result;
-  
+
   switch (languageKind) {
     case kNederlands:
       result = gNederlandsPitchNamesMap [quarterTonesPitchKind];
@@ -11192,7 +11195,7 @@ msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
       if (++i == iEnd) break;
     } // for
   }
-  
+
   return result;
 }
 
@@ -11200,7 +11203,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
   string theString)
 {
   msrSemiTonesPitchKind result;
-  
+
   // fetch the quarternotes pitches kind
   msrQuarterTonesPitchKind
     quarterTonesPitchKindFromString =
@@ -11232,7 +11235,7 @@ string existingQuarterTonesPitchesLanguageKinds ()
       s << " ";
     } // for
   }
-  
+
   return s.str ();
 }
 
@@ -11243,12 +11246,12 @@ string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
   string result;
-  
+
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
       result = "k_NoSemiTonesPitch_STP";
       break;
-      
+
     case kC_TripleFlat_STP:
       result = "C_TripleFlat_STP";
       break;
@@ -11282,7 +11285,7 @@ string msrSemiTonesPitchKindAsString (
       break;
     case kD_Natural_STP:
       result = "D_Natural_STP";
-      break;      
+      break;
     case kD_Sharp_STP:
       result = "D_Sharp_STP";
       break;
@@ -11292,7 +11295,7 @@ string msrSemiTonesPitchKindAsString (
     case kD_TripleSharp_STP:
       result = "D_TripleSharp_STP";
       break;
-      
+
     case kE_TripleFlat_STP:
       result = "E_TripleFlat_STP";
       break;
@@ -11314,7 +11317,7 @@ string msrSemiTonesPitchKindAsString (
     case kE_TripleSharp_STP:
       result = "E_TripleSharp_STP";
       break;
-      
+
     case kF_TripleFlat_STP:
       result = "F_TripleFlat_STP";
       break;
@@ -11329,14 +11332,14 @@ string msrSemiTonesPitchKindAsString (
       break;
     case kF_Sharp_STP:
       result = "F_Sharp_STP";
-      break;      
+      break;
     case kF_DoubleSharp_STP:
       result = "F_DoubleSharp_STP";
       break;
     case kF_TripleSharp_STP:
       result = "F_TripleSharp_STP";
       break;
-      
+
     case kG_TripleFlat_STP:
       result = "G_TripleFlat_STP";
       break;
@@ -11386,7 +11389,7 @@ string msrSemiTonesPitchKindAsString (
       break;
     case kB_DoubleFlat_STP:
       result = "B_DoubleFlat_STP";
-      break;      
+      break;
     case kB_Flat_STP:
       result = "B_Flat_STP";
       break;
@@ -11422,7 +11425,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
     case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
       result = kC_Natural;
       break;
-      
+
     case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
@@ -11448,15 +11451,15 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
           break;
       } // switch
       break;
-      
+
     case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
       result = kE_Natural;
       break;
-      
+
     case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
       result = kF_Natural;
       break;
-      
+
     case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
@@ -11467,11 +11470,11 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
           break;
       } // switch
       break;
-      
+
     case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
       result = kG_Natural;
       break;
-      
+
     case kG_Sharp_STP: // kA_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
@@ -11482,11 +11485,11 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
           break;
       } // switch
       break;
-      
+
     case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
       result = kA_Natural;
       break;
-      
+
     case kA_Sharp_STP: // kB_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
@@ -11514,7 +11517,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
     case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
       result = kC_Natural_QTP;
       break;
-      
+
     case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferFlat:
@@ -11540,15 +11543,15 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
           break;
       } // switch
       break;
-      
+
     case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
       result = kE_Natural_QTP;
       break;
-      
+
     case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
       result = kF_Natural_QTP;
       break;
-      
+
     case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferFlat:
@@ -11559,11 +11562,11 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
           break;
       } // switch
       break;
-      
+
     case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
       result = kG_Natural_QTP;
       break;
-      
+
     case kG_Sharp_STP: // kA_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferFlat:
@@ -11574,11 +11577,11 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
           break;
       } // switch
       break;
-      
+
     case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
       result = kA_Natural_QTP;
       break;
-      
+
     case kA_Sharp_STP: // kB_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferFlat:
@@ -11596,7 +11599,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   } // switch
   */
 
-  
+
 
   return result;
 }
@@ -11608,7 +11611,7 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrAlterationPreferenceKind alterationPreferenceKind)
 {
   msrSemiTonesPitchKind result = semiTonesPitchKind;
-  
+
   switch (semiTonesPitchKind) {
     case kC_Flat_STP:
       result = kB_Natural_STP;
@@ -11616,7 +11619,7 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
 
     case kC_Natural_STP:
       break;
-      
+
     case kC_Sharp_STP:
       result = kD_Flat_STP;
       break;
@@ -11633,33 +11636,33 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
     case kE_Flat_STP:
       result = kD_Sharp_STP;
       break;
-      
+
     case kE_Natural_STP:
       break;
-      
+
     case kF_Natural_STP:
       break;
-      
+
     case kF_Sharp_STP:
       result = kG_Flat_STP;
       break;
     case kG_Flat_STP:
       result = kF_Sharp_STP;
       break;
-      
+
     case kG_Natural_STP:
       break;
-      
+
     case kG_Sharp_STP:
       result = kA_Flat_STP;
       break;
     case kA_Flat_STP:
       result = kG_Sharp_STP;
       break;
-      
+
     case kA_Natural_STP:
       break;
-      
+
     case kA_Sharp_STP:
       result = kB_Flat_STP;
       break;
@@ -11720,7 +11723,7 @@ msrFontSize::msrFontSize (
 
 msrFontSize::~msrFontSize ()
 {}
-  
+
 string msrFontSize::fontSizeKindAsString (
   msrFontSize::msrFontSizeKind fontSizeKind)
 {
@@ -11768,7 +11771,7 @@ string msrFontSize::fontSizeKindAsString () const
 string msrFontSize::fontSizeAsString () const
 {
   string result;
-  
+
   switch (fFontSizeKind) {
     case msrFontSize::kFontSizeNone:
     case msrFontSize::kFontSizeXXSmall:
@@ -11780,7 +11783,7 @@ string msrFontSize::fontSizeAsString () const
     case msrFontSize::kFontSizeXXLarge:
       result = fontSizeKindAsString (fFontSizeKind);
       break;
-      
+
     case msrFontSize::kFontSizeNumeric:
       result =
         to_string (fFontNumericSize);
@@ -11793,7 +11796,7 @@ string msrFontSize::fontSizeAsString () const
 float msrFontSize::getFontNumericSize ()
 {
   float result = 12; // JMI
-  
+
   switch (fFontSizeKind) {
     case msrFontSize::kFontSizeNone:
     case msrFontSize::kFontSizeXXSmall:
@@ -11817,7 +11820,7 @@ float msrFontSize::getFontNumericSize ()
           s.str ());
       }
       break;
-      
+
     case msrFontSize::kFontSizeNumeric:
       result = fFontNumericSize;
       break;
@@ -11840,7 +11843,7 @@ void msrFontSize::print (ostream& os)
       os <<
         msrFontSize::fontSizeKindAsString (fFontSizeKind);
       break;
-      
+
     case msrFontSize::kFontSizeNumeric:
       os <<
         fFontNumericSize;
@@ -11863,11 +11866,11 @@ msrFontStyleKind msrFontStyleKindFromString (
   else {
     if (fontStyleString.size ()) {
       stringstream s;
-      
+
       s <<
         "style value " << fontStyleString <<
         " should be 'normal' or 'italic'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -11883,7 +11886,7 @@ string msrFontStyleKindAsString (
   msrFontStyleKind fontStyleKind)
 {
   string result;
-  
+
   switch (fontStyleKind) {
     case kFontStyleNone:
       result = "fontStyleNone";
@@ -11914,11 +11917,11 @@ msrFontWeightKind msrFontWeightKindFromString (
   else {
     if (fontWeightString.size ()) {
       stringstream s;
-      
+
       s <<
         "font weight value " << fontWeightString <<
         " should be 'normal' or 'bold'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -11934,7 +11937,7 @@ string msrFontWeightKindAsString (
   msrFontWeightKind fontWeightKind)
 {
   string result;
-  
+
   switch (fontWeightKind) {
     case kFontWeightNone:
       result = "fontWeightNone";
@@ -11967,11 +11970,11 @@ msrJustifyKind msrJustifyKindFromString (
   else {
     if (justifyString.size ()) {
       stringstream s;
-      
+
       s <<
         "justify value " << justifyString <<
         " should be 'left', 'center' or 'right'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -11987,7 +11990,7 @@ string msrJustifyKindAsString (
   msrJustifyKind justifyKind)
 {
   string result;
-  
+
   switch (justifyKind) {
     case kJustifyNone:
       result = "justifyNone";
@@ -12022,11 +12025,11 @@ msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
   else {
     if (horizontalAlignmentString.size ()) {
       stringstream s;
-      
+
       s <<
         "halign value " << horizontalAlignmentString <<
         " should be 'left', 'center' or 'right'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -12042,7 +12045,7 @@ string msrHorizontalAlignmentKindAsString (
   msrHorizontalAlignmentKind horizontalAlignmentKind)
 {
   string result;
-  
+
   switch (horizontalAlignmentKind) {
     case kHorizontalAlignmentNone:
       result = "horizontalAlignmentNone";
@@ -12077,11 +12080,11 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
   else {
     if (verticalAlignmentString.size ()) {
       stringstream s;
-      
+
       s <<
         "valign value " << verticalAlignmentString <<
         " should be 'top', 'middle' or 'bottom'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -12092,12 +12095,12 @@ msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
 
   return result;
 }
-  
+
 string msrVerticalAlignmentKindAsString (
   msrVerticalAlignmentKind verticalAlignmentKind)
 {
   string result;
-  
+
   switch (verticalAlignmentKind) {
     case kVerticalAlignmentNone:
       result = "verticalAlignmentNone";
@@ -12122,7 +12125,7 @@ string msrDirectionKindAsString (
   msrDirectionKind directionKind)
 {
   string result;
-  
+
   switch (directionKind) {
     case kDirectionNone:
       result = "directionNone";
@@ -12155,27 +12158,27 @@ msrPlacementKind msrPlacementKindFromString (
   else {
     if (placementString.size ()) {
       stringstream s;
-      
+
       s <<
         "placement \"" << placementString <<
         "\" should be 'above' or 'below'";
-      
+
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        s.str ());    
+        s.str ());
     }
   }
 
   return result;
 }
-  
+
 string msrPlacementKindAsString (
   msrPlacementKind placementKind)
 {
   string result;
-  
+
   switch (placementKind) {
     case msrPlacementKind::kPlacementNone:
       result = "placementNone";
@@ -12207,43 +12210,43 @@ msrDurationKind msrDurationKindFromString (
   }
   else if (durationString == "breve") {
     result = kBreve;
-  } 
+  }
   else if (durationString == "whole") {
     result = kWhole;
-  } 
+  }
   else if (durationString == "half") {
     result = kHalf;
-  } 
+  }
   else if (durationString == "quarter") {
     result = kQuarter;
-  } 
+  }
   else if (durationString == "eighth") {
     result = kEighth;
-  } 
+  }
   else if (durationString == "16th") {
     result = k16th;
-  } 
+  }
   else if (durationString == "32nd") {
     result = k32nd;
-  } 
+  }
   else if (durationString == "64th") {
     result = k64th;
-  } 
+  }
   else if (durationString == "128th") {
     result = k128th;
-  } 
+  }
   else if (durationString == "256th") {
     result = k256th;
-  } 
+  }
   else if (durationString == "512th") {
     result = k512th;
-  } 
+  }
   else if (durationString == "1024th") {
     result = k1024th;
   }
   else {
     stringstream s;
-    
+
     s <<
       "durationString \"" << durationString <<
       "\" is unknown";
@@ -12317,7 +12320,7 @@ rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
 msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
 {
   msrDurationKind result = k_NoDuration;
-  
+
   if (wholeNotes.getNumerator () == 1) {
     switch (wholeNotes.getDenominator ()) {
       case 1:
@@ -12561,11 +12564,11 @@ string wholeNotesAsMsrString (
     dotsNumber = 0;
     return "zero";
   }
-  
+
   msrAssert (
     numerator > 0,
     "numerator is not positive");
-    
+
   wholeNotes.rationalise ();
 
   if (DEBUG_WHOLE_NOTES) {
@@ -12604,7 +12607,7 @@ string wholeNotesAsMsrString (
     they constitue a series of frations or the form '(2^n-1) / 2^n',
     starting with 3/2, 7/4, 15/8,
     that tends towards 2 while always remaining less than two.
-    
+
     with MusicXML's limitation to 1024th of a whole note,
     with LilyPond's limitation to 128th of a whole note,
     valid numerators are:
@@ -12621,23 +12624,23 @@ string wholeNotesAsMsrString (
 
   /*
     valid denominators are powers of 2
-    
+
     the rational representing a dotted duration has to be brought
     to a value less than two, as explained above
-    
+
     this is done by changing it denominator in the resulting string:
-    
+
      whole notes        string
          3/1              \breve.
          3/2              1.
          3/4              2.
          3/8              4.
-    
+
          7/1              \longa..
          7/2              \breve..
          7/4              1..
-         7/8              2..         
-    
+         7/8              2..
+
     since such resulting denominators can be fractions of wholes notes
     as well as multiple thereof,
     we'll be better of using binary logarithms for the computations
@@ -12648,44 +12651,44 @@ string wholeNotesAsMsrString (
 
   if (denominatorDurationLog == INT_MIN) {
     string result;
-    
+
     {
       string durationToUse = "64"; // JMI
-  
+
       stringstream s;
-      
+
       s <<
         durationToUse <<
         "*" <<
         durationToUse <<
         "/" <<
         numerator;
-  
+
       result = s.str ();
     }
 
     {
       stringstream s;
-          
+
       s <<
         "denominator " << denominator <<
         " is no power of two between 1 and 128" <<
    //     " is no power of 2 between 1 and 1024" <<
         ", whole notes duration " <<
         numerator << "/" << denominator;
-  
+
       if (rationalHasBeenSimplified) {
         s <<
           " (" << numerator << "/" << denominator << ")" <<
         endl;
       }
-  
+
       s <<
         " cannot be represented as a dotted power of 2" <<
         ", " <<
         result <<
         " will be used";
-  
+
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
@@ -12784,10 +12787,10 @@ string wholeNotesAsMsrString (
     }
 
     // 5/8 becomes 8*5
-    
+
     multiplyingFactor = numerator;
     numerator = 1;
-    
+
     /* JMI
     multiplyingFactor = numerator;
 
@@ -12801,11 +12804,11 @@ string wholeNotesAsMsrString (
         endl <<
         endl;
     }
-    
+
     while (multiplyingFactor >= 2) {
       // double duration
       denominatorDurationLog--;
-      
+
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
@@ -12839,7 +12842,7 @@ string wholeNotesAsMsrString (
       endl <<
       endl;
   }
-  
+
   // generate the code for the duration
   stringstream s;
 
@@ -12881,7 +12884,7 @@ string wholeNotesAsMsrString (
     }
     */
   }
-  
+
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
       "--> return:" <<
@@ -12892,10 +12895,10 @@ string wholeNotesAsMsrString (
       endl <<
       endl;
   }
-  
+
   // return the result
   dotsNumber = numeratorDots;
-  
+
   return
     s.str ();
 }
@@ -12918,7 +12921,7 @@ string multipleRestMeasuresWholeNotesAsMsrString (
   rational wholeNotes)
 {
   stringstream s;
-  
+
   rational
     denominatorAsFraction =
       rational (
@@ -12927,7 +12930,7 @@ string multipleRestMeasuresWholeNotesAsMsrString (
 
   int numberOfWholeNotes =
     wholeNotes.getNumerator ();
-    
+
   s <<
     wholeNotesAsLilypondString (
       inputLineNumber,
@@ -13008,7 +13011,7 @@ string msrLineTypeKindAsString (
   msrLineTypeKind lineTypeKind)
 {
   string result;
-  
+
   switch (lineTypeKind) {
     case kLineTypeSolid:
       result = "lineTypeSolid";
@@ -13032,7 +13035,7 @@ string msrTremoloTypeKindAsString (
   msrTremoloTypeKind tremoloTypeKind)
 {
   string result;
-  
+
   switch (tremoloTypeKind) {
     case k_NoTremoloType:
       result = "noTremoloType";
@@ -13056,7 +13059,7 @@ string msrTechnicalTypeKindAsString (
   msrTechnicalTypeKind technicalTypeKind)
 {
   string result;
-  
+
   switch (technicalTypeKind) {
     case kTechnicalTypeStart:
       result = "technicalTypeStart";
@@ -13077,7 +13080,7 @@ string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind)
 {
   string result;
-  
+
   switch (spannerTypeKind) {
     case kSpannerTypeStart:
       result = "spannerTypeStart";
@@ -13118,7 +13121,7 @@ msrChordInterval::msrChordInterval (
   msrIntervalKind chordIntervalIntervalKind,
   int             chordIntervalRelativeOctave)
   // JMI  : msrElement (inputLineNumber)
-{  
+{
   fChordIntervalIntervalKind = chordIntervalIntervalKind;
 
   fChordIntervalRelativeOctave = chordIntervalRelativeOctave;
@@ -13142,7 +13145,7 @@ S_msrChordInterval msrChordInterval::createChordIntervalNewbornClone ()
       msrChordInterval::create (
         fChordIntervalIntervalKind,
         fChordIntervalRelativeOctave);
-  
+
   return newbornClone;
 }
 
@@ -13151,7 +13154,7 @@ string msrChordInterval::chordIntervalAsString () const
   stringstream s;
 
   const int fieldWidth = 19;
-  
+
   s << left <<
     "ChordInterval" <<
     ": " <<
@@ -13211,7 +13214,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       endl;
   }
 #endif
-  
+
   msrIntervalKind resultIntervalKind   = k_NoIntervalKind;
 
   S_msrChordInterval
@@ -13219,13 +13222,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       this->createChordIntervalNewbornClone (),
     operand2 =
       otherChordInterval->createChordIntervalNewbornClone ();
-    
+
   // normalize both intervals
   operand1->
     normalizeInterval ();
   operand2->
     normalizeInterval ();
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceExtraChords) {
     gLogIOstream <<
@@ -13237,7 +13240,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       endl;
   }
 #endif
-  
+
   // fetch the relative octaves
   int
     relativeOctave1 = operand1->fChordIntervalRelativeOctave,
@@ -13253,13 +13256,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   // order the operands so that
   // relativeOctave1 is greater or equal to relativeOctave2
   bool permuteRelativeOctaves = false;
-  
+
   if (relativeOctave1 < relativeOctave2) {
     int saveRelativeOctave1 = relativeOctave1;
-    
+
     relativeOctave1 = relativeOctave2;
     relativeOctave2 = saveRelativeOctave1;
-        
+
     permuteRelativeOctaves = true;
   }
 
@@ -13267,16 +13270,16 @@ S_msrChordInterval msrChordInterval::intervalDifference (
   // intervalKind1 is greater or equal to intervalKind2
   // according to the enum type
   bool invertInterval = false;
-  
+
   if (intervalKind1 < intervalKind2) {
     msrIntervalKind saveIntervalKind1 = intervalKind1;
 
     intervalKind1 = intervalKind2;
     intervalKind2 = saveIntervalKind1;
-        
+
     invertInterval = true;
   }
-    
+
   // compute the resulting relative octaves difference
   int
     resultRelativeOctave =
@@ -13297,12 +13300,12 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       endl;
   }
 #endif
-  
+
   // compute resulting interval Kind
   switch (intervalKind1) {
     case k_NoIntervalKind:
       break;
-      
+
     case kDiminishedUnisson:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13312,7 +13315,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kPerfectUnison:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13342,7 +13345,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       } // switch
       break;
 
-      
+
     case kDiminishedSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13361,7 +13364,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMinorSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13383,7 +13386,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMajorSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13408,7 +13411,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kAugmentedSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13436,8 +13439,8 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
-      
+
+
     case kDiminishedThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13468,7 +13471,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMinorThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13502,7 +13505,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMajorThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13539,7 +13542,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kAugmentedThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13580,7 +13583,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       } // switch
       break;
 
-      
+
     case kDiminishedFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13623,7 +13626,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kPerfectFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13669,7 +13672,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kAugmentedFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13719,7 +13722,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       } // switch
       break;
 
-      
+
     case kDiminishedFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13771,7 +13774,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kPerfectFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13826,7 +13829,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kAugmentedFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -13946,7 +13949,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMinorSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14010,7 +14013,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMajorSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14077,7 +14080,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kAugmentedSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14148,7 +14151,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       } // switch
       break;
 
-      
+
     case kDiminishedSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14221,7 +14224,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMinorSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14297,7 +14300,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kMajorSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14376,7 +14379,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
           ;
       } // switch
       break;
-      
+
     case kAugmentedSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14472,13 +14475,13 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       endl;
   }
 #endif
-  
+
   // take interval inversion into account if relevant
   if (invertInterval) {
     resultIntervalKind =
       invertIntervalKind (resultIntervalKind);
   }
-  
+
   // take relative octabes permutation into account if relevant
   if (permuteRelativeOctaves) {
     resultIntervalKind =
@@ -14506,7 +14509,7 @@ S_msrChordInterval msrChordInterval::intervalDifference (
       endl;
   }
 #endif
-  
+
   // return it;
   return result;
 }
@@ -14520,29 +14523,29 @@ S_msrChordInterval msrChordInterval::intervalSum (
   msrIntervalKind
     intervalKind1 = fChordIntervalIntervalKind,
     intervalKind2 = otherChordInterval->fChordIntervalIntervalKind;
-    
+
   int
     relativeOctave1 = fChordIntervalRelativeOctave,
     relativeOctave2 = otherChordInterval->fChordIntervalRelativeOctave;
 
   relativeOctave1 = relativeOctave2; // TEMP, JMI
   relativeOctave2 = relativeOctave1; // TEMP, JMI
-  
+
   // order the intervals so that
   // intervalKind1 is greater or equal to intervalKind2
   // according to the enum type
   bool invertInterval = false;
-  
+
   if (intervalKind1 < intervalKind2) {
     intervalKind1 = intervalKind2;
     intervalKind2 = intervalKind1;
     invertInterval = true;
   }
-    
+
   switch (intervalKind1) {
     case k_NoIntervalKind:
       break;
-      
+
     case kDiminishedUnisson:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14552,7 +14555,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kPerfectUnison:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14565,7 +14568,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedUnison:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14581,7 +14584,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kDiminishedSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14600,7 +14603,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMinorSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14619,7 +14622,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMajorSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14641,7 +14644,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedSecond:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14666,7 +14669,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kDiminishedThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14694,7 +14697,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMinorThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14725,7 +14728,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMajorThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14759,7 +14762,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedThird:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14796,7 +14799,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kDiminishedFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14836,7 +14839,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kPerfectFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14879,7 +14882,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedFourth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14925,7 +14928,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kDiminishedFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -14974,7 +14977,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kPerfectFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15026,7 +15029,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedFifth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15139,7 +15142,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMinorSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15200,7 +15203,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMajorSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15264,7 +15267,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedSixth:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15331,7 +15334,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kDiminishedSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15401,7 +15404,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMinorSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15474,7 +15477,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kMajorSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15550,7 +15553,7 @@ S_msrChordInterval msrChordInterval::intervalSum (
           ;
       } // switch
       break;
-      
+
     case kAugmentedSeventh:
       switch (intervalKind2) {
         case kDiminishedUnisson:
@@ -15633,13 +15636,13 @@ S_msrChordInterval msrChordInterval::intervalSum (
     default:
       ;
   } // switch
-  
+
 
   if (invertInterval) {
     resultIntervalKind =
       invertIntervalKind (resultIntervalKind);
   }
-  
+
   return
     msrChordInterval::create (
       resultIntervalKind,
@@ -15653,12 +15656,12 @@ void msrChordInterval::acceptIn (basevisitor* v) {
       "% ==> msrChordInterval::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrChordInterval>*
     p =
       dynamic_cast<visitor<S_msrChordInterval>*> (v)) {
         S_msrChordInterval elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordInterval::visitStart ()" <<
@@ -15678,7 +15681,7 @@ void msrChordInterval::acceptOut (basevisitor* v) {
     p =
       dynamic_cast<visitor<S_msrChordInterval>*> (v)) {
         S_msrChordInterval elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordInterval::visitEnd ()" <<
@@ -15707,7 +15710,7 @@ string msrChordInterval::asString ()
     ", rel. oct. " <<
     fChordIntervalRelativeOctave <<
     "'";
-  
+
   return s.str ();
 }
 
@@ -15721,12 +15724,12 @@ string msrChordInterval::asShortString ()
     ", rel.oct. " <<
     fChordIntervalRelativeOctave <<
     "'";
-  
+
   return s.str ();
 }
 
 void msrChordInterval::print (ostream& os)
-{  
+{
   os <<
     "ChordInterval" <<
     endl;
@@ -15734,7 +15737,7 @@ void msrChordInterval::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 22;
-  
+
   os << left <<
   /* JMI
     setw (fieldWidth) <<
@@ -15779,7 +15782,7 @@ S_msrChordStructure msrChordStructure::create (
 
   o->
     populateChordStructure ();
-    
+
   return o;
 }
 
@@ -15803,7 +15806,7 @@ S_msrChordStructure msrChordStructure::createChordStructureNewbornClone ()
     newbornClone =
       createBare (
         fChordStructureHarmonyKind);
-  
+
   return newbornClone;
 }
 
@@ -15832,7 +15835,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMinorHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15849,7 +15852,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kAugmentedHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15866,7 +15869,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kDiminishedHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15883,7 +15886,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kDominantHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15904,7 +15907,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMajorSeventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15925,7 +15928,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
      case kMinorSeventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15946,7 +15949,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kDiminishedSeventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15967,7 +15970,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kAugmentedSeventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -15988,7 +15991,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kHalfDiminishedHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16009,7 +16012,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
      case kMinorMajorSeventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16030,7 +16033,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMajorSixthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16051,7 +16054,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMinorSixthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16072,7 +16075,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kDominantNinthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16122,7 +16125,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMinorNinthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16147,7 +16150,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kDominantEleventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16197,7 +16200,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMinorEleventhHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16222,7 +16225,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kDominantThirteenthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16272,7 +16275,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kMinorThirteenthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16297,7 +16300,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kSuspendedSecondHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16314,7 +16317,7 @@ void msrChordStructure::populateChordStructure ()
           );
       }
       break;
-    
+
     case kSuspendedFourthHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16346,7 +16349,7 @@ German = C E G A#
 Tristan = C D# F# A#
 
 in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
-*/      
+*/
 
     case kNeapolitanHarmony:
       {
@@ -16364,7 +16367,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
-    
+
     case kItalianHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16381,7 +16384,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
-    
+
     case kFrenchHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16402,7 +16405,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
-    
+
     case kGermanHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16423,10 +16426,10 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
-    
+
     case kPedalHarmony:
       break;
-      
+
     case kPowerHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16439,7 +16442,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
-    
+
     case kTristanHarmony:
       {
         appendChordIntervalToChordStructure (
@@ -16460,7 +16463,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           );
       }
       break;
-    
+
     // jazz-specific chords
 
     case kMinorMajorNinth: // -maj9, minmaj9
@@ -16656,10 +16659,10 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       break;
 
     // other
-    
+
     case kOtherHarmony:
       break;
-      
+
     case kNoneHarmony:
       break;
   } // switch
@@ -16705,12 +16708,12 @@ void msrChordStructure::acceptIn (basevisitor* v) {
       "% ==> msrChordStructure::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrChordStructure>*
     p =
       dynamic_cast<visitor<S_msrChordStructure>*> (v)) {
         S_msrChordStructure elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordStructure::visitStart ()" <<
@@ -16730,7 +16733,7 @@ void msrChordStructure::acceptOut (basevisitor* v) {
     p =
       dynamic_cast<visitor<S_msrChordStructure>*> (v)) {
         S_msrChordStructure elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordStructure::visitEnd ()" <<
@@ -16750,7 +16753,7 @@ ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
 }
 
 void msrChordStructure::print (ostream& os)
-{  
+{
   os <<
     "ChordStructure" <<
     ", harmonyKind: " <<
@@ -16764,13 +16767,13 @@ void msrChordStructure::print (ostream& os)
     endl;
 
   gIndenter++;
-    
+
   if (fChordStructureIntervals.size ()) {
     vector<S_msrChordInterval>::const_reverse_iterator
       iBegin = fChordStructureIntervals.crbegin (),
       iEnd   = fChordStructureIntervals.crend (),
       i      = iBegin;
-    
+
     for ( ; ; ) {
       S_msrChordInterval
         chordInterval = (*i);
@@ -16830,7 +16833,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
   if (inversion == 0) {
     return this;
   }
-    
+
   // create an empty object
   S_msrChordStructure
     result =
@@ -16847,7 +16850,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
       ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
       endl;
   }
-  
+
   if (chordStructureIntervalsSize) {
     // add the first items
     for (unsigned int i = inversion; i < chordStructureIntervalsSize; i++) {
@@ -16875,7 +16878,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
         gLogIOstream <<
           "==> result chord structure after adding first item :" <<
           endl;
-  
+
         gIndenter++;
         gLogIOstream <<
           result <<
@@ -16883,7 +16886,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
         gIndenter--;
       }
     } // while
-    
+
     // add  the octaviate last items
     for (int i = 0; i < inversion; i++) {
       S_msrChordInterval
@@ -16893,7 +16896,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
       chordIntervalClone->
         incrementChordIntervalRelativeOctave ();
-        
+
       if (TRACE_MSR_BASIC_TYPES) {
         gLogIOstream <<
           "--> adding last item to resultlast item :" <<
@@ -16904,7 +16907,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
           endl;
         gIndenter--;
       }
-        
+
       result->
         appendChordIntervalToChordStructure (
           chordIntervalClone);
@@ -16913,7 +16916,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
         gLogIOstream <<
           "==> result chord structure after  after adding last item:" <<
           endl;
-  
+
         gIndenter++;
         gLogIOstream <<
           result <<
@@ -16934,7 +16937,7 @@ void msrChordStructure::printAllChordsStructures (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
     harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
@@ -17008,7 +17011,7 @@ msrChordPitch::msrChordPitch (
   // JMI  : msrElement (inputLineNumber)
 {
 //  fChordSemitonePitchNumber       = chordPitchNumber;
-  
+
   fChordPitchSemitonePitchKind = chordPitchSemitonePitchKind;
 
   fChordPitchRelativeOctave = chordPitchRelativeOctave;
@@ -17034,7 +17037,7 @@ S_msrChordPitch msrChordPitch::createChordPitchNewbornClone ()
   //      fChordPitchNumber,
         fChordPitchSemitonePitchKind,
         fChordPitchRelativeOctave);
-  
+
   return newbornClone;
 }
 
@@ -17043,7 +17046,7 @@ string msrChordPitch::chordPitchAsString () const
   stringstream s;
 
   const int fieldWidth = 19;
-  
+
   s << left <<
     "ChordPitch" <<
  //   " " << fChordPitchNumber <<
@@ -17062,12 +17065,12 @@ void msrChordPitch::acceptIn (basevisitor* v) {
       "% ==> msrChordPitch::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrChordPitch>*
     p =
       dynamic_cast<visitor<S_msrChordPitch>*> (v)) {
         S_msrChordPitch elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordPitch::visitStart ()" <<
@@ -17087,7 +17090,7 @@ void msrChordPitch::acceptOut (basevisitor* v) {
     p =
       dynamic_cast<visitor<S_msrChordPitch>*> (v)) {
         S_msrChordPitch elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordPitch::visitEnd ()" <<
@@ -17107,7 +17110,7 @@ ostream& operator<< (ostream& os, const S_msrChordPitch& elt)
 }
 
 void msrChordPitch::print (ostream& os)
-{  
+{
   os <<
     "ChordPitch" <<
     endl;
@@ -17115,7 +17118,7 @@ void msrChordPitch::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 22;
-  
+
   os << left <<
   /* JMI
     setw (fieldWidth) <<
@@ -17174,7 +17177,7 @@ msrChordContents::msrChordContents (
       msrChordPitch::create (
         fChordContentsRootNote,
         0); // relative octave
-        
+
   // add it to the chord pitches
   fChordContentsChordPitches.push_back (rootChordPitch);
 
@@ -17183,7 +17186,7 @@ msrChordContents::msrChordContents (
     chordStructure =
       msrChordStructure::create (
         fChordContentsHarmonyKind);
-      
+
   const vector<S_msrChordInterval>&
     chordIntervals =
       chordStructure->
@@ -17203,14 +17206,14 @@ msrChordContents::msrChordContents (
           0, // ??? JM                   inputLineNumber,
           intervalKind,
           fChordContentsRootNote);
-    
+
     // create the chord pitch
     S_msrChordPitch
       chordPitch =
         msrChordPitch::create (
           semiTonePitch,
           0); // relative octave
-          
+
     // add it to the chord pitches
     fChordContentsChordPitches.push_back (chordPitch);
   } // for
@@ -17277,7 +17280,7 @@ void msrChordContents::printAllChordsContents (
     rootQuarterTonesPitchKind =
       quarterTonesPitchKindFromSemiTonesPitchKind (
         rootSemiTonesPitchKind);
-        
+
   os <<
     "All the known chords contents with diatonic root '" <<
     msrQuarterTonesPitchKindAsString (
@@ -17299,7 +17302,7 @@ void msrChordContents::printAllChordsContents (
     endl;
 
   gIndenter++;
-  
+
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
     harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
@@ -17331,16 +17334,16 @@ void msrChordContents::printAllChordsContents (
         iBegin = chordStructureIntervals.crbegin (),
         iEnd   = chordStructureIntervals.crend (),
         i      = iBegin;
-  
+
       for ( ; ; ) {
         S_msrChordInterval
           chordInterval = (*i);
-  
+
         msrIntervalKind
           intervalKind =
             chordInterval->
               getChordIntervalIntervalKind ();
-  
+
         // fetch the semitones pitch kind
         msrSemiTonesPitchKind
           noteSemiTonesPitchKind =
@@ -17357,7 +17360,7 @@ void msrChordContents::printAllChordsContents (
 
         // print it
         const int fieldWidth2 = 8;
-        
+
         os << left <<
           setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
@@ -17367,16 +17370,16 @@ void msrChordContents::printAllChordsContents (
           " : " <<
           msrIntervalKindAsString (intervalKind) <<
           endl;
-  
+
         if (++i == iEnd) break;
-        
+
         // no endl here
       } // for
     }
 
   os <<
     endl;
-    
+
   gIndenter--;
   } // for
 
@@ -17390,12 +17393,12 @@ void msrChordContents::acceptIn (basevisitor* v) {
       "% ==> msrChordContents::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrChordContents>*
     p =
       dynamic_cast<visitor<S_msrChordContents>*> (v)) {
         S_msrChordContents elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordContents::visitStart ()" <<
@@ -17415,7 +17418,7 @@ void msrChordContents::acceptOut (basevisitor* v) {
     p =
       dynamic_cast<visitor<S_msrChordContents>*> (v)) {
         S_msrChordContents elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordContents::visitEnd ()" <<
@@ -17435,7 +17438,7 @@ ostream& operator<< (ostream& os, const S_msrChordContents& elt)
 }
 
 void msrChordContents::print (ostream& os)
-{  
+{
   os <<
     "ChordContents" <<
   /* JMI
@@ -17446,7 +17449,7 @@ void msrChordContents::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 17;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "chordContentsRootNote" << " : " <<
@@ -17475,7 +17478,7 @@ void msrChordContents::print (ostream& os)
         chordPitch <<
         endl;
     } // for
-    
+
     gIndenter--;
   }
   else {
@@ -17510,7 +17513,7 @@ void printChordDetails (
     harmonyKindShortName =
       msrHarmonyKindShortName (
         harmonyKind);
-      
+
   // print the deails
   os <<
     "The details of chord '" <<
@@ -17566,7 +17569,7 @@ void printChordDetails (
         invertedChordStructureIntervals =
           invertedChordStructure->
             getChordStructureIntervals ();
-    
+
       // fetch the notes for these intervals
       /* JMI
       vector<S_msrChordInterval>::const_iterator
@@ -17600,25 +17603,25 @@ void printChordDetails (
         invertedChordStructureIntervals.size () <<
         " intervals:" <<
         endl;
-        
+
       gIndenter++;
 
       for ( ; ; ) {
         S_msrChordInterval
           chordInterval = (*i);
-  
+
         msrIntervalKind
           intervalKind =
             chordInterval->
               getChordIntervalIntervalKind ();
-              
+
         const int fieldWidth1 = 17;
-        
+
         os << left <<
           setw (fieldWidth1) <<
           msrIntervalKindAsString (intervalKind) <<
           ": ";
-  
+
         // fetch the semitones pitch kind
         msrSemiTonesPitchKind
           noteSemiTonesPitchKind =
@@ -17626,16 +17629,16 @@ void printChordDetails (
               NO_INPUT_LINE_NUMBER,
               intervalKind,
               rootSemiTonesPitchKind);
-  
+
         // fetch the quartertones pitch kind
         msrQuarterTonesPitchKind
           noteQuarterTonesPitchKind =
             quarterTonesPitchKindFromSemiTonesPitchKind (
               noteSemiTonesPitchKind);
-  
+
         // print it
         const int fieldWidth2 = 8;
-  
+
         os << left <<
           setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
@@ -17650,14 +17653,14 @@ void printChordDetails (
           ")" <<
           */
           endl;
-  
+
         if (++i == iEnd) break;
-        
+
         // no endl here
       } // for
 
       gIndenter--;
-  
+
       os <<
         endl;
     } // for
@@ -17690,7 +17693,7 @@ void printChordAnalysis (
     harmonyKindShortName =
       msrHarmonyKindShortName (
         harmonyKind);
-      
+
   // print the deails
   os <<
     "The analysis of chord '" <<
@@ -17748,7 +17751,7 @@ void printChordAnalysis (
         invertedChordStructureIntervals =
           invertedChordStructure->
             getChordStructureIntervals ();
-    
+
       // print the chord contents
       {
         os <<
@@ -17757,7 +17760,7 @@ void printChordAnalysis (
           " " <<
           harmonyKindShortName <<
           "'";
-  
+
         if (inversion == 0) {
           os <<
             " fundamental state";
@@ -17766,29 +17769,29 @@ void printChordAnalysis (
           os <<
             " inversion" << inversion;
         }
-  
+
         os <<
           " contents, "<<
           invertedChordStructureIntervals.size () <<
           " intervals:" <<
           endl;
-          
+
         gIndenter++;
-  
+
         vector<S_msrChordInterval>::const_reverse_iterator
           iBegin = invertedChordStructureIntervals.crbegin (),
           iEnd   = invertedChordStructureIntervals.crend (),
           i      = iBegin;
-  
+
         for ( ; ; ) {
           S_msrChordInterval
             chordInterval = (*i);
-    
+
           msrIntervalKind
             intervalKind =
               chordInterval->
                 getChordIntervalIntervalKind ();
-  
+
           // fetch the semitones pitch kind
           msrSemiTonesPitchKind
             noteSemiTonesPitchKind =
@@ -17796,16 +17799,16 @@ void printChordAnalysis (
                 NO_INPUT_LINE_NUMBER,
                 intervalKind,
                 rootSemiTonesPitchKind);
-    
+
           // fetch the quartertones pitch kind
           msrQuarterTonesPitchKind
             noteQuarterTonesPitchKind =
               quarterTonesPitchKindFromSemiTonesPitchKind (
                 noteSemiTonesPitchKind);
-    
+
           // print it
           const int fieldWidth2 = 5;
-    
+
           os << left <<
             setw (fieldWidth2) <<
             msrQuarterTonesPitchKindAsString (
@@ -17815,18 +17818,18 @@ void printChordAnalysis (
             " : " <<
             msrIntervalKindAsString (intervalKind) <<
             endl;
-    
+
           if (++i == iEnd) break;
-          
+
           // no endl here
         } // for
-  
+
         gIndenter--;
-    
+
         os <<
           endl;
       }
-        
+
       // print the chord's inner intervals
       {
         os <<
@@ -17835,7 +17838,7 @@ void printChordAnalysis (
           " " <<
           harmonyKindShortName <<
           "'";
-  
+
         if (inversion == 0) {
           os <<
             " fundamental state";
@@ -17844,29 +17847,29 @@ void printChordAnalysis (
           os <<
             " inversion" << inversion;
         }
-  
+
         os <<
           " inner intervals:" <<
           endl;
-        
+
         gIndenter++;
 
         int tritonsCounter = 0;
-        
+
         vector<S_msrChordInterval>::const_iterator
           iBegin1 = invertedChordStructureIntervals.begin (),
           iEnd1   = invertedChordStructureIntervals.end () - 1,
           i1      = iBegin1;
-  
+
         for ( ; ; ) {
           S_msrChordInterval
             chordInterval1 = (*i1);
-    
+
           msrIntervalKind
             intervalKind1 =
               chordInterval1->
                 getChordIntervalIntervalKind ();
-                  
+
           // fetch the semitones pitch kind
           msrSemiTonesPitchKind
             noteSemiTonesPitchKind1 =
@@ -17874,30 +17877,30 @@ void printChordAnalysis (
                 NO_INPUT_LINE_NUMBER,
                 intervalKind1,
                 rootSemiTonesPitchKind);
-    
+
           // fetch the quartertones pitch kind
           msrQuarterTonesPitchKind
             noteQuarterTonesPitchKind1 =
               quarterTonesPitchKindFromSemiTonesPitchKind (
                 noteSemiTonesPitchKind1);
-    
+
           // print the invervals
           vector<S_msrChordInterval>::const_iterator
             iBegin2 = i1 + 1,
             iEnd2   = invertedChordStructureIntervals.end (),
             i2      = iBegin2;
-    
+
           for ( ; ; ) {
             S_msrChordInterval
               chordInterval2 = (*i2);
-      
+
             msrIntervalKind
               intervalKind2 =
                 chordInterval2->
                   getChordIntervalIntervalKind ();
-                      
+
             const int fieldWidth1 = 5;
-      
+
             // fetch the semitones pitch kind
             msrSemiTonesPitchKind
               noteSemiTonesPitchKind2 =
@@ -17905,7 +17908,7 @@ void printChordAnalysis (
                   NO_INPUT_LINE_NUMBER,
                   intervalKind2,
                   rootSemiTonesPitchKind);
-      
+
             // fetch the quartertones pitch kind
             msrQuarterTonesPitchKind
               noteQuarterTonesPitchKind2 =
@@ -17933,7 +17936,7 @@ void printChordAnalysis (
               default:
                 ;
             } // switch
-                
+
             // print it
             gIndenter++;
 
@@ -17945,9 +17948,9 @@ void printChordAnalysis (
                 gLpsrOptions->
                   fLpsrQuarterTonesPitchesLanguageKind,
                 noteQuarterTonesPitchKind1) <<
-              
+
               " -> " <<
-              
+
               setw (fieldWidth1) <<
               msrQuarterTonesPitchKindAsString (
                 gLpsrOptions->
@@ -17955,7 +17958,7 @@ void printChordAnalysis (
                 noteQuarterTonesPitchKind2) <<
 
               " : " <<
-              
+
               setw (fieldWidth2) << // JMI
               msrIntervalKindAsString (innerIntervalKind) <<
 
@@ -17964,23 +17967,23 @@ void printChordAnalysis (
               msrIntervalKindAsString (intervalKind1) <<
               " -> " <<
               msrIntervalKindAsString (intervalKind2) <<
-              ")" <<           
+              ")" <<
 
               endl;
 
             gIndenter--;
-                  
+
             if (++i2 == iEnd2) break;
           } // for
-          
+
           if (++i1 == iEnd1) break;
-          
+
           os <<
             endl;
         } // for
-  
+
         gIndenter--;
-    
+
 
         if (tritonsCounter > 0) {
           os <<
@@ -18019,7 +18022,7 @@ string msrScoreNotationKindAsString (
   msrScoreNotationKind scoreNotationKind)
 {
   string result;
-  
+
   switch (scoreNotationKind) {
     case kScoreNotationWestern:
       result = "scoreNotationWestern";
@@ -18040,7 +18043,7 @@ void initializeMSRBasicTypes ()
   // ------------------------------------------------------
 
   initializeQuarterTonesPitchesLanguageKinds ();
-  
+
   // chord structures handling
   // ------------------------------------------------------
 

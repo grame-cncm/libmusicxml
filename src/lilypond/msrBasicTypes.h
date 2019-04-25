@@ -21,7 +21,7 @@
 #include "rational.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 // input line numbers
@@ -37,10 +37,10 @@ enum msrXMLLangKind {
 msrXMLLangKind msrXMLLangKindFromString (
   int    inputLineNumber,
   string XMLLangString);
-  
+
 string msrXMLLangKindAsString (
   msrXMLLangKind XMLLangKind);
-      
+
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
@@ -50,7 +50,7 @@ enum msrDiatonicPitchKind {
 
 msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName);
-  
+
 string msrDiatonicPitchKindAsString (
   msrDiatonicPitchKind diatonicPitchKind);
 
@@ -58,7 +58,7 @@ string msrDiatonicPitchKindAsString (
 //______________________________________________________________________________
 enum msrAlterationKind {
   k_NoAlteration,
-  
+
   kTripleFlat, kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
   kNatural,
   kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp, kTripleSharp };
@@ -73,7 +73,7 @@ string msrAlterationKindAsString (
 //______________________________________________________________________________
 enum msrSemiTonesPitchKind {
   k_NoSemiTonesPitch_STP,
-  
+
   kC_TripleFlat_STP,
   kC_DoubleFlat_STP, kC_Flat_STP,
   kC_Natural_STP,
@@ -85,37 +85,37 @@ enum msrSemiTonesPitchKind {
   kD_Natural_STP,
   kD_Sharp_STP, kD_DoubleSharp_STP,
   kD_TripleSharp_STP,
-    
+
   kE_TripleFlat_STP,
   kE_DoubleFlat_STP, kE_Flat_STP,
-  kE_Natural_STP, 
+  kE_Natural_STP,
   kE_Sharp_STP, kE_DoubleSharp_STP,
   kE_TripleSharp_STP,
-  
+
   kF_TripleFlat_STP,
-  kF_DoubleFlat_STP, kF_Flat_STP, 
+  kF_DoubleFlat_STP, kF_Flat_STP,
   kF_Natural_STP,
-  kF_Sharp_STP, kF_DoubleSharp_STP, 
+  kF_Sharp_STP, kF_DoubleSharp_STP,
   kF_TripleSharp_STP,
 
   kG_TripleFlat_STP,
   kG_DoubleFlat_STP, kG_Flat_STP,
   kG_Natural_STP,
-  kG_Sharp_STP, kG_DoubleSharp_STP, 
+  kG_Sharp_STP, kG_DoubleSharp_STP,
   kG_TripleSharp_STP,
 
   kA_TripleFlat_STP,
   kA_DoubleFlat_STP, kA_Flat_STP,
   kA_Natural_STP,
-  kA_Sharp_STP, kA_DoubleSharp_STP, 
+  kA_Sharp_STP, kA_DoubleSharp_STP,
   kA_TripleSharp_STP,
-    
+
   kB_TripleFlat_STP,
   kB_DoubleFlat_STP, kB_Flat_STP,
   kB_Natural_STP,
   kB_Sharp_STP, kB_DoubleSharp_STP,
   kB_TripleSharp_STP };
-  
+
 string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind);
 
@@ -131,37 +131,37 @@ enum msrQuarterTonesPitchKind {
   kA_Natural_QTP,
   kA_SemiSharp_QTP, kA_Sharp_QTP, kA_SesquiSharp_QTP, kA_DoubleSharp_QTP,
   kA_TripleSharp_QTP,
-  
+
   kB_TripleFlat_QTP,
   kB_DoubleFlat_QTP, kB_SesquiFlat_QTP, kB_Flat_QTP, kB_SemiFlat_QTP,
   kB_Natural_QTP,
   kB_SemiSharp_QTP, kB_Sharp_QTP, kB_SesquiSharp_QTP, kB_DoubleSharp_QTP,
   kB_TripleSharp_QTP,
-  
+
   kC_TripleFlat_QTP,
   kC_DoubleFlat_QTP, kC_SesquiFlat_QTP, kC_Flat_QTP, kC_SemiFlat_QTP,
   kC_Natural_QTP,
   kC_SemiSharp_QTP, kC_Sharp_QTP, kC_SesquiSharp_QTP, kC_DoubleSharp_QTP,
   kC_TripleSharp_QTP,
-  
+
   kD_TripleFlat_QTP,
   kD_DoubleFlat_QTP, kD_SesquiFlat_QTP, kD_Flat_QTP, kD_SemiFlat_QTP,
   kD_Natural_QTP,
   kD_SemiSharp_QTP, kD_Sharp_QTP, kD_SesquiSharp_QTP, kD_DoubleSharp_QTP,
   kD_TripleSharp_QTP,
-  
+
   kE_TripleFlat_QTP,
   kE_DoubleFlat_QTP, kE_SesquiFlat_QTP, kE_Flat_QTP, kE_SemiFlat_QTP,
   kE_Natural_QTP,
   kE_SemiSharp_QTP, kE_Sharp_QTP, kE_SesquiSharp_QTP, kE_DoubleSharp_QTP,
   kE_TripleSharp_QTP,
-  
+
   kF_TripleFlat_QTP,
   kF_DoubleFlat_QTP, kF_SesquiFlat_QTP, kF_Flat_QTP, kF_SemiFlat_QTP,
   kF_Natural_QTP,
   kF_SemiSharp_QTP, kF_Sharp_QTP, kF_SesquiSharp_QTP, kF_DoubleSharp_QTP,
   kF_TripleSharp_QTP,
-  
+
   kG_TripleFlat_QTP,
   kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
   kG_Natural_QTP,
@@ -195,7 +195,7 @@ msrSemiTonesPitchKind semiTonesPitchKindFromString (
 //______________________________________________________________________________
 enum msrAlterationPreferenceKind {
   kPreferFlat, kPreferNatural, kPreferSharp };
-  
+
 msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
@@ -204,42 +204,42 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 //______________________________________________________________________________
 enum msrIntervalKind {
   k_NoIntervalKind,
-  
+
   kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
-  
+
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
-  
+
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
-  
+
   kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
-  
+
   kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
-  
+
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
-  
+
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
-  
+
   kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
-  
+
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
-  
+
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
-  
+
   kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
-  
+
   kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
-  
+
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
 int msrIntervalKindAsSemiTones (
   msrIntervalKind intervalKind);
-  
+
 int msrIntervalKindAsQuarterTones (
   msrIntervalKind intervalKind);
-  
+
 string msrIntervalKindAsString (
   msrIntervalKind intervaKindl);
-      
+
 string msrIntervalKindAsShortString (
   msrIntervalKind intervalKind);
 
@@ -276,8 +276,8 @@ enum msrHarmonyKind {
   k_NoHarmony,
 
   // MusicXML chords
-  
-  kMajorHarmony, kMinorHarmony, 
+
+  kMajorHarmony, kMinorHarmony,
   kAugmentedHarmony, kDiminishedHarmony,
 
   kDominantHarmony,
@@ -311,13 +311,13 @@ enum msrHarmonyKind {
   kDominantAugmentedNinthDiminishedFifthHarmony, // 7#9b5, domaug9dim5
   kDominantAugmentedNinthAugmentedFifthHarmony,  // 7#9#5, domaug9aug5
   kDominantAugmentedEleventhHarmony,             // 7#11, domaug11
-  
+
   kMajorSeventhAugmentedEleventhHarmony,         // maj7#11, maj7aug11
 
   // other
-  
+
   kOtherHarmony,
-  
+
   kNoneHarmony };
 
 string msrHarmonyKindAsString (
@@ -338,9 +338,9 @@ const int K_HARMONY_NO_INVERSION = -1;
 // quarter tones pitches languages
 //______________________________________________________________________________
 enum msrQuarterTonesPitchesLanguageKind {
-  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
+  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais,
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
-  
+
 string msrQuarterTonesPitchesLanguageKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind);
 
@@ -377,10 +377,10 @@ class msrFontSize : public smartable
       kFontSizeMedium,
       kFontSizeLarge, kFontSizeXLarge, kFontSizeXXLarge,
       kFontSizeNumeric };
-    
+
     static string fontSizeKindAsString (
       msrFontSizeKind fontSizeKind);
-  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -397,12 +397,12 @@ class msrFontSize : public smartable
 
     msrFontSize (
       msrFontSizeKind fontSizeKind);
-      
+
     msrFontSize (
       float numericFontSize);
-      
+
     virtual ~msrFontSize ();
-  
+
   public:
 
     // set and get
@@ -421,9 +421,9 @@ class msrFontSize : public smartable
     string                fontSizeAsString () const;
 
   public:
-  
+
   public:
-  
+
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -449,7 +449,7 @@ enum msrFontStyleKind {
 msrFontStyleKind msrFontStyleKindFromString (
   int    inputLineNumber,
   string fontStyleString);
-  
+
 string msrFontStyleKindAsString (
   msrFontStyleKind fontStyleKind);
 
@@ -460,7 +460,7 @@ enum msrFontWeightKind {
 msrFontWeightKind msrFontWeightKindFromString (
   int    inputLineNumber,
   string fontWeightString);
-  
+
 string msrFontWeightKindAsString (
   msrFontWeightKind fontWeightKind);
 
@@ -481,7 +481,7 @@ enum msrJustifyKind {
 msrJustifyKind msrJustifyKindFromString (
   int    inputLineNumber,
   string justifyString);
-  
+
 string msrJustifyKindAsString (
   msrJustifyKind justifyKind);
 
@@ -492,7 +492,7 @@ enum msrHorizontalAlignmentKind {
 msrHorizontalAlignmentKind msrHorizontalAlignmentKindFromString (
   int    inputLineNumber,
   string horizontalAlignString);
-  
+
 string msrHorizontalAlignmentKindAsString (
   msrHorizontalAlignmentKind horizontalAlignmentKind);
 
@@ -503,7 +503,7 @@ enum msrVerticalAlignmentKind {
 msrVerticalAlignmentKind msrVerticalAlignmentKindFromString (
   int    inputLineNumber,
   string verticalAlignmentString);
-  
+
 string msrVerticalAlignmentKindAsString (
   msrVerticalAlignmentKind verticalAlignmentKind);
 
@@ -525,7 +525,7 @@ enum msrPlacementKind {
 msrPlacementKind msrPlacementKindFromString (
   int    inputLineNumber,
   string placementString);
-  
+
 string msrPlacementKindAsString (
   msrPlacementKind placementKind);
 
@@ -533,7 +533,7 @@ string msrPlacementKindAsString (
 //______________________________________________________________________________
 enum msrDurationKind {
   // from longest to shortest for the algorithms
-  kMaxima, kLong, kBreve, kWhole, kHalf, 
+  kMaxima, kLong, kBreve, kWhole, kHalf,
   kQuarter,
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
   k_NoDuration };
@@ -541,7 +541,7 @@ enum msrDurationKind {
 msrDurationKind msrDurationKindFromString (
   int    inputLineNumber,
   string durationString);
-  
+
 rational msrDurationKindAsWholeNotes (
   msrDurationKind durationKind);
 
@@ -594,7 +594,7 @@ enum msrLineTypeKind {
 
 string msrLineTypeKindAsString (
   msrLineTypeKind lineTypeKind);
-            
+
 //______________________________________________________________________________
 enum msrTremoloTypeKind {
   k_NoTremoloType,
@@ -602,7 +602,7 @@ enum msrTremoloTypeKind {
 
 string msrTremoloTypeKindAsString (
   msrTremoloTypeKind tremoloTypeKind);
-            
+
 //______________________________________________________________________________
 enum msrTechnicalTypeKind { // JMI ???
   k_NoTechnicalType,
@@ -610,7 +610,7 @@ enum msrTechnicalTypeKind { // JMI ???
 
 string msrTechnicalTypeKindAsString (
   msrTechnicalTypeKind technicalTypeKind);
-            
+
 //______________________________________________________________________________
 enum msrSpannerTypeKind {
   k_NoSpannerType,
@@ -618,7 +618,7 @@ enum msrSpannerTypeKind {
 
 string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind);
-            
+
 //______________________________________________________________________________
 class msrDottedDuration
 {
@@ -634,25 +634,25 @@ class msrDottedDuration
       msrDurationKind durationKind,
       int             dotsNumber);
 
-// JMI    virtual ~msrDottedDuration ();
-  
+    virtual ~msrDottedDuration ();
+
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
     msrDurationKind       getDurationKind () const
                               { return fDurationKind; }
-                              
+
     int                   getDotsNumber () const
                               { return fDotsNumber; }
-                              
+
     // services
     // ------------------------------------------------------
 
     void                  incrDotsNumber ()
                               { fDotsNumber++; }
-    
+
     rational              dottedDurationAsWholeNotes (
                             int inputLineNumber) const;
 
@@ -667,13 +667,14 @@ class msrDottedDuration
 */
 
   public:
-  
+
     // ------------------------------------------------------
 
-    virtual void          print (ostream& os);
- 
+    //virtual
+    void          print (ostream& os);
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -701,19 +702,19 @@ class msrTupletFactor
       rational rationalTupletFactor);
 
 // JMI    virtual ~msrTupletFactor ();
-  
+
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 /* JMI
     msrDurationKind       getDuration () const
                               { return fDuration; }
-                              
+
     int                   getDotsNumber () const
                               { return fDotsNumber; }
 */
-                              
+
     // services
     // ------------------------------------------------------
 
@@ -736,15 +737,15 @@ class msrTupletFactor
 */
 
   public:
-  
+
     // ------------------------------------------------------
 
     string                asString () const;
 
     virtual void          print (ostream& os);
- 
+
   public:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -782,24 +783,24 @@ class msrChordInterval : public smartable
       int             chordIntervalRelativeOctave);
 
     virtual ~msrChordInterval ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     msrIntervalKind       getChordIntervalIntervalKind () const
                               { return fChordIntervalIntervalKind; }
-                              
+
     void                  incrementChordIntervalRelativeOctave ()
                               { fChordIntervalRelativeOctave++; }
-                              
+
     void                  decrementChordIntervalRelativeOctave ()
                               { fChordIntervalRelativeOctave--; }
-                              
+
     int                   getChordIntervalRelativeOctave () const
                               { return fChordIntervalRelativeOctave; }
-                              
+
     // services
     // ------------------------------------------------------
 
@@ -809,13 +810,13 @@ class msrChordInterval : public smartable
                                   msrIntervalKindAsSemiTones (
                                     fChordIntervalIntervalKind);
                               }
-    
+
     string                chordIntervalIntervalKindAsString () const;
     string                chordIntervalIntervalKindAsShortString () const;
-    
+
     string                chordIntervalAsString () const;
     string                chordIntervalAsShortString () const;
-   
+
     /*
       we handle intervals up to the thirteenth in chords,
       but operations on intervals are easier to compute
@@ -823,15 +824,15 @@ class msrChordInterval : public smartable
     */
     void                  normalizeInterval ();
     void                  deNormalizeInterval ();
-      
+
     S_msrChordInterval    intervalDifference (
                             S_msrChordInterval otherChordInterval);
     S_msrChordInterval    intervalSum (
                             S_msrChordInterval otherChordInterval);
-  
+
     string                asString ();
     string                asShortString ();
-            
+
     // visitors
     // ------------------------------------------------------
 
@@ -843,7 +844,7 @@ class msrChordInterval : public smartable
 */
 
   public:
-  
+
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -852,7 +853,7 @@ class msrChordInterval : public smartable
 
     // fields
     // ------------------------------------------------------
-    
+
     msrIntervalKind       fChordIntervalIntervalKind;
 
     int                   fChordIntervalRelativeOctave;
@@ -888,7 +889,7 @@ class msrChordStructure : public smartable
       msrHarmonyKind chordStructureHarmonyKind);
 
     virtual ~msrChordStructure ();
-  
+
   private:
 
     // initialization
@@ -901,17 +902,17 @@ class msrChordStructure : public smartable
 
     msrHarmonyKind        getChordStructureHarmonyKind () const
                               { return fChordStructureHarmonyKind; }
-                              
+
     const vector <S_msrChordInterval>&
                           getChordStructureIntervals () const
                               { return fChordStructureIntervals; }
-                              
+
     // services
     // ------------------------------------------------------
 
     void                  appendChordIntervalToChordStructure (
                             S_msrChordInterval chordInterval);
-        
+
     void                  populateChordStructure ();
 
     string                chordStructureAsString () const;
@@ -920,9 +921,9 @@ class msrChordStructure : public smartable
     S_msrChordInterval    bassChordIntervalForChordInversion (
                             int inputLineNumber,
                             int inversionNumber);
-                            
+
     S_msrChordStructure   invertChordStructure (int inversion);
-    
+
     static void           printAllChordsStructures (ostream& os);
 
     // visitors
@@ -935,7 +936,7 @@ class msrChordStructure : public smartable
 */
 
   public:
-  
+
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -985,7 +986,7 @@ class msrChordPitch : public smartable
       int                   chordPitchRelativeOctave);
 
     virtual ~msrChordPitch ();
-  
+
   public:
 
     // set and get
@@ -995,28 +996,28 @@ class msrChordPitch : public smartable
     int                   getChordPitchNumber () const
                               { return fChordPitchNumber; }
                      */
-                              
+
     msrSemiTonesPitchKind getChordPitchSemitonePitchKind () const
                               { return fChordPitchSemitonePitchKind; }
-                              
+
     void                  incrementChordPitchRelativeOctave ()
                               { fChordPitchRelativeOctave++; }
-                              
+
     void                  decrementChordPitchRelativeOctave ()
                               { fChordPitchRelativeOctave--; }
-                              
+
     int                   getChordPitchRelativeOctave () const
                               { return fChordPitchRelativeOctave; }
-                              
+
     // services
     // ------------------------------------------------------
 
-    
+
     string                chordPitchSemitonePitchKindAsString () const;
     string                chordPitchSemitonePitchKindAsShortString () const;
-    
+
     string                chordPitchAsString () const;
-   
+
     // visitors
     // ------------------------------------------------------
 
@@ -1028,7 +1029,7 @@ class msrChordPitch : public smartable
 */
 
   public:
-  
+
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
@@ -1039,7 +1040,7 @@ class msrChordPitch : public smartable
     // ------------------------------------------------------
 
  // JMI   int                   fChordPitchNumber;
-    
+
     msrSemiTonesPitchKind fChordPitchSemitonePitchKind;
 
     int                   fChordPitchRelativeOctave;
@@ -1059,7 +1060,7 @@ class msrChordContents : public smartable
  // JMI     int                   inputLineNumber,
       msrSemiTonesPitchKind chordContentsRootNote,
       msrHarmonyKind        chordContentsHarmonyKind);
-   
+
   protected:
 
     // constructors/destructor
@@ -1071,7 +1072,7 @@ class msrChordContents : public smartable
       msrHarmonyKind        chordContentsHarmonyKind);
 
     virtual ~msrChordContents ();
-  
+
   public:
 
     // set and get
@@ -1080,24 +1081,24 @@ class msrChordContents : public smartable
     msrSemiTonesPitchKind
                           getChordContentsRootNote () const
                               { return fChordContentsRootNote; }
-                              
+
     msrHarmonyKind        getChordContentsHarmonyKind () const
                               { return fChordContentsHarmonyKind; }
-                              
+
     const vector<S_msrChordPitch>&
                           getChordContentsChordPitches () const
                               { return fChordContentsChordPitches; }
-                              
+
     // services
     // ------------------------------------------------------
-        
+
     string                chordContentsAsString () const;
     string                chordContentsAsShortString () const;
-    
+
     msrSemiTonesPitchKind bassSemiTonesPitchKindForChordInversion (
                             int inputLineNumber,
                             int inversionNumber);
-                            
+
     static void           printAllChordsContents (
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind);
@@ -1112,7 +1113,7 @@ class msrChordContents : public smartable
 */
 
   public:
-  
+
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
