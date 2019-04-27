@@ -13994,18 +13994,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     fLilypondCodeIOstream <<
       "% --> Start visiting msrBarCheck" <<
       ", nextBarNumber: " <<
-      elt->getNextBarNumber () <<
+      elt->getNextBarPuristNumber () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
 #endif
 
-  string nextBarNumber =
-    elt->getNextBarNumber ();
+  int nextBarPuristNumber =
+    elt->getNextBarPuristNumber ();
 
   // don't generate a bar check before the end of measure 1 // JMI ???
   fLilypondCodeIOstream <<
-    "| % " << nextBarNumber <<
+    "| % " << nextBarPuristNumber <<
     endl;
 }
 
@@ -14034,10 +14034,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 #endif
 
   // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
+  int nextBarPuristNumber =
+    elt->getNextBarPuristNumber ();
+
   fLilypondCodeIOstream <<
     "\\barNumberCheck #" <<
-    fCurrentVoiceMeasuresCounter <<
-    // JMI elt->getNextBarNumber () <<
+    nextBarPuristNumber <<
     endl;
 }
 

@@ -213,9 +213,9 @@
           <step>A</step>
           <octave>4</octave>
           </pitch>
-        <duration>4</duration>
+        <duration>2</duration>
         <voice>1</voice>
-        <type>half</type>
+        <type>quarter</type>
         <stem>up</stem>
         </note>
       <barline location="right">

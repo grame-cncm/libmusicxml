@@ -6179,18 +6179,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
             fCurrentMusicXMLStaffNumber,
             fCurrentMusicXMLVoiceNumber);
 
-      S_msrBarNumberCheck
-        barNumberCheck_ =
-          msrBarNumberCheck::create (
-            inputLineNumber,
-            currentVoice->
-              getVoiceCurrentMeasureNumber ());
-
-      // append it to the voice
-// JMI      S_msrElement bnc = barNumberCheck_;
-      currentVoice->
-        appendBarNumberCheckToVoice (barNumberCheck_);
-
       // create a line break
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceMeasures) {
@@ -6210,7 +6198,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
       // append it to the voice
       currentVoice->
         appendLineBreakToVoice (lineBreak);
-     }
+    }
 
     else if (newSystem == "no") {
       // ignore it

@@ -52,7 +52,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fWorkTitleKnown        = false;
   fMovementNumberKnown   = false;
   fMovementTitleKnown    = false;
-   
+
   // staves
   fOnGoingStaff = false;
 
@@ -70,24 +70,24 @@ msr2LpsrTranslator::msr2LpsrTranslator (
 
   // grace notes
   fOnGoingGraceNotesGroup = false;
-  
+
   // chords
   fOnGoingChord = false;
-  
+
   // stanzas
   fOnGoingStanza = false;
 
   // syllables
   fOnGoingSyllableExtend = false;
 };
-  
+
 msr2LpsrTranslator::~msr2LpsrTranslator ()
 {}
 
 //________________________________________________________________________
 void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 {
-  if (fVisitedMsrScore) {    
+  if (fVisitedMsrScore) {
     // create a msrScore browser
     msrBrowser<msrScore> browser (this);
 
@@ -126,22 +126,22 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 
   // compute the maximum value
   int maxValue = -1;
-  
+
   if (scorePartGroupNamesMaxLength > maxValue) {
     maxValue = scorePartGroupNamesMaxLength;
   }
-  
+
   if (scorePartNamesMaxLength > maxValue) {
     maxValue = scorePartNamesMaxLength;
   }
-  
+
   if (scoreInstrumentNamesMaxLength > maxValue) {
     maxValue = scoreInstrumentNamesMaxLength;
   }
-  
+
   // compute the maximum short value
   int maxShortValue = -1;
-  
+
   if (scoreInstrumentAbbreviationsMaxLength > maxShortValue) {
     maxShortValue = scoreInstrumentAbbreviationsMaxLength;
   }
@@ -153,7 +153,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   if (gTraceOptions->fTraceGeometry) {
     // get the paper width
     float paperWidth = pageGeometry->getPaperWidth ();
-  
+
     fLogOutputStream <<
       "setPaperIndentsIfNeeded():" <<
       endl;
@@ -161,7 +161,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
     gIndenter++;
 
     const int fieldWidth = 40;
-    
+
     fLogOutputStream << left <<
       setw (fieldWidth) <<
       "scorePartGroupNamesMaxLength" << " : " <<
@@ -206,7 +206,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       setIndent (
         maxValue / charactersPerCemtimeter);
   }
-  
+
   // set short indent if relevant
   if (maxShortValue > 0) {
     paper->
@@ -235,7 +235,7 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
         endl;
     }
 #endif
-  
+
   map<int, S_msrStaff>
     partStavesMap =
       partClone->
@@ -250,14 +250,14 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
       staffAllVoicesList =
         (*i).second->
           getStaffAllVoicesList ();
-          
+
     for (
       list<S_msrVoice>::const_iterator j=staffAllVoicesList.begin ();
       j!=staffAllVoicesList.end ();
       j++) {
 
       S_msrVoice voice = (*j);
-      
+
       if (voice != voiceClone) {
         // prepend skip grace notes to voice JMI
         / *
@@ -277,7 +277,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -299,7 +299,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
     lpsrScore::create (
       NO_INPUT_LINE_NUMBER,
       fCurrentMsrScoreClone);
-      
+
   // fetch score header
   fLpsrScoreHeader =
     fLpsrScore-> getHeader();
@@ -307,7 +307,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a rights option?
   if (gLilypondOptions->fRights.size ()) {
     // define rights
-    
+
     fLpsrScoreHeader->
       addRights (
         inputLineNumber,
@@ -317,7 +317,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a composer option?
   if (gLilypondOptions->fComposer.size ()) {
     // define composer
-    
+
     fLpsrScoreHeader->
       addComposer (
         inputLineNumber,
@@ -327,7 +327,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there an arranger option?
   if (gLilypondOptions->fArranger.size ()) {
     // define arranger
-    
+
     fLpsrScoreHeader->
       addArranger (
         inputLineNumber,
@@ -337,7 +337,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a poet option?
   if (gLilypondOptions->fPoet.size ()) {
     // define poet
-    
+
     fLpsrScoreHeader->
       addPoet (
         inputLineNumber,
@@ -347,7 +347,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a lyricist option?
   if (gLilypondOptions->fLyricist.size ()) {
     // define lyricist
-    
+
     fLpsrScoreHeader->
       addLyricist (
         inputLineNumber,
@@ -357,7 +357,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is there a software option?
   if (gLilypondOptions->fSoftware.size ()) {
     // define software
-    
+
     fLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
@@ -390,7 +390,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -410,7 +410,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         fCurrentIdentification->
           getMovementTitle ()->
             getVariableValue ();
-    
+
     if (
       workTitle.size () == 0
         &&
@@ -422,7 +422,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
       fLpsrScoreHeader->
         setWorkTitle (
-          inputLineNumber, 
+          inputLineNumber,
           movementTitle,
           kFontStyleNone,
           kFontWeightNone);
@@ -447,7 +447,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         fCurrentIdentification->
           getMovementTitle ()->
             getVariableValue ();
-            
+
     // use the movement title as the work title
     fCurrentIdentification->
       setWorkTitle (
@@ -483,7 +483,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         fCurrentIdentification->
           getMovementNumber ()->
             getVariableValue ();
-    
+
     if (
       workNumber.size () == 0
         &&
@@ -495,7 +495,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
 
       fLpsrScoreHeader->
         setWorkNumber (
-          inputLineNumber, 
+          inputLineNumber,
           movementNumber,
           kFontStyleNone,
           kFontWeightNone);
@@ -520,7 +520,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         fCurrentIdentification->
           getMovementNumber ()->
             getVariableValue ();
-            
+
     // use the movement number as the work number
     fCurrentIdentification->
       setWorkNumber (
@@ -549,7 +549,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   // set ident and short indent if needed
   setPaperIndentsIfNeeded (
     elt->getPageGeometry ());
-  
+
 /* JMI
   // get top level partgroup block from the stack
   S_lpsrPartGroupBlock
@@ -565,7 +565,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       1,
       "the partGroup block stack is not exmpty at the end of the visit");
   }
-   */ 
+   */
 }
 
 //________________________________________________________________________
@@ -586,14 +586,14 @@ void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
     fLpsrScore->
       getMsrScore ()->
         getIdentification ();
-    
+
   fOnGoingIdentification = true;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 {
   fOnGoingIdentification = false;
-  
+
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
@@ -635,12 +635,12 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     paper =
       fLpsrScore->getPaper ();
 
-  // populate paper  
+  // populate paper
   paper ->
     setPaperWidth (elt->getPaperWidth ());
   paper->
     setPaperHeight (elt->getPaperHeight ());
-    
+
   paper->
     setTopMargin (elt->getTopMargin ());
   paper->
@@ -703,7 +703,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
-{  
+{
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
@@ -817,10 +817,10 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
       endl;
   }
 #endif
-  
+
   fPartGroupsStack.push (
     partGroupClone);
-  
+
 /*
   // add it to the MSR score clone
   fCurrentMsrScoreClone->
@@ -837,7 +837,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
   // making it the current partGroup block
   fPartGroupBlocksStack.push (
     partGroupBlock);
-  
+
   // get the LPSR store block
   S_lpsrScoreBlock
     scoreBlock =
@@ -862,11 +862,11 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
   S_msrPartGroup
     currentPartGroup =
       fPartGroupsStack.top ();
-      
+
   if (fPartGroupsStack.size () == 1) {
     // add the current partgroup clone to the MSR score clone
     // if it is the top-level one, i.e it's alone in the stack
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTracePartGroups) {
       fLogOutputStream <<
@@ -909,15 +909,15 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
   S_lpsrScoreBlock
     scoreBlock =
       fLpsrScore->getScoreBlock ();
-      
+
   S_lpsrPartGroupBlock
     currentPartGroupBlock =
       fPartGroupBlocksStack.top ();
-      
+
   if (fPartGroupBlocksStack.size () == 1) {
     // add the current partgroup clone to the LPSR score's parallel music
     // if it is the top-level one, i.e it's alone in the stack
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTracePartGroups) {
       fLogOutputStream <<
@@ -936,7 +936,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
       scoreBlock->
         appendPartGroupBlockToScoreBlock (
           fPartGroupBlocksStack.top ());
-          
+
     // pop current partGroup block from this visitors's stack,
     // only now to restore the appearence order
     fPartGroupBlocksStack.pop ();
@@ -973,11 +973,11 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 #endif
-    
+
   string
     partCombinedName =
       elt->getPartCombinedName ();
-      
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1046,7 +1046,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
@@ -1063,13 +1063,13 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
     partInstrumentAbbreviation =
       fCurrentPartClone->
         getPartInstrumentAbbreviation ();
-    
+
   // populate part instrument short name if empty and possible
   if (partInstrumentAbbreviation.size () == 0) {
     string
       partAbbreviation =
         elt->getPartAbbreviation ();
-        
+
     fCurrentPartClone->
       setPartInstrumentAbbreviation (
         partAbbreviation);
@@ -1122,7 +1122,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
       endl;
   }
 #endif
-  
+
   // create a staff tuning clone
   fCurrentStaffTuningClone =
     elt->
@@ -1186,26 +1186,26 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         fCurrentStaffClone =
           elt->createStaffNewbornClone (
             fCurrentPartClone);
-          
+
         // add it to the part clone
         fCurrentPartClone->
           addStaffToPartCloneByItsNumber (
             fCurrentStaffClone);
-      
+
         // create a staff block
         fCurrentStaffBlock =
           lpsrStaffBlock::create (
             fCurrentStaffClone);
-      
+
         string
           partName =
             fCurrentPartClone->getPartName (),
           partAbbreviation =
             fCurrentPartClone->getPartAbbreviation ();
-      
+
         string staffBlockInstrumentName;
         string staffBlockShortInstrumentName;
-      
+
         // don't set instrument name nor short instrument name // JMI
         // if the staff belongs to a piano part where they're already set
         if (! partName.size ()) {
@@ -1214,49 +1214,49 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         if (! partAbbreviation.size ()) {
           staffBlockShortInstrumentName = partAbbreviation;
         }
-      
+
         if (staffBlockInstrumentName.size ()) {
           fCurrentStaffBlock->
             setStaffBlockInstrumentName (staffBlockInstrumentName);
         }
-            
+
         if (staffBlockShortInstrumentName.size ()) {
           fCurrentStaffBlock->
             setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
         }
-              
+
         // append the staff block to the current part block
         fCurrentPartBlock->
           appendStaffBlockToPartBlock (
             fCurrentStaffBlock);
-      
+
         fOnGoingStaff = true;
       }
       break;
-      
+
     case msrStaff::kStaffHarmony:
       {
         // create a staff clone
         fCurrentStaffClone =
           elt->createStaffNewbornClone (
             fCurrentPartClone);
-        
+
         // add it to the part clone
         fCurrentPartClone->
           addStaffToPartCloneByItsNumber (
             fCurrentStaffClone);
-      
+
         fOnGoingStaff = true;
       }
       break;
-      
+
     case msrStaff::kStaffFiguredBass:
       {
         // create a staff clone
         fCurrentStaffClone =
           elt->createStaffNewbornClone (
             fCurrentPartClone);
-        
+
         // add it to the part clone
         fCurrentPartClone->
           addStaffToPartCloneByItsNumber (
@@ -1294,15 +1294,15 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
         fOnGoingStaff = false;
       }
       break;
-      
+
     case msrStaff::kStaffTablature:
       // JMI
       break;
-      
+
     case msrStaff::kStaffHarmony:
       // JMI
       break;
-      
+
     case msrStaff::kStaffFiguredBass:
       // JMI
       break;
@@ -1314,7 +1314,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1326,33 +1326,33 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 #endif
 
   fCurrentVoiceOriginal = elt;
-  
+
   gIndenter++;
 
   switch (elt->getVoiceKind ()) {
-    
+
     case msrVoice::kVoiceRegular:
       // create a voice clone
       fCurrentVoiceClone =
         elt->createVoiceNewbornClone (
           fCurrentStaffClone);
-            
+
       // add it to the staff clone
       fCurrentStaffClone->
         registerVoiceInStaff (
           inputLineNumber,
           fCurrentVoiceClone);
-    
+
       // append the voice clone to the LPSR score elements list
       fLpsrScore ->
         appendVoiceToScoreElements (fCurrentVoiceClone);
-    
+
       // append a use of the voice to the current staff block
       fCurrentStaffBlock->
         appendVoiceUseToStaffBlock (
           fCurrentVoiceClone);
       break;
-      
+
     case msrVoice::kVoiceHarmony:
       {
         /* JMI
@@ -1360,7 +1360,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         fCurrentPartClone->
           createPartHarmonyStaffAndVoiceIfNotYetDone (
             inputLineNumber);
-          
+
         // fetch harmony voice
         fCurrentVoiceClone =
           fCurrentPartClone->
@@ -1371,29 +1371,29 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         fCurrentVoiceClone =
           elt->createVoiceNewbornClone (
             fCurrentStaffClone);
-              
+
         // add it to the staff clone
         fCurrentStaffClone->
           registerVoiceInStaff (
             inputLineNumber,
             fCurrentVoiceClone);
-    
+
         if (
           elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {          
+          ) {
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
             appendVoiceToScoreElements (
               fCurrentVoiceClone);
-      
+
           // create a ChordNames context command
           string voiceName =
             elt->getVoiceName ();
-  
+
           string partCombinedName =
             elt->fetchVoicePartUplink ()->
               getPartCombinedName ();
-                          
+
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies) {
             fLogOutputStream <<
@@ -1402,7 +1402,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
 #endif
-  
+
           S_lpsrChordNamesContext
             chordNamesContext =
               lpsrChordNamesContext::create (
@@ -1410,7 +1410,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 lpsrContext::kExistingContextYes,
                 voiceName,
                 elt->getRegularVoiceForHarmonyVoice ());
-  
+
           // append it to the current part block
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies) {
@@ -1420,50 +1420,50 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
 #endif
-  
+
           fCurrentPartBlock->
             appendChordNamesContextToPartBlock (
               inputLineNumber,
               chordNamesContext);
-  
+
           fOnGoingHarmonyVoice = true;
         }
       }
       break;
-      
+
     case msrVoice::kVoiceFiguredBass:
       {
         // create a voice clone
         fCurrentVoiceClone =
           elt->createVoiceNewbornClone (
             fCurrentStaffClone);
-              
+
         // add it to the staff clone
         fCurrentStaffClone->
           registerVoiceInStaff (
             inputLineNumber,
             fCurrentVoiceClone);
-    
+
         // register it as the part figured bass voice
         fCurrentPartClone->
           setPartFiguredBassVoice (fCurrentVoiceClone);
 
         if (
           elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
-          ) {          
+          ) {
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
             appendVoiceToScoreElements (
               fCurrentVoiceClone);
-      
+
           // create a FiguredBass context command
           string voiceName =
             elt->getVoiceName ();
-  
+
           string partCombinedName =
             elt->fetchVoicePartUplink ()->
               getPartCombinedName ();
-                          
+
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies) {
             fLogOutputStream <<
@@ -1472,7 +1472,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
 #endif
-  
+
           S_lpsrFiguredBassContext
             figuredBassContext =
               lpsrFiguredBassContext::create (
@@ -1480,7 +1480,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 lpsrContext::kExistingContextYes,
                 voiceName,
                 elt-> getVoiceStaffUplink ());
-  
+
           // append it to the current part block
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceHarmonies) {
@@ -1490,11 +1490,11 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
 #endif
-  
+
           fCurrentPartBlock->
             appendFiguredBassContextToPartBlock (
               figuredBassContext);
-  
+
           fOnGoingFiguredBassVoice = true;
         }
       }
@@ -1525,11 +1525,11 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
     case msrVoice::kVoiceRegular:
       // JMI
       break;
-      
+
     case msrVoice::kVoiceHarmony:
       fOnGoingHarmonyVoice = false;
       break;
-      
+
     case msrVoice::kVoiceFiguredBass:
       fOnGoingFiguredBassVoice = false;
       break;
@@ -1589,7 +1589,7 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1599,12 +1599,12 @@ void msr2LpsrTranslator::visitEnd (S_msrSegment& elt)
       endl;
   }
 #endif
-    
+
   fCurrentVoiceClone->
     handleSegmentCloneEndInVoiceClone (
       inputLineNumber,
       fCurrentSegmentClone);
-      
+
   // forget current segment clone
   fCurrentSegmentClone = nullptr;
 }
@@ -1630,7 +1630,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     elt->
       createHarmonyNewbornClone (
         fCurrentVoiceClone);
-      
+
   if (fOnGoingNote) {
     // register the harmony in the current non-grace note clone
     fCurrentNonGraceNoteClone->
@@ -1639,7 +1639,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   // don't append the harmony to the part harmony,
   // this has been done in pass2b // JMI ???
   }
-  
+
   else if (fOnGoingChord) {
     // register the harmony in the current chord clone
     fCurrentChordClone->
@@ -1710,7 +1710,7 @@ void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
     fCurrentNonGraceNoteClone->
       setNoteFrame (elt);
   }
-}  
+}
 
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
@@ -1732,7 +1732,7 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
     elt->
       createFiguredBassNewbornClone (
         fCurrentVoiceClone);
-  
+
   if (fOnGoingNote) {
     // register the figured bass in the current non-grace note clone
     fCurrentNonGraceNoteClone->
@@ -1749,7 +1749,7 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
       setChordFiguredBass (fCurrentFiguredBassClone); // JMI
   }
   */
-  
+
   else if (fOnGoingFiguredBassVoice) { // JMI
     /*
     // register the figured bass in the part clone figured bass
@@ -1802,7 +1802,7 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
-{    
+{
 #ifdef TRACE_OPTIONS
   int
     inputLineNumber =
@@ -1841,34 +1841,30 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       endl;
   }
 #endif
-  
+
   // create a clone of the measure
   fCurrentMeasureClone =
     elt->
       createMeasureNewbornClone (
         fCurrentSegmentClone);
-      
+
   // append it to the current voice clone
   fCurrentVoiceClone->
     appendMeasureCloneToVoiceClone (
       inputLineNumber,
       fCurrentMeasureClone);
-      
+
 // JMI utile???
   fCurrentPartClone->
     setPartCurrentMeasureNumber (
       measureNumber);
 
-  // should the last bar check's measure number be set?
+  // should the last bar check's measure purist number be set?
   if (fLastBarCheck) {
-    stringstream s;
-
-    s << measurePuristNumber;
-    
     fLastBarCheck->
-      setNextBarNumber (
-        s.str ());
-      
+      setNextBarPuristNumber (
+        measurePuristNumber);
+
     fLastBarCheck = nullptr;
   }
 }
@@ -1877,7 +1873,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
   string
     measureNumber =
       elt->getMeasureNumber ();
@@ -1907,7 +1903,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   bool doCreateABarCheck = false;
 
   switch (elt->getMeasureKind ()) {
-    
+
     case msrMeasure::kMeasureKindUnknown:
       {
         stringstream s;
@@ -1928,15 +1924,15 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           s.str ());
       }
       break;
-      
+
     case msrMeasure::kMeasureKindRegular:
       doCreateABarCheck = true;
       break;
-      
+
     case msrMeasure::kMeasureKindAnacrusis:
       doCreateABarCheck = true;
       break;
-      
+
     case msrMeasure::kMeasureKindIncompleteStandalone:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatCommonPart:
     case msrMeasure::kMeasureKindIncompleteLastInRepeatHookedEnding:
@@ -1959,11 +1955,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kMeasureKindOvercomplete:
       doCreateABarCheck = true;
       break;
-      
+
     case msrMeasure::kMeasureKindCadenza:
       doCreateABarCheck = true;
       break;
-      
+
     case msrMeasure::kMeasureKindMusicallyEmpty:
       // JMI
       break;
@@ -1980,6 +1976,18 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
     // append it to the current voice clone
     fCurrentVoiceClone->
       appendBarCheckToVoice (fLastBarCheck);
+
+    // create and bar number check
+    S_msrBarNumberCheck
+      barNumberCheck_ =
+        msrBarNumberCheck::create (
+          inputLineNumber,
+          fCurrentVoiceClone->
+            getVoiceCurrentMeasurePuristNumber () + 1);
+
+    // append it to the current voice clone
+    fCurrentVoiceClone->
+      appendBarNumberCheckToVoice (barNumberCheck_);
   }
 }
 
@@ -2003,12 +2011,12 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
     fCurrentStanzaClone =
       elt->createStanzaNewbornClone (
         fCurrentVoiceClone);
-    
+
     // append the stanza clone to the LPSR score elements list
     fLpsrScore ->
       appendStanzaToScoreElements (
         fCurrentStanzaClone);
-  
+
     // append a use of the stanza to the current staff block
     fCurrentStaffBlock ->
       appendLyricsUseToStaffBlock (
@@ -2023,7 +2031,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
   gIndenter--;
-  
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -2037,7 +2045,7 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 
   // forget about this stanza
   fCurrentStanzaClone = nullptr;
-  
+
   fOnGoingStanza = false;
 }
 
@@ -2046,7 +2054,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -2068,7 +2076,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
       appendSyllableToStanza (
         fCurrentSyllableClone);
   }
-  
+
   else if (fOnGoingNote) { // JMI
     // visiting a syllable as attached to the current non-grace note
     fCurrentSyllableClone->
@@ -2083,10 +2091,10 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
 
       if (syllableTextsList.size ()) {
         // build a single words value from the texts list
-        // JMI create an msrWords instance for each???  
+        // JMI create an msrWords instance for each???
         string wordsValue =
           elt->syllableTextsListAsString();
-  
+
         // create the words
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceWords) {
@@ -2115,7 +2123,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
                 msrFontSize::kFontSizeNone), // default value
               kFontWeightNone,               // default value
               kXMLLangIt);                   // default value
-  
+
         // append it to the current non-grace note
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceLyrics || gTraceOptions->fTraceWords) {
@@ -2134,7 +2142,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
       }
     }
   }
-    
+
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
     /* JMI ???
@@ -2434,7 +2442,7 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
 #endif
 
   // a fermata is an articulation
-  
+
   if (fOnGoingNote) {
     fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt);
@@ -2458,7 +2466,7 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
 #endif
 
   // an arpeggiato is an articulation
-  
+
   if (fOnGoingNote) {
     fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
@@ -2482,7 +2490,7 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
 #endif
 
   // an nonArpeggiato is an articulation
-  
+
   if (fOnGoingNote) {
     fCurrentNonGraceNoteClone->
       appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
@@ -2655,13 +2663,13 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
     fCurrentChordClone->
       appendTechnicalWithStringToChord (elt);
   }
-  
+
   switch (elt->getTechnicalWithStringKind ()) {
     case msrTechnicalWithString::kHammerOn:
     case msrTechnicalWithString::kPullOff:
       // this score needs the 'after' Scheme function
       fLpsrScore->
-        setAfterSchemeFunctionIsNeeded ();     
+        setAfterSchemeFunctionIsNeeded ();
       break;
     default:
       ;
@@ -2741,7 +2749,7 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
     fCurrentNonGraceNoteClone->
       appendSpannerToNote (elt);
   }
-  
+
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendSpannerToChord (elt);
@@ -2889,7 +2897,7 @@ void msr2LpsrTranslator::visitStart (S_msrDoubleTremolo& elt)
       elt->getDoubleTremoloSecondElement ()
         createNewBornClone ());
         */
-  
+
   fOnGoingDoubleTremolo = true;
 }
 
@@ -2911,7 +2919,7 @@ void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
 
   // forget about it
   fCurrentDoubleTremoloClone = nullptr;
-  
+
   fOnGoingDoubleTremolo = false;
 }
 
@@ -2933,7 +2941,7 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 
     // is this a non LilyPond native dynamics?
     bool knownToLilyPondNatively = true;
-    
+
     switch (elt->getDynamicsKind ()) {
       case msrDynamics::kFFFFF:
       case msrDynamics::kFFFFFF:
@@ -2944,18 +2952,18 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
       case msrDynamics::kSFFZ:
       case msrDynamics::k_NoDynamics:
         knownToLilyPondNatively = false;
-          
+
       default:
         ;
     } // switch
-  
+
     if (! knownToLilyPondNatively) {
       // this score needs the 'dynamics' Scheme function
       fLpsrScore->
-        setDynamicsSchemeFunctionIsNeeded ();   
+        setDynamicsSchemeFunctionIsNeeded ();
     }
   }
-  
+
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendDynamicsToChord (elt);
@@ -3070,13 +3078,13 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
             appendSlurToNote (elt);
         }
         break;
-        
+
       default:
         fCurrentNonGraceNoteClone->
           appendSlurToNote (elt);
     } // switch
   }
-  
+
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendSlurToChord (elt);
@@ -3145,7 +3153,7 @@ void msr2LpsrTranslator::visitStart (S_msrSlash& elt)
     fCurrentNonGraceNoteClone->
       appendSlashToNote (elt);
   }
-  
+
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendSlashToChord (elt);
@@ -3168,7 +3176,7 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
     fCurrentNonGraceNoteClone->
       appendWedgeToNote (elt);
   }
-  
+
   else if (fOnGoingChord) {
     fCurrentChordClone->
       appendWedgeToChord (elt);
@@ -3192,7 +3200,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber () ;
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -3209,11 +3217,11 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
       fLogOutputStream <<
-        "Creating a clone of grace notes group '" << 
+        "Creating a clone of grace notes group '" <<
         elt->asShortString () <<
         "' and attaching it to clone note '" <<
         fCurrentNonGraceNoteClone->asShortString () <<
-        "'" << 
+        "'" <<
         endl;
       }
 #endif
@@ -3226,7 +3234,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     // attach it to the current note clone
     // if (fOnGoingNote) { JMI
    // { // JMI
-    
+
     switch (elt->getGraceNotesGroupKind ()) {
       case msrGraceNotesGroup::kGraceNotesGroupBefore:
         fCurrentNonGraceNoteClone->
@@ -3248,7 +3256,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       "+++++++++++++++++++++++++ 1" <<
       endl <<
       "fCurrentNonGraceNoteClone:";
-  
+
     if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
         fCurrentNonGraceNoteClone;
@@ -3281,7 +3289,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       __FILE__, __LINE__,
       s.str ());
   }
-  
+
   fOnGoingGraceNotesGroup = true;
 
   // is noteNotesGroupIsAttachedTo the first one in its voice?
@@ -3349,7 +3357,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     if (noteNotesGroupIsAttachedTo == originalVoiceFirstNonGraceNote) {
       // bug 34 in LilyPond should be worked around by creating
       // skip grace notes in the other voices of the part
-    
+
       // create the skip grace notes group
   #ifdef TRACE_OPTIONS
         if (
@@ -3366,7 +3374,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
             endl;
         }
   #endif
-  
+
       fCurrentSkipGraceNotesGroup =
         elt->
           createSkipGraceNotesGroupClone (
@@ -3382,18 +3390,18 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
     /* JMI
   if (fFirstNoteCloneInVoice) {
     // there is at least a note before these grace notes in the voice
-    
+
     if (
       fCurrentNonGraceNoteClone->getNoteTrillOrnament ()
         &&
       fCurrentNonGraceNoteClone->getNoteIsFollowedByGraceNotesGroup ()) {
       // fPendingAfterGraceNotesGroup already contains
       // the afterGraceNotesGroup to use
-      
+
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceGraceNotesGroup) {
         fLogOutputStream <<
-          "Optimising grace notes '" << 
+          "Optimising grace notes '" <<
           elt->asShortString () <<
           "' into after grace notes" <<
           endl;
@@ -3430,13 +3438,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       }
 
      // JMI XXL find good criterion for this
-  
+
       // these grace notes are at the beginning of a segment JMI
   //    doCreateAGraceNoteClone = true; // JMI
-  
+
       // bug 34 in LilyPond should be worked aroud by creating
       // skip grace notes in the other voices of the part
-  
+
       // create skip graceNotesGroup clone
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceGraceNotesGroup) {
@@ -3447,13 +3455,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           endl;
       }
 #endif
-    
+
       S_msrGraceNotesGroup
         skipGraceNotesGroup =
           elt->
             createSkipGraceNotesGroupClone (
               fCurrentVoiceClone);
-  
+
       // prepend it to the other voices in the part
       fCurrentPartClone->
         prependSkipGraceNotesGroupToVoicesClones (
@@ -3480,7 +3488,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           endl;
 
         gIndenter++;
-        
+
         fCurrentAfterGraceNotesGroupElement->
           print (fLogOutputStream);
 
@@ -3503,7 +3511,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
           endl;
       }
 #endif
-      
+
       if (fOnGoingNote) { // JMI
         fCurrentNonGraceNoteClone->
           setNoteAfterGraceNotesGroup (
@@ -3531,7 +3539,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       "+++++++++++++++++++++++++ 2" <<
       endl <<
       "fCurrentNonGraceNoteClone:";
-  
+
     if (fCurrentNonGraceNoteClone) {
       fLogOutputStream <<
         fCurrentNonGraceNoteClone;
@@ -3549,7 +3557,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
   fCurrentGraceNotesGroupClone = nullptr;
 
   fOnGoingGraceNotesGroup = false;
-  
+
 /* JMI
   if (fPendingAfterGraceNotesGroup) {
     // remove the current afterGraceNotesGroup note clone
@@ -3569,7 +3577,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
 
     // forget about the current after grace notes element
     fCurrentAfterGraceNotesGroupElement = nullptr;
-  
+
     // forget about these after the pending grace notes
     fPendingAfterGraceNotesGroup = nullptr;
   }
@@ -3589,7 +3597,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 #endif
-    
+
   // create the note clone
   S_msrNote
     noteClone =
@@ -3598,7 +3606,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 
   // register clone in this tranlastors' voice notes map
   fVoiceNotesMap [elt] = noteClone; // JMI XXL
-  
+
   // don't register grace notes as the current note clone,
   // but as the current grace note clone instead
 /* JMI
@@ -3625,13 +3633,13 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
 */
 
   switch (elt->getNoteKind ()) {
-    
+
     case msrNote::kGraceNote:
     case msrNote::kGraceChordMemberNote:
     case msrNote::kGraceTupletMemberNote:
       fCurrentGraceNoteClone = noteClone;
       break;
-      
+
     default:
       fCurrentNonGraceNoteClone = noteClone;
 
@@ -3691,7 +3699,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -3716,7 +3724,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         "nullptr" <<
         endl;
     }
-    
+
     fLogOutputStream <<
       "FAA fCurrentGraceNoteClone = " <<
       endl;
@@ -3733,10 +3741,10 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 #endif
 
   switch (elt->getNoteKind ()) {
-    
+
     case msrNote::k_NoNoteKind:
       break;
-      
+
     case msrNote::kRestNote:
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes) {
@@ -3747,12 +3755,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           endl;
       }
 #endif
-          
+
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
           fCurrentNonGraceNoteClone);
       break;
-      
+
     case msrNote::kSkipNote: // JMI
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes) {
@@ -3763,12 +3771,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           endl;
       }
 #endif
-          
+
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
           fCurrentNonGraceNoteClone);
       break;
-      
+
     case msrNote::kUnpitchedNote:
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes) {
@@ -3779,12 +3787,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           endl;
       }
 #endif
-          
+
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
           fCurrentNonGraceNoteClone);
       break;
-      
+
     case msrNote::kStandaloneNote:
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes) {
@@ -3795,15 +3803,15 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           endl;
       }
 #endif
-          
+
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
           fCurrentNonGraceNoteClone);
       break;
-      
+
     case msrNote::kDoubleTremoloMemberNote:
       if (fOnGoingDoubleTremolo) {
-        
+
         if (fCurrentNonGraceNoteClone->getNoteIsFirstNoteInADoubleTremolo ()) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceNotes) {
@@ -3818,12 +3826,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
               endl;
           }
 #endif
-              
+
           fCurrentDoubleTremoloClone->
             setDoubleTremoloNoteFirstElement (
               fCurrentNonGraceNoteClone);
         }
-        
+
         else if (fCurrentNonGraceNoteClone->getNoteIsSecondNoteInADoubleTremolo ()) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceNotes) {
@@ -3838,12 +3846,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
               endl;
           }
 #endif
-              
+
           fCurrentDoubleTremoloClone->
             setDoubleTremoloNoteSecondElement (
               fCurrentNonGraceNoteClone);
         }
-        
+
         else {
           stringstream s;
 
@@ -3873,7 +3881,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           s.str ());
       }
       break;
-      
+
     case msrNote::kGraceNote:
     /* JMI
       fLogOutputStream <<
@@ -3882,7 +3890,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           fOnGoingGraceNotesGroup) <<
         endl;
         */
-        
+
       if (! fOnGoingGraceNotesGroup) {
         stringstream s;
 
@@ -3909,12 +3917,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             endl;
         }
 #endif
-  
+
         fCurrentGraceNotesGroupClone->
           appendNoteToGraceNotesGroup (
             fCurrentGraceNoteClone);
       }
-      
+
     /* JMI ???
       if (fCurrentGraceNotesGroupClone) {
 #ifdef TRACE_OPTIONS
@@ -3927,7 +3935,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             endl;
         }
 #endif
-  
+
         fCurrentGraceNotesClone->
           appendNoteToGraceNotes (
             fCurrentNonGraceNoteClone);
@@ -3944,12 +3952,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             endl;
         }
 #endif
-  
+
         fPendingAfterGraceNotes->
           appendNoteToAfterGraceNotesContents (
             fCurrentNonGraceNoteClone);
       }
-      
+
       else {
         stringstream s;
 
@@ -3968,7 +3976,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       }
       */
       break;
-      
+
     case msrNote::kChordMemberNote:
       if (fOnGoingChord) {
         fCurrentChordClone->
@@ -3976,7 +3984,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             fCurrentNonGraceNoteClone,
             fCurrentVoiceClone);
       }
-      
+
       else {
         stringstream s;
 
@@ -4000,7 +4008,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             fCurrentGraceNoteClone,
             fCurrentVoiceClone);
       }
-      
+
       else {
         stringstream s;
 
@@ -4016,7 +4024,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           s.str ());
         }
       break;
-      
+
     case msrNote::kTupletMemberNote:
     case msrNote::kGraceTupletMemberNote:
     case msrNote::kTupletMemberUnpitchedNote:
@@ -4029,7 +4037,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           endl;
       }
 #endif
-          
+
       fTupletClonesStack.top ()->
         addNoteToTuplet (
           fCurrentNonGraceNoteClone,
@@ -4047,7 +4055,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrNote::kNoteEditorialAccidentalNo:
       break;
   } // switch
-  
+
   // handle cautionary accidentals
   switch (fCurrentNonGraceNoteClone->getNoteCautionaryAccidentalKind ()) {
     case msrNote::kNoteCautionaryAccidentalYes:
@@ -4072,7 +4080,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             lpsrMelismaCommand::create (
               inputLineNumber,
               lpsrMelismaCommand::kMelismaStart);
-    
+
         // append it to current voice clone
         fCurrentVoiceClone->
           appendOtherElementToVoice (melismaCommand);
@@ -4213,7 +4221,7 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
 
   // a beam may be present at the same time
   // in a note or grace note and the chord the latter belongs to
-  
+
   if (fOnGoingGraceNotesGroup) {
     fCurrentGraceNoteClone->
       appendBeamToNote (elt);
@@ -4246,7 +4254,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4274,14 +4282,14 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         setDoubleTremoloChordFirstElement (
           elt);
     }
-    
+
     else if (elt->getChordIsSecondChordInADoubleTremolo ()) {
       // replace double tremolo's second element by chord
       fCurrentDoubleTremoloClone->
         setDoubleTremoloChordSecondElement (
           elt);
     }
-    
+
     else {
       stringstream s;
 
@@ -4296,14 +4304,14 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         s.str ());
     }
   }
-  
+
   else if (fCurrentGraceNotesGroupClone) {
     // append the chord to the grace notes
     fCurrentGraceNotesGroupClone->
       appendChordToGraceNotesGroup (
         fCurrentChordClone);
   }
-  
+
   else {
     // appending the chord to the voice clone at once
     fCurrentVoiceClone->
@@ -4355,7 +4363,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
       endl;
   }
 #endif
-  
+
   fTupletClonesStack.push (tupletClone);
 
   switch (elt->getTupletLineShapeKind ()) {
@@ -4363,7 +4371,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
     case msrTuplet::kTupletLineShapeCurved:
       fLpsrScore->
         // this score needs the 'tuplets curved brackets' Scheme function
-        setTupletsCurvedBracketsSchemeFunctionIsNeeded ();   
+        setTupletsCurvedBracketsSchemeFunctionIsNeeded ();
       break;
   } // switch
 }
@@ -4388,7 +4396,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       endl;
   }
 #endif
-      
+
   fTupletClonesStack.pop ();
 
   if (fTupletClonesStack.size ()) {
@@ -4404,14 +4412,14 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       endl;
     }
 #endif
-    
+
     fTupletClonesStack.top ()->
       addTupletToTupletClone (elt);
   }
-  
+
   else {
     // tuplet is a top level tuplet
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
@@ -4422,10 +4430,10 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       endl;
     }
 #endif
-      
+
     fCurrentVoiceClone->
       appendTupletToVoice (elt);
-  }  
+  }
 }
 
 //________________________________________________________________________
@@ -4579,7 +4587,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarCheck& elt)
     fLogOutputStream <<
       "--> Start visiting msrBarCheck" <<
       ", nextBarNumber: " <<
-      elt->getNextBarNumber () <<
+      elt->getNextBarPuristNumber () <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -4690,7 +4698,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4720,7 +4728,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4752,7 +4760,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatCommonPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4771,7 +4779,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4791,7 +4799,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4823,7 +4831,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4856,7 +4864,7 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasures& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4888,7 +4896,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasures& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4920,7 +4928,7 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4954,7 +4962,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -4989,7 +4997,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5021,7 +5029,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5066,7 +5074,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5100,7 +5108,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5135,7 +5143,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5169,7 +5177,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5207,7 +5215,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 #endif
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5283,7 +5291,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5310,67 +5318,67 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       fCurrentIdentification->
         setWorkNumber (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setWorkNumber (
           inputLineNumber,
           variableValue,
           kFontStyleNone,
           kFontWeightNone);
-  
+
       fWorkNumberKnown = true;
       break;
-  
+
     case msrVarValAssoc::kWorkTitle:
       fCurrentIdentification->
         setWorkTitle (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setWorkTitle (
           inputLineNumber,
           variableValue,
           kFontStyleNone,
           kFontWeightNone);
-          
+
       fWorkTitleKnown = true;
       break;
-  
+
     case msrVarValAssoc::kMovementNumber:
       fCurrentIdentification->
         setMovementNumber (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setMovementNumber (
           inputLineNumber,
           variableValue,
           kFontStyleNone,
           kFontWeightNone);
-  
+
       fMovementNumberKnown = true;
       break;
-  
+
     case msrVarValAssoc::kMovementTitle:
       fCurrentIdentification->
         setMovementTitle (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setMovementTitle (
           inputLineNumber,
           variableValue,
           kFontStyleNone,
           kFontWeightNone);
-          
+
       fMovementTitleKnown = true;
       break;
-  
+
     case msrVarValAssoc::kEncodingDate:
       fCurrentIdentification->
         setEncodingDate (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setEncodingDate (
           inputLineNumber,
@@ -5383,7 +5391,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       fCurrentIdentification->
         setScoreInstrument (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setScoreInstrument (
           inputLineNumber,
@@ -5396,7 +5404,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       fCurrentIdentification->
         setMiscellaneousField (
           inputLineNumber, variableValue);
-      
+
       fLpsrScoreHeader->
         setMiscellaneousField (
           inputLineNumber,
@@ -5408,13 +5416,13 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
     default:
       {
       stringstream s;
-    
+
       s <<
         "### msrVarValAssoc kind '" <<
         msrVarValAssoc::varValAssocKindAsString (
           varValAssocKind) <<
         "' is not handled";
-    
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
@@ -5440,7 +5448,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
 {
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -5468,7 +5476,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
             inputLineNumber, (*i));
       } // for
       break;
-  
+
     case msrVarValsListAssoc::kComposer:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
@@ -5478,7 +5486,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
             inputLineNumber, (*i));
       } // for
       break;
-  
+
     case msrVarValsListAssoc::kArranger:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
@@ -5488,7 +5496,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
             inputLineNumber, (*i));
       } // for
       break;
-  
+
     case msrVarValsListAssoc::kLyricist:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
@@ -5508,7 +5516,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
             inputLineNumber, (*i));
       } // for
       break;
-  
+
     case msrVarValsListAssoc::kTranslator:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
@@ -5532,13 +5540,13 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     default:
       {
       stringstream s;
-    
+
       s <<
         "### msrVarValsListAssoc kind '" <<
         msrVarValsListAssoc::varValsListAssocKindAsString (
           varValsListAssocKind) <<
         "' is not handled";
-   
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,

@@ -31,7 +31,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_msrBarCheck msrBarCheck::create (
-  int    inputLineNumber)
+  int inputLineNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
@@ -40,19 +40,19 @@ S_msrBarCheck msrBarCheck::create (
   return o;
 }
 
-S_msrBarCheck msrBarCheck::createWithNextBarNumber (
-  int    inputLineNumber,
-  string nextBarNumber)
+S_msrBarCheck msrBarCheck::createWithNextBarPuristNumber (
+  int inputLineNumber,
+  int nextBarPuristNumber)
 {
   msrBarCheck* o =
     new msrBarCheck (
-      inputLineNumber, nextBarNumber);
+      inputLineNumber, nextBarPuristNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarCheck::msrBarCheck (
-  int    inputLineNumber)
+  int inputLineNumber)
     : msrMeasureElement (inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
@@ -65,17 +65,17 @@ msrBarCheck::msrBarCheck (
 }
 
 msrBarCheck::msrBarCheck (
-  int    inputLineNumber,
-  string nextBarNumber)
+  int inputLineNumber,
+  int nextBarPuristNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fNextBarNumber = nextBarNumber; 
+  fNextBarPuristNumber = nextBarPuristNumber;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a bar check with next bar number '" <<
-      fNextBarNumber <<
+      fNextBarPuristNumber <<
       "'" <<
       endl;
   }
@@ -85,19 +85,19 @@ msrBarCheck::msrBarCheck (
 msrBarCheck::~msrBarCheck ()
 {}
 
-void msrBarCheck::setNextBarNumber (string number)
+void msrBarCheck::setNextBarPuristNumber (int puristNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting bar check next bar number to '" <<
-      number <<
+      puristNumber <<
       "'" <<
       endl;
   }
 #endif
 
-  fNextBarNumber = number;
+  fNextBarPuristNumber = puristNumber;
 }
 
 void msrBarCheck::acceptIn (basevisitor* v)
@@ -107,12 +107,12 @@ void msrBarCheck::acceptIn (basevisitor* v)
       "% ==> msrBarCheck::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBarCheck>*
     p =
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarCheck::visitStart ()" <<
@@ -134,7 +134,7 @@ void msrBarCheck::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarCheck::visitEnd ()" <<
@@ -153,7 +153,7 @@ string msrBarCheck::asString () const
 
   s <<
     "BarCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"" <<
+    ", nextBaPuristNumber = \"" << fNextBarPuristNumber << "\"" <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -174,22 +174,22 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 
 //______________________________________________________________________________
 S_msrBarNumberCheck msrBarNumberCheck::create (
-  int    inputLineNumber,
-  string nextBarNumber)
+  int inputLineNumber,
+  int nextBarPuristNumber)
 {
   msrBarNumberCheck* o =
     new msrBarNumberCheck (
-      inputLineNumber, nextBarNumber);
+      inputLineNumber, nextBarPuristNumber);
   assert(o!=0);
   return o;
 }
 
 msrBarNumberCheck::msrBarNumberCheck (
-  int    inputLineNumber,
-  string nextBarNumber)
+  int inputLineNumber,
+  int nextBarPuristNumber)
     : msrMeasureElement (inputLineNumber)
 {
-  fNextBarNumber=nextBarNumber; 
+  fNextBarPuristNumber=nextBarPuristNumber;
 }
 
 msrBarNumberCheck::~msrBarNumberCheck ()
@@ -202,12 +202,12 @@ void msrBarNumberCheck::acceptIn (basevisitor* v)
       "% ==> msrBarNumberCheck::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitStart ()" <<
@@ -229,7 +229,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitEnd ()" <<
@@ -248,7 +248,7 @@ string msrBarNumberCheck::asString () const
 
   s <<
     "BarNumberCheck" <<
-    ", next bar number = \"" << fNextBarNumber << "\"";
+    ", nextBarPuristNumber = \"" << fNextBarPuristNumber << "\"";
 
   return s.str ();
 }
@@ -312,10 +312,10 @@ msrBarline::msrBarline (
     : msrMeasureElement (inputLineNumber)
 {
   fBarlineCategoryKind = barlineCategoryKind;
-  
+
   fBarlineHasSegnoKind = barlineHasSegnoKind;
   fBarlineHasCodaKind  = barlineHasCodaKind;
-  
+
   fLocationKind        = barlineLocationKind;
   fStyleKind           = barlineStyleKind;
   fEndingTypeKind      = barlineEndingTypeKind;
@@ -324,9 +324,9 @@ msrBarline::msrBarline (
   fRepeatWingedKind    = barlineRepeatWingedKind;
 
   fBarlineTimes = barlineTimes;
-  
+
   // JMI gLogIOstream << "fEndingNumber = " << fEndingNumber << endl;
-  
+
   // extract individual numbers from fEndingNumber
   // that may contain "1, 2"
   fEndingNumbersList =
@@ -344,12 +344,12 @@ void msrBarline::acceptIn (basevisitor* v)
       "% ==> msrBarline::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrBarline>*
     p =
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarline::visitStart ()" <<
@@ -371,7 +371,7 @@ void msrBarline::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarline::visitEnd ()" <<
@@ -388,7 +388,7 @@ string msrBarline::barlineLocationKindAsString (
   msrBarlineLocationKind barlineLocationKind)
 {
   string result;
-  
+
   switch (barlineLocationKind) {
     case kBarlineLocationNone:
       result = "barlineLocationNone";
@@ -411,7 +411,7 @@ string msrBarline::barlineCategoryKindAsString (
   msrBarlineCategoryKind barlineCategoryKind)
 {
   string result;
-  
+
   switch (barlineCategoryKind) {
     case k_NoBarlineCategory:
       result = "noBarlineCategory";
@@ -480,7 +480,7 @@ string msrBarline::barlineStyleKindAsString (
   msrBarlineStyleKind barlineStyleKind)
 {
   string result;
-  
+
   switch (barlineStyleKind) {
     case msrBarline::kBarlineStyleNone:
       result = "barlineStyleNone";
@@ -524,7 +524,7 @@ string msrBarline::barlineEndingTypeKindAsString (
   msrBarlineEndingTypeKind barlineEndingTypeKind)
 {
   string result;
-  
+
   switch (barlineEndingTypeKind) {
     case msrBarline::kBarlineEndingNone:
       result = "barlineEndingNone";
@@ -547,7 +547,7 @@ string msrBarline::barlineRepeatDirectionKindAsString (
   msrBarlineRepeatDirectionKind barlineRepeatDirectionKind)
 {
   string result;
-  
+
   switch (barlineRepeatDirectionKind) {
     case msrBarline::kBarlineRepeatDirectionNone:
       result ="barlineRepeatDirectionNone";
@@ -567,7 +567,7 @@ string msrBarline::barlineRepeatWingedKindAsString (
   msrBarlineRepeatWingedKind barlineRepeatWingedKind)
 {
   string result;
-  
+
   switch (barlineRepeatWingedKind) {
     case msrBarline::kBarlineRepeatWingedNone:
       result = "barlineRepeatWingedNone";
@@ -625,7 +625,7 @@ string msrBarline::asShortString () const
     ", " <<
     barlineHasCodaKindAsString (
       fBarlineHasCodaKind) <<
-    
+
     ", " <<
     barlineLocationKindAsString (fLocationKind) <<
     ", " <<
@@ -643,7 +643,7 @@ string msrBarline::asShortString () const
     ", " <<
     fBarlineTimes << " times" <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
@@ -662,7 +662,7 @@ string msrBarline::asString () const
     ", " <<
     barlineHasCodaKindAsString (
       fBarlineHasCodaKind) <<
-    
+
     ", " <<
     barlineLocationKindAsString (fLocationKind) <<
     ", " <<
@@ -677,11 +677,11 @@ string msrBarline::asString () const
     barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     ", " <<
     barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
-    
+
     ", " <<
     fBarlineTimes << " times" <<
     ", line " << fInputLineNumber;
-    
+
   return s.str ();
 }
 
@@ -711,7 +711,7 @@ void msrBarline::print (ostream& os)
     barlineHasCodaKindAsString (
       fBarlineHasCodaKind) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "locationKind" << " : " <<
     barlineLocationKindAsString (fLocationKind) <<
@@ -724,7 +724,7 @@ void msrBarline::print (ostream& os)
     "endingTypeKind" << " : " <<
     barlineEndingTypeKindAsString (fEndingTypeKind) <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "endingNumber" << " : " <<
     fEndingNumber <<
@@ -733,17 +733,17 @@ void msrBarline::print (ostream& os)
     "endingNumbersList" << " : " <<
     endingNumbersListAsString () <<
     endl <<
-    
+
     setw (fieldWidth) <<
     "repeatDirectionKind" << " : " <<
     barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     endl <<
-  
+
     setw (fieldWidth) <<
     "repeatWingedKind" << " : " <<
     barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
     endl <<
-  
+
     setw (fieldWidth) <<
     "barlineTimes" << " : " <<
     fBarlineTimes <<
@@ -763,7 +763,7 @@ void msrBarline::print (ostream& os)
     "positionInMeasure" << " : " <<
     fPositionInMeasure <<
     endl;
-     
+
   gIndenter--;
 }
 
