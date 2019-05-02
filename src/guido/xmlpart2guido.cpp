@@ -50,10 +50,9 @@ namespace MusicXML2
     {
         guidonotestatus::resetall();
         fCurrentBeamNumber = 0;
-        fCurrentTupletNumber = 0;
         fMeasNum = 0;
         fInCue = fInGrace = fInhibitNextBar = fPendingBar = fDoubleBar
-        = fBeamOpened = fCrescPending = fSkipDirection = fTupletOpened = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
+        = fBeamOpened = fCrescPending = fSkipDirection = fWavyTrillOpened = fSingleScopeTrill = fNonStandardNoteHead = false;
         fCurrentStemDirection = kStemUndefined;
         fCurrentDivision = 1;
         fCurrentOffset = 0;
@@ -1416,27 +1415,36 @@ namespace MusicXML2
         }
         
         if (i != tuplets.end()) {
-            if (!fTupletOpened ) {
-                /// Determine whether we need Brackets or not
-                bool withBracket = ((*i)->getAttributeValue("bracket")=="yes");
-                /// Get Tuplet Number
-                int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
-                /// Get Tuplet Placement and graphic type
-                std::string tupletPlacement = (*i)->getAttributeValue("placement");
-                std::string tupletGraphicType = nv.fGraphicType;
-                long numberOfEventsInTuplet = 1;
-                
-                ///// Use Time-Modification to get Number of Events in Tuplet
+            /// Determine whether we need Brackets or not
+            bool withBracket = ((*i)->getAttributeValue("bracket")=="yes");
+            /// Get Tuplet Number
+            int thisTupletNumber = (*i)->getAttributeIntValue("number", 1);
+            /// Get Tuplet Placement and graphic type
+            std::string tupletPlacement = (*i)->getAttributeValue("placement");
+            std::string tupletGraphicType = nv.fGraphicType;
+            long numberOfEventsInTuplet = 1;
+            
+            bool useDispNoteAttribute = false;
+
+            ///// if "tuplet-actual" is present use its "tuplet-number" otherwise use Time-Modification to get Number of Events in Tuplet
+            auto tuplet_actual = (*i)->find(k_tuplet_actual);
+            if ( tuplet_actual != (*i)->end()) {
+                numberOfEventsInTuplet = tuplet_actual->getIntValue(k_tuplet_number, 1);
+                tupletGraphicType = tuplet_actual->getValue(k_tuplet_type);
+                useDispNoteAttribute = true;
+            }else {
                 numberOfEventsInTuplet = nv.getTimeModification().getDenominator();
-                
-                //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
-                bool useDispNoteAttribute = true;
+            }
+
+            //// Rational : If all note durations are equal, then use the dispNote attribute. If not, then don't!
+            if (useDispNoteAttribute == false) {
                 long topNoteDur = nv.getDuration();
                 /// Browse through all elements of Tuplet until "stop"!
                 ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
                 if (nextnote != fCurrentMeasure->end()) {
                     nextnote++;	// advance one step
                 }
+                useDispNoteAttribute = true; // setback to True.. will become false if check doesn't pass!
                 while (nextnote != fCurrentMeasure->end()) {
                     // looking for the next note on the target voice
                     if ((nextnote->getType() == k_note) && (nextnote->getIntValue(k_voice,0) == fTargetVoice)) {
@@ -1468,86 +1476,65 @@ namespace MusicXML2
                     }
                     nextnote++;
                 }
+            }
+            
+            /// Determine the graphical format inside Tuplet
+            std::string dispNotePar ;
+            int dy1offset = 6;
+            if (tupletGraphicType=="32nd")
+            {
+                dispNotePar = "\"/32\"";
+                dy1offset+=4;
+            }
+            else if (tupletGraphicType=="16th")
+            {
+                dispNotePar = "\"/16\"";
+                dy1offset+=3;
+            }
+            else if (tupletGraphicType=="eighth")
+            {
+                dispNotePar = "\"/8\"";
+                dy1offset+=2;
+            }
+            else if (tupletGraphicType=="quarter")
+            {
+                dispNotePar = "\"/4\"";
+                dy1offset+=1;
+            }
+            else if (tupletGraphicType=="half")
+            {
+                dispNotePar = "\"/2\"";
+            }
+            else if (tupletGraphicType=="whole")
+            {
+                dispNotePar = "\"/1\"";
+                dy1offset-=5;
+            }
+            
+            /// Generate tag and parameters
+            // Avoid generating parameter for triplets since Guido does this automatically
+            if ((numberOfEventsInTuplet!=3) ||(dispNotePar.size()))
+            {
+                Sguidoelement tag = guidotag::create("tuplet");
+                /// Add number visualiser
+                stringstream tuplet;
+                if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
+                    tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");
+                tag->add (guidoparam::create(tuplet.str()));
                 
-                /// Determine the graphical format inside Tuplet
-                std::string dispNotePar ;
-                int dy1offset = 6;
-                if (tupletGraphicType=="32nd")
+                /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
+                if (dispNotePar.size() && useDispNoteAttribute)
                 {
-                    dispNotePar = "\"/32\"";
-                    dy1offset+=4;
-                }
-                else if (tupletGraphicType=="16th")
-                {
-                    dispNotePar = "\"/16\"";
-                    dy1offset+=3;
-                }
-                else if (tupletGraphicType=="eighth")
-                {
-                    dispNotePar = "\"/8\"";
-                    dy1offset+=2;
-                }
-                else if (tupletGraphicType=="quarter")
-                {
-                    dispNotePar = "\"/4\"";
-                    dy1offset+=1;
-                }
-                else if (tupletGraphicType=="half")
-                {
-                    dispNotePar = "\"/2\"";
-                }
-                else if (tupletGraphicType=="whole")
-                {
-                    dispNotePar = "\"/1\"";
-                    dy1offset-=5;
+                    tag->add(guidoparam::create(("dispNote="+dispNotePar),false));
                 }
                 
-                /// Generate tag and parameters
-                // Avoid generating parameter for triplets since Guido does this automatically
-                if ((numberOfEventsInTuplet!=3) ||(dispNotePar.size()))
+                //// Add Placement
+                if (tupletPlacement.size())
                 {
-                    Sguidoelement tag = guidotag::create("tuplet");
-                    /// Add number visualiser
-                    stringstream tuplet;
-                    if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
-                        tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");
-                    tag->add (guidoparam::create(tuplet.str()));
-                    
-                    /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
-                    if (dispNotePar.size() && useDispNoteAttribute)
-                    {
-                        tag->add(guidoparam::create(("dispNote="+dispNotePar),false));
-                    }
-                    
-                    //// Add Placement
-                    if (tupletPlacement.size())
-                    {
-                        tag->add(guidoparam::create(("position=\""+tupletPlacement+"\""),false));
-                    }
-                    
-                    //// Tuplet text position is now automatic as of Commit of Fri 2 December 2016
-                    /*
-                     if (fCurrentStemDirection == kStemDown)
-                     {
-                     if (tupletPlacement=="below")
-                     {
-                     dy1offset*=-1;
-                     }else
-                     dy1offset-=5;
-                     
-                     tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
-                     }else if (fCurrentStemDirection == kStemUp)
-                     {
-                     tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
-                     }else // kStemNone or kStemUndefined
-                     {
-                     tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
-                     }*/
-                    
-                    push (tag);
-                    fTupletOpened = true;
-                    fCurrentTupletNumber = thisTupletNumber;
+                    tag->add(guidoparam::create(("position=\""+tupletPlacement+"\""),false));
                 }
+                
+                push (tag);
             }
         }
     }
@@ -1555,11 +1542,10 @@ namespace MusicXML2
     void xmlpart2guido::checkTupletEnd ( const std::vector<S_tuplet>& tuplets )
     {
         std::vector<S_tuplet>::const_iterator i;
-        for (i = tuplets.begin(); (i != tuplets.end()) && fTupletOpened; i++) {
-            if (((*i)->getAttributeValue("type") == "stop") && ((*i)->getAttributeIntValue("number", 1) == fCurrentTupletNumber)) {
-                fCurrentTupletNumber = 0;
+        for (i = tuplets.begin(); (i != tuplets.end()); i++) {
+            // Do not check for tupletNumber (might cause conflict with nested Tuplets) -- We assume everything is there!
+            if (((*i)->getAttributeValue("type") == "stop")) { //&& ((*i)->getAttributeIntValue("number", 1) == fCurrentTupletNumber)) {
                 pop();
-                fTupletOpened = false;
             }
         }
     }
@@ -1714,20 +1700,20 @@ namespace MusicXML2
         if (stem) {
             if (stem->getValue() == "down") {
                 //if (fCurrentStemDirection != kStemDown || fInCue) {
-                    tag = guidotag::create("stemsDown");
-                    fCurrentStemDirection = kStemDown;
+                tag = guidotag::create("stemsDown");
+                fCurrentStemDirection = kStemDown;
                 //}
             }
             else if (stem->getValue() == "up") {
                 //if (fCurrentStemDirection != kStemUp || fInCue) {
-                    tag = guidotag::create("stemsUp");
-                    fCurrentStemDirection = kStemUp;
+                tag = guidotag::create("stemsUp");
+                fCurrentStemDirection = kStemUp;
                 //}
             }
             else if (stem->getValue() == "none") {
                 //if (fCurrentStemDirection != kStemNone || fInCue) {
-                    tag = guidotag::create("stemsOff");
-                    fCurrentStemDirection = kStemNone;
+                tag = guidotag::create("stemsOff");
+                fCurrentStemDirection = kStemNone;
                 //}
             }
             else if (stem->getValue() == "double") {
@@ -1942,7 +1928,7 @@ namespace MusicXML2
         if (note.fTremolo) {
             Sguidoelement tag;
             stringstream s;
-
+            
             std::string tremType = note.fTremolo->getAttributeValue("type");
             if (tremType == "single") {
                 tag = guidotag::create("trem");
@@ -1960,7 +1946,7 @@ namespace MusicXML2
             }else
                 if (tremType == "start") {
                     tag = guidotag::create("trem");
-
+                    
                     /// Find "stop" pitch
                     ctree<xmlelement>::iterator nextnote = find(fCurrentMeasure->begin(), fCurrentMeasure->end(), elt);
                     if (nextnote != fCurrentMeasure->end()) nextnote++;    // advance one step
@@ -2483,12 +2469,12 @@ namespace MusicXML2
         
         checkGraceEnd(*this);   // This will end GUIDO Grace tag, before any collision with a S_direction
         
-        if (fTupletOpened==false)
-        {
+        //if (fTupletOpened==false)
+        //{
             // this is will close any ongoing Guido TEXT tag once a sequence is embedded
             // In case of ongoing \tuplet, do it after the \tuplet is closed! (Potential Guido parser issue)
             checkTextEnd();
-        }
+        //}
         
         /*
          if (fBeamStack.size()==0)
