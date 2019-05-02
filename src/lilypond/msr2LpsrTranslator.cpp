@@ -1983,7 +1983,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
         msrBarNumberCheck::create (
           inputLineNumber,
           fCurrentVoiceClone->
-            getVoiceCurrentMeasurePuristNumber () + 1);
+            getVoiceCurrentMeasurePuristNumber ());
 
     // append it to the current voice clone
     fCurrentVoiceClone->

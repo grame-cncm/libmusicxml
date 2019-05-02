@@ -25,7 +25,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -75,7 +75,7 @@ optionsLpsrPitchesLanguageItem::~optionsLpsrPitchesLanguageItem ()
 void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsLpsrPitchesLanguageItem:" <<
     endl;
@@ -101,7 +101,7 @@ void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 void optionsLpsrPitchesLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsLpsrPitchesLanguageKindItemVariableDisplayName <<
@@ -165,7 +165,7 @@ optionsLpsrChordsLanguageItem::~optionsLpsrChordsLanguageItem ()
 void optionsLpsrChordsLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsLpsrChordsLanguageItem:" <<
     endl;
@@ -190,7 +190,7 @@ void optionsLpsrChordsLanguageItem::print (ostream& os) const
 void optionsLpsrChordsLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsLpsrChordsLanguageKindItemVariableDisplayName <<
@@ -252,17 +252,17 @@ void lpsrOptions::initializeLpsrOptions (
 
   {
     // variables
-    
+
     fTraceLpsr            = boolOptionsInitialValue;
-    
+
     fTraceLpsrVisitors    = boolOptionsInitialValue;
-  
+
     fDisplayLpsr          = boolOptionsInitialValue;
-    
+
     fTraceSchemeFunctions = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
@@ -271,9 +271,9 @@ void lpsrOptions::initializeLpsrOptions (
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (traceAndDisplaySubGroup);
-        
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -281,7 +281,7 @@ R"()",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
           "traceLpsr",
           fTraceLpsr));
-  
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -289,7 +289,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
           "traceLpsrVisitors",
           fTraceLpsrVisitors));
-  
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -298,7 +298,7 @@ R"(Write the contents of the LPSR data to standard error.)",
           "displayLpsr",
           fDisplayLpsr,
           gTraceOptions->fTracePasses));
-  
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -314,11 +314,11 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
 
   {
     // variables
-    
+
     fAddWordsFromTheLyrics = boolOptionsInitialValue;
-    
+
     // options
-  
+
     S_optionsSubGroup
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
@@ -327,9 +327,9 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (traceAndDisplaySubGroup);
-        
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -339,17 +339,17 @@ This may come in handy when MusicXML data has been obtained from scanned images.
           "addWordsFromTheLyrics",
           fAddWordsFromTheLyrics));
   }
-  
+
 
   // languages
   // --------------------------------------
 
   {
     // variables
-    
+
     if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
       stringstream s;
-  
+
       s <<
         "INTERNAL INITIALIZATION ERROR: "
         "LPSR pitches language 'nederlands' is unknown" <<
@@ -358,19 +358,19 @@ This may come in handy when MusicXML data has been obtained from scanned images.
         gQuarterTonesPitchesLanguageKindsMap.size () <<
         " known LPSR pitches languages are:" <<
         endl;
-  
+
       gIndenter++;
-    
+
       s <<
         existingQuarterTonesPitchesLanguageKinds ();
-  
+
       gIndenter--;
-  
+
       optionError (s.str ());
     }
-  
+
     // options
-    
+
     S_optionsSubGroup
       languagesSubGroup =
         optionsSubGroup::create (
@@ -379,9 +379,9 @@ This may come in handy when MusicXML data has been obtained from scanned images.
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (languagesSubGroup);
-      
+
     languagesSubGroup->
       appendOptionsItem (
         optionsLpsrPitchesLanguageItem::create (
@@ -389,13 +389,13 @@ R"()",
 R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The 12 LilyPond pitches languages are available:
-nederlands, catalan, deutsch, english, espanol, français, 
+nederlands, catalan, deutsch, english, espanol, français,
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
           "LANGUAGE",
           "lpsrPitchesanguage",
           fLpsrQuarterTonesPitchesLanguageKind));
-  
+
     languagesSubGroup->
       appendOptionsItem (
         optionsLpsrChordsLanguageItem::create (
@@ -415,10 +415,10 @@ The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       exitAfterSomePassesSubGroup =
         optionsSubGroup::create (
@@ -427,9 +427,9 @@ The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (exitAfterSomePassesSubGroup);
-        
+
     // '-exit-3' is hidden...
     S_optionsBooleanItem
       exit3OptionsBooleanItem =
@@ -441,7 +441,7 @@ of the MSR to LPSR.)",
           fExit3);
     exit3OptionsBooleanItem->
       setOptionsElementIsHidden ();
-      
+
     exitAfterSomePassesSubGroup->
       appendOptionsItem (
         exit3OptionsBooleanItem);
@@ -463,7 +463,7 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   // trace and display
   // --------------------------------------
-    
+
   clone->fTraceLpsr =
     true;
 
@@ -476,14 +476,14 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   clone->fTraceSchemeFunctions =
     true;
 
-    
+
   // lyrics vs words
   // --------------------------------------
 
   clone->fAddWordsFromTheLyrics =
     true;
 
-  
+
   // languages
   // --------------------------------------
 
@@ -496,37 +496,39 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   return clone;
 }
 
+//______________________________________________________________________________
 bool lpsrOptions::setLpsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
       gQuarterTonesPitchesLanguageKindsMap.find (language);
-        
+
   if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
-    // no, language is unknown in the map    
+    // no, language is unknown in the map
     return false;
   }
 
   fLpsrQuarterTonesPitchesLanguageKind = (*it).second;
-  
+
   return true;
 }
 
+//______________________________________________________________________________
 bool lpsrOptions::setLpsrChordsLanguage (string language)
 {
   // is language in the chords languages map?
   map<string, lpsrChordsLanguageKind>::const_iterator
     it =
       gLpsrChordsLanguageKindsMap.find (language);
-        
+
   if (it == gLpsrChordsLanguageKindsMap.end ()) {
-    // no, language is unknown in the map    
+    // no, language is unknown in the map
     return false;
   }
 
   fLpsrChordsLanguageKind = (*it).second;
-  
+
   return true;
 }
 
@@ -553,7 +555,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   // trace and display
   // --------------------------------------
   gLogIOstream <<
@@ -561,35 +563,35 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
     booleanAsString (fTraceLpsr) <<
     endl <<
-    
+
     setw (fieldWidth) << "traceLpsrVisitors" << " : " <<
     booleanAsString (fTraceLpsrVisitors) <<
     endl <<
-    
+
     setw (fieldWidth) << "displayLpsr" << " : " <<
     booleanAsString (fDisplayLpsr) <<
     endl <<
-    
+
     setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
     booleanAsString (fTraceSchemeFunctions) <<
     endl;
 
   gIndenter--;
-  
+
   // lyrics vs words
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Lyrics vs words:" <<
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
     booleanAsString (fAddWordsFromTheLyrics) <<
@@ -599,7 +601,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   // languages
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Languages:" <<
     endl;
@@ -617,11 +619,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     lpsrChordsLanguageKindAsString (
       fLpsrChordsLanguageKind) <<
     "\"" <<
-    endl;  
+    endl;
 
   gIndenter--;
 
-  
+
   gIndenter--;
 }
 
@@ -630,7 +632,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   if (
     // LPSR pitches language item?
     S_optionsLpsrPitchesLanguageItem
@@ -681,7 +683,7 @@ void lpsrOptions::handleOptionsItemValue (
       pitchesLanguageKindItem =
         dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
     ) {
-    // theString contains the language name:     
+    // theString contains the language name:
     // is it in the pitches languages map?
 
 #ifdef TRACE_OPTIONS
@@ -696,14 +698,14 @@ void lpsrOptions::handleOptionsItemValue (
       it =
         gQuarterTonesPitchesLanguageKindsMap.find (
           theString);
-          
+
     if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
       // no, language is unknown in the map
-      
+
       printHelpSummary (os);
-      
+
       stringstream s;
-  
+
       s <<
         "LPSR pitches language " << theString <<
         " is unknown" <<
@@ -712,20 +714,20 @@ void lpsrOptions::handleOptionsItemValue (
         gQuarterTonesPitchesLanguageKindsMap.size () <<
         " known LPSR pitches languages are:" <<
         endl;
-  
+
       gIndenter++;
-    
+
       s <<
         existingQuarterTonesPitchesLanguageKinds ();
-  
+
       gIndenter--;
-  
+
       optionError (s.str ());
-      
+
  //     exit (4); // JMI
       abort ();
     }
-  
+
     pitchesLanguageKindItem->
       setPitchesLanguageKindItemVariableValue (
         (*it).second);
@@ -737,7 +739,7 @@ void lpsrOptions::handleOptionsItemValue (
       LpsrChordsLanguageItem =
         dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
     ) {
-    // theString contains the language name:     
+    // theString contains the language name:
     // is it in the chords languages map?
 
 #ifdef TRACE_OPTIONS
@@ -751,11 +753,11 @@ void lpsrOptions::handleOptionsItemValue (
     map<string, lpsrChordsLanguageKind>::const_iterator
       it =
         gLpsrChordsLanguageKindsMap.find (theString);
-          
+
     if (it == gLpsrChordsLanguageKindsMap.end ()) {
-      // no, language is unknown in the map    
+      // no, language is unknown in the map
       stringstream s;
-  
+
       s <<
         "LPSR chords language " << theString <<
         " is unknown" <<
@@ -764,21 +766,21 @@ void lpsrOptions::handleOptionsItemValue (
         gLpsrChordsLanguageKindsMap.size () - 1 <<
         " known LPSR chords languages apart from the default Ignatzek are:" <<
         endl;
-  
+
       gIndenter++;
-    
+
       s <<
         existingLpsrChordsLanguageKinds ();
-  
+
       gIndenter--;
-  
+
       optionError (s.str ());
-      
+
       printHelpSummary (os);
-      
+
       exit (4);
     }
-  
+
     LpsrChordsLanguageItem->
       setLpsrChordsLanguageKindItemVariableValue (
         (*it).second);
@@ -801,7 +803,7 @@ void initializeLpsrOptionsHandling (
   gLpsrOptionsUserChoices = lpsrOptions::create (
     optionsHandler);
   assert(gLpsrOptionsUserChoices != 0);
-  
+
   gLpsrOptions =
     gLpsrOptionsUserChoices;
 

@@ -25,7 +25,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -91,7 +91,7 @@ optionsFacSimileKindItem::~optionsFacSimileKindItem ()
 void optionsFacSimileKindItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsFacSimileKindItem:" <<
     endl;
@@ -117,7 +117,7 @@ void optionsFacSimileKindItem::print (ostream& os) const
 void optionsFacSimileKindItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsFacSimileKindItemVariableDisplayName <<
@@ -129,6 +129,95 @@ void optionsFacSimileKindItem::printOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsBsrTextsLanguageItem optionsBsrTextsLanguageItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+  bsrTextsLanguageKind&
+                     optionsBsrTextsLanguageKindItemVariable)
+{
+  optionsBsrTextsLanguageItem* o = new
+    optionsBsrTextsLanguageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsBsrTextsLanguageKindItemVariableDisplayName,
+      optionsBsrTextsLanguageKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+  bsrTextsLanguageKind&
+                     optionsBsrTextsLanguageKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsBsrTextsLanguageKindItemVariableDisplayName (
+      optionsBsrTextsLanguageKindItemVariableDisplayName),
+    fOptionsBsrTextsLanguageKindItemVariable (
+      optionsBsrTextsLanguageKindItemVariable)
+{}
+
+optionsBsrTextsLanguageItem::~optionsBsrTextsLanguageItem ()
+{}
+
+void optionsBsrTextsLanguageItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "OptionsBsrTextsLanguageItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsBsrTextsLanguageKindItemVariableDisplayName" << " : " <<
+    fOptionsBsrTextsLanguageKindItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsBsrTextsLanguageKindItemVariable" << " : \"" <<
+    bsrTextsLanguageKindAsString (
+      fOptionsBsrTextsLanguageKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsBsrTextsLanguageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsBsrTextsLanguageKindItemVariableDisplayName <<
+    " : \"" <<
+    bsrTextsLanguageKindAsString (
+      fOptionsBsrTextsLanguageKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsBsrTextsLanguageItem& elt)
 {
   elt->print (os);
   return os;
@@ -179,12 +268,12 @@ void bsrOptions::initializeBsrOptions (
 
   {
     // variables
-    
+
     fDisplayBsr           = boolOptionsInitialValue;
     fDisplayBsrDetails    = boolOptionsInitialValue;
-      
+
     // options
-  
+
     S_optionsSubGroup
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
@@ -193,9 +282,9 @@ void bsrOptions::initializeBsrOptions (
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (traceAndDisplaySubGroup);
-        
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -204,7 +293,7 @@ R"(Write the contents of the BSR data to standard error.)",
           "displayBsr",
           fDisplayBsr,
           gTraceOptions->fTracePasses));
-  
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -217,22 +306,85 @@ R"(Write the contents of the BSR data with more details to standard error.)",
 #endif
 
 
-  // miscellaneous  
+  // languages
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
+    if (! setBsrTextsLanguage ("english")) {
+      stringstream s;
+
+      s <<
+        "INTERNAL INITIALIZATION ERROR: "
+        "BSR texts language 'english' is unknown" <<
+        endl <<
+        "The " <<
+        gBsrTextsLanguageKindsMap.size () <<
+        " known BSR texts languages are:" <<
+        endl;
+
+      gIndenter++;
+
+      s <<
+        existingBsrTextsLanguageKinds ();
+
+      gIndenter--;
+
+      optionError (s.str ());
+    }
+
+    // options
+
+    S_optionsSubGroup
+      languagesSubGroup =
+        optionsSubGroup::create (
+          "Languages",
+          "hbsrl", "help-bsr-languages",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+
+    appendOptionsSubGroup (languagesSubGroup);
+
+    languagesSubGroup->
+      appendOptionsItem (
+        optionsBsrTextsLanguageItem::create (
+          "btl", "bsr-texts-language",
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
+as well as in the generated braille music.
+The 4 NUMBER texts languages available are:
+TEXT_LANGUAGES.
+english, german, italian and french.
+The default is english.)",
+              "NUMBER",
+              to_string (gBsrTextsLanguageKindsMap.size ())),
+            "TEXT_LANGUAGES",
+            existingBsrTextsLanguageKinds ()),
+          "LANGUAGE",
+          "bsr-texts-language",
+          fBsrTextsLanguageKind));
+  }
+
+
+  // miscellaneous
+  // --------------------------------------
+
+  {
+    // variables
+
     fNoBrailleLyrics      = boolOptionsInitialValue;
-    
+
     fBrailleCompileDate   = boolOptionsInitialValue;
-    
+
     fFacSimileKind        = kFacSimileNo;
-    
+
     fIncludeClefs         = boolOptionsInitialValue;
 
     // options
-  
+
     S_optionsSubGroup
       miscellaneousGenerationSubGroup =
         optionsSubGroup::create (
@@ -241,7 +393,7 @@ R"(Write the contents of the BSR data with more details to standard error.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (miscellaneousGenerationSubGroup);
 
     miscellaneousGenerationSubGroup->
@@ -280,15 +432,15 @@ R"(Include clefs in BSR. By default, they are not.)",
           fIncludeClefs));
   }
 
-  
+
   // exit after some passes
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       exitAfterSomePassesSubGroup =
         optionsSubGroup::create (
@@ -297,9 +449,9 @@ R"(Include clefs in BSR. By default, they are not.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (exitAfterSomePassesSubGroup);
-        
+
     // '-exit-3a' is hidden...
     S_optionsBooleanItem
       exit2aOptionsBooleanItem =
@@ -313,7 +465,7 @@ of the MSR to the first BSR score.)",
     exit2aOptionsBooleanItem->
       setOptionsElementIsHidden ();
       */
-      
+
     exitAfterSomePassesSubGroup->
       appendOptionsItem (
         exit2aOptionsBooleanItem);
@@ -331,7 +483,7 @@ of the first BSR to the second BSR.)",
     exit2bOptionsBooleanItem->
       setOptionsElementIsHidden ();
       */
-      
+
     exitAfterSomePassesSubGroup->
       appendOptionsItem (
         exit2bOptionsBooleanItem);
@@ -339,25 +491,25 @@ of the first BSR to the second BSR.)",
 
 
 #ifdef TRACE_OPTIONS
-  // trace  
+  // trace
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fTraceBsr             = boolOptionsInitialValue;
 
     fTracePages           = boolOptionsInitialValue;
 
     fTraceLines           = boolOptionsInitialValue;
-    
+
     fTraceSpaces          = boolOptionsInitialValue;
     fTraceNumbers         = boolOptionsInitialValue;
-    
+
     fTraceParallels       = boolOptionsInitialValue;
 
     fTraceBsrVisitors     = boolOptionsInitialValue;
-  
+
     S_optionsSubGroup
       specificTraceSubGroup =
         optionsSubGroup::create (
@@ -367,9 +519,9 @@ R"(Note: the options in this group imply '-t, -trace-passes'.)",
 // JMI        optionsSubGroup::kHideDescriptionByDefault,
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (specificTraceSubGroup);
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -377,7 +529,7 @@ R"(Note: the options in this group imply '-t, -trace-passes'.)",
 R"(Write a trace of the BSR graphs visiting activity to standard error.)",
           "traceBsr",
           fTraceBsr));
-  
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -386,7 +538,7 @@ R"()",
           "tracePages",
           fTracePages,
           gTraceOptions->fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -394,7 +546,7 @@ R"()",
 R"()",
           "traceLines",
           fTraceLines));
-  
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -402,7 +554,7 @@ R"()",
 R"(Write a trace of the BSR spaces activity to standard error.)",
           "traceSpaces",
           fTraceSpaces));
-  
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -445,7 +597,7 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
 
   // display
   // --------------------------------------
-    
+
   clone->fDisplayBsr =
     true;
   clone->fDisplayBsrDetails =
@@ -455,12 +607,30 @@ S_bsrOptions bsrOptions::createCloneWithDetailedTrace ()
   // miscellaneous
   // --------------------------------------
 
-    
+
   // exit after some passes
   // --------------------------------------
 
 
   return clone;
+}
+
+//______________________________________________________________________________
+bool bsrOptions::setBsrTextsLanguage (string language)
+{
+  // is language in the chords languages map?
+  map<string, bsrTextsLanguageKind>::const_iterator
+    it =
+      gBsrTextsLanguageKindsMap.find (language);
+
+  if (it == gBsrTextsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    return false;
+  }
+
+  fBsrTextsLanguageKind = (*it).second;
+
+  return true;
 }
 
 //______________________________________________________________________________
@@ -484,7 +654,7 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   // trace and display
   // --------------------------------------
   gLogIOstream <<
@@ -492,18 +662,18 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
     endl <<
-    
+
     setw (fieldWidth) << "displayBsrDetails" << " : " <<
     booleanAsString (fDisplayBsrDetails) <<
     endl;
 
   gIndenter--;
-  
+
   // exit after some passes
   // --------------------------------------
 
@@ -512,7 +682,7 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "exit3a" << " : " <<
     booleanAsString (fExit3a) <<
@@ -522,16 +692,16 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
-    
+
   // miscellaneous
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Miscellaneous:" <<
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "noBrailleLyrics" << " : " <<
       booleanAsString (fNoBrailleLyrics) <<
@@ -547,7 +717,7 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
       endl;
 
   gIndenter--;
-  
+
   // trace
   // --------------------------------------
 
@@ -557,7 +727,7 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "traceBsr" << " : " <<
     booleanAsString (fTraceBsr) <<
@@ -593,43 +763,41 @@ S_optionsItem bsrOptions::handleOptionsItem (
 {
   S_optionsItem result;
 
-  /* JMI
   if (
-    // BSR pitches language item?
-    S_optionsBsrPitchesLanguageItem
-      pitchesLanguageItem =
-        dynamic_cast<optionsBsrPitchesLanguageItem*>(&(*item))
+    // BSR texts language item?
+    S_optionsBsrTextsLanguageItem
+      textsLanguageItem =
+        dynamic_cast<optionsBsrTextsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsBsrPitchesLanguageItem'" <<
+        "==> optionsItem is of type 'optionsBsrTextsLanguageItem'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = pitchesLanguageItem;
+    result = textsLanguageItem;
   }
 
   else if (
     // chords language item?
-    S_optionsBsrChordsLanguageItem
-      bsrChordsLanguageItem =
-        dynamic_cast<optionsBsrChordsLanguageItem*>(&(*item))
+    S_optionsBsrTextsLanguageItem
+      bsrTextsLanguageItem =
+        dynamic_cast<optionsBsrTextsLanguageItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsBsrChordsLanguageItem'" <<
+        "==> optionsItem is of type 'optionsBsrTextsLanguageItem'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = bsrChordsLanguageItem;
+    result = bsrTextsLanguageItem;
   }
-  */
 
   return result;
 }
@@ -657,7 +825,7 @@ void initializeBsrOptionsHandling (
   gBsrOptionsUserChoices = bsrOptions::create (
     optionsHandler);
   assert(gBsrOptionsUserChoices != 0);
-  
+
   gBsrOptions =
     gBsrOptionsUserChoices;
 

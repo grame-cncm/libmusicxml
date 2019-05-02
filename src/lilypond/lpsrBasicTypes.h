@@ -23,7 +23,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 // accidental styles
@@ -57,7 +57,7 @@ void initializeLpsrAccidentalStyleKindsMap ();
 enum lpsrChordsLanguageKind {
   k_IgnatzekChords, // LilyPond default
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
-  
+
 string lpsrChordsLanguageKindAsString (
   lpsrChordsLanguageKind languageKind);
 
@@ -102,6 +102,7 @@ void writeTextsListAsLilypondString (
   const list<string>& textsList,
   ostream&            os);
 
+// initialization
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ();
 

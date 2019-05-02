@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -80,7 +80,7 @@ optionsPartRenameItem::~optionsPartRenameItem ()
 void optionsPartRenameItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsPartRenameItem:" <<
     endl;
@@ -112,7 +112,7 @@ void optionsPartRenameItem::print (ostream& os) const
       os << endl;
     } // for
   }
-  
+
   os <<
     endl;
 }
@@ -120,18 +120,18 @@ void optionsPartRenameItem::print (ostream& os) const
 void optionsPartRenameItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsPartRenameItemVariableDisplayName <<
     " : ";
-      
+
   if (! fOptionsPartRenameItemVariable.size ()) {
     os << "none";
   }
   else {
     gIndenter++;
-    
+
     os <<
       endl;
 
@@ -154,7 +154,7 @@ void optionsPartRenameItem::printOptionsValues (
 
     gIndenter--;
   }
-  
+
   os <<
     endl;
 }
@@ -212,7 +212,7 @@ optionsMsrPitchesLanguageItem::~optionsMsrPitchesLanguageItem ()
 void optionsMsrPitchesLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsMsrPitchesLanguageItem:" <<
     endl;
@@ -238,7 +238,7 @@ void optionsMsrPitchesLanguageItem::print (ostream& os) const
 void optionsMsrPitchesLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsMsrPitchesLanguageKindItemVariableDisplayName <<
@@ -300,21 +300,21 @@ void msrOptions::initializeMsrOptions (
 
   {
     // variables
-  
+
     fTraceMsr          = boolOptionsInitialValue;
-    
+
     fTraceMsrVisitors  = boolOptionsInitialValue;
-  
+
     fDisplayPartGroups = boolOptionsInitialValue;
-    
+
     fDisplayMsr        = boolOptionsInitialValue;
     fDisplayMsrDetails = boolOptionsInitialValue;
-  
+
     fDisplayMsrNames   = boolOptionsInitialValue;
     fDisplayMsrSummary = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup traceAndDisplaySubGroup =
       optionsSubGroup::create (
         "Trace and display",
@@ -322,9 +322,9 @@ void msrOptions::initializeMsrOptions (
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (traceAndDisplaySubGroup);
-      
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -332,7 +332,7 @@ R"()",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
           "traceMsr",
           fTraceMsr));
-          
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -340,7 +340,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
           "traceMsrVisitors",
           fTraceMsrVisitors));
-          
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -348,7 +348,7 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
 R"(Write the structure of the part groups to standard error.)",
           "displayPartGroups",
           fDisplayPartGroups));
-          
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -357,7 +357,7 @@ R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
           fDisplayMsr,
           gTraceOptions->fTracePasses));
-          
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -367,7 +367,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
           fDisplayMsrDetails,
           fDisplayMsr,
           gTraceOptions->fTracePasses));
-                    
+
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -387,16 +387,16 @@ This implies that no LilyPond code is generated.)",
           fDisplayMsrSummary));
   }
 #endif
-  
+
   // languages
   // --------------------------------------
 
   {
     // variables
-    
+
     if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
       stringstream s;
-  
+
       s <<
         "INTERNAL INITIALIZATION ERROR: "
         "MSR pitches language 'nederlands' is unknown" <<
@@ -405,19 +405,19 @@ This implies that no LilyPond code is generated.)",
         gQuarterTonesPitchesLanguageKindsMap.size () <<
         " known MSR pitches languages are:" <<
         endl;
-  
+
       gIndenter++;
-    
+
       s <<
         existingQuarterTonesPitchesLanguageKinds ();
-  
+
       gIndenter--;
-  
+
       optionError (s.str ());
     }
-    
+
     // options
-  
+
     S_optionsSubGroup languagesSubGroup =
       optionsSubGroup::create (
         "Languages",
@@ -425,7 +425,7 @@ This implies that no LilyPond code is generated.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (languagesSubGroup);
 
     languagesSubGroup->
@@ -434,7 +434,7 @@ R"()",
           "mplang", "msr-pitches-language",
 R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
 The 12 LilyPond pitches languages are available:
-nederlands, catalan, deutsch, english, espanol, français, 
+nederlands, catalan, deutsch, english, espanol, français,
 italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
           "LANGUAGE",
@@ -442,15 +442,15 @@ The default is to use 'nederlands'.)",
           fMsrQuarterTonesPitchesLanguageKind));
   }
 
-  
+
   // parts
   // --------------------------------------
 
   {
     // variables
-    
+
     // options
-  
+
     S_optionsSubGroup partsSubGroup =
       optionsSubGroup::create (
         "Parts",
@@ -458,7 +458,7 @@ The default is to use 'nederlands'.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (partsSubGroup);
 
     partsSubGroup->
@@ -485,18 +485,18 @@ There can be several occurrences of this option.)",
           "partRename",
           fPartsRenamingMap));
   }
-      
+
 
   // staves
   // --------------------------------------
 
   {
     // variables
-    
+
     fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-      
+
     // options
-  
+
     S_optionsSubGroup stavesSubGroup =
       optionsSubGroup::create (
         "Staves",
@@ -504,7 +504,7 @@ There can be several occurrences of this option.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (stavesSubGroup);
 
     stavesSubGroup->
@@ -516,18 +516,18 @@ By default, drum staves are created in this case.)",
           "createSingleLineStavesAsRythmic",
           fCreateSingleLineStavesAsRythmic));
   }
-  
-    
+
+
   // voices
   // --------------------------------------
 
   {
     // variables
-    
+
     fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-      
+
     // options
-  
+
     S_optionsSubGroup voicesSubGroup =
       optionsSubGroup::create (
         "Voices",
@@ -535,7 +535,7 @@ By default, drum staves are created in this case.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (voicesSubGroup);
 
     voicesSubGroup->
@@ -543,7 +543,7 @@ R"()",
         optionsBooleanItem::create (
           "cvsrvn", "create-voices-staff-relative-numbers",
 R"(Generate voices names with numbers relative to their staff.
-By default, the voice numbers found are used, 
+By default, the voice numbers found are used,
 which may be global to the score.)",
           "createVoicesStaffRelativeNumbers",
           fCreateVoicesStaffRelativeNumbers));
@@ -555,11 +555,11 @@ which may be global to the score.)",
 
   {
     // variables
-    
+
     fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
-      
+
     // options
-  
+
     S_optionsSubGroup repeatsSubGroup =
       optionsSubGroup::create (
         "Repeats",
@@ -567,7 +567,7 @@ which may be global to the score.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (repeatsSubGroup);
 
     repeatsSubGroup->
@@ -587,7 +587,7 @@ By default, no such barline is added.)",
 
   {
     // variables
-    
+
     fDelayRestsDynamics  = boolOptionsInitialValue;
     fDelayRestsWords     = boolOptionsInitialValue; // JMI
     fDelayRestsBeams     = boolOptionsInitialValue; // JMI
@@ -596,9 +596,9 @@ By default, no such barline is added.)",
     fDelayRestsPedals    = boolOptionsInitialValue; // JMI
     fDelayRestsSlashes   = boolOptionsInitialValue; // JMI
     fDelayRestsWedges    = boolOptionsInitialValue; // JMI
-  
+
     // options
-  
+
     S_optionsSubGroup notesSubGroup =
       optionsSubGroup::create (
         "Notes",
@@ -606,7 +606,7 @@ By default, no such barline is added.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (notesSubGroup);
 
     notesSubGroup->
@@ -680,11 +680,11 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
 
   {
     // variables
-    
+
     fAddStanzasNumbers  = false;
-  
+
     // options
-  
+
     S_optionsSubGroup lyricsSubGroup =
       optionsSubGroup::create (
         "Lyrics",
@@ -692,7 +692,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (lyricsSubGroup);
 
     lyricsSubGroup->
@@ -702,18 +702,18 @@ R"()",
 R"(Add stanzas numbers to lyrics.)",
           "addStanzasNumbers",
           fAddStanzasNumbers));
-  }     
+  }
 
   // harmonies
   // --------------------------------------
 
   {
     // variables
-    
-    fShowHarmonyVoices      = boolOptionsInitialValue;  
-  
+
+    fShowHarmonyVoices      = boolOptionsInitialValue;
+
     // options
-  
+
     S_optionsSubGroup harmoniesSubGroup =
       optionsSubGroup::create (
         "Harmonies",
@@ -721,7 +721,7 @@ R"(Add stanzas numbers to lyrics.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (harmoniesSubGroup);
 
     harmoniesSubGroup->
@@ -739,12 +739,12 @@ even though it does not contain music.)",
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     fShowFiguredBassVoices      = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup figuredBassSubGroup =
       optionsSubGroup::create (
         "Figured bass",
@@ -752,7 +752,7 @@ even though it does not contain music.)",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
-  
+
     appendOptionsSubGroup (figuredBassSubGroup);
 
     figuredBassSubGroup->
@@ -770,10 +770,10 @@ even though they do not contain music.)",
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       exitAfterSomePassesSubGroup =
         optionsSubGroup::create (
@@ -782,9 +782,9 @@ even though they do not contain music.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (exitAfterSomePassesSubGroup);
-        
+
     // '-exit-2a' is hidden...
     S_optionsBooleanItem
       exit2aOptionsBooleanItem =
@@ -798,7 +798,7 @@ of the MusicXML tree to an MSR skeleton.)",
     exit2aOptionsBooleanItem->
       setOptionsElementIsHidden ();
       */
-      
+
     exitAfterSomePassesSubGroup->
       appendOptionsItem (
         exit2aOptionsBooleanItem);
@@ -816,7 +816,7 @@ of the MusicXML tree to MSR.)",
     exit2bOptionsBooleanItem->
       setOptionsElementIsHidden ();
       */
-      
+
     exitAfterSomePassesSubGroup->
       appendOptionsItem (
         exit2bOptionsBooleanItem);
@@ -861,7 +861,7 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // languages
   // --------------------------------------
-    
+
   clone->fMsrQuarterTonesPitchesLanguageKind =
     fMsrQuarterTonesPitchesLanguageKind;
 
@@ -878,18 +878,18 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   clone->fCreateSingleLineStavesAsRythmic =
     fCreateSingleLineStavesAsRythmic;
-  
-    
+
+
   // voices
   // --------------------------------------
-  
+
   clone->fCreateVoicesStaffRelativeNumbers =
     fCreateVoicesStaffRelativeNumbers;
 
 
   // repeats
   // --------------------------------------
-  
+
   clone->fCreateImplicitInitialRepeatBarline =
     fCreateImplicitInitialRepeatBarline;
 
@@ -928,27 +928,28 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // figured bass
   // --------------------------------------
-  
+
   clone->fShowFiguredBassVoices =
     fShowFiguredBassVoices;
 
   return clone;
-}  
+}
 
+//______________________________________________________________________________
 bool msrOptions::setMsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the pitches languages map?
   map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
       gQuarterTonesPitchesLanguageKindsMap.find (language);
-        
+
   if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
 
   fMsrQuarterTonesPitchesLanguageKind = (*it).second;
-  
+
   return true;
 }
 
@@ -979,21 +980,21 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  
+
   // trace and display
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Trace and display:" <<
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "traceMsr" << " : " <<
     booleanAsString (fTraceMsr) <<
     endl <<
-  
+
     setw (fieldWidth) << "traceMsrVisitors" << " : " <<
     booleanAsString (fTraceMsrVisitors) <<
     endl <<
@@ -1007,7 +1008,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "displayMsrDetails" << " : " <<
     booleanAsString (fDisplayMsrDetails) <<
-    endl << 
+    endl <<
 
     setw (fieldWidth) << "displayMsrNames" << " : " <<
     booleanAsString (fDisplayMsrNames) <<
@@ -1015,14 +1016,14 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "displayMsrSummary" << " : " <<
     booleanAsString (fDisplayMsrSummary) <<
-    endl;    
+    endl;
 
   gIndenter--;
 
 
   // languages
   // --------------------------------------
-  
+
   gLogIOstream <<
      "Languages:" <<
     endl;
@@ -1041,7 +1042,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // parts
   // --------------------------------------
-  
+
   gLogIOstream <<
      "Parts:" <<
     endl;
@@ -1055,7 +1056,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     gLogIOstream <<
       "none";
   }
-  
+
   else {
     for (
       map<string, string>::const_iterator i =
@@ -1089,11 +1090,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
-  
-    
+
+
   // voices
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Voices:" <<
     endl;
@@ -1111,7 +1112,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // repeats
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Repeats:" <<
     endl;
@@ -1129,45 +1130,45 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // notes
   // --------------------------------------
-  
+
   gLogIOstream <<
      "Notes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left << 
+  gLogIOstream << left <<
     setw (fieldWidth) << "delayRestsDynamics" << " : " <<
     booleanAsString (fDelayRestsDynamics) <<
     endl <<
-    
+
     setw (fieldWidth) << "delayRestsWords" << " : " <<
     booleanAsString (fDelayRestsWords) <<
     endl <<
-    
+
     setw (fieldWidth) << "delayRestsSlurs" << " : " <<
     booleanAsString (fDelayRestsSlurs) <<
     endl <<
-    
+
     setw (fieldWidth) << "delayRestsLigatures" << " : " <<
     booleanAsString (fDelayRestsLigatures) <<
     endl <<
-    
+
     setw (fieldWidth) << "delayRestsPedals" << " : " <<
     booleanAsString (fDelayRestsPedals) <<
     endl <<
-    
+
     setw (fieldWidth) << "delayRestsSlashes" << " : " <<
     booleanAsString (fDelayRestsSlashes) <<
     endl <<
-    
+
     setw (fieldWidth) << "delayRestsWedges" << " : " <<
     booleanAsString (fDelayRestsWedges) <<
     endl;
 
   gIndenter--;
 
-   
+
   // lyrics
   // --------------------------------------
 
@@ -1187,37 +1188,37 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   // harmonies
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Harmonies:" <<
     endl;
 
-  gIndenter++;    
+  gIndenter++;
 
   gLogIOstream << left <<
     setw (fieldWidth) << "showHarmonyVoices" << " : " <<
     booleanAsString (fShowHarmonyVoices) <<
     endl;
-  
+
   gIndenter--;
 
-  
+
   // figured bass
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Figured bass:" <<
     endl;
 
-  gIndenter++;    
+  gIndenter++;
 
   gLogIOstream << left <<
     setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
     endl;
-  
+
   gIndenter--;
-  
+
   gIndenter--;
 
 
@@ -1229,7 +1230,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "exit2a" << " : " <<
     booleanAsString (fExit2a) <<
@@ -1246,7 +1247,7 @@ S_optionsItem msrOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   if (
     // part rename item?
     S_optionsPartRenameItem
@@ -1312,7 +1313,7 @@ void msrOptions::handleOptionsItemValue (
       "[[:space:]]*(.*)[[:space:]]*"
       "="
       "[[:space:]]*(.*)[[:space:]]*");
-      
+
     regex  e (regularExpression);
     smatch sm;
 
@@ -1328,7 +1329,7 @@ void msrOptions::handleOptionsItemValue (
         endl;
     }
 #endif
-  
+
     if (sm.size ()) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
@@ -1341,28 +1342,28 @@ void msrOptions::handleOptionsItemValue (
       }
 #endif
     }
-    
+
     else {
       stringstream s;
 
       s <<
         "-msrPartRename argument '" << theString <<
         "' is ill-formed";
-        
+
       optionError (s.str ());
-      
+
       printSpecificSubGroupHelp (
         os,
         partRenameItem->
           getOptionsSubGroupUplink ());
-          
+
       exit (4);
     }
 
     string
       oldPartName = sm [1],
       newPartName = sm [2];
-      
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
@@ -1376,12 +1377,12 @@ void msrOptions::handleOptionsItemValue (
       partRenameItemVariable =
         partRenameItem->
           getOptionsPartRenameItemVariable ();
-          
+
     // is this part name in the part renaming map?
     map<string, string>::iterator
       it =
         partRenameItemVariable.find (oldPartName);
-          
+
     if (it != partRenameItemVariable.end ()) {
       // yes, issue error message
       stringstream s;
@@ -1389,11 +1390,11 @@ void msrOptions::handleOptionsItemValue (
       s <<
         "Part \"" << oldPartName << "\" occurs more that one" <<
         "in the '--partName' option";
-        
+
       optionError (s.str ());
       exit (4);
     }
-    
+
     else {
       partRenameItem->
         setPartRenameItemVariableValue (
@@ -1407,7 +1408,7 @@ void msrOptions::handleOptionsItemValue (
       pitchesLanguageKindItem =
         dynamic_cast<optionsMsrPitchesLanguageItem*>(&(*item))
     ) {
-    // theString contains the language name:     
+    // theString contains the language name:
     // is it in the pitches languages map?
 
 #ifdef TRACE_OPTIONS
@@ -1422,14 +1423,14 @@ void msrOptions::handleOptionsItemValue (
       it =
         gQuarterTonesPitchesLanguageKindsMap.find (
           theString);
-          
+
     if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
       // no, language is unknown in the map
-      
+
       printHelpSummary (os);
-      
+
       stringstream s;
-  
+
       s <<
         "MSR pitches language " << theString <<
         " is unknown" <<
@@ -1438,20 +1439,20 @@ void msrOptions::handleOptionsItemValue (
         gQuarterTonesPitchesLanguageKindsMap.size () <<
         " known MSR pitches languages are:" <<
         endl;
-  
+
       gIndenter++;
-    
+
       s <<
         existingQuarterTonesPitchesLanguageKinds ();
-  
+
       gIndenter--;
-  
+
       optionError (s.str ());
-      
+
  //     exit (4); // JMI
       abort ();
     }
-  
+
     pitchesLanguageKindItem->
       setPitchesLanguageKindItemVariableValue (
         (*it).second);
@@ -1470,7 +1471,7 @@ void initializeMsrOptionsHandling (
 {
   // MSR options
   // ------------------------------------------------------
- 
+
   gMsrOptionsUserChoices = msrOptions::create (
     optionsHandler);
   assert(gMsrOptionsUserChoices != 0);

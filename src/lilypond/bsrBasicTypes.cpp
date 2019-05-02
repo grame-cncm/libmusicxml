@@ -202,6 +202,66 @@ string bsrCellKindAsString (bsrCellKind cellKind)
   return result;
 }
 
+// chords languages
+//______________________________________________________________________________
+
+map<string, bsrTextsLanguageKind>
+  gBsrTextsLanguageKindsMap;
+
+void initializeBsrTextsLanguageKindsMap ()
+{
+  gBsrTextsLanguageKindsMap ["english"] = kTextsEnglish; // default
+  gBsrTextsLanguageKindsMap ["german"]  = kTextsGerman;
+  gBsrTextsLanguageKindsMap ["italian"] = kTextsItalian;
+  gBsrTextsLanguageKindsMap ["french"]  = kTextsFrench;
+}
+
+string bsrTextsLanguageKindAsString (
+  bsrTextsLanguageKind languageKind)
+{
+  string result;
+
+  switch (languageKind) {
+    case kTextsEnglish: // default value
+      result = "english";
+      break;
+    case kTextsGerman:
+      result = "german";
+      break;
+    case kTextsItalian:
+      result = "italian";
+      break;
+    case kTextsFrench:
+      result = "french";
+      break;
+  } // switch
+
+  return result;
+}
+
+string existingBsrTextsLanguageKinds ()
+{
+  stringstream s;
+
+  if (gBsrTextsLanguageKindsMap.size ()) {
+    map<string, bsrTextsLanguageKind>::const_iterator
+      iBegin = gBsrTextsLanguageKindsMap.begin (),
+      iEnd   = gBsrTextsLanguageKindsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      if ((*i).second != kTextsEnglish) {
+        s << (*i).first;
+      }
+      if (++i == iEnd) break;
+      if ((*i).second != kTextsEnglish) {
+        s << " ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
 /*
 //______________________________________________________________________________
 void write_wchar_t ( wchar_t cell )
@@ -279,7 +339,13 @@ void bsrInternalError (
 
 //______________________________________________________________________________
 void initializeBSRBasicTypes ()
-{}
+{
+
+  // BSR texts languages handling
+  // ------------------------------------------------------
+
+  initializeLpsrChordsLanguageKindsMap ();
+}
 
 
 }

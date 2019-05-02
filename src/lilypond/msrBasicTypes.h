@@ -587,6 +587,7 @@ enum msrSlashUseStemsKind {
 string msrSlashUseStemsKindAsString (
   msrSlashUseStemsKind slashUseStemsKind);
 
+// line types
 //______________________________________________________________________________
 enum msrLineTypeKind {
   kLineTypeSolid, kLineTypeDashed,
@@ -595,6 +596,7 @@ enum msrLineTypeKind {
 string msrLineTypeKindAsString (
   msrLineTypeKind lineTypeKind);
 
+// tremolo types
 //______________________________________________________________________________
 enum msrTremoloTypeKind {
   k_NoTremoloType,
@@ -603,6 +605,7 @@ enum msrTremoloTypeKind {
 string msrTremoloTypeKindAsString (
   msrTremoloTypeKind tremoloTypeKind);
 
+// technical types
 //______________________________________________________________________________
 enum msrTechnicalTypeKind { // JMI ???
   k_NoTechnicalType,
@@ -611,6 +614,7 @@ enum msrTechnicalTypeKind { // JMI ???
 string msrTechnicalTypeKindAsString (
   msrTechnicalTypeKind technicalTypeKind);
 
+// spanner types
 //______________________________________________________________________________
 enum msrSpannerTypeKind {
   k_NoSpannerType,
@@ -619,6 +623,7 @@ enum msrSpannerTypeKind {
 string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind);
 
+// dotted durations
 //______________________________________________________________________________
 class msrDottedDuration
 {
@@ -683,6 +688,7 @@ class msrDottedDuration
 };
 EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
 
+// tuplet factors
 //______________________________________________________________________________
 class msrTupletFactor
 {
@@ -754,6 +760,7 @@ class msrTupletFactor
 };
 EXP ostream& operator<< (ostream& os, msrTupletFactor elt);
 
+// chords intervals
 //______________________________________________________________________________
 class msrChordInterval;
 typedef SMARTP<msrChordInterval> S_msrChordInterval;
@@ -861,6 +868,7 @@ class msrChordInterval : public smartable
 typedef SMARTP<msrChordInterval> S_msrChordInterval;
 EXP ostream& operator<< (ostream& os, const S_msrChordInterval& elt);
 
+// chords structure
 //______________________________________________________________________________
 class msrChordStructure;
 typedef SMARTP<msrChordStructure> S_msrChordStructure;
@@ -953,6 +961,7 @@ class msrChordStructure : public smartable
 typedef SMARTP<msrChordStructure> S_msrChordStructure;
 EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
 
+// chords pitches
 //______________________________________________________________________________
 class msrChordPitch : public smartable
 {
@@ -1048,6 +1057,7 @@ class msrChordPitch : public smartable
 typedef SMARTP<msrChordPitch> S_msrChordPitch;
 EXP ostream& operator<< (ostream& os, const S_msrChordPitch& elt);
 
+// chords contents
 //______________________________________________________________________________
 class msrChordContents : public smartable
 {
@@ -1132,6 +1142,7 @@ class msrChordContents : public smartable
 typedef SMARTP<msrChordContents> S_msrChordContents;
 EXP ostream& operator<< (ostream& os, const S_msrChordContents& elt);
 
+// chords details and analysis
 //______________________________________________________________________________
 void printChordDetails (
   ostream&              os,
@@ -1144,6 +1155,7 @@ void printChordAnalysis (
   msrHarmonyKind        harmonyKind,
   int                   inversion);
 
+// score notation kinds
 //______________________________________________________________________________
 enum msrScoreNotationKind {
   kScoreNotationWestern,
@@ -1153,9 +1165,8 @@ enum msrScoreNotationKind {
 string msrScoreNotationKindAsString (
   msrScoreNotationKind scoreNotationKind);
 
-//______________________________________________________________________________
 // global variables
-
+//______________________________________________________________________________
 extern map<msrHarmonyKind, S_msrChordStructure>
   gChordStructuresMap;
 
@@ -1183,9 +1194,8 @@ void initializeQuarterTonesPitchesLanguageKinds ();
 
 string existingQuarterTonesPitchesLanguageKinds ();
 
-//______________________________________________________________________________
 // initialization
-
+//______________________________________________________________________________
 void initializeMSRBasicTypes ();
 
 

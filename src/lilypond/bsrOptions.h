@@ -19,13 +19,13 @@
 
 #include "optionsBasicTypes.h"
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 enum bsrFacSimileKind {
     kFacSimileYes, kFacSimileNo };
-    
+
 string facSimileKindAsString (
   bsrFacSimileKind facSimileKind);
 
@@ -33,7 +33,7 @@ string facSimileKindAsString (
 class optionsFacSimileKindItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -44,7 +44,7 @@ class optionsFacSimileKindItem : public optionsValuedItem
       string           optionsValueSpecification,
       string           optionsFacSimileKindItemVariableDisplayName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -57,11 +57,11 @@ class optionsFacSimileKindItem : public optionsValuedItem
       string           optionsValueSpecification,
       string           optionsFacSimileKindItemVariableDisplayName,
       bsrFacSimileKind optionsFacSimileKindItemVariable);
-      
+
     virtual ~optionsFacSimileKindItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -70,7 +70,7 @@ class optionsFacSimileKindItem : public optionsValuedItem
                                 return
                                   fOptionsFacSimileKindItemVariableDisplayName;
                               }
-                              
+
     void                  setOptionsFacSimileKindItemVariable (
                             bsrFacSimileKind value)
                               {
@@ -90,7 +90,7 @@ class optionsFacSimileKindItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -99,6 +99,80 @@ class optionsFacSimileKindItem : public optionsValuedItem
 };
 typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsFacSimileKindItem& elt);
+
+//______________________________________________________________________________
+class optionsBsrTextsLanguageItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsBsrTextsLanguageItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+      bsrTextsLanguageKind&
+                         optionsBsrTextsLanguageKindItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsBsrTextsLanguageItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsBsrTextsLanguageKindItemVariableDisplayName,
+      bsrTextsLanguageKind&
+                         optionsBsrTextsLanguageKindItemVariable);
+
+    virtual ~optionsBsrTextsLanguageItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsBsrTextsLanguageKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsBsrTextsLanguageKindItemVariableDisplayName;
+                              }
+
+    void                  setBsrTextsLanguageKindItemVariableValue (
+                            bsrTextsLanguageKind value)
+                              {
+                                fOptionsBsrTextsLanguageKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsBsrTextsLanguageKindItemVariableDisplayName;
+    bsrTextsLanguageKind&
+                          fOptionsBsrTextsLanguageKindItemVariable;
+};
+typedef SMARTP<optionsBsrTextsLanguageItem> S_optionsBsrTextsLanguageItem;
+EXP ostream& operator<< (ostream& os, const S_optionsBsrTextsLanguageItem& elt);
 
 //______________________________________________________________________________
 class bsrOptions : public optionsGroup
@@ -110,7 +184,7 @@ class bsrOptions : public optionsGroup
 
     static SMARTP<bsrOptions> create (
       S_optionsHandler optionsHandler);
-    
+
     SMARTP<bsrOptions>        createCloneWithDetailedTrace ();
 
   public:
@@ -120,19 +194,22 @@ class bsrOptions : public optionsGroup
 
     void                  initializeBsrOptions (
                             bool boolOptionsInitialValue);
-    
+
   public:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     bsrOptions (
       S_optionsHandler optionsHandler);
-    
+
     virtual ~bsrOptions ();
 
     // set and get
     // ------------------------------------------------------
+
+    bool                  setBsrTextsLanguage (
+                            string language);
 
   public:
 
@@ -156,7 +233,7 @@ class bsrOptions : public optionsGroup
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
-                            
+
     virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
@@ -170,15 +247,21 @@ class bsrOptions : public optionsGroup
     void                  printBsrOptionsHelp ();
 
     void                  printBsrOptionsValues (int fieldWidth);
-    
+
   public:
 
     // display
     // --------------------------------------
-    
+
     bool                  fDisplayBsr;
     bool                  fDisplayBsrDetails;
-    
+
+    // languages
+    // --------------------------------------
+
+    bsrTextsLanguageKind
+                          fBsrTextsLanguageKind;
+
     // miscellaneous
     // --------------------------------------
 
@@ -203,11 +286,11 @@ class bsrOptions : public optionsGroup
     // BSR
     bool                  fTraceBsr;
 
-    // pages & lines  
+    // pages & lines
     bool                  fTracePages;
-    
+
     bool                  fTraceLines;
-    
+
     bool                  fTraceSpaces;
     bool                  fTraceNumbers;
 

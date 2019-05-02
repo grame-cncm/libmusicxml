@@ -34,17 +34,15 @@ using namespace std;
 namespace MusicXML2
 {
 
-//______________________________________________________________________________
 // layout settings
-
+//______________________________________________________________________________
 const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
 
 const int K_FIELD_WIDTH = 40;
 
-//______________________________________________________________________________
 // PRE-declarations for class dependencies
-
+//______________________________________________________________________________
 class optionsElement;
 typedef SMARTP<optionsElement> S_optionsElement;
 
@@ -57,6 +55,7 @@ typedef SMARTP<optionsGroup> S_optionsGroup;
 class EXP optionsHandler;
 typedef SMARTP<optionsHandler> S_optionsHandler;
 
+// options elements
 //______________________________________________________________________________
 class optionsElement : public smartable
 {
@@ -69,7 +68,7 @@ class optionsElement : public smartable
       string optionsElementShortName,
       string optionsElementLongName,
       string optionsElementDescription);
-     
+
   protected:
 
     // constructors/destructor
@@ -98,7 +97,7 @@ class optionsElement : public smartable
 
     void                  setOptionsElementIsHidden ()
                               { fOptionsElementIsHidden = true; }
-    
+
     bool                  getOptionsElementIsHidden () const
                               { return fOptionsElementIsHidden; }
 
@@ -108,32 +107,32 @@ class optionsElement : public smartable
     string                optionsElementNames () const;
     string                optionsElementNamesInColumns (
                             int subGroupsShortNameFieldWidth) const;
-    
+
     string                optionsElementNamesBetweenParentheses () const;
     string                optionsElementNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
     string                operator () () const
                               { return fOptionsElementDescription; }
-  
+
     S_optionsElement      fetchOptionElement ( // JMI
                             string optiontElementName);
-                            
+
     // print
     // ------------------------------------------------------
-    
+
     virtual void          printHeader (ostream& os) const;
-    
+
     virtual void          printElementEssentials (
                             ostream& os,
                             int      fieldWidth) const;
-    
+
     virtual void          print (ostream& os) const;
-    
+
     virtual void          printHelp (ostream& os) const;
-    
+
   protected:
-     
+
     // fields
     // ------------------------------------------------------
 
@@ -146,6 +145,7 @@ class optionsElement : public smartable
 typedef SMARTP<optionsElement> S_optionsElement;
 EXP ostream& operator<< (ostream& os, const S_optionsElement& elt);
 
+// options items
 //______________________________________________________________________________
 class optionsItem : public optionsElement
 {
@@ -158,7 +158,7 @@ class optionsItem : public optionsElement
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-     
+
   protected:
 
     // constructors/destructor
@@ -168,11 +168,11 @@ class optionsItem : public optionsElement
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-  
+
     virtual ~optionsItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -181,7 +181,7 @@ class optionsItem : public optionsElement
 
     S_optionsSubGroup     getOptionsSubGroupUplink () const
                               { return fOptionsSubGroupUplink; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -207,11 +207,12 @@ class optionsItem : public optionsElement
 typedef SMARTP<optionsItem> S_optionsItem;
 EXP ostream& operator<< (ostream& os, const S_optionsItem& elt);
 
+// options help usage items
 //______________________________________________________________________________
 class optionsHelpUsageItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -219,7 +220,7 @@ class optionsHelpUsageItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-     
+
   protected:
 
     // constructors/destructor
@@ -229,11 +230,11 @@ class optionsHelpUsageItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-      
+
     virtual ~optionsHelpUsageItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -250,20 +251,21 @@ class optionsHelpUsageItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsHelpUsageItem> S_optionsHelpUsageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsHelpUsageItem& elt);
 
+// options help summary items
 //______________________________________________________________________________
 class optionsHelpSummaryItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -271,7 +273,7 @@ class optionsHelpSummaryItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-     
+
   protected:
 
     // constructors/destructor
@@ -281,11 +283,11 @@ class optionsHelpSummaryItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-      
+
     virtual ~optionsHelpSummaryItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -302,20 +304,21 @@ class optionsHelpSummaryItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsHelpSummaryItem> S_optionsHelpSummaryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
 
+// options combined items items
 //______________________________________________________________________________
 class optionsCombinedItemsItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -325,7 +328,7 @@ class optionsCombinedItemsItem : public optionsItem
       string optionsItemDescription,
       string optionsCombinedItemsItemVariableDisplayName,
       bool&  optionsCombinedItemsItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -337,11 +340,11 @@ class optionsCombinedItemsItem : public optionsItem
       string optionsItemDescription,
       string optionsCombinedItemsItemVariableDisplayName,
       bool&  optionsCombinedItemsItemVariable);
-      
+
     virtual ~optionsCombinedItemsItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -351,7 +354,7 @@ class optionsCombinedItemsItem : public optionsItem
                                 return
                                   fOptionsCombinedItemsList;
                               }
-                              
+
 /*
     void                  setCombinedItemsItemVariableValue (
                             set<int> value)
@@ -381,9 +384,9 @@ class optionsCombinedItemsItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -396,11 +399,12 @@ class optionsCombinedItemsItem : public optionsItem
 typedef SMARTP<optionsCombinedItemsItem> S_optionsCombinedItemsItem;
 EXP ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt);
 
+// options boolean items
 //______________________________________________________________________________
 class optionsBooleanItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -410,7 +414,7 @@ class optionsBooleanItem : public optionsItem
       string optionsItemDescription,
       string optionsBooleanItemVariableDisplayName,
       bool&  optionsBooleanItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -422,11 +426,11 @@ class optionsBooleanItem : public optionsItem
       string optionsItemDescription,
       string optionsBooleanItemVariableDisplayName,
       bool&  optionsBooleanItemVariable);
-      
+
     virtual ~optionsBooleanItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -435,7 +439,7 @@ class optionsBooleanItem : public optionsItem
                                 return
                                   fOptionsBooleanItemVariableDisplayName;
                               }
-                              
+
     void                  setBooleanItemVariableValue (
                             bool value)
                               {
@@ -455,7 +459,7 @@ class optionsBooleanItem : public optionsItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -465,11 +469,10 @@ class optionsBooleanItem : public optionsItem
 typedef SMARTP<optionsBooleanItem> S_optionsBooleanItem;
 EXP ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
 
-//______________________________________________________________________________
 class optionsTwoBooleansItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -480,7 +483,7 @@ class optionsTwoBooleansItem : public optionsItem
       string optionsTwoBooleansItemVariableDisplayName,
       bool&  optionsTwoBooleansItemVariable,
       bool&  optionsTwoBooleansItemSecondaryVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -493,11 +496,11 @@ class optionsTwoBooleansItem : public optionsItem
       string optionsTwoBooleansItemVariableDisplayName,
       bool&  optionsTwoBooleansItemVariable,
       bool&  optionsTwoBooleansItemSecondaryVariable);
-      
+
     virtual ~optionsTwoBooleansItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -506,7 +509,7 @@ class optionsTwoBooleansItem : public optionsItem
                                 return
                                   fOptionsTwoBooleansItemVariableDisplayName;
                               }
-                              
+
     void                  setTwoBooleansItemVariableValue (
                             bool value)
                               {
@@ -529,23 +532,22 @@ class optionsTwoBooleansItem : public optionsItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
     string                fOptionsTwoBooleansItemVariableDisplayName;
     bool&                 fOptionsTwoBooleansItemVariable;
-    
+
     bool&                 fOptionsTwoBooleansItemSecondaryVariable;
 };
 typedef SMARTP<optionsTwoBooleansItem> S_optionsTwoBooleansItem;
 EXP ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
 
-//______________________________________________________________________________
 class optionsThreeBooleansItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -557,7 +559,7 @@ class optionsThreeBooleansItem : public optionsItem
       bool&  optionsThreeBooleansItemVariable,
       bool&  optionsThreeBooleansItemSecondaryVariable,
       bool&  optionsThreeBooleansItemTertiaryVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -571,11 +573,11 @@ class optionsThreeBooleansItem : public optionsItem
       bool&  optionsThreeBooleansItemVariable,
       bool&  optionsThreeBooleansItemSecondaryVariable,
       bool&  optionsThreeBooleansItemTertiaryVariable);
-      
+
     virtual ~optionsThreeBooleansItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -584,7 +586,7 @@ class optionsThreeBooleansItem : public optionsItem
                                 return
                                   fOptionsThreeBooleansItemVariableDisplayName;
                               }
-                              
+
     void                  setThreeBooleansItemVariableValue (
                             bool value)
                               {
@@ -609,19 +611,20 @@ class optionsThreeBooleansItem : public optionsItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
     string                fOptionsThreeBooleansItemVariableDisplayName;
     bool&                 fOptionsThreeBooleansItemVariable;
-    
+
     bool&                 fOptionsThreeBooleansItemSecondaryVariable;
     bool&                 fOptionsThreeBooleansItemTertiaryVariable;
 };
 typedef SMARTP<optionsThreeBooleansItem> S_optionsThreeBooleansItem;
 EXP ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
 
+// options valued items
 //______________________________________________________________________________
 class optionsValuedItem : public optionsItem
 {
@@ -634,7 +637,7 @@ class optionsValuedItem : public optionsItem
       kOptionsItemHasNoArgument,
       kOptionsItemHasARequiredArgument,
       kOptionsItemHasAnOptionsArgument };
-          
+
     static string optionsItemKindAsString (
       optionsValuedItemKind optionsItemKind);
 
@@ -646,7 +649,7 @@ class optionsValuedItem : public optionsItem
       string optionsItemLongName,
       string optionsItemDescription,
       string optionsValueSpecification);
-     
+
   protected:
 
     // constructors/destructor
@@ -657,21 +660,21 @@ class optionsValuedItem : public optionsItem
       string optionsItemLongName,
       string optionsItemDescription,
       string optionsValueSpecification);
-  
+
     virtual ~optionsValuedItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
     optionsValuedItemKind
                           getOptionsItemKind () const
                               { return fOptionsItemKind; }
-    
+
     string                getOptionsValueSpecification () const
                               { return fOptionsValueSpecification; }
-    
+
     // services
     // ------------------------------------------------------
 
@@ -705,11 +708,12 @@ class optionsValuedItem : public optionsItem
 typedef SMARTP<optionsValuedItem> S_optionsValuedItem;
 EXP ostream& operator<< (ostream& os, const S_optionsValuedItem& elt);
 
+// options items helps items
 //______________________________________________________________________________
 class optionsItemHelpItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -718,7 +722,7 @@ class optionsItemHelpItem : public optionsValuedItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification);
-     
+
   protected:
 
     // constructors/destructor
@@ -729,14 +733,14 @@ class optionsItemHelpItem : public optionsValuedItem
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification);
-           
+
   protected:
 
 
     virtual ~optionsItemHelpItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -752,18 +756,19 @@ class optionsItemHelpItem : public optionsValuedItem
                             ostream& os,
                             int      valueFieldWidth) const;
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
 typedef SMARTP<optionsItemHelpItem> S_optionsItemHelpItem;
 EXP ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt);
 
+// options integer items
 //______________________________________________________________________________
 class optionsIntegerItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -774,7 +779,7 @@ class optionsIntegerItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsIntegerItemVariableDisplayName,
       int&               optionsIntegerItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -787,14 +792,14 @@ class optionsIntegerItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsIntegerItemVariableDisplayName,
       int&               optionsIntegerItemVariable);
-           
+
   protected:
 
 
     virtual ~optionsIntegerItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -803,7 +808,7 @@ class optionsIntegerItem : public optionsValuedItem
                                 return
                                   fOptionsIntegerItemVariableDisplayName;
                               }
-                              
+
     void                  setIntegerItemVariableValue (
                             int value)
                               {
@@ -822,7 +827,7 @@ class optionsIntegerItem : public optionsValuedItem
                             ostream& os,
                             int      valueFieldWidth) const;
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -832,11 +837,12 @@ class optionsIntegerItem : public optionsValuedItem
 typedef SMARTP<optionsIntegerItem> S_optionsIntegerItem;
 EXP ostream& operator<< (ostream& os, const S_optionsIntegerItem& elt);
 
+// options float items
 //______________________________________________________________________________
 class optionsFloatItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -847,7 +853,7 @@ class optionsFloatItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -860,11 +866,11 @@ class optionsFloatItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable);
-      
+
     virtual ~optionsFloatItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -873,7 +879,7 @@ class optionsFloatItem : public optionsValuedItem
                                 return
                                   fOptionsFloatItemVariableDisplayName;
                               }
-                              
+
     void                  setFloatItemVariableValue (
                             float value)
                               {
@@ -893,7 +899,7 @@ class optionsFloatItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -903,11 +909,12 @@ class optionsFloatItem : public optionsValuedItem
 typedef SMARTP<optionsFloatItem> S_optionsFloatItem;
 EXP ostream& operator<< (ostream& os, const S_optionsFloatItem& elt);
 
+// options string items
 //______________________________________________________________________________
 class optionsStringItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -918,7 +925,7 @@ class optionsStringItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -931,11 +938,11 @@ class optionsStringItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable);
-      
+
     virtual ~optionsStringItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -944,7 +951,7 @@ class optionsStringItem : public optionsValuedItem
                                 return
                                   fOptionsStringItemVariableDisplayName;
                               }
-                              
+
     void                  setStringItemVariableValue (
                             string value)
                               {
@@ -964,7 +971,7 @@ class optionsStringItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -974,11 +981,12 @@ class optionsStringItem : public optionsValuedItem
 typedef SMARTP<optionsStringItem> S_optionsStringItem;
 EXP ostream& operator<< (ostream& os, const S_optionsStringItem& elt);
 
+// options rational items
 //______________________________________________________________________________
 class optionsRationalItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -989,7 +997,7 @@ class optionsRationalItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -1002,11 +1010,11 @@ class optionsRationalItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable);
-      
+
     virtual ~optionsRationalItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -1015,7 +1023,7 @@ class optionsRationalItem : public optionsValuedItem
                                 return
                                   fOptionsRationalItemVariableDisplayName;
                               }
-                              
+
     void                  setRationalItemVariableValue (
                             rational value)
                               {
@@ -1035,7 +1043,7 @@ class optionsRationalItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -1045,11 +1053,12 @@ class optionsRationalItem : public optionsValuedItem
 typedef SMARTP<optionsRationalItem> S_optionsRationalItem;
 EXP ostream& operator<< (ostream& os, const S_optionsRationalItem& elt);
 
+// options numbers sets items
 //______________________________________________________________________________
 class optionsNumbersSetItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -1060,7 +1069,7 @@ class optionsNumbersSetItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsNumbersSetItemVariableDisplayName,
       set<int>&          optionsNumbersSetItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -1073,11 +1082,11 @@ class optionsNumbersSetItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsNumbersSetItemVariableDisplayName,
       set<int>&          optionsNumbersSetItemVariable);
-      
+
     virtual ~optionsNumbersSetItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -1086,7 +1095,7 @@ class optionsNumbersSetItem : public optionsValuedItem
                                 return
                                   fOptionsNumbersSetItemVariableDisplayName;
                               }
-                              
+
     void                  setNumbersSetItemVariableValue (
                             set<int> value)
                               {
@@ -1106,7 +1115,7 @@ class optionsNumbersSetItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -1116,6 +1125,7 @@ class optionsNumbersSetItem : public optionsValuedItem
 typedef SMARTP<optionsNumbersSetItem> S_optionsNumbersSetItem;
 EXP ostream& operator<< (ostream& os, const S_optionsNumbersSetItem& elt);
 
+// options subgroups
 //_______________________________________________________________________________
 class optionsSubGroup : public optionsElement
 {
@@ -1127,13 +1137,13 @@ class optionsSubGroup : public optionsElement
     enum optionsSubGroupDescriptionVisibilityKind {
       kAlwaysShowDescription,
       kHideDescriptionByDefault };
-          
+
     static string optionsSubGroupDescriptionVisibilityKindAsString (
       optionsSubGroupDescriptionVisibilityKind
         optionsSubGroupDescriptionVisibilityKind);
 
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -1146,7 +1156,7 @@ class optionsSubGroup : public optionsElement
              optionsSubGroupDescriptionVisibilityKind,
       S_optionsGroup
              optionsGroupUplink);
-     
+
   protected:
 
     // constructors/destructor
@@ -1161,11 +1171,11 @@ class optionsSubGroup : public optionsElement
              optionsSubGroupDescriptionVisibilityKind,
       S_optionsGroup
              optionsGroupUplink);
-    
+
     virtual ~optionsSubGroup ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -1178,17 +1188,17 @@ class optionsSubGroup : public optionsElement
 
     S_optionsGroup        getOptionsGroupUplink () const
                               { return fOptionsGroupUplink; }
-    
+
     string                getOptionsSubGroupHelpHeader () const
                               { return fOptionsSubGroupHelpHeader; }
-                              
+
     optionsSubGroupDescriptionVisibilityKind
                           getOptionsSubGroupIsHiddenByDefault () const
                               {
                                 return
                                   fOptionsSubGroupDescriptionVisibilityKind;
                               }
-                              
+
     // services
     // ------------------------------------------------------
 
@@ -1202,7 +1212,7 @@ class optionsSubGroup : public optionsElement
 
     S_optionsElement      fetchOptionElement (
                             string optiontElementName);
-                            
+
     // print
     // ------------------------------------------------------
 
@@ -1229,7 +1239,7 @@ class optionsSubGroup : public optionsElement
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -1239,17 +1249,18 @@ class optionsSubGroup : public optionsElement
 
     optionsSubGroupDescriptionVisibilityKind
                           fOptionsSubGroupDescriptionVisibilityKind;
-  
+
     list<S_optionsItem>   fOptionsSubGroupItemsList;
 };
 typedef SMARTP<optionsSubGroup> S_optionsSubGroup;
 EXP ostream& operator<< (ostream& os, const S_optionsSubGroup& elt);
 
+// options groups
 //_______________________________________________________________________________
 class optionsGroup : public optionsElement
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -1260,7 +1271,7 @@ class optionsGroup : public optionsElement
       string optionGroupDescription,
       S_optionsHandler
              optionsHandlerUplink);
-     
+
   protected:
 
     // constructors/destructor
@@ -1273,11 +1284,11 @@ class optionsGroup : public optionsElement
       string optionGroupDescription,
       S_optionsHandler
              optionsHandlerUplink);
-      
+
     virtual ~optionsGroup ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -1289,7 +1300,7 @@ class optionsGroup : public optionsElement
 
     string                getOptionsGroupHelpHeader () const
                               { return fOptionsGroupHelpHeader; }
-                              
+
   public:
 
     // consistency check
@@ -1298,10 +1309,10 @@ class optionsGroup : public optionsElement
     void                  checkOptionsConsistency ();
 
   public:
-  
+
     // services
     // ------------------------------------------------------
-                              
+
     void                  underlineHeader (ostream& os) const;
 
     void                  registerOptionsGroupInHandler (
@@ -1309,14 +1320,14 @@ class optionsGroup : public optionsElement
 
     void                  appendOptionsSubGroup (
                             S_optionsSubGroup optionsSubGroup);
-        
+
     S_optionsElement      fetchOptionElement (
                             string optiontElementName);
 
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
-                                
+
     virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
@@ -1339,7 +1350,7 @@ class optionsGroup : public optionsElement
                             S_optionsItem     targetOptionsItem) const;
 
     void                  printHelpSummary (ostream& os) const;
-    
+
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_optionsSubGroup
@@ -1355,7 +1366,7 @@ class optionsGroup : public optionsElement
     // ------------------------------------------------------
 
     S_optionsHandler      fOptionsHandlerUplink;
-    
+
   private:
 
     // fields
@@ -1369,7 +1380,7 @@ class optionsGroup : public optionsElement
 typedef SMARTP<optionsGroup> S_optionsGroup;
 EXP ostream& operator<< (ostream& os, const S_optionsGroup& elt);
 
-
+// options prefixes
 //______________________________________________________________________________
 class optionsPrefix;
 typedef SMARTP<optionsPrefix> S_optionsPrefix;
@@ -1391,7 +1402,7 @@ to be developped into :
       string optionsPrefixName,
       string optionsPrefixErsatz,
       string optionsPrefixDescription);
-     
+
   protected:
 
     // constructors/destructor
@@ -1424,32 +1435,32 @@ to be developped into :
     string                optionsPrefixNames () const;
     string                optionsPrefixNamesInColumns (
                             int subGroupsShortNameFieldWidth) const;
-    
+
     string                optionsPrefixNamesBetweenParentheses () const;
     string                optionsPrefixNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
     string                operator () () const
                               { return fOptionsPrefixErsatz; }
-  
+
     S_optionsPrefix       fetchOptionElement ( // JMI
                             string optiontElementName);
-                            
+
     // print
     // ------------------------------------------------------
-    
+
     virtual void          printHeader (ostream& os) const;
-    
+
     virtual void          printElementEssentials (
                             ostream& os,
                             int      fieldWidth) const;
-    
+
     virtual void          print (ostream& os) const;
-    
+
     virtual void          printHelp (ostream& os) const;
-    
+
   protected:
-     
+
     // fields
     // ------------------------------------------------------
 
@@ -1459,11 +1470,12 @@ to be developped into :
 };
 EXP ostream& operator<< (ostream& os, const S_optionsPrefix& elt);
 
+// options handlers
 //_______________________________________________________________________________
 class EXP optionsHandler : public optionsElement
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 /* JMI this a pure virtual class
@@ -1494,7 +1506,7 @@ class EXP optionsHandler : public optionsElement
       string           optionHandlerPreamble,
       string           optionHandlerDescription,
       indentedOstream& optionsHandlerLogIOstream);
-      
+
     virtual ~optionsHandler ();
 
   private:
@@ -1512,7 +1524,7 @@ class EXP optionsHandler : public optionsElement
 
     string                getOptionsHandlerHelpHeader () const
                               { return fOptionsHandlerHelpHeader; }
-                              
+
     string                getOptionsHandlerValuesHeader () const
                               { return fOptionsHandlerValuesHeader; }
 
@@ -1531,17 +1543,17 @@ class EXP optionsHandler : public optionsElement
 
     string                getExecutableName () const
                               { return fExecutableName; }
-                              
+
     const list<S_optionsElement>&
                           getCommandOptionsElements () const
                               { return fCommandOptionsElements; }
-                              
+
     string                getCommandLineWithShortOptions () const
                               { return fCommandLineWithShortOptions; }
-                              
+
     string                getCommandLineWithLongOptions () const
                               { return fCommandLineWithLongOptions; }
-                              
+
     int                   getMaximumSubGroupsHelpHeadersSize () const
                               { return fMaximumSubGroupsHelpHeadersSize; }
 
@@ -1555,7 +1567,7 @@ class EXP optionsHandler : public optionsElement
                               { return fMaximumDisplayNameWidth; }
 
   public:
-  
+
     // services
     // ------------------------------------------------------
 
@@ -1568,7 +1580,7 @@ class EXP optionsHandler : public optionsElement
                             string           optionShortName,
                             string           optionLongName,
                             S_optionsElement optionsElement);
-      
+
     void                  registerOptionsHandlerInItself ();
 
     void                  registerOptionsElementInHandler (
@@ -1579,7 +1591,7 @@ class EXP optionsHandler : public optionsElement
 
     S_optionsElement      fetchOptionElement (
                             string optiontElementName);
-                            
+
     void                  handleOptionsItemName (
                             string optionsItemName);
 
@@ -1605,7 +1617,7 @@ class EXP optionsHandler : public optionsElement
                                 printHelpSummary (
                                   fOptionsHandlerLogIOstream);
                               }
-    
+
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_optionsSubGroup
@@ -1625,7 +1637,7 @@ class EXP optionsHandler : public optionsElement
 
     string                fOptionsHandlerHelpHeader;
     string                fOptionsHandlerValuesHeader;
-    
+
     string                fOptionHandlerHelpSummaryShortName;
     string                fOptionHandlerHelpSummaryLongName;
 
@@ -1634,17 +1646,17 @@ class EXP optionsHandler : public optionsElement
     S_optionsItem         fPendingOptionsItem;
 
     vector<string>        fArgumentsVector;
-    
+
     list<S_optionsGroup>  fOptionsHandlerOptionsGroupsList;
 
     map<string, S_optionsElement>
                           fOptionsElementsMap;
-    
+
     int                   fMaximumSubGroupsHelpHeadersSize;
 
     int                   fMaximumShortNameWidth;
     int                   fMaximumLongNameWidth;
-    
+
     int                   fMaximumDisplayNameWidth;
 
     list<S_optionsElement>
@@ -1656,7 +1668,7 @@ class EXP optionsHandler : public optionsElement
     string                fCommandLineWithLongOptions;
 
     list<S_optionsPrefix> fOptionsHandlerOptionsPrefixesList;
-    
+
     indentedOstream&      fOptionsHandlerLogIOstream;
 };
 typedef SMARTP<optionsHandler> S_optionsHandler;
