@@ -78,7 +78,7 @@ class EXP xmlpart2guido :
 //	bool fGenerateStem;
 
 	// internal parsing state
-	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending, fTupletOpened,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar;
+	bool	fInCue, fInGrace, fInhibitNextBar, fPendingBar, fBeamOpened, fMeasureEmpty, fCrescPending,fWavyTrillOpened, fSingleScopeTrill, fNonStandardNoteHead, fDoubleBar;
     
     int fTextTagOpen;
     
@@ -110,7 +110,6 @@ class EXP xmlpart2guido :
 	int		fMeasNum;
 
     int		fCurrentBeamNumber;		// number attribute of the current beam
-	int		fCurrentTupletNumber;		// number attribute of the current tuplet
 	int		fCurrentStemDirection;	// the current stems direction, used for stem direction changes
 	int		fPendingPops;			// elements to be popped at chord exit (like fermata, articulations...)
 
