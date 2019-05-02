@@ -350,6 +350,14 @@ namespace MusicXML2
     }
     
     //______________________________________________________________________________
+    /**
+     Infers x and y position from MusicXML element, converts to Guido HS and adds to tag
+
+     @param elt MusicXML element with x-y position
+     @param tag Guido Tag in construction
+     @param yoffset y Offset to add to converted HS result
+     @param xoffset x Offset to add to converted HS result
+     */
     void xml2guidovisitor::addPosition	( Sxmlelement elt, Sguidoelement& tag, float yoffset, float xoffset)
     {
         float posx = elt->getAttributeFloatValue("default-x", 0) + elt->getAttributeFloatValue("relative-x", 0);
