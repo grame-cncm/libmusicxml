@@ -347,14 +347,6 @@ namespace MusicXML2
         string font_weight = elt->getAttributeValue("font-weight");
         string font_style = elt->getAttributeValue("font-style");
         
-        /// NOTE:
-        /*
-         We should ideally use the MARK tag of Guido. However MARK does not have
-         text styling, nor enclosure, nor positioning parameters.
-         
-         For now, we use the TEXT tag which ignores only Enclosure.
-         */
-        
         if (rehearsalValue.size())
         {
             //// Using MARK tag:
@@ -524,6 +516,12 @@ namespace MusicXML2
                             ctree<xmlelement>::literator iter2;
                             elementSpecificYOffset = 0;
                             float dynamicsDx = 0.0;
+                            /// Take into account group positioning
+                            float posy = xml2guidovisitor::getYposition(element, 0, true);
+                            if (posy != 0.0) {
+                                // then apply and save
+                                commonDy += xml2guidovisitor::getYposition(element, 13, true);  // Should this be additive?
+                            }
                             for (iter2 = element->lbegin(); iter2 != element->lend(); iter2++) {
                                 if ((*iter2)->getType() != k_other_dynamics) {
                                     tag = guidotag::create("intens");
@@ -535,13 +533,6 @@ namespace MusicXML2
                                         if (wordParameterBuffer.size()) {
                                             tag->add (guidoparam::create(wordParameterBuffer, false));
                                             wordParameterBuffer = "";
-                                        }
-                                        
-                                        /// Take into account group positioning
-                                        float posy = xml2guidovisitor::getYposition(element, 0, true);
-                                        if (posy != 0.0) {
-                                            // then apply and save
-                                            commonDy += xml2guidovisitor::getYposition(element, 13, true);  // Should this be additive?
                                         }
                                         
                                         // apply inherited Y-position
@@ -1798,6 +1789,10 @@ namespace MusicXML2
             push(tag);
             n++;
         }
+        if (note.fBreathMark) {
+            Sguidoelement tag = guidotag::create("breathMark");
+            add(tag);
+        }
         
         return n;
     }
@@ -2482,10 +2477,6 @@ namespace MusicXML2
         
         checkTupletEnd(notevisitor::getTuplet());
         checkSlurEnd (notevisitor::getSlur());
-        if (notevisitor::fBreathMark) {
-            Sguidoelement tag = guidotag::create("breathMark");
-            add(tag);
-        }
         
         checkBeamEnd (notevisitor::getBeam());
         
