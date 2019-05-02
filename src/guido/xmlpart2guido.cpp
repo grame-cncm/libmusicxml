@@ -363,7 +363,7 @@ namespace MusicXML2
                 rehearsalValue += ", fsize="+font_size+"pt";
             
             tag->add (guidoparam::create(rehearsalValue.c_str(), false));
-            xml2guidovisitor::addPosition(elt, tag, -2, -4);
+            xml2guidovisitor::addPosition(elt, tag, -4, -4);
             
             add (tag);
             
