@@ -27,7 +27,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -75,7 +75,7 @@ optionsUTFKindItem::~optionsUTFKindItem ()
 void optionsUTFKindItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsUTFKindItem:" <<
     endl;
@@ -101,7 +101,7 @@ void optionsUTFKindItem::print (ostream& os) const
 void optionsUTFKindItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsUTFKindItemVariableDisplayName <<
@@ -163,7 +163,7 @@ optionsByteOrderingKindItem::~optionsByteOrderingKindItem ()
 void optionsByteOrderingKindItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsByteOrderingKindItem:" <<
     endl;
@@ -189,7 +189,7 @@ void optionsByteOrderingKindItem::print (ostream& os) const
 void optionsByteOrderingKindItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsByteOrderingKindItemVariableDisplayName <<
@@ -224,7 +224,7 @@ brailleOptions::brailleOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "Braille",
-    "h=lp", "help-braille",
+    "hbrl", "help-braille",
 R"(These options control which Braille code is generated.)",
     optionsHandler)
 {
@@ -249,12 +249,12 @@ void brailleOptions::initializeBrailleOptions (
   // --------------------------------------
 
   {
-    // variables  
+    // variables
 
     fUTFKind = kUTF8; // default value
-                    
+
     // options
-  
+
     S_optionsSubGroup
       UTFEncodingSubGroup =
         optionsSubGroup::create (
@@ -263,7 +263,7 @@ void brailleOptions::initializeBrailleOptions (
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (UTFEncodingSubGroup);
 
     UTFEncodingSubGroup->
@@ -277,17 +277,17 @@ which can be one of 8 or 16. Default value is 8.)",
           fUTFKind));
   }
 
-    
+
   // byte ordering
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     fByteOrderingKind = kByteOrderingNone; // default value
-                
+
     // options
-  
+
     S_optionsSubGroup
       byteOrderingSubGroup =
         optionsSubGroup::create (
@@ -296,7 +296,7 @@ which can be one of 8 or 16. Default value is 8.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (byteOrderingSubGroup);
 
     byteOrderingSubGroup->
@@ -312,17 +312,17 @@ By default, BOM is generated.)",
           fByteOrderingKind));
   }
 
-    
+
   // braille music file name
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     fUseEncodingInFileName = false; // default value
-                
+
     // options
-  
+
     S_optionsSubGroup
       facSimileSubGroup =
         optionsSubGroup::create (
@@ -331,7 +331,7 @@ By default, BOM is generated.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (facSimileSubGroup);
 
     facSimileSubGroup->
@@ -344,19 +344,19 @@ and the presence of a BOM if any to the file name.)",
           fUseEncodingInFileName));
   }
 
-    
+
   // page parameters
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fCellsPerLine = 30;
     fMeasuresPerLine = 7;
     fLinesPerPage = 27;
-    
+
     // options
-  
+
     S_optionsSubGroup
       codeGenerationSubGroup =
         optionsSubGroup::create (
@@ -365,7 +365,7 @@ and the presence of a BOM if any to the file name.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (codeGenerationSubGroup);
 
     codeGenerationSubGroup->
@@ -399,16 +399,16 @@ R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
 
   // code generation
   // --------------------------------------
-  
+
   {
-    // variables  
-  
+    // variables
+
     fXml2brlInfos         = boolOptionsInitialValue;
-                
+
     fNoBrailleCode        = boolOptionsInitialValue;
-    
+
     // options
-  
+
     S_optionsSubGroup
       codeGenerationSubGroup =
         optionsSubGroup::create (
@@ -417,7 +417,7 @@ R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (codeGenerationSubGroup);
 
     codeGenerationSubGroup->
@@ -456,10 +456,10 @@ S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
 
   clone->fXml2brlInfos =
     fXml2brlInfos;
-    
+
   clone->fNoBrailleCode =
     fNoBrailleCode;
-    
+
   return clone;
 }
 
@@ -480,7 +480,7 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
 
   // code generation
   // --------------------------------------
@@ -495,15 +495,15 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     setw (fieldWidth) << "UTFKind" << " : " <<
       bsrUTFKindAsString (fUTFKind) <<
       endl <<
-    
+
     setw (fieldWidth) << "byteOrderingKind" << " : " <<
       byteOrderingKindAsString (fByteOrderingKind) <<
       endl <<
-    
+
     setw (fieldWidth) << "useEncodingInFileName" << " : " <<
       booleanAsString (fUseEncodingInFileName) <<
       endl <<
-    
+
     setw (fieldWidth) << "cellsPerLine" << " : " <<
       fCellsPerLine <<
       endl <<
@@ -513,17 +513,17 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
     setw (fieldWidth) << "linesPerPage" << " : " <<
       fLinesPerPage <<
       endl <<
-    
+
     setw (fieldWidth) << "xml2brlInfos" << " : " <<
       booleanAsString (fXml2brlInfos) <<
       endl <<
-    
+
     setw (fieldWidth) << "noBrailleCode" << " : " <<
       booleanAsString (fNoBrailleCode) <<
       endl;
 
   gIndenter--;
-  
+
   gIndenter--;
 }
 
@@ -583,7 +583,7 @@ void brailleOptions::handleOptionsItemValue (
       UTFKindItem =
         dynamic_cast<optionsUTFKindItem*>(&(*item))
     ) {
-    // theString contains the UTF size    
+    // theString contains the UTF size
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
@@ -603,36 +603,36 @@ void brailleOptions::handleOptionsItemValue (
     }
     else {
       // no, theString is unknown
-      
+
       printHelpSummary (os);
-      
+
       stringstream s;
-  
+
       s <<
         "UTF kind " << theString <<
         " is unknown" <<
         endl <<
         "The possible values are 8 and 16" <<
         endl;
-    
+
       optionError (s.str ());
-      
+
  //     exit (4); // JMI
       abort ();
     }
-  
+
     UTFKindItem->
       setOptionsUTFKindItemVariable (
         UTFKind);
   }
-  
+
   else if (
     // byte ordering item?
     S_optionsByteOrderingKindItem
       byteOrderingKindItem =
         dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
     ) {
-    // theString contains the byte ordering name   
+    // theString contains the byte ordering name
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
@@ -652,30 +652,30 @@ void brailleOptions::handleOptionsItemValue (
     }
     else {
       // no, theString is unknown
-      
+
       printHelpSummary (os);
-      
+
       stringstream s;
-  
+
       s <<
         "byte ordering " << theString <<
         " is unknown" <<
         endl <<
         "The possible values are big and small" <<
         endl;
-  
+
       optionError (s.str ());
-      
+
  //     exit (4); // JMI
       abort ();
     }
-  
+
     byteOrderingKindItem->
       setOptionsByteOrderingKindItemVariable (
         byteOrderingKind);
   }
 }
-    
+
 ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 {
   elt->print (os);
@@ -688,11 +688,11 @@ void initializeBrailleOptionsHandling (
 {
   // create the options variables
   // ------------------------------------------------------
-  
+
   gBrailleOptionsUserChoices = brailleOptions::create (
     optionsHandler);
   assert(gBrailleOptionsUserChoices != 0);
-  
+
   gBrailleOptions =
     gBrailleOptionsUserChoices;
 
@@ -725,7 +725,7 @@ thus overriding the ones that may be present in the MSR data.
 )",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (identificationSubGroup);
 
     // MusicXML informations
@@ -876,25 +876,25 @@ R"(Set 'copyright' to STRING in the \header.)",
           "copyright",
           fCopyright));
   }
-  
+
 
   // notes
   // --------------------------------------
 
   {
     // variables
-      
+
     fAbsoluteOctaves  = boolOptionsInitialValue;
-    
+
     fAllDurations  = boolOptionsInitialValue;
-      
+
     fRomanStringNumbers = boolOptionsInitialValue;
     fAvoidOpenStrings    = boolOptionsInitialValue;
-      
+
     fCompressMultiMeasureRests = boolOptionsInitialValue;
-  
+
     fNoteInputLineNumbers = boolOptionsInitialValue;
-  
+
     S_optionsSubGroup
       notesSubGroup =
         optionsSubGroup::create (
@@ -903,14 +903,14 @@ R"(Set 'copyright' to STRING in the \header.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (notesSubGroup);
 
     notesSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
           "abs", "absolute",
-R"(Generate Braille absolute note octaves. 
+R"(Generate Braille absolute note octaves.
 By default, relative octaves are generated.)",
           "absoluteOctaves",
           fAbsoluteOctaves));
@@ -919,7 +919,7 @@ By default, relative octaves are generated.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "alldurs", "all-durations",
-R"(Generate all Braille durations. 
+R"(Generate all Braille durations.
 By default, a duration equal to preceding one found in the current voice
 is omitted for code conciseness.)",
           "allDurations",
@@ -929,7 +929,7 @@ is omitted for code conciseness.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "rsn", "roman-string-numbers",
-R"(Generate '\romanStringNumbers' in each voice 
+R"(Generate '\romanStringNumbers' in each voice
 for Braille to generate roman instead of arabic string numbers.)",
           "romanStringNumbers",
           fRomanStringNumbers));
@@ -938,7 +938,7 @@ for Braille to generate roman instead of arabic string numbers.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "aos", "avoid-open-strings",
-R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice 
+R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
 to prevent Braille from using open strings.)",
           "avoidOpenStrings",
           fAvoidOpenStrings));
@@ -954,17 +954,17 @@ This is useful when debugging xml2brl.)",
           fNoteInputLineNumbers));
   }
 
-  
+
   // bars
   // --------------------------------------
 
   {
     // variables
-      
+
     fShowAllBarNumbers = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       barsSubGroup =
         optionsSubGroup::create (
@@ -973,7 +973,7 @@ This is useful when debugging xml2brl.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (barsSubGroup);
 
     barsSubGroup->
@@ -983,7 +983,7 @@ R"()",
 R"(Generate Braille code to show all bar numbers.)",
           "showAllBarNumbers",
           fShowAllBarNumbers));
-  }   
+  }
 
 
   // line breaks
@@ -991,13 +991,13 @@ R"(Generate Braille code to show all bar numbers.)",
 
   {
     // variables
-      
+
     fIgnoreLineBreaks                    = boolOptionsInitialValue;
-  
+
     fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
-        
+
     // options
-  
+
     S_optionsSubGroup
       lineBreaksSubGroup =
         optionsSubGroup::create (
@@ -1006,7 +1006,7 @@ R"(Generate Braille code to show all bar numbers.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (lineBreaksSubGroup);
 
     lineBreaksSubGroup->
@@ -1027,18 +1027,18 @@ which is handy in popular folk dances and tunes.)",
           "breakLinesAtIncompleteRightMeasures",
           fBreakLinesAtIncompleteRightMeasures));
   }
-  
+
 
   // page breaks
   // --------------------------------------
 
   {
-    // variables  
-   
+    // variables
+
     fIgnorePageBreaks = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       pageBreaksSubGroup =
         optionsSubGroup::create (
@@ -1047,7 +1047,7 @@ which is handy in popular folk dances and tunes.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (pageBreaksSubGroup);
 
     pageBreaksSubGroup->
@@ -1059,4 +1059,4 @@ and let Braille decide about them.)",
           "ignorePageBreaks",
           fIgnorePageBreaks));
   }
-        */  
+        */

@@ -18,14 +18,88 @@
 #include "optionsBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
+
+//______________________________________________________________________________
+class optionsScoreOutputKindItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsScoreOutputKindItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsScoreOutputKindItemVariableDisplayName,
+      lpsrScoreOutputKind&
+                         optionsScoreOutputKindItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsScoreOutputKindItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsScoreOutputKindItemVariableDisplayName,
+      lpsrScoreOutputKind&
+                         optionsScoreOutputKindItemVariable);
+
+    virtual ~optionsScoreOutputKindItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsScoreOutputKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsScoreOutputKindItemVariableDisplayName;
+                              }
+
+    void                  setScoreOutputKindItemVariableValue (
+                            lpsrScoreOutputKind value)
+                              {
+                                fOptionsScoreOutputKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsScoreOutputKindItemVariableDisplayName;
+    lpsrScoreOutputKind&
+                          fOptionsScoreOutputKindItemVariable;
+};
+typedef SMARTP<optionsScoreOutputKindItem> S_optionsScoreOutputKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
 class optionsAccidentalStyleItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -37,7 +111,7 @@ class optionsAccidentalStyleItem : public optionsValuedItem
       string             optionsAccidentalStyleItemVariableDisplayName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -51,11 +125,11 @@ class optionsAccidentalStyleItem : public optionsValuedItem
       string             optionsAccidentalStyleItemVariableDisplayName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
-      
+
     virtual ~optionsAccidentalStyleItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -64,7 +138,7 @@ class optionsAccidentalStyleItem : public optionsValuedItem
                                 return
                                   fOptionsAccidentalStyleKindItemVariableDisplayName;
                               }
-                              
+
     void                  setAccidentalStyleKindItemVariableValue (
                             lpsrAccidentalStyleKind value)
                               {
@@ -84,7 +158,7 @@ class optionsAccidentalStyleItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -99,7 +173,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
 class optionsMidiTempoItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -110,7 +184,7 @@ class optionsMidiTempoItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsMidiTempoItemVariableDisplayName,
       pair<string, int>& optionsMidiTempoItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -123,11 +197,11 @@ class optionsMidiTempoItem : public optionsValuedItem
       string             optionsValueSpecification,
       string             optionsMidiTempoItemVariableDisplayName,
       pair<string, int>& optionsMidiTempoItemVariable);
-      
+
     virtual ~optionsMidiTempoItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -136,7 +210,7 @@ class optionsMidiTempoItem : public optionsValuedItem
                                 return
                                   fOptionsMidiTempoItemVariableDisplayName;
                               }
-                              
+
     void                  setMidiTempoItemVariableValue (
                             pair<string, int> value)
                               {
@@ -163,7 +237,7 @@ class optionsMidiTempoItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -220,7 +294,7 @@ staffInstrumentAbbreviation
 
     static SMARTP<lilypondOptions> create (
       S_optionsHandler optionsHandler);
-    
+
     SMARTP<lilypondOptions>        createCloneWithDetailedTrace ();
 
   public:
@@ -230,23 +304,26 @@ staffInstrumentAbbreviation
 
     void                  initializeLilypondOptions (
                             bool boolOptionsInitialValue);
-    
+
   public:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     lilypondOptions (
       S_optionsHandler optionsHandler);
-    
+
     virtual ~lilypondOptions ();
 
     // set and get
     // ------------------------------------------------------
 
  // JMI   bool                  setAccidentalStyle (
-  //                          lpsrAccidentalStyle accidentalStyle);    
- 
+  //                          lpsrAccidentalStyle accidentalStyle);
+
+    bool                  setScoreOutputKind (
+                            string outputKind);
+
   public:
 
     // quiet mode
@@ -269,7 +346,7 @@ staffInstrumentAbbreviation
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
-                            
+
     virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
@@ -283,7 +360,7 @@ staffInstrumentAbbreviation
     void                  printLilypondOptionsHelp ();
 
     void                  printLilypondOptionsValues (int fieldWidth);
-    
+
   public:
 
     // identification
@@ -296,7 +373,7 @@ staffInstrumentAbbreviation
     string                fPoet;
     string                fLyricist;
     string                fSoftware;
-      
+
     // LilyPond informations
     string                fDedication;
     string                fPiece;
@@ -309,7 +386,7 @@ staffInstrumentAbbreviation
     string                fTagline;
     string                fCopyright;
 
-    
+
     // names
     // --------------------------------------
 /*
@@ -335,8 +412,6 @@ partInstrumentAbbreviation
 staffInstrumentName
 staffInstrumentAbbreviation
 
-
-
 pickDedication
 pickTitle
 pickSubTitle
@@ -348,25 +423,30 @@ pickTagline
 pickCopyright
 
 */
-    
+
+    // output kind
+    // --------------------------------------
+
+    lpsrScoreOutputKind   fScoreOutputKind;
+
     // time
     // --------------------------------------
-    
+
     bool                  fNumericalTime;
 
     // notes
     // --------------------------------------
-    
+
     bool                  fAbsoluteOctaves;
-    
+
     bool                  fAllDurations;
-    
+
     bool                  fStems;
     bool                  fNoAutoBeaming;
-    
+
     bool                  fRomanStringNumbers;
     bool                  fAvoidOpenStrings;
-    
+
     lpsrAccidentalStyleKind
                           fAccidentalStyleKind;
 
@@ -377,41 +457,41 @@ pickCopyright
 
     // bars
     // --------------------------------------
-    
+
     bool                  fShowAllBarNumbers;
 
-    
+
     // line breaks
     // --------------------------------------
-    
+
     bool                  fIgnoreLineBreaks;
-    
+
     bool                  fBreakLinesAtIncompleteRightMeasures;
-    
+
     int                   fSeparatorLineEveryNMeasures;
 
 
     // page breaks
     // --------------------------------------
-    
+
     bool                  fIgnorePageBreaks;
 
-    
+
     // staves
     // --------------------------------------
-    
+
     bool                  fModernTab;
 
 
     // chords
     // --------------------------------------
-    
+
     bool                  fConnectArpeggios;
 
 
     // tuplets
     // --------------------------------------
-    
+
     bool                  fIndentTuplets;
 
 
@@ -439,11 +519,11 @@ pickCopyright
     // --------------------------------------
 
     bool                  fXml2lyInfos;
-    
+
     bool                  fComments;
 
     bool                  fGlobal;
-    
+
     bool                  fDisplayMusic;
 
     bool                  fNoLilypondCode;
@@ -453,7 +533,7 @@ pickCopyright
     bool                  fLilypondCompileDate;
 
     bool                  fPointAndClickOff;
-    
+
     bool                  fWhiteNoteHeads;
 
 
@@ -463,12 +543,12 @@ pickCopyright
  // JMI   scoreNotationKind     fScoreNotationKind;
     bool                  fJianpu;
 
-    
+
     // midi
     // --------------------------------------
 
     pair<string, int>     fMidiTempo;
-    
+
     bool                  fNoMidi;
 
 

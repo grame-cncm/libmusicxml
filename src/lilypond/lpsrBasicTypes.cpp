@@ -116,7 +116,7 @@ string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes,
   int&     dotsNumber)
-{  
+{
   // this algorithm is inspired by musicxml2ly
 
 #define DEBUG_WHOLE_NOTES 0
@@ -146,7 +146,7 @@ string wholeNotesAsLilypondString (
   msrAssert (
     numerator > 0,
     "numerator is not positive");
-    
+
   wholeNotes.rationalise ();
 
   if (DEBUG_WHOLE_NOTES) {
@@ -185,7 +185,7 @@ string wholeNotesAsLilypondString (
     they constitue a series of frations or the form '(2^n-1) / 2^n',
     starting with 3/2, 7/4, 15/8,
     that tends towards 2 while always remaining less than two.
-    
+
     with MusicXML's limitation to 1024th of a whole note,
     with LilyPond's limitation to 128th of a whole note,
     valid numerators are:
@@ -209,23 +209,23 @@ string wholeNotesAsLilypondString (
         // there can be integral numbers of whole notes up to 15,
         // corresponding to a \maxima...
           stringstream s;
-          
+
           s <<
             "numerator " << numerator <<
             " is not one of 1, 3, 7, 15, 31, 63 or 127" <<
        //     " is not one of 1, 3, 7, 15, 31, 63, 127, 255, 511 or 1023" <<
             ", whole notes duration " <<
             numerator << "/" << denominator;
-  
+
           if (rationalHasBeenSimplified) {
             s <<
               " (" << numerator << "/" << denominator << ")" <<
             endl;
           }
-  
+
           s <<
             " it will be represented using a multiplying factor";
-    
+
           msrMusicXMLWarning (
             gGeneralOptions->fInputSourceName,
             inputLineNumber,
@@ -238,23 +238,23 @@ string wholeNotesAsLilypondString (
 
   /*
     valid denominators are powers of 2
-    
+
     the rational representing a dotted duration has to be brought
     to a value less than two, as explained above
-    
+
     this is done by changing it denominator in the resulting string:
-    
+
      whole notes        string
          3/1              \breve.
          3/2              1.
          3/4              2.
          3/8              4.
-    
+
          7/1              \longa..
          7/2              \breve..
          7/4              1..
-         7/8              2..         
-    
+         7/8              2..
+
     since such resulting denominators can be fractions of wholes notes
     as well as multiple thereof,
     we'll be better of using binary logarithms for the computations
@@ -265,44 +265,44 @@ string wholeNotesAsLilypondString (
 
   if (denominatorDurationLog == INT_MIN) {
      string result;
-    
+
     {
       string durationToUse = "64"; // JMI
-  
+
       stringstream s;
-      
+
       s <<
         durationToUse <<
         "*" <<
         durationToUse <<
         "/" <<
         numerator;
-  
+
       result = s.str ();
     }
 
     {
       stringstream s;
-          
+
       s <<
         "denominator " << denominator <<
         " is no power of two between 1 and 128" <<
    //     " is no power of 2 between 1 and 1024" <<
         ", whole notes duration " <<
         numerator << "/" << denominator;
-  
+
       if (rationalHasBeenSimplified) {
         s <<
           " (" << numerator << "/" << denominator << ")" <<
         endl;
       }
-  
+
       s <<
         " cannot be represented as a dotted power of 2" <<
         ", " <<
         result <<
         " will be used";
-  
+
    //   msrMusicXMLError ( JMI
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
@@ -395,10 +395,10 @@ string wholeNotesAsLilypondString (
     }
 
     // 5/8 becomes 8*5
-    
+
     multiplyingFactor = numerator;
     numerator = 1;
-    
+
     /* JMI
     multiplyingFactor = numerator;
 
@@ -412,11 +412,11 @@ string wholeNotesAsLilypondString (
         endl <<
         endl;
     }
-    
+
     while (multiplyingFactor >= 2) {
       // double duration
       denominatorDurationLog--;
-      
+
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
@@ -450,7 +450,7 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
-  
+
   // generate the code for the duration
   stringstream s;
 
@@ -492,7 +492,7 @@ string wholeNotesAsLilypondString (
     }
     */
   }
-  
+
   if (DEBUG_WHOLE_NOTES) {
     gLogIOstream <<
       "--> return:" <<
@@ -503,10 +503,10 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
-  
+
   // return the result
   dotsNumber = numeratorDots;
-  
+
   return
     s.str ();
 }
@@ -559,16 +559,16 @@ string restMeasuresWholeNoteAsLilypondString (
   rational wholeNotes)
 {
   stringstream s;
-  
+
   rational
     denominatorAsFraction =
       rational (
         1,
         wholeNotes.getDenominator ());
-      
+
   int numberOfWholeNotes =
     wholeNotes.getNumerator ();
-    
+
   s <<
     wholeNotesAsLilypondString (
       inputLineNumber,
@@ -588,13 +588,13 @@ void writeTextsListAsLilypondString (
   ostream&            os)
 {
   string contents;
-  
+
   if (textsList.size ()) {
     list<string>::const_iterator
       iBegin = textsList.begin (),
       iEnd   = textsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       contents += (*i);
       if (++i == iEnd) break;
@@ -606,7 +606,73 @@ void writeTextsListAsLilypondString (
   // JMI  quoteStringIfNonAlpha (
     quoteString (
       contents);
-} 
+}
+
+// score output
+//______________________________________________________________________________
+
+map<string, lpsrScoreOutputKind>
+  gLpsrScoreOutputKindsMap;
+
+string lpsrScoreOutputKindAsString (
+  lpsrScoreOutputKind scoreOutputKind)
+{
+  string result;
+
+  switch (scoreOutputKind) {
+    case kScoreOutputKindScoreOnly: // default value
+      result = "scoreOutputKindScoreOnly";
+      break;
+    case kScoreOutputKindScoreAndThenParts:
+      result = "scoreOutputKindScoreAndThenParts";
+      break;
+    case kScoreOutputindPartsAndThenScore:
+      result = "scoreOutputKindPartsAndThenScore";
+      break;
+    case kScoreOutputindPartsOnly:
+      result = "scoreOutputKindPartsOnly";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeLpsrScoreOutputKindsMap ()
+{
+  // register the LilyPond score output kinds
+  // --------------------------------------
+
+  gLpsrScoreOutputKindsMap ["scoreOnly"] = kScoreOutputKindScoreOnly;
+  gLpsrScoreOutputKindsMap ["scoreAndThenParts"] = kScoreOutputKindScoreAndThenParts;
+  gLpsrScoreOutputKindsMap ["partsAndThenScore"] = kScoreOutputindPartsAndThenScore;
+  gLpsrScoreOutputKindsMap ["partsOnly"] = kScoreOutputindPartsOnly;
+}
+
+string existingLpsrScoreOutputKinds ()
+{
+  stringstream s;
+
+  if (gLpsrScoreOutputKindsMap.size ()) {
+    map<string, lpsrScoreOutputKind>::const_iterator
+      iBegin = gLpsrScoreOutputKindsMap.begin (),
+      iEnd   = gLpsrScoreOutputKindsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      gLogIOstream <<
+        (*i).first <<
+        endl;
+      if ((*i).second != kScoreOutputKindScoreOnly) {
+        s << (*i).first;
+      }
+      if (++i == iEnd) break;
+      if ((*i).second != kScoreOutputKindScoreOnly) {
+        s << " ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
 
 // accidental styles
 //______________________________________________________________________________
@@ -615,61 +681,61 @@ map<string, lpsrAccidentalStyleKind>
   gLpsrAccidentalStyleKindsMap;
 
 string lpsrAccidentalStyleKindAsString (
-  lpsrAccidentalStyleKind styleKind)
+  lpsrAccidentalStyleKind accidentalStyleKind)
 {
   string result;
-  
-  switch (styleKind) {
+
+  switch (accidentalStyleKind) {
     case kDefaultStyle: // default value
-      result = "DefaultStyle";
+      result = "defaultStyle";
       break;
     case kVoiceStyle:
-      result = "VoiceStyle";
+      result = "voiceStyle";
       break;
     case kModernStyle:
-      result = "ModernStyle";
+      result = "modernStyle";
       break;
     case kModernCautionaryStyle:
-      result = "ModernCautionaryStyle";
+      result = "modernCautionaryStyle";
       break;
     case kModernVoiceStyle:
-      result = "ModernVoiceStyle";
+      result = "modernVoiceStyle";
       break;
     case kModernVoiceCautionaryStyle:
-      result = "ModernVoiceCautionaryStyle";
+      result = "modernVoiceCautionaryStyle";
       break;
     case kPianoStyle:
-      result = "PianoStyle";
+      result = "pianoStyle";
       break;
     case kPianoCautionaryStyle:
-      result = "PianoCautionaryStyle";
+      result = "pianoCautionaryStyle";
       break;
     case kNeoModernStyle:
-      result = "NeoModernStyle";
+      result = "neoModernStyle";
       break;
     case kNeoModernCautionaryStyle:
-      result = "NeoModernCautionaryStyle";
+      result = "neoModernCautionaryStyle";
       break;
     case kNeoModernVoiceStyle:
-      result = "NeoModernVoiceStyle";
+      result = "neoModernVoiceStyle";
       break;
     case kNeoModernVoiceCautionaryStyle:
-      result = "NeoModernVoiceVautionaryStyle";
+      result = "neoModernVoiceVautionaryStyle";
       break;
     case kDodecaphonicStyle:
-      result = "DodecaphonicStyle";
+      result = "dodecaphonicStyle";
       break;
     case kDodecaphonicNoRepeatStyle:
-      result = "DodecaphonicNoRepeatStyle";
+      result = "dodecaphonicNoRepeatStyle";
       break;
     case kDodecaphonicFirstStyle:
-      result = "DodecaphonicFirstStyle";
+      result = "dodecaphonicFirstStyle";
       break;
     case kTeachingStyle:
-      result = "TeachingStyle";
+      result = "teachingStyle";
       break;
     case kNoResetStyle:
-      result = "NoResetStyle";
+      result = "noResetStyle";
       break;
     case kForgetStyle:
       result = "ForgetStyle";
@@ -680,11 +746,11 @@ string lpsrAccidentalStyleKindAsString (
 }
 
 string lpsrAccidentalStyleKindAsLilypondString (
-  lpsrAccidentalStyleKind styleKind)
+  lpsrAccidentalStyleKind accidentalStyleKind)
 {
   string result;
-  
-  switch (styleKind) {
+
+  switch (accidentalStyleKind) {
     case kDefaultStyle: // default value
       result = "default";
       break;
@@ -814,7 +880,7 @@ string lpsrChordsLanguageKindAsString (
   lpsrChordsLanguageKind languageKind)
 {
   string result;
-  
+
   switch (languageKind) {
     case k_IgnatzekChords: // default value
       result = "IgnatzekChords";
@@ -839,7 +905,7 @@ string lpsrChordsLanguageKindAsString (
 string existingLpsrChordsLanguageKinds ()
 {
   stringstream s;
-  
+
   if (gLpsrChordsLanguageKindsMap.size ()) {
     map<string, lpsrChordsLanguageKind>::const_iterator
       iBegin = gLpsrChordsLanguageKindsMap.begin (),
@@ -855,13 +921,18 @@ string existingLpsrChordsLanguageKinds ()
       }
     } // for
   }
-  
+
   return s.str ();
 }
 
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
+  // LPSR score output handling
+  // ------------------------------------------------------
+
+  initializeLpsrScoreOutputKindsMap ();
+
   // LPSR accidental styles handling
   // ------------------------------------------------------
 

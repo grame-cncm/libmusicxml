@@ -1419,6 +1419,10 @@ S_msrStanza msrVoice::fetchStanzaInVoice (
 void msrVoice::setVoiceCurrentClef (S_msrClef clef)
 {
   fVoiceCurrentClef = clef;
+
+  if (! fVoiceFirstClef) {
+    fVoiceFirstClef = fVoiceCurrentClef;
+  }
 };
 
 void msrVoice::setVoiceCurrentKey (S_msrKey key)
@@ -9461,7 +9465,16 @@ void msrVoice::print (ostream& os)
       fCurrentVoiceRepeatPhaseKind) <<
     endl;
 
-  // print the voice current clef, key and time
+  // print the voice first clef, and the current clef, key and time
+  os << left <<
+    setw (fieldWidth) << "voiceFirstClef" << " : ";
+  if (fVoiceFirstClef) {
+    os <<
+      fVoiceFirstClef;
+  }
+  else {
+    os << "null" << endl;
+  }
   os << left <<
     setw (fieldWidth) << "voiceCurrentClef" << " : ";
   if (fVoiceCurrentClef) {

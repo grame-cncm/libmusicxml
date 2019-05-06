@@ -27,8 +27,98 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
+
+//______________________________________________________________________________
+S_optionsScoreOutputKindItem optionsScoreOutputKindItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsScoreOutputKindItemVariableDisplayName,
+  lpsrScoreOutputKind&
+                     optionsScoreOutputKindItemVariable)
+{
+  optionsScoreOutputKindItem* o = new
+    optionsScoreOutputKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsScoreOutputKindItemVariableDisplayName,
+      optionsScoreOutputKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsScoreOutputKindItem::optionsScoreOutputKindItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsScoreOutputKindItemVariableDisplayName,
+  lpsrScoreOutputKind&
+                     optionsScoreOutputKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsScoreOutputKindItemVariableDisplayName (
+      optionsScoreOutputKindItemVariableDisplayName),
+    fOptionsScoreOutputKindItemVariable (
+      optionsScoreOutputKindItemVariable)
+{}
+
+optionsScoreOutputKindItem::~optionsScoreOutputKindItem ()
+{}
+
+void optionsScoreOutputKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "OptionsScoreOutputKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsScoreOutputKindItemVariableDisplayName" << " : " <<
+    fOptionsScoreOutputKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsScoreOutputKindItemVariable" << " : \"" <<
+    lpsrScoreOutputKindAsString (
+      fOptionsScoreOutputKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsScoreOutputKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsScoreOutputKindItemVariableDisplayName <<
+    " : \"" <<
+    lpsrScoreOutputKindAsString (
+      fOptionsScoreOutputKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 //______________________________________________________________________________
 S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
@@ -77,7 +167,7 @@ optionsAccidentalStyleItem::~optionsAccidentalStyleItem ()
 void optionsAccidentalStyleItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsAccidentalStyleItem:" <<
     endl;
@@ -103,7 +193,7 @@ void optionsAccidentalStyleItem::print (ostream& os) const
 void optionsAccidentalStyleItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsAccidentalStyleKindItemVariableDisplayName <<
@@ -165,7 +255,7 @@ optionsMidiTempoItem::~optionsMidiTempoItem ()
 void optionsMidiTempoItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsMidiTempoItem:" <<
     endl;
@@ -191,7 +281,7 @@ void optionsMidiTempoItem::print (ostream& os) const
 void optionsMidiTempoItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsMidiTempoItemVariableDisplayName <<
@@ -227,7 +317,7 @@ lilypondOptions::lilypondOptions (
   S_optionsHandler optionsHandler)
   : optionsGroup (
     "LilyPond",
-    "h=lp", "help-lilypond",
+    "hlp", "help-lilypond",
 R"(These options control which LilyPond code is generated.)",
     optionsHandler)
 {
@@ -248,6 +338,69 @@ lilypondOptions::~lilypondOptions ()
 void lilypondOptions::initializeLilypondOptions (
   bool boolOptionsInitialValue)
 {
+  // score output
+  // --------------------------------------
+
+  {
+    // variables
+
+    if (! setScoreOutputKind ("scoreOnly")) {
+      stringstream s;
+
+      s <<
+        "INTERNAL INITIALIZATION ERROR: "
+        "BLPR score output 'scoreOnly' is unknown" <<
+        endl <<
+        "The " <<
+        gLpsrScoreOutputKindsMap.size () <<
+        " known LPSR score output kinds are:" <<
+        endl;
+
+      gIndenter++;
+
+      s <<
+        existingLpsrScoreOutputKinds ();
+
+      gIndenter--;
+
+      optionError (s.str ());
+    }
+
+    // options
+
+    S_optionsSubGroup
+      languagesSubGroup =
+        optionsSubGroup::create (
+          "Score output",
+          "hlpsok", "help-lilypond-score-output-kinds",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+
+    appendOptionsSubGroup (languagesSubGroup);
+
+    languagesSubGroup->
+      appendOptionsItem (
+        optionsScoreOutputKindItem::create (
+          "lpso", "lilypond-score-output",
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
+as well as in the generated braille music.
+The 4 NUMBER score output kinds available are:
+TEXT_LANGUAGES.
+english, german, italian and french.
+The default is english.)",
+              "NUMBER",
+              to_string (gLpsrScoreOutputKindsMap.size ())),
+            "TEXT_LANGUAGES",
+            existingLpsrScoreOutputKinds ()),
+          "LANGUAGE",
+          "bsr-texts-language",
+          fScoreOutputKind));
+  }
+
+
   // identification
   // --------------------------------------
 
@@ -259,11 +412,11 @@ void lilypondOptions::initializeLilypondOptions (
         optionsSubGroup::create (
           "Identification",
           "hlpi", "help-lilypond-identification",
-R"(These options can be used to enforce values in the generated LilyPond code,
+R"(  These options can be used to enforce values in the generated LilyPond code,
   thus overriding the ones that may be present in the MSR data.)",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (identificationSubGroup);
 
     // MusicXML informations
@@ -414,16 +567,16 @@ R"(Set 'copyright' to STRING in the \header.)",
           "copyright",
           fCopyright));
   }
-  
+
 
   // time
   // --------------------------------------
 
   {
     // variables
-    
+
     fNumericalTime = boolOptionsInitialValue;
-  
+
     S_optionsSubGroup
       timeSubGroup =
         optionsSubGroup::create (
@@ -432,7 +585,7 @@ R"(Set 'copyright' to STRING in the \header.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (timeSubGroup);
 
     timeSubGroup->
@@ -450,23 +603,23 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
 
   {
     // variables
-      
+
     fAbsoluteOctaves  = boolOptionsInitialValue;
-    
+
     fAllDurations  = boolOptionsInitialValue;
-  
+
     fStems          = boolOptionsInitialValue;
     fNoAutoBeaming  = boolOptionsInitialValue;
-    
+
     fRomanStringNumbers = boolOptionsInitialValue;
     fAvoidOpenStrings    = boolOptionsInitialValue;
-    
+
     fAccidentalStyleKind = kDefaultStyle;
-  
+
     fCompressRestMeasures = boolOptionsInitialValue;
-  
+
     fNoteInputLineNumbers = boolOptionsInitialValue;
-  
+
     S_optionsSubGroup
       notesSubGroup =
         optionsSubGroup::create (
@@ -475,14 +628,14 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (notesSubGroup);
 
     notesSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
           "abs", "absolute",
-R"(Generate LilyPond absolute note octaves. 
+R"(Generate LilyPond absolute note octaves.
 By default, relative octaves are generated.)",
           "absoluteOctaves",
           fAbsoluteOctaves));
@@ -491,7 +644,7 @@ By default, relative octaves are generated.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "alldurs", "all-durations",
-R"(Generate all LilyPond durations. 
+R"(Generate all LilyPond durations.
 By default, a duration equal to preceding one found in the current voice
 is omitted for code conciseness.)",
           "allDurations",
@@ -510,7 +663,7 @@ By default, LilyPond will take care of that by itself.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "noab", "no-auto-beaming",
-R"(Generate '\set Voice.autoBeaming = ##f' in each voice 
+R"(Generate '\set Voice.autoBeaming = ##f' in each voice
 to prevent LilyPond from handling beams automatically.)",
           "noAutoBeaming",
           fNoAutoBeaming));
@@ -519,7 +672,7 @@ to prevent LilyPond from handling beams automatically.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "rsn", "roman-string-numbers",
-R"(Generate '\romanStringNumbers' in each voice 
+R"(Generate '\romanStringNumbers' in each voice
 for LilyPond to generate roman instead of arabic string numbers.)",
           "romanStringNumbers",
           fRomanStringNumbers));
@@ -528,7 +681,7 @@ for LilyPond to generate roman instead of arabic string numbers.)",
       appendOptionsItem (
         optionsBooleanItem::create (
           "aos", "avoid-open-strings",
-R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice 
+R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
 to prevent LilyPond from using open strings.)",
           "avoidOpenStrings",
           fAvoidOpenStrings));
@@ -537,9 +690,9 @@ to prevent LilyPond from using open strings.)",
       appendOptionsItem (
         optionsAccidentalStyleItem::create (
           "as", "accidental-style", // JMI
-R"(Choose the LilyPond accidental STYLE among: 
-  voice, modern, modern-cautionary, modern-voice, 
-  modern-voice-cautionary, piano, piano-cautionary, 
+R"(Choose the LilyPond accidental STYLE among:
+  voice, modern, modern-cautionary, modern-voice,
+  modern-voice-cautionary, piano, piano-cautionary,
   neo-modern, neo-modern-cautionary, neo-modern-voice,
   neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat,
   dodecaphonic-first, teaching, no-reset, forget.
@@ -568,17 +721,17 @@ This is useful when debugging xml2ly.)",
           fNoteInputLineNumbers));
   }
 
-  
+
   // bars
   // --------------------------------------
 
   {
     // variables
-      
+
     fShowAllBarNumbers = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       barsSubGroup =
         optionsSubGroup::create (
@@ -587,7 +740,7 @@ This is useful when debugging xml2ly.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (barsSubGroup);
 
     barsSubGroup->
@@ -597,7 +750,7 @@ R"()",
 R"(Generate LilyPond code to show all bar numbers.)",
           "showAllBarNumbers",
           fShowAllBarNumbers));
-  }   
+  }
 
 
   // line breaks
@@ -605,15 +758,15 @@ R"(Generate LilyPond code to show all bar numbers.)",
 
   {
     // variables
-      
+
     fIgnoreLineBreaks                    = boolOptionsInitialValue;
-  
+
     fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
-    
+
     fSeparatorLineEveryNMeasures         = -1;
-    
+
     // options
-  
+
     S_optionsSubGroup
       lineBreaksSubGroup =
         optionsSubGroup::create (
@@ -622,7 +775,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (lineBreaksSubGroup);
 
     lineBreaksSubGroup->
@@ -654,18 +807,18 @@ Nothing special is done by default.)",
           "separatorLineEveryNMeasures",
           fSeparatorLineEveryNMeasures));
   }
-  
+
 
   // page breaks
   // --------------------------------------
 
   {
-    // variables  
-   
+    // variables
+
     fIgnorePageBreaks = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       pageBreaksSubGroup =
         optionsSubGroup::create (
@@ -674,7 +827,7 @@ Nothing special is done by default.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (pageBreaksSubGroup);
 
     pageBreaksSubGroup->
@@ -686,16 +839,16 @@ and let LilyPond decide about them.)",
           "ignorePageBreaks",
           fIgnorePageBreaks));
   }
-    
+
 
   // staves
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     fModernTab = boolOptionsInitialValue;
-  
+
     // options
 
   /* JMI ???
@@ -707,7 +860,7 @@ and let LilyPond decide about them.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (stavesSubGroup);
 
     stavesSubGroup->
@@ -719,18 +872,18 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
           fModernTab));
           */
   }
-  
+
 
   // chords
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fConnectArpeggios = boolOptionsInitialValue;
-    
+
     // options
-  
+
     S_optionsSubGroup
       chordsSubGroup =
         optionsSubGroup::create (
@@ -739,7 +892,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (chordsSubGroup);
 
     chordsSubGroup->
@@ -750,18 +903,18 @@ R"(Connect arpeggios across piano staves.)",
           "connectArpeggios",
           fConnectArpeggios));
   }
-      
+
 
   // tuplets
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fIndentTuplets = boolOptionsInitialValue;
-    
+
     // options
-  
+
     S_optionsSubGroup
       tupletsSubGroup =
         optionsSubGroup::create (
@@ -770,7 +923,7 @@ R"(Connect arpeggios across piano staves.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (tupletsSubGroup);
 
     tupletsSubGroup->
@@ -782,20 +935,20 @@ instead of keeping the on the same line as the current measure.)",
           "indentTuplets",
           fIndentTuplets));
   }
-      
+
 
   // repeats
   // --------------------------------------
-  
+
   {
     // variables
-    
+
     fKeepRepeatBarlines  = boolOptionsInitialValue;
     fRepeatBrackets      = boolOptionsInitialValue;
     fIgnoreRepeatNumbers = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       repeatsSubGroup =
         optionsSubGroup::create (
@@ -804,7 +957,7 @@ instead of keeping the on the same line as the current measure.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (repeatsSubGroup);
 
     repeatsSubGroup->
@@ -831,17 +984,17 @@ R"(Ignore repeats numbers and let LilyPond determine them.)",
           "ignoreRepeatNumbers",
           fIgnoreRepeatNumbers));
   }
-      
+
   // ornaments
   // --------------------------------------
-  
+
   {
     // variables
-    
+
     fDelayedOrnamentsFraction = rational (1, 2);
-  
+
     // options
-  
+
     S_optionsSubGroup
       ornamentsSubGroup =
         optionsSubGroup::create (
@@ -850,7 +1003,7 @@ R"(Ignore repeats numbers and let LilyPond determine them.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (ornamentsSubGroup);
 
     ornamentsSubGroup->
@@ -865,17 +1018,17 @@ The default value is '1/2'.)",
           fDelayedOrnamentsFraction));
   }
 
-      
+
   // fonts
   // --------------------------------------
 
   {
     // variables
-    
+
     fJazzFonts   = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       fontsSubGroup =
         optionsSubGroup::create (
@@ -884,7 +1037,7 @@ The default value is '1/2'.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (fontsSubGroup);
 
     fontsSubGroup->
@@ -902,30 +1055,30 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
 
   // code generation
   // --------------------------------------
-  
+
   {
-    // variables  
-  
+    // variables
+
     fXml2lyInfos         = boolOptionsInitialValue;
-    
+
     fComments            = boolOptionsInitialValue;
-  
+
     fGlobal              = boolOptionsInitialValue;
-    
+
     fDisplayMusic        = boolOptionsInitialValue;
-      
+
     fNoLilypondCode      = boolOptionsInitialValue;
-    
+
     fNoLilypondLyrics    = boolOptionsInitialValue;
-    
+
     fLilypondCompileDate = boolOptionsInitialValue;
-    
+
     fPointAndClickOff    = boolOptionsInitialValue;
-    
+
     fWhiteNoteHeads      = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       codeGenerationSubGroup =
         optionsSubGroup::create (
@@ -934,7 +1087,7 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (codeGenerationSubGroup);
 
     codeGenerationSubGroup->
@@ -1015,22 +1168,22 @@ R"(Generate Scheme function 'whiteNoteHeads'
 at the beginning of the LilyPond code.)",
           "whiteNoteHeads",
           fWhiteNoteHeads));
-  } 
-      
-    
+  }
+
+
   // score notation
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
   //  fScoreNotationKind =  lilypondOptions::kWesternNotation;
       // default value
 
     fJianpu = false;
-    
+
     // options
-  
+
     S_optionsSubGroup
       scoreNotationSubGroup =
         optionsSubGroup::create (
@@ -1039,7 +1192,7 @@ at the beginning of the LilyPond code.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (scoreNotationSubGroup);
 
     scoreNotationSubGroup->
@@ -1053,24 +1206,24 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
           "jianpu",
           fJianpu));
 
-  } 
-      
+  }
+
 
   // midi
   // --------------------------------------
-  
+
   {
     // variables
     string midiTempoDuration  = "4";
     int    midiTempoPerSecond = 90;
-    
+
     fMidiTempo.first  = midiTempoDuration;
     fMidiTempo.second = midiTempoPerSecond;
-    
+
     fNoMidi = boolOptionsInitialValue;
-    
+
     // options
-  
+
     S_optionsSubGroup
       midiSubGroup =
         optionsSubGroup::create (
@@ -1079,7 +1232,7 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (midiSubGroup);
 
     midiSubGroup->
@@ -1109,9 +1262,9 @@ The default midi tempo is '4 = 90'.)",
 R"(Generate the '\midi' block as a comment instead of active code.)",
           "noMidi",
           fNoMidi));
-  } 
+  }
 
-  
+
   // JMI ???
 
   fKeepStaffSize = boolOptionsInitialValue;
@@ -1156,7 +1309,7 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fLyricist;
   clone->fSoftware =
     fSoftware;
-    
+
   // LilyPond informations
   clone->fDedication =
     fDedication;
@@ -1182,14 +1335,14 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   // time
   // --------------------------------------
-  
+
   clone->fNumericalTime =
     fNumericalTime;
 
 
   // notes
   // --------------------------------------
-  
+
   clone->fAbsoluteOctaves =
     fAbsoluteOctaves;
 
@@ -1220,7 +1373,7 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   // bars
   // --------------------------------------
-  
+
   clone->fShowAllBarNumbers =
     true;
 
@@ -1247,28 +1400,28 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   // staves
   // --------------------------------------
-  
+
   clone->fModernTab =
     fModernTab;
 
-  
+
   // chords
   // --------------------------------------
-    
+
   clone->fConnectArpeggios =
     fConnectArpeggios;
 
-  
+
   // tuplets
   // --------------------------------------
-    
+
   clone->fIndentTuplets =
     fIndentTuplets;
 
-  
+
   // repeats
   // --------------------------------------
-  
+
   clone->fKeepRepeatBarlines =
     fKeepRepeatBarlines;
   clone->fRepeatBrackets =
@@ -1276,60 +1429,60 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fIgnoreRepeatNumbers =
     fIgnoreRepeatNumbers;
 
-  
+
   // ornaments
   // --------------------------------------
-  
+
   clone->fDelayedOrnamentsFraction =
     fDelayedOrnamentsFraction;
 
-  
+
   // code generation
   // --------------------------------------
 
   clone->fComments =
     true;
-  
+
   clone->fGlobal =
     fGlobal;
-  
+
   clone->fDisplayMusic =
-    fDisplayMusic;  
-  
+    fDisplayMusic;
+
   clone->fNoLilypondCode =
     fNoLilypondCode;
-    
+
   clone->fNoLilypondLyrics =
     fNoLilypondLyrics;
-    
+
   clone->fPointAndClickOff =
     fPointAndClickOff;
 
   clone->fWhiteNoteHeads =
     fWhiteNoteHeads;
 
-    
+
   // score notation
   // --------------------------------------
 
   clone->fJianpu =
     fJianpu;
 
-        
+
   // midi
   // --------------------------------------
-  
+
   clone->fMidiTempo =
     fMidiTempo;
-    
+
   clone->fNoMidi =
     fNoMidi;
-    
+
 // JMI ???
 
   clone->fKeepStaffSize =
     fKeepStaffSize;
-    
+
   return clone;
 }
 
@@ -1340,17 +1493,35 @@ bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
   map<string, lpsrAccidentalStyle>::const_iterator
     it =
       gLpsrAccidentalStylesMap.find (accidentalStyle);
-        
+
   if (it == gLpsrAccidentalStylesMap.end ()) {
     // no, accidentalStyle is unknown
     return false;
   }
 
   fAccidentalStyle = it.second;
-  
+
   return true;
-} 
+}
 */
+
+//______________________________________________________________________________
+bool lilypondOptions::setScoreOutputKind (string outputKind)
+{
+  // is outputKind in the score output kinds map?
+  map<string, lpsrScoreOutputKind>::const_iterator
+    it =
+      gLpsrScoreOutputKindsMap.find (outputKind);
+
+  if (it == gLpsrScoreOutputKindsMap.end ()) {
+    // no, outputKind is unknown in the map
+    return false;
+  }
+
+  fScoreOutputKind = (*it).second;
+
+  return true;
+}
 
 //______________________________________________________________________________
 void lilypondOptions::enforceQuietness ()
@@ -1390,7 +1561,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     endl;
 
   gIndenter++;
-  
+
   // identification
   // --------------------------------------
   gLogIOstream <<
@@ -1477,7 +1648,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  
+
   // notes
   // --------------------------------------
   gLogIOstream <<
@@ -1490,42 +1661,42 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "absoluteOctaves" << " : " <<
       booleanAsString (fAbsoluteOctaves) <<
       endl <<
-    
+
     setw (fieldWidth) << "allDurations" << " : " <<
       booleanAsString (fAllDurations) <<
       endl <<
-    
+
     setw (fieldWidth) << "stems" << " : " <<
       booleanAsString (fStems) <<
       endl <<
-    
+
     setw (fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (fNoAutoBeaming) <<
       endl <<
-    
+
     setw (fieldWidth) << "romanStringNumbers" << " : " <<
       booleanAsString (fRomanStringNumbers) <<
       endl <<
-      
+
     setw (fieldWidth) << "avoidOpenString" << " : " <<
       booleanAsString (fAvoidOpenStrings) <<
       endl <<
-    
+
     setw (fieldWidth) << "accidentalStyle" << " : " <<
       fAccidentalStyleKind <<
       endl <<
-    
+
     setw (fieldWidth) << "compressRestMeasures" << " : " <<
       booleanAsString (fCompressRestMeasures) <<
       endl <<
-    
+
     setw (fieldWidth) << "inputLineNumbers" << " : " <<
       booleanAsString (fNoteInputLineNumbers) <<
       endl;
 
   gIndenter--;
 
-  
+
   // bars
   // --------------------------------------
   gLogIOstream <<
@@ -1554,18 +1725,18 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
       booleanAsString (fIgnoreLineBreaks) <<
       endl <<
-    
+
     setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
       booleanAsString (fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
-    
+
     setw (fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
       booleanAsString (fSeparatorLineEveryNMeasures) <<
       endl;
 
   gIndenter--;
 
-  
+
   // page breaks
   // --------------------------------------
   gLogIOstream <<
@@ -1581,7 +1752,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  
+
   // staves
   // --------------------------------------
   gLogIOstream <<
@@ -1597,7 +1768,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  
+
   // chords
   // --------------------------------------
 
@@ -1611,7 +1782,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "connectArpeggios" << " : " <<
     booleanAsString (fConnectArpeggios) <<
     endl;
-    
+
   gIndenter--;
 
 
@@ -1628,7 +1799,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "indentTuplets" << " : " <<
     booleanAsString (fIndentTuplets) <<
     endl;
-    
+
   gIndenter--;
 
 
@@ -1651,7 +1822,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "ignoreRepeatNumbers" << " : " <<
     booleanAsString (fIgnoreRepeatNumbers) <<
     endl;
-    
+
   gIndenter--;
 
 
@@ -1702,31 +1873,31 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "comments" << " : " <<
       booleanAsString (fComments) <<
       endl <<
-    
+
     setw (fieldWidth) << "global" << " : " <<
       booleanAsString (fGlobal) <<
       endl <<
-    
+
     setw (fieldWidth) << "displayMusic" << " : " <<
       booleanAsString (fDisplayMusic) <<
       endl <<
-    
+
     setw (fieldWidth) << "noLilypondCode" << " : " <<
       booleanAsString (fNoLilypondCode) <<
       endl <<
-    
+
     setw (fieldWidth) << "noLilypondLyrics" << " : " <<
       booleanAsString (fNoLilypondLyrics) <<
       endl <<
-    
+
     setw (fieldWidth) << "lilypondCompileDate" << " : " <<
       booleanAsString (fLilypondCompileDate) <<
       endl <<
-    
+
     setw (fieldWidth) << "pointAndClickOff" << " : " <<
       booleanAsString (fPointAndClickOff) <<
       endl <<
-    
+
     setw (fieldWidth) << "whiteNoteHeads" << " : " <<
       booleanAsString (fWhiteNoteHeads) <<
       endl;
@@ -1736,7 +1907,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // score notation
   // --------------------------------------
-    
+
   gLogIOstream <<
     "Score notation:" <<
     endl;
@@ -1752,7 +1923,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 */
   gIndenter--;
 
-  
+
   // midi
   // --------------------------------------
   gLogIOstream <<
@@ -1765,17 +1936,17 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "midiTempoDuration" << " : " <<
     //     fMidiTempoDuration <<
       endl <<
-    
+
     setw (fieldWidth) << "midiTempoPerSecond" << " : " <<
     //    fMidiTempoPerSecond <<
       endl <<
-    
+
     setw (fieldWidth) << "noMidiCommand" << " : " <<
       booleanAsString (fNoMidi) <<
       endl;
 
   gIndenter--;
-  
+
 
   gIndenter--;
 }
@@ -1785,7 +1956,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   if (
     // acccidentals style item?
     S_optionsAccidentalStyleItem
@@ -1836,9 +2007,9 @@ void lilypondOptions::handleOptionsItemValue (
       accidentalStyleKindItem =
         dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
     ) {
-    // theString contains the language name:     
+    // theString contains the language name:
     // is it in the accidental styles map?
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
@@ -1851,11 +2022,11 @@ void lilypondOptions::handleOptionsItemValue (
       it =
         gLpsrAccidentalStyleKindsMap.find (
           theString);
-          
+
     if (it == gLpsrAccidentalStyleKindsMap.end ()) {
       // no, accidental style is unknown in the map
       stringstream s;
-  
+
       s <<
         "LPSR accidental style " << theString <<
         " is unknown" <<
@@ -1864,21 +2035,21 @@ void lilypondOptions::handleOptionsItemValue (
         gLpsrAccidentalStyleKindsMap.size () - 1 <<
         " known LPSR accidental styles are:" <<
         endl;
-  
+
       gIndenter++;
-    
+
       s <<
         existingLpsrAccidentalStyleKinds ();
-  
+
       gIndenter--;
-  
+
       optionError (s.str ());
-      
+
       printHelpSummary (os);
-      
+
       exit (4);
     }
-  
+
     accidentalStyleKindItem->
       setAccidentalStyleKindItemVariableValue (
         (*it).second);
@@ -1905,7 +2076,7 @@ void lilypondOptions::handleOptionsItemValue (
       "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
       "="
       "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-      
+
     regex  e (regularExpression);
     smatch sm;
 
@@ -1921,7 +2092,7 @@ void lilypondOptions::handleOptionsItemValue (
         endl;
     }
 #endif
-  
+
     if (sm.size ()) {
       for (unsigned i = 0; i < sm.size (); ++i) {
         os <<
@@ -1930,21 +2101,21 @@ void lilypondOptions::handleOptionsItemValue (
       os <<
         endl;
     }
-    
+
     else {
       stringstream s;
 
       s <<
         "-midiTempo argument '" << theString <<
         "' is ill-formed";
-        
+
       optionError (s.str ());
-      
+
       printSpecificSubGroupHelp (
         os,
         midiTempoItem->
           getOptionsSubGroupUplink ());
-          
+
       exit (4);
     }
 
@@ -1956,7 +2127,7 @@ void lilypondOptions::handleOptionsItemValue (
       s << sm [2];
       s >> midiTempoPerSecond;
     }
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
@@ -1988,11 +2159,11 @@ void initializeLilypondOptionsHandling (
 {
   // create the options variables
   // ------------------------------------------------------
-  
+
   gLilypondOptionsUserChoices = lilypondOptions::create (
     optionsHandler);
   assert(gLilypondOptionsUserChoices != 0);
-  
+
   gLilypondOptions =
     gLilypondOptionsUserChoices;
 

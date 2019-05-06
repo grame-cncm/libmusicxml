@@ -26,6 +26,24 @@
 namespace MusicXML2
 {
 
+// score output
+//______________________________________________________________________________
+enum lpsrScoreOutputKind {
+  kScoreOutputKindScoreOnly, // default value
+  kScoreOutputKindScoreAndThenParts,
+  kScoreOutputindPartsAndThenScore,
+  kScoreOutputindPartsOnly };
+
+string lpsrScoreOutputKindAsString (
+  lpsrScoreOutputKind scoreOutputKind);
+
+extern map<string, lpsrScoreOutputKind>
+  gLpsrScoreOutputKindsMap;
+
+string existingLpsrScoreOutputKinds ();
+
+void initializeLpsrScoreOutputKindsMap ();
+
 // accidental styles
 //______________________________________________________________________________
 enum lpsrAccidentalStyleKind {
@@ -40,10 +58,10 @@ enum lpsrAccidentalStyleKind {
   kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
 
 string lpsrAccidentalStyleKindAsString (
-  lpsrAccidentalStyleKind styleKind);
+  lpsrAccidentalStyleKind accidentalStyleKind);
 
 string lpsrAccidentalStyleKindAsLilypondString (
-  lpsrAccidentalStyleKind styleKind);
+  lpsrAccidentalStyleKind accidentalStyleKind);
 
 extern map<string, lpsrAccidentalStyleKind>
   gLpsrAccidentalStyleKindsMap;

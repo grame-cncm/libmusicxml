@@ -344,7 +344,7 @@ void initializeBSRBasicTypes ()
   // BSR texts languages handling
   // ------------------------------------------------------
 
-  initializeLpsrChordsLanguageKindsMap ();
+  initializeBsrTextsLanguageKindsMap ();
 }
 
 

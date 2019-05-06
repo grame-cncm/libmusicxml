@@ -85,14 +85,14 @@
 #include "generalOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*
   This file declares classes that cannot be placed in 'individual' headers
   due to mutual dependancies
 */
- 
+
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
 
@@ -146,7 +146,7 @@ typedef SMARTP<msrPart> S_msrPart;
 class msrOrnament : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -160,7 +160,7 @@ class msrOrnament : public msrElement
 
     static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);
-                  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -178,9 +178,9 @@ class msrOrnament : public msrElement
       int              inputLineNumber,
       msrOrnamentKind  ornamentKind,
       msrPlacementKind ornamentPlacementKind);
-      
+
     virtual ~msrOrnament ();
-  
+
   public:
 
     // set and get
@@ -194,7 +194,7 @@ class msrOrnament : public msrElement
 
     msrOrnamentKind       getOrnamentKind () const
                               { return fOrnamentKind; }
-        
+
     void                  setOrnamentPlacementKind (
                             msrPlacementKind
                               ornamentPlacementKind)
@@ -202,10 +202,10 @@ class msrOrnament : public msrElement
                                 fOrnamentPlacementKind =
                                   ornamentPlacementKind;
                               }
-        
+
     msrPlacementKind      getOrnamentPlacementKind () const
                               { return fOrnamentPlacementKind; }
-        
+
     void                  setOrnamentAccidentalMarkKind (
                             msrAlterationKind
                               ornamentAccidentalMark)
@@ -213,10 +213,10 @@ class msrOrnament : public msrElement
                                 fOrnamentAccidentalMark =
                                   ornamentAccidentalMark;
                               }
-        
+
     msrAlterationKind     getOrnamentAccidentalMark () const
                               { return fOrnamentAccidentalMark; }
-        
+
     // services
     // ------------------------------------------------------
 
@@ -253,7 +253,7 @@ class msrOrnament : public msrElement
     msrOrnamentKind       fOrnamentKind;
 
     msrPlacementKind      fOrnamentPlacementKind;
-    
+
     msrAlterationKind     fOrnamentAccidentalMark;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
@@ -263,7 +263,7 @@ EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
 class msrDoubleTremolo : public msrMeasureElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -272,7 +272,7 @@ class msrDoubleTremolo : public msrMeasureElement
 
     static string msrDoubleTremoloKindAsString (
       msrDoubleTremoloKind doubleTremolotKind);
-                        
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -299,16 +299,16 @@ class msrDoubleTremolo : public msrMeasureElement
       msrTremoloTypeKind   doubleTremoloTypeKind,
       int                  doubleTremoloMarksNumber,
       msrPlacementKind     doubleTremoloPlacementKind);
-      
+
     virtual ~msrDoubleTremolo ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
     // double tremolo kind
-    
+
     void                  setDoubleTremoloKind (
                             msrDoubleTremoloKind doubleTremoloKind)
                               { fDoubleTremoloKind = doubleTremoloKind; }
@@ -317,7 +317,7 @@ class msrDoubleTremolo : public msrMeasureElement
                               { return fDoubleTremoloKind; }
 
     // double tremolo type kind
-    
+
     void                  setDoubleTremoloTypeKind (
                             msrTremoloTypeKind doubleTremoloTypeKind)
                               { fDoubleTremoloTypeKind = doubleTremoloTypeKind; }
@@ -326,7 +326,7 @@ class msrDoubleTremolo : public msrMeasureElement
                               { return fDoubleTremoloTypeKind; }
 
     // double tremolo placement
-    
+
     void                  setDoubleTremoloPlacementKind (
                             msrPlacementKind
                               doubleTremoloPlacementKind)
@@ -334,20 +334,20 @@ class msrDoubleTremolo : public msrMeasureElement
                                 fDoubleTremoloPlacementKind =
                                   doubleTremoloPlacementKind;
                               }
-        
+
     msrPlacementKind      getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
-        
+
     // double tremolo marks number
 
     int                   getDoubleTremoloMarksNumber () const
                               { return fDoubleTremoloMarksNumber; }
-                
+
     // double tremolo elements duration
 
     rational              getDoubleTremoloElementsDuration () const
                               { return fDoubleTremoloElementsDuration; }
-                
+
     // double tremolo number of repeats
 
     void                  setDoubleTremoloNumberOfRepeats (
@@ -356,19 +356,19 @@ class msrDoubleTremolo : public msrMeasureElement
                                 fDoubleTremoloNumberOfRepeats =
                                   doubleTremoloNumberOfRepeats;
                               }
-                              
+
     int                   getDoubleTremoloNumberOfRepeats () const
                               {
                                 return
                                   fDoubleTremoloNumberOfRepeats;
                               }
-                
+
 
     // double tremolo placement
 
     void                  setDoubleTremoloNoteFirstElement (
                             S_msrNote note);
-    
+
     void                  setDoubleTremoloChordFirstElement (
                             S_msrChord chord);
 
@@ -376,47 +376,47 @@ class msrDoubleTremolo : public msrMeasureElement
 
     S_msrElement          getDoubleTremoloFirstElement () const
                               { return fDoubleTremoloFirstElement; }
-        
+
     // double tremolo second element
 
     void                  setDoubleTremoloNoteSecondElement (
                             S_msrNote note);
-                            
+
     void                  setDoubleTremoloChordSecondElement (
                             S_msrChord chord);
 
     S_msrElement          getDoubleTremoloSecondElement () const
                               { return fDoubleTremoloSecondElement; }
-                              
+
     // sounding whole notes
-     
+
     void                  setDoubleTremoloSoundingWholeNotes (
                             rational wholeNotes)
                               {
                                 fDoubleTremoloSoundingWholeNotes =
                                   wholeNotes;
                               }
-            
+
     rational              getDoubleTremoloSoundingWholeNotes () const
                               {
                                 return
                                   fDoubleTremoloSoundingWholeNotes;
                               }
-            
+
     // measure number
-    
+
     void                  setDoubleTremoloMeasureNumber (
                             string measureNumber)
                               {
                                 fDoubleTremoloMeasureNumber =
                                   measureNumber;
                               }
-    
+
     string                getDoubleTremoloMeasureNumber () const
                               { return fDoubleTremoloMeasureNumber; }
- 
+
     // position in measure
-    
+
     void                  setDoubleTremoloPositionInMeasure (
                             rational positionInMeasure)
                               {
@@ -434,13 +434,13 @@ class msrDoubleTremolo : public msrMeasureElement
     // ------------------------------------------------------
 
     // tremolo first note
-    
+
     void                  setDoubleTremoloFirstNotePositionInMeasure (
                             rational positionInMeasure);
-                    
+
     void                  setDoubleTremoloFirstNoteMeasureNumber (
                             string measureNumber);
-                    
+
   public:
 
     // visitors
@@ -457,7 +457,7 @@ class msrDoubleTremolo : public msrMeasureElement
     // ------------------------------------------------------
 
     string                doubleTremoloPlacementKindAsString () const;
-        
+
     string                asShortString () const;
     string                asString () const;
 
@@ -473,13 +473,13 @@ class msrDoubleTremolo : public msrMeasureElement
     rational              fDoubleTremoloSoundingWholeNotes;
 
     msrDoubleTremoloKind  fDoubleTremoloKind;
-    
+
     msrTremoloTypeKind    fDoubleTremoloTypeKind;
 
     int                   fDoubleTremoloMarksNumber;
 
     rational              fDoubleTremoloElementsDuration;
-    
+
     int                   fDoubleTremoloNumberOfRepeats;
 
     msrPlacementKind      fDoubleTremoloPlacementKind;
@@ -503,7 +503,7 @@ typedef SMARTP<msrSpanner> S_msrSpanner;
 class msrSpanner : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -512,7 +512,7 @@ class msrSpanner : public msrElement
 
     static string spannerKindAsString (
       msrSpannerKind spannerKind);
-            
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -536,9 +536,9 @@ class msrSpanner : public msrElement
       msrSpannerTypeKind spannerTypeKind,
       msrPlacementKind   spannerPlacementKind,
       S_msrNote          spannerNoteUplink);
-      
+
     virtual ~msrSpanner ();
-  
+
   public:
 
     // set and get
@@ -555,19 +555,19 @@ class msrSpanner : public msrElement
     // sidelinks
     void                  setSpannerOtherEndSidelink (
                             S_msrSpanner otherEndSideLink);
-      
+
     S_msrSpanner          getSpannerOtherEndSidelink () const
                               { return fSpannerOtherEndSidelink; }
 
     int                   getSpannerNumber () const
                               { return fSpannerNumber; }
-        
+
     msrSpannerKind        getSpannerKind () const
                               { return fSpannerKind; }
-        
+
     msrSpannerTypeKind    getSpannerTypeKind () const
                               { return fSpannerTypeKind; }
-        
+
     msrPlacementKind      getSpannerPlacementKind () const
                               { return fSpannerPlacementKind; }
 
@@ -590,7 +590,7 @@ class msrSpanner : public msrElement
     // ------------------------------------------------------
 
     string                spannerKindAsString () const;
-    
+
     string                spannerTypeKindAsString () const;
 
     string                spannerPlacementKindAsString () const;
@@ -613,7 +613,7 @@ class msrSpanner : public msrElement
     // ------------------------------------------------------
 
     int                   fSpannerNumber;
-    
+
     msrSpannerKind        fSpannerKind;
 
     msrSpannerTypeKind    fSpannerTypeKind;
@@ -645,14 +645,14 @@ class msrMeasure : public msrElement
         kMeasureKindOvercomplete,
         kMeasureKindCadenza,
         kMeasureKindMusicallyEmpty};
-    
+
     static string measureKindAsString (
       msrMeasureKind measureKind);
 
     enum msrMeasureImplicitKind {
         kMeasureImplicitKindYes,
         kMeasureImplicitKindNo };
-      
+
     static string measureImplicitKindAsString (
       msrMeasureImplicitKind measureImplicitKind);
 
@@ -660,7 +660,7 @@ class msrMeasure : public msrElement
         kMeasureFirstInSegmentKindUnknown,
         kMeasureFirstInSegmentKindYes,
         kMeasureFirstInSegmentKindNo };
-      
+
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
 
@@ -673,7 +673,7 @@ class msrMeasure : public msrElement
         kMeasureRepeatContextKindNextMeasureAfterCommonPart,
         kMeasureRepeatContextKindNextMeasureAfterHookedEnding,
         kMeasureRepeatContextKindNextMeasureAfterHooklessEnding };
-      
+
     static string measureRepeatContextKindAsString (
       msrMeasureRepeatContextKind measureRepeatContextKind);
 
@@ -681,7 +681,7 @@ class msrMeasure : public msrElement
         kMeasureEndRegularKindUnknown,
         kMeasureEndRegularKindYes,
         kMeasureEndRegularKindNo };
-      
+
     static string measureEndRegularKindAsString (
       msrMeasureEndRegularKind measureEndRegularKind);
 
@@ -692,7 +692,7 @@ class msrMeasure : public msrElement
       int          inputLineNumber,
       string       measureNumber,
       S_msrSegment measureSegmentUplink);
-    
+
     SMARTP<msrMeasure> createMeasureNewbornClone (
       S_msrSegment containingSegment);
 
@@ -708,9 +708,9 @@ class msrMeasure : public msrElement
       int          inputLineNumber,
       string       measureNumber,
       S_msrSegment measureSegmentUplink);
-      
+
     virtual ~msrMeasure ();
-  
+
   private:
 
     // initialization
@@ -724,12 +724,12 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-        
+
     S_msrSegment          getMeasureSegmentUplink () const
                               { return fMeasureSegmentUplink; }
-                      
+
     // measure numbers
-    
+
     void                  setMeasureNumber (string measureNumber)
                               { fMeasureNumber = measureNumber; }
 
@@ -753,7 +753,7 @@ class msrMeasure : public msrElement
                               { return fMeasureFirstInVoice; }
 
     // measure lengthes, in whole notes
-    
+
     void                  setFullMeasureWholeNotes (
                             rational wholeNotes)
                               { fFullMeasureWholeNotes = wholeNotes; }
@@ -767,18 +767,18 @@ class msrMeasure : public msrElement
 
     rational              getActualMeasureWholeNotes () const
                               { return fActualMeasureWholeNotes; }
-                      
+
     // measure kind
-    
+
     void                  setMeasureKind (
                             msrMeasureKind measureKind);
 
     msrMeasureKind
                           getMeasureKind () const
                               { return fMeasureKind; }
-    
+
     // measure implicit kind
-    
+
     void                  setMeasureImplicitKind (
                             msrMeasureImplicitKind measureImplicitKind)
                               {
@@ -790,9 +790,9 @@ class msrMeasure : public msrElement
                           getMeasureImplicitKind () const
                               { return fMeasureImplicitKind; }
 
-   
+
     // measure 'first in segment' kind
-    
+
     void                  setMeasureFirstInSegmentKind (
                             msrMeasureFirstInSegmentKind
                               measureFirstInSegmentKind)
@@ -815,17 +815,17 @@ class msrMeasure : public msrElement
                              { return fMeasureIsASingleMeasureRest; }
 
     // measure longest note
-    
+
     S_msrNote             getMeasureLongestNote () const
                               { return fMeasureLongestNote; }
-                              
+
     // chords handling
-    
+
     S_msrNote             getMeasureLastHandledNote () const
                               { return fMeasureLastHandledNote; }
 
     // elements list
-    
+
     const list<S_msrMeasureElement>&
                           getMeasureElementsList () const
                               { return fMeasureElementsList; }
@@ -834,7 +834,7 @@ class msrMeasure : public msrElement
                               { return fMeasureContainsMusic; }
 
     // regular measure ends detection
-    
+
     void                  setMeasureEndRegularKind (
                             msrMeasureEndRegularKind measureEndRegularKind);
 
@@ -843,7 +843,7 @@ class msrMeasure : public msrElement
                               { return fMeasureEndRegularKind; }
 
     // repeat context
-    
+
     void                  setMeasureRepeatContextKind (
                             msrMeasureRepeatContextKind measureRepeatContextKind);
 
@@ -852,14 +852,14 @@ class msrMeasure : public msrElement
                               { return fMeasureRepeatContextKind; }
 
   public:
-  
+
     // public services
     // ------------------------------------------------------
 
     // uplinks
-    
+
     S_msrPart             fetchMeasurePartUplink () const;
-    
+
     S_msrVoice            fetchMeasureVoiceUplink () const;
 
     // lengthes
@@ -872,7 +872,7 @@ class msrMeasure : public msrElement
                             int        inputLineNumber,
                             rational   duration,
                             S_msrVoice voice);
-  
+
     void                  padUpToActualMeasureWholeNotesInMeasure (
                             int      inputLineNumber,
                             rational wholeNotes);
@@ -881,13 +881,13 @@ class msrMeasure : public msrElement
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
-  
+
     // clefs
-    
+
     void                  appendClefToMeasure (S_msrClef clef);
 
     // keys
-    
+
     void                  appendKeyToMeasure (S_msrKey key);
 
     // times
@@ -896,7 +896,7 @@ class msrMeasure : public msrElement
 
     void                  setFullMeasureWholeNotesFromTime (
                             S_msrTime time);
-  
+
     void                  appendTimeToMeasureClone (S_msrTime time);
 
     // transpose
@@ -920,7 +920,7 @@ class msrMeasure : public msrElement
                             S_msrStaffDetails staffDetails);
 
     // bar number checks
-    
+
     void                  appendBarNumberCheckToMeasure (
                             S_msrBarNumberCheck barNumberCheck);
 
@@ -930,21 +930,21 @@ class msrMeasure : public msrElement
     void                  appendPageBreakToMeasure (S_msrPageBreak pageBreak);
 
     // tempo
-    
+
     void                  appendTempoToMeasure (S_msrTempo tempo);
 
     // rehearsals
-    
+
     void                  appendRehearsalToMeasure (
                             S_msrRehearsal rehearsal);
 
     // octave shifts
-    
+
     void                  appendOctaveShiftToMeasure (
                             S_msrOctaveShift octaveShift);
 
     // scordaturas
-    
+
     void                  appendScordaturaToMeasure (
                             S_msrScordatura scordatura);
 
@@ -955,58 +955,58 @@ class msrMeasure : public msrElement
                               accordionRegistration);
 
     // harp pedals tuning
-    
+
     void                  appendHarpPedalsTuningToMeasure (
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
     // bar lines
-    
+
     void                  appendBarlineToMeasure (S_msrBarline barline);
     void                  prependBarlineToMeasure (S_msrBarline barline);
 
     // bar checks
-    
+
     void                  appendBarCheckToMeasure (S_msrBarCheck barCheck);
 
     // staff change
-    
+
     void                  appendVoiceStaffChangeToMeasure (
                             S_msrVoiceStaffChange voiceStaffChange);
 
     // notes
-    
+
     void                  appendNoteToMeasure      (S_msrNote note);
     void                  appendNoteToMeasureClone (S_msrNote note);
 
     // tremolos
-    
+
     void                  appendDoubleTremoloToMeasure (
                             S_msrDoubleTremolo doubleTremolo);
 
      // chords
-    
+
     void                  appendChordToMeasure (
                             S_msrChord chord);
 
     // tuplets
-    
+
     void                  appendTupletToMeasure (
                             S_msrTuplet tuplet);
 
     // harmonies
-    
+
     void                  appendHarmonyToMeasure (
                             S_msrHarmony harmony);
-    
+
     void                  appendHarmonyToMeasureClone (
                             S_msrHarmony harmony);
 
     // frames
-    
+
     void                  appendFrameToMeasure (
                             S_msrFrame frame);
-    
+
     void                  appendFrameToMeasureClone (
                             S_msrFrame frame);
 
@@ -1014,7 +1014,7 @@ class msrMeasure : public msrElement
 
     void                  appendFiguredBassToMeasure (
                             S_msrFiguredBass figuredBass);
-    
+
     void                  appendFiguredBassToMeasureClone (
                             S_msrFiguredBass figuredBass);
 
@@ -1023,7 +1023,7 @@ class msrMeasure : public msrElement
     /* JMI
     void                  addGraceNotesGroupAheadOfMeasure (
                             S_msrGraceNotesGroup graceNotesGroup);
-    
+
     void                  appendGraceNotesToMeasure (
                             S_msrGraceNotes graceNotes);
 
@@ -1033,45 +1033,45 @@ class msrMeasure : public msrElement
     void                  prependAfterGraceNotesToMeasure (
                             S_msrAfterGraceNotes afterGraceNotes);
                             */
-                            
+
     // segno
-    
+
     void                  appendSegnoToMeasure (S_msrSegno segno);
 
     // coda
-    
+
     void                  appendCodaToMeasure (S_msrCoda coda);
 
     // eyeglasses
-    
+
     void                  appendEyeGlassesToMeasure (
                             S_msrEyeGlasses eyeGlasses);
 
     // pedal
-    
+
     void                  appendPedalToMeasure (S_msrPedal pedal);
 
     // damp
-    
+
     void                  appendDampToMeasure (S_msrDamp damp);
 
     // damp all
-    
+
     void                  appendDampAllToMeasure (S_msrDampAll dampAll);
 
     // other elements
-    
+
     void                  prependOtherElementToMeasure (
                             S_msrMeasureElement elem);
     void                  appendOtherElementToMeasure (
                             S_msrMeasureElement elem);
 
     // last element of measure
-    
+
     S_msrElement          getLastElementOfMeasure () const
                               { return fMeasureElementsList.back (); }
 
-     /* JMI                 
+     /* JMI
     S_msrElement          removeLastElementFromMeasure (
                             int inputLineNumber);
 */
@@ -1108,7 +1108,7 @@ class msrMeasure : public msrElement
                             S_msrVoice   voiceClone);
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
 
@@ -1129,87 +1129,87 @@ class msrMeasure : public msrElement
 
     // print
     // ------------------------------------------------------
-    
+
     string                measureKindAsString () const;
-    
+
     string                asShortString () const;
     string                asString () const;
 
     void                  displayMeasure (
                             int    inputLineNumber,
                             string context);
-  
+
     virtual void          print (ostream& os);
-    
+
     virtual void          shortPrint (ostream& os);
 
   private:
 
     // fields
     // ------------------------------------------------------
-    
+
     // uplinks
-    
+
     S_msrSegment          fMeasureSegmentUplink;
 
     // measure lengthes, in whole notes
-    
+
     rational              fFullMeasureWholeNotes;
                             // meaningfull only
                             // when there is a time signature,
                             // but not for cadenzas
-    
+
     rational              fActualMeasureWholeNotes;
 
     // measure numbers, shared by newborn clones and deep copies
-    
+
     string                fMeasureNumber;
     string                fNextMeasureNumber;
 
     // first measure in voice?
-    
+
     bool                  fMeasureFirstInVoice;
 
     // measure longest note
-    
+
     S_msrNote             fMeasureLongestNote;
 
     // measure kind
 
     msrMeasureKind        fMeasureKind;
-    
+
     // measure implicit kind
 
     msrMeasureImplicitKind
                           fMeasureImplicitKind;
-    
+
     // measure 'first in segment' kind
 
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
-                        
+
     // single-measure rest?
 
     bool                  fMeasureIsASingleMeasureRest;
-    
+
     // chords handling
-    
+
     S_msrNote             fMeasureLastHandledNote;
 
     // elements
 
     list<S_msrMeasureElement>
                           fMeasureElementsList;
-    
+
     bool                  fMeasureContainsMusic;
 
     // purist measure number, forcing anacruses to start at '0' if it's not the case
     // and not shared among repeats components
-    int                   fMeasurePuristNumber; 
+    int                   fMeasurePuristNumber;
 
     // debug number, unique for every msrMeasure instance
-    static int            gMeasureDebugNumber; 
-    int                   fMeasureDebugNumber; 
+    static int            gMeasureDebugNumber;
+    int                   fMeasureDebugNumber;
 
     // regular measure ends detection
     msrMeasureEndRegularKind
@@ -1218,7 +1218,7 @@ class msrMeasure : public msrElement
     // repeat context
     msrMeasureRepeatContextKind
                           fMeasureRepeatContextKind;
-                          
+
   public:
 
     // public work services
@@ -1253,7 +1253,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
 class msrSegment : public msrVoiceElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1275,9 +1275,9 @@ class msrSegment : public msrVoiceElement
     msrSegment (
       int        inputLineNumber,
       S_msrVoice segmentVoicekUplink);
-      
+
     virtual ~msrSegment ();
-    
+
   private:
 
     // initialization
@@ -1294,39 +1294,39 @@ class msrSegment : public msrVoiceElement
 
     S_msrVoice            getSegmentVoiceUplink () const
                               { return fSegmentVoiceUplink; }
-                      
+
     // number
-    
+
     int                   getSegmentAbsoluteNumber () const
                               { return fSegmentAbsoluteNumber; }
-                      
+
     // measures
-    
+
     const list<S_msrMeasure>&
                           getSegmentMeasuresList () const
                               { return fSegmentMeasuresList; }
-                                            
+
     list<S_msrMeasure>&   getSegmentMeasuresListToModify () // JMI
                               { return fSegmentMeasuresList; }
-                                            
+
     // services
     // ------------------------------------------------------
 
     // uplinks
-    
+
     S_msrPart             fetchSegmentPartUplink () const;
 
     // backup and padding
-    
+
     void                  padUpToActualMeasureWholeNotesInSegment (
                             int      inputLineNumber,
                             rational wholeNotes);
-  
+
     void                  appendPaddingNoteToSegment (
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
-  
+
     // measures
 
     S_msrMeasure          fetchLastMeasureFromSegment (
@@ -1338,7 +1338,7 @@ class msrSegment : public msrVoiceElement
                             string measureNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
-                      
+
     void                  setNextMeasureNumberInSegment (
                             int    inputLineNumber,
                             string nextMeasureNumber);
@@ -1350,12 +1350,12 @@ class msrSegment : public msrVoiceElement
                             S_msrMeasure measure);
 
     // clef, key, time
-    
+
     void                  appendClefToSegment  (S_msrClef clef);
     void                  prependClefToSegment (S_msrClef clef);
-    
+
     void                  appendKeyToSegment (S_msrKey key);
-    
+
     void                  appendTimeToSegment (S_msrTime time);
     void                  appendTimeToSegmentClone (S_msrTime time);
 
@@ -1380,21 +1380,21 @@ class msrSegment : public msrVoiceElement
                             S_msrStaffDetails staffDetails);
 
     // tempo
-    
+
     void                  appendTempoToSegment (S_msrTempo tempo);
 
     // rehearsals
-    
+
     void                  appendRehearsalToSegment (
                             S_msrRehearsal rehearsal);
 
     // octave shifts
-    
+
     void                  appendOctaveShiftToSegment (
                             S_msrOctaveShift octaveShift);
 
     // scordaturas
-    
+
     void                  appendScordaturaToSegment (
                             S_msrScordatura scordatura);
 
@@ -1405,24 +1405,24 @@ class msrSegment : public msrVoiceElement
                               accordionRegistration);
 
     // harp pedals tuning
-    
+
     void                  appendHarpPedalsTuningToSegment (
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
     // harmonies
-    
+
     void                  appendHarmonyToSegment (
                             S_msrHarmony harmony);
-    
+
     void                  appendHarmonyToSegmentClone (
                             S_msrHarmony harmony);
 
     // frames
-    
+
     void                  appendFrameToSegment (
                             S_msrFrame frame);
-    
+
     void                  appendFrameToSegmentClone (
                             S_msrFrame frame);
 
@@ -1430,35 +1430,35 @@ class msrSegment : public msrVoiceElement
 
     void                  appendFiguredBassToSegment (
                             S_msrFiguredBass figuredBass);
-    
+
     void                  appendFiguredBassToSegmentClone (
                             S_msrFiguredBass figuredBass);
 
     // staff change
-    
+
     void                  appendVoiceStaffChangeToSegment (
                             S_msrVoiceStaffChange voiceStaffChange);
 
     // notes
-    
+
     void                  appendNoteToSegment      (S_msrNote note);
     void                  appendNoteToSegmentClone (S_msrNote note);
 
     // tremolos
-    
+
     void                  appendDoubleTremoloToSegment (
                             S_msrDoubleTremolo doubleTremolo);
 
     // chords
-    
+
     void                  appendChordToSegment (S_msrChord chord);
 
     // tuplets
-    
+
     void                  appendTupletToSegment (S_msrTuplet tuplet);
 
     // bar lines
-    
+
     void                  appendBarlineToSegment (
                             S_msrBarline barline);
 
@@ -1466,12 +1466,12 @@ class msrSegment : public msrVoiceElement
                             S_msrBarline barline);
 
     // bar checks
-    
+
     void                  appendBarCheckToSegment (
                             S_msrBarCheck barCheck);
 
     // bar number checks
-    
+
     void                  appendBarNumberCheckToSegment (
                             S_msrBarNumberCheck barNumberCheck);
 
@@ -1481,28 +1481,28 @@ class msrSegment : public msrVoiceElement
     void                  appendPageBreakToSegment (S_msrPageBreak pageBreak);
 
     // segno
-    
+
     void                  appendSegnoToSegment (S_msrSegno segno);
 
     // coda
-    
+
     void                  appendCodaToSegment (S_msrCoda coda);
 
     // eyeglasses
-    
+
     void                  appendEyeGlassesToSegment (
                             S_msrEyeGlasses eyeGlasses);
 
     // pedal
-    
+
     void                  appendPedalToSegment (S_msrPedal pedal);
 
     // damp
-    
+
     void                  appendDampToSegment (S_msrDamp damp);
 
     // damp all
-    
+
     void                  appendDampAllToSegment (S_msrDampAll dampAll);
 
     // grace notes
@@ -1510,7 +1510,7 @@ class msrSegment : public msrVoiceElement
     /* JMI
     void                  addGraceNotesGroupAheadOfSegmentIfNeeded (
                             S_msrGraceNotesGroup graceNotesGroup);
-    
+
     void                  appendGraceNotesToSegment (
                             S_msrGraceNotes graceNotes);
 
@@ -1522,14 +1522,14 @@ class msrSegment : public msrVoiceElement
                             */
 
     // other elements
-    
+
     void                  prependOtherElementToSegment (
                             S_msrMeasureElement elem);
     void                  appendOtherElementToSegment (
                             S_msrMeasureElement elem);
 
     // removing elements
-    
+
     void                  removeNoteFromSegment (
                             int       inputLineNumber,
                             S_msrNote note);
@@ -1556,16 +1556,16 @@ class msrSegment : public msrVoiceElement
 
     // print
     // ------------------------------------------------------
-  
+
     string                asShortString () const;
     string                asString () const;
 
     void                  displaySegment (
                             int    inputLineNumber,
                             string context);
-  
+
     virtual void          print (ostream& os);
-    
+
     virtual void          shortPrint (ostream& os);
 
   private:
@@ -1581,13 +1581,13 @@ class msrSegment : public msrVoiceElement
 
     // absolute number, shared by newborn clones and deep copies
     int                   fSegmentAbsoluteNumber;
-        
+
     // the measures in the segment contain the mmusic
     list<S_msrMeasure>    fSegmentMeasuresList;
 
     // debug number, unique for every msrSegment instance
-    static int            gSegmentDebugNumber; 
-    int                   fSegmentDebugNumber; 
+    static int            gSegmentDebugNumber;
+    int                   fSegmentDebugNumber;
 };
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
@@ -1596,7 +1596,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
 class msrGraceNotesGroup : public msrElement
 {
   public:
-        
+
     // data types
     // ------------------------------------------------------
 
@@ -1606,7 +1606,7 @@ class msrGraceNotesGroup : public msrElement
 
     static string graceNotesGroupKindAsString (
       msrGraceNotesGroupKind graceNotesGroupKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1615,7 +1615,7 @@ class msrGraceNotesGroup : public msrElement
       msrGraceNotesGroupKind graceNotesGroupKind,
       bool                   graceNotesGroupIsSlashed,
       S_msrVoice             graceNotesGroupVoiceUplink);
-    
+
     SMARTP<msrGraceNotesGroup> createGraceNotesGroupNewbornClone (
       S_msrVoice containingVoice);
 
@@ -1635,17 +1635,17 @@ class msrGraceNotesGroup : public msrElement
       msrGraceNotesGroupKind graceNotesGroupKind,
       bool                   graceNotesGroupIsSlashed,
       S_msrVoice             graceNotesGroupVoiceUplink);
-      
+
     virtual ~msrGraceNotesGroup ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     S_msrVoice            getGraceNotesGroupVoiceUplink () const
                               { return fGraceNotesGroupVoiceUplink; }
-                              
+
     void                  setGraceNotesGroupNoteUplink (
                             S_msrNote note)
                               { fGraceNotesGroupNoteUplink = note; }
@@ -1683,7 +1683,7 @@ class msrGraceNotesGroup : public msrElement
                                 fGraceNotesGroupMeasureNumber =
                                   graceNotesGroupMeasureNumber;
                               }
-                              
+
     string                getGraceNotesGroupMeasureNumber () const
                               { return fGraceNotesGroupMeasureNumber; }
 
@@ -1716,7 +1716,7 @@ class msrGraceNotesGroup : public msrElement
 
     string                asShortString () const;
     string                asString () const;
-    
+
     virtual void          print (ostream& os);
 
   private:
@@ -1730,7 +1730,7 @@ class msrGraceNotesGroup : public msrElement
 
     msrGraceNotesGroupKind
                           fGraceNotesGroupKind;
-                          
+
     list<S_msrMeasureElement>
                           fGraceNotesGroupElementsList;
 
@@ -1752,14 +1752,14 @@ EXP ostream& operator<< (ostream& os, const S_msrGraceNotesGroup& elt);
 class msrAfterGraceNotesGroupContents : public msrElement
 {
   public:
-        
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrAfterGraceNotesGroupContents> create (
       int        inputLineNumber,
       S_msrVoice afterGraceNotesGroupContentsVoiceUplink);
-    
+
     SMARTP<msrAfterGraceNotesGroupContents> createAfterGraceNotesGroupContentsNewbornClone (
       S_msrVoice containingVoice);
 
@@ -1774,14 +1774,14 @@ class msrAfterGraceNotesGroupContents : public msrElement
     msrAfterGraceNotesGroupContents (
       int        inputLineNumber,
       S_msrVoice afterGraceNotesGroupContentsVoiceUplink);
-      
+
     virtual ~msrAfterGraceNotesGroupContents ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     const list<S_msrMeasureElement>&
                           getAfterGraceNotesGroupContentsNotesList ()
                               {
@@ -1817,7 +1817,7 @@ class msrAfterGraceNotesGroupContents : public msrElement
     // ------------------------------------------------------
 
     string                asShortString () const;
-    
+
     virtual void          print (ostream& os);
 
   private:
@@ -1839,7 +1839,7 @@ EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesGroupContents& e
 class msrAfterGraceNotesGroup : public msrElement
 {
   public:
-        
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1848,7 +1848,7 @@ class msrAfterGraceNotesGroup : public msrElement
       S_msrElement afterGraceNotesGroupElement,
       bool         afterGraceNotesGroupIsSlashed,
       S_msrVoice   afterGraceNotesGroupVoiceUplink);
-    
+
     SMARTP<msrAfterGraceNotesGroup> createAfterGraceNotesGroupNewbornClone (
       S_msrNote  noteClone,
       S_msrVoice containingVoice);
@@ -1867,14 +1867,14 @@ class msrAfterGraceNotesGroup : public msrElement
       S_msrElement afterGraceNotesGroupElement,
       bool         afterGraceNotesGroupIsSlashed,
       S_msrVoice   afterGraceNotesGroupVoiceUplink);
-      
+
     virtual ~msrAfterGraceNotesGroup ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     S_msrElement          getAfterGraceNotesGroupElement () const
                               { return fAfterGraceNotesGroupElement; }
 
@@ -1891,7 +1891,7 @@ class msrAfterGraceNotesGroup : public msrElement
     // notes
     void                  appendNoteToAfterGraceNotesGroupContents (
                             S_msrNote note);
-    
+
   public:
 
     // visitors
@@ -1908,7 +1908,7 @@ class msrAfterGraceNotesGroup : public msrElement
     // ------------------------------------------------------
 
     string                asShortString () const;
-    
+
     virtual void          print (ostream& os);
 
   private:
@@ -1952,7 +1952,7 @@ class msrSyllable : public msrElement
 
     static string syllableKindAsString (
       msrSyllableKind syllableKind);
-      
+
     enum msrSyllableExtendKind {
       kSyllableExtendNone,
       kSyllableExtendSingle,
@@ -1991,14 +1991,14 @@ class msrSyllable : public msrElement
       rational              syllableWholeNotes,
       msrTupletFactor       syllableTupletFactor,
       S_msrStanza           syllableStanzaUplink);
-        
+
     virtual ~msrSyllable ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     // uplinks
     S_msrNote             getSyllableNoteUplink () const
                               { return fSyllableNoteUplink; }
@@ -2019,7 +2019,7 @@ class msrSyllable : public msrElement
     // syllable whole notes
     rational              getSyllableWholeNotes () const
                               { return fSyllableWholeNotes; }
-                              
+
     // syllable tuplet factor
     msrTupletFactor       getSyllableTupletFactor () const
                               { return fSyllableTupletFactor; }
@@ -2031,7 +2031,7 @@ class msrSyllable : public msrElement
                             S_msrNote note);
 
     void                  appendLyricTextToSyllable (string text);
-                                  
+
   public:
 
     // visitors
@@ -2050,11 +2050,11 @@ class msrSyllable : public msrElement
     string                syllableNoteUplinkAsString () const;
 
     string                syllableWholeNotesAsMsrString () const;
-    
+
     string                syllableKindAsString () const;
-    
+
     string                syllableExtendKindAsString () const;
-    
+
     string                syllableTextsListAsString () const;
 
     static void           writeTextsList (
@@ -2073,7 +2073,7 @@ class msrSyllable : public msrElement
     // uplinks
     S_msrNote             fSyllableNoteUplink;
     S_msrStanza           fSyllableStanzaUplink;
-  
+
     // syllable kind and contents
     msrSyllableKind       fSyllableKind;
     list<string>          fSyllableTextsList;
@@ -2126,7 +2126,7 @@ Degree elements
 
     static string harmonyDegreeTypeKindAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2156,7 +2156,7 @@ Degree elements
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
     virtual ~msrHarmonyDegree ();
-  
+
   public:
 
     // set and get
@@ -2170,10 +2170,10 @@ Degree elements
 
     int                   getHarmonyDegreeValue () const
                               { return fHarmonyDegreeValue; }
-                              
+
     msrAlterationKind     getHarmonyDegreeAlterationKind () const
                               { return fHarmonyDegreeAlterationKind; }
-                              
+
     msrHarmonyDegreeTypeKind
                           getHarmonyDegreeTypeKind () const
                               { return fHarmonyDegreeTypeKind; }
@@ -2182,7 +2182,7 @@ Degree elements
     // ------------------------------------------------------
 
     int                   harmonyDegreeAsSemitones () const;
-    
+
   public:
 
     // visitors
@@ -2200,9 +2200,9 @@ Degree elements
 
     string                harmonyDegreeKindAsString () const;
     string                harmonyDegreeKindAsShortString () const;
-    
+
     string                asString () const;
-   
+
     virtual void          print (ostream& os);
 
   private:
@@ -2228,7 +2228,7 @@ class msrHarmony : public msrMeasureElement
 
     // creation from MusicXML
     // ------------------------------------------------------
-      
+
     static SMARTP<msrHarmony> create (
       int                      inputLineNumber,
       // no harmonyVoiceUplink yet
@@ -2238,7 +2238,7 @@ class msrHarmony : public msrMeasureElement
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
       rational                 harmonySoundingWholeNotes);
-    
+
     SMARTP<msrHarmony> createHarmonyNewbornClone (
       S_msrVoice containingVoice);
 
@@ -2274,7 +2274,7 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonySoundingWholeNotes);
 
     virtual ~msrHarmony ();
-  
+
   public:
 
     // set and get
@@ -2304,24 +2304,24 @@ class msrHarmony : public msrMeasureElement
     msrQuarterTonesPitchKind
                           getHarmonyRootQuarterTonesPitchKind () const
                               { return fHarmonyRootQuarterTonesPitchKind; }
-                                
+
     msrHarmonyKind        getHarmonyKind () const
                               { return fHarmonyKind; }
-                
+
     string                getHarmonyKindText () const
                               { return fHarmonyKindText; }
-                
+
     const list<S_msrHarmonyDegree>&
                           getHarmonyDegreesList ()
                               { return fHarmonyDegreesList; }
-                
+
     int                   getHarmonyInversion () const
                               { return fHarmonyInversion; }
-                
+
     msrQuarterTonesPitchKind
                           getHarmonyBassQuarterTonesPitchKind () const
                               { return fHarmonyBassQuarterTonesPitchKind; }
-                              
+
     // services
     // ------------------------------------------------------
 
@@ -2331,7 +2331,7 @@ class msrHarmony : public msrMeasureElement
                                 fHarmonyDegreesList.push_back (
                                   harmonyDegree);
                               }
-    
+
   public:
 
     // visitors
@@ -2348,7 +2348,7 @@ class msrHarmony : public msrMeasureElement
     // ------------------------------------------------------
 
     string                asString () const;
-   
+
     virtual void          print (ostream& os);
 
   private:
@@ -2361,7 +2361,7 @@ class msrHarmony : public msrMeasureElement
     S_msrVoice            fHarmonyVoiceUplink;
 
     rational              fHarmonySoundingWholeNotes;
-    
+
     msrQuarterTonesPitchKind
                           fHarmonyRootQuarterTonesPitchKind;
 
@@ -2369,7 +2369,7 @@ class msrHarmony : public msrMeasureElement
     string                fHarmonyKindText;
 
     int                   fHarmonyInversion;
-    
+
     msrQuarterTonesPitchKind
                           fHarmonyBassQuarterTonesPitchKind;
 
@@ -2395,7 +2395,7 @@ class msrFigure : public msrElement
 
     static string figurePrefixKindAsString (
       msrFigurePrefixKind figurePrefixKind);
-      
+
     enum msrFigureSuffixKind {
       k_NoFigureSuffix,
       kDoubleFlatSuffix, kFlatSuffix, kFlatFlatSuffix,
@@ -2405,7 +2405,7 @@ class msrFigure : public msrElement
 
     static string figureSuffixKindAsString (
       msrFigureSuffixKind figureSuffixKind);
-            
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2415,7 +2415,7 @@ class msrFigure : public msrElement
       msrFigurePrefixKind figurePrefixKind,
       int                 figureNumber,
       msrFigureSuffixKind figureSuffixKind);
-    
+
     SMARTP<msrFigure> createFigureNewbornClone (
       S_msrPart containingPart);
 
@@ -2435,7 +2435,7 @@ class msrFigure : public msrElement
       msrFigureSuffixKind figureSuffixKind);
 
     virtual ~msrFigure ();
-  
+
   public:
 
     // set and get
@@ -2454,7 +2454,7 @@ class msrFigure : public msrElement
     msrFigureSuffixKind
                           getFigureSuffixKind () const
                               { return fFigureSuffixKind; }
-                                                                              
+
     // services
     // ------------------------------------------------------
 
@@ -2475,9 +2475,9 @@ class msrFigure : public msrElement
 
     string                figurePrefixKindAsString () const;
     string                figureSuffixKindAsShortString () const;
-    
+
     string                asString () const;
-   
+
     virtual void          print (ostream& os);
 
   private:
@@ -2492,7 +2492,7 @@ class msrFigure : public msrElement
                           fFigurePrefixKind;
     int                   fFigureNumber;
     msrFigureSuffixKind
-                          fFigureSuffixKind;    
+                          fFigureSuffixKind;
 };
 typedef SMARTP<msrFigure> S_msrFigure;
 EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
@@ -2501,7 +2501,7 @@ EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
 class msrFiguredBass : public msrMeasureElement
 {
   public:
-            
+
     // data types
     // ------------------------------------------------------
 
@@ -2510,21 +2510,21 @@ class msrFiguredBass : public msrMeasureElement
 
     static string figuredBassParenthesesKindAsString (
       msrFiguredBassParenthesesKind figuredBassParenthesesKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrFiguredBass> create (
       int       inputLineNumber); // ,
   //    S_msrPart figuredBassPartUplink); // set by part ??? JMI
-    
+
     static SMARTP<msrFiguredBass> create (
       int       inputLineNumber,
  //     S_msrPart figuredBassPartUplink,
       rational  figuredBassSoundingWholeNotes,
       msrFiguredBassParenthesesKind
                 figuredBassParenthesesKind);
-    
+
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
       S_msrVoice containingVoice);
  // JMI     S_msrPart containingPart);
@@ -2545,7 +2545,7 @@ class msrFiguredBass : public msrMeasureElement
                 figuredBassParenthesesKind);
 
     virtual ~msrFiguredBass ();
-  
+
   public:
 
     // set and get
@@ -2586,7 +2586,7 @@ class msrFiguredBass : public msrMeasureElement
     const list<S_msrFigure>&
                           getFiguredBassFiguresList ()
                               { return fFiguredBassFiguresList;  }
-                                                                              
+
     // services
     // ------------------------------------------------------
 
@@ -2609,7 +2609,7 @@ class msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     string                asString () const;
-   
+
     virtual void          print (ostream& os);
 
   private:
@@ -2627,7 +2627,7 @@ class msrFiguredBass : public msrMeasureElement
     msrFiguredBassParenthesesKind
                           fFiguredBassParenthesesKind;
 
-    list<S_msrFigure>     fFiguredBassFiguresList; 
+    list<S_msrFigure>     fFiguredBassFiguresList;
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
@@ -2636,7 +2636,7 @@ EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
 class msrGlissando : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -2646,7 +2646,7 @@ class msrGlissando : public msrElement
 
     static string glissandoTypeKindAsString (
       msrGlissandoTypeKind glissandoTypeKind);
-                  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2672,34 +2672,34 @@ class msrGlissando : public msrElement
       msrGlissandoTypeKind glissandoTypeKind,
       msrLineTypeKind      glissandoLineTypeKind,
       string               glissandoTextValue);
-      
+
     virtual ~msrGlissando ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-    
+
     int                   getGlissandoNumber () const
                               { return fGlissandoNumber; }
 
     msrGlissandoTypeKind  getGlissandoTypeKind () const
                               { return fGlissandoTypeKind; }
-            
+
     msrLineTypeKind       getGlissandoLineTypeKind () const
                               { return fGlissandoLineTypeKind; }
-            
+
     string                getGlissandoTextValue () const
                               { return fGlissandoTextValue; }
-            
+
     // measure uplink
     void                  setGlissandoMeasureUplink (
                             const S_msrMeasure& measure)
                               { fGlissandoMeasureUplink = measure; }
-                      
+
     S_msrMeasure          getGlissandoMeasureUplink () const
                               { return fGlissandoMeasureUplink; }
-                      
+
     // services
     // ------------------------------------------------------
 
@@ -2729,13 +2729,13 @@ class msrGlissando : public msrElement
 
     // uplink
     S_msrMeasure          fGlissandoMeasureUplink;
-    
+
     int                   fGlissandoNumber;
-                  
+
     msrGlissandoTypeKind  fGlissandoTypeKind;
-                          
+
     msrLineTypeKind       fGlissandoLineTypeKind;
-    
+
     string                fGlissandoTextValue;
 };
 typedef SMARTP<msrGlissando> S_msrGlissando;
@@ -2745,7 +2745,7 @@ EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
 class msrSlide : public msrElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -2755,7 +2755,7 @@ class msrSlide : public msrElement
 
     static string slideTypeKindAsString (
       msrSlideTypeKind slideTypeKind);
-                  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -2781,34 +2781,34 @@ class msrSlide : public msrElement
       msrSlideTypeKind slideTypeKind,
       msrLineTypeKind  slideLineTypeKind,
       string           slideTextValue);
-      
+
     virtual ~msrSlide ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-    
+
     int                   getSlideNumber () const
                               { return fSlideNumber; }
 
     msrSlideTypeKind      getSlideTypeKind () const
                               { return fSlideTypeKind; }
-            
+
     msrLineTypeKind       getSlideLineTypeKind () const
                               { return fSlideLineTypeKind; }
-            
+
     string                getSlideTextValue () const
                               { return fSlideTextValue; }
-            
+
     // measure uplink
     void                  setSlideMeasureUplink (
                             const S_msrMeasure& measure)
                               { fSlideMeasureUplink = measure; }
-                      
+
     S_msrMeasure          getSlideMeasureUplink () const
                               { return fSlideMeasureUplink; }
-                      
+
     // services
     // ------------------------------------------------------
 
@@ -2838,11 +2838,11 @@ class msrSlide : public msrElement
 
     // uplink
     S_msrMeasure          fSlideMeasureUplink;
-    
+
     int                   fSlideNumber;
-                  
+
     msrSlideTypeKind      fSlideTypeKind;
-                          
+
     msrLineTypeKind       fSlideLineTypeKind;
 
     string                fSlideTextValue;
@@ -2859,9 +2859,9 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     #define K_NO_OCTAVE -1
-    
+
     #define K_NO_MEASURE_NUMBER "unknown"
-  
+
     #define K_NO_POSITION_MEASURE_NUMBER rational(-222, 1)
 
     // data types
@@ -2879,32 +2879,32 @@ class msrNote : public msrTupletElement
       kTupletMemberNote,
       kGraceTupletMemberNote,
       kTupletMemberUnpitchedNote };
-      
+
     static string noteKindAsString (
       msrNoteKind noteKind);
-      
+
     enum msrNoteAccidentalKind {
       kNoteAccidentalNone,
-      
+
       kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentalDoubleSharp, kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
       kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
-      
+
       kNoteAccidentalSharpDown, kNoteAccidentalSharpUp,
       kNoteAccidentalNaturalDown, kNoteAccidentalNaturalUp,
       kNoteAccidentalFlatDown, kNoteAccidentalFlatUp,kNoteAccidentalTripleSharp, kNoteAccidentalTripleFlat,
       kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp, kNoteAccidentalSlashFlat,kNoteAccidentaldoubleSlashFlat,
       kNoteAccidentalSharp_1, kNoteAccidentalSharp_2, kNoteAccidentalSharp_3, kNoteAccidentalSharp_5, kNoteAccidentalFlat_1, kNoteAccidentalFlat_2, kNoteAccidentalFlat_3, kNoteAccidentalFlat_4, kNoteAccidentalSori, kNoteAccidentalKoron };
-  
+
     static string noteAccidentalKindAsString (
       msrNoteAccidentalKind noteAccidentalKind);
-  
+
     enum msrNoteEditorialAccidentalKind {
       kNoteEditorialAccidentalYes, kNoteEditorialAccidentalNo };
 
     static string noteEditorialAccidentalKindAsString (
       msrNoteEditorialAccidentalKind noteEditorialAccidentalKind);
-      
+
     enum msrNoteCautionaryAccidentalKind {
       kNoteCautionaryAccidentalYes, kNoteCautionaryAccidentalNo };
 
@@ -2913,10 +2913,10 @@ class msrNote : public msrTupletElement
 
     enum msrNotePrintKind {
       kNotePrintYes, kNotePrintNo };
-      
+
     static string notePrintKindAsString (
       msrNotePrintKind notePrintKind);
-      
+
     enum msrNoteHeadKind {
       kNoteHeadSlash,
       kNoteHeadTriangle, kNoteHeadDiamond, kNoteHeadSquare,
@@ -2931,60 +2931,60 @@ class msrNote : public msrTupletElement
       kNoteHeadNone,
       kNoteHeadDo, kNoteHeadRe, kNoteHeadMi, kNoteHeadFa, kNoteHeadFaUp,
       kNoteHeadSo, kNoteHeadLa, kNoteHeadTi };
-      
+
     static string noteHeadKindAsString (
       msrNoteHeadKind noteHeadKind);
-      
+
     enum msrNoteHeadFilledKind {
       kNoteHeadFilledYes, kNoteHeadFilledNo };
-      
+
     static string noteHeadFilledKindAsString (
       msrNoteHeadFilledKind noteHeadFilledKind);
-      
+
     enum msrNoteHeadParenthesesKind {
       kNoteHeadParenthesesYes, kNoteHeadParenthesesNo };
-      
+
     static string noteHeadParenthesesKindAsString (
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrNote> create (
       int                        inputLineNumber,
       string                     noteMeasureNumber,
-      
+
       msrNoteKind                noteKind,
-    
+
       msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
-      
+
       rational                   noteSoundingWholeNotes,
       rational                   noteDisplayWholeNotes,
-      
+
       int                        noteDotsNumber,
-      
+
       msrDurationKind            noteGraphicDurationKind,
-      
+
       int                        noteOctave,
-      
+
       msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
       int                        noteDisplayOctave,
-      
+
       bool                       noteIsARest,
       bool                       noteIsUnpitched,
-    
+
       bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
       msrNotePrintKind           notePrintKind,
-      
+
       msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
-    
+
     SMARTP<msrNote> createNoteNewbornClone (
       S_msrPart containingPart);
-    
+
     SMARTP<msrNote> createNoteDeepCopy (
       S_msrVoice containingVoice);
 
@@ -2999,7 +2999,7 @@ class msrNote : public msrTupletElement
       int       dotsNumber,
       int       staffNumber,
       int       voiceNumber);
-    
+
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       string    noteMeasureNumber,
@@ -3008,53 +3008,53 @@ class msrNote : public msrTupletElement
       int       dotsNumber,
       int       staffNumber,
       int       voiceNumber);
-    
+
   protected:
- 
+
     // constructors/destructor
     // ------------------------------------------------------
 
     msrNote (
       int                        inputLineNumber,
       string                     noteMeasureNumber,
-      
+
       msrNoteKind                noteKind,
-    
+
       msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
-      
+
       rational                   noteSoundingWholeNotes,
       rational                   noteDisplayWholeNotes,
-      
+
       int                        noteDotsNumber,
-      
+
       msrDurationKind            noteGraphicDurationKind,
-      
+
       int                        noteOctave,
-      
+
       msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
       int                        noteDisplayOctave,
-      
+
       bool                       noteIsARest,
       bool                       noteIsUnpitched,
-    
+
       bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
       msrNotePrintKind           notePrintKind,
-      
+
       msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
-        
+
     virtual ~msrNote ();
-    
+
   private:
 
     // initialisation
     // ------------------------------------------------------
 
     void                  initializeNote ();
-  
+
   public:
 
     // set and get
@@ -3064,7 +3064,7 @@ class msrNote : public msrTupletElement
     void                  setNoteMeasureUplink (
                             const S_msrMeasure& measure)
                               { fNoteMeasureUplink = measure; }
-                      
+
     S_msrMeasure          getNoteMeasureUplink () const
                               { return fNoteMeasureUplink; }
 
@@ -3072,7 +3072,7 @@ class msrNote : public msrTupletElement
     void                  setNoteChordUplink (
                             const S_msrChord& chord)
                               { fNoteChordUplink = chord; }
-                      
+
     S_msrChord            getNoteChordUplink () const
                               { return fNoteChordUplink; }
 
@@ -3080,7 +3080,7 @@ class msrNote : public msrTupletElement
     void                  setNoteGraceNotesGroupUplink (
                             const S_msrGraceNotesGroup& graceNotesGroup)
                               { fNoteGraceNotesGroupUplink = graceNotesGroup; }
-                      
+
     S_msrGraceNotesGroup  getNoteGraceNotesGroupUplink () const
                               { return fNoteGraceNotesGroupUplink; }
 
@@ -3088,12 +3088,12 @@ class msrNote : public msrTupletElement
     void                  setNoteTupletUplink (
                             const S_msrTuplet& tuplet)
                               { fNoteTupletUplink = tuplet; }
-                      
+
     S_msrTuplet           getNoteTupletUplink () const
                               { return fNoteTupletUplink; }
 
     // note kind
-    
+
     void                  setNoteKind (msrNoteKind noteKind);
 
     msrNoteKind           getNoteKind () const
@@ -3154,7 +3154,7 @@ class msrNote : public msrTupletElement
                                 fNoteAccidentalKind =
                                   noteAccidentalKind;
                               }
-                              
+
     msrNoteAccidentalKind
                           getNoteAccidentalKind ()
                               {
@@ -3169,7 +3169,7 @@ class msrNote : public msrTupletElement
                                 fNoteEditorialAccidentalKind =
                                   noteEditorialAccidentalKind;
                               }
-                              
+
     msrNoteEditorialAccidentalKind
                           getNoteEditorialAccidentalKind ()
                               {
@@ -3184,7 +3184,7 @@ class msrNote : public msrTupletElement
                                 fNoteCautionaryAccidentalKind =
                                   noteCautionaryAccidentalKind;
                               }
-                              
+
     msrNoteCautionaryAccidentalKind
                           getNoteCautionaryAccidentalKind ()
                               {
@@ -3193,7 +3193,7 @@ class msrNote : public msrTupletElement
                               }
 
     // note whole notes
-    
+
     void                  setNoteSoundingWholeNotes (
                             rational wholeNotes);
 
@@ -3204,14 +3204,14 @@ class msrNote : public msrTupletElement
                               }
 
     // note display
-    
+
     msrQuarterTonesPitchKind
                           getNoteQuarterTonesDisplayPitchKind () const
                               {
                                 return
                                   fNoteQuarterTonesDisplayPitchKind;
                               }
-                              
+
     void                  setNoteDisplayWholeNotes (
                             rational wholeNotes);
 
@@ -3219,7 +3219,7 @@ class msrNote : public msrTupletElement
                               { return fNoteDisplayWholeNotes; }
 
     // dots
-    
+
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
 
@@ -3235,13 +3235,13 @@ class msrNote : public msrTupletElement
     bool                  getNoteIsARest () const
                             // useful for rest tuplet members
                             { return fNoteIsARest; }
-                      
+
     bool                  getNoteIsUnpitched () const
                               { return fNoteIsUnpitched; }
-                      
+
     bool                  getNoteIsACueNote () const
                               { return fNoteIsACueNote; }
-                      
+
     // octave shifts
     void                  setNoteOctaveShift (
                              S_msrOctaveShift octaveShift)
@@ -3266,21 +3266,21 @@ class msrNote : public msrTupletElement
     // harmony
     void                  setNoteHarmony (
                             S_msrHarmony harmony);
-                              
+
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
 
     // frame
     void                  setNoteFrame (
                             S_msrFrame frame);
-                              
+
     const S_msrFrame&     getNoteFrame () const
                               { return fNoteFrame; };
 
     // figured bass
     void                  setNoteFiguredBass (
                             S_msrFiguredBass figuredBass);
-                              
+
     const S_msrFiguredBass&
                           getNoteFiguredBass () const
                               { return fNoteFiguredBass; };
@@ -3289,7 +3289,7 @@ class msrNote : public msrTupletElement
     // -------------------------------
 
     list<S_msrSyllable>   getNoteSyllables () const
-                              { return fNoteSyllables; }              
+                              { return fNoteSyllables; }
 
     // elements attached to the note
     // -------------------------------
@@ -3309,7 +3309,7 @@ class msrNote : public msrTupletElement
     const list<S_msrArticulation>&
                           getNoteArticulations () const
                               { return fNoteArticulations; }
-                      
+
     list<S_msrArticulation>&
                           getNoteArticulationsToModify ()
                               { return fNoteArticulations; }
@@ -3318,7 +3318,7 @@ class msrNote : public msrTupletElement
     const list<S_msrSpanner>&
                           getNoteSpanners () const
                               { return fNoteSpanners; }
-                      
+
     list<S_msrSpanner>&
                           getNoteSpannersToModify ()
                               { return fNoteSpanners; }
@@ -3327,34 +3327,34 @@ class msrNote : public msrTupletElement
     const list<S_msrTechnical>&
                           getNoteTechnicals () const
                               { return fNoteTechnicals; }
-                              
+
     const list<S_msrTechnicalWithInteger>&
                           getNoteTechnicalWithIntegers () const
                               { return fNoteTechnicalWithIntegers; }
-                              
+
     const list<S_msrTechnicalWithFloat>&
                           getNoteTechnicalWithFloats () const
                               { return fNoteTechnicalWithFloats; }
-                              
+
     const list<S_msrTechnicalWithString>&
                           getNoteTechnicalWithStrings () const
                               { return fNoteTechnicalWithStrings; }
-                              
+
     // ornaments
     const list<S_msrOrnament>&
                           getNoteOrnaments () const
                               { return fNoteOrnaments; }
-        
+
     // glissandos
     const list<S_msrGlissando>&
                           getNoteGlissandos () const
                               { return fNoteGlissandos; }
-        
+
     // slides
     const list<S_msrSlide>&
                           getNoteSlides () const
                               { return fNoteSlides; }
-        
+
     // grace notes
     void                  setNoteGraceNotesGroupBefore (
                             S_msrGraceNotesGroup graceNotesGroupBefore);
@@ -3381,7 +3381,7 @@ class msrNote : public msrTupletElement
     // singleTremolo
     void                  setNoteSingleTremolo (
                             S_msrSingleTremolo trem);
-    
+
     S_msrSingleTremolo    getNoteSingleTremolo () const
                               { return fNoteSingleTremolo; }
 
@@ -3398,15 +3398,15 @@ class msrNote : public msrTupletElement
     const list<S_msrOtherDynamics>&
                           getNoteOtherDynamics () const
                               { return fNoteOtherDynamics; }
-        
+
     // words
     const list<S_msrWords>&
                           getNoteWords () const
                               { return fNoteWords; }
-                      
+
     list<S_msrWords>&     getNoteWordsToModify ()
                               { return fNoteWords; }
-                      
+
     // slashes
     const list<S_msrSlash>&
                           getNoteSlashes () const
@@ -3425,17 +3425,17 @@ class msrNote : public msrTupletElement
     const list<S_msrEyeGlasses>&
                           getNoteEyeGlasses () const
                               { return fNoteEyeGlasses; }
-    
+
     // damps
     const list<S_msrDamp>&
                           getNoteDamps () const
                               { return fNoteDamps; };
-    
+
     // damp alls
     const list<S_msrDampAll>&
                           getNoteDampAlls () const
                               { return fNoteDampAlls; }
-    
+
     // scordaturas
     const list<S_msrScordatura>&
                           getNoteScordaturas () const
@@ -3466,7 +3466,7 @@ class msrNote : public msrTupletElement
 
     string                getNoteMeasureNumber () const
                               { return fNoteMeasureNumber; }
- 
+
     // position in measure
     void                  setNotePositionInMeasure (
                             rational positionInMeasure)
@@ -3474,12 +3474,12 @@ class msrNote : public msrTupletElement
                                 fNotePositionInMeasure =
                                   positionInMeasure;
                               }
-                      
+
     rational              getNotePositionInMeasure () const
                               { return fNotePositionInMeasure; }
 
     void                  setNoteOccupiesAFullMeasure ();
-                      
+
     bool                  getNoteOccupiesAFullMeasure () const
                               { return fNoteOccupiesAFullMeasure; }
 
@@ -3500,85 +3500,85 @@ class msrNote : public msrTupletElement
 
     bool                  getNoteIsFirstNoteInADoubleTremolo () const
                               { return fNoteIsFirstNoteInADoubleTremolo; }
-                  
+
     void                  setNoteIsSecondNoteInADoubleTremolo ()
                               { fNoteIsSecondNoteInADoubleTremolo = true; }
 
     bool                  getNoteIsSecondNoteInADoubleTremolo () const
                               { return fNoteIsSecondNoteInADoubleTremolo; }
-                  
+
     S_msrOrnament         getNoteTrillOrnament () const
                               { return fNoteTrillOrnament; }
-                  
+
     S_msrOrnament         getNoteDashesOrnament () const
                               { return fNoteDashesOrnament; }
-                  
+
     S_msrOrnament         getNoteDelayedTurnOrnament () const
                               { return fNoteDelayedTurnOrnament; }
-                              
+
     S_msrOrnament         getNoteDelayedInvertedTurnOrnament () const
                               { return fNoteDelayedInvertedTurnOrnament; }
-                              
+
     S_msrSpanner          getNoteWavyLineSpannerStart () const
                               { return fNoteWavyLineSpannerStart; }
-                  
+
     S_msrSpanner          getNoteWavyLineSpannerStop () const
                               { return fNoteWavyLineSpannerStop; }
-                  
+
     void                  setNoteIsFollowedByGraceNotesGroup ()
                               { fNoteIsFollowedByGraceNotesGroup = true; }
 
     bool                  getNoteIsFollowedByGraceNotesGroup () const
                               { return fNoteIsFollowedByGraceNotesGroup; }
-                  
+
     // services
     // ------------------------------------------------------
 
     bool                  noteIsAPitchedRest () const;
-    
+
     string                asShortStringWithRawWholeNotes () const;
-    
+
     // diatonic pitch
     msrDiatonicPitchKind  noteDiatonicPitchKind (
                             int inputLineNumber) const;
-                            
+
     // tuplet members
     void                  determineTupletMemberSoundingFromDisplayWholeNotes (
                             int actualNotes, int normalNotes);
-                    
+
     // lyrics
     void                  appendSyllableToNote (S_msrSyllable syllable);
 
     // beams
     void                  appendBeamToNote (S_msrBeam beam);
-    
+
     // articulations
     void                  appendArticulationToNote (S_msrArticulation art);
-    
+
     // spanners
     void                  appendSpannerToNote (S_msrSpanner span);
-    
+
     // technicals
     void                  appendTechnicalToNote (S_msrTechnical tech);
-    
+
     void                  appendTechnicalWithIntegerToNote (
                             S_msrTechnicalWithInteger tech);
-    
+
     void                  appendTechnicalWithFloatToNote (
                             S_msrTechnicalWithFloat tech);
-    
+
     void                  appendTechnicalWithStringToNote (
                             S_msrTechnicalWithString tech);
-    
+
     // ornaments
     void                  appendOrnamentToNote (S_msrOrnament orn);
-    
+
     // glissandos
     void                  appendGlissandoToNote (S_msrGlissando glissando);
-    
+
     // slides
     void                  appendSlideToNote (S_msrSlide slide);
-    
+
     // dynamics
     void                  appendDynamicsToNote (
                             S_msrDynamics dynamics);
@@ -3589,16 +3589,16 @@ class msrNote : public msrTupletElement
 
     // words
     void                  appendWordsToNote (S_msrWords words);
-    
+
     // slurs
     void                  appendSlurToNote (S_msrSlur slur);
-    
+
     // ligatures
     void                  appendLigatureToNote (S_msrLigature ligature);
-    
+
     // pedals
     void                  appendPedalToNote (S_msrPedal pedal);
-    
+
     //  slashes
     void                  appendSlashToNote (S_msrSlash slash);
 
@@ -3609,16 +3609,16 @@ class msrNote : public msrTupletElement
 
     // eyeglasses
     void                  appendEyeGlassesToNote (S_msrEyeGlasses eyeGlasses);
-    
+
     // damps
     void                  appendDampToNote (S_msrDamp damp);
-    
+
     // damp alls
     void                  appendDampAllToNote (S_msrDampAll dampAll);
-    
+
     // scordaturas
     void                  appendScordaturaToNote (S_msrScordatura scordatura);
-    
+
 
   public:
 
@@ -3637,18 +3637,18 @@ class msrNote : public msrTupletElement
 
     // note kind
     string                noteKindAsString () const;
-    
+
     string                notePitchAsString () const;
     string                noteDisplayPitchKindAsString () const;
 
     string                noteDisplayOctaveAsString () const;
-    
+
     // note print kind
     string                notePrintKindAsString () const;
-    
+
     // note head
     string                noteHeadKindAsString () const;
-    
+
     string                noteHeadFilledKindAsString () const;
     string                noteHeadParenthesesKindAsString () const;
 
@@ -3658,7 +3658,7 @@ class msrNote : public msrTupletElement
     // whole notes
     string                noteSoundingWholeNotesAsMsrString () const;
     string                noteDisplayWholeNotesAsMsrString () const;
-    
+
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
     string                tupletNoteGraphicDurationAsMsrString ( // JMI
@@ -3668,7 +3668,7 @@ class msrNote : public msrTupletElement
     string                asString () const;
 
     string                asShortString () const;
-      
+
     virtual void          print (ostream& os);
 
   private:
@@ -3683,7 +3683,7 @@ class msrNote : public msrTupletElement
     S_msrChord            fNoteChordUplink;
 
     S_msrGraceNotesGroup  fNoteGraceNotesGroupUplink;
-    
+
     S_msrTuplet           fNoteTupletUplink;
 
     S_msrMeasure          fNoteMeasureUplink;
@@ -3701,13 +3701,13 @@ class msrNote : public msrTupletElement
     // whole notes
     rational              fNoteSoundingWholeNotes;
     rational              fNoteDisplayWholeNotes;
-    
+
     int                   fNoteDotsNumber;
-    
+
     msrDurationKind       fNoteGraphicDurationKind;
-    
+
     int                   fNoteOctave;
-    
+
     msrQuarterTonesPitchKind
                           fNoteQuarterTonesDisplayPitchKind;
     int                   fNoteDisplayOctave;
@@ -3717,10 +3717,10 @@ class msrNote : public msrTupletElement
     // short cuts for efficiency
     bool                  fNoteIsARest;
     bool                  fNoteIsUnpitched;
-  
+
     bool                  fNoteIsACueNote;
     bool                  fNoteIsAGraceNote;
-    
+
    // note octave shift
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???
 
@@ -3737,9 +3737,9 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     msrNoteAccidentalKind fNoteAccidentalKind;
-    
+
     msrNoteEditorialAccidentalKind
-                          fNoteEditorialAccidentalKind;     
+                          fNoteEditorialAccidentalKind;
     msrNoteCautionaryAccidentalKind
                           fNoteCautionaryAccidentalKind;
 
@@ -3753,7 +3753,7 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     bool                  fNoteBelongsToAChord;
-    
+
     // tuplet member?
     // ------------------------------------------------------
 
@@ -3769,7 +3769,7 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrSyllable>   fNoteSyllables;
-    
+
     // stem
     // ------------------------------------------------------
 
@@ -3779,7 +3779,7 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrBeam>       fNoteBeams;
-                                      
+
     // articulations
     // ------------------------------------------------------
 
@@ -3795,13 +3795,13 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrTechnical>  fNoteTechnicals;
-    
+
     list<S_msrTechnicalWithInteger>
                           fNoteTechnicalWithIntegers;
-                          
+
     list<S_msrTechnicalWithFloat>
                           fNoteTechnicalWithFloats;
-                          
+
     list<S_msrTechnicalWithString>
                           fNoteTechnicalWithStrings;
 
@@ -3809,17 +3809,17 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrOrnament>   fNoteOrnaments;
-    
+
     // glissandos
     // ------------------------------------------------------
 
     list<S_msrGlissando>  fNoteGlissandos;
-    
+
     // slides
     // ------------------------------------------------------
 
     list<S_msrSlide>      fNoteSlides;
-    
+
     // grace notes
     // ------------------------------------------------------
 
@@ -3837,14 +3837,14 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     S_msrTie              fNoteTie;
-    
+
     // dynamics
     // ------------------------------------------------------
 
     list<S_msrDynamics>   fNoteDynamics;
     list<S_msrOtherDynamics>
                           fNoteOtherDynamics;
-                          
+
     // slashes
     // ------------------------------------------------------
 
@@ -3859,17 +3859,17 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrEyeGlasses> fNoteEyeGlasses;
-    
+
     // damps
     // ------------------------------------------------------
 
     list<S_msrDamp>       fNoteDamps;
-    
+
     // damp alls
     // ------------------------------------------------------
 
     list<S_msrDampAll>    fNoteDampAlls;
-    
+
     // scordaturas
     // ------------------------------------------------------
 
@@ -3915,14 +3915,14 @@ class msrNote : public msrTupletElement
 
     string                fNoteMeasureNumber;
     rational              fNotePositionInMeasure;
-    
+
     bool                  fNoteOccupiesAFullMeasure;
-    
+
     // note redundant information (for speed)
     // ------------------------------------------------------
 
     // this is needed to handle stemless notes,
-    // because the <stem> is visited after 'visitorStart ( S_msrNote )' 
+    // because the <stem> is visited after 'visitorStart ( S_msrNote )'
     bool                  fNoteIsStemless;
 
     // this is to distinguish the first chord member note
@@ -3934,14 +3934,14 @@ class msrNote : public msrTupletElement
     bool                  fNoteIsSecondNoteInADoubleTremolo;
 
     // this is useful
-    // as well as to produce a nice \aftergrace in LilyPond 
+    // as well as to produce a nice \aftergrace in LilyPond
     S_msrOrnament         fNoteTrillOrnament;
     bool                  fNoteIsFollowedByGraceNotesGroup;
 
     // this is useful to produce a text spanner in LilyPond
     S_msrOrnament         fNoteDashesOrnament;
 
-    // this is needed to produce a delayed turn/inverted-turn in LilyPond 
+    // this is needed to produce a delayed turn/inverted-turn in LilyPond
     S_msrOrnament         fNoteDelayedTurnOrnament;
     S_msrOrnament         fNoteDelayedInvertedTurnOrnament;
 
@@ -3982,31 +3982,31 @@ class msrChord : public msrTupletElement
       rational        chordSoundingWholeNotes,
       rational        chordDisplayWholeNotes,
       msrDurationKind chordGraphicDurationKind);
-      
+
     virtual ~msrChord ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
      // whole notes
     void                  setChordSoundingWholeNotes (
                             rational divisions);
-            
+
     rational              getChordSoundingWholeNotes () const
                               { return fChordSoundingWholeNotes; }
-                        
+
     void                  setChordDisplayWholeNotes (
                             rational divisions);
-            
+
     rational              getChordDisplayWholeNotes () const
                               { return fChordDisplayWholeNotes; }
-                        
+
     // graphic duration
     msrDurationKind       getChordGraphicDurationKind () const
                               { return fChordGraphicDurationKind; }
-            
+
     // chord notes
     const vector<S_msrNote>&
                           getChordNotesVector () const
@@ -4036,38 +4036,38 @@ class msrChord : public msrTupletElement
     const list<S_msrTechnical>&
                           getChordTechnicals () const
                               { return fChordTechnicals; }
-                              
+
     const list<S_msrTechnicalWithInteger>&
                           getChordTechnicalWithIntegers () const
                               { return fChordTechnicalWithIntegers; }
-    
+
     const list<S_msrTechnicalWithFloat>&
                           getChordTechnicalWithFloats () const
                               { return fChordTechnicalWithFloats; }
-    
+
     const list<S_msrTechnicalWithString>&
                           getChordTechnicalWithStrings () const
                               { return fChordTechnicalWithStrings; }
-    
+
     // ornaments
     const list<S_msrOrnament>&
                           getChordOrnaments () const
                               { return fChordOrnaments; }
-    
+
     // glissandos
     const list<S_msrGlissando>&
                           getChordGlissandos () const
                               { return fChordGlissandos; }
-    
+
     // slides
     const list<S_msrSlide>&
                           getChordSlides () const
                               { return fChordSlides; }
-    
+
     // singleTremolo
     void                  setChordSingleTremolo (
                             S_msrSingleTremolo trem);
-    
+
     S_msrSingleTremolo    getChordSingleTremolo () const
                               { return fChordSingleTremolo; }
 
@@ -4078,7 +4078,7 @@ class msrChord : public msrTupletElement
     const list<S_msrOtherDynamics>&
                           getChordOtherDynamics () const
                               { return fChordOtherDynamics; }
-                      
+
     const list<S_msrWedge>&
                           getChordWedges () const
                               { return fChordWedges; }
@@ -4087,40 +4087,40 @@ class msrChord : public msrTupletElement
     const list<S_msrWords>&
                           getChordWords () const
                               { return fChordWords; }
-                      
+
     // ties
     const list<S_msrTie>&
                           getChordTies () const
                               { return fChordTies; }
-                      
+
     // slurs
     const list<S_msrSlur>&
                           getChordSlurs () const
                               { return fChordSlurs; }
-                      
+
     // ligatures
     const list<S_msrLigature>&
                           getChordLigatures () const
                               { return fChordLigatures; }
-                      
+
     // pedals
     const list<S_msrPedal>&
                           getChordPedals () const
                               { return fChordPedals; }
-                      
+
     // double tremolo
     void                  setChordIsFirstChordInADoubleTremolo ()
                               { fChordIsFirstChordInADoubleTremolo = true; }
 
     bool                  getChordIsFirstChordInADoubleTremolo () const
                               { return fChordIsFirstChordInADoubleTremolo; }
-                  
+
     void                  setChordIsSecondChordInADoubleTremolo ()
                               { fChordIsSecondChordInADoubleTremolo = true; }
 
     bool                  getChordIsSecondChordInADoubleTremolo () const
                               { return fChordIsSecondChordInADoubleTremolo; }
-                  
+
     // grace notes
     void                  setChordGraceNotesGroupBefore (
                             S_msrGraceNotesGroup graceNotesGroupBefore)
@@ -4147,21 +4147,21 @@ class msrChord : public msrTupletElement
     void                  setChordHarmony (
                             S_msrHarmony harmony)
                               { fChordHarmony = harmony; }
-                      
+
     // figured bass
     void                  setChordFiguredBass (
                             S_msrFiguredBass figuredBass)
                               { fChordFiguredBass = figuredBass; }
-                      
+
     const S_msrFiguredBass&
                           getChordFiguredBass () const
                               { return fChordFiguredBass; };
-                      
+
     // measure uplink
     void                  setChordMeasureUplink (
                             const S_msrMeasure& measure)
                               { fChordMeasureUplink = measure; }
-                      
+
     S_msrMeasure          getChordMeasureUplink () const
                             { return fChordMeasureUplink; }
 
@@ -4169,10 +4169,10 @@ class msrChord : public msrTupletElement
     void                  setChordMeasureNumber (
                             string measureNumber)
                               { fChordMeasureNumber = measureNumber; }
-    
+
     string                getChordMeasureNumber () const
                               { return fChordMeasureNumber; }
- 
+
     // position in measure
     void                  setChordPositionInMeasure (
                             rational position)
@@ -4183,7 +4183,7 @@ class msrChord : public msrTupletElement
 
     rational              getChordPositionInMeasure () const
                               { return fChordPositionInMeasure; }
-                         
+
     // services
     // ------------------------------------------------------
 
@@ -4191,40 +4191,40 @@ class msrChord : public msrTupletElement
     void                  addFirstNoteToChord (
                             S_msrNote  note,
                             S_msrVoice voice);
-                            
+
     void                  addAnotherNoteToChord (
                             S_msrNote note,
                             S_msrVoice voice);
 
     S_msrNote             fetchChordFirstNonGraceNote () const;
-    
+
     // articulations
     void                  appendArticulationToChord (S_msrArticulation art);
-     
+
     // spanners
     void                  appendSpannerToChord (S_msrSpanner span);
-     
+
     // technicals
     void                  appendTechnicalToChord (S_msrTechnical tech);
-    
+
     void                  appendTechnicalWithIntegerToChord (
                             S_msrTechnicalWithInteger tech);
-    
+
     void                  appendTechnicalWithFloatToChord (
                             S_msrTechnicalWithFloat tech);
-    
+
     void                  appendTechnicalWithStringToChord (
                             S_msrTechnicalWithString tech);
-    
+
     // ornaments
     void                  appendOrnamentToChord (S_msrOrnament orn);
-     
+
     // glissandos
     void                  appendGlissandoToChord (S_msrGlissando gliss);
-     
+
     // slides
     void                  appendSlideToChord (S_msrSlide slide);
-     
+
     // dynamics
     void                  appendDynamicsToChord (S_msrDynamics dynamic)
                               {
@@ -4247,25 +4247,25 @@ class msrChord : public msrTupletElement
                               {
                                 fChordWedges.push_back (wedge);
                               }
-                                        
+
     // words
     void                  appendWordsToChord (S_msrWords dynamic)
                               {
                                 fChordWords.push_back (dynamic);
                               }
-                    
+
     // ties
     void                  appendTieToChord (S_msrTie tie)
                               {
                                 fChordTies.push_back (tie);
                               }
-                      
+
     // slurs
     void                  appendSlurToChord (S_msrSlur slur)
                               {
                                 fChordSlurs.push_back (slur);
                               }
-                      
+
     // stems
     void                  appendStemToChord (S_msrStem stem)
                               {
@@ -4280,13 +4280,13 @@ class msrChord : public msrTupletElement
                               {
                                 fChordLigatures.push_back (ligature);
                               }
-                      
+
     // pedals
     void                  appendPedalToChord (S_msrPedal pedal)
                               {
                                 fChordPedals.push_back (pedal);
                               }
-                      
+
     // tuplet members
     /* JMI
     void                  applyTupletMemberDisplayedFactorToChordMembers (
@@ -4296,7 +4296,7 @@ class msrChord : public msrTupletElement
     // position in measure
     void                  setChordFirstNotePositionInMeasure (
                             rational position);
-                    
+
   public:
 
     // visitors
@@ -4320,7 +4320,7 @@ class msrChord : public msrTupletElement
     string                asStringwithRawDivisions () const;
 
     string                asString () const;
-    
+
     string                asShortString () const;
 
     virtual void          print (ostream& os);
@@ -4332,14 +4332,14 @@ class msrChord : public msrTupletElement
 
     // sounding divisions
     rational              fChordSoundingWholeNotes;
-    
+
     // display divisions
     rational              fChordDisplayWholeNotes;
-                                  
+
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
     msrDurationKind       fChordGraphicDurationKind;
-    
+
     vector<S_msrNote>     fChordNotesVector;
 
     // position in measure
@@ -4350,10 +4350,10 @@ class msrChord : public msrTupletElement
 
     // stems
     list<S_msrStem>       fChordStems;
-    
+
     // beams
     list<S_msrBeam>       fChordBeams;
-    
+
     // articulations
     list<S_msrArticulation>
                           fChordArticulations;
@@ -4363,23 +4363,23 @@ class msrChord : public msrTupletElement
 
     // single tremolo
     S_msrSingleTremolo    fChordSingleTremolo;
-    
+
     // double tremolo
     bool                  fChordIsFirstChordInADoubleTremolo;
     bool                  fChordIsSecondChordInADoubleTremolo;
 
     // technicals
     list<S_msrTechnical>  fChordTechnicals;
-    
+
     list<S_msrTechnicalWithInteger>
                           fChordTechnicalWithIntegers;
-    
+
     list<S_msrTechnicalWithFloat>
                           fChordTechnicalWithFloats;
-    
+
     list<S_msrTechnicalWithString>
                           fChordTechnicalWithStrings;
-    
+
     // ornaments
     list<S_msrOrnament>   fChordOrnaments;
 
@@ -4388,7 +4388,7 @@ class msrChord : public msrTupletElement
 
     // slides
     list<S_msrSlide>      fChordSlides;
-    
+
     // dynamics
     list<S_msrDynamics>   fChordDynamics;
     list<S_msrOtherDynamics>
@@ -4396,13 +4396,13 @@ class msrChord : public msrTupletElement
 
     // slashes
     list<S_msrSlash>      fChordSlashes;
-    
+
     // wedges
     list<S_msrWedge>      fChordWedges;
-    
+
     // words
     list<S_msrWords>      fChordWords;
-    
+
     // ties
     list<S_msrTie>        fChordTies;
 
@@ -4432,7 +4432,7 @@ EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 class msrTuplet : public msrTupletElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -4443,31 +4443,31 @@ class msrTuplet : public msrTupletElement
 
     static string tupletTypeKindAsString (
       msrTupletTypeKind tupletTypeKind);
-      
+
     enum msrTupletBracketKind {
       kTupletBracketYes, kTupletBracketNo};
-      
+
     static string tupletBracketKindAsString (
       msrTupletBracketKind tupletBracketKind);
-      
+
     enum msrTupletLineShapeKind {
       kTupletLineShapeStraight, kTupletLineShapeCurved};
-      
+
     static string tupletLineShapeKindAsString (
       msrTupletLineShapeKind tupletLineShapeKind);
-      
+
     enum msrTupletShowNumberKind {
       kTupletShowNumberActual, kTupletShowNumberBoth, kTupletShowNumberNone };
 
     static string tupletShowNumberKindAsString (
       msrTupletShowNumberKind tupletShowNumberKind);
-      
+
     enum msrTupletShowTypeKind {
       kTupletShowTypeActual, kTupletShowTypeBoth, kTupletShowTypeNone };
 
     static string tupletShowTypeKindAsString (
       msrTupletShowTypeKind tupletShowTypeKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -4513,14 +4513,14 @@ class msrTuplet : public msrTupletElement
       rational                memberNotesSoundingWholeNotes,
       rational                memberNotesDisplayWholeNotes,
       rational                notePositionInMeasure);
-      
+
     virtual ~msrTuplet ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-    
+
     int                   getTupletNumber () const
                               { return fTupletNumber; }
 
@@ -4548,7 +4548,7 @@ class msrTuplet : public msrTupletElement
     int                   getTupletNormalNotes () const
                               { return fTupletNormalNotes; }
     */
-    
+
     rational              getMemberNotesSoundingWholeNotes () const
                               { return fMemberNotesSoundingWholeNotes; }
     rational              getMemberNotesDisplayWholeNotes () const
@@ -4562,15 +4562,15 @@ class msrTuplet : public msrTupletElement
 
     rational              getTupletSoundingWholeNotes () const
                               { return fTupletSoundingWholeNotes; }
-                              
+
     rational              getTupletDisplayWholeNotes () const
                               { return fTupletDisplayWholeNotes; }
-            
+
     // measure uplink
     void                  setTupletMeasureUplink (
                             const S_msrMeasure& measure)
                               { fTupletMeasureUplink = measure; }
-                      
+
     S_msrMeasure          getTupletMeasureUplink () const
                               { return fTupletMeasureUplink; }
 
@@ -4579,7 +4579,7 @@ class msrTuplet : public msrTupletElement
 
     string                getTupletMeasureNumber () const
                               { return fTupletMeasureNumber; }
- 
+
     // position in measure
     rational              setTupletPositionInMeasure (
                             rational position);
@@ -4587,20 +4587,20 @@ class msrTuplet : public msrTupletElement
 
     rational              getTupletPositionInMeasure () const
                               { return fTupletPositionInMeasure; }
-                      
+
     // services
     // ------------------------------------------------------
 
     void                  addNoteToTuplet (
                             S_msrNote  note,
                             S_msrVoice voice);
-                          
+
     void                  addChordToTuplet (S_msrChord chord);
-    
+
     void                  addTupletToTuplet (S_msrTuplet tuplet);
-    
+
     void                  addTupletToTupletClone (S_msrTuplet tuplet);
-    
+
     S_msrNote             fetchTupletFirstNonGraceNote () const;
 
     S_msrNote             removeFirstNoteFromTuplet ( // JMI
@@ -4609,7 +4609,7 @@ class msrTuplet : public msrTupletElement
                             int       inputLineNumber);
 
  // JMI   void                  applyDisplayFactorToTupletMembers ();
-    
+
     void                  unapplySoundingFactorToTupletMembers (
                             const msrTupletFactor& containingTupletFactor);
                             /*
@@ -4645,17 +4645,17 @@ class msrTuplet : public msrTupletElement
 
     // uplink
     S_msrMeasure          fTupletMeasureUplink;
-    
+
     int                   fTupletNumber;
-    
+
     msrTupletBracketKind  fTupletBracketKind;
-              
+
     msrTupletLineShapeKind
                           fTupletLineShapeKind;
-              
+
     msrTupletShowNumberKind
                           fTupletShowNumberKind;
-              
+
     msrTupletShowTypeKind fTupletShowTypeKind;
 
     msrTupletFactor       fTupletFactor;
@@ -4670,7 +4670,7 @@ class msrTuplet : public msrTupletElement
 
     string                fTupletMeasureNumber;
     rational              fTupletPositionInMeasure;
-    
+
     list<S_msrTupletElement>
                           fTupletElementsList;
 };
@@ -4684,10 +4684,10 @@ class msrStanza : public msrElement
 
     // constants
     // ------------------------------------------------------
-    
+
     #define K_NO_STANZA_NUMBER "-1"
     #define K_NO_STANZA_NAME   "Unknown stanza"
-  
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -4695,7 +4695,7 @@ class msrStanza : public msrElement
       int           inputLineNumber,
       string        stanzaNumber,
       S_msrVoice    stanzaVoiceUplink);
-    
+
     SMARTP<msrStanza> createStanzaNewbornClone (
       S_msrVoice containingVoice);
 
@@ -4713,9 +4713,9 @@ class msrStanza : public msrElement
       S_msrVoice    stanzaVoiceUplink);
 
   public:
-  
+
     virtual ~msrStanza ();
-  
+
   private:
 
     // initialization
@@ -4727,15 +4727,15 @@ class msrStanza : public msrElement
 
     // set and get
     // ------------------------------------------------------
-                              
+
     // number
     string                getStanzaNumber () const
                               { return fStanzaNumber; }
-                
+
     // name
     string                getStanzaName () const
                               { return fStanzaName; }
-                         
+
     // contents
     const vector<S_msrSyllable>&
                           getSyllables () const
@@ -4756,7 +4756,7 @@ class msrStanza : public msrElement
 
     void                  appendSyllableToStanza (
                             S_msrSyllable syllable);
-      
+
     S_msrSyllable         appendRestSyllableToStanza (
                             int      inputLineNumber,
                             rational wholeNotes);
@@ -4810,20 +4810,20 @@ class msrStanza : public msrElement
     S_msrSyllable         appendLineBreakSyllableToStanza ( // JMI ???
                             int    inputLineNumber,
                             string nextMeasureNumber);
-                
+
     S_msrSyllable         appendPageBreakSyllableToStanza ( // JMI ???
                             int    inputLineNumber,
                             string nextMeasureNumber);
-                
+
     void                  padUpToActualMeasureWholeNotesInStanza ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
-  
+
     void                  appendPaddingNoteToStanza (
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
-  
+
   public:
 
     // visitors
@@ -4889,9 +4889,9 @@ class msrRepeatElement : public msrElement
     msrRepeatElement (
       int          inputLineNumber,
       S_msrRepeat  repeatUplink);
-      
+
     virtual ~msrRepeatElement ();
-  
+
   public:
 
     // set and get
@@ -4905,12 +4905,12 @@ class msrRepeatElement : public msrElement
     const list<S_msrVoiceElement>&
                           getRepeatElementElementsList ()
                               { return fRepeatElementElementsList; }
-                
+
   public:
 
     // public services
     // ------------------------------------------------------
-  
+
     void                  appendSegmentToRepeatElementsList (
                             int          inputLineNumber,
                             S_msrSegment segment,
@@ -4935,12 +4935,12 @@ class msrRepeatElement : public msrElement
 
     void                  collectRepeatElementMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   private:
 
     // private services
     // ------------------------------------------------------
-  
+
     void                  appendVoiceElementToRepeatElementsList ( // JMI
                             int               inputLineNumber,
                             S_msrVoiceElement voiceElement,
@@ -4962,7 +4962,7 @@ class msrRepeatElement : public msrElement
     // ------------------------------------------------------
 
     string                asString () const;
-                    
+
     virtual void          print (ostream& os);
 
     virtual void          shortPrint (ostream& os);
@@ -5003,9 +5003,9 @@ class msrRepeatCommonPart : public msrElement
     msrRepeatCommonPart (
       int          inputLineNumber,
       S_msrRepeat  repeatUplink);
-      
+
     virtual ~msrRepeatCommonPart ();
-  
+
   public:
 
     // set and get
@@ -5019,12 +5019,12 @@ class msrRepeatCommonPart : public msrElement
     const list<S_msrVoiceElement>&
                           getRepeatCommonPartElementsList ()
                               { return fRepeatCommonPartElementsList; }
-                
+
   public:
 
     // services
     // ------------------------------------------------------
-  
+
     void                  appendVoiceElementToRepeatCommonPart (
                             int               inputLineNumber,
                             S_msrVoiceElement voiceElement,
@@ -5054,7 +5054,7 @@ class msrRepeatCommonPart : public msrElement
 
     void                  collectRepeatCommonPartMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5071,7 +5071,7 @@ class msrRepeatCommonPart : public msrElement
     // ------------------------------------------------------
 
     string                asString () const;
-                    
+
     virtual void          print (ostream& os);
 
     virtual void          shortPrint (ostream& os);
@@ -5105,7 +5105,7 @@ class msrRepeatEnding : public msrElement
 
     static string repeatEndingKindAsString (
       msrRepeatEndingKind repeatEndingKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -5130,9 +5130,9 @@ class msrRepeatEnding : public msrElement
       string              repeatEndingNumber, // may be "1, 2"
       msrRepeatEndingKind repeatEndingKind,
       S_msrRepeat         repeatUplink);
-      
+
     virtual ~msrRepeatEnding ();
-  
+
   public:
 
     // set and get
@@ -5145,7 +5145,7 @@ class msrRepeatEnding : public msrElement
     // numbers
     string                getRepeatEndingNumber () const
                               { return fRepeatEndingNumber; }
-                
+
     void                  setRepeatEndingNumber (int repeatEndingNumber)
                               { fRepeatEndingNumber = repeatEndingNumber; }
 
@@ -5155,22 +5155,22 @@ class msrRepeatEnding : public msrElement
                                 fRepeatEndingInternalNumber =
                                   repeatEndingInternalNumber;
                               }
-                      
+
     int                   getRepeatEndingInternalNumber () const
                               { return fRepeatEndingInternalNumber; }
-                
+
     // kind
     msrRepeatEndingKind   getRepeatEndingKind () const
                               { return fRepeatEndingKind; }
-                
+
     // elements
     const list<S_msrVoiceElement>&
                           getRepeatEndingElementsList ()
                               { return fRepeatEndingElementsList; }
-                                
+
     // services
     // ------------------------------------------------------
-                      
+
     void                  appendVoiceElementToRepeatEnding ( // JMI
                             int               inputLineNumber,
                             S_msrVoiceElement voiceElement,
@@ -5198,7 +5198,7 @@ class msrRepeatEnding : public msrElement
 
     void                  collectRepeatEndingMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5253,10 +5253,10 @@ class msrRepeat : public msrVoiceElement
     enum msrRepeatExplicitStartKind {
       kRepeatExplicitStartNo,
       kRepeatExplicitStartYes };
-      
+
     static string repeatExplicitStartKindAsString (
       msrRepeatExplicitStartKind repeatExplicitStartKind);
-      
+
     enum msrRepeatBuildPhaseKind {
       kRepeatBuildPhaseJustCreated,
       kRepeatBuildPhaseInCommonPart,
@@ -5265,7 +5265,7 @@ class msrRepeat : public msrVoiceElement
 
     static string repeatBuildPhaseKindAsString (
       msrRepeatBuildPhaseKind repeatBuildPhaseKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -5286,9 +5286,9 @@ class msrRepeat : public msrVoiceElement
       int        inputLineNumber,
       int        repeatTimes,
       S_msrVoice voiceUplink);
-      
+
     virtual ~msrRepeat ();
-  
+
   public:
 
     // set and get
@@ -5311,7 +5311,7 @@ class msrRepeat : public msrVoiceElement
                                 fRepeatExplicitStartKind =
                                   repeatExplicitStartKind;
                               }
-    
+
     msrRepeatExplicitStartKind
                           getRepeatExplicitStartKind () const
                               { return fRepeatExplicitStartKind; }
@@ -5319,7 +5319,7 @@ class msrRepeat : public msrVoiceElement
     // common part
     void                  setRepeatCommonPart (
                             S_msrRepeatCommonPart repeatCommonPart);
-                  
+
     S_msrRepeatCommonPart getRepeatCommonPart () const
                               { return fRepeatCommonPart; }
 
@@ -5327,7 +5327,7 @@ class msrRepeat : public msrVoiceElement
     const vector<S_msrRepeatEnding>&
                           getRepeatEndings () const
                               { return fRepeatEndings; }
-                            
+
   public:
 
     // public services
@@ -5361,7 +5361,7 @@ class msrRepeat : public msrVoiceElement
 
     void                  collectRepeatMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5379,13 +5379,13 @@ class msrRepeat : public msrVoiceElement
 
     string                asShortString () const;
     string                asString () const;
-    
+
     void                  displayRepeat (
                             int    inputLineNumber,
                             string context);
 
     virtual void          print (ostream& os);
-    
+
     virtual void          shortPrint (ostream& os);
 
   private:
@@ -5402,7 +5402,7 @@ class msrRepeat : public msrVoiceElement
     // explicit start?
     msrRepeatExplicitStartKind
                           fRepeatExplicitStartKind;
-                          
+
     // common part
     S_msrRepeatCommonPart fRepeatCommonPart;
 
@@ -5423,7 +5423,7 @@ class msrRepeat : public msrVoiceElement
                                 fCurrentRepeatBuildPhaseKind =
                                   repeatBuildPhaseKind;
                               }
-                            
+
     msrRepeatBuildPhaseKind
                           getCurrentRepeatBuildPhaseKind () const
                             { return fCurrentRepeatBuildPhaseKind; }
@@ -5468,9 +5468,9 @@ class msrMeasuresRepeatElement : public msrElement
     msrMeasuresRepeatElement (
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
-      
+
     virtual ~msrMeasuresRepeatElement ();
-  
+
   public:
 
     // set and get
@@ -5484,12 +5484,12 @@ class msrMeasuresRepeatElement : public msrElement
     const list<S_msrVoiceElement>&
                           getMeasuresRepeatElementElementsList ()
                               { return fMeasuresRepeatElementElementsList; }
-                
+
   public:
 
     // public services
     // ------------------------------------------------------
-  
+
     void                  appendSegmentToMeasuresRepeatElementsList (
                             int          inputLineNumber,
                             S_msrSegment segment,
@@ -5510,12 +5510,12 @@ class msrMeasuresRepeatElement : public msrElement
 
     void                  collectMeasuresRepeatElementMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   private:
 
     // private services
     // ------------------------------------------------------
-  
+
     void                  appendVoiceElementToMeasuresRepeatElementsList ( // JMI
                             int               inputLineNumber,
                             S_msrVoiceElement voiceElement,
@@ -5537,7 +5537,7 @@ class msrMeasuresRepeatElement : public msrElement
     // ------------------------------------------------------
 
     string                asString () const;
-                    
+
     virtual void          print (ostream& os);
 
     virtual void          shortPrint (ostream& os);
@@ -5569,7 +5569,7 @@ class msrMeasuresRepeatPattern : public msrElement
     static SMARTP<msrMeasuresRepeatPattern> create (
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
-    
+
     /* JMI
     SMARTP<msrMeasuresRepeatPattern> createMeasuresRepeatPatternNewbornClone (
       S_msrVoice containingVoice);
@@ -5586,9 +5586,9 @@ class msrMeasuresRepeatPattern : public msrElement
     msrMeasuresRepeatPattern (
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
-      
+
     virtual ~msrMeasuresRepeatPattern ();
-  
+
   public:
 
     // set and get
@@ -5597,7 +5597,7 @@ class msrMeasuresRepeatPattern : public msrElement
     // segment
     void                  setMeasuresRepeatPatternSegment (
                             S_msrSegment measuresRepeatPatternSegment);
-                              
+
     S_msrSegment          getMeasuresRepeatPatternSegment () const
                               { return fMeasuresRepeatPatternSegment; }
 
@@ -5609,10 +5609,10 @@ class msrMeasuresRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     int                   measuresRepeatPatternMeasuresNumber () const;
-        
+
     void                  collectRepeatPatternMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5636,7 +5636,7 @@ class msrMeasuresRepeatPattern : public msrElement
 
     // fields
     // ------------------------------------------------------
-    
+
     // uplinks
     S_msrMeasuresRepeat   fMeasuresRepeatUplink;
 
@@ -5657,7 +5657,7 @@ class msrMeasuresRepeatReplicas : public msrElement
     static SMARTP<msrMeasuresRepeatReplicas> create (
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
-    
+
     /* JMI
     SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasNewbornClone (
       S_msrVoice containingVoice);
@@ -5674,9 +5674,9 @@ class msrMeasuresRepeatReplicas : public msrElement
     msrMeasuresRepeatReplicas (
       int                 inputLineNumber,
       S_msrMeasuresRepeat measuresRepeatUplink);
-      
+
     virtual ~msrMeasuresRepeatReplicas ();
-  
+
   public:
 
     // set and get
@@ -5696,12 +5696,12 @@ class msrMeasuresRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     int                   measuresRepeatReplicasMeasuresNumber () const;
-    
+
     int                   measuresRepeatReplicasNumber () const;
 
     void                  collectRepeatReplicasMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5722,7 +5722,7 @@ class msrMeasuresRepeatReplicas : public msrElement
     virtual void          print (ostream& os);
 
   private:
-      
+
     // fields
     // ------------------------------------------------------
 
@@ -5749,7 +5749,7 @@ class msrMeasuresRepeat : public msrVoiceElement
 
     static string measuresRepeatKindAsString (
       msrMeasuresRepeatKind measuresRepeatKind);
-      
+
     enum msrMeasuresRepeatBuildPhaseKind {
       kMeasuresRepeatBuildPhaseJustCreated,
       kMeasuresRepeatBuildPhaseInPattern,
@@ -5758,7 +5758,7 @@ class msrMeasuresRepeat : public msrVoiceElement
 
     static string measuresRepeatBuildPhaseKindAsString (
       msrMeasuresRepeatBuildPhaseKind measuresRepeatBuildPhaseKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -5767,7 +5767,7 @@ class msrMeasuresRepeat : public msrVoiceElement
       int        measuresRepeatMeasuresNumber,
       int        measuresRepeatSlashesNumber,
       S_msrVoice voiceUplink);
-    
+
     SMARTP<msrMeasuresRepeat> createMeasuresRepeatNewbornClone (
       S_msrVoice containingVoice);
 
@@ -5784,9 +5784,9 @@ class msrMeasuresRepeat : public msrVoiceElement
       int        measuresRepeatMeasuresNumber,
       int        measuresRepeatSlashesNumber,
       S_msrVoice voiceUplink);
-      
+
     virtual ~msrMeasuresRepeat ();
-  
+
   public:
 
     // set and get
@@ -5799,15 +5799,15 @@ class msrMeasuresRepeat : public msrVoiceElement
     // numbers
     int                   getMeasuresRepeatMeasuresNumber () const
                               { return fMeasuresRepeatMeasuresNumber; }
-                              
+
     int                   getMeasuresRepeatSlashesNumber () const
                               { return fMeasuresRepeatSlashesNumber; }
-                              
+
     // measuresRepeat pattern
     void                  setMeasuresRepeatPattern (
                             S_msrMeasuresRepeatPattern
                               measuresRepeatPattern);
-                  
+
     S_msrMeasuresRepeatPattern
                           getMeasuresRepeatPattern () const
                               { return fMeasuresRepeatPattern; }
@@ -5816,7 +5816,7 @@ class msrMeasuresRepeat : public msrVoiceElement
     void                  setMeasuresRepeatReplicas (
                             S_msrMeasuresRepeatReplicas
                               measuresRepeatReplicas);
-                  
+
     S_msrMeasuresRepeatReplicas
                           getMeasuresRepeatReplicas () const
                               { return fMeasuresRepeatReplicas; }
@@ -5829,11 +5829,11 @@ class msrMeasuresRepeat : public msrVoiceElement
                                 fCurrentMeasuresRepeatBuildPhaseKind =
                                   measuresRepeatBuildPhaseKind;
                               }
-                            
+
     msrMeasuresRepeatBuildPhaseKind
                           getCurrentMeasuresRepeatBuildPhaseKind () const
                             { return fCurrentMeasuresRepeatBuildPhaseKind; }
-                            
+
     // services
     // ------------------------------------------------------
 
@@ -5843,19 +5843,19 @@ class msrMeasuresRepeat : public msrVoiceElement
                                 fMeasuresRepeatPattern->
                                   measuresRepeatPatternMeasuresNumber ();
                             }
-    
+
     int                   measuresRepeatReplicasMeasuresNumber () const
                             {
                               return
                                 fMeasuresRepeatReplicas->
                                   measuresRepeatReplicasMeasuresNumber ();
                             }
-    
+
     int                   measuresRepeatReplicasNumber () const;
 
     void                  collectMeasuresRepeatMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5894,7 +5894,7 @@ class msrMeasuresRepeat : public msrVoiceElement
     // measures repeat pattern
     S_msrMeasuresRepeatPattern
                           fMeasuresRepeatPattern;
-    
+
     // measures repeat replicas
     S_msrMeasuresRepeatReplicas
                           fMeasuresRepeatReplicas;
@@ -5910,14 +5910,14 @@ EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt);
 class msrRestMeasuresContents : public msrElement
 {
   public:
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrRestMeasuresContents> create (
       int               inputLineNumber,
       S_msrRestMeasures restMeasures);
-    
+
     SMARTP<msrRestMeasuresContents> createRestMeasuresContentsNewbornClone (
       S_msrRestMeasures restMeasures);
 
@@ -5932,9 +5932,9 @@ class msrRestMeasuresContents : public msrElement
     msrRestMeasuresContents (
       int               inputLineNumber,
       S_msrRestMeasures restMeasures);
-      
+
     virtual ~msrRestMeasuresContents ();
-  
+
   public:
 
     // set and get
@@ -5961,7 +5961,7 @@ class msrRestMeasuresContents : public msrElement
 
     void                  collectRestMeasuresContentsMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -5973,22 +5973,22 @@ class msrRestMeasuresContents : public msrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-    
+
     // print
     // ------------------------------------------------------
 
     string                asString () const;
-    
+
     virtual void          print (ostream& os);
 
   private:
-    
+
     // fields
     // ------------------------------------------------------
 
     // uplink
     S_msrRestMeasures     fRestMeasuresContentsRestMeasuresUplink;
-    
+
     S_msrSegment          fRestMeasuresContentsSegment;
 };
 typedef SMARTP<msrRestMeasuresContents> S_msrRestMeasuresContents;
@@ -6003,12 +6003,12 @@ class msrRestMeasures : public msrVoiceElement
     // ------------------------------------------------------
 
     enum msrRestMeasuresKind {
-      kStartRestMeasures, kStopRestMeasures, 
+      kStartRestMeasures, kStopRestMeasures,
       k_NoRestMeasures };
 
     static string restMeasuresKindAsString (
       msrRestMeasuresKind restMeasuresKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -6017,7 +6017,7 @@ class msrRestMeasures : public msrVoiceElement
       rational   restMeasuresMeasureSoundingNotes,
       int        restMeasuresNumber,
       S_msrVoice voiceUplink);
-    
+
     SMARTP<msrRestMeasures> createRestMeasuresNewbornClone (
       S_msrVoice containingVoice);
 
@@ -6034,9 +6034,9 @@ class msrRestMeasures : public msrVoiceElement
       rational   restMeasuresMeasureSoundingNotes,
       int        restMeasuresNumber,
       S_msrVoice voiceUplink);
-      
+
     virtual ~msrRestMeasures ();
-  
+
   public:
 
     // set and get
@@ -6047,11 +6047,11 @@ class msrRestMeasures : public msrVoiceElement
 
     int                   getRestMeasuresNumber () const
                               { return fRestMeasuresNumber; }
-                              
+
     void                  setRestMeasuresContents (
                             S_msrRestMeasuresContents
                               restMeasuresContents);
-                  
+
     S_msrRestMeasuresContents
                           getRestMeasuresContents () const
                               { return fRestMeasuresContents; }
@@ -6083,7 +6083,7 @@ class msrRestMeasures : public msrVoiceElement
 
     void                  collectRestMeasuresIntoFlatList (
                             int inputLineNumber);
-    
+
   public:
 
     // visitors
@@ -6100,11 +6100,11 @@ class msrRestMeasures : public msrVoiceElement
     // ------------------------------------------------------
 
     string                asString () const;
-    
+
     void                  displayRestMeasures (
                             int    inputLineNumber,
                             string context);
-                            
+
     virtual void          print (ostream& os);
 
   private:
@@ -6115,7 +6115,7 @@ class msrRestMeasures : public msrVoiceElement
     S_msrVoice            fRestMeasuresVoiceUplink;
 
     int                   fRestMeasuresNumber;
-    
+
     S_msrRestMeasuresContents
                           fRestMeasuresContents;
 
@@ -6140,7 +6140,7 @@ class msrRepeatCoda : public msrElement
       int          inputLineNumber,
       S_msrSegment segment,
       S_msrRepeat  repeatUplink);
-    
+
     SMARTP<msrRepeatCoda> createRepeatCodaNewbornClone (
       S_msrRepeat containingRepeat);
 
@@ -6156,9 +6156,9 @@ class msrRepeatCoda : public msrElement
       int          inputLineNumber,
       S_msrSegment segment,
       S_msrRepeat  repeatUplink);
-      
+
     virtual ~msrRepeatCoda ();
-  
+
   public:
 
     // set and get
@@ -6167,16 +6167,16 @@ class msrRepeatCoda : public msrElement
     // segment
     S_msrSegment          getRepeatCodaSegment () const
                               { return fRepeatCodaSegment; }
-                
+
     // uplinks
     S_msrRepeat           getRepeatCodaRepeatUplink () const
                               { return fRepeatCodaRepeatUplink; }
 
     // services
     // ------------------------------------------------------
-  
+
  //  JMI void                  appendElementToRepeatCoda (S_msrElement elem);
-                    
+
   public:
 
     // visitors
@@ -6221,7 +6221,7 @@ struct msrRepeatDescr : public smartable
     static SMARTP<msrRepeatDescr> create (
       int         repeatDescrStartInputLineNumber,
       S_msrRepeat repeatDescrRepeat);
-     
+
   protected:
 
     // constructors/destructor
@@ -6247,13 +6247,13 @@ struct msrRepeatDescr : public smartable
                                 fRepeatDescrStartInputLineNumber =
                                   inputLineNumber;
                               }
-    
+
     int                   getRepeatDescrStartInputLineNumber () const
                               {
                                 return
                                   fRepeatDescrStartInputLineNumber;
                               }
-    
+
     // services
     // ------------------------------------------------------
 
@@ -6261,11 +6261,11 @@ struct msrRepeatDescr : public smartable
 
     // print
     // ------------------------------------------------------
-    
+
     virtual void          print (ostream& os) const;
-    
+
   private:
-     
+
     // fields
     // ------------------------------------------------------
 
@@ -6286,7 +6286,7 @@ typedef SMARTP<msrStaff> S_msrStaff;
 class msrVoice : public msrElement
 {
   public:
-    
+
     // constants
     // ------------------------------------------------------
 
@@ -6301,16 +6301,16 @@ class msrVoice : public msrElement
       kVoiceRegular,
       kVoiceHarmony,       // for MusicXML <harmony/>, LilyPond ChordNames
       kVoiceFiguredBass }; // for MusicXML <figured-bass/>, LilyPond FiguredBass
-          
+
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
-      
+
     enum msrVoiceRepeatPhaseKind {
         kVoiceRepeatPhaseNone,
         kVoiceRepeatPhaseAfterCommonPart,
         kVoiceRepeatPhaseAfterHookedEnding,
         kVoiceRepeatPhaseAfterHooklessEnding };
-      
+
     static string voiceRepeatPhaseKindAsString (
       msrVoiceRepeatPhaseKind
         afterRepeatComponentPhaseKind);
@@ -6318,13 +6318,13 @@ class msrVoice : public msrElement
     enum msrVoiceFinalizationStatusKind { // JMI ???
       kKeepVoice,
       kEraseVoice };
-          
+
     static string voiceFinalizationStatusKindAsString (
       msrVoiceFinalizationStatusKind voiceFinalizationStatusKind);
 
     enum msrVoiceCreateInitialLastSegmentKind {
       kCreateInitialLastSegmentYes, kCreateInitialLastSegmentNo };
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -6335,7 +6335,7 @@ class msrVoice : public msrElement
       msrVoiceCreateInitialLastSegmentKind
                    voiceCreateInitialLastSegmentKind,
       S_msrStaff   voiceStaffUplink);
-    
+
     SMARTP<msrVoice> createVoiceNewbornClone (
       S_msrStaff containingStaff);
 
@@ -6377,7 +6377,7 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    
+
     S_msrStaff            getVoiceStaffUplink () const
                               { return fVoiceStaffUplink; }
 
@@ -6385,18 +6385,18 @@ class msrVoice : public msrElement
 
     void                  setVoiceKind (msrVoiceKind voiceKind)
                             { fVoiceKind = voiceKind; }
-                            
+
     msrVoiceKind          getVoiceKind () const
                               { return fVoiceKind; }
 
     // voice numbers
-    
+
     void                  setVoiceNumber (int voiceNumber)
                               { fVoiceNumber = voiceNumber; }
 
     int                   getVoiceNumber () const
                               { return fVoiceNumber; }
-                
+
     void                  setRegularVoiceStaffSequentialNumber (
                             int regularVoiceStaffSequentialNumber)
                               {
@@ -6408,7 +6408,7 @@ class msrVoice : public msrElement
                               { return fRegularVoiceStaffSequentialNumber; }
 
     // voice name
-    
+
     void                  setVoiceNameFromNumber (
                             int inputLineNumber,
                             int voiceNumber);
@@ -6433,13 +6433,13 @@ class msrVoice : public msrElement
                               { return fRegularVoiceForFiguredBassVoice; }
 
     // stanzas
-                   
+
     const map<string, S_msrStanza>&
                           getVoiceStanzasMap () const
                               { return fVoiceStanzasMap; }
 
     // voice last segment
-    
+
     void                  setVoiceLastSegmentInVoiceClone (
                             S_msrSegment segment);
 
@@ -6455,7 +6455,7 @@ class msrVoice : public msrElement
                               { return fVoiceLastAppendedNote; }
 
     // voice shortest note
-    
+
     rational              getVoiceShortestNoteDuration () const
                               { return fVoiceShortestNoteDuration; }
 
@@ -6463,7 +6463,7 @@ class msrVoice : public msrElement
                               { return fVoiceShortestNoteTupletFactor; }
 
     // counters
-    
+
     int                   getVoiceActualNotesCounter () const
                               { return fVoiceActualNotesCounter; }
 
@@ -6480,7 +6480,7 @@ class msrVoice : public msrElement
                               { return fVoiceActualFiguredBassesCounter; }
 
     // has music been inserted in the voice?
-    
+
     void                  setMusicHasBeenInsertedInVoice ()
                               { fMusicHasBeenInsertedInVoice = true; }
 
@@ -6509,7 +6509,7 @@ class msrVoice : public msrElement
 
 
    // rests measures
-    
+
     void                  setVoiceContainsRestMeasures (
                             int inputLineNumber);
 
@@ -6517,7 +6517,7 @@ class msrVoice : public msrElement
                               { return fVoiceContainsRestMeasures; }
 
     // measures repeats
-    
+
     void                  setVoiceContainsMeasuresRepeats (
                             int inputLineNumber);
 
@@ -6530,7 +6530,7 @@ class msrVoice : public msrElement
                               { return fVoiceMeasuresFlatList; }
 
   public:
-  
+
     // public services
     // ------------------------------------------------------
 
@@ -6544,7 +6544,7 @@ class msrVoice : public msrElement
                             int voiceNumber);
 
     // measures
-     
+
     S_msrMeasure          createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6554,27 +6554,27 @@ class msrVoice : public msrElement
     void                  setNextMeasureNumberInVoice (
                             int    inputLineNumber,
                             string nextMeasureNumber);
-                                                    
+
     void                  padUpToActualMeasureWholeNotesInVoice (
                             int      inputLineNumber,
                             rational wholeNotes);
-  
+
     void                  appendPaddingNoteToVoice ( // for <forward />
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
-  
+
     // clef, key, time
-    
+
     void                  appendClefToVoice (S_msrClef clef);
-    
+
     void                  appendKeyToVoice  (S_msrKey  key);
-    
+
     void                  appendTimeToVoice (S_msrTime time);
     void                  appendTimeToVoiceClone (S_msrTime time);
 
     // notes
-    
+
     S_msrNote             fetchVoiceFirstNonGraceNote () const;
 
     void                  registerShortestNoteIfRelevant (S_msrNote note);
@@ -6614,21 +6614,21 @@ class msrVoice : public msrElement
                             S_msrStaffDetails staffDetails);
 
     // tempo
-    
+
     void                  appendTempoToVoice (S_msrTempo tempo);
 
     // rehearsals
-    
+
     void                  appendRehearsalToVoice (
                             S_msrRehearsal rehearsal);
 
     // octave shifts
-    
+
     void                  appendOctaveShiftToVoice (
                             S_msrOctaveShift octaveShift);
 
     // scordaturas
-    
+
     void                  appendScordaturaToVoice (
                             S_msrScordatura scordatura);
 
@@ -6639,39 +6639,39 @@ class msrVoice : public msrElement
                               accordionRegistration);
 
     // harp pedals tuning
-    
+
     void                  appendHarpPedalsTuningToVoice (
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
     // staff change
-    
+
     void                  appendVoiceStaffChangeToVoice (
                             S_msrVoiceStaffChange voiceStaffChange);
 
     // notes
-    
+
     void                  appendNoteToVoice      (S_msrNote note);
     void                  appendNoteToVoiceClone (S_msrNote note);
 
     // tremolos
-    
+
     void                  appendDoubleTremoloToVoice (
                             S_msrDoubleTremolo doubleTremolo);
 
     // chords
-    
+
     void                  appendChordToVoice  (S_msrChord chord);
 
     // tuplets
-    
+
     void                  appendTupletToVoice (S_msrTuplet tuplet);
 
     // harmonies
 
     void                  appendHarmonyToVoice (
                             S_msrHarmony harmony);
-    
+
     void                  appendHarmonyToVoiceClone (
                             S_msrHarmony harmony);
 
@@ -6679,7 +6679,7 @@ class msrVoice : public msrElement
 
     void                  appendFiguredBassToVoice (
                             S_msrFiguredBass figuredBass);
-    
+
     void                  appendFiguredBassToVoiceClone (
                             S_msrFiguredBass figuredBass);
 
@@ -6687,7 +6687,7 @@ class msrVoice : public msrElement
 
     void                  appendFrameToVoice (
                             S_msrFrame frame);
-    
+
     void                  appendFrameToVoiceClone (
                             S_msrFrame frame);
 
@@ -6708,7 +6708,7 @@ class msrVoice : public msrElement
                             */
 
     // lyrics
-    
+
     void                  appendSyllableToVoice ( // JMI
                             int           inputLineNumber,
                             string        stanzaNumber,
@@ -6716,52 +6716,52 @@ class msrVoice : public msrElement
                             S_msrSyllable syllable);
 
     // bar checks
-    
+
     void                  appendBarCheckToVoice (
                             S_msrBarCheck barCheck);
 
     // bar number checks
-    
+
     void                  appendBarNumberCheckToVoice (
                             S_msrBarNumberCheck barNumberCheck);
 
     // breaks
-    
+
     void                  appendLineBreakToVoice (S_msrLineBreak lineBreak);
     void                  appendPageBreakToVoice (S_msrPageBreak pageBreak);
 
     // bar lines
-    
+
     void                  prependBarlineToVoice (S_msrBarline barline);
     void                  appendBarlineToVoice (S_msrBarline barline);
 
     // segno
-    
+
     void                  appendSegnoToVoice (S_msrSegno segno);
 
     // coda
-    
+
     void                  appendCodaToVoice (S_msrCoda coda);
 
     // eyeglasses
-    
+
     void                  appendEyeGlassesToVoice (
                             S_msrEyeGlasses eyeGlasses);
 
     // pedal
-    
+
     void                  appendPedalToVoice (S_msrPedal pedal);
 
     // damp
-    
+
     void                  appendDampToVoice (S_msrDamp damp);
 
     // damp all
-    
+
     void                  appendDampAllToVoice (S_msrDampAll dampAll);
 
     // other elements
-    
+
     void                  prependOtherElementToVoice (
                             S_msrMeasureElement elem);
     void                  appendOtherElementToVoice (
@@ -6770,17 +6770,17 @@ class msrVoice : public msrElement
                             // in this header file, such as LPSR elements
 
     // last measure in voice
-    
+
     S_msrMeasure          fetchVoiceLastMeasure (
                             int inputLineNumber) const;
-    
+
     // last element in voice
 
     S_msrMeasureElement   fetchVoiceLastElement ( // JMI ???
                             int inputLineNumber) const;
-    
+
     // removing elements from voice
-    
+
     void                  removeNoteFromVoice (
                             int       inputLineNumber,
                             S_msrNote note);
@@ -6793,18 +6793,18 @@ class msrVoice : public msrElement
                             int inputLineNumber);
 
     // segments
-    
+
     void                  createNewLastSegmentForVoice (
                             int    inputLineNumber,
                             string context);
-    
+
     void                  createNewLastSegmentFromFirstMeasureForVoice (
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure,
                             string       context);
 
     // repeats
-    
+
     void                  handleRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -6812,13 +6812,13 @@ class msrVoice : public msrElement
 
     void                  handleRepeatEndingStartInVoice (
                             int inputLineNumber);
-                            
+
     void                  handleRepeatEndingEndInVoice (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind);
-                            
+
     void                  handleRepeatCommonPartStartInVoiceClone (
                             int inputLineNumber);
 
@@ -6830,7 +6830,7 @@ class msrVoice : public msrElement
                             msrRepeatEnding::msrRepeatEndingKind
                                       repeatEndingKind,
                             string    repeatEndingNumber); // may be "1, 2"
-                            
+
     void                  handleRepeatEndingEndInVoiceClone (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
@@ -6847,21 +6847,21 @@ class msrVoice : public msrElement
                             string measureNumber,
                             int    repeatTimes);
                             */
-  
+
     void                  handleRepeatStartInVoice (
                             int inputLineNumber);
-                            
+
     void                  handleRepeatStartInVoiceClone (
                             int         inputLineNumber,
                             S_msrRepeat repeat);
-  
+
     void                  handleRepeatEndInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  appendRepeatCloneToVoiceClone (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
-    
+
     void                  appendRepeatEndingCloneToVoice (
                             S_msrRepeatEnding repeatEndingClone);
 
@@ -6869,7 +6869,7 @@ class msrVoice : public msrElement
 
     void                  appendRestMeasuresToVoiceElementsList (
                             S_msrRestMeasures restMeasures);
-                            
+
     void                  createRestMeasuresInVoice (
                             int inputLineNumber,
                             int restMeasuresNumber);
@@ -6877,27 +6877,27 @@ class msrVoice : public msrElement
     void                  appendRestMeasuresToVoice (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
-                            
+
     void                  appendPendingRestMeasuresToVoice (
                             int inputLineNumber);
-                            
+
     void                  handleRestMeasuresStartInVoiceClone (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
-  
+
     void                  handleRestMeasuresEndInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  handleRestMeasuresContentsStartInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  handleRestMeasuresContentsEndInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  appendRestMeasuresCloneToVoiceClone ( // JMI ???
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasuresClone);
-  
+
     // measures repeats
 
     void                  appendMeasuresRepeatToVoiceElementsList (
@@ -6905,7 +6905,7 @@ class msrVoice : public msrElement
 
     void                  appendMeasuresRepeatReplicaToVoice (
                             int inputLineNumber);
-    
+
     void                  createMeasuresRepeatFromItsFirstMeasuresInVoice (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
@@ -6917,7 +6917,7 @@ class msrVoice : public msrElement
 
     void                  appendPendingMeasuresRepeatToVoice (
                             int inputLineNumber);
-                            
+
     void                  createMeasuresRepeatAndAppendItToVoiceClone (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
@@ -6926,22 +6926,22 @@ class msrVoice : public msrElement
     void                  handleMeasuresRepeatStartInVoiceClone (
                             int                 inputLineNumber,
                             S_msrMeasuresRepeat measuresRepeat);
-  
+
     void                  handleMeasuresRepeatEndInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  handleMeasuresRepeatPatternStartInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  handleMeasuresRepeatPatternEndInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  handleMeasuresRepeatReplicasStartInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  handleMeasuresRepeatReplicasEndInVoiceClone (
                             int inputLineNumber);
-  
+
     void                  appendMeasuresRepeatCloneToVoiceClone ( // JMI ???
                             int                 inputLineNumber,
                             S_msrMeasuresRepeat measuresRepeatClone);
@@ -6962,22 +6962,22 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string stanzaNumber,
                             string stanzaName);
-    
+
     S_msrStanza           fetchStanzaInVoice (
                             int    inputLineNumber,
                             string stanzaNumber,
                             string stanzaName);
 
     // strings
-    
+
     // finalization
-    
+
     void                  finalizeCurrentMeasureInVoice (
                             int inputLineNumber);
 
     void                  finalizeVoice (
                             int inputLineNumber);
-    
+
     void                  collectVoiceMeasuresIntoFlatList (
                             int inputLineNumber);
 
@@ -6987,17 +6987,17 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     // voice last segment
-    
+
     void                  appendVoiceLastSegmentToInitialVoiceElements (
                             int          inputLineNumber,
                             string       context);
-    
+
     void                  moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
                             int          inputLineNumber,
                             string       context);
-    
+
     // repeats
-    
+
     S_msrRepeat           createARepeatAndStackIt (
                             int    inputLineNumber,
                             string context);
@@ -7016,12 +7016,12 @@ class msrVoice : public msrElement
                             int         inputLineNumber,
                             S_msrRepeat repeat,
                             string      context);
-                            
+
     void                  appendRepeatToInitialVoiceElements (
                             int         inputLineNumber,
                             S_msrRepeat repeat,
                             string      context);
-    
+
     void                  appendRepeatCloneToInitialVoiceElements (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone,
@@ -7029,13 +7029,13 @@ class msrVoice : public msrElement
 
     void                  nestContentsIntoNewRepeatInVoice (
                             int inputLineNumber);
-  
+
     void                  handleVoiceLevelRepeatStartInVoice (
                             int inputLineNumber);
-                            
+
     void                  handleNestedRepeatStartInVoice (
                             int inputLineNumber);
-                            
+
     void                  handleVoiceLevelRepeatEndWithoutStartInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -7054,13 +7054,13 @@ class msrVoice : public msrElement
     void                  handleVoiceLevelRepeatEndingStartWithoutExplicitStartInVoice (
                             int         inputLineNumber,
                             S_msrRepeat currentRepeat);
-                            
+
     void                  handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
                             int inputLineNumber);
-                            
+
     void                  handleNestedRepeatEndingStartInVoice (
                             int inputLineNumber);
-                            
+
     void                  handleNestedRepeatEndInVoice (
                             int    inputLineNumber,
                             string measureNumber,
@@ -7080,7 +7080,7 @@ class msrVoice : public msrElement
                             int                   inputLineNumber,
                             S_msrRepeatCommonPart repeatCommonPart,
                             string                context);
-  
+
     void                  moveVoiceLastSegmentToRepeatEnding (
                             int               inputLineNumber,
                             S_msrRepeatEnding repeatEnding,
@@ -7103,19 +7103,19 @@ class msrVoice : public msrElement
                             string    repeatEndingNumber); // may be "1, 2"
 
     // rest measures
-    
+
     void                  appendRestMeasuresToInitialVoiceElements (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures,
                             string            context);
-    
+
     // measures repeats
-    
+
     void                  appendMeasuresRepeatToInitialVoiceElements (
                             int                 inputLineNumber,
                             S_msrMeasuresRepeat measuresRepeat,
                             string              context);
-    
+
   public:
 
     // visitors
@@ -7132,18 +7132,18 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     string                voiceKindAsString () const;
-    
+
     string                voiceNumberAsString () const;
 
     string                regularVoiceStaffSequentialNumberAsString () const;
 
     string                asShortString () const;
     string                asString () const;
-    
+
     void                  displayVoice (
                             int    inputLineNumber,
                             string context);
-                                
+
     void                  displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
                             int    inputLineNumber,
                             string context);
@@ -7156,7 +7156,7 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    
+
     S_msrStaff            fVoiceStaffUplink;
 
     // voice kind
@@ -7182,12 +7182,12 @@ class msrVoice : public msrElement
     // two-way links
     S_msrVoice            fHarmonyVoiceForRegularVoice;
     S_msrVoice            fRegularVoiceForHarmonyVoice;
-    
+
     S_msrVoice            fFiguredBassVoiceForRegularVoice;
     S_msrVoice            fRegularVoiceForFiguredBassVoice;
 
     // counters
-    
+
     static int            gVoicesCounter;
 
     int                   fVoiceActualNotesCounter;
@@ -7197,7 +7197,7 @@ class msrVoice : public msrElement
     int                   fVoiceActualFiguredBassesCounter;
 
     // musically empty voices
-    
+
     bool                  fMusicHasBeenInsertedInVoice;
 
     // regular measure ends detection
@@ -7207,19 +7207,19 @@ class msrVoice : public msrElement
     // incomplete measures after repeats detection
     msrVoiceRepeatPhaseKind
                           fCurrentVoiceRepeatPhaseKind;
-    
+
     // voice internal handling
-    
+
     list<S_msrVoiceElement>
                           fInitialVoiceElementsList;
 
      // stanzas
-        
+
     map<string, S_msrStanza>
                           fVoiceStanzasMap;
 
    // segments
-    
+
     // fVoiceLastSegment contains the music
     // not yet stored in fVoiceInitialElementsList,
     // it is thus logically the end of the latter,
@@ -7243,7 +7243,7 @@ class msrVoice : public msrElement
     list<S_msrMeasure>    fVoiceMeasuresFlatList;
 
     // notes
-    
+
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
     rational              fVoiceShortestNoteDuration;
@@ -7253,33 +7253,36 @@ class msrVoice : public msrElement
     // if needed, such as when generating MusicXML from MSR
     rational              fVoiceShorftestNoteDuration;
     rational              fVoiceShortestNoteTupletFactor;
-    
+
     // repeats
-    
+
   public:
 
     // public work services
     // ------------------------------------------------------
 
     // clef, key, time
-    
+
     void                  setVoiceCurrentClef (S_msrClef clef);
-                              
+
     S_msrClef             getVoiceCurrentClef () const
                               { return fVoiceCurrentClef; };
-                              
+
+    S_msrClef             getVoiceFirstClef () const
+                              { return fVoiceFirstClef; };
+
     void                  setVoiceCurrentKey (S_msrKey key);
-                              
+
     S_msrKey              getVoiceCurrentKey  () const
                               { return fVoiceCurrentKey; };
-                              
+
     void                  setVoiceCurrentTime (S_msrTime time);
 
     S_msrTime             getVoiceCurrentTime () const
                               { return fVoiceCurrentTime; };
 
      // measures
-     
+
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
@@ -7339,52 +7342,55 @@ class msrVoice : public msrElement
     // needed at the voice level, because adding such to voice clones
     // is done directly, without going down the part-staff-voice hierarchy
     S_msrClef             fVoiceCurrentClef;
-                            
+
     S_msrKey              fVoiceCurrentKey;
 
     S_msrTime             fVoiceCurrentTime;
 
+    // the first in the voice is handled specifically for LilyPond code generation
+    S_msrClef             fVoiceFirstClef;
+
     // measures
-    
+
     string                fVoiceCurrentMeasureNumber;
-    
+
     int                   fVoiceCurrentMeasurePuristNumber;
                             // this is a 'purist' measure number,
                             // that starts at 0 if there is an anacrusis,
                             // and 1 otherwise,
                             // and is shared by incomplete (sub)measure parts
-    
+
     // fVoiceCurrentMeasure contains the last measure append to the voice
     S_msrMeasure          fVoiceCurrentMeasure;
-    
+
     // a stack is needed to handle pending repeats, which can be nested
     list<S_msrRepeatDescr>
                           fVoicePendingRepeatDescrsStack;
-    
+
     // rest measures
-    
+
     // fVoicePendingRestMeasures is either null
     // or the last msrRestMeasures created,
     // but not yet appended to the voice
     S_msrRestMeasures     fVoicePendingRestMeasures;
-    
+
     // fVoiceRestMeasuresWaitingForItsNextMeasureNumber is either null
     // or the last msrRestMeasures created and appended to the voice,
     // but with its next measure number not yet set
     S_msrRestMeasures     fVoiceRestMeasuresWaitingForItsNextMeasureNumber;
     int                   fVoiceRemainingRestMeasures;
-    
+
     bool                  fVoiceContainsRestMeasures;
 
     // measure repeats
-    
+
     // fVoicePendingMeasuresRepeat is either null
     // or the last msrMeasuresRepeat created,
     // but not yet appended to the voice
     S_msrMeasuresRepeat   fVoicePendingMeasuresRepeat;
-    
+
     bool                  fVoiceContainsMeasuresRepeats;
-    
+
     // voice finalization
 
     bool                  fVoiceHasBeenFinalized;
@@ -7414,7 +7420,7 @@ class msrStaff : public msrElement
 
     static string staffKindAsString (
       msrStaffKind staffKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -7423,7 +7429,7 @@ class msrStaff : public msrElement
       msrStaffKind staffKind,
       int          staffNumber,
       S_msrPart    staffPartUplink);
-    
+
     SMARTP<msrStaff> createStaffNewbornClone (
       S_msrPart containingPart);
 
@@ -7437,9 +7443,9 @@ class msrStaff : public msrElement
       msrStaffKind staffKind,
       int          staffNumber,
       S_msrPart    staffPartUplink);
-      
+
     virtual ~msrStaff ();
-  
+
   private:
 
     // initialization
@@ -7458,15 +7464,15 @@ class msrStaff : public msrElement
                               { return fStaffPartUplink; }
 
     // staff kind
-    
+
     msrStaffKind          getStaffKind () const
                               { return fStaffKind; }
 
     // staff number and name
-    
+
     int                   getStaffNumber () const
                               { return fStaffNumber; }
-                
+
     string                getStaffName () const
                               { return fStaffName; }
 
@@ -7487,7 +7493,7 @@ class msrStaff : public msrElement
                             { return fCurrentStaffStaffDetails; }
 
     // staff voices
-    
+
     const map<int, S_msrVoice>&
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
@@ -7510,7 +7516,7 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     // staff details
-    
+
     void                  appendStaffDetailsToStaff (
                             S_msrStaffDetails staffDetails);
 
@@ -7519,16 +7525,16 @@ class msrStaff : public msrElement
     void                  padUpToActualMeasureWholeNotesInStaff (
                             int      inputLineNumber,
                             rational wholeNotes);
-  
+
     // clef, key, time
 
     void                  appendClefToStaff (S_msrClef clef);
-    
+
     void                  appendKeyToStaff (S_msrKey  key);
-    
+
     void                  appendTimeToStaff (S_msrTime time);
     void                  appendTimeToStaffClone (S_msrTime time);
-    
+
     // transpose
 
     void                  appendTransposeToStaff (
@@ -7545,7 +7551,7 @@ class msrStaff : public msrElement
                             S_msrPartAbbreviationDisplay partAbbreviationDisplay);
 
     // voices
-      
+
     S_msrVoice            createVoiceInStaffByItsNumber (
                             int                    inputLineNumber,
                             msrVoice::msrVoiceKind voiceKind,
@@ -7560,24 +7566,24 @@ class msrStaff : public msrElement
                             int        inputLineNumber,
                             int        voiceNumber,
                             S_msrVoice voice);
-  
+
     void                  registerVoiceInRegularVoicesMap (
                             int        voiceNumber,
                             S_msrVoice voice);
-  
+
     void                  registerVoiceInAllVoicesList (
                             int        voiceNumber,
                             S_msrVoice voice);
-  
+
     S_msrVoice            fetchVoiceFromStaffByItsNumber (
                             int inputLineNumber,
                             int voiceNumber);
 
     void                  addAVoiceToStaffIfItHasNone (
                             int inputLineNumber);
-  
+
     // measures
-    
+
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber,
@@ -7589,7 +7595,7 @@ class msrStaff : public msrElement
                             string nextMeasureNumber);
 
     // repeats
-    
+
     void                  handleRepeatStartInStaff (
                             int inputLineNumber);
 
@@ -7597,10 +7603,10 @@ class msrStaff : public msrElement
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
-    
+
     void                  handleRepeatEndingStartInStaff (
                             int inputLineNumber);
-    
+
     void                  handleRepeatEndingEndInStaff (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
@@ -7613,22 +7619,22 @@ class msrStaff : public msrElement
                             string measureNumber,
                             int    repeatTimes);
     */
-    
+
     void                  createMeasuresRepeatFromItsFirstMeasuresInStaff (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
                             int measuresRepeatSlashesNumber);
-    
+
     void                  appendPendingMeasuresRepeatToStaff (
                             int inputLineNumber);
-                            
+
     void                  createRestMeasuresInStaff (
                             int inputLineNumber,
                             int restMeasuresNumber);
-    
+
     void                  appendPendingRestMeasuresToStaff (
                             int inputLineNumber);
-                            
+
     void                  appendRestMeasuresCloneToStaff (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
@@ -7639,28 +7645,28 @@ class msrStaff : public msrElement
 
     void                  appendRepeatEndingCloneToStaff (
                             S_msrRepeatEnding repeatEndingClone);
-    
+
     // barlines
-    
+
     void                  appendBarlineToStaff (S_msrBarline barline);
-    
+
     // transpose
-    
+
     void                  appendTransposeToAllStaffVoices ( // JMI
                             S_msrTranspose transpose);
-  
+
     // part name display
-    
+
     void                  appendPartNameDisplayToAllStaffVoices ( // JMI
                             S_msrPartNameDisplay partNameDisplay);
-  
+
     // part abbreviation display
-    
+
     void                  appendPartAbbreviationDisplayToAllStaffVoices ( // JMI
                             S_msrPartAbbreviationDisplay partAbbreviationDisplay);
-  
+
     // scordaturas
-    
+
     void                  appendScordaturaToStaff (
                             S_msrScordatura scordatura);
 
@@ -7671,13 +7677,13 @@ class msrStaff : public msrElement
                               accordionRegistration);
 
     // harp pedals tuning
-    
+
     void                  appendHarpPedalsTuningToStaff (
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
     // strings
-    
+
   public:
 
     // visitors
@@ -7694,11 +7700,11 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     // staff number
-    
+
     string                staffNumberAsString ();
 
     string                staffKindAsString () const;
-    
+
     virtual void          print (ostream& os);
 
     virtual void          printSummary (ostream& os);
@@ -7715,7 +7721,7 @@ class msrStaff : public msrElement
     // staff name
 
     string                fStaffName;
-    
+
     // staff kind
 
     msrStaffKind          fStaffKind;
@@ -7725,12 +7731,12 @@ class msrStaff : public msrElement
     int                   fStaffNumber;
 
     // staff instrument name
-    
+
     string                fStaffInstrumentName;
     string                fStaffInstrumentAbbreviation;
 
     // staff voices
-    
+
     static int            gStaffMaxRegularVoices;
 
     // the dictionary of all the voices in the staff
@@ -7745,13 +7751,13 @@ class msrStaff : public msrElement
     // we need to sort the voices by increasing voice numbers,
     // but with harmony voices right before the corresponding regular voices
     list<S_msrVoice>      fStaffAllVoicesList;
-                              
+
     // staff details
 
     S_msrStaffDetails     fCurrentStaffStaffDetails;
 
     // rest measures
-    
+
     bool                  fStaffContainsRestMeasures;
 
   public:
@@ -7760,17 +7766,17 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     // clef, key, time
-    
+
     void                  setStaffCurrentClef (S_msrClef clef);
-                              
+
     S_msrClef             getStaffCurrentClef () const
                               { return fStaffCurrentClef; };
-                              
+
     void                  setStaffCurrentKey (S_msrKey key);
-                              
+
     S_msrKey              getStaffCurrentKey  () const
                               { return fStaffCurrentKey; };
-                              
+
     void                  setStaffCurrentTime (S_msrTime time);
 
     S_msrTime             getStaffCurrentTime () const
@@ -7788,16 +7794,16 @@ class msrStaff : public msrElement
 
     // private work services
     // ------------------------------------------------------
-                              
+
     // transpose
-    
+
     S_msrTranspose        getStaffCurrentTranspose () const
                               { return fStaffCurrentTranspose; };
-    
+
     void                  printMeasurePendingMeasureElementsList ();
 
     // voices ordering in staves
-    
+
     static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
                             const S_msrVoice& first,
                             const S_msrVoice& second);
@@ -7812,15 +7818,15 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     // clef, key, time
-    
+
     S_msrClef             fStaffCurrentClef;
-    
+
     S_msrKey              fStaffCurrentKey;
-    
+
     S_msrTime             fStaffCurrentTime;
 
     // transpose
-    
+
     S_msrTranspose        fStaffCurrentTranspose;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
@@ -7830,7 +7836,7 @@ EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 class msrVoiceStaffChange : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -7848,9 +7854,9 @@ class msrVoiceStaffChange : public msrMeasureElement
     msrVoiceStaffChange (
       int        inputLineNumber,
       S_msrStaff staffToChangeTo);
-      
+
     virtual ~msrVoiceStaffChange ();
-  
+
   public:
 
     // set and get
@@ -7858,7 +7864,7 @@ class msrVoiceStaffChange : public msrMeasureElement
 
     S_msrStaff            getStaffToChangeTo () const
                               { return fStaffToChangeTo; }
-                        
+
     // services
     // ------------------------------------------------------
 
@@ -7878,7 +7884,7 @@ class msrVoiceStaffChange : public msrMeasureElement
     // ------------------------------------------------------
 
     string                asString () const;
-         
+
     virtual void          print (ostream& os);
 
   private:
@@ -7906,7 +7912,7 @@ class msrPart : public msrPartGroupElement
     // constants
     // ------------------------------------------------------
 
-    #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
+    #define K_PART_FIGURED_BASS_STAFF_NUMBER -219
     #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
 
     // creation from MusicXML
@@ -7916,7 +7922,7 @@ class msrPart : public msrPartGroupElement
       int            inputLineNumber,
       string         partID,
       S_msrPartGroup partPartGroupUplink);
-                
+
     SMARTP<msrPart> createPartNewbornClone (
       S_msrPartGroup partGroupClone);
 
@@ -7929,9 +7935,9 @@ class msrPart : public msrPartGroupElement
       int            inputLineNumber,
       string         partID,
       S_msrPartGroup partPartGroupUplink);
-      
+
     virtual ~msrPart ();
-  
+
   private:
 
     // initialization
@@ -7943,37 +7949,37 @@ class msrPart : public msrPartGroupElement
 
     // set and get
     // ------------------------------------------------------
-    
+
     // uplinks
-    
+
     void                  setPartPartGroupUplink (
                             S_msrPartGroup partGroup)
                               { fPartPartGroupUplink = partGroup; };
 
     S_msrPartGroup        getPartPartGroupUplink () const
                               { return fPartPartGroupUplink; }
-              
+
     // part absolute number
-    
+
     int                   getPartAbsoluteNumber () const
                               { return fPartAbsoluteNumber; }
 
     // ID and name
-    
+
     void                  setPartID (string partID)
                               { fPartID = partID; }
-    
+
     string                getPartID () const
                               { return fPartID; }
 
     void                  setPartMsrName (string partMsrName);
-    
+
     string                getPartMsrName () const
                               { return fPartMsrName; }
 
     void                  setPartName (string partName)
                               { fPartName = partName; }
-    
+
     string                getPartName () const
                               { return fPartName; }
 
@@ -7983,7 +7989,7 @@ class msrPart : public msrPartGroupElement
                                 fPartNameDisplayText =
                                   partNameDisplayText;
                               }
-                
+
     string                getPartNameDisplayText () const
                               { return fPartNameDisplayText; }
 
@@ -7993,7 +7999,7 @@ class msrPart : public msrPartGroupElement
                                 fPartAbbreviation =
                                   partAbbreviation;
                               }
-                
+
     string                getPartAbbreviation () const
                               { return fPartAbbreviation; }
 
@@ -8003,7 +8009,7 @@ class msrPart : public msrPartGroupElement
                                 fPartAbbreviationDisplayText =
                                   partAbbreviationDisplayText;
                               }
-                
+
     string                getPartAbbreviationDisplayText () const
                               { return fPartAbbreviationDisplayText; }
 
@@ -8012,15 +8018,15 @@ class msrPart : public msrPartGroupElement
     void                  setPartInstrumentNamesMaxLengthes ();
 
     // measures
-    
+
     void                  setPartActualMeasureWholeNotesHighTide (
                             int      inputLineNumber,
                             rational wholeNotes);
-                      
+
     void                  updatePartActualMeasureWholeNotesHighTide (
                             int      inputLineNumber,
                             rational wholeNotes);
-                    
+
     rational              getPartActualMeasureWholeNotesHighTide () const
                               {
                                 return
@@ -8044,32 +8050,32 @@ class msrPart : public msrPartGroupElement
                                 fPartInstrumentName =
                                   partInstrumentName;
                               }
-                              
+
     string                getPartInstrumentName () const
                               { return fPartInstrumentName; }
-                
+
     void                  setPartInstrumentAbbreviation (
                             string partInstrumentAbbreviation)
                               {
                                 fPartInstrumentAbbreviation =
                                   partInstrumentAbbreviation;
                               }
-                              
+
     string                getPartInstrumentAbbreviation () const
                               { return fPartInstrumentAbbreviation; }
 
     // figured bass staff and voice
-    
+
     void                  setPartFiguredBassStaff (
                             S_msrStaff figuredBassStaff)
                               {
                                 fPartFiguredBassStaff =
                                   figuredBassStaff;
                               }
-                  
+
     S_msrStaff            getPartFiguredBassStaff () const
                               { return fPartFiguredBassStaff; }
-                 
+
     void                  setPartFiguredBassVoice (
                             S_msrVoice figuredBassVoice)
                               {
@@ -8081,7 +8087,7 @@ class msrPart : public msrPartGroupElement
                               { return fPartFiguredBassVoice; }
 
     // staves map
-    
+
     const map<int, S_msrStaff>&
                           getPartStavesMap ()
                               { return fPartStavesMap; }
@@ -8091,13 +8097,13 @@ class msrPart : public msrPartGroupElement
 
     void                  addAVoiceToStavesThatHaveNone (
                             int inputLineNumber);
-  
+
     // measures
 
     void                  padUpToActualMeasureWholeNotesInPart (
                             int      inputLineNumber,
                             rational wholeNotes);
-  
+
     // part name display
 
     void                  appendPartNameDisplayToPart (
@@ -8110,13 +8116,13 @@ class msrPart : public msrPartGroupElement
 
 /* JMI
     // figured bass staff and voice
-    
+
     void                  createPartFiguredBassStaffAndVoiceIfNotYetDone (
                             int inputLineNumber);
         */
-        
+
     // measures
-    
+
     void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
                             string measureNumber,
@@ -8128,11 +8134,11 @@ class msrPart : public msrPartGroupElement
                             string nextMeasureNumber);
 
     // clef, key, time
-    
+
     void                  appendClefToPart (S_msrClef clef);
-    
+
     void                  appendKeyToPart (S_msrKey  key);
-    
+
     void                  appendTimeToPart (S_msrTime time);
     void                  appendTimeToPartClone (S_msrTime time);
 
@@ -8147,24 +8153,24 @@ class msrPart : public msrPartGroupElement
                             S_msrStaffDetails staffDetails);
 
     // tuplets JMI ???
-    
+
     // barlines
-    
+
     void                  appendBarlineToPart (S_msrBarline barline);
-              
+
     // repeats
-    
+
     void                  handleRepeatStartInPart (
                             int inputLineNumber);
-    
+
     void                  handleRepeatEndInPart (
                             int    inputLineNumber,
                             string measureNumber,
                             int    repeatTimes);
-    
+
     void                  handleRepeatEndingStartInPart (
                             int inputLineNumber);
-        
+
     void                  handleRepeatEndingEndInPart (
                             int       inputLineNumber,
                             string    repeatEndingNumber, // may be "1, 2"
@@ -8177,11 +8183,11 @@ class msrPart : public msrPartGroupElement
                             string measureNumber,
                             int    repeatTimes);
                             */
-    
+
     void                  appendRepeatCloneToPart (
                             int         inputLineNumber,
                             S_msrRepeat repeatCLone);
-    
+
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);
 
@@ -8191,7 +8197,7 @@ class msrPart : public msrPartGroupElement
 
     void                  appendPendingRestMeasuresToPart (
                             int inputLineNumber);
-                            
+
     void                  appendRestMeasuresCloneToPart (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
@@ -8203,13 +8209,13 @@ class msrPart : public msrPartGroupElement
 
     void                  appendPendingMeasuresRepeatToPart (
                             int inputLineNumber);
-                            
+
     void                  appendMeasuresRepeatCloneToPart (
                             int               inputLineNumber,
                             S_msrRestMeasures restMeasures);
-  
+
     // staves
-    
+
     S_msrStaff            addStaffToPartByItsNumber (
                             int                    inputLineNumber,
                             msrStaff::msrStaffKind staffKind,
@@ -8223,27 +8229,27 @@ class msrPart : public msrPartGroupElement
     // voices
 
     void                  removePartEmptyVoices ();
-    
+
     // harmonies
-    
+
     // JMI ???
-    
+
     // frames
-    
+
     // JMI ???
-    
+
     // figured bass
 
     void                  appendFiguredBassToPart (
                             S_msrVoice      figuredBassSupplierVoice,
                            S_msrFiguredBass figuredBass);
-    
+
     void                  appendFiguredBassToPartClone (
                             S_msrVoice       figuredBassSupplierVoice,
                             S_msrFiguredBass figuredBass);
-  
+
     // scordaturas
-    
+
     void                  appendScordaturaToPart (
                             S_msrScordatura scordatura);
 
@@ -8254,13 +8260,13 @@ class msrPart : public msrPartGroupElement
                               accordionRegistration);
 
     // harp pedals tuning
-    
+
     void                  appendHarpPedalsTuningToPart (
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
     // backup
-    
+
     void                  handleBackup (
                             int inputLineNumber,
                             int divisions,
@@ -8276,7 +8282,7 @@ class msrPart : public msrPartGroupElement
     void                  appendSkipGraceNotesToVoicesClones ( // JMI ???
                             S_msrVoice      graceNotesOriginVoice,
                             S_msrGraceNotes skipGraceNotes);
-                            
+
                             */
 
   public:
@@ -8306,13 +8312,13 @@ class msrPart : public msrPartGroupElement
     // ------------------------------------------------------
 
     // uplinks
-    
+
     S_msrPartGroup        fPartPartGroupUplink;
 
     // part ID and name
-    
+
     string                fPartID; // native
-    
+
     string                fPartMsrName;
                             // may be different than fPartID
                             // if renamed,
@@ -8320,16 +8326,16 @@ class msrPart : public msrPartGroupElement
 
     string                fPartName; // from '<part-name/>'
     string                fPartNameDisplayText;
-    
+
     string                fPartAbbreviation;
     string                fPartAbbreviationDisplayText;
 
     // part absolute number
-    
+
     int                   fPartAbsoluteNumber;
 
     // part instrument names
-    
+
     string                fPartInstrumentName;
     string                fPartInstrumentAbbreviation;
 
@@ -8342,36 +8348,36 @@ class msrPart : public msrPartGroupElement
     rational              fPartActualMeasureWholeNotesHighTide;
 
     // clef, key, time
-    
+
     S_msrClef             fPartCurrentClef;
-    
+
     S_msrKey              fPartCurrentKey;
-    
+
     S_msrTime             fPartCurrentTime;
 
     // transpose
-    
+
     S_msrTranspose        fPartCurrentTranspose;
 
     // staff details
 
     S_msrStaffDetails     fCurrentPartStaffDetails;
-    
+
     // figured bass
 
     S_msrStaff            fPartFiguredBassStaff;
     S_msrVoice            fPartFiguredBassVoice;
 
     // the registered staves map
-    
+
     map<int, S_msrStaff>  fPartStavesMap;
 
     // counter
-    
+
     static int            gPartsCounter;
 
     // rest measures
-    
+
     bool                  fPartContainsRestMeasures;
 
   public:
@@ -8380,7 +8386,7 @@ class msrPart : public msrPartGroupElement
     // ------------------------------------------------------
 
     // measure number
-    
+
     void                  setPartCurrentMeasureNumber (
                             string measureNumber)
                               {
@@ -8392,7 +8398,7 @@ class msrPart : public msrPartGroupElement
                               { return fPartCurrentMeasureNumber; }
 
     // clef, key, time
-    
+
     S_msrClef             getPartCurrentClef () const
                               { return fPartCurrentClef; };
 
@@ -8415,7 +8421,7 @@ class msrPart : public msrPartGroupElement
     S_msrStaffDetails     getCurrentPartStaffDetails () const
                               { return fCurrentPartStaffDetails; }
 
-                            
+
     // finalization
 
     void                  finalizeCurrentMeasureInPart (
@@ -8433,7 +8439,7 @@ class msrPart : public msrPartGroupElement
     // ------------------------------------------------------
 
     // measure elements
-    
+
     void                  printMeasurePendingMeasureElementsList ();
 
   private:
