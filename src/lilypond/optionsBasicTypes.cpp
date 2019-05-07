@@ -33,8 +33,76 @@
 
 // JMI using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
+
+/*
+Basics:
+  - options handling is organized as a hierarchical, instrospective set of classes.
+    Options and their corresponding help are grouped in a single object.
+
+  - optionsElement is the super-class of all options elements.
+    It contains a short name and a long name, as well as a decription.
+    Short and long names can be used and mixed at will in the command line,
+    as well as '-' and '--'.
+    The short name is mandatory, but the long name may be empty.
+
+  - prefixes such '-t=' and -help=' allow for a contracted form of options.
+    For example, -t=meas,notes is short for '-t-meas, -tnotes'.
+    An optionsPrefix contains the prefix name, the ersatz by which to replace it,
+    and a description.
+
+  - an optionsHandler contains optionsGroup's, each handled in a pair or .h/.cpp files,
+    such as msrOptions.h and msrOptions.cpp, and a list of options prefixes.
+
+  - an optionsGroup contains optionsSubGroup's and an uplink to the containing optionsHandler.
+
+  - an optionsSubGroup contains optionsItem's and an uplink to the containing optionsGroup.
+
+  - each optionsItem is an atomic option to the executable and its corresponding help,
+    and an uplink to the containing optionsSubGroup.
+
+Features:
+  - partial help to be obtained, i.e. help about any group, subgroup or item,
+    showing the path in the hierarchy down to the corresponding element.
+
+  - there are various subclasses of optionsItem such as optionsIntegerItem, optionsBooleanItem
+    and optionsRationalItem to control options values of common types.
+
+  - optionsThreeBooleansItem, for example, allows for three boolean settings
+    to be controlled at once with a single option.
+
+  - optionsValuedItem describes options for which a value is supplied in the command line.
+
+  - a class such as optionsLpsrPitchesLanguageItem is used
+    to supply a string value to be converted into an internal enumerated type.
+
+  - optionsCombinedItemsItem contains a list of items to manipulate several items as a single one,
+    see the 'cubase' combined item in musicXMLOptions.cpp.
+
+  - storing options and the corresponding help in optionsGroup's makes it easy to re-use them.
+    For example, xml2ly and xml2lbr have their three first passes in common,
+    (up to obtaining the MSR description of the score), as well as the corresponding options and help.
+
+Handling:
+  - each optionElement must have unique short and long names, for consistency.
+
+  - an executable main() call decipherOptionsAndArguments(), in which:
+    - handleOptionsItemName() handles the item names
+    - handleOptionsItemValueOrArgument() handles the values that may follow an item name
+      and the arguments to the executable.
+
+  - contracted forms are expanded in handleOptionsItemName() before the resulting,
+    uncontracted options are handled.
+
+  - handleOptionsItemName() fetches the optionsElement corresponding to the name from the map,
+    determines the type of the latter,
+    and delegates the handling to the corresponding object.
+
+  - handleOptionsItemValueOrArgument() associatiate the value
+    to the (preceding) fPendingOptionsItem if not null,
+    or append it fArgumentsVector to otherwise.
+*/
 
 //______________________________________________________________________________
 S_optionsElement optionsElement::create (
@@ -56,8 +124,8 @@ optionsElement::optionsElement (
   string optionsElementLongName,
   string optionsElementDescription)
 {
-  fOptionsElementShortName   = optionsElementShortName;  
-  fOptionsElementLongName    = optionsElementLongName;  
+  fOptionsElementShortName   = optionsElementShortName;
+  fOptionsElementLongName    = optionsElementLongName;
   fOptionsElementDescription = optionsElementDescription;
 
   fOptionsElementIsHidden    = false;
@@ -77,14 +145,14 @@ S_optionsElement optionsElement::fetchOptionElement (
     optiontElementName == fOptionsElementLongName) {
     result = this;
   }
-  
+
   return result;
 }
 
 string optionsElement::optionsElementNames () const
 {
   stringstream s;
-  
+
   if (
     fOptionsElementShortName.size ()
         &&
@@ -95,7 +163,7 @@ string optionsElement::optionsElementNames () const
         ", " <<
         "-" << fOptionsElementLongName;
   }
-  
+
   else {
     if (fOptionsElementShortName.size ()) {
       s <<
@@ -114,7 +182,7 @@ string optionsElement::optionsElementNamesInColumns (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
-  
+
   if (
     fOptionsElementShortName.size ()
         &&
@@ -126,7 +194,7 @@ string optionsElement::optionsElementNamesInColumns (
         ", " <<
         "-" << fOptionsElementLongName;
   }
-  
+
   else {
     if (fOptionsElementShortName.size ()) {
       s << left <<
@@ -150,7 +218,7 @@ string optionsElement::optionsElementNamesBetweenParentheses () const
     "(" <<
     optionsElementNames () <<
     ")";
-  
+
   return s.str ();
 }
 
@@ -164,7 +232,7 @@ string optionsElement::optionsElementNamesInColumnsBetweenParentheses (
     optionsElementNamesInColumns (
       subGroupsShortNameFieldWidth) <<
     ")";
-  
+
   return s.str ();
 }
 
@@ -179,12 +247,12 @@ void optionsElement::printHeader (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-  
+
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 }
@@ -219,7 +287,7 @@ void optionsElement::print (ostream& os) const
     "??? optionsElement ???" <<
     endl;
 
-  printElementEssentials (os, 35);  
+  printElementEssentials (os, 35);
 }
 
 void optionsElement::printHelp (ostream& os) const
@@ -231,12 +299,12 @@ void optionsElement::printHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-  
+
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 }
@@ -271,7 +339,7 @@ optionsItem::optionsItem (
       optionsItemLongName,
       optionsItemDescription)
 {}
-    
+
 optionsItem::~optionsItem ()
 {}
 
@@ -298,7 +366,7 @@ void optionsItem::registerOptionsItemInHandler (
 void optionsItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
-  
+
   os <<
     "OptionsItem ???:" <<
       endl;
@@ -314,7 +382,7 @@ void optionsItem::print (ostream& os) const
 void optionsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os <<
     "OptionsItem values ???:" <<
     endl;
@@ -357,7 +425,7 @@ optionsHelpUsageItem::~optionsHelpUsageItem ()
 void optionsHelpUsageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsHelpUsageItem:" <<
     endl;
@@ -378,7 +446,7 @@ void optionsHelpUsageItem::print (ostream& os) const
 }
 
 void optionsHelpUsageItem::printHelpUsage (ostream& os) const
-{  
+{
   os <<
     endl <<
     "Options usage" <<
@@ -388,7 +456,7 @@ void optionsHelpUsageItem::printHelpUsage (ostream& os) const
     endl;
 
   gIndenter++;
-  
+
   os <<
     gIndenter.indentMultiLineString (
 R"(As an argument, '-' represents standard input.
@@ -421,7 +489,7 @@ void optionsHelpUsageItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsHelpUsageItem& elt)
 {
   elt->print (os);
@@ -459,7 +527,7 @@ optionsHelpSummaryItem::~optionsHelpSummaryItem ()
 void optionsHelpSummaryItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsHelpSummaryItem:" <<
     endl;
@@ -480,7 +548,7 @@ void optionsHelpSummaryItem::print (ostream& os) const
 }
 
 void optionsHelpSummaryItem::printHelpSummary (ostream& os) const
-{  
+{
   os <<
     gGeneralOptions->fExecutableName <<
     endl;
@@ -492,7 +560,7 @@ void optionsHelpSummaryItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
 {
   elt->print (os);
@@ -544,7 +612,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   msrAssert (
     optionsItem != nullptr,
     "optionsItem is null");
-    
+
   fOptionsCombinedItemsList.push_back (
     optionsItem);
 }
@@ -563,7 +631,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   msrAssert (
     optionsHandler != nullptr,
     "optionsHandler is null");
-    
+
   // is optionsItemName known in options elements map?
   S_optionsElement
     optionsElement =
@@ -581,7 +649,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
     s <<
       "INTERNAL ERROR: option name '" << optionsItemName <<
       "' is unknown";
-      
+
     optionError (s.str ());
   }
 
@@ -601,13 +669,13 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 
     else {
       stringstream s;
-  
+
       s <<
         "option name '" << optionsItemName <<
         "' is not that of an item";
-        
+
       optionError (s.str ());
-  
+
       exit (2);
     }
   }
@@ -620,7 +688,7 @@ void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
   fOptionsCombinedItemsItemVariable = value;
 
   // set the value of the items in the list
-  if (fOptionsCombinedItemsList.size ()) {      
+  if (fOptionsCombinedItemsList.size ()) {
     for (
       list<S_optionsItem>::const_iterator i =
         fOptionsCombinedItemsList.begin ();
@@ -638,7 +706,7 @@ void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
         // set the boolean value
         booleanItem->
           setBooleanItemVariableValue (value);
-      }      
+      }
     } // for
   }
 }
@@ -646,7 +714,7 @@ void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
 void optionsCombinedItemsItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsCombinedItemsItem:" <<
     endl;
@@ -664,7 +732,7 @@ void optionsCombinedItemsItem::print (ostream& os) const
     os <<
       "none";
   }
-    
+
   else {
     os <<
       endl;
@@ -673,18 +741,18 @@ void optionsCombinedItemsItem::print (ostream& os) const
 
     os <<
         "'";
-      
+
     list<S_optionsItem>::const_iterator
       iBegin = fOptionsCombinedItemsList.begin (),
       iEnd   = fOptionsCombinedItemsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
       os << " ";
     } // for
-  
+
     os <<
       "'";
 
@@ -692,7 +760,7 @@ void optionsCombinedItemsItem::print (ostream& os) const
   }
 
   gIndenter--;
-  
+
   os <<
     endl;
 }
@@ -706,7 +774,7 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
@@ -721,28 +789,28 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
       "none" <<
       endl;
   }
-    
+
   else {
     os <<
       endl;
 
     gIndenter++;
-          
+
     list<S_optionsItem>::const_iterator
       iBegin = fOptionsCombinedItemsList.begin (),
       iEnd   = fOptionsCombinedItemsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os <<
         (*i)-> optionsElementNames ();
       if (++i == iEnd) break;
       os << endl;
     } // for
-  
+
     os <<
       endl;
-  
+
     gIndenter--;
   }
 
@@ -765,7 +833,7 @@ void optionsCombinedItemsItem::printOptionsValues (
 
   int fieldWidth =
     valueFieldWidth - gIndenter.getIndent () + 1;
-    
+
   gIndenter++; // only now
 
   if (! fOptionsCombinedItemsList.size ()) {
@@ -773,8 +841,8 @@ void optionsCombinedItemsItem::printOptionsValues (
       "none" <<
       endl;
   }
-    
-  else {      
+
+  else {
     list<S_optionsItem>::const_iterator
       iBegin = fOptionsCombinedItemsList.begin (),
       iEnd   = fOptionsCombinedItemsList.end (),
@@ -794,10 +862,10 @@ void optionsCombinedItemsItem::printOptionsValues (
         booleanItem->
           printOptionsValues (
             os, fieldWidth);
-      }      
+      }
 
       if (++i == iEnd) break;
-      
+
   // JMI    os << endl;
     } // for
   }
@@ -853,7 +921,7 @@ optionsBooleanItem::~optionsBooleanItem ()
 void optionsBooleanItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsBooleanItem:" <<
     endl;
@@ -887,7 +955,7 @@ void optionsBooleanItem::print (ostream& os) const
 void optionsBooleanItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsBooleanItemVariableDisplayName <<
@@ -949,7 +1017,7 @@ optionsTwoBooleansItem::~optionsTwoBooleansItem ()
 void optionsTwoBooleansItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsTwoBooleansItem:" <<
     endl;
@@ -982,7 +1050,7 @@ void optionsTwoBooleansItem::print (ostream& os) const
 void optionsTwoBooleansItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsTwoBooleansItemVariableDisplayName <<
@@ -1049,7 +1117,7 @@ optionsThreeBooleansItem::~optionsThreeBooleansItem ()
 void optionsThreeBooleansItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsThreeBooleansItem:" <<
     endl;
@@ -1083,7 +1151,7 @@ void optionsThreeBooleansItem::print (ostream& os) const
 void optionsThreeBooleansItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsThreeBooleansItemVariableDisplayName <<
@@ -1128,7 +1196,7 @@ optionsValuedItem::optionsValuedItem (
 {
   fOptionsValueSpecification = optionsValueSpecification;
 }
-    
+
 optionsValuedItem::~optionsValuedItem ()
 {}
 
@@ -1136,7 +1204,7 @@ string optionsValuedItem::optionsItemKindAsString (
   optionsValuedItem::optionsValuedItemKind optionsItemKind)
 {
   string result;
-  
+
   switch (optionsItemKind) {
     case optionsValuedItem::kOptionsItemHasNoArgument:
       result = "OptionsItemHasNoArgument";
@@ -1150,7 +1218,7 @@ string optionsValuedItem::optionsItemKindAsString (
   } // switch
 
   return result;
-}  
+}
 
 void optionsValuedItem::registerOptionsItemInHandler (
   S_optionsHandler optionsHandler)
@@ -1165,7 +1233,7 @@ void optionsValuedItem::printValuedItemEssentials (
 {
   printElementEssentials (
     os, fieldWidth);
-    
+
   os << left <<
     setw (fieldWidth) <<
     "fOptionsValueSpecification" << " : " <<
@@ -1176,7 +1244,7 @@ void optionsValuedItem::printValuedItemEssentials (
 void optionsValuedItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
-  
+
   os <<
     "OptionsValuedItem ???:" <<
     endl;
@@ -1200,12 +1268,12 @@ void optionsValuedItem::printHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-  
+
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 }
@@ -1213,7 +1281,7 @@ void optionsValuedItem::printHelp (ostream& os) const
 void optionsValuedItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os <<
     "OptionsItem values ???:" <<
     endl;
@@ -1260,7 +1328,7 @@ optionsItemHelpItem::~optionsItemHelpItem ()
 void optionsItemHelpItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsItemHelpItem:" <<
     endl;
@@ -1279,7 +1347,7 @@ void optionsItemHelpItem::printOptionsValues (
 {
   // nothing to print here
 }
-                            
+
 ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt)
 {
   elt->print (os);
@@ -1331,7 +1399,7 @@ optionsIntegerItem::~optionsIntegerItem ()
 void optionsIntegerItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsIntegerItem:" <<
     endl;
@@ -1357,7 +1425,7 @@ void optionsIntegerItem::print (ostream& os) const
 void optionsIntegerItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsIntegerItemVariableDisplayName <<
@@ -1417,7 +1485,7 @@ optionsFloatItem::~optionsFloatItem ()
 void optionsFloatItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsFloatItem:" <<
     endl;
@@ -1443,7 +1511,7 @@ void optionsFloatItem::print (ostream& os) const
 void optionsFloatItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsFloatItemVariableDisplayName <<
@@ -1503,7 +1571,7 @@ optionsStringItem::~optionsStringItem ()
 void optionsStringItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsStringItem:" <<
     endl;
@@ -1529,7 +1597,7 @@ void optionsStringItem::print (ostream& os) const
 void optionsStringItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsStringItemVariableDisplayName <<
@@ -1593,7 +1661,7 @@ optionsRationalItem::~optionsRationalItem ()
 void optionsRationalItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsRationalItem:" <<
     endl;
@@ -1619,7 +1687,7 @@ void optionsRationalItem::print (ostream& os) const
 void optionsRationalItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsRationalItemVariableDisplayName <<
@@ -1679,7 +1747,7 @@ optionsNumbersSetItem::~optionsNumbersSetItem ()
 void optionsNumbersSetItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
-  
+
   os <<
     "OptionsNumbersSetItem:" <<
     endl;
@@ -1701,22 +1769,22 @@ void optionsNumbersSetItem::print (ostream& os) const
     os <<
       "none";
   }
-    
+
   else {
     os <<
       "'";
-      
+
     set<int>::const_iterator
       iBegin = fOptionsNumbersSetItemVariable.begin (),
       iEnd   = fOptionsNumbersSetItemVariable.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
       os << " ";
     } // for
-  
+
     os <<
       "'";
   }
@@ -1730,7 +1798,7 @@ void optionsNumbersSetItem::print (ostream& os) const
 void optionsNumbersSetItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
   os << left <<
     setw (valueFieldWidth) <<
     fOptionsNumbersSetItemVariableDisplayName <<
@@ -1740,22 +1808,22 @@ void optionsNumbersSetItem::printOptionsValues (
     os <<
       "none";
   }
-    
+
   else {
     os <<
       "'";
-      
+
     set<int>::const_iterator
       iBegin = fOptionsNumbersSetItemVariable.begin (),
       iEnd   = fOptionsNumbersSetItemVariable.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
       os << " ";
     } // for
-  
+
     os <<
       "'";
   }
@@ -1809,7 +1877,7 @@ optionsSubGroup::optionsSubGroup (
 {
   fOptionsGroupUplink =
     optionsGroupUplink;
-  
+
   fOptionsSubGroupHelpHeader =
     optionsSubGroupHelpHeader;
 
@@ -1825,12 +1893,12 @@ string optionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
     optionsSubGroupDescriptionVisibilityKind)
 {
   string result;
-  
+
   switch (optionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       result = "AlwaysShowDescription";
       break;
-      
+
     case kHideDescriptionByDefault:
       result = "HideDescriptionByDefault";
       break;
@@ -1886,7 +1954,7 @@ S_optionsElement optionsSubGroup::fetchOptionElement (
   string optiontElementName)
 {
   S_optionsElement result;
-  
+
   for (
     list<S_optionsItem>::const_iterator
       i = fOptionsSubGroupItemsList.begin ();
@@ -1895,7 +1963,7 @@ S_optionsElement optionsSubGroup::fetchOptionElement (
     // search optiontElementName in the options group
     result =
       (*i)->fetchOptionElement (optiontElementName);
-      
+
     if (result != 0) {
       break;
     }
@@ -1907,7 +1975,7 @@ S_optionsElement optionsSubGroup::fetchOptionElement (
 void optionsSubGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;
-  
+
   os <<
    "OptionsSubGroup:" <<
     endl;
@@ -1934,9 +2002,9 @@ void optionsSubGroup::print (ostream& os) const
 
   if (fOptionsSubGroupItemsList.size ()) {
     os << endl;
-    
+
     gIndenter++;
-    
+
     list<S_optionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin (),
       iEnd   = fOptionsSubGroupItemsList.end (),
@@ -1959,7 +2027,7 @@ void optionsSubGroup::printHelp (ostream& os) const
   // print the header and option names
   os <<
     fOptionsSubGroupHelpHeader;
-    
+
   os <<
     " " <<
     optionsElementNamesBetweenParentheses ();
@@ -1969,7 +2037,7 @@ void optionsSubGroup::printHelp (ostream& os) const
       os <<
         ":";
       break;
-      
+
     case kHideDescriptionByDefault:
       os <<
         " (hidden by default)";
@@ -1986,14 +2054,14 @@ void optionsSubGroup::printHelp (ostream& os) const
         fOptionsElementDescription);
     gIndenter--;
 
-    os << endl;  
+    os << endl;
   }
-  
+
   switch (fOptionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
-      if (fOptionsSubGroupItemsList.size ()) {    
+      if (fOptionsSubGroupItemsList.size ()) {
         gIndenter++;
-    
+
         list<S_optionsItem>::const_iterator
           iBegin = fOptionsSubGroupItemsList.begin (),
           iEnd   = fOptionsSubGroupItemsList.end (),
@@ -2004,7 +2072,7 @@ void optionsSubGroup::printHelp (ostream& os) const
           bool
             optionsItemIsHidden =
               optionsItem->getOptionsElementIsHidden ();
-              
+
           // print the options item help unless it is hidden
           if (! optionsItemIsHidden) {
             optionsItem->
@@ -2015,11 +2083,11 @@ void optionsSubGroup::printHelp (ostream& os) const
    // JMI         os << endl;
           }
         } // for
-          
+
         gIndenter--;
       }
       break;
-      
+
     case kHideDescriptionByDefault:
       break;
   } // switch
@@ -2030,7 +2098,7 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
   // print the header and option names
   os <<
     fOptionsSubGroupHelpHeader;
-    
+
   os <<
     " " <<
     optionsElementNamesBetweenParentheses ();
@@ -2040,7 +2108,7 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       os <<
         ":";
       break;
-      
+
     case kHideDescriptionByDefault:
       os <<
         " (hidden by default) :";
@@ -2061,10 +2129,10 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
     gIndenter--;
 
     os <<
-      endl;  
+      endl;
   }
-      
-  if (fOptionsSubGroupItemsList.size ()) {    
+
+  if (fOptionsSubGroupItemsList.size ()) {
     gIndenter++;
 
     list<S_optionsItem>::const_iterator
@@ -2093,7 +2161,7 @@ void optionsSubGroup::printHelpSummary (
     getOptionsGroupUplink ()->
       getOptionsHandlerUplink ()->
         getMaximumSubGroupsHelpHeadersSize ();
-    
+
   // fetch maximum short name width
   int maximumShortNameWidth =
     getOptionsGroupUplink ()->
@@ -2111,7 +2179,7 @@ void optionsSubGroup::printHelpSummary (
   switch (fOptionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       break;
-      
+
     case kHideDescriptionByDefault:
       os <<
         " (hidden by default)";
@@ -2168,7 +2236,7 @@ void optionsSubGroup::printOptionsItemForcedHelp (
 // JMI  underlineHeader (os);
 
   // print the options items
-  if (fOptionsSubGroupItemsList.size ()) {    
+  if (fOptionsSubGroupItemsList.size ()) {
     gIndenter++;
 
     list<S_optionsItem>::const_iterator
@@ -2178,7 +2246,7 @@ void optionsSubGroup::printOptionsItemForcedHelp (
     for ( ; ; ) {
       S_optionsItem
         optionsItem = (*i);
-        
+
       if (optionsItem == targetOptionsItem) {
         // print the target options item's help
         // target options item's help
@@ -2192,7 +2260,7 @@ void optionsSubGroup::printOptionsItemForcedHelp (
           endl;
       }
     } // for
-    
+
     gIndenter--;
   }
 }
@@ -2213,7 +2281,7 @@ void optionsSubGroup::printOptionsValues (
 // JMI  underlineHeader (os);
 
   // print the options items values
-  if (fOptionsSubGroupItemsList.size ()) {    
+  if (fOptionsSubGroupItemsList.size ()) {
     gIndenter++;
 
     list<S_optionsItem>::const_iterator
@@ -2272,7 +2340,7 @@ optionsGroup::optionsGroup (
       optionGroupDescription)
 {
   fOptionsHandlerUplink = optionsHandlerUplink;
-  
+
   fOptionsGroupHelpHeader = optionsGroupHelpHeader;
 }
 
@@ -2348,7 +2416,7 @@ S_optionsElement optionsGroup::fetchOptionElement (
   string optiontElementName)
 {
   S_optionsElement result;
-  
+
   for (
     list<S_optionsSubGroup>::const_iterator
       i = fOptionsGroupSubGroupsList.begin ();
@@ -2357,7 +2425,7 @@ S_optionsElement optionsGroup::fetchOptionElement (
     // search optiontElementName in the options group
     result =
       (*i)->fetchOptionElement (optiontElementName);
-      
+
     if (result != 0) {
       break;
     }
@@ -2371,7 +2439,7 @@ S_optionsItem optionsGroup::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   os <<
     "---> Options item '" <<
     item <<
@@ -2401,7 +2469,7 @@ void optionsGroup::checkOptionsConsistency ()
 void optionsGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;
-  
+
   os <<
     "OptionsGroup:" <<
     endl;
@@ -2420,9 +2488,9 @@ void optionsGroup::print (ostream& os) const
 
   if (fOptionsGroupSubGroupsList.size ()) {
     os << endl;
-    
+
     gIndenter++;
-    
+
     list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
@@ -2462,9 +2530,9 @@ void optionsGroup::printHelp (ostream& os) const
       endl;
     gIndenter--;
   }
-    
+
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {    
+  if (fOptionsGroupSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsSubGroup>::const_iterator
@@ -2477,7 +2545,7 @@ void optionsGroup::printHelp (ostream& os) const
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
-      
+
     gIndenter--;
   }
 }
@@ -2509,11 +2577,11 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
     gIndenter--;
 
     os <<
-      endl;  
+      endl;
   }
-    
+
   // print the target options subgroup
-  if (fOptionsGroupSubGroupsList.size ()) {    
+  if (fOptionsGroupSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsSubGroup>::const_iterator
@@ -2523,7 +2591,7 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
     for ( ; ; ) {
       S_optionsSubGroup
         optionsSubGroup = (*i);
-        
+
       if (optionsSubGroup == targetOptionsSubGroup) {
         // print the target options subgroup help
         optionsSubGroup->
@@ -2536,7 +2604,7 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
           endl;
       }
     } // for
-      
+
     gIndenter--;
   }
 }
@@ -2569,11 +2637,11 @@ void optionsGroup::printOptionsItemForcedHelp (
     gIndenter--;
 
     os <<
-      endl;  
+      endl;
   }
-    
+
   // print the target options subgroup
-  if (fOptionsGroupSubGroupsList.size ()) {    
+  if (fOptionsGroupSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsSubGroup>::const_iterator
@@ -2583,7 +2651,7 @@ void optionsGroup::printOptionsItemForcedHelp (
     for ( ; ; ) {
       S_optionsSubGroup
         optionsSubGroup = (*i);
-        
+
       if (optionsSubGroup == targetOptionsSubGroup) {
         // print the target options subgroup's
         // target options item's help
@@ -2600,8 +2668,8 @@ void optionsGroup::printOptionsItemForcedHelp (
     } // for
 
     os <<
-      endl;  
-      
+      endl;
+
     gIndenter--;
   }
 }
@@ -2631,11 +2699,11 @@ void optionsGroup::printHelpSummary (ostream& os) const
     gIndenter--;
 
     os <<
-      endl;  
+      endl;
   }
-    
+
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {    
+  if (fOptionsGroupSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsSubGroup>::const_iterator
@@ -2649,7 +2717,7 @@ void optionsGroup::printHelpSummary (ostream& os) const
       if (++i == iEnd) break;
  //     os << endl;
     } // for
-      
+
     gIndenter--;
   }
 }
@@ -2683,11 +2751,11 @@ void optionsGroup::printSpecificSubGroupHelp (
     gIndenter--;
 
     os <<
-      endl;  
+      endl;
   }
-    
+
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {    
+  if (fOptionsGroupSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsSubGroup>::const_iterator
@@ -2725,7 +2793,7 @@ void optionsGroup::printOptionsValues (
     endl;
 
   // print the options subgroups values
-  if (fOptionsGroupSubGroupsList.size ()) {    
+  if (fOptionsGroupSubGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsSubGroup>::const_iterator
@@ -2771,7 +2839,7 @@ optionsPrefix::optionsPrefix (
   string optionsPrefixErsatz,
   string optionsPrefixDescription)
 {
-  fOptionsPrefixName        = optionsPrefixName;  
+  fOptionsPrefixName        = optionsPrefixName;
   fOptionsPrefixErsatz      = optionsPrefixErsatz;
   fOptionsPrefixDescription = optionsPrefixDescription;
 }
@@ -2779,6 +2847,7 @@ optionsPrefix::optionsPrefix (
 optionsPrefix::~optionsPrefix ()
 {}
 
+/* JMI
 S_optionsPrefix optionsPrefix::fetchOptionElement (
   string optiontElementName)
 {
@@ -2787,14 +2856,15 @@ S_optionsPrefix optionsPrefix::fetchOptionElement (
   if (optiontElementName == fOptionsPrefixName) {
     result = this;
   }
-  
+
   return result;
 }
+*/
 
 string optionsPrefix::optionsPrefixNames () const
 {
   stringstream s;
-  
+
   if (fOptionsPrefixName.size ()) {
       s <<
         "-" << fOptionsPrefixName;
@@ -2807,7 +2877,7 @@ string optionsPrefix::optionsPrefixNamesInColumns (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
-  
+
   if (fOptionsPrefixName.size ()) {
       s << left <<
         setw (subGroupsShortNameFieldWidth) <<
@@ -2825,7 +2895,7 @@ string optionsPrefix::optionsPrefixNamesBetweenParentheses () const
     "(" <<
     optionsPrefixNames () <<
     ")";
-  
+
   return s.str ();
 }
 
@@ -2839,7 +2909,7 @@ string optionsPrefix::optionsPrefixNamesInColumnsBetweenParentheses (
     optionsPrefixNamesInColumns (
       subGroupsShortNameFieldWidth) <<
     ")";
-  
+
   return s.str ();
 }
 
@@ -2852,12 +2922,12 @@ void optionsPrefix::printHeader (ostream& os) const
   if (fOptionsPrefixErsatz.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsPrefixErsatz) <<
       endl;
-  
+
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 }
@@ -2887,7 +2957,7 @@ void optionsPrefix::print (ostream& os) const
     "??? optionsPrefix ???" <<
     endl;
 
-  printElementEssentials (os, 35);  
+  printElementEssentials (os, 35);
 }
 
 void optionsPrefix::printHelp (ostream& os) const
@@ -2899,24 +2969,24 @@ void optionsPrefix::printHelp (ostream& os) const
   if (fOptionsPrefixErsatz.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsPrefixErsatz) <<
       endl;
-  
+
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
   if (fOptionsPrefixDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    
+
     os <<
       gIndenter.indentMultiLineString (
         fOptionsPrefixDescription) <<
       endl;
-  
+
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 }
@@ -2975,7 +3045,7 @@ optionsHandler::optionsHandler (
 {
   fOptionsHandlerHelpHeader =
     optionsHandlerHelpHeader;
-    
+
   fOptionsHandlerValuesHeader =
     optionsHandlerValuesHeader;
 
@@ -2986,12 +3056,12 @@ optionsHandler::optionsHandler (
 
   fOptionHandlerPreamble =
     optionHandlerPreamble;
-    
+
   fMaximumSubGroupsHelpHeadersSize = 1;
 
   fMaximumShortNameWidth   = 1;
   fMaximumLongNameWidth    = 1;
-  
+
   fMaximumDisplayNameWidth = 1;
 }
 
@@ -3025,21 +3095,40 @@ void optionsHandler::registerOptionsHandlerInItself ()
  // */
 }
 
+S_optionsPrefix optionsHandler::fetchOptionsPrefixFromMap (
+  string optionsElementName) const
+{
+  S_optionsPrefix result;
+
+  // is optionsItemName known in options elements map?
+  map<string, S_optionsPrefix>::const_iterator
+    it =
+      fOptionsPrefixesMap.find (
+        optionsElementName);
+
+  if (it != fOptionsPrefixesMap.end ()) {
+    // yes, optionsItemName is known in the map
+    result = (*it).second;
+  }
+
+  return result;
+}
+
 S_optionsElement optionsHandler::fetchOptionsElementFromMap (
   string optionsElementName) const
 {
   S_optionsElement result;
-  
+
   // is optionsItemName known in options elements map?
   map<string, S_optionsElement>::const_iterator
     it =
       fOptionsElementsMap.find (
         optionsElementName);
-        
+
   if (it != fOptionsElementsMap.end ()) {
-    // yes, optionsItemName it is unknown in the map    
+    // yes, optionsItemName is known in the map
     result = (*it).second;
-  }    
+  }
 
   return result;
 }
@@ -3047,7 +3136,7 @@ S_optionsElement optionsHandler::fetchOptionsElementFromMap (
 string optionsHandler::helpNamesBetweenParentheses () const
 {
   stringstream s;
-  
+
   s <<
     "(" <<
     optionsElementNames () <<
@@ -3063,7 +3152,7 @@ string optionsHandler::helpNamesBetweenParentheses () const
         ", " <<
         "-" << fOptionHandlerHelpSummaryLongName;
   }
-  
+
   else {
     if (fOptionHandlerHelpSummaryShortName.size ()) {
       s <<
@@ -3077,7 +3166,7 @@ string optionsHandler::helpNamesBetweenParentheses () const
 
   s <<
     ")";
-    
+
   return s.str ();
 }
 
@@ -3100,37 +3189,37 @@ void optionsHandler::registerOptionsNamesInHandler (
 
     s <<
       "option long name and short name are both empty";
-      
+
     optionError (s.str ());
     exit (33);
   }
-  
+
   if (optionShortName == optionLongName) {
     stringstream s;
 
     s <<
       "option long name '" << optionLongName << "'" <<
       " is the same as the short name for the same";
-      
+
     optionError (s.str ());
     exit (33);
   }
-  
+
   for (
     map<string, S_optionsElement>::iterator i =
       fOptionsElementsMap.begin ();
     i != fOptionsElementsMap.end ();
     i++) {
-      
+
     // is optionLongName already in the options names map?
     if ((*i).first == optionLongName) {
       stringstream s;
-  
+
       s <<
         "option long name '" << optionLongName << "'" <<
           " for option short name '" << optionShortName << "'" <<
         " is specified more that once";
-        
+
       optionError (s.str ());
       exit (33);
     }
@@ -3139,40 +3228,40 @@ void optionsHandler::registerOptionsNamesInHandler (
     if ((*i).first == optionShortName) {
       if (optionShortName.size ()) {
         stringstream s;
-    
+
         s <<
           "option short name '" << optionShortName << "'" <<
           " for option long name '" << optionLongName << "'" <<
           " is specified more that once";
-          
+
         optionError (s.str ());
         exit (33);
       }
     }
   } // for
-    
+
   // register optionsElement's names size
   if (optionLongNameSize) {
     fOptionsElementsMap [optionLongName] =
       optionsElement;
-    
+
     if (optionLongNameSize > fMaximumLongNameWidth) {
       fMaximumLongNameWidth = optionLongNameSize;
     }
-    
+
     if (optionLongNameSize > fMaximumDisplayNameWidth) {
       fMaximumDisplayNameWidth = optionLongNameSize;
     }
   }
-  
+
   if (optionShortNameSize) {
     fOptionsElementsMap [optionShortName] =
       optionsElement;
-    
+
     if (optionShortNameSize > fMaximumShortNameWidth) {
       fMaximumShortNameWidth = optionShortNameSize;
     }
-    
+
     if (optionShortNameSize > fMaximumDisplayNameWidth) {
       fMaximumDisplayNameWidth = optionShortNameSize;
     }
@@ -3193,13 +3282,13 @@ void optionsHandler::registerOptionsElementInHandler (
     optionShortName,
     optionLongName,
     optionsElement);
-    
+
   if (
     // options subgroup?
     S_optionsSubGroup
       subGroup =
         dynamic_cast<optionsSubGroup*>(&(*optionsElement))
-    ) {    
+    ) {
 
     string
       optionHelpHeader=
@@ -3208,7 +3297,7 @@ void optionsHandler::registerOptionsElementInHandler (
     int
       optionHelpHeaderSize =
         optionHelpHeader.size ();
-          
+
     // account for optionsSubGroup's header size
     if (optionHelpHeaderSize > fMaximumSubGroupsHelpHeadersSize) {
       fMaximumSubGroupsHelpHeadersSize =
@@ -3220,13 +3309,13 @@ void optionsHandler::registerOptionsElementInHandler (
 void optionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
-  
+
   os <<
     "OptionsHandler:" <<
     endl;
 
   gIndenter++;
-  
+
   printElementEssentials (os, fieldWidth);
 
   os << left <<
@@ -3250,9 +3339,9 @@ void optionsHandler::print (ostream& os) const
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os <<
       endl;
-    
+
     gIndenter++;
-    
+
     list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
@@ -3284,7 +3373,7 @@ void optionsHandler::printHelp (ostream& os) const
     optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
-  
+
   // print the options handler description
   gIndenter++;
   os <<
@@ -3295,9 +3384,9 @@ void optionsHandler::printHelp (ostream& os) const
   os <<
     endl <<
     endl;
-  
+
   // print the options groups helps
-  if (fOptionsHandlerOptionsGroupsList.size ()) {    
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsGroup>::const_iterator
@@ -3310,7 +3399,7 @@ void optionsHandler::printHelp (ostream& os) const
       if (++i == iEnd) break;
       os << endl;
     } // for
-    
+
     gIndenter--;
   }
 }
@@ -3321,7 +3410,7 @@ void optionsHandler::printHelpSummary (ostream& os) const
   os <<
     gIndenter.indentMultiLineString (
       fOptionHandlerPreamble);
-    
+
   // print the options handler help header and element names
   os <<
     fOptionsHandlerHelpHeader <<
@@ -3338,9 +3427,9 @@ void optionsHandler::printHelpSummary (ostream& os) const
       endl <<
     endl;
   gIndenter--;
-    
+
   // print the options groups help summaries
-  if (fOptionsHandlerOptionsGroupsList.size ()) {    
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsGroup>::const_iterator
@@ -3372,7 +3461,7 @@ void optionsHandler::printSpecificSubGroupHelp (
     endl;
 
   // print the optons group subgroups specific help
-  if (fOptionsHandlerOptionsGroupsList.size ()) {    
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
     gIndenter++;
 
     list<S_optionsGroup>::const_iterator
@@ -3388,7 +3477,7 @@ void optionsHandler::printSpecificSubGroupHelp (
       if (++i == iEnd) break;
       os << endl;
     } // for
-      
+
     gIndenter--;
   }
 }
@@ -3396,13 +3485,13 @@ void optionsHandler::printSpecificSubGroupHelp (
 void optionsHandler::printSpecificItemHelp (
   ostream& os,
   string   optionsItemName) const
-{  
+{
   // is optionsItemName known in options elements map?
   S_optionsElement
     optionsElement =
       fetchOptionsElementFromMap (
         optionsItemName);
-                      
+
   if (! optionsElement) {
     // optionsItemName is is not well handled by this options handler
     stringstream s;
@@ -3410,7 +3499,7 @@ void optionsHandler::printSpecificItemHelp (
     s <<
       "option name '" << optionsItemName <<
       "' is not well handled in optionsHandler::printSpecificItemHelp ()";
-      
+
     optionError (s.str ());
     exit (33);
   }
@@ -3442,11 +3531,11 @@ void optionsHandler::printSpecificItemHelp (
           printHelp (
             fOptionsHandlerLogIOstream);
       }
-      
+
       fOptionsHandlerLogIOstream <<
         endl;
     }
-    
+
     else if (
       // options group?
       S_optionsGroup
@@ -3464,15 +3553,15 @@ void optionsHandler::printSpecificItemHelp (
         "\" ---" <<
         endl <<
         endl;
-        
+
       group->
         printHelp (
           fOptionsHandlerLogIOstream);
-      
+
       fOptionsHandlerLogIOstream <<
         endl;
     }
-    
+
     else if (
       // options subgroup?
       S_optionsSubGroup
@@ -3484,7 +3573,7 @@ void optionsHandler::printSpecificItemHelp (
         group =
           subGroup->
             getOptionsGroupUplink ();
-          
+
       // print the help
       fOptionsHandlerLogIOstream <<
         endl <<
@@ -3506,7 +3595,7 @@ void optionsHandler::printSpecificItemHelp (
           fOptionsHandlerLogIOstream,
           subGroup);
     }
-    
+
     else if (
       // options item?
       S_optionsItem
@@ -3518,7 +3607,7 @@ void optionsHandler::printSpecificItemHelp (
         subGroup =
           item->
             getOptionsSubGroupUplink ();
-          
+
       // get the options group uplink
       S_optionsGroup
         group =
@@ -3547,7 +3636,7 @@ void optionsHandler::printSpecificItemHelp (
           subGroup,
           item);
     }
-    
+
     else {
       stringstream s;
 
@@ -3555,7 +3644,7 @@ void optionsHandler::printSpecificItemHelp (
         "cannot handle specific help about optionsItemName \"" <<
         optionsItemName <<
         "\"";
-        
+
       optionError (s.str ());
       exit (33);
     }
@@ -3576,7 +3665,7 @@ void optionsHandler::printAllOptionsValues (
   // print the options groups values
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;
-    
+
     gIndenter++;
 
     list<S_optionsGroup>::const_iterator
@@ -3602,7 +3691,20 @@ ostream& operator<< (ostream& os, const S_optionsHandler& elt)
   return os;
 }
 
-void optionsHandler::appendOptionsGroup (
+void optionsHandler::appendOptionsPrefixToHandler (
+  S_optionsPrefix prefix)
+{
+  // sanity check
+  msrAssert (
+    prefix != nullptr,
+    "prefix is null");
+
+  // append the options prefix
+  fOptionsHandlerOptionsPrefixesList.push_back (
+    prefix);
+}
+
+void optionsHandler::appendOptionsGroupToHandler (
   S_optionsGroup optionsGroup)
 {
   // sanity check
@@ -3617,13 +3719,13 @@ void optionsHandler::appendOptionsGroup (
   // set the uplink
   optionsGroup->
     setOptionsHandlerUplink (this);
-  }
+}
 
 S_optionsElement optionsHandler::fetchOptionElement (
   string optiontElementName)
 {
   S_optionsElement result;
-  
+
   for (
     list<S_optionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin ();
@@ -3632,7 +3734,7 @@ S_optionsElement optionsHandler::fetchOptionElement (
     // search optiontElementName in the options group
     result =
       (*i)->fetchOptionElement (optiontElementName);
-      
+
     if (result != 0) {
       break;
     }
@@ -3647,7 +3749,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    // print the options elements map  
+    // print the options elements map
     fOptionsHandlerLogIOstream <<
       "Options elements map (" <<
       fOptionsElementsMap.size () <<
@@ -3655,7 +3757,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       endl;
     if (fOptionsElementsMap.size ()) {
       gIndenter++;
-      
+
       map<string, S_optionsElement>::const_iterator
         iBegin = fOptionsElementsMap.begin (),
         iEnd   = fOptionsElementsMap.end (),
@@ -3664,24 +3766,24 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         fOptionsHandlerLogIOstream <<
           (*i).first << "-->" <<
           endl;
-          
+
         gIndenter++;
-        
+
         (*i).second->
           printHeader (
             fOptionsHandlerLogIOstream);
-            
+
         if (++i == iEnd) break;
-        
+
         fOptionsHandlerLogIOstream <<
           endl;
-          
+
         gIndenter--;
       } // for
-      
+
       gIndenter--;
     }
-    
+
     fOptionsHandlerLogIOstream <<
       endl;
   }
@@ -3689,19 +3791,19 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
   // fetch program name
   fExecutableName = string (argv [0]);
-  
+
   fCommandLineWithShortOptions = fExecutableName;
   fCommandLineWithLongOptions  = fExecutableName;
-  
+
   // decipher the command options and arguments
   int n = 1;
-  
-  while (true) { 
+
+  while (true) {
     if (argv [n] == 0)
       break;
 
     string currentElement = string (argv [n]);
-    
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       // print current element
@@ -3715,7 +3817,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     // handle current element
     if (currentElement [0] == '-') {
       // stdin or options element?
-      
+
       if (currentElement.size () == 1) {
         // this is the stdin indicator
 #ifdef TRACE_OPTIONS
@@ -3726,7 +3828,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
             endl;
         }
 #endif
-        
+
         fArgumentsVector.push_back (currentElement);
 
         fCommandLineWithShortOptions +=
@@ -3734,26 +3836,26 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         fCommandLineWithLongOptions +=
           " " + currentElement;
       }
-      
+
       else {
         // this is an option
         string currentOptionName;
 
         string elementTrailer =
           currentElement.substr (1, string::npos);
-  
+
         /* JMI
         fOptionsHandlerLogIOstream <<
           "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
           endl;
         */
-  
+
         if (elementTrailer.size ()) {
           if (elementTrailer [0] == '-') {
             // it is a double-dashed option
             currentOptionName =
               elementTrailer.substr (1, string::npos);
-          
+
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
               fOptionsHandlerLogIOstream <<
@@ -3776,7 +3878,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #endif
           }
         }
-        
+
         else {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -3787,8 +3889,72 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #endif
         }
 
-        // handle the options item name
-        handleOptionsItemName (currentOptionName);
+        // is currentOptionName an option prefix?
+        string regularExpression (
+          "([[:w:]]+)"
+          "="
+          "([[:w:]]+)(,[[:w:]]*)");
+
+        regex e (regularExpression);
+        smatch sm;
+
+        regex_match (currentOptionName, sm, e);
+
+        if (sm.size ()) {
+          /*
+There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([[:w:]]+)(,[[:w:]]*)'
+[t=meas,notes] [t] [meas] [,notes]
+          */
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+            fOptionsHandlerLogIOstream <<
+              "There are " << sm.size () << " matches" <<
+              " for rational string '" << currentOptionName <<
+              "' with regex '" << regularExpression <<
+              "'" <<
+              endl;
+
+            for (unsigned i = 0; i < sm.size (); ++i) {
+              fOptionsHandlerLogIOstream <<
+                "[" << sm [i] << "] ";
+            } // for
+
+            fOptionsHandlerLogIOstream <<
+              endl;
+          }
+#endif
+
+          S_optionsPrefix
+            prefix =
+              fetchOptionsPrefixFromMap (currentOptionName);
+
+          if (prefix) {
+            // start at 1
+            for (unsigned i = 1; i < sm.size (); ++i) {
+              string singleOptionName = sm [i].str ();
+
+              if (i >= 3) {
+                // remove the initial comma
+                singleOptionName = singleOptionName.substr (1);
+              }
+
+              // build uncontracted option item name
+              string
+                uncontractedOptionName =
+                  prefix->getOptionsPrefixErsatz () + singleOptionName;
+
+              // handle the uncontracted option item name
+              handleOptionsItemName (uncontractedOptionName);
+            } // for
+          }
+          else {
+          }
+        }
+
+        else {
+          // handle the options item name
+          handleOptionsItemName (currentOptionName);
+        }
       }
     }
 
@@ -3797,7 +3963,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       // i.e. it is an item value or an argument
       handleOptionsItemValueOrArgument (currentElement);
     }
-    
+
     // next please
     n++;
   } // while
@@ -3813,7 +3979,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       argumentsVectorSize <<
       " elements):" <<
       endl;
-  
+
     if (argumentsVectorSize) {
       gIndenter++;
       for (unsigned int i = 0; i < argumentsVectorSize; i++) {
@@ -3875,18 +4041,18 @@ void optionsHandler::handleOptionsItemName (
 
     s <<
       "option name '" << optionsItemName <<
-      "' is unknown, see help summary above";      
+      "' is unknown, see help summary above";
 
     optionError (s.str ());
     exit (6);
   }
-  
+
   else {
     // optionsItemName is known, let's handle it
     fCommandOptionsElements.push_back (
       optionsElement);
 
-    // determine option element names to be used,
+    // determine option element short and long names to be used,
     // in case one of them (short or long) is empty
     string
       shortName =
@@ -3928,7 +4094,7 @@ void optionsHandler::handleOptionsItemName (
           endl;
       }
 #endif
-      
+
       if (
         optionsItemName ==
           handler->
@@ -3947,11 +4113,11 @@ void optionsHandler::handleOptionsItemName (
           printHelp (
             fOptionsHandlerLogIOstream);
       }
-      
+
       fOptionsHandlerLogIOstream <<
         endl;
     }
-    
+
     else if (
       // options group?
       S_optionsGroup
@@ -3975,12 +4141,12 @@ void optionsHandler::handleOptionsItemName (
         "\" ---" <<
         endl <<
         endl;
-        
+
       group->
         printHelp (
           fOptionsHandlerLogIOstream);
     }
-    
+
     else if (
       // options subgroup?
       S_optionsSubGroup
@@ -4000,7 +4166,7 @@ void optionsHandler::handleOptionsItemName (
         group =
           subGroup->
             getOptionsGroupUplink ();
-          
+
       // print the help
       fOptionsHandlerLogIOstream <<
         endl <<
@@ -4020,7 +4186,7 @@ void optionsHandler::handleOptionsItemName (
           fOptionsHandlerLogIOstream,
           subGroup);
     }
-    
+
     else if (
       // options item?
       S_optionsItem
@@ -4048,7 +4214,7 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // handle it at once
         helpUsageItem->
           printHelpUsage (
@@ -4057,7 +4223,7 @@ void optionsHandler::handleOptionsItemName (
         // exit
         exit (0);
       }
-      
+
       else if (
         // help summary item?
         S_optionsHelpSummaryItem
@@ -4071,7 +4237,7 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // handle it at once
         printHelpSummary (
           fOptionsHandlerLogIOstream);
@@ -4079,7 +4245,7 @@ void optionsHandler::handleOptionsItemName (
         // exit
         exit (0);
       }
-      
+
       else if (
         // combined items item?
         S_optionsCombinedItemsItem
@@ -4093,12 +4259,12 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // handle it at once
         combinedItemsItem->
           setCombinedItemsVariablesValue (true);
       }
-      
+
       else if (
         // boolean item?
         S_optionsBooleanItem
@@ -4112,12 +4278,12 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // handle it at once
         booleanItem->
-          setBooleanItemVariableValue (true);              
+          setBooleanItemVariableValue (true);
       }
-      
+
       else if (
         // two booleans item?
         S_optionsTwoBooleansItem
@@ -4131,12 +4297,12 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // handle it at once
         twoBooleansItem->
-          setTwoBooleansItemVariableValue (true);              
+          setTwoBooleansItemVariableValue (true);
       }
-      
+
       else if (
         // three booleans item?
         S_optionsThreeBooleansItem
@@ -4150,12 +4316,12 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // handle it at once
         threeBooleansItem->
-          setThreeBooleansItemVariableValue (true);              
+          setThreeBooleansItemVariableValue (true);
       }
-      
+
       else if (
         // item help item?
         S_optionsItemHelpItem
@@ -4169,11 +4335,11 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // wait until the value is met
         fPendingOptionsItem = itemHelpItem;
       }
-      
+
       else if (
         // integer item?
         S_optionsIntegerItem
@@ -4187,17 +4353,17 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // wait until the value is met
         fPendingOptionsItem = integerItem;
       }
-      
+
       else if (
         // float item?
         S_optionsFloatItem
           floatItem =
             dynamic_cast<optionsFloatItem*>(&(*optionsElement))
-        ) {              
+        ) {
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
           fOptionsHandlerLogIOstream <<
@@ -4205,11 +4371,11 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // wait until the value is met
         fPendingOptionsItem = floatItem;
       }
-      
+
       else if (
         // string item?
         S_optionsStringItem
@@ -4223,11 +4389,11 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // wait until the value is met
         fPendingOptionsItem = stringItem;
       }
-      
+
       else if (
         // rational item?
         S_optionsRationalItem
@@ -4241,7 +4407,7 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // wait until the value is met
         fPendingOptionsItem = rationalItem;
       }
@@ -4259,7 +4425,7 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-  
+
         // wait until the value is met
         fPendingOptionsItem = numbersSetItem;
       }
@@ -4276,7 +4442,7 @@ void optionsHandler::handleOptionsItemName (
             endl;
         }
 #endif
-      
+
         S_optionsGroup
           group =
             item->
@@ -4293,11 +4459,11 @@ void optionsHandler::handleOptionsItemName (
 
     else {
       stringstream s;
-  
+
       s <<
         "INTERNAL ERROR: option name '" << optionsItemName <<
-        "' cannot be handled";      
-  
+        "' cannot be handled";
+
       optionError (s.str ());
       exit (7);
     }
@@ -4312,13 +4478,13 @@ void optionsHandler::handleOptionsItemValueOrArgument (
     fOptionsHandlerLogIOstream <<
       "==> handleOptionsItemValueOrArgument ()" <<
       endl;
-      
+
     gIndenter++;
-    
+
     fOptionsHandlerLogIOstream <<
       "fPendingOptionsItem:" <<
       endl;
-      
+
     gIndenter++;
     if (fPendingOptionsItem) {
       fOptionsHandlerLogIOstream <<
@@ -4330,11 +4496,11 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         endl;
     }
     gIndenter--;
-    
+
     fOptionsHandlerLogIOstream <<
       "theString:" <<
       endl;
-      
+
     gIndenter++;
     fOptionsHandlerLogIOstream <<
       " \"" <<
@@ -4366,7 +4532,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       // exit
       exit (23);
       }
-    
+
     else if (
       // integer item?
       S_optionsIntegerItem
@@ -4381,20 +4547,20 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         s << theString;
         s >> integerValue;
       }
-      
+
       integerItem->
         setIntegerItemVariableValue (
           integerValue);
 
       fPendingOptionsItem = nullptr;
       }
-    
+
     else if (
       // float item?
       S_optionsFloatItem
         floatItem =
           dynamic_cast<optionsFloatItem*>(&(*fPendingOptionsItem))
-      ) {              
+      ) {
       // handle the option item
       float floatValue;
       {
@@ -4402,14 +4568,14 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         s << theString;
         s >> floatValue;
       }
-      
+
       floatItem->
         setFloatItemVariableValue (
           floatValue);
 
       fPendingOptionsItem = nullptr;
     }
-    
+
     else if (
       // string item?
       S_optionsStringItem
@@ -4423,7 +4589,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
       fPendingOptionsItem = nullptr;
     }
-    
+
     else if (
       // rational item?
       S_optionsRationalItem
@@ -4432,12 +4598,12 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       ) {
       // theString contains the fraction:
       // decipher it to extract numerator and denominator values
-      
+
       string regularExpression (
         "[[:space:]]*([[:digit:]]+)[[:space:]]*"
         "/"
         "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-        
+
       regex e (regularExpression);
       smatch sm;
 
@@ -4452,39 +4618,39 @@ void optionsHandler::handleOptionsItemValueOrArgument (
             "' with regex '" << regularExpression <<
             "'" <<
             endl;
-       
+
           for (unsigned i = 0; i < sm.size (); ++i) {
             fOptionsHandlerLogIOstream <<
               "[" << sm [i] << "] ";
           } // for
-          
+
           fOptionsHandlerLogIOstream <<
             endl;
         }
 #endif
       }
-     
+
       else {
         stringstream s;
 
         s <<
           "-delayedOrnamentFraction argument '" << theString <<
           "' is ill-formed";
-          
+
         optionError (s.str ());
-        
+
         printSpecificSubGroupHelp (
           fOptionsHandlerLogIOstream,
           rationalItem->
             getOptionsSubGroupUplink ());
-            
+
         exit (4);
       }
 
       int
         numerator,
         denominator;
-        
+
       {
         stringstream s;
         s << sm [1];
@@ -4498,7 +4664,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
       rational
         rationalValue =
-          rational (numerator, denominator);     
+          rational (numerator, denominator);
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
@@ -4532,7 +4698,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
       fPendingOptionsItem = nullptr;
     }
-    
+
     else {
       // fPendingOptionsItem is of another type,
       // let the optionsGroup handle it
@@ -4545,7 +4711,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
           endl;
       }
 #endif
-      
+
       S_optionsGroup
         group =
           fPendingOptionsItem->

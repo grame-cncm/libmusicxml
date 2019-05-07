@@ -324,6 +324,40 @@ Option '-h, -help' prints the full help,
     )
 {
   initializeOptionsHandler (executableName);
+
+  // append the help options prefixex
+  S_optionsPrefix
+    helpPrefix =
+      optionsPrefix::create (
+        "help",
+        "help-",
+        "'-help=abc,wxyz' is equivalent to '-help-abc, -help-wxyz'");
+  appendOptionsPrefixToHandler (helpPrefix);
+
+  S_optionsPrefix
+    hPrefix =
+      optionsPrefix::create (
+        "h",
+        "h",
+        "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
+  appendOptionsPrefixToHandler (hPrefix);
+
+  // append the trace options prefixex
+  S_optionsPrefix
+    tracePrefix =
+      optionsPrefix::create (
+        "trace",
+        "trace-",
+        "'-trace=abc,wxyz' is equivalent to '-trace-abc, -trace-wxyz'");
+  appendOptionsPrefixToHandler (tracePrefix);
+
+  S_optionsPrefix
+    tPrefix =
+      optionsPrefix::create (
+        "t",
+        "t",
+        "'-t=abc,wxyz' is equivalent to '-tabc, -twxyz'");
+  appendOptionsPrefixToHandler (tPrefix);
 }
 
 xml2lyOptionsHandler::~xml2lyOptionsHandler ()
@@ -690,7 +724,7 @@ R"(Options that are used by xml2ly are grouped here.)",
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it

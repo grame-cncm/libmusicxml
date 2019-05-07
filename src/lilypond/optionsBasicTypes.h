@@ -1429,7 +1429,14 @@ to be developped into :
     string                getOptionsPrefixDescription () const
                               { return fOptionsPrefixDescription; }
 
-    // services
+  public:
+
+    // public services
+    // ------------------------------------------------------
+
+  private:
+
+    // private services
     // ------------------------------------------------------
 
     string                optionsPrefixNames () const;
@@ -1443,8 +1450,12 @@ to be developped into :
     string                operator () () const
                               { return fOptionsPrefixErsatz; }
 
-    S_optionsPrefix       fetchOptionElement ( // JMI
+/* JMI
+    S_optionsPrefix       fetchOptionElement (
                             string optiontElementName);
+                            */
+
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1568,41 +1579,31 @@ class EXP optionsHandler : public optionsElement
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
-    S_optionsElement      fetchOptionsElementFromMap (
-                            string optionsElementName) const;
+    void                  appendOptionsPrefixToHandler (
+                            S_optionsPrefix prefix);
 
-    string                helpNamesBetweenParentheses () const; // JMI ???
-
-    void                  registerOptionsNamesInHandler (
-                            string           optionShortName,
-                            string           optionLongName,
-                            S_optionsElement optionsElement);
-
-    void                  registerOptionsHandlerInItself ();
+    void                  appendOptionsGroupToHandler (
+                            S_optionsGroup optionsGroup);
 
     void                  registerOptionsElementInHandler (
                             S_optionsElement optionsElement);
 
-    void                  appendOptionsGroup (
-                            S_optionsGroup optionsGroup);
+    void                  registerOptionsHandlerInItself ();
 
-    S_optionsElement      fetchOptionElement (
-                            string optiontElementName);
+    S_optionsPrefix       fetchOptionsPrefixFromMap (
+                            string optionsElementName) const;
 
-    void                  handleOptionsItemName (
-                            string optionsItemName);
-
-    void                  handleOptionsItemValueOrArgument (
-                            string theString);
+    S_optionsElement      fetchOptionsElementFromMap (
+                            string optionsElementName) const;
 
     const vector<string>  decipherOptionsAndArguments (
                             int   argc,
                             char* argv[]);
 
-    virtual void          checkOptionsAndArguments () = 0;
+  public:
 
     // print
     // ------------------------------------------------------
@@ -1630,6 +1631,29 @@ class EXP optionsHandler : public optionsElement
     void                  printAllOptionsValues (
                             ostream& os) const;
 
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    string                helpNamesBetweenParentheses () const; // JMI ???
+
+    void                  registerOptionsNamesInHandler (
+                            string           optionShortName,
+                            string           optionLongName,
+                            S_optionsElement optionsElement);
+
+    S_optionsElement      fetchOptionElement (
+                            string optiontElementName);
+
+    void                  handleOptionsItemName (
+                            string optionsItemName);
+
+    void                  handleOptionsItemValueOrArgument (
+                            string theString);
+
+    virtual void          checkOptionsAndArguments () = 0;
+
   protected:
 
     // fields
@@ -1646,6 +1670,11 @@ class EXP optionsHandler : public optionsElement
     S_optionsItem         fPendingOptionsItem;
 
     vector<string>        fArgumentsVector;
+
+    list<S_optionsPrefix> fOptionsHandlerOptionsPrefixesList;
+
+    map<string, S_optionsPrefix>
+                          fOptionsPrefixesMap;
 
     list<S_optionsGroup>  fOptionsHandlerOptionsGroupsList;
 
@@ -1666,8 +1695,6 @@ class EXP optionsHandler : public optionsElement
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;
-
-    list<S_optionsPrefix> fOptionsHandlerOptionsPrefixesList;
 
     indentedOstream&      fOptionsHandlerLogIOstream;
 };

@@ -377,7 +377,7 @@ and around the '=' sign, otherwise they can be dispensed with.)",
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it

@@ -325,7 +325,7 @@ R"(These options control which LilyPond code is generated.)",
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it

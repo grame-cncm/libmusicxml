@@ -19,7 +19,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -49,7 +49,7 @@ R"(Options that are used by various components of the library
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it
@@ -66,18 +66,18 @@ void traceOptions::initializeTraceOptions (
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     fTracePasses = boolOptionsInitialValue;
-    
+
     fTraceOptions          = boolOptionsInitialValue;
     fDisplayOptionsValues  = boolOptionsInitialValue;
     fDisplayOptionsHandler = boolOptionsInitialValue;
-    
+
     // fTraceDetailedMeasureNumbersSet is empty
-    
+
     // options
-    
+
       S_optionsSubGroup
         traceAndDisplaySubGroup =
           optionsSubGroup::create (
@@ -86,9 +86,9 @@ void traceOptions::initializeTraceOptions (
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
       appendOptionsSubGroup (traceAndDisplaySubGroup);
-          
+
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
@@ -97,7 +97,7 @@ R"(Write a trace of options handling to standard error.
 This option should best appear first.)",
             "traceOptions",
             fTraceOptions));
-    
+
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
@@ -105,7 +105,7 @@ This option should best appear first.)",
 R"(Write a trace of the passes to standard error.)",
             "tracePasses",
             fTracePasses));
-    
+
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
@@ -113,7 +113,7 @@ R"(Write a trace of the passes to standard error.)",
 R"(Write the chosen options values to standard error.)",
             "displayOptionsValues",
             fDisplayOptionsValues));
-    
+
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsBooleanItem::create (
@@ -129,12 +129,12 @@ R"(Write the contents of the options handler to standard error.)",
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // fTraceDetailedMeasureNumbersSet is empty
-    
+
     // options
-    
+
       S_optionsSubGroup
         traceAndDisplaySubGroup =
           optionsSubGroup::create (
@@ -143,9 +143,9 @@ R"(Write the contents of the options handler to standard error.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-    
+
       appendOptionsSubGroup (traceAndDisplaySubGroup);
-              
+
       traceAndDisplaySubGroup->
         appendOptionsItem (
           optionsNumbersSetItem::create (
@@ -153,7 +153,7 @@ R"()",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval
 and 0 applies to the '<part-list>' and anacrusis if present.
-The measure numbers should be those of the produced score, 
+The measure numbers should be those of the produced score,
 since MusicXML measure numbers are arbitrary strings.
 Generate a detailed trace of the activity and print additional
 debugging information to standard error for the specified measures.)",
@@ -163,44 +163,44 @@ debugging information to standard error for the specified measures.)",
   }
 */
 
-  // specific trace    
+  // specific trace
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     // geometry
     fTraceGeometry = boolOptionsInitialValue;
-  
+
     // varValAssocs
     fTraceVarValAssocs = boolOptionsInitialValue;
 
     // part groups
     fTracePartGroups = boolOptionsInitialValue;
     fTracePartGroupsDetails = boolOptionsInitialValue;
-    
+
     // parts
     fTraceParts = boolOptionsInitialValue;
-    
+
     // staves
     fTraceStaves = boolOptionsInitialValue;
-    
+
     // voices
     fTraceVoices = boolOptionsInitialValue;
     fTraceVoicesDetails = boolOptionsInitialValue;
-  
+
     // clefs
     fTraceClefs = boolOptionsInitialValue;
-    
+
     // keys
     fTraceKeys  = boolOptionsInitialValue;
-    
+
     // times
     fTraceTimes = boolOptionsInitialValue;
 
     // tempos
     fTraceTempos = boolOptionsInitialValue;
-  
+
     // rehearsals
     fTraceRehearsals = boolOptionsInitialValue;
 
@@ -209,14 +209,14 @@ debugging information to standard error for the specified measures.)",
 
     // transpositions
     fTraceTranspositions = boolOptionsInitialValue;
-  
+
     // octave shifts
     fTraceOctaveShifts = boolOptionsInitialValue;
 
     // segments
     fTraceSegments = boolOptionsInitialValue;
     fTraceSegmentsDetails = boolOptionsInitialValue;
-    
+
     // barlines
     fTraceBarlines = boolOptionsInitialValue;
     fTraceBarlinesDetails = boolOptionsInitialValue;
@@ -224,10 +224,10 @@ debugging information to standard error for the specified measures.)",
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
     fTraceRepeatsDetails = boolOptionsInitialValue;
-  
+
     // measures repeats
     fTraceMeasuresRepeats = boolOptionsInitialValue;
-  
+
     // rest measures
     fTraceRestMeasures = boolOptionsInitialValue;
 
@@ -237,23 +237,23 @@ debugging information to standard error for the specified measures.)",
     // measures
     fTraceMeasures = boolOptionsInitialValue;
     fTraceMeasuresDetails = boolOptionsInitialValue;
-  
+
     // notes
     fTraceNotes = boolOptionsInitialValue;
     fTraceNotesDetails = boolOptionsInitialValue;
-    
+
     // stems
     fTraceStems = boolOptionsInitialValue;
 
     // beams
     fTraceBeams = boolOptionsInitialValue;
-    
+
     // articulations
     fTraceArticulations = boolOptionsInitialValue;
-    
+
     // technicals
     fTraceTechnicals = boolOptionsInitialValue;
-    
+
     // ornaments
     fTraceOrnaments = boolOptionsInitialValue;
 
@@ -265,52 +265,52 @@ debugging information to standard error for the specified measures.)",
 
     // words
     fTraceWords = boolOptionsInitialValue;
-    
+
     // tremolos
     fTraceTremolos = boolOptionsInitialValue;
-    
+
     // chords
     fTraceChords = boolOptionsInitialValue;
     fTraceChordsDetails = boolOptionsInitialValue;
-    
+
     // tuplets
     fTraceTuplets = boolOptionsInitialValue;
     fTraceTupletsDetails = boolOptionsInitialValue;
-    
+
     // glissandos
     fTraceGlissandos = boolOptionsInitialValue;
-    
+
     // eyeglasses
     fTraceEyeGlasses = boolOptionsInitialValue;
-    
+
     // damps
     fTraceDamps = boolOptionsInitialValue;
-    
+
     // dampalls
     fTraceDampAlls = boolOptionsInitialValue;
-    
+
     // slides
     fTraceSlides = boolOptionsInitialValue;
-    
+
     // grace notes
     fTraceGraceNotes = boolOptionsInitialValue;
-  
+
     // lyrics
     fTraceLyrics        = boolOptionsInitialValue;
     fTraceLyricsDetails = boolOptionsInitialValue;
-  
+
     // harmonies
     fTraceHarmonies = boolOptionsInitialValue;
-  
+
     // frames
     fTraceFrames = boolOptionsInitialValue;
 
     // figured basses
     fTraceFiguredBasses = boolOptionsInitialValue;
-      
+
     // credits
     fTraceCredits = boolOptionsInitialValue;
-      
+
     // dynamics
     fTraceDynamics = boolOptionsInitialValue;
 
@@ -331,21 +331,21 @@ debugging information to standard error for the specified measures.)",
 
     // staff details
     fTraceStaffDetails = boolOptionsInitialValue;
-    
+
     // scordaturas
     fTraceScordaturas = boolOptionsInitialValue;
-    
+
     // harp pedals tuning
     fTraceHarpPedalsTunings = boolOptionsInitialValue;
-    
+
     // extra chords
     fTraceExtraChords = boolOptionsInitialValue;
-    
+
     // msrStreams
     fTraceMsrStreams = boolOptionsInitialValue;
 
     // options
-  
+
     S_optionsSubGroup
       specificTraceSubGroup =
         optionsSubGroup::create (
@@ -354,11 +354,11 @@ debugging information to standard error for the specified measures.)",
 R"(Note: the options in this group imply '-t, -trace-passes'.)",
         optionsSubGroup::kHideDescriptionByDefault,
         this);
-  
+
     appendOptionsSubGroup (specificTraceSubGroup);
 
     // varValAssocs
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -367,9 +367,9 @@ R"(VarValAssocs)",
           "traceVarValAssocs",
           fTraceVarValAssocs,
           fTracePasses));
-      
+
     // geometry
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -380,7 +380,7 @@ R"(Geometry)",
           fTracePasses));
 
     // part groups
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -389,7 +389,7 @@ R"(Part groups)",
           "tracePartGroups",
           fTracePartGroups,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -400,9 +400,9 @@ This option implies '-tpgrps, -tracePartGroups'.)",
           fTracePartGroupsDetails,
           fTracePartGroups,
           fTracePasses));
-      
+
     // parts
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -411,9 +411,9 @@ R"(Parts)",
           "traceParts",
           fTraceParts,
           fTracePasses));
-      
+
     // staves
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -422,9 +422,9 @@ R"(Staves)",
           "traceStaves",
           fTraceStaves,
           fTracePasses));
-      
+
     // voices
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -433,7 +433,7 @@ R"(Voices)",
           "traceVoices",
           fTraceVoices,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -444,9 +444,9 @@ This option implies '-tvdetails, -traceVoicesDetails'.)",
           fTraceVoicesDetails,
           fTraceVoices,
           fTracePasses));
-      
+
     // clefs
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -455,9 +455,9 @@ R"(Clefs)",
           "traceClefs",
           fTraceClefs,
           fTracePasses));
-      
+
     // keys
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -466,9 +466,9 @@ R"(Keys)",
           "traceKeys",
           fTraceKeys,
           fTracePasses));
-      
+
     // times
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -479,7 +479,7 @@ R"(Times)",
           fTracePasses));
 
     // tempos
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -488,9 +488,9 @@ R"(Tempos)",
           "traceTempos",
           fTraceTempos,
           fTracePasses));
-      
+
     // rehearsals
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -501,7 +501,7 @@ R"(Rehearsals)",
           fTracePasses));
 
     // page breaks
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -512,7 +512,7 @@ R"(Rehearsals)",
           fTracePasses));
 
     // transpositions
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -521,9 +521,9 @@ R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
           "traceTranspositions",
           fTraceTranspositions,
           fTracePasses));
-      
+
     // octave shifts
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -532,9 +532,9 @@ R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
           "traceOctaveShifts",
           fTraceOctaveShifts,
           fTracePasses));
-      
+
     // segments
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -543,7 +543,7 @@ R"(Voices segments)",
           "traceSegments",
           fTraceSegments,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -553,9 +553,9 @@ R"(Voices segments details)",
           fTraceSegmentsDetails,
           fTraceSegments,
           fTracePasses));
-      
+
     // barlines
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -564,7 +564,7 @@ R"(Barlines)",
           "traceBarlines",
           fTraceBarlines,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -574,9 +574,9 @@ R"(Barlines details)",
           fTraceBarlinesDetails,
           fTraceBarlines,
           fTracePasses));
-      
+
     // rest measures
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -585,9 +585,9 @@ R"(Multiple rests)",
           "traceRestMeasures",
           fTraceRestMeasures,
           fTracePasses));
-      
+
     // repeats
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -596,7 +596,7 @@ R"(Repeats)",
           "traceRepeats",
           fTraceRepeats,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -606,9 +606,9 @@ R"(Repeats details)",
           fTraceRepeatsDetails,
           fTraceRepeats,
           fTracePasses));
-      
+
     // measures repeats
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -617,9 +617,9 @@ R"(Measures repeats)",
           "traceMeasureRepeats",
           fTraceMeasuresRepeats,
           fTracePasses));
-      
+
     // slashes
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -628,9 +628,9 @@ R"(Slashes)",
           "traceSlashes",
           fTraceSlashes,
           fTracePasses));
-      
+
     // measures
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -639,7 +639,7 @@ R"(Measures)",
           "traceMeasures",
           fTraceMeasures,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -649,9 +649,9 @@ R"(Measures details)",
           fTraceMeasuresDetails,
           fTraceMeasures,
           fTracePasses));
-      
+
     // notes
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -660,7 +660,7 @@ R"(Notes)",
           "traceNotes",
           fTraceNotes,
           fTracePasses));
-          
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -671,9 +671,9 @@ This option implies '-tnnotes, -traceNotes'.)",
           fTraceNotesDetails,
           fTraceNotes,
           fTracePasses));
-      
+
     // stems
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -682,9 +682,9 @@ R"(Stems)",
           "traceStems",
           fTraceStems,
           fTracePasses));
-      
+
     // beams
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -693,9 +693,9 @@ R"(Beams)",
           "traceBeams",
           fTraceBeams,
           fTracePasses));
-      
+
     // articulations
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -704,9 +704,9 @@ R"(Articulations)",
           "traceArticulations",
           fTraceArticulations,
           fTracePasses));
-      
+
     // technicals
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -715,9 +715,9 @@ R"(Technicals)",
           "traceTechnicals",
           fTraceTechnicals,
           fTracePasses));
-      
+
     // ornaments
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -726,9 +726,9 @@ R"(Ornaments)",
           "traceOrnaments",
           fTraceOrnaments,
           fTracePasses));
-      
+
     // dynamics
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -737,9 +737,9 @@ R"(Dynamics)",
           "traceGraceDynamics",
           fTraceGraceDynamics,
           fTracePasses));
-      
+
     // spanners
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -748,9 +748,9 @@ R"(Spanners)",
           "traceSpanners",
           fTraceSpanners,
           fTracePasses));
-      
+
     // words
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -759,9 +759,9 @@ R"(Words)",
           "traceWords",
           fTraceWords,
           fTracePasses));
-      
+
     // tremolos
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -770,9 +770,9 @@ R"(Tremolos)",
           "traceTremolos",
           fTraceTremolos,
           fTracePasses));
-      
+
     // shords
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -781,7 +781,7 @@ R"(Chords)",
           "traceChords",
           fTraceChords,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -791,9 +791,9 @@ R"(Chords details)",
           fTraceChordsDetails,
           fTraceChords,
           fTracePasses));
-      
+
     // tuplets
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -802,7 +802,7 @@ R"(Tuplets)",
           "traceTuplets",
           fTraceTuplets,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
@@ -812,9 +812,9 @@ R"(Tuplets details)",
           fTraceTupletsDetails,
           fTraceTuplets,
           fTracePasses));
-      
+
     // glissandos
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -823,9 +823,9 @@ R"(Glissandos)",
           "traceGlissandos",
           fTraceGlissandos,
           fTracePasses));
-      
+
     // slides
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -834,9 +834,9 @@ R"(Eyeglasses)",
           "traceEyeGlasses",
           fTraceEyeGlasses,
           fTracePasses));
-      
+
     // slides
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -845,9 +845,9 @@ R"(Damps)",
           "traceDamps",
           fTraceDamps,
           fTracePasses));
-      
+
     // dampalls
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -856,9 +856,9 @@ R"(Dampalls)",
           "traceDampAlls",
           fTraceDampAlls,
           fTracePasses));
-      
+
     // slides
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -867,9 +867,9 @@ R"(Slides)",
           "traceSlides",
           fTraceSlides,
           fTracePasses));
-      
+
     // grace notes
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -878,9 +878,9 @@ R"(Grace notes)",
           "traceGraceNotes",
           fTraceGraceNotes,
           fTracePasses));
-      
+
     // lyrics
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -889,7 +889,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
           "traceLyrics",
           fTraceLyrics,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -898,9 +898,9 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
           "traceLyricsDetails",
           fTraceLyricsDetails,
           fTracePasses));
-      
+
     // harmonies
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -909,9 +909,9 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
           "traceHarmonies",
           fTraceHarmonies,
           fTracePasses));
-      
+
     // frames
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -920,9 +920,9 @@ R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
           "traceFrames",
           fTraceFrames,
           fTracePasses));
-      
+
     // figured basses
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -931,9 +931,9 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
           "traceFiguredBasses",
           fTraceFiguredBasses,
           fTracePasses));
-      
+
     // credits
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -942,9 +942,9 @@ R"(Credits)",
           "traceCredits",
           fTraceCredits,
           fTracePasses));
-      
+
     // dynamics
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -953,9 +953,9 @@ R"(Dynamics)",
           "traceDynamics",
           fTraceDynamics,
           fTracePasses));
-      
+
     // slurs
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -964,7 +964,7 @@ R"(Ties)",
           "traceTies",
           fTraceTies,
           fTracePasses));
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -973,9 +973,9 @@ R"(Slurs)",
           "traceSlurs",
           fTraceSlurs,
           fTracePasses));
-      
+
     // ligatures
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -984,9 +984,9 @@ R"(Ligatures)",
           "traceLigatures",
           fTraceLigatures,
           fTracePasses));
-      
+
     // wedges
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -995,9 +995,9 @@ R"(Wedges)",
           "traceWedges",
           fTraceWedges,
           fTracePasses));
-      
+
     // pedals
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -1006,9 +1006,9 @@ R"(Pedals)",
           "tracePedals",
           fTracePedals,
           fTracePasses));
-      
+
     // staff details
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -1017,9 +1017,9 @@ R"(Staff details)",
           "traceStaffDetails",
           fTraceStaffDetails,
           fTracePasses));
-      
+
     // scordaturas
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -1028,9 +1028,9 @@ R"(Scordaturas)",
           "traceScordaturas",
           fTraceScordaturas,
           fTracePasses));
-      
+
     // pedal tunings
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -1039,9 +1039,9 @@ R"(Harp pedals tuning)",
           "traceHarpPedalsTunings",
           fTraceHarpPedalsTunings,
           fTracePasses));
-      
+
     // extra chords
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -1053,7 +1053,7 @@ R"(Extra chords handling)",
 
     /* JMI
     // MSR streams
-    
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -1064,7 +1064,7 @@ R"(MSR Streams API for applications)",
           fTracePasses));
     */
   }
-      
+
 
   fTraceDynamics = boolOptionsInitialValue;
   fTraceWords = boolOptionsInitialValue;
@@ -1073,10 +1073,10 @@ R"(MSR Streams API for applications)",
   fTraceLigatures = boolOptionsInitialValue;
   fTracePedals = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
-  
+
   fTraceStaffDetails = boolOptionsInitialValue;
   fTraceScordaturas = boolOptionsInitialValue;
-  
+
 
   /* STUFF not yet handled JMI */
 
@@ -1117,13 +1117,13 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // part groups
   clone->fTracePartGroups = true;
   clone->fTracePartGroupsDetails = true;
-  
+
   // parts
   clone->fTraceParts = true;
-  
+
   // staves
   clone->fTraceStaves = true;
-  
+
   // voices
   clone->fTraceVoices = true;
   clone->fTraceVoicesDetails = true;
@@ -1134,10 +1134,10 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
 
   // clefs
   clone->fTraceClefs = true;
-  
+
   // keys
   clone->fTraceKeys = true;
-  
+
   // times
   clone->fTraceTimes = true;
 
@@ -1159,7 +1159,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // segments
   clone->fTraceSegments = true;
   clone->fTraceSegmentsDetails = true;
-    
+
   // barlines
   clone->fTraceBarlines = true;
   clone->fTraceBarlinesDetails = true;
@@ -1180,62 +1180,62 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // measures
   clone->fTraceMeasures = true;
   clone->fTraceMeasuresDetails = true;
-  
+
   // notes
   clone->fTraceNotes = true;
   clone->fTraceNotesDetails = true;
-    
+
   // stems
   clone->fTraceStems = true;
 
   // beams
   clone->fTraceBeams = true;
-    
+
   // articulations
   clone->fTraceArticulations = true;
-  
+
   // technicals
   clone->fTraceTechnicals = true;
-  
+
   // ornaments
   clone->fTraceOrnaments = true;
-  
+
   // dynamics
   clone->fTraceGraceDynamics = true;
-  
+
   // spanners
   clone->fTraceSpanners = true;
-  
+
   // words
   clone->fTraceWords = true;
-  
+
   // tremolos
   clone->fTraceTremolos = true;
 
   // chords
   clone->fTraceChords = true;
   clone->fTraceChordsDetails = true;
-    
+
   // tuplets
   clone->fTraceTuplets = true;
   clone->fTraceTupletsDetails = true;
-  
+
   // grace notes
   clone->fTraceGraceNotes = true;
 
   // lyrics
   clone->fTraceLyrics        = true;
   clone->fTraceLyricsDetails = true;
-  
+
   // harmonies
   clone->fTraceHarmonies = true;
-  
+
   // frames
   clone->fTraceFrames = true;
 
   // figured basses
   clone->fTraceFiguredBasses = true;
-    
+
   // credits
   clone->fTraceCredits = true;
 
@@ -1256,14 +1256,14 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
 
   // wedges
   clone->fTraceWedges = true;
-  
+
   // staff details
   clone->fTraceStaffDetails = true;
 
   // scordaturas
   clone->fTraceScordaturas = true;
 
-    
+
   /* STUFF not yet handled JMI */
 
   // midi
@@ -1279,43 +1279,43 @@ void traceOptions::setAllGeneralTraceOptions (
   // trace and display
 
   fTracePasses = boolOptionsInitialValue;
-  
+
   fTraceOptions          = boolOptionsInitialValue;
   fDisplayOptionsValues  = boolOptionsInitialValue;
   fDisplayOptionsHandler = boolOptionsInitialValue;
 
     // geometry
     fTraceGeometry = boolOptionsInitialValue;
-  
+
     // varValAssocs
     fTraceVarValAssocs = boolOptionsInitialValue;
 
     // part groups
     fTracePartGroups = boolOptionsInitialValue;
     fTracePartGroupsDetails = boolOptionsInitialValue;
-    
+
     // parts
     fTraceParts = boolOptionsInitialValue;
-    
+
     // staves
     fTraceStaves = boolOptionsInitialValue;
-    
+
     // voices
     fTraceVoices = boolOptionsInitialValue;
     fTraceVoicesDetails = boolOptionsInitialValue;
-  
+
     // clefs
     fTraceClefs = boolOptionsInitialValue;
-    
+
     // keys
     fTraceKeys  = boolOptionsInitialValue;
-    
+
     // times
     fTraceTimes = boolOptionsInitialValue;
 
     // tempos
     fTraceTempos = boolOptionsInitialValue;
-  
+
     // rehearsals
     fTraceRehearsals = boolOptionsInitialValue;
 
@@ -1324,14 +1324,14 @@ void traceOptions::setAllGeneralTraceOptions (
 
     // transpositions
     fTraceTranspositions = boolOptionsInitialValue;
-  
+
     // octave shifts
     fTraceOctaveShifts = boolOptionsInitialValue;
 
     // segments
     fTraceSegments = boolOptionsInitialValue;
     fTraceSegmentsDetails = boolOptionsInitialValue;
-    
+
     // barlines
     fTraceBarlines = boolOptionsInitialValue;
     fTraceBarlinesDetails = boolOptionsInitialValue;
@@ -1339,10 +1339,10 @@ void traceOptions::setAllGeneralTraceOptions (
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
     fTraceRepeatsDetails = boolOptionsInitialValue;
-  
+
     // measures repeats
     fTraceMeasuresRepeats = boolOptionsInitialValue;
-  
+
     // rest measures
     fTraceRestMeasures = boolOptionsInitialValue;
 
@@ -1352,23 +1352,23 @@ void traceOptions::setAllGeneralTraceOptions (
     // measures
     fTraceMeasures = boolOptionsInitialValue;
     fTraceMeasuresDetails = boolOptionsInitialValue;
-  
+
     // notes
     fTraceNotes = boolOptionsInitialValue;
     fTraceNotesDetails = boolOptionsInitialValue;
-    
+
     // stems
     fTraceStems = boolOptionsInitialValue;
 
     // beams
     fTraceBeams = boolOptionsInitialValue;
-    
+
     // articulations
     fTraceArticulations = boolOptionsInitialValue;
-    
+
     // technicals
     fTraceTechnicals = boolOptionsInitialValue;
-    
+
     // ornaments
     fTraceOrnaments = boolOptionsInitialValue;
 
@@ -1380,52 +1380,52 @@ void traceOptions::setAllGeneralTraceOptions (
 
     // words
     fTraceWords = boolOptionsInitialValue;
-    
+
     // tremolos
     fTraceTremolos = boolOptionsInitialValue;
-    
+
     // chords
     fTraceChords = boolOptionsInitialValue;
     fTraceChordsDetails = boolOptionsInitialValue;
-    
+
     // tuplets
     fTraceTuplets = boolOptionsInitialValue;
     fTraceTupletsDetails = boolOptionsInitialValue;
-    
+
     // glissandos
     fTraceGlissandos = boolOptionsInitialValue;
-    
+
     // eyeglasses
     fTraceEyeGlasses = boolOptionsInitialValue;
-    
+
     // damps
     fTraceDamps = boolOptionsInitialValue;
-    
+
     // dampalls
     fTraceDampAlls = boolOptionsInitialValue;
-    
+
     // slides
     fTraceSlides = boolOptionsInitialValue;
-    
+
     // grace notes
     fTraceGraceNotes = boolOptionsInitialValue;
-  
+
     // lyrics
     fTraceLyrics        = boolOptionsInitialValue;
     fTraceLyricsDetails = boolOptionsInitialValue;
-  
+
     // harmonies
     fTraceHarmonies = boolOptionsInitialValue;
-  
+
     // frames
     fTraceFrames = boolOptionsInitialValue;
 
     // figured basses
     fTraceFiguredBasses = boolOptionsInitialValue;
-      
+
     // credits
     fTraceCredits = boolOptionsInitialValue;
-      
+
     // dynamics
     fTraceDynamics = boolOptionsInitialValue;
 
@@ -1446,16 +1446,16 @@ void traceOptions::setAllGeneralTraceOptions (
 
     // staff details
     fTraceStaffDetails = boolOptionsInitialValue;
-    
+
     // scordaturas
     fTraceScordaturas = boolOptionsInitialValue;
-    
+
     // harp pedals tuning
     fTraceHarpPedalsTunings = boolOptionsInitialValue;
-    
+
     // extra chords
     fTraceExtraChords = boolOptionsInitialValue;
-    
+
     // msrStreams
     fTraceMsrStreams = boolOptionsInitialValue;
 
@@ -1467,10 +1467,10 @@ void traceOptions::setAllGeneralTraceOptions (
   fTraceLigatures = boolOptionsInitialValue;
   fTracePedals = boolOptionsInitialValue;
   fTraceWedges = boolOptionsInitialValue;
-  
+
   fTraceStaffDetails = boolOptionsInitialValue;
   fTraceScordaturas = boolOptionsInitialValue;
-  
+
 
   / / * STUFF not yet handled JMI * /
 
@@ -1493,7 +1493,7 @@ void traceOptions::checkOptionsConsistency ()
 
 //______________________________________________________________________________
 void traceOptions::printTraceOptionsValues (int fieldWidth)
-{  
+{
   gLogIOstream <<
     "The trace options are:" <<
     endl;
@@ -1501,7 +1501,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter++;
 
 
-    // specific trace    
+    // specific trace
   // --------------------------------------
 
   gLogIOstream << left <<
@@ -1515,13 +1515,13 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceGeometry" << " : " <<
     booleanAsString (fTraceGeometry) <<
     endl <<
-      
+
     // varValAssocs
     // geometry
     setw (fieldWidth) << "traceVarValAssocs" << " : " <<
     booleanAsString (fTraceVarValAssocs) <<
     endl <<
-      
+
     // part groups
     setw (fieldWidth) << "tracePartGroups" << " : " <<
     booleanAsString (fTracePartGroups) <<
@@ -1529,17 +1529,17 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "tracePartGroupsDetails" << " : " <<
     booleanAsString (fTracePartGroupsDetails) <<
     endl <<
-    
+
     // parts
     setw (fieldWidth) << "traceParts" << " : " <<
     booleanAsString (fTraceParts) <<
     endl <<
-    
+
     // staves
     setw (fieldWidth) << "traceStaves" << " : " <<
     booleanAsString (fTraceStaves) <<
     endl <<
-    
+
     // voices
     setw (fieldWidth) << "traceVoices" << " : " <<
     booleanAsString (fTraceVoices) <<
@@ -1552,22 +1552,22 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceClefs" << " : " <<
     booleanAsString (fTraceClefs) <<
     endl <<
-    
+
     // keys
     setw (fieldWidth) << "traceKeys" << " : " <<
     booleanAsString (fTraceKeys) <<
     endl <<
-    
+
     // times
     setw (fieldWidth) << "traceTimes" << " : " <<
     booleanAsString (fTraceTimes) <<
     endl <<
-    
+
     // tempos
     setw (fieldWidth) << "traceTempos" << " : " <<
     booleanAsString (fTraceTempos) <<
     endl <<
-    
+
     // rehearsals
     setw (fieldWidth) << "traceRehearsals" << " : " <<
     booleanAsString (fTraceRehearsals) <<
@@ -1582,12 +1582,12 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceTranspositions" << " : " <<
     booleanAsString (fTraceTranspositions) <<
     endl <<
-    
+
     // octave shifts
     setw (fieldWidth) << "traceOctaveShifts" << " : " <<
     booleanAsString (fTraceOctaveShifts) <<
     endl <<
-    
+
     // segments
     setw (fieldWidth) << "traceSegments" << " : " <<
     booleanAsString (fTraceSegments) <<
@@ -1595,7 +1595,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceSegmentsDetails" << " : " <<
     booleanAsString (fTraceSegmentsDetails) <<
     endl <<
-    
+
     // barlines
     setw (fieldWidth) << "traceBarlines" << " : " <<
     booleanAsString (fTraceBarlines) <<
@@ -1603,7 +1603,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceBarlinesDetails" << " : " <<
     booleanAsString (fTraceBarlinesDetails) <<
     endl <<
-    
+
     // repeats
     setw (fieldWidth) << "traceRepeats" << " : " <<
     booleanAsString (fTraceRepeats) <<
@@ -1611,7 +1611,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceRepeatsDetails" << " : " <<
     booleanAsString (fTraceRepeatsDetails) <<
     endl <<
-    
+
     // measures repeats
     setw (fieldWidth) << "traceMeasuresRepeats" << " : " <<
     booleanAsString (fTraceMeasuresRepeats) <<
@@ -1626,7 +1626,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceSlashes" << " : " <<
     booleanAsString (fTraceSlashes) <<
     endl <<
-    
+
     // measures
     setw (fieldWidth) << "traceMeasures" << " : " <<
     booleanAsString (fTraceMeasures) <<
@@ -1634,7 +1634,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceMeasuresDetails" << " : " <<
     booleanAsString (fTraceMeasuresDetails) <<
     endl <<
-    
+
     // notes
     setw (fieldWidth) << "traceNotes" << " : " <<
     booleanAsString (fTraceNotes) <<
@@ -1642,52 +1642,52 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceNotesDetails" << " : " <<
     booleanAsString (fTraceNotesDetails) <<
     endl <<
-    
+
     // stems
     setw (fieldWidth) << "traceStems" << " : " <<
     booleanAsString (fTraceStems) <<
     endl <<
-    
+
     // beams
     setw (fieldWidth) << "traceBeams" << " : " <<
     booleanAsString (fTraceBeams) <<
     endl <<
-    
+
     // articulations
     setw (fieldWidth) << "traceArticulations" << " : " <<
     booleanAsString (fTraceArticulations) <<
     endl <<
-    
+
     // technicals
     setw (fieldWidth) << "traceTechnicals" << " : " <<
     booleanAsString (fTraceTechnicals) <<
     endl <<
-    
+
     // ornaments
     setw (fieldWidth) << "traceOrnaments" << " : " <<
     booleanAsString (fTraceOrnaments) <<
     endl <<
-    
+
     // dynamics
     setw (fieldWidth) << "traceGraceDynamics" << " : " <<
     booleanAsString (fTraceGraceDynamics) <<
     endl <<
-    
+
     // spanners
     setw (fieldWidth) << "traceSpanners" << " : " <<
     booleanAsString (fTraceSpanners) <<
     endl <<
-    
+
     // words
     setw (fieldWidth) << "traceWords" << " : " <<
     booleanAsString (fTraceWords) <<
     endl <<
-    
+
     // tremolos
     setw (fieldWidth) << "traceTremolos" << " : " <<
     booleanAsString (fTraceTremolos) <<
     endl <<
-    
+
     // chords
     setw (fieldWidth) << "traceChords" << " : " <<
     booleanAsString (fTraceChords) <<
@@ -1695,7 +1695,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceChordsDetails" << " : " <<
     booleanAsString (fTraceChordsDetails) <<
     endl <<
-    
+
     // tuplets
     setw (fieldWidth) << "traceTuplets" << " : " <<
     booleanAsString (fTraceTuplets) <<
@@ -1703,7 +1703,7 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceTupletsDetails" << " : " <<
     booleanAsString (fTraceTupletsDetails) <<
     endl <<
-    
+
     // grace notes
     setw (fieldWidth) << "traceGraceNotes" << " : " <<
     booleanAsString (fTraceGraceNotes) <<
@@ -1716,22 +1716,22 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceLyricsDetails" << " : " <<
     booleanAsString (fTraceLyricsDetails) <<
     endl <<
-    
+
     // harmonies
     setw (fieldWidth) << "traceHarmonies" << " : " <<
     booleanAsString (fTraceHarmonies) <<
     endl <<
-    
+
     // frames
     setw (fieldWidth) << "traceFrames" << " : " <<
     booleanAsString (fTraceFrames) <<
     endl <<
-    
+
     // figured basses
     setw (fieldWidth) << "traceFiguredBasses" << " : " <<
     booleanAsString (fTraceFiguredBasses) <<
     endl <<
-    
+
     // credits
     setw (fieldWidth) << "traceCredits" << " : " <<
     booleanAsString (fTraceCredits) <<
@@ -1747,7 +1747,7 @@ S_optionsItem traceOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   return result;
 }
 
@@ -1760,10 +1760,10 @@ ostream& operator<< (ostream& os, const S_traceOptions& elt)
 //______________________________________________________________________________
 void initializeTraceOptionsHandling (
   S_optionsHandler optionsHandler)
-{  
+{
   // create the options variables
   // ------------------------------------------------------
-  
+
   gTraceOptionsUserChoices = traceOptions::create (
     optionsHandler);
   assert(gTraceOptionsUserChoices != 0);

@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -51,7 +51,7 @@ R"(Options that are used by various components of the library
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it
@@ -71,10 +71,10 @@ void generalOptions::initializeGeneralOptions (
     time_t      translationRawtime;
     struct tm*  translationTimeinfo;
     char buffer [80];
-  
+
     time (&translationRawtime);
     translationTimeinfo = localtime (&translationRawtime);
-  
+
     strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
     fTranslationDate = buffer;
   }
@@ -84,10 +84,10 @@ void generalOptions::initializeGeneralOptions (
   // --------------------------------------
 
   {
-    // variables  
-    
+    // variables
+
     // options
-  
+
     S_optionsSubGroup
       helpGeneralOptionsHelpSubGroup =
         optionsSubGroup::create (
@@ -96,9 +96,9 @@ void generalOptions::initializeGeneralOptions (
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
-  
+
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsHelpUsageItem::create (
@@ -110,7 +110,7 @@ R"(Print options usage help.)"));
         optionsHelpSummaryItem::create (
           "hs", "help-summary",
 R"(Display a help summary and exit.)"));
-  
+
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         optionsItemHelpItem::create (
@@ -125,14 +125,14 @@ R"(Print help about ITEM_NAME.)",
 
   {
     // variables
-    
+
     fQuiet                     = false;
     fDontShowErrors            = false;
     fDontAbortOnErrors         = false;
     fDisplaySourceCodePosition = false;
-  
+
     // options
-  
+
     S_optionsSubGroup
       warningAndErrorHandlingSubGroup =
         optionsSubGroup::create (
@@ -141,9 +141,9 @@ R"(Print help about ITEM_NAME.)",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
-  
+
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -151,7 +151,7 @@ R"()",
 R"(Don't issue any warning or error messages.)",
           "quiet",
           fQuiet));
-  
+
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -159,7 +159,7 @@ R"(Don't issue any warning or error messages.)",
 R"(Don't show errors in the log.)",
           "dontShowErrors",
           fDontShowErrors));
-  
+
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -171,7 +171,7 @@ This may be useful when debugging EXECUTABLE.)",
             fExecutableName),
           "dontAbortOnErrors",
           fDontAbortOnErrors));
-  
+
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -191,12 +191,12 @@ This is useful when debugging EXECUTABLE.)",
   // --------------------------------------
 
   {
-    // variables  
-  
+    // variables
+
     fDisplayCPUusage = boolOptionsInitialValue;
-      
+
     // options
-  
+
     S_optionsSubGroup
       CPUUsageSubGroup =
         optionsSubGroup::create (
@@ -205,9 +205,9 @@ This is useful when debugging EXECUTABLE.)",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
-  
+
     appendOptionsSubGroup (CPUUsageSubGroup);
-        
+
     CPUUsageSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -238,13 +238,13 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 
   clone->fExecutableName =
     fExecutableName;
-      
+
   clone->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;
   clone->fCommandLineWithShortOptions =
     fCommandLineWithShortOptions;
 
-  
+
   // warning and error handling
   // --------------------------------------
 
@@ -257,7 +257,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   clone->fDisplaySourceCodePosition =
     fDisplaySourceCodePosition;
 
-    
+
   // CPU usage
   // --------------------------------------
 
@@ -274,7 +274,7 @@ void generalOptions::setAllGeneralTraceOptions (
   // trace and display
 
   fTracePasses = boolOptionsInitialValue;
-  
+
   fTraceOptions          = boolOptionsInitialValue;
   fDisplayOptionsValues  = boolOptionsInitialValue;
   fDisplayOptionsHandler = boolOptionsInitialValue;
@@ -295,7 +295,7 @@ void generalOptions::checkOptionsConsistency ()
 
 //______________________________________________________________________________
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
-{  
+{
   gLogIOstream <<
     "The general options are:" <<
     endl;
@@ -313,7 +313,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     setw (fieldWidth) << "input source name" << " : " <<
     fInputSourceName <<
     endl <<
-      
+
     setw (fieldWidth) << "translation date" << " : " <<
     fTranslationDate <<
     endl;
@@ -322,7 +322,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
 
   // warning and error handling
   // --------------------------------------
-  
+
   gLogIOstream << left <<
     setw (fieldWidth) << "Warning and error handling:" <<
     endl;
@@ -344,7 +344,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
-  
+
 
   // CPU usage
   // --------------------------------------
@@ -370,7 +370,7 @@ S_optionsItem generalOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   return result;
 }
 
@@ -384,10 +384,10 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 void initializeGeneralOptionsHandling (
   string           executableName,
   S_optionsHandler optionsHandler)
-{  
+{
   // create the options variables
   // ------------------------------------------------------
-  
+
   gGeneralOptionsUserChoices = generalOptions::create (
     executableName,
     optionsHandler);

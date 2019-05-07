@@ -25,7 +25,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -55,7 +55,7 @@ R"(These options control the way MusicXML data is translated.)",
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it
@@ -72,11 +72,11 @@ void musicXMLOptions::initializeMusicXMLOptions (
 
   {
     // variables
-    
+
     fUseFilenameAsWorkTitle = false;
-  
+
     // options
-  
+
     S_optionsSubGroup
       workSubGroup =
         optionsSubGroup::create (
@@ -85,9 +85,9 @@ void musicXMLOptions::initializeMusicXMLOptions (
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (workSubGroup);
-        
+
     workSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -97,7 +97,7 @@ Standard input (-) becomes 'Standard input' in that case.)",
           "useFilenameAsWorkTitle",
           fUseFilenameAsWorkTitle));
   }
-  
+
 
   // clefs, keys, times
   // --------------------------------------
@@ -106,18 +106,18 @@ Standard input (-) becomes 'Standard input' in that case.)",
     ignoreRedundantClefsItem,
     ignoreRedundantKeysItem,
     ignoreRedundantTimesItem;
-    
+
   {
     // variables
-    
+
     fIgnoreRedundantClefs = boolOptionsInitialValue;
     fIgnoreRedundantKeys  = boolOptionsInitialValue;
     fIgnoreRedundantTimes = boolOptionsInitialValue;
-    
+
     fLoopToMusicXML = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       clefsKeysTimesSubGroup =
         optionsSubGroup::create (
@@ -126,9 +126,9 @@ Standard input (-) becomes 'Standard input' in that case.)",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (clefsKeysTimesSubGroup);
-  
+
 
     ignoreRedundantClefsItem =
         optionsBooleanItem::create (
@@ -140,7 +140,7 @@ R"(Ignore clefs that are the same as the current one.)",
       appendOptionsItem (
         ignoreRedundantClefsItem);
 
-  
+
     ignoreRedundantKeysItem =
         optionsBooleanItem::create (
           "irk", "ignore-redundant-keys",
@@ -168,30 +168,30 @@ R"(Ignore times that are the same as the current one.)",
       loopOptionsBooleanItem =
         optionsBooleanItem::create (
           "loop", "loop-to-musicxml",
-R"(Close the loop, generating a MusicXML file from the MSR. 
+R"(Close the loop, generating a MusicXML file from the MSR.
 The file name receives a '_loop' suffix. Currently under development.)",
           "loopToMusicXML",
           fLoopToMusicXML);
     loopOptionsBooleanItem->
       setOptionsElementIsHidden ();
-      
+
     clefsKeysTimesSubGroup->
       appendOptionsItem (
         loopOptionsBooleanItem);
   }
-  
+
 
   // combined options
   // --------------------------------------
 
   {
     // variables
-    
+
     fCubase = false;
     fNoCubase = false;
-  
+
     // options
-  
+
     S_optionsSubGroup
       combinedOptionsSubGroup =
         optionsSubGroup::create (
@@ -200,7 +200,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (combinedOptionsSubGroup);
 
     // create the 'cubase' combined item
@@ -252,16 +252,16 @@ R"(Prevents the default 'cubase' option.)",
 
   {
     // variables
-    
+
 #ifdef TRACE_OPTIONS
     fTraceEncoding = boolOptionsInitialValue;
     fTraceDivisions = boolOptionsInitialValue;
 #endif
 
     fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-  
+
     // options
-  
+
     S_optionsSubGroup
       specificTraceSubGroup =
         optionsSubGroup::create (
@@ -270,9 +270,9 @@ R"(Prevents the default 'cubase' option.)",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
-  
+
     appendOptionsSubGroup (specificTraceSubGroup);
-            
+
 #ifdef TRACE_OPTIONS
     specificTraceSubGroup->
       appendOptionsItem (
@@ -282,7 +282,7 @@ R"(Encoding)",
           "traceEncoding",
           fTraceEncoding,
           gTraceOptions->fTracePasses));
-          
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -292,7 +292,7 @@ R"(Divisions)",
           fTraceDivisions,
           gTraceOptions->fTracePasses));
 #endif
-      
+
     specificTraceSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -318,7 +318,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 
   // clefs, keys, times
   // --------------------------------------
-    
+
   clone->fIgnoreRedundantClefs =
     fIgnoreRedundantClefs;
 
@@ -347,14 +347,14 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
     fTraceMusicXMLTreeVisitors;
 
   return clone;
-}  
+}
 
 //______________________________________________________________________________
 void musicXMLOptions::setAllMusicXMLTraceOptions (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OPTIONS
-  // specific trace    
+  // specific trace
 
     // encoding
     fTraceEncoding = boolOptionsInitialValue;
@@ -378,7 +378,7 @@ void musicXMLOptions::checkOptionsConsistency ()
 
 //______________________________________________________________________________
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
-{  
+{
   gLogIOstream <<
     "The MusicXML options are:" <<
     endl;
@@ -398,15 +398,15 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
     booleanAsString (fIgnoreRedundantClefs) <<
     endl <<
-    
+
     setw (fieldWidth) << "ignoreRedundantKeys" << " : " <<
     booleanAsString (fIgnoreRedundantKeys) <<
     endl <<
-    
+
     setw (fieldWidth) << "ignoreRedundantTimes" << " : " <<
     booleanAsString (fIgnoreRedundantTimes) <<
     endl <<
-    
+
     setw (fieldWidth) << "loopToMusicXML" << " : " <<
     booleanAsString (fLoopToMusicXML) <<
     endl;
@@ -415,7 +415,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   // trace
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Trace:" <<
     endl;
@@ -427,12 +427,12 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     setw (fieldWidth) << "traceEncoding" << " : " <<
     booleanAsString (fTraceEncoding) <<
     endl <<
-      
+
     setw (fieldWidth) << "traceDivisions" << " : " <<
     booleanAsString (fTraceDivisions) <<
     endl <<
 #endif
-      
+
     setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
     booleanAsString (fTraceMusicXMLTreeVisitors) <<
     endl;
@@ -447,7 +447,7 @@ S_optionsItem musicXMLOptions::handleOptionsItem (
   S_optionsItem item)
 {
   S_optionsItem result;
-  
+
   return result;
 }
 
@@ -463,7 +463,7 @@ void initializeMusicXMLOptionsHandling (
 {
   // create the MusicXML options
   // ------------------------------------------------------
-  
+
   gMusicXMLOptionsUserChoices = musicXMLOptions::create (
     optionsHandler);
   assert(gMusicXMLOptionsUserChoices != 0);

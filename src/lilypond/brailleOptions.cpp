@@ -232,7 +232,7 @@ R"(These options control which Braille code is generated.)",
   // if relevant
   if (optionsHandler) {
     optionsHandler->
-      appendOptionsGroup (this);
+      appendOptionsGroupToHandler (this);
   }
 
   // initialize it
