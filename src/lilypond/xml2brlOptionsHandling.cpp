@@ -337,7 +337,7 @@ Option '-h, -help' prints the full help,
       optionsPrefix::create (
         "help",
         "help-",
-        "'-help=abc,wxyz' is equivalent to '-help-abc, -help-wxyz'");
+        "'-help=abc,xywx-yz' is equivalent to '-help-abc, -help-xywx-yz'");
   appendOptionsPrefixToHandler (helpPrefix);
 
   S_optionsPrefix
@@ -354,7 +354,7 @@ Option '-h, -help' prints the full help,
       optionsPrefix::create (
         "trace",
         "trace-",
-        "'-trace=abc,wxyz' is equivalent to '-trace-abc, -trace-wxyz'");
+        "'-trace=abc,xywx-yz' is equivalent to '-trace-abc, -trace-xywx-yz'");
   appendOptionsPrefixToHandler (tracePrefix);
 
   S_optionsPrefix

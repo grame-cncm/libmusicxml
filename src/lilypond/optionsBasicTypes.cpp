@@ -2917,15 +2917,17 @@ void optionsPrefix::printHeader (ostream& os) const
 {
   os <<
     "-" << fOptionsPrefixName <<
+    endl <<
+    "-" << fOptionsPrefixErsatz <<
     endl;
 
-  if (fOptionsPrefixErsatz.size ()) {
+  if (fOptionsPrefixDescription.size ()) {
     // indent a bit more for readability
     gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 
     os <<
       gIndenter.indentMultiLineString (
-        fOptionsPrefixErsatz) <<
+        fOptionsPrefixDescription) <<
       endl;
 
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
@@ -3786,6 +3788,26 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
     fOptionsHandlerLogIOstream <<
       endl;
+
+    if (fOptionsHandlerOptionsPrefixesList.size ()) {
+      // indent a bit more for readability
+      gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+
+      for (
+        list<S_optionsPrefix>::const_iterator i =
+          fOptionsHandlerOptionsPrefixesList.begin ();
+        i != fOptionsHandlerOptionsPrefixesList.end ();
+        i++) {
+        S_optionsPrefix
+          prefix = (*i);
+
+        prefix->
+          printHeader (
+            fOptionsHandlerLogIOstream);
+      } // for
+
+      gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    }
   }
 #endif
 
@@ -3924,9 +3946,11 @@ There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([
           }
 #endif
 
+          string prefixName = sm [0].str ();
+
           S_optionsPrefix
             prefix =
-              fetchOptionsPrefixFromMap (currentOptionName);
+              fetchOptionsPrefixFromMap (prefixName);
 
           if (prefix) {
             // start at 1
@@ -3943,11 +3967,28 @@ There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([
                 uncontractedOptionName =
                   prefix->getOptionsPrefixErsatz () + singleOptionName;
 
+#ifdef TRACE_OPTIONS
+              if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+                fOptionsHandlerLogIOstream <<
+                  "Expanding option '" << singleOptionName <<
+                  "' to '" << uncontractedOptionName <<
+                  "'" <<
+                  endl;
+              }
+#endif
+
               // handle the uncontracted option item name
               handleOptionsItemName (uncontractedOptionName);
             } // for
           }
           else {
+            stringstream s;
+
+            s <<
+              "option prefix '" << currentOptionName <<
+              "' is unknown, see help summary above";
+
+            optionError (s.str ());
           }
         }
 
