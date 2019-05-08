@@ -817,10 +817,12 @@ void extraOptions::handleOptionsItemValue (
 
     regex_match (theString, sm, e);
 
+    unsigned smSize = sm.size ();
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "There are " << sm.size () << " matches" <<
+        "There are " << smSize << " matches" <<
         " for chord details string '" << theString <<
         "' with regex '" << regularExpression <<
         "'" <<
@@ -828,12 +830,12 @@ void extraOptions::handleOptionsItemValue (
     }
 #endif
 
-    if (sm.size ()) {
+    if (smSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         os <<
-          sm.size () << " elements: ";
-        for (unsigned i = 0; i < sm.size (); ++i) {
+          smSize << " elements: ";
+        for (unsigned i = 0; i < smSize; ++i) {
           os <<
             "[" << sm [i] << "] ";
         } // for
@@ -994,10 +996,12 @@ void extraOptions::handleOptionsItemValue (
 
     regex_match (theString, sm, e);
 
+    unsigned smSize = sm.size ();
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "There are " << sm.size () << " matches" <<
+        "There are " << smSize << " matches" <<
         " for chord analysis string '" << theString <<
         "' with regex '" << regularExpression <<
         "'" <<
@@ -1005,12 +1009,12 @@ void extraOptions::handleOptionsItemValue (
     }
 #endif
 
-    if (sm.size ()) {
+    if (smSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         os <<
-          sm.size () << " elements: ";
-        for (unsigned i = 0; i < sm.size (); ++i) {
+          smSize << " elements: ";
+        for (unsigned i = 0; i < smSize; ++i) {
           os <<
             "[" << sm [i] << "] ";
         } // for

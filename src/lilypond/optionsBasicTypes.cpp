@@ -2907,14 +2907,14 @@ void optionsPrefix::printHeader (ostream& os) const
 
   if (fOptionsPrefixDescription.size ()) {
     // indent a bit more for readability
-    gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter++;
 
     os <<
       gIndenter.indentMultiLineString (
         fOptionsPrefixDescription) <<
       endl;
 
-    gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
+    gIndenter--;
   }
 }
 
@@ -3921,99 +3921,128 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #endif
         }
 
-        // is currentOptionName an option prefix?
-        string regularExpression (
-          "([[:w:]]+)"
-          "="
-          "([[:w:]]+)(,[[:w:]]*)");
+        // does currentOptionName contain an equal sign?
+        size_t equalsSignPosition =
+          currentOptionName.find ("=");
 
-        regex e (regularExpression);
-        smatch sm;
+        if (equalsSignPosition != string::npos) {
+          // yes
 
-        regex_match (currentOptionName, sm, e);
+          // fetch the prefix name and the string after the equals sign
+          string prefixName =
+            currentOptionName.substr (0, equalsSignPosition);
+          string stringAfterEqualsSign =
+            currentOptionName.substr (equalsSignPosition + 1);
 
-        if (sm.size ()) {
-          /*
-There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([[:w:]]+)(,[[:w:]]*)'
-[t=meas,notes] [t] [meas] [,notes]
-          */
+
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             fOptionsHandlerLogIOstream <<
-              "There are " << sm.size () << " matches" <<
-              " for rational string '" << currentOptionName <<
-              "' with regex '" << regularExpression <<
+              "===> equalsSignPosition = '" << equalsSignPosition <<
+              "', " <<
+              "===> prefixName = '" << prefixName <<
+              "', " <<
+              "===> stringAfterEqualsSign = '" << stringAfterEqualsSign <<
               "'" <<
-              endl;
-
-            for (unsigned i = 0; i < sm.size (); ++i) {
-              fOptionsHandlerLogIOstream <<
-                "[" << sm [i] << "] ";
-            } // for
-
-            fOptionsHandlerLogIOstream <<
               endl;
           }
 #endif
 
-          string prefixName = "-" + sm [1].str (); // JMI ???
+          // split stringAfterEqualsSign into a list of string
+          // using the comma as separator
+          list<string> chunksList;
+
+          splitStringIntoChunks (
+            stringAfterEqualsSign,
+            ",",
+            chunksList);
+
+          unsigned chunksListSize = chunksList.size ();
 
 #ifdef TRACE_OPTIONS
-              if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-                fOptionsHandlerLogIOstream <<
-                  "===> prefixName = '" << prefixName <<
-                  "'" <<
-                  endl;
-              }
+          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+            fOptionsHandlerLogIOstream <<
+              "There are " << chunksListSize << " chunks" <<
+              " in '" << stringAfterEqualsSign <<
+              "'" <<
+              endl;
+
+            gIndenter++;
+
+            list<string>::const_iterator
+              iBegin = chunksList.begin (),
+              iEnd   = chunksList.end (),
+              i      = iBegin;
+
+            for ( ; ; ) {
+              fOptionsHandlerLogIOstream <<
+                "[" << (*i) << "]";
+              if (++i == iEnd) break;
+              fOptionsHandlerLogIOstream <<
+                " ";
+            } // for
+
+            fOptionsHandlerLogIOstream <<
+              endl;
+
+            gIndenter--;
+          }
 #endif
 
           S_optionsPrefix
             prefix =
               fetchOptionsPrefixFromMap (prefixName);
+         // JMI      fOptionsPrefixesMap [prefixName];
 
           if (prefix) {
-            // start at 2
-            for (unsigned i = 2; i < sm.size (); ++i) {
-              string singleOptionName = sm [i].str ();
+            if (chunksListSize) {
+              // expand the option names contained in chunksList
+              list<string>::const_iterator
+                iBegin = chunksList.begin (),
+                iEnd   = chunksList.end (),
+                i      = iBegin;
 
-              if (i >= 3) {
-                // remove the initial comma
-                singleOptionName = singleOptionName.substr (1);
-              }
+              for ( ; ; ) {
+                string singleOptionName = (*i);
 
-              // build uncontracted option item name
-              string
-                uncontractedOptionName =
-                  prefix->getOptionsPrefixErsatz () + singleOptionName;
+                // build uncontracted option item name
+                string
+                  uncontractedOptionName =
+                    prefix->getOptionsPrefixErsatz () + singleOptionName;
 
-#ifdef TRACE_OPTIONS
-              if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-                fOptionsHandlerLogIOstream <<
-                  "Expanding option '" << singleOptionName <<
-                  "' to '" << uncontractedOptionName <<
-                  "'" <<
-                  endl;
-              }
-#endif
+  #ifdef TRACE_OPTIONS
+                if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+                  fOptionsHandlerLogIOstream <<
+                    "Expanding option '" << singleOptionName <<
+                    "' to '" << uncontractedOptionName <<
+                    "'" <<
+                    endl;
+                }
+  #endif
 
-              // handle the uncontracted option item name
-              handleOptionsItemName (uncontractedOptionName);
-            } // for
+                // handle the uncontracted option item name
+                handleOptionsItemName (uncontractedOptionName);
+              } // for
+            }
           }
+
           else {
+            printKnownOptionsPrefixes ();
+
             stringstream s;
 
             s <<
               "option prefix '" << prefixName <<
-              "' is unknown, see help summary below ??? JMI";
+              "' is unknown, see help summary below";
 
             optionError (s.str ());
-
-            printKnownOptionsPrefixes ();
           }
+
+
         }
 
         else {
+          // no
           // handle the options item name
           handleOptionsItemName (currentOptionName);
         }
@@ -4688,6 +4717,167 @@ void optionsHandler::handleOptionsItemName (
   }
 }
 
+void optionsHandler::handleOptionsItemHelpValue (
+  S_optionsItemHelpItem itemHelpItem,
+  string                theString)
+{
+  // handle the option item
+  printSpecificItemHelp (
+    fOptionsHandlerLogIOstream,
+    theString);
+
+  // exit
+  exit (23);
+}
+
+void optionsHandler::handleOptionsItemIntegerValue (
+  S_optionsIntegerItem integerItem,
+  string               theString)
+{
+  // handle the option item
+
+  int integerValue;
+  {
+    stringstream s;
+    s << theString;
+    s >> integerValue;
+  }
+
+  integerItem->
+    setIntegerItemVariableValue (
+      integerValue);
+}
+
+void optionsHandler::handleOptionsItemFloatValue (
+  S_optionsFloatItem floatItem,
+  string             theString)
+{
+  // handle the option item
+  float floatValue;
+  {
+    stringstream s;
+    s << theString;
+    s >> floatValue;
+  }
+
+  floatItem->
+    setFloatItemVariableValue (
+      floatValue);
+}
+
+void optionsHandler::handleOptionsItemStringValue (
+  S_optionsStringItem stringItem,
+  string              theString)
+{
+  // handle the option item
+  stringItem->
+    setStringItemVariableValue (
+      theString);
+}
+
+void optionsHandler::handleOptionsItemRationalValue (
+  S_optionsRationalItem rationalItem,
+  string                theString)
+{
+  // theString contains the fraction:
+  // decipher it to extract numerator and denominator values
+
+  string regularExpression (
+    "[[:space:]]*([[:digit:]]+)[[:space:]]*"
+    "/"
+    "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+
+  regex e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+  if (smSize) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+      fOptionsHandlerLogIOstream <<
+        "There are " << smSize << " matches" <<
+        " for rational string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        fOptionsHandlerLogIOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      fOptionsHandlerLogIOstream <<
+        endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-delayedOrnamentFraction argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+
+    printSpecificSubGroupHelp (
+      fOptionsHandlerLogIOstream,
+      rationalItem->
+        getOptionsSubGroupUplink ());
+
+    exit (4);
+  }
+
+  int
+    numerator,
+    denominator;
+
+  {
+    stringstream s;
+    s << sm [1];
+    s >> numerator;
+  }
+  {
+    stringstream s;
+    s << sm [2];
+    s >> denominator;
+  }
+
+  rational
+    rationalValue =
+      rational (numerator, denominator);
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream << // JMI
+      "rationalValue = " <<
+      rationalValue <<
+      endl;
+  }
+#endif
+
+  rationalItem->
+    setRationalItemVariableValue (
+      rationalValue);
+}
+
+void optionsHandler::handleOptionsItemNumbersSetValue (
+  S_optionsNumbersSetItem numbersSetItem,
+  string                  theString)
+{
+  // theString contains the set specification,
+  // decipher it
+  numbersSetItem->
+    setNumbersSetItemVariableValue (
+      decipherNumbersSetSpecification (
+        theString, false) // 'true' to debug it
+      );
+}
+
 void optionsHandler::handleOptionsItemValueOrArgument (
   string theString)
 {
@@ -4739,59 +4929,32 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       S_optionsItemHelpItem
         itemHelpItem =
           dynamic_cast<optionsItemHelpItem*>(&(*fPendingOptionsItem))
-      ) {
-      // handle the option item
-      printSpecificItemHelp (
-        fOptionsHandlerLogIOstream,
+    ) {
+      handleOptionsItemHelpValue (
+        itemHelpItem,
         theString);
-
-      fPendingOptionsItem = nullptr;
-
-      // exit
-      exit (23);
-      }
+    }
 
     else if (
       // integer item?
       S_optionsIntegerItem
         integerItem =
           dynamic_cast<optionsIntegerItem*>(&(*fPendingOptionsItem))
-      ) {
-      // handle the option item
-
-      int integerValue;
-      {
-        stringstream s;
-        s << theString;
-        s >> integerValue;
-      }
-
-      integerItem->
-        setIntegerItemVariableValue (
-          integerValue);
-
-      fPendingOptionsItem = nullptr;
-      }
+    ) {
+      handleOptionsItemIntegerValue (
+        integerItem,
+        theString);
+    }
 
     else if (
       // float item?
       S_optionsFloatItem
         floatItem =
           dynamic_cast<optionsFloatItem*>(&(*fPendingOptionsItem))
-      ) {
-      // handle the option item
-      float floatValue;
-      {
-        stringstream s;
-        s << theString;
-        s >> floatValue;
-      }
-
-      floatItem->
-        setFloatItemVariableValue (
-          floatValue);
-
-      fPendingOptionsItem = nullptr;
+    ) {
+      handleOptionsItemFloatValue (
+        floatItem,
+        theString);
     }
 
     else if (
@@ -4799,13 +4962,10 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       S_optionsStringItem
         stringItem =
           dynamic_cast<optionsStringItem*>(&(*fPendingOptionsItem))
-      ) {
-      // handle the option item
-      stringItem->
-        setStringItemVariableValue (
-          theString);
-
-      fPendingOptionsItem = nullptr;
+    ) {
+      handleOptionsItemStringValue (
+        stringItem,
+        theString);
     }
 
     else if (
@@ -4813,91 +4973,10 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       S_optionsRationalItem
         rationalItem =
           dynamic_cast<optionsRationalItem*>(&(*fPendingOptionsItem))
-      ) {
-      // theString contains the fraction:
-      // decipher it to extract numerator and denominator values
-
-      string regularExpression (
-        "[[:space:]]*([[:digit:]]+)[[:space:]]*"
-        "/"
-        "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-
-      regex e (regularExpression);
-      smatch sm;
-
-      regex_match (theString, sm, e);
-
-      if (sm.size ()) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "There are " << sm.size () << " matches" <<
-            " for rational string '" << theString <<
-            "' with regex '" << regularExpression <<
-            "'" <<
-            endl;
-
-          for (unsigned i = 0; i < sm.size (); ++i) {
-            fOptionsHandlerLogIOstream <<
-              "[" << sm [i] << "] ";
-          } // for
-
-          fOptionsHandlerLogIOstream <<
-            endl;
-        }
-#endif
-      }
-
-      else {
-        stringstream s;
-
-        s <<
-          "-delayedOrnamentFraction argument '" << theString <<
-          "' is ill-formed";
-
-        optionError (s.str ());
-
-        printSpecificSubGroupHelp (
-          fOptionsHandlerLogIOstream,
-          rationalItem->
-            getOptionsSubGroupUplink ());
-
-        exit (4);
-      }
-
-      int
-        numerator,
-        denominator;
-
-      {
-        stringstream s;
-        s << sm [1];
-        s >> numerator;
-      }
-      {
-        stringstream s;
-        s << sm [2];
-        s >> denominator;
-      }
-
-      rational
-        rationalValue =
-          rational (numerator, denominator);
-
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-        fOptionsHandlerLogIOstream << // JMI
-          "rationalValue = " <<
-          rationalValue <<
-          endl;
-      }
-#endif
-
-      rationalItem->
-        setRationalItemVariableValue (
-          rationalValue);
-
-      fPendingOptionsItem = nullptr;
+    ) {
+      handleOptionsItemRationalValue (
+        rationalItem,
+        theString);
     }
 
     else if (
@@ -4905,16 +4984,10 @@ void optionsHandler::handleOptionsItemValueOrArgument (
       S_optionsNumbersSetItem
         numbersSetItem =
           dynamic_cast<optionsNumbersSetItem*>(&(*fPendingOptionsItem))
-      ) {
-      // theString contains the set specification,
-      // decipher it
-      numbersSetItem->
-        setNumbersSetItemVariableValue (
-          decipherNumbersSetSpecification (
-            theString, false) // 'true' to debug it
-          );
-
-      fPendingOptionsItem = nullptr;
+    ) {
+      handleOptionsItemNumbersSetValue (
+        numbersSetItem,
+        theString);
     }
 
     else {
@@ -4941,9 +5014,9 @@ void optionsHandler::handleOptionsItemValueOrArgument (
           fOptionsHandlerLogIOstream,
           fPendingOptionsItem,
           theString);
-
-      fPendingOptionsItem = nullptr;
     }
+
+    fPendingOptionsItem = nullptr;
   }
 
   else {

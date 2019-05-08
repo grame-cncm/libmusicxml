@@ -1211,7 +1211,118 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 }
 
 //______________________________________________________________________________
-void splitRegularStringContainingEndOfLines (
+void splitStringIntoChunks (
+  std::string             theString,
+  std::string             theSeparator,
+  std::list<std::string>& chunksList)
+{
+  //#define DEBUG_SPLITTING
+
+#ifdef DEBUG_SPLITTING
+  gLogIOstream <<
+    "---> splitting |" << theString << "|" <<
+    endl <<
+    endl;
+#endif
+
+  int theStringSize = theString.size ();
+
+  size_t currentPosition = 0;
+
+#ifdef DEBUG_SPLITTING
+  string remainder = theString;
+#endif
+
+  int theSeparatorSize = theSeparator.size ();
+
+  map<string, string>::const_iterator i;
+
+  while (1) {
+    size_t found =
+      theString.find (theSeparator, currentPosition);
+
+    if (found == string::npos) {
+      // fetch the last chunk
+      // we have a last chunk
+      // from currentPosition to theStringSize
+      int chunkLength = theStringSize - currentPosition;
+
+      string
+        chunk =
+          theString.substr (
+            currentPosition,
+            chunkLength);
+
+      chunksList.push_back (
+        chunk);
+
+#ifdef DEBUG_SPLITTING
+      gLogIOstream <<
+        "theStringSize = " << theStringSize <<
+        endl <<
+        "currentPosition = " << currentPosition <<
+        endl <<
+        "remainder = |" << remainder << "|" <<
+        endl <<
+        "chunkLength = " << chunkLength <<
+        endl <<
+        "chunk = \"" << chunk << "\"" <<
+        endl <<
+        endl;
+#endif
+
+      break;
+    }
+
+    else {
+      // we have a chunk from currentPosition to found
+      int chunkLength = found - currentPosition;
+
+      string
+        chunk =
+          theString.substr (
+            currentPosition,
+            chunkLength);
+
+      // append it to the chunks list
+      chunksList.push_back (
+        chunk);
+
+      // advance the cursor
+      currentPosition +=
+        chunkLength + theSeparatorSize;
+
+      // there can be an end of line JMI
+      if (theString [currentPosition] == '\n')
+        currentPosition++;
+
+#ifdef DEBUG_SPLITTING
+      // set remainder
+      remainder =
+        theString.substr (
+          currentPosition);
+
+      gLogIOstream <<
+        "theStringSize = " << theStringSize <<
+        endl <<
+        "currentPosition = " << currentPosition <<
+        endl <<
+        "remainder = |" << remainder << "|" <<
+        endl <<
+        "found = " << found <<
+        endl <<
+        "chunkLength = " << chunkLength <<
+        endl <<
+        "chunk = \"" << chunk << "\"" <<
+        endl <<
+        endl;
+#endif
+    }
+  } // while
+}
+
+//______________________________________________________________________________
+void splitRegularStringAtEndOfLines (
   string        theString,
   list<string>& chunksList)
 {
@@ -1224,6 +1335,12 @@ void splitRegularStringContainingEndOfLines (
     endl;
 #endif
 
+  splitStringIntoChunks (
+    theString,
+    "\n",
+    chunksList);
+
+    /* JMI
   int theStringSize = theString.size ();
 
   size_t currentPosition = 0;
@@ -1319,6 +1436,7 @@ void splitRegularStringContainingEndOfLines (
 #endif
     }
   } // while
+  */
 }
 
 //______________________________________________________________________________

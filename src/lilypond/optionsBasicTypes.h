@@ -1719,6 +1719,30 @@ class EXP optionsHandler : public optionsElement
     void                  handleOptionsItemValueOrArgument (
                             string theString);
 
+    void                  handleOptionsItemHelpValue (
+                            S_optionsItemHelpItem itemHelpItem,
+                            string                theString);
+
+    void                  handleOptionsItemIntegerValue (
+                            S_optionsIntegerItem integerItem,
+                            string               theString);
+
+    void                  handleOptionsItemFloatValue (
+                            S_optionsFloatItem floatItem,
+                            string             theString);
+
+    void                  handleOptionsItemStringValue (
+                            S_optionsStringItem stringItem,
+                            string              theString);
+
+    void                  handleOptionsItemRationalValue (
+                            S_optionsRationalItem rationalItem,
+                            string                theString);
+
+    void                  handleOptionsItemNumbersSetValue (
+                            S_optionsNumbersSetItem numbersSetItem,
+                            string                  theString);
+
     virtual void          checkOptionsAndArguments () = 0;
 
   protected:

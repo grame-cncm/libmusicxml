@@ -325,7 +325,7 @@ Option '-h, -help' prints the full help,
 {
   initializeOptionsHandler (executableName);
 
-  // append the help options prefixex
+  // append the help options prefixes
   S_optionsPrefix
     helpPrefix =
       optionsPrefix::create (
@@ -342,7 +342,7 @@ Option '-h, -help' prints the full help,
         "'-h=abc,wxyz' is equivalent to '-habc, -hwxyz'");
   appendOptionsPrefixToHandler (hPrefix);
 
-  // append the trace options prefixex
+  // append the trace options prefixes
   S_optionsPrefix
     tracePrefix =
       optionsPrefix::create (

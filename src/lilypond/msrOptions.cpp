@@ -1319,10 +1319,12 @@ void msrOptions::handleOptionsItemValue (
 
     regex_match (theString, sm, e);
 
+    unsigned smSize = sm.size ();
+
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "There are " << sm.size () << " matches" <<
+        "There are " << smSize << " matches" <<
         " for part rename string '" << theString <<
         "' with regex '" << regularExpression <<
         "'" <<
@@ -1330,10 +1332,10 @@ void msrOptions::handleOptionsItemValue (
     }
 #endif
 
-    if (sm.size ()) {
+    if (smSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
-        for (unsigned i = 0; i < sm.size (); ++i) {
+        for (unsigned i = 0; i < smSize; ++i) {
           os <<
             "[" << sm [i] << "] ";
         } // for

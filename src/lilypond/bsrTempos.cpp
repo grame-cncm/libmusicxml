@@ -68,35 +68,35 @@ S_bsrCellsList bsrTempo::buildCellsList () const
   switch (fMsrTempo->getTempoKind ()) {
     case msrTempo::k_NoTempoKind:
       break;
-      
+
     case msrTempo::kTempoBeatUnitsPerMinute:
       {
         // fetch MSR tempo attributes
         const list<S_msrWords>&
           tempoWordsList =
             fMsrTempo->getTempoWordsList ();
-  
+
         msrDottedDuration
           tempoDottedDuration =
             fMsrTempo->getTempoBeatUnit ();
 
         // handle tempo words
         int tempoWordsListSize = tempoWordsList.size ();
-  
+
         if (tempoWordsListSize) {
           list<S_msrWords>::const_iterator
             iBegin = tempoWordsList.begin (),
             iEnd   = tempoWordsList.end (),
             i      = iBegin;
-            
+
           for ( ; ; ) {
             S_msrWords words = (*i);
-      
+
 //            fLilypondCodeIOstream <<
    //           "\"" << words->getWordsContents () << "\"";
-              
+
             if (++i == iEnd) break;
-            
+
      //       fLilypondCodeIOstream <<
      //         " ";
           } // for
@@ -117,7 +117,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         switch (durationKind) {
           case k_NoDuration:
             break;
-      
+
           case k1024th:
             break;
           case k512th:
@@ -187,33 +187,35 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         int
           perMinuteMin = -1,
           perMinuteMax = -1; // may be absent
-          
+
         // decipher it to extract min and max values
         string regularExpression (
           "[[:space:]]*([[:digit:]]+)[[:space:]]*"
           "-"
           "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-          
+
         regex e (regularExpression);
         smatch sm;
-  
+
         regex_match (tempoPerMinuteString, sm, e);
-  
-        if (sm.size ()) {
+
+        unsigned smSize = sm.size ();
+
+        if (smSize) {
   #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             gLogIOstream <<
-              "There are " << sm.size () << " matches" <<
+              "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
               "' with regex '" << regularExpression <<
               "'" <<
               endl;
-         
-            for (unsigned i = 0; i < sm.size (); ++i) {
+
+            for (unsigned i = 0; i < smSize; ++i) {
               gLogIOstream <<
                 "[" << sm [i] << "] ";
             } // for
-            
+
             gLogIOstream <<
               endl;
           }
@@ -230,11 +232,11 @@ S_bsrCellsList bsrTempo::buildCellsList () const
             s >> perMinuteMax;
           }
         }
-       
+
         else {
           perMinuteMin = stoi (tempoPerMinuteString);
         }
-  
+
         // create a number to represent perMinuteMin
         S_bsrNumber
           perMinuteNumber =
@@ -253,7 +255,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
           result->
             appendCellKindToCellsList (
               kCellTempoHyphen);
-          
+
           // create a number to represent perMinuteMax
           S_bsrNumber
             perMinuteNumber =
@@ -270,14 +272,14 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         }
       }
       break;
-      
+
     case msrTempo::kTempoBeatUnitsEquivalence:
       break;
-      
+
     case msrTempo::kTempoNotesRelationShip:
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -295,12 +297,12 @@ void bsrTempo::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrTempo>*
     p =
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -326,7 +328,7 @@ void bsrTempo::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrTempo>*> (v)) {
         S_bsrTempo elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -346,7 +348,7 @@ string bsrTempo::asString () const
   stringstream s;
 
   s <<
-    "Tempo" << 
+    "Tempo" <<
     ", tempoKind: " <<
     msrTempo::tempoKindAsString (fMsrTempo->getTempoKind ()) <<
     ", tempoCellsList: " <<
@@ -360,7 +362,7 @@ string bsrTempo::asString () const
 void bsrTempo::print (ostream& os)
 {
   os <<
-    "Tempo" << 
+    "Tempo" <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -380,7 +382,7 @@ void bsrTempo::print (ostream& os)
     setw (fieldWidth) <<
     "spacesBefore" << " : " << fSpacesBefore <<
     endl;
-        
+
   gIndenter--;
 }
 

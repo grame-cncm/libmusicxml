@@ -3482,13 +3482,13 @@ string lpsr2LilypondTranslator::generateMultilineName (string theString)
 
   list<string> chunksList;
 
-  splitRegularStringContainingEndOfLines (
+  splitRegularStringAtEndOfLines (
     theString,
     chunksList);
 
   if (chunksList.size ()) {
     /*
-      \markup { \center-column {
+      \markup { \center-column { // JMI ???
         \line {"Long"} \line {"Staff"} \line {"Name"}
         } }
     */
@@ -5382,7 +5382,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
       else {
         // yes, split the name into a chunks list
-        // and generate a \markup{}
+        // and generate a \markup{} // JMI ???
         fLilypondCodeIOstream <<
           endl <<
           generateMultilineName (
@@ -5419,7 +5419,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
       else {
         // yes, split the name into a chunks list
-        // and generate a \markup{}
+        // and generate a \markup{} // JMI ???
         fLilypondCodeIOstream <<
           endl <<
           generateMultilineName (

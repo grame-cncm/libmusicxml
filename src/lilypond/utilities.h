@@ -24,16 +24,16 @@
 #include <set>
 #include <list>
 
-#include <functional> 
+#include <functional>
 #include <algorithm>
 
-#include <string.h> 
+#include <string.h>
 
 /* JMI
 #ifdef WIN32
   // JMI
 #else
-  #include <iconv.h> 
+  #include <iconv.h>
 #endif
 */
 
@@ -41,7 +41,7 @@
 #include "basevisitor.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -49,7 +49,7 @@ class EXP timingItem : public smartable
 {
   public:
     enum timingItemKind { kMandatory, kOptional };
-      
+
     static SMARTP<timingItem> createTimingItem (
       std::string    activity,
       std::string    description,
@@ -63,7 +63,7 @@ class EXP timingItem : public smartable
       timingItemKind kind,
       std::clock_t   startClock,
       std::clock_t   endClock);
-      
+
     std::string           fActivity;
     std::string           fDescription;
     timingItemKind        fKind;
@@ -79,7 +79,7 @@ class EXP timing {
     virtual ~timing ();
 
     // global variable for general use
-    static timing gTiming; 
+    static timing gTiming;
 
     // add an item
     void                  appendTimingItem (
@@ -89,7 +89,7 @@ class EXP timing {
                                            kind,
                             clock_t        startClock,
                             clock_t        endClock);
-      
+
     // print
     void                  print (std::ostream& os) const;
 
@@ -111,10 +111,10 @@ class EXP indenter
     // get the indent
     int                   getIndent () const
                               { return fIndent; }
-                         
+
     // increase the indentation by 1
     indenter&             operator++ (const int value);
-    
+
     // decrease the indentation by 1
     indenter&             operator-- (const int value);
 
@@ -140,9 +140,9 @@ class EXP indenter
 
     // indent a multiline 'R"(...)"' std::string
     std::string           indentMultiLineString (std::string value);
-    
+
     // global variable for general use
-    static indenter       gIndenter; 
+    static indenter       gIndenter;
 
   private:
     int                   fIndent;
@@ -162,16 +162,16 @@ EXP std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 /*
 std::endl declaration:
 
-  std::endl for ostream 
+  std::endl for ostream
   ostream& endl (ostream& os);
-  
-  basic template  
+
+  basic template
   template <class charT, class traits>
   basic_ostream<charT,traits>& endl (basic_ostream<charT,traits>& os);
-  
+
   Insert newline and flush
   Inserts a new-line character and flushes the stream.
-  
+
   Its behavior is equivalent to calling os.put('\n') (or os.put(os.widen('\n')) for character types other than char), and then os.flush().
 
 --
@@ -183,12 +183,12 @@ Reference for this class:
 class indentedStreamBuf: public std::stringbuf
 {
   private:
-  
+
     std::ostream&         fOutputSteam;
     indenter&             fIndenter;
 
   public:
-  
+
     // constructor
     indentedStreamBuf (
       std::ostream& outputStream,
@@ -204,7 +204,7 @@ class indentedStreamBuf: public std::stringbuf
     // flush
     void                  flush ()
                               { fOutputSteam.flush (); }
-  
+
     virtual int           sync ();
 };
 
@@ -217,19 +217,19 @@ Reference for this class:
 
 Usage:
   indentedOstream myStream (std::cout);
-   
+
   myStream <<
     1 << 2 << 3 << std::endl <<
     5 << 6 << std::endl <<
     7 << 8 << std::endl;
 */
- 
+
   private:
     // indentedOstream just uses an indentedStreamBuf
     indentedStreamBuf     fIndentedStreamBuf;
-  
+
   public:
-  
+
     // constructor
     indentedOstream (
       std::ostream&  str,
@@ -252,17 +252,17 @@ Usage:
 
     void                  incrIdentation ()
                               { fIndentedStreamBuf.getIndenter ()++; }
-      
+
     void                  decrIdentation ()
                               { fIndentedStreamBuf.getIndenter ()--; }
-    
+
     // global variables for general use
     static indentedOstream
-                          gOutputIndentedOstream; 
+                          gOutputIndentedOstream;
     static indentedOstream
-                          gLogIndentedOstream; 
+                          gLogIndentedOstream;
     static indentedOstream
-                          gNullIndentedOstream; 
+                          gNullIndentedOstream;
 };
 
 // useful shortcut macros
@@ -279,28 +279,28 @@ class EXP segmentedLinesOstream
   // by the next '<<' operator
 
 --
-* 
+*
 Reference for this class:
   https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
   segmentedLinesOstream myStream (std::cout);
-   
+
   myStream <<
     1 << 2 << 3 << std::endl <<
     5 << 6 << std::endl <<
     7 << 8 << std::endl;
 */
- 
+
   private:
     // segmentedLinesOstream just uses an indentedOstream
     indentedOstream&      fIndentedOstream;
 
     // an end of segment causes a space to be output by the next '<<' operator
     bool                  fAtEndOfSegment;
-  
+
   public:
-  
+
     // constructor
     segmentedLinesOstream (
       indentedOstream& indentedOstream)
@@ -325,10 +325,10 @@ Usage:
 
     void                  incrIdentation ()
                               { fIndentedOstream.incrIdentation (); }
-      
+
     void                  decrIdentation ()
                               { fIndentedOstream.decrIdentation (); }
-    
+
     // segments
     void                  setAtEndOfSegment (bool value)
                               { fAtEndOfSegment = value; }
@@ -357,7 +357,7 @@ struct stringQuoteEscaper
   */
 
   std::string&            target;
-  
+
   explicit                stringQuoteEscaper (std::string& t)
                             : target (t)
                               {}
@@ -365,7 +365,7 @@ struct stringQuoteEscaper
   void                    operator() (char ch) const
                               {
                                  if( ch == '"') {
-                                   // or switch on any character that 
+                                   // or switch on any character that
                                    // needs escaping like '\' itself
                                     target.push_back ('\\');
                                  }
@@ -385,7 +385,7 @@ struct stringSpaceRemover
   */
 
   std::string&            target;
-  
+
   explicit                stringSpaceRemover (std::string& t)
                             : target (t)
                               {}
@@ -411,7 +411,7 @@ struct stringSpaceReplacer
 
   std::string&            target;
   char                    ersatz;
-  
+
   explicit                stringSpaceReplacer (std::string& t, char ch)
                             : target (t), ersatz (ch)
                               {}
@@ -468,7 +468,7 @@ inline std::string &ltrim (std::string &s) {
       std::not1 (checkSpace)
       )
     );
-          
+
   return s;
 }
 
@@ -486,7 +486,7 @@ inline std::string &rtrim (std::string &s) {
       ).base(),
     s.end ()
     );
-          
+
   return s;
 }
 
@@ -528,7 +528,12 @@ std::string escapeDoubleQuotes (std::string s);
 void convertHTMLEntitiesToPlainCharacters (std::string& s);
 
 //______________________________________________________________________________
-void splitRegularStringContainingEndOfLines (
+void splitStringIntoChunks (
+  std::string             theString,
+  std::string             theSeparator,
+  std::list<std::string>& chunksList);
+
+void splitRegularStringAtEndOfLines (
   std::string             theString,
   std::list<std::string>& chunksList);
 
