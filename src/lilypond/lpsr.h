@@ -37,9 +37,10 @@
 #include "lpsrParts.h"
 #include "lpsrPartGroups.h"
 #include "lpsrScores.h"
+#include "lpsrBooks.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

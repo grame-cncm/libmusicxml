@@ -1643,11 +1643,78 @@ class EXP optionsHandler : public optionsElement
                             string           optionLongName,
                             S_optionsElement optionsElement);
 
+    void                  printKnownOptionsPrefixes ();
+    void                  printKnownOptionsElements ();
+
     S_optionsElement      fetchOptionElement (
                             string optiontElementName);
 
     void                  handleOptionsItemName (
                             string optionsItemName);
+
+    void                  handleOptionsHandlerItemName (
+                            S_optionsHandler handler,
+                            string           optionsItemName);
+
+    void                  handleOptionsGroupItemName (
+                            S_optionsGroup group,
+                            string         optionsItemName);
+
+    void                  handleOptionsSubGroupItemName (
+                            S_optionsSubGroup subGroup,
+                            string            optionsItemName);
+
+    void                  handleOptionsItemItemName (
+                            S_optionsItem item,
+                            string        optionsItemName);
+
+    void                  handleOptionsHelpUsageItemName (
+                            S_optionsHelpUsageItem helpUsageItem,
+                            string                 optionsItemName);
+
+    void                  handleOptionsHelpSummaryItemName (
+                            S_optionsHelpSummaryItem helpSummaryItem,
+                            string                   optionsItemName);
+
+    void                  handleOptionsCombinedItemsItemName (
+                            S_optionsCombinedItemsItem combinedItemsItem,
+                            string                     optionsItemName);
+
+    void                  handleOptionsBooleanItemItemName (
+                            S_optionsBooleanItem booleanItem,
+                            string               optionsItemName);
+
+    void                  handleOptionsTwoBooleansItemItemName (
+                            S_optionsTwoBooleansItem twoBooleansItem,
+                            string                   optionsItemName);
+
+    void                  handleOptionsThreeBooleansItemItemName (
+                            S_optionsThreeBooleansItem threeBooleansItem,
+                            string                     optionsItemName);
+
+    void                  handleOptionsItemHelpItemName (
+                            S_optionsItemHelpItem itemHelpItem,
+                            string                optionsItemName);
+
+    void                  handleOptionsIntegerItemItemName (
+                            S_optionsIntegerItem integerItem,
+                            string               optionsItemName);
+
+    void                  handleOptionsFloatItemItemName (
+                            S_optionsFloatItem floatItem,
+                            string             optionsItemName);
+
+    void                  handleOptionsStringItemItemName (
+                            S_optionsStringItem stringItem,
+                            string              optionsItemName);
+
+    void                  handleOptionsRationalItemItemName (
+                            S_optionsRationalItem rationalItem,
+                            string              optionsItemName);
+
+    void                  handleOptionsNumbersSetItemItemName (
+                            S_optionsNumbersSetItem numbersSetItem,
+                            string                  optionsItemName);
 
     void                  handleOptionsItemValueOrArgument (
                             string theString);

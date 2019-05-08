@@ -102,6 +102,8 @@ Handling:
   - handleOptionsItemValueOrArgument() associatiate the value
     to the (preceding) fPendingOptionsItem if not null,
     or append it fArgumentsVector to otherwise.
+
+  - printHelpSummary() methods are used when there are errors in the options used.
 */
 
 //______________________________________________________________________________
@@ -2187,7 +2189,6 @@ void optionsSubGroup::printHelpSummary (
   } // switch
 
   os <<
-    endl <<
     endl;
 
   // print the description if any
@@ -2518,9 +2519,6 @@ void optionsGroup::printHelp (ostream& os) const
     ":" <<
     endl;
 
-  // underline the options group header
-  underlineHeader (os);
-
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     gIndenter++;
@@ -2530,6 +2528,9 @@ void optionsGroup::printHelp (ostream& os) const
       endl;
     gIndenter--;
   }
+
+  // underline the options group header
+  underlineHeader (os);
 
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -2562,11 +2563,6 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
     ":" <<
     endl;
 
-  // underline the options group header
-  underlineHeader (os);
-  os <<
-    endl;
-
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     gIndenter++;
@@ -2579,6 +2575,9 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
     os <<
       endl;
   }
+
+  // underline the options group header
+  underlineHeader (os);
 
   // print the target options subgroup
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -2622,11 +2621,6 @@ void optionsGroup::printOptionsItemForcedHelp (
     ":" <<
     endl;
 
-  // underline the options group header
-  underlineHeader (os);
-  os <<
-    endl;
-
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     gIndenter++;
@@ -2639,6 +2633,9 @@ void optionsGroup::printOptionsItemForcedHelp (
     os <<
       endl;
   }
+
+  // underline the options group header
+  underlineHeader (os);
 
   // print the target options subgroup
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -2684,11 +2681,6 @@ void optionsGroup::printHelpSummary (ostream& os) const
     ":" <<
     endl;
 
-  // underline the options group header
-  underlineHeader (os);
-  os <<
-    endl;
-
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     gIndenter++;
@@ -2697,10 +2689,10 @@ void optionsGroup::printHelpSummary (ostream& os) const
         fOptionsElementDescription) <<
       endl;
     gIndenter--;
-
-    os <<
-      endl;
   }
+
+  // underline the options group header
+  underlineHeader (os);
 
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -2735,12 +2727,6 @@ void optionsGroup::printSpecificSubGroupHelp (
     ":" <<
     endl;
 
-  // underline the options group header
-  underlineHeader (os);
-  os <<
-    endl <<
-    endl;
-
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     gIndenter++;
@@ -2749,10 +2735,10 @@ void optionsGroup::printSpecificSubGroupHelp (
         fOptionsElementDescription) <<
       endl;
     gIndenter--;
-
-    os <<
-      endl;
   }
+
+  // underline the options group header
+  underlineHeader (os);
 
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -2789,8 +2775,6 @@ void optionsGroup::printOptionsValues (
 
   // underline the options group header
   underlineHeader (os);
-  os <<
-    endl;
 
   // print the options subgroups values
   if (fOptionsGroupSubGroupsList.size ()) {
@@ -2916,9 +2900,9 @@ string optionsPrefix::optionsPrefixNamesInColumnsBetweenParentheses (
 void optionsPrefix::printHeader (ostream& os) const
 {
   os <<
-    "-" << fOptionsPrefixName <<
-    endl <<
-    "-" << fOptionsPrefixErsatz <<
+    "Prefix '" << fOptionsPrefixName <<
+    "' translates to '" << fOptionsPrefixErsatz <<
+    "'" <<
     endl;
 
   if (fOptionsPrefixDescription.size ()) {
@@ -3723,6 +3707,87 @@ void optionsHandler::appendOptionsGroupToHandler (
     setOptionsHandlerUplink (this);
 }
 
+void optionsHandler::printKnownOptionsPrefixes ()
+{
+  int optionsHandlerOptionsPrefixesListSize =
+    fOptionsHandlerOptionsPrefixesList.size ();
+
+  fOptionsHandlerLogIOstream <<
+    "The " <<
+    optionsHandlerOptionsPrefixesListSize <<
+    " known options prefixes are:" <<
+    endl;
+
+  gIndenter++;
+
+  if (optionsHandlerOptionsPrefixesListSize) {
+    // indent a bit more for readability
+    for (
+      list<S_optionsPrefix>::const_iterator i =
+        fOptionsHandlerOptionsPrefixesList.begin ();
+      i != fOptionsHandlerOptionsPrefixesList.end ();
+      i++) {
+      S_optionsPrefix
+        prefix = (*i);
+
+      prefix->
+        printHeader (
+          fOptionsHandlerLogIOstream);
+    } // for
+  }
+  else {
+    fOptionsHandlerLogIOstream <<
+      "none" <<
+      endl;
+  }
+
+  gIndenter--;
+}
+
+void optionsHandler::printKnownOptionsElements ()
+{
+  int optionsElementsMapSize =
+    fOptionsElementsMap.size ();
+
+  // print the options elements map
+  fOptionsHandlerLogIOstream <<
+    "The " <<
+    optionsElementsMapSize <<
+    " known options elements are:" <<
+    endl;
+
+  gIndenter++;
+
+  if (optionsElementsMapSize) {
+    map<string, S_optionsElement>::const_iterator
+      iBegin = fOptionsElementsMap.begin (),
+      iEnd   = fOptionsElementsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      fOptionsHandlerLogIOstream <<
+        (*i).first << "-->" <<
+        endl;
+
+      gIndenter++;
+
+      (*i).second->
+        printHeader (
+          fOptionsHandlerLogIOstream);
+
+      if (++i == iEnd) break;
+
+      gIndenter--;
+    } // for
+  }
+  else {
+    fOptionsHandlerLogIOstream <<
+      "none" <<
+      endl;
+  }
+
+  gIndenter--;
+}
+
 S_optionsElement optionsHandler::fetchOptionElement (
   string optiontElementName)
 {
@@ -3751,63 +3816,8 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    // print the options elements map
-    fOptionsHandlerLogIOstream <<
-      "Options elements map (" <<
-      fOptionsElementsMap.size () <<
-      " elements):" <<
-      endl;
-    if (fOptionsElementsMap.size ()) {
-      gIndenter++;
-
-      map<string, S_optionsElement>::const_iterator
-        iBegin = fOptionsElementsMap.begin (),
-        iEnd   = fOptionsElementsMap.end (),
-        i      = iBegin;
-      for ( ; ; ) {
-        fOptionsHandlerLogIOstream <<
-          (*i).first << "-->" <<
-          endl;
-
-        gIndenter++;
-
-        (*i).second->
-          printHeader (
-            fOptionsHandlerLogIOstream);
-
-        if (++i == iEnd) break;
-
-        fOptionsHandlerLogIOstream <<
-          endl;
-
-        gIndenter--;
-      } // for
-
-      gIndenter--;
-    }
-
-    fOptionsHandlerLogIOstream <<
-      endl;
-
-    if (fOptionsHandlerOptionsPrefixesList.size ()) {
-      // indent a bit more for readability
-      gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-
-      for (
-        list<S_optionsPrefix>::const_iterator i =
-          fOptionsHandlerOptionsPrefixesList.begin ();
-        i != fOptionsHandlerOptionsPrefixesList.end ();
-        i++) {
-        S_optionsPrefix
-          prefix = (*i);
-
-        prefix->
-          printHeader (
-            fOptionsHandlerLogIOstream);
-      } // for
-
-      gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
-    }
+    printKnownOptionsPrefixes ();
+    printKnownOptionsElements ();
   }
 #endif
 
@@ -3946,15 +3956,24 @@ There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([
           }
 #endif
 
-          string prefixName = sm [0].str ();
+          string prefixName = "-" + sm [1].str (); // JMI ???
+
+#ifdef TRACE_OPTIONS
+              if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+                fOptionsHandlerLogIOstream <<
+                  "===> prefixName = '" << prefixName <<
+                  "'" <<
+                  endl;
+              }
+#endif
 
           S_optionsPrefix
             prefix =
               fetchOptionsPrefixFromMap (prefixName);
 
           if (prefix) {
-            // start at 1
-            for (unsigned i = 1; i < sm.size (); ++i) {
+            // start at 2
+            for (unsigned i = 2; i < sm.size (); ++i) {
               string singleOptionName = sm [i].str ();
 
               if (i >= 3) {
@@ -3985,10 +4004,12 @@ There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([
             stringstream s;
 
             s <<
-              "option prefix '" << currentOptionName <<
-              "' is unknown, see help summary above";
+              "option prefix '" << prefixName <<
+              "' is unknown, see help summary below ??? JMI";
 
             optionError (s.str ());
+
+            printKnownOptionsPrefixes ();
           }
         }
 
@@ -4055,6 +4076,483 @@ There are 4 matches for rational string 't=meas,notes' with regex '([[:w:]]+)=([
   return fArgumentsVector;
 }
 
+void optionsHandler::handleOptionsHandlerItemName (
+  S_optionsHandler handler,
+  string           optionsItemName)
+{
+  // print the option handler help or help summary
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsHandler'" <<
+      endl;
+  }
+#endif
+
+  if (
+    optionsItemName ==
+      handler->
+        getOptionHandlerHelpSummaryShortName ()
+      ||
+    optionsItemName ==
+      handler->
+        getOptionHandlerHelpSummaryLongName ()
+  ) {
+    handler->
+      printHelpSummary (
+        fOptionsHandlerLogIOstream);
+  }
+  else {
+    handler->
+      printHelp (
+        fOptionsHandlerLogIOstream);
+  }
+
+  fOptionsHandlerLogIOstream <<
+    endl;
+}
+
+void optionsHandler::handleOptionsGroupItemName (
+  S_optionsGroup group,
+  string         optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsGroup'" <<
+      endl;
+  }
+#endif
+
+  // print the help
+  fOptionsHandlerLogIOstream <<
+    endl <<
+    "--- Help for group \"" <<
+    group->
+      getOptionsGroupHelpHeader () <<
+    "\" ---" <<
+    endl <<
+    endl;
+
+  group->
+    printHelp (
+      fOptionsHandlerLogIOstream);
+}
+
+void optionsHandler::handleOptionsSubGroupItemName (
+  S_optionsSubGroup subGroup,
+  string            optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsSubGroup'" <<
+      endl;
+  }
+#endif
+
+  // get the options group uplink
+  S_optionsGroup
+    group =
+      subGroup->
+        getOptionsGroupUplink ();
+
+  // print the help
+  fOptionsHandlerLogIOstream <<
+    endl <<
+    "--- Help for subgroup \"" <<
+    subGroup->
+      getOptionsSubGroupHelpHeader () <<
+    "\"" <<
+    " in group \"" <<
+    group->
+      getOptionsGroupHelpHeader () <<
+    "\" ---" <<
+    endl <<
+    endl;
+
+  group->
+    printOptionsSubGroupForcedHelp (
+      fOptionsHandlerLogIOstream,
+      subGroup);
+}
+
+void optionsHandler::handleOptionsHelpUsageItemName (
+  S_optionsHelpUsageItem helpUsageItem,
+  string                 optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsHelpUsageItem'" <<
+      endl;
+  }
+#endif
+
+  // handle it at once
+  helpUsageItem->
+    printHelpUsage (
+      fOptionsHandlerLogIOstream);
+
+  // exit
+  exit (0);
+}
+
+void optionsHandler::handleOptionsHelpSummaryItemName (
+  S_optionsHelpSummaryItem helpSummaryItem,
+  string                   optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsHelpSummaryItem'" <<
+      endl;
+  }
+#endif
+
+  // handle it at once
+  printHelpSummary (
+    fOptionsHandlerLogIOstream);
+
+  // exit
+  exit (0);
+}
+
+void optionsHandler::handleOptionsCombinedItemsItemName (
+  S_optionsCombinedItemsItem combinedItemsItem,
+  string                     optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsCombinedItemsItem'" <<
+      endl;
+  }
+#endif
+
+  // handle it at once
+  combinedItemsItem->
+    setCombinedItemsVariablesValue (true);
+}
+
+void optionsHandler::handleOptionsBooleanItemItemName (
+  S_optionsBooleanItem booleanItem,
+  string               optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsBooleanItem'" <<
+      endl;
+  }
+#endif
+
+  // handle it at once
+  booleanItem->
+    setBooleanItemVariableValue (true);
+}
+
+void optionsHandler::handleOptionsTwoBooleansItemItemName (
+  S_optionsTwoBooleansItem twoBooleansItem,
+  string                   optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsTwoBooleansItem'" <<
+      endl;
+  }
+#endif
+
+  // handle it at once
+  twoBooleansItem->
+    setTwoBooleansItemVariableValue (true);
+}
+
+void optionsHandler::handleOptionsThreeBooleansItemItemName (
+  S_optionsThreeBooleansItem threeBooleansItem,
+  string                     optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsThreeBooleansItem'" <<
+      endl;
+  }
+#endif
+
+  // handle it at once
+  threeBooleansItem->
+    setThreeBooleansItemVariableValue (true);
+}
+
+void optionsHandler::handleOptionsItemHelpItemName (
+  S_optionsItemHelpItem itemHelpItem,
+  string                optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsItemHelpItem'" <<
+      endl;
+  }
+#endif
+
+  // wait until the value is met
+  fPendingOptionsItem = itemHelpItem;
+}
+
+void optionsHandler::handleOptionsIntegerItemItemName (
+  S_optionsIntegerItem integerItem,
+  string               optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+      fOptionsHandlerLogIOstream <<
+        "==> element is of type 'optionsIntegerItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    fPendingOptionsItem = integerItem;
+}
+
+void optionsHandler::handleOptionsFloatItemItemName (
+  S_optionsFloatItem floatItem,
+  string             optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsFloatItem'" <<
+      endl;
+  }
+#endif
+
+  // wait until the value is met
+  fPendingOptionsItem = floatItem;
+}
+
+void optionsHandler::handleOptionsStringItemItemName (
+  S_optionsStringItem stringItem,
+  string              optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsStringItem'" <<
+      endl;
+  }
+#endif
+
+  // wait until the value is met
+  fPendingOptionsItem = stringItem;
+}
+
+void optionsHandler::handleOptionsRationalItemItemName (
+  S_optionsRationalItem rationalItem,
+  string              optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsRationalItem'" <<
+      endl;
+  }
+#endif
+
+  // wait until the value is met
+  fPendingOptionsItem = rationalItem;
+}
+
+void optionsHandler::handleOptionsNumbersSetItemItemName (
+  S_optionsNumbersSetItem numbersSetItem,
+  string                  optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> element is of type 'optionsNumbersSetItem'" <<
+      endl;
+  }
+#endif
+
+  // wait until the value is met
+  fPendingOptionsItem = numbersSetItem;
+}
+
+void optionsHandler::handleOptionsItemItemName (
+  S_optionsItem item,
+  string        optionsItemName)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> item is of type 'optionsItem'" <<
+      endl;
+  }
+#endif
+
+  if (
+    // help usage item?
+    S_optionsHelpUsageItem
+      helpUsageItem =
+        dynamic_cast<optionsHelpUsageItem*>(&(*item))
+  ) {
+    handleOptionsHelpUsageItemName (
+      helpUsageItem,
+      optionsItemName);
+  }
+
+  else if (
+    // help summary item?
+    S_optionsHelpSummaryItem
+      helpSummaryItem =
+        dynamic_cast<optionsHelpSummaryItem*>(&(*item))
+  ) {
+    handleOptionsHelpSummaryItemName (
+      helpSummaryItem,
+      optionsItemName);
+  }
+
+  else if (
+    // combined items item?
+    S_optionsCombinedItemsItem
+      combinedItemsItem =
+        dynamic_cast<optionsCombinedItemsItem*>(&(*item))
+  ) {
+    handleOptionsCombinedItemsItemName (
+      combinedItemsItem,
+      optionsItemName);
+  }
+
+  else if (
+    // boolean item?
+    S_optionsBooleanItem
+      booleanItem =
+        dynamic_cast<optionsBooleanItem*>(&(*item))
+  ) {
+    handleOptionsBooleanItemItemName (
+      booleanItem,
+      optionsItemName);
+  }
+
+  else if (
+    // two booleans item?
+    S_optionsTwoBooleansItem
+      twoBooleansItem =
+        dynamic_cast<optionsTwoBooleansItem*>(&(*item))
+  ) {
+    handleOptionsTwoBooleansItemItemName (
+      twoBooleansItem,
+      optionsItemName);
+  }
+
+  else if (
+    // three booleans item?
+    S_optionsThreeBooleansItem
+      threeBooleansItem =
+        dynamic_cast<optionsThreeBooleansItem*>(&(*item))
+  ) {
+    handleOptionsThreeBooleansItemItemName (
+      threeBooleansItem,
+      optionsItemName);
+  }
+
+  else if (
+    // item help item?
+    S_optionsItemHelpItem
+      itemHelpItem =
+        dynamic_cast<optionsItemHelpItem*>(&(*item))
+  ) {
+    handleOptionsItemHelpItemName (
+      itemHelpItem,
+      optionsItemName);
+  }
+
+  else if (
+    // integer item?
+    S_optionsIntegerItem
+      integerItem =
+        dynamic_cast<optionsIntegerItem*>(&(*item))
+  ) {
+    handleOptionsIntegerItemItemName (
+      integerItem,
+      optionsItemName);
+  }
+
+  else if (
+    // float item?
+    S_optionsFloatItem
+      floatItem =
+        dynamic_cast<optionsFloatItem*>(&(*item))
+  ) {
+    handleOptionsFloatItemItemName (
+      floatItem,
+      optionsItemName);
+  }
+
+  else if (
+    // string item?
+    S_optionsStringItem
+      stringItem =
+        dynamic_cast<optionsStringItem*>(&(*item))
+  ) {
+    handleOptionsStringItemItemName (
+      stringItem,
+      optionsItemName);
+  }
+
+  else if (
+    // rational item?
+    S_optionsRationalItem
+      rationalItem =
+        dynamic_cast<optionsRationalItem*>(&(*item))
+  ) {
+    handleOptionsRationalItemItemName (
+      rationalItem,
+      optionsItemName);
+  }
+
+  else if (
+    // numbers set item?
+    S_optionsNumbersSetItem
+      numbersSetItem =
+        dynamic_cast<optionsNumbersSetItem*>(&(*item))
+  ) {
+    handleOptionsNumbersSetItemItemName (
+      numbersSetItem,
+      optionsItemName);
+  }
+
+  else {
+    // item is of another type,
+    // let the optionsGroup handle it
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+      fOptionsHandlerLogIOstream <<
+        "==> item is of another type" <<
+        ", let the optionsGroup handle it" <<
+        endl;
+    }
+#endif
+
+    S_optionsGroup
+      group =
+        item->
+          getOptionsSubGroupUplink ()->
+            getOptionsGroupUplink ();
+
+    fPendingOptionsItem =
+      group->
+        handleOptionsItem (
+          fOptionsHandlerLogIOstream,
+          item);
+  }
+}
+
 void optionsHandler::handleOptionsItemName (
   string optionsItemName)
 {
@@ -4070,11 +4568,11 @@ void optionsHandler::handleOptionsItemName (
 
   // is optionsItemName known in options elements map?
   S_optionsElement
-    optionsElement =
+    element =
       fetchOptionsElementFromMap (
         optionsItemName);
 
-  if (! optionsElement) {
+  if (! element) {
     // optionsItemName is is not well handled by this options handler
     printHelpSummary ();
 
@@ -4090,16 +4588,28 @@ void optionsHandler::handleOptionsItemName (
 
   else {
     // optionsItemName is known, let's handle it
-    fCommandOptionsElements.push_back (
-      optionsElement);
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> handleOptionsItemName (), optionsItemName = \"" <<
+      optionsItemName <<
+      "\" is described by optionsElement:" <<
+      endl;
+    gIndenter++;
+    element->print (fOptionsHandlerLogIOstream);
+    gIndenter--;
+  }
+#endif
+
+    fCommandOptionsElements.push_back (element);
 
     // determine option element short and long names to be used,
     // in case one of them (short or long) is empty
     string
       shortName =
-        optionsElement->getOptionsElementShortName (),
+        element->getOptionsElementShortName (),
       longName =
-        optionsElement->getOptionsElementLongName ();
+        element->getOptionsElementLongName ();
 
     string
       shortNameToBeUsed = shortName,
@@ -4125,377 +4635,44 @@ void optionsHandler::handleOptionsItemName (
       // options handler?
       S_optionsHandler
         handler =
-          dynamic_cast<optionsHandler*>(&(*optionsElement))
-      ) {
-      // print the option handler help or help summary
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-        fOptionsHandlerLogIOstream <<
-          "==> optionsElement is of type 'optionsHandler'" <<
-          endl;
-      }
-#endif
-
-      if (
-        optionsItemName ==
-          handler->
-            getOptionHandlerHelpSummaryShortName ()
-          ||
-        optionsItemName ==
-          handler->
-            getOptionHandlerHelpSummaryLongName ()
-         ) {
-        handler->
-          printHelpSummary (
-            fOptionsHandlerLogIOstream);
-      }
-      else {
-        handler->
-          printHelp (
-            fOptionsHandlerLogIOstream);
-      }
-
-      fOptionsHandlerLogIOstream <<
-        endl;
+          dynamic_cast<optionsHandler*>(&(*element))
+    ) {
+        handleOptionsHandlerItemName (
+          handler,
+          optionsItemName);
     }
 
     else if (
       // options group?
       S_optionsGroup
         group =
-          dynamic_cast<optionsGroup*>(&(*optionsElement))
-      ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-        fOptionsHandlerLogIOstream <<
-          "==> optionsElement is of type 'optionsGroup'" <<
-          endl;
-      }
-#endif
-
-      // print the help
-      fOptionsHandlerLogIOstream <<
-        endl <<
-        "--- Help for group \"" <<
-        group->
-          getOptionsGroupHelpHeader () <<
-        "\" ---" <<
-        endl <<
-        endl;
-
-      group->
-        printHelp (
-          fOptionsHandlerLogIOstream);
+          dynamic_cast<optionsGroup*>(&(*element))
+    ) {
+      handleOptionsGroupItemName (
+        group,
+        optionsItemName);
     }
 
     else if (
       // options subgroup?
       S_optionsSubGroup
         subGroup =
-          dynamic_cast<optionsSubGroup*>(&(*optionsElement))
-      ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-        fOptionsHandlerLogIOstream <<
-          "==> optionsElement is of type 'optionsSubGroup'" <<
-          endl;
-      }
-#endif
-
-      // get the options group uplink
-      S_optionsGroup
-        group =
-          subGroup->
-            getOptionsGroupUplink ();
-
-      // print the help
-      fOptionsHandlerLogIOstream <<
-        endl <<
-        "--- Help for subgroup \"" <<
-        subGroup->
-          getOptionsSubGroupHelpHeader () <<
-        "\"" <<
-        " in group \"" <<
-        group->
-          getOptionsGroupHelpHeader () <<
-        "\" ---" <<
-        endl <<
-        endl;
-
-      group->
-        printOptionsSubGroupForcedHelp (
-          fOptionsHandlerLogIOstream,
-          subGroup);
+          dynamic_cast<optionsSubGroup*>(&(*element))
+    ) {
+      handleOptionsSubGroupItemName (
+        subGroup,
+        optionsItemName);
     }
 
     else if (
       // options item?
       S_optionsItem
         item =
-          dynamic_cast<optionsItem*>(&(*optionsElement))
-      ) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-        fOptionsHandlerLogIOstream <<
-          "==> optionsElement is of type 'optionsItem'" <<
-          endl;
-      }
-#endif
-
-      if (
-        // help usage item?
-        S_optionsHelpUsageItem
-          helpUsageItem =
-            dynamic_cast<optionsHelpUsageItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsHelpUsageItem'" <<
-            endl;
-        }
-#endif
-
-        // handle it at once
-        helpUsageItem->
-          printHelpUsage (
-            fOptionsHandlerLogIOstream);
-
-        // exit
-        exit (0);
-      }
-
-      else if (
-        // help summary item?
-        S_optionsHelpSummaryItem
-          helpSummaryItem =
-            dynamic_cast<optionsHelpSummaryItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsHelpSummaryItem'" <<
-            endl;
-        }
-#endif
-
-        // handle it at once
-        printHelpSummary (
-          fOptionsHandlerLogIOstream);
-
-        // exit
-        exit (0);
-      }
-
-      else if (
-        // combined items item?
-        S_optionsCombinedItemsItem
-          combinedItemsItem =
-            dynamic_cast<optionsCombinedItemsItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsCombinedItemsItem'" <<
-            endl;
-        }
-#endif
-
-        // handle it at once
-        combinedItemsItem->
-          setCombinedItemsVariablesValue (true);
-      }
-
-      else if (
-        // boolean item?
-        S_optionsBooleanItem
-          booleanItem =
-            dynamic_cast<optionsBooleanItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsBooleanItem'" <<
-            endl;
-        }
-#endif
-
-        // handle it at once
-        booleanItem->
-          setBooleanItemVariableValue (true);
-      }
-
-      else if (
-        // two booleans item?
-        S_optionsTwoBooleansItem
-          twoBooleansItem =
-            dynamic_cast<optionsTwoBooleansItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsTwoBooleansItem'" <<
-            endl;
-        }
-#endif
-
-        // handle it at once
-        twoBooleansItem->
-          setTwoBooleansItemVariableValue (true);
-      }
-
-      else if (
-        // three booleans item?
-        S_optionsThreeBooleansItem
-          threeBooleansItem =
-            dynamic_cast<optionsThreeBooleansItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsThreeBooleansItem'" <<
-            endl;
-        }
-#endif
-
-        // handle it at once
-        threeBooleansItem->
-          setThreeBooleansItemVariableValue (true);
-      }
-
-      else if (
-        // item help item?
-        S_optionsItemHelpItem
-          itemHelpItem =
-            dynamic_cast<optionsItemHelpItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsItemHelpItem'" <<
-            endl;
-        }
-#endif
-
-        // wait until the value is met
-        fPendingOptionsItem = itemHelpItem;
-      }
-
-      else if (
-        // integer item?
-        S_optionsIntegerItem
-          integerItem =
-            dynamic_cast<optionsIntegerItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsIntegerItem'" <<
-            endl;
-        }
-#endif
-
-        // wait until the value is met
-        fPendingOptionsItem = integerItem;
-      }
-
-      else if (
-        // float item?
-        S_optionsFloatItem
-          floatItem =
-            dynamic_cast<optionsFloatItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsFloatItem'" <<
-            endl;
-        }
-#endif
-
-        // wait until the value is met
-        fPendingOptionsItem = floatItem;
-      }
-
-      else if (
-        // string item?
-        S_optionsStringItem
-          stringItem =
-            dynamic_cast<optionsStringItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsStringItem'" <<
-            endl;
-        }
-#endif
-
-        // wait until the value is met
-        fPendingOptionsItem = stringItem;
-      }
-
-      else if (
-        // rational item?
-        S_optionsRationalItem
-          rationalItem =
-            dynamic_cast<optionsRationalItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsRationalItem'" <<
-            endl;
-        }
-#endif
-
-        // wait until the value is met
-        fPendingOptionsItem = rationalItem;
-      }
-
-      else if (
-        // numbers set item?
-        S_optionsNumbersSetItem
-          numbersSetItem =
-            dynamic_cast<optionsNumbersSetItem*>(&(*optionsElement))
-        ) {
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> optionsElement is of type 'optionsNumbersSetItem'" <<
-            endl;
-        }
-#endif
-
-        // wait until the value is met
-        fPendingOptionsItem = numbersSetItem;
-      }
-
-      else {
-        // optionsElement is of another type,
-        // let the optionsGroup handle it
-
-#ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
-            "==> fPendingOptionsItem is of another type" <<
-            ", let the optionsGroup handle it" <<
-            endl;
-        }
-#endif
-
-        S_optionsGroup
-          group =
-            item->
-              getOptionsSubGroupUplink ()->
-                getOptionsGroupUplink ();
-
-        fPendingOptionsItem =
-          group->
-            handleOptionsItem (
-              fOptionsHandlerLogIOstream,
-              item);
-      }
+          dynamic_cast<optionsItem*>(&(*element))
+    ) {
+      handleOptionsItemItemName (
+        item,
+        optionsItemName);
     }
 
     else {
