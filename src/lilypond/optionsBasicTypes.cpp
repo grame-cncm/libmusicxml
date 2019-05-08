@@ -3690,7 +3690,7 @@ void optionsHandler::appendOptionsPrefixToHandler (
 
   S_optionsPrefix result;
 
-  // is optionsItemName known in options elements map?
+  // is optionsItemName already known in options elements map?
   map<string, S_optionsPrefix>::const_iterator
     it =
       fOptionsPrefixesMap.find (
@@ -3698,7 +3698,14 @@ void optionsHandler::appendOptionsPrefixToHandler (
 
   if (it != fOptionsPrefixesMap.end ()) {
     // prefixName is already known in the map
-    result = (*it).second;
+    stringstream s;
+
+    s <<
+      "option prefix name '" << prefixName <<
+      "' is already known";
+
+    optionError (s.str ());
+    exit (7);
   }
 
   // register prefix in the options prefixes map
@@ -3740,12 +3747,13 @@ void optionsHandler::printKnownOptionsPrefixes ()
   if (optionsHandlerOptionsPrefixesListSize) {
     // indent a bit more for readability
     for (
-      list<S_optionsPrefix>::const_iterator i =
+      map<string, S_optionsPrefix>::const_iterator i =
         fOptionsPrefixesMap.begin ();
       i != fOptionsPrefixesMap.end ();
-      i++) {
+      i++
+    ) {
       S_optionsPrefix
-        prefix = (*i);
+        prefix = (*i).second;
 
       prefix->
         printHeader (
@@ -3944,6 +3952,12 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
         if (equalsSignPosition != string::npos) {
           // yes
+
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+            printKnownOptionsPrefixes ();
+          }
+#endif
 
           // fetch the prefix name and the string after the equals sign
           string prefixName =

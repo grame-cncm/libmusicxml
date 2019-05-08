@@ -658,7 +658,7 @@ string existingLpsrScoreOutputKinds ()
       iEnd   = gLpsrScoreOutputKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogIOstream <<
+      s <<
         (*i).first <<
         endl;
       if ((*i).second != kScoreOutputKindScoreOnly) {
