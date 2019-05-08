@@ -346,7 +346,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
         if (fTimeItemsVector.size ()) {
           vector<S_bsrTimeItem>::const_iterator
             iBegin = fTimeItemsVector.begin (),
-            iEnd   = fTimeItemsVector.end (),
+        // JMI    iEnd   = fTimeItemsVector.end (),
             i      = iBegin;
 
           S_bsrTimeItem bTimeItem = (*i);
@@ -538,7 +538,7 @@ S_bsrCellsList bsrTime::buildCellsList () const
         if (fTimeItemsVector.size ()) {
           vector<S_bsrTimeItem>::const_iterator
             iBegin = fTimeItemsVector.begin (),
-            iEnd   = fTimeItemsVector.end (),
+   // JMI         iEnd   = fTimeItemsVector.end (),
             i      = iBegin;
 
           S_bsrTimeItem bTimeItem = (*i);

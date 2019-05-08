@@ -9130,6 +9130,20 @@ void msrVoice::finalizeVoice (
       "finalizeVoice() 2");
   }
 #endif
+
+/* JMI
+  // finalize the harmony voice if any
+  if (fHarmonyVoiceForRegularVoice) {
+    fHarmonyVoiceForRegularVoice->finalizeVoice (
+      inputLineNumber);
+  }
+
+  // finalize the figured bass voice if any
+  if (fFiguredBassVoiceForRegularVoice) {
+    fFiguredBassVoiceForRegularVoice->finalizeVoice (
+      inputLineNumber);
+  }
+  */
 }
 
 void msrVoice::acceptIn (basevisitor* v)

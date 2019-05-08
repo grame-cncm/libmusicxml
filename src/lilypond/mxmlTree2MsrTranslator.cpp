@@ -20903,7 +20903,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
-      "harmony has no degrees contents, ignoring it");
+      "harmony has no degrees contents");
   }
   else {
     while (fCurrentHarmonyDegreesList.size ()) {
@@ -20924,10 +20924,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       // remove it from the list
       fCurrentHarmonyDegreesList.pop_front ();
     } // while
-
-    // append the harmony to the pending harmonies list
-    fPendingHarmoniesList.push_back (harmony);
   }
+
+  // append the harmony to the pending harmonies list
+  fPendingHarmoniesList.push_back (harmony);
 }
 
 //______________________________________________________________________________

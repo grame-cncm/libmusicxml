@@ -882,8 +882,8 @@ void extraOptions::handleOptionsItemValue (
           rootName);
 
     switch (semiTonesPitchKind) {
-      case k_NoQuarterTonesPitch_QTP:
-      case k_Rest_QTP:
+      case k_NoSemiTonesPitch_STP:
+   //   case k_Rest_QTP: // TICINO
         {
           stringstream s;
 
@@ -1072,8 +1072,8 @@ void extraOptions::handleOptionsItemValue (
           rootName);
 
     switch (semiTonesPitchKind) {
-      case k_NoQuarterTonesPitch_QTP:
-      case k_Rest_QTP:
+      case k_NoSemiTonesPitch_STP:
+   //   case k_Rest_QTP: // TICINO
         {
           stringstream s;
 
