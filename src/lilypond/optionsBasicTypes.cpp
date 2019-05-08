@@ -695,7 +695,8 @@ void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
       list<S_optionsItem>::const_iterator i =
         fOptionsCombinedItemsList.begin ();
       i != fOptionsCombinedItemsList.end ();
-      i++) {
+      i++
+    ) {
       S_optionsItem
         item = (*i);
 
@@ -3685,9 +3686,25 @@ void optionsHandler::appendOptionsPrefixToHandler (
     prefix != nullptr,
     "prefix is null");
 
-  // append the options prefix
-  fOptionsHandlerOptionsPrefixesList.push_back (
-    prefix);
+  string prefixName = prefix->getOptionsPrefixName ();
+
+  S_optionsPrefix result;
+
+  // is optionsItemName known in options elements map?
+  map<string, S_optionsPrefix>::const_iterator
+    it =
+      fOptionsPrefixesMap.find (
+        prefixName);
+
+  if (it != fOptionsPrefixesMap.end ()) {
+    // prefixName is already known in the map
+    result = (*it).second;
+  }
+
+  // register prefix in the options prefixes map
+  fOptionsPrefixesMap [
+    prefix->getOptionsPrefixName ()
+    ] = prefix;
 }
 
 void optionsHandler::appendOptionsGroupToHandler (
@@ -3710,7 +3727,7 @@ void optionsHandler::appendOptionsGroupToHandler (
 void optionsHandler::printKnownOptionsPrefixes ()
 {
   int optionsHandlerOptionsPrefixesListSize =
-    fOptionsHandlerOptionsPrefixesList.size ();
+    fOptionsPrefixesMap.size ();
 
   fOptionsHandlerLogIOstream <<
     "The " <<
@@ -3724,8 +3741,8 @@ void optionsHandler::printKnownOptionsPrefixes ()
     // indent a bit more for readability
     for (
       list<S_optionsPrefix>::const_iterator i =
-        fOptionsHandlerOptionsPrefixesList.begin ();
-      i != fOptionsHandlerOptionsPrefixesList.end ();
+        fOptionsPrefixesMap.begin ();
+      i != fOptionsPrefixesMap.end ();
       i++) {
       S_optionsPrefix
         prefix = (*i);
@@ -3992,17 +4009,16 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
           S_optionsPrefix
             prefix =
               fetchOptionsPrefixFromMap (prefixName);
-         // JMI      fOptionsPrefixesMap [prefixName];
 
           if (prefix) {
             if (chunksListSize) {
               // expand the option names contained in chunksList
-              list<string>::const_iterator
-                iBegin = chunksList.begin (),
-                iEnd   = chunksList.end (),
-                i      = iBegin;
-
-              for ( ; ; ) {
+              for (
+                list<string>::const_iterator i =
+                  chunksList.begin ();
+                i != chunksList.end ();
+                i++
+              ) {
                 string singleOptionName = (*i);
 
                 // build uncontracted option item name

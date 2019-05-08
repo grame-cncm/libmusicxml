@@ -1762,8 +1762,6 @@ class EXP optionsHandler : public optionsElement
 
     vector<string>        fArgumentsVector;
 
-    list<S_optionsPrefix> fOptionsHandlerOptionsPrefixesList;
-
     map<string, S_optionsPrefix>
                           fOptionsPrefixesMap;
 
