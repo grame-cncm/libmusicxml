@@ -2369,10 +2369,13 @@ void optionsGroup::setOptionsHandlerUplink (
 
 void optionsGroup::underlineHeader (ostream& os) const
 {
+  /* JMI
   for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
   os << endl;
+  */
+  os << "--------------------------" << endl;
 }
 
 void optionsGroup::registerOptionsGroupInHandler (
