@@ -385,18 +385,16 @@ R"()",
           "lpso", "lilypond-score-output",
           replaceSubstringInString (
             replaceSubstringInString (
-R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
-as well as in the generated braille music.
-The 4 NUMBER score output kinds available are:
-TEXT_LANGUAGES.
-english, german, italian and french.
-The default is english.)",
+R"(Generate a LilyPond score according to OUPTUT_KIND.
+The NUMBER score output kinds available are:
+  SCORE_OUTPUT_KINDS.
+The default is scoreOnly.)",
               "NUMBER",
               to_string (gLpsrScoreOutputKindsMap.size ())),
-            "TEXT_LANGUAGES",
+            "SCORE_OUTPUT_KINDS",
             existingLpsrScoreOutputKinds ()),
-          "LANGUAGE",
-          "bsr-texts-language",
+          "OUTPUT_KIND",
+          "score-output-kind",
           fScoreOutputKind));
   }
 

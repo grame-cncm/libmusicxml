@@ -249,12 +249,13 @@ string existingBsrTextsLanguageKinds ()
       iEnd   = gBsrTextsLanguageKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      if ((*i).second != kTextsEnglish) {
-        s << (*i).first;
-      }
+      s << (*i).first;
       if (++i == iEnd) break;
-      if ((*i).second != kTextsEnglish) {
-        s << " ";
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
       }
     } // for
   }

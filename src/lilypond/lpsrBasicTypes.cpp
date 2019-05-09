@@ -658,15 +658,13 @@ string existingLpsrScoreOutputKinds ()
       iEnd   = gLpsrScoreOutputKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      s <<
-        (*i).first <<
-        endl;
-      if ((*i).second != kScoreOutputKindScoreOnly) {
-        s << (*i).first;
-      }
+      s << (*i).first;
       if (++i == iEnd) break;
-      if ((*i).second != kScoreOutputKindScoreOnly) {
-        s << " ";
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
       }
     } // for
   }
@@ -845,15 +843,13 @@ string existingLpsrAccidentalStyleKinds ()
       iEnd   = gLpsrAccidentalStyleKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      gLogIOstream <<
-        (*i).first <<
-        endl;
-      if ((*i).second != kDefaultStyle) {
-        s << (*i).first;
-      }
+      s << (*i).first;
       if (++i == iEnd) break;
-      if ((*i).second != kDefaultStyle) {
-        s << " ";
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
       }
     } // for
   }
@@ -869,7 +865,7 @@ map<string, lpsrChordsLanguageKind>
 
 void initializeLpsrChordsLanguageKindsMap ()
 {
-  gLpsrChordsLanguageKindsMap ["Ignatzek"]   = k_IgnatzekChords; // default
+  gLpsrChordsLanguageKindsMap ["ignatzek"]   = k_IgnatzekChords; // default
   gLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
   gLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
   gLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
@@ -883,7 +879,7 @@ string lpsrChordsLanguageKindAsString (
 
   switch (languageKind) {
     case k_IgnatzekChords: // default value
-      result = "IgnatzekChords";
+      result = "ignatzek";
       break;
     case k_GermanChords:
       result = "german";
@@ -912,12 +908,13 @@ string existingLpsrChordsLanguageKinds ()
       iEnd   = gLpsrChordsLanguageKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      if ((*i).second != k_IgnatzekChords) {
-        s << (*i).first;
-      }
+      s << (*i).first;
       if (++i == iEnd) break;
-      if ((*i).second != k_IgnatzekChords) {
-        s << " ";
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
       }
     } // for
   }

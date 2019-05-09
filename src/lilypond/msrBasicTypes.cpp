@@ -11232,7 +11232,13 @@ string existingQuarterTonesPitchesLanguageKinds ()
     for ( ; ; ) {
       s << (*i).first;
       if (++i == iEnd) break;
-      s << " ";
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+
     } // for
   }
 
