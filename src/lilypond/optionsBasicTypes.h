@@ -1643,8 +1643,8 @@ class EXP optionsHandler : public optionsElement
                             string           optionLongName,
                             S_optionsElement optionsElement);
 
-    void                  printKnownOptionsPrefixes ();
-    void                  printKnownOptionsElements ();
+    void                  printKnownOptionsPrefixes () const;
+    void                  printKnownOptionsElements () const;
 
     S_optionsElement      fetchOptionElement (
                             string optiontElementName);

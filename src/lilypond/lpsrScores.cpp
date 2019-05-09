@@ -240,8 +240,8 @@ ostream& operator<< (ostream& os, const S_lpsrScoreBlock& scr)
 
 //______________________________________________________________________________
 S_lpsrScore lpsrScore::create (
-  int            inputLineNumber,
-  S_msrScore     mScore)
+  int        inputLineNumber,
+  S_msrScore mScore)
 {
   lpsrScore* o = new lpsrScore (
     inputLineNumber, mScore);
@@ -250,8 +250,8 @@ S_lpsrScore lpsrScore::create (
 }
 
 lpsrScore::lpsrScore (
-  int            inputLineNumber,
-  S_msrScore     mScore)
+  int        inputLineNumber,
+  S_msrScore mScore)
     : lpsrElement (inputLineNumber)
 {
   fMsrScore = mScore;
@@ -1885,7 +1885,7 @@ void lpsrScore::print (ostream& os)
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
-  // print the voices
+  // print the voices and stanzas
   if (fScoreElements.size ()) {
     list<S_msrElement>::const_iterator
       iBegin = fScoreElements.begin (),

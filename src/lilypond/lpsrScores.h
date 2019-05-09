@@ -47,7 +47,7 @@
 #include "msrMidi.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -60,7 +60,7 @@ class lpsrScoreBlock : public lpsrElement
 
     static SMARTP<lpsrScoreBlock> create (
       int            inputLineNumber);
-     
+
   protected:
 
     // constructors/destructor
@@ -68,9 +68,9 @@ class lpsrScoreBlock : public lpsrElement
 
     lpsrScoreBlock (
       int            inputLineNumber);
-      
+
     virtual ~lpsrScoreBlock ();
-  
+
   public:
 
     // set and get
@@ -109,7 +109,7 @@ class lpsrScoreBlock : public lpsrElement
                             */
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -119,7 +119,7 @@ class lpsrScoreBlock : public lpsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -132,10 +132,10 @@ class lpsrScoreBlock : public lpsrElement
 
     S_lpsrParallelMusicBLock
                           fScoreBlockParallelMusicBLock;
-    
+
     S_lpsrLayout          fScoreBlockLayout;
-    
-    S_msrMidi             fScoreBlockMidi;    
+
+    S_msrMidi             fScoreBlockMidi;
 };
 typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
@@ -149,20 +149,20 @@ class lpsrScore : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrScore> create (
-      int            inputLineNumber,
-      S_msrScore     mScore);
-     
+      int        inputLineNumber,
+      S_msrScore mScore);
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     lpsrScore (
-      int            inputLineNumber,
-      S_msrScore     mScore);
-      
+      int        inputLineNumber,
+      S_msrScore mScore);
+
     virtual ~lpsrScore ();
-  
+
   public:
 
     // set and get
@@ -201,7 +201,7 @@ class lpsrScore : public lpsrElement
     // ---------------------
 
     void                  setJianpuFileIncludeIsNeeded ();
-                        
+
     bool                  getJianpuFileIncludeIsNeeded () const
                               { return fJianpuFileIncludeIsNeeded; }
 
@@ -209,29 +209,29 @@ class lpsrScore : public lpsrElement
     // ---------------------
 
     void                  setScmAndAccregSchemeModulesAreNeeded ();
-                        
+
     bool                  getScmAndAccregSchemeModulesAreNeeded () const
                               { return fScmAndAccregSchemeModulesAreNeeded; }
 
     // Scheme functions
     // ---------------------
-    
+
     // custom short bar lines
     void                  setCustomShortBarLineSchemeFunctionIsNeeded ();
-                        
+
     bool                  getCustomShortBarLineSchemeFunctionIsNeeded () const
                               { return fCustomShortBarLineSchemeFunctionIsNeeded; }
 
     // tongue
     void                  setTongueSchemeFunctionIsNeeded ();
-                        
+
     bool                  getTongueSchemeFunctionIsNeeded () const
                               { return fTongueSchemeFunctionIsNeeded; }
 
 
     // editorial accidentals
     void                  setEditorialAccidentalSchemeFunctionIsNeeded ();
-                        
+
     bool                  getEditorialAccidentalSchemeFunctionIsNeeded () const
                               {
                                 return
@@ -240,7 +240,7 @@ class lpsrScore : public lpsrElement
 
     // dynamics
     void                  setDynamicsSchemeFunctionIsNeeded ();
-                        
+
     bool                  getDynamicsSchemeFunctionIsNeeded () const
                               {
                                 return
@@ -267,13 +267,13 @@ class lpsrScore : public lpsrElement
 
     // tempo relationships
     void                  setTempoRelationshipSchemeFunctionIsNeeded ();
-                        
+
     // glissando with text
     void                  setGlissandoWithTextSchemeFunctionIsNeeded ();
-                        
+
     // damps
     void                  setDampMarkupIsNeeded ();
-                        
+
     void                  setDampAllMarkupIsNeeded ();
 
     // white note heads
@@ -281,7 +281,7 @@ class lpsrScore : public lpsrElement
 
 
   public:
-  
+
     // public services
     // ------------------------------------------------------
 
@@ -289,15 +289,15 @@ class lpsrScore : public lpsrElement
     void                  appendCommentToScore (
                             S_lpsrComment comment)
                               { fScoreElements.push_back (comment); }
-                  
+
     void                  appendSchemeVariableToScore (
                             S_lpsrSchemeVariable assoc)
                               { fScoreElements.push_back (assoc); }
-                  
+
     void                  prependSchemeVariableToScore (
                             S_lpsrSchemeVariable assoc)
                               { fScoreElements.push_front (assoc); }
-                  
+
     void                  appendVoiceUseToStoreCommand (
                             S_msrVoice voice);
 
@@ -308,7 +308,7 @@ class lpsrScore : public lpsrElement
     void                  appendVoiceToScoreElements (
                             S_msrVoice voice)
                               { fScoreElements.push_back (voice); }
-                  
+
     void                  appendStanzaToScoreElements (
                             S_msrStanza stanza)
                               { fScoreElements.push_back (stanza); }
@@ -316,7 +316,7 @@ class lpsrScore : public lpsrElement
     void                  addGlissandoWithTextSchemeFunctionsToScore ();
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
 
@@ -329,27 +329,27 @@ class lpsrScore : public lpsrElement
     void                  addAccordionRegistrationSchemeModulesToScore ();
 
     // Scheme functions
-    
+
     void                  addDateAndTimeSchemeFunctionsToScore ();
-    
+
     void                  addPointAndClickOffSchemeFunctionsToScore ();
-        
+
     void                  addCustomShortBarLineSchemeFunctionToScore ();
 
     void                  addTongueSchemeFunctionToScore ();
-    
+
     void                  addEditorialAccidentalSchemeFunctionToScore ();
 
     void                  addDynamicsSchemeFunctionToScore ();
-    
+
     void                  addTupletsCurvedBracketsSchemeFunctionToScore ();
-    
+
     void                  addAfterSchemeFunctionToScore ();
-    
+
     void                  addTempoRelationshipSchemeFunctionToScore ();
-    
+
     // markups
-    
+
     void                  addDampMarkupToScore ();
     void                  addDampAllMarkupToScore ();
 
@@ -358,7 +358,7 @@ class lpsrScore : public lpsrElement
     void                  addWhiteNoteHeadsToScore ();
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -368,7 +368,7 @@ class lpsrScore : public lpsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -385,15 +385,14 @@ class lpsrScore : public lpsrElement
     // general information
     S_lpsrVarValAssoc
                           fLilypondVersion;
-    
+
     S_lpsrComment         fInputSourceNameComment;
     S_lpsrComment         fTranslationDateComment;
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
-    
-    S_lpsrSchemeVariable
-                          fGlobalStaffSizeAssoc;
-    
+
+    S_lpsrSchemeVariable  fGlobalStaffSizeAssoc;
+
     S_lpsrHeader          fHeader;
     S_lpsrPaper           fPaper;
     S_lpsrLayout          fScoreLayout;

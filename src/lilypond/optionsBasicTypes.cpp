@@ -103,7 +103,9 @@ Handling:
     to the (preceding) fPendingOptionsItem if not null,
     or append it fArgumentsVector to otherwise.
 
-  - printHelpSummary() methods are used when there are errors in the options used.
+  - the printHelpSummary() methods are used when there are errors in the options used.
+
+  - the printHelp() methods perform the actual help print work
 */
 
 //______________________________________________________________________________
@@ -1912,10 +1914,13 @@ string optionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
 
 void optionsSubGroup::underlineHeader (ostream& os) const
 {
+  /* JMI ???
   for (unsigned int i = 0; i < fOptionsSubGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
   os << endl;
+  */
+  os << "--------------------------" << endl;
 }
 
 void optionsSubGroup::registerOptionsSubGroupInHandler (
@@ -2901,9 +2906,9 @@ string optionsPrefix::optionsPrefixNamesInColumnsBetweenParentheses (
 void optionsPrefix::printHeader (ostream& os) const
 {
   os <<
-    "Prefix '" << fOptionsPrefixName <<
+    "'" << fOptionsPrefixName <<
     "' translates to '" << fOptionsPrefixErsatz <<
-    "'" <<
+    "':" <<
     endl;
 
   if (fOptionsPrefixDescription.size ()) {
@@ -3323,6 +3328,12 @@ void optionsHandler::print (ostream& os) const
     fOptionsElementLongName <<
     endl;
 
+  // print the options prefixes if any
+  if (fOptionsPrefixesMap.size ()) {
+    printKnownOptionsPrefixes ();
+  }
+
+  // print the options groups if any
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os <<
       endl;
@@ -3353,6 +3364,9 @@ void optionsHandler::printHelp (ostream& os) const
     gIndenter.indentMultiLineString (
       fOptionHandlerPreamble);
 
+  os <<
+    endl;
+
   // print the options handler help header and element names
   os <<
     fOptionsHandlerHelpHeader <<
@@ -3370,6 +3384,14 @@ void optionsHandler::printHelp (ostream& os) const
 
   os <<
     endl <<
+    endl;
+
+  // print the known options prefixes
+  gIndenter++;
+  printKnownOptionsPrefixes ();
+  gIndenter--;
+
+  os <<
     endl;
 
   // print the options groups helps
@@ -3411,7 +3433,6 @@ void optionsHandler::printHelpSummary (ostream& os) const
   os <<
     gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
-      endl <<
     endl;
   gIndenter--;
 
@@ -3731,15 +3752,15 @@ void optionsHandler::appendOptionsGroupToHandler (
     setOptionsHandlerUplink (this);
 }
 
-void optionsHandler::printKnownOptionsPrefixes ()
+void optionsHandler::printKnownOptionsPrefixes () const
 {
   int optionsHandlerOptionsPrefixesListSize =
     fOptionsPrefixesMap.size ();
 
   fOptionsHandlerLogIOstream <<
-    "The " <<
+    "There are " <<
     optionsHandlerOptionsPrefixesListSize <<
-    " known options prefixes are:" <<
+    " options prefixes:" <<
     endl;
 
   gIndenter++;
@@ -3769,7 +3790,7 @@ void optionsHandler::printKnownOptionsPrefixes ()
   gIndenter--;
 }
 
-void optionsHandler::printKnownOptionsElements ()
+void optionsHandler::printKnownOptionsElements () const
 {
   int optionsElementsMapSize =
     fOptionsElementsMap.size ();

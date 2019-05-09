@@ -324,10 +324,11 @@ Usage:
     xml2brl [options] [MusicXMLFile|-] [options]
 )",
 R"(
+Options can be written with '-' or '--' at will,
+  even though the help information below is presented with '-'.
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
-    ios
-    )
+    ios)
 {
   initializeOptionsHandler (executableName);
 

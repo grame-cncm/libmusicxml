@@ -320,8 +320,7 @@ Usage:
 R"(
 Option '-h, -help' prints the full help,
   while '-hs, -helpSummary' only prints a help summary.)",
-    ios
-    )
+    ios)
 {
   initializeOptionsHandler (executableName);
 
