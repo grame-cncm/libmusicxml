@@ -675,7 +675,8 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   // get LPSR score block layout
   S_lpsrLayout
     scoreBlockLayout =
-      fLpsrScore->getScoreBlock ()->getScoreBlockLayout ();
+      fLpsrScore->getScoreBlock ()->
+        getScoreBlockLayout ();
 
   // create the score block layout staff-size Scheme assoc
   stringstream s;

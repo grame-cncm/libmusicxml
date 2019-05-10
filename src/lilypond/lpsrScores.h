@@ -51,7 +51,77 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrScoreBlock : public lpsrElement
+class lpsrBlock : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrBlock> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrScoreBlock (
+      int inputLineNumber);
+
+    virtual ~lpsrScoreBlock ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_lpsrLayout          getScoreBlockLayout () const
+                            { return fScoreBlockLayout; }
+
+    S_msrMidi             getScoreBlockMidi () const
+                              { return fScoreBlockMidi; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendPartGroupBlockToScoreBlock (
+                            S_lpsrPartGroupBlock partGroupBlock);
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_lpsrParallelMusicBLock
+                          fScoreBlockParallelMusicBLock;
+
+    S_lpsrLayout          fScoreBlockLayout;
+
+    S_msrMidi             fScoreBlockMidi;
+};
+typedef SMARTP<lpsrBlock> S_lpsrBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrBlock& elt);
+
+//______________________________________________________________________________
+class lpsrScoreBlock : public S_lpsrBlock
 {
   public:
 
@@ -141,6 +211,186 @@ typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
 
 //______________________________________________________________________________
+class lpsrBookPartBlock : public lpsrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrBookPartBlock> create (
+      int            inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrBookPartBlock (
+      int            inputLineNumber);
+
+    virtual ~lpsrBookPartBlock ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_lpsrParallelMusicBLock
+                          getScoreBlockParallelMusicBLock () const
+                              {
+                                return
+                                  fScoreBlockParallelMusicBLock;
+                              }
+
+/*
+    const vector<S_msrElement>&
+                  getScoreBlockElements () const
+                      { return fScoreBlockElements; }
+*/
+    S_lpsrLayout          getScoreBlockLayout () const
+                            { return fScoreBlockLayout; }
+
+    S_msrMidi             getScoreBlockMidi () const
+                              { return fScoreBlockMidi; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendPartGroupBlockToScoreBlock (
+                            S_lpsrPartGroupBlock partGroupBlock);
+
+/* JMI
+    void                  appendVoiceUseToParallelMusic (
+                            S_lpsrUseVoiceCommand voiceUse);
+
+    void                  appendLyricsUseToParallelMusic (
+                            S_lpsrNewLyricsBlock lyricsUse);
+                            */
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_lpsrParallelMusicBLock
+                          fScoreBlockParallelMusicBLock;
+
+    S_lpsrLayout          fScoreBlockLayout;
+
+    S_msrMidi             fScoreBlockMidi;
+};
+typedef SMARTP<lpsrBookPartBlock> S_lpsrBookPartBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrBookPartBlock& elt);
+
+//______________________________________________________________________________
+class lpsrBookBlock : public S_lpsrBlock
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrBookBlock> create (
+      int            inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrBookBlock (
+      int            inputLineNumber);
+
+    virtual ~lpsrBookBlock ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_lpsrParallelMusicBLock
+                          getScoreBlockParallelMusicBLock () const
+                              {
+                                return
+                                  fScoreBlockParallelMusicBLock;
+                              }
+
+/*
+    const vector<S_msrElement>&
+                  getScoreBlockElements () const
+                      { return fScoreBlockElements; }
+*/
+    S_lpsrLayout          getScoreBlockLayout () const
+                            { return fScoreBlockLayout; }
+
+    S_msrMidi             getScoreBlockMidi () const
+                              { return fScoreBlockMidi; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendPartGroupBlockToScoreBlock (
+                            S_lpsrPartGroupBlock partGroupBlock);
+
+/* JMI
+    void                  appendVoiceUseToParallelMusic (
+                            S_lpsrUseVoiceCommand voiceUse);
+
+    void                  appendLyricsUseToParallelMusic (
+                            S_lpsrNewLyricsBlock lyricsUse);
+                            */
+
+  public:
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+  public:
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    S_lpsrParallelMusicBLock
+                          fScoreBlockParallelMusicBLock;
+
+    S_lpsrLayout          fScoreBlockLayout;
+
+    S_msrMidi             fScoreBlockMidi;
+};
+typedef SMARTP<lpsrBookBlock> S_lpsrBookBlock;
+EXP ostream& operator<< (ostream& os, const S_lpsrBookBlock& elt);
+
+//______________________________________________________________________________
 class lpsrScore : public lpsrElement
 {
   public:
@@ -192,8 +442,9 @@ class lpsrScore : public lpsrElement
                           getVoicesAndLyricsList () const
                               { return fScoreElements; }
 
-    S_lpsrScoreBlock      getScoreBlock () const
-                              { return fScoreBlock; }
+    const list<S_lpsrBlock>&
+                          getScoreBlocksList () const
+                              { return fScoreBlocksList; }
 
     void                  setGlobalStaffSize (float size);
 
@@ -284,26 +535,6 @@ class lpsrScore : public lpsrElement
 
     // public services
     // ------------------------------------------------------
-
-/* JMI ???
-    void                  appendCommentToScore (
-                            S_lpsrComment comment)
-                              { fScoreElements.push_back (comment); }
-
-    void                  appendSchemeVariableToScore (
-                            S_lpsrSchemeVariable assoc)
-                              { fScoreElements.push_back (assoc); }
-
-    void                  prependSchemeVariableToScore (
-                            S_lpsrSchemeVariable assoc)
-                              { fScoreElements.push_front (assoc); }
-
-    void                  appendVoiceUseToStoreCommand (
-                            S_msrVoice voice);
-
-    void                  appendLyricsUseToStoreCommand (
-                            S_msrStanza stanza);
-*/
 
     void                  appendVoiceToScoreElements (
                             S_msrVoice voice)
@@ -416,8 +647,8 @@ class lpsrScore : public lpsrElement
     // variables, voices and stanzas
     list<S_msrElement>    fScoreElements;
 
-    // score command
-    S_lpsrScoreBlock      fScoreBlock;
+    // score LPSR blocks
+    list<S_lpsrBlock>     fScoreBlocksList;
 
     // files includes
     bool                  fJianpuFileIncludeIsNeeded;
