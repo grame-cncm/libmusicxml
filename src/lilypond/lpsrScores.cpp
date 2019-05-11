@@ -28,639 +28,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_lpsrScoreBlock lpsrScoreBlock::create (
-  int            inputLineNumber)
-{
-  lpsrScoreBlock* o = new lpsrScoreBlock (
-    inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-lpsrScoreBlock::lpsrScoreBlock (
-  int            inputLineNumber)
-    : lpsrElement (inputLineNumber)
-{
-  // create the score command parallel music
-  fScoreBlockParallelMusicBLock =
-    lpsrParallelMusicBLock::create (
-      inputLineNumber,
-      lpsrParallelMusicBLock::kEndOfLine);
-
-  // create the score command layout
-  fScoreBlockLayout =
-    lpsrLayout::create (
-      inputLineNumber);
-
-  // create the score command midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
-
-  fScoreBlockMidi =
-    msrMidi::create (
-      inputLineNumber,
-      midiTempoDuration,
-      midiTempoPerSecond);
-}
-
-lpsrScoreBlock::~lpsrScoreBlock ()
-{}
-
-void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
-  S_lpsrPartGroupBlock partGroupBlock)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
-      "Appending part group block " <<
-       partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    appendPartGroupBlockToParallelMusicBLock (
-      partGroupBlock);
-
-//               fScoreBlockElements.push_back(partGroupBlock);
-}
-
-/* JMI
-void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
-  S_lpsrUseVoiceCommand voiceUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Appending the use of voice \"" <<
-       voiceUse-> getVoice ()-> getVoiceName () <<
-       "\" to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (voiceUse);
-
-//     JMI             fScoreBlockElements.push_back(voiceUse);
-}
-
-void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
-  S_lpsrNewLyricsBlock lyricsUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending the use of stanza " <<
-       lyricsUse-> getStanza ()-> getStanzaName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (lyricsUse);
-}
-*/
-
-void lpsrScoreBlock::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrScoreBlock::acceptIn ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrScoreBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
-        S_lpsrScoreBlock elem = this;
-
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrScoreBlock::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrScoreBlock::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrScoreBlock::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrScoreBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
-        S_lpsrScoreBlock elem = this;
-
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrScoreBlock::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrScoreBlock::browseData (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrScoreBlock::browseData ()" <<
-      endl;
-  }
-
-  {
-    // browse the score command parallel music
-    msrBrowser<lpsrParallelMusicBLock> browser (v);
-    browser.browse (*fScoreBlockParallelMusicBLock);
-  }
-
-/* JMI
-  for (
-    vector<S_msrElement>::const_iterator i = fScoreBlockElements.begin ();
-    i != fScoreBlockElements.end ();
-    i++) {
-    // browse the element
- //   msrBrowser<msrElement> browser (v);
- //   browser.browse (*(*i));
-  } // for
-*/
-  {
-    // browse the score command layout
-    msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fScoreBlockLayout);
-  }
-
-  {
-    // browse the score command midi
-    msrBrowser<msrMidi> browser (v);
-    browser.browse (*fScoreBlockMidi);
-  }
-
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% <== lpsrScoreBlock::browseData ()" <<
-      endl;
-  }
-}
-
-void lpsrScoreBlock::print (ostream& os)
-{
-  os << "ScoreBlock" << endl << endl;
-
-  gIndenter++;
-
-  os <<
-    fScoreBlockParallelMusicBLock <<
-    endl;
-
-  os <<
-    fScoreBlockLayout <<
-    endl;
-
-  os <<
-    fScoreBlockMidi <<
-    endl;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_lpsrScoreBlock& scr)
-{
-  scr->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_lpsrBookPartBlock lpsrBookPartBlock::create (
-  int            inputLineNumber)
-{
-  lpsrBookPartBlock* o = new lpsrBookPartBlock (
-    inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-lpsrBookPartBlock::lpsrBookPartBlock (
-  int            inputLineNumber)
-    : lpsrElement (inputLineNumber)
-{
-  // create the score command parallel music
-  fScoreBlockParallelMusicBLock =
-    lpsrParallelMusicBLock::create (
-      inputLineNumber,
-      lpsrParallelMusicBLock::kEndOfLine);
-
-  // create the score command layout
-  fScoreBlockLayout =
-    lpsrLayout::create (
-      inputLineNumber);
-
-  // create the score command midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
-
-  fScoreBlockMidi =
-    msrMidi::create (
-      inputLineNumber,
-      midiTempoDuration,
-      midiTempoPerSecond);
-}
-
-lpsrBookPartBlock::~lpsrBookPartBlock ()
-{}
-
-void lpsrBookPartBlock::appendPartGroupBlockToScoreBlock (
-  S_lpsrPartGroupBlock partGroupBlock)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
-      "Appending part group block " <<
-       partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    appendPartGroupBlockToParallelMusicBLock (
-      partGroupBlock);
-
-//               fScoreBlockElements.push_back(partGroupBlock);
-}
-
-/* JMI
-void lpsrBookPartBlock::appendVoiceUseToParallelMusicBLock (
-  S_lpsrUseVoiceCommand voiceUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Appending the use of voice \"" <<
-       voiceUse-> getVoice ()-> getVoiceName () <<
-       "\" to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (voiceUse);
-
-//     JMI             fScoreBlockElements.push_back(voiceUse);
-}
-
-void lpsrBookPartBlock::appendLyricsUseToParallelMusicBLock (
-  S_lpsrNewLyricsBlock lyricsUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending the use of stanza " <<
-       lyricsUse-> getStanza ()-> getStanzaName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (lyricsUse);
-}
-*/
-
-void lpsrBookPartBlock::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrBookPartBlock::acceptIn ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrBookPartBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrBookPartBlock>*> (v)) {
-        S_lpsrBookPartBlock elem = this;
-
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrBookPartBlock::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrBookPartBlock::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrBookPartBlock::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrBookPartBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrBookPartBlock>*> (v)) {
-        S_lpsrBookPartBlock elem = this;
-
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrBookPartBlock::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrBookPartBlock::browseData (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrBookPartBlock::browseData ()" <<
-      endl;
-  }
-
-  {
-    // browse the score command parallel music
-    msrBrowser<lpsrParallelMusicBLock> browser (v);
-    browser.browse (*fScoreBlockParallelMusicBLock);
-  }
-
-/* JMI
-  for (
-    vector<S_msrElement>::const_iterator i = fScoreBlockElements.begin ();
-    i != fScoreBlockElements.end ();
-    i++) {
-    // browse the element
- //   msrBrowser<msrElement> browser (v);
- //   browser.browse (*(*i));
-  } // for
-*/
-  {
-    // browse the score command layout
-    msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fScoreBlockLayout);
-  }
-
-  {
-    // browse the score command midi
-    msrBrowser<msrMidi> browser (v);
-    browser.browse (*fScoreBlockMidi);
-  }
-
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% <== lpsrBookPartBlock::browseData ()" <<
-      endl;
-  }
-}
-
-void lpsrBookPartBlock::print (ostream& os)
-{
-  os << "ScoreBlock" << endl << endl;
-
-  gIndenter++;
-
-  os <<
-    fScoreBlockParallelMusicBLock <<
-    endl;
-
-  os <<
-    fScoreBlockLayout <<
-    endl;
-
-  os <<
-    fScoreBlockMidi <<
-    endl;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_lpsrBookPartBlock& scr)
-{
-  scr->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_lpsrBookBlock lpsrBookBlock::create (
-  int            inputLineNumber)
-{
-  lpsrBookBlock* o = new lpsrBookBlock (
-    inputLineNumber);
-  assert(o!=0);
-  return o;
-}
-
-lpsrBookBlock::lpsrBookBlock (
-  int            inputLineNumber)
-    : lpsrElement (inputLineNumber)
-{
-  // create the score command parallel music
-  fScoreBlockParallelMusicBLock =
-    lpsrParallelMusicBLock::create (
-      inputLineNumber,
-      lpsrParallelMusicBLock::kEndOfLine);
-
-  // create the score command layout
-  fScoreBlockLayout =
-    lpsrLayout::create (
-      inputLineNumber);
-
-  // create the score command midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
-
-  fScoreBlockMidi =
-    msrMidi::create (
-      inputLineNumber,
-      midiTempoDuration,
-      midiTempoPerSecond);
-}
-
-lpsrBookBlock::~lpsrBookBlock ()
-{}
-
-void lpsrBookBlock::appendPartGroupBlockToScoreBlock (
-  S_lpsrPartGroupBlock partGroupBlock)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
-      "Appending part group block " <<
-       partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    appendPartGroupBlockToParallelMusicBLock (
-      partGroupBlock);
-
-//               fScoreBlockElements.push_back(partGroupBlock);
-}
-
-/* JMI
-void lpsrBookBlock::appendVoiceUseToParallelMusicBLock (
-  S_lpsrUseVoiceCommand voiceUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Appending the use of voice \"" <<
-       voiceUse-> getVoice ()-> getVoiceName () <<
-       "\" to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (voiceUse);
-
-//     JMI             fScoreBlockElements.push_back(voiceUse);
-}
-
-void lpsrBookBlock::appendLyricsUseToParallelMusicBLock (
-  S_lpsrNewLyricsBlock lyricsUse)
-{
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Appending the use of stanza " <<
-       lyricsUse-> getStanza ()-> getStanzaName () <<
-       " to LPSR score" <<
-       endl;
-  }
-#endif
-
-  fScoreBlockParallelMusicBLock->
-    addElementToParallelMusicBLock (lyricsUse);
-}
-*/
-
-void lpsrBookBlock::acceptIn (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrBookBlock::acceptIn ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrBookBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrBookBlock>*> (v)) {
-        S_lpsrBookBlock elem = this;
-
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrBookBlock::visitStart ()" <<
-            endl;
-        }
-        p->visitStart (elem);
-  }
-}
-
-void lpsrBookBlock::acceptOut (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrBookBlock::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_lpsrBookBlock>*
-    p =
-      dynamic_cast<visitor<S_lpsrBookBlock>*> (v)) {
-        S_lpsrBookBlock elem = this;
-
-        if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching lpsrBookBlock::visitEnd ()" <<
-            endl;
-        }
-        p->visitEnd (elem);
-  }
-}
-
-void lpsrBookBlock::browseData (basevisitor* v)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% ==> lpsrBookBlock::browseData ()" <<
-      endl;
-  }
-
-  {
-    // browse the score command parallel music
-    msrBrowser<lpsrParallelMusicBLock> browser (v);
-    browser.browse (*fScoreBlockParallelMusicBLock);
-  }
-
-/* JMI
-  for (
-    vector<S_msrElement>::const_iterator i = fScoreBlockElements.begin ();
-    i != fScoreBlockElements.end ();
-    i++) {
-    // browse the element
- //   msrBrowser<msrElement> browser (v);
- //   browser.browse (*(*i));
-  } // for
-*/
-  {
-    // browse the score command layout
-    msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fScoreBlockLayout);
-  }
-
-  {
-    // browse the score command midi
-    msrBrowser<msrMidi> browser (v);
-    browser.browse (*fScoreBlockMidi);
-  }
-
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
-      "% <== lpsrBookBlock::browseData ()" <<
-      endl;
-  }
-}
-
-void lpsrBookBlock::print (ostream& os)
-{
-  os << "ScoreBlock" << endl << endl;
-
-  gIndenter++;
-
-  os <<
-    fScoreBlockParallelMusicBLock <<
-    endl;
-
-  os <<
-    fScoreBlockLayout <<
-    endl;
-
-  os <<
-    fScoreBlockMidi <<
-    endl;
-
-  gIndenter--;
-}
-
-ostream& operator<< (ostream& os, const S_lpsrBookBlock& scr)
-{
-  scr->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
 S_lpsrScore lpsrScore::create (
   int        inputLineNumber,
   S_msrScore mScore)
@@ -806,12 +173,12 @@ lpsrScore::lpsrScore (
   }
 
   if (gLilypondOptions->fPointAndClickOff) {
-    // create the pointAndClickOff command
+    // create the pointAndClickOff scheme function
     addPointAndClickOffSchemeFunctionsToScore ();
   }
 
   if (gLilypondOptions->fPointAndClickOff) {
-    // create the glissandoWithText command
+    // create the glissandoWithText scheme function
     addGlissandoWithTextSchemeFunctionsToScore ();
   }
 
@@ -1012,10 +379,13 @@ R"(
         lpsrVarValAssoc::kEndlOnce);
   }
 
-  // create the score command
+  // create the score block
   fScoreBlock =
     lpsrScoreBlock::create (
       inputLineNumber);
+
+  // append it to the blocks list
+  fScoreBlocksList.push_back (fScoreBlock);
 }
 
 lpsrScore::~lpsrScore ()
@@ -2245,9 +1615,15 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the score command
-    msrBrowser<lpsrScoreBlock> browser (v);
-    browser.browse (*fScoreBlock);
+    // browse the score blocks list
+    for (
+      list<S_lpsrBlock>::const_iterator i = fScoreBlocksList.begin ();
+      i != fScoreBlocksList.end ();
+      i++) {
+      // browse the element
+      msrBrowser<lpsrBlock> browser (v);
+      browser.browse (*(*i));
+    } // for
   }
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -2323,9 +1699,21 @@ void lpsrScore::print (ostream& os)
       endl;
   }
 
-  // print the score block
-  os <<
-    fScoreBlock;
+  // print the blocks
+  if (fScoreBlocksList.size ()) {
+    list<S_lpsrBlock>::const_iterator
+      iBegin = fScoreBlocksList.begin (),
+      iEnd   = fScoreBlocksList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    os <<
+      endl;
+  }
 
   gIndenter--;
 }
