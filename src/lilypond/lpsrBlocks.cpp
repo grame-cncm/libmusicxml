@@ -27,158 +27,158 @@ using namespace std;
 namespace MusicXML2
 {
 
-  //______________________________________________________________________________
-  S_lpsrBlock lpsrBlock::create (
-    int inputLineNumber)
-  {
-    lpsrBlock* o = new lpsrBlock (
+//______________________________________________________________________________
+S_lpsrBlock lpsrBlock::create (
+  int inputLineNumber)
+{
+  lpsrBlock* o = new lpsrBlock (
+    inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+lpsrBlock::lpsrBlock (
+  int inputLineNumber)
+    : lpsrElement (inputLineNumber)
+{
+  // create the score command parallel music
+  fBlockParallelMusicBLock =
+    lpsrParallelMusicBLock::create (
+      inputLineNumber,
+      lpsrParallelMusicBLock::kEndOfLine);
+
+  // create the score command layout
+  fBlockLayout =
+    lpsrLayout::create (
       inputLineNumber);
-    assert(o!=0);
-    return o;
-  }
 
-  lpsrBlock::lpsrBlock (
-    int inputLineNumber)
-      : lpsrBlock (inputLineNumber)
-  {
-    // create the score command parallel music
-    fBlockParallelMusicBLock =
-      lpsrParallelMusicBLock::create (
-        inputLineNumber,
-        lpsrParallelMusicBLock::kEndOfLine);
+  // create the score command midi
+  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
+  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
 
-    // create the score command layout
-    fBlockLayout =
-      lpsrLayout::create (
-        inputLineNumber);
+  fBlockMidi =
+    msrMidi::create (
+      inputLineNumber,
+      midiTempoDuration,
+      midiTempoPerSecond);
+}
 
-    // create the score command midi
-    string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-    int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
+lpsrBlock::~lpsrBlock ()
+{}
 
-    fBlockMidi =
-      msrMidi::create (
-        inputLineNumber,
-        midiTempoDuration,
-        midiTempoPerSecond);
-  }
-
-  lpsrBlock::~lpsrBlock ()
-  {}
-
-  void lpsrBlock::acceptIn (basevisitor* v)
-  {
-    if (gLpsrOptions->fTraceLpsrVisitors) {
-      gLogIOstream <<
-        "% ==> lpsrBlock::acceptIn ()" <<
-        endl;
-    }
-
-    if (visitor<S_lpsrBlock>*
-      p =
-        dynamic_cast<visitor<S_lpsrBlock>*> (v)) {
-          S_lpsrBlock elem = this;
-
-          if (gLpsrOptions->fTraceLpsrVisitors) {
-            gLogIOstream <<
-              "% ==> Launching lpsrBlock::visitStart ()" <<
-              endl;
-          }
-          p->visitStart (elem);
-    }
-  }
-
-  void lpsrBlock::acceptOut (basevisitor* v)
-  {
-    if (gLpsrOptions->fTraceLpsrVisitors) {
-      gLogIOstream <<
-        "% ==> lpsrBlock::acceptOut ()" <<
-        endl;
-    }
-
-    if (visitor<S_lpsrBlock>*
-      p =
-        dynamic_cast<visitor<S_lpsrBlock>*> (v)) {
-          S_lpsrBlock elem = this;
-
-          if (gLpsrOptions->fTraceLpsrVisitors) {
-            gLogIOstream <<
-              "% ==> Launching lpsrBlock::visitEnd ()" <<
-              endl;
-          }
-          p->visitEnd (elem);
-    }
-  }
-
-  void lpsrBlock::browseData (basevisitor* v)
-  {
-    if (gLpsrOptions->fTraceLpsrVisitors) {
-      gLogIOstream <<
-        "% ==> lpsrBlock::browseData ()" <<
-        endl;
-    }
-
-    {
-      // browse the score command parallel music
-      msrBrowser<lpsrParallelMusicBLock> browser (v);
-      browser.browse (*fBlockParallelMusicBLock);
-    }
-
-  /* JMI
-    for (
-      vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
-      i != fBlockElements.end ();
-      i++) {
-      // browse the element
-   //   msrBrowser<msrElement> browser (v);
-   //   browser.browse (*(*i));
-    } // for
-  */
-    {
-      // browse the score command layout
-      msrBrowser<lpsrLayout> browser (v);
-      browser.browse (*fBlockLayout);
-    }
-
-    {
-      // browse the score command midi
-      msrBrowser<msrMidi> browser (v);
-      browser.browse (*fBlockMidi);
-    }
-
-    if (gLpsrOptions->fTraceLpsrVisitors) {
-      gLogIOstream <<
-        "% <== lpsrBlock::browseData ()" <<
-        endl;
-    }
-  }
-
-  void lpsrBlock::print (ostream& os)
-  {
-    os << "Block" << endl << endl;
-
-    gIndenter++;
-
-    os <<
-      fBlockParallelMusicBLock <<
+void lpsrBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrBlock::acceptIn ()" <<
       endl;
-
-    os <<
-      fBlockLayout <<
-      endl;
-
-    os <<
-      fBlockMidi <<
-      endl;
-
-    gIndenter--;
   }
 
-  ostream& operator<< (ostream& os, const S_lpsrBlock& scr)
+  if (visitor<S_lpsrBlock>*
+    p =
+      dynamic_cast<visitor<S_lpsrBlock>*> (v)) {
+        S_lpsrBlock elem = this;
+
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrBlock::visitStart ()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void lpsrBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrBlock::acceptOut ()" <<
+      endl;
+  }
+
+  if (visitor<S_lpsrBlock>*
+    p =
+      dynamic_cast<visitor<S_lpsrBlock>*> (v)) {
+        S_lpsrBlock elem = this;
+
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrBlock::visitEnd ()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrBlock::browseData (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrBlock::browseData ()" <<
+      endl;
+  }
+
   {
-    scr->print (os);
-    return os;
+    // browse the score command parallel music
+    msrBrowser<lpsrParallelMusicBLock> browser (v);
+    browser.browse (*fBlockParallelMusicBLock);
   }
+
+/* JMI
+  for (
+    vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
+    i != fBlockElements.end ();
+    i++) {
+    // browse the element
+ //   msrBrowser<msrElement> browser (v);
+ //   browser.browse (*(*i));
+  } // for
+*/
+  {
+    // browse the score command layout
+    msrBrowser<lpsrLayout> browser (v);
+    browser.browse (*fBlockLayout);
+  }
+
+  {
+    // browse the score command midi
+    msrBrowser<msrMidi> browser (v);
+    browser.browse (*fBlockMidi);
+  }
+
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% <== lpsrBlock::browseData ()" <<
+      endl;
+  }
+}
+
+void lpsrBlock::print (ostream& os)
+{
+  os << "Block" << endl << endl;
+
+  gIndenter++;
+
+  os <<
+    fBlockParallelMusicBLock <<
+    endl;
+
+  os <<
+    fBlockLayout <<
+    endl;
+
+  os <<
+    fBlockMidi <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_lpsrBlock& scr)
+{
+  scr->print (os);
+  return os;
+}
 
 //______________________________________________________________________________
 S_lpsrScoreBlock lpsrScoreBlock::create (
