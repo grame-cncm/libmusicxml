@@ -338,70 +338,6 @@ lilypondOptions::~lilypondOptions ()
 void lilypondOptions::initializeLilypondOptions (
   bool boolOptionsInitialValue)
 {
-  // score output
-  // --------------------------------------
-
-  {
-    // variables
-
-    if (! setScoreOutputKind ("scoreOnly")) {
-      stringstream s;
-
-      s <<
-        "INTERNAL INITIALIZATION ERROR: "
-        "BLPR score output 'scoreOnly' is unknown" <<
-        endl <<
-        "The " <<
-        gLpsrScoreOutputKindsMap.size () <<
-        " known LPSR score output kinds are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingLpsrScoreOutputKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-    }
-
-    // options
-
-    S_optionsSubGroup
-      languagesSubGroup =
-        optionsSubGroup::create (
-          "Score output",
-          "hlpsok", "help-lilypond-score-output-kinds",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (languagesSubGroup);
-
-    languagesSubGroup->
-      appendOptionsItem (
-        optionsScoreOutputKindItem::create (
-          "lpso", "lilypond-score-output",
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
-R"(Generate a LilyPond score according to OUPTUT_KIND.
-The NUMBER score output kinds available are:
-  SCORE_OUTPUT_KINDS.
-The default is 'DEFAULT_VALUE'.)",
-                "NUMBER",
-                to_string (gLpsrScoreOutputKindsMap.size ())),
-              "SCORE_OUTPUT_KINDS",
-              existingLpsrScoreOutputKinds ()),
-            "DEFAULT_VALUE",
-            lpsrScoreOutputKindAsString (fScoreOutputKind)),
-          "OUTPUT_KIND",
-          "score-output-kind",
-          fScoreOutputKind));
-  }
-
-
   // identification
   // --------------------------------------
 
@@ -1510,24 +1446,6 @@ bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
   return true;
 }
 */
-
-//______________________________________________________________________________
-bool lilypondOptions::setScoreOutputKind (string outputKind)
-{
-  // is outputKind in the score output kinds map?
-  map<string, lpsrScoreOutputKind>::const_iterator
-    it =
-      gLpsrScoreOutputKindsMap.find (outputKind);
-
-  if (it == gLpsrScoreOutputKindsMap.end ()) {
-    // no, outputKind is unknown in the map
-    return false;
-  }
-
-  fScoreOutputKind = (*it).second;
-
-  return true;
-}
 
 //______________________________________________________________________________
 void lilypondOptions::enforceQuietness ()

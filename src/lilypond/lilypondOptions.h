@@ -424,11 +424,6 @@ pickCopyright
 
 */
 
-    // output kind
-    // --------------------------------------
-
-    lpsrScoreOutputKind   fScoreOutputKind;
-
     // time
     // --------------------------------------
 

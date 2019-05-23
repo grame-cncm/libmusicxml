@@ -439,7 +439,7 @@ R"()",
               replaceSubstringInString (
 R"(Use OUTPUT_KIND to create the LPSR blocks,
 as well as in the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
+The NUMBER LilyPond output kinds available are:
   OUTPUT_KINDS.
 'OneFile' means that LilyPond will produce a single file containing all the scores and/or parts.
 Otherwise, one file will be generated for each score and/or part.
