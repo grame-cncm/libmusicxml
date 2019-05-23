@@ -42,7 +42,7 @@
 #include "lpsrParallelMusic.h"
 #include "lpsrVarValAssocs.h"
 
-#include "lpsrBlocks.h"
+#include "lpsrBookBlockElements.h"
 
 #include "msrScores.h"
 
@@ -89,28 +89,25 @@ class lpsrScore : public lpsrElement
                               { return fLilypondVersion; }
 
     S_lpsrSchemeVariable
-                          getGlobalStaffSizeAssoc () const
-                              { return fGlobalStaffSizeAssoc; }
+                          getScoreGlobalStaffSizeVariable () const
+                              { return fScoreGlobalStaffSizeVariable; }
 
-    S_lpsrHeader          getHeader () const
-                              { return fHeader; }
+    S_lpsrHeader          getScoreHeader () const
+                              { return fScoreHeader; }
 
-    S_lpsrPaper           getPaper () const
-                              { return fPaper; }
+    S_lpsrPaper           getScorePaper () const
+                              { return fScorePaper; }
 
     S_lpsrLayout          getScoreLayout () const
                               { return fScoreLayout; }
 
     const list<S_msrElement>&
-                          getVoicesAndLyricsList () const
-                              { return fScoreElements; }
+                          getScoreElementsList () const
+                              { return fScoreElementsList; }
 
-    S_lpsrScoreBlock      getScoreBlock () const
-                              { return fScoreBlock; }
-
-    const list<S_lpsrBlock>&
-                          getScoreBlocksList () const
-                              { return fScoreBlocksList; }
+    const list<S_lpsrBookBlock>&
+                          getScoreBookBlocksList () const
+                              { return fScoreBookBlocksList; }
 
     void                  setGlobalStaffSize (float size);
 
@@ -202,13 +199,13 @@ class lpsrScore : public lpsrElement
     // public services
     // ------------------------------------------------------
 
-    void                  appendVoiceToScoreElements (
+    void                  appendVoiceToScoreElementsList (
                             S_msrVoice voice)
-                              { fScoreElements.push_back (voice); }
+                              { fScoreElementsList.push_back (voice); }
 
-    void                  appendStanzaToScoreElements (
+    void                  appendStanzaToScoreElementsList (
                             S_msrStanza stanza)
-                              { fScoreElements.push_back (stanza); }
+                              { fScoreElementsList.push_back (stanza); }
 
     void                  addGlissandoWithTextSchemeFunctionsToScore ();
 
@@ -288,10 +285,10 @@ class lpsrScore : public lpsrElement
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
 
-    S_lpsrSchemeVariable  fGlobalStaffSizeAssoc;
+    S_lpsrSchemeVariable  fScoreGlobalStaffSizeVariable;
 
-    S_lpsrHeader          fHeader;
-    S_lpsrPaper           fPaper;
+    S_lpsrHeader          fScoreHeader;
+    S_lpsrPaper           fScorePaper;
     S_lpsrLayout          fScoreLayout;
 
     // to keep the original line breaks
@@ -306,14 +303,13 @@ class lpsrScore : public lpsrElement
                           fMyPageBreakIsEmptyAssoc;
 
     // to generate 'global' variable
-    S_lpsrVarValAssoc     fGlobalAssoc;
+    S_lpsrVarValAssoc     fScoreGlobalAssoc;
 
     // variables, voices and stanzas
-    list<S_msrElement>    fScoreElements;
+    list<S_msrElement>    fScoreElementsList;
 
-    // score LPSR blocks
-    S_lpsrScoreBlock      fScoreBlock;      // this block will always be generated
-    list<S_lpsrBlock>     fScoreBlocksList; // other blocks may be generated too
+    // score LPSR book blocks list
+    list<S_lpsrBookBlock> fScoreBookBlocksList;
 
     // files includes
     bool                  fJianpuFileIncludeIsNeeded;

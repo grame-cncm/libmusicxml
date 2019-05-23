@@ -254,8 +254,8 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
     for (
       list<S_msrVoice>::const_iterator j=staffAllVoicesList.begin ();
       j!=staffAllVoicesList.end ();
-      j++) {
-
+      j++
+    ) {
       S_msrVoice voice = (*j);
 
       if (voice != voiceClone) {
@@ -294,21 +294,32 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
     fVisitedMsrScore->
       createScoreNewbornClone ();
 
-  // create the LPSR score
+  // create the current LPSR book block
+  fCurrentLpsrBookBlock =
+    lpsrBookBlock::create (
+      NO_INPUT_LINE_NUMBER,
+      fCurrentMsrScoreClone);
+
+  // create the current LPSR score
   fLpsrScore =
     lpsrScore::create (
       NO_INPUT_LINE_NUMBER,
       fCurrentMsrScoreClone);
 
+  // append fCurrentLpsrBookBlock to the current LPSR book
+  fCurrentLpsrBookPart->
+    append (
+      fCurrentLpsrBookBlock);
+
   // fetch score header
-  fLpsrScoreHeader =
+  fCurrentLpsrScoreHeader =
     fLpsrScore-> getHeader();
 
   // is there a rights option?
   if (gLilypondOptions->fRights.size ()) {
     // define rights
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       addRights (
         inputLineNumber,
         gLilypondOptions->fRights);
@@ -318,7 +329,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   if (gLilypondOptions->fComposer.size ()) {
     // define composer
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       addComposer (
         inputLineNumber,
         gLilypondOptions->fComposer);
@@ -328,7 +339,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   if (gLilypondOptions->fArranger.size ()) {
     // define arranger
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       addArranger (
         inputLineNumber,
         gLilypondOptions->fArranger);
@@ -338,7 +349,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   if (gLilypondOptions->fPoet.size ()) {
     // define poet
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       addPoet (
         inputLineNumber,
         gLilypondOptions->fPoet);
@@ -348,7 +359,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   if (gLilypondOptions->fLyricist.size ()) {
     // define lyricist
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       addLyricist (
         inputLineNumber,
         gLilypondOptions->fLyricist);
@@ -358,7 +369,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   if (gLilypondOptions->fSoftware.size ()) {
     // define software
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       addSoftware (
         inputLineNumber,
         gLilypondOptions->fSoftware);
@@ -420,7 +431,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         setWorkTitle (
           inputLineNumber, movementTitle);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setWorkTitle (
           inputLineNumber,
           movementTitle,
@@ -432,7 +443,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         setMovementTitle (
           inputLineNumber, "");
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setMovementTitle (
           inputLineNumber,
           "",
@@ -453,7 +464,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       setWorkTitle (
         inputLineNumber, movementTitle);
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       setWorkTitle (
         inputLineNumber,
         movementTitle,
@@ -465,7 +476,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       setMovementTitle (
         inputLineNumber, "");
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       setMovementTitle (
         inputLineNumber,
         "",
@@ -493,7 +504,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         setWorkNumber (
           inputLineNumber, movementNumber);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setWorkNumber (
           inputLineNumber,
           movementNumber,
@@ -505,7 +516,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         setMovementNumber (
           inputLineNumber, "");
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setMovementNumber (
           inputLineNumber,
           "",
@@ -526,7 +537,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       setWorkNumber (
         inputLineNumber, movementNumber);
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       setWorkNumber (
         inputLineNumber,
         movementNumber,
@@ -538,7 +549,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       setMovementNumber (
         inputLineNumber, "");
 
-    fLpsrScoreHeader->
+    fCurrentLpsrScoreHeader->
       setMovementNumber (
         inputLineNumber,
         "",
@@ -5320,7 +5331,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setWorkNumber (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setWorkNumber (
           inputLineNumber,
           variableValue,
@@ -5335,7 +5346,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setWorkTitle (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setWorkTitle (
           inputLineNumber,
           variableValue,
@@ -5350,7 +5361,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setMovementNumber (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setMovementNumber (
           inputLineNumber,
           variableValue,
@@ -5365,7 +5376,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setMovementTitle (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setMovementTitle (
           inputLineNumber,
           variableValue,
@@ -5380,7 +5391,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setEncodingDate (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setEncodingDate (
           inputLineNumber,
           variableValue,
@@ -5393,7 +5404,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setScoreInstrument (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setScoreInstrument (
           inputLineNumber,
           variableValue,
@@ -5406,7 +5417,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
         setMiscellaneousField (
           inputLineNumber, variableValue);
 
-      fLpsrScoreHeader->
+      fCurrentLpsrScoreHeader->
         setMiscellaneousField (
           inputLineNumber,
           variableValue,
@@ -5472,7 +5483,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addRights (
             inputLineNumber, (*i));
       } // for
@@ -5482,7 +5493,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addComposer (
             inputLineNumber, (*i));
       } // for
@@ -5492,7 +5503,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addArranger (
             inputLineNumber, (*i));
       } // for
@@ -5502,7 +5513,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addLyricist (
             inputLineNumber, (*i));
       } // for
@@ -5512,7 +5523,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addPoet (
             inputLineNumber, (*i));
       } // for
@@ -5522,7 +5533,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addTranslator (
             inputLineNumber, (*i));
       } // for
@@ -5532,7 +5543,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
         i++) {
-        fLpsrScoreHeader->
+        fCurrentLpsrScoreHeader->
           addSoftware (
             inputLineNumber, (*i));
       } // for

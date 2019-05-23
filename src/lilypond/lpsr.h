@@ -36,7 +36,7 @@
 #include "lpsrStaves.h"
 #include "lpsrParts.h"
 #include "lpsrPartGroups.h"
-#include "lpsrBlocks.h"
+#include "lpsrBookBlockElements.h"
 #include "lpsrScores.h"
 
 

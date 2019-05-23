@@ -1,0 +1,187 @@
+
+==> date is:
+Mon May 13 18:35:13 CEST 2019
+
+==> Building libmusicxml and the samples
+
+==> PWD is:
+/Users/menu/libmusicxml-git/build
+
+--> make
+
+make macos
+cmake --build libdir --config Release -- -jobs 4
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEBuildOperationMaxNumberOfConcurrentCompileTasks = 4
+
+Prepare build
+note: Using legacy build system
+
+Build Preparation
+Build task concurrency set to 4 via user default IDEBuildOperationMaxNumberOfConcurrentCompileTasks
+
+=== BUILD AGGREGATE TARGET ZERO_CHECK OF PROJECT libmusicxml2 WITH CONFIGURATION Release ===
+
+Check dependencies
+
+PhaseScriptExecution CMake\ Rules libdir/libmusicxml2.build/Release/ZERO_CHECK.build/Script-D3260919FFEE46B388F54971.sh
+    cd /Users/menu/libmusicxml-git/build
+    /bin/sh -c /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/ZERO_CHECK.build/Script-D3260919FFEE46B388F54971.sh
+echo ""
+
+make -f /Users/menu/libmusicxml-git/build/libdir/CMakeScripts/ReRunCMake.make
+make[3]: `/Users/menu/libmusicxml-git/build/libdir/CMakeFiles/cmake.check_cache' is up to date.
+
+=== BUILD TARGET musicxml2 OF PROJECT libmusicxml2 WITH CONFIGURATION Release ===
+
+Check dependencies
+
+CompileC libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsr2LilypondTranslator.o /Users/menu/libmusicxml-git/src/lilypond/lpsr2LilypondTranslator.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/menu/libmusicxml-git/build
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -Wno-trigraphs -fpascal-strings -O3 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wno-shorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DCMAKE_INTDIR=\"Release\" -DLIBMUSICXML_EXPORTS -DGCC -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.14 -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -I/Users/menu/libmusicxml-git/build/lib/include -I/Users/menu/libmusicxml-git/build/../src/factory -I/Users/menu/libmusicxml-git/build/../src/files -I/Users/menu/libmusicxml-git/build/../src/interface -I/Users/menu/libmusicxml-git/build/../src/elements -I/Users/menu/libmusicxml-git/build/../src/guido -I/Users/menu/libmusicxml-git/build/../src/lib -I/Users/menu/libmusicxml-git/build/../src/operations -I/Users/menu/libmusicxml-git/build/../src/parser -I/Users/menu/libmusicxml-git/build/../src/visitors -I/Users/menu/libmusicxml-git/build/../src/lilypond -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources-normal/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -F/Users/menu/libmusicxml-git/build/lib -DNDEBUG -fPIC -std=gnu++11 -Wall -O3 -Wno-overloaded-virtual -MMD -MT dependencies -MF /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsr2LilypondTranslator.d --serialize-diagnostics /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsr2LilypondTranslator.dia -c /Users/menu/libmusicxml-git/src/lilypond/lpsr2LilypondTranslator.cpp -o /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsr2LilypondTranslator.o
+
+CompileC libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrScores.o /Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/menu/libmusicxml-git/build
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -Wno-trigraphs -fpascal-strings -O3 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wno-shorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DCMAKE_INTDIR=\"Release\" -DLIBMUSICXML_EXPORTS -DGCC -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.14 -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -I/Users/menu/libmusicxml-git/build/lib/include -I/Users/menu/libmusicxml-git/build/../src/factory -I/Users/menu/libmusicxml-git/build/../src/files -I/Users/menu/libmusicxml-git/build/../src/interface -I/Users/menu/libmusicxml-git/build/../src/elements -I/Users/menu/libmusicxml-git/build/../src/guido -I/Users/menu/libmusicxml-git/build/../src/lib -I/Users/menu/libmusicxml-git/build/../src/operations -I/Users/menu/libmusicxml-git/build/../src/parser -I/Users/menu/libmusicxml-git/build/../src/visitors -I/Users/menu/libmusicxml-git/build/../src/lilypond -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources-normal/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -F/Users/menu/libmusicxml-git/build/lib -DNDEBUG -fPIC -std=gnu++11 -Wall -O3 -Wno-overloaded-virtual -MMD -MT dependencies -MF /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrScores.d --serialize-diagnostics /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrScores.dia -c /Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp -o /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrScores.o
+In file included from /Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp:13:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsrScores.h:34:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsrComments.h:16:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsrElements.h:16:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/msrElements.h:16:
+In file included from /Users/menu/libmusicxml-git/build/../src/elements/typedefs.h:23:
+In file included from /Users/menu/libmusicxml-git/build/../src/elements/types.h:17:
+In file included from /Users/menu/libmusicxml-git/build/../src/elements/xml.h:24:
+In file included from /Users/menu/libmusicxml-git/build/../src/lib/ctree.h:25:
+/Users/menu/libmusicxml-git/build/../src/lib/smartpointer.h:70:45: error: cannot cast from type 'const SMARTP<MusicXML2::lpsrScoreBlock>' to pointer type 'MusicXML2::lpsrScore *'
+                SMARTP(const SMARTP<T2>& ptr) : fSmartPtr((T*)ptr) { if (fSmartPtr) fSmartPtr->addReference(); }
+                                                          ^~~~~~~
+/Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp:385:5: note: in instantiation of function template specialization 'MusicXML2::SMARTP<MusicXML2::lpsrScore>::SMARTP<MusicXML2::lpsrScoreBlock>' requested here
+    lpsrScoreBlock::create (
+    ^
+In file included from /Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp:13:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsrScores.h:34:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsrComments.h:16:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsrElements.h:16:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/msrElements.h:16:
+In file included from /Users/menu/libmusicxml-git/build/../src/elements/typedefs.h:23:
+In file included from /Users/menu/libmusicxml-git/build/../src/elements/types.h:17:
+In file included from /Users/menu/libmusicxml-git/build/../src/elements/xml.h:24:
+In file included from /Users/menu/libmusicxml-git/build/../src/lib/ctree.h:25:
+/Users/menu/libmusicxml-git/build/../src/lib/smartpointer.h:70:45: error: cannot cast from type 'const SMARTP<MusicXML2::lpsrScore>' to pointer type 'MusicXML2::lpsrBookBlock *'
+                SMARTP(const SMARTP<T2>& ptr) : fSmartPtr((T*)ptr) { if (fSmartPtr) fSmartPtr->addReference(); }
+                                                          ^~~~~~~
+/Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp:389:35: note: in instantiation of function template specialization 'MusicXML2::SMARTP<MusicXML2::lpsrBookBlock>::SMARTP<MusicXML2::lpsrScore>' requested here
+  fScoreBookBlocksList.push_back (fScoreBlock);
+                                  ^
+2 errors generated.
+
+CompileC libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrStaves.o /Users/menu/libmusicxml-git/src/lilypond/lpsrStaves.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/menu/libmusicxml-git/build
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -Wno-trigraphs -fpascal-strings -O3 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wno-shorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DCMAKE_INTDIR=\"Release\" -DLIBMUSICXML_EXPORTS -DGCC -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.14 -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -I/Users/menu/libmusicxml-git/build/lib/include -I/Users/menu/libmusicxml-git/build/../src/factory -I/Users/menu/libmusicxml-git/build/../src/files -I/Users/menu/libmusicxml-git/build/../src/interface -I/Users/menu/libmusicxml-git/build/../src/elements -I/Users/menu/libmusicxml-git/build/../src/guido -I/Users/menu/libmusicxml-git/build/../src/lib -I/Users/menu/libmusicxml-git/build/../src/operations -I/Users/menu/libmusicxml-git/build/../src/parser -I/Users/menu/libmusicxml-git/build/../src/visitors -I/Users/menu/libmusicxml-git/build/../src/lilypond -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources-normal/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -F/Users/menu/libmusicxml-git/build/lib -DNDEBUG -fPIC -std=gnu++11 -Wall -O3 -Wno-overloaded-virtual -MMD -MT dependencies -MF /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrStaves.d --serialize-diagnostics /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrStaves.dia -c /Users/menu/libmusicxml-git/src/lilypond/lpsrStaves.cpp -o /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrStaves.o
+
+CompileC libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/msr2LpsrTranslator.o /Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+    cd /Users/menu/libmusicxml-git/build
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -Wno-trigraphs -fpascal-strings -O3 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wno-shorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DCMAKE_INTDIR=\"Release\" -DLIBMUSICXML_EXPORTS -DGCC -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.14 -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -I/Users/menu/libmusicxml-git/build/lib/include -I/Users/menu/libmusicxml-git/build/../src/factory -I/Users/menu/libmusicxml-git/build/../src/files -I/Users/menu/libmusicxml-git/build/../src/interface -I/Users/menu/libmusicxml-git/build/../src/elements -I/Users/menu/libmusicxml-git/build/../src/guido -I/Users/menu/libmusicxml-git/build/../src/lib -I/Users/menu/libmusicxml-git/build/../src/operations -I/Users/menu/libmusicxml-git/build/../src/parser -I/Users/menu/libmusicxml-git/build/../src/visitors -I/Users/menu/libmusicxml-git/build/../src/lilypond -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources-normal/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources/x86_64 -I/Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/DerivedSources -Wmost -Wno-four-char-constants -Wno-unknown-pragmas -F/Users/menu/libmusicxml-git/build/lib -DNDEBUG -fPIC -std=gnu++11 -Wall -O3 -Wno-overloaded-virtual -MMD -MT dependencies -MF /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/msr2LpsrTranslator.d --serialize-diagnostics /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/msr2LpsrTranslator.dia -c /Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp -o /Users/menu/libmusicxml-git/build/libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/msr2LpsrTranslator.o
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:105:19: error: no member named 'getPaper' in 'MusicXML2::lpsrScore'
+      fLpsrScore->getPaper ();
+      ~~~~~~~~~~  ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:298:3: error: use of undeclared identifier 'fCurrentLpsrBookBlock'; did you mean 'fCurrentPartBlock'?
+  fCurrentLpsrBookBlock =
+  ^~~~~~~~~~~~~~~~~~~~~
+  fCurrentPartBlock
+In file included from /Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:19:
+/Users/menu/libmusicxml-git/build/../src/lilypond/msr2LpsrTranslator.h:537:31: note: 'fCurrentPartBlock' declared here
+    S_lpsrPartBlock           fCurrentPartBlock;
+                              ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:301:7: error: too many arguments to function call, expected single argument 'inputLineNumber', have 2 arguments
+      fCurrentMsrScoreClone);
+      ^~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:19:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/msr2LpsrTranslator.h:19:
+In file included from /Users/menu/libmusicxml-git/build/../src/lilypond/lpsr.h:39:
+/Users/menu/libmusicxml-git/build/../src/lilypond/lpsrBookBlockElements.h:258:5: note: 'create' declared here
+    static SMARTP<lpsrBookBlock> create (
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:310:3: error: use of undeclared identifier 'fCurrentLpsrBookPart'
+  fCurrentLpsrBookPart->
+  ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:312:7: error: use of undeclared identifier 'fCurrentLpsrBookBlock'; did you mean 'fCurrentPartBlock'?
+      fCurrentLpsrBookBlock);
+      ^~~~~~~~~~~~~~~~~~~~~
+      fCurrentPartBlock
+In file included from /Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:19:
+/Users/menu/libmusicxml-git/build/../src/lilypond/msr2LpsrTranslator.h:537:31: note: 'fCurrentPartBlock' declared here
+    S_lpsrPartBlock           fCurrentPartBlock;
+                              ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:315:3: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+  fCurrentLpsrScoreHeader =
+  ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:316:18: error: no member named 'getHeader' in 'MusicXML2::lpsrScore'
+    fLpsrScore-> getHeader();
+    ~~~~~~~~~~   ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:322:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:332:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:342:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:352:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:362:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:372:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:434:7: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+      fCurrentLpsrScoreHeader->
+      ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:446:7: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+      fCurrentLpsrScoreHeader->
+      ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:467:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:479:5: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+    fCurrentLpsrScoreHeader->
+    ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:507:7: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+      fCurrentLpsrScoreHeader->
+      ^
+/Users/menu/libmusicxml-git/src/lilypond/msr2LpsrTranslator.cpp:519:7: error: use of undeclared identifier 'fCurrentLpsrScoreHeader'
+      fCurrentLpsrScoreHeader->
+      ^
+fatal error: too many errors emitted, stopping now [-ferror-limit=]
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	CompileC libdir/libmusicxml2.build/Release/musicxml2.build/Objects-normal/x86_64/lpsrScores.o /Users/menu/libmusicxml-git/src/lilypond/lpsrScores.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+(1 failure)
+make[1]: *** [macos] Error 65
+make: *** [all] Error 2
+
+--> lib
+
+total 6160
+   0 drwxr-xr-x   4 menu  staff      128 May 11 10:30 .
+   0 drwxr-xr-x  11 menu  staff      352 May 11 10:30 ..
+   0 drwxr-xr-x   6 menu  staff      192 May 11 10:35 libmusicxml2.framework
+6160 -rw-r--r--   1 menu  staff  2557086 May 11 10:54 libmusicxml2.tgz
+
+--> bin
+
+120 -rwxr-xr-x  1 menu  staff  61320 May 11 10:35 bin/xml2ly
+
+136 -rwxr-xr-x  1 menu  staff  66840 May 11 10:35 bin/xml2brl
+
+grep: /Users/menu/Build_libmusicxml.bash.log: No such file or directory
+
+grep: /Users/menu/Build_libmusicxml.bash.log: No such file or directory
+

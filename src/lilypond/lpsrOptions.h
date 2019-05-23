@@ -17,14 +17,14 @@
 #include "optionsBasicTypes.h"
 #include "exports.h"
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class optionsLpsrPitchesLanguageItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -36,7 +36,7 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
       string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsLpsrPitchesLanguageKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -50,11 +50,11 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
       string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsLpsrPitchesLanguageKindItemVariable);
-      
+
     virtual ~optionsLpsrPitchesLanguageItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -63,7 +63,7 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
                                 return
                                   fOptionsLpsrPitchesLanguageKindItemVariableDisplayName;
                               }
-                              
+
     void                  setPitchesLanguageKindItemVariableValue (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
@@ -83,7 +83,7 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -98,7 +98,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& el
 class optionsLpsrChordsLanguageItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -110,7 +110,7 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
       string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
       lpsrChordsLanguageKind&
                          optionsLpsrChordsLanguageKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -124,11 +124,11 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
       string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
       lpsrChordsLanguageKind&
                          optionsLpsrChordsLanguageKindItemVariable);
-      
+
     virtual ~optionsLpsrChordsLanguageItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -137,7 +137,7 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
                                 return
                                   fOptionsLpsrChordsLanguageKindItemVariableDisplayName;
                               }
-                              
+
     void                  setLpsrChordsLanguageKindItemVariableValue (
                             lpsrChordsLanguageKind value)
                               {
@@ -157,7 +157,7 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -175,7 +175,7 @@ class lpsrOptions : public optionsGroup
 
     static SMARTP<lpsrOptions> create (
       S_optionsHandler optionsHandler);
-    
+
     SMARTP<lpsrOptions>        createCloneWithDetailedTrace ();
 
   public:
@@ -185,26 +185,26 @@ class lpsrOptions : public optionsGroup
 
     void                  initializeLpsrOptions (
                             bool boolOptionsInitialValue);
-    
+
   public:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     lpsrOptions (
       S_optionsHandler optionsHandler);
-    
+
     virtual ~lpsrOptions ();
 
     // set and get
     // ------------------------------------------------------
 
     bool                  setLpsrQuarterTonesPitchesLanguage (
-                            string language);    
- 
+                            string language);
+
     bool                  setLpsrChordsLanguage (
-                            string language);    
- 
+                            string language);
+
   public:
 
     // quiet mode
@@ -227,7 +227,7 @@ class lpsrOptions : public optionsGroup
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
-                            
+
     virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
@@ -241,18 +241,20 @@ class lpsrOptions : public optionsGroup
     void                  printLpsrOptionsHelp ();
 
     void                  printLpsrOptionsValues (int fieldWidth);
-        
+
   public:
 
     // trace and display
     // --------------------------------------
-    
+
     bool                  fTraceLpsr;
-    
+
     bool                  fTraceLpsrVisitors;
-    
+
+    bool                  fTraceLpsrBlocks;
+
     bool                  fDisplayLpsr;
-    
+
     bool                  fTraceSchemeFunctions;
 
     // lyrics vs words
@@ -265,7 +267,7 @@ class lpsrOptions : public optionsGroup
 
     msrQuarterTonesPitchesLanguageKind
                           fLpsrQuarterTonesPitchesLanguageKind;
-    
+
     lpsrChordsLanguageKind
                           fLpsrChordsLanguageKind;
 

@@ -4690,6 +4690,66 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_lpsrBookBlock& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting lpsrBookBlock" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fLilypondCodeIOstream <<
+    "\\score {" <<
+    endl;
+
+  gIndenter++;
+
+/* JMI
+  if (elt->getScoreBlockElements ().size ()) {
+    fLilypondCodeIOstream <<
+      "<<" <<
+      endl;
+
+    gIndenter++;
+  }
+*/
+  fOnGoingScoreBlock = true;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_lpsrBookBlock& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting lpsrBookBlock" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/* JMI
+  if (elt->getScoreBlockElements ().size ()) {
+    gIndenter--;
+
+    fLilypondCodeIOstream <<
+      ">>" <<
+      endl <<
+      * endl;
+  }
+*/
+  gIndenter--;
+
+  fLilypondCodeIOstream <<
+    "}" <<
+    endl;
+
+  fOnGoingScoreBlock = false;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
 {
 #ifdef TRACE_OPTIONS
@@ -4725,6 +4785,66 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting lpsrScoreBlock" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+/* JMI
+  if (elt->getScoreBlockElements ().size ()) {
+    gIndenter--;
+
+    fLilypondCodeIOstream <<
+      ">>" <<
+      endl <<
+      * endl;
+  }
+*/
+  gIndenter--;
+
+  fLilypondCodeIOstream <<
+    "}" <<
+    endl;
+
+  fOnGoingScoreBlock = false;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting lpsrBookPartBlock" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+#endif
+
+  fLilypondCodeIOstream <<
+    "\\score {" <<
+    endl;
+
+  gIndenter++;
+
+/* JMI
+  if (elt->getScoreBlockElements ().size ()) {
+    fLilypondCodeIOstream <<
+      "<<" <<
+      endl;
+
+    gIndenter++;
+  }
+*/
+  fOnGoingScoreBlock = true;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
+{
+#ifdef TRACE_OPTIONS
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting lpsrBookPartBlock" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

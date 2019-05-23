@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef ___lpsrBlocks___
-#define ___lpsrBlocks___
+#ifndef ___lpsrBookBlockElements___
+#define ___lpsrBookBlockElements___
 
 /*
 #include <sstream>
@@ -51,14 +51,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrBlock : public lpsrElement
+class lpsrBookBlockElement : public lpsrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrBlock> create (
+    static SMARTP<lpsrBookBlockElement> create (
       int inputLineNumber);
 
   protected:
@@ -66,26 +66,36 @@ class lpsrBlock : public lpsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrBlock (
+    lpsrBookBlockElement (
       int inputLineNumber);
 
-    virtual ~lpsrBlock ();
+    virtual ~lpsrBookBlockElement ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    S_lpsrLayout          getBlockLayout () const
-                            { return fBlockLayout; }
+    S_lpsrHeader          getBookBlockElementHeader () const
+                              { return fBookBlockElementHeader; }
 
-    S_msrMidi             getBlockMidi () const
-                              { return fBlockMidi; }
+    S_lpsrLayout          getBookBlockElementLayout () const
+                            { return fBookBlockElementLayout; }
+
+    S_lpsrParallelMusicBLock
+                          getBlockElementParallelMusicBLock () const
+                              {
+                                return
+                                  fBookBlockElementParallelMusicBlock;
+                              }
+
+    S_msrMidi             getBookBlockElementMidi () const
+                              { return fBookBlockElementMidi; }
 
     // services
     // ------------------------------------------------------
 
-    void                  appendPartGroupBlockToBlock (
+    void                  appendPartGroupBlockToBlockElement (
                             S_lpsrPartGroupBlock partGroupBlock);
 
   public:
@@ -105,23 +115,25 @@ class lpsrBlock : public lpsrElement
 
     virtual void          print (ostream& os);
 
-  private:
+  protected:
 
     // fields
     // ------------------------------------------------------
 
+    S_lpsrHeader          fBookBlockElementHeader;
+
+    S_lpsrLayout          fBookBlockElementLayout;
+
     S_lpsrParallelMusicBLock
-                          fBlockParallelMusicBLock;
+                          fBookBlockElementParallelMusicBlock;
 
-    S_lpsrLayout          fBlockLayout;
-
-    S_msrMidi             fBlockMidi;
+    S_msrMidi             fBookBlockElementMidi;
 };
-typedef SMARTP<lpsrBlock> S_lpsrBlock;
-EXP ostream& operator<< (ostream& os, const S_lpsrBlock& elt);
+typedef SMARTP<lpsrBookBlockElement> S_lpsrBookBlockElement;
+EXP ostream& operator<< (ostream& os, const S_lpsrBookBlockElement& elt);
 
 //______________________________________________________________________________
-class lpsrScoreBlock : public lpsrBlock
+class lpsrScoreBlock : public lpsrBookBlockElement
 {
   public:
 
@@ -129,7 +141,7 @@ class lpsrScoreBlock : public lpsrBlock
     // ------------------------------------------------------
 
     static SMARTP<lpsrScoreBlock> create (
-      int            inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -137,7 +149,7 @@ class lpsrScoreBlock : public lpsrBlock
     // ------------------------------------------------------
 
     lpsrScoreBlock (
-      int            inputLineNumber);
+      int inputLineNumber);
 
     virtual ~lpsrScoreBlock ();
 
@@ -146,37 +158,11 @@ class lpsrScoreBlock : public lpsrBlock
     // set and get
     // ------------------------------------------------------
 
-    S_lpsrParallelMusicBLock
-                          getBlockParallelMusicBLock () const
-                              {
-                                return
-                                  fBlockParallelMusicBLock;
-                              }
-
-/*
-    const vector<S_msrElement>&
-                  getBlockElements () const
-                      { return fBlockElements; }
-*/
-    S_lpsrLayout          getBlockLayout () const
-                            { return fBlockLayout; }
-
-    S_msrMidi             getBlockMidi () const
-                              { return fBlockMidi; }
-
     // services
     // ------------------------------------------------------
 
     void                  appendPartGroupBlockToScoreBlock (
                             S_lpsrPartGroupBlock partGroupBlock);
-
-/* JMI
-    void                  appendVoiceUseToParallelMusic (
-                            S_lpsrUseVoiceCommand voiceUse);
-
-    void                  appendLyricsUseToParallelMusic (
-                            S_lpsrNewLyricsBlock lyricsUse);
-                            */
 
   public:
 
@@ -200,18 +186,12 @@ class lpsrScoreBlock : public lpsrBlock
     // fields
     // ------------------------------------------------------
 
-    S_lpsrParallelMusicBLock
-                          fBlockParallelMusicBLock;
-
-    S_lpsrLayout          fBlockLayout;
-
-    S_msrMidi             fBlockMidi;
 };
 typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
 
 //______________________________________________________________________________
-class lpsrBookPartBlock : public lpsrBlock
+class lpsrBookPartBlock : public lpsrBookBlockElement
 {
   public:
 
@@ -219,7 +199,7 @@ class lpsrBookPartBlock : public lpsrBlock
     // ------------------------------------------------------
 
     static SMARTP<lpsrBookPartBlock> create (
-      int            inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -227,7 +207,7 @@ class lpsrBookPartBlock : public lpsrBlock
     // ------------------------------------------------------
 
     lpsrBookPartBlock (
-      int            inputLineNumber);
+      int inputLineNumber);
 
     virtual ~lpsrBookPartBlock ();
 
@@ -236,37 +216,11 @@ class lpsrBookPartBlock : public lpsrBlock
     // set and get
     // ------------------------------------------------------
 
-    S_lpsrParallelMusicBLock
-                          getBlockParallelMusicBLock () const
-                              {
-                                return
-                                  fBlockParallelMusicBLock;
-                              }
-
-/*
-    const vector<S_msrElement>&
-                  getBlockElements () const
-                      { return fBlockElements; }
-*/
-    S_lpsrLayout          getBlockLayout () const
-                            { return fBlockLayout; }
-
-    S_msrMidi             getBlockMidi () const
-                              { return fBlockMidi; }
-
     // services
     // ------------------------------------------------------
 
     void                  appendPartGroupBlockToBookPartBlock (
                             S_lpsrPartGroupBlock partGroupBlock);
-
-/* JMI
-    void                  appendVoiceUseToParallelMusic (
-                            S_lpsrUseVoiceCommand voiceUse);
-
-    void                  appendLyricsUseToParallelMusic (
-                            S_lpsrNewLyricsBlock lyricsUse);
-                            */
 
   public:
 
@@ -289,19 +243,12 @@ class lpsrBookPartBlock : public lpsrBlock
 
     // fields
     // ------------------------------------------------------
-
-    S_lpsrParallelMusicBLock
-                          fBlockParallelMusicBLock;
-
-    S_lpsrLayout          fBlockLayout;
-
-    S_msrMidi             fBlockMidi;
 };
 typedef SMARTP<lpsrBookPartBlock> S_lpsrBookPartBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrBookPartBlock& elt);
 
 //______________________________________________________________________________
-class lpsrBookBlock : public lpsrBlock
+class lpsrBookBlock : public lpsrElement
 {
   public:
 
@@ -309,7 +256,7 @@ class lpsrBookBlock : public lpsrBlock
     // ------------------------------------------------------
 
     static SMARTP<lpsrBookBlock> create (
-      int            inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -317,7 +264,7 @@ class lpsrBookBlock : public lpsrBlock
     // ------------------------------------------------------
 
     lpsrBookBlock (
-      int            inputLineNumber);
+      int inputLineNumber);
 
     virtual ~lpsrBookBlock ();
 
@@ -326,37 +273,15 @@ class lpsrBookBlock : public lpsrBlock
     // set and get
     // ------------------------------------------------------
 
-    S_lpsrParallelMusicBLock
-                          getBlockParallelMusicBLock () const
-                              {
-                                return
-                                  fBlockParallelMusicBLock;
-                              }
-
-/*
-    const vector<S_msrElement>&
-                  getBlockElements () const
-                      { return fBlockElements; }
-*/
-    S_lpsrLayout          getBlockLayout () const
-                            { return fBlockLayout; }
-
-    S_msrMidi             getBlockMidi () const
-                              { return fBlockMidi; }
+    const list<S_lpsrBookBlockElement>&
+                          getBookBlockElementsList () const
+                              { return fBookBlockElementsList; }
 
     // services
     // ------------------------------------------------------
 
-    void                  appendPartGroupBlockToBlock (
-                            S_lpsrPartGroupBlock partGroupBlock);
-
-/* JMI
-    void                  appendVoiceUseToParallelMusic (
-                            S_lpsrUseVoiceCommand voiceUse);
-
-    void                  appendLyricsUseToParallelMusic (
-                            S_lpsrNewLyricsBlock lyricsUse);
-                            */
+    void                  appendBookBlockElementToBookBlock (
+                            S_lpsrBookBlockElement bookBlockElement);
 
   public:
 
@@ -380,12 +305,12 @@ class lpsrBookBlock : public lpsrBlock
     // fields
     // ------------------------------------------------------
 
-    S_lpsrParallelMusicBLock
-                          fBlockParallelMusicBLock;
+    S_lpsrHeader          fBookBlockHeader;
 
-    S_lpsrLayout          fBlockLayout;
+    S_lpsrLayout          fBookBlockLayout;
 
-    S_msrMidi             fBlockMidi;
+    list<S_lpsrBookBlockElement>
+                          fBookBlockElementsList;
 };
 typedef SMARTP<lpsrBookBlock> S_lpsrBookBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrBookBlock& elt);

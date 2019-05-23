@@ -152,8 +152,8 @@ lpsrScore::lpsrScore (
   }
 }
 
-  // create the global staff size assoc
-  fGlobalStaffSizeAssoc =
+  // create the global staff size variable
+  fScoreGlobalStaffSizeVariable =
     lpsrSchemeVariable::create (
       inputLineNumber,
       lpsrSchemeVariable::kCommentedNo,
@@ -187,19 +187,19 @@ lpsrScore::lpsrScore (
   }
 
   // create the header
-  fHeader =
+  fScoreHeader =
     lpsrHeader::create (
       inputLineNumber);
 
   // create the paper
-  fPaper =
+  fScorePaper =
     lpsrPaper::create (
       inputLineNumber);
 
   if (gLilypondOptions->fLilypondCompileDate) {
     // define headers and footers
 
-    fPaper->
+    fScorePaper->
       setOddHeaderMarkup (
 R"(\markup {
     \fill-line {
@@ -216,7 +216,7 @@ R"(\markup {
       );
 
 
-    fPaper->
+    fScorePaper->
       setEvenHeaderMarkup (
 R"(\markup {
     \fill-line {
@@ -255,7 +255,7 @@ R"(
   }
 )";
 
-    fPaper->
+    fScorePaper->
       setOddFooterMarkup (
         s.str ());
   }
@@ -363,7 +363,7 @@ R"(
 
   if (gLilypondOptions->fGlobal) {
     // create the 'global' assoc
-    fGlobalAssoc =
+    fScoreGlobalAssoc =
       lpsrVarValAssoc::create (
         inputLineNumber,
         lpsrVarValAssoc::kCommentedNo,
@@ -380,12 +380,13 @@ R"(
   }
 
   // create the score block
-  fScoreBlock =
+// JMI  fScoreBlock =
+  S_lpsrScore fScoreBlock =
     lpsrScoreBlock::create (
       inputLineNumber);
 
   // append it to the blocks list
-  fScoreBlocksList.push_back (fScoreBlock);
+  fScoreBookBlocksList.push_back (fScoreBlock);
 }
 
 lpsrScore::~lpsrScore ()
@@ -397,7 +398,7 @@ void lpsrScore::setGlobalStaffSize (float size)
 
   s << size;
 
-  fGlobalStaffSizeAssoc->
+  fScoreGlobalStaffSizeVariable->
     setVariableValue (s.str ());
 }
 
@@ -1538,9 +1539,9 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   {
-    // browse the score global size
+    // browse the score global staff size
     msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fGlobalStaffSizeAssoc);
+    browser.browse (*fScoreGlobalStaffSizeVariable);
   }
 
   {
@@ -1559,13 +1560,13 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score header
     msrBrowser<lpsrHeader> browser (v);
-    browser.browse (*fHeader);
+    browser.browse (*fScoreHeader);
   }
 
   {
     // browse the score paper
     msrBrowser<lpsrPaper> browser (v);
-    browser.browse (*fPaper);
+    browser.browse (*fScorePaper);
   }
 
   {
@@ -1596,17 +1597,17 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fMyPageBreakIsEmptyAssoc);
   }
 
-  if (fGlobalAssoc) {
+  if (fScoreGlobalAssoc) {
     // browse the 'global' assoc
     msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*fGlobalAssoc);
+    browser.browse (*fScoreGlobalAssoc);
   }
 
   {
     // browse the voices and stanzas list
     for (
-      list<S_msrElement>::const_iterator i = fScoreElements.begin ();
-      i != fScoreElements.end ();
+      list<S_msrElement>::const_iterator i = fScoreElementsList.begin ();
+      i != fScoreElementsList.end ();
       i++) {
       // browse the element
       msrBrowser<msrElement> browser (v);
@@ -1617,11 +1618,11 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score blocks list
     for (
-      list<S_lpsrBlock>::const_iterator i = fScoreBlocksList.begin ();
-      i != fScoreBlocksList.end ();
+      list<S_lpsrBookBlock>::const_iterator i = fScoreBookBlocksList.begin ();
+      i != fScoreBookBlocksList.end ();
       i++) {
       // browse the element
-      msrBrowser<lpsrBlock> browser (v);
+      msrBrowser<lpsrBookBlock> browser (v);
       browser.browse (*(*i));
     } // for
   }
@@ -1669,13 +1670,13 @@ void lpsrScore::print (ostream& os)
     fLilypondVersion <<
     endl <<
 
-    fGlobalStaffSizeAssoc <<
+    fScoreGlobalStaffSizeVariable <<
     endl <<
 
-    fHeader <<
+    fScoreHeader <<
     // no endl here
 
-    fPaper <<
+    fScorePaper <<
     endl <<
 
     fScoreLayout <<
@@ -1684,10 +1685,10 @@ void lpsrScore::print (ostream& os)
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
   // print the voices and stanzas
-  if (fScoreElements.size ()) {
+  if (fScoreElementsList.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fScoreElements.begin (),
-      iEnd   = fScoreElements.end (),
+      iBegin = fScoreElementsList.begin (),
+      iEnd   = fScoreElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -1699,11 +1700,11 @@ void lpsrScore::print (ostream& os)
       endl;
   }
 
-  // print the blocks
-  if (fScoreBlocksList.size ()) {
-    list<S_lpsrBlock>::const_iterator
-      iBegin = fScoreBlocksList.begin (),
-      iEnd   = fScoreBlocksList.end (),
+  // print the book blocks
+  if (fScoreBookBlocksList.size ()) {
+    list<S_lpsrBookBlock>::const_iterator
+      iBegin = fScoreBookBlocksList.begin (),
+      iEnd   = fScoreBookBlocksList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);

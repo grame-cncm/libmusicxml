@@ -257,6 +257,8 @@ void lpsrOptions::initializeLpsrOptions (
 
     fTraceLpsrVisitors    = boolOptionsInitialValue;
 
+    fTraceLpsrBlocks      = boolOptionsInitialValue;
+
     fDisplayLpsr          = boolOptionsInitialValue;
 
     fTraceSchemeFunctions = boolOptionsInitialValue;
@@ -289,6 +291,14 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
           "traceLpsrVisitors",
           fTraceLpsrVisitors));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tlpsrv", "trace-lpsr-blocks",
+R"(Write a trace of the LPSR blocks to standard error.)",
+        "traceLpsrBlocks",
+        fTraceLpsrBlocks));
 
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -481,6 +491,9 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   clone->fTraceLpsrVisitors =
     true;
 
+  clone->fTraceLpsrBlocks =
+    true;
+
   clone->fDisplayLpsr =
     true;
 
@@ -548,6 +561,7 @@ void lpsrOptions::enforceQuietness ()
 {
   fTraceLpsr = false;
   fTraceLpsrVisitors = false;
+  fTraceLpsrBlocks = false;
   fDisplayLpsr = false;
   fTraceSchemeFunctions = false;
 }
@@ -582,6 +596,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "traceLpsrVisitors" << " : " <<
     booleanAsString (fTraceLpsrVisitors) <<
+    endl <<
+
+    setw (fieldWidth) << "traceLpsrBlocks" << " : " <<
+    booleanAsString (fTraceLpsrBlocks) <<
     endl <<
 
     setw (fieldWidth) << "displayLpsr" << " : " <<
