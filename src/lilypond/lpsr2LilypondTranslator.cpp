@@ -6520,7 +6520,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   }
 */
 
-  if (gLilypondOptions->fAccidentalStyleKind != kDefaultStyle) {
+  if (gLilypondOptions->fAccidentalStyleKind != kDefault) {
     fLilypondCodeIOstream <<
       "\\accidentalStyle Score." <<
       lpsrAccidentalStyleKindAsString (

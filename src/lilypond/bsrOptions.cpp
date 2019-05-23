@@ -353,16 +353,19 @@ R"()",
           "btl", "bsr-texts-language",
           replaceSubstringInString (
             replaceSubstringInString (
+              replaceSubstringInString (
 R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
 as well as in the generated braille music.
 The 4 NUMBER texts languages available are:
 TEXT_LANGUAGES.
 english, german, italian and french.
-The default is english.)",
-              "NUMBER",
-              to_string (gBsrTextsLanguageKindsMap.size ())),
-            "TEXT_LANGUAGES",
-            existingBsrTextsLanguageKinds ()),
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gBsrTextsLanguageKindsMap.size ())),
+              "TEXT_LANGUAGES",
+              existingBsrTextsLanguageKinds ()),
+            "DEFAULT_VALUE",
+            bsrTextsLanguageKindAsString (fBsrTextsLanguageKind)),
           "LANGUAGE",
           "bsr-texts-language",
           fBsrTextsLanguageKind));

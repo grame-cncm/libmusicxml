@@ -379,14 +379,14 @@ R"(
         lpsrVarValAssoc::kEndlOnce);
   }
 
-  // create the score block
-// JMI  fScoreBlock =
-  S_lpsrScore fScoreBlock =
-    lpsrScoreBlock::create (
-      inputLineNumber);
+  // create a book block
+  S_lpsrBookBlock
+    bookBlock =
+      lpsrBookBlock::create (
+        inputLineNumber);
 
-  // append it to the blocks list
-  fScoreBookBlocksList.push_back (fScoreBlock);
+  // append it to the score book blocks list
+  fScoreBookBlocksList.push_back (bookBlock);
 }
 
 lpsrScore::~lpsrScore ()

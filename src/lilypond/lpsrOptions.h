@@ -21,6 +21,79 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+class optionsLpsrScoreOutputKindItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsLpsrScoreOutputKindItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+      lpsrScoreOutputKind&
+                         optionsLpsrScoreOutputKindKindItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsLpsrScoreOutputKindItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+      lpsrScoreOutputKind&
+                         optionsLpsrScoreOutputKindKindItemVariable);
+
+    virtual ~optionsLpsrScoreOutputKindItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsLpsrScoreOutputKindKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsLpsrScoreOutputKindKindItemVariableDisplayName;
+                              }
+
+    void                  setScoreOutputKindKindItemVariableValue (
+                            lpsrScoreOutputKind value)
+                              {
+                                fOptionsLpsrScoreOutputKindKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsLpsrScoreOutputKindKindItemVariableDisplayName;
+    lpsrScoreOutputKind&  fOptionsLpsrScoreOutputKindKindItemVariable;
+};
+typedef SMARTP<optionsLpsrScoreOutputKindItem> S_optionsLpsrScoreOutputKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt);
+
+//______________________________________________________________________________
 class optionsLpsrPitchesLanguageItem : public optionsValuedItem
 {
   public:
@@ -256,6 +329,11 @@ class lpsrOptions : public optionsGroup
     bool                  fDisplayLpsr;
 
     bool                  fTraceSchemeFunctions;
+
+    // LilyPond output kind
+    // --------------------------------------
+
+    lpsrScoreOutputKind   fScoreOutputKind;
 
     // lyrics vs words
     // --------------------------------------

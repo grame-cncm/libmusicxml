@@ -491,7 +491,7 @@ class msr2LpsrTranslator :
 
     // it's header
     // ------------------------------------------------------
-    S_lpsrHeader              fLpsrScoreHeader;
+    S_lpsrHeader              fCurrentLpsrScoreHeader;
 
 
     // score
@@ -522,6 +522,10 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrCredit               fCurrentCredit;
 
+
+    // books
+    // ------------------------------------------------------
+    S_lpsrBookBlock           fCurrentLpsrBookBlock;
 
     // part groups
     // ------------------------------------------------------

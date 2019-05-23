@@ -60,6 +60,7 @@ if(APPLE)
     set (CMAKE_OSX_ARCHITECTURES "x86_64 i386")
     set (CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
   endif()
+  add_definitions(-O0 -g) # JMI
 
 #########################################
 # windows specific part
@@ -110,7 +111,7 @@ endif()
 
 set(target musicxml2)
 add_library(${target} ${libtype} ${LIBCONTENT})
-set_target_properties (${target} PROPERTIES 
+set_target_properties (${target} PROPERTIES
 			VERSION ${VERSION}
 			SOVERSION ${SOVERS}
 			ARCHIVE_OUTPUT_DIRECTORY  ${LIBDIR}
@@ -145,7 +146,7 @@ if(NOT IOS )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
-	set_target_properties (${sample} PROPERTIES  
+	set_target_properties (${sample} PROPERTIES
 		RUNTIME_OUTPUT_DIRECTORY  ${BINDIR}
 		RUNTIME_OUTPUT_DIRECTORY_RELEASE  ${BINDIR})
 	add_dependencies(${sample} ${target})

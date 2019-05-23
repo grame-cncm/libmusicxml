@@ -620,17 +620,26 @@ string lpsrScoreOutputKindAsString (
   string result;
 
   switch (scoreOutputKind) {
-    case kScoreOutputKindScoreOnly: // default value
-      result = "scoreOutputKindScoreOnly";
+    case kScoreOnly: // default value
+      result = "scoreOnly";
       break;
-    case kScoreOutputKindScoreAndThenParts:
-      result = "scoreOutputKindScoreAndThenParts";
+    case kScoreAndThenParts:
+      result = "scoreAndThenParts";
       break;
-    case kScoreOutputindPartsAndThenScore:
-      result = "scoreOutputKindPartsAndThenScore";
+    case kPartsAndThenScore:
+      result = "partsAndThenScore";
       break;
-    case kScoreOutputindPartsOnly:
-      result = "scoreOutputKindPartsOnly";
+    case kPartsOnly:
+      result = "partsOnly";
+      break;
+    case kScoreAndThenPartsOneFile:
+      result = "scoreAndThenPartsOneFile";
+      break;
+    case kPartsAndThenScoreOneFile:
+      result = "partsAndThenScoreOneFile";
+      break;
+    case kPartsOnlyOneFile:
+      result = "partsOnlyOneFile";
       break;
   } // switch
 
@@ -642,10 +651,13 @@ void initializeLpsrScoreOutputKindsMap ()
   // register the LilyPond score output kinds
   // --------------------------------------
 
-  gLpsrScoreOutputKindsMap ["scoreOnly"] = kScoreOutputKindScoreOnly;
-  gLpsrScoreOutputKindsMap ["scoreAndThenParts"] = kScoreOutputKindScoreAndThenParts;
-  gLpsrScoreOutputKindsMap ["partsAndThenScore"] = kScoreOutputindPartsAndThenScore;
-  gLpsrScoreOutputKindsMap ["partsOnly"] = kScoreOutputindPartsOnly;
+  gLpsrScoreOutputKindsMap ["scoreOnly"] = kScoreOnly;
+  gLpsrScoreOutputKindsMap ["scoreAndThenParts"] = kScoreAndThenParts;
+  gLpsrScoreOutputKindsMap ["partsAndThenScore"] = kPartsAndThenScore;
+  gLpsrScoreOutputKindsMap ["partsOnly"] = kPartsOnly;
+  gLpsrScoreOutputKindsMap ["scoreAndThenPartsOneFile"] = kScoreAndThenPartsOneFile;
+  gLpsrScoreOutputKindsMap ["partsAndThenScoreOneFile"] = kPartsAndThenScoreOneFile;
+  gLpsrScoreOutputKindsMap ["partsOnlyOneFile"] = kPartsOnlyOneFile;
 }
 
 string existingLpsrScoreOutputKinds ()
@@ -684,59 +696,59 @@ string lpsrAccidentalStyleKindAsString (
   string result;
 
   switch (accidentalStyleKind) {
-    case kDefaultStyle: // default value
-      result = "defaultStyle";
+    case kDefault: // default value
+      result = "default";
       break;
-    case kVoiceStyle:
-      result = "voiceStyle";
+    case kVoice:
+      result = "voice";
       break;
-    case kModernStyle:
-      result = "modernStyle";
+    case kModern:
+      result = "modern";
       break;
-    case kModernCautionaryStyle:
-      result = "modernCautionaryStyle";
+    case kModernCautionary:
+      result = "modernCautionary";
       break;
-    case kModernVoiceStyle:
-      result = "modernVoiceStyle";
+    case kModernVoice:
+      result = "modernVoice";
       break;
-    case kModernVoiceCautionaryStyle:
-      result = "modernVoiceCautionaryStyle";
+    case kModernVoiceCautionary:
+      result = "modernVoiceCautionary";
       break;
-    case kPianoStyle:
-      result = "pianoStyle";
+    case kPiano:
+      result = "piano";
       break;
-    case kPianoCautionaryStyle:
-      result = "pianoCautionaryStyle";
+    case kPianoCautionary:
+      result = "pianoCautionary";
       break;
-    case kNeoModernStyle:
-      result = "neoModernStyle";
+    case kNeoModern:
+      result = "neoModern";
       break;
-    case kNeoModernCautionaryStyle:
-      result = "neoModernCautionaryStyle";
+    case kNeoModernCautionary:
+      result = "neoModernCautionary";
       break;
-    case kNeoModernVoiceStyle:
-      result = "neoModernVoiceStyle";
+    case kNeoModernVoice:
+      result = "neoModernVoice";
       break;
-    case kNeoModernVoiceCautionaryStyle:
-      result = "neoModernVoiceVautionaryStyle";
+    case kNeoModernVoiceCautionary:
+      result = "neoModernVoiceCautionary";
       break;
-    case kDodecaphonicStyle:
-      result = "dodecaphonicStyle";
+    case kDodecaphonic:
+      result = "dodecaphonic";
       break;
-    case kDodecaphonicNoRepeatStyle:
-      result = "dodecaphonicNoRepeatStyle";
+    case kDodecaphonicNoRepeat:
+      result = "dodecaphonicNoRepeat";
       break;
-    case kDodecaphonicFirstStyle:
-      result = "dodecaphonicFirstStyle";
+    case kDodecaphonicFirst:
+      result = "dodecaphonicFirst";
       break;
-    case kTeachingStyle:
-      result = "teachingStyle";
+    case kTeaching:
+      result = "teaching";
       break;
-    case kNoResetStyle:
-      result = "noResetStyle";
+    case kNoReset:
+      result = "noReset";
       break;
-    case kForgetStyle:
-      result = "ForgetStyle";
+    case kForget:
+      result = "Forget";
       break;
   } // switch
 
@@ -749,58 +761,58 @@ string lpsrAccidentalStyleKindAsLilypondString (
   string result;
 
   switch (accidentalStyleKind) {
-    case kDefaultStyle: // default value
+    case kDefault: // default value
       result = "default";
       break;
-    case kVoiceStyle:
+    case kVoice:
       result = "voice";
       break;
-    case kModernStyle:
+    case kModern:
       result = "modern";
       break;
-    case kModernCautionaryStyle:
+    case kModernCautionary:
       result = "modern-cautionary";
       break;
-    case kModernVoiceStyle:
+    case kModernVoice:
       result = "modern-voice";
       break;
-    case kModernVoiceCautionaryStyle:
+    case kModernVoiceCautionary:
       result = "modern-voice-cautionary";
       break;
-    case kPianoStyle:
+    case kPiano:
       result = "piano";
       break;
-    case kPianoCautionaryStyle:
+    case kPianoCautionary:
       result = "piano-cautionary";
       break;
-    case kNeoModernStyle:
+    case kNeoModern:
       result = "neo-modern";
       break;
-    case kNeoModernCautionaryStyle:
+    case kNeoModernCautionary:
       result = "neo-modern-cautionary";
       break;
-    case kNeoModernVoiceStyle:
+    case kNeoModernVoice:
       result = "neo-modern-voice";
       break;
-    case kNeoModernVoiceCautionaryStyle:
+    case kNeoModernVoiceCautionary:
       result = "neo-modern--voice-cautionary";
       break;
-    case kDodecaphonicStyle:
+    case kDodecaphonic:
       result = "dodecaphonic";
       break;
-    case kDodecaphonicNoRepeatStyle:
+    case kDodecaphonicNoRepeat:
       result = "dodecaphonic-no-repeat";
       break;
-    case kDodecaphonicFirstStyle:
+    case kDodecaphonicFirst:
       result = "dodecaphonic-first";
       break;
-    case kTeachingStyle:
+    case kTeaching:
       result = "teaching";
       break;
-    case kNoResetStyle:
+    case kNoReset:
       result = "no-reset";
       break;
-    case kForgetStyle:
+    case kForget:
       result = "forget";
       break;
   } // switch
@@ -813,24 +825,24 @@ void initializeLpsrAccidentalStyleKindsMap ()
   // register the LilyPond accidental styles
   // --------------------------------------
 
-  gLpsrAccidentalStyleKindsMap ["default"] = kDefaultStyle;
-  gLpsrAccidentalStyleKindsMap ["voice"] = kVoiceStyle;
-  gLpsrAccidentalStyleKindsMap ["modern"] = kModernStyle;
-  gLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionaryStyle;
-  gLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoiceStyle;
-  gLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionaryStyle;
-  gLpsrAccidentalStyleKindsMap ["piano"] = kPianoStyle;
-  gLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionaryStyle;
-  gLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModernStyle;
-  gLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionaryStyle;
-  gLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoiceStyle;
-  gLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionaryStyle;
-  gLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonicStyle;
-  gLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeatStyle;
-  gLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirstStyle;
-  gLpsrAccidentalStyleKindsMap ["teaching"] = kTeachingStyle;
-  gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoResetStyle;
-  gLpsrAccidentalStyleKindsMap ["forget"] = kForgetStyle;
+  gLpsrAccidentalStyleKindsMap ["default"] = kDefault;
+  gLpsrAccidentalStyleKindsMap ["voice"] = kVoice;
+  gLpsrAccidentalStyleKindsMap ["modern"] = kModern;
+  gLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionary;
+  gLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoice;
+  gLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionary;
+  gLpsrAccidentalStyleKindsMap ["piano"] = kPiano;
+  gLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionary;
+  gLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModern;
+  gLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionary;
+  gLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoice;
+  gLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionary;
+  gLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonic;
+  gLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeat;
+  gLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirst;
+  gLpsrAccidentalStyleKindsMap ["teaching"] = kTeaching;
+  gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoReset;
+  gLpsrAccidentalStyleKindsMap ["forget"] = kForget;
 }
 
 string existingLpsrAccidentalStyleKinds ()

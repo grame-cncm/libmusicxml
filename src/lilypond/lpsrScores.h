@@ -109,6 +109,9 @@ class lpsrScore : public lpsrElement
                           getScoreBookBlocksList () const
                               { return fScoreBookBlocksList; }
 
+    S_lpsrScoreBlock      getScoreScoreBlock () const
+                              { return fScoreScoreBlock; }
+
     void                  setGlobalStaffSize (float size);
 
     // files includes
@@ -209,6 +212,10 @@ class lpsrScore : public lpsrElement
 
     void                  addGlissandoWithTextSchemeFunctionsToScore ();
 
+    void                  appendBookBlockToBookBlocksList (
+                            S_lpsrBookBlock bookBlock)
+                              { fScoreBookBlocksList.push_back (bookBlock); }
+
   private:
 
     // private services
@@ -277,8 +284,7 @@ class lpsrScore : public lpsrElement
     S_msrScore            fMsrScore;
 
     // general information
-    S_lpsrVarValAssoc
-                          fLilypondVersion;
+    S_lpsrVarValAssoc     fLilypondVersion;
 
     S_lpsrComment         fInputSourceNameComment;
     S_lpsrComment         fTranslationDateComment;
@@ -293,14 +299,11 @@ class lpsrScore : public lpsrElement
 
     // to keep the original line breaks
     S_lpsrVarValAssoc     fMyBreakIsBreakAssoc;
-    S_lpsrVarValAssoc
-                          fMyBreakIsEmptyAssoc;
+    S_lpsrVarValAssoc     fMyBreakIsEmptyAssoc;
 
     // to keep the original page breaks
-    S_lpsrVarValAssoc
-                          fMyPageBreakIsPageBreakAssoc;
-    S_lpsrVarValAssoc
-                          fMyPageBreakIsEmptyAssoc;
+    S_lpsrVarValAssoc     fMyPageBreakIsPageBreakAssoc;
+    S_lpsrVarValAssoc     fMyPageBreakIsEmptyAssoc;
 
     // to generate 'global' variable
     S_lpsrVarValAssoc     fScoreGlobalAssoc;
@@ -310,6 +313,7 @@ class lpsrScore : public lpsrElement
 
     // score LPSR book blocks list
     list<S_lpsrBookBlock> fScoreBookBlocksList;
+    S_lpsrScoreBlock      fScoreScoreBlock; // JMI ???
 
     // files includes
     bool                  fJianpuFileIncludeIsNeeded;

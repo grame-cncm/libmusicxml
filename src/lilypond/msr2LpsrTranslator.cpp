@@ -102,7 +102,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 {
   S_lpsrPaper
     paper =
-      fLpsrScore->getPaper ();
+      fLpsrScore->getScorePaper ();
 
   int
     scorePartGroupNamesMaxLength =
@@ -294,26 +294,25 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
     fVisitedMsrScore->
       createScoreNewbornClone ();
 
-  // create the current LPSR book block
-  fCurrentLpsrBookBlock =
-    lpsrBookBlock::create (
-      NO_INPUT_LINE_NUMBER,
-      fCurrentMsrScoreClone);
-
   // create the current LPSR score
   fLpsrScore =
     lpsrScore::create (
       NO_INPUT_LINE_NUMBER,
       fCurrentMsrScoreClone);
 
-  // append fCurrentLpsrBookBlock to the current LPSR book
-  fCurrentLpsrBookPart->
-    append (
+  // create the current LPSR book block
+  fCurrentLpsrBookBlock =
+    lpsrBookBlock::create (
+      NO_INPUT_LINE_NUMBER);
+
+  // append it to the current LPSR book blocks list
+  fLpsrScore->
+    appendBookBlockToBookBlocksList (
       fCurrentLpsrBookBlock);
 
   // fetch score header
   fCurrentLpsrScoreHeader =
-    fLpsrScore-> getHeader();
+    fLpsrScore-> getScoreHeader();
 
   // is there a rights option?
   if (gLilypondOptions->fRights.size ()) {
@@ -644,7 +643,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   // get LPSR score paper
   S_lpsrPaper
     paper =
-      fLpsrScore->getPaper ();
+      fLpsrScore->getScorePaper ();
 
   // populate paper
   paper ->
@@ -686,8 +685,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   // get LPSR score block layout
   S_lpsrLayout
     scoreBlockLayout =
-      fLpsrScore->getScoreBlock ()->
-        getBlockLayout ();
+      fLpsrScore->getScoreLayout ();
 
   // create the score block layout staff-size Scheme assoc
   stringstream s;
@@ -853,7 +851,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
   // get the LPSR store block
   S_lpsrScoreBlock
     scoreBlock =
-      fLpsrScore->getScoreBlock ();
+      fLpsrScore->getScoreScoreBlock ();
 
   // don't append the partgroup block to the score block now:
   // this will be done when it gets popped from the stack
@@ -917,11 +915,6 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
         currentPartGroup);
   }
 
-  // get the LPSR store block
-  S_lpsrScoreBlock
-    scoreBlock =
-      fLpsrScore->getScoreBlock ();
-
   S_lpsrPartGroupBlock
     currentPartGroupBlock =
       fPartGroupBlocksStack.top ();
@@ -942,12 +935,35 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     }
 #endif
 
-    // append the current partgroup block to the score block
-    // if it is the top-level one, i.e it's alone in the stack
-   // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-      scoreBlock->
-        appendPartGroupBlockToScoreBlock (
-          fPartGroupBlocksStack.top ());
+    switch (gLpsrOptions->fScoreOutputKind) {
+      case kScoreOnly: // default value
+        {
+          // get the LPSR store block
+          S_lpsrScoreBlock
+            scoreBlock =
+              fLpsrScore->getScoreScoreBlock ();
+
+          // append the current partgroup block to the score block
+          // if it is the top-level one, i.e it's alone in the stack
+          // JMI BOF if (fPartGroupBlocksStack.size () == 1)
+          scoreBlock->
+            appendPartGroupBlockToScoreBlock (
+              fPartGroupBlocksStack.top ());
+        }
+        break;
+      case kScoreAndThenParts:
+        break;
+      case kPartsAndThenScore:
+        break;
+      case kPartsOnly:
+        break;
+      case kScoreAndThenPartsOneFile:
+        break;
+      case kPartsAndThenScoreOneFile:
+        break;
+      case kPartsOnlyOneFile:
+        break;
+    } // switch
 
     // pop current partGroup block from this visitors's stack,
     // only now to restore the appearence order
@@ -1357,7 +1373,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
       // append the voice clone to the LPSR score elements list
       fLpsrScore ->
-        appendVoiceToScoreElements (fCurrentVoiceClone);
+        appendVoiceToScoreElementsList (fCurrentVoiceClone);
 
       // append a use of the voice to the current staff block
       fCurrentStaffBlock->
@@ -1395,7 +1411,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           ) {
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
-            appendVoiceToScoreElements (
+            appendVoiceToScoreElementsList (
               fCurrentVoiceClone);
 
           // create a ChordNames context command
@@ -1465,7 +1481,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           ) {
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
-            appendVoiceToScoreElements (
+            appendVoiceToScoreElementsList (
               fCurrentVoiceClone);
 
           // create a FiguredBass context command
@@ -2026,7 +2042,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 
     // append the stanza clone to the LPSR score elements list
     fLpsrScore ->
-      appendStanzaToScoreElements (
+      appendStanzaToScoreElementsList (
         fCurrentStanzaClone);
 
     // append a use of the stanza to the current staff block

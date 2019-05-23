@@ -29,10 +29,13 @@ namespace MusicXML2
 // score output
 //______________________________________________________________________________
 enum lpsrScoreOutputKind {
-  kScoreOutputKindScoreOnly, // default value
-  kScoreOutputKindScoreAndThenParts,
-  kScoreOutputindPartsAndThenScore,
-  kScoreOutputindPartsOnly };
+  kScoreOnly, // default value
+  kScoreAndThenParts,
+  kPartsAndThenScore,
+  kPartsOnly,
+  kScoreAndThenPartsOneFile,
+  kPartsAndThenScoreOneFile,
+  kPartsOnlyOneFile };
 
 string lpsrScoreOutputKindAsString (
   lpsrScoreOutputKind scoreOutputKind);
@@ -47,15 +50,15 @@ void initializeLpsrScoreOutputKindsMap ();
 // accidental styles
 //______________________________________________________________________________
 enum lpsrAccidentalStyleKind {
-  kDefaultStyle,
-  kVoiceStyle,
-  kModernStyle,
-  kModernCautionaryStyle, kModernVoiceStyle, kModernVoiceCautionaryStyle,
-  kPianoStyle, kPianoCautionaryStyle,
-  kNeoModernStyle,
-  kNeoModernCautionaryStyle, kNeoModernVoiceStyle, kNeoModernVoiceCautionaryStyle,
-  kDodecaphonicStyle, kDodecaphonicNoRepeatStyle,
-  kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
+  kDefault,
+  kVoice,
+  kModern,
+  kModernCautionary, kModernVoice, kModernVoiceCautionary,
+  kPiano, kPianoCautionary,
+  kNeoModern,
+  kNeoModernCautionary, kNeoModernVoice, kNeoModernVoiceCautionary,
+  kDodecaphonic, kDodecaphonicNoRepeat,
+  kDodecaphonicFirst, kTeaching, kNoReset, kForget };
 
 string lpsrAccidentalStyleKindAsString (
   lpsrAccidentalStyleKind accidentalStyleKind);

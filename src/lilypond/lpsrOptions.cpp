@@ -29,6 +29,96 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
+S_optionsLpsrScoreOutputKindItem optionsLpsrScoreOutputKindItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+  lpsrScoreOutputKind&
+                     optionsLpsrScoreOutputKindKindItemVariable)
+{
+  optionsLpsrScoreOutputKindItem* o = new
+    optionsLpsrScoreOutputKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+      optionsLpsrScoreOutputKindKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsLpsrScoreOutputKindKindItemVariableDisplayName,
+  lpsrScoreOutputKind&
+                     optionsLpsrScoreOutputKindKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsLpsrScoreOutputKindKindItemVariableDisplayName (
+      optionsLpsrScoreOutputKindKindItemVariableDisplayName),
+    fOptionsLpsrScoreOutputKindKindItemVariable (
+      optionsLpsrScoreOutputKindKindItemVariable)
+{}
+
+optionsLpsrScoreOutputKindItem::~optionsLpsrScoreOutputKindItem ()
+{}
+
+void optionsLpsrScoreOutputKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "OptionsLpsrScoreOutputKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
+    fOptionsLpsrScoreOutputKindKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsLpsrScoreOutputKindItemVariable" << " : \"" <<
+    lpsrScoreOutputKindAsString (
+      fOptionsLpsrScoreOutputKindKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsLpsrScoreOutputKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsLpsrScoreOutputKindKindItemVariableDisplayName <<
+    " : \"" <<
+    lpsrScoreOutputKindAsString (
+      fOptionsLpsrScoreOutputKindKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -295,7 +385,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
   traceAndDisplaySubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
-        "tlpsrv", "trace-lpsr-blocks",
+        "tlpsrb", "trace-lpsr-blocks",
 R"(Write a trace of the LPSR blocks to standard error.)",
         "traceLpsrBlocks",
         fTraceLpsrBlocks));
@@ -318,6 +408,53 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
           fTraceSchemeFunctions));
   }
 #endif
+
+  // LilyPond output kind
+  // --------------------------------------
+
+  {
+    // variables
+
+    fScoreOutputKind = kScoreOnly; // default value
+
+    // options
+
+    S_optionsSubGroup
+      lilypondOutputKindSubGroup =
+        optionsSubGroup::create (
+          "LilyPond output kind",
+          "hlpok", "help-lilypond-output-kind",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+
+    appendOptionsSubGroup (lilypondOutputKindSubGroup);
+
+    lilypondOutputKindSubGroup->
+      appendOptionsItem (
+        optionsLpsrScoreOutputKindItem::create (
+          "lpsok", "lpsr-score-output-kind",
+          replaceSubstringInString (
+            replaceSubstringInString (
+              replaceSubstringInString (
+R"(Use OUTPUT_KIND to create the LPSR blocks,
+as well as in the generated LilyPond code.
+The NUMBER LilyPond pitches languages available are:
+  OUTPUT_KINDS.
+'OneFile' means that LilyPond will produce a single file containing all the scores and/or parts.
+Otherwise, one file will be generated for each score and/or part.
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gLpsrScoreOutputKindsMap.size ())),
+              "OUTPUT_KINDS",
+              existingLpsrScoreOutputKinds ()),
+            "DEFAULT_VALUE",
+            lpsrScoreOutputKindAsString (fScoreOutputKind)),
+          "OUTPUT_KIND",
+          "scoreOutputKind",
+          fScoreOutputKind));
+  }
+
 
   // lyrics vs words
   // --------------------------------------
@@ -398,15 +535,19 @@ R"()",
           "lppl", "lpsr-pitches-language",
           replaceSubstringInString (
             replaceSubstringInString (
+              replaceSubstringInString (
 R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond pitches languages available are:
   PITCHES_LANGUAGES.
-The default is 'nederlands'.)",
-              "NUMBER",
-              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-            "PITCHES_LANGUAGES",
-            existingQuarterTonesPitchesLanguageKinds ()),
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+              "PITCHES_LANGUAGES",
+              existingQuarterTonesPitchesLanguageKinds ()),
+            "DEFAULT_VALUE",
+            msrQuarterTonesPitchesLanguageKindAsString (
+              fLpsrQuarterTonesPitchesLanguageKind)),
           "LANGUAGE",
           "lpsrPitchesanguage",
           fLpsrQuarterTonesPitchesLanguageKind));
@@ -417,15 +558,20 @@ The default is 'nederlands'.)",
           "lpcl", "lpsr-chords-language",
           replaceSubstringInString (
             replaceSubstringInString (
+              replaceSubstringInString (
 R"(Use LANGUAGE to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
 The NUMBER LilyPond pitches languages available are:
   CHORDS_LANGUAGES.
-The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
-              "NUMBER",
-              to_string (gLpsrChordsLanguageKindsMap.size ())),
-            "CHORDS_LANGUAGES",
-            existingLpsrChordsLanguageKinds ()),
+'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gLpsrChordsLanguageKindsMap.size ())),
+              "CHORDS_LANGUAGES",
+              existingLpsrChordsLanguageKinds ()),
+            "DEFAULT_VALUE",
+            lpsrChordsLanguageKindAsString (
+              fLpsrChordsLanguageKind)),
           "LANGUAGE",
           "lpsr-chords-language",
           fLpsrChordsLanguageKind));
@@ -499,6 +645,13 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   clone->fTraceSchemeFunctions =
     true;
+
+
+  // LilyPond output kind
+  // --------------------------------------
+
+  clone->fScoreOutputKind =
+    fScoreOutputKind;
 
 
   // lyrics vs words
@@ -608,6 +761,22 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
     booleanAsString (fTraceSchemeFunctions) <<
+    endl;
+
+  gIndenter--;
+
+  // LilyPond output kind
+  // --------------------------------------
+
+  gLogIOstream <<
+    "LilyPond output kind:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "scoreOutputKind" << " : " <<
+    lpsrScoreOutputKindAsString (fScoreOutputKind) <<
     endl;
 
   gIndenter--;

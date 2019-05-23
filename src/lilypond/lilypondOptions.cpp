@@ -385,14 +385,17 @@ R"()",
           "lpso", "lilypond-score-output",
           replaceSubstringInString (
             replaceSubstringInString (
+              replaceSubstringInString (
 R"(Generate a LilyPond score according to OUPTUT_KIND.
 The NUMBER score output kinds available are:
   SCORE_OUTPUT_KINDS.
-The default is scoreOnly.)",
-              "NUMBER",
-              to_string (gLpsrScoreOutputKindsMap.size ())),
-            "SCORE_OUTPUT_KINDS",
-            existingLpsrScoreOutputKinds ()),
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gLpsrScoreOutputKindsMap.size ())),
+              "SCORE_OUTPUT_KINDS",
+              existingLpsrScoreOutputKinds ()),
+            "DEFAULT_VALUE",
+            lpsrScoreOutputKindAsString (fScoreOutputKind)),
           "OUTPUT_KIND",
           "score-output-kind",
           fScoreOutputKind));
@@ -612,7 +615,7 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
     fRomanStringNumbers = boolOptionsInitialValue;
     fAvoidOpenStrings    = boolOptionsInitialValue;
 
-    fAccidentalStyleKind = kDefaultStyle;
+    fAccidentalStyleKind = kDefault;
 
     fCompressRestMeasures = boolOptionsInitialValue;
 
@@ -688,13 +691,18 @@ to prevent LilyPond from using open strings.)",
       appendOptionsItem (
         optionsAccidentalStyleItem::create (
           "as", "accidental-style", // JMI
-R"(Choose the LilyPond accidental STYLE among:
-  voice, modern, modern-cautionary, modern-voice,
-  modern-voice-cautionary, piano, piano-cautionary,
-  neo-modern, neo-modern-cautionary, neo-modern-voice,
-  neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat,
-  dodecaphonic-first, teaching, no-reset, forget.
-The default is... 'default'.)",
+            replaceSubstringInString (
+              replaceSubstringInString (
+                replaceSubstringInString (
+R"(The NUMBER LilyPond accidental styles available are:
+  ACCIDENTAL_STYLES.
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gLpsrAccidentalStyleKindsMap.size ())),
+              "OUTPUT_KINDS",
+              existingLpsrAccidentalStyleKinds ()),
+            "DEFAULT_VALUE",
+            lpsrAccidentalStyleKindAsString (fAccidentalStyleKind)),
           "STYLE",
           "accidentalStyle",
           fAccidentalStyleKind));

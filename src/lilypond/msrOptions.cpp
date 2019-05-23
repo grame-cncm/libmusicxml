@@ -434,14 +434,17 @@ R"()",
           "mplang", "msr-pitches-language",
           replaceSubstringInString (
             replaceSubstringInString (
+              replaceSubstringInString (
 R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
 The NUMBER LilyPond pitches languages available are:
   PITCHES_LANGUAGES.
-The default is 'nederlands'.)",
-              "NUMBER",
-              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-            "PITCHES_LANGUAGES",
-            existingQuarterTonesPitchesLanguageKinds ()),
+The default is 'DEFAULT_VALUE'.)",
+                "NUMBER",
+                to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+              "PITCHES_LANGUAGES",
+              existingQuarterTonesPitchesLanguageKinds ()),
+            "DEFAULT_VALUE",
+            msrQuarterTonesPitchesLanguageKindAsString (fMsrQuarterTonesPitchesLanguageKind)),
           "LANGUAGE",
           "msrPitchesLanguage",
           fMsrQuarterTonesPitchesLanguageKind));
