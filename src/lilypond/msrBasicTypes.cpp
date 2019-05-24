@@ -8684,22 +8684,97 @@ msrHarmonyKind msrHarmonyKindFromString (
   return result;
 }
 
-void initializeQuarterTonesPitchesLanguageKinds ()
+map<string, msrHarmonyKind>
+  gHarmonyKindsMap;
+
+list<string>
+  gHarmonyKindsNamesList;
+
+void initializeHarmonyKinds ()
 {
-  gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
+  // MusicXML chords
+
+  gHarmonyKindsNamesList.push_back ("maj");
+  gHarmonyKindsMap [gHarmonyKindsNamesList.back ()] = kMajorHarmony;
+  gHarmonyKindsMap ["min"] = kMinorHarmony;
+  gHarmonyKindsMap ["aug"] = kAugmentedHarmony;
+  gHarmonyKindsMap ["dim"] = kDiminishedHarmony;
+  gHarmonyKindsMap ["dom"] = kDominantHarmony;
+  gHarmonyKindsMap ["maj7"] = kMajorSeventhHarmony;
+  gHarmonyKindsMap ["min7"] = kMinorSeventhHarmony;
+  gHarmonyKindsMap ["dim7"] = kDiminishedSeventhHarmony;
+  gHarmonyKindsMap ["aug7"] = kAugmentedSeventhHarmony;
+  gHarmonyKindsMap ["halfdim"] = kHalfDiminishedHarmony;
+  gHarmonyKindsMap ["minmaj7"] = kMinorMajorSeventhHarmony;
+  gHarmonyKindsMap ["maj6"] = kMajorSixthHarmony;
+  gHarmonyKindsMap ["min6"] = kMinorSixthHarmony;
+  gHarmonyKindsMap ["dom9"] = kDominantNinthHarmony;
+  gHarmonyKindsMap ["maj9"] = kMajorNinthHarmony;
+  gHarmonyKindsMap ["min9"] = kMinorNinthHarmony;
+  gHarmonyKindsMap ["dom11"] = kDominantEleventhHarmony;
+  gHarmonyKindsMap ["maj11"] = kMajorEleventhHarmony;
+  gHarmonyKindsMap ["min11"] = kMinorEleventhHarmony;
+  gHarmonyKindsMap ["dom13"] = kDominantThirteenthHarmony;
+  gHarmonyKindsMap ["maj13"] = kMajorThirteenthHarmony;
+  gHarmonyKindsMap ["min13"] = kMinorThirteenthHarmony;
+  gHarmonyKindsMap ["sus2"] = kSuspendedSecondHarmony;
+  gHarmonyKindsMap ["sus4"] = kSuspendedFourthHarmony;
+  gHarmonyKindsMap ["neapolitan"] = kNeapolitanHarmony;
+  gHarmonyKindsMap ["italian"] = kItalianHarmony;
+  gHarmonyKindsMap ["french"] = kFrenchHarmony;
+  gHarmonyKindsMap ["german"] = kGermanHarmony;
+  gHarmonyKindsMap ["pedal"] = kPedalHarmony;
+  gHarmonyKindsMap ["power"] = kPowerHarmony;
+  gHarmonyKindsMap ["tristan"] = kTristanHarmony;
+
+  // jazz-specific chords
+
+  gHarmonyKindsMap ["minmaj9"] = kMinorMajorNinth;
+  gHarmonyKindsMap ["domsus4"] = kDominantSuspendedFourthHarmony;
+  gHarmonyKindsMap ["domaug5"] = kDominantAugmentedFifthHarmony;
+  gHarmonyKindsMap ["dommin9"] = kDominantMinorNinthHarmony;
+  gHarmonyKindsMap ["domaug9dim5"] = kDominantAugmentedNinthDiminishedFifthHarmony;
+  gHarmonyKindsMap ["domaug9aug5"] = kDominantAugmentedNinthAugmentedFifthHarmony;
+  gHarmonyKindsMap ["domaug11"] = kDominantAugmentedEleventhHarmony;
+  gHarmonyKindsMap ["maj7aug11"] = kMajorSeventhAugmentedEleventhHarmony;
 }
 
-string existingHarmonyKinds () // JMI
+string existingHarmonyKinds ()
 {
   stringstream s;
 
   if (gHarmonyKindsMap.size ()) {
-    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+    map<string, msrHarmonyKind>::const_iterator
       iBegin = gHarmonyKindsMap.begin (),
       iEnd   = gHarmonyKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i).first;
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+
+    } // for
+  }
+
+  return s.str ();
+}
+
+string existingHarmonyKindsNames ()
+{
+  stringstream s;
+
+  if (gHarmonyKindsNamesList.size ()) {
+    list<string>::const_iterator
+      iBegin = gHarmonyKindsNamesList.begin (),
+      iEnd   = gHarmonyKindsNamesList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i);
       if (++i == iEnd) break;
       if (next (i) == iEnd) {
         s << " and ";
@@ -18080,10 +18155,10 @@ void initializeMSRBasicTypes ()
 
   initializeQuarterTonesPitchesLanguageKinds ();
 
-  // languages handling
+  // harmonies handling
   // ------------------------------------------------------
 
-  initializeQuarterTonesPitchesLanguageKinds ();
+  initializeHarmonyKinds ();
 
   // chord structures handling
   // ------------------------------------------------------

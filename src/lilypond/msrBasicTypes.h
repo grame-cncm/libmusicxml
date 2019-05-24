@@ -333,12 +333,18 @@ msrHarmonyKind msrHarmonyKindFromString (
   string theString);
 
 string existingHarmonyKinds ();
+string existingHarmonyKindsNames ();
 
 // constant
 const int K_HARMONY_NO_INVERSION = -1;
 
 extern map<string, msrHarmonyKind>
   gHarmonyKindsMap;
+
+//extern list<string>
+//  gHarmonyKindsNamesList;
+
+void initializeHarmonyKinds ();
 
 // quarter tones pitches languages
 //______________________________________________________________________________

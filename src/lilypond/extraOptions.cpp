@@ -427,13 +427,17 @@ R"(Write all known chords structures to standard output.)"));
         optionsSubGroup::create (
           "Chords contents",
           "hecc", "help-extra-chords-contents",
+//          replaceSubstringInString (
+//            "HARMONY_KINDS",
+//            existingHarmonyKindsNames ()
+//    HARMONY_KINDS.
 R"(  In the options below:
   ROOT_DIATONIC_PITCH should belong to the names available in
   the selected MSR pitches language, "nederlands" by default.
   Other languages can be chosen with the '-mpl, -msrPitchesLanguage' option.
 
   HARMONY_NAME should be one of:
-    MusicXML chords:
+     MusicXML chords:
       "maj", "min", "aug", "dim", "dom",
       "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
       "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
