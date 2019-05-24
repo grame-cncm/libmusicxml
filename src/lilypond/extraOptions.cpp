@@ -24,9 +24,7 @@
 
 #include "generalOptions.h"
 
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "traceOptions.h"
 
 #include "lpsrOptions.h"
 
@@ -429,7 +427,7 @@ R"(Write all known chords structures to standard output.)"));
         optionsSubGroup::create (
           "Chords contents",
           "hecc", "help-extra-chords-contents",
-R"(In the options below:
+R"(  In the options below:
   ROOT_DIATONIC_PITCH should belong to the names available in
   the selected MSR pitches language, "nederlands" by default.
   Other languages can be chosen with the '-mpl, -msrPitchesLanguage' option.
@@ -495,7 +493,7 @@ or
 
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
-  EXECUTABLE -showChordDetails "bes ${HARMONY}" .)",
+  EXECUTABLE -show-chord-details "bes ${HARMONY}")",
            "EXECUTABLE",
             gGeneralOptions->fExecutableName),
           "CHORD_SPEC",
@@ -536,7 +534,8 @@ or
 
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
-  EXECUTABLE -showChordAnalysis "bes ${HARMONY}" .)",
+  INVERSION=2
+  EXECUTABLE -show-chord-analysis "bes ${HARMONY} ${INVERSION}")",
             "EXECUTABLE",
             gGeneralOptions->fExecutableName),
           "CHORD_SPEC",
@@ -985,9 +984,9 @@ void extraOptions::handleOptionsItemValue (
     string regularExpression (
       "[[:space:]]*"
       "([[:alnum:]]+)"
-      "[[:space:]]*"
+      "[[:space:]]+"
       "([[:alnum:]]+)"
-      "[[:space:]]*"
+      "[[:space:]]+"
       "([[:digit:]]+)"
       "[[:space:]]*");
 
@@ -1009,7 +1008,7 @@ void extraOptions::handleOptionsItemValue (
     }
 #endif
 
-    if (smSize) {
+    if (smSize == 4) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
         os <<
@@ -1028,16 +1027,17 @@ void extraOptions::handleOptionsItemValue (
       stringstream s;
 
       s <<
-        "-chord analysis argument '" << theString <<
+        "chord analysis argument '" << theString <<
         "' is ill-formed";
 
       optionError (s.str ());
 
+/* JMI ??? should work...
       printSpecificSubGroupHelp (
         os,
         showChordAnalysisItem->
           getOptionsSubGroupUplink ());
-
+*/
       exit (4);
     }
 

@@ -3682,10 +3682,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
+      }
 #endif
 
-        fCurrentStanzaName = K_NO_STANZA_NAME;
-      }
+      fCurrentStanzaName = K_NO_STANZA_NAME;
     }
 
     else {

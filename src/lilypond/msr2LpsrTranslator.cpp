@@ -44,6 +44,53 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // the MSR score we're visiting
   fVisitedMsrScore = mScore;
 
+  // create an empty clone of fVisitedMsrScore for use by the LPSR score
+  // not sharing the visitiged MSR score allows cleaner data handling
+  // and optimisations of the LPSR data
+  fCurrentMsrScoreClone =
+    fVisitedMsrScore->
+      createScoreNewbornClone ();
+
+  // create the current LPSR score
+  fLpsrScore =
+    lpsrScore::create (
+      NO_INPUT_LINE_NUMBER,
+      fCurrentMsrScoreClone);
+
+  // create the current book block
+  fCurrentLpsrBookBlock =
+    lpsrBookBlock::create (
+      NO_INPUT_LINE_NUMBER);
+
+  // append it to the current book blocks list
+  fLpsrScore->
+    appendBookBlockToBookBlocksList (
+      fCurrentLpsrBookBlock);
+
+  // create the current score block if relevant
+  switch (gLpsrOptions->fScoreOutputKind) {
+    case kScoreOnly: // default value
+    case kScoreAndThenParts:
+    case kPartsAndThenScore:
+    case kScoreAndThenPartsOneFile:
+    case kPartsAndThenScoreOneFile:
+      {
+        // create the current score block
+        fCurrentScoreBlock =
+          lpsrScoreBlock::create (
+            NO_INPUT_LINE_NUMBER);
+
+        // append it to the book block elements list
+        fCurrentLpsrBookBlock->
+          appendLpsrScoreBlockToBookBlockElementsList (
+            fCurrentScoreBlock);
+      }
+      break;
+    case kPartsOnly:
+    case kPartsOnlyOneFile:
+      break;
+  } // switch
+
   // identification
   fOnGoingIdentification = false;
 
@@ -286,29 +333,6 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
       endl;
   }
 #endif
-
-  // create an empty clone of fVisitedMsrScore for use by the LPSR score
-  // not sharing the visitiged MSR score allows cleaner data handling
-  // and optimisations of the LPSR data
-  fCurrentMsrScoreClone =
-    fVisitedMsrScore->
-      createScoreNewbornClone ();
-
-  // create the current LPSR score
-  fLpsrScore =
-    lpsrScore::create (
-      NO_INPUT_LINE_NUMBER,
-      fCurrentMsrScoreClone);
-
-  // create the current LPSR book block
-  fCurrentLpsrBookBlock =
-    lpsrBookBlock::create (
-      NO_INPUT_LINE_NUMBER);
-
-  // append it to the current LPSR book blocks list
-  fLpsrScore->
-    appendBookBlockToBookBlocksList (
-      fCurrentLpsrBookBlock);
 
   // fetch score header
   fCurrentLpsrScoreHeader =
@@ -807,13 +831,12 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
   // create a partGroup clone
   // current partGroup clone, i.e. the top of the stack,
   // is the uplink of the new one if it exists
-
   S_msrPartGroup
     partGroupClone =
       elt->createPartGroupNewbornClone (
         fPartGroupsStack.size ()
           ? fPartGroupsStack.top ()
-          : 0,
+          : nullptr,
         fLpsrScore->getMsrScore ());
 
   // push it onto this visitors's stack,
@@ -831,7 +854,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
   fPartGroupsStack.push (
     partGroupClone);
 
-/*
+/* JMI
   // add it to the MSR score clone
   fCurrentMsrScoreClone->
     addPartGroupToScore (fCurrentPartGroupClone);
@@ -853,7 +876,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
     scoreBlock =
       fLpsrScore->getScoreScoreBlock ();
 
-  // don't append the partgroup block to the score block now:
+  // don't append the partgroup block to the score/bookpart block now:
   // this will be done when it gets popped from the stack
 }
 
@@ -937,30 +960,38 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 
     switch (gLpsrOptions->fScoreOutputKind) {
       case kScoreOnly: // default value
+      case kScoreAndThenParts:
+      case kPartsAndThenScore:
+      case kScoreAndThenPartsOneFile:
+      case kPartsAndThenScoreOneFile:
         {
-          // get the LPSR store block
-          S_lpsrScoreBlock
-            scoreBlock =
-              fLpsrScore->getScoreScoreBlock ();
+          // sanity check
+          msrAssert (
+            fCurrentScoreBlock != nullptr,
+            "fCurrentScoreBlock is null");
 
-          // append the current partgroup block to the score block
-          // if it is the top-level one, i.e it's alone in the stack
+          // append the current partgroup block to the current score block
+          // if it is the top-level one, i.e it's alone in the stack JMI
           // JMI BOF if (fPartGroupBlocksStack.size () == 1)
-          scoreBlock->
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTracePartGroups || gLpsrOptions->fTraceLpsrBlocks) {
+            fLogOutputStream <<
+              "Appending part group block for part group " <<
+              currentPartGroupBlock->
+                getPartGroup ()->
+                  getPartGroupCombinedName () <<
+              " to LPSR score block '" <<
+              fCurrentScoreBlock->asShortString () <<
+              "'" <<
+              endl;
+          }
+#endif
+          fCurrentScoreBlock->
             appendPartGroupBlockToScoreBlock (
               fPartGroupBlocksStack.top ());
         }
         break;
-      case kScoreAndThenParts:
-        break;
-      case kPartsAndThenScore:
-        break;
       case kPartsOnly:
-        break;
-      case kScoreAndThenPartsOneFile:
-        break;
-      case kPartsAndThenScoreOneFile:
-        break;
       case kPartsOnlyOneFile:
         break;
     } // switch
@@ -1060,7 +1091,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
     fLogOutputStream <<
       "Appending part block " <<
       fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-      " to stack" <<
+      " to part group blocks stack" <<
       endl;
   }
 #endif
@@ -1117,6 +1148,9 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
     // forget about this skip grace notes group
     fCurrentSkipGraceNotesGroup = nullptr;
   }
+
+  // forget about the current part block
+    fCurrentPartBlock = nullptr;
 }
 
 //________________________________________________________________________
@@ -1414,7 +1448,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             appendVoiceToScoreElementsList (
               fCurrentVoiceClone);
 
-          // create a ChordNames context command
+          // create a ChordNames context
           string voiceName =
             elt->getVoiceName ();
 
@@ -1484,7 +1518,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             appendVoiceToScoreElementsList (
               fCurrentVoiceClone);
 
-          // create a FiguredBass context command
+          // create a FiguredBass context
           string voiceName =
             elt->getVoiceName ();
 
@@ -1831,11 +1865,9 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {
-#ifdef TRACE_OPTIONS
   int
     inputLineNumber =
       elt->getInputLineNumber ();
-#endif
 
   string
     measureNumber =

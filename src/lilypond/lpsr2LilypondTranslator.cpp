@@ -4702,7 +4702,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBookBlock& elt)
 #endif
 
   fLilypondCodeIOstream <<
-    "\\score {" <<
+    "\\book {" <<
     endl;
 
   gIndenter++;
@@ -4804,6 +4804,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 
   fLilypondCodeIOstream <<
     "}" <<
+    endl << // JMI
     endl;
 
   fOnGoingScoreBlock = false;
@@ -4822,7 +4823,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBookPartBlock& elt)
 #endif
 
   fLilypondCodeIOstream <<
-    "\\score {" <<
+    "\\bookpart {" <<
     endl;
 
   gIndenter++;
@@ -5415,7 +5416,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     staff =
       elt->getStaff ();
 
-  // generate the staff context command
+  // generate the staff context
   switch (staff->getStaffKind ()) {
     case msrStaff::kStaffRegular:
       if (gLilypondOptions->fJianpu) {

@@ -25,18 +25,14 @@
 #include "generalOptions.h"
 
 #include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
+#include "traceOptions.h"
 
 #include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "bsrOptions.h"
 #include "brailleOptions.h"
 
-#ifdef EXTRA_OPTIONS
-  #include "extraOptions.h"
-#endif
+#include "extraOptions.h"
 
 
 using namespace std;

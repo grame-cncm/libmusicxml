@@ -106,6 +106,10 @@ Handling:
   - the printHelpSummary() methods are used when there are errors in the options used.
 
   - the printHelp() methods perform the actual help print work
+
+  - options deciphering it done by the handleOptionsItem() methods defined:
+      - in optionsBasicTypes.h/.cpp for the predefined ones;
+      - in the various options groups for those specific to the latter.
 */
 
 //______________________________________________________________________________
@@ -3634,7 +3638,7 @@ void optionsHandler::printSpecificItemHelp (
         subGroup->
           getOptionsSubGroupHelpHeader () <<
         "\"" <<
-        " in group \"" <<
+        " of group \"" <<
         group->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<

@@ -54,7 +54,7 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::kLibraryVersion,
       lpsrVarValAssoc::kVarValSeparatorSpace,
       lpsrVarValAssoc::kQuotesAroundValueYes,
-      "2.20.0",
+      "2.19.83",
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
       kFontStyleNone,
       kFontWeightNone,
@@ -260,7 +260,7 @@ R"(
         s.str ());
   }
 
-  // create the score layout
+  // create the score layout // JMI ???
   fScoreLayout =
     lpsrLayout::create (
       inputLineNumber);
@@ -378,15 +378,6 @@ R"(
         "Place whatever you need in the 'global' variable",
         lpsrVarValAssoc::kEndlOnce);
   }
-
-  // create a book block
-  S_lpsrBookBlock
-    bookBlock =
-      lpsrBookBlock::create (
-        inputLineNumber);
-
-  // append it to the score book blocks list
-  fScoreBookBlocksList.push_back (bookBlock);
 }
 
 lpsrScore::~lpsrScore ()
@@ -1569,7 +1560,7 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fScorePaper);
   }
 
-  {
+  if (fScoreLayout) { // JMI
     // browse the score layout
     msrBrowser<lpsrLayout> browser (v);
     browser.browse (*fScoreLayout);

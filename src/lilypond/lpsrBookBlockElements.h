@@ -277,10 +277,23 @@ class lpsrBookBlock : public lpsrElement
                           getBookBlockElementsList () const
                               { return fBookBlockElementsList; }
 
-    // services
+  public:
+
+    // public services
     // ------------------------------------------------------
 
-    void                  appendBookBlockElementToBookBlock (
+    void                  appendLpsrScoreBlockToBookBlockElementsList (
+                            S_lpsrScoreBlock scoreBlock);
+
+    void                  appendLpsrBookPartBlockToBookBlockElementsList (
+                            S_lpsrBookPartBlock bookPartBlock);
+
+  protected:
+
+    // protected services
+    // ------------------------------------------------------
+
+    void                  appendBookBlockElementToBookBlockElementsList (
                             S_lpsrBookBlockElement bookBlockElement);
 
   public:
@@ -307,7 +320,7 @@ class lpsrBookBlock : public lpsrElement
 
     S_lpsrHeader          fBookBlockHeader;
 
-    S_lpsrLayout          fBookBlockLayout;
+    S_lpsrPaper           fBookBlockPaper;
 
     list<S_lpsrBookBlockElement>
                           fBookBlockElementsList;

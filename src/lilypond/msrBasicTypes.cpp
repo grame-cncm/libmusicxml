@@ -8684,6 +8684,36 @@ msrHarmonyKind msrHarmonyKindFromString (
   return result;
 }
 
+void initializeQuarterTonesPitchesLanguageKinds ()
+{
+  gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
+}
+
+string existingHarmonyKinds () // JMI
+{
+  stringstream s;
+
+  if (gHarmonyKindsMap.size ()) {
+    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+      iBegin = gHarmonyKindsMap.begin (),
+      iEnd   = gHarmonyKindsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first;
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+
+    } // for
+  }
+
+  return s.str ();
+}
+
 void initializeChordStructuresMap ()
 {
   for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
@@ -18045,6 +18075,11 @@ string msrScoreNotationKindAsString (
 //______________________________________________________________________________
 void initializeMSRBasicTypes ()
 {
+  // languages handling
+  // ------------------------------------------------------
+
+  initializeQuarterTonesPitchesLanguageKinds ();
+
   // languages handling
   // ------------------------------------------------------
 

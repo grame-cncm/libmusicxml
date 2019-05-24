@@ -487,6 +487,7 @@ class msr2LpsrTranslator :
     // the LPSR score we're building (it is always built)
     // ------------------------------------------------------
     S_lpsrScore               fLpsrScore;
+    S_lpsrScoreBlock          fCurrentScoreBlock;
 
 
     // it's header
@@ -531,8 +532,14 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
   //  S_msrPartGroup            fCurrentPartGroupClone; JMI
 
+    // partGroup's can be nested, hence this stack
     // the current partGroup is the top of the stack
     stack<S_msrPartGroup>     fPartGroupsStack;
+
+    // part groups block are nested as the partGroup's are
+    // the current partGroup block is the top of the stack
+    stack<S_lpsrPartGroupBlock>
+                              fPartGroupBlocksStack;
 
 
     // parts
@@ -668,12 +675,6 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------
     S_msrSyllable             fCurrentSyllableClone;
     bool                      fOnGoingSyllableExtend;
-
-
-    // part groups block
-    // the current partGroup command is the top of the stack
-    stack<S_lpsrPartGroupBlock>
-                              fPartGroupBlocksStack;
 };
 
 
