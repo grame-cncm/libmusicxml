@@ -69,7 +69,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
 
   // create the current score block if relevant
   switch (gLpsrOptions->fScoreOutputKind) {
-    case kScoreOnly: // default value
+    case kScoreOnly:
     case kScoreAndThenParts:
     case kPartsAndThenScore:
     case kScoreAndThenPartsOneFile:
@@ -964,8 +964,9 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     }
 #endif
 
+    // append the current partgroup block to the current score block if relevant
     switch (gLpsrOptions->fScoreOutputKind) {
-      case kScoreOnly: // default value
+      case kScoreOnly:
       case kScoreAndThenParts:
       case kPartsAndThenScore:
       case kScoreAndThenPartsOneFile:
@@ -986,7 +987,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
               currentPartGroupBlock->
                 getPartGroup ()->
                   getPartGroupCombinedName () <<
-              " to LPSR score block '" <<
+              " to the current score block '" <<
               fCurrentScoreBlock->asShortString () <<
               "'" <<
               endl;
@@ -999,6 +1000,45 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
         break;
       case kPartsOnly:
       case kPartsOnlyOneFile:
+        break;
+    } // switch
+
+    // append the current partgroup block to the current bookpart block if relevant
+    switch (gLpsrOptions->fScoreOutputKind) {
+      case kScoreOnly:
+        break;
+      case kScoreAndThenParts:
+      case kPartsAndThenScore:
+      case kScoreAndThenPartsOneFile:
+      case kPartsAndThenScoreOneFile:
+      case kPartsOnly:
+      case kPartsOnlyOneFile:
+        {
+          // sanity check
+          msrAssert (
+            fCurrentBookPartBlock != nullptr,
+            "fCurrentBookPartBlock is null");
+
+          // append the current partgroup block to the current bookpart block
+          // if it is the top-level one, i.e it's alone in the stack JMI
+          // JMI BOF if (fPartGroupBlocksStack.size () == 1)
+#ifdef TRACE_OPTIONS
+          if (gTraceOptions->fTracePartGroups || gLpsrOptions->fTraceLpsrBlocks) {
+            fLogOutputStream <<
+              "Appending part group block for part group " <<
+              currentPartGroupBlock->
+                getPartGroup ()->
+                  getPartGroupCombinedName () <<
+              " to the current bookpart block '" <<
+              fCurrentScoreBlock->asShortString () <<
+              "'" <<
+              endl;
+          }
+#endif
+          fCurrentBookPartBlock->
+            appendPartGroupBlockToBookPartBlock (
+              fPartGroupBlocksStack.top ());
+        }
         break;
     } // switch
 
@@ -1105,6 +1145,30 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   fPartGroupBlocksStack.top ()->
     appendElementToPartGroupBlock (
       fCurrentPartBlock);
+
+  // create a bookpart block if relevant
+  switch (gLpsrOptions->fScoreOutputKind) {
+    case kScoreOnly:
+      break;
+    case kScoreAndThenParts:
+    case kPartsAndThenScore:
+    case kScoreAndThenPartsOneFile:
+    case kPartsAndThenScoreOneFile:
+    case kPartsOnly:
+    case kPartsOnlyOneFile:
+      {
+        // create the current score block
+        fCurrentBookPartBlock =
+          lpsrBookPartBlock::create (
+            inputLineNumber);
+
+        // append it to the book block elements list
+        fCurrentLpsrBookBlock->
+          appendLpsrBookPartBlockToBookBlockElementsList (
+            fCurrentBookPartBlock);
+      }
+      break;
+  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrPart& elt)

@@ -46,21 +46,6 @@ lpsrBookBlockElement::lpsrBookBlockElement (
     lpsrParallelMusicBLock::create (
       inputLineNumber,
       lpsrParallelMusicBLock::kEndOfLine);
-
-  // create the book block element layout
-  fBookBlockElementLayout =
-    lpsrLayout::create (
-      inputLineNumber);
-
-  // create the book block element midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
-
-  fBookBlockElementMidi =
-    msrMidi::create (
-      inputLineNumber,
-      midiTempoDuration,
-      midiTempoPerSecond);
 }
 
 lpsrBookBlockElement::~lpsrBookBlockElement ()
@@ -134,17 +119,6 @@ void lpsrBookBlockElement::browseData (basevisitor* v)
  //   browser.browse (*(*i));
   } // for
 */
-  {
-    // browse the book block element layout
-    msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fBookBlockElementLayout);
-  }
-
-  {
-    // browse the book block element midi
-    msrBrowser<msrMidi> browser (v);
-    browser.browse (*fBookBlockElementMidi);
-  }
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
@@ -184,18 +158,16 @@ lpsrScoreBlock::lpsrScoreBlock (
       inputLineNumber,
       lpsrParallelMusicBLock::kEndOfLine);
 
-/* JMI
   // create the score block layout
-  fBookBlockElementLayout =
+  fScoreBlockLayout =
     lpsrLayout::create (
       inputLineNumber);
-*/
 
   // create the score block midi
   string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
   int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
 
-  fBookBlockElementMidi =
+  fScoreBlockMidi =
     msrMidi::create (
       inputLineNumber,
       midiTempoDuration,
@@ -334,13 +306,13 @@ void lpsrScoreBlock::browseData (basevisitor* v)
   {
     // browse the score block layout
     msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fBookBlockElementLayout);
+    browser.browse (*fScoreBlockLayout);
   }
 
   {
     // browse the score block midi
     msrBrowser<msrMidi> browser (v);
-    browser.browse (*fBookBlockElementMidi);
+    browser.browse (*fScoreBlockMidi);
   }
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -361,11 +333,11 @@ void lpsrScoreBlock::print (ostream& os)
     endl;
 
   os <<
-    fBookBlockElementLayout <<
+    fScoreBlockLayout <<
     endl;
 
   os <<
-    fBookBlockElementMidi <<
+    fScoreBlockMidi <<
     endl;
 
   gIndenter--;
@@ -396,23 +368,6 @@ lpsrBookPartBlock::lpsrBookPartBlock (
     lpsrParallelMusicBLock::create (
       inputLineNumber,
       lpsrParallelMusicBLock::kEndOfLine);
-
-/* JMI
-  // create the bookpart block layout
-  fBookBlockElementLayout =
-    lpsrLayout::create (
-      inputLineNumber);
-*/
-
-  // create the bookpart block midi
-  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
-  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
-
-  fBookBlockElementMidi =
-    msrMidi::create (
-      inputLineNumber,
-      midiTempoDuration,
-      midiTempoPerSecond);
 }
 
 lpsrBookPartBlock::~lpsrBookPartBlock ()
@@ -534,28 +489,6 @@ void lpsrBookPartBlock::browseData (basevisitor* v)
     browser.browse (*fBookBlockElementParallelMusicBlock);
   }
 
-/* JMI
-  for (
-    vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
-    i != fBlockElements.end ();
-    i++) {
-    // browse the element
- //   msrBrowser<msrElement> browser (v);
- //   browser.browse (*(*i));
-  } // for
-*/
-  {
-    // browse the bookpart block layout
-    msrBrowser<lpsrLayout> browser (v);
-    browser.browse (*fBookBlockElementLayout);
-  }
-
-  {
-    // browse the bookpart block midi
-    msrBrowser<msrMidi> browser (v);
-    browser.browse (*fBookBlockElementMidi);
-  }
-
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrBookPartBlock::browseData ()" <<
@@ -571,14 +504,6 @@ void lpsrBookPartBlock::print (ostream& os)
 
   os <<
     fBookBlockElementParallelMusicBlock <<
-    endl;
-
-  os <<
-    fBookBlockElementLayout <<
-    endl;
-
-  os <<
-    fBookBlockElementMidi <<
     endl;
 
   gIndenter--;
@@ -619,11 +544,7 @@ lpsrBookBlock::lpsrBookBlock (
 
   // don't create the book block element paper
   // it will be created as a new born clone of the the one in the lpsrScore
-  /* JMI
-  fBookBlockPaper =
-    lpsrPaper::create (
-      inputLineNumber);
-    */
+  // when the geometry is handled in visitStart (S_msrPageGeometry&)
 }
 
 lpsrBookBlock::~lpsrBookBlock ()

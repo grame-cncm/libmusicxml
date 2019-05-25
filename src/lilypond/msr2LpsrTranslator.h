@@ -541,6 +541,7 @@ class msr2LpsrTranslator :
     stack<S_lpsrPartGroupBlock>
                               fPartGroupBlocksStack;
 
+    S_lpsrBookPartBlock       fCurrentBookPartBlock;
 
     // parts
     // ------------------------------------------------------

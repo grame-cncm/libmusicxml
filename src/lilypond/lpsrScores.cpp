@@ -54,7 +54,7 @@ lpsrScore::lpsrScore (
       lpsrVarValAssoc::kLibraryVersion,
       lpsrVarValAssoc::kVarValSeparatorSpace,
       lpsrVarValAssoc::kQuotesAroundValueYes,
-      "2.19.83",
+      gLpsrOptions->fLilyPondVersion,
       lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
       kFontStyleNone,
       kFontWeightNone,

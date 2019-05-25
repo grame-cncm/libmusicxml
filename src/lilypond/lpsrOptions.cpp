@@ -415,6 +415,10 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
   {
     // variables
 
+    string lilyPondVersionDefaultValue = "2.19.83";
+
+    fLilyPondVersion = lilyPondVersionDefaultValue;
+
     const lpsrScoreOutputKind
       lpsrScoreOutputKindDefaultValue =
         kScoreOnly; // default value
@@ -426,13 +430,26 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
     S_optionsSubGroup
       lilypondOutputKindSubGroup =
         optionsSubGroup::create (
-          "LilyPond output kind",
-          "hlpok", "help-lilypond-output-kind",
+          "LilyPond output",
+          "hlpo", "help-lilypond-output",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
 
     appendOptionsSubGroup (lilypondOutputKindSubGroup);
+
+    lilypondOutputKindSubGroup->
+      appendOptionsItem (
+        optionsStringItem::create (
+          "lpv", "lilypond-version",
+          replaceSubstringInString (
+R"(Set the LilyPond '\version' to STRING in the LilyPond code.
+The default is 'DEFAULT_VALUE')",
+            "DEFAULT_VALUE",
+            lilyPondVersionDefaultValue),
+          "STRING",
+          "lilyPondVersion",
+          fLilyPondVersion));
 
     lilypondOutputKindSubGroup->
       appendOptionsItem (
@@ -666,6 +683,13 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
     true;
 
 
+  // LilyPond version
+  // --------------------------------------
+
+  clone->fLilyPondVersion =
+    fLilyPondVersion;
+
+
   // LilyPond output kind
   // --------------------------------------
 
@@ -780,6 +804,22 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
     booleanAsString (fTraceSchemeFunctions) <<
+    endl;
+
+  gIndenter--;
+
+  // LilyPond version
+  // --------------------------------------
+
+  gLogIOstream <<
+    "LilyPond version:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "lilyPondVersion" << " : " <<
+    fLilyPondVersion <<
     endl;
 
   gIndenter--;

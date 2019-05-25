@@ -4865,6 +4865,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBookPartBlock& elt)
 
   fLilypondCodeIOstream <<
     "}" <<
+    endl << // JMI
     endl;
 
   fOnGoingScoreBlock = false;

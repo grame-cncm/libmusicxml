@@ -653,13 +653,15 @@ void initializeLpsrScoreOutputKindsMap ()
   // register the LilyPond score output kinds
   // --------------------------------------
 
-  gLpsrScoreOutputKindsMap ["scoreOnly"] = kScoreOnly;
-  gLpsrScoreOutputKindsMap ["scoreAndThenParts"] = kScoreAndThenParts;
-  gLpsrScoreOutputKindsMap ["partsAndThenScore"] = kPartsAndThenScore;
-  gLpsrScoreOutputKindsMap ["partsOnly"] = kPartsOnly;
-  gLpsrScoreOutputKindsMap ["scoreAndThenPartsOneFile"] = kScoreAndThenPartsOneFile;
-  gLpsrScoreOutputKindsMap ["partsAndThenScoreOneFile"] = kPartsAndThenScoreOneFile;
-  gLpsrScoreOutputKindsMap ["partsOnlyOneFile"] = kPartsOnlyOneFile;
+  // no CamelCase here, these strings are used in the command line options
+
+  gLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
+  gLpsrScoreOutputKindsMap ["score-and-then-parts"] = kScoreAndThenParts;
+  gLpsrScoreOutputKindsMap ["parts-and-then-score"] = kPartsAndThenScore;
+  gLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
+  gLpsrScoreOutputKindsMap ["score-and-then-parts-one-file"] = kScoreAndThenPartsOneFile;
+  gLpsrScoreOutputKindsMap ["parts-and-then-score-one-file"] = kPartsAndThenScoreOneFile;
+  gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
 }
 
 string existingLpsrScoreOutputKinds ()

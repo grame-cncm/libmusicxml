@@ -330,6 +330,11 @@ class lpsrOptions : public optionsGroup
 
     bool                  fTraceSchemeFunctions;
 
+    // LilyPond version
+    // --------------------------------------
+
+    string                fLilyPondVersion;
+
     // LilyPond output kind
     // --------------------------------------
 

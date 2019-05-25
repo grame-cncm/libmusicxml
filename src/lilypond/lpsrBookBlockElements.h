@@ -79,18 +79,12 @@ class lpsrBookBlockElement : public lpsrElement
     S_lpsrHeader          getBookBlockElementHeader () const
                               { return fBookBlockElementHeader; }
 
-    S_lpsrLayout          getBookBlockElementLayout () const
-                            { return fBookBlockElementLayout; }
-
     S_lpsrParallelMusicBLock
                           getBlockElementParallelMusicBLock () const
                               {
                                 return
                                   fBookBlockElementParallelMusicBlock;
                               }
-
-    S_msrMidi             getBookBlockElementMidi () const
-                              { return fBookBlockElementMidi; }
 
     // services
     // ------------------------------------------------------
@@ -122,12 +116,8 @@ class lpsrBookBlockElement : public lpsrElement
 
     S_lpsrHeader          fBookBlockElementHeader;
 
-    S_lpsrLayout          fBookBlockElementLayout;
-
     S_lpsrParallelMusicBLock
                           fBookBlockElementParallelMusicBlock;
-
-    S_msrMidi             fBookBlockElementMidi;
 };
 typedef SMARTP<lpsrBookBlockElement> S_lpsrBookBlockElement;
 EXP ostream& operator<< (ostream& os, const S_lpsrBookBlockElement& elt);
@@ -158,6 +148,12 @@ class lpsrScoreBlock : public lpsrBookBlockElement
     // set and get
     // ------------------------------------------------------
 
+    S_lpsrLayout          getScoreBlockLayout () const
+                            { return fScoreBlockLayout; }
+
+    S_msrMidi             getScoreBlockMidi () const
+                              { return fScoreBlockMidi; }
+
     // services
     // ------------------------------------------------------
 
@@ -186,6 +182,9 @@ class lpsrScoreBlock : public lpsrBookBlockElement
     // fields
     // ------------------------------------------------------
 
+    S_lpsrLayout          fScoreBlockLayout;
+
+    S_msrMidi             fScoreBlockMidi;
 };
 typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
