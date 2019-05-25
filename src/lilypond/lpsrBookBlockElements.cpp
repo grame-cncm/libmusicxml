@@ -612,15 +612,18 @@ lpsrBookBlock::lpsrBookBlock (
       lpsrParallelMusicBLock::kEndOfLine);
 */
 
-  // create the score block element header
+  // create the book block element header
   fBookBlockHeader =
     lpsrHeader::create (
       inputLineNumber);
 
-  // create the score block element paper
+  // don't create the book block element paper
+  // it will be created as a new born clone of the the one in the lpsrScore
+  /* JMI
   fBookBlockPaper =
     lpsrPaper::create (
       inputLineNumber);
+    */
 }
 
 lpsrBookBlock::~lpsrBookBlock ()

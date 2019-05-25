@@ -34,7 +34,9 @@ class lpsrPaper : public msrElement
 
     static SMARTP<lpsrPaper> create (
       int inputLineNumber);
-    
+
+    SMARTP<lpsrPaper> createPaperNewbornClone ();
+
   protected:
 
     // constructors/destructor
@@ -42,9 +44,9 @@ class lpsrPaper : public msrElement
 
     lpsrPaper (
       int inputLineNumber);
-      
+
     virtual ~lpsrPaper ();
-  
+
   public:
 
     // set and get
@@ -54,12 +56,12 @@ class lpsrPaper : public msrElement
 
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     void    setPaperHeight        (float val) { fPaperHeight = val; }
-    
+
     void    setTopMargin          (float val) { fTopMargin = val; }
     void    setBottomMargin       (float val) { fBottomMargin = val; }
     void    setLeftMargin         (float val) { fLeftMargin = val; }
     void    setRightMargin        (float val) { fRightMargin = val; }
-    
+
     void    setIndent             (float val);
     void    setShortIndent        (float val);
 
@@ -69,7 +71,7 @@ class lpsrPaper : public msrElement
     float   getBottomMargin       () const    { return fBottomMargin; }
     float   getLeftMargin         () const    { return fLeftMargin; }
     float   getRightMargin        () const    { return fRightMargin; }
-    
+
     float   getIndent             () const    { return fIndent; }
     float   getShortIndent        () const    { return fShortIndent; }
 
@@ -97,7 +99,7 @@ class lpsrPaper : public msrElement
     // ------------------------------------------------------
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -107,7 +109,7 @@ class lpsrPaper : public msrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -120,25 +122,25 @@ class lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     // page width, height, margins and indents (centimeters)
-    
+
     float             fPaperWidth;
     float             fPaperHeight;
-    
+
     float             fTopMargin;
     float             fBottomMargin;
     float             fLeftMargin;
     float             fRightMargin;
-    
+
     float             fIndent;
     float             fShortIndent;
 
     // spaces (centimeters)
-    
+
     float             fBetweenSystemSpace;
     float             fPageTopSpace;
 
     // headers and footers
-    
+
     string            fOddHeaderMarkup;
     string            fEvenHeaderMarkup;
     string            fOddFooterMarkup;

@@ -416,6 +416,10 @@ This implies that no LilyPond code is generated.)",
       optionError (s.str ());
     }
 
+    const msrQuarterTonesPitchesLanguageKind
+      msrQuarterTonesPitchesLanguageKindDefaultValue =
+        kNederlands; //LilyPond default value
+
     // options
 
     S_optionsSubGroup languagesSubGroup =
@@ -444,7 +448,8 @@ The default is 'DEFAULT_VALUE'.)",
               "PITCHES_LANGUAGES",
               existingQuarterTonesPitchesLanguageKinds ()),
             "DEFAULT_VALUE",
-            msrQuarterTonesPitchesLanguageKindAsString (fMsrQuarterTonesPitchesLanguageKind)),
+            msrQuarterTonesPitchesLanguageKindAsString (
+              msrQuarterTonesPitchesLanguageKindDefaultValue)),
           "LANGUAGE",
           "msrPitchesLanguage",
           fMsrQuarterTonesPitchesLanguageKind));

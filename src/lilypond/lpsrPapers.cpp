@@ -24,7 +24,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -44,17 +44,61 @@ lpsrPaper::lpsrPaper (
 {
   fPaperWidth   = -1.0;
   fPaperHeight  = -1.0;
-  
+
   fTopMargin    = -1.0;
   fBottomMargin = -1.0;
   fLeftMargin   = -1.0;
   fRightMargin  = -1.0;
-    
+
   fIndent       = -1.0;
   fShortIndent  = -1.0;
 
   fBetweenSystemSpace = -1.0;
   fPageTopSpace = -1.0;
+}
+
+S_lpsrPaper lpsrPaper::createPaperNewbornClone ()
+{
+/* JMI ???
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTracePapers) {
+    gLogIOstream <<
+      "Creating a newborn clone of a paper" <<
+      endl;
+  }
+#endif
+*/
+
+  S_lpsrPaper
+    newbornClone =
+      lpsrPaper::create (
+        fInputLineNumber);
+
+  newbornClone->fPaperWidth =
+    fPaperWidth;
+  newbornClone->fPaperHeight =
+    fPaperHeight;
+
+  newbornClone->fTopMargin =
+    fTopMargin;
+  newbornClone->fBottomMargin =
+    fBottomMargin;
+  newbornClone->fLeftMargin =
+    fLeftMargin;
+  newbornClone->fRightMargin =
+    fRightMargin;
+
+  newbornClone->fIndent =
+    fIndent;
+  newbornClone->fShortIndent =
+    fShortIndent;
+
+  newbornClone->fBetweenSystemSpace =
+    fBetweenSystemSpace;
+  newbornClone->fPageTopSpace =
+    fPageTopSpace;
+
+  return newbornClone;
 }
 
 lpsrPaper::~lpsrPaper ()
@@ -93,12 +137,12 @@ void lpsrPaper::acceptIn (basevisitor* v)
       "% ==> lpsrPaper::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrPaper>*
     p =
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPaper::visitStart ()" <<
@@ -120,7 +164,7 @@ void lpsrPaper::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPaper::visitEnd ()" <<
@@ -143,7 +187,7 @@ void lpsrPaper::print (ostream& os) {
   gIndenter++;
 
   const int fieldWidth = 20;
-  
+
   // page width, height and margins
 
   if (fPaperWidth > 0) {
@@ -152,57 +196,57 @@ void lpsrPaper::print (ostream& os) {
       "paper-width" << " : " <<
       setprecision (2) << fPaperWidth << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
-  
+
   if (fPaperHeight > 0) {
     os << left <<
       setw (fieldWidth) <<
       "paper-height" << " : " <<
       setprecision (2) << fPaperHeight << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
-  
+
   if (fTopMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
       "top-margin" << " : " <<
       setprecision (2) << fTopMargin << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
-  
+
   if (fBottomMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
       "bottom-margin" << " : " <<
       setprecision (2) << fBottomMargin << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
-  
+
   if (fLeftMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
       "left-margin" << " : " <<
       setprecision (2) << fLeftMargin << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
-  
+
   if (fRightMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
       "right-margin" << " : " <<
       setprecision (2) << fRightMargin << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -212,7 +256,7 @@ void lpsrPaper::print (ostream& os) {
       "indent" << " : " <<
       setprecision (2) << fIndent << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -222,7 +266,7 @@ void lpsrPaper::print (ostream& os) {
       "short-indent" << " : " <<
       setprecision (2) << fShortIndent << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -234,7 +278,7 @@ void lpsrPaper::print (ostream& os) {
       "between-system-space" << " : " <<
       setprecision (2) << fBetweenSystemSpace << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -244,7 +288,7 @@ void lpsrPaper::print (ostream& os) {
       "page-top-space" << " : " <<
       setprecision (2) << fPageTopSpace << "\\cm" <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -256,7 +300,7 @@ void lpsrPaper::print (ostream& os) {
       "oddHeaderMarkup" << " : " <<
       fOddHeaderMarkup <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -266,7 +310,7 @@ void lpsrPaper::print (ostream& os) {
       "evenHeaderMarkup" << " : " <<
       fEvenHeaderMarkup <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -276,7 +320,7 @@ void lpsrPaper::print (ostream& os) {
       "oddFooterMarkup" << " : " <<
       fOddFooterMarkup <<
       endl;
-      
+
     emptyPaper = false;
   }
 
@@ -286,19 +330,19 @@ void lpsrPaper::print (ostream& os) {
       "evenFooterMarkup" << " : " <<
       fEvenFooterMarkup <<
       endl;
-      
+
     emptyPaper = false;
   }
 
   // otherwise
-  
+
   if (emptyPaper) {
     os <<
       " " << "nothing specified" <<
       endl <<
       endl;
   }
-  
+
   gIndenter--;
 }
 

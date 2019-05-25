@@ -415,7 +415,11 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
   {
     // variables
 
-    fScoreOutputKind = kScoreOnly; // default value
+    const lpsrScoreOutputKind
+      lpsrScoreOutputKindDefaultValue =
+        kScoreOnly; // default value
+
+    fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
     // options
 
@@ -441,7 +445,7 @@ R"(Use OUTPUT_KIND to create the LPSR blocks,
 as well as in the generated LilyPond code.
 The NUMBER LilyPond output kinds available are:
   OUTPUT_KINDS.
-'OneFile' means that LilyPond will produce a single file containing all the scores and/or parts.
+'-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
 Otherwise, one file will be generated for each score and/or part.
 The default is 'DEFAULT_VALUE'.)",
                 "NUMBER",
@@ -449,7 +453,8 @@ The default is 'DEFAULT_VALUE'.)",
               "OUTPUT_KINDS",
               existingLpsrScoreOutputKinds ()),
             "DEFAULT_VALUE",
-            lpsrScoreOutputKindAsString (fScoreOutputKind)),
+            lpsrScoreOutputKindAsString (
+              lpsrScoreOutputKindDefaultValue)),
           "OUTPUT_KIND",
           "scoreOutputKind",
           fScoreOutputKind));
@@ -516,6 +521,20 @@ This may come in handy when MusicXML data has been obtained from scanned images.
       optionError (s.str ());
     }
 
+    const msrQuarterTonesPitchesLanguageKind
+      msrQuarterTonesPitchesLanguageKindDefaultValue =
+        fLpsrQuarterTonesPitchesLanguageKind;
+
+    fLpsrQuarterTonesPitchesLanguageKind =
+      msrQuarterTonesPitchesLanguageKindDefaultValue;
+
+    const lpsrChordsLanguageKind
+      lpsrChordsLanguageKindDefaultValue =
+        k_IgnatzekChords; // LilyPond default
+
+    fLpsrChordsLanguageKind =
+      lpsrChordsLanguageKindDefaultValue;
+
     // options
 
     S_optionsSubGroup
@@ -547,7 +566,7 @@ The default is 'DEFAULT_VALUE'.)",
               existingQuarterTonesPitchesLanguageKinds ()),
             "DEFAULT_VALUE",
             msrQuarterTonesPitchesLanguageKindAsString (
-              fLpsrQuarterTonesPitchesLanguageKind)),
+              msrQuarterTonesPitchesLanguageKindDefaultValue)),
           "LANGUAGE",
           "lpsrPitchesanguage",
           fLpsrQuarterTonesPitchesLanguageKind));
@@ -571,7 +590,7 @@ The default is 'DEFAULT_VALUE'.)",
               existingLpsrChordsLanguageKinds ()),
             "DEFAULT_VALUE",
             lpsrChordsLanguageKindAsString (
-              fLpsrChordsLanguageKind)),
+              lpsrChordsLanguageKindDefaultValue)),
           "LANGUAGE",
           "lpsr-chords-language",
           fLpsrChordsLanguageKind));
@@ -832,6 +851,24 @@ S_optionsItem lpsrOptions::handleOptionsItem (
   S_optionsItem result;
 
   if (
+    // LPSR score output kind item?
+    S_optionsLpsrScoreOutputKindItem
+      scoreOutputKindItem =
+        dynamic_cast<optionsLpsrScoreOutputKindItem*>(&(*item))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsLpsrScoreOutputKindItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = scoreOutputKindItem;
+  }
+
+  else if (
     // LPSR pitches language item?
     S_optionsLpsrPitchesLanguageItem
       pitchesLanguageItem =
@@ -876,11 +913,67 @@ void lpsrOptions::handleOptionsItemValue (
   string        theString)
 {
   if (
+    // LPSR score output kind item?
+    S_optionsLpsrScoreOutputKindItem
+      scoreOutputKindItem =
+        dynamic_cast<optionsLpsrScoreOutputKindItem*>(&(*item))
+  ) {
+    // theString contains the score output kind:
+    // is it in the score output kinds map?
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsLpsrScoreOutputKindItem'" <<
+        endl;
+    }
+#endif
+
+    map<string, lpsrScoreOutputKind>::const_iterator
+      it =
+        gLpsrScoreOutputKindsMap.find (
+          theString);
+
+    if (it == gLpsrScoreOutputKindsMap.end ()) {
+      // no, language is unknown in the map
+
+      printHelpSummary (os);
+
+      stringstream s;
+
+      s <<
+        "LPSR score output kind " << theString <<
+        " is unknown" <<
+        endl <<
+        "The " <<
+        gLpsrScoreOutputKindsMap.size () <<
+        " known LPSR score output kinds are:" <<
+        endl;
+
+      gIndenter++;
+
+      s <<
+        existingLpsrScoreOutputKinds ();
+
+      gIndenter--;
+
+      optionError (s.str ());
+
+ //     exit (4); // JMI
+      abort ();
+    }
+
+    scoreOutputKindItem->
+      setScoreOutputKindKindItemVariableValue (
+        (*it).second);
+  }
+
+  else if (
     // LPSR pitches language item?
     S_optionsLpsrPitchesLanguageItem
       pitchesLanguageKindItem =
         dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
-    ) {
+  ) {
     // theString contains the language name:
     // is it in the pitches languages map?
 
@@ -936,7 +1029,7 @@ void lpsrOptions::handleOptionsItemValue (
     S_optionsLpsrChordsLanguageItem
       LpsrChordsLanguageItem =
         dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
-    ) {
+  ) {
     // theString contains the language name:
     // is it in the chords languages map?
 

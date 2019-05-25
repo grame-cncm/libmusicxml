@@ -334,6 +334,10 @@ R"(Write the contents of the BSR data with more details to standard error.)",
       optionError (s.str ());
     }
 
+    const bsrTextsLanguageKind
+      bsrTextsLanguageKindDefaultValue =
+        fBsrTextsLanguageKind;
+
     // options
 
     S_optionsSubGroup
@@ -365,7 +369,8 @@ The default is 'DEFAULT_VALUE'.)",
               "TEXT_LANGUAGES",
               existingBsrTextsLanguageKinds ()),
             "DEFAULT_VALUE",
-            bsrTextsLanguageKindAsString (fBsrTextsLanguageKind)),
+            bsrTextsLanguageKindAsString (
+              bsrTextsLanguageKindDefaultValue)),
           "LANGUAGE",
           "bsr-texts-language",
           fBsrTextsLanguageKind));

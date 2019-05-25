@@ -619,27 +619,29 @@ string lpsrScoreOutputKindAsString (
 {
   string result;
 
+  // no CamelCase here, these strings are used in the command line options
+
   switch (scoreOutputKind) {
     case kScoreOnly: // default value
-      result = "scoreOnly";
+      result = "score-only";
       break;
     case kScoreAndThenParts:
-      result = "scoreAndThenParts";
+      result = "score-and-then-parts";
       break;
     case kPartsAndThenScore:
-      result = "partsAndThenScore";
+      result = "parts-and-then-score";
       break;
     case kPartsOnly:
-      result = "partsOnly";
+      result = "parts-only";
       break;
     case kScoreAndThenPartsOneFile:
-      result = "scoreAndThenPartsOneFile";
+      result = "score-and-then-parts-one-file";
       break;
     case kPartsAndThenScoreOneFile:
-      result = "partsAndThenScoreOneFile";
+      result = "parts-and-then-score-one-file";
       break;
     case kPartsOnlyOneFile:
-      result = "partsOnlyOneFile";
+      result = "parts-only-one-file";
       break;
   } // switch
 

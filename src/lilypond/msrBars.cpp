@@ -153,7 +153,7 @@ string msrBarCheck::asString () const
 
   s <<
     "BarCheck" <<
-    ", nextBaPuristNumber = \"" << fNextBarPuristNumber << "\"" <<
+    ", nextBarPuristNumber = \"" << fNextBarPuristNumber << "\"" <<
     ", line " << fInputLineNumber;
 
   return s.str ();

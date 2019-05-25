@@ -551,7 +551,11 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
     fRomanStringNumbers = boolOptionsInitialValue;
     fAvoidOpenStrings    = boolOptionsInitialValue;
 
-    fAccidentalStyleKind = kDefault;
+    const lpsrAccidentalStyleKind
+      lpsrAccidentalStyleKindDefaultValue =
+        kDefault; // default value
+
+    fAccidentalStyleKind = lpsrAccidentalStyleKindDefaultValue;
 
     fCompressRestMeasures = boolOptionsInitialValue;
 
@@ -635,10 +639,11 @@ R"(The NUMBER LilyPond accidental styles available are:
 The default is 'DEFAULT_VALUE'.)",
                 "NUMBER",
                 to_string (gLpsrAccidentalStyleKindsMap.size ())),
-              "OUTPUT_KINDS",
+              "ACCIDENTAL_STYLES",
               existingLpsrAccidentalStyleKinds ()),
             "DEFAULT_VALUE",
-            lpsrAccidentalStyleKindAsString (fAccidentalStyleKind)),
+            lpsrAccidentalStyleKindAsString (
+              lpsrAccidentalStyleKindDefaultValue)),
           "STYLE",
           "accidentalStyle",
           fAccidentalStyleKind));
@@ -935,6 +940,11 @@ R"(Ignore repeats numbers and let LilyPond determine them.)",
 
     fDelayedOrnamentsFraction = rational (1, 2);
 
+    string delayedOrnamentsFractionDefaultValue =
+      to_string (fDelayedOrnamentsFraction.getNumerator ()) +
+        "/" +
+      to_string (fDelayedOrnamentsFraction.getDenominator ());
+
     // options
 
     S_optionsSubGroup
@@ -952,9 +962,12 @@ R"()",
       appendOptionsItem (
         optionsRationalItem::create (
           "dof", "delayed-ornaments-fraction",
+          replaceSubstringInString (
 R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
-The default value is '1/2'.)",
+The default is 'DEFAULT_VALUE'.)",
+            "DEFAULT_VALUE",
+            delayedOrnamentsFractionDefaultValue),
           "NUM/DENOM",
           "delayedOrnamentsFraction",
           fDelayedOrnamentsFraction));
@@ -1162,6 +1175,9 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
     fMidiTempo.first  = midiTempoDuration;
     fMidiTempo.second = midiTempoPerSecond;
 
+    string midiTempoDefaultValue =
+      midiTempoDuration + " = " + to_string (midiTempoPerSecond);
+
     fNoMidi = boolOptionsInitialValue;
 
     // options
@@ -1181,6 +1197,7 @@ R"()",
       appendOptionsItem (
         optionsMidiTempoItem::create (
           "midi-tempo", "",
+          replaceSubstringInString (
 R"(Generate a '\tempo' command in the \midi block.
 MIDI_TEMPO_SPEC can be:
   'DURATION = PER_SECOND'
@@ -1192,7 +1209,9 @@ otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   PER_SECOND=66
   xml2ly -midiTempo "8. ${PER_SECOND}" .
-The default midi tempo is '4 = 90'.)",
+The default is 'DEFAULT_VALUE'.)",
+            "DEFAULT_VALUE",
+            midiTempoDefaultValue),
           "MIDI_TEMPO_SPEC",
           "midiTempo",
           fMidiTempo));

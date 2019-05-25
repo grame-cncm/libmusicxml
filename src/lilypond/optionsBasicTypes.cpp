@@ -110,6 +110,8 @@ Handling:
   - options deciphering it done by the handleOptionsItem() methods defined:
       - in optionsBasicTypes.h/.cpp for the predefined ones;
       - in the various options groups for those specific to the latter.
+    The value following the option name, if any, is taken care of
+    by the handleOptionsItemValue() methods.
 */
 
 //______________________________________________________________________________

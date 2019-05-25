@@ -273,6 +273,20 @@ class lpsrBookBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setBookBlockHeader (
+                            S_lpsrHeader bookBlockHeader)
+                              { fBookBlockHeader = bookBlockHeader; }
+
+    S_lpsrHeader          getBookBlockHeader () const
+                              { return fBookBlockHeader; }
+
+    void                  setBookBlockPaper (
+                            S_lpsrPaper bookBlockPaper)
+                              { fBookBlockPaper = bookBlockPaper; }
+
+    S_lpsrPaper           getBookBlockPaper () const
+                              { return fBookBlockPaper; }
+
     const list<S_lpsrBookBlockElement>&
                           getBookBlockElementsList () const
                               { return fBookBlockElementsList; }

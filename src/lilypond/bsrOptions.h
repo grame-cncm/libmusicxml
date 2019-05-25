@@ -259,8 +259,7 @@ class bsrOptions : public optionsGroup
     // languages
     // --------------------------------------
 
-    bsrTextsLanguageKind
-                          fBsrTextsLanguageKind;
+    bsrTextsLanguageKind  fBsrTextsLanguageKind;
 
     // miscellaneous
     // --------------------------------------

@@ -684,6 +684,12 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   paper->
     setRightMargin (elt->getRightMargin ());
 
+  // set the current book block's paper as a newborn clone of paper
+  fCurrentLpsrBookBlock ->
+    setBookBlockPaper (
+      paper->
+        createPaperNewbornClone ());
+
   // get LPSR score layout
   S_lpsrLayout
     scoreLayout =
@@ -1091,7 +1097,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
     fLogOutputStream <<
       "Appending part block " <<
       fPartGroupsStack.top ()->getPartGroupCombinedName () <<
-      " to part group blocks stack" <<
+      " to part group blocks stack top" <<
       endl;
   }
 #endif
@@ -1291,6 +1297,33 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         fCurrentPartBlock->
           appendStaffBlockToPartBlock (
             fCurrentStaffBlock);
+
+        // handle the current staff block
+        switch (gLpsrOptions->fScoreOutputKind) {
+          case kScoreOnly: // default value
+            break;
+          case kScoreAndThenParts:
+          case kPartsAndThenScore:
+          case kScoreAndThenPartsOneFile:
+          case kPartsAndThenScoreOneFile:
+            {
+            /* JMI
+              // create the current score block
+              fCurrentScoreBlock =
+                lpsrScoreBlock::create (
+                  NO_INPUT_LINE_NUMBER);
+
+              // append it to the book block elements list
+              fCurrentLpsrBookBlock->
+                appendLpsrScoreBlockToBookBlockElementsList (
+                  fCurrentScoreBlock);
+                */
+            }
+            break;
+          case kPartsOnly:
+          case kPartsOnlyOneFile:
+            break;
+        } // switch
 
         fOnGoingStaff = true;
       }
