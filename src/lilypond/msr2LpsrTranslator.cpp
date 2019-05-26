@@ -70,10 +70,10 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // create the current score block if relevant
   switch (gLpsrOptions->fScoreOutputKind) {
     case kScoreOnly:
-    case kScoreAndThenParts:
-    case kPartsAndThenScore:
-    case kScoreAndThenPartsOneFile:
-    case kPartsAndThenScoreOneFile:
+    case kScoreAndParts:
+    case kPartsAndScore:
+    case kScoreAndPartsOneFile:
+    case kPartsAndScoreOneFile:
       {
         // create the current score block
         fCurrentScoreBlock =
@@ -967,10 +967,10 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // append the current partgroup block to the current score block if relevant
     switch (gLpsrOptions->fScoreOutputKind) {
       case kScoreOnly:
-      case kScoreAndThenParts:
-      case kPartsAndThenScore:
-      case kScoreAndThenPartsOneFile:
-      case kPartsAndThenScoreOneFile:
+      case kScoreAndParts:
+      case kPartsAndScore:
+      case kScoreAndPartsOneFile:
+      case kPartsAndScoreOneFile:
         {
           // sanity check
           msrAssert (
@@ -1007,10 +1007,10 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     switch (gLpsrOptions->fScoreOutputKind) {
       case kScoreOnly:
         break;
-      case kScoreAndThenParts:
-      case kPartsAndThenScore:
-      case kScoreAndThenPartsOneFile:
-      case kPartsAndThenScoreOneFile:
+      case kScoreAndParts:
+      case kPartsAndScore:
+      case kScoreAndPartsOneFile:
+      case kPartsAndScoreOneFile:
       case kPartsOnly:
       case kPartsOnlyOneFile:
         {
@@ -1150,10 +1150,10 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   switch (gLpsrOptions->fScoreOutputKind) {
     case kScoreOnly:
       break;
-    case kScoreAndThenParts:
-    case kPartsAndThenScore:
-    case kScoreAndThenPartsOneFile:
-    case kPartsAndThenScoreOneFile:
+    case kScoreAndParts:
+    case kPartsAndScore:
+    case kScoreAndPartsOneFile:
+    case kPartsAndScoreOneFile:
     case kPartsOnly:
     case kPartsOnlyOneFile:
       {
@@ -1220,7 +1220,10 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
   }
 
   // forget about the current part block
-    fCurrentPartBlock = nullptr;
+  fCurrentPartBlock = nullptr;
+
+  // forget about the current book part block
+  fCurrentBookPartBlock != nullptr;
 }
 
 //________________________________________________________________________
@@ -1366,10 +1369,10 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         switch (gLpsrOptions->fScoreOutputKind) {
           case kScoreOnly: // default value
             break;
-          case kScoreAndThenParts:
-          case kPartsAndThenScore:
-          case kScoreAndThenPartsOneFile:
-          case kPartsAndThenScoreOneFile:
+          case kScoreAndParts:
+          case kPartsAndScore:
+          case kScoreAndPartsOneFile:
+          case kPartsAndScoreOneFile:
             {
             /* JMI
               // create the current score block

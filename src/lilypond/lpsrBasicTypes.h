@@ -30,11 +30,11 @@ namespace MusicXML2
 //______________________________________________________________________________
 enum lpsrScoreOutputKind {
   kScoreOnly, // default value
-  kScoreAndThenParts,
-  kPartsAndThenScore,
+  kScoreAndParts,
+  kPartsAndScore,
   kPartsOnly,
-  kScoreAndThenPartsOneFile,
-  kPartsAndThenScoreOneFile,
+  kScoreAndPartsOneFile,
+  kPartsAndScoreOneFile,
   kPartsOnlyOneFile };
 
 string lpsrScoreOutputKindAsString (

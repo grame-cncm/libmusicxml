@@ -12,6 +12,8 @@
 
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
+#include <string>
+#include <regex>
 
 #include "utilities.h"
 
@@ -450,6 +452,14 @@ The default is 'DEFAULT_VALUE')",
           "STRING",
           "lilyPondVersion",
           fLilyPondVersion));
+
+/* JMI
+    lilypondOutputKindSubGroup->
+      appendOptionsItem (
+        xml2lyOptionsAboutItem::create (
+          "a", "about",
+R"(Display information about xml2ly and exit.)"));
+*/
 
     lilypondOutputKindSubGroup->
       appendOptionsItem (
@@ -947,6 +957,168 @@ S_optionsItem lpsrOptions::handleOptionsItem (
   return result;
 }
 
+void lpsrOptions::handleOptionsLpsrScoreOutputKindItemValue (
+  ostream&                         os,
+  S_optionsLpsrScoreOutputKindItem scoreOutputKindItem,
+  string                           theString)
+{
+  // theString contains the score output kind:
+  // is it in the score output kinds map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsLpsrScoreOutputKindItem'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrScoreOutputKind>::const_iterator
+    it =
+      gLpsrScoreOutputKindsMap.find (
+        theString);
+
+  if (it == gLpsrScoreOutputKindsMap.end ()) {
+    // no, language is unknown in the map
+
+    printHelpSummary (os);
+
+    stringstream s;
+
+    s <<
+      "LPSR score output kind " << theString <<
+      " is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrScoreOutputKindsMap.size () <<
+      " known LPSR score output kinds are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrScoreOutputKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  scoreOutputKindItem->
+    setScoreOutputKindKindItemVariableValue (
+      (*it).second);
+}
+
+void lpsrOptions::handleOptionsLpsrPitchesLanguageItemValue (
+  ostream&                         os,
+  S_optionsLpsrPitchesLanguageItem pitchesLanguageKindItem,
+  string                           theString)
+{
+  // theString contains the language name:
+  // is it in the pitches languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
+      endl;
+  }
+#endif
+
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+    it =
+      gQuarterTonesPitchesLanguageKindsMap.find (
+        theString);
+
+  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+
+    printHelpSummary (os);
+
+    stringstream s;
+
+    s <<
+      "LPSR pitches language " << theString <<
+      " is unknown" <<
+      endl <<
+      "The " <<
+      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known LPSR pitches languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  pitchesLanguageKindItem->
+    setPitchesLanguageKindItemVariableValue (
+      (*it).second);
+}
+
+void lpsrOptions::handleOptionsLpsrChordsLanguageItemValue (
+  ostream&                        os,
+  S_optionsLpsrChordsLanguageItem chordsLanguageItem,
+  string                          theString)
+{
+  // theString contains the language name:
+  // is it in the chords languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrChordsLanguageKind>::const_iterator
+    it =
+      gLpsrChordsLanguageKindsMap.find (theString);
+
+  if (it == gLpsrChordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "LPSR chords language " << theString <<
+      " is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrChordsLanguageKindsMap.size () - 1 <<
+      " known LPSR chords languages apart from the default Ignatzek are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrChordsLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+    printHelpSummary (os);
+
+    exit (4);
+  }
+
+  chordsLanguageItem->
+    setLpsrChordsLanguageKindItemVariableValue (
+      (*it).second);
+}
+
 void lpsrOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
@@ -958,54 +1130,10 @@ void lpsrOptions::handleOptionsItemValue (
       scoreOutputKindItem =
         dynamic_cast<optionsLpsrScoreOutputKindItem*>(&(*item))
   ) {
-    // theString contains the score output kind:
-    // is it in the score output kinds map?
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsLpsrScoreOutputKindItem'" <<
-        endl;
-    }
-#endif
-
-    map<string, lpsrScoreOutputKind>::const_iterator
-      it =
-        gLpsrScoreOutputKindsMap.find (
-          theString);
-
-    if (it == gLpsrScoreOutputKindsMap.end ()) {
-      // no, language is unknown in the map
-
-      printHelpSummary (os);
-
-      stringstream s;
-
-      s <<
-        "LPSR score output kind " << theString <<
-        " is unknown" <<
-        endl <<
-        "The " <<
-        gLpsrScoreOutputKindsMap.size () <<
-        " known LPSR score output kinds are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingLpsrScoreOutputKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-
- //     exit (4); // JMI
-      abort ();
-    }
-
-    scoreOutputKindItem->
-      setScoreOutputKindKindItemVariableValue (
-        (*it).second);
+    handleOptionsLpsrScoreOutputKindItemValue (
+      os,
+      scoreOutputKindItem,
+      theString);
   }
 
   else if (
@@ -1014,108 +1142,224 @@ void lpsrOptions::handleOptionsItemValue (
       pitchesLanguageKindItem =
         dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
   ) {
-    // theString contains the language name:
-    // is it in the pitches languages map?
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
-        endl;
-    }
-#endif
-
-    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
-      it =
-        gQuarterTonesPitchesLanguageKindsMap.find (
-          theString);
-
-    if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
-      // no, language is unknown in the map
-
-      printHelpSummary (os);
-
-      stringstream s;
-
-      s <<
-        "LPSR pitches language " << theString <<
-        " is unknown" <<
-        endl <<
-        "The " <<
-        gQuarterTonesPitchesLanguageKindsMap.size () <<
-        " known LPSR pitches languages are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingQuarterTonesPitchesLanguageKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-
- //     exit (4); // JMI
-      abort ();
-    }
-
-    pitchesLanguageKindItem->
-      setPitchesLanguageKindItemVariableValue (
-        (*it).second);
+    handleOptionsLpsrPitchesLanguageItemValue (
+      os,
+      pitchesLanguageKindItem,
+      theString);
   }
 
   else if (
     // chords language item?
     S_optionsLpsrChordsLanguageItem
-      LpsrChordsLanguageItem =
+      chordsLanguageItem =
         dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
   ) {
-    // theString contains the language name:
-    // is it in the chords languages map?
+    handleOptionsLpsrChordsLanguageItemValue (
+      os,
+      chordsLanguageItem,
+      theString);
+  }
+}
+
+void lpsrOptions::crackVersionNumber (
+  string theString,
+  int&   generationNumber,
+  int&   majorNumber,
+  int&   minorNumber)
+{
+  // obtains the three numbers in "2.19.83" or "2.20" for example
+
+  // decipher theString with a three-number regular expression
+  string regularExpression (
+    "([[:digit:]]+)"
+    "\."
+    "([[:digit:]]+)"
+    "\."
+    "([[:digit:]]+)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
+  if (gTraceOptions->fTraceOptions) {
+    gLogIOstream <<
+      "There are " << smSize << " matches" <<
+      " for chord details string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl <<
+      smSize << " elements: ";
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogIOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      gLogIOstream <<
         endl;
     }
 #endif
 
-    map<string, lpsrChordsLanguageKind>::const_iterator
-      it =
-        gLpsrChordsLanguageKindsMap.find (theString);
+  if (smSize == 4) {
+    // found an n.x.y specification
+    string
+      generationNumberValue = sm [1],
+      majorNumberValue      = sm [2],
+      minorNumberValue      = sm [3];
 
-    if (it == gLpsrChordsLanguageKindsMap.end ()) {
-      // no, language is unknown in the map
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      gLogIOstream <<
+        "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
+        "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
+        "--> minorNumberValue = \"" << minorNumberValue << "\"" <<
+        endl;
+    }
+#endif
+
+    generationNumber = stoi (generationNumberValue);
+    majorNumber      = stoi (majorNumberValue);
+    minorNumber      = stoi (minorNumberValue);
+  }
+
+  else {
+    // decipher theString with a two-number regular expression
+    string regularExpression (
+      "([[:digit:]]+)"
+      "\."
+      "([[:digit:]]+)");
+
+    regex  e (regularExpression);
+    smatch sm;
+
+    regex_match (theString, sm, e);
+
+    unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      gLogIOstream <<
+        "There are " << smSize << " matches" <<
+        " for chord details string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl <<
+        smSize << " elements: ";
+
+        for (unsigned i = 0; i < smSize; ++i) {
+          gLogIOstream <<
+            "[" << sm [i] << "] ";
+        } // for
+
+        gLogIOstream <<
+          endl;
+      }
+#endif
+
+    if (smSize == 3) {
+      // found an n.x specification
+      // assume implicit 0 minor number
+      string
+        generationNumberValue = sm [1],
+        majorNumberValue      = sm [2];
+
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceOptions) {
+        gLogIOstream <<
+          "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
+          "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
+          endl;
+      }
+#endif
+
+      generationNumber = stoi (generationNumberValue);
+      majorNumber      = stoi (majorNumberValue);
+      minorNumber      = 0;
+    }
+
+    else {
       stringstream s;
 
       s <<
-        "LPSR chords language " << theString <<
-        " is unknown" <<
-        endl <<
-        "The " <<
-        gLpsrChordsLanguageKindsMap.size () - 1 <<
-        " known LPSR chords languages apart from the default Ignatzek are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingLpsrChordsLanguageKinds ();
-
-      gIndenter--;
+        "version number argument '" << theString <<
+        "' is ill-formed";
 
       optionError (s.str ());
 
-      printHelpSummary (os);
-
       exit (4);
     }
-
-    LpsrChordsLanguageItem->
-      setLpsrChordsLanguageKindItemVariableValue (
-        (*it).second);
   }
+}
+
+bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
+  string otherVersionNumber)
+{
+  bool result = false;
+
+  int
+    lilyPondVersionGenerationNumber,
+    lilyPondVersionMajorNumber,
+    lilyPondVersionMinorNumber;
+
+  crackVersionNumber (
+    fLilyPondVersion,
+    lilyPondVersionGenerationNumber,
+    lilyPondVersionMajorNumber,
+    lilyPondVersionMinorNumber);
+
+  int
+    otherVersionNumbeGenerationNumber,
+    otherVersionNumbeMajorNumber,
+    otherVersionNumbeMinorNumber;
+
+  crackVersionNumber (
+    otherVersionNumber,
+    otherVersionNumbeGenerationNumber,
+    otherVersionNumbeMajorNumber,
+    otherVersionNumbeMinorNumber);
+
+  if (otherVersionNumbeGenerationNumber != 2) {
+    gLogIOstream <<
+      "Using verstion \"" <<
+      otherVersionNumbeGenerationNumber << ".x.y\" " <<
+      "is probably not such a good idea" <<
+      endl;
+  }
+
+  if (otherVersionNumbeMajorNumber < 19) {
+    gLogIOstream <<
+      "Using a verstion older than \"" <<
+      otherVersionNumbeGenerationNumber << ".19.y\" " <<
+      "is not a good idea: the generated LilyPond code uses features introduced in the latter" <<
+      endl;
+  }
+
+  if (lilyPondVersionGenerationNumber < otherVersionNumbeGenerationNumber) {
+    result = false;
+  }
+  else if (lilyPondVersionGenerationNumber > otherVersionNumbeGenerationNumber) {
+    result = true;
+  }
+  else {
+    // same generation number
+    if (lilyPondVersionMajorNumber < otherVersionNumbeMajorNumber) {
+      result = false;
+    }
+    else if (lilyPondVersionMajorNumber > otherVersionNumbeMajorNumber) {
+      result = true;
+    }
+    else {
+      // same major number
+      result =
+        lilyPondVersionMinorNumber >= otherVersionNumbeMinorNumber;
+    }
+  }
+
+  return result;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrOptions& elt)

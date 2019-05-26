@@ -8777,14 +8777,31 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           }
 
           fLilypondCodeIOstream <<
-            "(" <<
-    // JMI        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
-            " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
+            "(";
+          if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+            fLilypondCodeIOstream <<
+              " \\smaller \\general-align #Y #DOWN \\note {";
+          }
+          else {
+            fLilypondCodeIOstream <<
+              "\\smaller \\general-align #Y #DOWN \\note #\"";
+          }
+
+          fLilypondCodeIOstream <<
             dottedDurationAsLilypondStringWithoutBackSlash (
               inputLineNumber,
-              tempoBeatUnit) <<
-            "} #UP" <<
-      //      "\" #UP" <<
+              tempoBeatUnit);
+
+          if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+            fLilypondCodeIOstream <<
+              "} #UP";
+          }
+          else {
+            fLilypondCodeIOstream <<
+              "\" #UP";
+          }
+
+          fLilypondCodeIOstream <<
             endl <<
             "\" = \"" <<
             endl <<
@@ -8843,13 +8860,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 
         gIndenter++;
 
+        if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+          fLilypondCodeIOstream <<
+            " \\smaller \\general-align #Y #DOWN \\note {";
+        }
+        else {
+          fLilypondCodeIOstream <<
+            " \\smaller \\general-align #Y #DOWN \\note #\"";
+        }
+
         fLilypondCodeIOstream <<
-          " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
           dottedDurationAsLilypondStringWithoutBackSlash (
             inputLineNumber,
-            tempoBeatUnit) <<
-          "} #UP" <<
-    //      "\" #UP" <<
+            tempoBeatUnit);
+
+        if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+          fLilypondCodeIOstream <<
+            "} #UP";
+        }
+        else {
+          fLilypondCodeIOstream <<
+            "\" #UP";
+        }
+
+        fLilypondCodeIOstream <<
           endl <<
           "\" = \"" <<
           endl <<
@@ -8955,20 +8989,60 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 
       gIndenter++;
 
+      if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeIOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note {";
+      }
+      else {
+        fLilypondCodeIOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note #\"";
+      }
+
       fLilypondCodeIOstream <<
-        " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
         dottedDurationAsLilypondStringWithoutBackSlash (
           inputLineNumber,
-          tempoBeatUnit) <<
-        "} #UP" <<
+          tempoBeatUnit);
+
+      if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeIOstream <<
+          "} #UP";
+      }
+      else {
+        fLilypondCodeIOstream <<
+          "\" #UP";
+      }
+
+      fLilypondCodeIOstream <<
         endl <<
         "\" = \"" <<
-        endl <<
-        " \\smaller \\general-align #Y #DOWN \\note {" << // 2.21.0
+        endl;
+
+      fLilypondCodeIOstream <<
+        "(";
+      if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeIOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note {";
+      }
+      else {
+        fLilypondCodeIOstream <<
+          " \\smaller \\general-align #Y #DOWN \\note #\"";
+      }
+
+      fLilypondCodeIOstream <<
         dottedDurationAsLilypondStringWithoutBackSlash (
           inputLineNumber,
-          elt->getTempoEquivalentBeatUnit ()) <<
-        "} #UP" <<
+          elt->getTempoEquivalentBeatUnit ());
+
+      if (gLpsrOptions->versionNumberGreaterThanOrEqualTo ("2.20")) {
+        fLilypondCodeIOstream <<
+          "} #UP";
+      }
+      else {
+        fLilypondCodeIOstream <<
+          "\" #UP";
+      }
+
+      fLilypondCodeIOstream <<
         endl;
 
       gIndenter--;

@@ -625,20 +625,20 @@ string lpsrScoreOutputKindAsString (
     case kScoreOnly: // default value
       result = "score-only";
       break;
-    case kScoreAndThenParts:
-      result = "score-and-then-parts";
+    case kScoreAndParts:
+      result = "score-and-parts";
       break;
-    case kPartsAndThenScore:
-      result = "parts-and-then-score";
+    case kPartsAndScore:
+      result = "parts-and-score";
       break;
     case kPartsOnly:
       result = "parts-only";
       break;
-    case kScoreAndThenPartsOneFile:
-      result = "score-and-then-parts-one-file";
+    case kScoreAndPartsOneFile:
+      result = "score-and-parts-one-file";
       break;
-    case kPartsAndThenScoreOneFile:
-      result = "parts-and-then-score-one-file";
+    case kPartsAndScoreOneFile:
+      result = "parts-and-score-one-file";
       break;
     case kPartsOnlyOneFile:
       result = "parts-only-one-file";
@@ -656,11 +656,11 @@ void initializeLpsrScoreOutputKindsMap ()
   // no CamelCase here, these strings are used in the command line options
 
   gLpsrScoreOutputKindsMap ["score-only"] = kScoreOnly;
-  gLpsrScoreOutputKindsMap ["score-and-then-parts"] = kScoreAndThenParts;
-  gLpsrScoreOutputKindsMap ["parts-and-then-score"] = kPartsAndThenScore;
+  gLpsrScoreOutputKindsMap ["score-and-parts"] = kScoreAndParts;
+  gLpsrScoreOutputKindsMap ["parts-and-score"] = kPartsAndScore;
   gLpsrScoreOutputKindsMap ["parts-only"] = kPartsOnly;
-  gLpsrScoreOutputKindsMap ["score-and-then-parts-one-file"] = kScoreAndThenPartsOneFile;
-  gLpsrScoreOutputKindsMap ["parts-and-then-score-one-file"] = kPartsAndThenScoreOneFile;
+  gLpsrScoreOutputKindsMap ["score-and-parts-one-file"] = kScoreAndPartsOneFile;
+  gLpsrScoreOutputKindsMap ["parts-and-score-one-file"] = kPartsAndScoreOneFile;
   gLpsrScoreOutputKindsMap ["parts-only-one-file"] = kPartsOnlyOneFile;
 }
 

@@ -951,7 +951,7 @@ R"(Ignore repeats numbers and let LilyPond determine them.)",
       ornamentsSubGroup =
         optionsSubGroup::create (
           "Ornaments",
-          "hlpo", "help-lilypond-ornaments",
+          "hlporns", "help-lilypond-ornaments",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);

@@ -306,6 +306,30 @@ class lpsrOptions : public optionsGroup
                             S_optionsItem item,
                             string        theString);
 
+    void                  handleOptionsLpsrScoreOutputKindItemValue (
+                            ostream&                         os,
+                            S_optionsLpsrScoreOutputKindItem scoreOutputKindItem,
+                            string                           theString);
+
+    void                  handleOptionsLpsrPitchesLanguageItemValue (
+                            ostream&                         os,
+                            S_optionsLpsrPitchesLanguageItem pitchesLanguageKindItem,
+                            string                           theString);
+
+    void                  handleOptionsLpsrChordsLanguageItemValue (
+                            ostream&                        os,
+                            S_optionsLpsrChordsLanguageItem chordsLanguageItem,
+                            string                          theString);
+
+    void                  crackVersionNumber (
+                            string theString,
+                            int&   generationNumber,
+                            int&   majorNumber,
+                            int&   minorNumber);
+
+    bool                  versionNumberGreaterThanOrEqualTo (
+                            string otherVersionNumber);
+
   public:
 
     // print
