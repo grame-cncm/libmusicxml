@@ -317,6 +317,9 @@ void optionsElement::printHelp (ostream& os) const
 
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
+
+  // register help print action in options handler uplink
+//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 ostream& operator<< (ostream& os, const S_optionsElement& elt)
@@ -828,6 +831,9 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) { // ??? JMI
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
+
+  // register help print action in options handler uplink
+//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsCombinedItemsItem::printOptionsValues (
@@ -1287,6 +1293,9 @@ void optionsValuedItem::printHelp (ostream& os) const
 
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
+
+  // register help print action in options handler uplink
+//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsValuedItem::printOptionsValues (
@@ -2105,6 +2114,11 @@ void optionsSubGroup::printHelp (ostream& os) const
     case kHideDescriptionByDefault:
       break;
   } // switch
+
+  // register help print action in options groups's options handler uplink
+  fOptionsGroupUplink->
+    getOptionsHandlerUplink ()->
+      setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
@@ -2165,6 +2179,11 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
 
   os <<
     endl;
+
+  // register help print action in options groups's options handler uplink
+  fOptionsGroupUplink->
+    getOptionsHandlerUplink ()->
+      setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsSubGroup::printHelpSummary (
@@ -2212,6 +2231,11 @@ void optionsSubGroup::printHelpSummary (
       endl;
     gIndenter--;
   }
+
+  // register help print action in options groups's options handler uplink
+  fOptionsGroupUplink->
+    getOptionsHandlerUplink ()->
+      setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsSubGroup::printSpecificSubGroupHelp (
@@ -2276,6 +2300,11 @@ void optionsSubGroup::printOptionsItemForcedHelp (
 
     gIndenter--;
   }
+
+  // register help print action in options groups's options handler uplink
+  fOptionsGroupUplink->
+    getOptionsHandlerUplink ()->
+      setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsSubGroup::printOptionsValues (
@@ -2564,6 +2593,9 @@ void optionsGroup::printHelp (ostream& os) const
 
     gIndenter--;
   }
+
+  // register help print action in options handler uplink
+  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printOptionsSubGroupForcedHelp (
@@ -2684,6 +2716,9 @@ void optionsGroup::printOptionsItemForcedHelp (
 
     gIndenter--;
   }
+
+  // register help print action in options handler uplink
+  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printHelpSummary (ostream& os) const
@@ -2727,12 +2762,14 @@ void optionsGroup::printHelpSummary (ostream& os) const
 
     gIndenter--;
   }
+
+  // register help print action in options handler uplink
+  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printSpecificSubGroupHelp (
-  ostream& os,
-  S_optionsSubGroup
-           optionsSubGroup) const
+  ostream&          os,
+  S_optionsSubGroup optionsSubGroup) const
 {
   // the description is the header of the information
   os <<
@@ -2774,6 +2811,9 @@ void optionsGroup::printSpecificSubGroupHelp (
 
     gIndenter--;
   }
+
+  // register help print action in options handler uplink
+  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsGroup::printOptionsValues (
@@ -2990,6 +3030,9 @@ void optionsPrefix::printHelp (ostream& os) const
 
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
+
+  // register help print action in options handler uplink
+//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 ostream& operator<< (ostream& os, const S_optionsPrefix& elt)
@@ -3064,6 +3107,8 @@ optionsHandler::optionsHandler (
   fMaximumLongNameWidth    = 1;
 
   fMaximumDisplayNameWidth = 1;
+
+  fOptionsHandlerFoundAHelpItem = false;
 }
 
 optionsHandler::~optionsHandler ()
@@ -3335,6 +3380,10 @@ void optionsHandler::print (ostream& os) const
     setw (fieldWidth) <<
     "fOptionsElementLongName" << " : " <<
     fOptionsElementLongName <<
+    endl <<
+    setw (fieldWidth) <<
+    "optionsHandlerFoundAHelpItem" << " : " <<
+    fOptionsHandlerFoundAHelpItem <<
     endl;
 
   // print the options prefixes if any
@@ -3420,6 +3469,9 @@ void optionsHandler::printHelp (ostream& os) const
 
     gIndenter--;
   }
+
+  // register help print action in options handler uplink
+//  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
 void optionsHandler::printHelpSummary (ostream& os) const
@@ -4142,6 +4194,19 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     }
   }
 #endif
+
+  // was this run 'help' one?
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "==> fOptionsHandlerFoundAHelpItem: " <<
+      booleanAsString (fOptionsHandlerFoundAHelpItem) <<
+      endl;
+  }
+#endif
+  if (fOptionsHandlerFoundAHelpItem) {
+    exit (0);
+  }
 
   // exit if there are no arguments
   if (argumentsVectorSize == 0) {
@@ -5084,6 +5149,5 @@ void optionsHandler::handleOptionsItemValueOrArgument (
     fArgumentsVector.push_back (theString);
   }
 }
-
 
 }

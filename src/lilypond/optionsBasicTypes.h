@@ -1620,9 +1620,8 @@ class EXP optionsHandler : public optionsElement
                               }
 
     void                  printSpecificSubGroupHelp (
-                            ostream& os,
-                            S_optionsSubGroup
-                                     optionsSubGroup) const;
+                            ostream&          os,
+                            S_optionsSubGroup optionsSubGroup) const;
 
     void                  printSpecificItemHelp (
                             ostream& os,
@@ -1630,6 +1629,12 @@ class EXP optionsHandler : public optionsElement
 
     void                  printAllOptionsValues (
                             ostream& os) const;
+
+    bool                  getOptionsHandlerFoundAHelpItem () const
+                              { return fOptionsHandlerFoundAHelpItem; }
+
+    bool                  setOptionsHandlerFoundAHelpItem ()
+                              { fOptionsHandlerFoundAHelpItem = true; }
 
   private:
 
@@ -1786,6 +1791,10 @@ class EXP optionsHandler : public optionsElement
     string                fCommandLineWithLongOptions;
 
     indentedOstream&      fOptionsHandlerLogIOstream;
+
+    // this is needed to exit if the executable is launched with help items,
+    // i.e. items that are only used to display help to the user
+    bool                  fOptionsHandlerFoundAHelpItem;
 };
 typedef SMARTP<optionsHandler> S_optionsHandler;
 EXP ostream& operator<< (ostream& os, const S_optionsHandler& elt);
