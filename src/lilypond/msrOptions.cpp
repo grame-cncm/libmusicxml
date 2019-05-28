@@ -127,36 +127,33 @@ void optionsPartRenameItem::printOptionsValues (
     " : ";
 
   if (! fOptionsPartRenameItemVariable.size ()) {
-    os << "none";
+    os <<
+      "none" <<
+      endl;
   }
   else {
-    gIndenter++;
-
     os <<
       endl;
+
+    gIndenter++;
 
     map<string, string>::const_iterator
       iBegin = fOptionsPartRenameItemVariable.begin (),
       iEnd   = fOptionsPartRenameItemVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
-      os << left <<
-        setw (valueFieldWidth) <<
-        " " <<
-        " \"" <<
+      os <<
+        "\"" <<
         (*i).first <<
         "\" --> \"" <<
         (*i).second <<
-        "\"";
+        "\"" <<
+        endl;
       if (++i == iEnd) break;
-      os << endl;
     } // for
 
     gIndenter--;
   }
-
-  os <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
