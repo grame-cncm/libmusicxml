@@ -15805,12 +15805,6 @@ void msrChordInterval::browseData (basevisitor* v)
 {}
 */
 
-ostream& operator<< (ostream& os, const S_msrChordInterval& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 string msrChordInterval::asString ()
 {
   stringstream s;
@@ -15867,6 +15861,12 @@ void msrChordInterval::print (ostream& os)
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChordInterval& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -16797,21 +16797,6 @@ void msrChordStructure::appendChordIntervalToChordStructure (
     chordInterval);
 }
 
-string msrChordStructure::chordStructureAsString () const
-{
-  stringstream s;
-
-  s <<
-    "ChordStructure" <<
-    ", " <<
-    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
-    ", " <<
-    singularOrPlural (
-      fChordStructureIntervals.size (), "item", "items");
-
-  return s.str ();
-}
-
 /* JMI
 void msrChordStructure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -16856,54 +16841,6 @@ void msrChordStructure::acceptOut (basevisitor* v) {
 void msrChordStructure::browseData (basevisitor* v)
 {}
 */
-
-ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrChordStructure::print (ostream& os)
-{
-  os <<
-    "ChordStructure" <<
-    ", harmonyKind: " <<
-    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
-    ", " <<
-    singularOrPlural (
-      fChordStructureIntervals.size (), "interval", "intervals") <<
-  /* JMI
-    ", line: " << fInputLineNumber <<
-    */
-    endl;
-
-  gIndenter++;
-
-  if (fChordStructureIntervals.size ()) {
-    vector<S_msrChordInterval>::const_reverse_iterator
-      iBegin = fChordStructureIntervals.crbegin (),
-      iEnd   = fChordStructureIntervals.crend (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      S_msrChordInterval
-        chordInterval = (*i);
-
-      gLogIOstream <<
-        chordInterval->chordIntervalAsShortString () <<
-        endl;
-
-      if (++i == iEnd) break;
-    } // for
-  }
-  else {
-    gLogIOstream <<
-      "no intervals" <<
-      endl;
-  }
-
-  gIndenter--;
-}
 
 S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
   int inputLineNumber,
@@ -17040,34 +16977,6 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
   return result;
 }
 
-void msrChordStructure::printAllChordsStructures (ostream& os)
-{
-  os <<
-    "All the known chords structures are:" <<
-    endl <<
-    endl;
-
-  gIndenter++;
-
-  for (
-    msrHarmonyKind harmonyKind = kMajorHarmony;
-    harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
-    harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
-    // create the chord intervals
-    S_msrChordStructure
-      chordStructure =
-        msrChordStructure::create (
-          harmonyKind);
-
-    // print it
-    os <<
-      chordStructure <<
-      endl;
-  } // for
-
-  gIndenter--;
-}
-
 list<msrSemiTonesPitchKind> buildSemiTonesChord (
   msrHarmonyKind        harmonyKind,
   msrSemiTonesPitchKind rootNote)
@@ -17096,134 +17005,162 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
   return result;
 }
 
-//______________________________________________________________________________
-S_msrChordPitch msrChordPitch::create (
-//      int             inputLineNumber,
-// JMI      int             chordPitchNumber,
-  msrSemiTonesPitchKind chordPitchSemitonePitchKind,
-  int                   chordPitchRelativeOctave)
+string msrChordStructure::chordStructureAsString () const
 {
-  msrChordPitch* o =
-    new msrChordPitch (
- //     inputLineNumber,
- //     chordPitchNumber,
-      chordPitchSemitonePitchKind,
-      chordPitchRelativeOctave);
+  stringstream s;
+
+  s <<
+    "ChordStructure" <<
+    ", " <<
+    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
+    ", " <<
+    singularOrPlural (
+      fChordStructureIntervals.size (), "item", "items");
+
+  return s.str ();
+}
+
+void msrChordStructure::print (ostream& os)
+{
+  os <<
+    "ChordStructure" <<
+    ", harmonyKind: " <<
+    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
+    ", " <<
+    singularOrPlural (
+      fChordStructureIntervals.size (), "interval", "intervals") <<
+  /* JMI
+    ", line: " << fInputLineNumber <<
+    */
+    endl;
+
+  gIndenter++;
+
+  if (fChordStructureIntervals.size ()) {
+    vector<S_msrChordInterval>::const_reverse_iterator
+      iBegin = fChordStructureIntervals.crbegin (),
+      iEnd   = fChordStructureIntervals.crend (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrChordInterval
+        chordInterval = (*i);
+
+      gLogIOstream <<
+        chordInterval->chordIntervalAsShortString () <<
+        endl;
+
+      if (++i == iEnd) break;
+    } // for
+  }
+  else {
+    gLogIOstream <<
+      "no intervals" <<
+      endl;
+  }
+
+  gIndenter--;
+}
+
+void msrChordStructure::printAllChordsStructures (ostream& os)
+{
+  os <<
+    "All the known chords structures are:" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+
+  for (
+    msrHarmonyKind harmonyKind = kMajorHarmony;
+    harmonyKind <= kMajorSeventhAugmentedEleventhHarmony;
+    harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
+    // create the chord intervals
+    S_msrChordStructure
+      chordStructure =
+        msrChordStructure::create (
+          harmonyKind);
+
+    // print it
+    os <<
+      chordStructure <<
+      endl;
+  } // for
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::create (
+  msrSemiTonesPitchKind semitonePitchKind,
+  int                   relativeOctave)
+{
+  msrSemiTonesPitchAndRelativeOctave* o =
+    new msrSemiTonesPitchAndRelativeOctave (
+      semitonePitchKind,
+      relativeOctave);
   assert(o!=0);
 
   return o;
 }
 
-msrChordPitch::msrChordPitch (
-//      int             inputLineNumber,
-// JMI      int             chordPitchNumber,
-  msrSemiTonesPitchKind chordPitchSemitonePitchKind,
-  int                   chordPitchRelativeOctave)
-  // JMI  : msrElement (inputLineNumber)
+msrSemiTonesPitchAndRelativeOctave::msrSemiTonesPitchAndRelativeOctave (
+  msrSemiTonesPitchKind semitonePitchKind,
+  int                   relativeOctave)
 {
-//  fChordSemitonePitchNumber       = chordPitchNumber;
+  fSemitonePitchKind = semitonePitchKind;
 
-  fChordPitchSemitonePitchKind = chordPitchSemitonePitchKind;
-
-  fChordPitchRelativeOctave = chordPitchRelativeOctave;
+  fRelativeOctave = relativeOctave;
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
       "==> Creating chord item '" <<
-      chordPitchAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
 }
 
-msrChordPitch::~msrChordPitch ()
+msrSemiTonesPitchAndRelativeOctave::~msrSemiTonesPitchAndRelativeOctave ()
 {}
 
-S_msrChordPitch msrChordPitch::createChordPitchNewbornClone ()
+S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::createSemiTonesPitchAndRelativeOctaveNewbornClone ()
 {
-  S_msrChordPitch
+  S_msrSemiTonesPitchAndRelativeOctave
     newbornClone =
-      msrChordPitch::create (
-   //      0, // JMI fInputLineNumber
-  //      fChordPitchNumber,
-        fChordPitchSemitonePitchKind,
-        fChordPitchRelativeOctave);
+      msrSemiTonesPitchAndRelativeOctave::create (
+        fSemitonePitchKind,
+        fRelativeOctave);
 
   return newbornClone;
 }
 
-string msrChordPitch::chordPitchAsString () const
+string msrSemiTonesPitchAndRelativeOctave::asString () const
 {
   stringstream s;
 
   const int fieldWidth = 19;
 
   s << left <<
-    "ChordPitch" <<
- //   " " << fChordPitchNumber <<
+    "SemiTonesPitchAndRelativeOctave" <<
     ": " <<
     setw (fieldWidth) <<
-    msrSemiTonesPitchKindAsString (fChordPitchSemitonePitchKind) <<
-    ", chordPitchRelativeOctave: " << fChordPitchRelativeOctave;
+    msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    ", relativeOctave: " << fRelativeOctave;
 
   return s.str ();
 }
 
-/* JMI
-void msrChordPitch::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrChordPitch::acceptIn ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrChordPitch>*
-    p =
-      dynamic_cast<visitor<S_msrChordPitch>*> (v)) {
-        S_msrChordPitch elem = this;
-
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrChordPitch::visitStart ()" <<
-             endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrChordPitch::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "% ==> msrChordPitch::acceptOut ()" <<
-      endl;
-  }
-
-  if (visitor<S_msrChordPitch>*
-    p =
-      dynamic_cast<visitor<S_msrChordPitch>*> (v)) {
-        S_msrChordPitch elem = this;
-
-        if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
-            "% ==> Launching msrChordPitch::visitEnd ()" <<
-            endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrChordPitch::browseData (basevisitor* v)
-{}
-*/
-
-ostream& operator<< (ostream& os, const S_msrChordPitch& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-void msrChordPitch::print (ostream& os)
+void msrSemiTonesPitchAndRelativeOctave::print (ostream& os)
 {
   os <<
-    "ChordPitch" <<
+    "SemiTonesPitchAndRelativeOctave" <<
     endl;
 
   gIndenter++;
@@ -17231,23 +17168,21 @@ void msrChordPitch::print (ostream& os)
   const int fieldWidth = 22;
 
   os << left <<
-  /* JMI
     setw (fieldWidth) <<
-    "chordPitchNumber" << " : " << fChordPitchNumber <<
-    endl <<
-    */
-    setw (fieldWidth) <<
-    "chordPitchSemitonePitchKind" << " : " <<
-      msrSemiTonesPitchKindAsString (fChordPitchSemitonePitchKind) <<
+    "semitonePitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "chordPitchRelativeOctave" << " : " << fChordPitchRelativeOctave <<
-  /* JMI
-    ", line: " << fInputLineNumber <<
-    */
+    "relativeOctave" << " : " << fRelativeOctave <<
     endl;
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -17282,17 +17217,17 @@ msrChordContents::msrChordContents (
       endl;
   }
 
-  // create the root chord pitch
-  S_msrChordPitch
-    rootChordPitch =
-      msrChordPitch::create (
+  // create the root chord element
+  S_msrSemiTonesPitchAndRelativeOctave
+    rootChordElement =
+      msrSemiTonesPitchAndRelativeOctave::create (
         fChordContentsRootNote,
         0); // relative octave
 
-  // add it to the chord pitches
-  fChordContentsChordPitches.push_back (rootChordPitch);
+  // add it to the chord elements
+  fChordElementsVector.push_back (rootChordElement);
 
-  // add the other notes to the chord pitches
+  // add the other notes to the chord elements
   S_msrChordStructure
     chordStructure =
       msrChordStructure::create (
@@ -17318,15 +17253,15 @@ msrChordContents::msrChordContents (
           intervalKind,
           fChordContentsRootNote);
 
-    // create the chord pitch
-    S_msrChordPitch
-      chordPitch =
-        msrChordPitch::create (
+    // create the chord element
+    S_msrSemiTonesPitchAndRelativeOctave
+      chordElement =
+        msrSemiTonesPitchAndRelativeOctave::create (
           semiTonePitch,
           0); // relative octave
 
-    // add it to the chord pitches
-    fChordContentsChordPitches.push_back (chordPitch);
+    // add it to the chord elements
+    fChordElementsVector.push_back (chordElement);
   } // for
 }
 
@@ -17343,7 +17278,7 @@ string msrChordContents::chordContentsAsString () const
     msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
     ", " <<
     singularOrPlural (
-      fChordContentsChordPitches.size (), "chord pitch", "chord pitches");
+      fChordElementsVector.size (), "chord element", "chord elements");
 
   return s.str ();
 }
@@ -17360,7 +17295,7 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
   if (
     inversionNumber < 0
       ||
-    inversionNumber > int (fChordContentsChordPitches.size ()) - 1 ) {
+    inversionNumber > int (fChordElementsVector.size ()) - 1 ) {
     stringstream s;
 
     s <<
@@ -17378,8 +17313,8 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
   }
 
   return
-    fChordContentsChordPitches [inversionNumber]->
-      getChordPitchSemitonePitchKind ();
+    fChordElementsVector [inversionNumber]->
+      getSemitonePitchKind ();
 }
 
 void msrChordContents::printAllChordsContents (
@@ -17542,12 +17477,6 @@ void msrChordContents::browseData (basevisitor* v)
 {}
 */
 
-ostream& operator<< (ostream& os, const S_msrChordContents& elt)
-{
-  elt->print (os);
-  return os;
-}
-
 void msrChordContents::print (ostream& os)
 {
   os <<
@@ -17571,22 +17500,22 @@ void msrChordContents::print (ostream& os)
     msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
     endl;
 
-  if (fChordContentsChordPitches.size ()) {
+  if (fChordElementsVector.size ()) {
     os <<
     singularOrPlural (
-      fChordContentsChordPitches.size (), "chord pitch", "chord pitches") <<
+      fChordElementsVector.size (), "chord element", "chord elements") <<
     ":" <<
     endl;
 
     gIndenter++;
 
-    for (unsigned int i = 0; i < fChordContentsChordPitches.size (); i++) {
-      S_msrChordPitch
-        chordPitch =
-          fChordContentsChordPitches [i];
+    for (unsigned int i = 0; i < fChordElementsVector.size (); i++) {
+      S_msrSemiTonesPitchAndRelativeOctave
+        chordElement =
+          fChordElementsVector [i];
 
       os <<
-        chordPitch <<
+        chordElement <<
         endl;
     } // for
 
@@ -17599,6 +17528,12 @@ void msrChordContents::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrChordContents& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________

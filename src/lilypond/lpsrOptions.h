@@ -255,7 +255,8 @@ class optionsLpsrTransposeItem : public optionsValuedItem
       string  optionsItemDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      S_msrSemiTonesPitchAndRelativeOctave&
+              optionsLpsrTransposeItemVariable);
 
   protected:
 
@@ -268,7 +269,8 @@ class optionsLpsrTransposeItem : public optionsValuedItem
       string  optionsItemDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
-      string& optionsStringItemVariable);
+      S_msrSemiTonesPitchAndRelativeOctave&
+              optionsLpsrTransposeItemVariable);
 
     virtual ~optionsLpsrTransposeItem ();
 
@@ -284,7 +286,7 @@ class optionsLpsrTransposeItem : public optionsValuedItem
                               }
 
     void                  setTransposeItemVariableValue (
-                            string value)
+                            S_msrSemiTonesPitchAndRelativeOctave value)
                               {
                                 fOptionsTransposeItemVariable = value;
                               }
@@ -307,7 +309,8 @@ class optionsLpsrTransposeItem : public optionsValuedItem
     // ------------------------------------------------------
 
     string                fOptionsTransposeItemVariableDisplayName;
-    string&               fOptionsTransposeItemVariable;
+    S_msrSemiTonesPitchAndRelativeOctave&
+                          fOptionsTransposeItemVariable;
 };
 typedef SMARTP<optionsLpsrTransposeItem> S_optionsLpsrTransposeItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt);
@@ -481,6 +484,9 @@ class lpsrOptions : public optionsGroup
 
     // transpose
     // --------------------------------------
+
+    S_msrSemiTonesPitchAndRelativeOctave
+                          fSemiTonesPitchAndRelativeOctave;
 
     // exit after some passes
     // --------------------------------------

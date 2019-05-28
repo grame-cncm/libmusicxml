@@ -306,7 +306,8 @@ S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
   string  optionsItemDescription,
   string  optionsValueSpecification,
   string  optionsLpsrTransposeItemVariableDisplayName,
-  string& optionsLpsrTransposeItemVariable)
+  S_msrSemiTonesPitchAndRelativeOctave&
+          optionsLpsrTransposeItemVariable)
 {
   optionsLpsrTransposeItem* o = new
     optionsLpsrTransposeItem (
@@ -326,7 +327,8 @@ optionsLpsrTransposeItem::optionsLpsrTransposeItem (
   string  optionsItemDescription,
   string  optionsValueSpecification,
   string  optionsLpsrTransposeItemVariableDisplayName,
-  string& optionsLpsrTransposeItemVariable)
+  S_msrSemiTonesPitchAndRelativeOctave&
+          optionsLpsrTransposeItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
@@ -368,7 +370,23 @@ void optionsLpsrTransposeItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
-  // nothing to print here
+  os << left <<
+    setw (valueFieldWidth) <<
+    "msrSemiTonesPitchAndRelativeOctave" <<
+    " : ";
+  if (fOptionsTransposeItemVariable) {
+    os <<
+      endl;
+    gIndenter++;
+    os <<
+      fOptionsTransposeItemVariable;
+    gIndenter--;
+  }
+  else {
+    os <<
+      "none" <<
+      endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt)
@@ -664,7 +682,7 @@ The default is 'DEFAULT_VALUE'.)",
           msrQuarterTonesPitchesLanguageKindAsString (
             msrQuarterTonesPitchesLanguageKindDefaultValue)),
         "LANGUAGE",
-        "lpsrPitchesanguage",
+        "lpsrPitchesLanguage",
         fLpsrQuarterTonesPitchesLanguageKind));
 
   languagesSubGroup->
@@ -697,49 +715,13 @@ void lpsrOptions::initializeLpsrTransposeOptions (
 {
   // variables
 
-  if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
-    stringstream s;
-
-    s <<
-      "INTERNAL INITIALIZATION ERROR: "
-      "LPSR pitches language 'nederlands' is unknown" <<
-      endl <<
-      "The " <<
-      gQuarterTonesPitchesLanguageKindsMap.size () <<
-      " known LPSR pitches languages are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingQuarterTonesPitchesLanguageKinds ();
-
-    gIndenter--;
-
-    optionError (s.str ());
-  }
-
-  const msrQuarterTonesPitchesLanguageKind
-    msrQuarterTonesPitchesLanguageKindDefaultValue =
-      fLpsrQuarterTonesPitchesLanguageKind;
-
-  fLpsrQuarterTonesPitchesLanguageKind =
-    msrQuarterTonesPitchesLanguageKindDefaultValue;
-
-  const lpsrChordsLanguageKind
-    lpsrChordsLanguageKindDefaultValue =
-      k_IgnatzekChords; // LilyPond default
-
-  fLpsrChordsLanguageKind =
-    lpsrChordsLanguageKindDefaultValue;
-
   // options
 
   S_optionsSubGroup
     languagesSubGroup =
       optionsSubGroup::create (
-        "Languages",
-        "hlpsrl", "help-lpsr-languages",
+        "Transpose",
+        "hlpsrt", "help-lpsr-transpose",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
@@ -748,50 +730,17 @@ R"()",
 
   languagesSubGroup->
     appendOptionsItem (
-      optionsLpsrPitchesLanguageItem::create (
-        "lppl", "lpsr-pitches-language",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
-R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
+      optionsLpsrTransposeItem::create (
+        "lpt", "lpsr-transpose",
+R"(Use TRANSPOSITION to tranpose in the LPSR data,
 as well as in the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
-PITCHES_LANGUAGES.
-The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
-              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-            "PITCHES_LANGUAGES",
-            existingQuarterTonesPitchesLanguageKinds ()),
-          "DEFAULT_VALUE",
-          msrQuarterTonesPitchesLanguageKindAsString (
-            msrQuarterTonesPitchesLanguageKindDefaultValue)),
-        "LANGUAGE",
-        "lpsrPitchesanguage",
-        fLpsrQuarterTonesPitchesLanguageKind));
-
-  languagesSubGroup->
-    appendOptionsItem (
-      optionsLpsrChordsLanguageItem::create (
-        "lpcl", "lpsr-chords-language",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
-R"(Use LANGUAGE to display chord names, their root and bass notes,
-in the LPSR logs and views and the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
-CHORDS_LANGUAGES.
-'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
-The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
-              to_string (gLpsrChordsLanguageKindsMap.size ())),
-            "CHORDS_LANGUAGES",
-            existingLpsrChordsLanguageKinds ()),
-          "DEFAULT_VALUE",
-          lpsrChordsLanguageKindAsString (
-            lpsrChordsLanguageKindDefaultValue)),
-        "LANGUAGE",
-        "lpsr-chords-language",
-        fLpsrChordsLanguageKind));
+TRANSPOSITION should contain a diatonic pitch, followed if needed
+by a sequence of ',' or '\'' octave indications.
+Such indications cannot be mixed.
+For example, 'a', 'f' and 'bes' can be used respectively for instruments in 'a', 'f' and B flat respectively)",
+        "TRANSPOSITION",
+        "lpsrTranspose",
+        fSemiTonesPitchAndRelativeOctave));
 }
 
 void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
@@ -812,7 +761,6 @@ R"()",
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
 
-  // '-exit-3' is hidden...
   S_optionsBooleanItem
     exit3OptionsBooleanItem =
       optionsBooleanItem::create (
@@ -926,6 +874,12 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   clone->fLpsrChordsLanguageKind =
     fLpsrChordsLanguageKind;
+
+  // transpose
+  // --------------------------------------
+
+  clone->fSemiTonesPitchAndRelativeOctave =
+    fSemiTonesPitchAndRelativeOctave;
 
   return clone;
 }
@@ -1094,6 +1048,31 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   gIndenter--;
 
+  // transpose
+  // --------------------------------------
+
+  gLogIOstream <<
+    "Transpose:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "semiTonesPitchAndRelativeOctave" << " : ";
+
+    if (fSemiTonesPitchAndRelativeOctave) {
+      gLogIOstream <<
+        fSemiTonesPitchAndRelativeOctave->asString ();
+    }
+    else {
+      gLogIOstream <<
+        "none";
+    }
+  gLogIOstream <<
+    endl;
+
+  gIndenter--;
+
 
   gIndenter--;
 }
@@ -1167,13 +1146,28 @@ S_optionsItem lpsrOptions::handleOptionsItem (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+        "==> optionsItem is of type 'optionsLpsrTransposeItem'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
     result = transposeItem;
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "INTERNAL OPTION ERROR: "
+      "lpsrOptions::handleOptionsItem() cannot handle option item" <<
+      endl <<
+      item <<
+      endl;
+
+    optionError (s.str ());
+
+    exit (5);
   }
 
   return result;
@@ -1357,42 +1351,135 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
   }
 #endif
 
-/* JMI
-  map<string, lpsrChordsLanguageKind>::const_iterator
-    it =
-      gLpsrChordsLanguageKindsMap.find (theString);
+  // decipher theString with a three-number regular expression
+  string regularExpression (
+    "([[:lower:]]+)"
+    "([,\']*)");
 
-  if (it == gLpsrChordsLanguageKindsMap.end ()) {
-    // no, language is unknown in the map
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    gLogIOstream <<
+      "There are " << smSize << " matches" <<
+      " for transposition string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl <<
+      smSize << " elements: ";
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogIOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      gLogIOstream <<
+        endl;
+    }
+#endif
+
+  if (smSize == 3) {
+    // found an n.x.y specification
+    string
+      transposePitch   = sm [1],
+      octaveIndication = sm [2];
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      gLogIOstream <<
+        "--> transposePitch = \"" << transposePitch << "\", " <<
+        "--> octaveIndication = \"" << octaveIndication << "\"" <<
+        endl;
+    }
+#endif
+
+    // fetch transpose semi-tones pitch
+    msrSemiTonesPitchKind
+      transposeSemiTonesPitchKind =
+        semiTonesPitchKindFromString (
+          transposePitch);
+
+    // handling ',' and '\'' in octave indication
+    int octave = 0;
+    for (int i = 0; i < octaveIndication.size (); i++) {
+      switch (octaveIndication [i]) {
+        case ',':
+          if (octave > 0) {
+            // a '\'' has been met previously
+            stringstream s;
+
+            s <<
+              "transpose argument \"" << theString <<
+              "\" contains a ',' after a '\\'";
+
+            optionError (s.str ());
+
+            exit (4);
+          }
+
+          octave--;
+          break;
+        case '\'':
+          if (octave < 0) {
+            // a ',' has been met previously
+            stringstream s;
+
+            s <<
+              "transpose argument \"" << theString <<
+              "\" contains a '\\'' after a ','";
+
+            optionError (s.str ());
+
+            exit (4);
+          }
+
+          octave++;
+          break;
+        default:
+          ;
+      } // switch
+    } // for
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      gLogIOstream <<
+        "--> transposeSemiTonesPitchKind = \"" <<
+          msrSemiTonesPitchKindAsString (
+            transposeSemiTonesPitchKind) << "\", " <<
+        "--> octave = " << octave <<
+        endl;
+    }
+#endif
+
+  // create the semiTonesPitchAndRelativeOctave
+  S_msrSemiTonesPitchAndRelativeOctave
+    semiTonesPitchAndRelativeOctave =
+      msrSemiTonesPitchAndRelativeOctave::create (
+       transposeSemiTonesPitchKind,
+       octave);
+
+  // set the transpose item variable value
+  transposeItem->
+    setTransposeItemVariableValue (
+      semiTonesPitchAndRelativeOctave);
+  }
+
+  else {
     stringstream s;
 
     s <<
-      "LPSR chords language " << theString <<
-      " is unknown" <<
-      endl <<
-      "The " <<
-      gLpsrChordsLanguageKindsMap.size () - 1 <<
-      " known LPSR chords languages apart from the default Ignatzek are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingLpsrChordsLanguageKinds ();
-
-    gIndenter--;
+      "transpose argument \"" << theString <<
+      "\" is ill-formed";
 
     optionError (s.str ());
 
-    printHelpSummary (os);
-
     exit (4);
   }
-
-  transposeItem->
-    setTransposeItemVariableValue ( // JMI
-      (*it).second);
-*/
 }
 
 void lpsrOptions::handleOptionsItemValue (
@@ -1448,7 +1535,20 @@ void lpsrOptions::handleOptionsItemValue (
       theString);
   }
 
+  else {
+    stringstream s;
 
+    s <<
+      "INTERNAL OPTION ERROR: "
+      "lpsrOptions::handleOptionsItemValue() cannot handle option item" <<
+      endl <<
+      item <<
+      endl;
+
+    optionError (s.str ());
+
+    exit (5);
+  }
 }
 
 void lpsrOptions::crackVersionNumber (

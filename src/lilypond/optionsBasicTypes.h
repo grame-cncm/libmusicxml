@@ -1633,7 +1633,7 @@ class EXP optionsHandler : public optionsElement
     bool                  getOptionsHandlerFoundAHelpItem () const
                               { return fOptionsHandlerFoundAHelpItem; }
 
-    bool                  setOptionsHandlerFoundAHelpItem ()
+    void                  setOptionsHandlerFoundAHelpItem ()
                               { fOptionsHandlerFoundAHelpItem = true; }
 
   private:

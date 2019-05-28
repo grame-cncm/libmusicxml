@@ -972,81 +972,60 @@ class msrChordStructure : public smartable
 typedef SMARTP<msrChordStructure> S_msrChordStructure;
 EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
 
-// chords pitches
+// semi-tone pitches and relative octave
 //______________________________________________________________________________
-class msrChordPitch : public smartable
+class msrSemiTonesPitchAndRelativeOctave : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordPitch> create (
-//      int             inputLineNumber,
-// JMI      int             chordPitchNumber,
-      msrSemiTonesPitchKind chordPitchSemitonePitchKind,
-      int                   chordPitchRelativeOctave);
+    static SMARTP<msrSemiTonesPitchAndRelativeOctave> create (
+      msrSemiTonesPitchKind semitonePitchKind,
+      int                   relativeOctave);
 
-    SMARTP<msrChordPitch> createChordPitchNewbornClone ();
-
-    /* JMI
-    SMARTP<msrChordPitch> createChordPitchDeepCopy ( // JMI ???
-      S_msrPart containingPart);
-      */
+    SMARTP<msrSemiTonesPitchAndRelativeOctave> createSemiTonesPitchAndRelativeOctaveNewbornClone ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordPitch (
-//      int             inputLineNumber,
-// JMI      int             chordPitchNumber,
-      msrSemiTonesPitchKind chordPitchSemitonePitchKind,
-      int                   chordPitchRelativeOctave);
+    msrSemiTonesPitchAndRelativeOctave (
+      msrSemiTonesPitchKind semitonePitchKind,
+      int                   relativeOctave);
 
-    virtual ~msrChordPitch ();
+    virtual ~msrSemiTonesPitchAndRelativeOctave ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-/* JMI
-    int                   getChordPitchNumber () const
-                              { return fChordPitchNumber; }
-                     */
+    msrSemiTonesPitchKind getSemitonePitchKind () const
+                              { return fSemitonePitchKind; }
 
-    msrSemiTonesPitchKind getChordPitchSemitonePitchKind () const
-                              { return fChordPitchSemitonePitchKind; }
+    void                  incrementRelativeOctave ()
+                              { fRelativeOctave++; }
 
-    void                  incrementChordPitchRelativeOctave ()
-                              { fChordPitchRelativeOctave++; }
+    void                  decrementRelativeOctave ()
+                              { fRelativeOctave--; }
 
-    void                  decrementChordPitchRelativeOctave ()
-                              { fChordPitchRelativeOctave--; }
-
-    int                   getChordPitchRelativeOctave () const
-                              { return fChordPitchRelativeOctave; }
+    int                   getRelativeOctave () const
+                              { return fRelativeOctave; }
 
     // services
     // ------------------------------------------------------
 
 
-    string                chordPitchSemitonePitchKindAsString () const;
-    string                chordPitchSemitonePitchKindAsShortString () const;
+    string                semitonePitchKindAsString () const;
+    string                semitonePitchKindAsShortString () const;
 
-    string                chordPitchAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
-
-/* JMI
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-*/
 
   public:
 
@@ -1059,14 +1038,12 @@ class msrChordPitch : public smartable
     // fields
     // ------------------------------------------------------
 
- // JMI   int                   fChordPitchNumber;
+    msrSemiTonesPitchKind fSemitonePitchKind;
 
-    msrSemiTonesPitchKind fChordPitchSemitonePitchKind;
-
-    int                   fChordPitchRelativeOctave;
+    int                   fRelativeOctave;
 };
-typedef SMARTP<msrChordPitch> S_msrChordPitch;
-EXP ostream& operator<< (ostream& os, const S_msrChordPitch& elt);
+typedef SMARTP<msrSemiTonesPitchAndRelativeOctave> S_msrSemiTonesPitchAndRelativeOctave;
+EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& elt);
 
 // chords contents
 //______________________________________________________________________________
@@ -1106,9 +1083,9 @@ class msrChordContents : public smartable
     msrHarmonyKind        getChordContentsHarmonyKind () const
                               { return fChordContentsHarmonyKind; }
 
-    const vector<S_msrChordPitch>&
-                          getChordContentsChordPitches () const
-                              { return fChordContentsChordPitches; }
+    const vector<S_msrSemiTonesPitchAndRelativeOctave>&
+                          getChordElementsVector () const
+                              { return fChordElementsVector; }
 
     // services
     // ------------------------------------------------------
@@ -1147,8 +1124,8 @@ class msrChordContents : public smartable
     msrSemiTonesPitchKind fChordContentsRootNote;
     msrHarmonyKind        fChordContentsHarmonyKind;
 
-    vector<S_msrChordPitch>
-                          fChordContentsChordPitches;
+    vector<S_msrSemiTonesPitchAndRelativeOctave>
+                          fChordElementsVector;
 };
 typedef SMARTP<msrChordContents> S_msrChordContents;
 EXP ostream& operator<< (ostream& os, const S_msrChordContents& elt);
