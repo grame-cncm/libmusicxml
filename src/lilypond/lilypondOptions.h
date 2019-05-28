@@ -340,7 +340,7 @@ staffInstrumentAbbreviation
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
@@ -351,6 +351,56 @@ staffInstrumentAbbreviation
                             ostream&      os,
                             S_optionsItem item,
                             string        theString);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeLilypondIdentificationOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondTimeOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondNoteOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondBarsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondLineBreaksOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondPageBreaksOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondStavesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondChordsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondTupletsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondRepeatOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondOrnamentsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondFontsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondCodeGenerationOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondScoreNotationOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLilypondMidiOptions (
+                            bool boolOptionsInitialValue);
 
   public:
 

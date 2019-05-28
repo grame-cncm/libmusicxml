@@ -20,7 +20,7 @@
 #include "optionsBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -31,7 +31,7 @@ class generalOptions : public optionsGroup
     static SMARTP<generalOptions> create (
       string           executableName,
       S_optionsHandler optionsHandler);
-        
+
     SMARTP<generalOptions>        createCloneWithTrueValues (); // JMI
 
   public:
@@ -41,16 +41,16 @@ class generalOptions : public optionsGroup
 
     void                  initializeGeneralOptions (
                             bool boolOptionsInitialValue);
-        
+
   protected:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     generalOptions (
       string           executableName,
       S_optionsHandler optionsHandler);
-  
+
     virtual ~generalOptions ();
 
   public:
@@ -79,12 +79,26 @@ class generalOptions : public optionsGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeGeneralHelpOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeGeneralWarningAndErrorsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeGeneralCPUUsageOptions (
+                            bool boolOptionsInitialValue);
 
   public:
 
@@ -94,32 +108,32 @@ class generalOptions : public optionsGroup
     void                  printGeneralOptionsHelp ();
 
     void                  printGeneralOptionsValues (int fieldWidth);
-    
+
   public:
 
     // command line
     // --------------------------------------
 
     string                fExecutableName;
-    
+
     string                fInputSourceName;
     string                fTranslationDate;
-    
+
     string                fCommandLineWithLongOptions;
     string                fCommandLineWithShortOptions;
 
 
     // warning and error handling
     // --------------------------------------
-      
+
     bool                  fQuiet;
     bool                  fDontShowErrors;
     bool                  fDontAbortOnErrors;
     bool                  fDisplaySourceCodePosition;
-    
+
     // CPU usage
     // --------------------------------------
-  
+
     bool                  fDisplayCPUusage;
 };
 typedef SMARTP<generalOptions> S_generalOptions;

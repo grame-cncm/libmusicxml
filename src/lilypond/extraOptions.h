@@ -24,14 +24,14 @@
 #include "exports.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class optionsShowAllChordsStructuresItem : public optionsItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -39,7 +39,7 @@ class optionsShowAllChordsStructuresItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-     
+
   protected:
 
     // constructors/destructor
@@ -49,11 +49,11 @@ class optionsShowAllChordsStructuresItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
-      
+
     virtual ~optionsShowAllChordsStructuresItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -70,9 +70,9 @@ class optionsShowAllChordsStructuresItem : public optionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 };
@@ -83,7 +83,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem
 class optionsShowAllChordsContentsItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -94,7 +94,7 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -107,11 +107,11 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
-      
+
     virtual ~optionsShowAllChordsContentsItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -120,7 +120,7 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
                                 return
                                   fOptionsShowAllChordsContentsItemVariableDisplayName;
                               }
-                              
+
     void                  setShowAllChordsContentsItemVariableValue (
                             string value)
                               {
@@ -142,9 +142,9 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -158,7 +158,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& 
 class optionsShowChordDetailsItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -169,7 +169,7 @@ class optionsShowChordDetailsItem : public optionsValuedItem
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -182,11 +182,11 @@ class optionsShowChordDetailsItem : public optionsValuedItem
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
-      
+
     virtual ~optionsShowChordDetailsItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -195,7 +195,7 @@ class optionsShowChordDetailsItem : public optionsValuedItem
                                 return
                                   fOptionsShowChordDetailsItemVariableDisplayName;
                               }
-                              
+
     void                  setShowChordDetailsItemVariableValue (
                             string value)
                               {
@@ -213,9 +213,9 @@ class optionsShowChordDetailsItem : public optionsValuedItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -229,7 +229,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt);
 class optionsShowChordAnalysisItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -240,7 +240,7 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -253,11 +253,11 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
       string& optionsStringItemVariable);
-      
+
     virtual ~optionsShowChordAnalysisItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -266,7 +266,7 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
                                 return
                                   fOptionsShowChordAnalysisItemVariableDisplayName;
                               }
-                              
+
     void                  setShowChordAnalysisItemVariableValue (
                             string value)
                               {
@@ -284,9 +284,9 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -306,9 +306,9 @@ class extraOptions : public optionsGroup
 
     static SMARTP<extraOptions> create (
       S_optionsHandler optionsHandler);
-    
+
     SMARTP<extraOptions>        createCloneWithDetailedTrace ();
-    
+
   private:
 
     // initialisation
@@ -316,17 +316,17 @@ class extraOptions : public optionsGroup
 
     void                  initializeExtraOptions (
                             bool boolOptionsInitialValue);
-        
+
   protected:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     extraOptions (
       S_optionsHandler optionsHandler);
-  
+
     virtual ~extraOptions ();
- 
+
   public:
 
     // quiet mode
@@ -342,8 +342,8 @@ class extraOptions : public optionsGroup
     virtual void          checkOptionsConsistency ();
 
   public:
-  
-    // services
+
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
@@ -355,6 +355,38 @@ class extraOptions : public optionsGroup
                             S_optionsItem item,
                             string        theString);
 
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeExtraShowAllChordsStructuresOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeExtraShowAllChordsContentsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeExtraShowChordDetailsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeExtraShowChordAnalysisOptions (
+                            bool boolOptionsInitialValue);
+
+    virtual void          handleOptionsItemShowAllChordsContentsValue (
+                            ostream&                           os,
+                            S_optionsShowAllChordsContentsItem showAllChordsContentsItem,
+                            string                             theString);
+
+    virtual void          handleOptionsShowChordDetailsItemValue (
+                            ostream&                      os,
+                            S_optionsShowChordDetailsItem showChordDetailsItem,
+                            string                        theString);
+
+    virtual void          handleOptionshowChordAnalysisItemValue (
+                            ostream&                       os,
+                            S_optionsShowChordAnalysisItem showChordAnalysisItem,
+                            string                         theString);
+
   public:
 
     // print
@@ -363,7 +395,7 @@ class extraOptions : public optionsGroup
     void                  printExtraOptionsHelp ();
 
     void                  printExtraOptionsValues (int fieldWidth);
-    
+
   public:
 
     // fields

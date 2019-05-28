@@ -242,6 +242,77 @@ typedef SMARTP<optionsLpsrChordsLanguageItem> S_optionsLpsrChordsLanguageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt);
 
 //______________________________________________________________________________
+class optionsLpsrTransposeItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsLpsrTransposeItem> create (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      string& optionsStringItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsLpsrTransposeItem (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      string& optionsStringItemVariable);
+
+    virtual ~optionsLpsrTransposeItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsTransposeItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsTransposeItemVariableDisplayName;
+                              }
+
+    void                  setTransposeItemVariableValue (
+                            string value)
+                              {
+                                fOptionsTransposeItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsTransposeItemVariableDisplayName;
+    string&               fOptionsTransposeItemVariable;
+};
+typedef SMARTP<optionsLpsrTransposeItem> S_optionsLpsrTransposeItem;
+EXP ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt);
+
+//______________________________________________________________________________
 class lpsrOptions : public optionsGroup
 {
   public:
@@ -294,7 +365,7 @@ class lpsrOptions : public optionsGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
@@ -321,6 +392,11 @@ class lpsrOptions : public optionsGroup
                             S_optionsLpsrChordsLanguageItem chordsLanguageItem,
                             string                          theString);
 
+    void                  handleOptionsLpsrTransposeItemValue (
+                            ostream&                   os,
+                            S_optionsLpsrTransposeItem transposeItem,
+                            string                     theString);
+
     void                  crackVersionNumber (
                             string theString,
                             int&   generationNumber,
@@ -329,6 +405,31 @@ class lpsrOptions : public optionsGroup
 
     bool                  versionNumberGreaterThanOrEqualTo (
                             string otherVersionNumber);
+
+  private:
+
+    // private
+    // ------------------------------------------------------
+
+#ifdef TRACE_OPTIONS
+    void                  initializeLpsrTraceOptions (
+                            bool boolOptionsInitialValue);
+#endif
+
+    void                  initializeLpsrScoreOutputKindOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrLyricsVersusWordsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrLanguagesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrTransposeOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrExitAfterSomePassesOptions (
+                            bool boolOptionsInitialValue);
 
   public:
 
@@ -377,6 +478,9 @@ class lpsrOptions : public optionsGroup
 
     lpsrChordsLanguageKind
                           fLpsrChordsLanguageKind;
+
+    // transpose
+    // --------------------------------------
 
     // exit after some passes
     // --------------------------------------

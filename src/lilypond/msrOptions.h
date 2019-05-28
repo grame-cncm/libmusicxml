@@ -18,14 +18,14 @@
 #include "optionsBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class optionsPartRenameItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -37,7 +37,7 @@ class optionsPartRenameItem : public optionsValuedItem
       string             optionsPartRenameItemVariableDisplayName,
       map<string, string>&
                          optionsPartRenameItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -51,11 +51,11 @@ class optionsPartRenameItem : public optionsValuedItem
       string             optionsPartRenameItemVariableDisplayName,
       map<string, string>&
                          optionsPartRenameItemVariable);
-      
+
     virtual ~optionsPartRenameItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -64,7 +64,7 @@ class optionsPartRenameItem : public optionsValuedItem
                                 return
                                   fOptionsPartRenameItemVariableDisplayName;
                               }
-                              
+
     void                  setPartRenameItemVariableValue (
                             string oldPartName,
                             string newPartName)
@@ -93,7 +93,7 @@ class optionsPartRenameItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -107,7 +107,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
 class optionsMsrPitchesLanguageItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -119,7 +119,7 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
       string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsMsrPitchesLanguageKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -133,11 +133,11 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
       string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
                          optionsMsrPitchesLanguageKindItemVariable);
-      
+
     virtual ~optionsMsrPitchesLanguageItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -146,7 +146,7 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
                                 return
                                   fOptionsMsrPitchesLanguageKindItemVariableDisplayName;
                               }
-                              
+
     void                  setPitchesLanguageKindItemVariableValue (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
@@ -166,7 +166,7 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -184,7 +184,7 @@ class msrOptions : public optionsGroup
 
     static SMARTP<msrOptions> create (
       S_optionsHandler optionsHandler);
-      
+
     SMARTP<msrOptions>        createCloneWithDetailedTrace ();
 
   public:
@@ -194,7 +194,7 @@ class msrOptions : public optionsGroup
 
     void                  initializeMsrOptions (
                             bool boolOptionsInitialValue);
-    
+
   public:
 
     // constructors/destructor
@@ -202,15 +202,15 @@ class msrOptions : public optionsGroup
 
     msrOptions (
       S_optionsHandler optionsHandler);
-  
+
     virtual ~msrOptions ();
- 
+
     // set and get
     // ------------------------------------------------------
 
     bool                  setMsrQuarterTonesPitchesLanguage (
-                            string language);    
- 
+                            string language);
+
   public:
 
     // quiet mode
@@ -227,18 +227,61 @@ class msrOptions : public optionsGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
-                            
+
     virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
                             string        theString);
-  
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+#ifdef TRACE_OPTIONS
+    void                  initializeMsrTraceOptions (
+                            bool boolOptionsInitialValue);
+#endif
+
+    void                  initializeMsrDisplayOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrLanguagesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrPartsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrStavesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrVoicesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrRepeatsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrNotesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrLyricsOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrHarmoniesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrFiguredBassOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMsrExitAfterSomePassesOptions (
+                            bool boolOptionsInitialValue);
+
   public:
 
     // print
@@ -250,55 +293,58 @@ class msrOptions : public optionsGroup
 
   public:
 
-    // trace and display
+    // trace
     // --------------------------------------
-    
+
     bool                  fTraceMsr;
-    
+
     bool                  fTraceMsrVisitors;
-    
+
+    // display
+    // --------------------------------------
+
     bool                  fDisplayPartGroups;
-    
+
     bool                  fDisplayMsr;
     bool                  fDisplayMsrDetails;
-    
+
     bool                  fDisplayMsrNames;
     bool                  fDisplayMsrSummary;
 
-    
+
     // languages
     // --------------------------------------
-    
+
     msrQuarterTonesPitchesLanguageKind
                           fMsrQuarterTonesPitchesLanguageKind;
 
     // parts
     // --------------------------------------
-    
+
     map<string, string>   fPartsRenamingMap;
 
 
     // staves
     // --------------------------------------
-    
+
     bool                  fCreateSingleLineStavesAsRythmic;
 
-    
+
     // voices
     // --------------------------------------
-    
+
     bool                  fCreateVoicesStaffRelativeNumbers;
 
-    
+
     // repeats
     // --------------------------------------
-    
+
     bool                  fCreateImplicitInitialRepeatBarline;
 
-    
+
     // notes
     // --------------------------------------
-    
+
     bool                  fDelayRestsDynamics;
     bool                  fDelayRestsWords; // JMI
     bool                  fDelayRestsBeams; // JMI
@@ -311,19 +357,19 @@ class msrOptions : public optionsGroup
 
     // lyrics
     // --------------------------------------
-    
+
     bool                  fAddStanzasNumbers; // LPSR ??? JMI
 
-    
+
     // harmonies
     // --------------------------------------
-    
+
     bool                  fShowHarmonyVoices;
 
-    
+
     // figured bass
     // --------------------------------------
-    
+
     bool                  fShowFiguredBassVoices;
 
 

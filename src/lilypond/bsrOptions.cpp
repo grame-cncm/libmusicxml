@@ -259,334 +259,350 @@ R"(These options control the way BSR data is handled.)",
 bsrOptions::~bsrOptions ()
 {}
 
-void bsrOptions::initializeBsrOptions (
+void bsrOptions::initializeBsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-#ifdef TRACE_OPTIONS
-  // display
-  // --------------------------------------
+  // variables
 
-  {
-    // variables
+  fDisplayBsr           = boolOptionsInitialValue;
+  fDisplayBsrDetails    = boolOptionsInitialValue;
 
-    fDisplayBsr           = boolOptionsInitialValue;
-    fDisplayBsrDetails    = boolOptionsInitialValue;
+  // options
 
-    // options
-
-    S_optionsSubGroup
-      traceAndDisplaySubGroup =
-        optionsSubGroup::create (
-          "Display",
-          "hbsrtd", "help-bsr-display",
+  S_optionsSubGroup
+    traceAndDisplaySubGroup =
+      optionsSubGroup::create (
+        "Display",
+        "hbsrtd", "help-bsr-display",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
 
-    appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
 
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "dbsr", "display-bsr",
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "dbsr", "display-bsr",
 R"(Write the contents of the BSR data to standard error.)",
-          "displayBsr",
-          fDisplayBsr,
-          gTraceOptions->fTracePasses));
+        "displayBsr",
+        fDisplayBsr,
+        gTraceOptions->fTracePasses));
 
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "dbsrd", "display-bsr-details",
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "dbsrd", "display-bsr-details",
 R"(Write the contents of the BSR data with more details to standard error.)",
-          "displayBsrDetails",
-          fDisplayBsrDetails,
-          gTraceOptions->fTracePasses));
+        "displayBsrDetails",
+        fDisplayBsrDetails,
+        gTraceOptions->fTracePasses));
+}
+
+void bsrOptions::initializeBsrLanguagesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  if (! setBsrTextsLanguage ("english")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "BSR texts language 'english' is unknown" <<
+      endl <<
+      "The " <<
+      gBsrTextsLanguageKindsMap.size () <<
+      " known BSR texts languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingBsrTextsLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
   }
-#endif
 
+  const bsrTextsLanguageKind
+    bsrTextsLanguageKindDefaultValue =
+      fBsrTextsLanguageKind;
 
-  // languages
-  // --------------------------------------
+  // options
 
-  {
-    // variables
-
-    if (! setBsrTextsLanguage ("english")) {
-      stringstream s;
-
-      s <<
-        "INTERNAL INITIALIZATION ERROR: "
-        "BSR texts language 'english' is unknown" <<
-        endl <<
-        "The " <<
-        gBsrTextsLanguageKindsMap.size () <<
-        " known BSR texts languages are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingBsrTextsLanguageKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-    }
-
-    const bsrTextsLanguageKind
-      bsrTextsLanguageKindDefaultValue =
-        fBsrTextsLanguageKind;
-
-    // options
-
-    S_optionsSubGroup
-      languagesSubGroup =
-        optionsSubGroup::create (
-          "Languages",
-          "hbsrl", "help-bsr-languages",
+  S_optionsSubGroup
+    languagesSubGroup =
+      optionsSubGroup::create (
+        "Languages",
+        "hbsrl", "help-bsr-languages",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
 
-    appendOptionsSubGroup (languagesSubGroup);
+  appendOptionsSubGroup (languagesSubGroup);
 
-    languagesSubGroup->
-      appendOptionsItem (
-        optionsBsrTextsLanguageItem::create (
-          "btl", "bsr-texts-language",
+  languagesSubGroup->
+    appendOptionsItem (
+      optionsBsrTextsLanguageItem::create (
+        "btl", "bsr-texts-language",
+        replaceSubstringInString (
           replaceSubstringInString (
             replaceSubstringInString (
-              replaceSubstringInString (
 R"(Use LANGUAGE to transcribe texts in the BSR logs and views,
 as well as in the generated braille music.
 The 4 NUMBER texts languages available are:
 TEXT_LANGUAGES.
 english, german, italian and french.
 The default is 'DEFAULT_VALUE'.)",
-                "NUMBER",
-                to_string (gBsrTextsLanguageKindsMap.size ())),
-              "TEXT_LANGUAGES",
-              existingBsrTextsLanguageKinds ()),
-            "DEFAULT_VALUE",
-            bsrTextsLanguageKindAsString (
-              bsrTextsLanguageKindDefaultValue)),
-          "LANGUAGE",
-          "bsr-texts-language",
-          fBsrTextsLanguageKind));
-  }
+              "NUMBER",
+              to_string (gBsrTextsLanguageKindsMap.size ())),
+            "TEXT_LANGUAGES",
+            existingBsrTextsLanguageKinds ()),
+          "DEFAULT_VALUE",
+          bsrTextsLanguageKindAsString (
+            bsrTextsLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "bsr-texts-language",
+        fBsrTextsLanguageKind));
+}
 
+void bsrOptions::initializeBsrMiscellaneousOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fNoBrailleLyrics      = boolOptionsInitialValue;
+
+  fBrailleCompileDate   = boolOptionsInitialValue;
+
+  fFacSimileKind        = kFacSimileNo;
+
+  fIncludeClefs         = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup
+    miscellaneousGenerationSubGroup =
+      optionsSubGroup::create (
+        "Miscellaneous",
+        "hlpm", "help-miscellaneous",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (miscellaneousGenerationSubGroup);
+
+  miscellaneousGenerationSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "nolpl", "no-braille-lyrics",
+R"(Don't generate any lyrics in the Braille code.)",
+        "noBrailleLyrics",
+        fNoBrailleLyrics));
+
+  miscellaneousGenerationSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "lpcd", "braille-compile-date",
+R"(Generate code to include the compilation date
+when Braille creates the score.)",
+        "brailleCompileDate",
+        fBrailleCompileDate));
+
+  miscellaneousGenerationSubGroup->
+    appendOptionsItem (
+      optionsFacSimileKindItem::create (
+        "fs", "facsimile",
+R"(Generate facsimile Braille nusic code.
+By default, non-facsimile code is generated.)",
+        "YES_OR_NO",
+        "facSimileKind",
+        fFacSimileKind));
+
+  miscellaneousGenerationSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "clefs", "",
+R"(Include clefs in BSR. By default, they are not.)",
+        "includeClefs",
+        fIncludeClefs));
+}
+
+void bsrOptions::initializeBsrExitAfterSomePassesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  // options
+
+  S_optionsSubGroup
+    exitAfterSomePassesSubGroup =
+      optionsSubGroup::create (
+        "Exit after some passes",
+        "hbe", "help-bsr-exit",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+
+  // '-exit-3a' is hidden...
+  S_optionsBooleanItem
+    exit2aOptionsBooleanItem =
+      optionsBooleanItem::create (
+        "e3a", "exit-3a",
+R"(Exit after pass 3a, i.e. after conversion
+of the MSR to the first BSR score.)",
+        "exit3a",
+        fExit3a);
+        /* JMI
+  exit2aOptionsBooleanItem->
+    setOptionsElementIsHidden ();
+    */
+
+  exitAfterSomePassesSubGroup->
+    appendOptionsItem (
+      exit2aOptionsBooleanItem);
+
+  // '-exit-3b' is hidden...
+  S_optionsBooleanItem
+    exit2bOptionsBooleanItem =
+      optionsBooleanItem::create (
+        "e3b", "exit-3b",
+R"(Exit after pass 3b, i.e. after conversion
+of the first BSR to the second BSR.)",
+        "exit3b",
+        fExit3b);
+        /* JMI
+  exit2bOptionsBooleanItem->
+    setOptionsElementIsHidden ();
+    */
+
+  exitAfterSomePassesSubGroup->
+    appendOptionsItem (
+      exit2bOptionsBooleanItem);
+}
+
+#ifdef TRACE_OPTIONS
+void bsrOptions::initializeBsrTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fTraceBsr             = boolOptionsInitialValue;
+
+  fTracePages           = boolOptionsInitialValue;
+
+  fTraceLines           = boolOptionsInitialValue;
+
+  fTraceSpaces          = boolOptionsInitialValue;
+  fTraceNumbers         = boolOptionsInitialValue;
+
+  fTraceParallels       = boolOptionsInitialValue;
+
+  fTraceBsrVisitors     = boolOptionsInitialValue;
+
+  S_optionsSubGroup
+    specificTraceSubGroup =
+      optionsSubGroup::create (
+        "Trace",
+        "hbst", "help-bsr-trace",
+R"(Note: the options in this group imply '-t, -trace-passes'.)",
+// JMI        optionsSubGroup::kHideDescriptionByDefault,
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (specificTraceSubGroup);
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tbsr", "trace-bsr",
+R"(Write a trace of the BSR graphs visiting activity to standard error.)",
+        "traceBsr",
+        fTraceBsr));
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tpages", "trace-pages",
+R"()",
+        "tracePages",
+        fTracePages,
+        gTraceOptions->fTracePasses));
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tlines", "trace-lines",
+R"()",
+        "traceLines",
+        fTraceLines));
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tspaces", "trace-spaces",
+R"(Write a trace of the BSR spaces activity to standard error.)",
+        "traceSpaces",
+        fTraceSpaces));
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tnums", "trace-numbers",
+R"(Write a trace of the BSR numbers activity to standard error.)",
+        "traceNumbers",
+        fTraceNumbers));
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tpars", "trace-parallels",
+R"()",
+        "traceParallels",
+        fTraceParallels,
+        gTraceOptions->fTracePasses));
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tbsrv", "trace-bsr-visitors",
+R"(Write a trace of the BSR tree visiting activity to standard error.)",
+        "traceBsrVisitors",
+        fTraceBsrVisitors));
+}
+#endif
+
+void bsrOptions::initializeBsrOptions (
+  bool boolOptionsInitialValue)
+{
+  // display
+  // --------------------------------------
+  initializeBsrDisplayOptions (
+    boolOptionsInitialValue);
+
+  // languages
+  // --------------------------------------
+  initializeBsrLanguagesOptions (
+    boolOptionsInitialValue);
 
   // miscellaneous
   // --------------------------------------
-
-  {
-    // variables
-
-    fNoBrailleLyrics      = boolOptionsInitialValue;
-
-    fBrailleCompileDate   = boolOptionsInitialValue;
-
-    fFacSimileKind        = kFacSimileNo;
-
-    fIncludeClefs         = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup
-      miscellaneousGenerationSubGroup =
-        optionsSubGroup::create (
-          "Miscellaneous",
-          "hlpm", "help-miscellaneous",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (miscellaneousGenerationSubGroup);
-
-    miscellaneousGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "nolpl", "no-braille-lyrics",
-R"(Don't generate any lyrics in the Braille code.)",
-          "noBrailleLyrics",
-          fNoBrailleLyrics));
-
-    miscellaneousGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "lpcd", "braille-compile-date",
-R"(Generate code to include the compilation date
-when Braille creates the score.)",
-          "brailleCompileDate",
-          fBrailleCompileDate));
-
-    miscellaneousGenerationSubGroup->
-      appendOptionsItem (
-        optionsFacSimileKindItem::create (
-          "fs", "facsimile",
-R"(Generate facsimile Braille nusic code.
-By default, non-facsimile code is generated.)",
-          "YES_OR_NO",
-          "facSimileKind",
-          fFacSimileKind));
-
-    miscellaneousGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "clefs", "",
-R"(Include clefs in BSR. By default, they are not.)",
-          "includeClefs",
-          fIncludeClefs));
-  }
-
+  initializeBsrMiscellaneousOptions (
+    boolOptionsInitialValue);
 
   // exit after some passes
   // --------------------------------------
-
-  {
-    // variables
-
-    // options
-
-    S_optionsSubGroup
-      exitAfterSomePassesSubGroup =
-        optionsSubGroup::create (
-          "Exit after some passes",
-          "hbe", "help-bsr-exit",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (exitAfterSomePassesSubGroup);
-
-    // '-exit-3a' is hidden...
-    S_optionsBooleanItem
-      exit2aOptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e3a", "exit-3a",
-R"(Exit after pass 3a, i.e. after conversion
-of the MSR to the first BSR score.)",
-          "exit3a",
-          fExit3a);
-          /* JMI
-    exit2aOptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      */
-
-    exitAfterSomePassesSubGroup->
-      appendOptionsItem (
-        exit2aOptionsBooleanItem);
-
-    // '-exit-3b' is hidden...
-    S_optionsBooleanItem
-      exit2bOptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e3b", "exit-3b",
-R"(Exit after pass 3b, i.e. after conversion
-of the first BSR to the second BSR.)",
-          "exit3b",
-          fExit3b);
-          /* JMI
-    exit2bOptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      */
-
-    exitAfterSomePassesSubGroup->
-      appendOptionsItem (
-        exit2bOptionsBooleanItem);
-  }
-
+  initializeBsrExitAfterSomePassesOptions (
+    boolOptionsInitialValue);
 
 #ifdef TRACE_OPTIONS
   // trace
   // --------------------------------------
-
-  {
-    // variables
-
-    fTraceBsr             = boolOptionsInitialValue;
-
-    fTracePages           = boolOptionsInitialValue;
-
-    fTraceLines           = boolOptionsInitialValue;
-
-    fTraceSpaces          = boolOptionsInitialValue;
-    fTraceNumbers         = boolOptionsInitialValue;
-
-    fTraceParallels       = boolOptionsInitialValue;
-
-    fTraceBsrVisitors     = boolOptionsInitialValue;
-
-    S_optionsSubGroup
-      specificTraceSubGroup =
-        optionsSubGroup::create (
-          "Trace",
-          "hbst", "help-bsr-trace",
-R"(Note: the options in this group imply '-t, -trace-passes'.)",
-// JMI        optionsSubGroup::kHideDescriptionByDefault,
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (specificTraceSubGroup);
-
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tbsr", "trace-bsr",
-R"(Write a trace of the BSR graphs visiting activity to standard error.)",
-          "traceBsr",
-          fTraceBsr));
-
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tpages", "trace-pages",
-R"()",
-          "tracePages",
-          fTracePages,
-          gTraceOptions->fTracePasses));
-
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tlines", "trace-lines",
-R"()",
-          "traceLines",
-          fTraceLines));
-
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tspaces", "trace-spaces",
-R"(Write a trace of the BSR spaces activity to standard error.)",
-          "traceSpaces",
-          fTraceSpaces));
-
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tnums", "trace-numbers",
-R"(Write a trace of the BSR numbers activity to standard error.)",
-          "traceNumbers",
-          fTraceNumbers));
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "tpars", "trace-parallels",
-R"()",
-          "traceParallels",
-          fTraceParallels,
-          gTraceOptions->fTracePasses));
-
-    specificTraceSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tbsrv", "trace-bsr-visitors",
-R"(Write a trace of the BSR tree visiting activity to standard error.)",
-          "traceBsrVisitors",
-          fTraceBsrVisitors));
-  }
+  initializeBsrTraceOptions (
+    boolOptionsInitialValue);
 #endif
 }
 

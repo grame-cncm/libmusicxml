@@ -20,14 +20,14 @@
 #include "bsrBrailleCodeGenerators.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 class optionsUTFKindItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -38,7 +38,7 @@ class optionsUTFKindItem : public optionsValuedItem
       string     optionsValueSpecification,
       string     optionsUTFKindItemVariableDisplayName,
       bsrUTFKind optionsUTFKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -51,11 +51,11 @@ class optionsUTFKindItem : public optionsValuedItem
       string     optionsValueSpecification,
       string     optionsUTFKindItemVariableDisplayName,
       bsrUTFKind optionsUTFKindItemVariable);
-      
+
     virtual ~optionsUTFKindItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -64,7 +64,7 @@ class optionsUTFKindItem : public optionsValuedItem
                                 return
                                   fOptionsUTFKindItemVariableDisplayName;
                               }
-                              
+
     void                  setOptionsUTFKindItemVariable (bsrUTFKind value)
                               {
                                 fOptionsUTFKindItemVariable = value;
@@ -83,7 +83,7 @@ class optionsUTFKindItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -97,7 +97,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsUTFKindItem& elt);
 class optionsByteOrderingKindItem : public optionsValuedItem
 {
   public:
-  
+
     // creation
     // ------------------------------------------------------
 
@@ -108,7 +108,7 @@ class optionsByteOrderingKindItem : public optionsValuedItem
       string              optionsValueSpecification,
       string              optionsByteOrderingKindItemVariableDisplayName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
-     
+
   protected:
 
     // constructors/destructor
@@ -121,11 +121,11 @@ class optionsByteOrderingKindItem : public optionsValuedItem
       string              optionsValueSpecification,
       string              optionsByteOrderingKindItemVariableDisplayName,
       bsrByteOrderingKind optionsByteOrderingKindItemVariable);
-      
+
     virtual ~optionsByteOrderingKindItem ();
 
   public:
-  
+
     // set and get
     // ------------------------------------------------------
 
@@ -134,7 +134,7 @@ class optionsByteOrderingKindItem : public optionsValuedItem
                                 return
                                   fOptionsByteOrderingKindItemVariableDisplayName;
                               }
-                              
+
     void                  setOptionsByteOrderingKindItemVariable (
                             bsrByteOrderingKind value)
                               {
@@ -154,7 +154,7 @@ class optionsByteOrderingKindItem : public optionsValuedItem
                             int      valueFieldWidth) const;
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -174,7 +174,7 @@ class brailleOptions : public optionsGroup
 
     static SMARTP<brailleOptions> create (
       S_optionsHandler optionsHandler);
-    
+
     SMARTP<brailleOptions>        createCloneWithDetailedTrace ();
 
   public:
@@ -184,19 +184,19 @@ class brailleOptions : public optionsGroup
 
     void                  initializeBrailleOptions (
                             bool boolOptionsInitialValue);
-    
+
     void                  printBrailleOptionsHelp ();
 
     void                  printBrailleOptionsValues (int fieldWidth);
-    
+
   public:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     brailleOptions (
       S_optionsHandler optionsHandler);
-    
+
     virtual ~brailleOptions ();
 
     // set and get
@@ -218,17 +218,47 @@ class brailleOptions : public optionsGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
-                            
+
     virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
                             string        theString);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeBrailleUTFEncodingOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeBrailleByteOrderingOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeBrailleMusicFileNameOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeBraillePageParametersOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeBrailleCodeGenerationOptions (
+                            bool boolOptionsInitialValue);
+
+    virtual void          handleOptionsUTFKindItemValue (
+                            ostream&             os,
+                            S_optionsUTFKindItem UTFKindItem,
+                            string               theString);
+
+    virtual void          handleOptionsByteOrderingKindItemValue (
+                            ostream&                      os,
+                            S_optionsByteOrderingKindItem byteOrderingKindItem,
+                            string                        theString);
 
   public:
 
@@ -236,29 +266,29 @@ class brailleOptions : public optionsGroup
     // --------------------------------------
 
     bsrUTFKind            fUTFKind;
-    
+
     // byte ordering
     // --------------------------------------
 
     bsrByteOrderingKind   fByteOrderingKind;
-    
+
     // braille music file name
     // --------------------------------------
 
     bool                  fUseEncodingInFileName;
-    
+
     // page parameters
     // --------------------------------------
 
     int                   fCellsPerLine;
     int                   fMeasuresPerLine;
     int                   fLinesPerPage;
-    
+
     // code generation
     // --------------------------------------
 
     bool                  fXml2brlInfos;
-    
+
     bool                  fNoBrailleCode;
 };
 typedef SMARTP<brailleOptions> S_brailleOptions;

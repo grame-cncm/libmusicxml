@@ -61,6 +61,138 @@ R"(Options that are used by various components of the library
 generalOptions::~generalOptions ()
 {}
 
+void generalOptions::initializeGeneralHelpOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  // options
+
+  S_optionsSubGroup
+    helpGeneralOptionsHelpSubGroup =
+      optionsSubGroup::create (
+        "Options help",
+        "hgoh", "help-general-options-help",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
+
+  helpGeneralOptionsHelpSubGroup->
+    appendOptionsItem (
+      optionsHelpUsageItem::create (
+        "ho", "help-options",
+R"(Print options usage help.)"));
+
+  helpGeneralOptionsHelpSubGroup->
+    appendOptionsItem (
+      optionsHelpSummaryItem::create (
+        "hs", "help-summary",
+R"(Display a help summary and exit.)"));
+
+  helpGeneralOptionsHelpSubGroup->
+    appendOptionsItem (
+      optionsItemHelpItem::create (
+      "ih", "item-help",
+R"(Print help about ITEM_NAME.)",
+      "ITEM_NAME"));
+}
+
+void generalOptions::initializeGeneralWarningAndErrorsOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fQuiet                     = false;
+  fDontShowErrors            = false;
+  fDontAbortOnErrors         = false;
+  fDisplaySourceCodePosition = false;
+
+  // options
+
+  S_optionsSubGroup
+    warningAndErrorHandlingSubGroup =
+      optionsSubGroup::create (
+        "Warnings and errors",
+        "hwae", "help-warnings-and-errors",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+
+  appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
+
+  warningAndErrorHandlingSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "q", "quiet",
+R"(Don't issue any warning or error messages.)",
+        "quiet",
+        fQuiet));
+
+  warningAndErrorHandlingSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dse", "dont-show-errors",
+R"(Don't show errors in the log.)",
+        "dontShowErrors",
+        fDontShowErrors));
+
+  warningAndErrorHandlingSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "daoe", "dont-abort-on-errors",
+        replaceSubstringInString (
+R"(Do not abort execution on errors and go ahead.
+This may be useful when debugging EXECUTABLE.)",
+         "EXECUTABLE",
+          fExecutableName),
+        "dontAbortOnErrors",
+        fDontAbortOnErrors));
+
+  warningAndErrorHandlingSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dscp", "display-source-code-position",
+        replaceSubstringInString (
+R"(Display the source code file name and line number
+in warning and error messages.
+This is useful when debugging EXECUTABLE.)",
+         "EXECUTABLE",
+          fExecutableName),
+        "displaySourceCodePosition",
+        fDisplaySourceCodePosition));
+}
+
+void generalOptions::initializeGeneralCPUUsageOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fDisplayCPUusage = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup
+    CPUUsageSubGroup =
+      optionsSubGroup::create (
+        "CPU usage",
+        "hgcpu", "help-general-cpu-usage",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (CPUUsageSubGroup);
+
+  CPUUsageSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dcpuu", "display-cpu-usage",
+R"(Write information about CPU usage to standard error.)",
+        "displayCPUusage",
+        fDisplayCPUusage));
+}
+
 void generalOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
@@ -79,143 +211,20 @@ void generalOptions::initializeGeneralOptions (
     fTranslationDate = buffer;
   }
 
-
   // help
   // --------------------------------------
-
-  {
-    // variables
-
-    // options
-
-    S_optionsSubGroup
-      helpGeneralOptionsHelpSubGroup =
-        optionsSubGroup::create (
-          "Options help",
-          "hgoh", "help-general-options-help",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
-
-    helpGeneralOptionsHelpSubGroup->
-      appendOptionsItem (
-        optionsHelpUsageItem::create (
-          "ho", "help-options",
-R"(Print options usage help.)"));
-
-    helpGeneralOptionsHelpSubGroup->
-      appendOptionsItem (
-        optionsHelpSummaryItem::create (
-          "hs", "help-summary",
-R"(Display a help summary and exit.)"));
-
-    helpGeneralOptionsHelpSubGroup->
-      appendOptionsItem (
-        optionsItemHelpItem::create (
-        "ih", "item-help",
-R"(Print help about ITEM_NAME.)",
-        "ITEM_NAME"));
-  }
-
+  initializeGeneralHelpOptions (
+    boolOptionsInitialValue);
 
   // warning and error handling
   // --------------------------------------
-
-  {
-    // variables
-
-    fQuiet                     = false;
-    fDontShowErrors            = false;
-    fDontAbortOnErrors         = false;
-    fDisplaySourceCodePosition = false;
-
-    // options
-
-    S_optionsSubGroup
-      warningAndErrorHandlingSubGroup =
-        optionsSubGroup::create (
-          "Warnings and errors",
-          "hwae", "help-warnings-and-errors",
-R"()",
-          optionsSubGroup::kAlwaysShowDescription,
-          this);
-
-    appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
-
-    warningAndErrorHandlingSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "q", "quiet",
-R"(Don't issue any warning or error messages.)",
-          "quiet",
-          fQuiet));
-
-    warningAndErrorHandlingSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dse", "dont-show-errors",
-R"(Don't show errors in the log.)",
-          "dontShowErrors",
-          fDontShowErrors));
-
-    warningAndErrorHandlingSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "daoe", "dont-abort-on-errors",
-          replaceSubstringInString (
-R"(Do not abort execution on errors and go ahead.
-This may be useful when debugging EXECUTABLE.)",
-           "EXECUTABLE",
-            fExecutableName),
-          "dontAbortOnErrors",
-          fDontAbortOnErrors));
-
-    warningAndErrorHandlingSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dscp", "display-source-code-position",
-          replaceSubstringInString (
-R"(Display the source code file name and line number
-in warning and error messages.
-This is useful when debugging EXECUTABLE.)",
-           "EXECUTABLE",
-            fExecutableName),
-          "displaySourceCodePosition",
-          fDisplaySourceCodePosition));
-  }
-
+  initializeGeneralWarningAndErrorsOptions (
+    boolOptionsInitialValue);
 
   // CPU usage
   // --------------------------------------
-
-  {
-    // variables
-
-    fDisplayCPUusage = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup
-      CPUUsageSubGroup =
-        optionsSubGroup::create (
-          "CPU usage",
-          "hgcpu", "help-general-cpu-usage",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (CPUUsageSubGroup);
-
-    CPUUsageSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dcpuu", "display-cpu-usage",
-R"(Write information about CPU usage to standard error.)",
-          "displayCPUusage",
-          fDisplayCPUusage));
-  }
+  initializeGeneralCPUUsageOptions (
+    boolOptionsInitialValue);
 }
 
 S_generalOptions generalOptions::createCloneWithTrueValues ()

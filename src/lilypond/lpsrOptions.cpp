@@ -299,6 +299,84 @@ ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsLpsrTransposeItemVariableDisplayName,
+  string& optionsLpsrTransposeItemVariable)
+{
+  optionsLpsrTransposeItem* o = new
+    optionsLpsrTransposeItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsLpsrTransposeItemVariableDisplayName,
+      optionsLpsrTransposeItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsLpsrTransposeItem::optionsLpsrTransposeItem (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsLpsrTransposeItemVariableDisplayName,
+  string& optionsLpsrTransposeItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsTransposeItemVariableDisplayName (
+      optionsLpsrTransposeItemVariableDisplayName),
+    fOptionsTransposeItemVariable (
+      optionsLpsrTransposeItemVariable)
+{}
+
+optionsLpsrTransposeItem::~optionsLpsrTransposeItem ()
+{}
+
+void optionsLpsrTransposeItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "optionsLpsrTransposeItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsLpsrTransposeItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+
+ostream& operator<< (ostream& os, const S_optionsLpsrTransposeItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 S_lpsrOptions gLpsrOptions;
 S_lpsrOptions gLpsrOptionsUserChoices;
@@ -335,330 +413,456 @@ R"(These options control the way LPSR data is handled.)",
 lpsrOptions::~lpsrOptions ()
 {}
 
+#ifdef TRACE_OPTIONS
+void lpsrOptions::initializeLpsrTraceOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fTraceLpsr            = boolOptionsInitialValue;
+
+  fTraceLpsrVisitors    = boolOptionsInitialValue;
+
+  fTraceLpsrBlocks      = boolOptionsInitialValue;
+
+  fDisplayLpsr          = boolOptionsInitialValue;
+
+  fTraceSchemeFunctions = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup
+    traceAndDisplaySubGroup =
+      optionsSubGroup::create (
+        "Trace and display",
+        "hlpsrtd", "help-lpsr-trace-and-display",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (traceAndDisplaySubGroup);
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tlpsr", "trace-lpsr",
+R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
+        "traceLpsr",
+        fTraceLpsr));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tlpsrv", "trace-lpsr-visitors",
+R"(Write a trace of the LPSR tree visiting activity to standard error.)",
+        "traceLpsrVisitors",
+        fTraceLpsrVisitors));
+
+traceAndDisplaySubGroup->
+  appendOptionsItem (
+    optionsBooleanItem::create (
+      "tlpsrb", "trace-lpsr-blocks",
+R"(Write a trace of the LPSR blocks to standard error.)",
+      "traceLpsrBlocks",
+      fTraceLpsrBlocks));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "dlpsr", "display-lpsr",
+R"(Write the contents of the LPSR data to standard error.)",
+        "displayLpsr",
+        fDisplayLpsr,
+        gTraceOptions->fTracePasses));
+
+  traceAndDisplaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tsf", "trace-scheme-functions",
+R"(Write a trace of the activity regarding Scheme functions to standard error.)",
+        "traceSchemeFunctions",
+        fTraceSchemeFunctions));
+}
+#endif
+
+void lpsrOptions::initializeLpsrScoreOutputKindOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  string lilyPondVersionDefaultValue = "2.19.83";
+
+  fLilyPondVersion = lilyPondVersionDefaultValue;
+
+  const lpsrScoreOutputKind
+    lpsrScoreOutputKindDefaultValue =
+      kScoreOnly; // default value
+
+  fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
+
+  // options
+
+  S_optionsSubGroup
+    lilypondOutputKindSubGroup =
+      optionsSubGroup::create (
+        "LilyPond output",
+        "hlpo", "help-lilypond-output",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (lilypondOutputKindSubGroup);
+
+  lilypondOutputKindSubGroup->
+    appendOptionsItem (
+      optionsStringItem::create (
+        "lpv", "lilypond-version",
+        replaceSubstringInString (
+R"(Set the LilyPond '\version' to STRING in the LilyPond code.
+The default is 'DEFAULT_VALUE')",
+          "DEFAULT_VALUE",
+          lilyPondVersionDefaultValue),
+        "STRING",
+        "lilyPondVersion",
+        fLilyPondVersion));
+
+/* JMI
+  lilypondOutputKindSubGroup->
+    appendOptionsItem (
+      xml2lyOptionsAboutItem::create (
+        "a", "about",
+R"(Display information about xml2ly and exit.)"));
+*/
+
+  lilypondOutputKindSubGroup->
+    appendOptionsItem (
+      optionsLpsrScoreOutputKindItem::create (
+        "lpsok", "lpsr-score-output-kind",
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use OUTPUT_KIND to create the LPSR blocks,
+as well as in the generated LilyPond code.
+The NUMBER LilyPond output kinds available are:
+OUTPUT_KINDS.
+'-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
+Otherwise, one file will be generated for each score and/or part.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gLpsrScoreOutputKindsMap.size ())),
+            "OUTPUT_KINDS",
+            existingLpsrScoreOutputKinds ()),
+          "DEFAULT_VALUE",
+          lpsrScoreOutputKindAsString (
+            lpsrScoreOutputKindDefaultValue)),
+        "OUTPUT_KIND",
+        "scoreOutputKind",
+        fScoreOutputKind));
+}
+
+void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fAddWordsFromTheLyrics = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup
+    lyricsVersusWordsSubGroup =
+      optionsSubGroup::create (
+        "Lyrics versus words",
+        "hlyrsvswords", "help-lyrics-vs-words",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (lyricsVersusWordsSubGroup);
+
+  lyricsVersusWordsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "awftl", "add-words-from-the-lyrics",
+R"(Add words with the lyrics contents, keeping the latter untouched.
+This may come in handy when MusicXML data has been obtained from scanned images.)",
+        "addWordsFromTheLyrics",
+        fAddWordsFromTheLyrics));
+}
+
+void lpsrOptions::initializeLpsrLanguagesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "LPSR pitches language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known LPSR pitches languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+  }
+
+  const msrQuarterTonesPitchesLanguageKind
+    msrQuarterTonesPitchesLanguageKindDefaultValue =
+      fLpsrQuarterTonesPitchesLanguageKind;
+
+  fLpsrQuarterTonesPitchesLanguageKind =
+    msrQuarterTonesPitchesLanguageKindDefaultValue;
+
+  const lpsrChordsLanguageKind
+    lpsrChordsLanguageKindDefaultValue =
+      k_IgnatzekChords; // LilyPond default
+
+  fLpsrChordsLanguageKind =
+    lpsrChordsLanguageKindDefaultValue;
+
+  // options
+
+  S_optionsSubGroup
+    languagesSubGroup =
+      optionsSubGroup::create (
+        "Languages",
+        "hlpsrl", "help-lpsr-languages",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (languagesSubGroup);
+
+  languagesSubGroup->
+    appendOptionsItem (
+      optionsLpsrPitchesLanguageItem::create (
+        "lppl", "lpsr-pitches-language",
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
+as well as in the generated LilyPond code.
+The NUMBER LilyPond pitches languages available are:
+PITCHES_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+            "PITCHES_LANGUAGES",
+            existingQuarterTonesPitchesLanguageKinds ()),
+          "DEFAULT_VALUE",
+          msrQuarterTonesPitchesLanguageKindAsString (
+            msrQuarterTonesPitchesLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "lpsrPitchesanguage",
+        fLpsrQuarterTonesPitchesLanguageKind));
+
+  languagesSubGroup->
+    appendOptionsItem (
+      optionsLpsrChordsLanguageItem::create (
+        "lpcl", "lpsr-chords-language",
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to display chord names, their root and bass notes,
+in the LPSR logs and views and the generated LilyPond code.
+The NUMBER LilyPond pitches languages available are:
+CHORDS_LANGUAGES.
+'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gLpsrChordsLanguageKindsMap.size ())),
+            "CHORDS_LANGUAGES",
+            existingLpsrChordsLanguageKinds ()),
+          "DEFAULT_VALUE",
+          lpsrChordsLanguageKindAsString (
+            lpsrChordsLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "lpsr-chords-language",
+        fLpsrChordsLanguageKind));
+}
+
+void lpsrOptions::initializeLpsrTransposeOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "LPSR pitches language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known LPSR pitches languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+  }
+
+  const msrQuarterTonesPitchesLanguageKind
+    msrQuarterTonesPitchesLanguageKindDefaultValue =
+      fLpsrQuarterTonesPitchesLanguageKind;
+
+  fLpsrQuarterTonesPitchesLanguageKind =
+    msrQuarterTonesPitchesLanguageKindDefaultValue;
+
+  const lpsrChordsLanguageKind
+    lpsrChordsLanguageKindDefaultValue =
+      k_IgnatzekChords; // LilyPond default
+
+  fLpsrChordsLanguageKind =
+    lpsrChordsLanguageKindDefaultValue;
+
+  // options
+
+  S_optionsSubGroup
+    languagesSubGroup =
+      optionsSubGroup::create (
+        "Languages",
+        "hlpsrl", "help-lpsr-languages",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (languagesSubGroup);
+
+  languagesSubGroup->
+    appendOptionsItem (
+      optionsLpsrPitchesLanguageItem::create (
+        "lppl", "lpsr-pitches-language",
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
+as well as in the generated LilyPond code.
+The NUMBER LilyPond pitches languages available are:
+PITCHES_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+            "PITCHES_LANGUAGES",
+            existingQuarterTonesPitchesLanguageKinds ()),
+          "DEFAULT_VALUE",
+          msrQuarterTonesPitchesLanguageKindAsString (
+            msrQuarterTonesPitchesLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "lpsrPitchesanguage",
+        fLpsrQuarterTonesPitchesLanguageKind));
+
+  languagesSubGroup->
+    appendOptionsItem (
+      optionsLpsrChordsLanguageItem::create (
+        "lpcl", "lpsr-chords-language",
+        replaceSubstringInString (
+          replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to display chord names, their root and bass notes,
+in the LPSR logs and views and the generated LilyPond code.
+The NUMBER LilyPond pitches languages available are:
+CHORDS_LANGUAGES.
+'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gLpsrChordsLanguageKindsMap.size ())),
+            "CHORDS_LANGUAGES",
+            existingLpsrChordsLanguageKinds ()),
+          "DEFAULT_VALUE",
+          lpsrChordsLanguageKindAsString (
+            lpsrChordsLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "lpsr-chords-language",
+        fLpsrChordsLanguageKind));
+}
+
+void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  // options
+
+  S_optionsSubGroup
+    exitAfterSomePassesSubGroup =
+      optionsSubGroup::create (
+        "Exit after some passes",
+        "hge", "help-general-exit",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+
+  // '-exit-3' is hidden...
+  S_optionsBooleanItem
+    exit3OptionsBooleanItem =
+      optionsBooleanItem::create (
+        "e3", "exit-3",
+R"(Exit after pass 3, i.e. after conversion
+of the MSR to LPSR.)",
+        "exit3",
+        fExit3);
+  exit3OptionsBooleanItem->
+    setOptionsElementIsHidden ();
+
+  exitAfterSomePassesSubGroup->
+    appendOptionsItem (
+      exit3OptionsBooleanItem);
+}
+
 void lpsrOptions::initializeLpsrOptions (
   bool boolOptionsInitialValue)
 {
 #ifdef TRACE_OPTIONS
   // trace and display
   // --------------------------------------
-
-  {
-    // variables
-
-    fTraceLpsr            = boolOptionsInitialValue;
-
-    fTraceLpsrVisitors    = boolOptionsInitialValue;
-
-    fTraceLpsrBlocks      = boolOptionsInitialValue;
-
-    fDisplayLpsr          = boolOptionsInitialValue;
-
-    fTraceSchemeFunctions = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup
-      traceAndDisplaySubGroup =
-        optionsSubGroup::create (
-          "Trace and display",
-          "hlpsrtd", "help-lpsr-trace-and-display",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (traceAndDisplaySubGroup);
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tlpsr", "trace-lpsr",
-R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
-          "traceLpsr",
-          fTraceLpsr));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tlpsrv", "trace-lpsr-visitors",
-R"(Write a trace of the LPSR tree visiting activity to standard error.)",
-          "traceLpsrVisitors",
-          fTraceLpsrVisitors));
-
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      optionsBooleanItem::create (
-        "tlpsrb", "trace-lpsr-blocks",
-R"(Write a trace of the LPSR blocks to standard error.)",
-        "traceLpsrBlocks",
-        fTraceLpsrBlocks));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "dlpsr", "display-lpsr",
-R"(Write the contents of the LPSR data to standard error.)",
-          "displayLpsr",
-          fDisplayLpsr,
-          gTraceOptions->fTracePasses));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tsf", "trace-scheme-functions",
-R"(Write a trace of the activity regarding Scheme functions to standard error.)",
-          "traceSchemeFunctions",
-          fTraceSchemeFunctions));
-  }
+  initializeLpsrTraceOptions (
+    boolOptionsInitialValue);
 #endif
 
-  // LilyPond output kind
+  // LilyPond score output kind
   // --------------------------------------
+  initializeLpsrScoreOutputKindOptions (
+    boolOptionsInitialValue);
 
-  {
-    // variables
-
-    string lilyPondVersionDefaultValue = "2.19.83";
-
-    fLilyPondVersion = lilyPondVersionDefaultValue;
-
-    const lpsrScoreOutputKind
-      lpsrScoreOutputKindDefaultValue =
-        kScoreOnly; // default value
-
-    fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
-
-    // options
-
-    S_optionsSubGroup
-      lilypondOutputKindSubGroup =
-        optionsSubGroup::create (
-          "LilyPond output",
-          "hlpo", "help-lilypond-output",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (lilypondOutputKindSubGroup);
-
-    lilypondOutputKindSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "lpv", "lilypond-version",
-          replaceSubstringInString (
-R"(Set the LilyPond '\version' to STRING in the LilyPond code.
-The default is 'DEFAULT_VALUE')",
-            "DEFAULT_VALUE",
-            lilyPondVersionDefaultValue),
-          "STRING",
-          "lilyPondVersion",
-          fLilyPondVersion));
-
-/* JMI
-    lilypondOutputKindSubGroup->
-      appendOptionsItem (
-        xml2lyOptionsAboutItem::create (
-          "a", "about",
-R"(Display information about xml2ly and exit.)"));
-*/
-
-    lilypondOutputKindSubGroup->
-      appendOptionsItem (
-        optionsLpsrScoreOutputKindItem::create (
-          "lpsok", "lpsr-score-output-kind",
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
-R"(Use OUTPUT_KIND to create the LPSR blocks,
-as well as in the generated LilyPond code.
-The NUMBER LilyPond output kinds available are:
-  OUTPUT_KINDS.
-'-one-file' means that LilyPond will produce a single file containing all the scores and/or parts.
-Otherwise, one file will be generated for each score and/or part.
-The default is 'DEFAULT_VALUE'.)",
-                "NUMBER",
-                to_string (gLpsrScoreOutputKindsMap.size ())),
-              "OUTPUT_KINDS",
-              existingLpsrScoreOutputKinds ()),
-            "DEFAULT_VALUE",
-            lpsrScoreOutputKindAsString (
-              lpsrScoreOutputKindDefaultValue)),
-          "OUTPUT_KIND",
-          "scoreOutputKind",
-          fScoreOutputKind));
-  }
-
-
-  // lyrics vs words
+  // lyrics versus words
   // --------------------------------------
-
-  {
-    // variables
-
-    fAddWordsFromTheLyrics = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup
-      traceAndDisplaySubGroup =
-        optionsSubGroup::create (
-          "Lyrics vs words",
-          "hlyrsvswords", "help-lyrics-vs-words",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (traceAndDisplaySubGroup);
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "awftl", "add-words-from-the-lyrics",
-R"(Add words with the lyrics contents, keeping the latter untouched.
-This may come in handy when MusicXML data has been obtained from scanned images.)",
-          "addWordsFromTheLyrics",
-          fAddWordsFromTheLyrics));
-  }
-
+  initializeLpsrLyricsVersusWordsOptions (
+    boolOptionsInitialValue);
 
   // languages
   // --------------------------------------
+  initializeLpsrLanguagesOptions (
+    boolOptionsInitialValue);
 
-  {
-    // variables
-
-    if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
-      stringstream s;
-
-      s <<
-        "INTERNAL INITIALIZATION ERROR: "
-        "LPSR pitches language 'nederlands' is unknown" <<
-        endl <<
-        "The " <<
-        gQuarterTonesPitchesLanguageKindsMap.size () <<
-        " known LPSR pitches languages are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingQuarterTonesPitchesLanguageKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-    }
-
-    const msrQuarterTonesPitchesLanguageKind
-      msrQuarterTonesPitchesLanguageKindDefaultValue =
-        fLpsrQuarterTonesPitchesLanguageKind;
-
-    fLpsrQuarterTonesPitchesLanguageKind =
-      msrQuarterTonesPitchesLanguageKindDefaultValue;
-
-    const lpsrChordsLanguageKind
-      lpsrChordsLanguageKindDefaultValue =
-        k_IgnatzekChords; // LilyPond default
-
-    fLpsrChordsLanguageKind =
-      lpsrChordsLanguageKindDefaultValue;
-
-    // options
-
-    S_optionsSubGroup
-      languagesSubGroup =
-        optionsSubGroup::create (
-          "Languages",
-          "hlpsrl", "help-lpsr-languages",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (languagesSubGroup);
-
-    languagesSubGroup->
-      appendOptionsItem (
-        optionsLpsrPitchesLanguageItem::create (
-          "lppl", "lpsr-pitches-language",
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
-R"(Use LANGUAGE to display note pitches in the LPSR logs and views,
-as well as in the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
-  PITCHES_LANGUAGES.
-The default is 'DEFAULT_VALUE'.)",
-                "NUMBER",
-                to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-              "PITCHES_LANGUAGES",
-              existingQuarterTonesPitchesLanguageKinds ()),
-            "DEFAULT_VALUE",
-            msrQuarterTonesPitchesLanguageKindAsString (
-              msrQuarterTonesPitchesLanguageKindDefaultValue)),
-          "LANGUAGE",
-          "lpsrPitchesanguage",
-          fLpsrQuarterTonesPitchesLanguageKind));
-
-    languagesSubGroup->
-      appendOptionsItem (
-        optionsLpsrChordsLanguageItem::create (
-          "lpcl", "lpsr-chords-language",
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
-R"(Use LANGUAGE to display chord names, their root and bass notes,
-in the LPSR logs and views and the generated LilyPond code.
-The NUMBER LilyPond pitches languages available are:
-  CHORDS_LANGUAGES.
-'ignatzek' is Ignatzek's jazz-like, english naming used by LilyPond by default.
-The default is 'DEFAULT_VALUE'.)",
-                "NUMBER",
-                to_string (gLpsrChordsLanguageKindsMap.size ())),
-              "CHORDS_LANGUAGES",
-              existingLpsrChordsLanguageKinds ()),
-            "DEFAULT_VALUE",
-            lpsrChordsLanguageKindAsString (
-              lpsrChordsLanguageKindDefaultValue)),
-          "LANGUAGE",
-          "lpsr-chords-language",
-          fLpsrChordsLanguageKind));
-  }
-
+  // transpose
+  // --------------------------------------
+  initializeLpsrTransposeOptions (
+    boolOptionsInitialValue);
 
   // exit after some passes
   // --------------------------------------
-
-  {
-    // variables
-
-    // options
-
-    S_optionsSubGroup
-      exitAfterSomePassesSubGroup =
-        optionsSubGroup::create (
-          "Exit after some passes",
-          "hge", "help-general-exit",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (exitAfterSomePassesSubGroup);
-
-    // '-exit-3' is hidden...
-    S_optionsBooleanItem
-      exit3OptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e3", "exit-3",
-R"(Exit after pass 3, i.e. after conversion
-of the MSR to LPSR.)",
-          "exit3",
-          fExit3);
-    exit3OptionsBooleanItem->
-      setOptionsElementIsHidden ();
-
-    exitAfterSomePassesSubGroup->
-      appendOptionsItem (
-        exit3OptionsBooleanItem);
-  }
+  initializeLpsrExitAfterSomePassesOptions (
+    boolOptionsInitialValue);
 }
 
 S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
@@ -954,6 +1158,24 @@ S_optionsItem lpsrOptions::handleOptionsItem (
     result = LpsrChordsLanguageItem;
   }
 
+  else if (
+    // transpose item?
+    S_optionsLpsrTransposeItem
+      transposeItem =
+        dynamic_cast<optionsLpsrTransposeItem*>(&(*item))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = transposeItem;
+  }
+
   return result;
 }
 
@@ -1119,6 +1341,60 @@ void lpsrOptions::handleOptionsLpsrChordsLanguageItemValue (
       (*it).second);
 }
 
+void lpsrOptions::handleOptionsLpsrTransposeItemValue (
+  ostream&                   os,
+  S_optionsLpsrTransposeItem transposeItem,
+  string                     theString)
+{
+  // theString contains the language name:
+  // is it in the chords languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsLpsrTransposeItem'" <<
+      endl;
+  }
+#endif
+
+/* JMI
+  map<string, lpsrChordsLanguageKind>::const_iterator
+    it =
+      gLpsrChordsLanguageKindsMap.find (theString);
+
+  if (it == gLpsrChordsLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+    stringstream s;
+
+    s <<
+      "LPSR chords language " << theString <<
+      " is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrChordsLanguageKindsMap.size () - 1 <<
+      " known LPSR chords languages apart from the default Ignatzek are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrChordsLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+    printHelpSummary (os);
+
+    exit (4);
+  }
+
+  transposeItem->
+    setTransposeItemVariableValue ( // JMI
+      (*it).second);
+*/
+}
+
 void lpsrOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
@@ -1159,6 +1435,20 @@ void lpsrOptions::handleOptionsItemValue (
       chordsLanguageItem,
       theString);
   }
+
+  else if (
+    // transpose item?
+    S_optionsLpsrTransposeItem
+      transposeItem =
+        dynamic_cast<optionsLpsrTransposeItem*>(&(*item))
+  ) {
+    handleOptionsLpsrTransposeItemValue (
+      os,
+      transposeItem,
+      theString);
+  }
+
+
 }
 
 void lpsrOptions::crackVersionNumber (

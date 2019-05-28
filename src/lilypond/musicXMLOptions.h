@@ -17,7 +17,7 @@
 #include "exports.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -30,9 +30,9 @@ class musicXMLOptions : public optionsGroup
 
     static SMARTP<musicXMLOptions> create (
       S_optionsHandler optionsHandler);
-    
+
     SMARTP<musicXMLOptions>        createCloneWithDetailedTrace ();
-    
+
   private:
 
     // initialisation
@@ -40,17 +40,17 @@ class musicXMLOptions : public optionsGroup
 
     void                  initializeMusicXMLOptions (
                             bool boolOptionsInitialValue);
-        
+
   protected:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     musicXMLOptions (
       S_optionsHandler optionsHandler);
-  
+
     virtual ~musicXMLOptions ();
- 
+
   public:
 
     // quiet mode
@@ -75,12 +75,31 @@ class musicXMLOptions : public optionsGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
                             ostream&      os,
                             S_optionsItem item);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+#ifdef TRACE_OPTIONS
+    void                  initializeMusicXMLTraceOptions (
+                            bool boolOptionsInitialValue);
+#endif
+
+    void                  initializeMusicXMLWorkOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMusicXMLClefsKeysTimesOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMusicXMLCombinedOptionsOptions (
+                            bool boolOptionsInitialValue);
 
   public:
 
@@ -90,7 +109,7 @@ class musicXMLOptions : public optionsGroup
     void                  printMusicXMLOptionsHelp ();
 
     void                  printMusicXMLOptionsValues (int fieldWidth);
-    
+
   public:
 
     // fields
@@ -108,15 +127,19 @@ class musicXMLOptions : public optionsGroup
     bool                  fIgnoreRedundantClefs;
     bool                  fIgnoreRedundantKeys;
     bool                  fIgnoreRedundantTimes;
-                      
-    // cubase
+
+    S_optionsBooleanItem  fIgnoreRedundantClefsItem;
+    S_optionsBooleanItem  fIgnoreRedundantKeysItem;
+    S_optionsBooleanItem  fIgnoreRedundantTimesItem;
+
+    // combined options, cubase
 
     bool                  fCubase;
     bool                  fNoCubase;
 
 #ifdef TRACE_OPTIONS
     // specific trace
-    
+
     // encoding
     bool                  fTraceEncoding;
 

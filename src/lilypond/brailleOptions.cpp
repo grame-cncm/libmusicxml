@@ -242,201 +242,217 @@ R"(These options control which Braille code is generated.)",
 brailleOptions::~brailleOptions ()
 {}
 
+void brailleOptions::initializeBrailleUTFEncodingOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fUTFKind = kUTF8; // default value
+
+  // options
+
+  S_optionsSubGroup
+    UTFEncodingSubGroup =
+      optionsSubGroup::create (
+        "UTF encoding",
+        "hlpue", "help-utf-encoding",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (UTFEncodingSubGroup);
+
+  UTFEncodingSubGroup->
+    appendOptionsItem (
+      optionsUTFKindItem::create (
+        "utf", "utf-encoding",
+R"(Generate Braille code using UTF ENCODING_SIZE encoding,
+which can be one of 8 or 16. Default value is 8.)",
+        "ENCODING_SIZE",
+        "UTFKind",
+        fUTFKind));
+}
+
+void brailleOptions::initializeBrailleByteOrderingOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fByteOrderingKind = kByteOrderingNone; // default value
+
+  // options
+
+  S_optionsSubGroup
+    byteOrderingSubGroup =
+      optionsSubGroup::create (
+        "Byte ordering",
+        "hlpbo", "help-byte-ordering",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (byteOrderingSubGroup);
+
+  byteOrderingSubGroup->
+    appendOptionsItem (
+      optionsByteOrderingKindItem::create (
+        "bom", "byte-ordering-mark",
+R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
+ahead of the Braille nusic code,
+which can be one of big or small.
+By default, BOM is generated.)",
+        "BOM_ENDIAN",
+        "byteOrderingKind",
+        fByteOrderingKind));
+}
+
+void brailleOptions::initializeBrailleMusicFileNameOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fUseEncodingInFileName = false; // default value
+
+  // options
+
+  S_optionsSubGroup
+    musicFileNameSubGroup =
+      optionsSubGroup::create (
+        "Braille music file name",
+        "hlpbmfn", "help-braille-music-file-name",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (musicFileNameSubGroup);
+
+  musicFileNameSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "ueifn", "use-encoding-in-file-name",
+R"(Append a description of the encoding used
+and the presence of a BOM if any to the file name.)",
+        "useEncodingInFileName",
+        fUseEncodingInFileName));
+}
+
+void brailleOptions::initializeBraillePageParametersOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fCellsPerLine = 30;
+  fMeasuresPerLine = 7;
+  fLinesPerPage = 27;
+
+  // options
+
+  S_optionsSubGroup
+    codeGenerationSubGroup =
+      optionsSubGroup::create (
+        "Page parameters",
+        "hlpbpp", "help-braille-pages-parameters",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (codeGenerationSubGroup);
+
+  codeGenerationSubGroup->
+    appendOptionsItem (
+      optionsIntegerItem::create (
+        "cpl", "cells-per-line",
+R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
+        "N",
+        "cellsPerLine",
+        fCellsPerLine));
+
+  codeGenerationSubGroup->
+    appendOptionsItem (
+      optionsIntegerItem::create (
+        "mpl", "measures-per-line",
+R"(Set the number of Braille measures per line to N. Default is 7.)",
+        "N",
+        "measuresPerLine",
+        fMeasuresPerLine));
+
+  codeGenerationSubGroup->
+    appendOptionsItem (
+      optionsIntegerItem::create (
+        "lpp", "lines-per-page",
+R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
+        "N",
+        "linesPerPage",
+        fLinesPerPage));
+}
+
+void brailleOptions::initializeBrailleCodeGenerationOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fXml2brlInfos         = boolOptionsInitialValue;
+
+  fNoBrailleCode        = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup
+    codeGenerationSubGroup =
+      optionsSubGroup::create (
+        "Code generation",
+        "hlpcg", "help-braille-code-generation",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (codeGenerationSubGroup);
+
+  codeGenerationSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "xi", "xml2brl-infos",
+R"(Generate initial comments showing the compilation date and options.)",
+        "xml2brlInfos",
+        fXml2brlInfos));
+
+  codeGenerationSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "nolpc", "no-braille-code",
+R"(Don't generate any Braille code.
+That can be useful if only a summary of the score is needed.)",
+        "noBrailleCode",
+        fNoBrailleCode));
+}
+
 void brailleOptions::initializeBrailleOptions (
   bool boolOptionsInitialValue)
 {
   // UTF encoding
   // --------------------------------------
-
-  {
-    // variables
-
-    fUTFKind = kUTF8; // default value
-
-    // options
-
-    S_optionsSubGroup
-      UTFEncodingSubGroup =
-        optionsSubGroup::create (
-          "UTF encoding",
-          "hlpue", "help-utf-encoding",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (UTFEncodingSubGroup);
-
-    UTFEncodingSubGroup->
-      appendOptionsItem (
-        optionsUTFKindItem::create (
-          "utf", "utf-encoding",
-R"(Generate Braille code using UTF ENCODING_SIZE encoding,
-which can be one of 8 or 16. Default value is 8.)",
-          "ENCODING_SIZE",
-          "UTFKind",
-          fUTFKind));
-  }
-
+  initializeBrailleUTFEncodingOptions (
+    boolOptionsInitialValue);
 
   // byte ordering
   // --------------------------------------
-
-  {
-    // variables
-
-    fByteOrderingKind = kByteOrderingNone; // default value
-
-    // options
-
-    S_optionsSubGroup
-      byteOrderingSubGroup =
-        optionsSubGroup::create (
-          "Byte ordering",
-          "hlpbo", "help-byte-ordering",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (byteOrderingSubGroup);
-
-    byteOrderingSubGroup->
-      appendOptionsItem (
-        optionsByteOrderingKindItem::create (
-          "bom", "byte-ordering-mark",
-R"(Generate an initial BOM_ENDIAN byte ordering mark (BOM)
-ahead of the Braille nusic code,
-which can be one of big or small.
-By default, BOM is generated.)",
-          "BOM_ENDIAN",
-          "byteOrderingKind",
-          fByteOrderingKind));
-  }
-
+  initializeBrailleByteOrderingOptions (
+    boolOptionsInitialValue);
 
   // braille music file name
   // --------------------------------------
-
-  {
-    // variables
-
-    fUseEncodingInFileName = false; // default value
-
-    // options
-
-    S_optionsSubGroup
-      facSimileSubGroup =
-        optionsSubGroup::create (
-          "Braille music file name",
-          "hlpbmfn", "help-braille-music-file-name",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (facSimileSubGroup);
-
-    facSimileSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "ueifn", "use-encoding-in-file-name",
-R"(Append a description of the encoding used
-and the presence of a BOM if any to the file name.)",
-          "useEncodingInFileName",
-          fUseEncodingInFileName));
-  }
-
+  initializeBrailleMusicFileNameOptions (
+    boolOptionsInitialValue);
 
   // page parameters
   // --------------------------------------
-
-  {
-    // variables
-
-    fCellsPerLine = 30;
-    fMeasuresPerLine = 7;
-    fLinesPerPage = 27;
-
-    // options
-
-    S_optionsSubGroup
-      codeGenerationSubGroup =
-        optionsSubGroup::create (
-          "Page parameters",
-          "hlpbpp", "help-braille-pages-parameters",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (codeGenerationSubGroup);
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsIntegerItem::create (
-          "cpl", "cells-per-line",
-R"(Set the number of Braille cells per line to N. Default is 30 for A4 paper.)",
-          "N",
-          "cellsPerLine",
-          fCellsPerLine));
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsIntegerItem::create (
-          "mpl", "measures-per-line",
-R"(Set the number of Braille measures per line to N. Default is 7.)",
-          "N",
-          "measuresPerLine",
-          fMeasuresPerLine));
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsIntegerItem::create (
-          "lpp", "lines-per-page",
-R"(Set the number of Braille lines per page to N. Default is 27 for A4 paper.)",
-          "N",
-          "linesPerPage",
-          fLinesPerPage));
-  }
-
+  initializeBraillePageParametersOptions (
+    boolOptionsInitialValue);
 
   // code generation
   // --------------------------------------
-
-  {
-    // variables
-
-    fXml2brlInfos         = boolOptionsInitialValue;
-
-    fNoBrailleCode        = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup
-      codeGenerationSubGroup =
-        optionsSubGroup::create (
-          "Code generation",
-          "hlpcg", "help-braille-code-generation",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (codeGenerationSubGroup);
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "xi", "xml2brl-infos",
-R"(Generate initial comments showing the compilation date and options.)",
-          "xml2brlInfos",
-          fXml2brlInfos));
-
-    codeGenerationSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "nolpc", "no-braille-code",
-R"(Don't generate any Braille code.
-That can be useful if only a summary of the score is needed.)",
-          "noBrailleCode",
-          fNoBrailleCode));
-  }
+  initializeBrailleCodeGenerationOptions (
+    boolOptionsInitialValue);
 }
 
 S_brailleOptions brailleOptions::createCloneWithDetailedTrace ()
@@ -572,6 +588,98 @@ S_optionsItem brailleOptions::handleOptionsItem (
   return result;
 }
 
+void brailleOptions::handleOptionsUTFKindItemValue (
+  ostream&             os,
+  S_optionsUTFKindItem UTFKindItem,
+  string               theString)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsUTFKindItem'" <<
+      endl;
+  }
+#endif
+
+  bsrUTFKind UTFKind = kUTF8; // default value
+
+  if (theString == "8") {
+    UTFKind = kUTF8;
+  }
+  else if (theString == "16") {
+    UTFKind = kUTF16;
+  }
+  else {
+    // no, theString is unknown
+
+    printHelpSummary (os);
+
+    stringstream s;
+
+    s <<
+      "UTF kind " << theString <<
+      " is unknown" <<
+      endl <<
+      "The possible values are 8 and 16" <<
+      endl;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  UTFKindItem->
+    setOptionsUTFKindItemVariable (
+      UTFKind);
+}
+
+void brailleOptions::handleOptionsByteOrderingKindItemValue (
+  ostream&                      os,
+  S_optionsByteOrderingKindItem byteOrderingKindItem,
+  string                        theString)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsByteOrderingKindItem'" <<
+      endl;
+  }
+#endif
+
+  bsrByteOrderingKind byteOrderingKind = kByteOrderingNone; // default value
+
+  if (theString == "big") {
+    byteOrderingKind = kByteOrderingBigEndian;
+  }
+  else if (theString == "small") {
+    byteOrderingKind = kByteOrderingSmallEndian;
+  }
+  else {
+    // no, theString is unknown
+
+    printHelpSummary (os);
+
+    stringstream s;
+
+    s <<
+      "byte ordering " << theString <<
+      " is unknown" <<
+      endl <<
+      "The possible values are big and small" <<
+      endl;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  byteOrderingKindItem->
+    setOptionsByteOrderingKindItemVariable (
+      byteOrderingKind);
+}
+
 void brailleOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
@@ -582,48 +690,12 @@ void brailleOptions::handleOptionsItemValue (
     S_optionsUTFKindItem
       UTFKindItem =
         dynamic_cast<optionsUTFKindItem*>(&(*item))
-    ) {
+  ) {
     // theString contains the UTF size
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsUTFKindItem'" <<
-        endl;
-    }
-#endif
-
-    bsrUTFKind UTFKind = kUTF8; // default value
-
-    if (theString == "8") {
-      UTFKind = kUTF8;
-    }
-    else if (theString == "16") {
-      UTFKind = kUTF16;
-    }
-    else {
-      // no, theString is unknown
-
-      printHelpSummary (os);
-
-      stringstream s;
-
-      s <<
-        "UTF kind " << theString <<
-        " is unknown" <<
-        endl <<
-        "The possible values are 8 and 16" <<
-        endl;
-
-      optionError (s.str ());
-
- //     exit (4); // JMI
-      abort ();
-    }
-
-    UTFKindItem->
-      setOptionsUTFKindItemVariable (
-        UTFKind);
+    handleOptionsUTFKindItemValue (
+      os,
+      UTFKindItem,
+      theString);
   }
 
   else if (
@@ -631,48 +703,12 @@ void brailleOptions::handleOptionsItemValue (
     S_optionsByteOrderingKindItem
       byteOrderingKindItem =
         dynamic_cast<optionsByteOrderingKindItem*>(&(*item))
-    ) {
+  ) {
     // theString contains the byte ordering name
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsByteOrderingKindItem'" <<
-        endl;
-    }
-#endif
-
-    bsrByteOrderingKind byteOrderingKind = kByteOrderingNone; // default value
-
-    if (theString == "big") {
-      byteOrderingKind = kByteOrderingBigEndian;
-    }
-    else if (theString == "small") {
-      byteOrderingKind = kByteOrderingSmallEndian;
-    }
-    else {
-      // no, theString is unknown
-
-      printHelpSummary (os);
-
-      stringstream s;
-
-      s <<
-        "byte ordering " << theString <<
-        " is unknown" <<
-        endl <<
-        "The possible values are big and small" <<
-        endl;
-
-      optionError (s.str ());
-
- //     exit (4); // JMI
-      abort ();
-    }
-
-    byteOrderingKindItem->
-      setOptionsByteOrderingKindItemVariable (
-        byteOrderingKind);
+    handleOptionsByteOrderingKindItemValue (
+      os,
+      byteOrderingKindItem,
+      theString);
   }
 }
 

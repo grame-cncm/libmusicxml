@@ -291,549 +291,610 @@ R"(These options control the way MSR data is handled.)",
 msrOptions::~msrOptions ()
 {}
 
-void msrOptions::initializeMsrOptions (
+#ifdef TRACE_OPTIONS
+void msrOptions::initializeMsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-#ifdef TRACE_OPTIONS
-  // trace and display
-  // --------------------------------------
+  // variables
 
-  {
-    // variables
+  fTraceMsr          = boolOptionsInitialValue;
 
-    fTraceMsr          = boolOptionsInitialValue;
+  fTraceMsrVisitors  = boolOptionsInitialValue;
 
-    fTraceMsrVisitors  = boolOptionsInitialValue;
+  // options
 
-    fDisplayPartGroups = boolOptionsInitialValue;
-
-    fDisplayMsr        = boolOptionsInitialValue;
-    fDisplayMsrDetails = boolOptionsInitialValue;
-
-    fDisplayMsrNames   = boolOptionsInitialValue;
-    fDisplayMsrSummary = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup traceAndDisplaySubGroup =
-      optionsSubGroup::create (
-        "Trace and display",
-        "hmsrtd", "help-msr-trace-and-display",
+  S_optionsSubGroup traceSubGroup =
+    optionsSubGroup::create (
+      "Trace",
+      "hmsrt", "help-msr-trace",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (traceSubGroup);
 
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tmsr", "trace-msr",
+  traceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tmsr", "trace-msr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
-          "traceMsr",
-          fTraceMsr));
+        "traceMsr",
+        fTraceMsr));
 
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "tmsrv", "trace-msr-visitors",
+  traceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tmsrv", "trace-msr-visitors",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
-          "traceMsrVisitors",
-          fTraceMsrVisitors));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dpg", "display-partgroups",
-R"(Write the structure of the part groups to standard error.)",
-          "displayPartGroups",
-          fDisplayPartGroups));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsTwoBooleansItem::create (
-          "dmsr", "display-msr",
-R"(Write the contents of the MSR data to standard error.)",
-          "displayMsr",
-          fDisplayMsr,
-          gTraceOptions->fTracePasses));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsThreeBooleansItem::create (
-          "dmsrd", "display-msr-details",
-R"(Write the contents of the MSR data with more details to standard error.)",
-          "displayMsrDetails",
-          fDisplayMsrDetails,
-          fDisplayMsr,
-          gTraceOptions->fTracePasses));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dmnames", "display-msr-names",
-R"(Only write a view of the names in the MSR to standard error.
-This implies that no LilyPond code is generated.)",
-          "displayMsrNames",
-          fDisplayMsrNames));
-
-    traceAndDisplaySubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "dmsum", "display-msr-summary",
-R"(Only write a summary of the MSR to standard error.
-This implies that no LilyPond code is generated.)",
-          "displayMsrSummary",
-          fDisplayMsrSummary));
-  }
+        "traceMsrVisitors",
+        fTraceMsrVisitors));
+}
 #endif
 
-  // languages
-  // --------------------------------------
+void msrOptions::initializeMsrDisplayOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
 
-  {
-    // variables
+  fDisplayPartGroups = boolOptionsInitialValue;
 
-    if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
-      stringstream s;
+  fDisplayMsr        = boolOptionsInitialValue;
+  fDisplayMsrDetails = boolOptionsInitialValue;
 
-      s <<
-        "INTERNAL INITIALIZATION ERROR: "
-        "MSR pitches language 'nederlands' is unknown" <<
-        endl <<
-        "The " <<
-        gQuarterTonesPitchesLanguageKindsMap.size () <<
-        " known MSR pitches languages are:" <<
-        endl;
+  fDisplayMsrNames   = boolOptionsInitialValue;
+  fDisplayMsrSummary = boolOptionsInitialValue;
 
-      gIndenter++;
+  // options
 
-      s <<
-        existingQuarterTonesPitchesLanguageKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-    }
-
-    const msrQuarterTonesPitchesLanguageKind
-      msrQuarterTonesPitchesLanguageKindDefaultValue =
-        kNederlands; //LilyPond default value
-
-    // options
-
-    S_optionsSubGroup languagesSubGroup =
-      optionsSubGroup::create (
-        "Languages",
-        "hmsrlang", "help-msr-languages",
+  S_optionsSubGroup displaySubGroup =
+    optionsSubGroup::create (
+      "Display",
+      "hmsrtd", "help-msr-trace-and-display",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (languagesSubGroup);
+  appendOptionsSubGroup (displaySubGroup);
 
-    languagesSubGroup->
-      appendOptionsItem (
-        optionsMsrPitchesLanguageItem::create (
-          "mplang", "msr-pitches-language",
-          replaceSubstringInString (
-            replaceSubstringInString (
-              replaceSubstringInString (
-R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
-The NUMBER LilyPond pitches languages available are:
-  PITCHES_LANGUAGES.
-The default is 'DEFAULT_VALUE'.)",
-                "NUMBER",
-                to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
-              "PITCHES_LANGUAGES",
-              existingQuarterTonesPitchesLanguageKinds ()),
-            "DEFAULT_VALUE",
-            msrQuarterTonesPitchesLanguageKindAsString (
-              msrQuarterTonesPitchesLanguageKindDefaultValue)),
-          "LANGUAGE",
-          "msrPitchesLanguage",
-          fMsrQuarterTonesPitchesLanguageKind));
+  displaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dpg", "display-partgroups",
+R"(Write the structure of the part groups to standard error.)",
+        "displayPartGroups",
+        fDisplayPartGroups));
+
+  displaySubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "dmsr", "display-msr",
+R"(Write the contents of the MSR data to standard error.)",
+        "displayMsr",
+        fDisplayMsr,
+        gTraceOptions->fTracePasses));
+
+  displaySubGroup->
+    appendOptionsItem (
+      optionsThreeBooleansItem::create (
+        "dmsrd", "display-msr-details",
+R"(Write the contents of the MSR data with more details to standard error.)",
+        "displayMsrDetails",
+        fDisplayMsrDetails,
+        fDisplayMsr,
+        gTraceOptions->fTracePasses));
+
+  displaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dmnames", "display-msr-names",
+R"(Only write a view of the names in the MSR to standard error.
+This implies that no LilyPond code is generated.)",
+        "displayMsrNames",
+        fDisplayMsrNames));
+
+  displaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "dmsum", "display-msr-summary",
+R"(Only write a summary of the MSR to standard error.
+This implies that no LilyPond code is generated.)",
+        "displayMsrSummary",
+        fDisplayMsrSummary));
+}
+
+void msrOptions::initializeMsrLanguagesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
+    stringstream s;
+
+    s <<
+      "INTERNAL INITIALIZATION ERROR: "
+      "MSR pitches language 'nederlands' is unknown" <<
+      endl <<
+      "The " <<
+      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known MSR pitches languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
   }
 
+  const msrQuarterTonesPitchesLanguageKind
+    msrQuarterTonesPitchesLanguageKindDefaultValue =
+      kNederlands; //LilyPond default value
 
-  // parts
-  // --------------------------------------
+  // options
 
-  {
-    // variables
-
-    // options
-
-    S_optionsSubGroup partsSubGroup =
-      optionsSubGroup::create (
-        "Parts",
-        "hmsrp", "help-msr-parts",
+  S_optionsSubGroup languagesSubGroup =
+    optionsSubGroup::create (
+      "Languages",
+      "hmsrlang", "help-msr-languages",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (partsSubGroup);
+  appendOptionsSubGroup (languagesSubGroup);
 
-    partsSubGroup->
-      appendOptionsItem (
-        optionsPartRenameItem::create (
-          "mpr", "msr-part-rename", // JMI
+  languagesSubGroup->
+    appendOptionsItem (
+      optionsMsrPitchesLanguageItem::create (
+        "mplang", "msr-pitches-language",
+        replaceSubstringInString (
           replaceSubstringInString (
+            replaceSubstringInString (
+R"(Use LANGUAGE to display note pitches in the MSR logs and text views.
+The NUMBER LilyPond pitches languages available are:
+PITCHES_LANGUAGES.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gQuarterTonesPitchesLanguageKindsMap.size ())),
+            "PITCHES_LANGUAGES",
+            existingQuarterTonesPitchesLanguageKinds ()),
+          "DEFAULT_VALUE",
+          msrQuarterTonesPitchesLanguageKindAsString (
+            msrQuarterTonesPitchesLanguageKindDefaultValue)),
+        "LANGUAGE",
+        "msrPitchesLanguage",
+        fMsrQuarterTonesPitchesLanguageKind));
+}
+
+void msrOptions::initializeMsrPartsOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  // options
+
+  S_optionsSubGroup partsSubGroup =
+    optionsSubGroup::create (
+      "Parts",
+      "hmsrp", "help-msr-parts",
+R"()",
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
+
+  appendOptionsSubGroup (partsSubGroup);
+
+  partsSubGroup->
+    appendOptionsItem (
+      optionsPartRenameItem::create (
+        "mpr", "msr-part-rename", // JMI
+        replaceSubstringInString (
 R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
 the names in the score or a summary of the latter in a first run with options
 '-dmnames, -display-msr-names' or 'dmsum, -display-msr-summary'.
 PART_RENAME_SPEC can be:
-  'ORIGINAL_NAME = NEW_NAME'
+'ORIGINAL_NAME = NEW_NAME'
 or
-  "ORIGINAL_NAME = NEW_NAME"
+"ORIGINAL_NAME = NEW_NAME"
 The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
-  DESSUS="Cor anglais"
-  EXECUTABLE -msrPartRename "P1 = ${DESSUS}" .
+DESSUS="Cor anglais"
+EXECUTABLE -msrPartRename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
-           "EXECUTABLE",
-            gGeneralOptions->fExecutableName),
-          "PART_RENAME_SPEC",
-          "partRename",
-          fPartsRenamingMap));
-  }
+         "EXECUTABLE",
+          gGeneralOptions->fExecutableName),
+        "PART_RENAME_SPEC",
+        "partRename",
+        fPartsRenamingMap));
+}
 
+void msrOptions::initializeMsrStavesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
 
-  // staves
-  // --------------------------------------
+  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
-  {
-    // variables
+  // options
 
-    fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup stavesSubGroup =
-      optionsSubGroup::create (
-        "Staves",
-        "hmsrs", "help-msr-staves",
+  S_optionsSubGroup stavesSubGroup =
+    optionsSubGroup::create (
+      "Staves",
+      "hmsrs", "help-msr-staves",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (stavesSubGroup);
+  appendOptionsSubGroup (stavesSubGroup);
 
-    stavesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "cslsar", "create-single-line-staves-as-rythmic",
+  stavesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "cslsar", "create-single-line-staves-as-rythmic",
 R"(Create staves with a single line as rythmic staves.
 By default, drum staves are created in this case.)",
-          "createSingleLineStavesAsRythmic",
-          fCreateSingleLineStavesAsRythmic));
-  }
+        "createSingleLineStavesAsRythmic",
+        fCreateSingleLineStavesAsRythmic));
+}
 
+void msrOptions::initializeMsrVoicesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
 
-  // voices
-  // --------------------------------------
+  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
-  {
-    // variables
+  // options
 
-    fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup voicesSubGroup =
-      optionsSubGroup::create (
-        "Voices",
-        "hmsrv", "help-msr-voices",
+  S_optionsSubGroup voicesSubGroup =
+    optionsSubGroup::create (
+      "Voices",
+      "hmsrv", "help-msr-voices",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (voicesSubGroup);
+  appendOptionsSubGroup (voicesSubGroup);
 
-    voicesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "cvsrvn", "create-voices-staff-relative-numbers",
+  voicesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "cvsrvn", "create-voices-staff-relative-numbers",
 R"(Generate voices names with numbers relative to their staff.
 By default, the voice numbers found are used,
 which may be global to the score.)",
-          "createVoicesStaffRelativeNumbers",
-          fCreateVoicesStaffRelativeNumbers));
-  }
+        "createVoicesStaffRelativeNumbers",
+        fCreateVoicesStaffRelativeNumbers));
+}
 
+void msrOptions::initializeMsrRepeatsOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
 
-    // repeats
-    // --------------------------------------
+  fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
 
-  {
-    // variables
+  // options
 
-    fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup repeatsSubGroup =
-      optionsSubGroup::create (
-        "Repeats",
-        "hmsrr", "help-msr-repeats",
+  S_optionsSubGroup repeatsSubGroup =
+    optionsSubGroup::create (
+      "Repeats",
+      "hmsrr", "help-msr-repeats",
 R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
 
-    appendOptionsSubGroup (repeatsSubGroup);
+  appendOptionsSubGroup (repeatsSubGroup);
 
-    repeatsSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "ciirb", "create-implicit-initial-repeat-barline",
+  repeatsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "ciirb", "create-implicit-initial-repeat-barline",
 R"(Create an implicit repeat barline at the beginning of the stave
 in case there is none, as is usual in scores.
 By default, no such barline is added.)",
-          "createImplicitInitialRepeatBarline",
-          fCreateImplicitInitialRepeatBarline));
-  }
+        "createImplicitInitialRepeatBarline",
+        fCreateImplicitInitialRepeatBarline));
+}
 
+void msrOptions::initializeMsrNotesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fDelayRestsDynamics  = boolOptionsInitialValue;
+  fDelayRestsWords     = boolOptionsInitialValue; // JMI
+  fDelayRestsBeams     = boolOptionsInitialValue; // JMI
+  fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
+  fDelayRestsLigatures = boolOptionsInitialValue; // JMI
+  fDelayRestsPedals    = boolOptionsInitialValue; // JMI
+  fDelayRestsSlashes   = boolOptionsInitialValue; // JMI
+  fDelayRestsWedges    = boolOptionsInitialValue; // JMI
+
+  // options
+
+  S_optionsSubGroup notesSubGroup =
+    optionsSubGroup::create (
+      "Notes",
+      "hmsrn", "help-msr-notes",
+R"()",
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
+
+  appendOptionsSubGroup (notesSubGroup);
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drdyns", "delay-rests-dynamics",
+R"()",
+        "delayRestsDynamics",
+        fDelayRestsDynamics));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drwords", "delay-rests-words",
+R"()",
+        "delayRestsWords",
+        fDelayRestsWords));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drbeams", "delay-rests-beams",
+R"()",
+        "delayRestsBeams",
+        fDelayRestsBeams));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drslurs", "delay-rests-slurs",
+R"()",
+        "delayRestsSlurs",
+        fDelayRestsSlurs));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drligs", "delay-rests-ligatures",
+R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
+        "delayRestsLigatures",
+        fDelayRestsLigatures));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drpeds", "delay-rests-pedals",
+R"()",
+        "delayRestsPedals",
+        fDelayRestsPedals));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drslashes", "delay-rests-slashes",
+R"('<slash/>' in MusicXML)",
+        "delayRestsSlashes",
+        fDelayRestsSlashes));
+
+  notesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "drwedges", "delay-rests-wedges",
+R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
+        "delayRestsWedges",
+        fDelayRestsWedges));
+}
+
+void msrOptions::initializeMsrLyricsOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fAddStanzasNumbers  = false;
+
+  // options
+
+  S_optionsSubGroup lyricsSubGroup =
+    optionsSubGroup::create (
+      "Lyrics",
+      "hmsrlyrd", "help-msr-lyrics",
+R"()",
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
+
+  appendOptionsSubGroup (lyricsSubGroup);
+
+  lyricsSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "asn", "add-stanzas-numbers",
+R"(Add stanzas numbers to lyrics.)",
+        "addStanzasNumbers",
+        fAddStanzasNumbers));
+}
+
+void msrOptions::initializeMsrHarmoniesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fShowHarmonyVoices      = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup harmoniesSubGroup =
+    optionsSubGroup::create (
+      "Harmonies",
+      "hmsrh", "help-msr-harmonies",
+R"()",
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
+
+  appendOptionsSubGroup (harmoniesSubGroup);
+
+  harmoniesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "shv", "show-harmony-voices",
+R"(Show the parts harmony voices in the MSR data
+even though it does not contain music.)",
+        "showHarmonyVoices",
+        fShowHarmonyVoices));
+}
+
+void msrOptions::initializeMsrFiguredBassOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fShowFiguredBassVoices      = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup figuredBassSubGroup =
+    optionsSubGroup::create (
+      "Figured bass",
+      "hmsrfb", "help-msr-figured-bass",
+R"()",
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
+
+  appendOptionsSubGroup (figuredBassSubGroup);
+
+  figuredBassSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "sfbv", "show-figured-bass-voices",
+R"(Show the figured bass harmony voices in the MSR data
+even though they do not contain music.)",
+        "showFiguredBassVoices",
+        fShowFiguredBassVoices));
+}
+
+void msrOptions::initializeMsrExitAfterSomePassesOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  // options
+
+  S_optionsSubGroup
+    exitAfterSomePassesSubGroup =
+      optionsSubGroup::create (
+        "Exit after some passes",
+        "hme", "help-msr-exit",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+
+  // '-exit-2a' is hidden...
+  S_optionsBooleanItem
+    exit2aOptionsBooleanItem =
+      optionsBooleanItem::create (
+        "e2a", "exit-2a",
+R"(Exit after pass 2a, i.e. after conversion
+of the MusicXML tree to an MSR skeleton.)",
+        "exit2a",
+        fExit2a);
+        /* JMI
+  exit2aOptionsBooleanItem->
+    setOptionsElementIsHidden ();
+    */
+
+  exitAfterSomePassesSubGroup->
+    appendOptionsItem (
+      exit2aOptionsBooleanItem);
+
+  // '-exit-2b' is hidden...
+  S_optionsBooleanItem
+    exit2bOptionsBooleanItem =
+      optionsBooleanItem::create (
+        "e2b", "exit-2b",
+R"(Exit after pass 2b, i.e. after conversion
+of the MusicXML tree to MSR.)",
+        "exit2b",
+        fExit2b);
+        /* JMI
+  exit2bOptionsBooleanItem->
+    setOptionsElementIsHidden ();
+    */
+
+  exitAfterSomePassesSubGroup->
+    appendOptionsItem (
+      exit2bOptionsBooleanItem);
+}
+
+void msrOptions::initializeMsrOptions (
+  bool boolOptionsInitialValue)
+{
+#ifdef TRACE_OPTIONS
+  // trace
+  // --------------------------------------
+  initializeMsrTraceOptions (
+    boolOptionsInitialValue);
+#endif
+
+  // display
+  // --------------------------------------
+  initializeMsrDisplayOptions (
+    boolOptionsInitialValue);
+
+  // languages
+  // --------------------------------------
+  initializeMsrLanguagesOptions (
+    boolOptionsInitialValue);
+
+  // parts
+  // --------------------------------------
+  initializeMsrPartsOptions (
+    boolOptionsInitialValue);
+
+  // staves
+  // --------------------------------------
+  initializeMsrStavesOptions (
+    boolOptionsInitialValue);
+
+  // voices
+  // --------------------------------------
+  initializeMsrVoicesOptions (
+    boolOptionsInitialValue);
+
+  // repeats
+  // --------------------------------------
+  initializeMsrRepeatsOptions (
+    boolOptionsInitialValue);
 
   // notes
   // --------------------------------------
-
-  {
-    // variables
-
-    fDelayRestsDynamics  = boolOptionsInitialValue;
-    fDelayRestsWords     = boolOptionsInitialValue; // JMI
-    fDelayRestsBeams     = boolOptionsInitialValue; // JMI
-    fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
-    fDelayRestsLigatures = boolOptionsInitialValue; // JMI
-    fDelayRestsPedals    = boolOptionsInitialValue; // JMI
-    fDelayRestsSlashes   = boolOptionsInitialValue; // JMI
-    fDelayRestsWedges    = boolOptionsInitialValue; // JMI
-
-    // options
-
-    S_optionsSubGroup notesSubGroup =
-      optionsSubGroup::create (
-        "Notes",
-        "hmsrn", "help-msr-notes",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-    appendOptionsSubGroup (notesSubGroup);
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drdyns", "delay-rests-dynamics",
-R"()",
-          "delayRestsDynamics",
-          fDelayRestsDynamics));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drwords", "delay-rests-words",
-R"()",
-          "delayRestsWords",
-          fDelayRestsWords));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drbeams", "delay-rests-beams",
-R"()",
-          "delayRestsBeams",
-          fDelayRestsBeams));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drslurs", "delay-rests-slurs",
-R"()",
-          "delayRestsSlurs",
-          fDelayRestsSlurs));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drligs", "delay-rests-ligatures",
-R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
-          "delayRestsLigatures",
-          fDelayRestsLigatures));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drpeds", "delay-rests-pedals",
-R"()",
-          "delayRestsPedals",
-          fDelayRestsPedals));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drslashes", "delay-rests-slashes",
-R"('<slash/>' in MusicXML)",
-          "delayRestsSlashes",
-          fDelayRestsSlashes));
-
-    notesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "drwedges", "delay-rests-wedges",
-R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
-          "delayRestsWedges",
-          fDelayRestsWedges));
-  }
-
+  initializeMsrNotesOptions (
+    boolOptionsInitialValue);
 
   // lyrics
   // --------------------------------------
-
-  {
-    // variables
-
-    fAddStanzasNumbers  = false;
-
-    // options
-
-    S_optionsSubGroup lyricsSubGroup =
-      optionsSubGroup::create (
-        "Lyrics",
-        "hmsrlyrd", "help-msr-lyrics",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-    appendOptionsSubGroup (lyricsSubGroup);
-
-    lyricsSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "asn", "add-stanzas-numbers",
-R"(Add stanzas numbers to lyrics.)",
-          "addStanzasNumbers",
-          fAddStanzasNumbers));
-  }
+  initializeMsrLyricsOptions (
+    boolOptionsInitialValue);
 
   // harmonies
   // --------------------------------------
-
-  {
-    // variables
-
-    fShowHarmonyVoices      = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup harmoniesSubGroup =
-      optionsSubGroup::create (
-        "Harmonies",
-        "hmsrh", "help-msr-harmonies",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-    appendOptionsSubGroup (harmoniesSubGroup);
-
-    harmoniesSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "shv", "show-harmony-voices",
-R"(Show the parts harmony voices in the MSR data
-even though it does not contain music.)",
-          "showHarmonyVoices",
-          fShowHarmonyVoices));
-  }
-
+  initializeMsrHarmoniesOptions (
+    boolOptionsInitialValue);
 
   // figured bass
   // --------------------------------------
-
-  {
-    // variables
-
-    fShowFiguredBassVoices      = boolOptionsInitialValue;
-
-    // options
-
-    S_optionsSubGroup figuredBassSubGroup =
-      optionsSubGroup::create (
-        "Figured bass",
-        "hmsrfb", "help-msr-figured-bass",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-    appendOptionsSubGroup (figuredBassSubGroup);
-
-    figuredBassSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "sfbv", "show-figured-bass-voices",
-R"(Show the figured bass harmony voices in the MSR data
-even though they do not contain music.)",
-          "showFiguredBassVoices",
-          fShowFiguredBassVoices));
-  }
-
+  initializeMsrFiguredBassOptions (
+    boolOptionsInitialValue);
 
   // exit after some passes
   // --------------------------------------
-
-  {
-    // variables
-
-    // options
-
-    S_optionsSubGroup
-      exitAfterSomePassesSubGroup =
-        optionsSubGroup::create (
-          "Exit after some passes",
-          "hme", "help-msr-exit",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-
-    appendOptionsSubGroup (exitAfterSomePassesSubGroup);
-
-    // '-exit-2a' is hidden...
-    S_optionsBooleanItem
-      exit2aOptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e2a", "exit-2a",
-R"(Exit after pass 2a, i.e. after conversion
-of the MusicXML tree to an MSR skeleton.)",
-          "exit2a",
-          fExit2a);
-          /* JMI
-    exit2aOptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      */
-
-    exitAfterSomePassesSubGroup->
-      appendOptionsItem (
-        exit2aOptionsBooleanItem);
-
-    // '-exit-2b' is hidden...
-    S_optionsBooleanItem
-      exit2bOptionsBooleanItem =
-        optionsBooleanItem::create (
-          "e2b", "exit-2b",
-R"(Exit after pass 2b, i.e. after conversion
-of the MusicXML tree to MSR.)",
-          "exit2b",
-          fExit2b);
-          /* JMI
-    exit2bOptionsBooleanItem->
-      setOptionsElementIsHidden ();
-      */
-
-    exitAfterSomePassesSubGroup->
-      appendOptionsItem (
-        exit2bOptionsBooleanItem);
-  }
+  initializeMsrExitAfterSomePassesOptions (
+    boolOptionsInitialValue);
 }
 
 S_msrOptions msrOptions::createCloneWithDetailedTrace ()

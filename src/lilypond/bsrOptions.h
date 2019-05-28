@@ -227,7 +227,7 @@ class bsrOptions : public optionsGroup
 
   public:
 
-    // services
+    // public services
     // ------------------------------------------------------
 
     virtual S_optionsItem handleOptionsItem (
@@ -238,6 +238,30 @@ class bsrOptions : public optionsGroup
                             ostream&      os,
                             S_optionsItem item,
                             string        theString);
+
+  private:
+
+    // private services
+    // ------------------------------------------------------
+
+    void                  initializeBsrDisplayOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeBsrLanguagesOptions (
+                            bool boolOptionsInitialValue);
+
+
+    void                  initializeBsrMiscellaneousOptions (
+                            bool boolOptionsInitialValue);
+
+
+    void                  initializeBsrExitAfterSomePassesOptions (
+                            bool boolOptionsInitialValue);
+
+#ifdef TRACE_OPTIONS
+    void                  initializeBsrTraceOptions (
+                            bool boolOptionsInitialValue);
+#endif
 
   public:
 
