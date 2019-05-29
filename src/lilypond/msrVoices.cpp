@@ -9685,8 +9685,13 @@ void msrVoice::print (ostream& os)
 
     for ( ; ; ) {
       // print the measure
+      if (gTraceOptions->fTraceMeasures) {
+        os << (*i)->asShortString ();
+      }
+      else {
+        os << (*i)->getMeasureNumber ();
+      }
       os <<
-        (*i)->asShortString () <<
         endl;
       if (++i == iEnd) break;
    //   os << endl;

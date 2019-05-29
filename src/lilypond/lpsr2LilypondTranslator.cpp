@@ -3179,20 +3179,6 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       break;
   } // switch
 
-  msrQuarterTonesPitchKind
-    harmonyBassQuarterTonesPitchKind =
-      harmony->
-        getHarmonyBassQuarterTonesPitchKind ();
-
-  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
-    s <<
-      "/" <<
-      msrQuarterTonesPitchKindAsString (
-        gMsrOptions->
-          fMsrQuarterTonesPitchesLanguageKind,
-        harmonyBassQuarterTonesPitchKind);
-  }
-
   // print harmony degrees if any
   list<S_msrHarmonyDegree>
     harmonyDegreesList =
@@ -3227,7 +3213,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       switch (harmonyDegreeTypeKind) {
         case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
           s <<
-            "." <<
+      // JMI ???      "." <<
             harmonyDegreeValue <<
             harmonyDegreeAlterationKindAsLilypondString (
               harmonyDegreeAlterationKind);
@@ -3286,7 +3272,6 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           case msrHarmonyDegree::kHarmonyDegreeTypeSubstract:
    // JMI         if (counter > 1) {}
           s <<
-      //      "^" <<
             harmonyDegreeValue <<
             harmonyDegreeAlterationKindAsLilypondString (
               harmonyDegreeAlterationKind);
@@ -3296,6 +3281,22 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     }
   }
 
+  // print the harmony bass if relevant
+  msrQuarterTonesPitchKind
+    harmonyBassQuarterTonesPitchKind =
+      harmony->
+        getHarmonyBassQuarterTonesPitchKind ();
+
+  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
+    s <<
+      "/" <<
+      msrQuarterTonesPitchKindAsString (
+        gMsrOptions->
+          fMsrQuarterTonesPitchesLanguageKind,
+        harmonyBassQuarterTonesPitchKind);
+  }
+
+  // print the harmony inversion if relevant // JMI ???
   int harmonyInversion =
     harmony->getHarmonyInversion ();
 
