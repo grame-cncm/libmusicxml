@@ -104,6 +104,90 @@ typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
 EXP ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
 
 //______________________________________________________________________________
+class optionsPartTransposeItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsPartTransposeItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPartTransposeItemVariableDisplayName,
+      map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+                         optionsPartTransposeItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsPartTransposeItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPartTransposeItemVariableDisplayName,
+      map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+                         optionsPartTransposeItemVariable);
+
+    virtual ~optionsPartTransposeItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsPartTransposeItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsPartTransposeItemVariableDisplayName;
+                              }
+
+    void                  setPartTransposeItemVariableValue (
+                            string  partName,
+                            S_msrSemiTonesPitchAndRelativeOctave
+                                    semiTonesPitchAndRelativeOctave)
+                              {
+                                fOptionsPartTransposeItemVariable [partName] =
+                                  semiTonesPitchAndRelativeOctave;
+                              }
+
+    const map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+                          getOptionsPartTransposeItemVariable ()
+                              {
+                                return
+                                  fOptionsPartTransposeItemVariable;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsPartTransposeItemVariableDisplayName;
+    map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+                          fOptionsPartTransposeItemVariable;
+};
+typedef SMARTP<optionsPartTransposeItem> S_optionsPartTransposeItem;
+EXP ostream& operator<< (ostream& os, const S_optionsPartTransposeItem& elt);
+
+//______________________________________________________________________________
 class optionsMsrPitchesLanguageItem : public optionsValuedItem
 {
   public:
@@ -282,6 +366,21 @@ class msrOptions : public optionsGroup
     void                  initializeMsrExitAfterSomePassesOptions (
                             bool boolOptionsInitialValue);
 
+    virtual void          handleOptionsPartRenameItemValue (
+                            ostream&                os,
+                            S_optionsPartRenameItem partRenameItem,
+                            string                  theString);
+
+    virtual void          handleOptionsPartTransposeItemValue (
+                            ostream&                   os,
+                            S_optionsPartTransposeItem partTransposeItem,
+                            string                     theString);
+
+    virtual void          handleOptionsMsrPitchesLanguageItemValue (
+                            ostream&                        os,
+                            S_optionsMsrPitchesLanguageItem pitchesLanguageKindItem,
+                            string                          theString);
+
   public:
 
     // print
@@ -322,6 +421,8 @@ class msrOptions : public optionsGroup
     // --------------------------------------
 
     map<string, string>   fPartsRenamingMap;
+    map<string, S_msrSemiTonesPitchAndRelativeOctave>
+                          fPartsTranspositionMap;
 
 
     // staves

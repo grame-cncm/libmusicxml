@@ -733,11 +733,12 @@ R"()",
       optionsLpsrTransposeItem::create (
         "lpt", "lpsr-transpose",
 R"(Use TRANSPOSITION to tranpose in the LPSR data,
-as well as in the generated LilyPond code.
+thus as in the generated LilyPond code as well.
 TRANSPOSITION should contain a diatonic pitch, followed if needed
 by a sequence of ',' or '\'' octave indications.
 Such indications cannot be mixed.
-For example, 'a', 'f' and 'bes' can be used respectively for instruments in 'a', 'f' and B flat respectively)",
+For example, 'a', 'f' and 'bes,' can be used respectively
+for instruments in 'a', 'f' and B flat respectively)",
         "TRANSPOSITION",
         "lpsrTranspose",
         fSemiTonesPitchAndRelativeOctave));

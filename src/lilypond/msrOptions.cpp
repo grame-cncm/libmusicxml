@@ -163,6 +163,135 @@ ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
 }
 
 //______________________________________________________________________________
+S_optionsPartTransposeItem optionsPartTransposeItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPartTransposeItemVariableDisplayName,
+  map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+                     optionsPartTransposeItemVariable)
+{
+  optionsPartTransposeItem* o = new
+    optionsPartTransposeItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsPartTransposeItemVariableDisplayName,
+      optionsPartTransposeItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsPartTransposeItem::optionsPartTransposeItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPartTransposeItemVariableDisplayName,
+  map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+                     optionsPartTransposeItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsPartTransposeItemVariableDisplayName (
+      optionsPartTransposeItemVariableDisplayName),
+    fOptionsPartTransposeItemVariable (
+      optionsPartTransposeItemVariable)
+{}
+
+optionsPartTransposeItem::~optionsPartTransposeItem ()
+{}
+
+void optionsPartTransposeItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "OptionsPartTransposeItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsPartTransposeItemVariableDisplayName" << " : " <<
+    fOptionsPartTransposeItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsPartTransposeItemVariable" << " : " <<
+    endl;
+
+  if (! fOptionsPartTransposeItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, S_msrSemiTonesPitchAndRelativeOctave>::const_iterator
+      iBegin = fOptionsPartTransposeItemVariable.begin (),
+      iEnd   = fOptionsPartTransposeItemVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+
+  os <<
+    endl;
+}
+
+void optionsPartTransposeItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsPartTransposeItemVariableDisplayName <<
+    " : ";
+
+  if (! fOptionsPartTransposeItemVariable.size ()) {
+    os <<
+      "none" <<
+      endl;
+  }
+  else {
+    os <<
+      endl;
+
+    gIndenter++;
+
+    map<string, S_msrSemiTonesPitchAndRelativeOctave>::const_iterator
+      iBegin = fOptionsPartTransposeItemVariable.begin (),
+      iEnd   = fOptionsPartTransposeItemVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os <<
+        "\"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"" <<
+        endl;
+      if (++i == iEnd) break;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_optionsPartTransposeItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -485,7 +614,7 @@ R"()",
   partsSubGroup->
     appendOptionsItem (
       optionsPartRenameItem::create (
-        "mpr", "msr-part-rename", // JMI
+        "mpr", "msr-part-rename",
         replaceSubstringInString (
 R"(Rename part ORIGINAL_NAME to NEW_NAME, for example after displaying
 the names in the score or a summary of the latter in a first run with options
@@ -498,13 +627,37 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
 DESSUS="Cor anglais"
-EXECUTABLE -msrPartRename "P1 = ${DESSUS}" .
+EXECUTABLE -msr-part-rename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
          "EXECUTABLE",
           gGeneralOptions->fExecutableName),
         "PART_RENAME_SPEC",
         "partRename",
         fPartsRenamingMap));
+
+  partsSubGroup->
+    appendOptionsItem (
+      optionsPartTransposeItem::create (
+        "mpt", "msr-part-transpose",
+R"(Transpose part ORIGINAL_NAME using TRANSPOSITION to tranpose in the MSR data.
+PART_TRANSPOSITION_SPEC can be:
+'ORIGINAL_NAME = TRANSPOSITION'
+or
+"ORIGINAL_NAME = TRANSPOSITION"
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.
+TRANSPOSITION should contain a diatonic pitch, followed if needed
+by a sequence of ',' or '\'' octave indications.
+Such indications cannot be mixed, and they are relative to c\', i.e. middle C.
+For example, 'a', 'f' and 'bes,' can be used respectively
+for instruments in 'a', 'f' and B flat respectively.
+Using double quotes allows for shell variables substitutions, as in:
+SAXOPHONE="bes,"
+EXECUTABLE -msr-part-transpose "P1 ${SAXOPHONE}" .
+There can be several occurrences of this option.)",
+        "PART_TRANSPOSITION_SPEC",
+        "partTranspose",
+        fPartsTranspositionMap));
 }
 
 void msrOptions::initializeMsrStavesOptions (
@@ -1338,6 +1491,24 @@ S_optionsItem msrOptions::handleOptionsItem (
   }
 
   else if (
+    // part transpose item?
+    S_optionsPartTransposeItem
+      partTransposeItem =
+        dynamic_cast<optionsPartTransposeItem*>(&(*item))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsPartTransposeItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = partTransposeItem;
+  }
+
+  else if (
     // pitches language item?
     S_optionsMsrPitchesLanguageItem
       pitchesLanguageItem =
@@ -1358,6 +1529,285 @@ S_optionsItem msrOptions::handleOptionsItem (
   return result;
 }
 
+void msrOptions::handleOptionsPartRenameItemValue (
+  ostream&                os,
+  S_optionsPartRenameItem partRenameItem,
+  string                  theString)
+{
+  // theString contains the part rename specification
+  // decipher it to extract the old and new part names
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsPartRenameItem'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*(.*)[[:space:]]*"
+    "="
+    "[[:space:]]*(.*)[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for part rename string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os <<
+        endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-msrPartRename argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+
+    printSpecificSubGroupHelp (
+      os,
+      partRenameItem->
+        getOptionsSubGroupUplink ());
+
+    exit (4);
+  }
+
+  string
+    oldPartName = sm [1],
+    newPartName = sm [2];
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "--> oldPartName = \"" << oldPartName << "\", " <<
+      "--> newPartName = \"" << newPartName << "\"" <<
+      endl;
+  }
+#endif
+
+  map<string, string>
+    partRenameItemVariable =
+      partRenameItem->
+        getOptionsPartRenameItemVariable ();
+
+  // is this part name in the part renaming map?
+  map<string, string>::iterator
+    it =
+      partRenameItemVariable.find (oldPartName);
+
+  if (it != partRenameItemVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part \"" << oldPartName << "\" occurs more that one" <<
+      "in the '--partName' option";
+
+    optionError (s.str ());
+    exit (4);
+  }
+
+  else {
+    partRenameItem->
+      setPartRenameItemVariableValue (
+        oldPartName, newPartName);
+  }
+}
+
+void msrOptions::handleOptionsPartTransposeItemValue (
+  ostream&                   os,
+  S_optionsPartTransposeItem partTransposeItem,
+  string                     theString)
+{
+  // theString contains the part transpose specification
+  // decipher it to extract the old and new part names
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'S_optionsPartTransposeItem'" <<
+      endl;
+  }
+#endif
+
+/* JMI
+  string regularExpression (
+    "[[:space:]]*(.*)[[:space:]]*"
+    "="
+    "[[:space:]]*(.*)[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for part transpose string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  if (smSize) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      for (unsigned i = 0; i < smSize; ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os <<
+        endl;
+    }
+#endif
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-msrPartTranspose argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+
+    printSpecificSubGroupHelp (
+      os,
+      partTransposeItem->
+        getOptionsSubGroupUplink ());
+
+    exit (4);
+  }
+
+  string
+    oldPartName = sm [1],
+    newPartName = sm [2];
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "--> oldPartName = \"" << oldPartName << "\", " <<
+      "--> newPartName = \"" << newPartName << "\"" <<
+      endl;
+  }
+#endif
+
+  map<string, string>
+    partTransposeItemVariable =
+      partTransposeItem->
+        getOptionsPartTransposeItemVariable ();
+
+  // is this part name in the part renaming map?
+  map<string, string>::iterator
+    it =
+      partTransposeItemVariable.find (oldPartName);
+
+  if (it != partTransposeItemVariable.end ()) {
+    // yes, issue error message
+    stringstream s;
+
+    s <<
+      "Part \"" << oldPartName << "\" occurs more that one" <<
+      "in the '--partName' option";
+
+    optionError (s.str ());
+    exit (4);
+  }
+
+  else {
+    partTransposeItem->
+      setPartTransposeItemVariableValue (
+        oldPartName, newPartName);
+  }
+  */
+}
+
+void msrOptions::handleOptionsMsrPitchesLanguageItemValue (
+  ostream&                        os,
+  S_optionsMsrPitchesLanguageItem pitchesLanguageKindItem,
+  string                          theString)
+{
+  // theString contains the language name:
+  // is it in the pitches languages map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
+      endl;
+  }
+#endif
+
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+    it =
+      gQuarterTonesPitchesLanguageKindsMap.find (
+        theString);
+
+  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+    // no, language is unknown in the map
+
+    printHelpSummary (os);
+
+    stringstream s;
+
+    s <<
+      "MSR pitches language " << theString <<
+      " is unknown" <<
+      endl <<
+      "The " <<
+      gQuarterTonesPitchesLanguageKindsMap.size () <<
+      " known MSR pitches languages are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingQuarterTonesPitchesLanguageKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  pitchesLanguageKindItem->
+    setPitchesLanguageKindItemVariableValue (
+      (*it).second);
+}
+
 void msrOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
@@ -1368,111 +1818,23 @@ void msrOptions::handleOptionsItemValue (
     S_optionsPartRenameItem
       partRenameItem =
         dynamic_cast<optionsPartRenameItem*>(&(*item))
-    ) {
-    // theString contains the part rename specification
-    // decipher it to extract the old and new part names
+  ) {
+    handleOptionsPartRenameItemValue (
+      os,
+      partRenameItem,
+      theString);
+  }
 
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsPartRenameItem'" <<
-        endl;
-    }
-#endif
-
-    string regularExpression (
-      "[[:space:]]*(.*)[[:space:]]*"
-      "="
-      "[[:space:]]*(.*)[[:space:]]*");
-
-    regex  e (regularExpression);
-    smatch sm;
-
-    regex_match (theString, sm, e);
-
-    unsigned smSize = sm.size ();
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "There are " << smSize << " matches" <<
-        " for part rename string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
-    }
-#endif
-
-    if (smSize) {
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
-        for (unsigned i = 0; i < smSize; ++i) {
-          os <<
-            "[" << sm [i] << "] ";
-        } // for
-        os <<
-          endl;
-      }
-#endif
-    }
-
-    else {
-      stringstream s;
-
-      s <<
-        "-msrPartRename argument '" << theString <<
-        "' is ill-formed";
-
-      optionError (s.str ());
-
-      printSpecificSubGroupHelp (
-        os,
-        partRenameItem->
-          getOptionsSubGroupUplink ());
-
-      exit (4);
-    }
-
-    string
-      oldPartName = sm [1],
-      newPartName = sm [2];
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "--> oldPartName = \"" << oldPartName << "\", " <<
-        "--> newPartName = \"" << newPartName << "\"" <<
-        endl;
-    }
-#endif
-
-    map<string, string>
-      partRenameItemVariable =
-        partRenameItem->
-          getOptionsPartRenameItemVariable ();
-
-    // is this part name in the part renaming map?
-    map<string, string>::iterator
-      it =
-        partRenameItemVariable.find (oldPartName);
-
-    if (it != partRenameItemVariable.end ()) {
-      // yes, issue error message
-      stringstream s;
-
-      s <<
-        "Part \"" << oldPartName << "\" occurs more that one" <<
-        "in the '--partName' option";
-
-      optionError (s.str ());
-      exit (4);
-    }
-
-    else {
-      partRenameItem->
-        setPartRenameItemVariableValue (
-          oldPartName, newPartName);
-    }
+  else if (
+    // part transpose item?
+    S_optionsPartTransposeItem
+      partTransposeItem =
+        dynamic_cast<optionsPartTransposeItem*>(&(*item))
+  ) {
+    handleOptionsPartTransposeItemValue (
+      os,
+      partTransposeItem,
+      theString);
   }
 
   else if (
@@ -1481,54 +1843,10 @@ void msrOptions::handleOptionsItemValue (
       pitchesLanguageKindItem =
         dynamic_cast<optionsMsrPitchesLanguageItem*>(&(*item))
     ) {
-    // theString contains the language name:
-    // is it in the pitches languages map?
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
-        endl;
-    }
-#endif
-
-    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
-      it =
-        gQuarterTonesPitchesLanguageKindsMap.find (
-          theString);
-
-    if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
-      // no, language is unknown in the map
-
-      printHelpSummary (os);
-
-      stringstream s;
-
-      s <<
-        "MSR pitches language " << theString <<
-        " is unknown" <<
-        endl <<
-        "The " <<
-        gQuarterTonesPitchesLanguageKindsMap.size () <<
-        " known MSR pitches languages are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingQuarterTonesPitchesLanguageKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-
- //     exit (4); // JMI
-      abort ();
-    }
-
-    pitchesLanguageKindItem->
-      setPitchesLanguageKindItemVariableValue (
-        (*it).second);
+    handleOptionsMsrPitchesLanguageItemValue (
+      os,
+      pitchesLanguageKindItem,
+      theString);
   }
 }
 
