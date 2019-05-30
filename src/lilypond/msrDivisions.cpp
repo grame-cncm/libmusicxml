@@ -86,13 +86,13 @@ void msrDivisions::initializeDivisions ()
 #endif
 
   gIndenter++;
-  
+
   // forget fDurationsToDivisions's contents
   fDurationKindsToDivisions.clear ();
-  
+
   // positive powers of 2 of a quarter note
   int bigDivisions = fDivisionsPerQuarterNote;
-  
+
   for (int i = kQuarter; i >= kMaxima; i--) {
     /*
     gLogIOstream <<
@@ -101,11 +101,11 @@ void msrDivisions::initializeDivisions ()
       bigDivisions <<
       endl;
     */
-    
+
     fDurationKindsToDivisions.push_front (
       make_pair (
         msrDurationKind (i), bigDivisions));
-      
+
     bigDivisions *= 2;
   } // for
 
@@ -117,7 +117,7 @@ void msrDivisions::initializeDivisions ()
     msrDurationKind
       currentDurationKind =
         kEighth;
-    
+
     while (smallDivisions >= 1) {
       /*
       gLogIOstream <<
@@ -129,7 +129,7 @@ void msrDivisions::initializeDivisions ()
 
       fDurationKindsToDivisions.push_back (
         make_pair (currentDurationKind, smallDivisions));
-        
+
       currentDurationKind =
         msrDurationKind (
           currentDurationKind + 1);
@@ -155,7 +155,8 @@ int msrDivisions::durationKindAsDivisions (
     list<pair<msrDurationKind, int> >::const_iterator i =
       fDurationKindsToDivisions.begin ();
     i != fDurationKindsToDivisions.end ();
-    i++) {
+    i++
+  ) {
     if ((*i).first == durationKind)
       return
         (*i).second;
@@ -170,7 +171,7 @@ int msrDivisions::durationKindAsDivisions (
     endl;
 
   printDurationKindsDivisions (s);
-  
+
   msrInternalError (
     gGeneralOptions->fInputSourceName,
     inputLineNumber,
@@ -189,13 +190,13 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   if (fDurationKindsToDivisions.size ()) {
     list<pair<msrDurationKind, int> >::const_iterator
       iBegin = fDurationKindsToDivisions.begin (),
       iEnd   = fDurationKindsToDivisions.end (),
       i      = iBegin;
-          
+
     for ( ; ; ) {
       os <<
         setw (6) << left <<
@@ -206,7 +207,7 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
         (*i).second;
 
       if (++i == iEnd) break;
-      
+
       os << endl;
     } // for
 
@@ -216,7 +217,8 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
       list<pair<msrDuration, int> >::const_iterator i =
         fDurationsToDivisions.begin ();
       i != fDurationsToDivisions.end ();
-      i++) {
+      i++
+  ) {
       os <<
         setw (6) << left <<
         msrDurationAsString (msrDuration((*i).first)) <<
@@ -227,7 +229,7 @@ void msrDivisions::printDurationKindsDivisions (ostream& os)
     } // for
 */
   }
-  
+
   else
     os <<
       "an empty list";
@@ -241,7 +243,7 @@ string msrDivisions::divisionsAsMsrString (
   int  inputLineNumber,
   int  divisions,
   int& numberOfDotsNeeded)
-{  
+{
   string result;
 
   // the result is a base duration, followed by a suffix made of
@@ -250,7 +252,7 @@ string msrDivisions::divisionsAsMsrString (
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceDivisions) {
     const int fieldWidth = 16;
-  
+
     gLogIOstream <<
      "--> divisionsAsMsrString ():" <<
       endl <<
@@ -262,16 +264,16 @@ string msrDivisions::divisionsAsMsrString (
       endl;
   }
 #endif
-    
+
   msrDurationKind baseDurationKind          = k1024th;
   int             baseDurationDivisions = -1;
-  
+
   // search fDurationsToDivisions in longer to shortest order
   list<pair<msrDurationKind, int> >::const_iterator
     iBegin = fDurationKindsToDivisions.begin (),
     iEnd   = fDurationKindsToDivisions.end (),
     i      = iBegin;
-    
+
   for ( ; ; ) {
     if (i == iEnd) {
       stringstream s;
@@ -298,11 +300,11 @@ string msrDivisions::divisionsAsMsrString (
 
       result =
         msrDurationKindAsString (baseDurationKind);
-      
+
 #ifdef TRACE_OPTIONS
       if (gMusicXMLOptions->fTraceDivisions) {
         const int fieldWidth = 22;
-  
+
         gLogIOstream <<
             gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -320,7 +322,7 @@ string msrDivisions::divisionsAsMsrString (
 
       break;
     }
-        
+
     // next please!
     i++;
   } // for
@@ -329,7 +331,7 @@ string msrDivisions::divisionsAsMsrString (
 
   if (divisions > baseDurationDivisions) {
     // divisions is not a power of 2 of a quarter note
-    
+
     // the next element in the list is half as long as (*i)
     int remainingDivisions =
       divisions - baseDurationDivisions;
@@ -339,7 +341,7 @@ string msrDivisions::divisionsAsMsrString (
 #ifdef TRACE_OPTIONS
     if (gMusicXMLOptions->fTraceDivisions) {
       const int fieldWidth = 22;
-  
+
       gLogIOstream <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
@@ -367,7 +369,7 @@ string msrDivisions::divisionsAsMsrString (
 #ifdef TRACE_OPTIONS
       if (gMusicXMLOptions->fTraceDivisions) { // JMI
         const int fieldWidth = 22;
-  
+
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -381,23 +383,23 @@ string msrDivisions::divisionsAsMsrString (
           endl;
       }
 #endif
-      
+
       result +=
         "*" + r.toString ();
     }
 
     else {
       dotsNumber = 1; // account for next element in the list
-      
+
       while (remainingDivisions > nextDivisionsInList) {
         dotsNumber++;
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
-  
+
 #ifdef TRACE_OPTIONS
         if (gMusicXMLOptions->fTraceDivisions) {
           const int fieldWidth = 22;
-  
+
           gLogIOstream <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
@@ -417,12 +419,12 @@ string msrDivisions::divisionsAsMsrString (
             endl;
         }
 #endif
-          
+
         if (dotsNumber > 5 ) {
           break; // JMI
         }
       } // while
-  
+
 #ifdef TRACE_OPTIONS
       if (gMusicXMLOptions->fTraceDivisions) {
         const int fieldWidth = 24;
@@ -446,7 +448,7 @@ string msrDivisions::divisionsAsMsrString (
           endl;
       }
 #endif
-          
+
       if (remainingDivisions - nextDivisionsInList == 0) {
         // the suffix is composed of dots
       for (int k = 0; k < dotsNumber; k++)
@@ -465,7 +467,7 @@ string msrDivisions::divisionsAsMsrString (
       endl;
   }
 #endif
-  
+
   return result;
 }
 
@@ -518,12 +520,12 @@ void msrDivisions::acceptIn (basevisitor* v)
       "% ==> msrDivisions::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrDivisions>*
     p =
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDivisions::visitStart ()" <<
@@ -545,7 +547,7 @@ void msrDivisions::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDivisions::visitEnd ()" <<

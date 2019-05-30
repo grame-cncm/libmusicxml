@@ -853,7 +853,8 @@ S_msrNote msrNote::createNoteDeepCopy (
     list<S_msrArticulation>::const_iterator i=
       fNoteArticulations.begin ();
       i!=fNoteArticulations.end ();
-      i++) {
+      i++
+  ) {
     // share this data
     noteDeepCopy->
       fNoteArticulations.push_back ((*i));
@@ -866,7 +867,8 @@ S_msrNote msrNote::createNoteDeepCopy (
     list<S_msrSpanner>::const_iterator i=
       fNoteSpanners.begin ();
       i!=fNoteSpanners.end ();
-      i++) {
+      i++
+  ) {
     // share this data
     noteDeepCopy->
       fNoteSpanners.push_back ((*i));
@@ -880,7 +882,8 @@ S_msrNote msrNote::createNoteDeepCopy (
     for (
       i=fNoteTechnicals.begin ();
       i!=fNoteTechnicals.end ();
-      i++) {
+      i++
+  ) {
       // share this data
       noteDeepCopy->
         fNoteTechnicals.push_back ((*i));
@@ -892,7 +895,8 @@ S_msrNote msrNote::createNoteDeepCopy (
     for (
       i=fNoteTechnicalWithIntegers.begin ();
       i!=fNoteTechnicalWithIntegers.end ();
-      i++) {
+      i++
+  ) {
       // share this data
       noteDeepCopy->
         fNoteTechnicalWithIntegers.push_back ((*i));
@@ -904,7 +908,8 @@ S_msrNote msrNote::createNoteDeepCopy (
     for (
       i=fNoteTechnicalWithStrings.begin ();
       i!=fNoteTechnicalWithStrings.end ();
-      i++) {
+      i++
+  ) {
       // share this data
       noteDeepCopy->
         fNoteTechnicalWithStrings.push_back ((*i));
@@ -2546,7 +2551,8 @@ void msrNote::browseData (basevisitor* v)
     for (
       i=fNoteTechnicals.begin ();
       i!=fNoteTechnicals.end ();
-      i++) {
+      i++
+  ) {
       // browse the technical
       msrBrowser<msrTechnical> browser (v);
       browser.browse (*(*i));
@@ -2561,7 +2567,8 @@ void msrNote::browseData (basevisitor* v)
     for (
       i=fNoteTechnicalWithIntegers.begin ();
       i!=fNoteTechnicalWithIntegers.end ();
-      i++) {
+      i++
+  ) {
       // browse the technical
       msrBrowser<msrTechnicalWithInteger> browser (v);
       browser.browse (*(*i));
@@ -2576,7 +2583,8 @@ void msrNote::browseData (basevisitor* v)
     for (
       i=fNoteTechnicalWithFloats.begin ();
       i!=fNoteTechnicalWithFloats.end ();
-      i++) {
+      i++
+  ) {
       // browse the technical
       msrBrowser<msrTechnicalWithFloat> browser (v);
       browser.browse (*(*i));
@@ -2591,7 +2599,8 @@ void msrNote::browseData (basevisitor* v)
     for (
       i=fNoteTechnicalWithStrings.begin ();
       i!=fNoteTechnicalWithStrings.end ();
-      i++) {
+      i++
+  ) {
       // browse the technical
       msrBrowser<msrTechnicalWithString> browser (v);
       browser.browse (*(*i));

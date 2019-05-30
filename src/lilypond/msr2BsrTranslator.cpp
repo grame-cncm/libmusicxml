@@ -6550,7 +6550,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kRights:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addRights (
             inputLineNumber, (*i));
@@ -6560,7 +6561,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kComposer:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addComposer (
             inputLineNumber, (*i));
@@ -6570,7 +6572,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kArranger:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addArranger (
             inputLineNumber, (*i));
@@ -6580,7 +6583,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kLyricist:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addLyricist (
             inputLineNumber, (*i));
@@ -6590,7 +6594,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kPoet:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addLyricist ( // JMI
             inputLineNumber, (*i));
@@ -6600,7 +6605,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kTranslator:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addTranslator (
             inputLineNumber, (*i));
@@ -6610,7 +6616,8 @@ void msr2BsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kSoftware:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fBsrScoreHeader->
           addSoftware (
             inputLineNumber, (*i));

@@ -22,24 +22,24 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
 /*
   Repeats in MusicXML are applied to all voices in all staves of the current part
-  
+
   The currentRepeat in each voice is the top of the voice repeats stack
-  
+
   A repeat is recognized in MusicXML either by:
-   
+
     - it's start: handleRepeatStart
-    - it's first hooked ending (45b): handleRepeatEndingStart 
+    - it's first hooked ending (45b): handleRepeatEndingStart
         the elements before is moved to the new repeat's common part
     - it's end: handleRepeatEnd
 
   Hooked endings following the first one are added to currentRepeat handleRepeatHookedEndingEnd
-  
+
   A hookless ending terminates currentRepeat: handleRepeatHooklessEndingEnd
     finalize currentRepeat
 */
@@ -67,7 +67,7 @@ msrRepeatElement::msrRepeatElement (
   msrAssert (
     repeatUplink != nullptr,
     "repeatUplink is null");
-    
+
   fRepeatElementRepeatUplink = repeatUplink;
 }
 
@@ -148,7 +148,7 @@ void msrRepeatElement::appendVoiceElementToRepeatElementsList (
 
 S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
 {
-  
+
   S_msrNote result;
 
   // fetch the first note in the first measure to which
@@ -163,14 +163,14 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
       i      = iBegin;
     for ( ; ; ) {
       S_msrVoiceElement element = (*i);
-      
+
       if (
         S_msrNote note = dynamic_cast<msrNote*>(&(*element))
-        ) {    
+        ) {
         result = note;
         break;
       }
-    
+
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
         ) {
@@ -178,7 +178,7 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
         result = chord->fetchChordFirstNonGraceNote ();
         break;
       }
-      
+
       else if (
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
         ) {
@@ -186,25 +186,25 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
         result = tuplet->fetchTupletFirstNonGraceNote ();
         break;
       }
-      
+
       else if (
         S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
         ) {
         // ignore this clef
       }
-      
+
       else if (
         S_msrKey key = dynamic_cast<msrKey*>(&(*element))
         ) {
         // ignore this key
       }
-      
+
       else if (
         S_msrTime time = dynamic_cast<msrTime*>(&(*element))
         ) {
         // ignore this time
       }
-      
+
       else {
         stringstream s;
 
@@ -212,14 +212,14 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
           "tuplet first element should be a note, a chord or another tuplet, found instead '" <<
           element->asShortString () <<
           "'";
-          
+
         msrInternalError (
           gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
-  
+
       if (++i == iEnd) break;
     } // for
   }
@@ -234,12 +234,12 @@ void msrRepeatElement::acceptIn (basevisitor* v)
       "% ==> msrRepeatElement::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRepeatElement>*
     p =
       dynamic_cast<visitor<S_msrRepeatElement>*> (v)) {
         S_msrRepeatElement elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatElement::visitStart ()" <<
@@ -261,7 +261,7 @@ void msrRepeatElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRepeatElement>*> (v)) {
         S_msrRepeatElement elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatElement::visitEnd ()" <<
@@ -278,7 +278,8 @@ void msrRepeatElement::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fRepeatElementElementsList.begin ();
       i != fRepeatElementElementsList.end ();
-      i++) {
+      i++
+  ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
       browser.browse (*(*i));
@@ -307,7 +308,7 @@ void msrRepeatElement::print (ostream& os)
     "RepeatElement" <<
     ", line " << fInputLineNumber <<
     endl;
- 
+
   gIndenter++;
 
   os <<
@@ -321,7 +322,7 @@ void msrRepeatElement::print (ostream& os)
   // print the elements
   int elementsNumber =
     fRepeatElementElementsList.size ();
-    
+
   os <<
     "repeatElementElementsList: ";
   if (elementsNumber) {
@@ -336,18 +337,18 @@ void msrRepeatElement::print (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatElementElementsList.begin (),
       iEnd   = fRepeatElementElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       os << (*i);
@@ -357,7 +358,7 @@ void msrRepeatElement::print (ostream& os)
 
     gIndenter--;
   }
-  
+
   gIndenter--;
 }
 
@@ -367,7 +368,7 @@ void msrRepeatElement::shortPrint (ostream& os)
     "RepeatElement" <<
     ", line " << fInputLineNumber <<
     endl;
- 
+
   gIndenter++;
 
 / * JMI
@@ -382,7 +383,7 @@ void msrRepeatElement::shortPrint (ostream& os)
   // print the elements
   int elementsNumber =
     fRepeatElementElementsList.size ();
-    
+
   os <<
     "repeatElementElementsList: ";
   if (elementsNumber) {
@@ -397,18 +398,18 @@ void msrRepeatElement::shortPrint (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatElementElementsList.begin (),
       iEnd   = fRepeatElementElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       (*i)->shortPrint (os);
@@ -418,7 +419,7 @@ void msrRepeatElement::shortPrint (ostream& os)
 
     gIndenter--;
   }
-  
+
   gIndenter--;
 }
 
@@ -451,8 +452,8 @@ msrRepeatCommonPart::msrRepeatCommonPart (
   msrAssert (
     repeatUplink != nullptr,
     "repeatUplink is null");
-    
-  fRepeatCommonPartRepeatUplink = repeatUplink;    
+
+  fRepeatCommonPartRepeatUplink = repeatUplink;
 }
 
 msrRepeatCommonPart::~msrRepeatCommonPart ()
@@ -586,7 +587,7 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
 
 S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
 {
-  
+
   S_msrNote result;
 
   // fetch the first note in the first measure to which
@@ -601,14 +602,14 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
       i      = iBegin;
     for ( ; ; ) {
       S_msrVoiceElement element = (*i);
-      
+
       if (
         S_msrNote note = dynamic_cast<msrNote*>(&(*element))
-        ) {    
+        ) {
         result = note;
         break;
       }
-    
+
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
         ) {
@@ -616,7 +617,7 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
         result = chord->fetchChordFirstNonGraceNote ();
         break;
       }
-      
+
       else if (
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
         ) {
@@ -624,25 +625,25 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
         result = tuplet->fetchTupletFirstNonGraceNote ();
         break;
       }
-      
+
       else if (
         S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
         ) {
         // ignore this clef
       }
-      
+
       else if (
         S_msrKey key = dynamic_cast<msrKey*>(&(*element))
         ) {
         // ignore this key
       }
-      
+
       else if (
         S_msrTime time = dynamic_cast<msrTime*>(&(*element))
         ) {
         // ignore this time
       }
-      
+
       else {
         stringstream s;
 
@@ -650,14 +651,14 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
           "tuplet first element should be a note, a chord or another tuplet, found instead '" <<
           element->asShortString () <<
           "'";
-          
+
         msrInternalError (
           gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
-  
+
       if (++i == iEnd) break;
     } // for
   }
@@ -672,12 +673,12 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
       "% ==> msrRepeatCommonPart::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRepeatCommonPart>*
     p =
       dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
         S_msrRepeatCommonPart elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitStart ()" <<
@@ -699,7 +700,7 @@ void msrRepeatCommonPart::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
         S_msrRepeatCommonPart elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitEnd ()" <<
@@ -716,7 +717,8 @@ void msrRepeatCommonPart::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fRepeatCommonPartElementsList.begin ();
       i != fRepeatCommonPartElementsList.end ();
-      i++) {
+      i++
+  ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
       browser.browse (*(*i));
@@ -745,7 +747,7 @@ void msrRepeatCommonPart::print (ostream& os)
     "RepeatCommonPart" <<
     ", line " << fInputLineNumber <<
     endl;
- 
+
   gIndenter++;
 
   os <<
@@ -759,7 +761,7 @@ void msrRepeatCommonPart::print (ostream& os)
   // print the elements
   int elementsNumber =
     fRepeatCommonPartElementsList.size ();
-    
+
   os <<
     "repeatCommonPartElementsList: ";
   if (elementsNumber) {
@@ -774,18 +776,18 @@ void msrRepeatCommonPart::print (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
       iEnd   = fRepeatCommonPartElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       os << (*i);
@@ -795,7 +797,7 @@ void msrRepeatCommonPart::print (ostream& os)
 
     gIndenter--;
   }
-  
+
   gIndenter--;
 }
 
@@ -805,7 +807,7 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
     "RepeatCommonPart" <<
     ", line " << fInputLineNumber <<
     endl;
- 
+
   gIndenter++;
 
 /* JMI
@@ -820,7 +822,7 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
   // print the elements
   int elementsNumber =
     fRepeatCommonPartElementsList.size ();
-    
+
   os <<
     "repeatCommonPartElementsList: ";
   if (elementsNumber) {
@@ -835,18 +837,18 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatCommonPartElementsList.begin (),
       iEnd   = fRepeatCommonPartElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       (*i)->shortPrint (os);
@@ -856,7 +858,7 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
 
     gIndenter--;
   }
-  
+
   gIndenter--;
 }
 
@@ -891,12 +893,12 @@ msrRepeatEnding::msrRepeatEnding (
     : msrElement (inputLineNumber)
 {
   fRepeatEndingNumber = repeatEndingNumber;
-  
+
   fRepeatEndingInternalNumber = 0;
     // will be set by msrRepeat::addRepeatEnding ()
-  
+
   fRepeatEndingKind = repeatEndingKind;
-    
+
   fRepeatEndingRepeatUplink = repeatUplink;
 }
 
@@ -1032,12 +1034,12 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
       "% ==> msrRepeatEnding::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRepeatEnding>*
     p =
       dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
         S_msrRepeatEnding elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatEnding::visitStart ()" <<
@@ -1059,7 +1061,7 @@ void msrRepeatEnding::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
         S_msrRepeatEnding elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatEnding::visitEnd ()" <<
@@ -1076,7 +1078,8 @@ void msrRepeatEnding::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fRepeatEndingElementsList.begin ();
       i != fRepeatEndingElementsList.end ();
-      i++) {
+      i++
+  ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
       browser.browse (*(*i));
@@ -1088,7 +1091,7 @@ string msrRepeatEnding::repeatEndingKindAsString (
   msrRepeatEndingKind repeatEndingKind)
 {
   string result;
-  
+
   switch (repeatEndingKind) {
     case msrRepeatEnding::kHookedEnding:
       result = "hooked";
@@ -1097,7 +1100,7 @@ string msrRepeatEnding::repeatEndingKindAsString (
       result = "hookless";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -1173,7 +1176,7 @@ void msrRepeatEnding::print (ostream& os)
   // print the elements
   int elementsNumber =
     fRepeatEndingElementsList.size ();
-    
+
   os <<
     "repeatEndingElementsList: ";
   if (elementsNumber) {
@@ -1188,18 +1191,18 @@ void msrRepeatEnding::print (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatEndingElementsList.begin (),
       iEnd   = fRepeatEndingElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       (*i)->print (os);
@@ -1209,7 +1212,7 @@ void msrRepeatEnding::print (ostream& os)
 
     gIndenter--;
   }
-    
+
   gIndenter--;
 }
 
@@ -1258,7 +1261,7 @@ void msrRepeatEnding::shortPrint (ostream& os)
   // print the elements
   int elementsNumber =
     fRepeatEndingElementsList.size ();
-    
+
   os <<
     "repeatEndingElementsList: ";
   if (elementsNumber) {
@@ -1273,18 +1276,18 @@ void msrRepeatEnding::shortPrint (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fRepeatEndingElementsList.begin (),
       iEnd   = fRepeatEndingElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       (*i)->shortPrint (os);
@@ -1294,7 +1297,7 @@ void msrRepeatEnding::shortPrint (ostream& os)
 
     gIndenter--;
   }
-   
+
   gIndenter--;
 }
 
@@ -1326,12 +1329,12 @@ msrRepeat::msrRepeat (
     : msrVoiceElement (inputLineNumber)
 {
   fRepeatEndingsInternalCounter = 0;
-  
+
   // sanity check
   msrAssert(
     voiceUplink != nullptr,
     "voiceUplink is null");
-    
+
   fRepeatVoiceUplink = voiceUplink;
 
   fRepeatTimes = repeatTimes;
@@ -1353,12 +1356,12 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrRepeat
     newbornClone =
       msrRepeat::create (
@@ -1379,7 +1382,7 @@ void msrRepeat::setRepeatCommonPart (
   msrAssert(
     repeatCommonPart != nullptr,
     "repeatCommonPart is null");
-    
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
@@ -1392,7 +1395,7 @@ void msrRepeat::setRepeatCommonPart (
       endl;
   }
 #endif
-      
+
   fRepeatCommonPart = repeatCommonPart;
 
   // set repeat's build phase
@@ -1408,7 +1411,7 @@ void msrRepeat::addRepeatEndingToRepeat (
   msrAssert(
     repeatEnding != nullptr,
     "repeatEnding is null");
-    
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
@@ -1439,19 +1442,19 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseJustCreated:
           {
             stringstream s;
-    
+
             s <<
               "cannot add hooked ending '" <<
               repeatEnding->asShortString () <<
               "' right after a repeat has been created";
-              
+
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
               fInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
           }
-          break;        
+          break;
         case msrRepeat::kRepeatBuildPhaseInCommonPart:
           fCurrentRepeatBuildPhaseKind =
             msrRepeat::kRepeatBuildPhaseInEndings;
@@ -1462,12 +1465,12 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
-    
+
             s <<
               "cannot add hooked ending '" <<
               repeatEnding->asShortString () <<
               "' after a repeat has been completed";
-              
+
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
               fInputLineNumber,
@@ -1483,12 +1486,12 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseJustCreated:
           {
             stringstream s;
-    
+
             s <<
               "cannot add hookless repeat ending '" <<
               repeatEnding->asShortString () <<
               "' right after the repeat has been created";
-              
+
             msrInternalError (
               gGeneralOptions->fInputSourceName,
               fInputLineNumber,
@@ -1499,12 +1502,12 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseInCommonPart:
           {
             stringstream s;
-    
+
             s <<
               "cannot add hookless repeat ending '" <<
               repeatEnding->asShortString () <<
               "' right after the repeat common part";
-              
+
             msrInternalError (
               gGeneralOptions->fInputSourceName,
               fInputLineNumber,
@@ -1518,12 +1521,12 @@ void msrRepeat::addRepeatEndingToRepeat (
         case msrRepeat::kRepeatBuildPhaseCompleted:
           {
             stringstream s;
-    
+
             s <<
               "cannot add hookless ending '" <<
               repeatEnding->asShortString () <<
               "' after a repeat has been completed";
-              
+
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
               fInputLineNumber,
@@ -1581,7 +1584,7 @@ void msrRepeat::appendSegmentToRepeat (
           segment->asShortString () <<
           "'cannot be added to a just created repeat" <<
           " (" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1597,7 +1600,7 @@ void msrRepeat::appendSegmentToRepeat (
             segment,
             context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseInEndings:
       fRepeatEndings.back ()->
         appendSegmentToRepeatEnding (
@@ -1605,7 +1608,7 @@ void msrRepeat::appendSegmentToRepeat (
           segment,
           context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseCompleted:
       {
         stringstream s;
@@ -1615,7 +1618,7 @@ void msrRepeat::appendSegmentToRepeat (
           segment->asShortString () <<
           "'cannot be added to a completed repeat" <<
           "(" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1665,7 +1668,7 @@ void msrRepeat::appendRepeatToRepeat (
           repeat->asShortString () <<
           "'cannot be added to a just created repeat" <<
           " (" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1681,7 +1684,7 @@ void msrRepeat::appendRepeatToRepeat (
             repeat,
             context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseInEndings:
       fRepeatEndings.back ()->
         appendRepeatToRepeatEnding (
@@ -1689,7 +1692,7 @@ void msrRepeat::appendRepeatToRepeat (
           repeat,
           context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseCompleted:
       {
         stringstream s;
@@ -1699,7 +1702,7 @@ void msrRepeat::appendRepeatToRepeat (
           repeat->asShortString () <<
           "'cannot be added to a completed repeat" <<
           "(" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1749,7 +1752,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           measuresRepeat->asShortString () <<
           "'cannot be added to a just created repeat" <<
           " (" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1765,7 +1768,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
             measuresRepeat,
             context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseInEndings:
       fRepeatEndings.back ()->
         appendMeasuresRepeatToRepeatEnding (
@@ -1773,7 +1776,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           measuresRepeat,
           context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseCompleted:
       {
         stringstream s;
@@ -1783,7 +1786,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
           measuresRepeat->asShortString () <<
           "'cannot be added to a completed repeat" <<
           "(" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1833,7 +1836,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           restMeasures->asShortString () <<
           "'cannot be added to a just created repeat" <<
           " (" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1849,7 +1852,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           restMeasures,
           context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseInEndings:
       fRepeatEndings.back ()->
         appendRestMeasuresToRepeatEnding (
@@ -1857,7 +1860,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           restMeasures,
           context);
       break;
-      
+
     case msrRepeat::kRepeatBuildPhaseCompleted:
       {
         stringstream s;
@@ -1867,7 +1870,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
           restMeasures->asShortString () <<
           "'cannot be added to a completed repeat" <<
           "(" << context << ")";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
@@ -1906,12 +1909,12 @@ void msrRepeat::acceptIn (basevisitor* v)
       "% ==> msrRepeat::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrRepeat>*
     p =
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeat::visitStart ()" <<
@@ -1933,7 +1936,7 @@ void msrRepeat::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeat::visitEnd ()" <<
@@ -1950,12 +1953,13 @@ void msrRepeat::browseData (basevisitor* v)
     msrBrowser<msrRepeatCommonPart> browser (v);
     browser.browse (*fRepeatCommonPart);
   }
-  
+
   // browse the alternatives
   for (
     vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin ();
     i != fRepeatEndings.end ();
-    i++) {
+    i++
+  ) {
     // browse the alternative
     msrBrowser<msrRepeatEnding> browser (v);
     browser.browse (*(*i));
@@ -1966,7 +1970,7 @@ string msrRepeat::repeatExplicitStartKindAsString (
   msrRepeatExplicitStartKind repeatExplicitStartKind)
 {
   string result;
-  
+
   switch (repeatExplicitStartKind) {
     case msrRepeat::kRepeatExplicitStartNo:
       result = "repeatExplicitStartNo";
@@ -1975,7 +1979,7 @@ string msrRepeat::repeatExplicitStartKindAsString (
       result = "repeatExplicitStartYes";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -1983,7 +1987,7 @@ string msrRepeat::repeatBuildPhaseKindAsString (
   msrRepeatBuildPhaseKind repeatBuildPhaseKind)
 {
   string result;
-  
+
   switch (repeatBuildPhaseKind) {
     case msrRepeat::kRepeatBuildPhaseJustCreated:
       result = "repeatBuildPhaseJustCreated";
@@ -1998,7 +2002,7 @@ string msrRepeat::repeatBuildPhaseKindAsString (
       result = "repeatBuildPhaseCompleted";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -2032,7 +2036,7 @@ string msrRepeat::asShortString () const
 
   int repeatEndingsNumber =
     fRepeatEndings.size ();
-    
+
   s <<
     ", " <<
     singularOrPlural (
@@ -2068,7 +2072,7 @@ string msrRepeat::asString () const
 
   int endingsNumber =
     fRepeatEndings.size ();
-    
+
   s <<
     ", " <<
     singularOrPlural (
@@ -2082,7 +2086,7 @@ string msrRepeat::asString () const
 
     s <<
       ", ";
-    
+
     for ( ; ; ) {
       // print the repeat ending
       s << (*i)->asShortString ();
@@ -2090,7 +2094,7 @@ string msrRepeat::asString () const
       s << " ";
     } // for
   }
-  
+
   s <<
     ", line " << fInputLineNumber;
 
@@ -2127,7 +2131,7 @@ void msrRepeat::print (ostream& os)
     ", " << fRepeatTimes << " times" <<
     ", line " << fInputLineNumber <<
     endl;
-    
+
   gIndenter++;
 
   const int fieldWidth = 28;
@@ -2164,16 +2168,16 @@ void msrRepeat::print (ostream& os)
       "Common part: none" <<
       endl;
   }
-  else {    
+  else {
     os <<
       fRepeatCommonPart <<
       endl;
   }
-  
+
   // print the repeat endings
   int endingsNumber =
     fRepeatEndings.size ();
-    
+
   os <<
     "Repeat endings: ";
   if (endingsNumber) {
@@ -2184,15 +2188,15 @@ void msrRepeat::print (ostream& os)
   }
   os <<
     endl;
-    
+
   if (endingsNumber) {
     gIndenter++;
-    
+
     vector<S_msrRepeatEnding>::const_iterator
       iBegin = fRepeatEndings.begin (),
       iEnd   = fRepeatEndings.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the repeat ending
       os << (*i);
@@ -2202,7 +2206,7 @@ void msrRepeat::print (ostream& os)
 
     gIndenter--;
   }
-      
+
   gIndenter--;
 }
 
@@ -2213,9 +2217,9 @@ void msrRepeat::shortPrint (ostream& os)
     ", " << fRepeatTimes << " times" <<
     ", line " << fInputLineNumber <<
     endl;
-  
+
   gIndenter++;
-  
+
   const int fieldWidth = 28;
 
   os << left <<
@@ -2243,23 +2247,23 @@ void msrRepeat::shortPrint (ostream& os)
 
   gLogIOstream <<
     endl;
-      
+
   // print the repeat common part
   if (! fRepeatCommonPart) {
     os <<
       "Common part: none" <<
       endl;
   }
-  else {    
-    fRepeatCommonPart->shortPrint (os);      
+  else {
+    fRepeatCommonPart->shortPrint (os);
   }
   os <<
     endl;
-  
+
   // print the repeat endings
   int endingsNumber =
     fRepeatEndings.size ();
-    
+
   os <<
     "Repeat endings: ";
   if (endingsNumber) {
@@ -2270,15 +2274,15 @@ void msrRepeat::shortPrint (ostream& os)
   }
   os <<
     endl;
-    
+
   if (endingsNumber) {
     gIndenter++;
-    
+
     vector<S_msrRepeatEnding>::const_iterator
       iBegin = fRepeatEndings.begin (),
       iEnd   = fRepeatEndings.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the repeat ending
       (*i)->shortPrint (os);
@@ -2288,7 +2292,7 @@ void msrRepeat::shortPrint (ostream& os)
 
     gIndenter--;
   }
-      
+
   gIndenter--;
 }
 

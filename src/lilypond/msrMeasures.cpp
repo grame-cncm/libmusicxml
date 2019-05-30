@@ -2811,27 +2811,31 @@ void msrMeasure::finalizeMeasure (
       voiceCurrentTime);
   }
 
-  if (fActualMeasureWholeNotes.getNumerator () == 0) {
-    stringstream s;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceNotes) {
+    if (fActualMeasureWholeNotes.getNumerator () == 0) {
+      stringstream s;
 
-    s <<
-      "Measure '" <<
-      fMeasureNumber <<
-      ", measureDebugNumber: '" <<
-      fMeasureDebugNumber <<
-      "' in segment '" <<
-      fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
-      "' in voice \"" <<
-      voice->getVoiceName () <<
-      "\", line " << inputLineNumber <<
-      ", doesn't contain any music" <<
-      endl;
+      s <<
+        "Measure '" <<
+        fMeasureNumber <<
+        ", measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "' in segment '" <<
+        fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+        "' in voice \"" <<
+        voice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        ", doesn't contain any music" <<
+        endl;
 
-    msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      s.str ());
+      msrMusicXMLWarning (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        s.str ());
+    }
   }
+#endif
 
   if (fMeasurePendingMeasureElementsList.size ()) {
     // pad measure up to the elements positions in measure,
@@ -3189,7 +3193,8 @@ void msrMeasure::browseData (basevisitor* v)
   for (
     list<S_msrMeasureElement>::const_iterator i = fMeasureElementsList.begin ();
     i != fMeasureElementsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));

@@ -24,7 +24,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -77,7 +77,7 @@ void msrHarmonyDegree::setHarmonyDegreeHarmonyUplink (
   msrAssert(
     harmonyUplink != nullptr,
      "harmonyUplink is null");
-     
+
   fHarmonyDegreeHarmonyUplink =
     harmonyUplink;
 }
@@ -148,12 +148,12 @@ void msrHarmonyDegree::acceptIn (basevisitor* v)
       "% ==> msrHarmonyDegree::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrHarmonyDegree>*
     p =
       dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
         S_msrHarmonyDegree elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitStart ()" <<
@@ -175,7 +175,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
         S_msrHarmonyDegree elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitEnd ()" <<
@@ -211,7 +211,7 @@ string msrHarmonyDegree::harmonyDegreeTypeKindAsString (
 string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
 {
   string result;
-  
+
   switch (fHarmonyDegreeTypeKind) {
     case msrHarmonyDegree::kHarmonyDegreeTypeAdd:
       result = "degreeAdd";
@@ -244,7 +244,7 @@ string msrHarmonyDegree::asString () const
 }
 
 void msrHarmonyDegree::print (ostream& os)
-{  
+{
   os <<
     asString () <<
     endl;
@@ -328,18 +328,18 @@ msrHarmony::msrHarmony (
   // set harmony's voice uplink
   fHarmonyVoiceUplink =
     harmonyVoiceUplink;
-    
+
   fHarmonyRootQuarterTonesPitchKind =
     harmonyRootQuarterTonesPitchKind;
- 
+
   fHarmonyKind     = harmonyKind;
   fHarmonyKindText = harmonyKindText;
- 
+
   fHarmonyInversion = harmonyInversion;
 
   fHarmonyBassQuarterTonesPitchKind =
     harmonyBassQuarterTonesPitchKind;
- 
+
   fHarmonySoundingWholeNotes =
     harmonySoundingWholeNotes;
 
@@ -390,7 +390,7 @@ msrHarmony::msrHarmony (
         fHarmonyBassQuarterTonesPitchKind
         ) {
         stringstream s;
-    
+
         s <<
           "inversion '" <<
           fHarmonyInversion <<
@@ -399,12 +399,12 @@ msrHarmony::msrHarmony (
             gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
             fHarmonyBassQuarterTonesPitchKind) <<
           "'";
-          
+
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
-          s.str ());        
+          s.str ());
       }
     }
 
@@ -434,7 +434,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrHarmony
     newbornClone =
       msrHarmony::create (
@@ -446,7 +446,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes);
-        
+
   return newbornClone;
 }
 
@@ -467,7 +467,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrHarmony
     harmonyDeepCopy =
       msrHarmony::create (
@@ -478,7 +478,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes);
-        
+
   return harmonyDeepCopy;
 }
 
@@ -492,7 +492,7 @@ string msrHarmony::asString () const
     ":" <<
     msrQuarterTonesPitchKindAsString ( // JMI XXL
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyRootQuarterTonesPitchKind) <<          
+      fHarmonyRootQuarterTonesPitchKind) <<
     msrHarmonyKindAsShortString (fHarmonyKind) <<
     ", duration: " <<
     wholeNotesAsMsrString (
@@ -511,21 +511,21 @@ string msrHarmony::asString () const
   else {
     s << fHarmonyInversion;
   }
-    
+
   if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
     s <<
       "/" <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind);
-  }  
+  }
 
   if (fHarmonyDegreesList.size ()) {
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin (),
       iEnd   = fHarmonyDegreesList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       s << (*i);
       if (++i == iEnd) break;
@@ -543,12 +543,12 @@ void msrHarmony::acceptIn (basevisitor* v)
       "% ==> msrHarmony::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrHarmony>*
     p =
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmony::visitStart ()" <<
@@ -570,7 +570,7 @@ void msrHarmony::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmony::visitEnd ()" <<
@@ -587,7 +587,8 @@ void msrHarmony::browseData (basevisitor* v)
     for (
       list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin ();
       i != fHarmonyDegreesList.end ();
-      i++) {
+      i++
+    ) {
       // browse the harmony degree
       msrBrowser<msrHarmonyDegree> browser (v);
       browser.browse (*(*i));
@@ -596,7 +597,7 @@ void msrHarmony::browseData (basevisitor* v)
 }
 
 void msrHarmony::print (ostream& os)
-{  
+{
   os <<
     "Harmony" <<
     ", " <<
@@ -606,7 +607,7 @@ void msrHarmony::print (ostream& os)
     " (" << fHarmonySoundingWholeNotes << " sounding whole notes)" <<
      ", line " << fInputLineNumber <<
     endl;
-    
+
   gIndenter++;
 
   const int fieldWidth = 15;
@@ -650,12 +651,12 @@ void msrHarmony::print (ostream& os)
       endl;
 
     gIndenter++;
-    
+
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin (),
       iEnd   = fHarmonyDegreesList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os <<
         (*i)->asString ();
@@ -663,7 +664,7 @@ void msrHarmony::print (ostream& os)
       os << endl;
     } // for
  // JMI ???   os << endl;
-    
+
     gIndenter--;
   }
 

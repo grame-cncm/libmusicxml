@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /* JMI
@@ -48,7 +48,7 @@ msrMeasuresRepeatElement::msrMeasuresRepeatElement (
   msrAssert (
     measuresRepeatUplink != nullptr,
     "measuresRepeatUplink is null");
-    
+
   fMeasuresRepeatElementMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
@@ -129,7 +129,7 @@ void msrMeasuresRepeatElement::appendVoiceElementToMeasuresRepeatElementsList (
 
 S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote () const
 {
-  
+
   S_msrNote result;
 
   // fetch the first note in the first measure to which
@@ -144,14 +144,14 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
       i      = iBegin;
     for ( ; ; ) {
       S_msrVoiceElement element = (*i);
-      
+
       if (
         S_msrNote note = dynamic_cast<msrNote*>(&(*element))
-        ) {    
+        ) {
         result = note;
         break;
       }
-    
+
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*element))
         ) {
@@ -159,7 +159,7 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
         result = chord->fetchChordFirstNonGraceNote ();
         break;
       }
-      
+
       else if (
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*element))
         ) {
@@ -167,25 +167,25 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
         result = tuplet->fetchTupletFirstNonGraceNote ();
         break;
       }
-      
+
       else if (
         S_msrClef clef = dynamic_cast<msrClef*>(&(*element))
         ) {
         // ignore this clef
       }
-      
+
       else if (
         S_msrKey key = dynamic_cast<msrKey*>(&(*element))
         ) {
         // ignore this key
       }
-      
+
       else if (
         S_msrTime time = dynamic_cast<msrTime*>(&(*element))
         ) {
         // ignore this time
       }
-      
+
       else {
         stringstream s;
 
@@ -193,14 +193,14 @@ S_msrNote msrMeasuresRepeatElement::fetchMeasuresRepeatElementFirstNonGraceNote 
           "tuplet first element should be a note, a chord or another tuplet, found instead '" <<
           element->asShortString () <<
           "'";
-          
+
         msrInternalError (
           gGeneralOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
-  
+
       if (++i == iEnd) break;
     } // for
   }
@@ -215,12 +215,12 @@ void msrMeasuresRepeatElement::acceptIn (basevisitor* v)
       "% ==> msrMeasuresRepeatElement::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrMeasuresRepeatElement>*
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeatElement>*> (v)) {
         S_msrMeasuresRepeatElement elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeatElement::visitStart ()" <<
@@ -242,7 +242,7 @@ void msrMeasuresRepeatElement::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeatElement>*> (v)) {
         S_msrMeasuresRepeatElement elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeatElement::visitEnd ()" <<
@@ -259,7 +259,8 @@ void msrMeasuresRepeatElement::browseData (basevisitor* v)
     for (
       list<S_msrVoiceElement>::const_iterator i = fMeasuresRepeatElementElementsList.begin ();
       i != fMeasuresRepeatElementElementsList.end ();
-      i++) {
+      i++
+  ) {
       // browse the element
       msrBrowser<msrVoiceElement> browser (v);
       browser.browse (*(*i));
@@ -288,7 +289,7 @@ void msrMeasuresRepeatElement::print (ostream& os)
     "MeasuresRepeatElement" <<
     ", line " << fInputLineNumber <<
     endl;
- 
+
   gIndenter++;
 
   os <<
@@ -302,7 +303,7 @@ void msrMeasuresRepeatElement::print (ostream& os)
   // print the elements
   int elementsNumber =
     fMeasuresRepeatElementElementsList.size ();
-    
+
   os <<
     "measuresRepeatElementElementsList: ";
   if (elementsNumber) {
@@ -317,18 +318,18 @@ void msrMeasuresRepeatElement::print (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fMeasuresRepeatElementElementsList.begin (),
       iEnd   = fMeasuresRepeatElementElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       os << (*i);
@@ -338,7 +339,7 @@ void msrMeasuresRepeatElement::print (ostream& os)
 
     gIndenter--;
   }
-  
+
   gIndenter--;
 }
 
@@ -348,7 +349,7 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os)
     "MeasuresRepeatElement" <<
     ", line " << fInputLineNumber <<
     endl;
- 
+
   gIndenter++;
 
 / / * JMI
@@ -363,7 +364,7 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os)
   // print the elements
   int elementsNumber =
     fMeasuresRepeatElementElementsList.size ();
-    
+
   os <<
     "repeatElementElementsList: ";
   if (elementsNumber) {
@@ -378,18 +379,18 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os)
   }
   os <<
     endl;
-    
+
   if (elementsNumber) {
     os <<
       endl;
-    
+
     gIndenter++;
 
     list<S_msrVoiceElement>::const_iterator
       iBegin = fMeasuresRepeatElementElementsList.begin (),
       iEnd   = fMeasuresRepeatElementElementsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       // print the element
       (*i)->shortPrint (os);
@@ -399,7 +400,7 @@ void msrMeasuresRepeatElement::shortPrint (ostream& os)
 
     gIndenter--;
   }
-  
+
   gIndenter--;
 }
 
@@ -432,7 +433,7 @@ msrMeasuresRepeatPattern::msrMeasuresRepeatPattern (
   msrAssert (
     measuresRepeatUplink != nullptr,
     "measuresRepeatUplink is null");
-    
+
   fMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
@@ -453,7 +454,7 @@ void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     measuresRepeatPatternSegment != nullptr,
@@ -486,12 +487,12 @@ void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
       "% ==> msrMeasuresRepeatPattern::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrMeasuresRepeatPattern>*
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeatPattern>*> (v)) {
         S_msrMeasuresRepeatPattern elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeatPattern::visitStart ()" <<
@@ -513,7 +514,7 @@ void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeatPattern>*> (v)) {
         S_msrMeasuresRepeatPattern elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeatPattern::visitEnd ()" <<
@@ -551,7 +552,7 @@ string msrMeasuresRepeatPattern::asString () const
       measuresRepeatPatternMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
-    ")"; 
+    ")";
 
   return s.str ();
 }
@@ -563,9 +564,9 @@ void msrMeasuresRepeatPattern::print (ostream& os)
     asString () <<
     endl <<
     endl;
-  
+
   gIndenter++;
-  
+
   // print the pattern segment
   os <<
     "Pattern segment:";
@@ -578,15 +579,15 @@ void msrMeasuresRepeatPattern::print (ostream& os)
   else {
     os <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fMeasuresRepeatPatternSegment;
 
     gIndenter--;
   }
-      
+
   gIndenter--;
 }
 
@@ -618,7 +619,7 @@ msrMeasuresRepeatReplicas::msrMeasuresRepeatReplicas (
   msrAssert (
     measuresRepeatUplink != nullptr,
     "measuresRepeatUplink is null");
-    
+
   fMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
@@ -639,7 +640,7 @@ void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     measuresRepeatReplicasSegment != nullptr,
@@ -672,12 +673,12 @@ void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
       "% ==> msrMeasuresRepeatReplicas::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrMeasuresRepeatReplicas>*
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeatReplicas>*> (v)) {
         S_msrMeasuresRepeatReplicas elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeatReplicas::visitStart ()" <<
@@ -699,7 +700,7 @@ void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeatReplicas>*> (v)) {
         S_msrMeasuresRepeatReplicas elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeatReplicas::visitEnd ()" <<
@@ -737,7 +738,7 @@ string msrMeasuresRepeatReplicas::asString () const
       measuresRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
-    ")"; 
+    ")";
 
   return s.str ();
 }
@@ -749,9 +750,9 @@ void msrMeasuresRepeatReplicas::print (ostream& os)
     asString () <<
     endl <<
     endl;
-  
+
   gIndenter++;
-  
+
   // print the replicas segment
   os <<
     "Replicas segment:";
@@ -764,9 +765,9 @@ void msrMeasuresRepeatReplicas::print (ostream& os)
   else {
     os <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fMeasuresRepeatReplicasSegment;
 
@@ -842,12 +843,12 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrMeasuresRepeat
     newbornClone =
       msrMeasuresRepeat::create (
@@ -855,7 +856,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
         fMeasuresRepeatMeasuresNumber,
         fMeasuresRepeatSlashesNumber,
         containingVoice);
-    
+
   return newbornClone;
 }
 
@@ -874,7 +875,7 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     measuresRepeatPattern != nullptr,
@@ -902,7 +903,7 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     measuresRepeatReplicas != nullptr,
@@ -916,10 +917,10 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
 }
 
 int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
-{  
+{
   int patternMeasuresNumber =
     measuresRepeatPatternMeasuresNumber ();
-    
+
   // sanity check
   msrAssert (
     patternMeasuresNumber > 0,
@@ -928,7 +929,7 @@ int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
   return
     measuresRepeatReplicasMeasuresNumber ()
       /
-    patternMeasuresNumber;    
+    patternMeasuresNumber;
 }
 
 void msrMeasuresRepeat::acceptIn (basevisitor* v)
@@ -938,12 +939,12 @@ void msrMeasuresRepeat::acceptIn (basevisitor* v)
       "% ==> msrMeasuresRepeat::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrMeasuresRepeat>*
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeat>*> (v)) {
         S_msrMeasuresRepeat elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeat::visitStart ()" <<
@@ -965,7 +966,7 @@ void msrMeasuresRepeat::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrMeasuresRepeat>*> (v)) {
         S_msrMeasuresRepeat elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasuresRepeat::visitEnd ()" <<
@@ -996,7 +997,7 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
         fetchVoicePartUplink ()->
           getPartPartGroupUplink ()->
             getPartGroupScoreUplink ();
-              
+
   bool inhibitMeasuresRepeatReplicasBrowsing =
     score->getInhibitMeasuresRepeatReplicasBrowsing ();
 
@@ -1027,7 +1028,7 @@ string msrMeasuresRepeat::measuresRepeatBuildPhaseKindAsString (
   msrMeasuresRepeatBuildPhaseKind measuresRepeatBuildPhaseKind)
 {
   string result;
-  
+
   switch (measuresRepeatBuildPhaseKind) {
     case msrMeasuresRepeat::kMeasuresRepeatBuildPhaseJustCreated:
       result = "measuresRepeatBuildPhaseJustCreated";
@@ -1042,7 +1043,7 @@ string msrMeasuresRepeat::measuresRepeatBuildPhaseKindAsString (
       result = "measuresRepeatBuildPhaseCompleted";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -1066,7 +1067,7 @@ string msrMeasuresRepeat::asString () const
       "replicas measures") <<
     ", " <<
     measuresRepeatReplicasNumber () << " replicas" <<
-    ")"; 
+    ")";
 
   return s.str ();
 }
@@ -1123,14 +1124,14 @@ void msrMeasuresRepeat::print (ostream& os)
     ")" <<
     */
     endl;
-  
+
   gIndenter++;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasuresRepeats) {
     // print the current measures repeat build phase
     const int fieldWidth = 36;
-    
+
     os <<
       setw (fieldWidth) <<
       "currentMeasuresRepeatBuildPhaseKind" << " : " <<
@@ -1151,7 +1152,7 @@ void msrMeasuresRepeat::print (ostream& os)
     os <<
       fMeasuresRepeatPattern;
   }
-  
+
   // print the measures repeat replicas
   if (! fMeasuresRepeatReplicas) {
     os <<
@@ -1163,7 +1164,7 @@ void msrMeasuresRepeat::print (ostream& os)
     os <<
       fMeasuresRepeatReplicas;
   }
-      
+
   gIndenter--;
 }
 

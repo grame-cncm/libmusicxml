@@ -1948,7 +1948,8 @@ void optionsSubGroup::registerOptionsSubGroupInHandler (
     list<S_optionsItem>::const_iterator
       i = fOptionsSubGroupItemsList.begin ();
     i != fOptionsSubGroupItemsList.end ();
-    i++) {
+    i++
+  ) {
     // register the options sub group
     (*i)->
       registerOptionsItemInHandler (
@@ -1982,7 +1983,8 @@ S_optionsElement optionsSubGroup::fetchOptionElement (
     list<S_optionsItem>::const_iterator
       i = fOptionsSubGroupItemsList.begin ();
     i != fOptionsSubGroupItemsList.end ();
-    i++) {
+    i++
+  ) {
     // search optiontElementName in the options group
     result =
       (*i)->fetchOptionElement (optiontElementName);
@@ -2432,7 +2434,8 @@ void optionsGroup::registerOptionsGroupInHandler (
     list<S_optionsSubGroup>::const_iterator
       i = fOptionsGroupSubGroupsList.begin ();
     i != fOptionsGroupSubGroupsList.end ();
-    i++) {
+    i++
+  ) {
     // register the options sub group
     (*i)->
       registerOptionsSubGroupInHandler (
@@ -2466,7 +2469,8 @@ S_optionsElement optionsGroup::fetchOptionElement (
     list<S_optionsSubGroup>::const_iterator
       i = fOptionsGroupSubGroupsList.begin ();
     i != fOptionsGroupSubGroupsList.end ();
-    i++) {
+    i++
+  ) {
     // search optiontElementName in the options group
     result =
       (*i)->fetchOptionElement (optiontElementName);
@@ -3132,7 +3136,8 @@ void optionsHandler::registerOptionsHandlerInItself ()
     list<S_optionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin ();
     i != fOptionsHandlerOptionsGroupsList.end ();
-    i++) {
+    i++
+  ) {
     // register the options group
     (*i)->
       registerOptionsGroupInHandler (
@@ -3255,7 +3260,8 @@ void optionsHandler::registerOptionsNamesInHandler (
     map<string, S_optionsElement>::iterator i =
       fOptionsElementsMap.begin ();
     i != fOptionsElementsMap.end ();
-    i++) {
+    i++
+  ) {
 
     // is optionLongName already in the options names map?
     if ((*i).first == optionLongName) {
@@ -3904,7 +3910,8 @@ S_optionsElement optionsHandler::fetchOptionElement (
     list<S_optionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin ();
     i != fOptionsHandlerOptionsGroupsList.end ();
-    i++) {
+    i++
+  ) {
     // search optiontElementName in the options group
     result =
       (*i)->fetchOptionElement (optiontElementName);

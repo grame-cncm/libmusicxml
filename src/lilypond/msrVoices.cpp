@@ -746,7 +746,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   for (
     map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
     i != fVoiceStanzasMap.end ();
-    i++) {
+    i++
+  ) {
     S_msrStanza stanza = (*i).second;
 
     voiceDeepCopy->
@@ -1926,7 +1927,8 @@ void msrVoice::padUpToActualMeasureWholeNotesInVoice (
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++) {
+      i++
+  ) {
       S_msrStanza stanza = (*i).second;
 
       stanza->padUpToActualMeasureWholeNotesInStanza (
@@ -1968,7 +1970,8 @@ void msrVoice::appendPaddingNoteToVoice (
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++) {
+      i++
+  ) {
       S_msrStanza stanza = (*i).second;
 
       stanza->appendPaddingNoteToStanza (
@@ -2677,7 +2680,8 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
     for (
       map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
       i != fVoiceStanzasMap.end ();
-      i++) {
+      i++
+  ) {
       S_msrStanza stanza = (*i).second;
 
       stanza->appendLineBreakSyllableToStanza (

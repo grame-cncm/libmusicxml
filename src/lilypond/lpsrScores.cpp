@@ -1541,7 +1541,8 @@ void lpsrScore::browseData (basevisitor* v)
       map<string, S_lpsrSchemeFunction>::const_iterator i =
         fScoreSchemeFunctionsMap.begin ();
       i != fScoreSchemeFunctionsMap.end ();
-      i++) {
+      i++
+  ) {
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
       browser.browse (*(*i).second);
@@ -1599,7 +1600,8 @@ void lpsrScore::browseData (basevisitor* v)
     for (
       list<S_msrElement>::const_iterator i = fScoreElementsList.begin ();
       i != fScoreElementsList.end ();
-      i++) {
+      i++
+    ) {
       // browse the element
       msrBrowser<msrElement> browser (v);
       browser.browse (*(*i));
@@ -1611,7 +1613,8 @@ void lpsrScore::browseData (basevisitor* v)
     for (
       list<S_lpsrBookBlock>::const_iterator i = fScoreBookBlocksList.begin ();
       i != fScoreBookBlocksList.end ();
-      i++) {
+      i++
+    ) {
       // browse the element
       msrBrowser<lpsrBookBlock> browser (v);
       browser.browse (*(*i));

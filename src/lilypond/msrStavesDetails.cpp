@@ -80,7 +80,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
         fStaffTuningLineNumber,
         fStaffTuningQuarterTonesPitchKind,
         fStaffTuningOctave);
-  
+
   return newbornClone;
 }
 
@@ -91,12 +91,12 @@ void msrStaffTuning::acceptIn (basevisitor* v)
       "% ==> msrStaffTuning::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrStaffTuning>*
     p =
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffTuning::visitStart ()" <<
@@ -118,7 +118,7 @@ void msrStaffTuning::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffTuning::visitEnd ()" <<
@@ -149,7 +149,7 @@ string msrStaffTuning::asString () const
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fStaffTuningQuarterTonesPitchKind) <<
     ", octave " << fStaffTuningOctave;
-    
+
   return s.str ();
 }
 
@@ -164,7 +164,7 @@ void msrStaffTuning::print (ostream& os)
 
   const int fieldWidth = 29;
 
-  os << left <<  
+  os << left <<
     setw (fieldWidth) <<
     "staffTuningLineNumber" << " : " <<
     fStaffTuningLineNumber <<
@@ -211,11 +211,11 @@ msrStaffDetails::msrStaffDetails (
     : msrMeasureElement (inputLineNumber)
 {
   fStaffTypeKind    = staffTypeKind;
-  
+
   fStaffLinesNumber = 5; // default value JMI ???
 
   fShowFretsKind    = showFretsKind;
-  
+
   fPrintObjectKind  = printObjectKind;
   fPrintSpacingKind = printSpacingKind;
 }
@@ -230,12 +230,12 @@ void msrStaffDetails::acceptIn (basevisitor* v)
       "% ==> msrStaffDetails::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrStaffDetails>*
     p =
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffDetails::visitStart ()" <<
@@ -257,7 +257,7 @@ void msrStaffDetails::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffDetails::visitEnd ()" <<
@@ -273,7 +273,8 @@ void msrStaffDetails::browseData (basevisitor* v)
     for (
       list<S_msrStaffTuning>::const_iterator i = fStaffTuningsList.begin ();
       i != fStaffTuningsList.end ();
-      i++) {
+      i++
+  ) {
         // browse the staff tuning
         msrBrowser<msrStaffTuning> browser (v);
         browser.browse (*(*i));
@@ -285,7 +286,7 @@ string msrStaffDetails::staffTypeKindAsString (
   msrStaffTypeKind staffTypeKind)
 {
   string result;
-  
+
   switch (staffTypeKind) {
     case msrStaffDetails::kRegularStaffType:
       result = "regularStaffType";
@@ -311,7 +312,7 @@ string msrStaffDetails::showFretsKindAsString (
   msrShowFretsKind showFretsKind)
 {
   string result;
-  
+
   switch (showFretsKind) {
     case msrStaffDetails::kShowFretsNumbers:
       result = "showFretsNumbers";
@@ -323,12 +324,12 @@ string msrStaffDetails::showFretsKindAsString (
 
   return result;
 }
-      
+
 string msrStaffDetails::printObjectKindAsString (
   msrPrintObjectKind printObjectKind)
 {
   string result;
-  
+
   switch (printObjectKind) {
     case msrStaffDetails::kPrintObjectYes:
       result = "printObjectYes";
@@ -340,12 +341,12 @@ string msrStaffDetails::printObjectKindAsString (
 
   return result;
 }
-      
+
 string msrStaffDetails::printSpacingKindAsString (
   msrPrintSpacingKind printSpacingKind)
 {
   string result;
-  
+
   switch (printSpacingKind) {
     case msrStaffDetails::kPrintSpacingYes:
       result = "printSpacingYes";
@@ -357,7 +358,7 @@ string msrStaffDetails::printSpacingKindAsString (
 
   return result;
 }
-      
+
 ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
 {
   elt->print (os);
@@ -403,7 +404,7 @@ void msrStaffDetails::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 17;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "staffTypeKind" << " : " <<
@@ -417,14 +418,14 @@ void msrStaffDetails::print (ostream& os)
   if (fStaffTuningsList.size ()) {
     os <<
       endl;
-      
+
     list<S_msrStaffTuning>::const_iterator
       iBegin = fStaffTuningsList.begin (),
       iEnd   = fStaffTuningsList.end (),
       i      = iBegin;
-      
+
     gIndenter++;
-    
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
@@ -432,7 +433,7 @@ void msrStaffDetails::print (ostream& os)
     } // for
     os <<
       endl;
-    
+
     gIndenter--;
   }
   else {

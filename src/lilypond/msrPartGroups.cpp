@@ -325,7 +325,8 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
     for (
         map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin ();
         i != fPartGroupPartsMap.end ();
-        i++) {
+        i++
+      ) {
       gLogIOstream <<
         "\"" << (*i).first << "\" --% --> " <<
         (*i).second->

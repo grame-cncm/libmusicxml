@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -57,15 +57,15 @@ msrFigure::msrFigure (
   msrAssert(
     figurePartUplink != nullptr,
     "figurePartUplink is null");
-     
+
   // set figured's part uplink
   fFigurePartUplink =
     figurePartUplink;
- 
+
   fFigurePrefixKind = figurePrefixKind;
   fFigureNumber     = figureNumber;
   fFigureSuffixKind = figureSuffixKind;
- 
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
@@ -97,7 +97,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
-    
+
   S_msrFigure
     newbornClone =
       msrFigure::create (
@@ -106,7 +106,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
         fFigurePrefixKind,
         fFigureNumber,
         fFigureSuffixKind);
-        
+
   return newbornClone;
 }
 
@@ -127,7 +127,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
-    
+
   S_msrFigure
     figureDeepCopy =
       msrFigure::create (
@@ -136,7 +136,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
         fFigurePrefixKind,
         fFigureNumber,
         fFigureSuffixKind);
-        
+
   return figureDeepCopy;
 }
 
@@ -144,7 +144,7 @@ string msrFigure::figurePrefixKindAsString (
   msrFigurePrefixKind figurePrefixKind)
 {
   string result;
-  
+
   switch (figurePrefixKind) {
     case msrFigure::k_NoFigurePrefix:
       result = "none";
@@ -179,7 +179,7 @@ string msrFigure::figureSuffixKindAsString (
   msrFigureSuffixKind figureSuffixKind)
 {
   string result;
-  
+
   switch (figureSuffixKind) {
     case msrFigure::k_NoFigureSuffix:
       result = "none";
@@ -247,12 +247,12 @@ void msrFigure::acceptIn (basevisitor* v)
       "% ==> msrFigure::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrFigure>*
     p =
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFigure::visitStart ()" <<
@@ -274,7 +274,7 @@ void msrFigure::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFigure::visitEnd ()" <<
@@ -288,7 +288,7 @@ void msrFigure::browseData (basevisitor* v)
 {}
 
 void msrFigure::print (ostream& os)
-{  
+{
   os <<
     "Figure" <<
     " '" << fFigureNumber <<
@@ -368,7 +368,7 @@ msrFiguredBass::msrFiguredBass (
 
   fFiguredBassParenthesesKind =
     figuredBassParenthesesKind;
-    
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceFiguredBasses) {
     gLogIOstream <<
@@ -400,7 +400,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrFiguredBass
     newbornClone =
       msrFiguredBass::create (
@@ -408,7 +408,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
  //       containingPart,
         fFiguredBassSoundingWholeNotes,
         fFiguredBassParenthesesKind);
-        
+
   return newbornClone;
 }
 
@@ -431,7 +431,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
     containingPart != nullptr,
     "containingPart is null");
     */
-    
+
   S_msrFiguredBass
     figuredBassDeepCopy =
       msrFiguredBass::create (
@@ -439,7 +439,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
    //     containingPart,
         fFiguredBassSoundingWholeNotes,
         fFiguredBassParenthesesKind);
-        
+
   return figuredBassDeepCopy;
 }
 
@@ -464,7 +464,7 @@ string msrFiguredBass::figuredBassParenthesesKindAsString (
   msrFiguredBassParenthesesKind figuredBassParenthesesKind)
 {
   string result;
-  
+
   switch (figuredBassParenthesesKind) {
     case msrFiguredBass::kFiguredBassParenthesesYes:
       result = "figuredBassParenthesesYes";
@@ -500,7 +500,7 @@ string msrFiguredBass::asString () const
       iBegin = fFiguredBassFiguresList.begin (),
       iEnd   = fFiguredBassFiguresList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       s << (*i);
       if (++i == iEnd) break;
@@ -528,12 +528,12 @@ void msrFiguredBass::acceptIn (basevisitor* v)
       "% ==> msrFiguredBass::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrFiguredBass>*
     p =
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFiguredBass::visitStart ()" <<
@@ -555,7 +555,7 @@ void msrFiguredBass::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFiguredBass::visitEnd ()" <<
@@ -570,7 +570,8 @@ void msrFiguredBass::browseData (basevisitor* v)
   for (
     list<S_msrFigure>::const_iterator i = fFiguredBassFiguresList.begin ();
     i != fFiguredBassFiguresList.end ();
-    i++) {
+    i++
+  ) {
     // browse the figure
     msrBrowser<msrFigure> browser (v);
     browser.browse (*(*i));
@@ -578,7 +579,7 @@ void msrFiguredBass::browseData (basevisitor* v)
 }
 
 void msrFiguredBass::print (ostream& os)
-{  
+{
   os <<
     "FiguredBass" <<
     ": " <<
@@ -599,7 +600,7 @@ void msrFiguredBass::print (ostream& os)
       iBegin = fFiguredBassFiguresList.begin (),
       iEnd   = fFiguredBassFiguresList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;

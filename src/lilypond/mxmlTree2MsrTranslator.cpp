@@ -1493,7 +1493,8 @@ If the cancel attribute is
       vector<S_msrHumdrumScotKeyItem>::const_iterator i=
         fCurrentHumdrumScotKeyItemsVector.begin ();
       i!=fCurrentHumdrumScotKeyItemsVector.end ();
-      i++) {
+      i++
+  ) {
       fLogOutputStream <<
         ++counter << ": " << (*i) <<
         endl;
@@ -1695,7 +1696,8 @@ S_msrKey mxmlTree2MsrTranslator::handleHumdrumScotKey (
       vector<S_msrHumdrumScotKeyItem>::const_iterator i=
         fCurrentHumdrumScotKeyItemsVector.begin ();
       i!=fCurrentHumdrumScotKeyItemsVector.end ();
-      i++) {
+      i++
+  ) {
       key->
         appendHumdrumScotKeyItem ((*i));
     } // for
@@ -1817,7 +1819,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_type& elt )
     for (
       list<int>::const_iterator i = beatNumbers.begin ();
       i != beatNumbers.end ();
-      i++) {
+      i++
+  ) {
       timeItem->
         appendBeatsNumber ((*i));
     } // for
@@ -2018,7 +2021,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_time& elt )
       vector<S_msrTimeItem>::const_iterator i =
         fCurrentTimeItemsVector.begin ();
       i!=fCurrentTimeItemsVector.end ();
-      i++) {
+      i++
+  ) {
       fCurrentTime->
         appendTimeItem ((*i));
     } // for
@@ -5713,7 +5717,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   for (
     list<string>::const_iterator i = fCurrentLyricTextsList.begin ();
     i!=fCurrentLyricTextsList.end ();
-    i++) {
+    i++
+  ) {
     syllable->
       appendLyricTextToSyllable ((*i));
   } // for
@@ -14290,7 +14295,8 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
   for (
     i=noteArticulations.begin ();
     i!=noteArticulations.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
@@ -14322,7 +14328,8 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
   for (
     i=noteTechnicals.begin ();
     i!=noteTechnicals.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
   if (
@@ -14358,7 +14365,8 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
   for (
     i=noteTechnicalWithIntegers.begin ();
     i!=noteTechnicalWithIntegers.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
   if (
@@ -14394,7 +14402,8 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithFloatsToChord (
   for (
     i=noteTechnicalWithFloats.begin ();
     i!=noteTechnicalWithFloats.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (
@@ -14430,7 +14439,8 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
   for (
     i=noteTechnicalWithStrings.begin ();
     i!=noteTechnicalWithStrings.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (
@@ -14466,7 +14476,8 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
   for (
     i=noteOrnaments.begin ();
     i!=noteOrnaments.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (
@@ -14502,7 +14513,8 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
   for (
     i=noteSpanners.begin ();
     i!=noteSpanners.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (
@@ -14566,7 +14578,8 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
   for (
     i=noteDynamics.begin ();
     i!=noteDynamics.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceDynamics) {
@@ -14599,7 +14612,8 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
   for (
     i=noteOtherDynamics.begin ();
     i!=noteOtherDynamics.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceDynamics) {
@@ -14632,7 +14646,8 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
   for (
     i=noteWords.begin ();
     i!=noteWords.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceWords) {
@@ -14693,7 +14708,8 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
   for (
     i=noteBeams.begin ();
     i!=noteBeams.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
@@ -14742,7 +14758,7 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTies) {
       fLogOutputStream <<
-        "Copying tie '" <<
+        "Appending tie '" <<
         noteTie->asString () <<
         "' from note " << note->asString () <<
         " to chord" <<
@@ -14755,9 +14771,9 @@ void mxmlTree2MsrTranslator::copyNoteTieToChord (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTies) {
     fLogOutputStream <<
-      "==> AFTER copying tie to chord:" <<
+      "==> AFTER appending tie to chord:" <<
       endl;
 
     gIndenter++;
@@ -14786,7 +14802,8 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
   for (
     i=noteSlurs.begin ();
     i!=noteSlurs.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceSlurs) {
@@ -14819,7 +14836,8 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
   for (
     i=noteLigatures.begin ();
     i!=noteLigatures.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceLigatures) {
@@ -14852,7 +14870,8 @@ void mxmlTree2MsrTranslator::copyNotePedalsToChord (
   for (
     i=notePedals.begin ();
     i!=notePedals.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTracePedals) {
@@ -14885,7 +14904,8 @@ void mxmlTree2MsrTranslator::copyNoteSlashesToChord (
   for (
     i=noteSlashes.begin ();
     i!=noteSlashes.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceSlashes) {
@@ -14918,7 +14938,8 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
   for (
     i=noteWedges.begin ();
     i!=noteWedges.end ();
-    i++) {
+    i++
+  ) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceChords || gTraceOptions->fTraceWedges) {
@@ -15716,7 +15737,8 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
     for (
       i=fCurrentArticulations.begin ();
       i!=fCurrentArticulations.end ();
-      i++) {
+      i++
+  ) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
@@ -15753,7 +15775,8 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
     for (
       i=fCurrentOrnamentsList.begin ();
       i!=fCurrentOrnamentsList.end ();
-      i++) {
+      i++
+  ) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
@@ -16745,7 +16768,8 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
               for (
                 map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
                 i != voiceStanzasMap.end ();
-                i++) {
+                i++
+              ) {
                 S_msrStanza stanza = (*i).second;
                 // create a skip syllable
                 S_msrSyllable
@@ -16858,7 +16882,8 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
               for (
                 map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
                 i != voiceStanzasMap.end ();
-                i++) {
+                i++
+              ) {
                 S_msrStanza stanza = (*i).second;
                 // create a skip syllable
                 S_msrSyllable
@@ -17707,7 +17732,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     for (
       list<S_msrBeam>::const_iterator i=fPendingBeams.begin ();
       i!=fPendingBeams.end ();
-      i++) {
+      i++
+  ) {
       newNote->
         appendBeamToNote ((*i));
     } // for
@@ -18464,7 +18490,8 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
         for (
           map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
           i != voiceStanzasMap.end ();
-          i++) {
+          i++
+        ) {
           S_msrStanza stanza = (*i).second;
           // create a skip syllable
           S_msrSyllable
@@ -21448,7 +21475,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     for (
       list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
       i!=fPendingFiguredBassFigures.end ();
-      i++) {
+      i++
+  ) {
       figuredBass->
         appendFiguredFigureToFiguredBass ((*i));
     } // for
@@ -22061,7 +22089,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
       for (
         list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
         i!=fPendingFiguredBassFigures.end ();
-        i++) {
+        i++
+      ) {
         figuredBass->
           appendFiguredFigureToFiguredBass ((*i));
       } // for

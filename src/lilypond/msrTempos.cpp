@@ -38,7 +38,7 @@ S_msrTempoNote msrTempoNote::create (
   int      inputLineNumber,
   rational tempoNoteWholeNotes,
   bool     tempoNoteBelongsToATuplet)
-{  
+{
   msrTempoNote * o =
     new msrTempoNote (
       inputLineNumber,
@@ -56,7 +56,7 @@ msrTempoNote::msrTempoNote (
     : msrElement (inputLineNumber)
 {
   fTempoNoteWholeNotes = tempoNoteWholeNotes;
-  
+
   fTempoNoteBelongsToATuplet = tempoNoteBelongsToATuplet;
 }
 
@@ -75,12 +75,12 @@ void msrTempoNote::acceptIn (basevisitor* v)
       "% ==> msrTempoNote::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTempoNote>*
     p =
       dynamic_cast<visitor<S_msrTempoNote>*> (v)) {
         S_msrTempoNote elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempoNote::visitStart ()" <<
@@ -102,7 +102,7 @@ void msrTempoNote::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTempoNote>*> (v)) {
         S_msrTempoNote elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempoNote::visitEnd ()" <<
@@ -138,7 +138,7 @@ string msrTempoNote::asString () const
 }
 
 void msrTempoNote::print (ostream& os)
-{  
+{
   os <<
     "TempoNote" <<
     ", line " << fInputLineNumber <<
@@ -147,7 +147,7 @@ void msrTempoNote::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 26;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "tempoNoteWholeNotes" << " : " << fTempoNoteWholeNotes <<
@@ -158,13 +158,13 @@ void msrTempoNote::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "tempoNoteBeams";
-    
+
     if (fTempoNoteBeams.size ()) {
       os <<
         endl;
 
       gIndenter++;
-      
+
       list<S_msrBeam>::const_iterator
         iBegin = fTempoNoteBeams.begin (),
         iEnd   = fTempoNoteBeams.end (),
@@ -225,9 +225,9 @@ msrTempoTuplet::msrTempoTuplet (
   int                          tempoTupletNormalNotes,
   rational                     memberNotesDisplayWholeNotes)
     : msrElement (inputLineNumber)
-{  
+{
   fTempoTupletNumber = tempoTupletNumber;
-  
+
   fTempoTupletBracketKind    = tempoTupletBracketKind;
   fTempoTupletShowNumberKind = tempoTupletShowNumberKind;
 
@@ -235,7 +235,7 @@ msrTempoTuplet::msrTempoTuplet (
   fTempoTupletNormalNotes = tempoTupletNormalNotes;
 
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
-  
+
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 
 #ifdef TRACE_OPTIONS
@@ -293,7 +293,7 @@ string msrTempoTuplet::tempoTupletShowNumberKindAsString (
   msrTempoTupletShowNumberKind tempoTupletShowNumberKind)
 {
   string result;
-  
+
   switch (tempoTupletShowNumberKind) {
     case msrTempoTuplet::kTempoTupletShowNumberActual:
       result = "tempoTupletShowNumberActual";
@@ -330,11 +330,11 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
   // register note's tempoTuplet uplink
   note->
     setNoteTempoTupletUplink (this);
-  
+
   fTupletDisplayWholeNotes += // JMI
-    note->getNoteDisplayWholeNotes ();  
+    note->getNoteDisplayWholeNotes ();
   fTempoTupletDisplayWholeNotes.rationalise ();
-    
+
     */
 }
 
@@ -355,15 +355,15 @@ void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 
   // register tempoTuplet in elements list
   fTempoTupletElements.push_back (tempoTuplet);
-    
+
   // account for tempoTuplet duration
   fTempoTupletDisplayWholeNotes += // JMI
     tempoTuplet->getTempoTupletDisplayWholeNotes ();
   fTempoTupletDisplayWholeNotes.rationalise ();
-    
+
     / *
   fTempoTupletDisplayWholeNotes += // JMI
-    tempoTuplet->getTempoTupletDisplayWholeNotes ();  
+    tempoTuplet->getTempoTupletDisplayWholeNotes ();
     * /
 
   // don't populate tempoTuplet's measure number nor position in measure,
@@ -406,15 +406,15 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       if ((*i) == tempoNote) {
         // found note, erase it
         fTempoTupletElements.erase (i);
-        
+
         // account for note duration
         fTempoTupletDisplayWholeNotes -= // JMI
-          tempoNote->getTempoNoteWholeNotes ();  
+          tempoNote->getTempoNoteWholeNotes ();
         fTempoTupletDisplayWholeNotes.rationalise ();
 
         // don't update measure number nor position in measure: // JMI
         // they have not been set yet
-  
+
         // return from function
         return;
       }
@@ -434,7 +434,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       __FILE__, __LINE__,
       s.str ());
   }
-  
+
   else {
     stringstream s;
 
@@ -463,7 +463,7 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
       endl;
 
     gIndenter++;
-    
+
     gLogIOstream <<
       "% fTempoTupletActualNotes = " <<
       fTempoTupletActualNotes <<
@@ -488,7 +488,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
       endl;
 
     gIndenter++;
-    
+
     gLogIOstream <<
       "% fTempoTupletActualNotes = " <<
       fTempoTupletActualNotes <<
@@ -520,12 +520,12 @@ void msrTempoTuplet::acceptIn (basevisitor* v)
       "% ==> msrTempoTuplet::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTempoTuplet>*
     p =
       dynamic_cast<visitor<S_msrTempoTuplet>*> (v)) {
         S_msrTempoTuplet elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempoTuplet::visitStart ()" <<
@@ -547,7 +547,7 @@ void msrTempoTuplet::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTempoTuplet>*> (v)) {
         S_msrTempoTuplet elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempoTuplet::visitEnd ()" <<
@@ -578,7 +578,7 @@ string msrTempoTuplet::asString () const
     fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
     " " << fTempoTupletDisplayWholeNotes << " display whole notes" <<
     ":";
-  
+
   s << "[[";
 
   if (fTempoTupletElements.size ()) {
@@ -587,21 +587,21 @@ string msrTempoTuplet::asString () const
       iEnd   = fTempoTupletElements.end (),
       i      = iBegin;
     for ( ; ; ) {
-      
+
       if (
         S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
-        ) {    
+        ) {
         s <<
           note->asShortString ();
       }
-    
+
       else if (
         S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(*(*i)))
         ) {
         s <<
           tempoTuplet->asString ();
       }
-      
+
       else {
         msrInternalError (
           gGeneralOptions->fInputSourceName,
@@ -609,15 +609,15 @@ string msrTempoTuplet::asString () const
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
       }
-  
+
       if (++i == iEnd) break;
       s << " ";
-      
+
     } // for
   }
 
   s << "]]";
-  
+
   return s.str ();
 }
 
@@ -640,7 +640,7 @@ string msrTempoTuplet::asString () const
   else {
     s << fTempoTupletPositionInMeasure;
   }
-  
+
   s << "[[";
 
   if (fTempoTupletElements.size ()) {
@@ -649,28 +649,28 @@ string msrTempoTuplet::asString () const
       iEnd   = fTempoTupletElements.end (),
       i      = iBegin;
     for ( ; ; ) {
-      
+
       if (
         S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
-        ) {    
+        ) {
         s <<
           note->asShortString ();
       }
-    
+
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
           chord->asString ();
       }
-      
+
       else if (
         S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(*(*i)))
         ) {
         s <<
           tempoTuplet->asString ();
       }
-      
+
       else {
         msrInternalError (
           gGeneralOptions->fInputSourceName,
@@ -678,14 +678,14 @@ string msrTempoTuplet::asString () const
           __FILE__, __LINE__,
           "tempoTuplet member should be a note, a chord or another tempoTuplet");
       }
-  
+
       if (++i == iEnd) break;
       s << " ";
     } // for
   }
 
   s << "]]";
-  
+
   return s.str ();
 }
 */
@@ -704,7 +704,7 @@ void msrTempoTuplet::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 30;
 
   os << left <<
@@ -740,7 +740,7 @@ void msrTempoTuplet::print (ostream& os)
 
   os <<
     "TempoTupletsElements";
-    
+
   if (fTempoTupletElements.size ()) {
     gIndenter++;
 
@@ -753,7 +753,7 @@ void msrTempoTuplet::print (ostream& os)
       if (++i == iEnd) break;
       // no endl here
     } // for
-    
+
     gIndenter--;
     }
   else {
@@ -776,7 +776,7 @@ S_msrTempoRelationshipElements msrTempoRelationshipElements::create (
   int      inputLineNumber,
   msrTempoRelationshipElementsKind
            tempoRelationshipElementsKind)
-{  
+{
   msrTempoRelationshipElements * o =
     new msrTempoRelationshipElements (
       inputLineNumber,
@@ -810,7 +810,7 @@ void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
       endl;
   }
 #endif
-  
+
   fTempoRelationshipElementsList.push_back (element);
 }
 
@@ -821,12 +821,12 @@ void msrTempoRelationshipElements::acceptIn (basevisitor* v)
       "% ==> msrTempoRelationshipElements::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTempoRelationshipElements>*
     p =
       dynamic_cast<visitor<S_msrTempoRelationshipElements>*> (v)) {
         S_msrTempoRelationshipElements elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempoRelationshipElements::visitStart ()" <<
@@ -848,7 +848,7 @@ void msrTempoRelationshipElements::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTempoRelationshipElements>*> (v)) {
         S_msrTempoRelationshipElements elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempoRelationshipElements::visitEnd ()" <<
@@ -866,7 +866,8 @@ void msrTempoRelationshipElements::browseData (basevisitor* v)
       list<S_msrElement>::const_iterator i =
         fTempoRelationshipElementsList.begin ();
       i != fTempoRelationshipElementsList.end ();
-      i++) {
+      i++
+  ) {
       // browse the element
       msrBrowser<msrElement> browser (v);
       browser.browse (*(*i));
@@ -889,7 +890,7 @@ string msrTempoRelationshipElements::tempoRelationshipElementsKindAsString (
   msrTempoRelationshipElementsKind tempoRelationshipElementsKind)
 {
   string result;
-  
+
   switch (tempoRelationshipElementsKind) {
     case msrTempoRelationshipElements::kTempoRelationshipElementsLeft:
       result = "tempoRelationshipElementsLeft";
@@ -903,12 +904,12 @@ string msrTempoRelationshipElements::tempoRelationshipElementsKindAsString (
 }
 
 void msrTempoRelationshipElements::print (ostream& os)
-{  
+{
   os <<
     "TempoRelationshipElements" <<
     ", line " << fInputLineNumber <<
     endl;
-    
+
   gIndenter++;
 
   os <<
@@ -918,7 +919,7 @@ void msrTempoRelationshipElements::print (ostream& os)
     endl;
 
   const int fieldWidth = 26;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "tempoRelationshipElementsList";
@@ -933,13 +934,13 @@ void msrTempoRelationshipElements::print (ostream& os)
         iBegin = fTempoRelationshipElementsList.begin (),
         iEnd   = fTempoRelationshipElementsList.end (),
         i      = iBegin;
-        
+
       for ( ; ; ) {
         os << (*i);
         if (++i == iEnd) break;
         // os << endl;
       } // for
-  
+
       gIndenter--;
   }
   else {
@@ -947,7 +948,7 @@ void msrTempoRelationshipElements::print (ostream& os)
       " : " << "none ???" <<
       endl;
   }
-  
+
   gIndenter--;
 }
 
@@ -1029,7 +1030,7 @@ msrTempo::msrTempo (
       fTempoEquivalentBeatUnit ()
 {
   fTempoKind = kTempoBeatUnitsPerMinute;
-    
+
   fTempoPerMinute = tempoPerMinute;
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
@@ -1049,7 +1050,7 @@ msrTempo::msrTempo (
       fTempoEquivalentBeatUnit (tempoEquivalentBeatUnit)
 {
   fTempoKind = kTempoBeatUnitsEquivalence;
-  
+
   fTempoPerMinute = "";
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
@@ -1069,7 +1070,7 @@ msrTempo::msrTempo (
     : msrMeasureElement (inputLineNumber)
 {
   fTempoKind = kTempoNotesRelationShip;
-  
+
   fTempoPerMinute = "";
 
   fTempoRelationLeftElements =
@@ -1092,12 +1093,12 @@ void msrTempo::acceptIn (basevisitor* v)
       "% ==> msrTempo::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTempo>*
     p =
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempo::visitStart ()" <<
@@ -1119,7 +1120,7 @@ void msrTempo::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempo::visitEnd ()" <<
@@ -1135,13 +1136,13 @@ void msrTempo::browseData (basevisitor* v)
   switch (fTempoKind) {
     case msrTempo::k_NoTempoKind:
       break;
-      
+
     case msrTempo::kTempoBeatUnitsPerMinute:
       break;
-      
+
     case msrTempo::kTempoBeatUnitsEquivalence:
       break;
-      
+
     case msrTempo::kTempoNotesRelationShip:
       {
         // browse the left elements
@@ -1149,7 +1150,7 @@ void msrTempo::browseData (basevisitor* v)
           msrBrowser<msrTempoRelationshipElements> browser (v);
           browser.browse (*fTempoRelationLeftElements);
         }
-        
+
         // browse the right elements
         if (fTempoRelationRightElements) {
           msrBrowser<msrTempoRelationshipElements> browser (v);
@@ -1164,7 +1165,7 @@ string msrTempo::tempoKindAsString (
   msrTempoKind tempoKind)
 {
   string result;
-  
+
   switch (tempoKind) {
     case msrTempo::k_NoTempoKind:
       result = "noTempoKind???";
@@ -1187,7 +1188,7 @@ string msrTempo::tempoParenthesizedKindAsString (
   msrTempoParenthesizedKind tempoParenthesizedKind)
 {
   string result;
-  
+
   switch (tempoParenthesizedKind) {
     case msrTempo::kTempoParenthesizedYes:
       result = "tempoParenthesizedYes";
@@ -1204,7 +1205,7 @@ string msrTempo::tempoRelationKindAsString (
   msrTempoRelationKind tempoRelationKind)
 {
   string result;
-  
+
   switch (tempoRelationKind) {
     case msrTempo::kTempoRelationEquals:
       result = "tempoRelationEquals";
@@ -1251,13 +1252,13 @@ void msrTempo::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "tempoWords";
-    
+
   if (fPendingWordsList.size ()) {
     os <<
       endl;
-      
+
     gIndenter++;
-          
+
     list<S_msrWords>::const_iterator
       iBegin = fPendingWordsList.begin (),
       iEnd   = fPendingWordsList.end (),
@@ -1275,7 +1276,7 @@ void msrTempo::print (ostream& os)
       " : " << "none" <<
       endl;;
   }
-    
+
   os << left <<
     setw (fieldWidth) <<
     "tempoBeatUnit :" <<
@@ -1287,7 +1288,7 @@ void msrTempo::print (ostream& os)
     fTempoBeatUnit;
 
   gIndenter--;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "tempoPerMinute" << " : \"" << fTempoPerMinute << "\"" <<

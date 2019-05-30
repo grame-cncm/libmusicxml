@@ -113,7 +113,8 @@ void lpsrBookBlockElement::browseData (basevisitor* v)
   for (
     vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
     i != fBlockElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
  //   msrBrowser<msrElement> browser (v);
  //   browser.browse (*(*i));
@@ -297,7 +298,8 @@ void lpsrScoreBlock::browseData (basevisitor* v)
   for (
     vector<S_msrElement>::const_iterator i = fBlockElements.begin ();
     i != fBlockElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
  //   msrBrowser<msrElement> browser (v);
  //   browser.browse (*(*i));

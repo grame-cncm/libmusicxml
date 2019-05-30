@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -38,7 +38,7 @@ S_msrSegment msrSegment::create (
       inputLineNumber,
       segmentVoicekUplink);
   assert(o!=0);
-  
+
   return o;
 }
 
@@ -51,7 +51,7 @@ msrSegment::msrSegment (
   msrAssert(
     segmentVoicekUplink != nullptr,
     "segmentVoicekUplink is null");
-    
+
   // set segment's voice uplink
   fSegmentVoiceUplink =
     segmentVoicekUplink;
@@ -67,7 +67,7 @@ void msrSegment::initializeSegment ()
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   fSegmentDebugNumber    = ++gSegmentDebugNumber;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
@@ -89,13 +89,13 @@ void msrSegment::initializeSegment ()
         endl <<
         "======================= initializeSegment()" <<
         endl <<
-  
+
         fSegmentVoiceUplink <<
-        
+
         "=======================" <<
         endl <<
         endl;
-  
+
       abort ();
     }
   }
@@ -125,7 +125,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrSegment
     newbornClone =
       msrSegment::create (
@@ -137,7 +137,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
     fSegmentAbsoluteNumber;
 
   // keep debug number fSegmentDebugNumber unchanged
-  
+
   return newbornClone;
 }
 
@@ -157,17 +157,17 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   msrAssert(
     containingVoice != nullptr,
     "containingVoice is null");
-    
+
   S_msrSegment
     segmentDeepCopy =
       msrSegment::create (
         fInputLineNumber,
         containingVoice);
-  
+
   // absolute number
   segmentDeepCopy->fSegmentAbsoluteNumber =
     fSegmentAbsoluteNumber;
-    
+
   // keep debug number fSegmentDebugNumber unchanged
 
   // the measures in the segment contain the mmusic
@@ -184,11 +184,12 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
         endl;
     }
 #endif
-    
+
     for (
       list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
       i != fSegmentMeasuresList.end ();
-      i++) {
+      i++
+  ) {
       // append a deep copy of the measure to the deep copy
       segmentDeepCopy->
         appendMeasureToSegment (
@@ -196,7 +197,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
             createMeasureDeepCopy (this));
     } // for
   }
-  
+
   else {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceSegments) {
@@ -210,7 +211,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   // uplinks
   segmentDeepCopy->fSegmentVoiceUplink =
     containingVoice;
-  
+
   return segmentDeepCopy;
 }
 
@@ -234,7 +235,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
 #endif
 
   gIndenter++;
-  
+
   // determine new measure 'first in segment' kind
   msrMeasure::msrMeasureFirstInSegmentKind
     measureFirstInSegmentKind;
@@ -249,7 +250,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
     measureFirstInSegmentKind =
       msrMeasure::kMeasureFirstInSegmentKindNo;
   }
-      
+
   // create a measure
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
@@ -276,7 +277,7 @@ S_msrMeasure msrSegment::createMeasureAndAppendItToSegment (
 
   // append it to the segment
   appendMeasureToSegment (result);
-  
+
   gIndenter--;
 
   return result;
@@ -300,7 +301,7 @@ void msrSegment::setNextMeasureNumberInSegment (
 #endif
 
   gIndenter++;
-  
+
   if (fSegmentMeasuresList.size ()) { // JMI ???
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
@@ -315,13 +316,13 @@ void msrSegment::setNextMeasureNumberInSegment (
         endl;
     }
 #endif
-    
+
     fSegmentMeasuresList.back ()->
       setNextMeasureNumber (
         nextMeasureNumber);
   }
 
-  gIndenter--;   
+  gIndenter--;
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
@@ -339,7 +340,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 #endif
 
   gIndenter++;
-  
+
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
@@ -362,14 +363,14 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       fSegmentVoiceUplink <<
       endl;
     gIndenter--;
-    
+
     msrInternalError (
       gGeneralOptions->fInputSourceName,
       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }
-        
+
   // register clef in segments's current measure
   fSegmentMeasuresList.back ()->
     appendClefToMeasure (clef);
@@ -392,7 +393,7 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
 #endif
 
   gIndenter++;
-  
+
   // sanity check
   if (fSegmentMeasuresList.size () == 0) {
     stringstream s;
@@ -415,14 +416,14 @@ void msrSegment::prependClefToSegment (S_msrClef clef) // JMI
       fSegmentVoiceUplink <<
       endl;
     gIndenter--;
-    
+
     msrInternalError (
       gGeneralOptions->fInputSourceName,
       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
   }
-        
+
   // register clef in segments's current measure
   fSegmentMeasuresList.front ()->
     appendClefToMeasure (clef);
@@ -443,21 +444,21 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // register key in segments's current measure
   fSegmentMeasuresList.back ()->
     appendKeyToMeasure (key);
 
   gIndenter--;
 }
-    
+
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
 #ifdef TRACE_OPTIONS
@@ -481,14 +482,14 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasure (time);
@@ -521,12 +522,12 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 #endif
 
   gIndenter++;
-  
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   // append time to segments's current measure
   fSegmentMeasuresList.back ()->
     appendTimeToMeasureClone (time);
@@ -549,12 +550,12 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 #endif
 
   gIndenter++;
-  
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
     appendHarmonyToMeasure (harmony);
@@ -575,14 +576,14 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarmonyToMeasureClone (harmony);
@@ -604,14 +605,14 @@ void msrSegment::appendFiguredBassToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()-> // JMI ???
     appendFiguredBassToMeasure (figuredBass);
@@ -633,14 +634,14 @@ void msrSegment::appendFiguredBassToSegmentClone (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendFiguredBassToMeasure (figuredBass);
@@ -661,14 +662,14 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendSegnoToMeasure (segno);
@@ -689,14 +690,14 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendCodaToMeasure (coda);
@@ -718,14 +719,14 @@ void msrSegment::appendEyeGlassesToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendEyeGlassesToMeasure (eyeGlasses);
@@ -745,7 +746,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
       "\"" <<
       endl;
   }
-      
+
 #endif
   // sanity check
   msrAssert (
@@ -753,7 +754,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPedalToMeasure (pedal);
@@ -774,14 +775,14 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendDampToMeasure (damp);
@@ -802,14 +803,14 @@ void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendDampAllToMeasure (dampAll);
@@ -831,14 +832,14 @@ void msrSegment::appendTransposeToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTransposeToMeasure (transpose);
@@ -860,14 +861,14 @@ void msrSegment::appendPartNameDisplayToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPartNameDisplayToMeasure (partNameDisplay);
@@ -882,7 +883,7 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending part abbreviation display " <<
-      
+
       " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -890,14 +891,14 @@ void msrSegment::appendPartAbbreviationDisplayToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPartAbbreviationDisplayToMeasure (
@@ -911,7 +912,7 @@ void msrSegment::appendStaffDetailsToSegment (
 {
   int inputLineNumber =
     staffDetails->getInputLineNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceStaffDetails
@@ -941,14 +942,14 @@ void msrSegment::appendStaffDetailsToSegment (
         "appendStaffDetailsToSegment() 1");
   }
 #endif
-  
+
   gIndenter++;
-  
-  // sanity check 
+
+  // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   // append staffDetails to this segment
   fSegmentMeasuresList.back ()->
     appendStaffDetailsToMeasure (staffDetails);
@@ -965,7 +966,7 @@ void msrSegment::appendStaffDetailsToSegment (
         "appendStaffDetailsToSegment() 2");
   }
 #endif
-  
+
   gIndenter--;
 }
 
@@ -983,14 +984,14 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendLineBreakToMeasure (lineBreak);
@@ -1011,14 +1012,14 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPageBreakToMeasure (pageBreak);
@@ -1040,14 +1041,14 @@ void msrSegment::appendBarNumberCheckToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendBarNumberCheckToMeasure (barNumberCheck);
@@ -1069,14 +1070,14 @@ void msrSegment::appendTempoToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTempoToMeasure (tempo);
@@ -1098,14 +1099,14 @@ void msrSegment::appendRehearsalToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendRehearsalToMeasure (rehearsal);
@@ -1128,14 +1129,14 @@ void msrSegment::appendOctaveShiftToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendOctaveShiftToMeasure (octaveShift);
@@ -1158,14 +1159,14 @@ void msrSegment::appendScordaturaToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendScordaturaToMeasure (scordatura);
@@ -1189,14 +1190,14 @@ void msrSegment::appendAccordionRegistrationToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendAccordionRegistrationToMeasure (
@@ -1221,14 +1222,14 @@ void msrSegment::appendHarpPedalsTuningToSegment (
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendHarpPedalsTuningToMeasure (
@@ -1277,7 +1278,7 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
       fSegmentVoiceUplink <<
       endl;
     gIndenter--;
-    
+
     gLogIOstream <<
       "Part:" <<
       endl;
@@ -1286,7 +1287,7 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
       fSegmentVoiceUplink->fetchVoicePartUplink () <<
       endl;
     gIndenter--;
-    
+
     msrInternalError (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
@@ -1333,7 +1334,7 @@ void msrSegment::appendPaddingNoteToSegment (
         divisions,
         divisionsPerQuarterNote);
   }
-  
+
   gIndenter--;
 }
 
@@ -1341,18 +1342,18 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 {
   int inputLineNumber =
     measure->getInputLineNumber ();
-    
+
   string measureNumber =
     measure->getMeasureNumber ();
 
   int segmentMeasuresListSize =
     fSegmentMeasuresList.size ();
-    
+
   string currentMeasureNumber =
     segmentMeasuresListSize == 0
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
@@ -1400,7 +1401,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       setMeasureFirstInSegmentKind (
         msrMeasure::kMeasureFirstInSegmentKindNo);
   }
-  
+
   // is measure the first one it the voice?
   // this is necessary for voice clones,
   // which don't go down the part-staff-voice-segment hierarchy
@@ -1408,7 +1409,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     // yes, register it as such
     fSegmentVoiceUplink->
       setVoiceFirstMeasure (measure);
-      
+
     measure->
       setMeasureFirstInVoice ();
   }
@@ -1421,18 +1422,18 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 {
   int inputLineNumber =
     measure->getInputLineNumber ();
-    
+
   string measureNumber =
     measure->getMeasureNumber ();
-  
+
   int segmentMeasuresListSize =
     fSegmentMeasuresList.size ();
-    
+
   string currentMeasureNumber =
     segmentMeasuresListSize == 0
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
-    
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
@@ -1443,7 +1444,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       gLogIOstream <<
         ", as first measure FOO"; // JMI
     }
-    
+
 /* JMI
     else
       gLogIOstream <<
@@ -1501,7 +1502,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 
   // prepend barline to this segment
   gIndenter++;
-  
+
   fSegmentMeasuresList.front ()->
     prependBarlineToMeasure (barline);
 
@@ -1536,14 +1537,14 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
     }
 #endif
   }
-  
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   // append barline to this segment
   fSegmentMeasuresList.back ()->
     appendBarlineToMeasure (barline);
@@ -1564,12 +1565,12 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendBarCheckToMeasure (barCheck);
 }
@@ -1592,14 +1593,14 @@ void msrSegment::appendVoiceStaffChangeToSegment (
       endl;
   }
 #endif
-  
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
 
   gIndenter++;
-  
+
   fSegmentMeasuresList.back ()->
     appendVoiceStaffChangeToMeasure (
       voiceStaffChange);
@@ -1623,7 +1624,7 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendNoteToMeasure (note);
 }
@@ -1649,12 +1650,12 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
       endl;
   }
 #endif
-      
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
@@ -1665,7 +1666,7 @@ void msrSegment::appendChordToSegment (S_msrChord chord) // JMI
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendChordToMeasure (chord);
 }
@@ -1676,7 +1677,7 @@ void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // JMI
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendTupletToMeasure (tuplet);
 }
@@ -1690,7 +1691,7 @@ void msrSegment::addGraceNotesGroupAheadOfSegmentIfNeeded (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.front ()->
     addGraceNotesGroupAheadOfMeasure (graceNotesGroup);
 }
@@ -1702,7 +1703,7 @@ void msrSegment::appendGraceNotesToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendGraceNotesToMeasure (graceNotes);
 }
@@ -1714,7 +1715,7 @@ void msrSegment::appendAfterGraceNotesToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendAfterGraceNotesToMeasure (afterGraceNotes);
 }
@@ -1727,7 +1728,7 @@ void msrSegment::prependAfterGraceNotesToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.front ()->
     prependAfterGraceNotesToMeasure (afterGraceNotes); // JMI
 }
@@ -1740,7 +1741,7 @@ void msrSegment::prependOtherElementToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     prependOtherElementToMeasure (elem);
 }
@@ -1752,7 +1753,7 @@ void msrSegment::appendOtherElementToSegment (
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
-    
+
   fSegmentMeasuresList.back ()->
     appendOtherElementToMeasure (elem);
 }
@@ -1763,14 +1764,14 @@ S_msrElement msrSegment::removeLastElementFromSegment (
 {
   // this last element can be a note or a tuplet,
   // this method is used when the seconde note of a chord is mest
-  
+
   if (fSegmentMeasuresList.size ()) {
     return
       fSegmentMeasuresList.back ()->
         removeLastElementFromMeasure (
           inputLineNumber);
   }
-  
+
   else {
     msrInternalError (
       inputLineNumber,
@@ -1784,7 +1785,7 @@ S_msrElement msrSegment::removeLastElementFromSegment (
 void msrSegment::removeNoteFromSegment (
   int       inputLineNumber,
   S_msrNote note)
-{  
+{
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
@@ -1798,14 +1799,14 @@ void msrSegment::removeNoteFromSegment (
 #endif
 
   gIndenter++;
-  
+
   if (fSegmentMeasuresList.size ()) {
     fSegmentMeasuresList.back ()->
       removeNoteFromMeasure (
         inputLineNumber,
         note);
   }
-  
+
   else {
     stringstream s;
 
@@ -1830,7 +1831,7 @@ void msrSegment::removeNoteFromSegment (
 void msrSegment::removeElementFromSegment (
   int          inputLineNumber,
   S_msrElement element)
-{  
+{
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
@@ -1849,7 +1850,7 @@ void msrSegment::removeElementFromSegment (
         inputLineNumber,
         element);
   }
-  
+
   else {
     stringstream s;
 
@@ -1996,7 +1997,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   // JMI for tests abort ();
 
   fSegmentMeasuresList.pop_back ();
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     fSegmentVoiceUplink->
@@ -2016,12 +2017,12 @@ void msrSegment::acceptIn (basevisitor* v)
       "% ==> msrSegment::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSegment>*
     p =
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSegment::visitStart ()" <<
@@ -2043,7 +2044,7 @@ void msrSegment::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSegment::visitEnd ()" <<
@@ -2067,11 +2068,12 @@ void msrSegment::browseData (basevisitor* v)
     "==========>>> " <<
     fSegmentMeasuresList.size () << " measures" << endl;
     */
-    
+
   for (
     list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
     i != fSegmentMeasuresList.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrMeasure> browser (v);
     browser.browse (*(*i));
@@ -2112,7 +2114,7 @@ string msrSegment::asString () const
     "' in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
-  
+
   if (! fSegmentMeasuresList.size ()) {
     s <<
       " (0 measures)";
@@ -2128,7 +2130,7 @@ string msrSegment::asString () const
       iBegin = fSegmentMeasuresList.begin (),
       iEnd   = fSegmentMeasuresList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       s << (*i)->getMeasureNumber ();
       if (++i == iEnd) break;
@@ -2179,7 +2181,7 @@ void msrSegment::displaySegment (
 }
 
 void msrSegment::print (ostream& os)
-{  
+{
   os <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
@@ -2194,7 +2196,7 @@ void msrSegment::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 20;
-  
+
   os <<
     setw (fieldWidth) <<
     "voiceUplink" << " : " <<
@@ -2209,28 +2211,28 @@ void msrSegment::print (ostream& os)
       "segmentMeasuresList" << " : " << "none" <<
       endl;
   }
-  
+
   else {
     os <<
       endl;
-      
+
     list<S_msrMeasure>::const_iterator
       iBegin = fSegmentMeasuresList.begin (),
       iEnd   = fSegmentMeasuresList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
   }
-    
+
   gIndenter--;
 }
 
 void msrSegment::shortPrint (ostream& os)
-{  
+{
   os <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
@@ -2261,20 +2263,20 @@ void msrSegment::shortPrint (ostream& os)
       "segmentMeasuresList" << " : " << "none" <<
       endl;
   }
-  
+
   else {
     list<S_msrMeasure>::const_iterator
       iBegin = fSegmentMeasuresList.begin (),
       iEnd   = fSegmentMeasuresList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       (*i)->shortPrint (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
   }
-    
+
   os << endl;
 
   gIndenter--;
@@ -2296,7 +2298,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
       lastMeasureCreatedForARepeatKind =
         lastMeasure->
           getMeasureCreatedForARepeatKind ();
-        
+
     switch (lastMeasureCreatedForARepeatKind) {
       case msrMeasure::kMeasureCreatedForARepeatNo:
         // is the last measure empty?
@@ -2315,7 +2317,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
               ||
             gTraceOptions->fTraceRepeats) {
             stringstream s;
-        
+
             gLogIOstream <<
               "Removing empty measure '" <<
               lastMeasure->getMeasureNumber () <<
@@ -2324,10 +2326,10 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
               "'";
           }
 #endif
-    
+
           fSegmentMeasuresList.pop_back ();
         }
-        
+
         else {
           // no, finalize it
           lastMeasure->
@@ -2351,7 +2353,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
               ||
             gTraceOptions->fTraceRepeats) {
             stringstream s;
-        
+
             gLogIOstream <<
               "Removing empty measure '" <<
               lastMeasure->getMeasureNumber () <<
@@ -2363,7 +2365,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
               "'";
           }
 #endif
-    
+
           fSegmentMeasuresList.pop_back ();
         }
         else {

@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -64,12 +64,12 @@ void bsrScore::acceptIn (basevisitor* v)
       endl;
   }
 #endif
-      
+
   if (visitor<S_bsrScore>*
     p =
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
-        
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -95,7 +95,7 @@ void bsrScore::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_bsrScore>*> (v)) {
         S_bsrScore elem = this;
-      
+
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
           gLogIOstream <<
@@ -127,7 +127,8 @@ void bsrScore::browseData (basevisitor* v)
     list<S_bsrPage>::const_iterator i =
       fScorePagesList.begin ();
     i != fScorePagesList.end ();
-    i++) {
+    i++
+  ) {
     // browse the page
     msrBrowser<bsrPage> browser (v);
     browser.browse (*(*i));
@@ -159,7 +160,7 @@ void bsrScore::print (ostream& os)
 
   // print the transcription notes if any
   const int fieldWidth = 19;
-  
+
   if (fTranscriptionNotes || gBsrOptions->fDisplayBsrDetails) {
     if (fTranscriptionNotes) {
       os <<
@@ -187,17 +188,17 @@ void bsrScore::print (ostream& os)
 
   // print the score pages if any
   int scorePagesListSize = fScorePagesList.size ();
-  
+
   if (scorePagesListSize || gBsrOptions->fDisplayBsrDetails) {
     os <<
       setw (fieldWidth) <<
       "ScorePagesList";
-      
+
     if (scorePagesListSize) {
       os <<
         endl;
       gIndenter++;
-  
+
       list<S_bsrPage>::const_iterator
         iBegin = fScorePagesList.begin (),
         iEnd   = fScorePagesList.end (),
@@ -207,7 +208,7 @@ void bsrScore::print (ostream& os)
         if (++i == iEnd) break;
         // no endl here
       } // for
-  
+
       gIndenter--;
     }
     else {

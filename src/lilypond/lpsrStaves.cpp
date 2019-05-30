@@ -20,7 +20,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -49,12 +49,12 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
       "% ==> lpsrNewStaffgroupBlock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart ()" <<
@@ -76,7 +76,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd ()" <<
@@ -94,13 +94,13 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
   os << "NewStaffgroupBlock" << endl;
 
   gIndenter++;
-  
+
   int size = fNewStaffgroupElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fNewStaffgroupElements[i];
   } // for
-  
+
   gIndenter--;
 }
 
@@ -140,12 +140,12 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
       "% ==> lpsrNewStaffTuningBlock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart ()" <<
@@ -167,7 +167,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd ()" <<
@@ -185,10 +185,10 @@ void lpsrNewStaffTuningBlock::print (ostream& os)
   os << "NewStaffTuningBlock" << endl;
 
   gIndenter++;
-  
+
   os <<
     fStaffTuning;
-  
+
   gIndenter--;
 }
 
@@ -224,12 +224,12 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v)
       "% ==> lpsrNewStaffBlock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart ()" <<
@@ -251,7 +251,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd ()" <<
@@ -269,13 +269,13 @@ void lpsrNewStaffBlock::print (ostream& os)
   os << "NewStaffBlock" << endl;
 
   gIndenter++;
-  
+
   int size = fNewStaffElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fNewStaffElements[i];
   } // for
-  
+
   gIndenter--;
 }
 
@@ -303,7 +303,7 @@ lpsrStaffBlock::lpsrStaffBlock (
   msrAssert (
     staff != nullptr,
     "staff is null");
-    
+
   fStaff = staff;
 
   // set staff block instrument names
@@ -325,7 +325,7 @@ void lpsrStaffBlock::appendVoiceUseToStaffBlock (S_msrVoice voice)
       lpsrUseVoiceCommand::create (
         fInputLineNumber,
         voice);
-  
+
   fStaffBlockElements.push_back (useVoiceCommand);
 }
 
@@ -337,7 +337,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
         fInputLineNumber,
         stanza,
         stanza->getStanzaVoiceUplink ());
-  
+
   fStaffBlockElements.push_back (newLyricsCommand);
 }
 
@@ -348,12 +348,12 @@ void lpsrStaffBlock::acceptIn (basevisitor* v)
       "% ==> lpsrStaffBlock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart ()" <<
@@ -375,7 +375,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd ()" <<
@@ -396,7 +396,8 @@ void lpsrStaffBlock::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fStaffBlockElements.begin ();
     i != fStaffBlockElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -423,7 +424,7 @@ void lpsrStaffBlock::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 31;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
@@ -435,7 +436,7 @@ void lpsrStaffBlock::print (ostream& os)
     endl <<
     endl;
 
-  if (fStaffBlockElements.size ()) {  
+  if (fStaffBlockElements.size ()) {
     list<S_msrElement>::const_iterator
       iBegin = fStaffBlockElements.begin (),
       iEnd   = fStaffBlockElements.end (),

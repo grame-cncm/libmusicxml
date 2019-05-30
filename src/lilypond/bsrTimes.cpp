@@ -139,7 +139,7 @@ int bsrTimeItem::getTimeBeatsNumber () const
   for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
     result +=
       fTimeBeatsNumbersVector [i];
-    } // for
+  } // for
 
   return result;
 }

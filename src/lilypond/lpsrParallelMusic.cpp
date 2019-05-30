@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -64,12 +64,12 @@ void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
       "% ==> lpsrParallelMusicBLock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrParallelMusicBLock>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitStart ()" <<
@@ -91,7 +91,7 @@ void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
         S_lpsrParallelMusicBLock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrParallelMusicBLock::visitEnd ()" <<
@@ -108,12 +108,13 @@ void lpsrParallelMusicBLock::browseData (basevisitor* v)
       "% ==> lpsrParallelMusicBLock::browseData ()" <<
       endl;
   }
-  
+
   for (
     list<S_lpsrPartGroupBlock>::const_iterator i =
       fParallelMusicBLockPartGroupBlocks.begin ();
     i != fParallelMusicBLockPartGroupBlocks.end ();
-    i++) {
+    i++
+  ) {
     // browse the element browser
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -134,14 +135,15 @@ void lpsrParallelMusicBLock::print (ostream& os)
     singularOrPlural (
       fParallelMusicBLockPartGroupBlocks.size (), "part group", "part groups") <<
     endl;
-  
+
   gIndenter++;
-  
+
   for (
     list<S_lpsrPartGroupBlock>::const_iterator i =
       fParallelMusicBLockPartGroupBlocks.begin ();
     i != fParallelMusicBLockPartGroupBlocks.end ();
-    i++) {
+    i++
+  ) {
     os << (*i);
   } // for
 

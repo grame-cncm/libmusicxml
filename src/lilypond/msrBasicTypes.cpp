@@ -16933,7 +16933,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
           endl;
         gIndenter--;
       }
-    } // while
+    } // for
 
     // add  the octaviate last items
     for (int i = 0; i < inversion; i++) {

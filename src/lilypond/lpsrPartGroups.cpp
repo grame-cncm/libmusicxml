@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -47,12 +47,12 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v)
       "% ==> lpsrPartGroupBlock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrPartGroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart ()" <<
@@ -74,7 +74,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd ()" <<
@@ -95,7 +95,8 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fPartGroupBlockElements.begin ();
     i != fPartGroupBlockElements.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -129,7 +130,7 @@ void lpsrPartGroupBlock::print (ostream& os)
 
   gIndenter++;
 
-  if (fPartGroupBlockElements.size ()) {  
+  if (fPartGroupBlockElements.size ()) {
     list<S_msrElement>::const_iterator
       iBegin = fPartGroupBlockElements.begin (),
       iEnd   = fPartGroupBlockElements.end (),

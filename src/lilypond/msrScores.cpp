@@ -29,7 +29,7 @@
 using namespace std;
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -65,11 +65,11 @@ msrScore::msrScore (
 
   // part names max length
   fScorePartNamesMaxLength = -1;
-  
+
   // set instrument names max lengthes
   fScoreInstrumentNamesMaxLength      = -1;
   fScoreInstrumentAbbreviationsMaxLength = -1;
-  
+
   // measures repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
 
@@ -110,30 +110,30 @@ S_msrScore msrScore::createScoreNewbornClone ()
     fScorePartNamesMaxLength;
 
   // instrument names max lengthes
-  
+
   newbornClone->fScoreInstrumentNamesMaxLength =
     fScoreInstrumentNamesMaxLength;
-    
+
   newbornClone->fScoreInstrumentAbbreviationsMaxLength =
     fScoreInstrumentAbbreviationsMaxLength;
-    
+
   // inhibiting browsing
 
   newbornClone->fInhibitMeasuresRepeatReplicasBrowsing =
     fInhibitMeasuresRepeatReplicasBrowsing;
-    
+
   newbornClone->fInhibitRestMeasuresBrowsing =
     fInhibitRestMeasuresBrowsing;
-    
+
   return newbornClone;
 }
 
 void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
-  if (fScorePartGroupsSet.count (partGroup)) {      
+  if (fScorePartGroupsSet.count (partGroup)) {
     stringstream s;
-    
-    s <<      
+
+    s <<
       "part group '" <<
       partGroup->getPartGroupCombinedName () <<
       "' already exists in this score";
@@ -161,7 +161,7 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
       endl;
   }
 #endif
-  
+
   fCreditsList.push_back (credit);
 }
 
@@ -170,26 +170,27 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   string partID)
 {
   S_msrPart result;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
-      
+
     gIndenter++;
 
     for (
       list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
         i != fPartGroupsList.end ();
-        i++) {
+        i++
+      ) {
       gLogIOstream <<
         (*i)->getPartGroupCombinedName () <<
         ", " <<
         (*i)->getPartGroupName () <<
         endl;
     } // for
-  
+
     gIndenter--;
 
     gLogIOstream <<
@@ -202,7 +203,8 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++) {
+    i++
+  ) {
     S_msrPart
       part =
         (*i)->
@@ -228,7 +230,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
       fMsrScore->getIdentification ();
 
   string inputSourceName;
-  
+
   if (
     ! identification->getWorkTitle ()
       &&
@@ -266,7 +268,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
 
     int topCreditsCounter    = 0;
     int bottomCreditsCounter = 0;
-    
+
     for ( ; ; ) {
       S_msrCredit credit = (*i);
 
@@ -274,22 +276,22 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
         const vector<S_msrCreditWords>&
           creditWordsVector =
             credit->
-              getCreditWordsList (); 
-        
+              getCreditWordsList ();
+
         if (creditWordsVector.size () >= 1) {
           S_msrCreditWords
             creditWords =
               creditWordsVector.front ();
-    
+
           string
             creditWordsContents =
               creditWords->
                 getCreditWordsContents ();
-            
+
           switch (creditWords->getCreditWordsVerticalAlignmentKind ()) {
             case kVerticalAlignmentNone:
               break;
-              
+
             case kVerticalAlignmentTop:
               topCreditsCounter++;
 
@@ -304,13 +306,13 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                       endl;
               }
 #endif
-    
+
                   fIdentification->
                     setWorkTitle (
                       inputLineNumber,
                       creditWordsContents);
                   break;
-                  
+
                 case 2:
 #ifdef TRACE_OPTIONS
                   if (gTraceOptions->fTraceCredits) {
@@ -321,21 +323,21 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                       endl;
               }
 #endif
-    
+
                   fIdentification->
                     setMovementTitle (
                       inputLineNumber,
                       creditWordsContents);
                   break;
-                  
+
                 default:
                   ;
               } // switch
               break;
-              
+
             case kVerticalAlignmentMiddle:
               break;
-              
+
             case kVerticalAlignmentBottom:
               bottomCreditsCounter++;
 
@@ -350,13 +352,13 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                       endl;
               }
 #endif
-    
+
                   fIdentification->
                     addComposer (
                       inputLineNumber,
                       creditWordsContents);
                   break;
-                  
+
                 case 2:
 #ifdef TRACE_OPTIONS
                   if (gTraceOptions->fTraceCredits) {
@@ -367,13 +369,13 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
                       endl;
               }
 #endif
-    
+
                   fIdentification->
                     addPoet (
                       inputLineNumber,
                       creditWordsContents);
                   break;
-                  
+
                 default:
                   ;
               } // switch
@@ -381,7 +383,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
           } // switch
         }
       }
-    
+
       if (++i == iEnd) break;
 //      s << ", ";
     } // for
@@ -389,12 +391,12 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
 }
 
 /*      s << "[";
-      
+
       vector<S_msrCreditWords>::const_iterator
         iBegin = fCreditWordsList.begin (),
         iEnd   = fCreditWordsList.end (),
         i      = iBegin;
-    
+
       for ( ; ; ) {
         S_msrCreditWords creditWords = (*i);
 
@@ -403,7 +405,7 @@ void msrScore::fetchIdentificationFromCreditsIfAny (
         if (++i == iEnd) break;
         s << ", ";
       } // for
-  
+
       s << "]";
     }
   }
@@ -418,7 +420,8 @@ void msrScore::collectScorePartsList (
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++) {
+    i++
+  ) {
     S_msrPartGroup
       partGroup = (*i);
       partGroup->
@@ -433,7 +436,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
   int partGroupNumber)
 {
   S_msrPartGroup result;
-  
+
   if (fScorePartGroupsMap.count (partGroupNumber)) {
     result = fScorePartGroupsMap [partGroupNumber];
   }
@@ -449,12 +452,12 @@ void msrScore::acceptIn (basevisitor* v)
       "% ==> msrScore::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrScore>*
     p =
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrScore::visitStart ()" <<
@@ -476,7 +479,7 @@ void msrScore::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrScore::visitEnd ()" <<
@@ -493,7 +496,7 @@ void msrScore::browseData (basevisitor* v)
       "% ==> msrScore::browseData ()" <<
       endl;
   }
-    
+
   if (fIdentification) {
     // browse identification
     msrBrowser<msrIdentification> browser (v);
@@ -509,7 +512,8 @@ void msrScore::browseData (basevisitor* v)
   for (
     list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
     i != fCreditsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the part credit
     msrBrowser<msrCredit> browser (v);
     browser.browse (*(*i));
@@ -518,7 +522,8 @@ void msrScore::browseData (basevisitor* v)
   for (
     list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
     i != fPartGroupsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the part group
     msrBrowser<msrPartGroup> browser (v);
     browser.browse (*(*i));
@@ -543,7 +548,7 @@ void msrScore::print (ostream& os)
 
   int partGroupsListSize =
     fPartGroupsList.size ();
-    
+
   os << left <<
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
@@ -593,7 +598,7 @@ void msrScore::print (ostream& os)
     os <<
       fIdentification;
   }
-  
+
   // print the page geometry if any
   if (fPageGeometry) {
     os <<
@@ -648,7 +653,7 @@ void msrScore::print (ostream& os)
       "There are no part groups in the list" <<
       endl;
   }
-  
+
   gIndenter--;
 }
 
@@ -706,14 +711,14 @@ void msrScore::printSummary (ostream& os)
     os <<
       "Parts and part groups structure:" <<
       endl;
-  
+
     gIndenter++;
-    
+
     fPartGroupsList.front () ->
       printPartGroupParts (
         fInputLineNumber,
         os);
-  
+
     gIndenter--;
 
     os <<
@@ -725,13 +730,13 @@ void msrScore::printSummary (ostream& os)
     os <<
       fIdentification;
   }
-  
+
   // print the page geometry if any
   if (fPageGeometry) {
     os <<
       fPageGeometry;
   }
-  
+
   // print the credits if any
   if (fCreditsList.size ()) {
     list<S_msrCredit>::const_iterator
@@ -746,7 +751,7 @@ void msrScore::printSummary (ostream& os)
     os <<
       endl;
   }
-  
+
   if (partGroupsListSize) {
     list<S_msrPartGroup>::const_iterator
       iBegin = fPartGroupsList.begin (),
@@ -759,7 +764,7 @@ void msrScore::printSummary (ostream& os)
       os << endl;
     } // for
   }
-  
+
   gIndenter--;
 }
 

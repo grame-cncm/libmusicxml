@@ -291,8 +291,8 @@ void msr2LpsrTranslator::prependSkipGraceNotesGroupToPartOtherVoices (
   for (
     map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();
     i!=partStavesMap.end ();
-    i++) {
-
+    i++
+  ) {
     list<S_msrVoice>
       staffAllVoicesList =
         (*i).second->
@@ -4608,8 +4608,14 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
   }
 #endif
 
-  fCurrentNonGraceNoteClone->
-    setNoteTie (elt);
+  if (fOnGoingNote) {
+    fCurrentNonGraceNoteClone->
+      setNoteTie (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      appendTieToChord (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
@@ -5630,7 +5636,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kRights:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addRights (
             inputLineNumber, (*i));
@@ -5640,7 +5647,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kComposer:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addComposer (
             inputLineNumber, (*i));
@@ -5650,7 +5658,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kArranger:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addArranger (
             inputLineNumber, (*i));
@@ -5660,7 +5669,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kLyricist:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addLyricist (
             inputLineNumber, (*i));
@@ -5670,7 +5680,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kPoet:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addPoet (
             inputLineNumber, (*i));
@@ -5680,7 +5691,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kTranslator:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addTranslator (
             inputLineNumber, (*i));
@@ -5690,7 +5702,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
     case msrVarValsListAssoc::kSoftware:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
-        i++) {
+        i++
+      ) {
         fCurrentLpsrScoreHeader->
           addSoftware (
             inputLineNumber, (*i));

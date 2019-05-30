@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -60,15 +60,15 @@ msrSyllable::msrSyllable (
   msrAssert(
     syllableStanzaUplink != nullptr,
     "syllableStanzaUplink is null");
-    
+
   // set syllable's stanza uplink
   fSyllableStanzaUplink =
     syllableStanzaUplink;
-    
+
   fSyllableKind = syllableKind;
-  
+
   fSyllableExtendKind = syllableExtendKind;
-  
+
   // fSyllableNoteUplink will be set
   // by appendSyllableToNoteAndSetItsNoteUplink () later
 
@@ -111,7 +111,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
-    
+
   S_msrSyllable
     newbornClone =
       msrSyllable::create (
@@ -121,12 +121,13 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
         fSyllableWholeNotes,
         fSyllableTupletFactor,
         fSyllableStanzaUplink);
-    
+
   // append the lyric texts to the syllable clone
   for (
     list<string>::const_iterator i = fSyllableTextsList.begin ();
     i!=fSyllableTextsList.end ();
-    i++) {
+    i++
+  ) {
     newbornClone->
       appendLyricTextToSyllable ((*i));
   } // for
@@ -137,7 +138,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 
   newbornClone->fSyllableNoteUplink =
     fSyllableNoteUplink; // TEMP
-  
+
   return newbornClone;
 }
 
@@ -158,7 +159,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   msrAssert(
     containingPart != nullptr,
     "containingPart is null");
-    
+
   S_msrSyllable
     syllableDeepCopy =
       msrSyllable::create (
@@ -168,12 +169,13 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
         fSyllableWholeNotes,
         fSyllableTupletFactor,
         fSyllableStanzaUplink);
-      
+
   // append the lyric texts to the syllable deep copy
   for (
     list<string>::const_iterator i = fSyllableTextsList.begin ();
     i!=fSyllableTextsList.end ();
-    i++) {
+    i++
+  ) {
     syllableDeepCopy->
       appendLyricTextToSyllable ((*i));
   } // for
@@ -184,7 +186,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 
   syllableDeepCopy->fSyllableNoteUplink =
     fSyllableNoteUplink; // TEMP
-  
+
   return syllableDeepCopy;
 }
 
@@ -213,7 +215,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
   msrAssert (
     note != nullptr,
     "note is empty");
-    
+
   fSyllableNoteUplink = note;
 
 /*
@@ -222,7 +224,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
     fSyllableTextsList.size () != 0,
     "fSyllableTextsList is empty");
     */
-    
+
   // append syllable to note
   note->
     appendSyllableToNote (this);
@@ -235,7 +237,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
       endl;
 
     gIndenter++;
-    
+
     gLogIOstream <<
       asString () <<
     // JMI    "to '" << note->asString () <<
@@ -254,12 +256,12 @@ void msrSyllable::acceptIn (basevisitor* v)
       "% ==> msrSyllable::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrSyllable>*
     p =
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSyllable::visitStart ()" <<
@@ -281,7 +283,7 @@ void msrSyllable::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSyllable::visitEnd ()" <<
@@ -313,7 +315,7 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
             fInputLineNumber,
             fSyllableWholeNotes);
         break;
-        
+
       case msrNote::kSkipNote:
       case msrNote::kTupletMemberNote:
       case msrNote::kGraceTupletMemberNote:
@@ -342,7 +344,7 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
         fInputLineNumber,
           fSyllableWholeNotes);
   }
-      
+
   return result;
 }
 
@@ -350,12 +352,12 @@ string msrSyllable::syllableKindAsString (
   msrSyllableKind syllableKind)
 {
   string result;
-    
+
   switch (syllableKind) {
     case msrSyllable::kSyllableSingle:
       result = "syllableSingle";
       break;
-      
+
     case msrSyllable::kSyllableBegin:
       result = "syllableBegin";
       break;
@@ -365,22 +367,22 @@ string msrSyllable::syllableKindAsString (
     case msrSyllable::kSyllableEnd:
       result = "syllableEnd";
       break;
-      
+
     case msrSyllable::kSyllableSkip:
       result = "syllableSkip";
       break;
-      
+
     case msrSyllable::kSyllableMeasureEnd:
       result = "syllableMeasureEnd";
       break;
-      
+
     case msrSyllable::kSyllableLineBreak:
       result = "syllableLineBreak";
       break;
     case msrSyllable::kSyllablePageBreak:
       result = "syllablePageBreak";
       break;
-      
+
     case msrSyllable::kSyllableNone:
       result = "syllableNone";
       break;
@@ -398,7 +400,7 @@ string msrSyllable::syllableExtendKindAsString (
   msrSyllableExtendKind syllableExtendKind)
 {
   string result;
-  
+
   switch (syllableExtendKind) {
     case msrSyllable::kSyllableExtendSingle:
       result = "syllableExtendSingle";
@@ -442,13 +444,13 @@ string msrSyllable::syllableNoteUplinkAsString () const
 string msrSyllable::syllableTextsListAsString () const
 {
   stringstream s;
-  
+
   if (fSyllableTextsList.size ()) {
     list<string>::const_iterator
       iBegin = fSyllableTextsList.begin (),
       iEnd   = fSyllableTextsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       s << "\"" << quoteStringIfNonAlpha (*i) << "\"";
       if (++i == iEnd) break;
@@ -457,7 +459,7 @@ string msrSyllable::syllableTextsListAsString () const
   }
 
   return s.str ();
-} 
+}
 
 void msrSyllable::writeTextsList (
   const list<string>& textsList,
@@ -470,7 +472,7 @@ void msrSyllable::writeTextsList (
       iBegin = textsList.begin (),
       iEnd   = textsList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << "\"" << quoteStringIfNonAlpha (*i) << "\"";
       if (++i == iEnd) break;
@@ -479,7 +481,7 @@ void msrSyllable::writeTextsList (
   }
 
   os << "]";
-} 
+}
 
 string msrSyllable::asString () const
 {
@@ -496,7 +498,7 @@ string msrSyllable::asString () const
     ", syllableTupletFactor: " << fSyllableTupletFactor <<
     ", line " << fInputLineNumber <<
     ", texts list: ";
-    
+
   writeTextsList (
     fSyllableTextsList,
     s);
@@ -512,37 +514,37 @@ string msrSyllable::asString () const
     case msrSyllable::kSyllableEnd:
     case msrSyllable::kSyllableSkip:
       break;
- 
+
     case msrSyllable::kSyllableMeasureEnd:
       // fSyllableText contains the measure number
-      s << 
+      s <<
         " measure ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
       break;
-      
+
     case msrSyllable::kSyllableLineBreak:
       // fSyllableText contains the measure number
-      s << 
+      s <<
         " measure ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
       break;
-      
+
     case msrSyllable::kSyllablePageBreak:
       // fSyllableText contains the measure number JMI ???
-      s << 
+      s <<
         " measure ";
 
       writeTextsList (
         fSyllableTextsList,
         s);
       break;
-      
+
     case msrSyllable::kSyllableNone:
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -560,7 +562,7 @@ string msrSyllable::asString () const
 }
 
 void msrSyllable::print (ostream& os)
-{  
+{
   os <<
     "Syllable" <<
     ", syllableKind: " <<
@@ -578,7 +580,7 @@ void msrSyllable::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "syllableNoteUplink" << " : " <<
-    syllableNoteUplinkAsString () <<      
+    syllableNoteUplinkAsString () <<
     endl <<
     setw (fieldWidth) <<
     "syllableExtendKind" << " : " <<
@@ -587,7 +589,7 @@ void msrSyllable::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "texts list" << " : ";
-    
+
     writeTextsList (
       fSyllableTextsList,
       os);
@@ -598,7 +600,7 @@ void msrSyllable::print (ostream& os)
     "syllableKind" << " : " <<
     syllableKindAsString (fSyllableKind) <<
     endl;
-    
+
   switch (fSyllableKind) { // JMI
     case msrSyllable::kSyllableSingle:
     case msrSyllable::kSyllableBegin:
@@ -615,7 +617,7 @@ void msrSyllable::print (ostream& os)
        "syllableTupletFactor" << " : " <<
         fSyllableTupletFactor;
      break;
-      
+
     case kSyllableMeasureEnd:
     /* JMI
       // fSyllableText contains the measure number
@@ -626,7 +628,7 @@ void msrSyllable::print (ostream& os)
         "measure '" << fSyllableTextsList.front () << "'";
         */
       break;
-      
+
     case kSyllableLineBreak:
     /* JMI
       // fSyllableText contains the measure number
@@ -636,7 +638,7 @@ void msrSyllable::print (ostream& os)
         "measure '" << "fSyllableText ???" << "'";
         */
       break;
-      
+
     case kSyllablePageBreak:
     /* JMI
       // fSyllableText contains the measure number JMI ???
@@ -646,7 +648,7 @@ void msrSyllable::print (ostream& os)
         "measure '" << "fSyllableText ???" << "'";
  */
       break;
-      
+
     case kSyllableNone:
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -667,5 +669,5 @@ ostream& operator<< (ostream& os, const S_msrSyllable& elt)
   return os;
 }
 
-       
+
 }

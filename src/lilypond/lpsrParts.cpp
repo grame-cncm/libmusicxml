@@ -24,7 +24,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -39,13 +39,13 @@ S_lpsrPartBlock lpsrPartBlock::create (
 
 lpsrPartBlock::lpsrPartBlock (
   S_msrPart part)
-    : lpsrElement (0) // JMI 
+    : lpsrElement (0) // JMI
 {
   // sanity check
   msrAssert (
     part != nullptr,
     "part is null");
-    
+
   fPart = part;
 
   // set part block instrument names default values // JMI
@@ -64,7 +64,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
   const S_lpsrStaffBlock& staffBlock,
   const S_msrElement&     otherElement)
 {
-  bool result = true;  
+  bool result = true;
 
   if (
     S_lpsrStaffBlock
@@ -72,7 +72,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
         dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
     ) {
     // otherElement is a staff block
-    result =  
+    result =
       staffBlock->getStaff ()->getStaffNumber ()
         <
       secondStaffBlock->getStaff ()->getStaffNumber ();
@@ -130,7 +130,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
     endl <<
     endl;
     */
-    
+
   return result;
 }
 
@@ -138,14 +138,14 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
   const S_lpsrChordNamesContext& chordNamesContext,
   const S_msrElement&            otherElement)
 {
-  bool result = true;  
+  bool result = true;
 
   if (
     S_lpsrStaffBlock
       secondStaffBlock =
         dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
     ) {
-    // otherElement is a staff block     
+    // otherElement is a staff block
     S_msrVoice
       chordNamesVoice =
         chordNamesContext->
@@ -185,7 +185,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       secondChordNamesVoice =
         secondChordNamesContext->
           getContextVoice ();
-        
+
     int
       chordNamesContextStaffNumber =
         chordNamesVoice->
@@ -200,7 +200,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       result =
         chordNamesVoice->getVoiceNumber ()
           <
-        secondChordNamesVoice->getVoiceNumber ();        
+        secondChordNamesVoice->getVoiceNumber ();
     }
     else {
       result =
@@ -256,7 +256,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
   const S_msrElement& first,
   const S_msrElement& second)
 {
-  bool result = true;  
+  bool result = true;
 
   if (
     S_lpsrStaffBlock
@@ -344,10 +344,11 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
     i != fPartBlockElementsList.end ();
-    i++) {
+    i++
+  ) {
     S_msrElement
       element = (*i);
-      
+
     gLogIOstream <<
       element->asShortString () <<
       endl;
@@ -356,7 +357,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
     endl <<
     endl;
 */
-  
+
   // sort fPartBlockElementsList, to have harmonies just before
   // the corresponding voice
   if (fPartBlockElementsList.size ()) {
@@ -375,10 +376,11 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
     i != fPartBlockElementsList.end ();
-    i++) {
+    i++
+  ) {
     S_msrElement
       element = (*i);
-      
+
     gLogIOstream <<
       element->asShortString () <<
       endl;
@@ -402,12 +404,12 @@ void lpsrPartBlock::acceptIn (basevisitor* v)
       "% ==> lpsrPartBlock::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrPartBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitStart ()" <<
@@ -429,7 +431,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitEnd ()" <<
@@ -450,7 +452,8 @@ void lpsrPartBlock::browseData (basevisitor* v)
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
     i != fPartBlockElementsList.end ();
-    i++) {
+    i++
+  ) {
     // browse the element
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
@@ -496,7 +499,7 @@ void lpsrPartBlock::print (ostream& os)
 
   os << endl;
 
-  if (fPartBlockElementsList.size ()) {  
+  if (fPartBlockElementsList.size ()) {
     list<S_msrElement>::const_iterator
       iBegin = fPartBlockElementsList.begin (),
       iEnd   = fPartBlockElementsList.end (),

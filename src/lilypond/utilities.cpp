@@ -1031,7 +1031,8 @@ string quoteStringIfNonAlpha (
   for (
     string::const_iterator i = theString.begin ();
     i != theString.end ();
-    i++) {
+    i++
+  ) {
 
     if (
       ((*i) >= 'a' && (*i) <= 'z')
@@ -1069,7 +1070,8 @@ string quoteString (
   for (
     string::const_iterator i = theString.begin ();
     i != theString.end ();
-    i++) {
+    i++
+  ) {
 
     if (
       ((*i) >= 'a' && (*i) <= 'z')
@@ -1612,7 +1614,8 @@ string makeSingleWordFromString (const string& theString)
   for (
     string::const_iterator i = theString.begin ();
     i != theString.end ();
-    i++) {
+    i++
+  ) {
     if (isalnum (*i)) {
       result.push_back ((*i));
     }

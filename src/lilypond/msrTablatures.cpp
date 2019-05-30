@@ -65,7 +65,7 @@ msrFrameNote::msrFrameNote (
   fFrameNoteFretNumber   = frameNoteFretNumber;
 
   fFrameNoteFingering = frameNoteFingering;
-  
+
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
 #ifdef TRACE_OPTIONS
@@ -86,7 +86,7 @@ string msrFrameNote::barreTypeKindAsString (
   msrBarreTypeKind barreTypeKind)
 {
   string result;
-  
+
   switch (barreTypeKind) {
     case msrFrameNote::kBarreTypeNone:
       result = "barreTypeNone";
@@ -126,12 +126,12 @@ void msrFrameNote::acceptIn (basevisitor* v)
       "% ==> msrFrameNote::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrFrameNote>*
     p =
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFrameNote::visitStart ()" <<
@@ -153,7 +153,7 @@ void msrFrameNote::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
         S_msrFrameNote elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFrameNote::visitEnd ()" <<
@@ -173,7 +173,7 @@ ostream& operator<< (ostream& os, const S_msrFrameNote& elt)
 }
 
 void msrFrameNote::print (ostream& os)
-{  
+{
   os <<
     "FrameNote" <<
     ", line: " << fInputLineNumber <<
@@ -182,7 +182,7 @@ void msrFrameNote::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 23;
-  
+
   os <<
     setw (fieldWidth) <<
     "frameNoteStringNumber" << " : " << fFrameNoteStringNumber <<
@@ -194,7 +194,7 @@ void msrFrameNote::print (ostream& os)
     "frameNoteFingering" << " : " << fFrameNoteFingering <<
     endl <<
     setw (fieldWidth) <<
-    "frameNoteBarreTypeKind" << " : " << 
+    "frameNoteBarreTypeKind" << " : " <<
     barreTypeKindAsString (
       fFrameNoteBarreTypeKind) <<
     endl;
@@ -230,9 +230,9 @@ msrFrame::msrFrame (
   fFrameStringsNumber   = frameStringsNumber;
   fFrameFretsNumber     = frameFretsNumber;
   fFrameFirstFretNumber = frameFirstFretNumber;
- 
+
   fFrameContainsFingerings = false;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
@@ -252,7 +252,7 @@ void msrFrame::appendFrameNoteToFrame (
 {
   int inputLineNumber =
     frameNote->getInputLineNumber ();
-    
+
   fFrameFrameNotesList.push_back (
     frameNote);
 
@@ -260,28 +260,28 @@ void msrFrame::appendFrameNoteToFrame (
   switch (frameNote->getFrameNoteBarreTypeKind ()) {
     case msrFrameNote::kBarreTypeNone:
       break;
-      
+
     case msrFrameNote::kBarreTypeStart:
       fPendingBarreStartFrameNotes.push (
         frameNote);
       break;
-      
+
     case msrFrameNote::kBarreTypeStop:
       {
         if (! fPendingBarreStartFrameNotes.size ()) {
           stringstream s;
-      
+
           s <<
             "frame note with barre stop has no maching barre start" <<
             frameNote;
-            
+
           msrMusicXMLError (
             gGeneralOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
         }
-        
+
         else {
           S_msrFrameNote
             pendingBarreStartFrameNotesTop =
@@ -297,20 +297,20 @@ void msrFrame::appendFrameNoteToFrame (
 
           if (barreStartFretNumber != barreStopFretNumber) {
             stringstream s;
-        
+
             s <<
               "frame note with barre stop has is at fret" <<
               barreStopFretNumber <<
               "while the matching barre start is at fret" <<
               barreStartFretNumber;
-              
+
             msrMusicXMLError (
               gGeneralOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
           }
-  
+
           fFrameBarresList.push_back (
             msrBarre (
               pendingBarreStartFrameNotesTop->
@@ -318,7 +318,7 @@ void msrFrame::appendFrameNoteToFrame (
               frameNote->
                 getFrameNoteStringNumber (),
               barreStartFretNumber));
-              
+
           fPendingBarreStartFrameNotes.pop ();
         }
       }
@@ -358,12 +358,12 @@ void msrFrame::acceptIn (basevisitor* v)
       "% ==> msrFrame::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrFrame>*
     p =
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFrame::visitStart ()" <<
@@ -385,7 +385,7 @@ void msrFrame::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrFrame>*> (v)) {
         S_msrFrame elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFrame::visitEnd ()" <<
@@ -402,7 +402,8 @@ void msrFrame::browseData (basevisitor* v)
     for (
       list<S_msrFrameNote>::const_iterator i = fFrameFrameNotesList.begin ();
       i != fFrameFrameNotesList.end ();
-      i++) {
+      i++
+  ) {
       // browse the harmony degree
       msrBrowser<msrFrameNote> browser (v);
       browser.browse (*(*i));
@@ -417,12 +418,12 @@ ostream& operator<< (ostream& os, const S_msrFrame& elt)
 }
 
 void msrFrame::print (ostream& os)
-{  
+{
   os <<
     "Frame" <<
      ", line " << fInputLineNumber <<
     endl;
-    
+
   gIndenter++;
 
   const int fieldWidth = 15;
@@ -449,18 +450,18 @@ void msrFrame::print (ostream& os)
       endl;
 
     gIndenter++;
-    
+
     list<S_msrFrameNote>::const_iterator
       iBegin = fFrameFrameNotesList.begin (),
       iEnd   = fFrameFrameNotesList.end (),
       i      = iBegin;
-      
+
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
       // no endl here;
     } // for
-    
+
     gIndenter--;
   }
   else {
@@ -477,7 +478,7 @@ void msrFrame::print (ostream& os)
       endl;
 
     gIndenter++;
-    
+
     list<msrBarre>::const_iterator
       iBegin = fFrameBarresList.begin (),
       iEnd   = fFrameBarresList.end (),
@@ -485,7 +486,7 @@ void msrFrame::print (ostream& os)
 
     for ( ; ; ) {
       msrBarre barre = (*i);
-      
+
       os <<
         "Barre" <<
         endl;
@@ -493,7 +494,7 @@ void msrFrame::print (ostream& os)
       gIndenter++;
 
       const int fieldWidth = 21;
-      
+
       os << left <<
         setw (fieldWidth) <<
         "barreStartString" << " : " << barre.fBarreStartString <<
@@ -506,11 +507,11 @@ void msrFrame::print (ostream& os)
         endl;
 
       gIndenter--;
-      
+
       if (++i == iEnd) break;
       // no endl here;
     } // for
-    
+
     gIndenter--;
   }
   else {

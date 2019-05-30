@@ -300,7 +300,7 @@ ostream& operator<< (ostream& os, const wstring& wstr)
 
     // write in reverse order!
     os << conversion.chars [0] << conversion.chars [1];
-    } // for
+  } // for
 
   return os;
 }
