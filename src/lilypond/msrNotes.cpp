@@ -3489,7 +3489,15 @@ void msrNote::print (ostream& os)
 
     if (fNoteMeasureUplink) {
       os <<
-        fNoteMeasureUplink->asShortString ();
+        endl;
+
+      gIndenter++;
+
+      os <<
+        fNoteMeasureUplink->asShortString () <<
+        endl;
+
+      gIndenter--;
     }
     else {
       os <<

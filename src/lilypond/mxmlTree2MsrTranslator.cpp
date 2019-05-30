@@ -14958,6 +14958,34 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteOctaveShiftToChord (
+  S_msrNote note, S_msrChord chord)
+{
+  // copy note's wedges if any from the first note to chord
+
+  S_msrOctaveShift
+    noteOctaveShift =
+      note->
+        getNoteOctaveShift ();
+
+  if (noteOctaveShift) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceOctaveShifts) {
+      fLogOutputStream <<
+        "Copying octave shift '" <<
+        noteOctaveShift->asString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+#endif
+
+    chord->
+      setChordOctaveShift (noteOctaveShift);
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::copyNoteGraceNotesGroupsToChord (
   S_msrNote note, S_msrChord chord)
 {
@@ -15089,6 +15117,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);
+
+  // copy note's octave shift if any to the chord
+  copyNoteOctaveShiftToChord (note, chord);
 
   // copy note's grace notes groups if any to the chord
   copyNoteGraceNotesGroupsToChord (note, chord);

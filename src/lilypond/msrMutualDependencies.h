@@ -3721,8 +3721,8 @@ class msrNote : public msrTupletElement
     bool                  fNoteIsACueNote;
     bool                  fNoteIsAGraceNote;
 
-   // note octave shift
-    S_msrOctaveShift      fNoteOctaveShift; // JMI ???
+    // note octave shift
+    S_msrOctaveShift      fNoteOctaveShift;
 
     // note print kind
     msrNotePrintKind      fNotePrintKind;
@@ -4157,6 +4157,14 @@ class msrChord : public msrTupletElement
                           getChordFiguredBass () const
                               { return fChordFiguredBass; };
 
+    // octave shift
+    void                  setChordOctaveShift (
+                            S_msrOctaveShift octaveShift)
+                              { fChordOctaveShift = octaveShift; }
+
+    S_msrOctaveShift      getChordOctaveShift () const
+                            { return fChordOctaveShift; }
+
     // measure uplink
     void                  setChordMeasureUplink (
                             const S_msrMeasure& measure)
@@ -4399,6 +4407,9 @@ class msrChord : public msrTupletElement
 
     // wedges
     list<S_msrWedge>      fChordWedges;
+
+    // octave shift
+    S_msrOctaveShift      fChordOctaveShift;
 
     // words
     list<S_msrWords>      fChordWords;

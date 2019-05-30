@@ -902,12 +902,21 @@ class lpsr2LilypondTranslator :
     // double tremolos
     // ------------------------------------------------------
 
+    // octave shifts
+    // ------------------------------------------------------
+    void                  generateCodeForOctaveShift (
+                            S_msrOctaveShift octaveShift);
+
     // chords
     // ------------------------------------------------------
     list<int>             fPendingChordMemberNotesStringNumbers;
     bool                  fOnGoingChord;
 
     void                  generateChord (S_msrChord chord);
+
+    void                  generateCodeBeforeChord (S_msrChord chord);
+    void                  generateCodeForChord (S_msrChord chord);
+    void                  generateCodeAfterChord (S_msrChord chord);
 
     // tuplets
     // ------------------------------------------------------

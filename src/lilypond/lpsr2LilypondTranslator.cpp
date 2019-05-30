@@ -10919,76 +10919,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // has the note an octave shift up or down?
-  S_msrOctaveShift
-    noteOctaveShift =
-      elt->
-        getNoteOctaveShift ();
+  if (! fOnGoingChord) {
+    // the octave shift for the chords has already been generated
+    S_msrOctaveShift
+      noteOctaveShift =
+        elt->
+          getNoteOctaveShift ();
 
-  if (noteOctaveShift) {
-    msrOctaveShift::msrOctaveShiftKind
-      octaveShiftKind =
-        noteOctaveShift->
-          getOctaveShiftKind ();
-
-    int
-      octaveShiftSize =
-        noteOctaveShift->
-          getOctaveShiftSize ();
-
-    switch (octaveShiftKind) {
-      case msrOctaveShift::kOctaveShiftNone:
-        break;
-      case msrOctaveShift::kOctaveShiftUp:
-        fLilypondCodeIOstream <<
-        "\\ottava #" <<
-          "-" << (octaveShiftSize - 1) / 7 << // 1 or 2
-          ' ';
-        break;
-      case msrOctaveShift::kOctaveShiftDown:
-        fLilypondCodeIOstream <<
-          "\\ottava #" <<
-          (octaveShiftSize - 1) / 7 << // 1 or 2
-          ' ';
-        break;
-      case msrOctaveShift::kOctaveShiftStop:
-        break;
-      case msrOctaveShift::kOctaveShiftContinue:
-        break;
-    } // switch
+    if (noteOctaveShift) {
+      generateCodeForOctaveShift (
+        noteOctaveShift);
+    }
   }
 
-  // has the note an octave stop (should precede the note)?
-  if (noteOctaveShift) {
-    msrOctaveShift::msrOctaveShiftKind
-      octaveShiftKind =
-        noteOctaveShift->
-          getOctaveShiftKind ();
-
-    switch (octaveShiftKind) {
-      case msrOctaveShift::kOctaveShiftNone:
-        break;
-      case msrOctaveShift::kOctaveShiftUp:
-        break;
-      case msrOctaveShift::kOctaveShiftDown:
-        break;
-      case msrOctaveShift::kOctaveShiftStop:
-        fLilypondCodeIOstream <<
-          "\\ottava #0" <<
-          ' ';
-        break;
-      case msrOctaveShift::kOctaveShiftContinue:
-        break;
-    } // switch
-  }
+  // print things before the note
+  generateCodeBeforeNote (elt);
 
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   // print the note itself as a LilyPond string
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
-
-  // print things before the note
-  generateCodeBeforeNote (elt);
 
   // print the note itself
   generateCodeForNote (elt);
@@ -12044,7 +11995,45 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBeam& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
+void lpsr2LilypondTranslator::generateCodeForOctaveShift (
+  S_msrOctaveShift octaveShift)
+{
+  msrOctaveShift::msrOctaveShiftKind
+    octaveShiftKind =
+      octaveShift->
+        getOctaveShiftKind ();
+
+  int
+    octaveShiftSize =
+      octaveShift->
+        getOctaveShiftSize ();
+
+  switch (octaveShiftKind) {
+    case msrOctaveShift::kOctaveShiftNone:
+      break;
+    case msrOctaveShift::kOctaveShiftUp:
+      fLilypondCodeIOstream <<
+      "\\ottava #" <<
+        "-" << (octaveShiftSize - 1) / 7 << // 1 or 2
+        ' ';
+      break;
+    case msrOctaveShift::kOctaveShiftDown:
+      fLilypondCodeIOstream <<
+        "\\ottava #" <<
+        (octaveShiftSize - 1) / 7 << // 1 or 2
+        ' ';
+      break;
+    case msrOctaveShift::kOctaveShiftStop:
+          fLilypondCodeIOstream <<
+            "\\ottava #0 ";
+      break;
+    case msrOctaveShift::kOctaveShiftContinue:
+      break;
+  } // switch
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generateCodeBeforeChord (S_msrChord chord)
 {
   // get the chord glissandos
   const list<S_msrGlissando>&
@@ -12280,7 +12269,20 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
       ' ';
   }
 
-  // generate the start of the chord
+  // should octave shift be generated?
+  S_msrOctaveShift
+    chordOctaveShift =
+      chord->getChordOctaveShift ();
+
+  if (chordOctaveShift) {
+    generateCodeForOctaveShift (
+      chordOctaveShift);
+  }
+}
+
+void lpsr2LilypondTranslator::generateCodeForChord (S_msrChord chord)
+{
+// generate the start of the chord
   fLilypondCodeIOstream <<
     "<";
 
@@ -12348,7 +12350,11 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
         chord->
           getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
   }
+}
 
+
+void lpsr2LilypondTranslator::generateCodeAfterChord (S_msrChord chord)
+{
   // are there pending chord member notes string numbers?
   if (fPendingChordMemberNotesStringNumbers.size ()) {
     list<int>::const_iterator
@@ -12388,6 +12394,11 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
 
   fLilypondCodeIOstream <<
     ' ';
+
+  // get the chord articulations
+  list<S_msrArticulation>
+    chordArticulations =
+      chord->getChordArticulations ();
 
   // print the chord articulations if any
   if (chordArticulations.size ()) {
@@ -12743,6 +12754,11 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
     }
   }
 */
+  // get the chord ligatures
+  list<S_msrLigature>
+    chordLigatures =
+      chord->getChordLigatures ();
+
   if (chordLigatures.size ()) {
     list<S_msrLigature>::const_iterator i;
     for (
@@ -12750,7 +12766,6 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
       i!=chordLigatures.end ();
       i++
     ) {
-
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::kLigatureNone:
           break;
@@ -12778,7 +12793,6 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
       i!=chordWedges.end ();
       i++
       ) {
-
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kWedgeKindNone:
           break;
@@ -12794,6 +12808,11 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
       } // switch
     } // for
   }
+
+  // get the chord glissandos
+  const list<S_msrGlissando>&
+    chordGlissandos =
+      chord->getChordGlissandos ();
 
   // print the chord glissandos if any
   if (chordGlissandos.size ()) {
@@ -12821,6 +12840,11 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
     } // for
   }
 
+  // get the chord slides
+  const list<S_msrSlide>&
+    chordSlides =
+      chord->getChordSlides ();
+
   // print the chord slides if any, implemented as glissandos
   if (chordSlides.size ()) {
     list<S_msrSlide>::const_iterator i;
@@ -12846,6 +12870,15 @@ void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
       } // switch
     } // for
   }
+}
+
+void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
+{
+  generateCodeBeforeChord (chord);
+
+  generateCodeForChord (chord);
+
+  generateCodeAfterChord (chord);
 
   // a grace chord doesn't matter for the octave relative octave reference
 

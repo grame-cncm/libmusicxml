@@ -4277,8 +4277,14 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
   }
 #endif
 
-  fCurrentNonGraceNoteClone->
-    setNoteOctaveShift (elt);
+  if (fOnGoingChord) {
+    fCurrentChordClone->
+      setChordOctaveShift (elt);
+  }
+  else if (fOnGoingNote) {
+    fCurrentNonGraceNoteClone->
+      setNoteOctaveShift (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)

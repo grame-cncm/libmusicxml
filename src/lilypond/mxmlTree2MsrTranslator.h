@@ -20,27 +20,27 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-class mxmlTree2MsrTranslator : 
+class mxmlTree2MsrTranslator :
 
   // score partwise
 
   public visitor<S_score_partwise>,
 
   // parts
-    
+
   public visitor<S_part>,
-  
+
   // ???
-  
+
   public visitor<S_attributes>,
-  
+
   public visitor<S_divisions>,
 
   public visitor<S_staves>,
   public visitor<S_staff>,
-  
+
   // staff details
-  
+
   public visitor<S_staff_details>,
   public visitor<S_staff_type>,
   public visitor<S_staff_lines>,
@@ -52,23 +52,23 @@ class mxmlTree2MsrTranslator :
   public visitor<S_staff_size>,
 
   // ???
-  
+
   public visitor<S_voice>,
 
   // backup & forward
-  
+
   public visitor<S_backup>,
   public visitor<S_forward>,
-  
+
   // clefs
-  
+
   public visitor<S_clef>,
   public visitor<S_sign>,
   public visitor<S_line>,
   public visitor<S_clef_octave_change>,
 
   // keys
-  
+
   public visitor<S_key>,
   public visitor<S_cancel>,
   public visitor<S_fifths>,
@@ -78,21 +78,21 @@ class mxmlTree2MsrTranslator :
   public visitor<S_key_octave>,
 
   // times
-  
+
   public visitor<S_time>,
   public visitor<S_beats>,
   public visitor<S_beat_type>,
   public visitor<S_senza_misura>,
-  
+
   public visitor<S_interchangeable>,
   public visitor<S_time_relation>,
-  
+
   // ???
-  
+
   public visitor<S_instruments>,
 
   // transpose
-  
+
   public visitor<S_transpose>,
   public visitor<S_diatonic>,
   public visitor<S_chromatic>,
@@ -100,20 +100,20 @@ class mxmlTree2MsrTranslator :
   public visitor<S_double>,
 
   // directions
-  
+
   public visitor<S_direction>,
   public visitor<S_direction_type>,
   public visitor<S_offset>,
-  
+
   public visitor<S_words>,
-  
+
   public visitor<S_octave_shift>,
-  
+
   public visitor<S_scordatura>,
   public visitor<S_accord>,
 
   // tempo
-  
+
   public visitor<S_metronome>,
   public visitor<S_beat_unit>,
   public visitor<S_beat_unit_dot>,
@@ -127,22 +127,22 @@ class mxmlTree2MsrTranslator :
   public visitor<S_normal_dot>,
 
   // ties, slurs, brackets & beams
-  
+
   public visitor<S_tied>,
   public visitor<S_slur>,
   public visitor<S_bracket>,
   public visitor<S_beam>,
 
   // lyrics
-  
+
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>,
   public visitor<S_elision>,
   public visitor<S_extend>,
-  
+
   // harmonies
-  
+
   public visitor<S_degree>,
   public visitor<S_degree_value>,
   public visitor<S_degree_alter>,
@@ -158,7 +158,7 @@ class mxmlTree2MsrTranslator :
 
   // frames
   // ------------------------------------------------------
-    
+
   public visitor<S_frame>,
   public visitor<S_frame_strings>,
   public visitor<S_frame_frets>,
@@ -167,7 +167,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_barre>,
 
   // figured bass
-  
+
   public visitor<S_figured_bass>,
   public visitor<S_figure>,
   public visitor<S_prefix>,
@@ -175,14 +175,14 @@ class mxmlTree2MsrTranslator :
   public visitor<S_suffix>,
 
   // measures
-  
+
   public visitor<S_measure>,
   public visitor<S_print>,
   public visitor<S_system_layout>,
   public visitor<S_measure_numbering>,
-  
+
   // ???
-  
+
   public visitor<S_barline>,
   public visitor<S_segno>,
   public visitor<S_coda>,
@@ -193,7 +193,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_ending>,
 
   // notes
-  
+
   public visitor<S_note>,
   public visitor<S_step>,
   public visitor<S_alter>,
@@ -203,7 +203,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_dot>,
 
   public visitor<S_rest>,
-  
+
   public visitor<S_unpitched>,
   public visitor<S_display_step>,
   public visitor<S_display_octave>,
@@ -211,13 +211,13 @@ class mxmlTree2MsrTranslator :
   public visitor<S_stem>,
 
   // note heads
-  
+
   public visitor<S_type>,
   public visitor<S_notehead>,
   public visitor<S_accidental>,
-  
+
   // repeats
-  
+
   public visitor<S_measure_style>,
   public visitor<S_beat_repeat>,
   public visitor<S_measure_repeat>,
@@ -225,9 +225,9 @@ class mxmlTree2MsrTranslator :
   public visitor<S_slash>,
   public visitor<S_slash_type>,
   public visitor<S_slash_dot>,
- 
+
   // articulations
-  
+
   public visitor<S_articulations>,
   public visitor<S_accent>,
   public visitor<S_breath_mark>,
@@ -247,9 +247,9 @@ class mxmlTree2MsrTranslator :
   public visitor<S_falloff>,
   public visitor<S_plop>,
   public visitor<S_scoop>,
-  
+
   // technicals
-  
+
   public visitor<S_technical>,
   public visitor<S_arrow>,
   public visitor<S_bend>,
@@ -278,7 +278,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_up_bow>,
 
   // ornaments
-  
+
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
   public visitor<S_dashes>,
@@ -295,11 +295,11 @@ class mxmlTree2MsrTranslator :
   public visitor<S_accidental_mark>,
 
   // tremolos
-  
+
   public visitor<S_tremolo>,
 
   // dynamics
-  
+
   public visitor<S_f>,
   public visitor<S_ff>,
   public visitor<S_fff>,
@@ -318,48 +318,48 @@ class mxmlTree2MsrTranslator :
   public visitor<S_mp>,
   public visitor<S_fp>,
   public visitor<S_fz>,
-  
+
   public visitor<S_rf>,
   public visitor<S_sf>,
   public visitor<S_rfz>,
   public visitor<S_sfz>,
-  
+
   public visitor<S_sfp>,
   public visitor<S_sfpp>,
   public visitor<S_sffz>,
-  
+
   public visitor<S_other_dynamics>,
-  
+
   public visitor<S_wedge>,
 
   // cue notes
 
   public visitor<S_cue>,
-  
+
   // grace notes
-  
+
   public visitor<S_grace>,
 
   // chords
-  
+
   public visitor<S_chord>,
 
   // times
-  
+
   public visitor<S_time_modification>,
   public visitor<S_actual_notes>,
   public visitor<S_normal_notes>,
   public visitor<S_normal_type>,
 
   // tuplets
-  
+
   public visitor<S_tuplet>,
   public visitor<S_tuplet_actual>,
   public visitor<S_tuplet_normal>,
   public visitor<S_tuplet_number>,
   public visitor<S_tuplet_type>,
   public visitor<S_tuplet_dot>,
-  
+
   // glissandos
 
   public visitor<S_glissando>,
@@ -369,40 +369,40 @@ class mxmlTree2MsrTranslator :
   public visitor<S_slide>,
 
   // rehearsals
-  
+
   public visitor<S_rehearsal>,
-  
+
   // accordion registration
-  
+
   public visitor<S_accordion_registration>,
   public visitor<S_accordion_high>,
   public visitor<S_accordion_middle>,
   public visitor<S_accordion_low>,
 
   // harp pedals tuning
-  
+
   public visitor<S_harp_pedals>,
   public visitor<S_pedal_tuning>,
   public visitor<S_pedal_step>,
   public visitor<S_pedal_alter>,
-  
+
   public visitor<S_damp>,
   public visitor<S_damp_all>,
 
   // sound
-  
+
   public visitor<S_sound>,
 
   // midi
-  
+
   public visitor<S_instrument_sound>,
   public visitor<S_virtual_instrument>,
   public visitor<S_midi_device>,
   public visitor<S_midi_instrument>
-  
+
 {
   public:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -417,7 +417,7 @@ class mxmlTree2MsrTranslator :
 
     S_msrScore getMsrScore () const
         { return fMsrScore; };
-    
+
     // services
     // ------------------------------------------------------
 
@@ -431,28 +431,28 @@ class mxmlTree2MsrTranslator :
         const Sxmlelement& mxmlTree);
 
   protected:
-        
+
     // parts
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_part& elt);
     virtual void visitEnd   ( S_part& elt);
-    
+
     // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_attributes& elt);
     virtual void visitEnd   ( S_attributes& elt);
-    
+
     virtual void visitStart ( S_divisions& elt);
-  
+
     // staves
     // ------------------------------------------------------
 
     virtual void visitStart ( S_staves& elt);
-    
+
     virtual void visitStart ( S_staff& elt);
-    
+
     // staff details
     // ------------------------------------------------------
 
@@ -467,12 +467,12 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_tuning_alter& elt);
     virtual void visitStart ( S_capo& elt);
     virtual void visitStart ( S_staff_size& elt);
-    
+
     // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_voice& elt );
-    
+
     // backup & forward
     // ------------------------------------------------------
 
@@ -480,7 +480,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitEnd   ( S_backup& elt );
     virtual void visitStart ( S_forward& elt );
     virtual void visitEnd   ( S_forward& elt );
-    
+
     // clefs
     // ------------------------------------------------------
 
@@ -510,7 +510,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_beats& elt );
     virtual void visitStart ( S_beat_type& elt );
     virtual void visitStart ( S_senza_misura& elt );
-    
+
     virtual void visitStart ( S_interchangeable& elt );
     virtual void visitStart ( S_time_relation& elt );
 
@@ -537,11 +537,11 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_direction_type& elt );
     virtual void visitEnd   ( S_direction_type& elt );
     virtual void visitStart ( S_offset& elt );
-    
+
     virtual void visitStart ( S_words& elt );
-    
+
     virtual void visitStart ( S_octave_shift& elt );
-    
+
     virtual void visitStart ( S_scordatura& elt );
     virtual void visitEnd   ( S_scordatura& elt );
     virtual void visitStart ( S_accord& elt );
@@ -584,7 +584,7 @@ class mxmlTree2MsrTranslator :
 
     // lyrics
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
@@ -603,7 +603,7 @@ class mxmlTree2MsrTranslator :
 
     // harmonies
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_harmony& elt);
     virtual void visitEnd   ( S_harmony& elt);
     virtual void visitStart ( S_root_step& elt);
@@ -612,10 +612,10 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_inversion& elt);
     virtual void visitStart ( S_bass_step& elt);
     virtual void visitStart ( S_bass_alter& elt);
-    
+
     // frames
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_frame& elt);
     virtual void visitEnd   ( S_frame& elt);
     virtual void visitStart ( S_frame_strings& elt);
@@ -627,7 +627,7 @@ class mxmlTree2MsrTranslator :
 
     // figured bass
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_figured_bass& elt);
     virtual void visitEnd   ( S_figured_bass& elt);
     virtual void visitStart ( S_figure& elt);
@@ -641,14 +641,14 @@ class mxmlTree2MsrTranslator :
 
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
-    
+
     // print
     // ------------------------------------------------------
 
     virtual void visitStart ( S_print& elt);
     virtual void visitStart ( S_system_layout& elt);
     virtual void visitStart ( S_measure_numbering& elt);
-    
+
     virtual void visitStart ( S_barline& elt);
     virtual void visitStart ( S_segno& elt);
     virtual void visitStart ( S_coda& elt);
@@ -669,10 +669,10 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_duration& elt);
     virtual void visitStart ( S_instrument& elt);
     virtual void visitStart ( S_dot& elt );
-    
+
     // repeats
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_measure_style& elt );
     virtual void visitStart ( S_beat_repeat& elt );
     virtual void visitStart ( S_measure_repeat& elt );
@@ -705,10 +705,10 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_falloff& elt );
     virtual void visitStart ( S_plop& elt );
     virtual void visitStart ( S_scoop& elt );
-        
+
     // technicals
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_technical& elt );
     virtual void visitEnd   ( S_technical& elt );
     virtual void visitStart ( S_arrow& elt );
@@ -764,7 +764,7 @@ class mxmlTree2MsrTranslator :
 
     // dynamics
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_f& elt);
     virtual void visitStart ( S_ff& elt);
     virtual void visitStart ( S_fff& elt);
@@ -778,28 +778,28 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_pppp& elt);
     virtual void visitStart ( S_ppppp& elt);
     virtual void visitStart ( S_pppppp& elt);
-    
+
     virtual void visitStart ( S_mf& elt);
     virtual void visitStart ( S_mp& elt);
     virtual void visitStart ( S_fp& elt);
     virtual void visitStart ( S_fz& elt);
-    
+
     virtual void visitStart ( S_rf& elt);
     virtual void visitStart ( S_sf& elt);
     virtual void visitStart ( S_rfz& elt);
     virtual void visitStart ( S_sfz& elt);
-    
+
     virtual void visitStart ( S_sfp& elt);
     virtual void visitStart ( S_sfpp& elt);
     virtual void visitStart ( S_sffz& elt);
-    
+
     virtual void visitStart ( S_other_dynamics& elt);
-    
+
     virtual void visitStart ( S_wedge& elt);
 
     // harp pedals tuning
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_harp_pedals& elt);
     virtual void visitStart ( S_pedal_tuning& elt);
     virtual void visitEnd   ( S_pedal_tuning& elt);
@@ -811,14 +811,14 @@ class mxmlTree2MsrTranslator :
 
     // cue notes
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_cue& elt );
-    
+
     // grace notes
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_grace& elt );
-    
+
     // ???
     // ------------------------------------------------------
 
@@ -826,21 +826,21 @@ class mxmlTree2MsrTranslator :
 
     // note heads
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_notehead& elt);
 
 
     // notes
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_accidental& elt);
-    
+
     virtual void visitStart ( S_stem& elt);
-    
+
     virtual void visitEnd   ( S_note& elt);
 
     virtual void visitStart ( S_rest& elt);
-    
+
     virtual void visitEnd   ( S_unpitched& elt);
     virtual void visitStart ( S_display_step& elt);
     virtual void visitStart ( S_display_octave& elt);
@@ -852,12 +852,12 @@ class mxmlTree2MsrTranslator :
 
     // time
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_time_modification& elt);
     virtual void visitStart ( S_actual_notes& elt);
     virtual void visitStart ( S_normal_notes& elt);
     virtual void visitStart ( S_normal_type& elt);
-    
+
     // tuplets
     // ------------------------------------------------------
 
@@ -884,10 +884,10 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     virtual void visitStart ( S_rehearsal& elt);
-    
+
     // sound & MIDI
     // ------------------------------------------------------
-    
+
     virtual void visitStart ( S_sound& elt);
     virtual void visitEnd   ( S_sound& elt);
 
@@ -898,17 +898,17 @@ class mxmlTree2MsrTranslator :
 
   private:
 
-    
+
     // the MSR score we are populating
     // ------------------------------------------------------
-    
+
     S_msrScore                fMsrScore;
 
     // the log output stream
     // ------------------------------------------------------
 
     indentedOstream&          fLogOutputStream;
-    
+
     // divisions per quarter note
     // ------------------------------------------------------
 
@@ -917,17 +917,17 @@ class mxmlTree2MsrTranslator :
 
     // print
     // ------------------------------------------------------
-  
-    string                    fCurrentDisplayText;             
-        
+
+    string                    fCurrentDisplayText;
+
     // part handling
     // ------------------------------------------------------
-        
+
     S_msrPart                 fCurrentPart;
 
     // measures
     // ------------------------------------------------------
-    
+
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
     // since measure numbers are actually strings
 
@@ -935,10 +935,10 @@ class mxmlTree2MsrTranslator :
     string                    fScoreFirstMeasureNumber;
     string                    fPartFirstMeasureNumber;
     string                    fCurrentMeasureNumber;
-    
+
     // measure style handling
     // ------------------------------------------------------
-    
+
     msrSlashTypeKind          fCurrentSlashTypeKind;
     msrSlashUseDotsKind       fCurrentSlashUseDotsKind;
     msrSlashUseStemsKind      fCurrentSlashUseStemsKind;
@@ -954,13 +954,13 @@ class mxmlTree2MsrTranslator :
                               fCurrentMeasuresRepeatKind;
     int                       fCurrentMeasuresRepeatMeasuresNumber;
     int                       fCurrentMeasuresRepeatSlashesNumber;
-    
+
     msrDurationKind           fCurrentSlashGraphicDurationKind;
     int                       fCurrentSlashDotsNumber;
-    
+
     // staff details handling
     // ------------------------------------------------------
-    
+
     msrStaffDetails::msrStaffTypeKind
                               fCurrentStaffTypeKind;
     msrStaffDetails::msrShowFretsKind
@@ -969,15 +969,15 @@ class mxmlTree2MsrTranslator :
                               fCurrentPrintObjectKind;
     msrStaffDetails::msrPrintSpacingKind
                               fCurrentPrintSpacingKind;
-                              
+
     int                       fCurrentStaffDetailsCapo;
 
     int                       fCurrentStaffDetailsStaffSize; // JMI
-    
+
     int                       fCurrentStaffLinesNumber;
 
     int                       fStaffDetailsStaffNumber;
-    
+
     int                       fCurrentStaffTuningLine;
     msrDiatonicPitchKind      fCurrentStaffTuningDiatonicPitchKind;
     msrAlterationKind         fCurrentStaffTuningAlterationKind;
@@ -986,29 +986,29 @@ class mxmlTree2MsrTranslator :
    S_msrStaffDetails          fCurrentStaffDetails;
 
     bool                      fOnGoingStaffTuning;
-    
+
     // staff handling
     // ------------------------------------------------------
-    
+
     int                       fCurrentMusicXMLStaffNumber; // used throughout
-    
+
     S_msrStaff                fetchStaffFromCurrentPart (
                                 int            inputLineNumber,
                                 int            staffNumber);
 
     // voice handling
     // ------------------------------------------------------
-    
+
     int                       fCurrentMusicXMLVoiceNumber; // used throughout
 
     S_msrVoice                fetchVoiceFromPart (
                                 int inputLineNumber,
                                 int staffNumber,
                                 int voiceNumber);
-    
+
     // clef handling
     // ------------------------------------------------------
-    
+
     int                       fCurrentClefStaffNumber;
     string                    fCurrentClefSign;
     int                       fCurrentClefLine;
@@ -1024,7 +1024,7 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentKeyFifths;
     int                       fCurrentKeyCancelFifths;
     msrKey::msrKeyModeKind    fCurrentKeyModeKind;
-    
+
     S_msrKey                  handleTraditionalKey (
                                 int inputLineNumber);
 
@@ -1032,13 +1032,13 @@ class mxmlTree2MsrTranslator :
     S_msrHumdrumScotKeyItem   fCurrentHumdrumScotKeyItem;
     vector<S_msrHumdrumScotKeyItem>
                               fCurrentHumdrumScotKeyItemsVector;
-    
+
     S_msrKey                  handleHumdrumScotKey (
                                 int inputLineNumber);
 
     // transpose handling
     // ------------------------------------------------------
-    
+
     int                       fCurrentTransposeNumber;
     int                       fCurrentTransposeDiatonic;
     int                       fCurrentTransposeChromatic;
@@ -1048,22 +1048,22 @@ class mxmlTree2MsrTranslator :
 
     // direction handling
     // ------------------------------------------------------
-    
+
     int                       fCurrentDirectionStaffNumber;
     int                       fCurrentDirectionVoiceNumber;
     msrPlacementKind          fCurrentDirectionPlacementKind;
-        
+
     bool                      fOnGoingDirection;
 
 
     // direction-type handling
     // ------------------------------------------------------
-    
+
     bool                      fOnGoingDirectionType;
 
     void                      attachPendingPriorElementsToVoice (
                                 S_msrVoice voice);
-                                
+
 
     // rehearsal handling
     // ------------------------------------------------------
@@ -1071,7 +1071,7 @@ class mxmlTree2MsrTranslator :
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrRehearsal>      fPendingRehearsals;
-    
+
     void                      attachPendingRehearsalsToVoice (
                                 S_msrVoice voice);
 
@@ -1082,7 +1082,7 @@ class mxmlTree2MsrTranslator :
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrEyeGlasses>     fPendingEyeGlasses;
-    
+
     void                      attachPendingEyeGlassesToNote (
                                 S_msrNote note);
 
@@ -1093,7 +1093,7 @@ class mxmlTree2MsrTranslator :
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrDamp>           fPendingDamps;
-    
+
     void                      attachPendingDampsToNote (
                                 S_msrNote note);
 
@@ -1104,7 +1104,7 @@ class mxmlTree2MsrTranslator :
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrDampAll>        fPendingDampAlls;
-    
+
     void                      attachPendingDampAllsToNote (
                                 S_msrNote note);
 
@@ -1117,12 +1117,12 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentAccordionLow;
     int                       fCurrentAccordionNumbersCounter;
 
-    
+
     // metronome handling
     // ------------------------------------------------------
 
     msrDurationKind           fCurrentMetronomeBeatUnitDurationKind;
-    
+
     vector<msrDottedDuration> fCurrentMetronomeBeatUnitsVector;
     string                    fCurrentMetrenomePerMinute;
     msrTempo::msrTempoParenthesizedKind
@@ -1146,14 +1146,14 @@ class mxmlTree2MsrTranslator :
                               fCurrentTempoTupletBracketKind;
     msrTempoTuplet::msrTempoTupletShowNumberKind
                               fCurrentTempoTupletShowNumberKind;
-    
+
     int                       fCurrentMetrenomeNormalDotsNumber;
     int                       fCurrentMetronomeNoteActualNotes;
     int                       fCurrentMetronomeNoteNormalNotes;
     string                    fCurrentMetronomeNoteNormalType; // JMI ???
 
     rational                  fCurrentMetronomeNoteWholeNotesFromMetronomeType;
-    
+
     S_msrTempoTuplet          fCurrentMetronomeTuplet;
     bool                      fOnGoingMetronomeTuplet;
 
@@ -1161,17 +1161,17 @@ class mxmlTree2MsrTranslator :
                               fCurrentMetronomeRelationLeftElements;
     S_msrTempoRelationshipElements
                               fCurrentMetronomeRelationRightElements;
-    
+
     S_msrTempo                fCurrentMetronomeTempo;
     // tempos remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrTempo>          fPendingTempos;
-    
+
     void                      attachPendingTemposToVoice (
                                 S_msrVoice voice);
 
-    
+
     // page breaks handling
     // ------------------------------------------------------
 
@@ -1183,7 +1183,7 @@ class mxmlTree2MsrTranslator :
 
     // octave shift handling
     // ------------------------------------------------------
-    
+
     // octave shifts remain pending until the next note
     // (they precede the note in MusicXML and
     // may occur when no current voice exists)
@@ -1196,23 +1196,23 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     S_msrScordatura           fCurrentScordatura;
-    
+
     // scordaturas remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrScordatura>     fPendingScordaturas;
-    
+
     void                      attachPendingScordaturasToNote (
                                 S_msrNote note);
 
     int                       fCurrentStringTuningNumber;
-    
+
     msrDiatonicPitchKind      fCurrentStringTuningDiatonicPitchKind;
     msrAlterationKind         fCurrentStringTuningAlterationKind;
     int                       fCurrentStringTuningOctave;
 
     bool                      fOnGoingAccord;
-    
+
 
     // time handling
     // ------------------------------------------------------
@@ -1235,13 +1235,13 @@ class mxmlTree2MsrTranslator :
                               fCurrentInterchangeableSeparatorKind;
     msrTime::msrTimeRelationKind
                               fCurrentInterchangeableRelationKind;
-                              
+
     bool                      fOnGoingInterchangeable;
 
 
     // lyrics handling
     // ------------------------------------------------------
-    
+
     bool                      fOnGoingLyric;
     string                    fCurrentSyllabic;
     msrSyllable::msrSyllableKind
@@ -1251,14 +1251,14 @@ class mxmlTree2MsrTranslator :
     msrSyllable::msrSyllableKind
                               fFirstSyllableInLigatureKind;
     list<string>              fCurrentLyricTextsList;
-    
+
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;
     bool                      fOnGoingSyllableExtend;
-    
+
     string                    fCurrentStanzaNumber;
     string                    fCurrentStanzaName;
-    
+
     bool                      fCurrentNoteHasLyrics;
     bool                      fASkipSyllableHasBeenGeneratedForcurrentNote;
 
@@ -1267,27 +1267,27 @@ class mxmlTree2MsrTranslator :
     list<S_msrSyllable>       fCurrentNoteSyllables;
 
     bool                      fLastHandledNoteInVoiceHasLyrics;
-    
+
     void                      handleLyricsForNote (
                                 S_msrVoice currentVoice,
                                 S_msrNote  newNote);
 
     // harmonies handling
     // ------------------------------------------------------
-    
+
     int                       fHarmonyVoicesCounter;
     list<S_msrHarmony>        fPendingHarmoniesList;
-    
+
     int                       fCurrentHarmonyInputLineNumber;
-    
+
     msrDiatonicPitchKind      fCurrentHarmonyRootDiatonicPitchKind;
     msrAlterationKind         fCurrentHarmonyRootAlterationKind;
-    
+
     msrHarmonyKind            fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
 
     int                       fCurrentHarmonyInversion;
-    
+
     msrDiatonicPitchKind      fCurrentHarmonyBassDiatonicPitchKind;
     msrAlterationKind         fCurrentHarmonyBassAlterationKind;
     msrHarmonyDegree::msrHarmonyDegreeTypeKind
@@ -1304,13 +1304,13 @@ class mxmlTree2MsrTranslator :
 
     // figured bass handling
     // ------------------------------------------------------
-    
+
     int                       fFiguredBassVoicesCounter;
     list<S_msrFiguredBass>    fPendingFiguredBassesList;
-    
+
     bool                      fOnGoingFiguredBass;
 //    bool                      fPendingFiguredBass; // JMI ???
-    
+
     int                       fCurrentFiguredBassInputLineNumber;
 
     msrFigure::msrFigurePrefixKind
@@ -1324,7 +1324,7 @@ class mxmlTree2MsrTranslator :
     msrFiguredBass::msrFiguredBassParenthesesKind
                               fCurrentFiguredBassParenthesesKind;
 
-    list<S_msrFigure>         fPendingFiguredBassFigures; 
+    list<S_msrFigure>         fPendingFiguredBassFigures;
 
     // frames handling
     // ------------------------------------------------------
@@ -1339,17 +1339,17 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentFrameNoteStringNumber;
     int                       fCurrentFrameNoteFretNumber;
     int                       fCurrentFrameNoteFingering;
-    
+
     msrFrameNote::msrBarreTypeKind
                               fCurrentFrameNoteBarreTypeKind;
 
     bool                      fOnGoingFrameNote;
 
     list<S_msrFrameNote>      fPendingFramesNotesList;
-    
+
     // barline handling
     // ------------------------------------------------------
-    
+
     bool                      fOnGoingBarline;
     int                       fRepeatEndCounter;
 
@@ -1378,7 +1378,7 @@ class mxmlTree2MsrTranslator :
 
     string                    fCurrentRepeatStartMeasureNumber; // stack !!! JMI
     S_msrBarline              fCurrentRepeatEndingStartBarline;
-    
+
     void                      handleRepeatStart (
                                 S_msrBarline& barline);
 
@@ -1387,7 +1387,7 @@ class mxmlTree2MsrTranslator :
 
     void                      handleRepeatEndingStart (
                                 S_msrBarline& barline);
-    
+
 /* JMI
     void                      handleRepeatHookedEndingStart (
                                 S_barline     elt,
@@ -1413,17 +1413,17 @@ class mxmlTree2MsrTranslator :
 
     void                      printVoicesLastMetNoteMap (
                                 int    inputLineNumber);
-    
+
     void                      checkStep (
                                 int    inputLineNumber,
                                 string stepValue);
-                                
+
     // notes
     msrDiatonicPitchKind      fCurrentNoteDiatonicPitchKind;
     msrAlterationKind         fCurrentNoteAlterationKind;
-    
+
     int                       fCurrentNoteOctave;
-    
+
     int                       fCurrentDisplayOctave;
     msrDiatonicPitchKind      fCurrentDisplayDiatonicPitchKind;
 
@@ -1449,9 +1449,9 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingNote;
 
     // glissandos
-    
+
     // slides
-    
+
     // note sound
     msrQuarterTonesPitchKind  fCurrentNoteQuarterTonesPitchKind;
     rational                  fCurrentNoteSoundingWholeNotesFromDuration;
@@ -1505,9 +1505,9 @@ class mxmlTree2MsrTranslator :
         k_NoStaffChange,
         kStaffChangeChordMemberNote,
         kStaffChangeOtherNote };
-        
+
     staffChangeKind           fCurrentStaffChangeKind;
-    
+
     // elements attached to the note
     S_msrStem                 fCurrentStem;
 
@@ -1523,7 +1523,7 @@ class mxmlTree2MsrTranslator :
 
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newChordNote);
-    
+
     void                      handleNoteBelongingToATuplet (
                                 S_msrNote newNote);
 
@@ -1535,13 +1535,13 @@ class mxmlTree2MsrTranslator :
 
     // grace notes handling
     // ------------------------------------------------------
-    
+
     bool                      fCurrentGraceIsSlashed;
     S_msrGraceNotesGroup      fPendingGraceNotesGroup;
 
     // articulations handling
     // ------------------------------------------------------
-    
+
     list<S_msrArticulation>   fCurrentArticulations;
 
     void                      attachCurrentArticulationsToNote (
@@ -1551,10 +1551,10 @@ class mxmlTree2MsrTranslator :
     void                      attachCurrentArticulationsToChord ( // JMI
                                 S_msrChord chord);
                                 */
-                                
+
     void                      copyNoteArticulationsToChord (
                                 S_msrNote note, S_msrChord chord);
-                                
+
     // dynamics, words and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
     // ------------------------------------------------------
@@ -1569,7 +1569,7 @@ class mxmlTree2MsrTranslator :
 
     void                      attachPendingElementsToNote (
                                 S_msrNote note);
-                                
+
     void                      attachPendingDynamicsToNote (
                                 S_msrNote note);
     void                      attachPendingOtherDynamicsToNote (
@@ -1613,16 +1613,18 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
-                                
+    void                      copyNoteOctaveShiftToChord (
+                                S_msrNote note, S_msrChord chord);
+
     void                      copyNoteGraceNotesGroupsToChord (
                                 S_msrNote note, S_msrChord chord);
-       
+
     void                      copyNoteHarmonyToChord (
                                 S_msrNote note, S_msrChord chord);
-       
+
     // technicals handling
     // ------------------------------------------------------
-    
+
     list<S_msrTechnical>      fCurrentTechnicalsList;
     list<S_msrTechnicalWithInteger>
                               fCurrentTechnicalWithIntegersList;
@@ -1634,7 +1636,7 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingTechnical;
 
     float                     fBendAlterValue;
-    
+
     void                      attachCurrentTechnicalsToNote (
                                 S_msrNote note);
     void                      attachCurrentTechnicalWithIntegersToNote (
@@ -1658,7 +1660,7 @@ class mxmlTree2MsrTranslator :
 
     // ornaments handling
     // ------------------------------------------------------
-    
+
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
     void                      attachCurrentOrnamentsToNote (
@@ -1674,7 +1676,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     S_msrSpanner              fCurrentWavyLineSpannerStart;
-    
+
     list<S_msrSpanner>        fCurrentSpannersList;
 
     void                      attachCurrentSpannersToNote (
@@ -1705,7 +1707,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     list<S_msrGlissando>      fPendingGlissandos;
-    
+
     // slides handling
     // ------------------------------------------------------
 
@@ -1713,7 +1715,7 @@ class mxmlTree2MsrTranslator :
 
     // tremolos handling
     // ------------------------------------------------------
-    
+
     bool                      fCurrentNoteBelongsToADoubleTremolo; // JMI ???
 
     msrTremoloTypeKind        fCurrentTremoloTypeKind;
@@ -1739,10 +1741,10 @@ class mxmlTree2MsrTranslator :
     map<pair<int, int>, S_msrChord>
                               fVoicesCurrentChordMap;
                               */
-                              
+
     S_msrChord                fCurrentChord;
     bool                      fOnGoingChord;
-    
+
     S_msrChord                createChordFromItsFirstNote (
                                 int                  inputLineNumber,
                                 S_msrVoice           voice,
@@ -1754,20 +1756,20 @@ class mxmlTree2MsrTranslator :
                                 int        inputLineNumber,
                                 S_msrVoice voice,
                                 S_msrChord chord);
-                                
+
     void                      printVoicesCurrentChordMap ();
  */
     void                      printCurrentChord ();
-                                
+
     // tuplets handling
     // ------------------------------------------------------
-    
+
     bool                      fCurrentNoteHasATimeModification;
-    
+
     int                       fCurrentNoteActualNotes;
     int                       fCurrentNoteNormalNotes;
     msrDurationKind           fCurrentNoteNormalTypeDuration;
-    
+
     // nested tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
     int                       fPreviousTupletNumber;
@@ -1793,7 +1795,7 @@ class mxmlTree2MsrTranslator :
     msrTuplet::msrTupletShowTypeKind
                               fCurrentTupletShowTypeKind;
     int                       fCurrentTempoTupletNumber;
-    
+
     bool                      fCurrentNoteBelongsToATuplet;
 
     list<S_msrTuplet>         fTupletsStack;
@@ -1803,14 +1805,14 @@ class mxmlTree2MsrTranslator :
 
     void                      createTupletWithItsFirstNoteAndPushItToTupletsStack (
                                 S_msrNote note);
-                                
+
     void                      handlePendingTupletStopIfAny (
                                 int       inputLineNumber,
                                 S_msrNote note);
 
     void                      finalizeTupletAndPopItFromTupletsStack (
                                 int inputLineNumber);
-                                
+
     void                      handleTupletsPendingOnTupletsStack (
                                 int inputLineNumber);
 
@@ -1822,10 +1824,10 @@ class mxmlTree2MsrTranslator :
 
      void                     displayLastHandledTupletInVoiceMap (
                                 string header);
-       
+
     // ties handling
     // ------------------------------------------------------
-    
+
 // JMI    string                    fCurrentTiedType;
     msrTie::msrTieKind        fCurrentTieKind;
     string                    fCurrentTiedOrientation; // JMI
@@ -1833,7 +1835,7 @@ class mxmlTree2MsrTranslator :
 
     // slurs handling
     // ------------------------------------------------------
-    
+
     string                    fCurrentSlurType;
     string                    fCurrentSlurPlacement;
     msrSlur::msrSlurTypeKind  fCurrentSlurTypeKind;
@@ -1843,7 +1845,7 @@ class mxmlTree2MsrTranslator :
     list<S_msrSlur>           fSlurStartsStack;
     void                      displaySlurStartsStack (
                                   string context);
-    
+
     // ligatures handling
     // ------------------------------------------------------
 
@@ -1860,7 +1862,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     list<S_msrPedal>          fPendingPedals;
-    
+
 /* JMI
     msrDamperPedal::damperPedalKind
                               fCurrentDamperPedalKind;
@@ -1887,7 +1889,7 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentBackupDurationDivisions;
     bool                      fOnGoingBackup;
-    
+
     // rests between a <backup /> and the next non-rest note are skips in fact
     bool                      fOnGoingBackupPhase;
 

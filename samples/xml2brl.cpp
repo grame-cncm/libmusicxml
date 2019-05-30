@@ -63,14 +63,14 @@ vector<string> handleOptionsAndArguments (
       optionsHandler->
         decipherOptionsAndArguments (
           argc, argv);
-  
+
   return argumentsVector;
 }
 
 //_______________________________________________________________________________
 Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
   string inputSourceName)
-{    
+{
   Sxmlelement mxmlTree;
 
   if (inputSourceName == "-") {
@@ -81,16 +81,16 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
         gMusicXMLOptions,
         gLogIOstream);
   }
-  
+
   else {
     // input comes from a file
 
 /* JMI
-    // has the input file name a ".mxl" suffix?    
+    // has the input file name a ".mxl" suffix?
     size_t
       posInString =
         inputSourceName.rfind (".mxl");
-      
+
     if (posInString == inputSourceName.size () - 4) {
       stringstream s;
 
@@ -114,7 +114,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
         gMusicXMLOptions,
         gLogIOstream);
   }
-    
+
   return mxmlTree;
 }
 
@@ -132,11 +132,11 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 2a: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -172,11 +172,11 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 2b: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -201,11 +201,11 @@ void displayMsrScore_OptionalPass (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after MSR score display: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -232,11 +232,11 @@ void displayBsrFirstScore_OptionalPass (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after first BSR score display: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -263,11 +263,11 @@ void displayBsrFinalizedScore_OptionalPass (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after finalized BSR score display: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -296,11 +296,11 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 3a: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -315,7 +315,7 @@ S_bsrScore convertMsrScoreToBsrScore_Pass3a (
       "### Conversion from MSR to BSR failed ###" <<
       endl <<
       endl;
-      
+
     exit (2);
   }
 
@@ -338,11 +338,11 @@ void displayFinalizedBsrScore_OptionalPass (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after BSR score display: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -370,11 +370,11 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 3b: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -389,7 +389,7 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
       "### Conversion from first BSR to finalized BSR failed ###" <<
       endl <<
       endl;
-      
+
     exit (2);
   }
 
@@ -400,15 +400,15 @@ S_bsrScore convertBsrScoreToFinalizedScore_Pass3b (
 void convertBsrScoreToBrailleText_Pass4 (
   string     outputFileName,
   S_bsrScore bScore)
-{  
+{
   int outputFileNameSize = outputFileName.size ();
 
   if (! gBrailleOptions->fNoBrailleCode) {
     // open output file if need be
     // ------------------------------------------------------
-  
+
     ofstream brailleCodeFileOutputStream;
-        
+
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
@@ -417,10 +417,21 @@ void convertBsrScoreToBrailleText_Pass4 (
           endl;
       }
 #endif
-          
+
       brailleCodeFileOutputStream.open (
         outputFileName.c_str(),
         ofstream::out);
+
+      if (! brailleCodeFileOutputStream.is_open ()) {
+        gLogIOstream <<
+          "Could not open braille music output file \"" <<
+          outputFileName <<
+          "\" for writing, exiting" <<
+          endl;
+
+        exit (9);
+      }
+
 /*
       // create an output stream for the Braille music
       // to be written to outFileStream
@@ -429,7 +440,7 @@ void convertBsrScoreToBrailleText_Pass4 (
           outFileStream,
           gIndenter);
       */
-      
+
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
@@ -437,7 +448,7 @@ void convertBsrScoreToBrailleText_Pass4 (
         gLogIOstream,
         brailleCodeFileOutputStream);
     }
-    
+
     else {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
@@ -447,14 +458,14 @@ void convertBsrScoreToBrailleText_Pass4 (
           endl;
       }
 #endif
-          
+
       // create an indented output stream for the Braille music
       // to be written to cout
       indentedOstream
         brailleCodeCoutOutputStream (
           cout,
           gIndenter);
-      
+
       // convert the BSR score to Braille music
       generateBrailleCodeFromBsrScore (
         bScore,
@@ -472,7 +483,7 @@ void convertBsrScoreToBrailleText_Pass4 (
           endl;
       }
 #endif
-          
+
       brailleCodeFileOutputStream.close ();
     }
   }
@@ -480,11 +491,11 @@ void convertBsrScoreToBrailleText_Pass4 (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 4: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -508,7 +519,7 @@ void convertMusicXMLToBraille (
       convertMusicXMLToMxmlTree_Pass1 (
         inputSourceName);
 
-      
+
   // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
 
@@ -520,17 +531,17 @@ void convertMusicXMLToBraille (
   if (gMsrOptions->fExit2a)
     return;
 
-    
+
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
   populateScoreSkeletonFromMusicXML_Pass2b (
     mxmlTree,
     mScore);
-  
+
   if (gMsrOptions->fExit2b)
     return;
-    
+
 
   // display the MSR score summary if requested
   // ------------------------------------------------------
@@ -614,7 +625,7 @@ void convertMusicXMLToBraille (
       gBsrOptions);
   }
 
-    
+
   // generate Braille music text from the BCR (pass 4)
   // ------------------------------------------------------
 
@@ -624,7 +635,7 @@ void convertMusicXMLToBraille (
 }
 
 //_______________________________________________________________________________
-int main (int argc, char *argv[]) 
+int main (int argc, char *argv[])
 {
   // register executable name in gGeneralOptions
   // initialize the components of MSR that we'll be using
@@ -632,7 +643,7 @@ int main (int argc, char *argv[])
 
   initializeMSR ();
   initializeBSR ();
-  
+
   // create the options handler
   // ------------------------------------------------------
 
@@ -641,7 +652,7 @@ int main (int argc, char *argv[])
       xml2brlOptionsHandler::create (
         argv [0],
         gOutputIOstream);
-    
+
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
@@ -667,7 +678,7 @@ int main (int argc, char *argv[])
   string
     inputSourceName =
       gGeneralOptions->fInputSourceName;
-      
+
   string
     outputFileName =
       gXml2brlOptions->fOutputFileName;
@@ -691,7 +702,7 @@ int main (int argc, char *argv[])
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     gLogIOstream <<
-      "This is xml2brl " << currentVersionNumber () << 
+      "This is xml2brl " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
@@ -711,7 +722,7 @@ int main (int argc, char *argv[])
 
     gLogIOstream <<
       "Time is " << gGeneralOptions->fTranslationDate <<
-      endl;      
+      endl;
 
     gLogIOstream <<
       "Braille music will be written to ";
@@ -726,13 +737,13 @@ int main (int argc, char *argv[])
     gLogIOstream <<
       endl <<
       endl;
-    
+
     gLogIOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
-    
+
     gLogIOstream <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
@@ -743,7 +754,7 @@ int main (int argc, char *argv[])
       "or:" <<
       endl;
     gIndenter++;
-    
+
     gLogIOstream <<
       optionsHandler->
         getCommandLineWithShortOptions () <<
@@ -778,7 +789,7 @@ int main (int argc, char *argv[])
       endl;
   }
 #endif
-  
+
   // do the translation
   // ------------------------------------------------------
 
@@ -816,7 +827,7 @@ int main (int argc, char *argv[])
       "### Conversion from BSR to Braille music failed ###" <<
       endl <<
       endl;
-      
+
     return 1;
   }
 

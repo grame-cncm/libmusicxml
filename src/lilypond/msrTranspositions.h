@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -36,7 +36,7 @@ class msrOctaveShift : public msrMeasureElement
 
     static string octaveShiftKindAsString (
       msrOctaveShiftKind octaveShiftKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -54,9 +54,9 @@ class msrOctaveShift : public msrMeasureElement
       int                inputLineNumber,
       msrOctaveShiftKind octaveShiftKind,
       int                octaveShiftSize);
-      
+
     virtual ~msrOctaveShift ();
-  
+
   public:
 
     // set and get
@@ -88,6 +88,8 @@ class msrOctaveShift : public msrMeasureElement
 
     string                octaveShiftKindAsString () const;
 
+    string                asString () const;
+
     virtual void          print (ostream& os);
 
   private:
@@ -109,7 +111,7 @@ typedef SMARTP<msrTranspose> S_msrTranspose;
 class msrTranspose : public msrMeasureElement
 {
   public:
-    
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -131,9 +133,9 @@ class msrTranspose : public msrMeasureElement
       int  transposeChromatic,
       int  transposeOctaveChange,
       bool transposeDouble);
-      
+
     virtual ~msrTranspose ();
-  
+
   public:
 
     // set and get
@@ -141,21 +143,21 @@ class msrTranspose : public msrMeasureElement
 
     int                   getTransposeDiatonic () const
                               { return fTransposeDiatonic; }
-                  
+
     int                   getTransposeChromatic () const
                               { return fTransposeChromatic; }
-                  
+
     int                   getTransposeOctaveChange () const
                               { return fTransposeOctaveChange; }
-                  
+
     bool                  getTransposeDouble () const
                               { return fTransposeDouble; }
-                  
+
     // services
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_msrTranspose otherTranspose) const;
-                            
+
   public:
 
     // visitors

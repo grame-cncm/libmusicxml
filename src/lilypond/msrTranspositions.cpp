@@ -65,12 +65,12 @@ void msrOctaveShift::acceptIn (basevisitor* v)
       "% ==> msrOctaveShift::acceptIn ()" <<
       endl;
   }
-  
+
   if (visitor<S_msrOctaveShift>*
     p =
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitStart ()" <<
@@ -92,7 +92,7 @@ void msrOctaveShift::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitEnd ()" <<
@@ -114,7 +114,7 @@ ostream& operator<< (ostream& os, const S_msrOctaveShift& elt)
 string msrOctaveShift::octaveShiftKindAsString () const
 {
   string result;
-  
+
   switch (fOctaveShiftKind) {
     case msrOctaveShift::kOctaveShiftNone:
       result = "octaveShiftNone";
@@ -136,10 +136,24 @@ string msrOctaveShift::octaveShiftKindAsString () const
   return result;
 }
 
+string msrOctaveShift::asString () const
+{
+  string result;
+
+  stringstream s;
+
+  s <<
+    "OctaveShift" <<
+    ", kind: " << octaveShiftKindAsString () <<
+    ", size: " << fOctaveShiftSize;
+
+  return s.str ();
+}
+
 void msrOctaveShift::print (ostream& os)
 {
   gIndenter++;
-  
+
   os <<
     "OctaveShift" <<
     ", kind: " << octaveShiftKindAsString () <<
@@ -200,7 +214,7 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
   if (! otherTranspose) {
     return false;
   }
-    
+
   return
     fTransposeDiatonic ==
       otherTranspose->fTransposeDiatonic
@@ -222,12 +236,12 @@ void msrTranspose::acceptIn (basevisitor* v)
       "% ==> msrTranspose::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTranspose>*
     p =
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTranspose::visitStart ()" <<
@@ -249,7 +263,7 @@ void msrTranspose::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTranspose::visitEnd ()" <<
@@ -273,7 +287,7 @@ string msrTranspose::asString () const
   stringstream s;
 
   s <<
-    "Transpose" << 
+    "Transpose" <<
     ", diatonic = " << fTransposeDiatonic <<
     ", chromatic = " << fTransposeChromatic <<
     ", transposeOctaveChange = " << fTransposeOctaveChange <<
@@ -286,14 +300,14 @@ string msrTranspose::asString () const
 void msrTranspose::print (ostream& os)
 {
   const int fieldWidth = 22;
-  
+
   os <<
     "Transpose" <<
     ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "Diatonic" << " = " << fTransposeDiatonic <<
@@ -308,7 +322,7 @@ void msrTranspose::print (ostream& os)
     "TransposeDouble" << " = " << fTransposeDouble <<
     endl <<
     endl;
-    
+
   gIndenter--;
 }
 

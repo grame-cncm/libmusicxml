@@ -754,6 +754,12 @@ void msrChord::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
+  if (fChordOctaveShift) {
+    // browse the octave shift
+    msrBrowser<msrOctaveShift> browser (v);
+    browser.browse (*fChordOctaveShift);
+  }
+
   if (fChordGraceNotesGroupBefore) {
     // browse the grace notes group before
     msrBrowser<msrGraceNotesGroup> browser (v);
@@ -1417,6 +1423,27 @@ void msrChord::print (ostream& os)
       endl;
     }
   }
+
+  // print the octave shift if any
+  if (fChordOctaveShift || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "chordOctaveShift";
+    if (fChordOctaveShift) {
+      os <<
+        endl;
+      gIndenter++;
+        os << fChordOctaveShift;
+
+    gIndenter--;
+    }
+    else {
+      os <<
+        " : " << "none" <<
+      endl;
+    }
+  }
+
 
   // print the grace notes groups if any
   if (fChordGraceNotesGroupBefore || gMsrOptions->fDisplayMsrDetails) {

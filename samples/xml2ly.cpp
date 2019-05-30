@@ -61,14 +61,14 @@ vector<string> handleOptionsAndArguments (
       optionsHandler->
         decipherOptionsAndArguments (
           argc, argv);
-  
+
   return argumentsVector;
 }
 
 //_______________________________________________________________________________
 Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
   string inputSourceName)
-{    
+{
   Sxmlelement mxmlTree;
 
   if (inputSourceName == "-") {
@@ -79,16 +79,16 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
         gMusicXMLOptions,
         gLogIOstream);
   }
-  
+
   else {
     // input comes from a file
 
 /* JMI
-    // has the input file name a ".mxl" suffix?    
+    // has the input file name a ".mxl" suffix?
     size_t
       posInString =
         inputSourceName.rfind (".mxl");
-      
+
     if (posInString == inputSourceName.size () - 4) {
       stringstream s;
 
@@ -112,7 +112,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
         gMusicXMLOptions,
         gLogIOstream);
   }
-    
+
   return mxmlTree;
 }
 
@@ -130,11 +130,11 @@ S_msrScore convertMxmlTreeToAScoreSkeleton_Pass2a (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 2a: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -170,11 +170,11 @@ void populateScoreSkeletonFromMusicXML_Pass2b (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 2b: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -199,11 +199,11 @@ void displayMsrScore_OptionalPass (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after MSR score display: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -232,11 +232,11 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 3: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -251,7 +251,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
       "### Conversion from MSR to LPSR failed ###" <<
       endl <<
       endl;
-      
+
     exit (2);
   }
 
@@ -274,11 +274,11 @@ void displayLpsrScore_OptionalPass (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after LPSR score display: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -293,15 +293,15 @@ void displayLpsrScore_OptionalPass (
 void convertLpsrScoreToLilypondCode_Pass4 (
   string     outputFileName,
   S_lpsrScore lpScore)
-{  
+{
   int outputFileNameSize = outputFileName.size ();
 
   if (! gLilypondOptions->fNoLilypondCode) {
     // open output file if need be
     // ------------------------------------------------------
-  
+
     ofstream outFileStream;
-        
+
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
@@ -310,10 +310,20 @@ void convertLpsrScoreToLilypondCode_Pass4 (
           endl;
       }
 #endif
-          
+
       outFileStream.open (
         outputFileName.c_str(),
         ofstream::out);
+
+      if (! outFileStream.is_open ()) {
+        gLogIOstream <<
+          "Could not open LilyPond output file \"" <<
+          outputFileName <<
+          "\" for writing, exiting" <<
+          endl;
+
+        exit (9);
+      }
 
       // create an indented output stream for the LilyPond code
       // to be written to outFileStream
@@ -321,7 +331,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         brailleCodeFileOutputStream (
           outFileStream,
           gIndenter);
-      
+
       // convert the LPSR score to LilyPond code
       generateLilypondCodeFromLpsrScore (
         lpScore,
@@ -330,7 +340,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
         gLogIOstream,
         brailleCodeFileOutputStream);
     }
-    
+
     else {
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePasses) {
@@ -340,14 +350,14 @@ void convertLpsrScoreToLilypondCode_Pass4 (
           endl;
       }
 #endif
-          
+
       // create an indented output stream for the LilyPond code
       // to be written to cout
       indentedOstream
         brailleCodeCoutOutputStream (
           cout,
           gIndenter);
-      
+
       // convert the LPSR score to LilyPond code
       generateLilypondCodeFromLpsrScore (
         lpScore,
@@ -366,7 +376,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
           endl;
       }
 #endif
-          
+
       outFileStream.close ();
     }
   }
@@ -374,11 +384,11 @@ void convertLpsrScoreToLilypondCode_Pass4 (
   if (gIndenter != 0) {
     if (! gGeneralOptions->fQuiet) {
       stringstream s;
-      
+
       s <<
         "gIndenter value after pass 4: "<<
         gIndenter.getIndent ();
-        
+
       msrMusicXMLWarning (
         gGeneralOptions->fInputSourceName,
         1, // JMI inputLineNumber,
@@ -402,7 +412,7 @@ void convertMusicXMLToLilypond (
       convertMusicXMLToMxmlTree_Pass1 (
         inputSourceName);
 
-      
+
   // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
 
@@ -414,17 +424,17 @@ void convertMusicXMLToLilypond (
   if (gMsrOptions->fExit2a)
     return;
 
-    
+
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
   populateScoreSkeletonFromMusicXML_Pass2b (
     mxmlTree,
     mScore);
-  
+
   if (gMsrOptions->fExit2b)
     return;
-    
+
 
   // display the MSR score summary if requested
   // ------------------------------------------------------
@@ -486,7 +496,7 @@ void convertMusicXMLToLilypond (
       gLpsrOptions);
   }
 
-    
+
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------
 
@@ -496,14 +506,14 @@ void convertMusicXMLToLilypond (
 }
 
 //_______________________________________________________________________________
-int main (int argc, char *argv[]) 
+int main (int argc, char *argv[])
 {
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 
   initializeMSR ();
   initializeLPSR ();
-  
+
   // create the options handler
   // ------------------------------------------------------
 
@@ -512,7 +522,7 @@ int main (int argc, char *argv[])
       xml2lyOptionsHandler::create (
         argv [0],
         gOutputIOstream);
-    
+
   // analyze the command line options and arguments
   // ------------------------------------------------------
 
@@ -538,7 +548,7 @@ int main (int argc, char *argv[])
   string
     inputSourceName =
       gGeneralOptions->fInputSourceName;
-      
+
   string
     outputFileName =
       gXml2lyOptions->fOutputFileName;
@@ -562,7 +572,7 @@ int main (int argc, char *argv[])
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     gLogIOstream <<
-      "This is xml2ly " << currentVersionNumber () << 
+      "This is xml2ly " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
@@ -582,7 +592,7 @@ int main (int argc, char *argv[])
 
     gLogIOstream <<
       "Time is " << gGeneralOptions->fTranslationDate <<
-      endl;      
+      endl;
 
     gLogIOstream <<
       "LilyPond code will be written to ";
@@ -597,13 +607,13 @@ int main (int argc, char *argv[])
     gLogIOstream <<
       endl <<
       endl;
-    
+
     gLogIOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
-    
+
     gLogIOstream <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
@@ -614,7 +624,7 @@ int main (int argc, char *argv[])
       "or:" <<
       endl;
     gIndenter++;
-    
+
     gLogIOstream <<
       optionsHandler->
         getCommandLineWithShortOptions () <<
@@ -649,7 +659,7 @@ int main (int argc, char *argv[])
       endl;
   }
 #endif
-  
+
   // do the translation
   // ------------------------------------------------------
 
@@ -687,7 +697,7 @@ int main (int argc, char *argv[])
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<
       endl;
-      
+
     return 1;
   }
 
