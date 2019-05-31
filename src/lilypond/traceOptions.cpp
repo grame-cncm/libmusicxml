@@ -204,6 +204,9 @@ debugging information to standard error for the specified measures.)",
     // rehearsals
     fTraceRehearsals = boolOptionsInitialValue;
 
+    // line breaks
+    fTraceLineBreaks = boolOptionsInitialValue;
+
     // page breaks
     fTracePageBreaks = boolOptionsInitialValue;
 
@@ -500,13 +503,24 @@ R"(Rehearsals)",
           fTraceRehearsals,
           fTracePasses));
 
+    // line breaks
+
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tlbreaks", "trace-line-breaks",
+R"(Line breaks)",
+          "traceLineBreaks",
+          fTraceLineBreaks,
+          fTracePasses));
+
     // page breaks
 
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
           "tpbreaks", "trace-page-breaks",
-R"(Rehearsals)",
+R"(Page breaks)",
           "tracePageBreaks",
           fTracePageBreaks,
           fTracePasses));
@@ -1147,6 +1161,9 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // rehearsals
   clone->fTraceRehearsals = true;
 
+  // line breaks
+  clone->fTraceLineBreaks = true;
+
   // page breaks
   clone->fTracePageBreaks = true;
 
@@ -1318,6 +1335,9 @@ void traceOptions::setAllGeneralTraceOptions (
 
     // rehearsals
     fTraceRehearsals = boolOptionsInitialValue;
+
+    // line breaks
+    fTraceLineBreaks = boolOptionsInitialValue;
 
     // page breaks
     fTracePageBreaks = boolOptionsInitialValue;
@@ -1571,6 +1591,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // rehearsals
     setw (fieldWidth) << "traceRehearsals" << " : " <<
     booleanAsString (fTraceRehearsals) <<
+    endl <<
+
+    // line breaks
+    setw (fieldWidth) << "traceLineBreaks" << " : " <<
+    booleanAsString (fTraceLineBreaks) <<
     endl <<
 
     // page breaks

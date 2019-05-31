@@ -113,8 +113,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingAccord = false;
 
   // staff handling
-  fCurrentMusicXMLStaffNumber      = K_NO_STAFF_NUMBER;
   fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentMusicXMLStaffNumber      = K_NO_STAFF_NUMBER;
 
   // staff change detection
   fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
@@ -725,7 +725,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
 
   // staff numbers
   fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
-  fCurrentMusicXMLStaffNumber  = K_NO_STAFF_NUMBER;
+  fCurrentMusicXMLStaffNumber      = K_NO_STAFF_NUMBER;
 
   // staff change detection
   fCurrentStaffNumberToInsertInto = 1; // default value JMI K_NO_STAFF_NUMBER;
@@ -4254,7 +4254,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 
   // reset notes staff numbers
   fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
-  fCurrentMusicXMLStaffNumber  = K_NO_STAFF_NUMBER;
+  fCurrentMusicXMLStaffNumber      = K_NO_STAFF_NUMBER;
 
   // reset staff change detection
   fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
@@ -5883,7 +5883,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       measureImplicitKind);
 
   // reset staff change detection
-  fPreviousNoteMusicXMLStaffNumber = K_NO_STAFF_NUMBER;
+  fPreviousNoteMusicXMLStaffNumber = 1; // default value
+  fCurrentMusicXMLStaffNumber      = 1; // default value
   fCurrentStaffNumberToInsertInto  = 1; // default value JMI K_NO_STAFF_NUMBER;
 
 /* JMI
@@ -6165,31 +6166,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   if (newSystem.size ()) {
 
     if (newSystem == "yes") {
-
-      // create a barNumberCheck
-#ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
-        fLogOutputStream <<
-          "Creating a barnumber check, " <<
-          "line = " << inputLineNumber <<
-          endl;
-      }
-#endif
-
-      // fetch current voice
-      S_msrVoice
-        currentVoice =
-          fetchVoiceFromPart (
-            inputLineNumber,
-            fCurrentMusicXMLStaffNumber,
-            fCurrentMusicXMLVoiceNumber);
-
       // create a line break
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceLineBreaks) {
         fLogOutputStream <<
           "Creating a line break, " <<
-          "line = " << inputLineNumber << endl;
+          "line = " << inputLineNumber <<
+          endl;
       }
 #endif
 
@@ -6197,12 +6180,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
         lineBreak =
           msrLineBreak::create (
             inputLineNumber,
-            currentVoice->
-              getVoiceCurrentMeasureNumber ());
+            fCurrentMeasureNumber);
 
-      // append it to the voice
-      currentVoice->
-        appendLineBreakToVoice (lineBreak);
+      // append it to the pending line breaks
+      fPendingLineBreaks.push_back (lineBreak);
     }
 
     else if (newSystem == "no") {
@@ -6230,13 +6211,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   if (newPage.size ()) {
 
     if (newPage == "yes") { // JMI
-
       // create a page break
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTracePageBreaks) {
         fLogOutputStream <<
           "Creating a page break, " <<
-          "line = " << inputLineNumber << endl;
+          "line = " << inputLineNumber <<
+          endl;
       }
 #endif
 
@@ -15881,6 +15862,36 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToVoice (
   }
 }
 
+void mxmlTree2MsrTranslator::attachLineBreaksToVoice (
+  S_msrVoice voice)
+{
+ // attach the pending line breaks if any to the note
+  if (fPendingLineBreaks.size ()) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceLineBreaks) {
+      fLogOutputStream <<
+        "Attaching pending line breaks to voice \""  <<
+        voice->getVoiceName () <<
+        "\"" <<
+        endl;
+    }
+#endif
+
+    while (fPendingLineBreaks.size ()) {
+      S_msrLineBreak
+        lineBreak =
+          fPendingLineBreaks.front ();
+
+      // append it to the voice
+      voice->
+        appendLineBreakToVoice (lineBreak);
+
+      // remove it from the list
+      fPendingLineBreaks.pop_front ();
+    } // while
+  }
+}
+
 void mxmlTree2MsrTranslator::attachPageBreaksToVoice (
   S_msrVoice voice)
 {
@@ -16954,6 +16965,7 @@ void mxmlTree2MsrTranslator::attachPendingPriorElementsToVoice (
   fLogOutputStream <<
     "attachPendingPriorElementsToVoice()" <<
     ", fPendingTempos.size () = " << fPendingTempos.size () <<
+    ", fPendingLineBreaks.size () = " << fPendingLineBreaks.size () <<
     ", fPendingPageBreaks.size () = " << fPendingPageBreaks.size () <<
     endl;
     */
@@ -16967,6 +16979,9 @@ void mxmlTree2MsrTranslator::attachPendingPriorElementsToVoice (
 
   // attach pending tempos if any to voice
   attachPendingTemposToVoice (voice);
+
+  // attach pending line breaks if any to voice
+  attachLineBreaksToVoice (voice);
 
   // attach pending page breaks if any to voice
   attachPageBreaksToVoice (voice);
@@ -17512,7 +17527,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceStaves) {
     fLogOutputStream <<
       "==> is there a staff change?" <<
-      ", fCurrentStaffNumberToInsertInto = " <<
+      " fCurrentStaffNumberToInsertInto = " <<
       fCurrentStaffNumberToInsertInto <<
       ", fPreviousNoteMusicXMLStaffNumber = " <<
       fPreviousNoteMusicXMLStaffNumber <<
@@ -17566,7 +17581,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fLogOutputStream <<
           "*** There is staff change for chord member note '" <<
           newNote->asShortString () <<
-          "'in voice \"" <<
+          "' in voice \"" <<
           voiceToInsertInto->getVoiceName () <<
           "\"" <<
           " from staff " << fPreviousNoteMusicXMLStaffNumber <<
@@ -17599,7 +17614,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fLogOutputStream <<
           "*** There is staff change for note '" <<
           newNote->asShortString () <<
-          "'in voice \"" <<
+          "' in voice \"" <<
           voiceToInsertInto->getVoiceName () <<
           "\"" <<
           " from staff " << fPreviousNoteMusicXMLStaffNumber <<

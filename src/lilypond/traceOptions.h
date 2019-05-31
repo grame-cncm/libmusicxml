@@ -26,7 +26,7 @@
 #include "optionsBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -36,7 +36,7 @@ class traceOptions : public optionsGroup
 
     static SMARTP<traceOptions> create (
       S_optionsHandler optionsHandler);
-        
+
     SMARTP<traceOptions>        createCloneWithTrueValues (); // JMI
 
   public:
@@ -46,15 +46,15 @@ class traceOptions : public optionsGroup
 
     void                  initializeTraceOptions (
                             bool boolOptionsInitialValue);
-        
+
   protected:
-  
+
     // constructors/destructor
     // ------------------------------------------------------
 
     traceOptions (
       S_optionsHandler optionsHandler);
-  
+
     virtual ~traceOptions ();
 
   public:
@@ -98,13 +98,13 @@ class traceOptions : public optionsGroup
     void                  printTraceOptionsHelp ();
 
     void                  printTraceOptionsValues (int fieldWidth);
-    
+
   public:
-    
+
 
     // passes and options
     bool                  fTracePasses;
-    
+
     bool                  fTraceOptions;
     bool                  fDisplayOptionsValues;
     bool                  fDisplayOptionsHandler;
@@ -114,7 +114,7 @@ class traceOptions : public optionsGroup
 
     // varValAssocs
     bool                  fTraceVarValAssocs;
-    
+
     // credits
     bool                  fTraceCredits;
 
@@ -127,10 +127,10 @@ class traceOptions : public optionsGroup
 
     // parts
     bool                  fTraceParts;
-    
+
     // staves
     bool                  fTraceStaves;
-    
+
     // voices
     bool                  fTraceVoices;
     bool                  fTraceVoicesDetails;
@@ -154,6 +154,9 @@ class traceOptions : public optionsGroup
 
     // rehearsals
     bool                  fTraceRehearsals;
+
+    // line breaks
+    bool                  fTraceLineBreaks;
 
     // page breaks
     bool                  fTracePageBreaks;
@@ -275,10 +278,10 @@ class traceOptions : public optionsGroup
 
     // staff details
     bool                  fTraceStaffDetails;
-    
+
     // scordaturas
     bool                  fTraceScordaturas;
-    
+
     // harp pedals tuning
     bool                  fTraceHarpPedalsTunings;
 
@@ -287,7 +290,7 @@ class traceOptions : public optionsGroup
 
     // msrStreams
     bool                  fTraceMsrStreams;
-    
+
     // midi
     bool                  fTraceMidi;
 };

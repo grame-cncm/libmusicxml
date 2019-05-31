@@ -1172,6 +1172,15 @@ class mxmlTree2MsrTranslator :
                                 S_msrVoice voice);
 
 
+    // line breaks handling
+    // ------------------------------------------------------
+
+    list<S_msrLineBreak>      fPendingLineBreaks;
+
+    void                      attachLineBreaksToVoice (
+                                S_msrVoice voice);
+
+
     // page breaks handling
     // ------------------------------------------------------
 
