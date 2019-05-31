@@ -757,7 +757,7 @@ void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
     exitAfterSomePassesSubGroup =
       optionsSubGroup::create (
         "Exit after some passes",
-        "hge", "help-general-exit",
+        "hlpexit", "help-lpsr-exit",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);

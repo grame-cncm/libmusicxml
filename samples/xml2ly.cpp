@@ -433,8 +433,13 @@ void convertMusicXMLToLilypond (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gMsrOptions->fExit2a)
+  if (gMsrOptions->fExit2a) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 2a as requested" <<
+      endl;
     return;
+  }
 
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -444,8 +449,14 @@ void convertMusicXMLToLilypond (
     mxmlTree,
     mScore);
 
-  if (gMsrOptions->fExit2b)
+  if (gMsrOptions->fExit2b) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 2b as requested" <<
+      endl;
     return;
+  }
+
 
 
   // display the MSR score summary if requested
@@ -494,8 +505,13 @@ void convertMusicXMLToLilypond (
       convertMsrScoreToLpsrScore_Pass3 (
         mScore);
 
-  if (gLpsrOptions->fExit3)
+  if (gLpsrOptions->fExit3) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 3 as requested" <<
+      endl;
     return;
+  }
 
 
   // display the LPSR score if requested

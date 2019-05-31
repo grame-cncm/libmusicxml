@@ -528,8 +528,13 @@ void convertMusicXMLToBraille (
       convertMxmlTreeToAScoreSkeleton_Pass2a (
         mxmlTree);
 
-  if (gMsrOptions->fExit2a)
+  if (gMsrOptions->fExit2a) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 2a as requested" <<
+      endl;
     return;
+  }
 
 
   // populate the MSR from MusicXML contents (pass 2b)
@@ -539,8 +544,13 @@ void convertMusicXMLToBraille (
     mxmlTree,
     mScore);
 
-  if (gMsrOptions->fExit2b)
+  if (gMsrOptions->fExit2b) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 2b as requested" <<
+      endl;
     return;
+  }
 
 
   // display the MSR score summary if requested
@@ -589,8 +599,13 @@ void convertMusicXMLToBraille (
       convertMsrScoreToBsrScore_Pass3a (
         mScore);
 
-  if (gBsrOptions->fExit3a)
+  if (gBsrOptions->fExit3a) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 3a as requested" <<
+      endl;
     return;
+  }
 
 
   // display the first BSR score if requested
@@ -611,8 +626,13 @@ void convertMusicXMLToBraille (
       convertBsrScoreToFinalizedScore_Pass3b (
         firstBsrScore);
 
-  if (gBsrOptions->fExit3b)
+  if (gBsrOptions->fExit3b) {
+    gLogIOstream <<
+      endl <<
+      "Existing after pass 3b as requested" <<
+      endl;
     return;
+  }
 
 
   // display the finalized BCR score if requested
