@@ -14358,14 +14358,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
   }
 #endif
 
-  // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
-  int nextBarPuristNumber =
-    elt->getNextBarPuristNumber ();
+  if (! fOnGoingVoiceCadenza) { // should be testes in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
+    // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
+    int nextBarPuristNumber =
+      elt->getNextBarPuristNumber ();
 
-  fLilypondCodeIOstream <<
-    "\\barNumberCheck #" <<
-    nextBarPuristNumber <<
-    endl;
+    fLilypondCodeIOstream <<
+      "\\barNumberCheck #" <<
+      nextBarPuristNumber <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)

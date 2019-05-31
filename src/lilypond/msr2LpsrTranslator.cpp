@@ -2141,6 +2141,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
       appendBarCheckToVoice (fLastBarCheck);
 
     // create a bar number check
+    // should NOT be done in cadenza, SEE TO IT JMI
     S_msrBarNumberCheck
       barNumberCheck_ =
         msrBarNumberCheck::create (
