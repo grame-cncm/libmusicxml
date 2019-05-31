@@ -220,7 +220,13 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
 {
   S_lpsrScore lpScore;
 
-  if (! gLilypondOptions->fNoLilypondCode) {
+  if (gLilypondOptions->fNoLilypondCode) {
+    gLogIOstream <<
+      "Option '-nolpc, -no-lilypond-code' is set, no LPSR is created" <<
+      endl <<
+      endl;
+  }
+  else {
     lpScore =
       buildLpsrScoreFromMsrScore (
         mScore,
@@ -246,7 +252,7 @@ S_lpsrScore convertMsrScoreToLpsrScore_Pass3 (
     gIndenter.resetToZero ();
   }
 
-  if (! lpScore) {
+  if (! lpScore && ! gLilypondOptions->fNoLilypondCode) {
     gLogIOstream <<
       "### Conversion from MSR to LPSR failed ###" <<
       endl <<
@@ -296,7 +302,13 @@ void convertLpsrScoreToLilypondCode_Pass4 (
 {
   int outputFileNameSize = outputFileName.size ();
 
-  if (! gLilypondOptions->fNoLilypondCode) {
+  if (gLilypondOptions->fNoLilypondCode) {
+    gLogIOstream <<
+      "Option '-nolpc -no-lilypond-code' is set, no LilyPond code is created" <<
+      endl <<
+      endl;
+  }
+  else {
     // open output file if need be
     // ------------------------------------------------------
 
