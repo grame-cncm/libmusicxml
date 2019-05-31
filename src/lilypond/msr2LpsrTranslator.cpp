@@ -1223,7 +1223,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
   fCurrentPartBlock = nullptr;
 
   // forget about the current book part block
-  fCurrentBookPartBlock != nullptr;
+  fCurrentBookPartBlock = nullptr;
 }
 
 //________________________________________________________________________

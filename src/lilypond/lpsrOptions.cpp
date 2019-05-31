@@ -1407,7 +1407,7 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
 
     // handling ',' and '\'' in octave indication
     int octave = 0;
-    for (int i = 0; i < octaveIndication.size (); i++) {
+    for (unsigned int i = 0; i < octaveIndication.size (); i++) {
       switch (octaveIndication [i]) {
         case ',':
           if (octave > 0) {
