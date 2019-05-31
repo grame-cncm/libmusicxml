@@ -749,6 +749,8 @@ void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
 {
   // variables
 
+  fExit3 = boolOptionsInitialValue;
+
   // options
 
   S_optionsSubGroup

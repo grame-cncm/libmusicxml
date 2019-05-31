@@ -435,6 +435,9 @@ void bsrOptions::initializeBsrExitAfterSomePassesOptions (
 {
   // variables
 
+  fExit3a = boolOptionsInitialValue;
+  fExit3b = boolOptionsInitialValue;
+
   // options
 
   S_optionsSubGroup
