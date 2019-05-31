@@ -931,6 +931,9 @@ void msrOptions::initializeMsrExitAfterSomePassesOptions (
 {
   // variables
 
+  fExit2a = boolOptionsInitialValue;
+  fExit2b = boolOptionsInitialValue;
+
   // options
 
   S_optionsSubGroup
