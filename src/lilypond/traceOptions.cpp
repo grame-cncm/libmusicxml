@@ -541,7 +541,7 @@ R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "toctshifts", "trace-octaves-shifts",
+          "toshifts", "trace-octaves-shifts",
 R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
           "traceOctaveShifts",
           fTraceOctaveShifts,

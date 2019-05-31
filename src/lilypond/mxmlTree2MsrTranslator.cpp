@@ -17838,8 +17838,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
   // handling the current pending harmonies if any,
   // so that they get attached to the note right now
-  if (fPendingHarmoniesList.size ()) {
-    while (fPendingHarmoniesList.size ()) {
+  int numberOfHarmoniesOnThisNote =
+    fPendingHarmoniesList.size ();
+
+  if (numberOfHarmoniesOnThisNote) {
+    while (fPendingHarmoniesList.size ()) { // recompute at each iteration
       S_msrHarmony
         harmony =
           fPendingHarmoniesList.front ();
@@ -17850,9 +17853,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           voiceToInsertInto);
 
       // set the harmony's whole notes
+      // don't forget that numberOfHarmoniesOnThisNote share the note's duration
       harmony->
         setHarmonySoundingWholeNotes (
-          fCurrentNoteSoundingWholeNotes);
+          fCurrentNoteSoundingWholeNotes / numberOfHarmoniesOnThisNote);
 
       // attach the harmony to the note
       newNote->

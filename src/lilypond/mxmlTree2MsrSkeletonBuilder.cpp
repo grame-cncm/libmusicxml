@@ -3331,7 +3331,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
       s <<
         "part " << fCurrentPart->getPartCombinedName () <<
         " has " << fPartNumberOfMeasures <<
-        " while the other ones have " << fScoreNumberOfMeasures;
+        " measures while the other ones have " << fScoreNumberOfMeasures;
 
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,

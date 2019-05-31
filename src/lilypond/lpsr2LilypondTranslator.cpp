@@ -12278,6 +12278,11 @@ void lpsr2LilypondTranslator::generateCodeBeforeChord (S_msrChord chord)
     generateCodeForOctaveShift (
       chordOctaveShift);
   }
+  else {
+    fLilypondCodeIOstream <<
+      "FDSFDSFDDFSDFS" <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::generateCodeForChord (S_msrChord chord)
