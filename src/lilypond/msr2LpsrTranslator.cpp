@@ -2126,24 +2126,26 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
   } // switch
 
   if (doCreateABarCheck) {
-    // create a bar check without next bar number,
-    // it will be set with setNextBarNumber() upon visitStart (S_msrMeasure&)
-    // for the next measure
+    // create a bar check
+    int voiceCurrentMeasurePuristNumber =
+      fCurrentVoiceClone->
+        getVoiceCurrentMeasurePuristNumber ();
+
     fLastBarCheck =
-      msrBarCheck::create (
-        inputLineNumber);
+      msrBarCheck::createWithNextBarPuristNumber (
+        inputLineNumber,
+        voiceCurrentMeasurePuristNumber);
 
     // append it to the current voice clone
     fCurrentVoiceClone->
       appendBarCheckToVoice (fLastBarCheck);
 
-    // create and bar number check
+    // create a bar number check
     S_msrBarNumberCheck
       barNumberCheck_ =
         msrBarNumberCheck::create (
           inputLineNumber,
-          fCurrentVoiceClone->
-            getVoiceCurrentMeasurePuristNumber ());
+          voiceCurrentMeasurePuristNumber);
 
     // append it to the current voice clone
     fCurrentVoiceClone->
