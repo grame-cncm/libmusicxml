@@ -222,6 +222,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentHarmonyDegreeValue           = -1;
   fCurrentHarmonyDegreeAlterationKind  = k_NoAlteration;
 
+  fCurrentHarmonyStaffNumber = K_NO_STAFF_NUMBER;
+
+  fOnGoingHarmony = true;
+
   // figured bass handling
   fFiguredBassVoicesCounter = 0;
 
@@ -3683,6 +3687,10 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
 
   else if (fOnGoingDirection) {
     fCurrentDirectionStaffNumber = fCurrentMusicXMLStaffNumber;
+  }
+
+  else if (fOnGoingHarmony) {
+    fCurrentHarmonyStaffNumber = fCurrentMusicXMLStaffNumber;
   }
 
   else {
@@ -20361,6 +20369,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyBassAlterationKind    = kNatural;
   fCurrentHarmonyDegreeValue           = -1;
   fCurrentHarmonyDegreeAlterationKind  = kNatural;
+
+  fOnGoingHarmony = true;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )
@@ -20952,6 +20962,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
       setw (fieldWidth) << "fCurrentNoteSoundingWholeNotes" << " = " <<
       fCurrentNoteSoundingWholeNotes <<
+      endl <<
+
+      setw (fieldWidth) << "fCurrentHarmonyStaffNumber" << " = " <<
+      fCurrentHarmonyStaffNumber <<
       endl;
 
     gIndenter--;
@@ -20973,7 +20987,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
         fCurrentHarmonyBassQuarterTonesPitchKind,
 
-        rational (1, 1)); // will be set upon next note handling
+        rational (1, 1),  // harmonySoundingWholeNotes,
+                          // will be set upon next note handling
+        fCurrentHarmonyStaffNumber);
 
   // append pending harmony degrees if any to the harmony
   if (! fCurrentHarmonyDegreesList.size ()) {
@@ -21005,6 +21021,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
   // append the harmony to the pending harmonies list
   fPendingHarmoniesList.push_back (harmony);
+
+  fOnGoingHarmony = false;
 }
 
 //______________________________________________________________________________

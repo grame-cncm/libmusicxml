@@ -2237,7 +2237,8 @@ class msrHarmony : public msrMeasureElement
       string                   harmonyKindText,
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-      rational                 harmonySoundingWholeNotes);
+      rational                 harmonySoundingWholeNotes,
+      int                      harmonyStaffNumber);
 
     SMARTP<msrHarmony> createHarmonyNewbornClone (
       S_msrVoice containingVoice);
@@ -2256,7 +2257,8 @@ class msrHarmony : public msrMeasureElement
       string                   harmonyKindText,
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-      rational                 harmonySoundingWholeNotes);
+      rational                 harmonySoundingWholeNotes,
+      int                      harmonyStaffNumber);
 
   protected:
 
@@ -2271,7 +2273,8 @@ class msrHarmony : public msrMeasureElement
       string                   harmonyKindText,
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-      rational                 harmonySoundingWholeNotes);
+      rational                 harmonySoundingWholeNotes,
+      int                      harmonyStaffNumber);
 
     virtual ~msrHarmony ();
 
@@ -2321,6 +2324,13 @@ class msrHarmony : public msrMeasureElement
     msrQuarterTonesPitchKind
                           getHarmonyBassQuarterTonesPitchKind () const
                               { return fHarmonyBassQuarterTonesPitchKind; }
+
+    void                  setHarmonyStaffNumber (
+                            int staffNumber)
+                              { fHarmonyStaffNumber = staffNumber; }
+
+    int                   getHarmonyStaffNumber () const
+                             { return fHarmonyStaffNumber; }
 
     // services
     // ------------------------------------------------------
@@ -2375,6 +2385,8 @@ class msrHarmony : public msrMeasureElement
 
     list<S_msrHarmonyDegree>
                           fHarmonyDegreesList;
+
+    int                   fHarmonyStaffNumber;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);

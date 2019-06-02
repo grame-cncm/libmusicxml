@@ -1976,10 +1976,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
       "creator type \"" << creatorType <<
       "\" is unknown";
 
-    msrMusicXMLError (
+// JMI    msrMusicXMLError (
+    msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
+//      __FILE__, __LINE__,
       s.str ());
   }
 }

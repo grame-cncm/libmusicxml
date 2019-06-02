@@ -1311,6 +1311,10 @@ class mxmlTree2MsrTranslator :
     msrQuarterTonesPitchKind  fCurrentHarmonyRootQuarterTonesPitchKind;
     msrQuarterTonesPitchKind  fCurrentHarmonyBassQuarterTonesPitchKind;
 
+    int                       fCurrentHarmonyStaffNumber;
+
+    bool                      fOnGoingHarmony;
+
     // figured bass handling
     // ------------------------------------------------------
 

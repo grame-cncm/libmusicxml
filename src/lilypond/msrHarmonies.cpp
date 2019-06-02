@@ -265,7 +265,8 @@ S_msrHarmony msrHarmony::create (
   string                   harmonyKindText,
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-  rational                 harmonySoundingWholeNotes)
+  rational                 harmonySoundingWholeNotes,
+  int                      harmonyStaffNumber)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -276,7 +277,8 @@ S_msrHarmony msrHarmony::create (
       harmonyKindText,
       harmonyInversion,
       harmonyBassQuarterTonesPitchKind,
-      harmonySoundingWholeNotes);
+      harmonySoundingWholeNotes,
+      harmonyStaffNumber);
   assert(o!=0);
 
   return o;
@@ -290,7 +292,8 @@ S_msrHarmony msrHarmony::create (
   string                   harmonyKindText,
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-  rational                 harmonySoundingWholeNotes)
+  rational                 harmonySoundingWholeNotes,
+  int                      harmonyStaffNumber)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -301,7 +304,8 @@ S_msrHarmony msrHarmony::create (
       harmonyKindText,
       harmonyInversion,
       harmonyBassQuarterTonesPitchKind,
-      harmonySoundingWholeNotes);
+      harmonySoundingWholeNotes,
+      harmonyStaffNumber);
   assert(o!=0);
 
   return o;
@@ -315,7 +319,8 @@ msrHarmony::msrHarmony (
   string                   harmonyKindText,
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
-  rational                 harmonySoundingWholeNotes)
+  rational                 harmonySoundingWholeNotes,
+  int                      harmonyStaffNumber)
     : msrMeasureElement (inputLineNumber)
 {
   /* JMI
@@ -342,6 +347,8 @@ msrHarmony::msrHarmony (
 
   fHarmonySoundingWholeNotes =
     harmonySoundingWholeNotes;
+
+  fHarmonyStaffNumber = harmonyStaffNumber;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
@@ -445,7 +452,8 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyKindText,
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
-        fHarmonySoundingWholeNotes);
+        fHarmonySoundingWholeNotes,
+        fHarmonyStaffNumber);
 
   return newbornClone;
 }
@@ -477,7 +485,8 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonyKind, fHarmonyKindText,
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
-        fHarmonySoundingWholeNotes);
+        fHarmonySoundingWholeNotes,
+        fHarmonyStaffNumber);
 
   return harmonyDeepCopy;
 }
@@ -614,29 +623,29 @@ void msrHarmony::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "HarmonyRoot" << " = " <<
+    "harmonyRoot" << " = " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "HarmonyKind" << " = " <<
+    "harmonyKind" << " = " <<
     msrHarmonyKindAsString (fHarmonyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "HarmonyKindText" << " = \"" <<
+    "harmonyKindText" << " = \"" <<
     fHarmonyKindText <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "HarmonyBass" << " = " <<
+    "harmonyBass" << " = " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind) <<
     endl;
 
   os <<
-    "inversion: ";
+    "harmonyInversion: ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
     os << "none";
   else
@@ -647,7 +656,7 @@ void msrHarmony::print (ostream& os)
   // print harmony degrees if any
   if (fHarmonyDegreesList.size ()) {
     os <<
-      "Harmony degrees:" <<
+      "harmonyDegrees:" <<
       endl;
 
     gIndenter++;
@@ -667,6 +676,16 @@ void msrHarmony::print (ostream& os)
 
     gIndenter--;
   }
+
+  // print the harmony staff number
+  os <<
+    "harmonyStaffNumber: ";
+  if (fHarmonyStaffNumber == K_NO_STAFF_NUMBER)
+    os << "none";
+  else
+    os << fHarmonyStaffNumber;
+  os <<
+    endl;
 
   gIndenter--;
 }
