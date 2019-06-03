@@ -237,7 +237,7 @@ void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
 {
   // variables
 
-  fCubase = false;
+  fCubase   = false;
   fNoCubase = false;
 
   // options
@@ -269,7 +269,7 @@ This option is set by default, and can be unset by 'noCubase'.)",
 
   // set the '-cubase' option by default
   cubaseCombinedItemsItem->
-    setCombinedItemsVariablesValue (true);
+    setCombinedItemsVariablesValue (fCubase);
 
   // populate the combined items
   cubaseCombinedItemsItem->

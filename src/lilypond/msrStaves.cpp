@@ -1991,10 +1991,10 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 
   gIndenter++;
 
-  // finalize all the registered voices
+  // finalize all the regular voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
-    i != fStaffAllVoicesMap.end ();
+    map<int, S_msrVoice>::const_iterator i = fStaffRegularVoicesMap.begin ();
+    i != fStaffRegularVoicesMap.end ();
     i++
   ) {
     S_msrVoice
@@ -2003,11 +2003,40 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 
     switch (voice->getVoiceKind ()) {
       case msrVoice::kVoiceRegular:
+        {
+          // handle the regular voice
+          voice->
+            finalizeCurrentMeasureInVoice (
+              inputLineNumber);
+
+          // handle the harmony voice if any
+          S_msrVoice
+            harmonyVoiceForRegularVoice =
+              voice->
+                getHarmonyVoiceForRegularVoice ();
+
+          if (harmonyVoiceForRegularVoice) {
+            harmonyVoiceForRegularVoice->
+              finalizeCurrentMeasureInVoice (
+                inputLineNumber);
+          }
+
+          // handle the figuredBass voice if any
+          S_msrVoice
+            figuredBassVoiceForRegularVoice =
+              voice->
+                getFiguredBassVoiceForRegularVoice ();
+
+          if (figuredBassVoiceForRegularVoice) {
+            figuredBassVoiceForRegularVoice->
+              finalizeCurrentMeasureInVoice (
+                inputLineNumber);
+          }
+        }
+        break;
+
       case msrVoice::kVoiceHarmony:
       case msrVoice::kVoiceFiguredBass:
-        voice->
-          finalizeCurrentMeasureInVoice (
-            inputLineNumber);
         break;
     } // switch
   } // for

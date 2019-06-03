@@ -932,15 +932,9 @@ void msrVoice::createNewLastSegmentForVoice (
 {
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceMeasures
-      ||
     gTraceOptions->fTraceRepeats
       ||
     gTraceOptions->fTraceMeasuresRepeats
-      ||
-    gTraceOptions->fTraceRestMeasures
-      ||
-    gTraceOptions->fTraceSegments
       ||
     gTraceOptions->fTraceVoices
   ) {
@@ -951,7 +945,7 @@ void msrVoice::createNewLastSegmentForVoice (
       ", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "createNewLastSegmentForVoice() 1");
   }
@@ -969,19 +963,13 @@ void msrVoice::createNewLastSegmentForVoice (
 
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceMeasures
-      ||
     gTraceOptions->fTraceRepeats
       ||
     gTraceOptions->fTraceMeasuresRepeats
       ||
-    gTraceOptions->fTraceRestMeasures
-      ||
-    gTraceOptions->fTraceSegments
-      ||
     gTraceOptions->fTraceVoices
   ) {
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "createNewLastSegmentForVoice() 2");
   }
@@ -1005,7 +993,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
       "', line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "createMeasureAndAppendItToVoice() 1");
   }
@@ -1060,7 +1048,7 @@ S_msrMeasure msrVoice::createMeasureAndAppendItToVoice (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "createMeasureAndAppendItToVoice() 2");
   }
@@ -5163,7 +5151,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "handleSegmentCloneEndInVoiceClone() 1");
   }
@@ -5295,7 +5283,7 @@ void msrVoice::handleSegmentCloneEndInVoiceClone (
       ||
     gTraceOptions->fTraceVoicesDetails
   ) {
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "handleSegmentCloneEndInVoiceClone() 2");
   }
@@ -5408,8 +5396,6 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
 {
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceMeasures
-      ||
     gTraceOptions->fTraceMeasuresRepeats
       ||
     gTraceOptions->fTraceVoices
@@ -5601,11 +5587,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
   // print resulting voice contents
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceMeasures
-      ||
     gTraceOptions->fTraceMeasuresRepeats
-      ||
-    gTraceOptions->fTraceSegments
       ||
     gTraceOptions->fTraceVoices
     ) {
@@ -5752,7 +5734,11 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+  if (
+    gTraceOptions->fTraceMeasuresRepeats
+      ||
+    gTraceOptions->fTraceVoicesDetails
+  ) {
     gLogIOstream <<
       "Appending pending measures repeat to voice \"" <<
       getVoiceName () <<
@@ -5947,7 +5933,11 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+  if (
+    gTraceOptions->fTraceMeasuresRepeats
+      ||
+    gTraceOptions->fTraceVoicesDetails
+  ) {
     gLogIOstream <<
       "Appending pending measures repeat to voice \"" <<
       getVoiceName () <<
@@ -5968,7 +5958,11 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
   int measuresRepeatSlashesNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+  if (
+    gTraceOptions->fTraceMeasuresRepeats
+      ||
+    gTraceOptions->fTraceVoicesDetails
+  ) {
     gLogIOstream <<
             "Creating measures repeat and appending it to voice clone \"" <<
       getVoiceName () <<
@@ -6081,7 +6075,11 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasuresRepeats) {
+  if (
+    gTraceOptions->fTraceMeasuresRepeats
+      ||
+    gTraceOptions->fTraceVoicesDetails
+  ) {
     gLogIOstream <<
             "Creating measures repeat and appending it to voice clone \"" <<
       getVoiceName () <<
@@ -7394,7 +7392,11 @@ void msrVoice::appendMeasuresRepeatCloneToVoiceClone (
     case msrVoice::kVoiceFiguredBass:
       {
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceMeasuresRepeats) {
+        if (
+          gTraceOptions->fTraceMeasuresRepeats
+            ||
+          gTraceOptions->fTraceVoicesDetails
+        ) {
           gLogIOstream <<
             "Appending measures repeat clone '" <<
             measuresRepeatClone->asString () <<
@@ -8910,7 +8912,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 
     gIndenter--;
 
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "finalizeCurrentMeasureInVoice() 1");
   }
@@ -8930,24 +8932,47 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       measureRepeatContextKind,
       "finalizeCurrentMeasureInVoice()");
 
-  // append a measure end syllable to the voice stanzas if any
-  if (fVoiceStanzasMap.size ()) {
-    map<string, S_msrStanza>::const_iterator
-      iBegin = fVoiceStanzasMap.begin (),
-      iEnd   = fVoiceStanzasMap.end (),
-      i      = iBegin;
 
-    for ( ; ; ) {
-      S_msrStanza
-        stanza = (*i).second;
+  switch (fVoiceKind) {
+    case msrVoice::kVoiceRegular:
+      // append a measure end syllable to the voice stanzas if any
+      if (fVoiceStanzasMap.size ()) {
+        map<string, S_msrStanza>::const_iterator
+          iBegin = fVoiceStanzasMap.begin (),
+          iEnd   = fVoiceStanzasMap.end (),
+          i      = iBegin;
 
-      stanza->
-        appendMeasureEndSyllableToStanza (
-          inputLineNumber);
+        for ( ; ; ) {
+          S_msrStanza
+            stanza = (*i).second;
 
-      if (++i == iEnd) break;
-    } // for
-  }
+          stanza->
+            appendMeasureEndSyllableToStanza (
+              inputLineNumber);
+
+          if (++i == iEnd) break;
+        } // for
+      }
+
+      // handle the harmony voice if any
+      if (fHarmonyVoiceForRegularVoice) {
+        fHarmonyVoiceForRegularVoice->
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+      }
+
+      // handle the figuredBass voice if any
+      if (fFiguredBassVoiceForRegularVoice) {
+        fFiguredBassVoiceForRegularVoice->
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+      }
+      break;
+
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
+      break;
+  } // switch
 
 #ifdef TRACE_OPTIONS
   if (
@@ -8961,7 +8986,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       ||
     gTraceOptions->fTraceVoices
   ) {
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "finalizeCurrentMeasureInVoice() 2");
   }
@@ -9041,7 +9066,7 @@ void msrVoice::finalizeVoice (
       "\", line " << inputLineNumber <<
       endl;
 
-    displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
+    displayVoice (
       inputLineNumber,
       "finalizeVoice() 1");
   }

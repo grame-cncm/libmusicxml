@@ -2909,6 +2909,18 @@ void msrMeasure::finalizeMeasure (
     } // for
   }
 
+  // pad the measure up if it is in a harmony of figured bass voice
+  switch (voice->getVoiceKind ()) {
+    case msrVoice::kVoiceRegular:
+      break;
+    case msrVoice::kVoiceHarmony:
+    case msrVoice::kVoiceFiguredBass:
+      padUpToPositionInMeasure(
+        inputLineNumber,
+        partActualMeasureWholeNotesHighTide);
+      break;
+  } // switch
+
   // determine the measure kind and purist number
   determineMeasureKindAndPuristNumber (
     inputLineNumber,

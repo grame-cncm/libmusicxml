@@ -652,7 +652,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceSegnos || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending segno " <<
       " to segment " << asString () <<
@@ -680,7 +680,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceCodas || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending coda " <<
       " to segment " << asString () <<
@@ -709,7 +709,7 @@ void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceEyeGlasses || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending eyeGlasses " <<
       " to segment " << asString () <<
@@ -737,7 +737,7 @@ void msrSegment::appendEyeGlassesToSegment (
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTracePedals || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending pedal " <<
       " to segment " << asString () <<
@@ -765,7 +765,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 void msrSegment::appendDampToSegment (S_msrDamp damp)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceDamps || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending damp " <<
       " to segment " << asString () <<
@@ -793,7 +793,7 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
 void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceDampAlls || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending damp all " <<
       " to segment " << asString () <<
@@ -973,7 +973,7 @@ void msrSegment::appendStaffDetailsToSegment (
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceLineBreaks || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break '" <<
       lineBreak->asShortString () <<
@@ -1002,7 +1002,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTracePageBreaks || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
       " to segment " << asString () <<
@@ -1031,7 +1031,7 @@ void msrSegment::appendBarNumberCheckToSegment (
   S_msrBarNumberCheck barNumberCheck)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceBarNumberChecks || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending bar number check " <<
       " to segment " << asString () <<
@@ -1060,7 +1060,7 @@ void msrSegment::appendTempoToSegment (
   S_msrTempo tempo)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending tempo " <<
       " to segment " << asString () <<
@@ -1089,7 +1089,7 @@ void msrSegment::appendRehearsalToSegment (
   S_msrRehearsal rehearsal)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (/* JMI gTraceOptions->fTraceRehearsals || */ gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending rehearsal " <<
       " to segment " << asString () <<
@@ -1118,7 +1118,7 @@ void msrSegment::appendOctaveShiftToSegment (
   S_msrOctaveShift octaveShift)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceOctaveShifts || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -1148,7 +1148,7 @@ void msrSegment::appendScordaturaToSegment (
   S_msrScordatura scordatura)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceScordaturas || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending scordatura '" <<
   // JMI ???    scordatura->octaveShiftKindAsString () <<

@@ -80,12 +80,12 @@ void msrVarValAssoc::acceptIn (basevisitor* v)
       "% ==> msrVarValAssoc::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrVarValAssoc>*
     p =
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitStart ()" <<
@@ -107,7 +107,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitEnd ()" <<
@@ -148,7 +148,7 @@ string msrVarValAssoc::varValAssocKindAsString (
       result = "miscellaneousField";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -157,7 +157,7 @@ void msrVarValAssoc::print (ostream& os)
   os <<
     "MSR VarValAssoc" <<
     endl;
-  
+
   gIndenter++;
 
   string variableValue;
@@ -169,7 +169,7 @@ void msrVarValAssoc::print (ostream& os)
 
   // print resulting strings
   const int fieldWidth = 16;
-  
+
   os << left <<
     setw (fieldWidth) <<
     "variable kind" << " : " <<
@@ -179,7 +179,7 @@ void msrVarValAssoc::print (ostream& os)
     "variable value" << " : " <<
     "\"" << variableValue << "\"" <<
     endl;
-  
+
   gIndenter--;
 }
 
@@ -219,12 +219,12 @@ void msrVarValsListAssoc::acceptIn (basevisitor* v)
       "% ==> msrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrVarValsListAssoc>*
     p =
       dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
         S_msrVarValsListAssoc elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVarValsListAssoc::visitStart ()" <<
@@ -246,7 +246,7 @@ void msrVarValsListAssoc::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
         S_msrVarValsListAssoc elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVarValsListAssoc::visitEnd ()" <<
@@ -283,18 +283,21 @@ string msrVarValsListAssoc::varValsListAssocKindAsString (
     case msrVarValsListAssoc::kTranslator:
       result = "translator";
       break;
+    case msrVarValsListAssoc::kArtist:
+      result = "artist";
+      break;
     case msrVarValsListAssoc::kSoftware:
       result = "software";
       break;
   } // switch
-  
+
   return result;
 }
 
 string msrVarValsListAssoc::varValsListAssocValuesAsString () const
 {
   stringstream s;
-  
+
   list<string>::const_iterator
     iBegin = fVariableValuesList.begin (),
     iEnd   = fVariableValuesList.end (),
@@ -303,13 +306,13 @@ string msrVarValsListAssoc::varValsListAssocValuesAsString () const
   s << "[";
   if (fVariableValuesList.size ()) {
     for ( ; ; ) {
-      s << "\"" << (*i) << "\""; 
+      s << "\"" << (*i) << "\"";
       if (++i == iEnd) break;
       s << ", ";
     } // for
   }
   s << "]";
-  
+
   return s.str ();
 }
 
@@ -318,7 +321,7 @@ void msrVarValsListAssoc::print (ostream& os)
   os <<
     "MSR VarValsListAssoc" <<
     endl;
-  
+
   gIndenter++;
 
   const int fieldWidth = 16;
@@ -329,10 +332,10 @@ void msrVarValsListAssoc::print (ostream& os)
     varValsListAssocKindAsString () <<
     endl <<
     setw (fieldWidth) <<
-    
+
     "variable values" << " : " <<
     endl;
-    
+
   gIndenter++;
 
   if (fVariableValuesList.size ()) {
@@ -340,17 +343,17 @@ void msrVarValsListAssoc::print (ostream& os)
       iBegin = fVariableValuesList.begin (),
       iEnd   = fVariableValuesList.end (),
       i      = iBegin;
-  
+
     for ( ; ; ) {
-      os << "\"" << (*i) << "\""; 
+      os << "\"" << (*i) << "\"";
       if (++i == iEnd) break;
       os << endl;
     } // for
   }
-  
+
   os <<
     endl;
-  
+
   gIndenter--;
 
   gIndenter--;

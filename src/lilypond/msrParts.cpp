@@ -1249,7 +1249,7 @@ void msrPart::appendFiguredBassToPart (
     case msrVoice::kVoiceRegular:
       // append the figured bass to the part figured bass voice
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
+      if (gTraceOptions->fTraceFiguredBasses || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->asString () <<
