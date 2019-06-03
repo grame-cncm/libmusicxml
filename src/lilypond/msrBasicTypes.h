@@ -687,7 +687,7 @@ class msrDottedDuration
     // ------------------------------------------------------
 
     //virtual
-    void          print (ostream& os);
+    void                  print (ostream& os);
 
   private:
 
@@ -1142,6 +1142,67 @@ void printChordAnalysis (
   msrSemiTonesPitchKind rootSemiTonesPitchKind,
   msrHarmonyKind        harmonyKind,
   int                   inversion);
+
+// colors
+//______________________________________________________________________________
+class msrColor
+{
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrColor (
+      string cologRGB,
+      string colorAlpha);
+
+    msrColor (
+      string cologRGB);
+
+    virtual ~msrColor ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getCologRGB () const
+                              { return fCologRGB; }
+
+    string                getColorAlpha () const
+                              { return fColorAlpha; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+/* JMI
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
+
+  public:
+
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    //virtual
+    void                  print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fCologRGB;   // hexadecimal, 6 digits
+    string                fColorAlpha; // hexadecimal, 2 digits
+};
+EXP ostream& operator<< (ostream& os, msrColor elt);
 
 // score notation kinds
 //______________________________________________________________________________

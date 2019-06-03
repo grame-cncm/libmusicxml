@@ -978,7 +978,13 @@ void msrStaff::padUpToActualMeasureWholeNotesInStaff (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceParts
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gMusicXMLOptions->fTraceBackup
+  ) {
     gLogIOstream <<
       "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in staff \"" <<

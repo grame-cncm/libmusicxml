@@ -1843,28 +1843,27 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   switch (voice->getVoiceKind ()) {
     case msrVoice::kVoiceRegular:
       paddingNote =
-      /* JMI ???
-        msrNote::createRestNote (
-          inputLineNumber,
-          fMeasureNumber,
-          duration,
-          duration,
-          0, // dots number JMI ???
-          voice->
-            getVoiceStaffUplink ()->getStaffNumber (),
-          voice->
-            getVoiceNumber ());
-            */
-        msrNote::createSkipNote (
-          inputLineNumber,
-          fMeasureNumber,
-          duration,
-          duration,
-          0, // dots number JMI ???
-          voice->
-            getVoiceStaffUplink ()->getStaffNumber (),
-          voice->
-            getVoiceNumber ());
+        true // JMI ??? what criterion should be used?
+          ? msrNote::createRestNote (
+              inputLineNumber,
+              fMeasureNumber,
+              duration,
+              duration,
+              0, // dots number JMI ???
+              voice->
+                getVoiceStaffUplink ()->getStaffNumber (),
+              voice->
+                getVoiceNumber ())
+          : msrNote::createSkipNote (
+              inputLineNumber,
+              fMeasureNumber,
+              duration,
+              duration,
+              0, // dots number JMI ???
+              voice->
+                getVoiceStaffUplink ()->getStaffNumber (),
+              voice->
+                getVoiceNumber ());
       break;
 
     case msrVoice::kVoiceHarmony:

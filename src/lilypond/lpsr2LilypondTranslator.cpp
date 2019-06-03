@@ -7313,10 +7313,11 @@ else
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
-        // generate a skip the duration of the measure
+        // generate a skip the duration of the measure // JMI ???
         // followed by a bar check
         fLilypondCodeIOstream <<
-          "s" <<
+  // JMI ???        "s" <<
+          "R" <<
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->

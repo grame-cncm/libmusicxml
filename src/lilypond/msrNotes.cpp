@@ -2411,6 +2411,8 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
   }
 #endif
 
+  // update the harmony whole notes if it belongs to a tuplet ??? utf8.xml
+
   fNoteHarmony = harmony;
 
   // register this note as the harmony uplink

@@ -18069,6 +18069,50 @@ void printChordAnalysis (
   gIndenter--;
 }
 
+// colors
+//______________________________________________________________________________
+msrColor::msrColor (
+  string cologRGB,
+  string colorAlpha)
+{
+  fCologRGB   = cologRGB;
+  fColorAlpha = colorAlpha;
+}
+
+msrColor::msrColor (
+  string cologRGB)
+{
+  fCologRGB   = cologRGB;
+  fColorAlpha = "FF";
+}
+
+msrColor::~msrColor ()
+{}
+
+string msrColor::asString () const
+{
+  stringstream s;
+
+  s << "color: " <<
+    "cologRGB:" << fCologRGB <<
+    "colorAlpha: " << fColorAlpha;
+
+  return s.str ();
+}
+
+void msrColor::print (ostream& os)
+{
+  os <<
+    asString () <<
+    endl;
+};
+
+ostream& operator<< (ostream& os, msrColor elt)
+{
+  elt.print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 string msrScoreNotationKindAsString (
   msrScoreNotationKind scoreNotationKind)

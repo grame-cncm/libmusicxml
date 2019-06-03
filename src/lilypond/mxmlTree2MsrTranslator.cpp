@@ -5312,6 +5312,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
 
   string textValue = elt->getValue();
 
+  convertHTMLEntitiesToPlainCharacters (textValue); // JMI ???
+
   // there can be several <text/>'s and <elision/> in a row, hence the list
   fCurrentLyricTextsList.push_back (textValue);
 
@@ -13943,6 +13945,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
   }
 
   /*
+		<measure number='65'>
+			<print new-system='yes'/>
+			<note>
+				<rest measure='yes'/>
+				<duration>3072</duration>
+				<voice>1</voice>
+				<staff>1</staff>
+			</note>
+			<backup>
+				<duration>3072</duration>
+			</backup>
+			<note>
+				<rest measure='yes'/>
+				<duration>3072</duration>
+				<voice>5</voice>
+				<staff>2</staff>
+			</note>
+		</measure>
+
       <note>
         <rest/>
         <duration>24</duration>
@@ -13964,11 +13985,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
   fCurrentRestMeasure = false;
 
   if (restMeasure == "yes") {
-    fCurrentRestMeasure = true; // USE IT! JMI ???
+    fCurrentRestMeasure = true;
   }
-
   else if (restMeasure == "no") {
-    fCurrentRestMeasure = false; // USE IT! JMI ???
+    fCurrentRestMeasure = false;
   }
 
   else {
@@ -18075,12 +18095,19 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   else {
     // standalone or unpitched note or rest
     if (fCurrentNoteIsARest) {
-      // a rest should become a skip after a <backup />
       msrNote::msrNoteKind
+        noteKind;
+
+      if (fCurrentRestMeasure) { // JMI ???
+        noteKind = msrNote::kRestNote; // JMI ??? myfile_utf8.xml
+      }
+      else {
+        // a rest should become a skip after a <backup /> // JMI
         noteKind =
           fOnGoingBackupPhase
             ? msrNote::kSkipNote
             : msrNote::kRestNote;
+      }
 
       newNote->
         setNoteKind (

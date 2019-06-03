@@ -327,7 +327,13 @@ void msrPart::padUpToActualMeasureWholeNotesInPart (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceParts
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gMusicXMLOptions->fTraceBackup
+  ) {
     gLogIOstream <<
       "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in part \"" <<

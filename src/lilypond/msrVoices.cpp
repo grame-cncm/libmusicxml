@@ -19,6 +19,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 
 
@@ -1893,7 +1894,13 @@ void msrVoice::padUpToActualMeasureWholeNotesInVoice (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceParts
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gMusicXMLOptions->fTraceBackup
+  ) {
     gLogIOstream <<
       "Padding up to actual measure whole notes '" << wholeNotes <<
       "' in voice \"" <<
