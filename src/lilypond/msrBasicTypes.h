@@ -1153,11 +1153,11 @@ class msrColor
     // ------------------------------------------------------
 
     msrColor (
-      string cologRGB,
+      string colorRGB,
       string colorAlpha);
 
     msrColor (
-      string cologRGB);
+      string colorRGB);
 
     virtual ~msrColor ();
 
@@ -1166,14 +1166,22 @@ class msrColor
     // set and get
     // ------------------------------------------------------
 
-    string                getCologRGB () const
-                              { return fCologRGB; }
+    string                getColorRGB () const
+                              { return fColorRGB; }
 
     string                getColorAlpha () const
                               { return fColorAlpha; }
 
     // services
     // ------------------------------------------------------
+
+    bool                  isEmpty () const
+                              {
+                                return
+                                  fColorRGB.size () == 0
+                                    &&
+                                  fColorAlpha.size () == 0;
+                              }
 
     // visitors
     // ------------------------------------------------------
@@ -1199,7 +1207,7 @@ class msrColor
     // fields
     // ------------------------------------------------------
 
-    string                fCologRGB;   // hexadecimal, 6 digits
+    string                fColorRGB;   // hexadecimal, 6 digits
     string                fColorAlpha; // hexadecimal, 2 digits
 };
 EXP ostream& operator<< (ostream& os, msrColor elt);

@@ -18072,17 +18072,17 @@ void printChordAnalysis (
 // colors
 //______________________________________________________________________________
 msrColor::msrColor (
-  string cologRGB,
+  string colorRGB,
   string colorAlpha)
 {
-  fCologRGB   = cologRGB;
+  fColorRGB   = colorRGB;
   fColorAlpha = colorAlpha;
 }
 
 msrColor::msrColor (
-  string cologRGB)
+  string colorRGB)
 {
-  fCologRGB   = cologRGB;
+  fColorRGB   = colorRGB;
   fColorAlpha = "FF";
 }
 
@@ -18094,8 +18094,9 @@ string msrColor::asString () const
   stringstream s;
 
   s << "color: " <<
-    "cologRGB:" << fCologRGB <<
-    "colorAlpha: " << fColorAlpha;
+    "colorRGB = \"" << fColorRGB <<
+    "\", colorAlpha = \"" << fColorAlpha <<
+    "\"";
 
   return s.str ();
 }

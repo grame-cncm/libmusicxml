@@ -126,7 +126,8 @@ msrNote::msrNote (
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
-  : msrTupletElement (inputLineNumber)
+  : msrTupletElement (inputLineNumber),
+    fNoteColor ("", "")
 {
   fNoteMeasureNumber = noteMeasureNumber;
 
@@ -674,6 +675,12 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteDelayedInvertedTurnOrnament =
     fNoteDelayedInvertedTurnOrnament;
 
+  // note color
+  // ------------------------------------------------------
+
+  newbornClone->fNoteColor =
+    fNoteColor;
+
   // uplinks
   // ------------------------------------------------------
 
@@ -1195,6 +1202,12 @@ S_msrNote msrNote::createNoteDeepCopy (
     fNoteDelayedTurnOrnament;
   noteDeepCopy->fNoteDelayedInvertedTurnOrnament =
     fNoteDelayedInvertedTurnOrnament;
+
+  // note color
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteColor =
+    fNoteColor;
 
   // uplinks
   // ------------------------------------------------------
@@ -4994,6 +5007,13 @@ void msrNote::print (ostream& os)
         endl;
     }
   }
+
+  // print the note color
+  os <<
+    setw (fieldWidth) <<
+    "noteColor" << " : " <<
+    fNoteColor.asString () <<
+    endl;
 
   gIndenter--;
 }

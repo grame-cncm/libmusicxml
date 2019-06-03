@@ -3543,6 +3543,13 @@ class msrNote : public msrTupletElement
     bool                  getNoteIsFollowedByGraceNotesGroup () const
                               { return fNoteIsFollowedByGraceNotesGroup; }
 
+    void                  setNoteColor (
+                            msrColor noteColor)
+                              { fNoteColor = noteColor; }
+
+    msrColor              getNoteColor () const
+                              { return fNoteColor; }
+
     // services
     // ------------------------------------------------------
 
@@ -3960,6 +3967,9 @@ class msrNote : public msrTupletElement
     // this is useful to  to combine a trill and a wavy line in LilyPond
     S_msrSpanner          fNoteWavyLineSpannerStart;
     S_msrSpanner          fNoteWavyLineSpannerStop;
+
+    // color
+    msrColor              fNoteColor;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

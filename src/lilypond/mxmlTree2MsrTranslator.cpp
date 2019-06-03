@@ -4407,6 +4407,8 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
 
 // <tied orientation="over" type="start"/>
 
+  // type
+
   string tiedType =
     elt->getAttributeValue ("type");
 
@@ -4459,6 +4461,8 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
     }
 
   }
+
+  // color JMI
 
   if (fCurrentTieKind != msrTie::kTieNone) {
     fCurrentTie =
@@ -4770,6 +4774,8 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
       }
     }
 
+  // color JMI
+
 #ifdef TRACE_OPTIONS
     if (
       gTraceOptions->fTraceNotesDetails
@@ -4940,6 +4946,8 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         "ligature line-type \"" + ligatureLineTypeValue + "\" is unknown");
     }
   }
+
+  // color JMI
 
   S_msrLigature
     ligature =
@@ -5151,6 +5159,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
     }
   }
 
+  // color JMI
+
   S_msrWedge
     wedge =
       msrWedge::create (
@@ -5244,6 +5254,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     // for notes without lyrics
   }
 
+  // color JMI
 
   // forget about any previous texts met,
   // in case there are <text> occurrences without <syllabic> around them
@@ -5314,6 +5325,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
 
   convertHTMLEntitiesToPlainCharacters (textValue); // JMI ???
 
+  // color JMI
+
   // there can be several <text/>'s and <elision/> in a row, hence the list
   fCurrentLyricTextsList.push_back (textValue);
 
@@ -5381,6 +5394,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_elision& elt )
     elisionValue = " ";
   }
 
+  // color JMI
+
   // there can be several <text/>'s and <elision/> in a row, hence the list
   fCurrentLyricTextsList.push_back (elisionValue);
 
@@ -5401,6 +5416,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
 
   string extendType =
     elt->getAttributeValue ("type");
+
+  // extend
 
   if (fOnGoingLyric) {
     fCurrentSyllableExtendKind =
@@ -5440,6 +5457,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
 
   else if (fOnGoingFiguredBass) { // JMI
   }
+
+  // color JMI
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
@@ -6403,6 +6422,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
       endl;
   }
 
+  // style
+
   string barStyle = elt->getValue();
 
   fCurrentBarlineStyleKind =
@@ -6459,6 +6480,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
       __FILE__, __LINE__,
       "bar-style \"" + barStyle + "\" is unknown");
   }
+
+  // color JMI
 }
 
 //______________________________________________________________________________
@@ -7241,6 +7264,60 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
     }
   }
 
+  // note color, unofficial ??? JMI
+
+  string noteColor = elt->getAttributeValue ("color");
+
+  fCurrentNoteRGB   = "";
+  fCurrentNoteAlpha = "";
+
+  bool wellFormedColor = true;
+
+  int noteColorSize = noteColor.size ();
+
+  if (noteColorSize) {
+    if (noteColor [0] != '#') {
+      wellFormedColor = false;
+    }
+    else {
+      size_t
+        found =
+          noteColor.find_first_not_of ("#0123456789ABCDEF");
+
+      if (found != string::npos) {
+        wellFormedColor = false;
+      }
+      else {
+        switch (noteColorSize) {
+          case 7: // RGB
+            fCurrentNoteAlpha = "FF";
+            fCurrentNoteRGB   = noteColor.substr (1, 6);
+            break;
+          case 9: // ARGB
+            fCurrentNoteAlpha = noteColor.substr (1, 2);
+            fCurrentNoteRGB   = noteColor.substr (3, 8);
+            break;
+          default:
+            wellFormedColor = false;
+        } // switch
+      }
+    }
+  }
+
+  if (! wellFormedColor) {
+    stringstream s;
+
+    s <<
+      "note color \"" << noteColor <<
+      "\" should contain 6 or 8 upper case hexadecimal digits prededed by a '#'";
+
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
   fOnGoingNote = true;
 }
 
@@ -7663,6 +7740,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
       }
     }
   }
+
+  // color JMI
+
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
@@ -7847,6 +7927,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
 
   string        stem = elt->getValue();
 
+  // kind
   msrStem::msrStemKind stemKind = msrStem::kStemNone;
 
   if      (stem == "up")
@@ -7874,6 +7955,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // color JMI
 
   fCurrentStem =
     msrStem::create (
@@ -7940,6 +8023,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
         fCurrentBeamNumber,
         beamKind);
 
+  // color JMI
+
   fPendingBeams.push_back (beam);
 }
 
@@ -7952,6 +8037,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_style& elt )
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
+
+  // color JMI
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
@@ -9107,6 +9194,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
     }
   }
 
+  // color JMI
+
   // create the arpeggiato
   S_msrArpeggiato
     arpeggiato =
@@ -9176,6 +9265,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   // number
 
   int number = elt->getAttributeIntValue ("number", 0);
+
+  // color JMI
 
   // create the non arpeggiato
   S_msrNonArpeggiato
@@ -9576,6 +9667,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
         __FILE__, __LINE__,
         s.str ());
     }
+
+  // color JMI
 
     S_msrTechnicalWithInteger
       technicalWithInteger =
@@ -11008,6 +11101,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
       s.str ());
   }
 
+  // color JMI
+
   S_msrSpanner
     spanner =
       msrSpanner::create (
@@ -11090,6 +11185,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // color JMI
 
   S_msrSpanner
     spanner =
@@ -13607,6 +13704,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
       "found a tuplet number out of context");
   }
 
+  // color JMI
+
 #ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
@@ -13649,6 +13748,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       "found a tuplet number out of context");
   }
 
+  // color JMI
+
 #ifdef TRACE_OPTIONS
   if (
     gTraceOptions->fTraceNotesDetails
@@ -13687,6 +13788,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
       __FILE__, __LINE__,
       "found a tuplet dot out of context");
   }
+
+  // color JMI
 }
 
 //______________________________________________________________________________
@@ -17255,6 +17358,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       endl <<
 
       setw (fieldWidth) <<
+      "fCurrentNoteRGB" << " = " <<
+      fCurrentNoteRGB <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteAlpha" << " = " <<
+      fCurrentNoteAlpha <<
+      endl <<
+
+      setw (fieldWidth) <<
       "fCurrentMusicXMLStaffNumber =" << " = " <<
       fCurrentMusicXMLStaffNumber <<
       endl <<
@@ -17449,6 +17561,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteHeadKind,
         fCurrentNoteHeadFilledKind,
         fCurrentNoteHeadParenthesesKind);
+
+  // set newNote's color if relevant
+  if (
+    fCurrentNoteRGB.size ()
+      ||
+    fCurrentNoteAlpha.size ()
+  ) {
+    newNote->setNoteColor (
+      msrColor (
+        fCurrentNoteRGB,
+        fCurrentNoteAlpha));
+  }
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
@@ -21110,6 +21234,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
 
   float degreeAlter = (float)(*elt);
 
+  // alteration
+
   fCurrentHarmonyDegreeAlterationKind =
     msrAlterationKindFromMusicXMLAlter (
       degreeAlter);
@@ -21127,6 +21253,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // color JMI
 
   fOnGoingFrame = true;
 }
@@ -21204,6 +21332,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
       endl;
   }
 
+  // type
+
   string barreType = elt->getAttributeValue ("type");
 
   fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeNone;
@@ -21225,6 +21355,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // color JMI
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
@@ -22205,3 +22337,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
         voiceToInsertInto,
         figuredBass);
     */
+
+/*
+group-symbol
+group-barline
+part-symbol
+// color JMI
+
+
+*/

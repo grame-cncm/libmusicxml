@@ -1458,6 +1458,10 @@ class mxmlTree2MsrTranslator :
     msrNote::msrNoteCautionaryAccidentalKind
                               fCurrentNoteCautionaryAccidentalKind;
 
+    // note color
+    string                    fCurrentNoteRGB;
+    string                    fCurrentNoteAlpha;
+
     // ongoing note
     bool                      fOnGoingNote;
 

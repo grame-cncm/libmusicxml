@@ -1469,14 +1469,61 @@ void lpsr2LilypondTranslator::generateCodeBeforeNote (
 void lpsr2LilypondTranslator::generateCodeForNote (
   S_msrNote note)
 {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+
+  // note color, unofficial ??? JMI
+  msrColor
+    noteColor =
+      note->getNoteColor ();
+
+  if (! noteColor.isEmpty ()) {
+    // generate code for color RGB
+    string noteRGB = noteColor.getColorRGB ();
+
+    if (noteRGB.size () == 6) {
+      string
+        noteR = noteRGB.substr (0, 1),
+        noteG = noteRGB.substr (2, 3),
+        noteB = noteRGB.substr (4, 5);
+
+       // \once \override NoteHead.color = #(map (lambda (x) (/ x 255)) '(#X00 #X00 #XFF))
+
+        fLilypondCodeIOstream <<
+          "\\once \\override NoteHead.color = #(map (lambda (x) (/ x 255)) "
+          "'(" <<
+          "#X" << noteR <<
+          "A " <<
+          "#X" << noteG <<
+          " " <<
+          "#X" << noteB <<
+          "))" <<
+          endl;
+      }
+    else {
+      stringstream s;
+
+      s <<
+        "note RGB color '" <<
+        noteRGB <<
+        "' is ill-formed" <<
+        ", line " << inputLineNumber;
+
+      msrInternalError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+
+    // ignore color alpha
+  }
+
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   // print the note itself
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
-
-  int inputLineNumber =
-    note->getInputLineNumber ();
 
   switch (note->getNoteKind ()) {
 
@@ -2145,7 +2192,7 @@ void lpsr2LilypondTranslator::generateNoteArticulation (
         s <<
           "note articulation '" <<
           articulation->asString () <<
-          "'has 'fermata' kind, but is not of type S_msrFermata" <<
+          "' has 'fermata' kind, but is not of type S_msrFermata" <<
           ", line " << articulation->getInputLineNumber ();
 
         msrInternalError (
@@ -2287,7 +2334,7 @@ void lpsr2LilypondTranslator::generateChordArticulation (
         s <<
           "chord articulation '" <<
           articulation->asString () <<
-          "'has 'fermata' kind, but is not of type S_msrFermata" <<
+          "' has 'fermata' kind, but is not of type S_msrFermata" <<
           ", line " << articulation->getInputLineNumber ();
 
         msrInternalError (
@@ -11254,7 +11301,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               s <<
                 "note articulation '" <<
                 articulation->asString () <<
-                "'has 'fermata' kind, but is not of type S_msrFermata" <<
+                "' has 'fermata' kind, but is not of type S_msrFermata" <<
                 ", line " << articulation->getInputLineNumber ();
 
               msrInternalError (
@@ -11653,7 +11700,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               s <<
                 "note articulation '" <<
                 articulation->asString () <<
-                "'has 'fermata' kind, but is not of type S_msrFermata" <<
+                "' has 'fermata' kind, but is not of type S_msrFermata" <<
                 ", line " << articulation->getInputLineNumber ();
 
               msrInternalError (
