@@ -1424,6 +1424,8 @@ void msrPart:: handleBackup (
       ||
     gMusicXMLOptions->fTraceDivisions
       ||
+    gMusicXMLOptions->fTraceBackup
+      ||
     gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Handling backup, divisions = '" <<

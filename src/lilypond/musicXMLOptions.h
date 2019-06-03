@@ -145,7 +145,11 @@ class musicXMLOptions : public optionsGroup
 
     // divisions
     bool                  fTraceDivisions;
+
+    // backup
+    bool                  fTraceBackup;
 #endif
+
     // to do JMI
     bool                  fLoopToMusicXML;
 };

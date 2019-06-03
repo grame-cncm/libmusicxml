@@ -443,24 +443,22 @@ void lpsrOptions::initializeLpsrTraceOptions (
 
   fTraceLpsrBlocks      = boolOptionsInitialValue;
 
-  fDisplayLpsr          = boolOptionsInitialValue;
-
   fTraceSchemeFunctions = boolOptionsInitialValue;
 
   // options
 
   S_optionsSubGroup
-    traceAndDisplaySubGroup =
+    traceSubGroup =
       optionsSubGroup::create (
-        "Trace and display",
-        "hlpsrtd", "help-lpsr-trace-and-display",
+        "Trace",
+        "hlpsrtrace", "help-lpsr-trace",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
+  appendOptionsSubGroup (traceSubGroup);
 
-  traceAndDisplaySubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tlpsr", "trace-lpsr",
@@ -468,7 +466,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLpsr",
         fTraceLpsr));
 
-  traceAndDisplaySubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tlpsrv", "trace-lpsr-visitors",
@@ -476,24 +474,14 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
         "traceLpsrVisitors",
         fTraceLpsrVisitors));
 
-traceAndDisplaySubGroup->
+traceSubGroup->
   appendOptionsItem (
     optionsBooleanItem::create (
       "tlpsrb", "trace-lpsr-blocks",
 R"(Write a trace of the LPSR blocks to standard error.)",
       "traceLpsrBlocks",
       fTraceLpsrBlocks));
-
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      optionsTwoBooleansItem::create (
-        "dlpsr", "display-lpsr",
-R"(Write the contents of the LPSR data to standard error.)",
-        "displayLpsr",
-        fDisplayLpsr,
-        gTraceOptions->fTracePasses));
-
-  traceAndDisplaySubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tsf", "trace-scheme-functions",
@@ -502,6 +490,36 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
         fTraceSchemeFunctions));
 }
 #endif
+
+void lpsrOptions::initializeLpsrDisplayOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fDisplayLpsr = boolOptionsInitialValue;
+
+  // options
+
+  S_optionsSubGroup
+    displaySubGroup =
+      optionsSubGroup::create (
+        "Display",
+        "hlpsrd", "help-lpsr-display",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (displaySubGroup);
+
+  displaySubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "dlpsr", "display-lpsr",
+R"(Write the contents of the LPSR data to standard error.)",
+        "displayLpsr",
+        fDisplayLpsr,
+        gTraceOptions->fTracePasses));
+}
 
 void lpsrOptions::initializeLpsrScoreOutputKindOptions (
   bool boolOptionsInitialValue)
@@ -790,6 +808,11 @@ void lpsrOptions::initializeLpsrOptions (
     boolOptionsInitialValue);
 #endif
 
+  // display
+  // --------------------------------------
+  initializeLpsrDisplayOptions (
+    boolOptionsInitialValue);
+
   // LilyPond score output kind
   // --------------------------------------
   initializeLpsrScoreOutputKindOptions (
@@ -829,9 +852,10 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
       fOptionsHandlerUplink);
 
 
-  // trace and display
+  // trace
   // --------------------------------------
 
+#ifdef TRACE_OPTIONS
   clone->fTraceLpsr =
     true;
 
@@ -841,12 +865,15 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   clone->fTraceLpsrBlocks =
     true;
 
-  clone->fDisplayLpsr =
-    true;
-
   clone->fTraceSchemeFunctions =
     true;
+#endif
 
+  // display
+  // --------------------------------------
+
+  clone->fDisplayLpsr =
+    true;
 
   // LilyPond version
   // --------------------------------------
@@ -926,11 +953,14 @@ bool lpsrOptions::setLpsrChordsLanguage (string language)
 //______________________________________________________________________________
 void lpsrOptions::enforceQuietness ()
 {
+#ifdef TRACE_OPTIONS
   fTraceLpsr = false;
   fTraceLpsrVisitors = false;
   fTraceLpsrBlocks = false;
-  fDisplayLpsr = false;
   fTraceSchemeFunctions = false;
+#endif
+
+  fDisplayLpsr = false;
 }
 
 //______________________________________________________________________________
@@ -948,10 +978,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  // trace and display
+#ifdef TRACE_OPTIONS
+  // trace
   // --------------------------------------
   gLogIOstream <<
-    "Trace and display:" <<
+    "Trace:" <<
     endl;
 
   gIndenter++;
@@ -969,12 +1000,24 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     booleanAsString (fTraceLpsrBlocks) <<
     endl <<
 
-    setw (fieldWidth) << "displayLpsr" << " : " <<
-    booleanAsString (fDisplayLpsr) <<
-    endl <<
-
     setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
     booleanAsString (fTraceSchemeFunctions) <<
+    endl;
+
+  gIndenter--;
+#endif
+
+  // display
+  // --------------------------------------
+  gLogIOstream <<
+    "Display:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "displayLpsr" << " : " <<
+    booleanAsString (fDisplayLpsr) <<
     endl;
 
   gIndenter--;

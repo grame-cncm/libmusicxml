@@ -20,7 +20,7 @@
 #include "msrVarValAssocs.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -33,7 +33,7 @@ class msrIdentification : public msrElement
 
     static SMARTP<msrIdentification> create (
       int inputLineNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -41,9 +41,9 @@ class msrIdentification : public msrElement
 
     msrIdentification (
       int inputLineNumber);
-      
+
     virtual ~msrIdentification ();
-  
+
   public:
 
     // set and get
@@ -60,11 +60,11 @@ class msrIdentification : public msrElement
     void                  setMovementNumber (
                             int    inputLineNumber,
                             string val);
-          
+
     void                  setMovementTitle (
                             int    inputLineNumber,
                             string val);
-          
+
     void                  setEncodingDate (
                             int    inputLineNumber,
                             string val);
@@ -79,40 +79,40 @@ class msrIdentification : public msrElement
 
     S_msrVarValsListAssoc getRights () const
                               { return fRights; }
-    
+
     S_msrVarValAssoc      getWorkNumber () const
                               { return fWorkNumber; }
-    
+
     S_msrVarValAssoc      getWorkTitle () const
                               { return fWorkTitle; }
-    
+
     S_msrVarValAssoc      getMovementNumber () const
                               { return fMovementNumber; }
-    
+
     S_msrVarValAssoc      getMovementTitle () const
                               { return fMovementTitle; }
-    
+
     S_msrVarValsListAssoc getComposers () const
                               { return fComposers; };
-                    
+
     S_msrVarValsListAssoc getArrangers () const
                               { return fArrangers; };
-                    
+
     S_msrVarValsListAssoc getLyricists () const
                               { return fLyricists; };
-    
+
     S_msrVarValsListAssoc getPoets () const
                               { return fPoets; };
-    
+
     S_msrVarValsListAssoc getTranslators () const
                               { return fTranslators; };
-    
+
     S_msrVarValsListAssoc getSoftwares () const
                               { return fSoftwares; };
-    
+
     S_msrVarValAssoc      getEncodingDate () const
                               { return fEncodingDate; }
-    
+
     S_msrVarValAssoc      getScoreInstrumentAssoc () const
                               { return fScoreInstrumentAssoc; }
 
@@ -140,6 +140,10 @@ class msrIdentification : public msrElement
                             string value);
 
     void                  addTranslator (
+                            int    inputLineNumber,
+                            string value);
+
+    void                  addArtist (
                             int    inputLineNumber,
                             string value);
 
@@ -173,20 +177,21 @@ class msrIdentification : public msrElement
 
     S_msrVarValAssoc      fWorkNumber;
     S_msrVarValAssoc      fWorkTitle;
-    
+
     S_msrVarValAssoc      fMovementNumber;
     S_msrVarValAssoc      fMovementTitle;
-    
+
     S_msrVarValsListAssoc fComposers;
     S_msrVarValsListAssoc fArrangers;
     S_msrVarValsListAssoc fLyricists;
     S_msrVarValsListAssoc fPoets;
     S_msrVarValsListAssoc fTranslators;
-    
+    S_msrVarValsListAssoc fArtists;
+
     S_msrVarValsListAssoc fSoftwares;
-    
+
     S_msrVarValAssoc      fEncodingDate;
-    
+
     S_msrVarValAssoc      fScoreInstrumentAssoc;
 };
 typedef SMARTP<msrIdentification> S_msrIdentification;

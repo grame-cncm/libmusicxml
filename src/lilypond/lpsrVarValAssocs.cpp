@@ -34,7 +34,7 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
                           lilyPondVarValAssocKind,
   lpsrVarValSeparatorKind varValSeparatorKind,
   lpsrQuotesKind          quotesKind,
-  string                  value, 
+  string                  value,
   string                  unit,
   msrFontStyleKind        varValFontStyleKind,
   msrFontWeightKind       varValFontWeightKind,
@@ -47,7 +47,7 @@ S_lpsrVarValAssoc lpsrVarValAssoc::create (
       commentedKind,
       backSlashKind,
       lilyPondVarValAssocKind,
-      varValSeparatorKind, 
+      varValSeparatorKind,
       quotesKind,
       value,
       unit,
@@ -67,7 +67,7 @@ lpsrVarValAssoc::lpsrVarValAssoc (
                           lilyPondVarValAssocKind,
   lpsrVarValSeparatorKind varValSeparatorKind,
   lpsrQuotesKind          quotesKind,
-  string                  value, 
+  string                  value,
   string                  unit,
   msrFontStyleKind        varValFontStyleKind,
   msrFontWeightKind       varValFontWeightKind,
@@ -79,16 +79,16 @@ lpsrVarValAssoc::lpsrVarValAssoc (
   fLilyPondVarValAssocKind = lilyPondVarValAssocKind;
   fVarValSeparatorKind     = varValSeparatorKind;
   fQuotesKind              = quotesKind;
-  
+
   fVariableValue           = value;
   fCommentedKind           = commentedKind;
   fUnit                    = unit;
 
   fVarValFontStyleKind      = varValFontStyleKind;
   fVarValFontWeightKind     = varValFontWeightKind;
-  
+
   fComment                  = comment;
-  
+
   fEndlKind                 = endlKind;
 }
 
@@ -102,12 +102,12 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
       "% ==> lpsrVarValAssoc::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
@@ -129,7 +129,7 @@ void lpsrVarValAssoc::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
         S_lpsrVarValAssoc elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
@@ -153,7 +153,7 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
     case lpsrVarValAssoc::kLibraryVersion:
       result = "version";
       break;
-      
+
     // MusicXML informations
 
     case lpsrVarValAssoc::kMusicXMLWorkNumber:
@@ -168,21 +168,21 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
     case lpsrVarValAssoc::kMusicXMLMovementTitle:
       result = "movementTitle";
       break;
-      
+
     case lpsrVarValAssoc::kMusicXMLEncodingDate:
       result = "encodingDate";
       break;
-      
+
     case lpsrVarValAssoc::kMusicXMLScoreInstrument:
       result = "scoreInstrument";
       break;
-      
+
     case lpsrVarValAssoc::kMusicXMLMiscellaneousField:
       result = "miscellaneousField";
       break;
-      
+
     // LilyPond informations
-      
+
     case lpsrVarValAssoc::kLilypondDedication:
       result = "dedication";
       break;
@@ -203,14 +203,14 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
     case lpsrVarValAssoc::kLilypondSubSubTitle:
       result = "subSubTitle";
       break;
-      
+
     case lpsrVarValAssoc::kLilypondInstrument:
       result = "instrument";
       break;
     case lpsrVarValAssoc::kLilypondMeter:
       result = "meter";
       break;
-      
+
     case lpsrVarValAssoc::kLilypondTagline:
       result = "tagline";
       break;
@@ -224,12 +224,12 @@ string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
     case lpsrVarValAssoc::kLilypondMyPageBreak:
       result = "myPageBreak";
       break;
-      
+
     case lpsrVarValAssoc::kLilypondGlobal:
       result = "global";
       break;
   } // switch
-  
+
   return result;
 }
 
@@ -326,7 +326,7 @@ void lpsrVarValAssoc::print (ostream& os)
   os <<
     "LPSR VarValAssoc" <<
     endl;
-  
+
   gIndenter++;
 
   // escape quotes if any
@@ -344,13 +344,13 @@ void lpsrVarValAssoc::print (ostream& os)
     "lilyPondVarValAssocKind" << " : " <<
     lilyPondVarValAssocKindAsString () <<
     endl <<
-  
+
     setw (fieldWidth) <<
     "variableValue" << " : \"" <<
     variableValue <<
     "\"" <<
     endl <<
-  
+
     setw (fieldWidth) <<
    "varValFontStyleKind" << " : " <<
     msrFontStyleKindAsString (
@@ -389,7 +389,7 @@ void lpsrVarValAssoc::print (ostream& os)
 
     setw (fieldWidth) <<
    "unit" << " : ";
-    
+
   if (fUnit.size ()) {
     os << "\"" << fUnit << "\"";
   }
@@ -398,7 +398,7 @@ void lpsrVarValAssoc::print (ostream& os)
   }
   os <<
     endl;
-  
+
   os <<
     setw (fieldWidth) <<
    "comment" << " : ";
@@ -418,7 +418,7 @@ void lpsrVarValAssoc::print (ostream& os)
     endlKindAsString (
       fEndlKind) <<
     endl;
-  
+
   gIndenter--;
 }
 
@@ -458,12 +458,12 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
       "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrVarValsListAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
@@ -485,7 +485,7 @@ void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
         S_lpsrVarValsListAssoc elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
@@ -509,7 +509,7 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
     case lpsrVarValsListAssoc::kMusicXMLRights:
       result = "rights";
       break;
-      
+
     case lpsrVarValsListAssoc::kMusicXMLComposer:
       result = "composer";
       break;
@@ -525,19 +525,22 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
     case lpsrVarValsListAssoc::kMusicXMLTranslator:
       result = "translator";
       break;
-      
+    case lpsrVarValsListAssoc::kMusicXMLArtist:
+      result = "artist";
+      break;
+
     case lpsrVarValsListAssoc::kMusicXMLSoftware:
       result = "software";
       break;
   } // switch
-  
+
   return result;
 }
 
 string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString () const
 {
   stringstream s;
-  
+
   list<string>::const_iterator
     iBegin = fVariableValuesList.begin (),
     iEnd   = fVariableValuesList.end (),
@@ -550,7 +553,7 @@ string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString () const
     s << ", ";
   } // for
   s << "]";
-  
+
   return s.str ();
 }
 
@@ -559,7 +562,7 @@ void lpsrVarValsListAssoc::print (ostream& os)
   os <<
     "LPSR VarValsListAssoc" <<
     endl;
-  
+
   gIndenter++;
 
   const int fieldWidth = 16;
@@ -569,29 +572,29 @@ void lpsrVarValsListAssoc::print (ostream& os)
     "assoc kind" << " : " <<
     lilyPondVarValsListAssocKindAsString () <<
     endl <<
-        
+
     setw (fieldWidth) <<
     "variable values" << " : " <<
     endl;
 
   gIndenter++;
-  
+
   list<string>::const_iterator
     iBegin = fVariableValuesList.begin (),
     iEnd   = fVariableValuesList.end (),
     i      = iBegin;
-    
+
   for ( ; ; ) {
     os << "\"" << (*i) << "\"";
     if (++i == iEnd) break;
     os << endl;
   } // for
-  
+
   os <<
     endl;
 
   gIndenter--;
-  
+
   gIndenter--;
 }
 

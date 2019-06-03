@@ -9695,11 +9695,11 @@ void msrVoice::print (ostream& os)
       else {
         os << (*i)->getMeasureNumber ();
       }
-      os <<
-        endl;
       if (++i == iEnd) break;
-   //   os << endl;
+      os << ' ';
     } // for
+    os <<
+      endl;
 
     gIndenter--;
   }

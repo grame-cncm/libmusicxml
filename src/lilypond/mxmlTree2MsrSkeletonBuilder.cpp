@@ -1969,6 +1969,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_creator& elt )
         creatorValue);
   }
 
+  else if (creatorType == "artist") {
+    fMsrScore->getIdentification () ->
+      addArtist (
+        inputLineNumber,
+        creatorValue);
+  }
+
   else {
     stringstream s;
 

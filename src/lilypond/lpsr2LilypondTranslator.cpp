@@ -3784,6 +3784,9 @@ string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
     case lpsrVarValsListAssoc::kMusicXMLTranslator:
       result = "translator";
       break;
+    case lpsrVarValsListAssoc::kMusicXMLArtist:
+      result = "artist";
+      break;
     case lpsrVarValsListAssoc::kMusicXMLSoftware:
       result = "software";
       break;
@@ -14363,7 +14366,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
   }
 #endif
 
-  if (! fOnGoingVoiceCadenza) { // should be testes in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
+  if (! fOnGoingVoiceCadenza) { // should be tested in msr2LpsrTranslator.cpp JMI visitEnd (S_msrMeasure&)
     // MusicXML bar numbers cannot be relied upon for a LilyPond bar number check
     int nextBarPuristNumber =
       elt->getNextBarPuristNumber ();

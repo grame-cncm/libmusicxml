@@ -682,10 +682,10 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-  // trace and display
+  // display
   // --------------------------------------
   gLogIOstream <<
-    "Trace and display:" <<
+    "Display:" <<
     endl;
 
   gIndenter++;

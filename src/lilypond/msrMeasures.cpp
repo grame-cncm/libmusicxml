@@ -2386,13 +2386,11 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
     // empty measure
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasuresDetails) {
     voice->
       displayVoiceRepeatsStackRestMeasuresMeasuresRepeatAndVoice (
         inputLineNumber,
         "determineMeasureKindAndPuristNumber() measure has 0 actual measure whole notes");
-  }
-#endif
 
     stringstream s;
 
@@ -2415,6 +2413,8 @@ void msrMeasure::determineMeasureKindAndPuristNumber (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
+  }
+#endif
 
     // set it's measure kind
     setMeasureKind (kMeasureKindMusicallyEmpty);
@@ -2937,6 +2937,8 @@ void msrMeasure::finalizeMeasure (
 
     case msrMeasure::kMeasureKindMusicallyEmpty:
       {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceMeasuresDetails) {
         stringstream s;
 
         s <<
@@ -2956,6 +2958,8 @@ void msrMeasure::finalizeMeasure (
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
           s.str ());
+      }
+#endif
 
         // fetch the part measure whole notes high tide
         rational

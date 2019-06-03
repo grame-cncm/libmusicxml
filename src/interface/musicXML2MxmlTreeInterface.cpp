@@ -52,13 +52,13 @@ void displayXMLDeclaration (
   int    xmlStandalone = xmlDeclaration->getStandalone ();
 
   const int fieldWidth = 14;
-  
+
   logIOstream <<
     "XML Declaration:" <<
     endl;
 
   gIndenter++;
-  
+
   logIOstream << left <<
     setw (fieldWidth) <<
     "xmlVersion" << " = \"" << xmlVersion << "\"" <<
@@ -106,7 +106,7 @@ void displayDocumentType (
     "xmlSysLitteral" << " = \"" << xmlSysLitteral << "\"" <<
     endl <<
     endl;
-    
+
   gIndenter--;
 }
 
@@ -123,7 +123,7 @@ string uncompressMXLFile (
     "'" <<
     endl <<
     endl;
-    
+
   string uncompressedFileName;
 
 #ifdef WIN32
@@ -132,27 +132,27 @@ string uncompressMXLFile (
   {
     // build shell command to list the contents of the uncompress file
     stringstream s1;
-  
+
     s1 <<
       "unzip -l " <<
       mxlFileName;
-  
+
     string listContentsShellCommand = s1.str ();
-              
+
     if (true) {
       logIOstream <<
         "Listing the contents of the compressed file '" <<
         mxlFileName <<
         "' with command:" <<
         endl;
-  
+
       gIndenter++;
-      
+
       logIOstream <<
         listContentsShellCommand <<
         endl <<
         endl;
-      
+
       gIndenter--;
     }
 
@@ -161,28 +161,28 @@ string uncompressMXLFile (
       popen (
         listContentsShellCommand.c_str (),
         "r");
-  
+
     if (inputStream == nullptr) {
       stringstream s;
-  
+
       s <<
         "Cannot list the contents of compressed file '" <<
         mxlFileName <<
         "' with 'popen ()'";
-              
+
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         0, // inputLineNumber
         __FILE__, __LINE__,
         s.str ());
     }
-  
+
     else {
       string contentsList;
-      
-      // read the list from inputStream 
+
+      // read the list from inputStream
       char tampon [1024];
-      
+
       while (
         ! feof (inputStream)
           &&
@@ -195,7 +195,7 @@ string uncompressMXLFile (
       } // while
       // terminate the string in tampon
       tampon [strlen (tampon) -1] = '\0';
-    
+
       // close the stream
       if (pclose (inputStream) < 0) {
         msrInternalError (
@@ -210,25 +210,25 @@ string uncompressMXLFile (
         mxlFileName <<
         "' is:" <<
         endl;
-  
+
       gIndenter++;
-      
+
       logIOstream <<
         contentsList <<
         endl;
-      
+
       gIndenter--;
 
-      // analyze the contents list      
+      // analyze the contents list
       list<string> linesList;
-    
+
       istringstream inputStream (contentsList);
       string        currentLine;
-      
+
       while (getline (inputStream, currentLine)) {
 
         if (inputStream.eof ()) break;
-              
+
 #ifdef TRACE_OPTIONS
         {
           logIOstream <<
@@ -236,11 +236,11 @@ string uncompressMXLFile (
             endl;
 
           gIndenter++;
-          
+
           logIOstream <<
             currentLine <<
             endl;
-            
+
           gIndenter--;
         }
 #endif
@@ -268,12 +268,12 @@ string uncompressMXLFile (
           "[[:space:]]+"
           "(.*)" // name
           );
-        
+
         regex  e (regularExpression);
         smatch sm;
-  
+
         regex_match (currentLine, sm, e);
-  
+
         if (sm.size ()) {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTracePasses) { // JMI ???
@@ -282,26 +282,26 @@ string uncompressMXLFile (
               "with regex '" << regularExpression <<
               "':" <<
               endl;
-  
+
             for (unsigned i = 1; i < sm.size (); ++i) {
               logIOstream <<
                 "[" << sm [i] << "] " <<
                 endl;
             } // for
-          
+
             logIOstream <<
               endl <<
               endl;
           }
 #endif
-  
+
           string stringFromLine = sm [1];
-              
-          // has stringFromLine a ".xml" suffix?    
+
+          // has stringFromLine a ".xml" suffix?
           size_t
             posInString =
               stringFromLine.rfind (".xml");
-                
+
           // JMI if (posInString == stringFromLine.size () - 4) {
           if (posInString != stringFromLine.npos) {  // JMI STRANGISSIMO!!!
     //      if (posInString != stringFromLine.npos && stringFromLine != "files") {  // JMI STRANGISSIMO!!!
@@ -311,30 +311,30 @@ string uncompressMXLFile (
             size_t
               posInString =
                 stringFromLine.find ("META-INF");
-                  
+
             if (posInString == stringFromLine.npos) {
               // no, this is an actual MusicXML file
 
               if (uncompressedFileName.size ()) {
                 stringstream s;
-        
+
                 s <<
                   "Compressed file '" << mxlFileName <<
                   "' contains multiple MusicMXL files" <<
                   ", found '" << uncompressedFileName <<
                   "' and then '" << stringFromLine << "'";
-                  
+
                 msrInternalError (
                   gGeneralOptions->fInputSourceName,
                   0, // inputLineNumber
                   __FILE__, __LINE__,
                   s.str ());
               }
-              
+
               else {
                 // we've got the uncompressed file name
                 uncompressedFileName = stringFromLine;
-          
+
                 logIOstream <<
                   "The uncompressed file name is '" <<
                   uncompressedFileName <<
@@ -352,13 +352,13 @@ string uncompressMXLFile (
   {
     // build shell command to uncompress the file
     stringstream s2;
-  
+
     s2 <<
       "unzip -u -d /tmp " <<
       mxlFileName;
-  
+
     string uncompressShellCommand = s2.str ();
-              
+
     if (true) {
       logIOstream <<
         "Uncompressing '" <<
@@ -367,31 +367,31 @@ string uncompressMXLFile (
         uncompressedFileName <<
         "' with command:" <<
         endl;
-  
+
       gIndenter++;
-      
+
       logIOstream <<
         uncompressShellCommand <<
         endl <<
         endl;
-      
+
       gIndenter--;
     }
-  
+
     // create a stream to receive the result of uncompressShellCommand
     FILE* inputStream =
       popen (
         uncompressShellCommand.c_str (),
         "r");
-  
+
     if (inputStream == nullptr) {
       stringstream s;
-  
+
       s <<
         "Cannot uncompress the file '" <<
         mxlFileName <<
         "' with 'popen ()'";
-              
+
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         0, // inputLineNumber
@@ -408,17 +408,17 @@ string uncompressMXLFile (
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
   S_musicXMLOptions mxmlOpts,
-  indentedOstream&  logIOstream) 
+  indentedOstream&  logIOstream)
 {
   clock_t startClock = clock ();
 
   string fileNameAsString = fileName;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
+
     logIOstream <<
       endl <<
       separator <<
@@ -432,11 +432,11 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 #endif
 
-  // has the input file name a ".mxl" suffix?    
+  // has the input file name a ".mxl" suffix?
   size_t
     posInString =
       fileNameAsString.rfind (".mxl");
-        
+
   if (posInString == fileNameAsString.size () - 4) {
  // JMI  if (posInString != fileNameAsString.npos) {
     // yes, this is a compressed file
@@ -448,15 +448,15 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
         logIOstream);
 
     // the incompressed file in /tmp will be handled
-    // instead of the compressed one 
+    // instead of the compressed one
     fileName = uncompressedFileName.c_str ();
     */
 
     stringstream s;
-    
+
     s <<
       "you should uncompress this file prior to running xml2ly";
-          
+
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
@@ -468,7 +468,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   // read the input MusicXML data from the file
   xmlreader r;
-  
+
   SXMLFile xmlFile = r.read (fileName);
 
   // has there been a problem?
@@ -483,7 +483,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "!!!!! xmlFile contents from file:" <<
       endl <<
       endl;
-      
+
     xmlFile->print (logIOstream);
 
     logIOstream <<
@@ -491,10 +491,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
   }
 #endif
-  
+
   // get the xmlDecl
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
-  
+
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceEncoding) {
     logIOstream <<
@@ -509,11 +509,11 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       logIOstream);
   }
 #endif
-  
+
 #ifdef TRACE_OPTIONS
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
-  
+
   if (gMusicXMLOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -533,10 +533,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   // build the xmlelement tree
   Sxmlelement mxmlTree;
-    
+
   // should the encoding be converted to UTF-8?
   string desiredEncoding = "UTF-8";
-  
+
   if (encoding == desiredEncoding) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTracePasses) {
@@ -551,32 +551,32 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   else if (encoding.size () == 0) {
     stringstream s;
-    
+
     s <<
       "MusicXML data in this file" <<
       " doesn't contain any encoding specification; assuming it is UTF-8";
-          
+
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
-  
+
   else {
     stringstream s;
-    
+
     s <<
       "you should convert this file to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv; handling it as is";
-          
+      ", for example with iconv or using a text editor; handling it as is";
+
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
       s.str ());
   }
- 
+
   mxmlTree = xmlFile->elements ();
 
   clock_t endClock = clock ();
@@ -588,7 +588,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     timingItem::kMandatory,
     startClock,
     endClock);
-  
+
   return mxmlTree;
 }
 
@@ -596,15 +596,15 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 EXP Sxmlelement musicXMLFd2mxmlTree (
   FILE*             fd,
   S_musicXMLOptions mxmlOpts,
-  indentedOstream&  logIOstream) 
+  indentedOstream&  logIOstream)
 {
   clock_t startClock = clock ();
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
+
     logIOstream <<
       endl <<
       separator <<
@@ -619,7 +619,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
   // read the input MusicXML data
   xmlreader r;
-  
+
   SXMLFile xmlFile = r.read (fd);
 
   // has there been a problem?
@@ -637,10 +637,10 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl;
   }
 #endif
-  
+
   // get the xmlDecl
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
-  
+
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceEncoding) {
     logIOstream <<
@@ -659,7 +659,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 #ifdef TRACE_OPTIONS
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
-  
+
   if (gMusicXMLOptions->fTraceEncoding) {
     logIOstream <<
       endl <<
@@ -673,13 +673,13 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       logIOstream);
   }
 #endif
-  
+
   // get the encoding type
   string encoding = xmlDecl->getEncoding ();
 
   // should the encoding be converted to UTF-8?
   string desiredEncoding = "UTF-8";
-  
+
   logIOstream <<
     "% MusicXML data uses \"" <<
     desiredEncoding <<
@@ -687,22 +687,19 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     ", desired encoding is \"" << desiredEncoding << "\"" <<
     endl;
 
-  if (encoding != desiredEncoding) {    
+  if (encoding != desiredEncoding) {
      stringstream s;
-    
+
     s <<
       "you should convert this stream to " <<
       desiredEncoding <<
       "\" encoding prior to running xml2ly" <<
-      ", for example with iconv; exiting";
-          
-    msrMusicXMLError (
+      ", for example with iconv or using a text editor; handling it as is";
+
+    msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       1, // inputLineNumber,
-      __FILE__, __LINE__,
       s.str ());
-
-    exit (444);
   }
 
   clock_t endClock = clock ();
@@ -725,7 +722,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 EXP Sxmlelement musicXMLString2mxmlTree (
   const char*       buffer,
   S_musicXMLOptions mxmlOpts,
-  indentedOstream&  logIOstream) 
+  indentedOstream&  logIOstream)
 {
   clock_t startClock = clock ();
 
@@ -733,7 +730,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
+
     logIOstream <<
       endl <<
       separator <<
@@ -745,9 +742,9 @@ EXP Sxmlelement musicXMLString2mxmlTree (
       endl;
   }
 #endif
-  
+
   xmlreader r;
-  
+
   SXMLFile xmlFile = r.readbuff (buffer);
 
   clock_t endClock = clock ();
@@ -759,7 +756,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
     timingItem::kMandatory,
     startClock,
     endClock);
-  
+
   // fetch mxmlTree
   Sxmlelement mxmlTree = xmlFile->elements();
 

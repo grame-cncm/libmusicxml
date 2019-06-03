@@ -73,6 +73,7 @@ void musicXMLOptions::initializeMusicXMLTraceOptions (
 
   fTraceEncoding = boolOptionsInitialValue;
   fTraceDivisions = boolOptionsInitialValue;
+  fTraceBackup = boolOptionsInitialValue;
 
   fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
@@ -81,8 +82,8 @@ void musicXMLOptions::initializeMusicXMLTraceOptions (
   S_optionsSubGroup
     specificTraceSubGroup =
       optionsSubGroup::create (
-        "Trace and display",
-        "hmxmltd", "help-musicxml-trace-and-display",
+        "Trace",
+        "hmxmlt", "help-musicxml-trace",
 R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
@@ -105,6 +106,15 @@ R"(Encoding)",
 R"(Divisions)",
         "traceDivisions",
         fTraceDivisions,
+        gTraceOptions->fTracePasses));
+
+  specificTraceSubGroup->
+    appendOptionsItem (
+      optionsTwoBooleansItem::create (
+        "tbackup", "trace-backup",
+R"(Backup)",
+        "traceBackup",
+        fTraceBackup,
         gTraceOptions->fTracePasses));
 
   specificTraceSubGroup->
@@ -349,6 +359,9 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 
   clone->fTraceDivisions =
     fTraceDivisions;
+
+  clone->fTraceBackup =
+    fTraceBackup;
 #endif
 
   clone->fTraceMusicXMLTreeVisitors =
@@ -369,6 +382,9 @@ void musicXMLOptions::setAllMusicXMLTraceOptions (
 
     // divisions
     fTraceDivisions = boolOptionsInitialValue;
+
+    // backup
+    fTraceBackup = boolOptionsInitialValue;
 #endif
 }
 
@@ -438,6 +454,10 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
     setw (fieldWidth) << "traceDivisions" << " : " <<
     booleanAsString (fTraceDivisions) <<
+    endl <<
+
+    setw (fieldWidth) << "traceBackup" << " : " <<
+    booleanAsString (fTraceBackup) <<
     endl <<
 #endif
 

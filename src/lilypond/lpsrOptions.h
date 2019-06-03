@@ -419,6 +419,9 @@ class lpsrOptions : public optionsGroup
                             bool boolOptionsInitialValue);
 #endif
 
+    void                  initializeLpsrDisplayOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeLpsrScoreOutputKindOptions (
                             bool boolOptionsInitialValue);
 
@@ -445,18 +448,23 @@ class lpsrOptions : public optionsGroup
 
   public:
 
-    // trace and display
+    // trace
     // --------------------------------------
 
+#ifdef TRACE_OPTIONS
     bool                  fTraceLpsr;
 
     bool                  fTraceLpsrVisitors;
 
     bool                  fTraceLpsrBlocks;
 
-    bool                  fDisplayLpsr;
-
     bool                  fTraceSchemeFunctions;
+#endif
+
+    // display
+    // --------------------------------------
+
+    bool                  fDisplayLpsr;
 
     // LilyPond version
     // --------------------------------------

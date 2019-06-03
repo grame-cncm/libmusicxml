@@ -4205,7 +4205,7 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors || gMusicXMLOptions->fTraceBackup) {
     fLogOutputStream <<
       "--> Start visiting S_backup" <<
       ", line " << inputLineNumber <<
@@ -4227,7 +4227,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors || gMusicXMLOptions->fTraceBackup) {
     fLogOutputStream <<
       "--> End visiting S_backup" <<
       ", line " << inputLineNumber <<
@@ -4236,6 +4236,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
 
 #ifdef TRACE_OPTIONS
   if (
+    gMusicXMLOptions->fTraceBackup
+      ||
     gTraceOptions->fTraceNotes
       ||
     gTraceOptions->fTraceChords
@@ -20993,10 +20995,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
   // append pending harmony degrees if any to the harmony
   if (! fCurrentHarmonyDegreesList.size ()) {
-    msrMusicXMLWarning (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      "harmony has no degrees contents");
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies) {
+      msrMusicXMLWarning (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        "harmony has no degrees contents");
+    }
+#endif
   }
   else {
     while (fCurrentHarmonyDegreesList.size ()) {

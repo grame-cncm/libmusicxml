@@ -498,20 +498,18 @@ string msrHarmony::asString () const
   s <<
     "Harmony" <<
     ", line " << fInputLineNumber <<
-    ":" <<
+    ": harmonyRootQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsString ( // JMI XXL
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
+    ", harmonyKind: " <<
     msrHarmonyKindAsShortString (fHarmonyKind) <<
     ", duration: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fHarmonySoundingWholeNotes);
-
-  if (fHarmonyKindText.size ()) {
-    s <<
-      " (" <<fHarmonyKindText << ")";
-  }
+      fHarmonySoundingWholeNotes) <<
+    ", harmonyKindText: \"" <<
+    fHarmonyKindText << "\"";
 
   s << ", inversion: ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {

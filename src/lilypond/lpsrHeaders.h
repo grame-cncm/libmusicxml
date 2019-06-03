@@ -31,7 +31,7 @@ class lpsrHeader : public lpsrElement
 
     static SMARTP<lpsrHeader> create (
       int inputLineNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -39,9 +39,9 @@ class lpsrHeader : public lpsrElement
 
     lpsrHeader (
       int inputLineNumber);
-      
+
     virtual ~lpsrHeader ();
-  
+
   public:
 
     // set and get
@@ -57,7 +57,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getWorkNumber () const
                               { return fWorkNumber; }
-    
+
     void                  setWorkTitle (
                             int               inputLineNumber,
                             string            val,
@@ -66,7 +66,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getWorkTitle () const
                               { return fWorkTitle; }
-    
+
     void                  setMovementNumber (
                             int               inputLineNumber,
                             string            val,
@@ -75,7 +75,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getMovementNumber () const
                               { return fMovementNumber; }
-    
+
     void                  setMovementTitle (
                             int               inputLineNumber,
                             string            val,
@@ -84,7 +84,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getMovementTitle () const
                               { return fMovementTitle; }
-    
+
     void                  setEncodingDate (
                             int               inputLineNumber,
                             string            val,
@@ -121,7 +121,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getComposers () const
                               { return fComposers; };
-    
+
     void                  setArrangers (
                             int               inputLineNumber,
                             string            val,
@@ -131,7 +131,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getArrangers () const
                               { return fArrangers; };
-    
+
     void                  setLyricists (
                             int               inputLineNumber,
                             string            val,
@@ -141,7 +141,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getLyricists () const
                               { return fLyricists; };
-    
+
     void                  setPoets (
                             int               inputLineNumber,
                             string            val,
@@ -151,7 +151,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getPoets () const
                               { return fPoets; };
-    
+
     void                  setTranslators (
                             int               inputLineNumber,
                             string            val,
@@ -161,7 +161,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getTranslators () const
                               { return fTranslators; };
-    
+
     void                  setRights (
                             int               inputLineNumber,
                             string            val,
@@ -171,7 +171,7 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getRights () const
                               { return fRights; }
-    
+
     void                  setSoftwares (
                             int               inputLineNumber,
                             string            val,
@@ -181,11 +181,11 @@ class lpsrHeader : public lpsrElement
     S_lpsrVarValsListAssoc
                           getSoftwares () const
                               { return fSoftwares; };
-    
+
     // LilyPond informations
 
     // centered
-    
+
     void                  setLilypondDedication (
                             int               inputLineNumber,
                             string            val,
@@ -236,13 +236,13 @@ class lpsrHeader : public lpsrElement
                             string            val,
                             msrFontStyleKind  fontStyleKind,
                             msrFontWeightKind fontWeightKind);
-    
+
     S_lpsrVarValAssoc     getLilypondSubSubTitle () const
                               { return fLilypondSubSubTitle; }
-                              
+
     // evenly spread on one line
     // "instrument" also appears on following pages
-                                  
+
     void                  setLilypondInstrument (
                             int               inputLineNumber,
                             string            val,
@@ -251,7 +251,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getLilypondInstrument () const
                               { return fLilypondInstrument; }
-    
+
     // at opposite ends of the same line
 
     void                  setLilypondMeter (
@@ -264,18 +264,18 @@ class lpsrHeader : public lpsrElement
                               { return fLilypondMeter; }
 
     // centered at the bottom of the first page
-    
+
     void                  setLilypondCopyright (
                             int               inputLineNumber,
                             string            val,
                             msrFontStyleKind  fontStyleKind,
                             msrFontWeightKind fontWeightKind);
-    
+
     S_lpsrVarValAssoc     getLilypondCopyright () const
                               { return fLilypondCopyright; }
-                              
+
     // centered at the bottom of the last page
-    
+
     void                  setLilypondTagline (
                             int               inputLineNumber,
                             string            val,
@@ -284,7 +284,7 @@ class lpsrHeader : public lpsrElement
 
     S_lpsrVarValAssoc     getLilypondTagline () const
                               { return fLilypondTagline; }
-                              
+
   public:
 
     // public services
@@ -316,6 +316,10 @@ class lpsrHeader : public lpsrElement
                             int    inputLineNumber,
                             string value);
 
+    void                  addArtist (
+                            int    inputLineNumber,
+                            string value);
+
     void                  addSoftware (
                             int    inputLineNumber,
                             string value);
@@ -333,7 +337,7 @@ class lpsrHeader : public lpsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -345,15 +349,15 @@ class lpsrHeader : public lpsrElement
     // ------------------------------------------------------
 
     // MusicXML informations
-    
+
     S_lpsrVarValAssoc     fWorkNumber;
     S_lpsrVarValAssoc     fWorkTitle;
     S_lpsrVarValAssoc     fMovementNumber;
     S_lpsrVarValAssoc     fMovementTitle;
-    
+
     S_lpsrVarValsListAssoc
                           fRights;
-                          
+
     S_lpsrVarValsListAssoc
                           fComposers;
     S_lpsrVarValsListAssoc
@@ -364,12 +368,14 @@ class lpsrHeader : public lpsrElement
                           fPoets;
     S_lpsrVarValsListAssoc
                           fTranslators;
-    
+    S_lpsrVarValsListAssoc
+                          fArtists;
+
     S_lpsrVarValsListAssoc
                           fSoftwares;
-    
+
     S_lpsrVarValAssoc     fEncodingDate;
-    
+
     S_lpsrVarValAssoc     fScoreInstrument;
 
     S_lpsrVarValAssoc     fMiscellaneousField;
@@ -378,26 +384,26 @@ class lpsrHeader : public lpsrElement
 
     // centered
     S_lpsrVarValAssoc     fLilypondDedication;
-    
+
     S_lpsrVarValAssoc     fLilypondPiece;
     S_lpsrVarValAssoc     fLilypondOpus;
-    
+
     S_lpsrVarValAssoc     fLilypondTitle;
     S_lpsrVarValAssoc     fLilypondSubTitle;
     S_lpsrVarValAssoc     fLilypondSubSubTitle;
-    
+
     // evenly spread on one line
     // "instrument" also appears on following pages
     S_lpsrVarValAssoc     fLilypondInstrument;
-    
+
     // at opposite ends of the same line
     S_lpsrVarValAssoc     fLilypondMeter;
-    
+
     // centered at the bottom of the first page
     S_lpsrVarValAssoc     fLilypondCopyright;
-    
+
     // centered at the bottom of the last page
-    S_lpsrVarValAssoc     fLilypondTagline;    
+    S_lpsrVarValAssoc     fLilypondTagline;
 };
 typedef SMARTP<lpsrHeader> S_lpsrHeader;
 EXP ostream& operator<< (ostream& os, const S_lpsrHeader& elt);

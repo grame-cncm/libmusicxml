@@ -24,7 +24,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -50,7 +50,7 @@ lpsrHeader::lpsrHeader (
       kFontStyleNone,
       kFontWeightNone);
   }
-  
+
   if (gLilypondOptions->fPiece.size ()) {
     setLilypondPiece (
       inputLineNumber,
@@ -58,7 +58,7 @@ lpsrHeader::lpsrHeader (
       kFontStyleNone,
       kFontWeightNone);
   }
-  
+
   if (gLilypondOptions->fOpus.size ()) {
     setLilypondOpus (
       inputLineNumber,
@@ -66,7 +66,7 @@ lpsrHeader::lpsrHeader (
       kFontStyleNone,
       kFontWeightNone);
   }
-  
+
   if (gLilypondOptions->fTitle.size ()) {
     setLilypondTitle (
       inputLineNumber,
@@ -88,7 +88,7 @@ lpsrHeader::lpsrHeader (
       kFontStyleNone,
       kFontWeightNone);
   }
-  
+
   if (gLilypondOptions->fInstrument.size ()) {
     setLilypondInstrument (
       inputLineNumber,
@@ -103,7 +103,7 @@ lpsrHeader::lpsrHeader (
       kFontStyleNone,
       kFontWeightNone);
   }
-  
+
   if (gLilypondOptions->fCopyright.size ()) {
     setLilypondCopyright (
       inputLineNumber,
@@ -518,7 +518,7 @@ void lpsrHeader::addRights (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLRights);
   }
-  
+
   fRights->
     addAssocVariableValue (value);
 }
@@ -544,7 +544,7 @@ void lpsrHeader::addComposer (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLComposer);
   }
-  
+
   fComposers->
     addAssocVariableValue (value);
 }
@@ -570,7 +570,7 @@ void lpsrHeader::addArranger (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLArranger);
   }
-  
+
   fArrangers->
     addAssocVariableValue (value);
 }
@@ -596,7 +596,7 @@ void lpsrHeader::addLyricist (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLLyricist);
   }
-  
+
   fLyricists->
     addAssocVariableValue (value);
 }
@@ -622,7 +622,7 @@ void lpsrHeader::addPoet (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLPoet);
   }
-  
+
   fPoets->
     addAssocVariableValue (value);
 }
@@ -648,8 +648,34 @@ void lpsrHeader::addTranslator (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLTranslator);
   }
-  
+
   fTranslators->
+    addAssocVariableValue (value);
+}
+
+void lpsrHeader::addArtist (
+  int    inputLineNumber,
+  string value)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVarValAssocs) {
+    gLogIOstream <<
+      "Adding artist \"" <<
+      value <<
+      "\" to lpsrHeader" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+#endif
+
+  if (! fArtists) {
+    fArtists =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kMusicXMLArtist);
+  }
+
+  fArtists->
     addAssocVariableValue (value);
 }
 
@@ -674,7 +700,7 @@ void lpsrHeader::addSoftware (
         inputLineNumber,
         lpsrVarValsListAssoc::kMusicXMLSoftware);
   }
-  
+
   fSoftwares->
     addAssocVariableValue (value);
 }
@@ -684,7 +710,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   int result = 0;
 
   // MusicXML informations
-  
+
   if (fWorkNumber) {
     int length =
       fWorkNumber->
@@ -693,7 +719,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       result = length;
     }
   }
-  
+
   if (fWorkTitle) {
     int length =
       fWorkTitle->
@@ -702,7 +728,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       result = length;
     }
   }
-    
+
   if (fMovementNumber) {
     int length =
       fMovementNumber->
@@ -711,7 +737,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       result = length;
     }
   }
-    
+
   if (fMovementTitle) {
     int length =
       fMovementTitle->
@@ -720,12 +746,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       result = length;
     }
   }
-    
+
   if (fRights) {
     const list<string>&
       variableValuesList =
         fRights->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -734,12 +760,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fComposers) {
     const list<string>&
       variableValuesList =
         fComposers->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -748,12 +774,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fArrangers) {
     const list<string>&
       variableValuesList =
         fArrangers->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -762,12 +788,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fLyricists) {
     const list<string>&
       variableValuesList =
         fLyricists->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -776,12 +802,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fPoets) {
     const list<string>&
       variableValuesList =
         fPoets->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -790,12 +816,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fTranslators) {
     const list<string>&
       variableValuesList =
         fTranslators->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -804,12 +830,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fSoftwares) {
     const list<string>&
       variableValuesList =
         fSoftwares->getVariableValuesList ();
-        
+
     list<string>::const_iterator i;
     for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
       int length = (*i).size ();
@@ -818,28 +844,28 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
       }
     } // for
   }
-    
+
   if (fScoreInstrument) {
     int length = fScoreInstrument->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
   }
-  
+
   if (fEncodingDate) {
     int length = fEncodingDate->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
   }
-  
+
   if (fMiscellaneousField) {
     int length = fMiscellaneousField->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) {
       result = length;
     }
   }
-  
+
   // Lilypond informations
 
   if (fLilypondDedication) {
@@ -942,12 +968,12 @@ void lpsrHeader::acceptIn (basevisitor* v)
       "% ==> lpsrHeader::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrHeader>*
     p =
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrHeader::visitStart ()" <<
@@ -969,7 +995,7 @@ void lpsrHeader::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrHeader::visitEnd ()" <<
@@ -1016,31 +1042,31 @@ void lpsrHeader::browseData (basevisitor* v)
     msrBrowser<lpsrVarValsListAssoc> browser (v);
     browser.browse (*fComposers);
   }
-    
+
   if (fArrangers) {
     // browse fArrangers
     msrBrowser<lpsrVarValsListAssoc> browser (v);
     browser.browse (*fArrangers);
   }
-    
+
   if (fLyricists) {
     // browse fLyricists
     msrBrowser<lpsrVarValsListAssoc> browser (v);
     browser.browse (*fLyricists);
   }
-    
+
   if (fPoets) {
     // browse fPoets
     msrBrowser<lpsrVarValsListAssoc> browser (v);
     browser.browse (*fPoets);
   }
-    
+
   if (fTranslators) {
     // browse fTranslators
     msrBrowser<lpsrVarValsListAssoc> browser (v);
     browser.browse (*fTranslators);
   }
-    
+
   if (fSoftwares) {
     // browse fSoftwares
     msrBrowser<lpsrVarValsListAssoc> browser (v);
@@ -1073,11 +1099,11 @@ void lpsrHeader::print (ostream& os)
     endl;
 
   bool emptyHeader = true;
-  
+
   gIndenter++;
 
   const int fieldWidth = 16;
-  
+
   // LilyPond informations
 
   // MusicXML informations
@@ -1087,217 +1113,217 @@ void lpsrHeader::print (ostream& os)
       setw (fieldWidth) <<
       fLilypondTitle->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fLilypondTitle <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
   }
-    
+
   if (fWorkNumber) {
     os << left <<
       setw (fieldWidth) <<
       fWorkNumber->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fWorkNumber <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
   }
-  
+
   if (fWorkTitle) {
     os << left <<
       setw (fieldWidth) <<
       fWorkTitle->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fWorkTitle <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
   }
-    
+
   if (fMovementNumber) {
     os << left <<
       setw (fieldWidth) <<
       fMovementNumber->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fMovementNumber <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
   }
-    
+
   if (fMovementTitle) {
     os << left <<
       setw (fieldWidth) <<
       fMovementTitle->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fMovementTitle <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
   }
-    
+
   if (fRights) {
     os << left <<
       setw (fieldWidth) <<
       fRights->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fRights <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fComposers) {
     os << left <<
       setw (fieldWidth) <<
       fComposers->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fComposers <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fArrangers) {
     os << left <<
       setw (fieldWidth) <<
       fArrangers->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fArrangers <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fLyricists) {
     os << left <<
       setw (fieldWidth) <<
       fLyricists->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fLyricists <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fPoets) {
     os << left <<
       setw (fieldWidth) <<
       fPoets->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fPoets <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fTranslators) {
     os << left <<
       setw (fieldWidth) <<
       fTranslators->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fTranslators <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fSoftwares) {
     os << left <<
       setw (fieldWidth) <<
       fSoftwares->lilyPondVarValsListAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fSoftwares <<
       endl;
-      
+
     gIndenter--;
-        
+
     emptyHeader = false;
   }
-    
+
   if (fScoreInstrument) {
     os << left <<
       setw (fieldWidth) <<
       fScoreInstrument->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fScoreInstrument <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
@@ -1308,13 +1334,13 @@ void lpsrHeader::print (ostream& os)
       setw (fieldWidth) <<
       fEncodingDate->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fEncodingDate <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
@@ -1325,25 +1351,25 @@ void lpsrHeader::print (ostream& os)
       setw (fieldWidth) <<
       fMiscellaneousField->lilyPondVarValAssocKindAsString () << " : " <<
       endl;
-      
+
     gIndenter++;
-    
+
     os <<
       fMiscellaneousField <<
       endl;
-      
+
     gIndenter--;
 
     emptyHeader = false;
   }
-  
+
   if (emptyHeader) {
     os <<
       " " << "nothing specified" <<
       endl <<
       endl; // JMI
   }
-  
+
   gIndenter--;
 }
 

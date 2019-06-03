@@ -5708,6 +5708,17 @@ void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
       } // for
       break;
 
+    case msrVarValsListAssoc::kArtist:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++
+      ) {
+        fCurrentLpsrScoreHeader->
+          addArtist (
+            inputLineNumber, (*i));
+      } // for
+      break;
+
     case msrVarValsListAssoc::kSoftware:
       for (list<string>::const_iterator i = variableValuesList.begin ();
         i != variableValuesList.end ();
