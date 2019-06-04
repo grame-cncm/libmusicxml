@@ -266,7 +266,9 @@ S_msrHarmony msrHarmony::create (
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
   rational                 harmonySoundingWholeNotes,
-  int                      harmonyStaffNumber)
+  rational                 harmonyDisplayWholeNotes,
+  int                      harmonyStaffNumber,
+  msrTupletFactor          harmonyTupletFactor)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -278,7 +280,9 @@ S_msrHarmony msrHarmony::create (
       harmonyInversion,
       harmonyBassQuarterTonesPitchKind,
       harmonySoundingWholeNotes,
-      harmonyStaffNumber);
+      harmonyDisplayWholeNotes,
+      harmonyStaffNumber,
+      harmonyTupletFactor);
   assert(o!=0);
 
   return o;
@@ -293,7 +297,9 @@ S_msrHarmony msrHarmony::create (
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
   rational                 harmonySoundingWholeNotes,
-  int                      harmonyStaffNumber)
+  rational                 harmonyDisplayWholeNotes,
+  int                      harmonyStaffNumber,
+  msrTupletFactor          harmonyTupletFactor)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -305,7 +311,9 @@ S_msrHarmony msrHarmony::create (
       harmonyInversion,
       harmonyBassQuarterTonesPitchKind,
       harmonySoundingWholeNotes,
-      harmonyStaffNumber);
+      harmonyDisplayWholeNotes,
+      harmonyStaffNumber,
+      harmonyTupletFactor);
   assert(o!=0);
 
   return o;
@@ -320,8 +328,11 @@ msrHarmony::msrHarmony (
   int                      harmonyInversion,
   msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
   rational                 harmonySoundingWholeNotes,
-  int                      harmonyStaffNumber)
-    : msrMeasureElement (inputLineNumber)
+  rational                 harmonyDisplayWholeNotes,
+  int                      harmonyStaffNumber,
+  msrTupletFactor          harmonyTupletFactor)
+    : msrMeasureElement (inputLineNumber),
+     fHarmonyTupletFactor (harmonyTupletFactor)
 {
   /* JMI
   // sanity check
@@ -347,6 +358,8 @@ msrHarmony::msrHarmony (
 
   fHarmonySoundingWholeNotes =
     harmonySoundingWholeNotes;
+  fHarmonyDisplayWholeNotes =
+    harmonyDisplayWholeNotes;
 
   fHarmonyStaffNumber = harmonyStaffNumber;
 
@@ -453,7 +466,9 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes,
-        fHarmonyStaffNumber);
+        fHarmonyDisplayWholeNotes,
+        fHarmonyStaffNumber,
+        fHarmonyTupletFactor);
 
   return newbornClone;
 }
@@ -486,61 +501,11 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes,
-        fHarmonyStaffNumber);
+        fHarmonyDisplayWholeNotes,
+        fHarmonyStaffNumber,
+        fHarmonyTupletFactor);
 
   return harmonyDeepCopy;
-}
-
-string msrHarmony::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Harmony" <<
-    ", line " << fInputLineNumber <<
-    ": harmonyRootQuarterTonesPitchKind: " <<
-    msrQuarterTonesPitchKindAsString ( // JMI XXL
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyRootQuarterTonesPitchKind) <<
-    ", harmonyKind: " <<
-    msrHarmonyKindAsShortString (fHarmonyKind) <<
-    ", duration: " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fHarmonySoundingWholeNotes) <<
-    ", harmonyKindText: \"" <<
-    fHarmonyKindText << "\"";
-
-  s << ", inversion: ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
-    s << "none";
-  }
-  else {
-    s << fHarmonyInversion;
-  }
-
-  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
-    s <<
-      "/" <<
-    msrQuarterTonesPitchKindAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-      fHarmonyBassQuarterTonesPitchKind);
-  }
-
-  if (fHarmonyDegreesList.size ()) {
-    list<S_msrHarmonyDegree>::const_iterator
-      iBegin = fHarmonyDegreesList.begin (),
-      iEnd   = fHarmonyDegreesList.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-  }
-
-  return s.str ();
 }
 
 void msrHarmony::acceptIn (basevisitor* v)
@@ -603,47 +568,122 @@ void msrHarmony::browseData (basevisitor* v)
   }
 }
 
+string msrHarmony::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Harmony" <<
+    ", line " << fInputLineNumber <<
+    ": harmonyRootQuarterTonesPitchKind: " <<
+    msrQuarterTonesPitchKindAsString ( // JMI XXL
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyRootQuarterTonesPitchKind) <<
+    ", harmonyKind: " <<
+    msrHarmonyKindAsShortString (fHarmonyKind) <<
+
+    ", harmonySoundingWholeNotes: " <<
+    fHarmonySoundingWholeNotes <<
+    ", harmonyDisplayWholeNotes: " <<
+    fHarmonyDisplayWholeNotes <<
+
+    ", harmonyKindText: \"" <<
+    fHarmonyKindText << "\"";
+
+  s << ", inversion: ";
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
+    s << "none";
+  }
+  else {
+    s << fHarmonyInversion;
+  }
+
+  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
+    s <<
+      "/" <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyBassQuarterTonesPitchKind);
+  }
+
+  if (fHarmonyDegreesList.size ()) {
+    list<S_msrHarmonyDegree>::const_iterator
+      iBegin = fHarmonyDegreesList.begin (),
+      iEnd   = fHarmonyDegreesList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  return s.str ();
+}
+
 void msrHarmony::print (ostream& os)
 {
   os <<
     "Harmony" <<
-    ", " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fHarmonySoundingWholeNotes) <<
-    " (" << fHarmonySoundingWholeNotes << " sounding whole notes)" <<
      ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
 
-  const int fieldWidth = 15;
+  const int fieldWidth = 26;
 
   os << left <<
     setw (fieldWidth) <<
-    "harmonyRoot" << " = " <<
+    "harmonyRoot" << " : " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyRootQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
-    "harmonyKind" << " = " <<
+    "harmonyKind" << " : " <<
     msrHarmonyKindAsString (fHarmonyKind) <<
     endl <<
+
+/* JMI
+    setw (fieldWidth) <<
+    "harmonySoundingWholeNotes " << " : " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonySoundingWholeNotes) <<
+    endl <<
+    setw (fieldWidth) <<
+    "harmonyDisplayWholeNotes " << " : " <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fHarmonyDisplayWholeNotes) <<
+    endl <<
+*/
+    setw (fieldWidth) <<
+    "harmonySoundingWholeNotes" << " : " <<
+    fHarmonySoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "harmonyDisplayWholeNotes" << " : " <<
+    fHarmonyDisplayWholeNotes <<
+    endl <<
+
     setw (fieldWidth) <<
     "harmonyKindText" << " = \"" <<
     fHarmonyKindText <<
     "\"" <<
     endl <<
+
     setw (fieldWidth) <<
-    "harmonyBass" << " = " <<
+    "harmonyBass" << " : " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind) <<
     endl;
 
   os <<
-    "harmonyInversion: ";
+    setw (fieldWidth) <<
+    "harmonyInversion" << " : ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
     os << "none";
   else
@@ -652,10 +692,12 @@ void msrHarmony::print (ostream& os)
     endl;
 
   // print harmony degrees if any
+  os <<
+    setw (fieldWidth) <<
+    "harmonyDegrees";
+
   if (fHarmonyDegreesList.size ()) {
-    os <<
-      "harmonyDegrees:" <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -670,14 +712,22 @@ void msrHarmony::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
- // JMI ???   os << endl;
+
+    os << endl;
 
     gIndenter--;
+  }
+  else {
+    os <<
+      " : " <<
+      "none" <<
+      endl;
   }
 
   // print the harmony staff number
   os <<
-    "harmonyStaffNumber: ";
+    setw (fieldWidth) <<
+    "harmonyStaffNumber" << " : ";
   if (fHarmonyStaffNumber == K_NO_STAFF_NUMBER)
     os << "none";
   else

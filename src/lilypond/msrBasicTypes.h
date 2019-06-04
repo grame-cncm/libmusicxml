@@ -724,16 +724,27 @@ class msrTupletFactor
 
     // set and get
     // ------------------------------------------------------
-/* JMI
-    msrDurationKind       getDuration () const
-                              { return fDuration; }
 
-    int                   getDotsNumber () const
-                              { return fDotsNumber; }
-*/
+    void                  setTupletActualNotes (int actualNotes)
+                              { fTupletActualNotes = actualNotes; }
+
+    int                   getTupletActualNotes () const
+                              { return fTupletActualNotes; }
+
+    void                  setTupletNormalNotes (int normalNotes)
+                              { fTupletNormalNotes = normalNotes; }
+
+    int                   getTupletNormalNotes () const
+                              { return fTupletNormalNotes; }
 
     // services
     // ------------------------------------------------------
+
+    bool                  isEqualToOne () const
+                              {
+                                return
+                                  fTupletActualNotes == fTupletNormalNotes;
+                              }
 
     rational              asRational () const
                             {
@@ -761,7 +772,7 @@ class msrTupletFactor
 
     virtual void          print (ostream& os);
 
-  public:
+  private:
 
     // fields
     // ------------------------------------------------------

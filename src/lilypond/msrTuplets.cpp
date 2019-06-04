@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -83,21 +83,19 @@ msrTuplet::msrTuplet (
     : msrTupletElement (inputLineNumber)
 {
   fTupletMeasureNumber = tupletMeasureNumber;
-  
+
   fTupletNumber = tupletNumber;
-  
+
   fTupletBracketKind    = tupletBracketKind;
   fTupletLineShapeKind  = tupletLineShapeKind;
   fTupletShowNumberKind = tupletShowNumberKind;
   fTupletShowTypeKind   = tupletShowTypeKind;
 
   fTupletFactor = tupletFactor;
-//  fTupletActualNotes = tupletActualNotes;
-//  fTupletNormalNotes = tupletNormalNotes;
 
   fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
-  
+
   fTupletSoundingWholeNotes = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
 
@@ -130,8 +128,6 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
         fTupletShowNumberKind,
         fTupletShowTypeKind,
         fTupletFactor,
-      //  fTupletActualNotes = tupletActualNotes;
-      //  fTupletNormalNotes = tupletNormalNotes;
         fMemberNotesSoundingWholeNotes,
         fMemberNotesDisplayWholeNotes,
         fTupletPositionInMeasure);
@@ -212,7 +208,7 @@ string msrTuplet::tupletShowNumberKindAsString (
   msrTupletShowNumberKind tupletShowNumberKind)
 {
   string result;
-  
+
   switch (tupletShowNumberKind) {
     case msrTuplet::kTupletShowNumberActual:
       result = "tupletShowNumberActual";
@@ -232,7 +228,7 @@ string msrTuplet::tupletShowTypeKindAsString (
   msrTupletShowTypeKind tupletShowTypeKind)
 {
   string result;
-  
+
   switch (tupletShowTypeKind) {
     case msrTuplet::kTupletShowTypeActual:
       result = "tupletShowTypeActual";
@@ -247,7 +243,7 @@ string msrTuplet::tupletShowTypeKindAsString (
 
   return result;
 }
-      
+
 void msrTuplet::addNoteToTuplet (
   S_msrNote  note,
   S_msrVoice voice)
@@ -275,11 +271,11 @@ void msrTuplet::addNoteToTuplet (
   fTupletSoundingWholeNotes +=
     note->getNoteSoundingWholeNotes ();
   fTupletSoundingWholeNotes.rationalise ();
-  
+
   fTupletDisplayWholeNotes += // JMI
-    note->getNoteDisplayWholeNotes ();  
+    note->getNoteDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
-      
+
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fTupletPositionInMeasure);
@@ -300,16 +296,16 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 #endif
 
   fTupletElementsList.push_back (chord);
-    
+
   // account for chord duration
   fTupletSoundingWholeNotes +=
     chord->getChordSoundingWholeNotes ();
   fTupletSoundingWholeNotes.rationalise ();
 
   fTupletDisplayWholeNotes += // JMI
-    chord->getChordDisplayWholeNotes ();  
+    chord->getChordDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
-    
+
   // populate chord's measure number
   chord->setChordMeasureNumber (
     fTupletMeasureNumber);
@@ -338,13 +334,13 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
   tuplet->
     unapplySoundingFactorToTupletMembers (
-      this->fTupletActualNotes,
-      this->fTupletNormalNotes);
+      this->getTupletNormalNotes (),
+      this->getTupletNormalNotes ();
   */
-  
+
   // register tuplet in elements list
   fTupletElementsList.push_back (tuplet);
-    
+
   // account for tuplet duration
   fTupletSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
@@ -353,10 +349,10 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletDisplayWholeNotes += // JMI
     tuplet->getTupletDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
-    
+
     /*
   fTupletDisplayWholeNotes += // JMI
-    tuplet->getTupletDisplayWholeNotes ();  
+    tuplet->getTupletDisplayWholeNotes ();
     */
 
   // don't populate tuplet's position in measure,
@@ -384,10 +380,10 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 
   // dont' unapply containing tuplet factor,
   // this has been done when building the MSR from MusicXML
-  
+
   // register tuplet in elements list
   fTupletElementsList.push_back (tuplet);
-    
+
   // account for tuplet duration
   fTupletSoundingWholeNotes +=
     tuplet->getTupletSoundingWholeNotes ();
@@ -413,7 +409,7 @@ S_msrNote msrTuplet::fetchTupletFirstNonGraceNote () const
       // first element is a note, we have it
       result = note;
     }
-    
+
     else if (
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*firstTupletElement))
       ) {
@@ -421,7 +417,7 @@ S_msrNote msrTuplet::fetchTupletFirstNonGraceNote () const
       result = tuplet->fetchTupletFirstNonGraceNote ();
     }
   }
-  
+
   else {
     msrInternalError (
       gGeneralOptions->fInputSourceName,
@@ -437,7 +433,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
   int       inputLineNumber)
 {
   S_msrNote result;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
@@ -459,12 +455,12 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       fTupletElementsList.pop_front ();
       result = note;
     }
-    
+
     else {
       if (true) {
         this->print (gLogIOstream);
       }
-      
+
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         fInputLineNumber,
@@ -480,19 +476,19 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       if ((*i) == note) {
         // found note, erase it
         fTupletElementsList.erase (i);
-        
+
         // account for note duration
         fTupletSoundingWholeNotes -=
           note->getNoteSoundingWholeNotes ();
         fTupletSoundingWholeNotes.rationalise ();
 
         fTupletDisplayWholeNotes -= // JMI
-          note->getNoteDisplayWholeNotes ();  
+          note->getNoteDisplayWholeNotes ();
         fTupletDisplayWholeNotes.rationalise ();
 
         // don't update measure number nor position in measure: // JMI
         // they have not been set yet
-  
+
         // return from function
         return;
       }
@@ -519,7 +515,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
       s.str ());
   */
   }
-  
+
   else {
     stringstream s;
 
@@ -546,7 +542,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   int       inputLineNumber)
 {
   S_msrNote result;
-  
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
@@ -568,12 +564,12 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
       fTupletElementsList.pop_back ();
       result = note;
     }
-    
+
     else {
       if (true) {
         this->print (gLogIOstream);
       }
-      
+
       msrInternalError (
         gGeneralOptions->fInputSourceName,
         fInputLineNumber,
@@ -581,7 +577,7 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
         "removeLastNoteFromTuplet () expects a note as the last tuplet element");
     }
   }
-  
+
   else {
     stringstream s;
 
@@ -628,7 +624,7 @@ rational msrTuplet::setTupletPositionInMeasure (
   fTupletPositionInMeasure = positionInMeasure;
 
   rational currentPosition = positionInMeasure;
-  
+
   // compute position in measure for the tuplets elements
   for (
     list<S_msrTupletElement>::const_iterator i = fTupletElementsList.begin ();
@@ -636,29 +632,29 @@ rational msrTuplet::setTupletPositionInMeasure (
     i++
   ) {
     // set tuplet element position in measure
-    
+
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-      ) {    
+      ) {
       note->
         setNotePositionInMeasure (currentPosition);
-        
+
       currentPosition +=
         note->
           getNoteSoundingWholeNotes ();
     }
-  
+
     else if (
       S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
       ) {
       chord->
         setChordPositionInMeasure (currentPosition);
-        
+
       currentPosition +=
         chord->
           getChordSoundingWholeNotes ();
     }
-    
+
     else if (
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
       ) {
@@ -666,7 +662,7 @@ rational msrTuplet::setTupletPositionInMeasure (
         tuplet->
           setTupletPositionInMeasure (currentPosition);
     }
-    
+
     else {
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -694,41 +690,32 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
       endl;
 
     gIndenter++;
-    
+
     gLogIOstream <<
       "% fTupletFactor = " << fTupletFactor.asString () <<
-      /*
-      "% fTupletActualNotes = " <<
-      fTupletActualNotes <<
-      ", fTupletNormalNotes = " <<
-      fTupletNormalNotes <<
-      */
       endl <<
       "% containingTupletFactor = " << containingTupletFactor.asString () <<
-      /*
-      "% containingTupletActualNotes = " <<
-      containingTupletActualNotes <<
-      ", containingTupletNormalNotes = " <<
-      containingTupletNormalNotes <<
-      */
-      endl <<
       endl;
 
     gIndenter--;
   }
 #endif
 
-  fTupletFactor.fTupletActualNotes /=
-    containingTupletFactor.fTupletActualNotes;
+  fTupletFactor.setTupletActualNotes (
+    fTupletFactor.getTupletActualNotes ()
+      /
+    containingTupletFactor.getTupletActualNotes ());
+  fTupletFactor.setTupletNormalNotes (
+    fTupletFactor.getTupletNormalNotes ()
+      /
+    containingTupletFactor.getTupletNormalNotes ());
+
+/* JMI
+  fTupletFactor.getTupletNormalNotes () /=
+    containingTupletFactor.getTupletNormalNotes ();
   fTupletFactor.fTupletNormalNotes /=
     containingTupletFactor.fTupletNormalNotes;
-
-    /*
-  fTupletActualNotes /=
-    containingTupletActualNotes;
-  fTupletNormalNotes /=
-    containingTupletNormalNotes;
-    */
+  */
 }
 
 void msrTuplet::acceptIn (basevisitor* v)
@@ -738,12 +725,12 @@ void msrTuplet::acceptIn (basevisitor* v)
       "% ==> msrTuplet::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrTuplet>*
     p =
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTuplet::visitStart ()" <<
@@ -765,7 +752,7 @@ void msrTuplet::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTuplet::visitEnd ()" <<
@@ -806,7 +793,7 @@ string msrTuplet::asString () const
   else {
     s << fTupletPositionInMeasure;
   }
-  
+
   s << "[[";
 
   if (fTupletElementsList.size ()) {
@@ -815,28 +802,28 @@ string msrTuplet::asString () const
       iEnd   = fTupletElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      
+
       if (
         S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-        ) {    
+        ) {
         s <<
           note->asShortString ();
       }
-    
+
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
           chord->asString ();
       }
-      
+
       else if (
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
         ) {
         s <<
           tuplet->asString ();
       }
-      
+
       else {
         msrInternalError (
           gGeneralOptions->fInputSourceName,
@@ -844,15 +831,15 @@ string msrTuplet::asString () const
           __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");
       }
-  
+
       if (++i == iEnd) break;
       s << " ";
-      
+
     } // for
   }
 
   s << "]]";
-  
+
   return s.str ();
 }
 
@@ -873,7 +860,7 @@ void msrTuplet::print (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 30;
 
   os << left <<
@@ -935,9 +922,9 @@ void msrTuplet::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    
+
     gIndenter--;
-    
+
   // JMI  os << endl;
   }
 }
@@ -959,7 +946,7 @@ void msrTuplet::printShort (ostream& os)
     endl;
 
   gIndenter++;
-  
+
   const int fieldWidth = 30;
 
   os << left <<
@@ -1013,7 +1000,7 @@ void msrTuplet::printShort (ostream& os)
     os <<
       "TupletElements:" <<
       endl;
-      
+
     gIndenter++;
 
     list<S_msrTupletElement>::const_iterator
@@ -1027,9 +1014,9 @@ void msrTuplet::printShort (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    
+
     gIndenter--;
-    
+
   // JMI  os << endl;
   }
 }

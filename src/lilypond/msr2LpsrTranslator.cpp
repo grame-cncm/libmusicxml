@@ -1942,7 +1942,7 @@ void msr2LpsrTranslator::visitStart (S_msrFigure& elt)
 
   // append the figure to the current figured bass
   fCurrentFiguredBassClone->
-    appendFiguredFigureToFiguredBass (
+    appendFigureToFiguredBass (
       elt);
 }
 

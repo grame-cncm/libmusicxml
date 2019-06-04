@@ -310,54 +310,60 @@ ostream& operator<< (ostream& os, const S_msrFigure& elt)
 
 //______________________________________________________________________________
 S_msrFiguredBass msrFiguredBass::create (
-  // no harmonyVoiceUplink yet
+  // no figuredBassVoiceUplink yet
   int       inputLineNumber) // ,
 // JMI  S_msrPart figuredBassPartUplink)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
-  //    figuredBassPartUplink,
-      rational (0, 1),    // figuredBassSoundingWholeNotes
-      kFiguredBassParenthesesNo);
+//    figuredBassPartUplink,
+      rational (0, 1),           // figuredBassSoundingWholeNotes
+      rational (0, 1),           // figuredBassDisplayWholeNotes
+      kFiguredBassParenthesesNo,
+      msrTupletFactor (1, 1));
   assert(o!=0);
 
   return o;
 }
 
 S_msrFiguredBass msrFiguredBass::create (
-  int       inputLineNumber,
- // S_msrPart figuredBassPartUplink,
-  rational  figuredBassSoundingWholeNotes,
-    msrFiguredBassParenthesesKind
-              figuredBassParenthesesKind)
+  int                           inputLineNumber,
+//   S_msrPart                     figuredBassPartUplink,
+  rational                      figuredBassSoundingWholeNotes,
+  rational                      figuredBassDisplayWholeNotes,
+  msrFiguredBassParenthesesKind figuredBassParenthesesKind,
+  msrTupletFactor               figuredBassTupletFactor)
 {
   msrFiguredBass* o =
     new msrFiguredBass (
       inputLineNumber,
  //     figuredBassPartUplink,
       figuredBassSoundingWholeNotes,
-      figuredBassParenthesesKind);
+      figuredBassDisplayWholeNotes,
+      figuredBassParenthesesKind,
+      figuredBassTupletFactor);
   assert(o!=0);
 
   return o;
 }
 
 msrFiguredBass::msrFiguredBass (
-  int       inputLineNumber,
- // S_msrPart figuredBassPartUplink,
-  rational  figuredBassSoundingWholeNotes,
-  msrFiguredBassParenthesesKind
-            figuredBassParenthesesKind)
-    : msrMeasureElement (inputLineNumber)
+  int                           inputLineNumber,
+//   S_msrPart                     figuredBassPartUplink,
+  rational                      figuredBassSoundingWholeNotes,
+  rational                      figuredBassDisplayWholeNotes,
+  msrFiguredBassParenthesesKind figuredBassParenthesesKind,
+  msrTupletFactor               figuredBassTupletFactor)
+    : msrMeasureElement (inputLineNumber),
+      fFiguredBassTupletFactor (figuredBassTupletFactor)
 {
   /* JMI
   // sanity check
   msrAssert(
     figuredBassPartUplink != nullptr,
     "figuredBassPartUplink is null");
-*/
-     /* JMI
+
   // set figuredBass's part uplink
   fFiguredBassPartUplink =
     figuredBassPartUplink;
@@ -365,6 +371,8 @@ msrFiguredBass::msrFiguredBass (
 
   fFiguredBassSoundingWholeNotes =
     figuredBassSoundingWholeNotes;
+  fFiguredBassDisplayWholeNotes =
+    figuredBassDisplayWholeNotes;
 
   fFiguredBassParenthesesKind =
     figuredBassParenthesesKind;
@@ -407,7 +415,9 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
         fInputLineNumber,
  //       containingPart,
         fFiguredBassSoundingWholeNotes,
-        fFiguredBassParenthesesKind);
+        fFiguredBassDisplayWholeNotes,
+        fFiguredBassParenthesesKind,
+        fFiguredBassTupletFactor);
 
   return newbornClone;
 }
@@ -438,12 +448,14 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy ()
         fInputLineNumber,
    //     containingPart,
         fFiguredBassSoundingWholeNotes,
-        fFiguredBassParenthesesKind);
+        fFiguredBassDisplayWholeNotes,
+        fFiguredBassParenthesesKind,
+        fFiguredBassTupletFactor);
 
   return figuredBassDeepCopy;
 }
 
-void msrFiguredBass::appendFiguredFigureToFiguredBass (
+void msrFiguredBass::appendFigureToFiguredBass (
   S_msrFigure figure)
 {
 #ifdef TRACE_OPTIONS
@@ -475,50 +487,6 @@ string msrFiguredBass::figuredBassParenthesesKindAsString (
   } // switch
 
   return result;
-}
-
-string msrFiguredBass::asString () const
-{
-  stringstream s;
-
-  s <<
-    "Figured bass" <<
-    ": " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fFiguredBassSoundingWholeNotes) <<
-    " sounding whole notes" <<
-    ", " <<
-    figuredBassParenthesesKindAsString (
-      fFiguredBassParenthesesKind) <<
-    ", line " << fInputLineNumber;
-
-  if (fFiguredBassFiguresList.size ()) {
-    s << ", ";
-
-    list<S_msrFigure>::const_iterator
-      iBegin = fFiguredBassFiguresList.begin (),
-      iEnd   = fFiguredBassFiguresList.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-  }
-
-/* JMI
-  if (fFiguredBassPartUplink) { // JMI ???
-    s <<
-      ":" <<
-      wholeNotesAsMsrString (
-        fInputLineNumber,
-        fFiguredBassSoundingWholeNotes);
-  }
-*/
-
-  return s.str ();
 }
 
 void msrFiguredBass::acceptIn (basevisitor* v)
@@ -578,19 +546,74 @@ void msrFiguredBass::browseData (basevisitor* v)
   } // for
 }
 
+string msrFiguredBass::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Figured bass" <<
+    ", figuredBassSoundingWholeNotes" <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fFiguredBassSoundingWholeNotes) <<
+    ", figuredBassDisplayWholeNotes" <<
+    wholeNotesAsMsrString (
+      fInputLineNumber,
+      fFiguredBassDisplayWholeNotes) <<
+
+    ", figuredBassParenthesesKind" <<
+    figuredBassParenthesesKindAsString (
+      fFiguredBassParenthesesKind) <<
+    ", line " << fInputLineNumber;
+
+  if (fFiguredBassFiguresList.size ()) {
+    s << ", ";
+
+    list<S_msrFigure>::const_iterator
+      iBegin = fFiguredBassFiguresList.begin (),
+      iEnd   = fFiguredBassFiguresList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+/* JMI
+  if (fFiguredBassPartUplink) { // JMI ???
+    s <<
+      ":" <<
+      wholeNotesAsMsrString (
+        fInputLineNumber,
+        fFiguredBassSoundingWholeNotes);
+  }
+*/
+
+  return s.str ();
+}
+
 void msrFiguredBass::print (ostream& os)
 {
   os <<
     "FiguredBass" <<
-    ": " <<
-    wholeNotesAsMsrString (
-      fInputLineNumber,
-      fFiguredBassSoundingWholeNotes) <<
-    " sounding whole notes" <<
-    ", " <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  os <<
+    "figuredBassSoundingWholeNotes" <<
+    fFiguredBassSoundingWholeNotes <<
+    endl <<
+    "figuredBassDisplayWholeNotes" <<
+    fFiguredBassDisplayWholeNotes <<
+    endl <<
+
+    ", figuredBassParenthesesKind" <<
     figuredBassParenthesesKindAsString (
       fFiguredBassParenthesesKind) <<
-      ", line " << fInputLineNumber <<
     endl;
 
   if (fFiguredBassFiguresList.size ()) {
@@ -609,6 +632,8 @@ void msrFiguredBass::print (ostream& os)
 
     gIndenter--;
   }
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrFiguredBass& elt)

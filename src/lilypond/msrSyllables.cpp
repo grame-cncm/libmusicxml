@@ -328,9 +328,9 @@ string msrSyllable::syllableWholeNotesAsMsrString () const
       // JMI        noteSoundingWholeNotesAsMsrString () <<
               noteDisplayWholeNotesAsMsrString () <<
             "*" <<
-            fSyllableTupletFactor.fTupletNormalNotes <<
+            fSyllableTupletFactor.getTupletNormalNotes () <<
             "/" <<
-            fSyllableTupletFactor.fTupletActualNotes;
+            fSyllableTupletFactor.getTupletActualNotes ();
 
           result = s.str ();
         }

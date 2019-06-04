@@ -2238,7 +2238,9 @@ class msrHarmony : public msrMeasureElement
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
       rational                 harmonySoundingWholeNotes,
-      int                      harmonyStaffNumber);
+      rational                 harmonyDisplayWholeNotes,
+      int                      harmonyStaffNumber,
+      msrTupletFactor          harmonyTupletFactor);
 
     SMARTP<msrHarmony> createHarmonyNewbornClone (
       S_msrVoice containingVoice);
@@ -2258,7 +2260,9 @@ class msrHarmony : public msrMeasureElement
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
       rational                 harmonySoundingWholeNotes,
-      int                      harmonyStaffNumber);
+      rational                 harmonyDisplayWholeNotes,
+      int                      harmonyStaffNumber,
+      msrTupletFactor          harmonyTupletFactor);
 
   protected:
 
@@ -2274,7 +2278,9 @@ class msrHarmony : public msrMeasureElement
       int                      harmonyInversion,
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
       rational                 harmonySoundingWholeNotes,
-      int                      harmonyStaffNumber);
+      rational                 harmonyDisplayWholeNotes,
+      int                      harmonyStaffNumber,
+      msrTupletFactor          harmonyTupletFactor);
 
     virtual ~msrHarmony ();
 
@@ -2297,12 +2303,19 @@ class msrHarmony : public msrMeasureElement
     S_msrVoice            getHarmonyVoiceUplink () const
                              { return fHarmonyVoiceUplink; }
 
-    rational              getHarmonySoundingWholeNotes () const
-                              { return fHarmonySoundingWholeNotes; }
-
     void                  setHarmonySoundingWholeNotes (
                             rational wholeNotes)
                               { fHarmonySoundingWholeNotes = wholeNotes; }
+
+    rational              getHarmonySoundingWholeNotes () const
+                              { return fHarmonySoundingWholeNotes; }
+
+    void                  setHarmonyDisplayWholeNotes (
+                            rational wholeNotes)
+                              { fHarmonyDisplayWholeNotes = wholeNotes; }
+
+    rational              getHarmonyDisplayWholeNotes () const
+                              { return fHarmonyDisplayWholeNotes; }
 
     msrQuarterTonesPitchKind
                           getHarmonyRootQuarterTonesPitchKind () const
@@ -2331,6 +2344,13 @@ class msrHarmony : public msrMeasureElement
 
     int                   getHarmonyStaffNumber () const
                              { return fHarmonyStaffNumber; }
+
+    void                  setHarmonyTupletFactor (
+                            msrTupletFactor tupletFactor)
+                              { fHarmonyTupletFactor = tupletFactor; }
+
+    msrTupletFactor       getHarmonyTupletFactor () const
+                              { return fHarmonyTupletFactor; }
 
     // services
     // ------------------------------------------------------
@@ -2371,6 +2391,7 @@ class msrHarmony : public msrMeasureElement
     S_msrVoice            fHarmonyVoiceUplink;
 
     rational              fHarmonySoundingWholeNotes;
+    rational              fHarmonyDisplayWholeNotes;
 
     msrQuarterTonesPitchKind
                           fHarmonyRootQuarterTonesPitchKind;
@@ -2387,6 +2408,8 @@ class msrHarmony : public msrMeasureElement
                           fHarmonyDegreesList;
 
     int                   fHarmonyStaffNumber;
+
+    msrTupletFactor       fHarmonyTupletFactor;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
@@ -2527,22 +2550,20 @@ class msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     static SMARTP<msrFiguredBass> create (
-      int       inputLineNumber); // ,
-  //    S_msrPart figuredBassPartUplink); // set by part ??? JMI
+      int       inputLineNumber); // JMI ???
 
     static SMARTP<msrFiguredBass> create (
-      int       inputLineNumber,
- //     S_msrPart figuredBassPartUplink,
-      rational  figuredBassSoundingWholeNotes,
-      msrFiguredBassParenthesesKind
-                figuredBassParenthesesKind);
+      int                           inputLineNumber,
+ //   S_msrPart                     figuredBassPartUplink,
+      rational                      figuredBassSoundingWholeNotes,
+      rational                      figuredBassDisplayWholeNotes,
+      msrFiguredBassParenthesesKind figuredBassParenthesesKind,
+      msrTupletFactor               figuredBassTupletFactor);
 
     SMARTP<msrFiguredBass> createFiguredBassNewbornClone (
       S_msrVoice containingVoice);
- // JMI     S_msrPart containingPart);
 
     SMARTP<msrFiguredBass> createFiguredBassDeepCopy (); // JMI ???
-   // JMI   S_msrPart containingPart);
 
   protected:
 
@@ -2550,11 +2571,12 @@ class msrFiguredBass : public msrMeasureElement
     // ------------------------------------------------------
 
     msrFiguredBass (
-      int       inputLineNumber,
- //     S_msrPart figuredBassPartUplink,
-      rational  figuredBassSoundingWholeNotes,
-      msrFiguredBassParenthesesKind
-                figuredBassParenthesesKind);
+      int                           inputLineNumber,
+ //   S_msrPart                     figuredBassPartUplink,
+      rational                      figuredBassSoundingWholeNotes,
+      rational                      figuredBassDisplayWholeNotes,
+      msrFiguredBassParenthesesKind figuredBassParenthesesKind,
+      msrTupletFactor               figuredBassTupletFactor);
 
     virtual ~msrFiguredBass ();
 
@@ -2591,6 +2613,13 @@ class msrFiguredBass : public msrMeasureElement
     rational              getFiguredBassSoundingWholeNotes () const
                               { return fFiguredBassSoundingWholeNotes; }
 
+    void                  setFiguredBassDisplayWholeNotes (
+                            rational wholeNotes)
+                              { fFiguredBassDisplayWholeNotes = wholeNotes; }
+
+    rational              getFiguredBassDisplayWholeNotes () const
+                              { return fFiguredBassDisplayWholeNotes; }
+
     msrFiguredBassParenthesesKind
                           getFiguredBassParenthesesKind () const
                               { return fFiguredBassParenthesesKind; }
@@ -2599,10 +2628,17 @@ class msrFiguredBass : public msrMeasureElement
                           getFiguredBassFiguresList ()
                               { return fFiguredBassFiguresList;  }
 
+    void                  setFiguredBassTupletFactor (
+                            msrTupletFactor tupletFactor)
+                              { fFiguredBassTupletFactor = tupletFactor; }
+
+    msrTupletFactor       getFiguredBassTupletFactor () const
+                              { return fFiguredBassTupletFactor; }
+
     // services
     // ------------------------------------------------------
 
-    void                  appendFiguredFigureToFiguredBass (
+    void                  appendFigureToFiguredBass (
                             S_msrFigure figure);
 
   public:
@@ -2635,11 +2671,14 @@ class msrFiguredBass : public msrMeasureElement
     S_msrVoice            fFiguredBassVoiceUplink;
 
     rational              fFiguredBassSoundingWholeNotes;
+    rational              fFiguredBassDisplayWholeNotes;
 
     msrFiguredBassParenthesesKind
                           fFiguredBassParenthesesKind;
 
     list<S_msrFigure>     fFiguredBassFiguresList;
+
+    msrTupletFactor       fFiguredBassTupletFactor;
 };
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
@@ -4513,10 +4552,6 @@ class msrTuplet : public msrTupletElement
       msrTupletShowNumberKind tupletShowNumberKind,
       msrTupletShowTypeKind   tupletShowTypeKind,
       msrTupletFactor         tupletFactor,
-      /*
-      int                     tupletActualNotes,
-      int                     tupletNormalNotes,
-      */
       rational                memberNotesSoundingWholeNotes,
       rational                memberNotesDisplayWholeNotes,
       rational                notePositionInMeasure); // JMI
@@ -4539,10 +4574,6 @@ class msrTuplet : public msrTupletElement
       msrTupletShowNumberKind tupletShowNumberKind,
       msrTupletShowTypeKind   tupletShowTypeKind,
       msrTupletFactor         tupletFactor,
-      /*
-      int                     tupletActualNotes,
-      int                     tupletNormalNotes,
-      */
       rational                memberNotesSoundingWholeNotes,
       rational                memberNotesDisplayWholeNotes,
       rational                notePositionInMeasure);
@@ -4574,13 +4605,6 @@ class msrTuplet : public msrTupletElement
     const msrTupletFactor&
                           getTupletFactor ()
                               { return fTupletFactor; }
-
-/* JMI
-    int                   getTupletActualNotes () const
-                              { return fTupletActualNotes; }
-    int                   getTupletNormalNotes () const
-                              { return fTupletNormalNotes; }
-    */
 
     rational              getMemberNotesSoundingWholeNotes () const
                               { return fMemberNotesSoundingWholeNotes; }
@@ -4645,10 +4669,6 @@ class msrTuplet : public msrTupletElement
 
     void                  unapplySoundingFactorToTupletMembers (
                             const msrTupletFactor& containingTupletFactor);
-                            /*
-                            int containingTupletActualNotes,
-                            int containingTupletNormalNotes);
-                            */
 
   public:
 
@@ -4692,8 +4712,6 @@ class msrTuplet : public msrTupletElement
     msrTupletShowTypeKind fTupletShowTypeKind;
 
     msrTupletFactor       fTupletFactor;
-//    int                   fTupletActualNotes;
- //   int                   fTupletNormalNotes;
 
     rational              fMemberNotesSoundingWholeNotes;
     rational              fMemberNotesDisplayWholeNotes;

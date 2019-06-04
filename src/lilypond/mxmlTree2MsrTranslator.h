@@ -1333,6 +1333,7 @@ class mxmlTree2MsrTranslator :
                               fCurrentFigureSuffixKind;
 
     rational                  fCurrentFiguredBassSoundingWholeNotes;
+    rational                  fCurrentFiguredBassDisplayWholeNotes;
 
     msrFiguredBass::msrFiguredBassParenthesesKind
                               fCurrentFiguredBassParenthesesKind;

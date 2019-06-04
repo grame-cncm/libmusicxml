@@ -3122,17 +3122,37 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
       ;
   } // switch
 
-  // print harmony pitch and duration
+  // print harmony pitch
   s <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->
         fMsrQuarterTonesPitchesLanguageKind,
       harmony->
-        getHarmonyRootQuarterTonesPitchKind ()) <<
-    wholeNotesAsLilypondString (
-      inputLineNumber,
-      harmony->
-        getHarmonySoundingWholeNotes ());
+        getHarmonyRootQuarterTonesPitchKind ());
+
+  // print harmony duration
+  msrTupletFactor
+    harmonyTupletFactor =
+      harmony->getHarmonyTupletFactor ();
+
+  if (harmonyTupletFactor.isEmpty ()) {
+    // use harmony sounding whole notes
+    s <<
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        harmony->
+          getHarmonySoundingWholeNotes ());
+  }
+  else {
+    // use harmony display whole notes and tuplet factor
+    s <<
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        harmony->
+          getHarmonyDisplayWholeNotes ()) <<
+      "*" <<
+      harmonyTupletFactor.asRational ();
+  }
 
   // print harmony kind
   switch (harmony->getHarmonyKind ()) {
@@ -6818,11 +6838,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingChord) { // JMI
-    /*
-    // register the harmony in the current chord clone
-    fCurrentChord->
-      setChordHarmony (elt); // JMI
-      */
   }
 
   else if (fOnGoingHarmonyVoice) {
@@ -7055,7 +7070,33 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
 
   if (fOnGoingFiguredBassVoice) {
     fLilypondCodeIOstream <<
-      ">" <<
+      ">";
+
+  // print harmony duration
+  msrTupletFactor
+    harmonyTupletFactor =
+      harmony->getHarmonyTupletFactor ();
+
+  if (harmonyTupletFactor.isEmpty ()) {
+    // use harmony sounding whole notes
+    s <<
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        harmony->
+          getHarmonySoundingWholeNotes ());
+  }
+  else {
+    // use harmony display whole notes and tuplet factor
+    s <<
+      wholeNotesAsLilypondString (
+        inputLineNumber,
+        harmony->
+          getHarmonyDisplayWholeNotes ()) <<
+      "*" <<
+      harmonyTupletFactor.asRational ();
+  }
+
+
       wholeNotesAsLilypondString (
         elt->getInputLineNumber (),
         elt->
@@ -13842,12 +13883,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
       unapplySoundingFactorToTupletMembers (
         containingTuplet->
           getTupletFactor ());
-          /* JMI
-        containingTuplet->
-          getTupletActualNotes (),
-        containingTuplet->
-          getTupletNormalNotes ());
-          */
   }
 
   if (gLilypondOptions->fIndentTuplets) {
@@ -13961,11 +13996,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   fLilypondCodeIOstream <<
     "\\tuplet " <<
     elt->getTupletFactor ().asRational () <<
-  /*
-    elt->getTupletActualNotes () <<
-    "/" <<
-    elt->getTupletNormalNotes () <<
-    */
     " { ";
 
   fTupletsStack.push (elt);

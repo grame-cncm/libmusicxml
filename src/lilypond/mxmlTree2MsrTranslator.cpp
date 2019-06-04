@@ -232,6 +232,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingFiguredBass                   = false;
  // JMI fPendingFiguredBass                   = false;
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
+  fCurrentFiguredBassDisplayWholeNotes  = rational (0, 1);
   fCurrentFiguredBassParenthesesKind =
     msrFiguredBass::kFiguredBassParenthesesNo; // default value
   fCurrentFigureNumber                  = -1;
@@ -7481,7 +7482,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
     }
 #endif
 
-    // set current figured bass whole notes
+    // set current figured bass sounding whole notes
     fCurrentFiguredBassSoundingWholeNotes =
       rational (
         duration,
@@ -7494,6 +7495,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
       fLogOutputStream <<
         "fCurrentFiguredBassSoundingWholeNotes: " <<
         fCurrentFiguredBassSoundingWholeNotes <<
+        endl;
+    }
+#endif
+
+    // set current figured bass display whole notes
+    fCurrentFiguredBassDisplayWholeNotes =
+      rational (
+        duration,
+        fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
+
+    fCurrentFiguredBassDisplayWholeNotes.rationalise ();
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceFiguredBasses) {
+      fLogOutputStream <<
+        "fCurrentFiguredBassDisplayWholeNotes: " <<
+        fCurrentFiguredBassDisplayWholeNotes <<
         endl;
     }
 #endif
@@ -18012,6 +18030,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         setHarmonySoundingWholeNotes (
           fCurrentNoteSoundingWholeNotes / numberOfHarmoniesOnThisNote);
 
+      // set the harmony's tuplet factor if relevant
+      harmony->
+        setHarmonyTupletFactor (
+          msrTupletFactor (
+            fCurrentNoteActualNotes,
+            fCurrentNoteNormalNotes));
+
       // attach the harmony to the note
       newNote->
         setNoteHarmony (harmony);
@@ -18051,6 +18076,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       figuredBass->
         setFiguredBassSoundingWholeNotes (
           fCurrentNoteSoundingWholeNotes);
+
+      // set the figuredBass's tuplet factor if relevant
+      figuredBass->
+        setFiguredBassTupletFactor (
+          msrTupletFactor (
+            fCurrentNoteActualNotes,
+            fCurrentNoteNormalNotes));
 
       // attach the figured bass to the note
       newNote->
@@ -21140,9 +21172,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
         fCurrentHarmonyBassQuarterTonesPitchKind,
 
-        rational (1, 1),  // harmonySoundingWholeNotes,
-                          // will be set upon next note handling
-        fCurrentHarmonyStaffNumber);
+        rational (1, 1),            // harmonySoundingWholeNotes,
+                                    // will be set upon next note handling
+        rational (1, 1),            // harmonyDisplayWholeNotes,
+                                    // will be set upon next note handling
+        fCurrentHarmonyStaffNumber,
+        msrTupletFactor (1, 1));    // will be set upon next note handling
 
   // append pending harmony degrees if any to the harmony
   if (! fCurrentHarmonyDegreesList.size ()) {
@@ -21483,6 +21518,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   fCurrentFigureSuffixKind = msrFigure::k_NoFigureSuffix;
 
   fCurrentFiguredBassSoundingWholeNotes = rational (0, 1);
+  fCurrentFiguredBassDisplayWholeNotes  = rational (0, 1);
 
   fOnGoingFiguredBass = true;
  // JMI fPendingFiguredBass = true;
@@ -21694,7 +21730,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
         inputLineNumber,
   // JMI      fCurrentPart,
         fCurrentFiguredBassSoundingWholeNotes,
-        fCurrentFiguredBassParenthesesKind);
+        fCurrentFiguredBassDisplayWholeNotes,
+        fCurrentFiguredBassParenthesesKind,
+        msrTupletFactor (1, 1));    // will be set upon next note handling
 
   // attach pending figures to the figured bass
   if (! fPendingFiguredBassFigures.size ()) {
@@ -21711,7 +21749,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
       i++
   ) {
       figuredBass->
-        appendFiguredFigureToFiguredBass ((*i));
+        appendFigureToFiguredBass ((*i));
     } // for
 
     // forget about those pending figures
@@ -22325,7 +22363,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
         i++
       ) {
         figuredBass->
-          appendFiguredFigureToFiguredBass ((*i));
+          appendFigureToFiguredBass ((*i));
       } // for
 
       fPendingFiguredBassFigures.clear ();

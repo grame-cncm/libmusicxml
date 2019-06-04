@@ -2918,7 +2918,7 @@ void msr2BsrTranslator::visitStart (S_msrFigure& elt)
 
   // append the figure to the current figured bass
   fCurrentFiguredBass->
-    appendFiguredFigureToFiguredBass (
+    appendFigureToFiguredBass (
       elt);
 }
 
