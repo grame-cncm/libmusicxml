@@ -3135,7 +3135,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     harmonyTupletFactor =
       harmony->getHarmonyTupletFactor ();
 
-  if (harmonyTupletFactor.isEmpty ()) {
+  if (harmonyTupletFactor.isEqualToOne ()) {
     // use harmony sounding whole notes
     s <<
       wholeNotesAsLilypondString (
@@ -3151,7 +3151,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
         harmony->
           getHarmonyDisplayWholeNotes ()) <<
       "*" <<
-      harmonyTupletFactor.asRational ();
+      rational (1, 1) / harmonyTupletFactor.asRational ();
   }
 
   // print harmony kind
@@ -7057,13 +7057,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrFiguredBass '" <<
       elt->asString () <<
       "'" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 #endif
@@ -7072,35 +7075,31 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
     fLilypondCodeIOstream <<
       ">";
 
-  // print harmony duration
-  msrTupletFactor
-    harmonyTupletFactor =
-      harmony->getHarmonyTupletFactor ();
+    // print figured bass duration
+    msrTupletFactor
+      figuredBassTupletFactor =
+        elt->getFiguredBassTupletFactor ();
 
-  if (harmonyTupletFactor.isEmpty ()) {
-    // use harmony sounding whole notes
-    s <<
-      wholeNotesAsLilypondString (
-        inputLineNumber,
-        harmony->
-          getHarmonySoundingWholeNotes ());
-  }
-  else {
-    // use harmony display whole notes and tuplet factor
-    s <<
-      wholeNotesAsLilypondString (
-        inputLineNumber,
-        harmony->
-          getHarmonyDisplayWholeNotes ()) <<
-      "*" <<
-      harmonyTupletFactor.asRational ();
-  }
+    if (figuredBassTupletFactor.isEqualToOne ()) {
+      // use figured bass sounding whole notes
+      fLilypondCodeIOstream <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          elt->
+            getFiguredBassSoundingWholeNotes ());
+    }
+    else {
+      // use figured bass display whole notes and tuplet factor
+      fLilypondCodeIOstream <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          elt->
+            getFiguredBassDisplayWholeNotes ()) <<
+        "*" <<
+        figuredBassTupletFactor.asRational ();
+    }
 
-
-      wholeNotesAsLilypondString (
-        elt->getInputLineNumber (),
-        elt->
-          getFiguredBassSoundingWholeNotes ()) <<
+    fLilypondCodeIOstream <<
       ' ';
   }
 }
@@ -13996,7 +13995,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   fLilypondCodeIOstream <<
     "\\tuplet " <<
     elt->getTupletFactor ().asRational () <<
-    " { ";
+    " {" <<
+    endl;
 
   fTupletsStack.push (elt);
 

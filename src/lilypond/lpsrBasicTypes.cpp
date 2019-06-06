@@ -267,21 +267,19 @@ string wholeNotesAsLilypondString (
      string result;
 
     {
-      string durationToUse = "64"; // JMI
-
       stringstream s;
 
       s <<
-        durationToUse <<
+        1 <<
         "*" <<
-        durationToUse <<
+        numerator <<
         "/" <<
-        numerator;
+        denominator;
 
       result = s.str ();
     }
 
-    {
+    if (DEBUG_WHOLE_NOTES) {
       stringstream s;
 
       s <<

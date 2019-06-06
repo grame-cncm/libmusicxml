@@ -1094,7 +1094,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -1990,7 +1990,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure '" << measureNumber <<

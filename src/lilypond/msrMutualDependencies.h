@@ -2240,7 +2240,8 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonySoundingWholeNotes,
       rational                 harmonyDisplayWholeNotes,
       int                      harmonyStaffNumber,
-      msrTupletFactor          harmonyTupletFactor);
+      msrTupletFactor          harmonyTupletFactor,
+      int                      harmonyWholeNotesOffset);
 
     SMARTP<msrHarmony> createHarmonyNewbornClone (
       S_msrVoice containingVoice);
@@ -2262,7 +2263,8 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonySoundingWholeNotes,
       rational                 harmonyDisplayWholeNotes,
       int                      harmonyStaffNumber,
-      msrTupletFactor          harmonyTupletFactor);
+      msrTupletFactor          harmonyTupletFactor,
+      int                      harmonyWholeNotesOffset);
 
   protected:
 
@@ -2280,7 +2282,8 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonySoundingWholeNotes,
       rational                 harmonyDisplayWholeNotes,
       int                      harmonyStaffNumber,
-      msrTupletFactor          harmonyTupletFactor);
+      msrTupletFactor          harmonyTupletFactor,
+      int                      harmonyWholeNotesOffset);
 
     virtual ~msrHarmony ();
 
@@ -2410,6 +2413,8 @@ class msrHarmony : public msrMeasureElement
     int                   fHarmonyStaffNumber;
 
     msrTupletFactor       fHarmonyTupletFactor;
+
+    rational              fHarmonyWholeNotesOffset;
 };
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
@@ -4661,9 +4666,9 @@ class msrTuplet : public msrTupletElement
     S_msrNote             fetchTupletFirstNonGraceNote () const;
 
     S_msrNote             removeFirstNoteFromTuplet ( // JMI
-                            int       inputLineNumber);
+                            int inputLineNumber);
     S_msrNote             removeLastNoteFromTuplet (
-                            int       inputLineNumber);
+                            int inputLineNumber);
 
  // JMI   void                  applyDisplayFactorToTupletMembers ();
 

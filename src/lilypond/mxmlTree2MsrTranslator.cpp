@@ -224,6 +224,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   fCurrentHarmonyStaffNumber = K_NO_STAFF_NUMBER;
 
+  fCurrentHarmonyWholeNotesOffset = rational (0, 1);
+
   fOnGoingHarmony = true;
 
   // figured bass handling
@@ -2360,6 +2362,16 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
       endl;
   }
 
+  int offsetValue = (int)(*elt);
+
+    // set current grace note whole notes
+  rational
+    offsetWholeNotesFromDuration =
+      rational (
+        offsetValue,
+        fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
+    offsetWholeNotesFromDuration.rationalise ();
+
   // sound
 
   string offsetSound =elt->getAttributeValue ("sound");
@@ -2393,6 +2405,10 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
   }
 
   if (fOnGoingDirection) { // JMI
+  }
+  else if (fOnGoingHarmony) {
+    fCurrentHarmonyWholeNotesOffset =
+      offsetWholeNotesFromDuration;
   }
 }
 
@@ -7187,6 +7203,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentMusicXMLVoiceNumber = 1; // JMI
 
   // tuplets
+
+  fCurrentNoteHasATimeModification = false;
 
   fCurrentNoteActualNotes = -1;
   fCurrentNoteNormalNotes = -1;
@@ -17890,7 +17908,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   if (
     fCurrentNoteSoundingWholeNotesFromDuration
       !=
-    fCurrentNoteDisplayWholeNotesFromType) {
+    fCurrentNoteDisplayWholeNotesFromType
+      &&
+    ! fCurrentNoteHasATimeModification
+  ) {
     switch (newNote->getNoteKind ()) {
       case msrNote::k_NoNoteKind:
         break;
@@ -17898,7 +17919,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       case msrNote::kTupletMemberNote:
       case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
-        break;
+  // JMI      break;
 
       case msrNote::kRestNote:
       case msrNote::kSkipNote:
@@ -18024,13 +18045,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         setHarmonyVoiceUplink (
           voiceToInsertInto);
 
-      // set the harmony's whole notes
+      // set the harmony's souding whole notes
       // don't forget that numberOfHarmoniesOnThisNote share the note's duration
       harmony->
         setHarmonySoundingWholeNotes (
           fCurrentNoteSoundingWholeNotes / numberOfHarmoniesOnThisNote);
 
-      // set the harmony's tuplet factor if relevant
+      // set the harmony's display whole notes
+      harmony->
+        setHarmonyDisplayWholeNotes (
+          fCurrentNoteDisplayWholeNotes);
+
+      // set the harmony's tuplet factor
       harmony->
         setHarmonyTupletFactor (
           msrTupletFactor (
@@ -18077,7 +18103,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         setFiguredBassSoundingWholeNotes (
           fCurrentNoteSoundingWholeNotes);
 
-      // set the figuredBass's tuplet factor if relevant
+      // set the figuredBass's tuplet factor
       figuredBass->
         setFiguredBassTupletFactor (
           msrTupletFactor (
@@ -19668,7 +19694,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   int inputLineNumber =
     newChordNote->getInputLineNumber ();
 
-  // set new note kind as a chord or grace chord member
+  // set new note kind as a chord or grace chord member JMI ???
   newChordNote->
     setNoteKind (
       msrNote::kChordMemberNote);
@@ -19689,8 +19715,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       ||
     gTraceOptions->fTraceChords
       ||
-      gTraceOptions->fTraceTuplets
-    ) {
+    gTraceOptions->fTraceTuplets
+  ) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
@@ -19789,7 +19815,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         tupletLastNote,
         msrNote::kChordMemberNote);
 
-    if (false) {
+    if (false) { // JMI
       fLogOutputStream <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<
@@ -21177,7 +21203,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
         rational (1, 1),            // harmonyDisplayWholeNotes,
                                     // will be set upon next note handling
         fCurrentHarmonyStaffNumber,
-        msrTupletFactor (1, 1));    // will be set upon next note handling
+        msrTupletFactor (1, 1),     // will be set upon next note handling
+        fCurrentHarmonyWholeNotesOffset);
 
   // append pending harmony degrees if any to the harmony
   if (! fCurrentHarmonyDegreesList.size ()) {

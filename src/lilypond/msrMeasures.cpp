@@ -1534,7 +1534,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
     inputLineNumber,
     fActualMeasureWholeNotes + chordSoundingWholeNotes);
 
-  // update part measure whole notes high tide if need be
+  // update part measure whole notes high tide
   fetchMeasurePartUplink ()->
     updatePartActualMeasureWholeNotesHighTide (
       inputLineNumber,

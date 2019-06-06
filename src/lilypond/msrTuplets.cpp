@@ -297,10 +297,13 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 
   fTupletElementsList.push_back (chord);
 
-  // account for chord duration
+  // DO NOT account for the chord duration,
+  // since its first note has been accounted for already
+  /* JMI
   fTupletSoundingWholeNotes +=
     chord->getChordSoundingWholeNotes ();
   fTupletSoundingWholeNotes.rationalise ();
+*/
 
   fTupletDisplayWholeNotes += // JMI
     chord->getChordDisplayWholeNotes ();
@@ -430,7 +433,7 @@ S_msrNote msrTuplet::fetchTupletFirstNonGraceNote () const
 }
 
 S_msrNote msrTuplet::removeFirstNoteFromTuplet (
-  int       inputLineNumber)
+  int inputLineNumber)
 {
   S_msrNote result;
 
@@ -539,7 +542,7 @@ S_msrNote msrTuplet::removeFirstNoteFromTuplet (
 }
 
 S_msrNote msrTuplet::removeLastNoteFromTuplet (
-  int       inputLineNumber)
+  int inputLineNumber)
 {
   S_msrNote result;
 
@@ -560,13 +563,22 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*lastTupletElement))
-      ) {
+    ) {
+      // remove note from tuplet elements list
       fTupletElementsList.pop_back ();
+
+/*
+      // decrement the tuplet sounding whole notes accordingly ??? JMI BAD???
+      fTupletSoundingWholeNotes +=
+        note->getNoteSoundingWholeNotes ();
+      fTupletSoundingWholeNotes.rationalise ();
+*/
+
       result = note;
     }
 
     else {
-      if (true) {
+      if (true) { // JMI
         this->print (gLogIOstream);
       }
 
@@ -598,9 +610,9 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
   }
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "This last note from grace notes '" <<
+      "This last note from tuplet '" <<
       asString () <<
       "' turns out to be '" <<
       result->asShortString () <<

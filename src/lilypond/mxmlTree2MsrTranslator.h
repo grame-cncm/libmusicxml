@@ -1313,6 +1313,8 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentHarmonyStaffNumber;
 
+    rational                  fCurrentHarmonyWholeNotesOffset;
+
     bool                      fOnGoingHarmony;
 
     // figured bass handling

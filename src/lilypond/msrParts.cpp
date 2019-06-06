@@ -1424,25 +1424,6 @@ void msrPart:: handleBackup (
   int divisions,
   int divisionsPerQuarterNote)
 {
-#ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceParts
-      ||
-    gMusicXMLOptions->fTraceDivisions
-      ||
-    gMusicXMLOptions->fTraceBackup
-      ||
-    gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
-      "Handling backup, divisions = '" <<
-      divisions <<
-      "' in part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
   // compute the backup step length
   rational
     backupStepLength =
@@ -1456,6 +1437,33 @@ void msrPart:: handleBackup (
       fPartActualMeasureWholeNotesHighTide - backupStepLength;
 
   positionInMeasure.rationalise ();
+
+#ifdef TRACE_OPTIONS
+  if (
+    gTraceOptions->fTraceParts
+      ||
+    gMusicXMLOptions->fTraceDivisions
+      ||
+    gMusicXMLOptions->fTraceBackup
+      ||
+    gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Handling backup, divisions = '" <<
+      divisions <<
+      "', divisionsPerQuarterNote = '" <<
+      divisionsPerQuarterNote <<
+      "', backupStepLength = '" <<
+      backupStepLength <<
+      "', fPartActualMeasureWholeNotesHighTide = '" <<
+      fPartActualMeasureWholeNotesHighTide <<
+      "', positionInMeasure = '" <<
+      positionInMeasure <<
+      "' in part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
 
   // bring the part back to that measure position
   padUpToActualMeasureWholeNotesInPart (

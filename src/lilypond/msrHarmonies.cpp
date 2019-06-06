@@ -268,7 +268,8 @@ S_msrHarmony msrHarmony::create (
   rational                 harmonySoundingWholeNotes,
   rational                 harmonyDisplayWholeNotes,
   int                      harmonyStaffNumber,
-  msrTupletFactor          harmonyTupletFactor)
+  msrTupletFactor          harmonyTupletFactor,
+  int                      harmonyWholeNotesOffset)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -282,7 +283,8 @@ S_msrHarmony msrHarmony::create (
       harmonySoundingWholeNotes,
       harmonyDisplayWholeNotes,
       harmonyStaffNumber,
-      harmonyTupletFactor);
+      harmonyTupletFactor,
+      harmonyWholeNotesOffset);
   assert(o!=0);
 
   return o;
@@ -299,7 +301,8 @@ S_msrHarmony msrHarmony::create (
   rational                 harmonySoundingWholeNotes,
   rational                 harmonyDisplayWholeNotes,
   int                      harmonyStaffNumber,
-  msrTupletFactor          harmonyTupletFactor)
+  msrTupletFactor          harmonyTupletFactor,
+  int                      harmonyWholeNotesOffset)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -313,7 +316,8 @@ S_msrHarmony msrHarmony::create (
       harmonySoundingWholeNotes,
       harmonyDisplayWholeNotes,
       harmonyStaffNumber,
-      harmonyTupletFactor);
+      harmonyTupletFactor,
+      harmonyWholeNotesOffset);
   assert(o!=0);
 
   return o;
@@ -330,7 +334,8 @@ msrHarmony::msrHarmony (
   rational                 harmonySoundingWholeNotes,
   rational                 harmonyDisplayWholeNotes,
   int                      harmonyStaffNumber,
-  msrTupletFactor          harmonyTupletFactor)
+  msrTupletFactor          harmonyTupletFactor,
+  int                      harmonyWholeNotesOffset)
     : msrMeasureElement (inputLineNumber),
      fHarmonyTupletFactor (harmonyTupletFactor)
 {
@@ -362,6 +367,8 @@ msrHarmony::msrHarmony (
     harmonyDisplayWholeNotes;
 
   fHarmonyStaffNumber = harmonyStaffNumber;
+
+  fHarmonyWholeNotesOffset = harmonyWholeNotesOffset;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies) {
@@ -468,7 +475,8 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
         fHarmonySoundingWholeNotes,
         fHarmonyDisplayWholeNotes,
         fHarmonyStaffNumber,
-        fHarmonyTupletFactor);
+        fHarmonyTupletFactor,
+        fHarmonyWholeNotesOffset);
 
   return newbornClone;
 }
@@ -503,7 +511,8 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
         fHarmonySoundingWholeNotes,
         fHarmonyDisplayWholeNotes,
         fHarmonyStaffNumber,
-        fHarmonyTupletFactor);
+        fHarmonyTupletFactor,
+        fHarmonyWholeNotesOffset);
 
   return harmonyDeepCopy;
 }
@@ -619,6 +628,24 @@ string msrHarmony::asString () const
     } // for
   }
 
+  // print the harmony staff number
+  s <<
+    "harmonyStaffNumber" << " : ";
+  if (fHarmonyStaffNumber == K_NO_STAFF_NUMBER)
+    s << "none";
+  else
+    s << fHarmonyStaffNumber;
+
+  // print the harmony tuplet factor
+  s <<
+    "harmonyTupletFactor" << " : " << fHarmonyTupletFactor <<
+    endl;
+
+  // print the harmony offset
+  s <<
+    "harmonyWholeNotesOffset" << " : " << fHarmonyWholeNotesOffset <<
+    endl;
+
   return s.str ();
 }
 
@@ -733,6 +760,18 @@ void msrHarmony::print (ostream& os)
   else
     os << fHarmonyStaffNumber;
   os <<
+    endl;
+
+  // print the harmony tuplet factor
+  os <<
+    setw (fieldWidth) <<
+    "harmonyTupletFactor" << " : " << fHarmonyTupletFactor <<
+    endl;
+
+  // print the harmony offset
+  os <<
+    setw (fieldWidth) <<
+    "harmonyWholeNotesOffset" << " : " << fHarmonyWholeNotesOffset <<
     endl;
 
   gIndenter--;
