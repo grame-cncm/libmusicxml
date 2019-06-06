@@ -115,7 +115,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barline '" <<
       barline->asShortString () <<

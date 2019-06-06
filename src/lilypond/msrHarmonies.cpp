@@ -269,7 +269,7 @@ S_msrHarmony msrHarmony::create (
   rational                 harmonyDisplayWholeNotes,
   int                      harmonyStaffNumber,
   msrTupletFactor          harmonyTupletFactor,
-  int                      harmonyWholeNotesOffset)
+  rational                 harmonyWholeNotesOffset)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -302,7 +302,7 @@ S_msrHarmony msrHarmony::create (
   rational                 harmonyDisplayWholeNotes,
   int                      harmonyStaffNumber,
   msrTupletFactor          harmonyTupletFactor,
-  int                      harmonyWholeNotesOffset)
+  rational                 harmonyWholeNotesOffset)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -335,7 +335,7 @@ msrHarmony::msrHarmony (
   rational                 harmonyDisplayWholeNotes,
   int                      harmonyStaffNumber,
   msrTupletFactor          harmonyTupletFactor,
-  int                      harmonyWholeNotesOffset)
+  rational                 harmonyWholeNotesOffset)
     : msrMeasureElement (inputLineNumber),
      fHarmonyTupletFactor (harmonyTupletFactor)
 {
@@ -369,16 +369,6 @@ msrHarmony::msrHarmony (
   fHarmonyStaffNumber = harmonyStaffNumber;
 
   fHarmonyWholeNotesOffset = harmonyWholeNotesOffset;
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "Creating harmony '" <<
-      asString () <<
-      "'" <<
-      endl;
-  }
-#endif
 
   // handle harmony inversion if any
   /*
@@ -439,6 +429,16 @@ msrHarmony::msrHarmony (
     fHarmonyBassQuarterTonesPitchKind =
       invertedChordBassQuarterTonesPitchKind;
   }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceHarmonies) {
+    gLogIOstream <<
+      "Creating harmony '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
 }
 
 msrHarmony::~msrHarmony ()
@@ -638,7 +638,8 @@ string msrHarmony::asString () const
 
   // print the harmony tuplet factor
   s <<
-    "harmonyTupletFactor" << " : " << fHarmonyTupletFactor <<
+    "harmonyTupletFactor" << " : " <<
+    fHarmonyTupletFactor.asString () <<
     endl;
 
   // print the harmony offset
@@ -765,7 +766,7 @@ void msrHarmony::print (ostream& os)
   // print the harmony tuplet factor
   os <<
     setw (fieldWidth) <<
-    "harmonyTupletFactor" << " : " << fHarmonyTupletFactor <<
+    "harmonyTupletFactor" << " : " << fHarmonyTupletFactor.asString () <<
     endl;
 
   // print the harmony offset

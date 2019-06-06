@@ -2241,7 +2241,7 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonyDisplayWholeNotes,
       int                      harmonyStaffNumber,
       msrTupletFactor          harmonyTupletFactor,
-      int                      harmonyWholeNotesOffset);
+      rational                 harmonyWholeNotesOffset);
 
     SMARTP<msrHarmony> createHarmonyNewbornClone (
       S_msrVoice containingVoice);
@@ -2264,7 +2264,7 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonyDisplayWholeNotes,
       int                      harmonyStaffNumber,
       msrTupletFactor          harmonyTupletFactor,
-      int                      harmonyWholeNotesOffset);
+      rational                 harmonyWholeNotesOffset);
 
   protected:
 
@@ -2283,7 +2283,7 @@ class msrHarmony : public msrMeasureElement
       rational                 harmonyDisplayWholeNotes,
       int                      harmonyStaffNumber,
       msrTupletFactor          harmonyTupletFactor,
-      int                      harmonyWholeNotesOffset);
+      rational                 harmonyWholeNotesOffset);
 
     virtual ~msrHarmony ();
 
@@ -2354,6 +2354,9 @@ class msrHarmony : public msrMeasureElement
 
     msrTupletFactor       getHarmonyTupletFactor () const
                               { return fHarmonyTupletFactor; }
+
+    rational              getHarmonyWholeNotesOffset () const
+                              { return fHarmonyWholeNotesOffset; }
 
     // services
     // ------------------------------------------------------
@@ -3670,6 +3673,12 @@ class msrNote : public msrTupletElement
 
     S_msrWedge            removeFirstWedge (); // JMI
 
+    // segnos
+    void                  appendSegnoToNote (S_msrSegno segno);
+
+    // codas
+    void                  appendCodaToNote (S_msrCoda coda);
+
     // eyeglasses
     void                  appendEyeGlassesToNote (S_msrEyeGlasses eyeGlasses);
 
@@ -3917,6 +3926,16 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     list<S_msrWedge>      fNoteWedges;
+
+    // segnos
+    // ------------------------------------------------------
+
+    list<S_msrSegno>      fNoteSegnos;
+
+    // coda
+    // ------------------------------------------------------
+
+    list<S_msrCoda>       fNoteCodas;
 
     // eyeglasses
     // ------------------------------------------------------

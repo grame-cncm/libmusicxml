@@ -2332,6 +2332,16 @@ void msrNote::appendWedgeToNote (S_msrWedge wedge)
   fNoteWedges.push_back (wedge);
 }
 
+void msrNote::appendSegnoToNote (S_msrSegno segno)
+{
+  fNoteSegnos.push_back (segno);
+}
+
+void msrNote::appendCodaToNote (S_msrCoda coda)
+{
+  fNoteCodas.push_back (coda);
+}
+
 void msrNote::appendEyeGlassesToNote (S_msrEyeGlasses eyeGlasses)
 {
   fNoteEyeGlasses.push_back (eyeGlasses);
@@ -2777,6 +2787,30 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
       // browse the wedge
       msrBrowser<msrWedge> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the segnos if any
+  if (fNoteSegnos.size ()) {
+    gIndenter++;
+    list<S_msrSegno>::const_iterator i;
+    for (i=fNoteSegnos.begin (); i!=fNoteSegnos.end (); i++) {
+      // browse the segno
+      msrBrowser<msrSegno> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the codas if any
+  if (fNoteCodas.size ()) {
+    gIndenter++;
+    list<S_msrCoda>::const_iterator i;
+    for (i=fNoteCodas.begin (); i!=fNoteCodas.end (); i++) {
+      // browse the coda
+      msrBrowser<msrCoda> browser (v);
       browser.browse (*(*i));
     } // for
     gIndenter--;
@@ -4793,6 +4827,70 @@ void msrNote::print (ostream& os)
       list<S_msrWedge>::const_iterator
         iBegin = fNoteWedges.begin (),
         iEnd   = fNoteWedges.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the eyeglasses if any
+  int noteSegnosSize = fNoteSegnos.size ();
+
+  if (noteSegnosSize > 0 || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteSegnos";
+    if (fNoteSegnos.size ()) {
+      os <<
+        endl;
+
+      gIndenter++;
+
+      list<S_msrSegno>::const_iterator
+        iBegin = fNoteSegnos.begin (),
+        iEnd   = fNoteSegnos.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        // no endl here;
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the codas if any
+  int noteCodasSize = fNoteCodas.size ();
+
+  if (noteCodasSize > 0 || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteCodas";
+    if (fNoteCodas.size ()) {
+      os <<
+        endl;
+
+      gIndenter++;
+
+      list<S_msrCoda>::const_iterator
+        iBegin = fNoteCodas.begin (),
+        iEnd   = fNoteCodas.end (),
         i      = iBegin;
       for ( ; ; ) {
         os << (*i);

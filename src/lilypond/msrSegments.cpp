@@ -652,7 +652,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
 #ifdef TRACE_OPTIONS
-  if (/* JMI gTraceOptions->fTraceSegnos || */ gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceSegnos || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending segno " <<
       " to segment " << asString () <<
@@ -680,7 +680,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
 #ifdef TRACE_OPTIONS
-  if (/* JMI gTraceOptions->fTraceCodas || */ gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceCodas || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending coda " <<
       " to segment " << asString () <<
@@ -709,7 +709,7 @@ void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
 #ifdef TRACE_OPTIONS
-  if (/* JMI gTraceOptions->fTraceEyeGlasses || */ gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceEyeGlasses || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending eyeGlasses " <<
       " to segment " << asString () <<
@@ -737,7 +737,7 @@ void msrSegment::appendEyeGlassesToSegment (
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
-  if (/* JMI gTraceOptions->fTracePedals || */ gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTracePedals || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending pedal " <<
       " to segment " << asString () <<
@@ -765,7 +765,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 void msrSegment::appendDampToSegment (S_msrDamp damp)
 {
 #ifdef TRACE_OPTIONS
-  if (/* JMI gTraceOptions->fTraceDamps || */ gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceDamps || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending damp " <<
       " to segment " << asString () <<
@@ -793,7 +793,7 @@ void msrSegment::appendDampToSegment (S_msrDamp damp)
 void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
 {
 #ifdef TRACE_OPTIONS
-  if (/* JMI gTraceOptions->fTraceDampAlls || */ gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceDampAlls || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending damp all " <<
       " to segment " << asString () <<
@@ -1526,7 +1526,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   if (! fSegmentMeasuresList.size ()) { // JMI
 #ifdef TRACE_OPTIONS
     if (
-      gTraceOptions->fTraceBarlinesDetails
+      gTraceOptions->fTraceBarLinesDetails
         ||
       gTraceOptions->fTraceSegmentsDetails
     ) { // JMI

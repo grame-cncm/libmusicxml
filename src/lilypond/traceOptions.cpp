@@ -210,6 +210,12 @@ debugging information to standard error for the specified measures.)",
     // page breaks
     fTracePageBreaks = boolOptionsInitialValue;
 
+    // staff changes
+    fTraceStaffChanges = boolOptionsInitialValue;
+
+    // barlines
+    fTraceBarLines = boolOptionsInitialValue;
+
     // transpositions
     fTraceTranspositions = boolOptionsInitialValue;
 
@@ -221,8 +227,8 @@ debugging information to standard error for the specified measures.)",
     fTraceSegmentsDetails = boolOptionsInitialValue;
 
     // barlines
-    fTraceBarlines = boolOptionsInitialValue;
-    fTraceBarlinesDetails = boolOptionsInitialValue;
+    fTraceBarLines = boolOptionsInitialValue;
+    fTraceBarLinesDetails = boolOptionsInitialValue;
 
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
@@ -337,6 +343,18 @@ debugging information to standard error for the specified measures.)",
 
     // scordaturas
     fTraceScordaturas = boolOptionsInitialValue;
+
+    // segnos
+    fTraceSegnos = boolOptionsInitialValue;
+
+    // codas
+    fTraceCodas = boolOptionsInitialValue;
+
+    // accordion registrations
+    fTraceAccordionRegistrations = boolOptionsInitialValue;
+
+    // harp pedals
+    fTraceHarpPedals = boolOptionsInitialValue;
 
     // harp pedals tuning
     fTraceHarpPedalsTunings = boolOptionsInitialValue;
@@ -525,6 +543,17 @@ R"(Page breaks)",
           fTracePageBreaks,
           fTracePasses));
 
+    // staff changes
+
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tschanges", "trace-staff-changes",
+R"(Staff changes)",
+          "traceStaffChanges",
+          fTraceStaffChanges,
+          fTracePasses));
+
     // transpositions
 
     specificTraceSubGroup->
@@ -573,20 +602,20 @@ R"(Voices segments details)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tbars", "trace-barlines",
+          "tblines", "trace-barlines",
 R"(Barlines)",
           "traceBarlines",
-          fTraceBarlines,
+          fTraceBarLines,
           fTracePasses));
 
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tbarsd", "trace-barlines-details",
+          "tbarlinesd", "trace-barlines-details",
 R"(Barlines details)",
           "traceBarlinesDetails",
-          fTraceBarlinesDetails,
-          fTraceBarlines,
+          fTraceBarLinesDetails,
+          fTraceBarLines,
           fTracePasses));
 
     // rest measures
@@ -849,7 +878,7 @@ R"(Eyeglasses)",
           fTraceEyeGlasses,
           fTracePasses));
 
-    // slides
+    // damps
 
     specificTraceSubGroup->
       appendOptionsItem (
@@ -865,7 +894,7 @@ R"(Damps)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
-          "tdampas", "trace-dampalls",
+          "tdampalls", "trace-dampalls",
 R"(Dampalls)",
           "traceDampAlls",
           fTraceDampAlls,
@@ -1043,7 +1072,48 @@ R"(Scordaturas)",
           fTraceScordaturas,
           fTracePasses));
 
-    // pedal tunings
+    // segnos
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "trace-segnos", "",
+R"(Segnos)",
+          "traceSegnos",
+          fTraceSegnos,
+          fTracePasses));
+
+
+    // codas
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "trace-codas", "",
+R"(Codas)",
+          "traceCodas",
+          fTraceCodas,
+          fTracePasses));
+
+    // accordion registrations
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "trace-accordion-registrations", "",
+R"(Accordion registrations)",
+          "traceAccordionRegistrations",
+          fTraceAccordionRegistrations,
+          fTracePasses));
+
+    // harp pedals
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "trace-harp-pedals", "",
+R"(Harp pedals)",
+          "traceHarpPedals",
+          fTraceHarpPedals,
+          fTracePasses));
+
+    // harp pedals tunings
 
     specificTraceSubGroup->
       appendOptionsItem (
@@ -1091,6 +1161,10 @@ R"(MSR Streams API for applications)",
   fTraceStaffDetails = boolOptionsInitialValue;
   fTraceScordaturas = boolOptionsInitialValue;
 
+  fTraceSegnos = boolOptionsInitialValue;
+  fTraceCodas = boolOptionsInitialValue;
+  fTraceAccordionRegistrations = boolOptionsInitialValue;
+  fTraceHarpPedals = boolOptionsInitialValue;
 
   /* STUFF not yet handled JMI */
 
@@ -1119,18 +1193,26 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // passes
   clone->fTracePasses = true;
 
+  // options
+  clone->fTraceOptions = true;
+  clone->fDisplayOptionsValues = true;
+  clone->fDisplayOptionsHandler = true;
+
   // scores
   clone->fTraceScore = true;
-
-  // geometry
-  clone->fTraceGeometry = true;
 
   // varValAssocs
   clone->fTraceVarValAssocs = true;
 
+  // credits
+  clone->fTraceCredits = true;
+
   // part groups
   clone->fTracePartGroups = true;
   clone->fTracePartGroupsDetails = true;
+
+  // geometry
+  clone->fTraceGeometry = true;
 
   // parts
   clone->fTraceParts = true;
@@ -1143,6 +1225,8 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   clone->fTraceVoicesDetails = true;
 
   // measures
+  clone->fTraceMeasures = true;
+  clone->fTraceMeasuresDetails = true;
   clone->fTraceDetailedMeasureNumbersSet =
     fTraceDetailedMeasureNumbersSet;
 
@@ -1167,6 +1251,9 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // page breaks
   clone->fTracePageBreaks = true;
 
+  // staff changes
+  clone->fTraceStaffChanges = true;
+
   // transpositions
   clone->fTraceTranspositions = true;
 
@@ -1178,11 +1265,8 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   clone->fTraceSegmentsDetails = true;
 
   // barlines
-  clone->fTraceBarlines = true;
-  clone->fTraceBarlinesDetails = true;
-
-  // rest measures
-  clone->fTraceRestMeasures = true;
+  clone->fTraceBarLines = true;
+  clone->fTraceBarLinesDetails = true;
 
   // repeats
   clone->fTraceRepeats = true;
@@ -1191,12 +1275,11 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // measures repeats
   clone->fTraceMeasuresRepeats = true;
 
+  // rest measures
+  clone->fTraceRestMeasures = true;
+
   // slashes
   clone->fTraceSlashes = true;
-
-  // measures
-  clone->fTraceMeasures = true;
-  clone->fTraceMeasuresDetails = true;
 
   // notes
   clone->fTraceNotes = true;
@@ -1237,6 +1320,21 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   clone->fTraceTuplets = true;
   clone->fTraceTupletsDetails = true;
 
+  // glissandos
+  clone->fTraceTuplets = true;
+
+  // eyeglases
+  clone->fTraceGlissandos = true;
+
+  // damps
+  clone->fTraceDamps = true;
+
+  // dampalls
+  clone->fTraceDampAlls = true;
+
+  // slides
+  clone->fTraceSlides = true;
+
   // grace notes
   clone->fTraceGraceNotes = true;
 
@@ -1252,9 +1350,6 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
 
   // figured basses
   clone->fTraceFiguredBasses = true;
-
-  // credits
-  clone->fTraceCredits = true;
 
   // dynamics
   clone->fTraceDynamics = true;
@@ -1280,8 +1375,26 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // scordaturas
   clone->fTraceScordaturas = true;
 
+  // segnos
+  clone->fTraceSegnos = true;
 
-  /* STUFF not yet handled JMI */
+  // codas
+  clone->fTraceCodas = true;
+
+  // accordion registrations
+  clone->fTraceAccordionRegistrations = true;
+
+  // harp pedals
+  clone->fTraceHarpPedals = true;
+
+  // harp pedals tuning
+  clone->fTraceHarpPedalsTunings = true;
+
+  // extra chords
+  clone->fTraceExtraChords = true;
+
+  // msrStreams
+  clone->fTraceMsrStreams = true;
 
   // midi
   clone->fTraceMidi = true;
@@ -1342,6 +1455,9 @@ void traceOptions::setAllGeneralTraceOptions (
     // page breaks
     fTracePageBreaks = boolOptionsInitialValue;
 
+    // staff changes
+    fTraceStaffChanges = boolOptionsInitialValue;
+
     // transpositions
     fTraceTranspositions = boolOptionsInitialValue;
 
@@ -1353,8 +1469,8 @@ void traceOptions::setAllGeneralTraceOptions (
     fTraceSegmentsDetails = boolOptionsInitialValue;
 
     // barlines
-    fTraceBarlines = boolOptionsInitialValue;
-    fTraceBarlinesDetails = boolOptionsInitialValue;
+    fTraceBarLines = boolOptionsInitialValue;
+    fTraceBarLinesDetails = boolOptionsInitialValue;
 
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
@@ -1470,8 +1586,20 @@ void traceOptions::setAllGeneralTraceOptions (
     // scordaturas
     fTraceScordaturas = boolOptionsInitialValue;
 
+    // segnos
+    fTraceSegnos = boolOptionsInitialValue;
+
+    // codas
+    fTraceCodas = boolOptionsInitialValue;
+
+    // accordion registrations
+    fTraceAccordionRegistrations = boolOptionsInitialValue;
+
+    // harp pedals
+    fTraceScordaturas = boolOptionsInitialValue;
+
     // harp pedals tuning
-    fTraceHarpPedalsTunings = boolOptionsInitialValue;
+    fTraceHarpPedals = boolOptionsInitialValue;
 
     // extra chords
     fTraceExtraChords = boolOptionsInitialValue;
@@ -1490,6 +1618,11 @@ void traceOptions::setAllGeneralTraceOptions (
 
   fTraceStaffDetails = boolOptionsInitialValue;
   fTraceScordaturas = boolOptionsInitialValue;
+
+  fTraceSegnos = boolOptionsInitialValue;
+  fTraceCodas = boolOptionsInitialValue;
+  fTraceAccordionRegistrations = boolOptionsInitialValue;
+  fTraceHarpPedals = boolOptionsInitialValue;
 
 
   / / * STUFF not yet handled JMI * /
@@ -1603,6 +1736,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     booleanAsString (fTracePageBreaks) <<
     endl <<
 
+    // staff changes
+    setw (fieldWidth) << "traceStaffChanges" << " : " <<
+    booleanAsString (fTraceStaffChanges) <<
+    endl <<
+
     // transpositions
     setw (fieldWidth) << "traceTranspositions" << " : " <<
     booleanAsString (fTraceTranspositions) <<
@@ -1623,10 +1761,10 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
 
     // barlines
     setw (fieldWidth) << "traceBarlines" << " : " <<
-    booleanAsString (fTraceBarlines) <<
+    booleanAsString (fTraceBarLines) <<
     endl <<
     setw (fieldWidth) << "traceBarlinesDetails" << " : " <<
-    booleanAsString (fTraceBarlinesDetails) <<
+    booleanAsString (fTraceBarLinesDetails) <<
     endl <<
 
     // repeats

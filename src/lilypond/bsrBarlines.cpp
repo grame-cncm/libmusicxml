@@ -53,7 +53,7 @@ bsrBarline::bsrBarline (
   fBarlineCellsList = buildCellsList ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarLines) {
     gLogIOstream <<
       "Creating bsrBarline '" <<
       asString () <<

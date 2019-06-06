@@ -1022,9 +1022,6 @@ void lpsr2LilypondTranslator::generateNoteHeadColor (
 void lpsr2LilypondTranslator::generateNoteLigatures (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-
   list<S_msrLigature>
     noteLigatures =
       note->getNoteLigatures ();
@@ -1211,9 +1208,6 @@ void lpsr2LilypondTranslator::generateNoteLigatures (
 void lpsr2LilypondTranslator::generateNoteStem (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-
   S_msrStem
     noteStem =
       note->getNoteStem ();
@@ -1438,9 +1432,6 @@ void lpsr2LilypondTranslator::generateNoteStem (
 void lpsr2LilypondTranslator::generateNoteHead (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-
   if (! note->getNoteIsARest ()) { // JMI ???
     msrNote::msrNoteHeadKind
       noteHeadKind =
@@ -1534,9 +1525,6 @@ void lpsr2LilypondTranslator::generateNoteHead (
 void lpsr2LilypondTranslator::generateCodeBeforeNote (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-
   // print the note head color
   generateNoteHeadColor (note);
 

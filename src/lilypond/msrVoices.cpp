@@ -1478,7 +1478,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceRepeats
+    gTraceOptions->fTraceKeys
       ||
     gTraceOptions->fTraceRepeats
       ||
@@ -2058,7 +2058,7 @@ void msrVoice::appendStaffDetailsToVoice (
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
-  if (gMsrOptions->fTraceMsr) {
+  if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending tempo '" << tempo->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -2072,7 +2072,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 void msrVoice::appendOctaveShiftToVoice (
   S_msrOctaveShift octaveShift)
 {
-  if (gMsrOptions->fTraceMsr) {
+  if (gTraceOptions->fTraceOctaveShifts || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -2088,7 +2088,7 @@ void msrVoice::appendOctaveShiftToVoice (
 void msrVoice::appendScordaturaToVoice (
   S_msrScordatura scordatura)
 {
-  if (gMsrOptions->fTraceMsr) {
+  if (gTraceOptions->fTraceScordaturas || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending scordatura '" <<
       scordatura->asString () <<
@@ -2105,7 +2105,7 @@ void msrVoice::appendAccordionRegistrationToVoice (
     accordionRegistration)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceAccordionRegistrations || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->asString () <<
@@ -2124,7 +2124,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
     harpPedalsTuning)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceHarpPedals || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->asString () <<
@@ -2141,7 +2141,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRehearsals || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending rehearsal '" << rehearsal->getRehearsalText () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -2162,7 +2162,7 @@ void msrVoice::appendVoiceStaffChangeToVoice (
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaffChanges || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending voice staff change '" <<
       voiceStaffChange->asString () <<
@@ -6123,7 +6123,7 @@ void msrVoice::setVoiceContainsMeasuresRepeats (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRestMeasures) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     gLogIOstream <<
       "Voice \"" <<
       getVoiceName () <<
@@ -8613,7 +8613,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Prepending barline '" <<
       barline->asString () <<
@@ -8634,7 +8634,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending barline '" <<
       barline->asString () <<
@@ -8662,7 +8662,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceSegnos || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -8683,7 +8683,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 void msrVoice::appendCodaToVoice (S_msrCoda coda)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceCodas || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
       ":" <<
@@ -8705,7 +8705,7 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
 void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceEyeGlasses || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending a eyeGlasses to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -8726,7 +8726,7 @@ void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTracePedals || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -8747,7 +8747,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 void msrVoice::appendDampToVoice (S_msrDamp damp)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceDamps || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending a damp to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -8768,7 +8768,7 @@ void msrVoice::appendDampToVoice (S_msrDamp damp)
 void msrVoice::appendDampAllToVoice (S_msrDampAll dampAll)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceDampAlls || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending a damp all to voice \"" << getVoiceName () << "\"" <<
       endl;

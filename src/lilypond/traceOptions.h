@@ -161,6 +161,9 @@ class traceOptions : public optionsGroup
     // page breaks
     bool                  fTracePageBreaks;
 
+    // staff changes
+    bool                  fTraceStaffChanges;
+
     // transpositions
     bool                  fTraceTranspositions;
 
@@ -172,8 +175,8 @@ class traceOptions : public optionsGroup
     bool                  fTraceSegmentsDetails;
 
     // barlines
-    bool                  fTraceBarlines;
-    bool                  fTraceBarlinesDetails;
+    bool                  fTraceBarLines;
+    bool                  fTraceBarLinesDetails;
 
     // repeats
     bool                  fTraceRepeats;
@@ -281,6 +284,18 @@ class traceOptions : public optionsGroup
 
     // scordaturas
     bool                  fTraceScordaturas;
+
+    // segnos
+    bool                  fTraceSegnos;
+
+    // codas
+    bool                  fTraceCodas;
+
+    // accordion registrations
+    bool                  fTraceAccordionRegistrations;
+
+    // harp pedals
+    bool                  fTraceHarpPedals;
 
     // harp pedals tuning
     bool                  fTraceHarpPedalsTunings;

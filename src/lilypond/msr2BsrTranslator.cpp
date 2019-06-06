@@ -723,7 +723,7 @@ void msr2BsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarLines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

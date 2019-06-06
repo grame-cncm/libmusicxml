@@ -1070,10 +1070,31 @@ class mxmlTree2MsrTranslator :
     // rehearsals remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
-    list<S_msrRehearsal>      fPendingRehearsals;
+    list<S_msrRehearsal>      fPendingRehearsalsList;
 
     void                      attachPendingRehearsalsToVoice (
                                 S_msrVoice voice);
+
+
+    // segnos handling
+    // ------------------------------------------------------
+    // segnos remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrSegno>          fPendingSegnosList;
+
+    void                      attachPendingSegnosToNote (
+                                S_msrNote note);
+
+    // codas handling
+    // ------------------------------------------------------
+    // codas remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrCoda>           fPendingCodasList;
+
+    void                      attachPendingCodasToNote (
+                                S_msrNote note);
 
 
     // eyeglasses handling
@@ -1081,7 +1102,7 @@ class mxmlTree2MsrTranslator :
     // eyeglasses remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
-    list<S_msrEyeGlasses>     fPendingEyeGlasses;
+    list<S_msrEyeGlasses>     fPendingEyeGlassesList;
 
     void                      attachPendingEyeGlassesToNote (
                                 S_msrNote note);
@@ -1092,7 +1113,7 @@ class mxmlTree2MsrTranslator :
     // damps remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
-    list<S_msrDamp>           fPendingDamps;
+    list<S_msrDamp>           fPendingDampsList;
 
     void                      attachPendingDampsToNote (
                                 S_msrNote note);
@@ -1103,7 +1124,7 @@ class mxmlTree2MsrTranslator :
     // damp alls remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
-    list<S_msrDampAll>        fPendingDampAlls;
+    list<S_msrDampAll>        fPendingDampAllsList;
 
     void                      attachPendingDampAllsToNote (
                                 S_msrNote note);
@@ -1136,7 +1157,7 @@ class mxmlTree2MsrTranslator :
 
     bool                      fOnGoingMetronomeNote;
 
-    list<S_msrBeam>           fPendingMetronomeBeams; // stack JMI ???
+    list<S_msrBeam>           fPendingMetronomeBeamsList; // stack JMI ???
     void                      attachCurrentMetronomeBeamsToMetronomeNote (
                                 S_msrTempoNote tempoNote);
 
@@ -1166,7 +1187,7 @@ class mxmlTree2MsrTranslator :
     // tempos remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
-    list<S_msrTempo>          fPendingTempos;
+    list<S_msrTempo>          fPendingTemposList;
 
     void                      attachPendingTemposToVoice (
                                 S_msrVoice voice);
@@ -1175,7 +1196,7 @@ class mxmlTree2MsrTranslator :
     // line breaks handling
     // ------------------------------------------------------
 
-    list<S_msrLineBreak>      fPendingLineBreaks;
+    list<S_msrLineBreak>      fPendingLineBreaksList;
 
     void                      attachLineBreaksToVoice (
                                 S_msrVoice voice);
@@ -1184,7 +1205,7 @@ class mxmlTree2MsrTranslator :
     // page breaks handling
     // ------------------------------------------------------
 
-    list<S_msrPageBreak>      fPendingPageBreaks;
+    list<S_msrPageBreak>      fPendingPageBreaksList;
 
     void                      attachPageBreaksToVoice (
                                 S_msrVoice voice);
@@ -1196,7 +1217,7 @@ class mxmlTree2MsrTranslator :
     // octave shifts remain pending until the next note
     // (they precede the note in MusicXML and
     // may occur when no current voice exists)
-    list<S_msrOctaveShift>    fPendingOctaveShifts;
+    list<S_msrOctaveShift>    fPendingOctaveShiftsList;
     void                      attachPendingOctaveShiftsToNote (
                                 S_msrNote note);
 
@@ -1209,7 +1230,7 @@ class mxmlTree2MsrTranslator :
     // scordaturas remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
-    list<S_msrScordatura>     fPendingScordaturas;
+    list<S_msrScordatura>     fPendingScordaturasList;
 
     void                      attachPendingScordaturasToNote (
                                 S_msrNote note);
@@ -1324,7 +1345,6 @@ class mxmlTree2MsrTranslator :
     list<S_msrFiguredBass>    fPendingFiguredBassesList;
 
     bool                      fOnGoingFiguredBass;
-//    bool                      fPendingFiguredBass; // JMI ???
 
     int                       fCurrentFiguredBassInputLineNumber;
 
@@ -1340,7 +1360,7 @@ class mxmlTree2MsrTranslator :
     msrFiguredBass::msrFiguredBassParenthesesKind
                               fCurrentFiguredBassParenthesesKind;
 
-    list<S_msrFigure>         fPendingFiguredBassFigures;
+    list<S_msrFigure>         fPendingFiguredBassFiguresList;
 
     // frames handling
     // ------------------------------------------------------
@@ -1579,13 +1599,13 @@ class mxmlTree2MsrTranslator :
     // (they precede the note in MusicXML but follow it in LilyPond)
     // ------------------------------------------------------
 
-    list<S_msrDynamics>       fPendingDynamics;
-    list<S_msrOtherDynamics>  fPendingOtherDynamics;
-    list<S_msrWords>          fPendingWords;
-    list<S_msrSlur>           fPendingSlurs;
-    list<S_msrLigature>       fPendingLigatures;
-    list<S_msrWedge>          fPendingWedges;
-    list<S_msrSlash>          fPendingSlashes;
+    list<S_msrDynamics>       fPendingDynamicsList;
+    list<S_msrOtherDynamics>  fPendingOtherDynamicsList;
+    list<S_msrWords>          fPendingWordsList;
+    list<S_msrSlur>           fPendingSlursList;
+    list<S_msrLigature>       fPendingLigaturesList;
+    list<S_msrWedge>          fPendingWedgesList;
+    list<S_msrSlash>          fPendingSlashesList;
 
     void                      attachPendingElementsToNote (
                                 S_msrNote note);
@@ -1708,7 +1728,7 @@ class mxmlTree2MsrTranslator :
     // stems handling
     // ------------------------------------------------------
 
-    vector<S_msrStem>         fPendingStems; // stack JMI ???
+    vector<S_msrStem>         fPendingStemsVector; // stack JMI ???
 
     void                      copyNoteStemToChord (
                                 S_msrNote note, S_msrChord chord);
@@ -1716,7 +1736,7 @@ class mxmlTree2MsrTranslator :
     // beams handling
     // ------------------------------------------------------
 
-    list<S_msrBeam>           fPendingBeams;
+    list<S_msrBeam>           fPendingBeamsList;
 
     void                      attachPendingBeamsToNote (
                                 S_msrNote note);
@@ -1726,12 +1746,12 @@ class mxmlTree2MsrTranslator :
     // glissandos handling
     // ------------------------------------------------------
 
-    list<S_msrGlissando>      fPendingGlissandos;
+    list<S_msrGlissando>      fPendingGlissandosList;
 
     // slides handling
     // ------------------------------------------------------
 
-    list<S_msrSlide>          fPendingSlides;
+    list<S_msrSlide>          fPendingSlidesList;
 
     // tremolos handling
     // ------------------------------------------------------
@@ -1881,7 +1901,7 @@ class mxmlTree2MsrTranslator :
     // piano pedals handling
     // ------------------------------------------------------
 
-    list<S_msrPedal>          fPendingPedals;
+    list<S_msrPedal>          fPendingPedalsList;
 
 /* JMI
     msrDamperPedal::damperPedalKind

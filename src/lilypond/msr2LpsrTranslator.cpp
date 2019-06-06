@@ -1809,6 +1809,33 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingHarmonyVoice) {
+  /* JMI
+    // get the harmony whole notes offset
+    rational
+      harmonyWholeNotesOffset =
+        elt->getHarmonyWholeNotesOffset ();
+
+    // is harmonyWholeNotesOffset not equal to 0?
+    if (harmonyWholeNotesOffset.getNumerator () != 0) {
+      // create skip with duration harmonyWholeNotesOffset
+      S_msrNote
+        skip =
+          msrNote::createSkipNote (
+            elt->                getInputLineNumber (),
+            "9999", // JMI elt->                getHarmonyMeasureNumber (),
+            elt->                getHarmonyDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            elt->                getHarmonyDisplayWholeNotes (),
+            0, // JMI elt->                getHarmonyDotsNumber (),
+            fCurrentVoiceClone-> getRegularVoiceStaffSequentialNumber (), // JMI
+            fCurrentVoiceClone-> getVoiceNumber ());
+
+      // append it to the current voice clone
+      // to 'push' the harmony aside
+      fCurrentVoiceClone->
+        appendNoteToVoice (skip);
+    }
+*/
+
     // append the harmony to the current voice clone
     fCurrentVoiceClone->
       appendHarmonyToVoiceClone (
@@ -5401,7 +5428,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarLines) {
     fLogOutputStream <<
       "Handling '" <<
       msrBarline::barlineCategoryKindAsString (

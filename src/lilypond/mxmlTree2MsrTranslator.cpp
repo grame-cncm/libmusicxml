@@ -2301,13 +2301,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
   }
 
   if (fCurrentMetronomeTempo) {
-    int pendingWordsSize = fPendingWords.size ();
+    int pendingWordsSize = fPendingWordsList.size ();
 
     if (pendingWordsSize) {
-      while (fPendingWords.size ()) {
+      while (fPendingWordsList.size ()) {
         S_msrWords
           words =
-            fPendingWords.front();
+            fPendingWordsList.front();
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
@@ -2324,11 +2324,11 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
           appendWordsToTempo (words);
 
         // forget about this words
-        fPendingWords.pop_front();
+        fPendingWordsList.pop_front();
       } // while
 
       // append the tempo to the pending tempos list
-      fPendingTempos.push_back (fCurrentMetronomeTempo);
+      fPendingTemposList.push_back (fCurrentMetronomeTempo);
 
       fCurrentMetronomeTempo = nullptr;
     }
@@ -2364,7 +2364,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 
   int offsetValue = (int)(*elt);
 
-    // set current grace note whole notes
+    // set offset whole notes
   rational
     offsetWholeNotesFromDuration =
       rational (
@@ -2407,6 +2407,17 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
   if (fOnGoingDirection) { // JMI
   }
   else if (fOnGoingHarmony) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceHarmonies) {
+      fLogOutputStream <<
+        "Harmony offset \"" << offsetValue << "\"" <<
+        ", represents = \'" <<
+       offsetWholeNotesFromDuration <<
+       "\' whole notes" <<
+        endl;
+    }
+#endif
+
     fCurrentHarmonyWholeNotesOffset =
       offsetWholeNotesFromDuration;
   }
@@ -2515,7 +2526,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
         octaveShiftSize);
 
   // append the octave shift to the pending octave shifts list
-  fPendingOctaveShifts.push_back (octaveShift);
+  fPendingOctaveShiftsList.push_back (octaveShift);
 }
 
 //________________________________________________________________________
@@ -2696,7 +2707,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
           fontWeightKind,
           wordsXMLLangKind);
 
-    fPendingWords.push_back (words);
+    fPendingWordsList.push_back (words);
   }
 }
 
@@ -3071,14 +3082,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
         beamKind);
 
   // register it
-  fPendingMetronomeBeams.push_back (beam);
+  fPendingMetronomeBeamsList.push_back (beam);
 }
 
 void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
   S_msrTempoNote tempoNote)
 {
   // attach the current articulations if any to the note
-  if (fPendingMetronomeBeams.size ()) {
+  if (fPendingMetronomeBeamsList.size ()) {
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceBeams) {
@@ -3089,10 +3100,10 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
     }
 #endif
 
-    while (fPendingMetronomeBeams.size ()) {
+    while (fPendingMetronomeBeamsList.size ()) {
       S_msrBeam
         beam =
-          fPendingMetronomeBeams.front();
+          fPendingMetronomeBeamsList.front();
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceBeams) {
@@ -3108,7 +3119,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
         appendBeamToTempoNote (beam);
 
       // forget about this articulation
-      fPendingMetronomeBeams.pop_front();
+      fPendingMetronomeBeamsList.pop_front();
     } // while
   }
 }
@@ -3152,7 +3163,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
         false /* tempoNoteBelongsToATuplet JMI */);
 
   // attach beams if any to metronome note
-  if (fPendingMetronomeBeams.size ()) {
+  if (fPendingMetronomeBeamsList.size ()) {
     attachCurrentMetronomeBeamsToMetronomeNote (
       tempoNote);
   }
@@ -3560,14 +3571,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   // append metrenome words to tempo if any
   S_msrWords tempoWords;
 
-  int pendingWordsSize = fPendingWords.size ();
+  int pendingWordsSize = fPendingWordsList.size ();
 
   if (pendingWordsSize) {
     if (pendingWordsSize > 1) {
-      while (fPendingWords.size ()) {
+      while (fPendingWordsList.size ()) {
         S_msrWords
           words =
-            fPendingWords.front();
+            fPendingWordsList.front();
 
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceWords || gTraceOptions->fTraceTempos) {
@@ -3584,7 +3595,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
           appendWordsToTempo (words);
 
         // forget about this words
-        fPendingWords.pop_front();
+        fPendingWordsList.pop_front();
       } // while
 
 
@@ -3601,23 +3612,23 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         s.str ());
     }
 
-    while (fPendingWords.size ()) {
+    while (fPendingWordsList.size ()) {
       S_msrWords
         words =
-          fPendingWords.front ();
+          fPendingWordsList.front ();
 
       // append the words to the temp
       fCurrentMetronomeTempo->
         appendWordsToTempo (words);
 
        // remove it from the list
-      fPendingWords.pop_front ();
+      fPendingWordsList.pop_front ();
     } // while
   }
 
 if (false) { // JMI
   // append the tempo to the pending tempos list
-  fPendingTempos.push_back (fCurrentMetronomeTempo);
+  fPendingTemposList.push_back (fCurrentMetronomeTempo);
 }
 else {
   // fetch current direction's voice
@@ -4819,7 +4830,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
           fCurrentSlurTypeKind,
           slurLineTypeKind);
 
-    fPendingSlurs.push_back (slur);
+    fPendingSlursList.push_back (slur);
 
     // push slurs starts onto the stack
     switch (fCurrentSlurTypeKind) {
@@ -4976,7 +4987,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         ligatureLineTypeKind,
         fCurrentDirectionPlacementKind);
 
-  fPendingLigatures.push_back (ligature);
+  fPendingLigaturesList.push_back (ligature);
 
   switch (fCurrentLigatureKind) {
     case msrLigature::kLigatureStart:
@@ -5187,7 +5198,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
         wedgeLineTypeKind,
         fCurrentDirectionPlacementKind);
 
-  fPendingWedges.push_back (wedge);
+  fPendingWedgesList.push_back (wedge);
 }
 
 //________________________________________________________________________
@@ -6231,7 +6242,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
             fCurrentMeasureNumber);
 
       // append it to the pending line breaks
-      fPendingLineBreaks.push_back (lineBreak);
+      fPendingLineBreaksList.push_back (lineBreak);
     }
 
     else if (newSystem == "no") {
@@ -6275,7 +6286,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
             inputLineNumber);
 
       // append it to the pending page breaks
-      fPendingPageBreaks.push_back (pageBreak);
+      fPendingPageBreaksList.push_back (pageBreak);
      }
 
     else if (newPage == "no") {
@@ -6515,28 +6526,31 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
   }
 
   if (fOnGoingDirectionType) {
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromPart (
-          inputLineNumber,
-          fCurrentMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber);
-
     // create the segno
     S_msrSegno
       segno =
         msrSegno::create (
           inputLineNumber);
 
-    // append it to the current voice
-    currentVoice->
-      appendSegnoToVoice (segno);
+    // append it to the pending segnos list
+    fPendingSegnosList.push_back (segno);
   }
 
   else if (fOnGoingBarline) {
     fCurrentBarlineHasSegnoKind =
       msrBarline::kBarlineHasSegnoYes;
+  }
+
+  else {
+    stringstream s;
+
+    s << "segno is out of context";
+
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -6553,27 +6567,30 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
   }
 
   if (fOnGoingDirectionType) {
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromPart (
-          inputLineNumber,
-          fCurrentMusicXMLStaffNumber,
-          fCurrentMusicXMLVoiceNumber);
-
     // create the coda
     S_msrCoda
       coda =
         msrCoda::create (
           inputLineNumber);
 
-    // append it to the current voice
-    currentVoice->
-      appendCodaToVoice (coda);
+    // append it to the pending codas list
+    fPendingCodasList.push_back (coda);
   }
 
   else if (fOnGoingBarline) {
     fCurrentBarlineHasCodaKind = msrBarline::kBarlineHasCodaYes;
+  }
+
+  else {
+    stringstream s;
+
+    s << "coda is out of context";
+
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -6590,7 +6607,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
   }
 
   if (fOnGoingDirectionType) {
-    // fetch current voice
     // create the eyeglasses
     S_msrEyeGlasses
       eyeGlasses =
@@ -6598,7 +6614,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
           inputLineNumber);
 
     // append it to the pending eyeglasses list
-    fPendingEyeGlasses.push_back (eyeGlasses);
+    fPendingEyeGlassesList.push_back (eyeGlasses);
+  }
+
+  else {
+    stringstream s;
+
+    s << "eyeGlasses is out of context";
+
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 
@@ -6713,7 +6741,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
 
   if (fOnGoingDirectionType) {
     // append it to the pending pedals list
-    fPendingPedals.push_back (pedal);
+    fPendingPedalsList.push_back (pedal);
   }
   else {
     stringstream s;
@@ -6929,7 +6957,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineTimes);
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarLines) {
     fLogOutputStream <<
       "Creating barline in part " <<
       fCurrentPart->getPartCombinedName () << ":" <<
@@ -7070,7 +7098,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
         // append the bar line to the current part
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceBarlines) {
+        if (gTraceOptions->fTraceBarLines) {
           fLogOutputStream <<
             "Appending a barline to part " <<
             fCurrentPart->getPartCombinedName () << ":" <<
@@ -8061,7 +8089,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
 
   // color JMI
 
-  fPendingBeams.push_back (beam);
+  fPendingBeamsList.push_back (beam);
 }
 
 //______________________________________________________________________________
@@ -8399,7 +8427,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_slash& elt )
         fCurrentSlashUseDotsKind,
         fCurrentSlashUseStemsKind);
 
-  fPendingSlashes.push_back (slash);
+  fPendingSlashesList.push_back (slash);
 }
 
 //______________________________________________________________________________
@@ -11874,7 +11902,7 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
         msrDynamics::kF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
 {
@@ -11920,7 +11948,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
         msrDynamics::kFF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
 {
@@ -11966,7 +11994,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
         msrDynamics::kFFF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
 {
@@ -12012,7 +12040,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
         msrDynamics::kFFFF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
 {
@@ -12058,7 +12086,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
         msrDynamics::kFFFFF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
 {
@@ -12104,7 +12132,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
         msrDynamics::kFFFFFF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_p& elt)
@@ -12151,7 +12179,7 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
         msrDynamics::kP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
 {
@@ -12197,7 +12225,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
         msrDynamics::kPP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
 {
@@ -12243,7 +12271,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
         msrDynamics::kPPP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
 {
@@ -12289,7 +12317,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
         msrDynamics::kPPPP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
 {
@@ -12335,7 +12363,7 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
         msrDynamics::kPPPPP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
 {
@@ -12381,7 +12409,7 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
         msrDynamics::kPPPPPP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 
@@ -12429,7 +12457,7 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
         msrDynamics::kMF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
 {
@@ -12475,7 +12503,7 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
         msrDynamics::kMP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
@@ -12522,7 +12550,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
         msrDynamics::kFP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
 {
@@ -12568,7 +12596,7 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
         msrDynamics::kFZ,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
@@ -12615,7 +12643,7 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
         msrDynamics::kRF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
@@ -12662,7 +12690,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
         msrDynamics::kSF,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
@@ -12708,7 +12736,7 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
         msrDynamics::kRFZ,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
@@ -12754,7 +12782,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
         msrDynamics::kSFZ,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
@@ -12800,7 +12828,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
         msrDynamics::kSFP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
@@ -12846,7 +12874,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
         msrDynamics::kSFPP,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
@@ -12893,7 +12921,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
         msrDynamics::kSFFZ,
         dynamicsPlacementKind);
 
-  fPendingDynamics.push_back(dynamics);
+  fPendingDynamicsList.push_back(dynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
@@ -12942,7 +12970,7 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
         otherDynamicsValue,
         otherDynamicsPlacementKind);
 
-  fPendingOtherDynamics.push_back(otherDynamics);
+  fPendingOtherDynamicsList.push_back(otherDynamics);
 }
 
 //______________________________________________________________________________
@@ -13048,7 +13076,7 @@ void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
         inputLineNumber,
         otherDynamicsValue);
 
-  fPendingOtherDynamics.push_back(otherDynamics);
+  fPendingOtherDynamicsList.push_back(otherDynamics);
 }
 
 void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
@@ -13071,7 +13099,7 @@ void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
         inputLineNumber,
         otherDynamicsValue);
 
-  fPendingOtherDynamics.push_back(otherDynamics);
+  fPendingOtherDynamicsList.push_back(otherDynamics);
 }
 */
 
@@ -13947,7 +13975,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   }
 #endif
 
-  fPendingGlissandos.push_back (glissando);
+  fPendingGlissandosList.push_back (glissando);
 }
 
 //______________________________________________________________________________
@@ -14067,7 +14095,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   }
 #endif
 
-  fPendingSlides.push_back (slide);
+  fPendingSlidesList.push_back (slide);
 }
 
 //______________________________________________________________________________
@@ -15979,7 +16007,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToVoice (
   S_msrVoice voice)
 {
   // attach the pending tempos if any to the voice
-  if (fPendingTempos.size ()) {
+  if (fPendingTemposList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceTempos) {
       fLogOutputStream <<
@@ -15990,15 +16018,15 @@ void mxmlTree2MsrTranslator::attachPendingTemposToVoice (
     }
 #endif
 
-    while (fPendingTempos.size ()) {
+    while (fPendingTemposList.size ()) {
       S_msrTempo
         tempo =
-          fPendingTempos.front ();
+          fPendingTemposList.front ();
 
       voice->
         appendTempoToVoice (tempo);
 
-      fPendingTempos.pop_front ();
+      fPendingTemposList.pop_front ();
     } // while
   }
 }
@@ -16007,7 +16035,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToVoice (
   S_msrVoice voice)
 {
  // attach the pending rehearsals if any to the note
-  if (fPendingRehearsals.size ()) {
+  if (fPendingRehearsalsList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceRehearsals) {
       fLogOutputStream <<
@@ -16018,15 +16046,15 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToVoice (
     }
 #endif
 
-    while (fPendingRehearsals.size ()) {
+    while (fPendingRehearsalsList.size ()) {
       S_msrRehearsal
         rehearsal =
-          fPendingRehearsals.front ();
+          fPendingRehearsalsList.front ();
 
       voice->
         appendRehearsalToVoice (rehearsal);
 
-      fPendingRehearsals.pop_front ();
+      fPendingRehearsalsList.pop_front ();
     } // while
   }
 }
@@ -16035,7 +16063,7 @@ void mxmlTree2MsrTranslator::attachLineBreaksToVoice (
   S_msrVoice voice)
 {
  // attach the pending line breaks if any to the note
-  if (fPendingLineBreaks.size ()) {
+  if (fPendingLineBreaksList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceLineBreaks) {
       fLogOutputStream <<
@@ -16046,17 +16074,17 @@ void mxmlTree2MsrTranslator::attachLineBreaksToVoice (
     }
 #endif
 
-    while (fPendingLineBreaks.size ()) {
+    while (fPendingLineBreaksList.size ()) {
       S_msrLineBreak
         lineBreak =
-          fPendingLineBreaks.front ();
+          fPendingLineBreaksList.front ();
 
       // append it to the voice
       voice->
         appendLineBreakToVoice (lineBreak);
 
       // remove it from the list
-      fPendingLineBreaks.pop_front ();
+      fPendingLineBreaksList.pop_front ();
     } // while
   }
 }
@@ -16065,7 +16093,7 @@ void mxmlTree2MsrTranslator::attachPageBreaksToVoice (
   S_msrVoice voice)
 {
  // attach the pending page breaks if any to the note
-  if (fPendingPageBreaks.size ()) {
+  if (fPendingPageBreaksList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTracePageBreaks) {
       fLogOutputStream <<
@@ -16076,17 +16104,73 @@ void mxmlTree2MsrTranslator::attachPageBreaksToVoice (
     }
 #endif
 
-    while (fPendingPageBreaks.size ()) {
+    while (fPendingPageBreaksList.size ()) {
       S_msrPageBreak
         pageBreak =
-          fPendingPageBreaks.front ();
+          fPendingPageBreaksList.front ();
 
       // append it to the voice
       voice->
         appendPageBreakToVoice (pageBreak);
 
       // remove it from the list
-      fPendingPageBreaks.pop_front ();
+      fPendingPageBreaksList.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingSegnosToNote (
+  S_msrNote note)
+{
+ // attach the pending segno if any to the note
+  if (fPendingSegnosList.size ()) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceSegnos) {
+      fLogOutputStream <<
+        "Attaching pending segno to note " <<
+        note->asString () <<
+        endl;
+    }
+#endif
+
+    while (fPendingSegnosList.size ()) {
+      S_msrSegno
+        segno =
+          fPendingSegnosList.front ();
+
+      note->
+        appendSegnoToNote (segno);
+
+      fPendingSegnosList.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingCodasToNote (
+  S_msrNote note)
+{
+ // attach the pending coda if any to the note
+  if (fPendingCodasList.size ()) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceCodas) {
+      fLogOutputStream <<
+        "Attaching pending Codas to note " <<
+        note->asString () <<
+        endl;
+    }
+#endif
+
+    while (fPendingCodasList.size ()) {
+      S_msrCoda
+        coda =
+          fPendingCodasList.front ();
+
+      note->
+        appendCodaToNote (coda);
+
+      fPendingCodasList.pop_front ();
     } // while
   }
 }
@@ -16096,7 +16180,7 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
   S_msrNote note)
 {
  // attach the pending eyeglasses if any to the note
-  if (fPendingEyeGlasses.size ()) {
+  if (fPendingEyeGlassesList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceEyeGlasses) {
       fLogOutputStream <<
@@ -16106,15 +16190,15 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
     }
 #endif
 
-    while (fPendingEyeGlasses.size ()) {
+    while (fPendingEyeGlassesList.size ()) {
       S_msrEyeGlasses
         eyeGlasses =
-          fPendingEyeGlasses.front ();
+          fPendingEyeGlassesList.front ();
 
       note->
         appendEyeGlassesToNote (eyeGlasses);
 
-      fPendingEyeGlasses.pop_front ();
+      fPendingEyeGlassesList.pop_front ();
     } // while
   }
 }
@@ -16124,7 +16208,7 @@ void mxmlTree2MsrTranslator::attachPendingDampsToNote (
   S_msrNote note)
 {
  // attach the pending damps if any to the note
-  if (fPendingDamps.size ()) {
+  if (fPendingDampsList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceDamps) {
       fLogOutputStream <<
@@ -16134,15 +16218,15 @@ void mxmlTree2MsrTranslator::attachPendingDampsToNote (
     }
 #endif
 
-    while (fPendingDamps.size ()) {
+    while (fPendingDampsList.size ()) {
       S_msrDamp
         damp =
-          fPendingDamps.front ();
+          fPendingDampsList.front ();
 
       note->
         appendDampToNote (damp);
 
-      fPendingDamps.pop_front ();
+      fPendingDampsList.pop_front ();
     } // while
   }
 }
@@ -16152,7 +16236,7 @@ void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
   S_msrNote note)
 {
  // attach the pending damp alls if any to the note
-  if (fPendingDampAlls.size ()) {
+  if (fPendingDampAllsList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceDampAlls) {
       fLogOutputStream <<
@@ -16162,15 +16246,15 @@ void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
     }
 #endif
 
-    while (fPendingDampAlls.size ()) {
+    while (fPendingDampAllsList.size ()) {
       S_msrDampAll
         dampAll =
-          fPendingDampAlls.front ();
+          fPendingDampAllsList.front ();
 
       note->
         appendDampAllToNote (dampAll);
 
-      fPendingDampAlls.pop_front ();
+      fPendingDampAllsList.pop_front ();
     } // while
   }
 }
@@ -16180,7 +16264,7 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToNote (
   S_msrNote note)
 {
  // attach the pending octave shifts if any to the note
-  if (fPendingOctaveShifts.size ()) {
+  if (fPendingOctaveShiftsList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOctaveShifts) {
       fLogOutputStream <<
@@ -16200,15 +16284,15 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToNote (
           fCurrentMusicXMLVoiceNumber);
 */
 
-    while (fPendingOctaveShifts.size ()) {
+    while (fPendingOctaveShiftsList.size ()) {
       S_msrOctaveShift
         octaveShift =
-          fPendingOctaveShifts.front ();
+          fPendingOctaveShiftsList.front ();
 
       note->
         setNoteOctaveShift (octaveShift);
 
-      fPendingOctaveShifts.pop_front ();
+      fPendingOctaveShiftsList.pop_front ();
     } // while
   }
 }
@@ -16218,7 +16302,7 @@ void mxmlTree2MsrTranslator::attachPendingScordaturasToNote (
   S_msrNote note)
 {
  // attach the pending scordatura if any to the note
-  if (fPendingScordaturas.size ()) {
+  if (fPendingScordaturasList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceScordaturas) {
       fLogOutputStream <<
@@ -16228,15 +16312,15 @@ void mxmlTree2MsrTranslator::attachPendingScordaturasToNote (
     }
 #endif
 
-    while (fPendingScordaturas.size ()) {
+    while (fPendingScordaturasList.size ()) {
       S_msrScordatura
         scordatura =
-          fPendingScordaturas.front ();
+          fPendingScordaturasList.front ();
 
       note->
         appendScordaturaToNote (scordatura);
 
-      fPendingScordaturas.pop_front ();
+      fPendingScordaturasList.pop_front ();
     } // while
   }
 }
@@ -16246,7 +16330,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
-  if (fPendingDynamics.size ()) {
+  if (fPendingDynamicsList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16270,7 +16354,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
       else {
         stringstream s;
 
-        int numberOfDynamics = fPendingDynamics.size ();
+        int numberOfDynamics = fPendingDynamicsList.size ();
 
         if (numberOfDynamics > 1) {
           s <<
@@ -16291,13 +16375,13 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingDynamics.size ()) {
+      while (fPendingDynamicsList.size ()) {
         S_msrDynamics
           dynamics =
-            fPendingDynamics.front ();
+            fPendingDynamicsList.front ();
 
         note->appendDynamicsToNote (dynamics);
-        fPendingDynamics.pop_front ();
+        fPendingDynamicsList.pop_front ();
       } // while
     }
   }
@@ -16308,7 +16392,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending other dynamics if any to the note
-  if (fPendingOtherDynamics.size ()) {
+  if (fPendingOtherDynamicsList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16332,7 +16416,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
       else {
         stringstream s;
 
-        int numberOfOtherDynamics = fPendingOtherDynamics.size ();
+        int numberOfOtherDynamics = fPendingOtherDynamicsList.size ();
 
         if (numberOfOtherDynamics > 1) {
           s <<
@@ -16353,13 +16437,13 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingOtherDynamics.size ()) {
+      while (fPendingOtherDynamicsList.size ()) {
         S_msrOtherDynamics
           otherDynamics =
-            fPendingOtherDynamics.front ();
+            fPendingOtherDynamicsList.front ();
 
         note->appendOtherDynamicsToNote (otherDynamics);
-        fPendingOtherDynamics.pop_front ();
+        fPendingOtherDynamicsList.pop_front ();
       } // while
     }
   }
@@ -16370,7 +16454,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
   S_msrNote note)
 {
   // attach the pending words if any to the note
-  if (fPendingWords.size ()) {
+  if (fPendingWordsList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16394,7 +16478,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
       else {
         stringstream s;
 
-        int numberOfWords = fPendingWords.size ();
+        int numberOfWords = fPendingWordsList.size ();
 
         if (numberOfWords > 1) {
           s <<
@@ -16415,14 +16499,14 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingWords.size ()) {
+      while (fPendingWordsList.size ()) {
         S_msrWords
           words =
-            fPendingWords.front ();
+            fPendingWordsList.front ();
 
         note->appendWordsToNote (words);
 
-        fPendingWords.pop_front ();
+        fPendingWordsList.pop_front ();
       } // while
     }
   }
@@ -16433,7 +16517,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
   S_msrNote note)
 {
   // attach the pending beams if any to the note
-  if (fPendingBeams.size ()) {
+  if (fPendingBeamsList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16457,7 +16541,7 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
       else {
         stringstream s;
 
-        int numberOfBeams = fPendingBeams.size ();
+        int numberOfBeams = fPendingBeamsList.size ();
 
         if (numberOfBeams > 1) {
           s <<
@@ -16478,13 +16562,13 @@ void mxmlTree2MsrTranslator::attachPendingBeamsToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingBeams.size ()) {
+      while (fPendingBeamsList.size ()) {
         S_msrBeam
           beam =
-            fPendingBeams.front ();
+            fPendingBeamsList.front ();
 
         note->appendBeamToNote (beam);
-        fPendingBeams.pop_front ();
+        fPendingBeamsList.pop_front ();
       } // while
     }
   }
@@ -16495,7 +16579,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
   S_msrNote note)
 {
   // attach the pending slurs if any to the note
-  if (fPendingSlurs.size ()) {
+  if (fPendingSlursList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16519,7 +16603,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
       else {
         stringstream s;
 
-        int numberOfSlurs = fPendingSlurs.size ();
+        int numberOfSlurs = fPendingSlursList.size ();
 
         if (numberOfSlurs > 1) {
           s <<
@@ -16540,13 +16624,13 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingSlurs.size ()) {
+      while (fPendingSlursList.size ()) {
         S_msrSlur
           slur =
-            fPendingSlurs.front ();
+            fPendingSlursList.front ();
 
         note->appendSlurToNote (slur);
-        fPendingSlurs.pop_front ();
+        fPendingSlursList.pop_front ();
       } // while
     }
   }
@@ -16557,7 +16641,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
   S_msrNote note)
 {
   // attach the pending ligatures if any to the note
-  if (fPendingLigatures.size ()) {
+  if (fPendingLigaturesList.size ()) {
     bool delayAttachment = false;
 
     if (fCurrentNoteIsARest) {
@@ -16572,7 +16656,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
       else {
         stringstream s;
 
-        int numberOfLigatures = fPendingLigatures.size ();
+        int numberOfLigatures = fPendingLigaturesList.size ();
 
         if (numberOfLigatures > 1) {
           s <<
@@ -16595,7 +16679,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     if (! delayAttachment) {
       stringstream s;
 
-      int numberOfLigatures = fPendingLigatures.size ();
+      int numberOfLigatures = fPendingLigaturesList.size ();
 
       if (numberOfLigatures > 1) {
         s <<
@@ -16614,12 +16698,12 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
       // i.e. above goes to voice 1 or 3, and below to voice 2 or 4
 
       list<S_msrLigature>::iterator
-        iBegin = fPendingLigatures.begin (),
-        iEnd   = fPendingLigatures.end (),
+        iBegin = fPendingLigaturesList.begin (),
+        iEnd   = fPendingLigaturesList.end (),
         i      = iBegin;
       for ( ; ; ) {
   //    list<S_msrLigature>::iterator i;
-  //    for (i=fPendingLigatures.begin (); i!=fPendingLigatures.end (); i++) {
+  //    for (i=fPendingLigaturesList.begin (); i!=fPendingLigaturesList.end (); i++) {
 
      //   if (i == iEnd) break;
 
@@ -16663,7 +16747,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #endif
 
                 note->appendLigatureToNote (ligature);
-                i = fPendingLigatures.erase (i);
+                i = fPendingLigaturesList.erase (i);
                 break;
               default:
                 ;
@@ -16688,7 +16772,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
 #endif
 
                 note->appendLigatureToNote (ligature);
-                i = fPendingLigatures.erase (i);
+                i = fPendingLigaturesList.erase (i);
                 break;
               default:
                 ;
@@ -16700,13 +16784,13 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
       } // for
 
 
-  /*    while (fPendingLigatures.size ()) {
+  /*    while (fPendingLigaturesList.size ()) {
         S_msrLigature
           ligature =
-            fPendingLigatures.front ();
+            fPendingLigaturesList.front ();
 
         note->appendLigatureToNote (ligature);
-        fPendingLigatures.pop_front ();
+        fPendingLigaturesList.pop_front ();
       } // while
  */
     }
@@ -16718,7 +16802,7 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
   S_msrNote note)
 {
   // attach the pending pedals if any to the note
-  if (fPendingPedals.size ()) {
+  if (fPendingPedalsList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16742,7 +16826,7 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
       else {
         stringstream s;
 
-        int numberOfPedals = fPendingPedals.size ();
+        int numberOfPedals = fPendingPedalsList.size ();
 
         if (numberOfPedals > 1) {
           s <<
@@ -16763,13 +16847,13 @@ void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingPedals.size ()) {
+      while (fPendingPedalsList.size ()) {
         S_msrPedal
           pedal =
-            fPendingPedals.front ();
+            fPendingPedalsList.front ();
 
         note->appendPedalToNote (pedal);
-        fPendingPedals.pop_front ();
+        fPendingPedalsList.pop_front ();
       } // while
     }
   }
@@ -16780,7 +16864,7 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
   S_msrNote note)
 {
   // attach the pending slashes if any to the note
-  if (fPendingSlashes.size ()) {
+  if (fPendingSlashesList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16804,7 +16888,7 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
       else {
         stringstream s;
 
-        int numberOfSlashes = fPendingSlashes.size ();
+        int numberOfSlashes = fPendingSlashesList.size ();
 
         if (numberOfSlashes > 1) {
           s <<
@@ -16825,13 +16909,13 @@ void mxmlTree2MsrTranslator::attachPendingSlashesToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingSlashes.size ()) {
+      while (fPendingSlashesList.size ()) {
         S_msrSlash
           slash =
-            fPendingSlashes.front ();
+            fPendingSlashesList.front ();
 
         note->appendSlashToNote (slash);
-        fPendingSlashes.pop_front ();
+        fPendingSlashesList.pop_front ();
       } // while
     }
   }
@@ -16842,7 +16926,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
   // attach the pending wedges if any to the note
-  if (fPendingWedges.size ()) {
+  if (fPendingWedgesList.size ()) {
     bool delayAttachment = false;
 
 #ifdef TRACE_OPTIONS
@@ -16866,7 +16950,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
       else {
         stringstream s;
 
-        int numberOfWedges = fPendingWedges.size ();
+        int numberOfWedges = fPendingWedgesList.size ();
 
         if (numberOfWedges > 1) {
           s <<
@@ -16887,13 +16971,13 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
     }
 
     if (! delayAttachment) {
-      while (fPendingWedges.size ()) {
+      while (fPendingWedgesList.size ()) {
         S_msrWedge
           wedge =
-            fPendingWedges.front ();
+            fPendingWedgesList.front ();
 
         note->appendWedgeToNote (wedge);
-        fPendingWedges.pop_front ();
+        fPendingWedgesList.pop_front ();
       } // while
     }
   }
@@ -16904,7 +16988,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
   S_msrNote note)
 {
  // attach the pending glissandos if any to the note
-  if (fPendingGlissandos.size ()) {
+  if (fPendingGlissandosList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceGlissandos) {
       fLogOutputStream <<
@@ -16914,10 +16998,10 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
     }
 #endif
 
-    while (fPendingGlissandos.size ()) {
+    while (fPendingGlissandosList.size ()) {
       S_msrGlissando
         glissando =
-          fPendingGlissandos.front ();
+          fPendingGlissandosList.front ();
 
       note->
         appendGlissandoToNote (glissando);
@@ -17008,7 +17092,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
           break;
       } // switch
 
-      fPendingGlissandos.pop_front ();
+      fPendingGlissandosList.pop_front ();
     } // while
   }
 }
@@ -17018,7 +17102,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
   S_msrNote note)
 {
  // attach the pending slides if any to the note
-  if (fPendingSlides.size ()) {
+  if (fPendingSlidesList.size ()) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceSlides) {
       fLogOutputStream <<
@@ -17028,10 +17112,10 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
     }
 #endif
 
-    while (fPendingSlides.size ()) {
+    while (fPendingSlidesList.size ()) {
       S_msrSlide
         slide =
-          fPendingSlides.front ();
+          fPendingSlidesList.front ();
 
       note->
         appendSlideToNote (slide);
@@ -17122,7 +17206,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
           break;
       } // switch
 
-      fPendingSlides.pop_front ();
+      fPendingSlidesList.pop_front ();
     } // while
   }
 }
@@ -17133,9 +17217,9 @@ void mxmlTree2MsrTranslator::attachPendingPriorElementsToVoice (
   /* JMI
   fLogOutputStream <<
     "attachPendingPriorElementsToVoice()" <<
-    ", fPendingTempos.size () = " << fPendingTempos.size () <<
-    ", fPendingLineBreaks.size () = " << fPendingLineBreaks.size () <<
-    ", fPendingPageBreaks.size () = " << fPendingPageBreaks.size () <<
+    ", fPendingTemposList.size () = " << fPendingTemposList.size () <<
+    ", fPendingLineBreaksList.size () = " << fPendingLineBreaksList.size () <<
+    ", fPendingPageBreaksList.size () = " << fPendingPageBreaksList.size () <<
     endl;
     */
 
@@ -17967,17 +18051,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   // attach the beams if any to the note
-  if (fPendingBeams.size ()) {
+  if (fPendingBeamsList.size ()) {
     for (
-      list<S_msrBeam>::const_iterator i=fPendingBeams.begin ();
-      i!=fPendingBeams.end ();
+      list<S_msrBeam>::const_iterator i=fPendingBeamsList.begin ();
+      i!=fPendingBeamsList.end ();
       i++
   ) {
       newNote->
         appendBeamToNote ((*i));
     } // for
 
-    fPendingBeams.clear ();
+    fPendingBeamsList.clear ();
   }
 
   // attach the articulations if any to the note
@@ -18063,16 +18147,55 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
             fCurrentNoteActualNotes,
             fCurrentNoteNormalNotes));
 
-      // attach the harmony to the note
-      newNote->
-        setNoteHarmony (harmony);
+      // is the harmony's whole notes offset not equal to 0?
+      rational
+        harmonyWholeNotesOffset =
+          harmony->
+            getHarmonyWholeNotesOffset ();
 
-      // append the harmony to the harmony voice for the current voice
+      // get the harmony voice for the current voice
       S_msrVoice
         voiceHarmonyVoice =
           voiceToInsertInto->
             getHarmonyVoiceForRegularVoice ();
 
+      if (harmonyWholeNotesOffset.getNumerator () != 0) {
+        // create skip with duration harmonyWholeNotesOffset
+        S_msrNote
+          skip =
+            msrNote::createSkipNote (
+              harmony->           getInputLineNumber (),
+              fCurrentMeasureNumber,
+              harmonyWholeNotesOffset, // would be 0/1 otherwise JMI
+              harmonyWholeNotesOffset,
+              0, // JMI elt->           getHarmonyDotsNumber (),
+              voiceHarmonyVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
+              voiceHarmonyVoice-> getVoiceNumber ());
+
+        // append it to  the harmony voice for the current voice
+        // to 'push' the harmony aside
+        voiceHarmonyVoice->
+          appendNoteToVoice (skip);
+
+        // decrement the harmony's duration as much
+        harmony->
+          setHarmonySoundingWholeNotes (
+            harmony->getHarmonySoundingWholeNotes ()
+              -
+            harmonyWholeNotesOffset);
+
+        harmony->
+          setHarmonyDisplayWholeNotes (
+            harmony->getHarmonyDisplayWholeNotes ()
+              -
+            harmonyWholeNotesOffset);
+      }
+
+      // attach the harmony to the note
+      newNote->
+        setNoteHarmony (harmony);
+
+      // append the harmony to the harmony voice for the current voice
       voiceHarmonyVoice->
         appendHarmonyToVoice (
           harmony);
@@ -20552,7 +20675,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
         fCurrentDirectionPlacementKind);
 
   // append the rehearsal to the pending tempos list
-  fPendingRehearsals.push_back (rehearsal);
+  fPendingRehearsalsList.push_back (rehearsal);
 }
 
 //______________________________________________________________________________
@@ -20580,6 +20703,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyBassAlterationKind    = kNatural;
   fCurrentHarmonyDegreeValue           = -1;
   fCurrentHarmonyDegreeAlterationKind  = kNatural;
+
+  fCurrentHarmonyWholeNotesOffset = rational (0, 1);
 
   fOnGoingHarmony = true;
 }
@@ -21177,6 +21302,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
       setw (fieldWidth) << "fCurrentHarmonyStaffNumber" << " = " <<
       fCurrentHarmonyStaffNumber <<
+      endl <<
+
+      setw (fieldWidth) << "fCurrentHarmonyWholeNotesOffset" << " = " <<
+      fCurrentHarmonyWholeNotesOffset <<
       endl;
 
     gIndenter--;
@@ -21217,6 +21346,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     }
 #endif
   }
+
   else {
     while (fCurrentHarmonyDegreesList.size ()) {
       S_msrHarmonyDegree
@@ -21722,7 +21852,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figure& elt )
         fCurrentFigureSuffixKind);
 
   // append it to the pending figures list
-  fPendingFiguredBassFigures.push_back (
+  fPendingFiguredBassFiguresList.push_back (
     figure);
 }
 
@@ -21762,7 +21892,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
         msrTupletFactor (1, 1));    // will be set upon next note handling
 
   // attach pending figures to the figured bass
-  if (! fPendingFiguredBassFigures.size ()) {
+  if (! fPendingFiguredBassFiguresList.size ()) {
     msrMusicXMLWarning (
       gGeneralOptions->fInputSourceName,
       inputLineNumber,
@@ -21771,8 +21901,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   else {
     // append the pending figures to the figured bass
     for (
-      list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
-      i!=fPendingFiguredBassFigures.end ();
+      list<S_msrFigure>::const_iterator i=fPendingFiguredBassFiguresList.begin ();
+      i!=fPendingFiguredBassFiguresList.end ();
       i++
   ) {
       figuredBass->
@@ -21780,7 +21910,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     } // for
 
     // forget about those pending figures
-    fPendingFiguredBassFigures.clear ();
+    fPendingFiguredBassFiguresList.clear ();
 
     // append the figured bass to the pending figured basses list TICINO
     fPendingFiguredBassesList.push_back (figuredBass);
@@ -22025,7 +22155,7 @@ void mxmlTree2MsrTranslator::visitStart( S_damp& elt)
           inputLineNumber);
 
     // append it to the pending damps list
-    fPendingDamps.push_back (damp);
+    fPendingDampsList.push_back (damp);
   }
 }
 
@@ -22057,7 +22187,7 @@ void mxmlTree2MsrTranslator::visitStart( S_damp_all& elt)
           inputLineNumber);
 
     // append it to the pending damp alls list
-    fPendingDampAlls.push_back (dampAll);
+    fPendingDampAllsList.push_back (dampAll);
   }
 }
 
@@ -22252,7 +22382,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
   }
 
   // append the current scordatura to the pending scordatura list
-  fPendingScordaturas.push_back (fCurrentScordatura);
+  fPendingScordaturasList.push_back (fCurrentScordatura);
 
   // forget about this scordatura
   fCurrentScordatura = nullptr;
@@ -22383,17 +22513,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
           fCurrentFiguredBassParenthesesKind);
 
     // attach pending figures to the figured bass
-    if (fPendingFiguredBassFigures.size ()) {
+    if (fPendingFiguredBassFiguresList.size ()) {
       for (
-        list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
-        i!=fPendingFiguredBassFigures.end ();
+        list<S_msrFigure>::const_iterator i=fPendingFiguredBassFiguresList.begin ();
+        i!=fPendingFiguredBassFiguresList.end ();
         i++
       ) {
         figuredBass->
           appendFigureToFiguredBass ((*i));
       } // for
 
-      fPendingFiguredBassFigures.clear ();
+      fPendingFiguredBassFiguresList.clear ();
     }
 
     // append the figured bass to the current part

@@ -535,7 +535,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
         measureElement = (*i);
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
           "Considering delayed '" <<
           measureElement->asShortString () <<
@@ -558,7 +558,7 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
         // this is where measureElement should be appended
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
             "Appending delayed '" <<
             measureElement->asShortString () <<
@@ -1142,7 +1142,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
     // the part measure whole notes high tide
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Delaying insertion of barline '" <<
         barline->asShortString () <<
@@ -2767,7 +2767,7 @@ void msrMeasure::finalizeMeasure (
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Finalizing measure '" <<
       fMeasureNumber <<
@@ -2849,7 +2849,7 @@ void msrMeasure::finalizeMeasure (
         measureElement = (*i);
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
           "Considering delayed '" <<
           measureElement->asShortString () <<
@@ -2878,7 +2878,7 @@ void msrMeasure::finalizeMeasure (
           measureElement->getPositionInMeasure ()); // ??? rational (1, 4));
 
 #ifdef TRACE_OPTIONS
-        if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
             "Appending delayed '" <<
             measureElement->asShortString () <<
