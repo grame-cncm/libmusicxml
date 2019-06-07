@@ -1233,6 +1233,14 @@ ostream& operator<< (ostream& os, const S_extraOptions& elt)
 void initializeExtraOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing extra options handling" <<
+      endl;
+  }
+#endif
+
   // create the extra options
   // ------------------------------------------------------
 

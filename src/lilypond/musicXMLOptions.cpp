@@ -20,6 +20,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
 #include "musicXMLOptions.h"
 
 
@@ -97,7 +98,7 @@ R"()",
 R"(Encoding)",
         "traceEncoding",
         fTraceEncoding,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   specificTraceSubGroup->
     appendOptionsItem (
@@ -106,7 +107,7 @@ R"(Encoding)",
 R"(Divisions)",
         "traceDivisions",
         fTraceDivisions,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   specificTraceSubGroup->
     appendOptionsItem (
@@ -115,7 +116,7 @@ R"(Divisions)",
 R"(Backup)",
         "traceBackup",
         fTraceBackup,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   specificTraceSubGroup->
     appendOptionsItem (
@@ -489,6 +490,14 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 void initializeMusicXMLOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing MusicXML options handling" <<
+      endl;
+  }
+#endif
+
   // create the MusicXML options
   // ------------------------------------------------------
 

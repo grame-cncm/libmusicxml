@@ -21,7 +21,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -52,44 +52,52 @@ lpsrComment::~lpsrComment ()
 
 void lpsrComment::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrComment::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrComment>*
     p =
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrComment::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrComment::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrComment::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrComment>*
     p =
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrComment::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -102,9 +110,9 @@ void lpsrComment::print (ostream& os)
   os <<
     "Comment" <<
     endl;
-  
+
   gIndenter++;
-  
+
   os <<
     "% " << fContents <<
     endl;
@@ -112,7 +120,7 @@ void lpsrComment::print (ostream& os)
   if (fCommentGapKind == kGapAfterwards)
     os <<
       endl;
-  
+
   gIndenter--;
 }
 

@@ -12,13 +12,25 @@
 #endif
 
 #include <iomanip>      // setw()), set::precision(), ...
-
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
 
 #include "libmusicxml.h"
 #include "version.h"
 
 #include "utilities.h"
+
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
+#include "generalOptions.h"
+#include "musicXMLOptions.h"
+#include "msrOptions.h"
+#include "bsrOptions.h"
+#include "brailleOptions.h"
+
+#include "xml2brlOptionsHandling.h"
 
 #include "musicXML2MxmlTreeInterface.h"
 
@@ -29,20 +41,6 @@
 #include "bsr2BsrFinalizerInterface.h"
 
 #include "bsr2BrailleTranslatorInterface.h"
-
-#include "generalOptions.h"
-
-#include "setTraceOptionsIfDesired.h"
-#ifdef TRACE_OPTIONS
-  #include "traceOptions.h"
-#endif
-
-#include "musicXMLOptions.h"
-#include "msrOptions.h"
-#include "bsrOptions.h"
-#include "brailleOptions.h"
-
-#include "xml2brlOptionsHandling.h"
 
 
 using namespace std;
@@ -411,7 +409,7 @@ void convertBsrScoreToBrailleText_Pass4 (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+      if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
@@ -451,7 +449,7 @@ void convertBsrScoreToBrailleText_Pass4 (
 
     else {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+      if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "Braille music will be written to standard output" <<
@@ -476,7 +474,7 @@ void convertBsrScoreToBrailleText_Pass4 (
 
     if (outputFileNameSize) {
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTracePasses) {
+      if (gGeneralOptions->fTracePasses) {
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -657,13 +655,6 @@ void convertMusicXMLToBraille (
 //_______________________________________________________________________________
 int main (int argc, char *argv[])
 {
-  // register executable name in gGeneralOptions
-  // initialize the components of MSR that we'll be using
-  // ------------------------------------------------------
-
-  initializeMSR ();
-  initializeBSR ();
-
   // create the options handler
   // ------------------------------------------------------
 
@@ -720,7 +711,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     gLogIOstream <<
       "This is xml2brl " << currentVersionNumber () <<
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -803,7 +794,7 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;

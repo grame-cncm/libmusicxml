@@ -17,9 +17,6 @@
 
 #include "libmusicxml.h"
 
-#include "version.h"
-#include "utilities.h"
-
 #include "xml2brlOptionsHandling.h"
 
 #include "generalOptions.h"
@@ -34,6 +31,11 @@
 
 #include "extraOptions.h"
 
+#include "version.h"
+#include "utilities.h"
+
+#include "msr.h"
+#include "bsr.h"
 
 using namespace std;
 
@@ -369,7 +371,7 @@ xml2brlOptionsHandler::~xml2brlOptionsHandler ()
 void xml2brlOptionsHandler::initializeOptionsHandler (
   string executableName)
 {
-  // initialize options handling
+  // initialize options handling, phase 1
   // ------------------------------------------------------
 
   initializeGeneralOptionsHandling (
@@ -380,6 +382,15 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
   initializeTraceOptionsHandling (
     this);
 #endif
+
+  // initialize the library
+  // ------------------------------------------------------
+
+  initializeMSR ();
+  initializeBSR ();
+
+  // initialize options handling, phase 2
+  // ------------------------------------------------------
 
   initializeMusicXMLOptionsHandling (
     this);
@@ -1022,6 +1033,14 @@ S_optionsItem xml2brlOptions::handleOptionsItem (
 void initializeXml2brlOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing xml2brl options handling" <<
+      endl;
+  }
+#endif
+
   // enlist versions information
   // ------------------------------------------------------
 

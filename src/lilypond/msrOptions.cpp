@@ -497,7 +497,7 @@ R"(Write the structure of the part groups to standard error.)",
 R"(Write the contents of the MSR data to standard error.)",
         "displayMsr",
         fDisplayMsr,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   displaySubGroup->
     appendOptionsItem (
@@ -507,7 +507,7 @@ R"(Write the contents of the MSR data with more details to standard error.)",
         "displayMsrDetails",
         fDisplayMsrDetails,
         fDisplayMsr,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   displaySubGroup->
     appendOptionsItem (
@@ -1864,6 +1864,14 @@ ostream& operator<< (ostream& os, const S_msrOptions& elt)
 void initializeMsrOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing MSR options handling" <<
+      endl;
+  }
+#endif
+
   // MSR options
   // ------------------------------------------------------
 

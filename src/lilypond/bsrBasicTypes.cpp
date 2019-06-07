@@ -21,6 +21,12 @@
 
 #include "messagesHandling.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
+#include "generalOptions.h"
 #include "brailleOptions.h"
 
 
@@ -28,8 +34,6 @@
 
 namespace MusicXML2
 {
-
-#define TRACE_BSR_BASIC_TYPES 0
 
 //______________________________________________________________________________
 string bsrCellKindAsShortString (bsrCellKind cellKind)
@@ -341,6 +345,13 @@ void bsrInternalError (
 //______________________________________________________________________________
 void initializeBSRBasicTypes ()
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing BSR basic types handling" <<
+      endl;
+  }
+#endif
 
   // BSR texts languages handling
   // ------------------------------------------------------

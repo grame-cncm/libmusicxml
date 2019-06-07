@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -37,7 +37,7 @@ lpsrBarNumberCheck::lpsrBarNumberCheck (
   int nextBarNumber)
     : lpsrElement (inputLineNumber)
 {
-  fNextBarNumber=nextBarNumber; 
+  fNextBarNumber=nextBarNumber;
 }
 
 lpsrBarNumberCheck::~lpsrBarNumberCheck ()
@@ -45,44 +45,52 @@ lpsrBarNumberCheck::~lpsrBarNumberCheck ()
 
 void lpsrBarNumberCheck::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarNumberCheck::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarNumberCheck::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -124,44 +132,52 @@ lpsrBarCommand::~lpsrBarCommand ()
 
 void lpsrBarCommand::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarCommand::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrBarCommand>*
     p =
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarCommand::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrBarCommand::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarCommand::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrBarCommand>*
     p =
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarCommand::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

@@ -102,9 +102,7 @@ class traceOptions : public optionsGroup
   public:
 
 
-    // passes and options
-    bool                  fTracePasses;
-
+    // options
     bool                  fTraceOptions;
     bool                  fDisplayOptionsValues;
     bool                  fDisplayOptionsHandler;
@@ -194,6 +192,7 @@ class traceOptions : public optionsGroup
     // notes
     bool                  fTraceNotes;
     bool                  fTraceNotesDetails;
+    bool                  fTraceWholeNotes;
 
     // stems
     bool                  fTraceStems;

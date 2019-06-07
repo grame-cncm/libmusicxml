@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -46,7 +46,7 @@ lpsrContext::lpsrContext (
 {
   fContextExistingKind = contextExistingKind;
   fContextTypeKind = contextTypeKind;
-  fContextName = contextName; 
+  fContextName = contextName;
 }
 
 lpsrContext::~lpsrContext ()
@@ -54,44 +54,52 @@ lpsrContext::~lpsrContext ()
 
 void lpsrContext::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrContext::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrContext>*
     p =
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrContext::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrContext::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrContext::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrContext>*
     p =
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrContext::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -103,7 +111,7 @@ string lpsrContext::contextTypeKindAsString (
   lpsrContextTypeKind contextTypeKind)
 {
   string result;
-  
+
   switch (contextTypeKind) {
     case lpsrContext::kChordNames:
       result = "ChordNames";
@@ -115,12 +123,12 @@ string lpsrContext::contextTypeKindAsString (
 
   return result;
 }
-  
+
 string lpsrContext::contextExistingKindAsString (
   lpsrContextExistingKind contextExistingKind)
 {
   string result;
-  
+
   switch (contextExistingKind) {
     case kExistingContextYes:
       result = "existingContextYes";
@@ -134,7 +142,7 @@ string lpsrContext::contextExistingKindAsString (
 }
 
 void lpsrContext::print (ostream& os)
-{  
+{
   os <<
     "Context, \"" <<
     contextTypeKindAsString (
@@ -143,13 +151,13 @@ void lpsrContext::print (ostream& os)
     ", existing kind: " <<
     contextExistingKindAsString (
       fContextExistingKind);
-    
+
   if (fContextName.size ()) {
     os << " " << fContextName;
   }
   os <<
     endl;
-  
+
   gIndenter++;
 
   os <<
@@ -158,9 +166,9 @@ void lpsrContext::print (ostream& os)
   if (fContextElementsList.size ()) {
     os <<
       endl;
-      
+
     gIndenter++;
-  
+
     list<S_msrElement>::const_iterator
       iBegin = fContextElementsList.begin (),
       iEnd   = fContextElementsList.end (),
@@ -170,7 +178,7 @@ void lpsrContext::print (ostream& os)
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
+
     gIndenter--;
   }
   else {
@@ -210,7 +218,7 @@ lpsrChordNamesContext::lpsrChordNamesContext (
       contextName)
 {
   fContextExistingKind = contextExistingKind;
-    
+
   fContextName = contextName;
 
   fContextVoice = contextVoice;
@@ -221,44 +229,52 @@ lpsrChordNamesContext::~lpsrChordNamesContext ()
 
 void lpsrChordNamesContext::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrChordNamesContext::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrChordNamesContext>*
     p =
       dynamic_cast<visitor<S_lpsrChordNamesContext>*> (v)) {
         S_lpsrChordNamesContext elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrChordNamesContext::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrChordNamesContext::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrChordNamesContext::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrChordNamesContext>*
     p =
       dynamic_cast<visitor<S_lpsrChordNamesContext>*> (v)) {
         S_lpsrChordNamesContext elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrChordNamesContext::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -267,7 +283,7 @@ void lpsrChordNamesContext::browseData (basevisitor* v)
 {}
 
 void lpsrChordNamesContext::print (ostream& os)
-{  
+{
   os <<
   /* JMI
     "ChordNamesContext, \"" <<
@@ -277,7 +293,7 @@ void lpsrChordNamesContext::print (ostream& os)
     */
     "ChordNamesContext" <<
     endl;
-    
+
   gIndenter++;
 
   const int fieldWidth = 20;
@@ -302,9 +318,9 @@ void lpsrChordNamesContext::print (ostream& os)
   if (fContextElementsList.size ()) {
     os <<
       endl;
-      
+
     gIndenter++;
-  
+
     list<S_msrElement>::const_iterator
       iBegin = fContextElementsList.begin (),
       iEnd   = fContextElementsList.end (),
@@ -314,7 +330,7 @@ void lpsrChordNamesContext::print (ostream& os)
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
+
     gIndenter--;
   }
   else {
@@ -322,7 +338,7 @@ void lpsrChordNamesContext::print (ostream& os)
       " : " << "none" <<
     endl;
   }
-  
+
   gIndenter--;
 }
 
@@ -361,7 +377,7 @@ lpsrFiguredBassContext::lpsrFiguredBassContext (
       contextName)
 {
   fContextExistingKind = contextExistingKind;
-    
+
   fContextName = contextName;
 
   fContextStaff = contextStaff;
@@ -372,44 +388,52 @@ lpsrFiguredBassContext::~lpsrFiguredBassContext ()
 
 void lpsrFiguredBassContext::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrFiguredBassContext::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_lpsrFiguredBassContext>*
     p =
       dynamic_cast<visitor<S_lpsrFiguredBassContext>*> (v)) {
         S_lpsrFiguredBassContext elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrFiguredBassContext::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void lpsrFiguredBassContext::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrFiguredBassContext::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_lpsrFiguredBassContext>*
     p =
       dynamic_cast<visitor<S_lpsrFiguredBassContext>*> (v)) {
         S_lpsrFiguredBassContext elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrFiguredBassContext::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }
@@ -418,7 +442,7 @@ void lpsrFiguredBassContext::browseData (basevisitor* v)
 {}
 
 void lpsrFiguredBassContext::print (ostream& os)
-{  
+{
   os <<
   /* JMI
     "FiguredBassContext, \"" <<
@@ -428,7 +452,7 @@ void lpsrFiguredBassContext::print (ostream& os)
     */
     "FiguredBassContext" <<
     endl;
-    
+
   gIndenter++;
 
   const int fieldWidth = 20;
@@ -453,9 +477,9 @@ void lpsrFiguredBassContext::print (ostream& os)
   if (fContextElementsList.size ()) {
     os <<
       endl;
-      
+
     gIndenter++;
-  
+
     list<S_msrElement>::const_iterator
       iBegin = fContextElementsList.begin (),
       iEnd   = fContextElementsList.end (),
@@ -465,7 +489,7 @@ void lpsrFiguredBassContext::print (ostream& os)
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
-    
+
     gIndenter--;
   }
   else {
@@ -473,7 +497,7 @@ void lpsrFiguredBassContext::print (ostream& os)
       " : " << "none" <<
     endl;
   }
-  
+
   gIndenter--;
 }
 

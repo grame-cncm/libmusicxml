@@ -1282,7 +1282,8 @@ void lilypondOptions::initializeLilypondOptions (
   for (
     set<string>::const_iterator i=fLilypondAccidentalStyles.begin ();
     i!=fLilypondAccidentalStyles.end ();
-    i++) {
+    i++
+  ) {
       gLogIOstream << (*i) << endl;
   } // for
   */
@@ -2149,6 +2150,10 @@ ostream& operator<< (ostream& os, const S_lilypondOptions& elt)
 void initializeLilypondOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+  gLogIOstream <<
+    "Initializing LilyPond options handling" <<
+    endl;
+
   // create the options variables
   // ------------------------------------------------------
 

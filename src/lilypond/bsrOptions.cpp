@@ -20,6 +20,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
 #include "bsrOptions.h"
 
 
@@ -287,7 +288,7 @@ R"()",
 R"(Write the contents of the BSR data to standard error.)",
         "displayBsr",
         fDisplayBsr,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
@@ -296,7 +297,7 @@ R"(Write the contents of the BSR data to standard error.)",
 R"(Write the contents of the BSR data with more details to standard error.)",
         "displayBsrDetails",
         fDisplayBsrDetails,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 }
 
 void bsrOptions::initializeBsrLanguagesOptions (
@@ -534,7 +535,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 R"()",
         "tracePages",
         fTracePages,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   specificTraceSubGroup->
     appendOptionsItem (
@@ -566,7 +567,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 R"()",
         "traceParallels",
         fTraceParallels,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 
   specificTraceSubGroup->
     appendOptionsItem (
@@ -846,6 +847,14 @@ ostream& operator<< (ostream& os, const S_bsrOptions& elt)
 void initializeBsrOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing BSR options handling" <<
+      endl;
+  }
+#endif
+
   // create the options variables
   // ------------------------------------------------------
 

@@ -22,6 +22,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
 #include "brailleOptions.h"
 
 
@@ -722,6 +723,14 @@ ostream& operator<< (ostream& os, const S_brailleOptions& elt)
 void initializeBrailleOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing Braille options handling" <<
+      endl;
+  }
+#endif
+
   // create the options variables
   // ------------------------------------------------------
 

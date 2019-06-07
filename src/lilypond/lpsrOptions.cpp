@@ -22,6 +22,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "generalOptions.h"
 #include "lpsrOptions.h"
 
 
@@ -518,7 +519,7 @@ R"()",
 R"(Write the contents of the LPSR data to standard error.)",
         "displayLpsr",
         fDisplayLpsr,
-        gTraceOptions->fTracePasses));
+        gGeneralOptions->fTracePasses));
 }
 
 void lpsrOptions::initializeLpsrScoreOutputKindOptions (
@@ -1808,6 +1809,10 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 void initializeLpsrOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+  gLogIOstream <<
+    "Initializing LPSR options handling" <<
+    endl;
+
   // create the options variables
   // ------------------------------------------------------
 

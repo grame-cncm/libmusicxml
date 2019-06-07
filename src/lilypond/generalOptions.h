@@ -122,6 +122,9 @@ class generalOptions : public optionsGroup
     string                fCommandLineWithLongOptions;
     string                fCommandLineWithShortOptions;
 
+    // passes
+    // --------------------------------------
+    bool                  fTracePasses;
 
     // warning and error handling
     // --------------------------------------

@@ -17,9 +17,6 @@
 
 #include "libmusicxml.h"
 
-#include "version.h"
-#include "utilities.h"
-
 #include "xml2lyOptionsHandling.h"
 
 #include "generalOptions.h"
@@ -33,6 +30,10 @@
 #include "lilypondOptions.h"
 
 #include "extraOptions.h"
+
+#include "version.h"
+#include "msr.h"
+#include "lpsr.h"
 
 
 using namespace std;
@@ -361,7 +362,7 @@ xml2lyOptionsHandler::~xml2lyOptionsHandler ()
 void xml2lyOptionsHandler::initializeOptionsHandler (
   string executableName)
 {
-  // initialize options handling
+  // initialize options handling, phase 1
   // ------------------------------------------------------
 
   initializeGeneralOptionsHandling (
@@ -372,6 +373,15 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
   initializeTraceOptionsHandling (
     this);
 #endif
+
+  // initialize the library
+  // ------------------------------------------------------
+
+  initializeMSR ();
+  initializeLPSR ();
+
+  // initialize options handling, phase 2
+  // ------------------------------------------------------
 
   initializeMusicXMLOptionsHandling (
     this);
@@ -971,6 +981,14 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 void initializeXml2lyOptionsHandling (
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing xml2ly options handling" <<
+      endl;
+  }
+#endif
+
   // enlist versions information
   // ------------------------------------------------------
 

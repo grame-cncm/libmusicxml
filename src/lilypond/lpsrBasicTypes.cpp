@@ -19,6 +19,11 @@
 
 #include "lpsrBasicTypes.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "messagesHandling.h"
 #include "generalOptions.h"
 
@@ -27,8 +32,6 @@ using namespace std;
 
 namespace MusicXML2
 {
-
-#define TRACE_LPSR_BASIC_TYPES 0
 
 //_______________________________________________________________________________
 int lpsrDurationBinaryLogarithm (int duration)
@@ -119,9 +122,8 @@ string wholeNotesAsLilypondString (
 {
   // this algorithm is inspired by musicxml2ly
 
-#define DEBUG_WHOLE_NOTES 0
-
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> -------------------------------------" <<
       endl <<
@@ -129,12 +131,14 @@ string wholeNotesAsLilypondString (
       ", line " << inputLineNumber <<
       endl;
   }
+#endif
 
   int
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> numerator:   " << numerator <<
       endl <<
@@ -142,6 +146,7 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
+#endif
 
   msrAssert (
     numerator > 0,
@@ -149,11 +154,13 @@ string wholeNotesAsLilypondString (
 
   wholeNotes.rationalise ();
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> wholeNotes rationalised: " << wholeNotes <<
       endl;
   }
+#endif
 
   bool
     rationalHasBeenSimplified =
@@ -167,7 +174,8 @@ string wholeNotesAsLilypondString (
   bool
     integralNumberOfWholeNotes = denominator == 1;
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> rationalHasBeenSimplified: " <<
       booleanAsString (
@@ -179,6 +187,7 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
+#endif
 
   /*
     augmentation dots add half the preceding increment to the duration:
@@ -193,12 +202,14 @@ string wholeNotesAsLilypondString (
 
   int  numeratorDots = lpsrNumberOfDots (numerator);
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> numeratorDots " << " : " << numeratorDots <<
       endl <<
       endl;
   }
+#endif
 
 /*
     default:
@@ -279,7 +290,8 @@ string wholeNotesAsLilypondString (
       result = s.str ();
     }
 
-    if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceWholeNotes) {
       stringstream s;
 
       s <<
@@ -308,35 +320,41 @@ string wholeNotesAsLilypondString (
     //    __FILE__, __LINE__,
         s.str ());
     }
+#endif
 
     return result;
   }
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> denominatorDurationLog" << " : " <<
       denominatorDurationLog <<
       endl <<
       endl;
   }
+#endif
 
   // bring the resulting fraction to be less that two if needed
   if (integralNumberOfWholeNotes) {
     // adapt the duration to avoid even numerators if can be,
     // since dotted durations cannot be recognized otherwise
     // 6/1 thus becomes 3\breve, hence \longa.
-    if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceWholeNotes) {
       gLogIOstream <<
         "--> integralNumberOfWholeNotes,"
         " bringing the faction to be less that 2" <<
         endl;
     }
+#endif
 
     while (numerator % 2 == 0) {
       numerator /= 2;
       denominatorDurationLog -= 1;
 
-      if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceWholeNotes) {
         gLogIOstream <<
           "--> numerator" << " : " <<
           numerator <<
@@ -346,13 +364,15 @@ string wholeNotesAsLilypondString (
           endl <<
           endl;
       }
+#endif
     } // while
 
     // update the number of dots
     numeratorDots = lpsrNumberOfDots (numerator);
   }
 
- if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> numerator" << " : " <<
       numerator <<
@@ -365,6 +385,7 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
+#endif
 
   // take care of the dots
   int multiplyingFactor = 1;
@@ -373,7 +394,8 @@ string wholeNotesAsLilypondString (
     // take the dots into account
     denominatorDurationLog -= numeratorDots;
 
-    if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceWholeNotes) {
       gLogIOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -383,14 +405,17 @@ string wholeNotesAsLilypondString (
         endl <<
         endl;
     }
+#endif
   }
   else {
     // set the multiplying factor
-    if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceWholeNotes) {
       gLogIOstream <<
         "--> setting the multiplying factor" <<
         endl;
     }
+#endif
 
     // 5/8 becomes 8*5
 
@@ -400,7 +425,8 @@ string wholeNotesAsLilypondString (
     /* JMI
     multiplyingFactor = numerator;
 
-    if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceWholeNotes) {
       gLogIOstream <<
         "--> denominatorDurationLog" << " : " <<
         denominatorDurationLog <<
@@ -410,6 +436,7 @@ string wholeNotesAsLilypondString (
         endl <<
         endl;
     }
+#endif
 
     while (multiplyingFactor >= 2) {
       // double duration
@@ -418,7 +445,8 @@ string wholeNotesAsLilypondString (
       // adapt multiplying factor
       multiplyingFactor /= 2;
 
-      if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+      if (gTraceOptions->fTraceWholeNotes) {
         gLogIOstream <<
           "--> denominatorDurationLog" << " : " <<
           denominatorDurationLog <<
@@ -428,11 +456,13 @@ string wholeNotesAsLilypondString (
           endl <<
           endl;
       }
+#endif
     } // while
     */
   }
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> numerator " << " : " <<
       numerator <<
@@ -448,6 +478,7 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
+#endif
 
   // generate the code for the duration
   stringstream s;
@@ -491,7 +522,8 @@ string wholeNotesAsLilypondString (
     */
   }
 
-  if (DEBUG_WHOLE_NOTES) {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceWholeNotes) {
     gLogIOstream <<
       "--> return:" <<
       endl <<
@@ -501,6 +533,7 @@ string wholeNotesAsLilypondString (
       endl <<
       endl;
   }
+#endif
 
   // return the result
   dotsNumber = numeratorDots;
@@ -939,6 +972,10 @@ string existingLpsrChordsLanguageKinds ()
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
+  gLogIOstream <<
+    "Initializing LPSR basic types handling" <<
+    endl;
+
   // LPSR score output handling
   // ------------------------------------------------------
 

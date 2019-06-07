@@ -52,7 +52,7 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTracePasses) {
+  if (gGeneralOptions->fTracePasses) {
     logIOstream <<
       endl <<
       separator <<

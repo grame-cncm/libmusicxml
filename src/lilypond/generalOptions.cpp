@@ -104,6 +104,8 @@ void generalOptions::initializeGeneralWarningAndErrorsOptions (
 {
   // variables
 
+  fTracePasses               = false;
+
   fQuiet                     = false;
   fDontShowErrors            = false;
   fDontAbortOnErrors         = false;
@@ -121,6 +123,14 @@ R"()",
         this);
 
   appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
+
+  warningAndErrorHandlingSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "t", "trace-passes",
+R"(Write a trace of the passes to standard error.)",
+        "tracePasses",
+        fTracePasses));
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
@@ -254,6 +264,11 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
     fCommandLineWithShortOptions;
 
 
+  // passes
+  // --------------------------------------
+  clone->fTracePasses =
+    fTracePasses;
+
   // warning and error handling
   // --------------------------------------
 
@@ -280,13 +295,22 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 void generalOptions::setAllGeneralTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // trace and display
-
+  // passes
+  // --------------------------------------
   fTracePasses = boolOptionsInitialValue;
 
-  fTraceOptions          = boolOptionsInitialValue;
-  fDisplayOptionsValues  = boolOptionsInitialValue;
-  fDisplayOptionsHandler = boolOptionsInitialValue;
+  // warning and error handling
+  // --------------------------------------
+
+  fQuiet = boolOptionsInitialValue;
+  fDontShowErrors = boolOptionsInitialValue;
+  fDontAbortOnErrors = boolOptionsInitialValue;
+  fDisplaySourceCodePosition = boolOptionsInitialValue;
+
+  // CPU usage
+  // --------------------------------------
+
+  fDisplayCPUusage = boolOptionsInitialValue;
 }
   */
 
@@ -328,6 +352,14 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+
+  // passes
+  // --------------------------------------
+
+  gLogIOstream <<
+    setw (fieldWidth) << "tracePasses" << " : " <<
+    booleanAsString (fTracePasses) <<
+    endl;
 
   // warning and error handling
   // --------------------------------------
@@ -394,6 +426,14 @@ void initializeGeneralOptionsHandling (
   string           executableName,
   S_optionsHandler optionsHandler)
 {
+#ifdef TRACE_OPTIONS
+  if (false && ! gGeneralOptions->fQuiet) { // JMI ???
+    gLogIOstream <<
+      "Initializing general options handling" <<
+      endl;
+  }
+#endif
+
   // create the options variables
   // ------------------------------------------------------
 
