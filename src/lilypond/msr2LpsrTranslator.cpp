@@ -4564,6 +4564,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 
   switch (elt->getTupletLineShapeKind ()) {
     case msrTuplet::kTupletLineShapeStraight:
+      break;
     case msrTuplet::kTupletLineShapeCurved:
       fLpsrScore->
         // this score needs the 'tuplets curved brackets' Scheme function

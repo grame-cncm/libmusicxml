@@ -590,6 +590,7 @@ string msrHarmony::asString () const
       fHarmonyRootQuarterTonesPitchKind) <<
     ", harmonyKind: " <<
     msrHarmonyKindAsShortString (fHarmonyKind) <<
+    " (" << fHarmonyKind << ")" <<
 
     ", harmonySoundingWholeNotes: " <<
     fHarmonySoundingWholeNotes <<
@@ -609,13 +610,16 @@ string msrHarmony::asString () const
 
   if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
     s <<
-      "/" <<
+      ", harmonyBassQuarterTonesPitchKind: " <<
     msrQuarterTonesPitchKindAsString (
       gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
       fHarmonyBassQuarterTonesPitchKind);
   }
 
   if (fHarmonyDegreesList.size ()) {
+    s <<
+      ", harmonyDegreesList: [";
+
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin (),
       iEnd   = fHarmonyDegreesList.end (),
@@ -626,11 +630,14 @@ string msrHarmony::asString () const
       if (++i == iEnd) break;
       s << " ";
     } // for
+
+    s <<
+      "]";
   }
 
   // print the harmony staff number
   s <<
-    "harmonyStaffNumber" << " : ";
+    ", harmonyStaffNumber: ";
   if (fHarmonyStaffNumber == K_NO_STAFF_NUMBER)
     s << "none";
   else
@@ -638,14 +645,12 @@ string msrHarmony::asString () const
 
   // print the harmony tuplet factor
   s <<
-    "harmonyTupletFactor" << " : " <<
-    fHarmonyTupletFactor.asString () <<
-    endl;
+    ", harmonyTupletFactor: " <<
+    fHarmonyTupletFactor.asString ();
 
   // print the harmony offset
   s <<
-    "harmonyWholeNotesOffset" << " : " << fHarmonyWholeNotesOffset <<
-    endl;
+    ", harmonyWholeNotesOffset: " << fHarmonyWholeNotesOffset;
 
   return s.str ();
 }

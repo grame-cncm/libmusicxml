@@ -1465,7 +1465,7 @@ void msrPart:: handleBackup (
   }
 #endif
 
-  // bring the part back to that measure position
+  // bring the part to that measure position
   padUpToActualMeasureWholeNotesInPart (
     inputLineNumber,
     positionInMeasure);

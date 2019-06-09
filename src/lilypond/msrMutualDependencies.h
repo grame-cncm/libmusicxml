@@ -6583,7 +6583,7 @@ class msrVoice : public msrElement
                               { return fCurrentVoiceRepeatPhaseKind; }
 
 
-   // rests measures
+    // rests measures
 
     void                  setVoiceContainsRestMeasures (
                             int inputLineNumber);
@@ -6745,7 +6745,8 @@ class msrVoice : public msrElement
     // harmonies
 
     void                  appendHarmonyToVoice (
-                            S_msrHarmony harmony);
+                            S_msrHarmony harmony,
+                            bool         doPadUp);
 
     void                  appendHarmonyToVoiceClone (
                             S_msrHarmony harmony);
@@ -7070,6 +7071,12 @@ class msrVoice : public msrElement
     void                  moveVoiceLastSegmentToInitialVoiceElementsIfRelevant (
                             int          inputLineNumber,
                             string       context);
+
+    // harmonies
+
+    void                  appendHarmonyToHarmonyVoice (
+                            S_msrHarmony harmony,
+                            bool         doPadUp);
 
     // repeats
 

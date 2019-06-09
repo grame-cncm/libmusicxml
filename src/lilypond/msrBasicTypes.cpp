@@ -8234,9 +8234,6 @@ string msrHarmonyKindAsString (
     case kNoneHarmony:
       result = "none";
       break;
-
-    default:
-      result = to_string (int (harmonyKind));
   } // switch
 
   return result;
@@ -8393,9 +8390,6 @@ string msrHarmonyKindAsShortString (
     case kNoneHarmony:
       result = "None";
       break;
-
-    default:
-      result = to_string (int (harmonyKind));
   } // switch
 
   return result;

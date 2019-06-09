@@ -67,7 +67,7 @@ rational rational::operator /(int num) const {
 
 rational& rational::operator +=(const rational &dur)
 {
-    if(fDenominator == dur.fDenominator) {
+  if(fDenominator == dur.fDenominator) {
 		fNumerator += dur.fNumerator;
 	} else {
 		fNumerator = fNumerator * dur.fDenominator + dur.fNumerator * fDenominator;
@@ -147,10 +147,10 @@ long int rational::gcd (long int a1, long int b1)
       a = b;
       b = r;
     } // while
-    
+
     return a;
   }
-  
+
   return 1;
 }
 
@@ -158,10 +158,10 @@ long int rational::gcd (long int a1, long int b1)
 void rational::rationalise ()
 {
   long int g = gcd (fNumerator, fDenominator);
-  
+
   fNumerator /= g;
   fDenominator /= g;
-  
+
   if (fNumerator == 0)
     fDenominator = 1;
 }
@@ -189,7 +189,7 @@ rational::operator string () const		{ return toString (); }
 rational::operator double () const		{ return toDouble (); }
 rational::operator float () const		{ return toFloat (); }
 rational::operator int () const
-{ 
+{
   const double x = toDouble ();
   return ((int)floor(x + 0.5f));
 }

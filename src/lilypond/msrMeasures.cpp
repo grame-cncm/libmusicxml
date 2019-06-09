@@ -1889,8 +1889,16 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
   int      inputLineNumber,
   rational wholeNotes)
 {
+  // fetch the measure voice
+  S_msrVoice
+    measureVoice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
+    this->print (gLogIOstream);
+
     gLogIOstream <<
       "Padding from actual measure whole notes '" << fActualMeasureWholeNotes <<
       "' to '" << wholeNotes <<
@@ -1900,24 +1908,20 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
       fMeasureDebugNumber <<
       "' in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
-      ", line " << inputLineNumber <<
+      " in voice \"" <<
+      measureVoice->getVoiceName () <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 #endif
 
-  gIndenter++;
-
   if (fActualMeasureWholeNotes < wholeNotes) {
+    gIndenter++;
+
     // appending a padding rest or skip to this measure to reach wholeNotes
     rational
       missingDuration =
         wholeNotes - fActualMeasureWholeNotes;
-
-    // fetch the measure voice
-    S_msrVoice
-      measureVoice =
-        fMeasureSegmentUplink->
-          getSegmentVoiceUplink ();
 
     // create a rest or a skip depending on measureVoice kind
     S_msrNote
@@ -1943,7 +1947,8 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
         fMeasureNumber <<
         ", measureDebugNumber: '" <<
         fMeasureDebugNumber <<
-        "in voice \"" << measureVoice->getVoiceName () <<
+        "in voice \"" <<
+        measureVoice->getVoiceName () <<
         endl;
     }
 #endif
@@ -1962,9 +1967,60 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
 
     // this measure contains music
     fMeasureContainsMusic = true;
+
+    gIndenter--;
   }
 
-  gIndenter--;
+  else if (fActualMeasureWholeNotes == wholeNotes) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceMeasures) {
+      gLogIOstream <<
+        "No need to pad from actual measure whole notes '" <<
+        fActualMeasureWholeNotes <<
+        "' to '" <<
+        wholeNotes <<
+        "' since they are equal in measure '" <<
+        fMeasureNumber <<
+        ", measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "' in segment " <<
+        fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+        " in voice \"" <<
+        measureVoice->getVoiceName () <<
+        "\", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+  }
+
+  else {
+    measureVoice->print (gLogIOstream); // JMI
+    this->print (gLogIOstream);
+
+    stringstream s;
+
+    s <<
+        "Cannot pad from actual measure whole notes '" <<
+        fActualMeasureWholeNotes <<
+        "' to '" <<
+        wholeNotes <<
+        "' since the former is larger than the latter in measure '" <<
+        fMeasureNumber <<
+        "', measureDebugNumber: '" <<
+        fMeasureDebugNumber <<
+        "' in segment " <<
+        fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
+        " in voice \"" <<
+        measureVoice->getVoiceName () <<
+        "\", line " << inputLineNumber;
+
+//    msrMusicXMLError ( JMI
+    msrMusicXMLWarning (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+ //     __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msrMeasure::appendPaddingNoteToMeasure (

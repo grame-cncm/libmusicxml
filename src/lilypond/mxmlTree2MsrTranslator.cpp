@@ -2436,13 +2436,13 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 
   int offsetValue = (int)(*elt);
 
-    // set offset whole notes
+  // set offset whole notes
   rational
     offsetWholeNotesFromDuration =
       rational (
         offsetValue,
         fCurrentDivisionsPerQuarterNote * 4); // hence a whole note
-    offsetWholeNotesFromDuration.rationalise ();
+  offsetWholeNotesFromDuration.rationalise ();
 
   // sound
 
@@ -2478,6 +2478,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 
   if (fOnGoingDirection) { // JMI
   }
+
   else if (fOnGoingHarmony) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceHarmonies) {
@@ -4435,6 +4436,9 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   // reset staff change detection
   fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
 
+  // handle the backup
+  // JMI: make it pending until the note that follows,
+  //      and then have it handled by the corresponding voice only?
   fCurrentPart->
     handleBackup (
       inputLineNumber,
@@ -7428,6 +7432,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentNoteActualNotes = -1;
   fCurrentNoteNormalNotes = -1;
+
+  // harmonies
+
+  fCurrentHarmonyWholeNotesOffset = rational (0, 1);
 
   // lyrics
 
@@ -18597,49 +18605,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
             fCurrentNoteActualNotes,
             fCurrentNoteNormalNotes));
 
-      // is the harmony's whole notes offset not equal to 0?
-      rational
-        harmonyWholeNotesOffset =
-          harmony->
-            getHarmonyWholeNotesOffset ();
-
       // get the harmony voice for the current voice
       S_msrVoice
         voiceHarmonyVoice =
           voiceToInsertInto->
             getHarmonyVoiceForRegularVoice ();
 
-      if (harmonyWholeNotesOffset.getNumerator () != 0) {
-        // create skip with duration harmonyWholeNotesOffset
-        S_msrNote
-          skip =
-            msrNote::createSkipNote (
-              harmony->           getInputLineNumber (),
-              fCurrentMeasureNumber,
-              harmonyWholeNotesOffset, // would be 0/1 otherwise JMI
-              harmonyWholeNotesOffset,
-              0, // JMI elt->           getHarmonyDotsNumber (),
-              voiceHarmonyVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
-              voiceHarmonyVoice-> getVoiceNumber ());
-
-        // append it to  the harmony voice for the current voice
-        // to 'push' the harmony aside
-        voiceHarmonyVoice->
-          appendNoteToVoice (skip);
-
-        // decrement the harmony's duration as much
-        harmony->
-          setHarmonySoundingWholeNotes (
-            harmony->getHarmonySoundingWholeNotes ()
-              -
-            harmonyWholeNotesOffset);
-
-        harmony->
-          setHarmonyDisplayWholeNotes (
-            harmony->getHarmonyDisplayWholeNotes ()
-              -
-            harmonyWholeNotesOffset);
-      }
+      // is the harmony whole notes offset non-null?
+      rational
+        harmonyWholeNotesOffset =
+          harmony->
+            getHarmonyWholeNotesOffset ();
 
       // attach the harmony to the note
       newNote->
@@ -18648,7 +18624,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // append the harmony to the harmony voice for the current voice
       voiceHarmonyVoice->
         appendHarmonyToVoice (
-          harmony);
+          harmony,
+          harmonyWholeNotesOffset.getNumerator () < 0); // doPadUp
 
       // remove it from the list
       fPendingHarmoniesList.pop_front ();
