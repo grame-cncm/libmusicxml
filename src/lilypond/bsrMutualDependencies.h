@@ -31,14 +31,14 @@
 #include "msrDynamics.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*
   This file declares classes that cannot be placed in 'individual' headers
   due to mutual dependancies
 */
- 
+
 //______________________________________________________________________________
 // PRE-declarations for class mutual dependencies
 
@@ -80,7 +80,7 @@ class bsrLineElement : public bsrElement
 */
 
   protected:
-         
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -96,7 +96,7 @@ class bsrLineElement : public bsrElement
 
     void                  setBsrLineUplink (
                             S_bsrLine bsrLineUplink);
-                              
+
     S_bsrLine             getBsrLineUplink () const;
 
 
@@ -118,7 +118,7 @@ class bsrLineElement : public bsrElement
     virtual int           fetchCellsNumber () const = 0;
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -133,13 +133,13 @@ class bsrLineElement : public bsrElement
     // ------------------------------------------------------
 
     virtual std::string   asString () const;
-    
+
     virtual std::string   asShortString () const;
 
     virtual void          print (std::ostream& os);
 
   protected:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -164,7 +164,7 @@ class bsrPageElement : public bsrElement
 */
 
   protected:
-         
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -180,7 +180,7 @@ class bsrPageElement : public bsrElement
 
     void                  setBsrPageUplink (
                             S_bsrPage bsrPageUplink);
-                              
+
     S_bsrPage             getBsrPageUplink () const;
 
     void                  setSpacesBefore (int value)
@@ -203,7 +203,7 @@ class bsrPageElement : public bsrElement
                               { return 0; }
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -218,13 +218,13 @@ class bsrPageElement : public bsrElement
     // ------------------------------------------------------
 
     virtual std::string   asString () const;
-    
+
     virtual std::string   asShortString () const;
 
     virtual void          print (std::ostream& os);
 
   protected:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -247,10 +247,10 @@ class bsrLineContents : public bsrElement
     enum bsrLineContentsKind {
         kLineContentsRegular,
         kLineContentsContinuation };
-        
+
     static string lineContentsKindAsString (
       bsrLineContentsKind lineContentsKind);
-      
+
   public:
 
     // creation
@@ -263,7 +263,7 @@ class bsrLineContents : public bsrElement
     SMARTP<bsrLineContents> createLineNewbornClone ();
 
   protected:
-         
+
     // constructors/destructor
     // ------------------------------------------------------
 
@@ -280,7 +280,7 @@ class bsrLineContents : public bsrElement
 
     void                  setBsrLineUplink (
                             S_bsrLine bsrLineUplink);
-                              
+
     S_bsrLine             getBsrLineUplink () const;
 
     bsrLineContentsKind   getLineContentsKind () const
@@ -297,14 +297,14 @@ class bsrLineContents : public bsrElement
 
     void                  appendLineElementToLineContents (
                             S_bsrLineElement lineElement);
-                            
+
     void                  insertLineElementBeforeLastElementOfLineContents (
                             S_bsrLineElement lineElement);
-  
+
     int                   fetchCellsNumber () const;
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -319,13 +319,13 @@ class bsrLineContents : public bsrElement
     // ------------------------------------------------------
 
     virtual std::string   asString () const;
-    
+
     virtual std::string   asShortString () const;
 
     virtual void          print (std::ostream& os);
 
   protected:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -347,7 +347,7 @@ const bsrCellKind
 class bsrSpaces : public bsrLineElement
 {
   public:
-          
+
     // creation
     // ------------------------------------------------------
 
@@ -363,20 +363,20 @@ class bsrSpaces : public bsrLineElement
     bsrSpaces (
       int inputLineNumber,
       int numberOfSpaces);
-      
+
     virtual ~bsrSpaces ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                  
+
     int                   getNumberOfSpaces () const
                               { return fNumberOfSpaces; }
 
     // services
     // ------------------------------------------------------
-                  
+
     S_bsrCellsList        fetchCellsList () const
                               { return fSpacesCellsList; }
 
@@ -417,7 +417,7 @@ EXP ostream& operator<< (ostream& os, const S_bsrSpaces& elt);
 class bsrPagination : public bsrLineElement
 {
   public:
-          
+
     // creation
     // ------------------------------------------------------
 
@@ -435,20 +435,20 @@ class bsrPagination : public bsrLineElement
       int inputLineNumber,
       int printPageNumber,
       int braillePageNumber);
-      
+
     virtual ~bsrPagination ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                  
+
     int                   getPrintPageNumber () const
                               { return fPrintPageNumber; }
 
     int                   getBraillePageNumber () const
                               { return fBraillePageNumber; }
-                              
+
     S_bsrCellsList        fetchCellsList () const
                               { return fPaginationCellsList; }
 
@@ -458,9 +458,9 @@ class bsrPagination : public bsrLineElement
 
     // private services
     // ------------------------------------------------------
-                  
-    S_bsrCellsList        buildCellsList () const;    
-  
+
+    S_bsrCellsList        buildCellsList () const;
+
   public:
 
     // visitors
@@ -497,13 +497,13 @@ EXP ostream& operator<< (ostream& os, const S_bsrPagination& elt);
 class bsrClef : public bsrLineElement
 {
   public:
-          
+
     // data types
     // ------------------------------------------------------
 
     enum bsrClefKind {
         kClefKindNone,
-        
+
         kClefKindGTreble,
         kClefKindFBass,
         kClefKindCAlto,
@@ -514,10 +514,10 @@ class bsrClef : public bsrLineElement
         kClefKindGOttavaBassa,
         kClefKindModifiedBassForRightHandPart,
         kClefKindModifiedTrebleForLeftHandPart };
-        
+
     static string clefKindAsString (
       bsrClefKind clefKind);
-      
+
     // creation
     // ------------------------------------------------------
 
@@ -533,14 +533,14 @@ class bsrClef : public bsrLineElement
     bsrClef (
       int         inputLineNumber,
       bsrClefKind clefKind);
-      
+
     virtual ~bsrClef ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                  
+
     bsrClefKind           getClefKind () const
                               { return fClefKind; }
 
@@ -548,19 +548,19 @@ class bsrClef : public bsrLineElement
 
     // public services
     // ------------------------------------------------------
-                  
+
     S_bsrCellsList        fetchCellsList () const
                               { return fClefCellsList; }
 
     int                   fetchCellsNumber () const;
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
-                                                                      
+
     S_bsrCellsList        buildCellsList () const;
-                  
+
   public:
 
     // visitors
@@ -603,13 +603,13 @@ typedef SMARTP<bsrTime> S_bsrTime;
 class bsrTimeItem : public bsrElement
 {
   public:
-    
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrTimeItem> create (
       int inputLineNumber);
-      
+
   protected:
 
     // constructors/destructor
@@ -617,7 +617,7 @@ class bsrTimeItem : public bsrElement
 
     bsrTimeItem (
       int inputLineNumber);
-            
+
     virtual ~bsrTimeItem ();
 
   public:
@@ -629,7 +629,7 @@ class bsrTimeItem : public bsrElement
                               { return fTimeBeatsNumbersVector; }
 
     void                  setTimeBeatValue (int timeBeatValue);
-                              
+
     int                   getTimeBeatValue () const
                               { return fTimeBeatValue; }
 
@@ -637,11 +637,11 @@ class bsrTimeItem : public bsrElement
     // ------------------------------------------------------
 
     bool                  isEqualTo (S_bsrTimeItem otherTimeItem) const;
-                            
+
     void                  appendBeatsNumber (int beatsNumber);
 
     int                   getTimeBeatsNumber () const;
-                              
+
   public:
 
     // visitors
@@ -660,9 +660,9 @@ class bsrTimeItem : public bsrElement
     string                asString () const;
 
     virtual void          print (ostream& os);
-  
+
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
@@ -679,17 +679,17 @@ typedef SMARTP<bsrKey> S_bsrKey;
 class bsrKey : public bsrLineElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
     enum bsrKeyKind {
         kKeyKindNone,
         kKeyKindFlats, kKeyKindNaturals, kKeyKindSharps };
-        
+
     static string keyKindAsString (
       bsrKeyKind keyKind);
-      
+
     // creation
     // ------------------------------------------------------
 
@@ -697,7 +697,7 @@ class bsrKey : public bsrLineElement
       int        inputLineNumber,
       bsrKeyKind keyKind,
       int        numberOfAlterations);
-      
+
   protected:
 
     // constructors/destructor
@@ -707,7 +707,7 @@ class bsrKey : public bsrLineElement
       int        inputLineNumber,
       bsrKeyKind keyKind,
       int        numberOfAlterations);
-            
+
     virtual ~bsrKey ();
 
   public:
@@ -717,27 +717,27 @@ class bsrKey : public bsrLineElement
 
     bsrKeyKind            getKeyKind () const
                               { return fKeyKind; }
-    
+
     int                   getNumberOfAlterations () const
                               { return fNumberOfAlterations; }
-    
+
   public:
 
     // public services
     // ------------------------------------------------------
-                  
+
     S_bsrCellsList        fetchCellsList () const
                               { return fKeyCellsList; }
 
     int                   fetchCellsNumber () const;
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
-                                            
+
     S_bsrCellsList        keyKindAsCellsList () const;
-                          
+
     S_bsrCellsList        buildCellsList () const;
 
   public:
@@ -758,7 +758,7 @@ class bsrKey : public bsrLineElement
     string                asString () const;
 
     virtual void          print (ostream& os);
-  
+
   private:
 
     // fields
@@ -792,9 +792,9 @@ class bsrTime : public bsrLineElement
 
     static string timeKindAsString (
       bsrTimeKind timeKind);
-      
+
   public:
-          
+
     // creation
     // ------------------------------------------------------
 
@@ -810,9 +810,9 @@ class bsrTime : public bsrLineElement
     bsrTime (
       int         inputLineNumber,
       bsrTimeKind timeKind);
-            
+
     virtual ~bsrTime ();
-  
+
   public:
 
     // set and get
@@ -829,7 +829,7 @@ class bsrTime : public bsrLineElement
 
     // public services
     // ------------------------------------------------------
-                  
+
     void                  appendTimeItem (S_bsrTimeItem timeItem);
 
     S_bsrCellsList        fetchCellsList () const
@@ -841,8 +841,8 @@ class bsrTime : public bsrLineElement
 
     // private services
     // ------------------------------------------------------
-                  
-    S_bsrCellsList        buildCellsList () const;    
+
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 
@@ -869,7 +869,7 @@ class bsrTime : public bsrLineElement
     // ------------------------------------------------------
 
     bsrTimeKind           fTimeKind;
-    
+
     vector<S_bsrTimeItem> fTimeItemsVector;
 };
 typedef SMARTP<bsrTime> S_bsrTime;
@@ -882,7 +882,7 @@ typedef SMARTP<bsrBarline> S_bsrBarline;
 class bsrBarline : public bsrLineElement
 {
   public:
-    
+
     // data types
     // ------------------------------------------------------
 
@@ -891,17 +891,17 @@ class bsrBarline : public bsrLineElement
         kBarlineKindSpecial, // for dotted or dashed barlines
         kBarlineKindUnusual, // irregular spacing, ...
         kBarlineKindFinalDouble, kBarlineKindSectionalDouble };
-        
+
     static string barlineKindAsString (
       bsrBarlineKind barlineKind);
-      
+
     // creation
     // ------------------------------------------------------
 
     static SMARTP<bsrBarline> create (
       int            inputLineNumber,
       bsrBarlineKind barlineKind);
-      
+
   protected:
 
     // constructors/destructor
@@ -910,7 +910,7 @@ class bsrBarline : public bsrLineElement
     bsrBarline (
       int            inputLineNumber,
       bsrBarlineKind barlineKin);
-            
+
     virtual ~bsrBarline ();
 
   public:
@@ -920,24 +920,24 @@ class bsrBarline : public bsrLineElement
 
     bsrBarlineKind        getBarlineKind () const
                               { return fBarlineKind; }
-    
+
   public:
 
     // public services
     // ------------------------------------------------------
-                  
+
     S_bsrCellsList        fetchCellsList () const
                               { return fBarlineCellsList; }
 
     int                   fetchCellsNumber () const;
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
-                                            
+
     S_bsrCellsList        barlineKindAsCellsList ();
-                          
+
     S_bsrCellsList        buildCellsList () const;
 
   public:
@@ -958,7 +958,7 @@ class bsrBarline : public bsrLineElement
     string                asString () const;
 
     virtual void          print (ostream& os);
-  
+
   private:
 
     // fields
@@ -1004,9 +1004,9 @@ class bsrNumber : public bsrLineElement
       int       numberValue,
       bsrNumberSignIsNeededKind
                 numberSignIsNeededKind);
-      
+
     virtual ~bsrNumber ();
-  
+
   public:
 
     // set and get
@@ -1014,7 +1014,7 @@ class bsrNumber : public bsrLineElement
 
     int                   getNumberValue () const
                               { return fNumberValue; }
-                  
+
     void                  setNumberSignIsNeededKind (
                             bsrNumberSignIsNeededKind
                               numberSignIsNeededKindvalue)
@@ -1022,27 +1022,27 @@ class bsrNumber : public bsrLineElement
                                 fNumberSignIsNeededKind =
                                   numberSignIsNeededKindvalue;
                               }
-                  
+
     bsrNumberSignIsNeededKind
                           getNumberSignIsNeededKind () const
                               { return fNumberSignIsNeededKind; }
-                  
+
     S_bsrCellsList        getNumberCellsList () const
                               { return fNumberCellsList; }
-                  
+
     // public services
-    // ------------------------------------------------------                  
-                          
+    // ------------------------------------------------------
+
     S_bsrCellsList        fetchCellsList () const
                               { return fNumberCellsList; }
 
     int                   fetchCellsNumber () const;
 
   private:
-  
+
     // private services
     // ------------------------------------------------------
-                                            
+
     S_bsrCellsList        numberValueAsCellsList () const;
 
     S_bsrCellsList        buildCellsList () const;
@@ -1095,7 +1095,7 @@ S_bsrCellsList brailleWord (
 class bsrWords : public bsrLineElement
 {
   public:
-          
+
     // creation
     // ------------------------------------------------------
 
@@ -1111,20 +1111,20 @@ class bsrWords : public bsrLineElement
     bsrWords (
       int    inputLineNumber,
       string wordContents);
-      
+
     virtual ~bsrWords ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                  
+
     string                getWordContents () const
                               { return fWordContents; }
 
     // services
     // ------------------------------------------------------
-                  
+
     S_bsrCellsList        fetchCellsList () const
                               { return fWordCellsList; }
 
@@ -1171,7 +1171,7 @@ class bsrNote : public bsrLineElement
 
     enum bsrNoteValueKind {
         kNoteValueNone,
-        
+
         kNoteValueRestBreve,
         kNoteValueRestWhole,
         kNoteValueRestHalf,
@@ -1182,7 +1182,7 @@ class bsrNote : public bsrLineElement
         kNoteValueRest64th,
         kNoteValueRest128th,
         kNoteValueRest256th,
-        
+
         kNoteValueCBreve,
         kNoteValueCWhole,
         kNoteValueCHalf,
@@ -1193,7 +1193,7 @@ class bsrNote : public bsrLineElement
         kNoteValueC64th,
         kNoteValueC128th,
         kNoteValueC256th,
-        
+
         kNoteValueDBreve,
         kNoteValueDWhole,
         kNoteValueDHalf,
@@ -1204,7 +1204,7 @@ class bsrNote : public bsrLineElement
         kNoteValueD64th,
         kNoteValueD128th,
         kNoteValueD256th,
-        
+
         kNoteValueEBreve,
         kNoteValueEWhole,
         kNoteValueEHalf,
@@ -1215,7 +1215,7 @@ class bsrNote : public bsrLineElement
         kNoteValueE64th,
         kNoteValueE128th,
         kNoteValueE256th,
-        
+
         kNoteValueFBreve,
         kNoteValueFWhole,
         kNoteValueFHalf,
@@ -1226,7 +1226,7 @@ class bsrNote : public bsrLineElement
         kNoteValueF64th,
         kNoteValueF128th,
         kNoteValueF256th,
-        
+
         kNoteValueGBreve,
         kNoteValueGWhole,
         kNoteValueGHalf,
@@ -1237,7 +1237,7 @@ class bsrNote : public bsrLineElement
         kNoteValueG64th,
         kNoteValueG128th,
         kNoteValueG256th,
-        
+
         kNoteValueABreve,
         kNoteValueAWhole,
         kNoteValueAHalf,
@@ -1248,7 +1248,7 @@ class bsrNote : public bsrLineElement
         kNoteValueA64th,
         kNoteValueA128th,
         kNoteValueA256th,
-        
+
         kNoteValueBBreve,
         kNoteValueBWhole,
         kNoteValueBHalf,
@@ -1313,10 +1313,10 @@ class bsrNote : public bsrLineElement
       kNoteAccidentalDoubleFlat, kNoteAccidentalDoubleSharp,
       kNoteAccidentalQuarterSharp, kNoteAccidentalQuarterFlat,
       kNoteAccidentalThreeQuarterSharp, kNoteAccidentalThreeQuarterFlat };
-  
+
     static string noteAccidentalKindAsString (
       bsrNoteAccidentalKind noteAccidentalKind);
-  
+
     static S_bsrCellsList noteAccidentalKindAsCellsList (
       int                   inputLineNumber,
       bsrNoteAccidentalKind noteAccidentalKind);
@@ -1344,9 +1344,9 @@ class bsrNote : public bsrLineElement
       bsrNoteOctaveKind     noteOctaveKind,
       bsrNoteOctaveIsNeeded noteOctaveIsNeeded,
       bsrNoteAccidentalKind noteAccidentalKind);
-      
+
     virtual ~bsrNote ();
-  
+
   public:
 
     // set and get
@@ -1354,26 +1354,26 @@ class bsrNote : public bsrLineElement
 
     bsrNoteValueKind      getNoteValueKind () const
                               { return fNoteValueKind; }
-                  
+
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
-                  
+
     void                  setNoteValueSizeIsNeeded ()
                               { fNoteValueSizeIsNeeded = true; }
-                  
+
     bool                  getNoteValueSizeIsNeeded () const
                               { return fNoteValueSizeIsNeeded; }
-                  
+
     void                  setNoteOctaveIsNeeded (
                             bsrNoteOctaveIsNeeded value)
                               { fNoteOctaveIsNeeded = value; }
-                  
+
     bsrNoteOctaveIsNeeded getNoteOctaveIsNeeded () const
                               { return fNoteOctaveIsNeeded; }
-                  
+
     bsrNoteAccidentalKind getNoteAccidentalKind () const
                               { return fNoteAccidentalKind; }
-                  
+
    public:
 
     // public services
@@ -1381,23 +1381,23 @@ class bsrNote : public bsrLineElement
 
     S_bsrCellsList        fetchCellsList () const
                               { return buildCellsList (); }
-  
+
     int                   fetchCellsNumber () const;
 
   private:
 
     // private services
     // ------------------------------------------------------
-                                            
+
     S_bsrCellsList        noteValueKindAsCellsList () const;
-    
+
     S_bsrCellsList        noteValueSizeKindAsCellsList () const;
-                          
+
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
-    
+
     S_bsrCellsList        noteAccidentalKindAsCellsList () const;
 
-    S_bsrCellsList        buildCellsList () const;    
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 
@@ -1423,12 +1423,12 @@ class bsrNote : public bsrLineElement
     // fields
     // ------------------------------------------------------
 
-    
+
     bsrNoteValueKind      fNoteValueKind;
     int                   fNoteDotsNumber;
 
     bool                  fNoteValueSizeIsNeeded;
-    
+
     bsrNoteOctaveKind     fNoteOctaveKind;
     bsrNoteOctaveIsNeeded fNoteOctaveIsNeeded;
 
@@ -1457,9 +1457,9 @@ class bsrDynamics : public bsrLineElement
     bsrDynamics (
       int                          inputLineNumber,
       msrDynamics::msrDynamicsKind dynamicsKind);
-      
+
     virtual ~bsrDynamics ();
-  
+
   public:
 
     // set and get
@@ -1468,7 +1468,7 @@ class bsrDynamics : public bsrLineElement
     msrDynamics::msrDynamicsKind
                           getDynamicsKind () const
                               { return fDynamicsKind; }
-                                    
+
   public:
 
     // public services
@@ -1477,19 +1477,19 @@ class bsrDynamics : public bsrLineElement
     S_bsrCellsList        fetchCellsList () const
                               { return fDynamicsCellsList; }
 
-  
+
     int                   fetchCellsNumber () const;
 
   private:
 
     // private services
     // ------------------------------------------------------
-                                            
+
     S_bsrCellsList        noteValueKindAsCellsList () const;
-                          
+
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
 
-    S_bsrCellsList        buildCellsList () const;    
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 
@@ -1514,10 +1514,10 @@ class bsrDynamics : public bsrLineElement
 
     // fields
     // ------------------------------------------------------
-    
+
     msrDynamics::msrDynamicsKind
                           fDynamicsKind;
-    
+
     S_bsrCellsList        fDynamicsCellsList;
 };
 typedef SMARTP<bsrDynamics> S_bsrDynamics;
@@ -1534,7 +1534,7 @@ class bsrMeasure : public bsrLineElement
     static SMARTP<bsrMeasure> create (
       int    inputLineNumber,
       string printMeasureNumber);
-    
+
     SMARTP<bsrMeasure> createMeasureNewbornClone ();
 
   protected:
@@ -1545,9 +1545,9 @@ class bsrMeasure : public bsrLineElement
     bsrMeasure (
       int    inputLineNumber,
       string printMeasureNumber);
-      
+
     virtual ~bsrMeasure ();
-  
+
   public:
 
     // set and get
@@ -1565,20 +1565,22 @@ class bsrMeasure : public bsrLineElement
     // ------------------------------------------------------
 
     void                  appendClefToMeasure (S_bsrClef clef);
-                              
+
     void                  appendBarlineToMeasure (S_bsrBarline barline);
-                              
+
     void                  appendNumberToMeasure (S_bsrNumber number);
-    
+
     void                  appendWordsToMeasure (S_bsrWords str);
-                              
+
     void                  appendNoteToMeasure (S_bsrNote note);
-    
+
+    void                  appendPaddingNoteToMeasure (S_bsrNote note);
+
     void                  appendDynamicsToMeasure (S_bsrDynamics dynamics);
 
     S_bsrCellsList        fetchCellsList () const
                               { return buildCellsList (); }
-                              
+
     int                   fetchCellsNumber () const;
 
   private:
@@ -1588,9 +1590,9 @@ class bsrMeasure : public bsrLineElement
 
     void                  appendLineElementToMeasure (
                             S_bsrLineElement lineElement);
-    
+
     S_bsrCellsList        buildCellsList () const;
-    
+
   public:
 
     // visitors
@@ -1602,7 +1604,7 @@ class bsrMeasure : public bsrLineElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -1615,7 +1617,7 @@ class bsrMeasure : public bsrLineElement
     // fields
     // ------------------------------------------------------
 
-    string                fPrintMeasureNumber;    
+    string                fPrintMeasureNumber;
     string                fBrailleMeasureNumber;
 
     list<S_bsrLineElement>
@@ -1648,9 +1650,9 @@ class bsrTempo : public bsrLineElement
     bsrTempo (
       int        inputLineNumber,
       S_msrTempo mTempo);
-      
+
     virtual ~bsrTempo ();
-  
+
   public:
 
     // set and get
@@ -1658,7 +1660,7 @@ class bsrTempo : public bsrLineElement
 
     S_msrTempo            getMsrTempo () const
                               { return fMsrTempo; }
-                                    
+
     S_bsrCellsList        getTempoCellsList () const
                               { return fTempoCellsList; }
 
@@ -1669,19 +1671,19 @@ class bsrTempo : public bsrLineElement
 
     S_bsrCellsList        fetchCellsList () const
                               { return fTempoCellsList; }
-  
+
     int                   fetchCellsNumber () const;
 
   private:
 
     // private services
     // ------------------------------------------------------
-                                            
+
     S_bsrCellsList        noteValueKindAsCellsList () const;
-                          
+
     S_bsrCellsList        noteOctaveKindAsCellsList () const;
 
-    S_bsrCellsList        buildCellsList () const;    
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 
@@ -1706,9 +1708,9 @@ class bsrTempo : public bsrLineElement
 
     // fields
     // ------------------------------------------------------
-    
+
     S_msrTempo            fMsrTempo;
-    
+
     S_bsrCellsList        fTempoCellsList;
 };
 typedef SMARTP<bsrTempo> S_bsrTempo;
@@ -1726,7 +1728,7 @@ class bsrLine : public bsrPageElement
       int inputLineNumber,
       int printLineNumber,
       int cellsPerLine);
-    
+
     SMARTP<bsrLine> createLineNewbornClone ();
 
   protected:
@@ -1738,9 +1740,9 @@ class bsrLine : public bsrPageElement
       int inputLineNumber,
       int printLineNumber,
       int cellsPerLine);
-      
+
     virtual ~bsrLine ();
-  
+
   public:
 
     // set and get
@@ -1751,27 +1753,27 @@ class bsrLine : public bsrPageElement
 
     int                   getBrailleLineNumber () const
                               { return fBrailleLineNumber; }
-                              
+
     int                   getCellsPerLine () const
                               { return fCellsPerLine; }
-                              
+
   public:
 
     // public services
     // ------------------------------------------------------
 
     void                  appendSpacesToLine (S_bsrSpaces spaces);
-                              
+
     void                  appendMeasureToLine (S_bsrMeasure measure);
 
     void                  appendKeyToLine (S_bsrKey key);
-                              
+
     void                  appendTimeToLine (S_bsrTime time);
-    
+
     void                  insertTimeBeforeLastElementOfLine (S_bsrTime time);
-                                  
+
     void                  appendTempoToLine (S_bsrTempo tempo);
-                                                            
+
     void                  appendNoteToLine (S_bsrNote note);
 
     int                   fetchLineContentsNumber () const
@@ -1791,13 +1793,13 @@ class bsrLine : public bsrPageElement
 
     void                  appendLineElementToLine (
                             S_bsrLineElement lineElement);
-                            
+
     void                  insertElementBeforeLastElementOfLine (
                             S_bsrLineElement lineElement);
 
     void                  appendLineElementToLastMeasureOfLine (
                             S_bsrLineElement lineElement);
-                            
+
   public:
 
     // visitors
@@ -1809,7 +1811,7 @@ class bsrLine : public bsrPageElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -1822,12 +1824,12 @@ class bsrLine : public bsrPageElement
     // fields
     // ------------------------------------------------------
 
-    int                   fPrintLineNumber;    
+    int                   fPrintLineNumber;
     int                   fBrailleLineNumber;
 
     int                   fCellsPerLine;
 
-    S_bsrCellsList        fLineNumberCellsList;    
+    S_bsrCellsList        fLineNumberCellsList;
     list<S_bsrLineContents>
                           fLineContentsList;
     bool                  fASpaceIsNeededInLine;
@@ -1848,7 +1850,7 @@ class bsrPageHeading : public bsrLine
       string          pageHeadingTitle,
       S_bsrPagination pageHeadingPagination,
       int             pageHeadingNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -1859,14 +1861,14 @@ class bsrPageHeading : public bsrLine
       string          pageHeadingTitle,
       S_bsrPagination pageHeadingPagination,
       int             pageHeadingNumber);
-      
+
     virtual ~bsrPageHeading ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     string                getPageHeadingTitle () const
                               { return fPageHeadingTitle; }
 
@@ -1889,8 +1891,8 @@ class bsrPageHeading : public bsrLine
     // private services
     // ------------------------------------------------------
 
-    S_bsrCellsList        buildCellsList () const;    
-  
+    S_bsrCellsList        buildCellsList () const;
+
   public:
 
     // visitors
@@ -1902,7 +1904,7 @@ class bsrPageHeading : public bsrLine
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -1933,7 +1935,7 @@ class bsrMusicHeading : public bsrLine
 
     static SMARTP<bsrMusicHeading> create (
       int inputLineNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -1941,14 +1943,14 @@ class bsrMusicHeading : public bsrLine
 
     bsrMusicHeading (
       int inputLineNumber);
-      
+
     virtual ~bsrMusicHeading ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
-                              
+
     void                  setMusicHeadingTempo (S_bsrTempo tempo)
                               { fMusicHeadingTempo = tempo; }
 
@@ -1974,13 +1976,13 @@ class bsrMusicHeading : public bsrLine
 
     S_bsrCellsList        fetchCellsList () const
                               { return buildCellsList (); }
-  
+
   private:
 
     // private services
     // ------------------------------------------------------
 
-    S_bsrCellsList        buildCellsList () const;    
+    S_bsrCellsList        buildCellsList () const;
 
   public:
 
@@ -1993,7 +1995,7 @@ class bsrMusicHeading : public bsrLine
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -2024,7 +2026,7 @@ class bsrFootNotesElement : public bsrElement
     static SMARTP<bsrFootNotesElement> create (
       int    inputLineNumber,
       string footNoteText);
-    
+
   protected:
 
     // constructors/destructor
@@ -2033,9 +2035,9 @@ class bsrFootNotesElement : public bsrElement
     bsrFootNotesElement (
       int    inputLineNumber,
       string footNoteText);
-      
+
     virtual ~bsrFootNotesElement ();
-  
+
   public:
 
     // set and get
@@ -2093,7 +2095,7 @@ class bsrFootNotes : public bsrLine
 
     static SMARTP<bsrFootNotes> create (
       int inputLineNumber);
-    
+
   protected:
 
     // constructors/destructor
@@ -2101,9 +2103,9 @@ class bsrFootNotes : public bsrLine
 
     bsrFootNotes (
       int inputLineNumber);
-      
+
     virtual ~bsrFootNotes ();
-  
+
   public:
 
     // set and get
@@ -2164,7 +2166,7 @@ class bsrPage : public bsrElement
       int inputLineNumber,
       int printPageNumber,
       int linesPerPage);
-    
+
     SMARTP<bsrPage> createPageNewbornClone ();
 
   protected:
@@ -2176,9 +2178,9 @@ class bsrPage : public bsrElement
       int inputLineNumber,
       int printPageNumber,
       int linesPerPage);
-      
+
     virtual ~bsrPage ();
-  
+
   public:
 
     // set and get
@@ -2189,10 +2191,10 @@ class bsrPage : public bsrElement
 
     int                   getBraillePageNumber () const
                               { return fBraillePageNumber; }
-                              
+
     int                   getLinesPerPage () const
                               { return fLinesPerPage; }
-                              
+
   public:
 
     // public services
@@ -2200,18 +2202,18 @@ class bsrPage : public bsrElement
 
     void                  appendPageHeadingToPage (S_bsrPageHeading pageHeading)
                               { fPageElementsList.push_back (pageHeading); }
-                              
+
     void                  appendMusicHeadingToPage (S_bsrMusicHeading musicHeading)
                               { fPageElementsList.push_back (musicHeading); }
-                              
+
     void                  appendFootNotesToPage (S_bsrFootNotes footNotes)
                               { fPageElementsList.push_back (footNotes); }
-                              
+
     void                  appendLineToPage (S_bsrLine line)
                               { fPageElementsList.push_back (line); }
 
     int                   fetchLineContentsNumber ();
-                              
+
   public:
 
 
@@ -2226,7 +2228,7 @@ class bsrPage : public bsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
@@ -2239,10 +2241,10 @@ class bsrPage : public bsrElement
     // fields
     // ------------------------------------------------------
 
-    int                   fPrintPageNumber;    
+    int                   fPrintPageNumber;
     int                   fBraillePageNumber;
 
-    int                   fLinesPerPage;    
+    int                   fLinesPerPage;
 
     list<S_bsrPageElement>
                           fPageElementsList;

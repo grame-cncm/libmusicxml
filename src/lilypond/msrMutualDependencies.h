@@ -976,7 +976,9 @@ class msrMeasure : public msrElement
 
     // notes
 
-    void                  appendNoteToMeasure      (S_msrNote note);
+    void                  appendNoteToMeasure (S_msrNote note);
+    void                  appendPaddingNoteAtTheEndOfMeasure (S_msrNote note);
+
     void                  appendNoteToMeasureClone (S_msrNote note);
 
     // tremolos
@@ -1097,6 +1099,10 @@ class msrMeasure : public msrElement
                             int      inputLineNumber,
                             rational positionInMeasureToPadUpTo);
 
+    void                  padUpToPositionAtTheEndOfMeasure (
+                            int      inputLineNumber,
+                            rational positionInMeasureToPadUpTo);
+
     void                  finalizeMeasure (
                             int                         inputLineNumber,
                             msrMeasureRepeatContextKind measureRepeatContextKind,
@@ -1113,6 +1119,9 @@ class msrMeasure : public msrElement
     // ------------------------------------------------------
 
     void                  appendElementToMeasure (
+                            S_msrMeasureElement elem);
+
+    void                  appendElementAtTheEndOfMeasure (
                             S_msrMeasureElement elem);
 
   public:
