@@ -2377,6 +2377,12 @@ class msrHarmony : public msrMeasureElement
                                   harmonyDegree);
                               }
 
+    // harmonies ordering in voices
+
+    static bool           compareHarmoniesByIncreasingOffset (
+                            const SMARTP<msrHarmony>& first,
+                            const SMARTP<msrHarmony>& second);
+
   public:
 
     // visitors
@@ -6754,8 +6760,7 @@ class msrVoice : public msrElement
     // harmonies
 
     void                  appendHarmonyToVoice (
-                            S_msrHarmony harmony,
-                            bool         doPadUp);
+                            S_msrHarmony harmony);
 
     void                  appendHarmonyToVoiceClone (
                             S_msrHarmony harmony);
@@ -7084,8 +7089,7 @@ class msrVoice : public msrElement
     // harmonies
 
     void                  appendHarmonyToHarmonyVoice (
-                            S_msrHarmony harmony,
-                            bool         doPadUp);
+                            S_msrHarmony harmony);
 
     // repeats
 

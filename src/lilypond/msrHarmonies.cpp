@@ -517,6 +517,16 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 
+bool msrHarmony::compareHarmoniesByIncreasingOffset (
+  const SMARTP<msrHarmony>& first,
+  const SMARTP<msrHarmony>& second)
+{
+  return
+    first->getHarmonyWholeNotesOffset ()
+      <
+    second->getHarmonyWholeNotesOffset ();
+}
+
 void msrHarmony::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

@@ -18573,63 +18573,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
   // handling the current pending harmonies if any,
   // so that they get attached to the note right now
-  int numberOfHarmoniesOnThisNote =
-    fPendingHarmoniesList.size ();
-
-  if (numberOfHarmoniesOnThisNote) {
-    while (fPendingHarmoniesList.size ()) { // recompute at each iteration
-      S_msrHarmony
-        harmony =
-          fPendingHarmoniesList.front ();
-
-      // set the harmony's voice uplink
-      harmony->
-        setHarmonyVoiceUplink (
-          voiceToInsertInto);
-
-      // set the harmony's souding whole notes
-      // don't forget that numberOfHarmoniesOnThisNote share the note's duration
-      harmony->
-        setHarmonySoundingWholeNotes (
-          fCurrentNoteSoundingWholeNotes / numberOfHarmoniesOnThisNote);
-
-      // set the harmony's display whole notes
-      harmony->
-        setHarmonyDisplayWholeNotes (
-          fCurrentNoteDisplayWholeNotes);
-
-      // set the harmony's tuplet factor
-      harmony->
-        setHarmonyTupletFactor (
-          msrTupletFactor (
-            fCurrentNoteActualNotes,
-            fCurrentNoteNormalNotes));
-
-      // get the harmony voice for the current voice
-      S_msrVoice
-        voiceHarmonyVoice =
-          voiceToInsertInto->
-            getHarmonyVoiceForRegularVoice ();
-
-      // is the harmony whole notes offset non-null?
-      rational
-        harmonyWholeNotesOffset =
-          harmony->
-            getHarmonyWholeNotesOffset ();
-
-      // attach the harmony to the note
-      newNote->
-        setNoteHarmony (harmony);
-
-      // append the harmony to the harmony voice for the current voice
-      voiceHarmonyVoice->
-        appendHarmonyToVoice (
-          harmony,
-          harmonyWholeNotesOffset.getNumerator () < 0); // doPadUp
-
-      // remove it from the list
-      fPendingHarmoniesList.pop_front ();
-    } // while
+  if (fPendingHarmoniesList.size ()) {
+    // handle the pending harmonies
+    handlePendingHarmonies (
+      inputLineNumber,
+      newNote,
+      voiceToInsertInto);
 
     // reset harmony counter
     fHarmonyVoicesCounter = 0;
@@ -18638,50 +18587,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // handling the current pending figured bass if any,
   // so that it gets attached to the note right now
   if (fPendingFiguredBassesList.size ()) {
-    while (fPendingFiguredBassesList.size ()) {
-      S_msrFiguredBass
-        figuredBass =
-          fPendingFiguredBassesList.front ();
-
-      // set the figured bass's voice uplink
-      figuredBass->
-        setFiguredBassVoiceUplink (
-          voiceToInsertInto);
-
-      // set the figured bass's whole notes
-      figuredBass->
-        setFiguredBassSoundingWholeNotes (
-          fCurrentNoteSoundingWholeNotes);
-
-      // set the figuredBass's tuplet factor
-      figuredBass->
-        setFiguredBassTupletFactor (
-          msrTupletFactor (
-            fCurrentNoteActualNotes,
-            fCurrentNoteNormalNotes));
-
-      // attach the figured bass to the note
-      newNote->
-        setNoteFiguredBass (figuredBass);
-
-      // append the figured bass to the figured bass voice for the current voice
-      S_msrVoice
-        voiceFiguredBassVoice =
-          voiceToInsertInto->
-            getFiguredBassVoiceForRegularVoice ();
-
-      voiceFiguredBassVoice->
-        appendFiguredBassToVoice (
-          figuredBass);
-
-      // remove it from the list
-      fPendingFiguredBassesList.pop_front ();
-    } // while
+    // handle the pending figured basses
+    handlePendingFiguredBasses (
+      newNote,
+      voiceToInsertInto);
 
     // reset figured bass counter
     fFiguredBassVoicesCounter = 0;
 
- // JMI   fPendingFiguredBass = false;
+  // JMI   fPendingFiguredBass = false;
   }
 
   // handling the current pending frames if any,
@@ -18797,6 +18711,170 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote);
 
   fOnGoingNote = false;
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::handlePendingHarmonies (
+  int        inputLineNumber,
+  S_msrNote  newNote,
+  S_msrVoice voiceToInsertInto)
+{
+  int pendingHarmoniesNumber =
+    fPendingHarmoniesList.size ();
+
+  if (pendingHarmoniesNumber > 1) {
+    // sort the pending harmonies in increasing whole notes offsets,
+    // necessary both for MSR and code generation
+    // and the detection of multi-occurrences whole notes offsets
+    fPendingHarmoniesList.sort (
+      msrHarmony::compareHarmoniesByIncreasingOffset);
+  }
+
+  rational
+    newNoteSoundingWholeNotes =
+      newNote->
+        getNoteSoundingWholeNotes ();
+
+  rational previousHarmonyWhoseNotesOffset =
+    rational (-1000, 1);
+
+  while (fPendingHarmoniesList.size ()) { // recompute at each iteration
+    S_msrHarmony
+      harmony =
+        fPendingHarmoniesList.front ();
+
+    // set the harmony's voice uplink
+    harmony->
+      setHarmonyVoiceUplink (
+        voiceToInsertInto);
+
+    // get that harmony's whole notes offset
+    rational
+      harmonyWholeNotesOffset =
+        harmony->
+          getHarmonyWholeNotesOffset ();
+
+    // MusicXML harmonies don't have a duration,
+    // and MSR could follow this line,
+    // but LilyPond needs one...
+    // bold choice:
+    //   all pending harmonies take an equal share
+    //   of the note's sounding whole notes
+
+    // set the harmony's souding whole notes
+    harmony->
+      setHarmonySoundingWholeNotes (
+        fCurrentNoteSoundingWholeNotes
+          /
+        pendingHarmoniesNumber);
+
+    if (harmonyWholeNotesOffset.getNumerator () > 0) {
+      // decrement the harmony's duration as much
+      harmony->
+        setHarmonySoundingWholeNotes (
+          harmony->
+            getHarmonySoundingWholeNotes ()
+            -
+          harmonyWholeNotesOffset);
+    }
+
+    // set the harmony's display whole notes
+    harmony->
+      setHarmonyDisplayWholeNotes (
+        fCurrentNoteDisplayWholeNotes);
+
+    // set the harmony's tuplet factor
+    harmony->
+      setHarmonyTupletFactor (
+        msrTupletFactor (
+          fCurrentNoteActualNotes,
+          fCurrentNoteNormalNotes));
+
+    // get the harmony voice for the current voice
+    S_msrVoice
+      voiceHarmonyVoice =
+        voiceToInsertInto->
+          getHarmonyVoiceForRegularVoice ();
+
+    // has the harmony whole notes offset already been used
+    // at the same point in time?
+    if (harmonyWholeNotesOffset == previousHarmonyWhoseNotesOffset) {
+      stringstream s;
+
+      s <<
+        "harmonyWholeNotesOffset '" <<
+        harmonyWholeNotesOffset <<
+        "' already occured in that same point in time, ignoring it";
+
+      msrMusicXMLWarning (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+//        __FILE__, __LINE__,
+        s.str ());
+    }
+
+    else {
+      // attach the harmony to the note
+      newNote->
+        setNoteHarmony (harmony);
+
+      // append the harmony to the harmony voice for the current voice
+      voiceHarmonyVoice->
+        appendHarmonyToVoice (
+          harmony);
+
+      previousHarmonyWhoseNotesOffset = harmonyWholeNotesOffset;
+    }
+
+    // remove it from the list
+    fPendingHarmoniesList.pop_front ();
+  } // while
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::handlePendingFiguredBasses (
+  S_msrNote  newNote,
+  S_msrVoice voiceToInsertInto)
+{
+  while (fPendingFiguredBassesList.size ()) {
+    S_msrFiguredBass
+      figuredBass =
+        fPendingFiguredBassesList.front ();
+
+    // set the figured bass's voice uplink
+    figuredBass->
+      setFiguredBassVoiceUplink (
+        voiceToInsertInto);
+
+    // set the figured bass's whole notes
+    figuredBass->
+      setFiguredBassSoundingWholeNotes (
+        fCurrentNoteSoundingWholeNotes);
+
+    // set the figuredBass's tuplet factor
+    figuredBass->
+      setFiguredBassTupletFactor (
+        msrTupletFactor (
+          fCurrentNoteActualNotes,
+          fCurrentNoteNormalNotes));
+
+    // attach the figured bass to the note
+    newNote->
+      setNoteFiguredBass (figuredBass);
+
+    // append the figured bass to the figured bass voice for the current voice
+    S_msrVoice
+      voiceFiguredBassVoice =
+        voiceToInsertInto->
+          getFiguredBassVoiceForRegularVoice ();
+
+    voiceFiguredBassVoice->
+      appendFiguredBassToVoice (
+        figuredBass);
+
+    // remove it from the list
+    fPendingFiguredBassesList.pop_front ();
+  } // while
 }
 
 //______________________________________________________________________________

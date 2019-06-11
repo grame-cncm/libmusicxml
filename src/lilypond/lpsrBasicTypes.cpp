@@ -148,6 +148,19 @@ string wholeNotesAsLilypondString (
   }
 #endif
 
+  if (numerator <= 0) {
+    stringstream s;
+
+    s <<
+     "%{ZERO_LENGTH: " <<
+     wholeNotes << // JMI
+     ", line " <<
+     inputLineNumber <<
+     " %}";
+
+    return s.str ();
+  }
+
   msrAssert (
     numerator > 0,
     "numerator is not positive");

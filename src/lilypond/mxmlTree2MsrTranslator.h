@@ -1307,6 +1307,10 @@ class mxmlTree2MsrTranslator :
 
     int                       fHarmonyVoicesCounter;
     list<S_msrHarmony>        fPendingHarmoniesList;
+    void                      handlePendingHarmonies (
+                                int        inputLineNumber,
+                                S_msrNote  newNote,
+                                S_msrVoice voiceToInsertInto);
 
     int                       fCurrentHarmonyInputLineNumber;
 
@@ -1343,6 +1347,9 @@ class mxmlTree2MsrTranslator :
 
     int                       fFiguredBassVoicesCounter;
     list<S_msrFiguredBass>    fPendingFiguredBassesList;
+    void                      handlePendingFiguredBasses (
+                                S_msrNote  newNote,
+                                S_msrVoice voiceToInsertInto);
 
     bool                      fOnGoingFiguredBass;
 

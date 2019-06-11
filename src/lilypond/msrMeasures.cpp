@@ -705,15 +705,30 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
   // but place it before barlines if any,
   // to avoid the latter appearing too early in harmony and figured bass measures,
   // which are not necessarily 'filled' by elements // JMI
+
+/*
+I would avoid using reverse iterators (in general, and in particular for anything other than a sequential transversal). Forward and reverse iterators work differently, in the case of a forward iterator into a list, the iterator tracks the node that you access through operator*, but in the reverse case the iterator tracks the next element in the list. The act of dereferencing a reverse iterator obtains the predecessor of the node referred by the iterator and extracts the value from that. Graphically (f is a forward iterator, r is a reverse iterator)
+
+  f
+1 2 4
+    r
+Both the forward iterator f and the reverse iterator r will yield 2 when dereferenced, but the node they track is different. When you insert using r you insert between 2 and 4, but the underlying iterator is left pointing to the node holding the 4:
+
+  f
+1 2 3 4
+      r
+Now if you dereference r, the same process as above applies. The predecessor of the current node is obtained, and the value printed, except that now the predecessor of 4 is 3 and that is what you get.
+*/
+
   list<S_msrMeasureElement>::reverse_iterator
     iBegin = fMeasureElementsList.rbegin (),
     iEnd   = fMeasureElementsList.rend (),
-    i      = iBegin,
-    insertPoint = iEnd;
+    i      = iBegin;
   for ( ; ; ) {
     S_msrMeasureElement
       measureElement = (*i);
 
+/* JMI
     // sanity check
     msrAssert (
       measureElement != nullptr,
@@ -727,6 +742,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
       endl;
   }
 #endif
+*/
 
     if (
         // barline item?
@@ -734,6 +750,7 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
           barline =
             dynamic_cast<msrBarline*>(&(*measureElement))
     ) {
+    /* JMI
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
@@ -741,30 +758,10 @@ void msrMeasure::appendElementAtTheEndOfMeasure (S_msrMeasureElement elem)
           endl;
       }
 #endif
-
-      insertPoint = i;
+*/
     }
     else {
-      /*
-The reverse_iterator has a member called base() which will return a "regular" iterator. So the following code would work in your example:
-
-l.insert(reverse.base(), 10);
-
-Be careful though because the base() method returns the element one after the orginal reverse_iterator had pointed to. (This is so that reverse_iterators pointing at rbegin() and rend() work correctly.)
-
-
-I would avoid using reverse iterators (in general, and in particular for anything other than a sequential transversal). Forward and reverse iterators work differently, in the case of a forward iterator into a list, the iterator tracks the node that you access through operator*, but in the reverse case the iterator tracks the next element in the list. The act of dereferencing a reverse iterator obtains the predecessor of the node referred by the iterator and extracts the value from that. Graphically (f is a forward iterator, r is a reverse iterator)
-
-  f
-1 2 4
-    r
-Both the forward iterator f and the reverse iterator r will yield 2 when dereferenced, but the node they track is different. When you insert using r you insert between 2 and 4, but the underlying iterator is left pointing to the node holding the 4:
-
-  f
-1 2 3 4
-      r
-Now if you dereference r, the same process as above applies. The predecessor of the current node is obtained, and the value printed, except that now the predecessor of 4 is 3 and that is what you get.
-*/
+    /* JMI
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
@@ -772,13 +769,13 @@ Now if you dereference r, the same process as above applies. The predecessor of 
           endl;
       }
 #endif
+*/
       break;
     }
 
     if (++i == iEnd) break;
   } // for
 
-//  fMeasureElementsList.insert ((++insertPoint).base (), elem);
   fMeasureElementsList.insert ((i).base (), elem);
 
 #ifdef TRACE_OPTIONS

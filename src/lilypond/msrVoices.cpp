@@ -1691,8 +1691,7 @@ void msrVoice::registerNoteAsVoiceLastAppendedNote (S_msrNote note)
 }
 
 void msrVoice::appendHarmonyToVoice (
-  S_msrHarmony harmony,
-  bool         doPadUp)
+  S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
@@ -1710,8 +1709,7 @@ void msrVoice::appendHarmonyToVoice (
   switch (fVoiceKind) {
     case msrVoice::kVoiceHarmony:
       appendHarmonyToHarmonyVoice (
-        harmony,
-        doPadUp);
+        harmony);
       break;
 
     case msrVoice::kVoiceRegular:
@@ -1737,8 +1735,7 @@ void msrVoice::appendHarmonyToVoice (
 }
 
 void msrVoice::appendHarmonyToHarmonyVoice (
-  S_msrHarmony harmony,
-  bool         doPadUp)
+  S_msrHarmony harmony)
 {
 #ifdef TRACE_OPTIONS
   if (
@@ -1752,7 +1749,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   ) {
     gLogIOstream <<
       "Appending harmony '" << harmony->asString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
+      "' to harmony voice \"" << getVoiceName () << "\"" <<
       endl;
   }
 #endif
@@ -1760,7 +1757,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
-  if (doPadUp && false) {
+  if (false) {
     // skip to harmony note position in the voice
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
@@ -1768,6 +1765,24 @@ void msrVoice::appendHarmonyToHarmonyVoice (
         getHarmonyNoteUplink ()->
           getNotePositionInMeasure ());
   }
+
+  // get the harmony note uplink
+  S_msrNote
+    harmonyNoteUplink =
+      harmony->
+        getHarmonyNoteUplink ();
+
+  // get the harmony note uplink sounding whole notes
+  rational
+    harmonyNoteUplinkSoundingWholeNotes =
+      harmony->
+        getHarmonySoundingWholeNotes ();
+
+  // get the harmony' note uplink position in measure
+  rational
+    harmonyNoteUplinkPositionInMeasure =
+      harmonyNoteUplink->
+        getNotePositionInMeasure ();
 
   // get the harmony whole notes offset
   rational
@@ -1779,20 +1794,23 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   int harmonyWholeNotesOffsetNumerator =
     harmonyWholeNotesOffset.getNumerator ();
 
+/* JMI
   // get the staff whole notes high tide
   rational
     partActualMeasureWholeNotesHighTide =
       fVoiceStaffUplink->
         getStaffPartUplink ()->
           getPartActualMeasureWholeNotesHighTide ();
+*/
 
   if (harmonyWholeNotesOffsetNumerator == 0) {
-    // no skip is needed when the offset is null
+    // handle the null offset
     // --------------------------------------------
 
-    // append the harmony to the voice last segment
-    fVoiceLastSegment->
-      appendHarmonyToSegment (harmony);
+    // bring this voice to that measure position
+    padUpToActualMeasureWholeNotesInVoice (
+      inputLineNumber,
+      harmonyNoteUplinkPositionInMeasure);
   }
 
   else if (harmonyWholeNotesOffsetNumerator < 0) {
@@ -1800,73 +1818,21 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     // followed by the harmony and the skip
     // --------------------------------------------
 
-    // determine the measure position 'abs (harmonyWholeNotesOffset)' backward
+    // determine the harmony measure position as
+    // 'abs (harmonyWholeNotesOffset)' backward from the note uplink
     rational
-      positionInMeasure =
-        partActualMeasureWholeNotesHighTide
+      harmonyPositionInMeasure =
+        harmonyNoteUplinkPositionInMeasure
           -
         harmony->getHarmonySoundingWholeNotes ()
           + // it is negative!
         harmonyWholeNotesOffset;
-    positionInMeasure.rationalise ();
+    harmonyPositionInMeasure.rationalise ();
 
     // bring this voice to that measure position
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
-      positionInMeasure);
-
-    // we'll need a skip with duration '- harmonyWholeNotesOffset'
-    rational
-      skipNoteWhoteNotes =
-          rational (0, 1) - harmonyWholeNotesOffset;
-
-#ifdef TRACE_OPTIONS
-    if (
-      gTraceOptions->fTraceHarmonies
-        ||
-      gMusicXMLOptions->fTraceBackup
-        ||
-      gTraceOptions->fTraceMeasures
-        ||
-      gTraceOptions->fTraceVoices
-    ) {
-      gLogIOstream <<
-        "Handling harmony negative offset" <<
-        ", harmonyWholeNotesOffset = '" <<
-        harmonyWholeNotesOffset <<
-        "', fPartActualMeasureWholeNotesHighTide = '" <<
-        partActualMeasureWholeNotesHighTide <<
-        "', positionInMeasure = '" <<
-        positionInMeasure <<
-        "', skipNoteWhoteNotes = '" <<
-        skipNoteWhoteNotes <<
-        "' in voice " <<
-        getVoiceName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-#endif
-
-    // create the skip note
-    S_msrNote
-      skipNote =
-        msrNote::createSkipNote (
-          inputLineNumber,
-          fVoiceCurrentMeasureNumber,
-          skipNoteWhoteNotes, // would be 0/1 otherwise JMI
-          skipNoteWhoteNotes,
-          0, // JMI elt->           getHarmonyDotsNumber (),
-          fRegularVoiceStaffSequentialNumber, // JMI
-          fVoiceNumber);
-
-    // append the harmony to the voice last segment
-    fVoiceLastSegment->
-      appendHarmonyToSegment (harmony);
-
-    // append the skip note to this harmony voice
-    // since the harmony has been 'pushed' to the right
-    fVoiceLastSegment->
-      appendNoteToSegment (skipNote);
+      harmonyPositionInMeasure);
   }
 
   else {
@@ -1885,10 +1851,12 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     ) {
       gLogIOstream <<
         "Handling harmony positive offset" <<
+        ", harmonyNoteUplinkSoundingWholeNotes = '" <<
+        harmonyNoteUplinkSoundingWholeNotes <<
         ", harmonyWholeNotesOffset = '" <<
         harmonyWholeNotesOffset <<
-        "', fPartActualMeasureWholeNotesHighTide = '" <<
-        partActualMeasureWholeNotesHighTide <<
+        "', harmonyNoteUplinkPositionInMeasure = '" <<
+        harmonyNoteUplinkPositionInMeasure <<
         "' in voice " <<
         getVoiceName () <<
         ", line " << inputLineNumber <<
@@ -1896,42 +1864,38 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     }
 #endif
 
-    // create a skip with duration 'harmonyWholeNotesOffset'
+    // determine the harmony measure position as
+    // 'harmonyWholeNotesOffset' forward from the note uplink
     rational
-      skipNoteWhoteNotes = harmonyWholeNotesOffset;
+      harmonyPositionInMeasure =
+        harmonyNoteUplinkPositionInMeasure
+          +
+        harmonyWholeNotesOffset;
+    harmonyPositionInMeasure.rationalise ();
 
-    S_msrNote
-      skipNote =
-        msrNote::createSkipNote (
-          inputLineNumber,
-          fVoiceCurrentMeasureNumber,
-          skipNoteWhoteNotes, // would be 0/1 otherwise JMI
-          skipNoteWhoteNotes,
-          0, // JMI elt->           getHarmonyDotsNumber (),
-          fRegularVoiceStaffSequentialNumber, // JMI
-          fVoiceNumber);
+    // bring this voice to that measure position
+    padUpToActualMeasureWholeNotesInVoice (
+      inputLineNumber,
+      harmonyPositionInMeasure);
 
-    // append the skip note to this harmony voice
-    // to 'push' the harmony to the right
-    fVoiceLastSegment->
-      appendNoteToSegment (skipNote);
-
-    // decrement the harmony's duration as much
-    harmony->
-      setHarmonySoundingWholeNotes (
-        harmony->getHarmonySoundingWholeNotes ()
-          -
-        harmonyWholeNotesOffset);
-    harmony->
-      setHarmonyDisplayWholeNotes (
-        harmony->getHarmonyDisplayWholeNotes ()
-          -
-        harmonyWholeNotesOffset);
-
-    // append the harmony to the voice last segment
-    fVoiceLastSegment->
-      appendHarmonyToSegment (harmony);
+    if (false) { // JMI
+      // decrement the harmony's duration as much
+      harmony->
+        setHarmonySoundingWholeNotes (
+          harmonyNoteUplinkSoundingWholeNotes
+            -
+          harmonyWholeNotesOffset);
+      harmony->
+        setHarmonyDisplayWholeNotes (
+          harmonyNoteUplinkSoundingWholeNotes
+            -
+          harmonyWholeNotesOffset);
+    }
   }
+
+  // append the harmony to the voice last segment
+  fVoiceLastSegment->
+    appendHarmonyToSegment (harmony);
 
   // register harmony
   fVoiceActualHarmoniesCounter++;
