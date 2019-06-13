@@ -581,6 +581,10 @@ string msrFiguredBass::asString () const
     } // for
   }
 
+  // print the figured bass position in measure
+  s <<
+    ", positionInMeasure" << fPositionInMeasure;
+
 /* JMI
   if (fFiguredBassPartUplink) { // JMI ???
     s <<
@@ -603,15 +607,34 @@ void msrFiguredBass::print (ostream& os)
 
   gIndenter++;
 
+  const int fieldWidth = 30;
+
   os <<
-    "figuredBassSoundingWholeNotes" <<
+    setw (fieldWidth) <<
+    "figuredBassNoteUplink" << " : ";
+  if (fFiguredBassNoteUplink) {
+    os << fFiguredBassNoteUplink->asString ();
+  }
+  else {
+    os << "none";
+  }
+  os <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "figuredBassNoteUplink" << " : " <<
+    fFiguredBassNoteUplink->asString () <<
+    endl <<
+
+    "figuredBassSoundingWholeNotes" << " : " <<
     fFiguredBassSoundingWholeNotes <<
     endl <<
-    "figuredBassDisplayWholeNotes" <<
+    "figuredBassDisplayWholeNotes" << " : " <<
     fFiguredBassDisplayWholeNotes <<
     endl <<
 
-    ", figuredBassParenthesesKind" <<
+    ", figuredBassParenthesesKind" << " : " <<
     figuredBassParenthesesKindAsString (
       fFiguredBassParenthesesKind) <<
     endl;
@@ -632,6 +655,12 @@ void msrFiguredBass::print (ostream& os)
 
     gIndenter--;
   }
+
+  // print the figured bass position in measure
+  os <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " << fPositionInMeasure <<
+    endl;
 
   gIndenter--;
 }

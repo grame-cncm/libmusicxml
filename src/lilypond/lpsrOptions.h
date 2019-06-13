@@ -94,6 +94,79 @@ typedef SMARTP<optionsLpsrScoreOutputKindItem> S_optionsLpsrScoreOutputKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
+class optionsLpsrOctaveEntryKindItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsLpsrOctaveEntryKindItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsLpsrOctaveEntryKindKindItemVariableDisplayName,
+      lpsrOctaveEntryKind&
+                         optionsLpsrOctaveEntryKindKindItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsLpsrOctaveEntryKindItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsLpsrOctaveEntryKindKindItemVariableDisplayName,
+      lpsrOctaveEntryKind&
+                         optionsLpsrOctaveEntryKindKindItemVariable);
+
+    virtual ~optionsLpsrOctaveEntryKindItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsLpsrOctaveEntryKindKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsLpsrOctaveEntryKindKindItemVariableDisplayName;
+                              }
+
+    void                  setOctaveEntryKindKindItemVariableValue (
+                            lpsrOctaveEntryKind value)
+                              {
+                                fOptionsLpsrOctaveEntryKindKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsLpsrOctaveEntryKindKindItemVariableDisplayName;
+    lpsrOctaveEntryKind&  fOptionsLpsrOctaveEntryKindKindItemVariable;
+};
+typedef SMARTP<optionsLpsrOctaveEntryKindItem> S_optionsLpsrOctaveEntryKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsLpsrOctaveEntryKindItem& elt);
+
+//______________________________________________________________________________
 class optionsLpsrPitchesLanguageItem : public optionsValuedItem
 {
   public:
@@ -385,6 +458,11 @@ class lpsrOptions : public optionsGroup
                             S_optionsLpsrScoreOutputKindItem scoreOutputKindItem,
                             string                           theString);
 
+    void                  handleOptionsLpsrOctaveEntryKindItemValue (
+                            ostream&                         os,
+                            S_optionsLpsrOctaveEntryKindItem OctaveEntryKindItem,
+                            string                           theString);
+
     void                  handleOptionsLpsrPitchesLanguageItemValue (
                             ostream&                         os,
                             S_optionsLpsrPitchesLanguageItem pitchesLanguageKindItem,
@@ -423,6 +501,9 @@ class lpsrOptions : public optionsGroup
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrScoreOutputKindOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeLpsrOctaveEntryKindOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrLyricsVersusWordsOptions (
@@ -471,10 +552,15 @@ class lpsrOptions : public optionsGroup
 
     string                fLilyPondVersion;
 
-    // LilyPond output kind
+    // score output kind
     // --------------------------------------
 
     lpsrScoreOutputKind   fScoreOutputKind;
+
+    // octave entry kinds
+    // --------------------------------------
+
+    lpsrOctaveEntryKind   fOctaveEntryKind;
 
     // lyrics vs words
     // --------------------------------------

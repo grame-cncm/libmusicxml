@@ -178,7 +178,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         skip =
           msrNote::createSkipNote (
             note->            getInputLineNumber (),
-            note->            getNoteMeasureNumber (),
+            note->            getMeasureNumber (),
             note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
             note->            getNoteDisplayWholeNotes (),
             note->            getNoteDotsNumber (),
@@ -203,7 +203,7 @@ S_msrGraceNotesGroup msrGraceNotesGroup::createSkipGraceNotesGroupClone (
         skip =
           msrNote::createSkipNote (
             chordFirstNote->  getInputLineNumber (),
-            chordFirstNote->  getNoteMeasureNumber (),
+            chordFirstNote->  getMeasureNumber (),
             chordFirstNote->  getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
             chordFirstNote->  getNoteDisplayWholeNotes (),
             chordFirstNote->  getNoteDotsNumber (),

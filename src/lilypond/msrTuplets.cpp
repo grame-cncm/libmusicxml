@@ -35,13 +35,8 @@ S_msrTuplet msrTuplet::create (
   msrTupletShowNumberKind tupletShowNumberKind,
   msrTupletShowTypeKind   tupletShowTypeKind,
   msrTupletFactor         tupletFactor,
-  /*
-  int                     tupletActualNotes,
-  int                     tupletNormalNotes,
-  */
   rational                memberNotesSoundingWholeNotes,
-  rational                memberNotesDisplayWholeNotes,
-  rational                notePositionInMeasure)
+  rational                memberNotesDisplayWholeNotes)
 {
   msrTuplet* o =
     new msrTuplet (
@@ -53,13 +48,8 @@ S_msrTuplet msrTuplet::create (
       tupletShowNumberKind,
       tupletShowTypeKind,
       tupletFactor,
-      /*
-      tupletActualNotes,
-      tupletNormalNotes,
-      */
       memberNotesSoundingWholeNotes,
-      memberNotesDisplayWholeNotes,
-      notePositionInMeasure);
+      memberNotesDisplayWholeNotes);
   assert(o!=0);
   return o;
 }
@@ -73,17 +63,10 @@ msrTuplet::msrTuplet (
   msrTupletShowNumberKind tupletShowNumberKind,
   msrTupletShowTypeKind   tupletShowTypeKind,
   msrTupletFactor         tupletFactor,
-  /*
-  int                     tupletActualNotes,
-  int                     tupletNormalNotes,
-  */
   rational                memberNotesSoundingWholeNotes,
-  rational                memberNotesDisplayWholeNotes,
-  rational                notePositionInMeasure)
+  rational                memberNotesDisplayWholeNotes)
     : msrTupletElement (inputLineNumber)
 {
-  fTupletMeasureNumber = tupletMeasureNumber;
-
   fTupletNumber = tupletNumber;
 
   fTupletBracketKind    = tupletBracketKind;
@@ -99,7 +82,19 @@ msrTuplet::msrTuplet (
   fTupletSoundingWholeNotes = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
 
-  fTupletPositionInMeasure = notePositionInMeasure;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTuplets) {
+    gLogIOstream <<
+      "Creating tuplet:" <<
+      endl;
+
+    gIndenter++;
+
+    this->print (gLogIOstream);
+
+    gIndenter--;
+  }
+#endif
 }
 
 msrTuplet::~msrTuplet ()
@@ -121,7 +116,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
     newbornClone =
       msrTuplet::create (
         fInputLineNumber,
-        fTupletMeasureNumber,
+        fMeasureNumber,
         fTupletNumber,
         fTupletBracketKind,
         fTupletLineShapeKind,
@@ -129,17 +124,21 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
         fTupletShowTypeKind,
         fTupletFactor,
         fMemberNotesSoundingWholeNotes,
-        fMemberNotesDisplayWholeNotes,
-        fTupletPositionInMeasure);
+        fMemberNotesDisplayWholeNotes);
 
+/* JMI ???
   newbornClone->fTupletSoundingWholeNotes =
     fTupletSoundingWholeNotes;
 
   newbornClone->fTupletDisplayWholeNotes =
     fTupletDisplayWholeNotes;
 
-  newbornClone->fTupletMeasureNumber =
-    fTupletMeasureNumber;
+  newbornClone->fMeasureNumber =
+    fMeasureNumber;
+
+  newbornClone->fPositionInMeasure =
+    fPositionInMeasure;
+*/
 
   return newbornClone;
 }
@@ -278,7 +277,7 @@ void msrTuplet::addNoteToTuplet (
 
   // populate note's position in measure
   note->setNotePositionInMeasure (
-    fTupletPositionInMeasure);
+    fPositionInMeasure);
 }
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
@@ -311,11 +310,11 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 
   // populate chord's measure number
   chord->setChordMeasureNumber (
-    fTupletMeasureNumber);
+    fMeasureNumber);
 
   // populate chord's position in measure
   chord->setChordPositionInMeasure (
-    fTupletPositionInMeasure);
+    fPositionInMeasure);
 }
 
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
@@ -352,19 +351,6 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   fTupletDisplayWholeNotes += // JMI
     tuplet->getTupletDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
-
-    /*
-  fTupletDisplayWholeNotes += // JMI
-    tuplet->getTupletDisplayWholeNotes ();
-    */
-
-  // don't populate tuplet's position in measure,
-  // this will be done in setTupletMeasureNumber () JMI ???
-  /* JMI
-  // populate tuplet's position in measure
-  tuplet->setTupletPositionInMeasure (
-    fTupletPositionInMeasure);
-    */
 }
 
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
@@ -626,14 +612,14 @@ S_msrNote msrTuplet::removeLastNoteFromTuplet (
 
 void msrTuplet::setTupletMeasureNumber (string measureNumber)
 {
-  fTupletMeasureNumber = measureNumber;
+  fMeasureNumber = measureNumber;
 }
 
 rational msrTuplet::setTupletPositionInMeasure (
   rational positionInMeasure)
   // returns the position in measure after the tuplet
 {
-  fTupletPositionInMeasure = positionInMeasure;
+  fPositionInMeasure = positionInMeasure;
 
   rational currentPosition = positionInMeasure;
 
@@ -647,7 +633,8 @@ rational msrTuplet::setTupletPositionInMeasure (
 
     if (
       S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
-      ) {
+    ) {
+      // note
       note->
         setNotePositionInMeasure (currentPosition);
 
@@ -658,7 +645,8 @@ rational msrTuplet::setTupletPositionInMeasure (
 
     else if (
       S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
-      ) {
+    ) {
+      // chord
       chord->
         setChordPositionInMeasure (currentPosition);
 
@@ -669,7 +657,8 @@ rational msrTuplet::setTupletPositionInMeasure (
 
     else if (
       S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
-      ) {
+    ) {
+      // nested tuplet
       currentPosition =
         tuplet->
           setTupletPositionInMeasure (currentPosition);
@@ -796,14 +785,14 @@ string msrTuplet::asString () const
     fTupletFactor.asString () <<
     " " << fTupletSoundingWholeNotes << " tupletSoundingWholeNotes" <<
     " @meas "<<
-    fTupletMeasureNumber <<
+    fMeasureNumber <<
     ":";
 
-  if (fTupletPositionInMeasure.getNumerator () < 0) {
+  if (fPositionInMeasure.getNumerator () < 0) {
     s << "?";
   }
   else {
-    s << fTupletPositionInMeasure;
+    s << fPositionInMeasure;
   }
 
   s << "[[";
@@ -859,6 +848,8 @@ void msrTuplet::print (ostream& os)
 {
   os <<
     "Tuplet " <<
+    fTupletNumber <<
+    ", " <<
     fTupletFactor.asString () <<
     ", " <<
     singularOrPlural (
@@ -867,7 +858,7 @@ void msrTuplet::print (ostream& os)
     fTupletSoundingWholeNotes << " sounding, " <<
     fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
-    fTupletMeasureNumber <<
+    fMeasureNumber <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -877,32 +868,51 @@ void msrTuplet::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "TupletBracketKind" << " : " <<
+    "tupletBracketKind" << " : " <<
     tupletBracketKindAsString (
       fTupletBracketKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TupletLineShapeKind" << " : " <<
+    "tupletLineShapeKind" << " : " <<
     tupletLineShapeKindAsString (
       fTupletLineShapeKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TupletShowNumberKind" << " : " <<
+    "tupletShowNumberKind" << " : " <<
     tupletShowNumberKindAsString (
       fTupletShowNumberKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TupletShowTypeKind" << " : " <<
+    "tupletShowTypeKind" << " : " <<
     tupletShowTypeKindAsString (
       fTupletShowTypeKind) <<
     endl <<
+
     setw (fieldWidth) <<
-    "MemberNotesSoundingWholeNotes" << " : " <<
+    "memberNotesSoundingWholeNotes" << " : " <<
     fMemberNotesSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
-    "MemberNotesDisplayWholeNotes" << " : " <<
+    "memberNotesDisplayWholeNotes" << " : " <<
     fMemberNotesDisplayWholeNotes <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "tupletSoundingWholeNotes" << " : " <<
+    fTupletSoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "tupletDisplayWholeNotes" << " : " <<
+    fTupletDisplayWholeNotes <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "tupletMeasureNumber" << " : " <<
+    fMeasureNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " <<
+    fPositionInMeasure <<
     endl <<
     endl;
 
@@ -910,11 +920,11 @@ void msrTuplet::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fTupletPositionInMeasure.getNumerator () < 0) {
+  if (fPositionInMeasure.getNumerator () < 0) {
     os << "???)";
   }
   else {
-    os << fTupletPositionInMeasure << ")";
+    os << fPositionInMeasure << ")";
   }
   os <<
     endl;
@@ -945,6 +955,8 @@ void msrTuplet::printShort (ostream& os)
 {
   os <<
     "Tuplet " <<
+    fTupletNumber <<
+    ", " <<
     fTupletFactor.asString () <<
     ", " <<
     singularOrPlural (
@@ -953,7 +965,7 @@ void msrTuplet::printShort (ostream& os)
     fTupletSoundingWholeNotes << " sounding, " <<
     fTupletDisplayWholeNotes << " displayed" <<
     ", meas "<<
-    fTupletMeasureNumber <<
+    fMeasureNumber <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -963,32 +975,51 @@ void msrTuplet::printShort (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "TupletBracketKind" << " : " <<
+    "tupletBracketKind" << " : " <<
     tupletBracketKindAsString (
       fTupletBracketKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TupletLineShapeKind" << " : " <<
+    "tupletLineShapeKind" << " : " <<
     tupletLineShapeKindAsString (
       fTupletLineShapeKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TupletShowNumberKind" << " : " <<
+    "tupletShowNumberKind" << " : " <<
     tupletShowNumberKindAsString (
       fTupletShowNumberKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TupletShowTypeKind" << " : " <<
+    "tupletShowTypeKind" << " : " <<
     tupletShowTypeKindAsString (
       fTupletShowTypeKind) <<
     endl <<
+
     setw (fieldWidth) <<
-    "MemberNotesSoundingWholeNotes" << " : " <<
+    "memberNotesSoundingWholeNotes" << " : " <<
     fMemberNotesSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
-    "MemberNotesDisplayWholeNotes" << " : " <<
+    "memberNotesDisplayWholeNotes" << " : " <<
     fMemberNotesDisplayWholeNotes <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "tupletSoundingWholeNotes" << " : " <<
+    fTupletSoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "tupletDisplayWholeNotes" << " : " <<
+    fTupletDisplayWholeNotes <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "tupletMeasureNumber" << " : " <<
+    fMeasureNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " <<
+    fPositionInMeasure <<
     endl <<
     endl;
 
@@ -996,11 +1027,11 @@ void msrTuplet::printShort (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "(position in measure" << " : ";
-  if (fTupletPositionInMeasure.getNumerator () < 0) {
+  if (fPositionInMeasure.getNumerator () < 0) {
     os << "???)";
   }
   else {
-    os << fTupletPositionInMeasure << ")";
+    os << fPositionInMeasure << ")";
   }
   os <<
     endl;

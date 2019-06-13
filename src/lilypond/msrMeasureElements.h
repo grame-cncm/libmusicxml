@@ -16,7 +16,7 @@
 #include "msrElements.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -24,13 +24,17 @@ class msrMeasureElement : public msrElement
 {
   public:
 
-    // creation from MusicXML
+    // constants
     // ------------------------------------------------------
 
-    // cloning
-    // ------------------------------------------------------
+    #define K_NO_MEASURE_NUMBER "unknown"
+
+    #define K_NO_POSITION_MEASURE_NUMBER rational(-222, 1)
 
   protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
 
     msrMeasureElement (
       int inputLineNumber);
@@ -48,17 +52,13 @@ class msrMeasureElement : public msrElement
                                 fMeasureNumber =
                                   positionInMeasure;
                               }
-                      
+
     string                getMeasureNumber ()
                               { return fMeasureNumber; }
 
     void                  setPositionInMeasure (
-                            rational positionInMeasure)
-                              {
-                                fPositionInMeasure =
-                                  positionInMeasure;
-                              }
-                      
+                            rational positionInMeasure);
+
     rational              getPositionInMeasure ()
                               { return fPositionInMeasure; }
 
@@ -81,14 +81,14 @@ class msrMeasureElement : public msrElement
     // ------------------------------------------------------
 
     virtual std::string   asShortString () const;
-    virtual std::string   asString () const;    
+    virtual std::string   asString () const;
 
     virtual void          print (std::ostream& os);
 
     virtual void          printSummary (std::ostream& os) {}
-    
+
   protected:
-     
+
     // fields
     // ------------------------------------------------------
 

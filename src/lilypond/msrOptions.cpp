@@ -1786,8 +1786,8 @@ void msrOptions::handleOptionsMsrPitchesLanguageItemValue (
     stringstream s;
 
     s <<
-      "MSR pitches language " << theString <<
-      " is unknown" <<
+      "MSR pitches language '" << theString <<
+      "' is unknown" <<
       endl <<
       "The " <<
       gQuarterTonesPitchesLanguageKindsMap.size () <<

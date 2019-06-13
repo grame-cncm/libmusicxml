@@ -26,7 +26,7 @@
 namespace MusicXML2
 {
 
-// score output
+// score output kinds
 //______________________________________________________________________________
 enum lpsrScoreOutputKind {
   kScoreOnly, // default value
@@ -46,6 +46,23 @@ extern map<string, lpsrScoreOutputKind>
 string existingLpsrScoreOutputKinds ();
 
 void initializeLpsrScoreOutputKindsMap ();
+
+// octave entry kinds
+//______________________________________________________________________________
+enum lpsrOctaveEntryKind {
+  kOctaveEntryRelative, // default value
+  kOctaveEntryAbsolute,
+  kOctaveEntryFixed };
+
+string lpsrOctaveEntryKindAsString (
+  lpsrOctaveEntryKind octaveEntryKind);
+
+extern map<string, lpsrOctaveEntryKind>
+  gLpsrOctaveEntryKindsMap;
+
+string existingLpsrOctaveEntryKinds ();
+
+void initializeLpsrOctaveEntryKindsMap ();
 
 // accidental styles
 //______________________________________________________________________________

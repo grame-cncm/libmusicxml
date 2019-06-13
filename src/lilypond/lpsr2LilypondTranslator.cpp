@@ -226,7 +226,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // double tremolos
 
   // chords
-  fOnGoingChord = false; // JMI
+  fOnGoingChord = false;
 
   // trills
   fOnGoingTrillSpanner = false;
@@ -6898,18 +6898,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceFiguredBasses) {
       fLilypondCodeIOstream <<
-        "%{ FOO " << fCurrentFiguredBass->asString () << " %}" <<
+        "%{ FOO S_msrFiguredBass JMI " << fCurrentFiguredBass->asString () << " %}" <<
         endl;
     }
 #endif
   }
 
   else if (fOnGoingChord) { // JMI
-    /*
-    // register the figured bass in the current chord clone
-    fCurrentChord->
-      setChordFiguredBass (elt); // JMI
-      */
   }
 
   else if (fOnGoingFiguredBassVoice) {
@@ -6922,13 +6917,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
         " %{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";
     }
   }
-
-/* JMI
-  else if (fOnGoingChord) {
-    // don't generate code for the code figured bass,
-    // this will be done after the chord itself JMI
-  }
-  */
 
   fCurrentFiguredBassFiguresCounter = 0;
 }
@@ -7186,7 +7174,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
-      "'start, " <<
+      "' start, " <<
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
       ", measurePuristNumber = '" <<
@@ -7500,7 +7488,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     fLogOutputStream <<
       endl <<
       "% <!--=== measure '" << measureNumber <<
-      "'end, " <<
+      "' end, " <<
       msrMeasure::measureEndRegularKindAsString (
         measureEndRegularKind) <<
      "' end, measurePuristNumber = '" << measurePuristNumber << "'" <<
@@ -10149,7 +10137,7 @@ void lpsr2LilypondTranslator::generateGraceNotesGroup (
           chord =
             dynamic_cast<msrChord*>(&(*element))
         ) {
-          generateChord (chord);
+          generateChordInGraceNotesGroup (chord);
         }
 
       else {
@@ -12161,8 +12149,34 @@ void lpsr2LilypondTranslator::generateCodeForOctaveShift (
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::generateCodeBeforeChord (S_msrChord chord)
+void lpsr2LilypondTranslator::generateCodeBeforeChordContents (S_msrChord chord)
 {
+  // print the chord's grace notes before if any,
+  // but not ??? JMI
+  S_msrGraceNotesGroup
+    chordGraceNotesGroupBefore =
+      chord->getChordGraceNotesGroupBefore ();
+
+/* JMI
+  gLogIOstream <<
+    "% chordGraceNotesGroupBefore = ";
+  if (chordGraceNotesGroupBefore) {
+    gLogIOstream <<
+      chordGraceNotesGroupBefore;
+  }
+  else {
+    gLogIOstream <<
+      "nullptr";
+  }
+  gLogIOstream <<
+    endl;
+*/
+
+  if (chordGraceNotesGroupBefore) {
+    generateGraceNotesGroup (
+      chordGraceNotesGroupBefore);
+  }
+
   // get the chord glissandos
   const list<S_msrGlissando>&
     chordGlissandos =
@@ -12397,7 +12411,7 @@ void lpsr2LilypondTranslator::generateCodeBeforeChord (S_msrChord chord)
       ' ';
   }
 
-  // should octave shift be generated?
+  // should an octave shift be generated?
   S_msrOctaveShift
     chordOctaveShift =
       chord->getChordOctaveShift ();
@@ -12406,26 +12420,20 @@ void lpsr2LilypondTranslator::generateCodeBeforeChord (S_msrChord chord)
     generateCodeForOctaveShift (
       chordOctaveShift);
   }
-  else {
-    fLilypondCodeIOstream <<
-      "FDSFDSFDDFSDFS" <<
-      endl;
-  }
-}
 
-void lpsr2LilypondTranslator::generateCodeForChord (S_msrChord chord)
-{
-// generate the start of the chord
+  // generate the start of the chord
   fLilypondCodeIOstream <<
     "<";
 
   fOnGoingChord = true;
+}
 
+void lpsr2LilypondTranslator::generateCodeForChordContents (S_msrChord chord)
+{
   // get the chord notes vector
   const vector<S_msrNote>&
     chordNotesVector =
       chord->getChordNotesVector ();
-
 
   // generate the chord notes KOF JMI
   if (chordNotesVector.size ()) {
@@ -12451,10 +12459,18 @@ void lpsr2LilypondTranslator::generateCodeForChord (S_msrChord chord)
         ' ';
     } // for
   }
+}
 
+void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
+{
   // generate the end of the chord
   fLilypondCodeIOstream <<
     ">";
+
+  // get the chord notes vector
+  const vector<S_msrNote>&
+    chordNotesVector =
+      chord->getChordNotesVector ();
 
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement
@@ -12462,12 +12478,12 @@ void lpsr2LilypondTranslator::generateCodeForChord (S_msrChord chord)
   fRelativeOctaveReference =
     chordNotesVector [0];
 
-  // generate the note duration if relevant
+  // generate the chord duration if relevant
   if (
     chord->getChordIsFirstChordInADoubleTremolo ()
       ||
     chord->getChordIsSecondChordInADoubleTremolo ()) {
-      // print chord note duration
+      // print chord duration
       fLilypondCodeIOstream <<
         chord->getChordSoundingWholeNotes ();
   }
@@ -12483,11 +12499,7 @@ void lpsr2LilypondTranslator::generateCodeForChord (S_msrChord chord)
         chord->
           getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
   }
-}
 
-
-void lpsr2LilypondTranslator::generateCodeAfterChord (S_msrChord chord)
-{
   // are there pending chord member notes string numbers?
   if (fPendingChordMemberNotesStringNumbers.size ()) {
     list<int>::const_iterator
@@ -12754,25 +12766,6 @@ void lpsr2LilypondTranslator::generateCodeAfterChord (S_msrChord chord)
     } // for
   }
 
-/*
-  // print the chord beams if any
-  list<S_msrBeam>
-    chordBeams =
-      chord->getChordBeams ();
-
-  if (chordBeams.size ()) {
-    list<S_msrBeam>::const_iterator i;
-    for (
-      i=chordBeams.begin ();
-      i!=chordBeams.end ();
-      i++
-    ) {
-      fLilypondCodeIOstream <<
-        "] ";
-    } // for
-  }
-*/
-
   // print the chord beams if any
   list<S_msrBeam>
     chordBeams =
@@ -12872,7 +12865,6 @@ void lpsr2LilypondTranslator::generateCodeAfterChord (S_msrChord chord)
   }
 */
 
-  // print the chord ligatures if any
 /* JMI
   // print the tie if any
   {
@@ -12887,11 +12879,13 @@ void lpsr2LilypondTranslator::generateCodeAfterChord (S_msrChord chord)
     }
   }
 */
+
   // get the chord ligatures
   list<S_msrLigature>
     chordLigatures =
       chord->getChordLigatures ();
 
+  // print the chord ligatures if any
   if (chordLigatures.size ()) {
     list<S_msrLigature>::const_iterator i;
     for (
@@ -13003,19 +12997,17 @@ void lpsr2LilypondTranslator::generateCodeAfterChord (S_msrChord chord)
       } // switch
     } // for
   }
-}
-
-void lpsr2LilypondTranslator::generateChord (S_msrChord chord)
-{
-  generateCodeBeforeChord (chord);
-
-  generateCodeForChord (chord);
-
-  generateCodeAfterChord (chord);
-
-  // a grace chord doesn't matter for the octave relative octave reference
 
   fOnGoingChord = false;
+}
+
+void lpsr2LilypondTranslator::generateChordInGraceNotesGroup (S_msrChord chord)
+{
+  generateCodeBeforeChordContents (chord);
+
+  generateCodeForChordContents (chord);
+
+  generateCodeAfterChordContents (chord);
 }
 
 //________________________________________________________________________
@@ -13044,267 +13036,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   }
 #endif
 
-  // print the chord's grace notes before if any,
-  // but not ??? JMI
-  S_msrGraceNotesGroup
-    chordGraceNotesGroupBefore =
-      elt->getChordGraceNotesGroupBefore ();
-
-/* JMI
-  gLogIOstream <<
-    "% chordGraceNotesGroupBefore = ";
-  if (chordGraceNotesGroupBefore) {
-    gLogIOstream <<
-      chordGraceNotesGroupBefore;
-  }
-  else {
-    gLogIOstream <<
-      "nullptr";
-  }
-  gLogIOstream <<
-    endl;
-*/
-
-  if (chordGraceNotesGroupBefore) {
-    generateGraceNotesGroup (
-      chordGraceNotesGroupBefore);
-  }
-
-  // print the chord glissandos styles if any
-  const list<S_msrGlissando>&
-    chordGlissandos =
-      elt->getChordGlissandos ();
-
-  if (chordGlissandos.size ()) {
-    list<S_msrGlissando>::const_iterator i;
-    for (
-      i=chordGlissandos.begin ();
-      i!=chordGlissandos.end ();
-      i++
-    ) {
-      S_msrGlissando glissando = (*i);
-
-      switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::kGlissandoTypeNone:
-          break;
-
-        case msrGlissando::kGlissandoTypeStart:
-          // generate the glissando style
-          switch (glissando->getGlissandoLineTypeKind ()) {
-            case kLineTypeSolid:
-              break;
-            case kLineTypeDashed:
-              fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dashed-line ";
-              break;
-            case kLineTypeDotted:
-              fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dotted-line ";
-              break;
-            case kLineTypeWavy:
-              fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'zigzag ";
-              break;
-          } // switch
-          break;
-
-        case msrGlissando::kGlissandoTypeStop:
-          break;
-      } // switch
-    } // for
-  }
-
-  // print the chord slides styles if any, implemented as glissandos
-  const list<S_msrSlide>&
-    chordSlides =
-      elt->getChordSlides ();
-
-  if (chordSlides.size ()) {
-    list<S_msrSlide>::const_iterator i;
-    for (
-      i=chordSlides.begin ();
-      i!=chordSlides.end ();
-      i++
-    ) {
-      S_msrSlide slide = (*i);
-
-      switch (slide->getSlideTypeKind ()) {
-        case msrSlide::kSlideTypeNone:
-          break;
-
-        case msrSlide::kSlideTypeStart:
-          // generate the glissando style
-          switch (slide->getSlideLineTypeKind ()) {
-            case kLineTypeSolid:
-              break;
-            case kLineTypeDashed:
-              fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dashed-line ";
-              break;
-            case kLineTypeDotted:
-              fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dotted-line ";
-              break;
-            case kLineTypeWavy:
-              fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'zigzag ";
-              break;
-          } // switch
-          break;
-
-        case msrSlide::kSlideTypeStop:
-          break;
-      } // switch
-    } // for
-  }
-
-  // print the chord ligatures if any
-  list<S_msrLigature>
-    chordLigatures =
-      elt->getChordLigatures ();
-
-  if (chordLigatures.size ()) {
-    list<S_msrLigature>::const_iterator i;
-    for (
-      i=chordLigatures.begin ();
-      i!=chordLigatures.end ();
-      i++
-    ) {
-
-      switch ((*i)->getLigatureKind ()) {
-        case msrLigature::kLigatureNone:
-          break;
-        case msrLigature::kLigatureStart:
-          fLilypondCodeIOstream << "\\[ ";
-          break;
-        case msrLigature::kLigatureContinue:
-          break;
-        case msrLigature::kLigatureStop:
-  // JMI        fLilypondCodeIOstream << "\\] ";
-          break;
-      } // switch
-    } // for
-  }
-
-  // don't take the chord into account for line breaking ??? JMI
-
-  // print the chord arpeggios directions if any
-  list<S_msrArticulation>
-    chordArticulations =
-      elt->getChordArticulations ();
-
-  if (chordArticulations.size ()) {
-    list<S_msrArticulation>::const_iterator i;
-    for (
-      i=chordArticulations.begin ();
-      i!=chordArticulations.end ();
-      i++
-    ) {
-      S_msrArticulation articulation = (*i);
-
-      if (
-        // arpeggiato?
-        S_msrArpeggiato
-          arpeggiato =
-            dynamic_cast<msrArpeggiato*>(&(*articulation))
-        ) {
-        msrDirectionKind
-          directionKind =
-            arpeggiato->getArpeggiatoDirectionKind ();
-
-        switch (directionKind) {
-          case kDirectionNone:
-            fLilypondCodeIOstream <<
-              endl <<
-              "\\arpeggioNormal";
-            break;
-          case kDirectionUp:
-            fLilypondCodeIOstream <<
-              endl <<
-              "\\arpeggioArrowUp";
-            break;
-          case kDirectionDown:
-            fLilypondCodeIOstream <<
-              endl <<
-              "\\arpeggioArrowDown";
-            break;
-        } // switch
-
-        fLilypondCodeIOstream << ' ';
-
-        fCurrentArpeggioDirectionKind = directionKind;
-      }
-
-      else if (
-        // non arpeggiato?
-        S_msrNonArpeggiato
-          nonArpeggiato =
-            dynamic_cast<msrNonArpeggiato*>(&(*articulation))
-        ) {
-        fLilypondCodeIOstream <<
-          endl <<
-          "\\arpeggioBracket";
-
-        switch (nonArpeggiato->getNonArpeggiatoTypeKind ()) {
-          case msrNonArpeggiato::kNonArpeggiatoTypeNone:
-            fLilypondCodeIOstream << " %{\\kNonArpeggiatoTypeNone???%}";
-            break;
-          case msrNonArpeggiato::kNonArpeggiatoTypeTop:
-            fLilypondCodeIOstream << " %{\\kNonArpeggiatoTypeTop???%}";
-            break;
-          case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
-            fLilypondCodeIOstream << " %{\\kNonArpeggiatoTypeBottom???%}";
-            break;
-        } // switch
-
-        fLilypondCodeIOstream <<
-          endl;
-      }
-   } // for
-  }
-
-  // should stem direction be generated?
-  const list<S_msrStem>&
-    chordStems =
-      elt->getChordStems ();
-
-  if (chordStems.size ()) {
-   list<S_msrStem>::const_iterator
-      iBegin = chordStems.begin (),
-      iEnd   = chordStems.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      S_msrStem stem = (*i);
-
-      switch (stem->getStemKind ()) {
-        case msrStem::kStemNone:
-          fLilypondCodeIOstream << "\\stemNeutral ";
-          break;
-        case msrStem::kStemUp:
-          fLilypondCodeIOstream << "\\stemUp ";
-          break;
-        case msrStem::kStemDown:
-          fLilypondCodeIOstream << "\\stemDown ";
-          break;
-        case msrStem::kStemDouble: // JMI ???
-          break;
-      } // switch
-
-      if (++i == iEnd) break;
-      fLilypondCodeIOstream <<
-        ' ';
-    } // for
-
-    fLilypondCodeIOstream <<
-      ' ';
-  }
-
-  // generate the start of the chord
-  fLilypondCodeIOstream <<
-    "<";
-
-  fOnGoingChord = true;
+  generateCodeBeforeChordContents (elt);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
@@ -13318,520 +13050,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   }
 #endif
 
-  int chordInputLineNumber =
+  int inputLineNumber =
     elt->getInputLineNumber ();
 
 #ifdef TRACE_OPTIONS
   if (fOnGoingGraceNotesGroup) {
     msrInternalWarning (
       gGeneralOptions->fInputSourceName,
-      chordInputLineNumber,
+      inputLineNumber,
       "% ==> End visiting grace chords is ignored");
 
     return;
   }
 #endif
 
-  // generate the end of the chord
-  fLilypondCodeIOstream <<
-    ">";
-
-  if (
-    elt->getChordIsFirstChordInADoubleTremolo ()
-      ||
-    elt->getChordIsSecondChordInADoubleTremolo ()) {
-      // print chord note duration
-      fLilypondCodeIOstream <<
-        elt->getChordSoundingWholeNotes ();
-  }
-
-  else {
-    // print the chord duration
-    fLilypondCodeIOstream <<
-      durationAsLilypondString (
-        chordInputLineNumber,
-        elt->
-          getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
-  }
-
-  // are there pending chord member notes string numbers?
-  if (fPendingChordMemberNotesStringNumbers.size ()) {
-    list<int>::const_iterator
-      iBegin = fPendingChordMemberNotesStringNumbers.begin (),
-      iEnd   = fPendingChordMemberNotesStringNumbers.end (),
-      i      = iBegin;
-
-    for ( ; ; ) {
-      int stringNumber = (*i);
-
-      fLilypondCodeIOstream <<
-        "\\" <<
-        stringNumber;
-
-      if (++i == iEnd) break;
-      fLilypondCodeIOstream <<
-        ' ';
-    } // for
-    fLilypondCodeIOstream <<
-      ' ';
-
-    // forget about the pending string numbers
-    fPendingChordMemberNotesStringNumbers.clear ();
-  }
-
-  // fetch the chord single tremolo
-  S_msrSingleTremolo
-    chordSingleTremolo =
-      elt->getChordSingleTremolo ();
-
-  if (chordSingleTremolo) {
-    // generate code for the chord single tremolo
-    fLilypondCodeIOstream <<
-      singleTremoloDurationAsLilypondString (
-        chordSingleTremolo);
-  }
-
-  fLilypondCodeIOstream <<
-    ' ';
-
-  // print the chord articulations if any
-  list<S_msrArticulation>
-    chordArticulations =
-      elt->getChordArticulations ();
-
-  if (chordArticulations.size ()) {
-    list<S_msrArticulation>::const_iterator i;
-    for (
-      i=chordArticulations.begin ();
-      i!=chordArticulations.end ();
-      i++
-    ) {
-      generateChordArticulation ((*i));
-
-      fLilypondCodeIOstream <<
-        ' ';
-    } // for
-  }
-
-  // print the chord technicals if any
-  list<S_msrTechnical>
-    chordTechnicals =
-      elt->getChordTechnicals ();
-
-  if (chordTechnicals.size ()) {
-    list<S_msrTechnical>::const_iterator i;
-    for (
-      i=chordTechnicals.begin ();
-      i!=chordTechnicals.end ();
-      i++
-    ) {
-      fLilypondCodeIOstream <<
-        technicalAsLilypondString ((*i)) <<
-        ' '; // JMI
-    } // for
-  }
-
-  // print the chord technicals with integer if any
-  list<S_msrTechnicalWithInteger>
-    chordTechnicalWithIntegers =
-      elt->getChordTechnicalWithIntegers ();
-
-  if (chordTechnicalWithIntegers.size ()) {
-    list<S_msrTechnicalWithInteger>::const_iterator i;
-    for (
-      i=chordTechnicalWithIntegers.begin ();
-      i!=chordTechnicalWithIntegers.end ();
-      i++
-    ) {
-      fLilypondCodeIOstream <<
-        technicalWithIntegerAsLilypondString ((*i)) <<
-        ' '; // JMI
-    } // for
-  }
-
-  // print the chord technicals with float if any
-  list<S_msrTechnicalWithFloat>
-    chordTechnicalWithFloats =
-      elt->getChordTechnicalWithFloats ();
-
-  if (chordTechnicalWithFloats.size ()) {
-    list<S_msrTechnicalWithFloat>::const_iterator i;
-    for (
-      i=chordTechnicalWithFloats.begin ();
-      i!=chordTechnicalWithFloats.end ();
-      i++
-    ) {
-      fLilypondCodeIOstream <<
-        technicalWithFloatAsLilypondString ((*i)) <<
-        ' '; // JMI
-    } // for
-  }
-
-  // print the chord technicals with string if any
-  list<S_msrTechnicalWithString>
-    chordTechnicalWithStrings =
-      elt->getChordTechnicalWithStrings ();
-
-  if (chordTechnicalWithStrings.size ()) {
-    list<S_msrTechnicalWithString>::const_iterator i;
-    for (
-      i=chordTechnicalWithStrings.begin ();
-      i!=chordTechnicalWithStrings.end ();
-      i++
-    ) {
-      fLilypondCodeIOstream <<
-        technicalWithStringAsLilypondString ((*i)) <<
-        ' '; // JMI
-    } // for
-  }
-
-  // print the chord ornaments if any
-  list<S_msrOrnament>
-    chordOrnaments =
-      elt->getChordOrnaments ();
-
-  if (chordOrnaments.size ()) {
-    list<S_msrOrnament>::const_iterator i;
-    for (
-      i=chordOrnaments.begin ();
-      i!=chordOrnaments.end ();
-      i++
-    ) {
-      S_msrOrnament
-        ornament = (*i);
-
-      switch (ornament->getOrnamentPlacementKind ()) {
-        case kPlacementNone:
-          fLilypondCodeIOstream << "-";
-          break;
-        case kPlacementAbove:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kPlacementBelow:
-          fLilypondCodeIOstream << "-";
-          break;
-      } // switch
-
-      generateOrnament (ornament); // some ornaments are not yet supported
-    } // for
-  }
-
-  // print the chord dynamics if any
-  list<S_msrDynamics>
-    chordDynamics =
-      elt->getChordDynamics ();
-
-  if (chordDynamics.size ()) {
-    list<S_msrDynamics>::const_iterator i;
-    for (
-      i=chordDynamics.begin ();
-      i!=chordDynamics.end ();
-      i++
-    ) {
-      S_msrDynamics
-        dynamics = (*i);
-
-      switch (dynamics->getDynamicsPlacementKind ()) {
-        case kPlacementNone:
-          fLilypondCodeIOstream << "-";
-          break;
-        case kPlacementAbove:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kPlacementBelow:
-          // this is done by LilyPond by default
-          break;
-      } // switch
-
-      fLilypondCodeIOstream <<
-        dynamicsAsLilypondString (dynamics) << ' ';
-    } // for
-  }
-
-  // print the chord other dynamics if any
-  list<S_msrOtherDynamics>
-    chordOtherDynamics =
-      elt->getChordOtherDynamics ();
-
-  if (chordOtherDynamics.size ()) {
-    list<S_msrOtherDynamics>::const_iterator i;
-    for (
-      i=chordOtherDynamics.begin ();
-      i!=chordOtherDynamics.end ();
-      i++
-    ) {
-      S_msrOtherDynamics
-        otherDynamics = (*i);
-
-      switch (otherDynamics->getOtherDynamicsPlacementKind ()) {
-        case kPlacementNone:
-          fLilypondCodeIOstream << "-";
-          break;
-        case kPlacementAbove:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kPlacementBelow:
-          // this is done by LilyPond by default
-          break;
-      } // switch
-
-      fLilypondCodeIOstream <<
-        "\\" << otherDynamics->asString () << ' ';
-    } // for
-  }
-
-  // print the chord words if any
-  list<S_msrWords>
-    chordWords =
-      elt->getChordWords ();
-
-  if (chordWords.size ()) {
-    list<S_msrWords>::const_iterator i;
-    for (
-      i=chordWords.begin ();
-      i!=chordWords.end ();
-      i++
-    ) {
-
-      msrPlacementKind
-        wordsPlacementKind =
-          (*i)->getWordsPlacementKind ();
-
-      string wordsContents =
-        (*i)->getWordsContents ();
-
-      switch (wordsPlacementKind) {
-        case kPlacementNone:
-          // should not occur
-          break;
-        case kPlacementAbove:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kPlacementBelow:
-          fLilypondCodeIOstream << "_";
-          break;
-      } // switch
-
-      fLilypondCodeIOstream <<
-        "\\markup" << " { " <<
-        quoteStringIfNonAlpha (wordsContents) <<
-        " } ";
-    } // for
-  }
-
-/*
-  // print the chord beams if any
-  list<S_msrBeam>
-    chordBeams =
-      elt->getChordBeams ();
-
-  if (chordBeams.size ()) {
-    list<S_msrBeam>::const_iterator i;
-    for (
-      i=chordBeams.begin ();
-      i!=chordBeams.end ();
-      i++
-    ) {
-      fLilypondCodeIOstream <<
-        "] ";
-    } // for
-  }
-*/
-
-  // print the chord beams if any
-  list<S_msrBeam>
-    chordBeams =
-      elt->getChordBeams ();
-
-  if (chordBeams.size ()) {
-    list<S_msrBeam>::const_iterator i;
-    for (
-      i=chordBeams.begin ();
-      i!=chordBeams.end ();
-      i++
-    ) {
-
-      S_msrBeam beam = (*i);
-
-      // LilyPond will take care of multiple beams automatically,
-      // so we need only generate code for the first number (level)
-      switch (beam->getBeamKind ()) {
-
-        case msrBeam::kBeginBeam:
-          if (beam->getBeamNumber () == 1)
-            fLilypondCodeIOstream << "[ ";
-          break;
-
-        case msrBeam::kContinueBeam:
-          break;
-
-        case msrBeam::kEndBeam:
-          if (beam->getBeamNumber () == 1)
-            fLilypondCodeIOstream << "] ";
-          break;
-
-        case msrBeam::kForwardHookBeam:
-          break;
-
-        case msrBeam::kBackwardHookBeam:
-          break;
-
-        case msrBeam::k_NoBeam:
-          break;
-      } // switch
-      } // for
-  }
-
-  // print the chord slurs if any
-  list<S_msrSlur>
-    chordSlurs =
-      elt->getChordSlurs ();
-
-  if (chordSlurs.size ()) {
-    list<S_msrSlur>::const_iterator i;
-    for (
-      i=chordSlurs.begin ();
-      i!=chordSlurs.end ();
-      i++
-    ) {
-
-      switch ((*i)->getSlurTypeKind ()) {
-        case msrSlur::k_NoSlur:
-          break;
-        case msrSlur::kRegularSlurStart:
-          fLilypondCodeIOstream << "( ";
-          break;
-        case msrSlur::kPhrasingSlurStart:
-          fLilypondCodeIOstream << "\\( ";
-          break;
-        case msrSlur::kSlurContinue:
-          break;
-        case msrSlur::kRegularSlurStop:
-          fLilypondCodeIOstream << ") ";
-          break;
-        case msrSlur::kPhrasingSlurStop:
-          fLilypondCodeIOstream << "\\) ";
-          break;
-      } // switch
-   } // for
-  }
-
-  // print the chord ligatures if any
-  list<S_msrLigature>
-    chordLigatures =
-      elt->getChordLigatures ();
-
-  if (chordLigatures.size ()) {
-    list<S_msrLigature>::const_iterator i;
-    for (
-      i=chordLigatures.begin ();
-      i!=chordLigatures.end ();
-      i++
-    ) {
-
-      switch ((*i)->getLigatureKind ()) {
-        case msrLigature::kLigatureNone:
-          break;
-        case msrLigature::kLigatureStart:
-  // JMI        fLilypondCodeIOstream << "\\[ ";
-          break;
-        case msrLigature::kLigatureContinue:
-          break;
-        case msrLigature::kLigatureStop:
-          fLilypondCodeIOstream << "\\] ";
-          break;
-      } // switch
-   } // for
-  }
-
-  // print the chord wedges if any
-  list<S_msrWedge>
-    chordWedges =
-      elt->getChordWedges ();
-
-  if (chordWedges.size ()) {
-    list<S_msrWedge>::const_iterator i;
-    for (
-      i=chordWedges.begin ();
-      i!=chordWedges.end ();
-      i++
-    ) {
-
-      switch ((*i)->getWedgeKind ()) {
-        case msrWedge::kWedgeKindNone:
-          break;
-        case msrWedge::kWedgeCrescendo:
-          fLilypondCodeIOstream << "\\< ";
-          break;
-        case msrWedge::kWedgeDecrescendo:
-          fLilypondCodeIOstream << "\\> ";
-          break;
-        case msrWedge::kWedgeStop:
-          fLilypondCodeIOstream << "\\! ";
-          break;
-      } // switch
-    } // for
-  }
-
-  // print the chord glissandos if any
-  const list<S_msrGlissando>&
-    chordGlissandos =
-      elt->getChordGlissandos ();
-
-  if (chordGlissandos.size ()) {
-    list<S_msrGlissando>::const_iterator i;
-    for (
-      i=chordGlissandos.begin ();
-      i!=chordGlissandos.end ();
-      i++
-    ) {
-      S_msrGlissando glissando = (*i);
-
-      switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::kGlissandoTypeNone:
-          break;
-
-        case msrGlissando::kGlissandoTypeStart:
-          // generate the glissando itself
-          fLilypondCodeIOstream <<
-            "\\glissando ";
-          break;
-
-        case msrGlissando::kGlissandoTypeStop:
-          break;
-      } // switch
-    } // for
-  }
-
-  // print the chord slides if any, implemented as glissandos
-  const list<S_msrSlide>&
-    chordSlides =
-      elt->getChordSlides ();
-
-  if (chordSlides.size ()) {
-    list<S_msrSlide>::const_iterator i;
-    for (
-      i=chordSlides.begin ();
-      i!=chordSlides.end ();
-      i++
-    ) {
-      S_msrSlide slide = (*i);
-
-      switch (slide->getSlideTypeKind ()) {
-        case msrSlide::kSlideTypeNone:
-          break;
-
-        case msrSlide::kSlideTypeStart:
-          // generate the glissando itself
-          fLilypondCodeIOstream <<
-            "\\glissando ";
-          break;
-
-        case msrSlide::kSlideTypeStop:
-          break;
-      } // switch
-    } // for
-  }
+  generateCodeAfterChordContents (elt);
 
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement

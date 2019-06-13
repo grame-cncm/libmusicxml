@@ -14,6 +14,11 @@
 
 #include "msrMeasureElements.h"
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "msrOptions.h"
 
 
@@ -27,53 +32,81 @@ msrMeasureElement::msrMeasureElement (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fMeasureNumber = "???";
-  fPositionInMeasure = rational (INT_MIN, 1);
+  fMeasureNumber     = K_NO_MEASURE_NUMBER;
+  fPositionInMeasure = K_NO_POSITION_MEASURE_NUMBER;
 }
 
 msrMeasureElement::~msrMeasureElement ()
 {}
 
+void msrMeasureElement::setPositionInMeasure (
+  rational positionInMeasure)
+{
+  fPositionInMeasure =
+    positionInMeasure;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTracePositionsInMeasures || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Setting position of measure element '" <<
+      asString () <<
+      "' in measure to '" << fPositionInMeasure <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      "'" <<
+      endl;
+  }
+#endif
+}
+
 void msrMeasureElement::acceptIn (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureElement::acceptIn ()" <<
       endl;
   }
-      
+#endif
+
   if (visitor<S_msrMeasureElement>*
     p =
       dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
         S_msrMeasureElement elem = this;
-        
+
+#ifdef TRACE_OPTIONS
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureElement::visitStart ()" <<
             endl;
         }
+#endif
         p->visitStart (elem);
   }
 }
 
 void msrMeasureElement::acceptOut (basevisitor* v)
 {
+#ifdef TRACE_OPTIONS
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureElement::acceptOut ()" <<
       endl;
   }
+#endif
 
   if (visitor<S_msrMeasureElement>*
     p =
       dynamic_cast<visitor<S_msrMeasureElement>*> (v)) {
         S_msrMeasureElement elem = this;
-      
+
+#ifdef TRACE_OPTIONS
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureElement::visitEnd ()" <<
             endl;
         }
+#endif
         p->visitEnd (elem);
   }
 }

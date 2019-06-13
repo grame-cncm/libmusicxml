@@ -13994,7 +13994,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   // JMI          ||
     //      previousTupletTypeKind == msrTuplet::kTupletTypeContinue
         )
-        ) {
+      ) {
         // this is a tuplet stop right after a tuplet start
         // for one and the same tuplet number:
         // possible if the note is a tremolo
@@ -14023,6 +14023,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
 
         fCurrentTupletTypeKind = msrTuplet::kTupletTypeStop;
       }
+
+      // it's now time to set the tuplet position in measure JMI
+
     }
     else {
       stringstream s;
@@ -15809,8 +15812,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNoteAndPushItToTupletsStack
           fCurrentNoteActualNotes,
           fCurrentNoteNormalNotes),
         memberNotesSoundingWholeNotes,
-        memberNotesDisplayWholeNotes,
-        firstNote->getNotePositionInMeasure ());
+        memberNotesDisplayWholeNotes);
 
   // add note as first note of the stack top tuplet
   tuplet->
@@ -18758,24 +18760,24 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     // and MSR could follow this line,
     // but LilyPond needs one...
     // bold choice:
-    //   all pending harmonies take an equal share
+    //   all pending harmonies with offset <= 0 take an equal share
     //   of the note's sounding whole notes
 
     // set the harmony's souding whole notes
-    harmony->
-      setHarmonySoundingWholeNotes (
-        fCurrentNoteSoundingWholeNotes
-          /
-        pendingHarmoniesNumber);
-
     if (harmonyWholeNotesOffset.getNumerator () > 0) {
       // decrement the harmony's duration as much
       harmony->
         setHarmonySoundingWholeNotes (
-          harmony->
-            getHarmonySoundingWholeNotes ()
+          newNoteSoundingWholeNotes
             -
           harmonyWholeNotesOffset);
+    }
+    else {
+      harmony->
+        setHarmonySoundingWholeNotes (
+          fCurrentNoteSoundingWholeNotes
+            /
+          pendingHarmoniesNumber);
     }
 
     // set the harmony's display whole notes

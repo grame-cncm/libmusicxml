@@ -662,6 +662,9 @@ string msrHarmony::asString () const
   s <<
     ", harmonyWholeNotesOffset: " << fHarmonyWholeNotesOffset;
 
+  // print the harmony position in measure
+  s <<
+    ", positionInMeasure" << fPositionInMeasure;
   return s.str ();
 }
 
@@ -675,6 +678,18 @@ void msrHarmony::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 26;
+
+  os <<
+    setw (fieldWidth) <<
+    "harmonyNoteUplink" << " : ";
+  if (fHarmonyNoteUplink) {
+    os << fHarmonyNoteUplink->asString ();
+  }
+  else {
+    os << "none";
+  }
+  os <<
+    endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -727,10 +742,12 @@ void msrHarmony::print (ostream& os)
   os <<
     setw (fieldWidth) <<
     "harmonyInversion" << " : ";
-  if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
+  if (fHarmonyInversion == K_HARMONY_NO_INVERSION) {
     os << "none";
-  else
+  }
+  else {
     os << fHarmonyInversion;
+  }
   os <<
     endl;
 
@@ -784,10 +801,16 @@ void msrHarmony::print (ostream& os)
     "harmonyTupletFactor" << " : " << fHarmonyTupletFactor.asString () <<
     endl;
 
-  // print the harmony offset
+  // print the harmony whole notes offset
   os <<
     setw (fieldWidth) <<
     "harmonyWholeNotesOffset" << " : " << fHarmonyWholeNotesOffset <<
+    endl;
+
+  // print the harmony position in measure
+  os <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " << fPositionInMeasure <<
     endl;
 
   gIndenter--;

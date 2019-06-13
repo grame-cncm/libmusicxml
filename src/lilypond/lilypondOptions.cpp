@@ -2019,8 +2019,8 @@ void lilypondOptions::handleOptionsItemValue (
       stringstream s;
 
       s <<
-        "LPSR accidental style " << theString <<
-        " is unknown" <<
+        "LPSR accidental style '" << theString <<
+        "' is unknown" <<
         endl <<
         "The " <<
         gLpsrAccidentalStyleKindsMap.size () - 1 <<

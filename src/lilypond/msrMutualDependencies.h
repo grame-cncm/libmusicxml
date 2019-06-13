@@ -408,26 +408,15 @@ class msrDoubleTremolo : public msrMeasureElement
     void                  setDoubleTremoloMeasureNumber (
                             string measureNumber)
                               {
-                                fDoubleTremoloMeasureNumber =
-                                  measureNumber;
+                                fMeasureNumber =  measureNumber;
                               }
-
-    string                getDoubleTremoloMeasureNumber () const
-                              { return fDoubleTremoloMeasureNumber; }
 
     // position in measure
 
     void                  setDoubleTremoloPositionInMeasure (
                             rational positionInMeasure)
                               {
-                                fDoubleTremoloPositionInMeasure =
-                                  positionInMeasure;
-                              }
-
-    rational              getDoubleTremoloPositionInMeasure () const
-                              {
-                                return
-                                  fDoubleTremoloPositionInMeasure;
+                                fPositionInMeasure = positionInMeasure;
                               }
 
     // services
@@ -487,10 +476,6 @@ class msrDoubleTremolo : public msrMeasureElement
     // the two elements of a double tremole are notes or chords
     S_msrElement          fDoubleTremoloFirstElement;
     S_msrElement          fDoubleTremoloSecondElement;
-
-
-    string                fDoubleTremoloMeasureNumber;
-    rational              fDoubleTremoloPositionInMeasure;
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
@@ -2934,10 +2919,6 @@ class msrNote : public msrTupletElement
 
     #define K_NO_OCTAVE -1
 
-    #define K_NO_MEASURE_NUMBER "unknown"
-
-    #define K_NO_POSITION_MEASURE_NUMBER rational(-222, 1)
-
     // data types
     // ------------------------------------------------------
 
@@ -3536,21 +3517,15 @@ class msrNote : public msrTupletElement
     // measure number
     void                  setNoteMeasureNumber (
                             string measureNumber)
-                              { fNoteMeasureNumber = measureNumber; }
-
-    string                getNoteMeasureNumber () const
-                              { return fNoteMeasureNumber; }
+                              { fMeasureNumber = measureNumber; }
 
     // position in measure
     void                  setNotePositionInMeasure (
                             rational positionInMeasure)
                               {
-                                fNotePositionInMeasure =
+                                fPositionInMeasure =
                                   positionInMeasure;
                               }
-
-    rational              getNotePositionInMeasure () const
-                              { return fNotePositionInMeasure; }
 
     void                  setNoteOccupiesAFullMeasure ();
 
@@ -4010,9 +3985,6 @@ class msrNote : public msrTupletElement
     // note measure information
     // ------------------------------------------------------
 
-    string                fNoteMeasureNumber;
-    rational              fNotePositionInMeasure;
-
     bool                  fNoteOccupiesAFullMeasure;
 
     // note redundant information (for speed)
@@ -4276,21 +4248,14 @@ class msrChord : public msrTupletElement
     // measure number
     void                  setChordMeasureNumber (
                             string measureNumber)
-                              { fChordMeasureNumber = measureNumber; }
-
-    string                getChordMeasureNumber () const
-                              { return fChordMeasureNumber; }
+                              { fMeasureNumber = measureNumber; }
 
     // position in measure
     void                  setChordPositionInMeasure (
                             rational position)
                               {
-                                fChordPositionInMeasure =
-                                  position;
+                                fPositionInMeasure = position;
                               }
-
-    rational              getChordPositionInMeasure () const
-                              { return fChordPositionInMeasure; }
 
     // services
     // ------------------------------------------------------
@@ -4438,6 +4403,9 @@ class msrChord : public msrTupletElement
     // fields
     // ------------------------------------------------------
 
+    // measure uplink
+    S_msrMeasure          fChordMeasureUplink;
+
     // sounding divisions
     rational              fChordSoundingWholeNotes;
 
@@ -4449,12 +4417,6 @@ class msrChord : public msrTupletElement
     msrDurationKind       fChordGraphicDurationKind;
 
     vector<S_msrNote>     fChordNotesVector;
-
-    // position in measure
-    S_msrMeasure          fChordMeasureUplink;
-
-    string                fChordMeasureNumber;
-    rational              fChordPositionInMeasure;
 
     // stems
     list<S_msrStem>       fChordStems;
@@ -4592,8 +4554,7 @@ class msrTuplet : public msrTupletElement
       msrTupletShowTypeKind   tupletShowTypeKind,
       msrTupletFactor         tupletFactor,
       rational                memberNotesSoundingWholeNotes,
-      rational                memberNotesDisplayWholeNotes,
-      rational                notePositionInMeasure); // JMI
+      rational                memberNotesDisplayWholeNotes);
 
     SMARTP<msrTuplet> createTupletNewbornClone ();
 
@@ -4614,8 +4575,7 @@ class msrTuplet : public msrTupletElement
       msrTupletShowTypeKind   tupletShowTypeKind,
       msrTupletFactor         tupletFactor,
       rational                memberNotesSoundingWholeNotes,
-      rational                memberNotesDisplayWholeNotes,
-      rational                notePositionInMeasure);
+      rational                memberNotesDisplayWholeNotes);
 
     virtual ~msrTuplet ();
 
@@ -4673,16 +4633,11 @@ class msrTuplet : public msrTupletElement
     // measure number
     void                  setTupletMeasureNumber (string measureNumber);
 
-    string                getTupletMeasureNumber () const
-                              { return fTupletMeasureNumber; }
 
     // position in measure
     rational              setTupletPositionInMeasure (
                             rational position);
                               // returns the position after the tuplet
-
-    rational              getTupletPositionInMeasure () const
-                              { return fTupletPositionInMeasure; }
 
     // services
     // ------------------------------------------------------
@@ -4757,9 +4712,6 @@ class msrTuplet : public msrTupletElement
 
     rational              fTupletSoundingWholeNotes;
     rational              fTupletDisplayWholeNotes;
-
-    string                fTupletMeasureNumber;
-    rational              fTupletPositionInMeasure;
 
     list<S_msrTupletElement>
                           fTupletElementsList;

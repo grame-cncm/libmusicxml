@@ -136,6 +136,7 @@ class traceOptions : public optionsGroup
     // measures
     bool                  fTraceMeasures;
     bool                  fTraceMeasuresDetails;
+    bool                  fTracePositionsInMeasures;
     set<int>              fTraceDetailedMeasureNumbersSet;
 
     // clefs

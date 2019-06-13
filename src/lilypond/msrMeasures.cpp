@@ -587,6 +587,11 @@ void msrMeasure::appendElementToMeasure (S_msrMeasureElement elem)
     } // for
   }
 
+  // set elem's position in measure
+  elem->
+    setPositionInMeasure (
+      fActualMeasureWholeNotes);
+
   fMeasureElementsList.push_back (elem);
 }
 
@@ -1286,7 +1291,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 
   // register barline position in measure,
   barline->
-    setPositionInMeasure (
+    setPositionInMeasure ( // JMI
       fActualMeasureWholeNotes);
 
   // is there already a pending barline in this voice?
@@ -1875,6 +1880,18 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // populate measure uplink
   tuplet->setTupletMeasureUplink (this);
 
+  // register chord measure number
+  tuplet->
+    setTupletMeasureNumber (fMeasureNumber);
+
+  // register tuplet measure position in measure
+  tuplet->
+    setTupletPositionInMeasure (
+      fActualMeasureWholeNotes);
+
+  // append the tuplet to the measure elements list
+  appendElementToMeasure (tuplet);
+
   // fetch tuplet sousnding whole notes
   rational
     tupletSoundingWholeNotes =
@@ -1891,9 +1908,6 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     updatePartActualMeasureWholeNotesHighTide (
       inputLineNumber,
       fActualMeasureWholeNotes);
-
-  // append the tuplet to the measure elements list
-  appendElementToMeasure (tuplet);
 
   // this measure contains music
   fMeasureContainsMusic = true;
@@ -2186,6 +2200,11 @@ void msrMeasure::padUpToActualMeasureWholeNotesInMeasure (
   int      inputLineNumber,
   rational wholeNotes)
 {
+  // sanity check
+  msrAssert (
+    wholeNotes.getNumerator () >= 0,
+    "wholeNotes.getNumerator () is negative");
+
   // fetch the measure voice
   S_msrVoice
     measureVoice =
@@ -3327,7 +3346,7 @@ void msrMeasure::finalizeMeasure (
       ) { // JMI
         // this is where measureElement should be appended at last
 
-        padUpToActualMeasureWholeNotesInMeasure ( // JMI ??? TICINO
+        padUpToActualMeasureWholeNotesInMeasure (
           inputLineNumber,
           measureElement->getPositionInMeasure ()); // ??? rational (1, 4));
 

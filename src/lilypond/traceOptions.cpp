@@ -238,6 +238,7 @@ debugging information to standard error for the specified measures.)",
     // measures
     fTraceMeasures = boolOptionsInitialValue;
     fTraceMeasuresDetails = boolOptionsInitialValue;
+    fTracePositionsInMeasures = boolOptionsInitialValue;
 
     // notes
     fTraceNotes = boolOptionsInitialValue;
@@ -684,6 +685,15 @@ R"(Measures details)",
           "traceMeasures",
           fTraceMeasuresDetails,
           fTraceMeasures,
+          gGeneralOptions->fTracePasses));
+
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tpim", "trace-positions-in-measures",
+R"(Positions in measures)",
+          "tracePositionsInMeasures",
+          fTracePositionsInMeasures,
           gGeneralOptions->fTracePasses));
 
     // notes
@@ -1226,6 +1236,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   // measures
   clone->fTraceMeasures = true;
   clone->fTraceMeasuresDetails = true;
+  clone->fTracePositionsInMeasures = true;
   clone->fTraceDetailedMeasureNumbersSet =
     fTraceDetailedMeasureNumbersSet;
 
@@ -1488,6 +1499,7 @@ void traceOptions::setAllGeneralTraceOptions (
     // measures
     fTraceMeasures = boolOptionsInitialValue;
     fTraceMeasuresDetails = boolOptionsInitialValue;
+    fTracePositionsInMeasures = boolOptionsInitialValue;
 
     // notes
     fTraceNotes = boolOptionsInitialValue;
@@ -1797,6 +1809,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "traceMeasuresDetails" << " : " <<
     booleanAsString (fTraceMeasuresDetails) <<
+    endl <<
+    setw (fieldWidth) << "tracePositionsInMeasures" << " : " <<
+    booleanAsString (fTracePositionsInMeasures) <<
     endl <<
 
     // notes

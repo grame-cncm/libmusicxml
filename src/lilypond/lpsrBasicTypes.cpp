@@ -148,7 +148,7 @@ string wholeNotesAsLilypondString (
   }
 #endif
 
-  if (numerator <= 0) {
+  if (false && numerator <= 0) { // JMI
     stringstream s;
 
     s <<
@@ -652,7 +652,7 @@ void writeTextsListAsLilypondString (
       contents);
 }
 
-// score output
+// score output kinds
 //______________________________________________________________________________
 
 map<string, lpsrScoreOutputKind>
@@ -716,6 +716,70 @@ string existingLpsrScoreOutputKinds ()
     map<string, lpsrScoreOutputKind>::const_iterator
       iBegin = gLpsrScoreOutputKindsMap.begin (),
       iEnd   = gLpsrScoreOutputKindsMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first;
+      if (++i == iEnd) break;
+      if (next (i) == iEnd) {
+        s << " and ";
+      }
+      else {
+        s << ", ";
+      }
+    } // for
+  }
+
+  return s.str ();
+}
+
+// octave entry kinds
+//______________________________________________________________________________
+
+map<string, lpsrOctaveEntryKind>
+  gLpsrOctaveEntryKindsMap;
+
+string lpsrOctaveEntryKindAsString (
+  lpsrOctaveEntryKind octaveEntryKind)
+{
+  string result;
+
+  // no CamelCase here, these strings are used in the command line options
+
+  switch (octaveEntryKind) {
+    case kOctaveEntryRelative: // default value
+      result = "relative";
+      break;
+    case kOctaveEntryAbsolute:
+      result = "absolute";
+      break;
+    case kOctaveEntryFixed:
+      result = "fixed";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeLpsrOctaveEntryKindsMap ()
+{
+  // register the LilyPond score output kinds
+  // --------------------------------------
+
+  // no CamelCase here, these strings are used in the command line options
+
+  gLpsrOctaveEntryKindsMap ["relative"] = kOctaveEntryRelative;
+  gLpsrOctaveEntryKindsMap ["absolute"] = kOctaveEntryAbsolute;
+  gLpsrOctaveEntryKindsMap ["fixed"] = kOctaveEntryFixed;
+}
+
+string existingLpsrOctaveEntryKinds ()
+{
+  stringstream s;
+
+  if (gLpsrOctaveEntryKindsMap.size ()) {
+    map<string, lpsrOctaveEntryKind>::const_iterator
+      iBegin = gLpsrOctaveEntryKindsMap.begin (),
+      iEnd   = gLpsrOctaveEntryKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i).first;
@@ -993,6 +1057,11 @@ void initializeLPSRBasicTypes ()
   // ------------------------------------------------------
 
   initializeLpsrScoreOutputKindsMap ();
+
+  // LPSR octave entry handling
+  // ------------------------------------------------------
+
+  initializeLpsrOctaveEntryKindsMap ();
 
   // LPSR accidental styles handling
   // ------------------------------------------------------

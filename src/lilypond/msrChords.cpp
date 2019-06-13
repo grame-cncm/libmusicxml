@@ -101,6 +101,7 @@ S_msrChord msrChord::createChordNewbornClone (
         fChordDisplayWholeNotes,
         fChordGraphicDurationKind);
 
+/*
   newbornClone->
     fChordPositionInMeasure =
       fChordPositionInMeasure;
@@ -112,6 +113,7 @@ S_msrChord msrChord::createChordNewbornClone (
   newbornClone->
     fChordIsSecondChordInADoubleTremolo =
       fChordIsSecondChordInADoubleTremolo;
+*/
 
   return newbornClone;
 }
@@ -194,7 +196,7 @@ void msrChord::addFirstNoteToChord (
   // populate note's position in measure // JMI
   note->
     setNotePositionInMeasure (
-      fChordPositionInMeasure);
+      fPositionInMeasure);
 }
 
 void msrChord::addAnotherNoteToChord (
@@ -230,7 +232,7 @@ void msrChord::addAnotherNoteToChord (
 
   // populate note's position in measure
   note->setNotePositionInMeasure (
-    fChordPositionInMeasure);
+    fPositionInMeasure);
 }
 
 void msrChord::setChordFirstNotePositionInMeasure (
@@ -970,10 +972,10 @@ void msrChord::print (ostream& os)
     "chordDisplayWholeNotes" << " : " << fChordDisplayWholeNotes <<
     endl <<
     setw (fieldWidth) <<
-    "chordMeasureNumber" << " : " << fChordMeasureNumber <<
+    "measureNumber" << " : " << fMeasureNumber <<
     endl <<
     setw (fieldWidth) <<
-    "chordPositionInMeasure" << " : " << fChordPositionInMeasure <<
+    "positionInMeasure" << " : " << fPositionInMeasure <<
     endl <<
     setw (fieldWidth) <<
     "chordMeasureFullLength" << " : " << chordMeasureFullLength <<
@@ -984,17 +986,18 @@ void msrChord::print (ostream& os)
     // the chord measure uplink may not have been set yet
     rational
       chordPositionBis =
-        fChordPositionInMeasure;
-    fChordPositionInMeasure.rationalise ();
+        fPositionInMeasure;
+    chordPositionBis.rationalise ();
 
     if (
       chordPositionBis.getNumerator ()
         !=
-      fChordPositionInMeasure.getNumerator ()) {
+      fPositionInMeasure.getNumerator ()
+    ) {
       // print rationalized rational view
       os << left <<
         setw (fieldWidth) <<
-        "fChordPositionInMeasure" << " : " << chordPositionBis <<
+        "chordPositionBis" << " : " << chordPositionBis <<
         endl;
     }
 
@@ -1444,7 +1447,6 @@ void msrChord::print (ostream& os)
     }
   }
 
-
   // print the grace notes groups if any
   if (fChordGraceNotesGroupBefore || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -1564,6 +1566,12 @@ void msrChord::print (ostream& os)
       endl;
     }
   }
+
+  // print the chord position in measure
+  os <<
+    setw (fieldWidth) <<
+    "positionInMeasure" << " : " << fPositionInMeasure <<
+    endl;
 
   gIndenter--;
 }

@@ -1763,7 +1763,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
       inputLineNumber,
       harmony->
         getHarmonyNoteUplink ()->
-          getNotePositionInMeasure ());
+          getPositionInMeasure ());
   }
 
   // get the harmony note uplink
@@ -1782,7 +1782,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   rational
     harmonyNoteUplinkPositionInMeasure =
       harmonyNoteUplink->
-        getNotePositionInMeasure ();
+        getPositionInMeasure ();
 
   // get the harmony whole notes offset
   rational
@@ -1829,6 +1829,40 @@ void msrVoice::appendHarmonyToHarmonyVoice (
         harmonyWholeNotesOffset;
     harmonyPositionInMeasure.rationalise ();
 
+#ifdef TRACE_OPTIONS
+    if (
+      gTraceOptions->fTraceHarmonies
+        ||
+      gMusicXMLOptions->fTraceBackup
+        ||
+      gTraceOptions->fTraceMeasures
+        ||
+      gTraceOptions->fTraceVoices
+    ) {
+      gLogIOstream <<
+        endl <<
+        endl <<
+        harmonyNoteUplink <<
+        endl <<
+        endl;
+
+      gLogIOstream <<
+        "Handling harmony negative offset" <<
+        ", harmonyNoteUplinkSoundingWholeNotes = '" <<
+        harmonyNoteUplinkSoundingWholeNotes <<
+        ", harmonyWholeNotesOffset = '" <<
+        harmonyWholeNotesOffset <<
+        "', harmonyNoteUplinkPositionInMeasure = '" <<
+        harmonyNoteUplinkPositionInMeasure <<
+        "', harmonyPositionInMeasure = '" <<
+        harmonyPositionInMeasure <<
+        "' in voice " <<
+        getVoiceName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
+
     // bring this voice to that measure position
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
@@ -1838,6 +1872,15 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   else {
     // handle the the positive offset with the skip before the harmony
     // --------------------------------------------
+
+    // determine the harmony measure position as
+    // 'harmonyWholeNotesOffset' forward from the note uplink
+    rational
+      harmonyPositionInMeasure =
+        harmonyNoteUplinkPositionInMeasure
+          +
+        harmonyWholeNotesOffset;
+    harmonyPositionInMeasure.rationalise ();
 
 #ifdef TRACE_OPTIONS
     if (
@@ -1857,21 +1900,14 @@ void msrVoice::appendHarmonyToHarmonyVoice (
         harmonyWholeNotesOffset <<
         "', harmonyNoteUplinkPositionInMeasure = '" <<
         harmonyNoteUplinkPositionInMeasure <<
+        "', harmonyPositionInMeasure = '" <<
+        harmonyPositionInMeasure <<
         "' in voice " <<
         getVoiceName () <<
         ", line " << inputLineNumber <<
         endl;
     }
 #endif
-
-    // determine the harmony measure position as
-    // 'harmonyWholeNotesOffset' forward from the note uplink
-    rational
-      harmonyPositionInMeasure =
-        harmonyNoteUplinkPositionInMeasure
-          +
-        harmonyWholeNotesOffset;
-    harmonyPositionInMeasure.rationalise ();
 
     // bring this voice to that measure position
     padUpToActualMeasureWholeNotesInVoice (
@@ -1970,7 +2006,7 @@ void msrVoice::appendFiguredBassToVoice (
         inputLineNumber,
         figuredBass->
           getFiguredBassNoteUplink ()->
-            getNotePositionInMeasure ());
+            getPositionInMeasure ());
 
       // append the figured bass to the voice last segment
       fVoiceLastSegment->

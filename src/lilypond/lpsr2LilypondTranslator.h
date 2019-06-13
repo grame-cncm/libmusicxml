@@ -917,11 +917,11 @@ class lpsr2LilypondTranslator :
     list<int>             fPendingChordMemberNotesStringNumbers;
     bool                  fOnGoingChord;
 
-    void                  generateChord (S_msrChord chord);
+    void                  generateCodeBeforeChordContents (S_msrChord chord);
+    void                  generateCodeForChordContents (S_msrChord chord);
+    void                  generateCodeAfterChordContents (S_msrChord chord);
 
-    void                  generateCodeBeforeChord (S_msrChord chord);
-    void                  generateCodeForChord (S_msrChord chord);
-    void                  generateCodeAfterChord (S_msrChord chord);
+    void                  generateChordInGraceNotesGroup (S_msrChord chord);
 
     // tuplets
     // ------------------------------------------------------

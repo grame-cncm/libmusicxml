@@ -618,8 +618,8 @@ void brailleOptions::handleOptionsUTFKindItemValue (
     stringstream s;
 
     s <<
-      "UTF kind " << theString <<
-      " is unknown" <<
+      "UTF kind '" << theString <<
+      "' is unknown" <<
       endl <<
       "The possible values are 8 and 16" <<
       endl;
@@ -664,8 +664,8 @@ void brailleOptions::handleOptionsByteOrderingKindItemValue (
     stringstream s;
 
     s <<
-      "byte ordering " << theString <<
-      " is unknown" <<
+      "byte ordering '" << theString <<
+      "' is unknown" <<
       endl <<
       "The possible values are big and small" <<
       endl;

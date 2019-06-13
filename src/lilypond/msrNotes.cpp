@@ -129,7 +129,7 @@ msrNote::msrNote (
   : msrTupletElement (inputLineNumber),
     fNoteColor ("", "")
 {
-  fNoteMeasureNumber = noteMeasureNumber;
+  fMeasureNumber = noteMeasureNumber;
 
   // basic note description
   fNoteKind = noteKind;
@@ -372,8 +372,6 @@ void msrNote::initializeNote ()
   // note measure information
   // ------------------------------------------------------
 
-  fNotePositionInMeasure = K_NO_POSITION_MEASURE_NUMBER;
-
   fNoteOccupiesAFullMeasure = false;
 
   // note redundant information (for speed)
@@ -469,7 +467,7 @@ S_msrNote msrNote::createNoteNewbornClone (
     newbornClone =
       msrNote::create (
         fInputLineNumber,
-        fNoteMeasureNumber,
+        fMeasureNumber,
 
         fNoteKind,
 
@@ -633,15 +631,11 @@ S_msrNote msrNote::createNoteNewbornClone (
   // note measure information
   // ------------------------------------------------------
 
-  newbornClone->
-    fNoteMeasureNumber =
-      fNoteMeasureNumber;
-  newbornClone->
-    fNotePositionInMeasure =
-      fNotePositionInMeasure;
+/* JMI
   newbornClone->
     fNoteOccupiesAFullMeasure =
       fNoteOccupiesAFullMeasure;
+*/
 
   // note redundant information (for speed)
   // ------------------------------------------------------
@@ -721,7 +715,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy =
       msrNote::create (
         fInputLineNumber,
-        fNoteMeasureNumber,
+        fMeasureNumber,
 
         fNoteKind,
 
@@ -1161,11 +1155,11 @@ S_msrNote msrNote::createNoteDeepCopy (
   // ------------------------------------------------------
 
   noteDeepCopy->
-    fNoteMeasureNumber =
-      fNoteMeasureNumber;
+    fMeasureNumber =
+      fMeasureNumber;
   noteDeepCopy->
-    fNotePositionInMeasure =
-      fNotePositionInMeasure;
+    fPositionInMeasure =
+      fPositionInMeasure;
 
   noteDeepCopy->
     fNoteOccupiesAFullMeasure =
@@ -3329,8 +3323,7 @@ string msrNote::asString () const
 
     case msrNote::kSkipNote:
       s <<
-        "skipNote" <<
-        ":" <<
+        "skipNote:" <<
         noteSoundingWholeNotesAsMsrString ();
       break;
 
@@ -3343,8 +3336,7 @@ string msrNote::asString () const
 
     case msrNote::kStandaloneNote:
       s <<
-        "standaloneNote" <<
-        " '"<<
+        "standaloneNote '"<<
         notePitchAsString () <<
         /* JMI
         "', " <<
@@ -3405,7 +3397,7 @@ string msrNote::asString () const
         "tupletMemberNote '"<<
         notePitchAsString () <<
         fNoteSoundingWholeNotes <<
-        " sounding, " <<
+        "' sounding, " <<
         fNoteDisplayWholeNotes <<
         " displayed";
 /* JMI
@@ -3522,7 +3514,7 @@ void msrNote::print (ostream& os)
             getFullMeasureWholeNotes ()
         : rational (0, 1); // JMI
 
-  // print the note itself and its positionInMeasure
+  // print the note itself
   os <<
     asString () <<
     endl;
@@ -3779,13 +3771,13 @@ void msrNote::print (ostream& os)
     os << left <<
       setw (fieldWidth) <<
       "noteMeasureNumber" << " : ";
-    if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER) {
+    if (fMeasureNumber == K_NO_MEASURE_NUMBER) {
       os <<
         "unknown";
     }
-    else if (fNoteMeasureNumber.size ()) {
+    else if (fMeasureNumber.size ()) {
       os <<
-        fNoteMeasureNumber;
+        fMeasureNumber;
     }
     else {
       stringstream s;
@@ -3806,24 +3798,24 @@ void msrNote::print (ostream& os)
 
     os << left <<
       setw (fieldWidth) <<
-      "notePositionInMeasure" << " : ";
-    if (fNotePositionInMeasure == K_NO_POSITION_MEASURE_NUMBER)
-      os << "unknown";
+      "positionInMeasure" << " : ";
+    if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER)
+      os << "unknown (" << fPositionInMeasure << ")";
     else
-      os << fNotePositionInMeasure;
+      os << fPositionInMeasure;
 
     // print rationalized position in measure if relevant JMI ???
     if (fNoteMeasureUplink) {
       // the note measure uplink may not have been set yet
       rational
         notePositionBis =
-          fNotePositionInMeasure;
+          fPositionInMeasure;
       notePositionBis.rationalise ();
 
       if (
         notePositionBis.getNumerator ()
           !=
-        fNotePositionInMeasure.getNumerator ()) {
+        fPositionInMeasure.getNumerator ()) {
         // print rationalized rational view
         os <<
           " ( = " << notePositionBis << ")";
@@ -4035,20 +4027,20 @@ void msrNote::print (ostream& os)
       case msrNote::kGraceTupletMemberNote:
       case msrNote::kTupletMemberUnpitchedNote:
         {
-          os << left <<
           /* JMI
+          os << left <<
             setw (fieldWidth) <<
             "noteTupletNoteGraphicDurationAsMsrString" << " : \"" <<
             fNoteTupletNoteGraphicDurationAsMsrString <<
             "\"" <<
             endl <<
-              */
             setw (fieldWidth) <<
             "noteTupletNoteSoundingWholeNotesAsMsrString" << " : ";
+              */
 
           if (fNoteTupletUplink) {
             os <<
-            "\"" <<
+              "\"" <<
               wholeNotesAsMsrString (
                 fInputLineNumber,
                 getNoteTupletUplink ()->
