@@ -7242,12 +7242,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       &&
     measureKind != msrMeasure::kMeasureKindOvercomplete
   ) {
+  /* JMI
     fLilypondCodeIOstream <<
       endl <<
       "\\cadenzaOff" <<
  // JMI     " \\undo \\omit Staff.TimeSignature" <<
       endl <<
       "\\bar \"|\" "; // JMI ???
+      */
 
     if (gLilypondOptions->fComments) {
       fLilypondCodeIOstream <<
@@ -7386,10 +7388,12 @@ else
 
     case msrMeasure::kMeasureKindOvercomplete:
       if (! fOnGoingVoiceCadenza) {
+      /* JMI
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOn" <<
           " \\omit Staff.TimeSignature";
+*/
 
         if (gLilypondOptions->fComments) {
           fLilypondCodeIOstream << " % kMeasureKindOvercomplete Start";
@@ -7531,11 +7535,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
         break;
 
       case msrMeasure::kMeasureKindOvercomplete:
+      /* JMI
         fLilypondCodeIOstream <<
           endl <<
           "\\cadenzaOff" <<
           " \\undo \\omit Staff.TimeSignature |" <<
           endl;
+          */
 
         fOnGoingVoiceCadenza = false;
         break;

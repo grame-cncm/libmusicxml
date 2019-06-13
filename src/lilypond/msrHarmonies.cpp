@@ -636,7 +636,7 @@ string msrHarmony::asString () const
       i      = iBegin;
 
     for ( ; ; ) {
-      s << (*i);
+      s << (*i)->asString ();
       if (++i == iEnd) break;
       s << " ";
     } // for
@@ -664,7 +664,7 @@ string msrHarmony::asString () const
 
   // print the harmony position in measure
   s <<
-    ", positionInMeasure" << fPositionInMeasure;
+    ", positionInMeasure: " << fPositionInMeasure;
   return s.str ();
 }
 

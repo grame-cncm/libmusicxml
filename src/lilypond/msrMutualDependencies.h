@@ -416,7 +416,8 @@ class msrDoubleTremolo : public msrMeasureElement
     void                  setDoubleTremoloPositionInMeasure (
                             rational positionInMeasure)
                               {
-                                fPositionInMeasure = positionInMeasure;
+                                msrMeasureElement::setPositionInMeasure (
+                                  positionInMeasure);
                               }
 
     // services
@@ -3523,8 +3524,8 @@ class msrNote : public msrTupletElement
     void                  setNotePositionInMeasure (
                             rational positionInMeasure)
                               {
-                                fPositionInMeasure =
-                                  positionInMeasure;
+                                msrMeasureElement::setPositionInMeasure (
+                                  positionInMeasure);
                               }
 
     void                  setNoteOccupiesAFullMeasure ();
@@ -4252,9 +4253,10 @@ class msrChord : public msrTupletElement
 
     // position in measure
     void                  setChordPositionInMeasure (
-                            rational position)
+                            rational positionInMeasure)
                               {
-                                fPositionInMeasure = position;
+                                msrMeasureElement::setPositionInMeasure (
+                                  positionInMeasure);
                               }
 
     // services

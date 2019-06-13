@@ -96,7 +96,7 @@ lpsrScore::lpsrScore (
       stringstream s;
 
       s <<
-        "% Translation command was:";
+        "Translation command was:";
 
       fTranslationDateComment =
         lpsrComment::create (
@@ -153,12 +153,14 @@ lpsrScore::lpsrScore (
 }
 
   // create the global staff size variable
+  // too early to benefit from gLpsrOptions->fGlobalStaffSize... JMI
+  // needs to be updated later in msrPageGeometry::globalStaffSize()
   fScoreGlobalStaffSizeVariable =
     lpsrSchemeVariable::create (
       inputLineNumber,
       lpsrSchemeVariable::kCommentedNo,
       "set-global-staff-size",
-      "20", // the LilyPond default
+      to_string (gLpsrOptions->fGlobalStaffSize),
       "Comment or adapt next line as needed (default is 20)",
       lpsrSchemeVariable::kEndlTwice);
 

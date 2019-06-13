@@ -193,10 +193,13 @@ void msrChord::addFirstNoteToChord (
     registerNoteAsVoiceLastAppendedNote (note);
     */
 
-  // populate note's position in measure // JMI
+  // DON'T set the note's position in measure,
+  // the chord may not have been added to a measure yet
+  /* JMI
   note->
     setNotePositionInMeasure (
       fPositionInMeasure);
+      */
 }
 
 void msrChord::addAnotherNoteToChord (

@@ -1757,7 +1757,7 @@ void msrVoice::appendHarmonyToHarmonyVoice (
   int inputLineNumber =
     harmony->getInputLineNumber ();
 
-  if (false) {
+  if (false) { // JMI
     // skip to harmony note position in the voice
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
@@ -1802,6 +1802,63 @@ void msrVoice::appendHarmonyToHarmonyVoice (
         getStaffPartUplink ()->
           getPartActualMeasureWholeNotesHighTide ();
 */
+
+#ifdef TRACE_OPTIONS
+    if (
+      gTraceOptions->fTraceHarmonies
+        ||
+      gMusicXMLOptions->fTraceBackup
+        ||
+      gTraceOptions->fTraceMeasures
+        ||
+      gTraceOptions->fTraceVoices
+    ) {
+      gLogIOstream <<
+        endl <<
+        "appendHarmonyToHarmonyVoice()" << // JMI
+        endl <<
+        "harmony:" <<
+        endl;
+
+      gIndenter++;
+
+      gLogIOstream <<
+        harmony <<
+        endl <<
+        endl;
+
+      gIndenter--;
+
+      gLogIOstream <<
+        endl <<
+        "appendHarmonyToHarmonyVoice()" << // JMI
+        endl <<
+        "harmonyNoteUplink:" <<
+        endl;
+
+      gIndenter++;
+
+      gLogIOstream <<
+        harmonyNoteUplink <<
+        endl <<
+        endl;
+
+      gIndenter--;
+
+      gLogIOstream <<
+        "appendHarmonyToHarmonyVoice()" <<
+        ", harmonyNoteUplinkSoundingWholeNotes = '" <<
+        harmonyNoteUplinkSoundingWholeNotes <<
+        ", harmonyWholeNotesOffset = '" <<
+        harmonyWholeNotesOffset <<
+        "', harmonyNoteUplinkPositionInMeasure = '" <<
+        harmonyNoteUplinkPositionInMeasure <<
+        "' in voice " <<
+        getVoiceName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+#endif
 
   if (harmonyWholeNotesOffsetNumerator == 0) {
     // handle the null offset

@@ -627,6 +627,10 @@ void lpsrOptions::initializeLpsrScoreOutputKindOptions (
 
   fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
+  const int staffGlobalSizeDefaultValue = 20; // LilyPond default
+
+  fGlobalStaffSize = staffGlobalSizeDefaultValue;
+
   // options
 
   S_optionsSubGroup
@@ -646,20 +650,12 @@ R"()",
         "lpv", "lilypond-version",
         replaceSubstringInString (
 R"(Set the LilyPond '\version' to STRING in the LilyPond code.
-The default is 'DEFAULT_VALUE')",
+The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
           lilyPondVersionDefaultValue),
         "STRING",
         "lilyPondVersion",
         fLilyPondVersion));
-
-/* JMI
-  lilypondOutputKindSubGroup->
-    appendOptionsItem (
-      xml2lyOptionsAboutItem::create (
-        "a", "about",
-R"(Display information about xml2ly and exit.)"));
-*/
 
   lilypondOutputKindSubGroup->
     appendOptionsItem (
@@ -685,6 +681,19 @@ The default is 'DEFAULT_VALUE'.)",
         "OUTPUT_KIND",
         "scoreOutputKind",
         fScoreOutputKind));
+
+  lilypondOutputKindSubGroup->
+    appendOptionsItem (
+      optionsFloatItem::create (
+        "gss", "global-staff-size",
+        replaceSubstringInString (
+R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
+The default is 'DEFAULT_VALUE'.)",
+          "DEFAULT_VALUE",
+          to_string (staffGlobalSizeDefaultValue)),
+        "FLOAT",
+        "globalStaffSize",
+        fGlobalStaffSize));
 }
 
 void lpsrOptions::initializeLpsrOctaveEntryKindOptions (
@@ -1855,9 +1864,9 @@ void lpsrOptions::crackVersionNumber (
   // decipher theString with a three-number regular expression
   string regularExpression (
     "([[:digit:]]+)"
-    "\."
+    "."
     "([[:digit:]]+)"
-    "\."
+    "."
     "([[:digit:]]+)");
 
   regex  e (regularExpression);

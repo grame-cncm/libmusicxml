@@ -57,6 +57,10 @@ void msrMeasureElement::setPositionInMeasure (
       endl;
   }
 #endif
+
+  if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
+    abort ();
+  }
 }
 
 void msrMeasureElement::acceptIn (basevisitor* v)

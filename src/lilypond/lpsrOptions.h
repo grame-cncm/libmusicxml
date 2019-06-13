@@ -557,6 +557,11 @@ class lpsrOptions : public optionsGroup
 
     lpsrScoreOutputKind   fScoreOutputKind;
 
+    // global staff size
+    // --------------------------------------
+
+    float                 fGlobalStaffSize;
+
     // octave entry kinds
     // --------------------------------------
 

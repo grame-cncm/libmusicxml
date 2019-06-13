@@ -490,7 +490,7 @@ class msr2LpsrTranslator :
     S_lpsrScoreBlock          fCurrentScoreBlock;
 
 
-    // it's header
+    // its header
     // ------------------------------------------------------
     S_lpsrHeader              fCurrentLpsrScoreHeader;
 

@@ -18820,7 +18820,33 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       newNote->
         setNoteHarmony (harmony);
 
-      // append the harmony to the harmony voice for the current voice
+      // append the harmony to the harmony voice for the current voice,
+      // unless newNote is a tuplet or chord note,
+      // in which case that will be done after the position in measure
+      // for the tuplet or chord is appended to its own voice
+      // to ensure the harmony's position in measure can be determined
+      /*
+      switch (newNote->getNoteKind ()) {
+        case msrNote::k_NoNoteKind:
+        case msrNote::kRestNote:
+        case msrNote::kSkipNote:
+        case msrNote::kUnpitchedNote:
+        case msrNote::kStandaloneNote:
+        case msrNote::kDoubleTremoloMemberNote:
+        case msrNote::kGraceNote:
+          voiceHarmonyVoice->
+            appendHarmonyToVoice (
+              harmony);
+          break;
+
+        case msrNote::kGraceChordMemberNote:
+        case msrNote::kChordMemberNote:
+        case msrNote::kTupletMemberNote:
+        case msrNote::kGraceTupletMemberNote:
+        case msrNote::kTupletMemberUnpitchedNote:
+          break;
+      } // switch
+*/
       voiceHarmonyVoice->
         appendHarmonyToVoice (
           harmony);

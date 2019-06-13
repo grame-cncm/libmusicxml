@@ -1488,9 +1488,21 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   */
 
   // append the note to the measure elements list
-// JMI  // only now to make it possible to remove it afterwards
-  // if it happens to be the first note of a chord
   appendElementToMeasure (note);
+
+  // fetch note harmony
+  S_msrHarmony
+    noteHarmony =
+      note->getNoteHarmony ();
+
+/*
+  if (false && noteHarmony) { // JMI
+    // set its position in measure // JMI
+    noteHarmony->
+      setPositionInMeasure (
+        notePositionInMeasure);
+  }
+  */
 
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;

@@ -1309,6 +1309,16 @@ S_msrNote msrNote::createSkipNote (
       kNoteHeadParenthesesNo); // JMI
   assert(o!=0);
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceSkipNotes) {
+    gLogIOstream <<
+      "Creating skip note '" <<
+      o->asShortString () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
   return o;
 }
 
@@ -3457,6 +3467,24 @@ string msrNote::asString () const
       break;
   } // switch
 
+  s << left <<
+    ", measureNumber: ";
+  if (fMeasureNumber == K_NO_MEASURE_NUMBER) {
+    s << "unknown";
+  }
+  else {
+    s << fMeasureNumber;
+  }
+
+  s << left <<
+    ", positionInMeasure: ";
+  if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
+    s << "unknown (" << fPositionInMeasure << ")";
+  }
+  else {
+    s << fPositionInMeasure;
+  }
+
   if (fNoteOccupiesAFullMeasure) {
     s <<
       ", full measure";
@@ -3767,7 +3795,7 @@ void msrNote::print (ostream& os)
         fNoteCautionaryAccidentalKind) <<
       endl;
 
-    // print measure related information
+    // print measure number
     os << left <<
       setw (fieldWidth) <<
       "noteMeasureNumber" << " : ";
@@ -3796,34 +3824,18 @@ void msrNote::print (ostream& os)
     os <<
       endl;
 
+    // print position in measure
     os << left <<
       setw (fieldWidth) <<
       "positionInMeasure" << " : ";
-    if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER)
+    if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
       os << "unknown (" << fPositionInMeasure << ")";
-    else
-      os << fPositionInMeasure;
-
-    // print rationalized position in measure if relevant JMI ???
-    if (fNoteMeasureUplink) {
-      // the note measure uplink may not have been set yet
-      rational
-        notePositionBis =
-          fPositionInMeasure;
-      notePositionBis.rationalise ();
-
-      if (
-        notePositionBis.getNumerator ()
-          !=
-        fPositionInMeasure.getNumerator ()) {
-        // print rationalized rational view
-        os <<
-          " ( = " << notePositionBis << ")";
-      }
     }
-
+    else {
+      os << fPositionInMeasure;
+    }
     os <<
-      endl ;
+      endl;
   }
 
   {
@@ -4065,66 +4077,6 @@ void msrNote::print (ostream& os)
     } // switch
   }
 
-  // print the syllables associated to this note if any
-  int noteSyllablesSize = fNoteSyllables.size ();
-
-  if (noteSyllablesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteSyllables";
-    if (noteSyllablesSize) {
-      os <<
-        endl;
-
-      gIndenter++;
-
-      list<S_msrSyllable>::const_iterator
-        iBegin = fNoteSyllables.begin (),
-        iEnd   = fNoteSyllables.end (),
-        i      = iBegin;
-      for ( ; ; ) {
-        S_msrSyllable
-          syllable = (*i);
-
-        os <<
-          syllable;
-
-  /* JMI
-        os <<
-          syllable->syllableKindAsString () <<
-          ", " <<
-          syllable->syllableExtendKindAsString () <<
-          " : ";
-
-        msrSyllable::writeTextsList (
-          syllable->getSyllableTextsList (),
-          os);
-
-        os <<
-          ", stanza " <<
-          syllable->
-            getSyllableStanzaUplink ()->
-              getStanzaNumber () <<
-          ", line " << syllable->getInputLineNumber () <<
-          ", noteUpLink: " <<
-          syllable->
-            getSyllableNoteUplink ()->
-              asShortString ();
-  */
-
-        if (++i == iEnd) break;
-        // no endl here
-      } // for
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
   // print the octave shift if any
   if (fNoteOctaveShift || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -4161,6 +4113,36 @@ void msrNote::print (ostream& os)
 
       os <<
         fNoteStem;
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the note color
+  os <<
+    setw (fieldWidth) <<
+    "noteColor" << " : " <<
+    fNoteColor.asString () <<
+    endl;
+
+  // print the tie if any
+  if (fNoteTie || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteTie";
+    if (fNoteTie) {
+      os <<
+        endl;
+
+      gIndenter++;
+
+      os <<
+        fNoteTie;
 
       gIndenter--;
     }
@@ -4557,29 +4539,6 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // print the tie if any
-  if (fNoteTie || gMsrOptions->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteTie";
-    if (fNoteTie) {
-      os <<
-        endl;
-
-      gIndenter++;
-
-      os <<
-        fNoteTie;
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
   // print the dynamics if any
   int noteDynamicsSize = fNoteDynamics.size ();
 
@@ -4835,7 +4794,7 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // print the eyeglasses if any
+  // print the segnos if any
   int noteSegnosSize = fNoteSegnos.size ();
 
   if (noteSegnosSize > 0 || gMsrOptions->fDisplayMsrDetails) {
@@ -5050,30 +5009,6 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // print the frame if any
-  if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
-    os <<
-      setw (fieldWidth) <<
-      "noteFrame";
-    if (fNoteFrame) {
-      os <<
-        endl;
-
-      gIndenter++;
-
-      os <<
-        fNoteFrame <<
-        endl;
-
-      gIndenter--;
-    }
-    else {
-      os << " : " <<
-        "none" <<
-        endl;
-    }
-  }
-
   // print the figured bass if any
   if (fNoteFiguredBass || gMsrOptions->fDisplayMsrDetails) {
     os <<
@@ -5098,12 +5033,89 @@ void msrNote::print (ostream& os)
     }
   }
 
-  // print the note color
-  os <<
-    setw (fieldWidth) <<
-    "noteColor" << " : " <<
-    fNoteColor.asString () <<
-    endl;
+  // print the frame if any
+  if (fNoteFrame || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteFrame";
+    if (fNoteFrame) {
+      os <<
+        endl;
+
+      gIndenter++;
+
+      os <<
+        fNoteFrame <<
+        endl;
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
+
+  // print the syllables associated to this note if any
+  int noteSyllablesSize = fNoteSyllables.size ();
+
+  if (noteSyllablesSize > 0 || gMsrOptions->fDisplayMsrDetails) {
+    os <<
+      setw (fieldWidth) <<
+      "noteSyllables";
+    if (noteSyllablesSize) {
+      os <<
+        endl;
+
+      gIndenter++;
+
+      list<S_msrSyllable>::const_iterator
+        iBegin = fNoteSyllables.begin (),
+        iEnd   = fNoteSyllables.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        S_msrSyllable
+          syllable = (*i);
+
+        os <<
+          syllable;
+
+  /* JMI
+        os <<
+          syllable->syllableKindAsString () <<
+          ", " <<
+          syllable->syllableExtendKindAsString () <<
+          " : ";
+
+        msrSyllable::writeTextsList (
+          syllable->getSyllableTextsList (),
+          os);
+
+        os <<
+          ", stanza " <<
+          syllable->
+            getSyllableStanzaUplink ()->
+              getStanzaNumber () <<
+          ", line " << syllable->getInputLineNumber () <<
+          ", noteUpLink: " <<
+          syllable->
+            getSyllableNoteUplink ()->
+              asShortString ();
+  */
+
+        if (++i == iEnd) break;
+        // no endl here
+      } // for
+
+      gIndenter--;
+    }
+    else {
+      os << " : " <<
+        "none" <<
+        endl;
+    }
+  }
 
   gIndenter--;
 }

@@ -244,6 +244,7 @@ debugging information to standard error for the specified measures.)",
     fTraceNotes = boolOptionsInitialValue;
     fTraceNotesDetails = boolOptionsInitialValue;
     fTraceWholeNotes = boolOptionsInitialValue;
+    fTraceSkipNotes = boolOptionsInitialValue;
 
     // stems
     fTraceStems = boolOptionsInitialValue;
@@ -725,6 +726,15 @@ This option implies '-tnnotes, -traceNotes'.)",
 R"(Whole notes computations (quite verbose)...)",
           "traceWholeNotes",
           fTraceWholeNotes,
+          gGeneralOptions->fTracePasses));
+
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tsn", "trace-skip-notes",
+R"(Skip notes",
+          "traceSkipNotes",
+          fTraceSkipNotes,
           gGeneralOptions->fTracePasses));
 
     // stems
@@ -1295,6 +1305,7 @@ S_traceOptions traceOptions::createCloneWithTrueValues ()
   clone->fTraceNotes = true;
   clone->fTraceNotesDetails = true;
   clone->fTraceWholeNotes = true;
+  clone->fTraceSkipNotes = true;
 
   // stems
   clone->fTraceStems = true;
@@ -1505,6 +1516,7 @@ void traceOptions::setAllGeneralTraceOptions (
     fTraceNotes = boolOptionsInitialValue;
     fTraceNotesDetails = boolOptionsInitialValue;
     fTraceWholeNotes = boolOptionsInitialValue;
+    fTraceSkipNotes = boolOptionsInitialValue;
 
     // stems
     fTraceStems = boolOptionsInitialValue;
@@ -1823,6 +1835,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     endl <<
     setw (fieldWidth) << "traceWholeNotes" << " : " <<
     booleanAsString (fTraceWholeNotes) <<
+    endl <<
+    setw (fieldWidth) << "traceSkipNotes" << " : " <<
+    booleanAsString (fTraceSkipNotes) <<
     endl <<
 
     // stems

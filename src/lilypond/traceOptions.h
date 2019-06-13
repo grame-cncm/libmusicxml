@@ -194,6 +194,7 @@ class traceOptions : public optionsGroup
     bool                  fTraceNotes;
     bool                  fTraceNotesDetails;
     bool                  fTraceWholeNotes;
+    bool                  fTraceSkipNotes;
 
     // stems
     bool                  fTraceStems;

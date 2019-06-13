@@ -24,6 +24,7 @@
 #endif
 
 #include "msrOptions.h"
+#include "lpsrOptions.h"
 
 #include "messagesHandling.h"
 
@@ -50,12 +51,12 @@ msrPageGeometry::msrPageGeometry (
 {
   fPaperWidth   = 21.0; // cm
   fPaperHeight  = 29.7; // cm
-  
+
   fTopMargin    = -1.0; // cm
   fBottomMargin = -1.0; // cm
   fLeftMargin   = -1.0; // cm
   fRightMargin  = -1.0; // cm
-    
+
   fBetweenSystemSpace = -1.0; // cm
   fPageTopSpace       = -1.0; // cm
 
@@ -72,12 +73,12 @@ S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
     newbornClone =
       msrPageGeometry::create (
         fInputLineNumber);
-    
+
   newbornClone->fPaperWidth =
     fPaperWidth;
   newbornClone->fPaperHeight =
     fPaperHeight;
-  
+
   newbornClone->fTopMargin =
     fTopMargin;
   newbornClone->fBottomMargin =
@@ -101,29 +102,11 @@ S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
 }
 
 float msrPageGeometry::globalStaffSize () const
-{  
-  const float lilyPondDefaultStaffSize = 20.0;
+{
+  const float lilyPondDefaultStaffSize =
+    gLpsrOptions->fGlobalStaffSize;
+
   const float defaultTenthsToMillimetersRatio = 0.175;
-
-  /*
-        mm = scaling.get_named_child('millimeters')
-        mm = float(mm.get_text ())
-        tn = scaling.get_maybe_exist_named_child('tenths')
-        tn = float(tn.get_text ())
-        # The variable 'tenths' is actually a ratio, NOT the value of <tenths>.
-        # TODO: rename and replace.
-        tenths = mm / tn
-        ratio = tenths / default_tenths_to_millimeters_ratio
-        staff_size = default_staff_size * ratio
-
-        if 1 < staff_size < 100:
-            paper.global_staff_size = staff_size
-        else:
-            msg = "paper.global_staff_size {} is too large, using defaults=20".format(
-                staff_size)
-            warnings.warn(msg)
-            paper.global_staff_size = 20
-   */
 
   float millimetersOverTenths = fMillimeters / fTenths;
   float ratio = millimetersOverTenths / defaultTenthsToMillimetersRatio;
@@ -153,11 +136,11 @@ float msrPageGeometry::globalStaffSize () const
       "staffSize" << " : " <<
       staffSize <<
       endl;
-    
+
     gIndenter--;
   }
 #endif
-  
+
   if (staffSize < 1.0 || staffSize > 100.0) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceGeometry) {
@@ -177,7 +160,7 @@ float msrPageGeometry::globalStaffSize () const
 
     staffSize = lilyPondDefaultStaffSize;
   }
-    
+
   return staffSize;
 }
 
@@ -188,12 +171,12 @@ void msrPageGeometry::acceptIn (basevisitor* v)
       "% ==> msrPageGeometry::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_msrPageGeometry>*
     p =
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
-        
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPageGeometry::visitStart ()" <<
@@ -215,7 +198,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
-      
+
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPageGeometry::visitEnd ()" <<
@@ -239,9 +222,9 @@ void msrPageGeometry::print (ostream& os) {
     endl;
 
   bool emptyGeometry = true;
-  
+
   gIndenter++;
-  
+
   const int fieldWidth = 13;
 
   if (fPaperWidth > 0) {
@@ -253,7 +236,7 @@ void msrPageGeometry::print (ostream& os) {
 
     emptyGeometry = false;
   }
-  
+
   if (fPaperHeight > 0) {
     os << left <<
       setw (fieldWidth) <<
@@ -263,7 +246,7 @@ void msrPageGeometry::print (ostream& os) {
 
     emptyGeometry = false;
   }
-  
+
   if (fTopMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
@@ -273,7 +256,7 @@ void msrPageGeometry::print (ostream& os) {
 
     emptyGeometry = false;
   }
-  
+
   if (fBottomMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
@@ -283,7 +266,7 @@ void msrPageGeometry::print (ostream& os) {
 
     emptyGeometry = false;
   }
-  
+
   if (fLeftMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
@@ -293,7 +276,7 @@ void msrPageGeometry::print (ostream& os) {
 
     emptyGeometry = false;
   }
-  
+
   if (fRightMargin > 0) {
     os << left <<
       setw (fieldWidth) <<
@@ -335,7 +318,7 @@ void msrPageGeometry::print (ostream& os) {
     os <<
       endl;
   }
-  
+
   gIndenter--;
 }
 

@@ -275,9 +275,12 @@ void msrTuplet::addNoteToTuplet (
     note->getNoteDisplayWholeNotes ();
   fTupletDisplayWholeNotes.rationalise ();
 
-  // populate note's position in measure
+  // DON'T set the note's position in measure,
+  // the tuplet may not have been added to a measure yet
+  /* JMI
   note->setNotePositionInMeasure (
     fPositionInMeasure);
+  */
 }
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
