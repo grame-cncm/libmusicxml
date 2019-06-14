@@ -122,96 +122,6 @@ ostream& operator<< (ostream& os, const S_optionsLpsrScoreOutputKindItem& elt)
 }
 
 //______________________________________________________________________________
-S_optionsLpsrOctaveEntryKindItem optionsLpsrOctaveEntryKindItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  string             optionsValueSpecification,
-  string             optionsLpsrOctaveEntryKindKindItemVariableDisplayName,
-  lpsrOctaveEntryKind&
-                     optionsLpsrOctaveEntryKindKindItemVariable)
-{
-  optionsLpsrOctaveEntryKindItem* o = new
-    optionsLpsrOctaveEntryKindItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsValueSpecification,
-      optionsLpsrOctaveEntryKindKindItemVariableDisplayName,
-      optionsLpsrOctaveEntryKindKindItemVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsLpsrOctaveEntryKindItem::optionsLpsrOctaveEntryKindItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  string             optionsValueSpecification,
-  string             optionsLpsrOctaveEntryKindKindItemVariableDisplayName,
-  lpsrOctaveEntryKind&
-                     optionsLpsrOctaveEntryKindKindItemVariable)
-  : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsLpsrOctaveEntryKindKindItemVariableDisplayName (
-      optionsLpsrOctaveEntryKindKindItemVariableDisplayName),
-    fOptionsLpsrOctaveEntryKindKindItemVariable (
-      optionsLpsrOctaveEntryKindKindItemVariable)
-{}
-
-optionsLpsrOctaveEntryKindItem::~optionsLpsrOctaveEntryKindItem ()
-{}
-
-void optionsLpsrOctaveEntryKindItem::print (ostream& os) const
-{
-  const int fieldWidth = K_FIELD_WIDTH;
-
-  os <<
-    "OptionsLpsrOctaveEntryKindItem:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedItemEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
-    fOptionsLpsrOctaveEntryKindKindItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsLpsrOctaveEntryKindItemVariable" << " : \"" <<
-    lpsrOctaveEntryKindAsString (
-      fOptionsLpsrOctaveEntryKindKindItemVariable) <<
-      "\"" <<
-    endl;
-}
-
-void optionsLpsrOctaveEntryKindItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsLpsrOctaveEntryKindKindItemVariableDisplayName <<
-    " : \"" <<
-    lpsrOctaveEntryKindAsString (
-      fOptionsLpsrOctaveEntryKindKindItemVariable) <<
-    "\"" <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_optionsLpsrOctaveEntryKindItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
 S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -696,53 +606,6 @@ The default is 'DEFAULT_VALUE'.)",
         fGlobalStaffSize));
 }
 
-void lpsrOptions::initializeLpsrOctaveEntryKindOptions (
-  bool boolOptionsInitialValue)
-{
-  // variables
-
-  const lpsrOctaveEntryKind
-    lpsrOctaveEntryKindDefaultValue =
-      kOctaveEntryRelative; // default value
-
-  fOctaveEntryKind = lpsrOctaveEntryKindDefaultValue;
-
-  // options
-
-  S_optionsSubGroup
-    lilypondOutputKindSubGroup =
-      optionsSubGroup::create (
-        "Octaves entry",
-        "hoc", "help-octave-entry",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-  appendOptionsSubGroup (lilypondOutputKindSubGroup);
-
-  lilypondOutputKindSubGroup->
-    appendOptionsItem (
-      optionsLpsrOctaveEntryKindItem::create (
-        "lpoc", "lpsr-octave-entry",
-        replaceSubstringInString (
-          replaceSubstringInString (
-            replaceSubstringInString (
-R"(Use OCTAVE_ENTRY_KIND in the generated LilyPond code.
-The NUMBER octave entry kinds available are:
-OCTAVE_ENTRY_KINDS.
-The default is 'DEFAULT_VALUE'.)",
-              "NUMBER",
-              to_string (gLpsrOctaveEntryKindsMap.size ())),
-            "OCTAVE_ENTRY_KINDS",
-            existingLpsrOctaveEntryKinds ()),
-          "DEFAULT_VALUE",
-          lpsrOctaveEntryKindAsString (
-            lpsrOctaveEntryKindDefaultValue)),
-        "OCTAVE_ENTRY_KIND",
-        "octaveEntryKind",
-        fOctaveEntryKind));
-}
-
 void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
   bool boolOptionsInitialValue)
 {
@@ -965,11 +828,6 @@ void lpsrOptions::initializeLpsrOptions (
   initializeLpsrScoreOutputKindOptions (
     boolOptionsInitialValue);
 
-  // octave entry kinds
-  // --------------------------------------
-  initializeLpsrOctaveEntryKindOptions (
-    boolOptionsInitialValue);
-
   // lyrics versus words
   // --------------------------------------
   initializeLpsrLyricsVersusWordsOptions (
@@ -1038,12 +896,6 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   clone->fScoreOutputKind =
     fScoreOutputKind;
-
-  // octave entry kinds
-  // --------------------------------------
-
-  clone->fOctaveEntryKind =
-    fOctaveEntryKind;
 
   // lyrics vs words
   // --------------------------------------
@@ -1209,22 +1061,6 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  // octave entry kinds
-  // --------------------------------------
-
-  gLogIOstream <<
-    "Octave entry kind:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "octaveEntryKind" << " : " <<
-    lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
-    endl;
-
-  gIndenter--;
-
   // lyrics vs words
   // --------------------------------------
 
@@ -1316,24 +1152,6 @@ S_optionsItem lpsrOptions::handleOptionsItem (
 
     // wait until the value is met
     result = scoreOutputKindItem;
-  }
-
-  else if (
-    // octave entry kind item?
-    S_optionsLpsrOctaveEntryKindItem
-      octaveEntryKindItem =
-        dynamic_cast<optionsLpsrOctaveEntryKindItem*>(&(*item))
-    ) {
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsLpsrOctaveEntryKindItem'" <<
-        endl;
-    }
-#endif
-
-    // wait until the value is met
-    result = octaveEntryKindItem;
   }
 
   else if (
@@ -1460,61 +1278,6 @@ void lpsrOptions::handleOptionsLpsrScoreOutputKindItemValue (
 
   scoreOutputKindItem->
     setScoreOutputKindKindItemVariableValue (
-      (*it).second);
-}
-
-void lpsrOptions::handleOptionsLpsrOctaveEntryKindItemValue (
-  ostream&                         os,
-  S_optionsLpsrOctaveEntryKindItem octaveEntryKindItem,
-  string                           theString)
-{
-  // theString contains the score output kind:
-  // is it in the score output kinds map?
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
-    os <<
-      "==> optionsItem is of type 'optionsLpsrOctaveEntryKindItem'" <<
-      endl;
-  }
-#endif
-
-  map<string, lpsrOctaveEntryKind>::const_iterator
-    it =
-      gLpsrOctaveEntryKindsMap.find (
-        theString);
-
-  if (it == gLpsrOctaveEntryKindsMap.end ()) {
-    // no, octave entry kind is unknown in the map
-
-    printHelpSummary (os);
-
-    stringstream s;
-
-    s <<
-      "octave entry kind '" << theString <<
-      "' is unknown" <<
-      endl <<
-      "The " <<
-      gLpsrOctaveEntryKindsMap.size () <<
-      " known octave entry kinds are:" <<
-      endl;
-
-    gIndenter++;
-
-    s <<
-      existingLpsrOctaveEntryKinds ();
-
-    gIndenter--;
-
-    optionError (s.str ());
-
-//     exit (4); // JMI
-    abort ();
-  }
-
-  octaveEntryKindItem->
-    setOctaveEntryKindKindItemVariableValue (
       (*it).second);
 }
 
@@ -1786,18 +1549,6 @@ void lpsrOptions::handleOptionsItemValue (
     handleOptionsLpsrScoreOutputKindItemValue (
       os,
       scoreOutputKindItem,
-      theString);
-  }
-
-  else if (
-    // octave entry kind item?
-    S_optionsLpsrOctaveEntryKindItem
-      octaveEntryKindItem =
-        dynamic_cast<optionsLpsrOctaveEntryKindItem*>(&(*item))
-  ) {
-    handleOptionsLpsrOctaveEntryKindItemValue (
-      os,
-      octaveEntryKindItem,
       theString);
   }
 

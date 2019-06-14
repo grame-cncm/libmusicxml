@@ -2057,10 +2057,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
 
       if (
         // combined items item?
-        S_optionsCombinedItemsItem
-          combinedItemsItem =
-            dynamic_cast<optionsCombinedItemsItem*>(&(*cubaseOptionsElement))
-        ) {
+        S_optionsCombinedBooleanItemsItem
+          combinedBooleanItemsItem =
+            dynamic_cast<optionsCombinedBooleanItemsItem*>(&(*cubaseOptionsElement))
+      ) {
         // handle it at once
 #ifdef TRACE_OPTIONS
         if (gTraceOptions->fTraceOptions) {
@@ -2070,8 +2070,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_software& elt )
         }
 #endif
 
-        combinedItemsItem->
-          setCombinedItemsVariablesValue (true);
+        combinedBooleanItemsItem->
+          setCombinedBooleanItemsVariablesValue (true);
       }
 
       gMusicXMLOptions->fCubase = true;

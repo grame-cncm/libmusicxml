@@ -255,9 +255,9 @@ R"()",
   appendOptionsSubGroup (combinedOptionsSubGroup);
 
   // create the 'cubase' combined item
-  S_optionsCombinedItemsItem
-    cubaseCombinedItemsItem =
-      optionsCombinedItemsItem::create (
+  S_optionsCombinedBooleanItemsItem
+    cubaseCombinedBooleanItemsItem =
+      optionsCombinedBooleanItemsItem::create (
         "cubase", "",
 R"(Useful settings for MusicXML data exported from Cubase.
 This option is set by default, and can be unset by 'noCubase'.)",
@@ -266,21 +266,21 @@ This option is set by default, and can be unset by 'noCubase'.)",
 
   combinedOptionsSubGroup->
     appendOptionsItem (
-      cubaseCombinedItemsItem);
+      cubaseCombinedBooleanItemsItem);
 
   // set the '-cubase' option by default
-  cubaseCombinedItemsItem->
-    setCombinedItemsVariablesValue (fCubase);
+  cubaseCombinedBooleanItemsItem->
+    setCombinedBooleanItemsVariablesValue (fCubase);
 
   // populate the combined items
-  cubaseCombinedItemsItem->
-    appendOptionsItemToCombinedItemsList (
+  cubaseCombinedBooleanItemsItem->
+    appendOptionsItemToCombinedBooleanItemsList (
       fIgnoreRedundantClefsItem);
-  cubaseCombinedItemsItem->
-    appendOptionsItemToCombinedItemsList (
+  cubaseCombinedBooleanItemsItem->
+    appendOptionsItemToCombinedBooleanItemsList (
       fIgnoreRedundantKeysItem);
-  cubaseCombinedItemsItem->
-    appendOptionsItemToCombinedItemsList (
+  cubaseCombinedBooleanItemsItem->
+    appendOptionsItemToCombinedBooleanItemsList (
       fIgnoreRedundantTimesItem);
 
   // create the '-noCubase' item

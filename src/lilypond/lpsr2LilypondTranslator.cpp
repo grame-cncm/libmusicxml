@@ -36,27 +36,6 @@ namespace MusicXML2
 const int commentFieldWidth = 30;
 
 //______________________________________________________________________________
-string lilypondOctavesModeAsString (
-  lilypondOctavesMode octavesMode)
-{
-  string result;
-
-  switch (octavesMode) {
-    case kLilypondOctavesModeAbsolute: // default value
-      result = "lilypondOctavesModeAbsolute";
-      break;
-    case kLilypondOctavesModeRelative:
-      result = "lilypondOctavesModeRelative";
-      break;
-    case kLilypondOctavesModeFixed:
-      result = "lilypondOctavesModeFixed";
-      break;
-  } // switch
-
-  return result;
-}
-
-//______________________________________________________________________________
 S_lpsrRepeatDescr lpsrRepeatDescr::create (
   int repeatEndingsNumber)
 {
@@ -487,7 +466,7 @@ string lpsr2LilypondTranslator::lilypondRelativeModeOctave (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::lilypondFixedModeOctave (
+string lpsr2LilypondTranslator::lilypondFixedModeOctave ( // JMI
   S_msrNote note)
 {
   int inputLineNumber =
@@ -726,10 +705,25 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     note->getNoteOctave ();
 
   // should an absolute octave be generated?
+  /* OLD
   bool generateAbsoluteOctave =
     gLilypondOptions->fAbsoluteOctaves
       ||
     ! fRelativeOctaveReference;
+    */
+  bool generateAbsoluteOctave = false;
+
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      generateAbsoluteOctave = ! fRelativeOctaveReference;
+      break;
+    case kOctaveEntryAbsolute:
+      generateAbsoluteOctave = true;
+      break;
+    case kOctaveEntryFixed:
+      generateAbsoluteOctave = ! fRelativeOctaveReference; // JMI ???
+      break;
+  } // switch
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
@@ -765,31 +759,41 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       " = " <<
       noteAbsoluteDisplayOctave <<
       endl <<
+
+      setw (fieldWidth) <<
+      "% generateAbsoluteOctave" <<
+      " = " <<
+      booleanAsString (generateAbsoluteOctave) <<
+      endl <<
       endl;
   }
 #endif
 
-  switch (fLilypondOctavesMode) {
-    case kLilypondOctavesModeAbsolute:
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      if (! fRelativeOctaveReference) {
+        // generate LilyPond absolute octave
+        s <<
+          absoluteOctaveAsLilypondString (
+            noteAbsoluteOctave);
+      }
+/*
+      // generate LilyPond octave relative to fRelativeOctaveReference
+      s <<
+        lilypondRelativeModeOctave (note);
+      */
       break;
-    case kLilypondOctavesModeRelative:
+    case kOctaveEntryAbsolute:
+      // generate LilyPond octave relative to fRelativeOctaveReference
+      s <<
+        lilypondRelativeModeOctave (note);
       break;
-    case kLilypondOctavesModeFixed:
+    case kOctaveEntryFixed:
+      // generate LilyPond octave relative to fRelativeOctaveReference // JMI
+      s <<
+        lilypondFixedModeOctave (note);
       break;
   } // switch
-
-  if (generateAbsoluteOctave) {
-    // generate LilyPond absolute octave
-    s <<
-      absoluteOctaveAsLilypondString (
-        noteAbsoluteOctave);
-  }
-
-  else {
-    // generate LilyPond octave relative to fRelativeOctaveReference
-    s <<
-      lilypondRelativeModeOctave (note);
-  }
 
   // should an accidental be generated? JMI this can be fine tuned with cautionary
   switch (note->getNoteAccidentalKind ()) {
@@ -882,17 +886,17 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 //    quarterTonesDisplayPitchAsString;
 
   // should an absolute octave be generated?
-  bool generateAbsoluteOctave =
-    gLilypondOptions->fAbsoluteOctaves
-      ||
-    ! fRelativeOctaveReference;
+  bool generateAbsoluteOctave = false;
 
-  switch (fLilypondOctavesMode) {
-    case kLilypondOctavesModeAbsolute:
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      generateAbsoluteOctave = ! fRelativeOctaveReference;
       break;
-    case kLilypondOctavesModeRelative:
+    case kOctaveEntryAbsolute:
+      generateAbsoluteOctave = true;
       break;
-    case kLilypondOctavesModeFixed:
+    case kOctaveEntryFixed:
+      generateAbsoluteOctave = ! fFixedOctaveReference; // JMI ???
       break;
   } // switch
 
@@ -934,22 +938,34 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       " = " <<
       noteAbsoluteDisplayOctave <<
       endl <<
+
+      setw (fieldWidth) <<
+      "% generateAbsoluteOctave" <<
+      " = " <<
+      booleanAsString (generateAbsoluteOctave) <<
+      endl <<
       endl;
   }
 #endif
 
-  if (generateAbsoluteOctave) {
-    // generate LilyPond absolute octave
-    s <<
-      absoluteOctaveAsLilypondString (
-        noteAbsoluteDisplayOctave);
-  }
-
-  else {
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
     // generate LilyPond octave relative to fRelativeOctaveReference
     s <<
       lilypondRelativeModeOctave (note);
-  }
+      break;
+    case kOctaveEntryAbsolute:
+      // generate LilyPond absolute octave
+      s <<
+        absoluteOctaveAsLilypondString (
+          noteAbsoluteDisplayOctave);
+      break;
+    case kOctaveEntryFixed:
+      // generate LilyPond octave relative to fFixedOctaveReference
+      s <<
+        lilypondFixedModeOctave (note);
+      break;
+  } // switch
 
   // generate the skip duration
   s <<
@@ -4744,18 +4760,29 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
 
   gIndenter++;
 
+  // score context
   fLilypondCodeIOstream <<
     "\\context {" <<
     endl <<
     gTab << "\\Score" <<
-    endl;
-
-  fLilypondCodeIOstream <<
+    endl <<
     gTab << "autoBeaming = ##f % to display tuplets brackets" <<
     endl <<
-
     "}" <<
     endl;
+
+  // voice context
+  if (gLilypondOptions->fAmbitusEngraver) {
+    fLilypondCodeIOstream <<
+      "\\context {" <<
+      endl <<
+      gTab << "\\Voice" <<
+      endl <<
+      gTab << "\\consists \"Ambitus_engraver\"" <<
+      endl <<
+      "}" <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
@@ -6569,18 +6596,25 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   // generate the beginning of the voice definition
   switch (fCurrentVoice->getVoiceKind ()) {
-
     case msrVoice::kVoiceRegular:
-      if (gLilypondOptions->fAbsoluteOctaves) {
-        fLilypondCodeIOstream <<
-          "{" <<
-          endl;
-      }
-      else {
-        fLilypondCodeIOstream <<
-          "\\relative {" <<
-          endl;
-      }
+      switch (gLilypondOptions->fOctaveEntryKind) {
+        case kOctaveEntryRelative:
+          fLilypondCodeIOstream <<
+            "\\relative";
+          break;
+        case kOctaveEntryAbsolute:
+          fLilypondCodeIOstream <<
+            "\\absolute";
+          break;
+        case kOctaveEntryFixed:
+          fLilypondCodeIOstream <<
+            "\\fixed";
+          break;
+      } // switch
+
+      fLilypondCodeIOstream <<
+        " {" <<
+        endl;
       break;
 
     case msrVoice::kVoiceHarmony:

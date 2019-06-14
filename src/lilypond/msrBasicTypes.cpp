@@ -17139,6 +17139,97 @@ ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
 }
 
 //______________________________________________________________________________
+S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::create (
+  msrSemiTonesPitchKind semitonePitchKind,
+  int                   absoluteOctave)
+{
+  msrSemiTonesPitchAndAbsoluteOctave* o =
+    new msrSemiTonesPitchAndAbsoluteOctave (
+      semitonePitchKind,
+      absoluteOctave);
+  assert(o!=0);
+
+  return o;
+}
+
+msrSemiTonesPitchAndAbsoluteOctave::msrSemiTonesPitchAndAbsoluteOctave (
+  msrSemiTonesPitchKind semitonePitchKind,
+  int                   absoluteOctave)
+{
+  fSemitonePitchKind = semitonePitchKind;
+
+  fAbsoluteOctave = absoluteOctave;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChordsDetails) {
+    gLogIOstream <<
+      "==> Creating chord item '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+}
+
+msrSemiTonesPitchAndAbsoluteOctave::~msrSemiTonesPitchAndAbsoluteOctave ()
+{}
+
+S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::createSemiTonesPitchAndAbsoluteOctaveNewbornClone ()
+{
+  S_msrSemiTonesPitchAndAbsoluteOctave
+    newbornClone =
+      msrSemiTonesPitchAndAbsoluteOctave::create (
+        fSemitonePitchKind,
+        fAbsoluteOctave);
+
+  return newbornClone;
+}
+
+string msrSemiTonesPitchAndAbsoluteOctave::asString () const
+{
+  stringstream s;
+
+  const int fieldWidth = 19;
+
+  s << left <<
+    "SemiTonesPitchAndAbsoluteOctave" <<
+    ": " <<
+    setw (fieldWidth) <<
+    msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    ", absoluteOctave: " << fAbsoluteOctave;
+
+  return s.str ();
+}
+
+void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os)
+{
+  os <<
+    "SemiTonesPitchAndAbsoluteOctave" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "semitonePitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "absoluteOctave" << " : " << fAbsoluteOctave <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndAbsoluteOctave& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::create (
   msrSemiTonesPitchKind semitonePitchKind,
   int                   relativeOctave)

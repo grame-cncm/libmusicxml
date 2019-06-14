@@ -983,6 +983,79 @@ class msrChordStructure : public smartable
 typedef SMARTP<msrChordStructure> S_msrChordStructure;
 EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
 
+// semi-tone pitches and absolute octave
+//______________________________________________________________________________
+class msrSemiTonesPitchAndAbsoluteOctave : public smartable
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSemiTonesPitchAndAbsoluteOctave> create (
+      msrSemiTonesPitchKind semitonePitchKind,
+      int                   absoluteOctave);
+
+    SMARTP<msrSemiTonesPitchAndAbsoluteOctave> createSemiTonesPitchAndAbsoluteOctaveNewbornClone ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchAndAbsoluteOctave (
+      msrSemiTonesPitchKind semitonePitchKind,
+      int                   absoluteOctave);
+
+    virtual ~msrSemiTonesPitchAndAbsoluteOctave ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchKind getSemitonePitchKind () const
+                              { return fSemitonePitchKind; }
+
+    void                  incrementAbsoluteOctave ()
+                              { fAbsoluteOctave++; }
+
+    void                  decrementAbsoluteOctave ()
+                              { fAbsoluteOctave--; }
+
+    int                   getAbsoluteOctave () const
+                              { return fAbsoluteOctave; }
+
+    // services
+    // ------------------------------------------------------
+
+
+    string                semitonePitchKindAsString () const;
+    string                semitonePitchKindAsShortString () const;
+
+    string                asString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+  public:
+
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchKind fSemitonePitchKind;
+
+    int                   fAbsoluteOctave;
+};
+typedef SMARTP<msrSemiTonesPitchAndAbsoluteOctave> S_msrSemiTonesPitchAndAbsoluteOctave;
+EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndAbsoluteOctave& elt);
+
 // semi-tone pitches and relative octave
 //______________________________________________________________________________
 class msrSemiTonesPitchAndRelativeOctave : public smartable

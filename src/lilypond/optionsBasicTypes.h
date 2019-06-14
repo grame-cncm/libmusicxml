@@ -315,33 +315,33 @@ EXP ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
 
 // options combined items items
 //______________________________________________________________________________
-class optionsCombinedItemsItem : public optionsItem
+class optionsCombinedBooleanItemsItem : public optionsItem
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsCombinedItemsItem> create (
+    static SMARTP<optionsCombinedBooleanItemsItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
-      string optionsCombinedItemsItemVariableDisplayName,
-      bool&  optionsCombinedItemsItemVariable);
+      string optionsCombinedBooleanItemsItemVariableDisplayName,
+      bool&  optionsCombinedBooleanItemsItemVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsCombinedItemsItem (
+    optionsCombinedBooleanItemsItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
-      string optionsCombinedItemsItemVariableDisplayName,
-      bool&  optionsCombinedItemsItemVariable);
+      string optionsCombinedBooleanItemsItemVariableDisplayName,
+      bool&  optionsCombinedBooleanItemsItemVariable);
 
-    virtual ~optionsCombinedItemsItem ();
+    virtual ~optionsCombinedBooleanItemsItem ();
 
   public:
 
@@ -349,29 +349,29 @@ class optionsCombinedItemsItem : public optionsItem
     // ------------------------------------------------------
 
     const list<S_optionsItem>&
-                          getOptionsCombinedItemsList ()
+                          getOptionsCombinedBooleanItemsList ()
                               {
                                 return
-                                  fOptionsCombinedItemsList;
+                                  fOptionsCombinedBooleanItemsList;
                               }
 
 /*
-    void                  setCombinedItemsItemVariableValue (
+    void                  setCombinedBooleanItemsItemVariableValue (
                             set<int> value)
                               {
-                                fOptionsCombinedItemsItemVariable = value;
+                                fOptionsCombinedBooleanItemsItemVariable = value;
                               }
 */
     // services
     // ------------------------------------------------------
 
-    void                  appendOptionsItemToCombinedItemsList (
+    void                  appendOptionsItemToCombinedBooleanItemsList (
                             S_optionsItem optionsItem);
 
-    void                  appendOptionsItemToCombinedItemsList (
+    void                  appendOptionsItemToCombinedBooleanItemsList (
                             string optionsItemName);
 
-    void                  setCombinedItemsVariablesValue (
+    void                  setCombinedBooleanItemsVariablesValue (
                             bool value);
 
     // print
@@ -390,14 +390,14 @@ class optionsCombinedItemsItem : public optionsItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsCombinedItemsItemVariableDisplayName;
-    bool&                 fOptionsCombinedItemsItemVariable;
+    string                fOptionsCombinedBooleanItemsItemVariableDisplayName;
+    bool&                 fOptionsCombinedBooleanItemsItemVariable;
 
     list<S_optionsItem>
-                          fOptionsCombinedItemsList;
+                          fOptionsCombinedBooleanItemsList;
 };
-typedef SMARTP<optionsCombinedItemsItem> S_optionsCombinedItemsItem;
-EXP ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt);
+typedef SMARTP<optionsCombinedBooleanItemsItem> S_optionsCombinedBooleanItemsItem;
+EXP ostream& operator<< (ostream& os, const S_optionsCombinedBooleanItemsItem& elt);
 
 // options boolean items
 //______________________________________________________________________________
@@ -1681,8 +1681,8 @@ class EXP optionsHandler : public optionsElement
                             S_optionsHelpSummaryItem helpSummaryItem,
                             string                   optionsItemName);
 
-    void                  handleOptionsCombinedItemsItemName (
-                            S_optionsCombinedItemsItem combinedItemsItem,
+    void                  handleOptionsCombinedBooleanItemsItemName (
+                            S_optionsCombinedBooleanItemsItem combinedBooleanItemsItem,
                             string                     optionsItemName);
 
     void                  handleOptionsBooleanItemItemName (

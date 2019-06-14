@@ -22,6 +22,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "lpsrOptions.h"
 #include "lilypondOptions.h"
 
 
@@ -115,6 +116,192 @@ void optionsScoreOutputKindItem::printOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsLilypondOctaveEntryKindItem optionsLilypondOctaveEntryKindItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+  lpsrOctaveEntryKind&
+                     optionsLilypondOctaveEntryKindKindItemVariable)
+{
+  optionsLilypondOctaveEntryKindItem* o = new
+    optionsLilypondOctaveEntryKindItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+      optionsLilypondOctaveEntryKindKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsLilypondOctaveEntryKindItem::optionsLilypondOctaveEntryKindItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+  lpsrOctaveEntryKind&
+                     optionsLilypondOctaveEntryKindKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName (
+      optionsLilypondOctaveEntryKindKindItemVariableDisplayName),
+    fOptionsLilypondOctaveEntryKindKindItemVariable (
+      optionsLilypondOctaveEntryKindKindItemVariable)
+{}
+
+optionsLilypondOctaveEntryKindItem::~optionsLilypondOctaveEntryKindItem ()
+{}
+
+void optionsLilypondOctaveEntryKindItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "OptionsLilypondOctaveEntryKindItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
+    fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsLilypondOctaveEntryKindItemVariable" << " : \"" <<
+    lpsrOctaveEntryKindAsString (
+      fOptionsLilypondOctaveEntryKindKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsLilypondOctaveEntryKindItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName <<
+    " : \"" <<
+    lpsrOctaveEntryKindAsString (
+      fOptionsLilypondOctaveEntryKindKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsLilypondOctaveEntryKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsOctaveEntryReferenceItem optionsOctaveEntryReferenceItem::create (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsOctaveEntryReferenceItemVariableDisplayName,
+  S_msrSemiTonesPitchAndRelativeOctave&
+          optionsOctaveEntryReferenceItemVariable)
+{
+  optionsOctaveEntryReferenceItem* o = new
+    optionsOctaveEntryReferenceItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsOctaveEntryReferenceItemVariableDisplayName,
+      optionsOctaveEntryReferenceItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsOctaveEntryReferenceItem::optionsOctaveEntryReferenceItem (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsOctaveEntryReferenceItemVariableDisplayName,
+  S_msrSemiTonesPitchAndRelativeOctave&
+          optionsOctaveEntryReferenceItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsTransposeItemVariableDisplayName (
+      optionsOctaveEntryReferenceItemVariableDisplayName),
+    fOptionsTransposeItemVariable (
+      optionsOctaveEntryReferenceItemVariable)
+{}
+
+optionsOctaveEntryReferenceItem::~optionsOctaveEntryReferenceItem ()
+{}
+
+void optionsOctaveEntryReferenceItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+
+  os <<
+    "optionsOctaveEntryReferenceItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsOctaveEntryReferenceItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    "msrSemiTonesPitchAndRelativeOctave" <<
+    " : ";
+  if (fOptionsTransposeItemVariable) {
+    os <<
+      endl;
+    gIndenter++;
+    os <<
+      fOptionsTransposeItemVariable;
+    gIndenter--;
+  }
+  else {
+    os <<
+      "none" <<
+      endl;
+  }
+}
+
+ostream& operator<< (ostream& os, const S_optionsOctaveEntryReferenceItem& elt)
 {
   elt->print (os);
   return os;
@@ -501,6 +688,33 @@ R"(Set 'copyright' to STRING in the \header.)",
         fCopyright));
 }
 
+void lilypondOptions::initializeLilypondEngraversOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  fAmbitusEngraver = boolOptionsInitialValue;
+
+  S_optionsSubGroup
+    engraversSubGroup =
+      optionsSubGroup::create (
+        "Engravers",
+        "hlpe", "help-lilypond-engravers",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (engraversSubGroup);
+
+  engraversSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "ambitus", "",
+R"(Generate an ambitus range at the beginning of the staves/voices.)",
+        "ambitusEngraver",
+        fAmbitusEngraver));
+}
+
 void lilypondOptions::initializeLilypondTimeOptions (
   bool boolOptionsInitialValue)
 {
@@ -528,12 +742,22 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
         fNumericalTime));
 }
 
-void lilypondOptions::initializeLilypondNoteOptions (
+void lilypondOptions::initializeLilypondNotesOptions (
   bool boolOptionsInitialValue)
 {
   // variables
 
-  fAbsoluteOctaves  = boolOptionsInitialValue;
+  lpsrOctaveEntryKind
+    octaveEntryKindDefaultValue =
+      kOctaveEntryRelative; // LilyPond default value
+  fOctaveEntryKind = octaveEntryKindDefaultValue;
+
+  S_msrSemiTonesPitchAndAbsoluteOctave
+    semiTonesPitchAndAbsoluteOctaveDefaultValue =
+      msrSemiTonesPitchAndAbsoluteOctave::create ( // middle C
+        kC_Natural_STP, 4);
+  fSemiTonesPitchAndAbsoluteOctave  =
+    semiTonesPitchAndAbsoluteOctaveDefaultValue;
 
   fAllDurations  = boolOptionsInitialValue;
 
@@ -566,12 +790,25 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsBooleanItem::create (
-        "abs", "absolute",
-R"(Generate LilyPond absolute note octaves.
-By default, relative octaves are generated.)",
-        "absoluteOctaves",
-        fAbsoluteOctaves));
+      optionsLilypondOctaveEntryKindItem::create (
+        "oe", "octave-entry",
+          replaceSubstringInString (
+            replaceSubstringInString (
+              replaceSubstringInString (
+R"(Use OCTAVE_ENTRY_KIND in the generated LilyPond code.
+The NUMBER LilyPond octave entry kinds available are:
+OCTAVE_ENTRY_KINDS.
+The default is 'DEFAULT_VALUE'.)",
+              "NUMBER",
+              to_string (gLpsrOctaveEntryKindsMap.size ())),
+            "OCTAVE_ENTRY_KINDS",
+            existingLpsrOctaveEntryKinds ()),
+          "DEFAULT_VALUE",
+          lpsrOctaveEntryKindAsString (
+            octaveEntryKindDefaultValue)),
+        "OCTAVE_ENTRY_KIND",
+        "octaveEntryKind",
+        fOctaveEntryKind));
 
   notesSubGroup->
     appendOptionsItem (
@@ -780,9 +1017,10 @@ void lilypondOptions::initializeLilypondStavesOptions (
 
   fModernTab = boolOptionsInitialValue;
 
+  fKeepStaffSize = boolOptionsInitialValue;
+
   // options
 
-/* JMI ???
   S_optionsSubGroup
     stavesSubGroup =
       optionsSubGroup::create (
@@ -801,7 +1039,14 @@ R"()",
 R"(Generate '\moderntab' instead of the default '\tab'.)",
         "modernTab",
         fModernTab));
-        */
+
+  stavesSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "kss", "keep-staff-size",
+R"(Use the staff size value found in the MusicXML data.)",
+        "keepStaffSize",
+        fKeepStaffSize));
 }
 
 void lilypondOptions::initializeLilypondChordsOptions (
@@ -827,7 +1072,7 @@ R"()",
   chordsSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
-        "carpeg", "connect-arpeggios",
+        "conarp", "connect-arpeggios",
 R"(Connect arpeggios across piano staves.)",
         "connectArpeggios",
         fConnectArpeggios));
@@ -858,7 +1103,7 @@ R"()",
       optionsBooleanItem::create (
         "itups", "indent-tuplets",
 R"(Indent tuplets notes on a line of their own,
-instead of keeping the on the same line as the current measure.)",
+instead of keeping the on one and the same line.)",
         "indentTuplets",
         fIndentTuplets));
 }
@@ -1202,6 +1447,11 @@ void lilypondOptions::initializeLilypondOptions (
   initializeLilypondIdentificationOptions (
     boolOptionsInitialValue);
 
+  // engravers
+  // --------------------------------------
+  initializeLilypondEngraversOptions (
+    boolOptionsInitialValue);
+
   // time
   // --------------------------------------
   initializeLilypondTimeOptions (
@@ -1209,7 +1459,7 @@ void lilypondOptions::initializeLilypondOptions (
 
   // notes
   // --------------------------------------
-  initializeLilypondNoteOptions (
+  initializeLilypondNotesOptions (
     boolOptionsInitialValue);
 
   // bars
@@ -1271,22 +1521,6 @@ void lilypondOptions::initializeLilypondOptions (
   // --------------------------------------
   initializeLilypondMidiOptions (
     boolOptionsInitialValue);
-
-
-  // JMI ???
-
-  fKeepStaffSize = boolOptionsInitialValue;
-
-
-  /* JMI
-  for (
-    set<string>::const_iterator i=fLilypondAccidentalStyles.begin ();
-    i!=fLilypondAccidentalStyles.end ();
-    i++
-  ) {
-      gLogIOstream << (*i) << endl;
-  } // for
-  */
 }
 
 S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
@@ -1342,6 +1576,13 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fCopyright;
 
 
+  // engravers
+  // --------------------------------------
+
+  clone->fAmbitusEngraver =
+    fAmbitusEngraver;
+
+
   // time
   // --------------------------------------
 
@@ -1352,21 +1593,19 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   // notes
   // --------------------------------------
 
-  clone->fAbsoluteOctaves =
-    fAbsoluteOctaves;
+  clone->fOctaveEntryKind =
+    fOctaveEntryKind;
 
   clone->fAllDurations =
     fAllDurations;
 
   clone->fStems =
     fStems;
-
   clone->fNoAutoBeaming =
     fNoAutoBeaming;
 
   clone->fRomanStringNumbers =
     fRomanStringNumbers;
-
   clone->fAvoidOpenStrings =
     fAvoidOpenStrings;
 
@@ -1446,11 +1685,21 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fDelayedOrnamentsFraction;
 
 
+  // fonts
+  // --------------------------------------
+
+  clone->fJazzFonts =
+    fJazzFonts;
+
+
   // code generation
   // --------------------------------------
 
+  clone->fXml2lyInfos =
+    fXml2lyInfos;
+
   clone->fComments =
-    true;
+    fComments;
 
   clone->fGlobal =
     fGlobal;
@@ -1463,6 +1712,9 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   clone->fNoLilypondLyrics =
     fNoLilypondLyrics;
+
+  clone->fLilypondCompileDate =
+    fLilypondCompileDate;
 
   clone->fPointAndClickOff =
     fPointAndClickOff;
@@ -1585,7 +1837,6 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl <<
 
   // LilyPond informations
-
     setw (fieldWidth) << "dedication" << " : " <<
       fDedication <<
       endl <<
@@ -1624,6 +1875,22 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter--;
 
 
+  // engravers
+  // --------------------------------------
+  gLogIOstream <<
+    "Engravers:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "ambitusEngraver" << " : " <<
+      booleanAsString (fAmbitusEngraver) <<
+      endl;
+
+  gIndenter--;
+
+
   // time
   // --------------------------------------
   gLogIOstream <<
@@ -1649,8 +1916,8 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "absoluteOctaves" << " : " <<
-      booleanAsString (fAbsoluteOctaves) <<
+    setw (fieldWidth) << "octaveEntryKind" << " : " <<
+      lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
       endl <<
 
     setw (fieldWidth) << "allDurations" << " : " <<
@@ -1660,7 +1927,6 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "stems" << " : " <<
       booleanAsString (fStems) <<
       endl <<
-
     setw (fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (fNoAutoBeaming) <<
       endl <<
@@ -1668,7 +1934,6 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
     setw (fieldWidth) << "romanStringNumbers" << " : " <<
       booleanAsString (fRomanStringNumbers) <<
       endl <<
-
     setw (fieldWidth) << "avoidOpenString" << " : " <<
       booleanAsString (fAvoidOpenStrings) <<
       endl <<
@@ -1861,6 +2126,10 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    setw (fieldWidth) << "xml2lyInfos" << " : " <<
+      booleanAsString (fXml2lyInfos) <<
+      endl <<
+
     setw (fieldWidth) << "comments" << " : " <<
       booleanAsString (fComments) <<
       endl <<
@@ -1905,13 +2174,11 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter++;
 
-/*
   gLogIOstream << left <<
-    setw (fieldWidth) << "scoreNotationKind" << " : " <<
-      scoreNotationKindAsString (
-        fScoreNotationKind) <<
+    setw (fieldWidth) << "fJianpu" << " : " <<
+      booleanAsString (fJianpu) <<
       endl;
-*/
+
   gIndenter--;
 
 
@@ -1924,16 +2191,26 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "midiTempoDuration" << " : " <<
-    //     fMidiTempoDuration <<
+    setw (fieldWidth) << "fMidiTempo" << " : " <<
+      fMidiTempo.first << " = " << fMidiTempo.second <<
       endl <<
 
-    setw (fieldWidth) << "midiTempoPerSecond" << " : " <<
-    //    fMidiTempoPerSecond <<
-      endl <<
-
-    setw (fieldWidth) << "noMidiCommand" << " : " <<
+    setw (fieldWidth) << "noMidi" << " : " <<
       booleanAsString (fNoMidi) <<
+      endl;
+
+  gIndenter--;
+
+
+  gLogIOstream <<
+    "Score notation:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "jianpu" << " : " <<
+      booleanAsString (fJianpu) <<
       endl;
 
   gIndenter--;
@@ -1949,6 +2226,24 @@ S_optionsItem lilypondOptions::handleOptionsItem (
   S_optionsItem result;
 
   if (
+    // octave entry kind item?
+    S_optionsLilypondOctaveEntryKindItem
+      octaveEntryKindItem =
+        dynamic_cast<optionsLilypondOctaveEntryKindItem*>(&(*item))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsLilypondOctaveEntryKindItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = octaveEntryKindItem;
+  }
+
+  else if (
     // acccidentals style item?
     S_optionsAccidentalStyleItem
       accidentalStyleItem =
@@ -1993,6 +2288,18 @@ void lilypondOptions::handleOptionsItemValue (
   string        theString)
 {
   if (
+    // octave entry kind item?
+    S_optionsLilypondOctaveEntryKindItem
+      octaveEntryKindItem =
+        dynamic_cast<optionsLilypondOctaveEntryKindItem*>(&(*item))
+  ) {
+    handleOptionsLilypondOctaveEntryKindItemValue (
+      os,
+      octaveEntryKindItem,
+      theString);
+  }
+
+  else if (
     // accidental style item?
     S_optionsAccidentalStyleItem
       accidentalStyleKindItem =
@@ -2138,6 +2445,62 @@ void lilypondOptions::handleOptionsItemValue (
     }
 #endif
   }
+}
+
+void lilypondOptions::handleOptionsLilypondOctaveEntryKindItemValue (
+  ostream&      os,
+  S_optionsLilypondOctaveEntryKindItem
+                octaveEntryKindItem,
+  string        theString)
+{
+  // theString contains the score output kind:
+  // is it in the score output kinds map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsLilypondOctaveEntryKindItem'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrOctaveEntryKind>::const_iterator
+    it =
+      gLpsrOctaveEntryKindsMap.find (
+        theString);
+
+  if (it == gLpsrOctaveEntryKindsMap.end ()) {
+    // no, octave entry kind is unknown in the map
+
+    printHelpSummary (os);
+
+    stringstream s;
+
+    s <<
+      "octave entry kind '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrOctaveEntryKindsMap.size () <<
+      " known octave entry kinds are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrOctaveEntryKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+//     exit (4); // JMI
+    abort ();
+  }
+
+  octaveEntryKindItem->
+    setOctaveEntryKindKindItemVariableValue (
+      (*it).second);
 }
 
 ostream& operator<< (ostream& os, const S_lilypondOptions& elt)

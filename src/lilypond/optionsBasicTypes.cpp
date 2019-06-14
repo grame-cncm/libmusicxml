@@ -77,7 +77,7 @@ Features:
   - a class such as optionsLpsrPitchesLanguageItem is used
     to supply a string value to be converted into an internal enumerated type.
 
-  - optionsCombinedItemsItem contains a list of items to manipulate several items as a single one,
+  - optionsCombinedBooleanItemsItem contains a list of items to manipulate several items as a single one,
     see the 'cubase' combined item in musicXMLOptions.cpp.
 
   - storing options and the corresponding help in optionsGroup's makes it easy to re-use them.
@@ -581,44 +581,44 @@ ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
 }
 
 //______________________________________________________________________________
-S_optionsCombinedItemsItem optionsCombinedItemsItem::create (
+S_optionsCombinedBooleanItemsItem optionsCombinedBooleanItemsItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
-  string optionsCombinedItemsItemVariableDisplayName,
-  bool&  optionsCombinedItemsItemVariable)
+  string optionsCombinedBooleanItemsItemVariableDisplayName,
+  bool&  optionsCombinedBooleanItemsItemVariable)
 {
-  optionsCombinedItemsItem* o = new
-    optionsCombinedItemsItem (
+  optionsCombinedBooleanItemsItem* o = new
+    optionsCombinedBooleanItemsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsCombinedItemsItemVariableDisplayName,
-      optionsCombinedItemsItemVariable);
+      optionsCombinedBooleanItemsItemVariableDisplayName,
+      optionsCombinedBooleanItemsItemVariable);
   assert(o!=0);
   return o;
 }
 
-optionsCombinedItemsItem::optionsCombinedItemsItem (
+optionsCombinedBooleanItemsItem::optionsCombinedBooleanItemsItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
-  string optionsCombinedItemsItemVariableDisplayName,
-  bool&  optionsCombinedItemsItemVariable)
+  string optionsCombinedBooleanItemsItemVariableDisplayName,
+  bool&  optionsCombinedBooleanItemsItemVariable)
   : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription),
-    fOptionsCombinedItemsItemVariableDisplayName (
-      optionsCombinedItemsItemVariableDisplayName),
-    fOptionsCombinedItemsItemVariable (
-      optionsCombinedItemsItemVariable)
+    fOptionsCombinedBooleanItemsItemVariableDisplayName (
+      optionsCombinedBooleanItemsItemVariableDisplayName),
+    fOptionsCombinedBooleanItemsItemVariable (
+      optionsCombinedBooleanItemsItemVariable)
 {}
 
-optionsCombinedItemsItem::~optionsCombinedItemsItem ()
+optionsCombinedBooleanItemsItem::~optionsCombinedBooleanItemsItem ()
 {}
 
-void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
+void optionsCombinedBooleanItemsItem::appendOptionsItemToCombinedBooleanItemsList (
   S_optionsItem optionsItem)
 {
   // sanity check
@@ -626,11 +626,11 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
     optionsItem != nullptr,
     "optionsItem is null");
 
-  fOptionsCombinedItemsList.push_back (
+  fOptionsCombinedBooleanItemsList.push_back (
     optionsItem);
 }
 
-void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
+void optionsCombinedBooleanItemsItem::appendOptionsItemToCombinedBooleanItemsList (
   string optionsItemName)
 {
   // get the options handler
@@ -676,7 +676,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
           dynamic_cast<optionsItem*>(&(*optionsElement))
       ) {
       // handle the option item
-      fOptionsCombinedItemsList.push_back (
+      fOptionsCombinedBooleanItemsList.push_back (
         item);
     }
 
@@ -694,18 +694,18 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   }
 }
 
-void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
+void optionsCombinedBooleanItemsItem::setCombinedBooleanItemsVariablesValue (
   bool value)
 {
   // set the combined items item variable
-  fOptionsCombinedItemsItemVariable = value;
+  fOptionsCombinedBooleanItemsItemVariable = value;
 
   // set the value of the items in the list
-  if (fOptionsCombinedItemsList.size ()) {
+  if (fOptionsCombinedBooleanItemsList.size ()) {
     for (
       list<S_optionsItem>::const_iterator i =
-        fOptionsCombinedItemsList.begin ();
-      i != fOptionsCombinedItemsList.end ();
+        fOptionsCombinedBooleanItemsList.begin ();
+      i != fOptionsCombinedBooleanItemsList.end ();
       i++
     ) {
       S_optionsItem
@@ -725,12 +725,12 @@ void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
   }
 }
 
-void optionsCombinedItemsItem::print (ostream& os) const
+void optionsCombinedBooleanItemsItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
 
   os <<
-    "OptionsCombinedItemsItem:" <<
+    "OptionsCombinedBooleanItemsItem:" <<
     endl;
 
   gIndenter++;
@@ -740,9 +740,9 @@ void optionsCombinedItemsItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsCombinedItemsList" << " : ";
+    "fOptionsCombinedBooleanItemsList" << " : ";
 
-  if (! fOptionsCombinedItemsList.size ()) {
+  if (! fOptionsCombinedBooleanItemsList.size ()) {
     os <<
       "none";
   }
@@ -757,8 +757,8 @@ void optionsCombinedItemsItem::print (ostream& os) const
         "'";
 
     list<S_optionsItem>::const_iterator
-      iBegin = fOptionsCombinedItemsList.begin (),
-      iEnd   = fOptionsCombinedItemsList.end (),
+      iBegin = fOptionsCombinedBooleanItemsList.begin (),
+      iEnd   = fOptionsCombinedBooleanItemsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -779,7 +779,7 @@ void optionsCombinedItemsItem::print (ostream& os) const
     endl;
 }
 
-void optionsCombinedItemsItem::printHelp (ostream& os) const
+void optionsCombinedBooleanItemsItem::printHelp (ostream& os) const
 {
   os <<
     optionsElementNames () <<
@@ -798,7 +798,7 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
   os <<
     "This combined option is equivalent to: ";
 
-  if (! fOptionsCombinedItemsList.size ()) {
+  if (! fOptionsCombinedBooleanItemsList.size ()) {
     os <<
       "none" <<
       endl;
@@ -811,8 +811,8 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
     gIndenter++;
 
     list<S_optionsItem>::const_iterator
-      iBegin = fOptionsCombinedItemsList.begin (),
-      iEnd   = fOptionsCombinedItemsList.end (),
+      iBegin = fOptionsCombinedBooleanItemsList.begin (),
+      iEnd   = fOptionsCombinedBooleanItemsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -836,16 +836,16 @@ void optionsCombinedItemsItem::printHelp (ostream& os) const
 //  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
-void optionsCombinedItemsItem::printOptionsValues (
+void optionsCombinedBooleanItemsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsCombinedItemsItemVariableDisplayName <<
+    fOptionsCombinedBooleanItemsItemVariableDisplayName <<
     " : " <<
     booleanAsString (
-      fOptionsCombinedItemsItemVariable) <<
+      fOptionsCombinedBooleanItemsItemVariable) <<
     endl;
 
   int fieldWidth =
@@ -853,7 +853,7 @@ void optionsCombinedItemsItem::printOptionsValues (
 
   gIndenter++; // only now
 
-  if (! fOptionsCombinedItemsList.size ()) {
+  if (! fOptionsCombinedBooleanItemsList.size ()) {
     os <<
       "none" <<
       endl;
@@ -861,8 +861,8 @@ void optionsCombinedItemsItem::printOptionsValues (
 
   else {
     list<S_optionsItem>::const_iterator
-      iBegin = fOptionsCombinedItemsList.begin (),
-      iEnd   = fOptionsCombinedItemsList.end (),
+      iBegin = fOptionsCombinedBooleanItemsList.begin (),
+      iEnd   = fOptionsCombinedBooleanItemsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -891,7 +891,7 @@ void optionsCombinedItemsItem::printOptionsValues (
 
 }
 
-ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt)
+ostream& operator<< (ostream& os, const S_optionsCombinedBooleanItemsItem& elt)
 {
   elt->print (os);
   return os;
@@ -4379,21 +4379,21 @@ void optionsHandler::handleOptionsHelpSummaryItemName (
   exit (0);
 }
 
-void optionsHandler::handleOptionsCombinedItemsItemName (
-  S_optionsCombinedItemsItem combinedItemsItem,
+void optionsHandler::handleOptionsCombinedBooleanItemsItemName (
+  S_optionsCombinedBooleanItemsItem combinedBooleanItemsItem,
   string                     optionsItemName)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     fOptionsHandlerLogIOstream <<
-      "==> element is of type 'optionsCombinedItemsItem'" <<
+      "==> element is of type 'optionsCombinedBooleanItemsItem'" <<
       endl;
   }
 #endif
 
   // handle it at once
-  combinedItemsItem->
-    setCombinedItemsVariablesValue (true);
+  combinedBooleanItemsItem->
+    setCombinedBooleanItemsVariablesValue (true);
 }
 
 void optionsHandler::handleOptionsBooleanItemItemName (
@@ -4579,12 +4579,12 @@ void optionsHandler::handleOptionsItemItemName (
 
   else if (
     // combined items item?
-    S_optionsCombinedItemsItem
-      combinedItemsItem =
-        dynamic_cast<optionsCombinedItemsItem*>(&(*item))
+    S_optionsCombinedBooleanItemsItem
+      combinedBooleanItemsItem =
+        dynamic_cast<optionsCombinedBooleanItemsItem*>(&(*item))
   ) {
-    handleOptionsCombinedItemsItemName (
-      combinedItemsItem,
+    handleOptionsCombinedBooleanItemsItemName (
+      combinedBooleanItemsItem,
       optionsItemName);
   }
 

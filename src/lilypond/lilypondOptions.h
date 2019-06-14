@@ -96,6 +96,153 @@ typedef SMARTP<optionsScoreOutputKindItem> S_optionsScoreOutputKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
+class optionsLilypondOctaveEntryKindItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsLilypondOctaveEntryKindItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+      lpsrOctaveEntryKind&
+                         optionsLilypondOctaveEntryKindKindItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsLilypondOctaveEntryKindItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+      lpsrOctaveEntryKind&
+                         optionsLilypondOctaveEntryKindKindItemVariable);
+
+    virtual ~optionsLilypondOctaveEntryKindItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsLilypondOctaveEntryKindKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName;
+                              }
+
+    void                  setOctaveEntryKindKindItemVariableValue (
+                            lpsrOctaveEntryKind value)
+                              {
+                                fOptionsLilypondOctaveEntryKindKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName;
+    lpsrOctaveEntryKind&  fOptionsLilypondOctaveEntryKindKindItemVariable;
+};
+typedef SMARTP<optionsLilypondOctaveEntryKindItem> S_optionsLilypondOctaveEntryKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsLilypondOctaveEntryKindItem& elt);
+
+//______________________________________________________________________________
+class optionsOctaveEntryReferenceItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsOctaveEntryReferenceItem> create (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      S_msrSemiTonesPitchAndRelativeOctave&
+              optionsOctaveEntryReferenceItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsOctaveEntryReferenceItem (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      S_msrSemiTonesPitchAndRelativeOctave&
+              optionsOctaveEntryReferenceItemVariable);
+
+    virtual ~optionsOctaveEntryReferenceItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsTransposeItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsTransposeItemVariableDisplayName;
+                              }
+
+    void                  setTransposeItemVariableValue (
+                            S_msrSemiTonesPitchAndRelativeOctave value)
+                              {
+                                fOptionsTransposeItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsTransposeItemVariableDisplayName;
+    S_msrSemiTonesPitchAndRelativeOctave&
+                          fOptionsTransposeItemVariable;
+};
+typedef SMARTP<optionsOctaveEntryReferenceItem> S_optionsOctaveEntryReferenceItem;
+EXP ostream& operator<< (ostream& os, const S_optionsOctaveEntryReferenceItem& elt);
+
+//______________________________________________________________________________
 class optionsAccidentalStyleItem : public optionsValuedItem
 {
   public:
@@ -352,6 +499,12 @@ staffInstrumentAbbreviation
                             S_optionsItem item,
                             string        theString);
 
+    void                  handleOptionsLilypondOctaveEntryKindItemValue (
+                            ostream&      os,
+                            S_optionsLilypondOctaveEntryKindItem
+                                          octaveEntryKindItem,
+                            string        theString);
+
   private:
 
     // private services
@@ -360,10 +513,13 @@ staffInstrumentAbbreviation
     void                  initializeLilypondIdentificationOptions (
                             bool boolOptionsInitialValue);
 
+    void                  initializeLilypondEngraversOptions (
+                            bool boolOptionsInitialValue);
+
     void                  initializeLilypondTimeOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondNoteOptions (
+    void                  initializeLilypondNotesOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLilypondBarsOptions (
@@ -439,40 +595,44 @@ staffInstrumentAbbreviation
 
     // names
     // --------------------------------------
-/*
-workNumber
-workTitle
-movementNumber,
-movementTitle,
-scoreInstrument
-miscellaneousField
+    /* JMI ???
+      workNumber
+      workTitle
+      movementNumber,
+      movementTitle,
+      scoreInstrument
+      miscellaneousField
 
-partGroupName
-partGroupNameDisplayText
-partGroupAbbrevation
-partGroupInstrumentName
+      partGroupName
+      partGroupNameDisplayText
+      partGroupAbbrevation
+      partGroupInstrumentName
 
-partID
-partMsrName
-partName
-partAbbrevation
-partInstrumentName
-partInstrumentAbbreviation
+      partID
+      partMsrName
+      partName
+      partAbbrevation
+      partInstrumentName
+      partInstrumentAbbreviation
 
-staffInstrumentName
-staffInstrumentAbbreviation
+      staffInstrumentName
+      staffInstrumentAbbreviation
 
-pickDedication
-pickTitle
-pickSubTitle
-pickSubSubTitle
+      pickDedication
+      pickTitle
+      pickSubTitle
+      pickSubSubTitle
 
-pickInstrument
+      pickInstrument
 
-pickTagline
-pickCopyright
+      pickTagline
+      pickCopyright
+    */
 
-*/
+    // engravers
+    // --------------------------------------
+
+    bool                  fAmbitusEngraver;
 
     // time
     // --------------------------------------
@@ -482,7 +642,12 @@ pickCopyright
     // notes
     // --------------------------------------
 
-    bool                  fAbsoluteOctaves;
+    lpsrOctaveEntryKind   fOctaveEntryKind;
+    // this is relevant only for relative and fixed octave entry kinds
+    S_msrSemiTonesPitchAndAbsoluteOctave
+                          fSemiTonesPitchAndAbsoluteOctave;
+
+
 
     bool                  fAllDurations;
 
@@ -526,6 +691,8 @@ pickCopyright
     // --------------------------------------
 
     bool                  fModernTab;
+
+    bool                  fKeepStaffSize;
 
 
     // chords
@@ -585,7 +752,7 @@ pickCopyright
     // score notation
     // --------------------------------------
 
- // JMI   scoreNotationKind     fScoreNotationKind;
+    // scoreNotationKind     fScoreNotationKind; JMI ???
     bool                  fJianpu;
 
 
@@ -595,14 +762,6 @@ pickCopyright
     pair<string, int>     fMidiTempo;
 
     bool                  fNoMidi;
-
-
-// JMI ???
-
-    bool                  fKeepStaffSize; // JMI
-
-  private: // JMI
-
 };
 typedef SMARTP<lilypondOptions> S_lilypondOptions;
 EXP ostream& operator<< (ostream& os, const S_lilypondOptions& elt);

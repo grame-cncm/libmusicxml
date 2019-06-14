@@ -23,15 +23,6 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-enum lilypondOctavesMode {
-  kLilypondOctavesModeAbsolute,
-  kLilypondOctavesModeRelative,
-  kLilypondOctavesModeFixed };
-
-string lilypondOctavesModeAsString (
-  lilypondOctavesMode octavesMode);
-
-//________________________________________________________________________
 struct lpsrRepeatDescr : public smartable
 {
 /*
@@ -869,8 +860,6 @@ class lpsr2LilypondTranslator :
 
     // octaves modes
     // ------------------------------------------------------
-    lilypondOctavesMode   fLilypondOctavesMode;
-
     S_msrNote             fRelativeOctaveReference;
                             // contains the absolute octave
 

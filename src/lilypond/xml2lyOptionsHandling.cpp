@@ -484,7 +484,17 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   // ------------------------------------------------------
 
   switch (argumentsNumber) {
-    case 1 :
+    case 0:
+      fOptionsHandlerLogIOstream <<
+        endl <<
+        "Input file name or '-' for standard input expected" <<
+        endl <<
+        endl;
+
+      exit (1);
+      break;
+
+    case 1:
       // register intput file name
       gGeneralOptions->fInputSourceName =
         fArgumentsVector [0];
@@ -493,11 +503,15 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
     default:
       fOptionsHandlerLogIOstream <<
         endl <<
-        "Input file name or '-' for standard input expected" <<
+        "Several input file name supplied, only the first one, \"" <<
+        fArgumentsVector [0] <<
+        "\", will be translated" <<
         endl <<
         endl;
 
-      exit (1);
+      // register intput file name
+      gGeneralOptions->fInputSourceName =
+        fArgumentsVector [0];
       break;
   } //  switch
 
