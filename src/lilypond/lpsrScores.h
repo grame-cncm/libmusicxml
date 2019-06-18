@@ -196,6 +196,8 @@ class lpsrScore : public lpsrElement
     // white note heads
     void                  setWhiteNoteHeadsIsNeeded ();
 
+    // jazz chords display
+    void                  setJazzChordsDisplayIsNeeded ();
 
   public:
 
@@ -257,6 +259,10 @@ class lpsrScore : public lpsrElement
     // white note heads
 
     void                  addWhiteNoteHeadsToScore ();
+
+    // jazz chords display
+
+    void                  addJazzChordsDisplayToScore ();
 
   public:
 
@@ -337,6 +343,9 @@ class lpsrScore : public lpsrElement
 
     // white note heads
     bool                  fWhiteNoteHeadsIsNeeded;
+
+    // jazz chords display
+    bool                  fJazzChordsDisplayIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;

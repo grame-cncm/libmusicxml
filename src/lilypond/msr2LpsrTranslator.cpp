@@ -405,6 +405,13 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
       setWhiteNoteHeadsIsNeeded ();
   }
 
+  // is the Scheme function 'jazzChordsDisplay' to be generated?
+  if (gLilypondOptions->fJazzChordsDisplay) {
+    fLpsrScore->
+      // this score needs the 'jazzChordsDisplay' Scheme function
+      setJazzChordsDisplayIsNeeded ();
+  }
+
   // is Jianpu notation to be generated?
   if (gLilypondOptions->fJianpu) {
     fLpsrScore->
