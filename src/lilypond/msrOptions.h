@@ -117,7 +117,7 @@ class optionsPartTransposeItem : public optionsValuedItem
       string             optionsItemDescription,
       string             optionsValueSpecification,
       string             optionsPartTransposeItemVariableDisplayName,
-      map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+      map<string, S_msrSemiTonesPitchAndOctave>&
                          optionsPartTransposeItemVariable);
 
   protected:
@@ -131,7 +131,7 @@ class optionsPartTransposeItem : public optionsValuedItem
       string             optionsItemDescription,
       string             optionsValueSpecification,
       string             optionsPartTransposeItemVariableDisplayName,
-      map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+      map<string, S_msrSemiTonesPitchAndOctave>&
                          optionsPartTransposeItemVariable);
 
     virtual ~optionsPartTransposeItem ();
@@ -149,14 +149,14 @@ class optionsPartTransposeItem : public optionsValuedItem
 
     void                  setPartTransposeItemVariableValue (
                             string  partName,
-                            S_msrSemiTonesPitchAndRelativeOctave
-                                    semiTonesPitchAndRelativeOctave)
+                            S_msrSemiTonesPitchAndOctave
+                                    semiTonesPitchAndOctave)
                               {
                                 fOptionsPartTransposeItemVariable [partName] =
-                                  semiTonesPitchAndRelativeOctave;
+                                  semiTonesPitchAndOctave;
                               }
 
-    const map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+    const map<string, S_msrSemiTonesPitchAndOctave>&
                           getOptionsPartTransposeItemVariable ()
                               {
                                 return
@@ -181,7 +181,7 @@ class optionsPartTransposeItem : public optionsValuedItem
     // ------------------------------------------------------
 
     string                fOptionsPartTransposeItemVariableDisplayName;
-    map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+    map<string, S_msrSemiTonesPitchAndOctave>&
                           fOptionsPartTransposeItemVariable;
 };
 typedef SMARTP<optionsPartTransposeItem> S_optionsPartTransposeItem;
@@ -421,7 +421,7 @@ class msrOptions : public optionsGroup
     // --------------------------------------
 
     map<string, string>   fPartsRenamingMap;
-    map<string, S_msrSemiTonesPitchAndRelativeOctave>
+    map<string, S_msrSemiTonesPitchAndOctave>
                           fPartsTranspositionMap;
 
 

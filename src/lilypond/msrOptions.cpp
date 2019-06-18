@@ -79,7 +79,7 @@ optionsPartRenameItem::~optionsPartRenameItem ()
 
 void optionsPartRenameItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsPartRenameItem:" <<
@@ -169,7 +169,7 @@ S_optionsPartTransposeItem optionsPartTransposeItem::create (
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsPartTransposeItemVariableDisplayName,
-  map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+  map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
 {
   optionsPartTransposeItem* o = new
@@ -190,7 +190,7 @@ optionsPartTransposeItem::optionsPartTransposeItem (
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsPartTransposeItemVariableDisplayName,
-  map<string, S_msrSemiTonesPitchAndRelativeOctave>&
+  map<string, S_msrSemiTonesPitchAndOctave>&
                      optionsPartTransposeItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
@@ -208,7 +208,7 @@ optionsPartTransposeItem::~optionsPartTransposeItem ()
 
 void optionsPartTransposeItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsPartTransposeItem:" <<
@@ -231,7 +231,7 @@ void optionsPartTransposeItem::print (ostream& os) const
     os << "none";
   }
   else {
-    map<string, S_msrSemiTonesPitchAndRelativeOctave>::const_iterator
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
       iBegin = fOptionsPartTransposeItemVariable.begin (),
       iEnd   = fOptionsPartTransposeItemVariable.end (),
       i      = iBegin;
@@ -266,7 +266,7 @@ void optionsPartTransposeItem::printOptionsValues (
 
     gIndenter++;
 
-    map<string, S_msrSemiTonesPitchAndRelativeOctave>::const_iterator
+    map<string, S_msrSemiTonesPitchAndOctave>::const_iterator
       iBegin = fOptionsPartTransposeItemVariable.begin (),
       iEnd   = fOptionsPartTransposeItemVariable.end (),
       i      = iBegin;
@@ -337,7 +337,7 @@ optionsMsrPitchesLanguageItem::~optionsMsrPitchesLanguageItem ()
 
 void optionsMsrPitchesLanguageItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsMsrPitchesLanguageItem:" <<
@@ -1098,6 +1098,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   clone->fPartsRenamingMap =
     fPartsRenamingMap;
+  clone->fPartsTranspositionMap =
+    fPartsTranspositionMap;
 
 
   // staves
@@ -1289,6 +1291,29 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       map<string, string>::const_iterator i =
         fPartsRenamingMap.begin ();
       i != fPartsRenamingMap.end ();
+      i++
+  ) {
+        gLogIOstream <<
+          "\"" << ((*i).first) << "\" -> \"" << ((*i).second) << "\"";
+    } // for
+  }
+
+  gLogIOstream <<
+    endl;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "parts transposition" << " : ";
+
+  if (! fPartsTranspositionMap.size ()) {
+    gLogIOstream <<
+      "none";
+  }
+
+  else {
+    for (
+      map<string, S_msrSemiTonesPitchAndOctave>::const_iterator i =
+        fPartsTranspositionMap.begin ();
+      i != fPartsTranspositionMap.end ();
       i++
   ) {
         gLogIOstream <<
@@ -1550,9 +1575,9 @@ void msrOptions::handleOptionsPartRenameItemValue (
 #endif
 
   string regularExpression (
-    "[[:space:]]*(.*)[[:space:]]*"
+    "[[:space:]]*([^[:space:]]*)[[:space:]]*"
     "="
-    "[[:space:]]*(.*)[[:space:]]*");
+    "[[:space:]]*([^[:space:]]*)[[:space:]]*");
 
   regex  e (regularExpression);
   smatch sm;

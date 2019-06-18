@@ -437,7 +437,7 @@ optionsHelpUsageItem::~optionsHelpUsageItem ()
 
 void optionsHelpUsageItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsHelpUsageItem:" <<
@@ -539,7 +539,7 @@ optionsHelpSummaryItem::~optionsHelpSummaryItem ()
 
 void optionsHelpSummaryItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsHelpSummaryItem:" <<
@@ -727,7 +727,7 @@ void optionsCombinedBooleanItemsItem::setCombinedBooleanItemsVariablesValue (
 
 void optionsCombinedBooleanItemsItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsCombinedBooleanItemsItem:" <<
@@ -875,7 +875,7 @@ void optionsCombinedBooleanItemsItem::printOptionsValues (
           booleanItem =
             dynamic_cast<optionsBooleanItem*>(&(*item))
         ) {
-        // set the boolean value
+        // print the boolean value
         booleanItem->
           printOptionsValues (
             os, fieldWidth);
@@ -937,7 +937,7 @@ optionsBooleanItem::~optionsBooleanItem ()
 
 void optionsBooleanItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsBooleanItem:" <<
@@ -1033,7 +1033,7 @@ optionsTwoBooleansItem::~optionsTwoBooleansItem ()
 
 void optionsTwoBooleansItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsTwoBooleansItem:" <<
@@ -1133,7 +1133,7 @@ optionsThreeBooleansItem::~optionsThreeBooleansItem ()
 
 void optionsThreeBooleansItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsThreeBooleansItem:" <<
@@ -1347,7 +1347,7 @@ optionsItemHelpItem::~optionsItemHelpItem ()
 
 void optionsItemHelpItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsItemHelpItem:" <<
@@ -1418,7 +1418,7 @@ optionsIntegerItem::~optionsIntegerItem ()
 
 void optionsIntegerItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsIntegerItem:" <<
@@ -1504,7 +1504,7 @@ optionsFloatItem::~optionsFloatItem ()
 
 void optionsFloatItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsFloatItem:" <<
@@ -1590,7 +1590,7 @@ optionsStringItem::~optionsStringItem ()
 
 void optionsStringItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsStringItem:" <<
@@ -1680,7 +1680,7 @@ optionsRationalItem::~optionsRationalItem ()
 
 void optionsRationalItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsRationalItem:" <<
@@ -1766,7 +1766,7 @@ optionsNumbersSetItem::~optionsNumbersSetItem ()
 
 void optionsNumbersSetItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsNumbersSetItem:" <<
@@ -3928,13 +3928,6 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
   int   argc,
   char* argv[])
 {
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    printKnownOptionsPrefixes ();
-    printKnownOptionsElements ();
-  }
-#endif
-
   // fetch program name
   fExecutableName = string (argv [0]);
 
@@ -3955,7 +3948,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
       // print current element
       fOptionsHandlerLogIOstream <<
         "Command line element " << n <<
-        ": " <<currentElement << " "<<
+        ": " << currentElement << " "<<
         endl;
     }
 #endif
@@ -4180,6 +4173,34 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
   unsigned int argumentsVectorSize =
     fArgumentsVector.size ();
+
+#ifdef TRACE_OPTIONS
+  // display arc and argv only now, to wait for the options to have been handled
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    fOptionsHandlerLogIOstream <<
+      "argc: " << argc <<
+      endl <<
+      "argv:" <<
+      endl;
+
+    gIndenter++;
+
+    for (int i = 0; i < argc; i++) {
+      fOptionsHandlerLogIOstream <<
+        "argv [" << i << "]: " << argv [i] <<
+        endl;
+    } // for
+
+    gIndenter--;
+  }
+#endif
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptionsDetails && ! gGeneralOptions->fQuiet) {
+    printKnownOptionsPrefixes ();
+    printKnownOptionsElements ();
+  }
+#endif
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {

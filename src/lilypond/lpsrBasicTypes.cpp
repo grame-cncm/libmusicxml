@@ -17,6 +17,7 @@
 
 #include "utilities.h"
 
+#include "msrBasicTypes.h"
 #include "lpsrBasicTypes.h"
 
 #include "setTraceOptionsIfDesired.h"

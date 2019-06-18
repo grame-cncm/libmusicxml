@@ -77,7 +77,7 @@ optionsLpsrScoreOutputKindItem::~optionsLpsrScoreOutputKindItem ()
 
 void optionsLpsrScoreOutputKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsLpsrScoreOutputKindItem:" <<
@@ -167,7 +167,7 @@ optionsLpsrPitchesLanguageItem::~optionsLpsrPitchesLanguageItem ()
 
 void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsLpsrPitchesLanguageItem:" <<
@@ -257,7 +257,7 @@ optionsLpsrChordsLanguageItem::~optionsLpsrChordsLanguageItem ()
 
 void optionsLpsrChordsLanguageItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsLpsrChordsLanguageItem:" <<
@@ -307,7 +307,7 @@ S_optionsLpsrTransposeItem optionsLpsrTransposeItem::create (
   string  optionsItemDescription,
   string  optionsValueSpecification,
   string  optionsLpsrTransposeItemVariableDisplayName,
-  S_msrSemiTonesPitchAndRelativeOctave&
+  S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
 {
   optionsLpsrTransposeItem* o = new
@@ -328,7 +328,7 @@ optionsLpsrTransposeItem::optionsLpsrTransposeItem (
   string  optionsItemDescription,
   string  optionsValueSpecification,
   string  optionsLpsrTransposeItemVariableDisplayName,
-  S_msrSemiTonesPitchAndRelativeOctave&
+  S_msrSemiTonesPitchAndOctave&
           optionsLpsrTransposeItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
@@ -346,7 +346,7 @@ optionsLpsrTransposeItem::~optionsLpsrTransposeItem ()
 
 void optionsLpsrTransposeItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "optionsLpsrTransposeItem:" <<
@@ -373,7 +373,7 @@ void optionsLpsrTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    "msrSemiTonesPitchAndRelativeOctave" <<
+    "msrSemiTonesPitchAndOctave" <<
     " : ";
   if (fOptionsTransposeItemVariable) {
     os <<
@@ -769,7 +769,7 @@ For example, 'a', 'f' and 'bes,' can be used respectively
 for instruments in 'a', 'f' and B flat respectively)",
         "TRANSPOSITION",
         "lpsrTranspose",
-        fSemiTonesPitchAndRelativeOctave));
+        fSemiTonesPitchAndOctave));
 }
 
 void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
@@ -915,8 +915,8 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   // transpose
   // --------------------------------------
 
-  clone->fSemiTonesPitchAndRelativeOctave =
-    fSemiTonesPitchAndRelativeOctave;
+  clone->fSemiTonesPitchAndOctave =
+    fSemiTonesPitchAndOctave;
 
   return clone;
 }
@@ -1111,11 +1111,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "semiTonesPitchAndRelativeOctave" << " : ";
+    setw (fieldWidth) << "semiTonesPitchAndOctave" << " : ";
 
-    if (fSemiTonesPitchAndRelativeOctave) {
+    if (fSemiTonesPitchAndOctave) {
       gLogIOstream <<
-        fSemiTonesPitchAndRelativeOctave->asString ();
+        fSemiTonesPitchAndOctave->asString ();
     }
     else {
       gLogIOstream <<
@@ -1404,135 +1404,17 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
   }
 #endif
 
-  // decipher theString with a three-number regular expression
-  string regularExpression (
-    "([[:lower:]]+)"
-    "([,\']*)");
-
-  regex  e (regularExpression);
-  smatch sm;
-
-  regex_match (theString, sm, e);
-
-  unsigned smSize = sm.size ();
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
-    gLogIOstream <<
-      "There are " << smSize << " matches" <<
-      " for transposition string '" << theString <<
-      "' with regex '" << regularExpression <<
-      "'" <<
-      endl <<
-      smSize << " elements: ";
-
-      for (unsigned i = 0; i < smSize; ++i) {
-        gLogIOstream <<
-          "[" << sm [i] << "] ";
-      } // for
-
-      gLogIOstream <<
-        endl;
-    }
-#endif
-
-  if (smSize == 3) {
-    // found an n.x.y specification
-    string
-      transposePitch   = sm [1],
-      octaveIndication = sm [2];
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      gLogIOstream <<
-        "--> transposePitch = \"" << transposePitch << "\", " <<
-        "--> octaveIndication = \"" << octaveIndication << "\"" <<
-        endl;
-    }
-#endif
-
-    // fetch transpose semi-tones pitch
-    msrSemiTonesPitchKind
-      transposeSemiTonesPitchKind =
-        semiTonesPitchKindFromString (
-          transposePitch);
-
-    // handling ',' and '\'' in octave indication
-    int octave = 0;
-    for (unsigned int i = 0; i < octaveIndication.size (); i++) {
-      switch (octaveIndication [i]) {
-        case ',':
-          if (octave > 0) {
-            // a '\'' has been met previously
-            stringstream s;
-
-            s <<
-              "transpose argument \"" << theString <<
-              "\" contains a ',' after a '\\'";
-
-            optionError (s.str ());
-
-            exit (4);
-          }
-
-          octave--;
-          break;
-        case '\'':
-          if (octave < 0) {
-            // a ',' has been met previously
-            stringstream s;
-
-            s <<
-              "transpose argument \"" << theString <<
-              "\" contains a '\\'' after a ','";
-
-            optionError (s.str ());
-
-            exit (4);
-          }
-
-          octave++;
-          break;
-        default:
-          ;
-      } // switch
-    } // for
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      gLogIOstream <<
-        "--> transposeSemiTonesPitchKind = \"" <<
-          msrSemiTonesPitchKindAsString (
-            transposeSemiTonesPitchKind) << "\", " <<
-        "--> octave = " << octave <<
-        endl;
-    }
-#endif
-
-  // create the semiTonesPitchAndRelativeOctave
-  S_msrSemiTonesPitchAndRelativeOctave
-    semiTonesPitchAndRelativeOctave =
-      msrSemiTonesPitchAndRelativeOctave::create (
-       transposeSemiTonesPitchKind,
-       octave);
+  // create the semitones pitch and octave from theString
+  S_msrSemiTonesPitchAndOctave
+    semiTonesPitchAndOctave =
+      msrSemiTonesPitchAndOctave::createFromString (
+        NO_INPUT_LINE_NUMBER,
+        theString);
 
   // set the transpose item variable value
   transposeItem->
     setTransposeItemVariableValue (
-      semiTonesPitchAndRelativeOctave);
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "transpose argument \"" << theString <<
-      "\" is ill-formed";
-
-    optionError (s.str ());
-
-    exit (4);
-  }
+      semiTonesPitchAndOctave);
 }
 
 void lpsrOptions::handleOptionsItemValue (

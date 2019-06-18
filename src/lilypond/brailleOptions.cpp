@@ -75,7 +75,7 @@ optionsUTFKindItem::~optionsUTFKindItem ()
 
 void optionsUTFKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsUTFKindItem:" <<
@@ -163,7 +163,7 @@ optionsByteOrderingKindItem::~optionsByteOrderingKindItem ()
 
 void optionsByteOrderingKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsByteOrderingKindItem:" <<

@@ -81,7 +81,7 @@ void musicXMLOptions::initializeMusicXMLTraceOptions (
   // options
 
   S_optionsSubGroup
-    specificTraceSubGroup =
+    traceSubGroup =
       optionsSubGroup::create (
         "Trace",
         "hmxmlt", "help-musicxml-trace",
@@ -89,9 +89,9 @@ R"()",
         optionsSubGroup::kAlwaysShowDescription,
         this);
 
-  appendOptionsSubGroup (specificTraceSubGroup);
+  appendOptionsSubGroup (traceSubGroup);
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
         "tenc", "trace-encoding",
@@ -100,7 +100,7 @@ R"(Encoding)",
         fTraceEncoding,
         gGeneralOptions->fTracePasses));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
         "tdivs", "trace-divisions",
@@ -109,7 +109,7 @@ R"(Divisions)",
         fTraceDivisions,
         gGeneralOptions->fTracePasses));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
         "tbackup", "trace-backup",
@@ -118,7 +118,7 @@ R"(Backup)",
         fTraceBackup,
         gGeneralOptions->fTracePasses));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tmxmltv", "trace-musicxml-tree-visitors",

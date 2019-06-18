@@ -217,7 +217,6 @@ R"(\markup {
 )"
       );
 
-
     fScorePaper->
       setEvenHeaderMarkup (
 R"(\markup {

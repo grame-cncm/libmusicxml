@@ -21,6 +21,8 @@
 
 #include <iomanip>      // setw, ...
 
+#include <regex>
+
 #include "rational.h"
 
 #include "utilities.h"
@@ -17138,6 +17140,7 @@ ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
   return os;
 }
 
+/* JMI
 //______________________________________________________________________________
 S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::create (
   msrSemiTonesPitchKind semitonePitchKind,
@@ -17319,6 +17322,236 @@ ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& el
   elt->print (os);
   return os;
 }
+*/
+
+// semitone pitches and absolute octave
+//______________________________________________________________________________
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
+  msrSemiTonesPitchKind semitonePitchKind,
+  int                   relativeOctave)
+{
+  msrSemiTonesPitchAndOctave* o =
+    new msrSemiTonesPitchAndOctave (
+      semitonePitchKind,
+      relativeOctave);
+  assert(o!=0);
+
+  return o;
+}
+
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
+  int    inputLineNumber,
+  string theString)
+{
+  S_msrSemiTonesPitchAndOctave result;
+
+  // decipher theString with a three-number regular expression
+  string regularExpression (
+    "([[:lower:]]+)"
+    "([,\']*)");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    gLogIOstream <<
+      "There are " << smSize << " matches" <<
+      " for transposition string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "'" <<
+      endl <<
+      smSize << " elements: ";
+
+      for (unsigned i = 0; i < smSize; ++i) {
+        gLogIOstream <<
+          "[" << sm [i] << "] ";
+      } // for
+
+      gLogIOstream <<
+        endl;
+    }
+#endif
+
+  if (smSize == 3) {
+    // found a well-formed specification,
+    // need to check its ',' and '\'' contents
+    string
+      pitch            = sm [1],
+      octaveIndication = sm [2];
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      gLogIOstream <<
+        "--> pitch = \"" << pitch << "\", " <<
+        "--> octaveIndication = \"" << octaveIndication << "\"" <<
+        endl;
+    }
+#endif
+
+    // fetch semitones pitch
+    msrSemiTonesPitchKind
+      semiTonesPitchKind =
+        semiTonesPitchKindFromString (
+          pitch);
+
+    // handling ',' and '\'' in octave indication
+    int octave = 0;
+    for (unsigned int i = 0; i < octaveIndication.size (); i++) {
+      switch (octaveIndication [i]) {
+        case ',':
+          if (octave > 0) {
+            // a '\'' has been met previously
+            stringstream s;
+
+            s <<
+              "argument \"" << theString <<
+              "\" contains a ',' after a '\\'";
+
+            optionError (s.str ());
+
+            exit (4);
+          }
+
+          octave--;
+          break;
+        case '\'':
+          if (octave < 0) {
+            // a ',' has been met previously
+            stringstream s;
+
+            s <<
+              "argument \"" << theString <<
+              "\" contains a '\\'' after a ','";
+
+            optionError (s.str ());
+
+            exit (4);
+          }
+
+          octave++;
+          break;
+        default:
+          ;
+      } // switch
+    } // for
+
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      gLogIOstream <<
+        "--> semiTonesPitchKind = \"" <<
+          msrSemiTonesPitchKindAsString (
+            semiTonesPitchKind) << "\", " <<
+        "--> octave = " << octave <<
+        endl;
+    }
+#endif
+
+    // create the semiTonesPitchAndOctave
+    result =
+      msrSemiTonesPitchAndOctave::create (
+       semiTonesPitchKind,
+       octave);
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "-msrPartRename argument '" << theString <<
+      "' is ill-formed";
+
+    msrMusicXMLError (
+//    msrMusicXMLWarning ( //  JMI
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
+  msrSemiTonesPitchKind semitonePitchKind,
+  int                   relativeOctave)
+{
+  fSemitonePitchKind = semitonePitchKind;
+  fOctave            = relativeOctave;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChordsDetails) {
+    gLogIOstream <<
+      "==> Creating pitch and octave '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+#endif
+}
+
+msrSemiTonesPitchAndOctave::~msrSemiTonesPitchAndOctave ()
+{}
+
+S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAndOctaveNewbornClone ()
+{
+  S_msrSemiTonesPitchAndOctave
+    newbornClone =
+      msrSemiTonesPitchAndOctave::create (
+        fSemitonePitchKind,
+        fOctave);
+
+  return newbornClone;
+}
+
+string msrSemiTonesPitchAndOctave::asString () const
+{
+  stringstream s;
+
+  const int fieldWidth = 19;
+
+  s << left <<
+    "SemiTonesPitchAndOctave" <<
+    ": " <<
+    setw (fieldWidth) <<
+    "semitonePitchKind: " <<
+    msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    ", octave: " << fOctave;
+
+  return s.str ();
+}
+
+void msrSemiTonesPitchAndOctave::print (ostream& os)
+{
+  os <<
+    "SemiTonesPitchAndOctave" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "semitonePitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "octave" << " : " << fOctave <<
+    endl;
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndOctave& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 //______________________________________________________________________________
 S_msrChordContents msrChordContents::create (
@@ -17355,9 +17588,9 @@ msrChordContents::msrChordContents (
 #endif
 
   // create the root chord element
-  S_msrSemiTonesPitchAndRelativeOctave
+  S_msrSemiTonesPitchAndOctave
     rootChordElement =
-      msrSemiTonesPitchAndRelativeOctave::create (
+      msrSemiTonesPitchAndOctave::create (
         fChordContentsRootNote,
         0); // relative octave
 
@@ -17391,9 +17624,9 @@ msrChordContents::msrChordContents (
           fChordContentsRootNote);
 
     // create the chord element
-    S_msrSemiTonesPitchAndRelativeOctave
+    S_msrSemiTonesPitchAndOctave
       chordElement =
-        msrSemiTonesPitchAndRelativeOctave::create (
+        msrSemiTonesPitchAndOctave::create (
           semiTonePitch,
           0); // relative octave
 
@@ -17647,7 +17880,7 @@ void msrChordContents::print (ostream& os)
     gIndenter++;
 
     for (unsigned int i = 0; i < fChordElementsVector.size (); i++) {
-      S_msrSemiTonesPitchAndRelativeOctave
+      S_msrSemiTonesPitchAndOctave
         chordElement =
           fChordElementsVector [i];
 

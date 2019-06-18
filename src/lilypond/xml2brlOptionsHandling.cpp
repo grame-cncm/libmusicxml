@@ -72,7 +72,7 @@ xml2brlOptionsVersionItem::~xml2brlOptionsVersionItem ()
 
 void xml2brlOptionsVersionItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "xml2brlOptionsVersionItem:" <<
@@ -149,7 +149,7 @@ xml2brlOptionsAboutItem::~xml2brlOptionsAboutItem ()
 
 void xml2brlOptionsAboutItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "xml2brlOptionsAboutItem:" <<
@@ -245,7 +245,7 @@ xml2brlOptionsContactItem::~xml2brlOptionsContactItem ()
 
 void xml2brlOptionsContactItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "xml2brlOptionsContactItem:" <<

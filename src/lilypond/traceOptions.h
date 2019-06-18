@@ -99,11 +99,16 @@ class traceOptions : public optionsGroup
 
     void                  printTraceOptionsValues (int fieldWidth);
 
+    virtual void          printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
   public:
 
 
     // options
     bool                  fTraceOptions;
+    bool                  fTraceOptionsDetails;
     bool                  fDisplayOptionsValues;
     bool                  fDisplayOptionsHandler;
 
@@ -116,12 +121,12 @@ class traceOptions : public optionsGroup
     // credits
     bool                  fTraceCredits;
 
+    // geometry
+    bool                  fTraceGeometry;
+
     // part groups
     bool                  fTracePartGroups;
     bool                  fTracePartGroupsDetails;
-
-    // geometry
-    bool                  fTraceGeometry;
 
     // parts
     bool                  fTraceParts;
@@ -138,6 +143,10 @@ class traceOptions : public optionsGroup
     bool                  fTraceMeasuresDetails;
     bool                  fTracePositionsInMeasures;
     set<int>              fTraceDetailedMeasureNumbersSet;
+
+    // segments
+    bool                  fTraceSegments;
+    bool                  fTraceSegmentsDetails;
 
     // clefs
     bool                  fTraceClefs;
@@ -168,10 +177,6 @@ class traceOptions : public optionsGroup
 
     // octave shifts
     bool                  fTraceOctaveShifts;
-
-    // segments
-    bool                  fTraceSegments;
-    bool                  fTraceSegmentsDetails;
 
     // barlines
     bool                  fTraceBarLines;
@@ -212,7 +217,7 @@ class traceOptions : public optionsGroup
     bool                  fTraceOrnaments;
 
     // dynamics
-    bool                  fTraceGraceDynamics;
+    bool                  fTraceDynamics;
 
     // spanners
     bool                  fTraceSpanners;
@@ -262,9 +267,6 @@ class traceOptions : public optionsGroup
     // figured basses
     bool                  fTraceFiguredBasses;
 
-    // dynamics
-    bool                  fTraceDynamics;
-
     // ties
     bool                  fTraceTies;
 
@@ -304,8 +306,10 @@ class traceOptions : public optionsGroup
     // extra chords
     bool                  fTraceExtraChords;
 
+/* JMI
     // msrStreams
     bool                  fTraceMsrStreams;
+*/
 
     // midi
     bool                  fTraceMidi;

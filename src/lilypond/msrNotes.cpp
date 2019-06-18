@@ -2164,7 +2164,7 @@ void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceGraceDynamics || gTraceOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Attaching dynamics '" <<
       dynamics->asString () <<

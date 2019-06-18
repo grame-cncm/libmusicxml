@@ -77,7 +77,7 @@ optionsScoreOutputKindItem::~optionsScoreOutputKindItem ()
 
 void optionsScoreOutputKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsScoreOutputKindItem:" <<
@@ -122,55 +122,55 @@ ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt)
 }
 
 //______________________________________________________________________________
-S_optionsLilypondOctaveEntryKindItem optionsLilypondOctaveEntryKindItem::create (
+S_optionsOctaveEntryKindItem optionsOctaveEntryKindItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+  string             optionsOctaveEntryKindItemVariableDisplayName,
   lpsrOctaveEntryKind&
-                     optionsLilypondOctaveEntryKindKindItemVariable)
+                     optionsOctaveEntryKindItemVariable)
 {
-  optionsLilypondOctaveEntryKindItem* o = new
-    optionsLilypondOctaveEntryKindItem (
+  optionsOctaveEntryKindItem* o = new
+    optionsOctaveEntryKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
-      optionsLilypondOctaveEntryKindKindItemVariable);
+      optionsOctaveEntryKindItemVariableDisplayName,
+      optionsOctaveEntryKindItemVariable);
   assert(o!=0);
   return o;
 }
 
-optionsLilypondOctaveEntryKindItem::optionsLilypondOctaveEntryKindItem (
+optionsOctaveEntryKindItem::optionsOctaveEntryKindItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+  string             optionsOctaveEntryKindItemVariableDisplayName,
   lpsrOctaveEntryKind&
-                     optionsLilypondOctaveEntryKindKindItemVariable)
+                     optionsOctaveEntryKindItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName (
-      optionsLilypondOctaveEntryKindKindItemVariableDisplayName),
-    fOptionsLilypondOctaveEntryKindKindItemVariable (
-      optionsLilypondOctaveEntryKindKindItemVariable)
+    fOptionsOctaveEntryKindItemVariableDisplayName (
+      optionsOctaveEntryKindItemVariableDisplayName),
+    fOptionsOctaveEntryKindItemVariable (
+      optionsOctaveEntryKindItemVariable)
 {}
 
-optionsLilypondOctaveEntryKindItem::~optionsLilypondOctaveEntryKindItem ()
+optionsOctaveEntryKindItem::~optionsOctaveEntryKindItem ()
 {}
 
-void optionsLilypondOctaveEntryKindItem::print (ostream& os) const
+void optionsOctaveEntryKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsLilypondOctaveEntryKindItem:" <<
+    "OptionsOctaveEntryKindItem:" <<
     endl;
 
   gIndenter++;
@@ -181,31 +181,31 @@ void optionsLilypondOctaveEntryKindItem::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
-    fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName <<
+    fOptionsOctaveEntryKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsLilypondOctaveEntryKindItemVariable" << " : \"" <<
+    "fOptionsOctaveEntryKindItemVariable" << " : \"" <<
     lpsrOctaveEntryKindAsString (
-      fOptionsLilypondOctaveEntryKindKindItemVariable) <<
+      fOptionsOctaveEntryKindItemVariable) <<
       "\"" <<
     endl;
 }
 
-void optionsLilypondOctaveEntryKindItem::printOptionsValues (
+void optionsOctaveEntryKindItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName <<
+    fOptionsOctaveEntryKindItemVariableDisplayName <<
     " : \"" <<
     lpsrOctaveEntryKindAsString (
-      fOptionsLilypondOctaveEntryKindKindItemVariable) <<
+      fOptionsOctaveEntryKindItemVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsLilypondOctaveEntryKindItem& elt)
+ostream& operator<< (ostream& os, const S_optionsOctaveEntryKindItem& elt)
 {
   elt->print (os);
   return os;
@@ -218,7 +218,7 @@ S_optionsOctaveEntryReferenceItem optionsOctaveEntryReferenceItem::create (
   string  optionsItemDescription,
   string  optionsValueSpecification,
   string  optionsOctaveEntryReferenceItemVariableDisplayName,
-  S_msrSemiTonesPitchAndRelativeOctave&
+  S_msrSemiTonesPitchAndOctave&
           optionsOctaveEntryReferenceItemVariable)
 {
   optionsOctaveEntryReferenceItem* o = new
@@ -239,7 +239,7 @@ optionsOctaveEntryReferenceItem::optionsOctaveEntryReferenceItem (
   string  optionsItemDescription,
   string  optionsValueSpecification,
   string  optionsOctaveEntryReferenceItemVariableDisplayName,
-  S_msrSemiTonesPitchAndRelativeOctave&
+  S_msrSemiTonesPitchAndOctave&
           optionsOctaveEntryReferenceItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
@@ -257,7 +257,7 @@ optionsOctaveEntryReferenceItem::~optionsOctaveEntryReferenceItem ()
 
 void optionsOctaveEntryReferenceItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "optionsOctaveEntryReferenceItem:" <<
@@ -284,7 +284,7 @@ void optionsOctaveEntryReferenceItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    "msrSemiTonesPitchAndRelativeOctave" <<
+    "msrSemiTonesPitchAndOctave" <<
     " : ";
   if (fOptionsTransposeItemVariable) {
     os <<
@@ -308,7 +308,7 @@ ostream& operator<< (ostream& os, const S_optionsOctaveEntryReferenceItem& elt)
 }
 
 //______________________________________________________________________________
-S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
+S_optionsAccidentalStyleKindItem optionsAccidentalStyleKindItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -317,8 +317,8 @@ S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
 {
-  optionsAccidentalStyleItem* o = new
-    optionsAccidentalStyleItem (
+  optionsAccidentalStyleKindItem* o = new
+    optionsAccidentalStyleKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -329,7 +329,7 @@ S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
   return o;
 }
 
-optionsAccidentalStyleItem::optionsAccidentalStyleItem (
+optionsAccidentalStyleKindItem::optionsAccidentalStyleKindItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -348,15 +348,15 @@ optionsAccidentalStyleItem::optionsAccidentalStyleItem (
       optionsAccidentalStyleKindItemVariable)
 {}
 
-optionsAccidentalStyleItem::~optionsAccidentalStyleItem ()
+optionsAccidentalStyleKindItem::~optionsAccidentalStyleKindItem ()
 {}
 
-void optionsAccidentalStyleItem::print (ostream& os) const
+void optionsAccidentalStyleKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
-    "OptionsAccidentalStyleItem:" <<
+    "OptionsAccidentalStyleKindItem:" <<
     endl;
 
   gIndenter++;
@@ -377,7 +377,7 @@ void optionsAccidentalStyleItem::print (ostream& os) const
     endl;
 }
 
-void optionsAccidentalStyleItem::printOptionsValues (
+void optionsAccidentalStyleKindItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -391,7 +391,128 @@ void optionsAccidentalStyleItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt)
+ostream& operator<< (ostream& os, const S_optionsAccidentalStyleKindItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsChordsDisplayItem optionsChordsDisplayItem::create (
+  string                optionsItemShortName,
+  string                optionsItemLongName,
+  string                optionsItemDescription,
+  string                optionsValueSpecification,
+  string                optionsChordsDisplayItemVariableDisplayName,
+  list<pair<string, string> >&
+                        optionsChordsDisplayItemVariable)
+{
+  optionsChordsDisplayItem* o = new
+    optionsChordsDisplayItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsChordsDisplayItemVariableDisplayName,
+      optionsChordsDisplayItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsChordsDisplayItem::optionsChordsDisplayItem (
+  string                optionsItemShortName,
+  string                optionsItemLongName,
+  string                optionsItemDescription,
+  string                optionsValueSpecification,
+  string                optionsChordsDisplayItemVariableDisplayName,
+  list<pair<string, string> >&
+                        optionsChordsDisplayItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    foptionsChordsDisplayItemVariableDisplayName (
+      optionsChordsDisplayItemVariableDisplayName),
+    foptionsChordsDisplayItemVariable (
+      optionsChordsDisplayItemVariable)
+{}
+
+optionsChordsDisplayItem::~optionsChordsDisplayItem ()
+{}
+
+void optionsChordsDisplayItem::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "optionsChordsDisplayItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "foptionsChordsDisplayItemVariableDisplayName" << " : " <<
+    foptionsChordsDisplayItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "foptionsChordsDisplayItemVariable" << " : '" <<
+    endl;
+
+  gIndenter++;
+
+  list<pair<string, string> >::const_iterator
+    iBegin = foptionsChordsDisplayItemVariable.begin (),
+    iEnd   = foptionsChordsDisplayItemVariable.end (),
+    i      = iBegin;
+  for ( ; ; ) {
+    os <<
+      (*i).first << " --> " << (*i).second <<
+      endl;
+    if (++i == iEnd) break;
+// JMI    os << endl;
+  } // for
+
+  gIndenter--;
+}
+
+void optionsChordsDisplayItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    foptionsChordsDisplayItemVariableDisplayName <<
+    " : '" <<
+    endl;
+
+  gIndenter++;
+
+  list<pair<string, string> >::const_iterator
+    iBegin = foptionsChordsDisplayItemVariable.begin (),
+    iEnd   = foptionsChordsDisplayItemVariable.end (),
+    i      = iBegin;
+  for ( ; ; ) {
+    os << (*i).first << " --> " << (*i).second;
+    if (++i == iEnd) break;
+    os << endl;
+  } // for
+
+/* JMI
+    foptionsChordsDisplayItemVariable.first <<
+    " = " <<
+    foptionsChordsDisplayItemVariable.second <<
+    "'" <<
+    endl;
+    */
+
+  gIndenter--;
+}
+
+ostream& operator<< (ostream& os, const S_optionsChordsDisplayItem& elt)
 {
   elt->print (os);
   return os;
@@ -441,7 +562,7 @@ optionsMidiTempoItem::~optionsMidiTempoItem ()
 
 void optionsMidiTempoItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsMidiTempoItem:" <<
@@ -522,7 +643,7 @@ R"(These options control which LilyPond code is generated.)",
 lilypondOptions::~lilypondOptions ()
 {}
 
-void lilypondOptions::initializeLilypondIdentificationOptions (
+void lilypondOptions::initializeIdentificationOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -688,7 +809,7 @@ R"(Set 'copyright' to STRING in the \header.)",
         fCopyright));
 }
 
-void lilypondOptions::initializeLilypondEngraversOptions (
+void lilypondOptions::initializeEngraversOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -715,7 +836,7 @@ R"(Generate an ambitus range at the beginning of the staves/voices.)",
         fAmbitusEngraver));
 }
 
-void lilypondOptions::initializeLilypondTimeOptions (
+void lilypondOptions::initializeTimeOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -742,7 +863,7 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
         fNumericalTime));
 }
 
-void lilypondOptions::initializeLilypondNotesOptions (
+void lilypondOptions::initializeNotesOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -752,12 +873,12 @@ void lilypondOptions::initializeLilypondNotesOptions (
       kOctaveEntryRelative; // LilyPond default value
   fOctaveEntryKind = octaveEntryKindDefaultValue;
 
-  S_msrSemiTonesPitchAndAbsoluteOctave
-    semiTonesPitchAndAbsoluteOctaveDefaultValue =
-      msrSemiTonesPitchAndAbsoluteOctave::create ( // middle C
+  S_msrSemiTonesPitchAndOctave
+    semiTonesPitchAndOctaveDefaultValue =
+      msrSemiTonesPitchAndOctave::create ( // middle C
         kC_Natural_STP, 4);
-  fSemiTonesPitchAndAbsoluteOctave  =
-    semiTonesPitchAndAbsoluteOctaveDefaultValue;
+  fSemiTonesPitchAndOctave  =
+    semiTonesPitchAndOctaveDefaultValue;
 
   fAllDurations  = boolOptionsInitialValue;
 
@@ -790,7 +911,7 @@ R"()",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsLilypondOctaveEntryKindItem::create (
+      optionsOctaveEntryKindItem::create (
         "oe", "octave-entry",
           replaceSubstringInString (
             replaceSubstringInString (
@@ -858,7 +979,7 @@ to prevent LilyPond from using open strings.)",
 
   notesSubGroup->
     appendOptionsItem (
-      optionsAccidentalStyleItem::create (
+      optionsAccidentalStyleKindItem::create (
         "as", "accidental-style", // JMI
           replaceSubstringInString (
             replaceSubstringInString (
@@ -874,7 +995,7 @@ The default is 'DEFAULT_VALUE'.)",
           lpsrAccidentalStyleKindAsString (
             lpsrAccidentalStyleKindDefaultValue)),
         "STYLE",
-        "accidentalStyle",
+        "accidentalStyleKind",
         fAccidentalStyleKind));
 
   notesSubGroup->
@@ -897,7 +1018,7 @@ This is useful when debugging xml2ly.)",
         fNoteInputLineNumbers));
 }
 
-void lilypondOptions::initializeLilypondBarsOptions (
+void lilypondOptions::initializeBarsOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -926,7 +1047,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
         fShowAllBarNumbers));
 }
 
-void lilypondOptions::initializeLilypondLineBreaksOptions (
+void lilypondOptions::initializeLineBreaksOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -980,7 +1101,7 @@ Nothing special is done by default.)",
         fSeparatorLineEveryNMeasures));
 }
 
-void lilypondOptions::initializeLilypondPageBreaksOptions (
+void lilypondOptions::initializePageBreaksOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1010,7 +1131,7 @@ and let LilyPond decide about them.)",
         fIgnorePageBreaks));
 }
 
-void lilypondOptions::initializeLilypondStavesOptions (
+void lilypondOptions::initializeStavesOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1049,7 +1170,7 @@ R"(Use the staff size value found in the MusicXML data.)",
         fKeepStaffSize));
 }
 
-void lilypondOptions::initializeLilypondChordsOptions (
+void lilypondOptions::initializeChordsOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1078,7 +1199,7 @@ R"(Connect arpeggios across piano staves.)",
         fConnectArpeggios));
 }
 
-void lilypondOptions::initializeLilypondTupletsOptions (
+void lilypondOptions::initializeTupletsOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1108,7 +1229,7 @@ instead of keeping the on one and the same line.)",
         fIndentTuplets));
 }
 
-void lilypondOptions::initializeLilypondRepeatOptions (
+void lilypondOptions::initializeRepeatOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1155,7 +1276,7 @@ R"(Ignore repeats numbers and let LilyPond determine them.)",
         fIgnoreRepeatNumbers));
 }
 
-void lilypondOptions::initializeLilypondOrnamentsOptions (
+void lilypondOptions::initializeOrnamentsOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1195,7 +1316,48 @@ The default is 'DEFAULT_VALUE'.)",
         fDelayedOrnamentsFraction));
 }
 
-void lilypondOptions::initializeLilypondFontsOptions (
+void lilypondOptions::initializeChordsDisplayOptions (
+  bool boolOptionsInitialValue)
+{
+  // variables
+
+  // options
+
+  S_optionsSubGroup
+    chordsDiaplaySubGroup =
+      optionsSubGroup::create (
+        "Chords display",
+        "hchd", "help-chords-display",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (chordsDiaplaySubGroup);
+
+  chordsDiaplaySubGroup->
+    appendOptionsItem (
+      optionsChordsDisplayItem::create (
+        "chd", "chords-display",
+/*
+Including a closing parenthesis in a raw string:
+  choose ### as the delimiter so only )###" ends the string:
+    R"###(
+        Some Text)"
+    )###";
+*/
+R"###(Use SPECIFICATION to display chords using LilyPond's chordNameExceptions.
+SPECIFICATION should contain a chord contents such as '<c ees ges bes>',
+followed by code to display it, for example:
+  '<c ees ges bes> \\super {"-7(" {\\small\\raise #0.5 \flat} "5)"}'.
+The LilyPond code has to escape backslashed, thus use '\\' to obtain '\'.
+These two elements are passed over to LilyPond verbatim, without any check.
+This option can be used any number of times.)###",
+        "SPECIFICATION",
+        "chordsDisplayList",
+        fChordsDisplayList));
+}
+
+void lilypondOptions::initializeFontsOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1227,7 +1389,7 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
         fJazzFonts));
 }
 
-void lilypondOptions::initializeLilypondCodeGenerationOptions (
+void lilypondOptions::initializeCodeGenerationOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1343,7 +1505,7 @@ at the beginning of the LilyPond code.)",
         fWhiteNoteHeads));
 }
 
-void lilypondOptions::initializeLilypondScoreNotationOptions (
+void lilypondOptions::initializeScoreNotationOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1376,10 +1538,9 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
 (https://github.com/nybbs2003/lilypond-Jianpu/jianpu10a.ly).)",
         "jianpu",
         fJianpu));
-
 }
 
-void lilypondOptions::initializeLilypondMidiOptions (
+void lilypondOptions::initializeMidiOptions (
   bool boolOptionsInitialValue)
 {
   // variables
@@ -1444,82 +1605,87 @@ void lilypondOptions::initializeLilypondOptions (
 {
   // identification
   // --------------------------------------
-  initializeLilypondIdentificationOptions (
+  initializeIdentificationOptions (
     boolOptionsInitialValue);
 
   // engravers
   // --------------------------------------
-  initializeLilypondEngraversOptions (
+  initializeEngraversOptions (
     boolOptionsInitialValue);
 
   // time
   // --------------------------------------
-  initializeLilypondTimeOptions (
+  initializeTimeOptions (
     boolOptionsInitialValue);
 
   // notes
   // --------------------------------------
-  initializeLilypondNotesOptions (
+  initializeNotesOptions (
     boolOptionsInitialValue);
 
   // bars
   // --------------------------------------
-  initializeLilypondBarsOptions (
+  initializeBarsOptions (
     boolOptionsInitialValue);
 
   // line breaks
   // --------------------------------------
-  initializeLilypondLineBreaksOptions (
+  initializeLineBreaksOptions (
     boolOptionsInitialValue);
 
   // page breaks
   // --------------------------------------
-  initializeLilypondPageBreaksOptions (
+  initializePageBreaksOptions (
     boolOptionsInitialValue);
 
   // staves
   // --------------------------------------
-  initializeLilypondStavesOptions (
+  initializeStavesOptions (
     boolOptionsInitialValue);
 
   // chords
   // --------------------------------------
-  initializeLilypondChordsOptions (
+  initializeChordsOptions (
     boolOptionsInitialValue);
 
   // tuplets
   // --------------------------------------
-  initializeLilypondTupletsOptions (
+  initializeTupletsOptions (
     boolOptionsInitialValue);
 
   // repeats
   // --------------------------------------
-  initializeLilypondRepeatOptions (
+  initializeRepeatOptions (
     boolOptionsInitialValue);
 
   // ornaments
   // --------------------------------------
-  initializeLilypondOrnamentsOptions (
+  initializeOrnamentsOptions (
+    boolOptionsInitialValue);
+
+  // chords display
+  // --------------------------------------
+  initializeChordsDisplayOptions (
     boolOptionsInitialValue);
 
   // fonts
   // --------------------------------------
-  initializeLilypondFontsOptions (
+  initializeFontsOptions (
     boolOptionsInitialValue);
 
   // code generation
   // --------------------------------------
-  initializeLilypondCodeGenerationOptions (
+  initializeCodeGenerationOptions (
     boolOptionsInitialValue);
 
   // score notation
   // --------------------------------------
-  initializeLilypondScoreNotationOptions (
+  initializeScoreNotationOptions (
     boolOptionsInitialValue);
 
   // midi
   // --------------------------------------
-  initializeLilypondMidiOptions (
+  initializeMidiOptions (
     boolOptionsInitialValue);
 }
 
@@ -1692,6 +1858,13 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fJazzFonts;
 
 
+  // fonts
+  // --------------------------------------
+
+  clone->fJazzFonts =
+    fJazzFonts;
+
+
   // code generation
   // --------------------------------------
 
@@ -1748,19 +1921,19 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 }
 
 /* JMI
-bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
+bool lilypondOptions::setAccidentalStyleKind (lpsrAccidentalStyleKind accidentalStyleKind)
 {
-  // is accidentalStyle in the accidental styles set?
-  map<string, lpsrAccidentalStyle>::const_iterator
+  // is accidentalStyleKind in the accidental styles set?
+  map<string, lpsrAccidentalStyleKind>::const_iterator
     it =
-      gLpsrAccidentalStylesMap.find (accidentalStyle);
+      gLpsrAccidentalStyleKindsMap.find (accidentalStyleKind);
 
-  if (it == gLpsrAccidentalStylesMap.end ()) {
-    // no, accidentalStyle is unknown
+  if (it == gLpsrAccidentalStyleKindsMap.end ()) {
+    // no, accidentalStyleKind is unknown
     return false;
   }
 
-  fAccidentalStyle = it.second;
+  fAccidentalStyleKind = it.second;
 
   return true;
 }
@@ -1795,6 +1968,431 @@ string lilypondOptions::scoreNotationKindAsString (
   } // switch
 
   return result;
+}
+
+void lilypondOptions::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+
+  os <<
+    "The LilyPond options are:" <<
+    endl;
+
+  gIndenter++;
+
+  // identification
+  // --------------------------------------
+  os <<
+    "Identification:" <<
+    endl;
+
+  gIndenter++;
+
+  // MusicXML informations
+  os << left <<
+    setw (valueFieldWidth) << "rights" << " : " <<
+      fRights <<
+      endl <<
+
+    setw (valueFieldWidth) << "composer" << " : " <<
+      fComposer <<
+      endl <<
+    setw (valueFieldWidth) << "arranger" << " : " <<
+      fArranger <<
+      endl <<
+    setw (valueFieldWidth) << "poet" << " : " <<
+      fPoet <<
+      endl <<
+    setw (valueFieldWidth) << "lyricist" << " : " <<
+      fLyricist <<
+      endl <<
+
+    setw (valueFieldWidth) << "software" << " : " <<
+      fSoftware <<
+      endl <<
+
+  // LilyPond informations
+    setw (valueFieldWidth) << "dedication" << " : " <<
+      fDedication <<
+      endl <<
+
+    setw (valueFieldWidth) << "piece" << " : " <<
+      fPiece <<
+      endl <<
+    setw (valueFieldWidth) << "opus" << " : " <<
+      fOpus <<
+      endl <<
+
+    setw (valueFieldWidth) << "title" << " : " <<
+      fTitle <<
+      endl <<
+    setw (valueFieldWidth) << "subTitle" << " : " <<
+      fSubTitle <<
+      endl <<
+    setw (valueFieldWidth) << "subSubTitle" << " : " <<
+      fSubSubTitle <<
+      endl <<
+    setw (valueFieldWidth) << "instrument" << " : " <<
+      fInstrument <<
+      endl <<
+    setw (valueFieldWidth) << "meter" << " : " <<
+      fMeter <<
+      endl <<
+
+    setw (valueFieldWidth) << "tagline" << " : " <<
+      fTagline <<
+      endl <<
+
+    setw (valueFieldWidth) << "copyright" << " : " <<
+      fCopyright <<
+      endl;
+
+  gIndenter--;
+
+
+  // engravers
+  // --------------------------------------
+  os <<
+    "Engravers:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "ambitusEngraver" << " : " <<
+      booleanAsString (fAmbitusEngraver) <<
+      endl;
+
+  gIndenter--;
+
+
+  // time
+  // --------------------------------------
+  os <<
+    "Time:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "numericalTime" << " : " <<
+      booleanAsString (fNumericalTime) <<
+      endl;
+
+  gIndenter--;
+
+
+  // notes
+  // --------------------------------------
+  os <<
+    "Notes:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "octaveEntryKind" << " : " <<
+      lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
+      endl <<
+
+    setw (valueFieldWidth) << "allDurations" << " : " <<
+      booleanAsString (fAllDurations) <<
+      endl <<
+
+    setw (valueFieldWidth) << "stems" << " : " <<
+      booleanAsString (fStems) <<
+      endl <<
+    setw (valueFieldWidth) << "noAutoBeaming" << " : " <<
+      booleanAsString (fNoAutoBeaming) <<
+      endl <<
+
+    setw (valueFieldWidth) << "romanStringNumbers" << " : " <<
+      booleanAsString (fRomanStringNumbers) <<
+      endl <<
+    setw (valueFieldWidth) << "avoidOpenString" << " : " <<
+      booleanAsString (fAvoidOpenStrings) <<
+      endl <<
+
+    setw (valueFieldWidth) << "accidentalStyleKind" << " : " <<
+      fAccidentalStyleKind <<
+      endl <<
+
+    setw (valueFieldWidth) << "compressRestMeasures" << " : " <<
+      booleanAsString (fCompressRestMeasures) <<
+      endl <<
+
+    setw (valueFieldWidth) << "inputLineNumbers" << " : " <<
+      booleanAsString (fNoteInputLineNumbers) <<
+      endl;
+
+  gIndenter--;
+
+
+  // bars
+  // --------------------------------------
+  os <<
+    "Bars:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "showAllBarNumbers" << " : " <<
+    booleanAsString (fShowAllBarNumbers) <<
+    endl;
+
+  gIndenter--;
+
+
+  // line breaks
+  // --------------------------------------
+  os <<
+    "Line breaks:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "ignoreLineBreaks" << " : " <<
+      booleanAsString (fIgnoreLineBreaks) <<
+      endl <<
+
+    setw (valueFieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
+      booleanAsString (fBreakLinesAtIncompleteRightMeasures) <<
+      endl <<
+
+    setw (valueFieldWidth) << "separatorLineEveryNMeasures" << " : " <<
+      booleanAsString (fSeparatorLineEveryNMeasures) <<
+      endl;
+
+  gIndenter--;
+
+
+  // page breaks
+  // --------------------------------------
+  os <<
+    "Page breaks:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "ignorePageBreaks" << " : " <<
+    booleanAsString (fIgnorePageBreaks) <<
+    endl;
+
+  gIndenter--;
+
+
+  // staves
+  // --------------------------------------
+  os <<
+    "Staves:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "modernTab" << " : " <<
+    booleanAsString (fModernTab) <<
+    endl;
+
+  gIndenter--;
+
+
+  // chords
+  // --------------------------------------
+
+  os <<
+    "Chords:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "connectArpeggios" << " : " <<
+    booleanAsString (fConnectArpeggios) <<
+    endl;
+
+  gIndenter--;
+
+
+  // tuplets
+  // --------------------------------------
+
+  os <<
+    "Tuplets:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "indentTuplets" << " : " <<
+    booleanAsString (fIndentTuplets) <<
+    endl;
+
+  gIndenter--;
+
+
+  // repeats
+  // --------------------------------------
+
+  os <<
+    "Repeats:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "keepRepeatBarlines" << " : " <<
+    booleanAsString (fKeepRepeatBarlines) <<
+    endl <<
+    setw (valueFieldWidth) << "repeatBrackets" << " : " <<
+    booleanAsString (fRepeatBrackets) <<
+    endl <<
+    setw (valueFieldWidth) << "ignoreRepeatNumbers" << " : " <<
+    booleanAsString (fIgnoreRepeatNumbers) <<
+    endl;
+
+  gIndenter--;
+
+
+  // ornaments
+  // --------------------------------------
+
+  os <<
+    "Ornaments:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
+    fDelayedOrnamentsFraction <<
+    endl;
+
+  gIndenter--;
+
+
+  // fonts
+  // --------------------------------------
+
+  os <<
+    "Fonts:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "jazzFonts" << " : " <<
+    booleanAsString (fJazzFonts) <<
+    endl;
+
+  gIndenter--;
+
+
+  // fonts
+  // --------------------------------------
+
+  os <<
+    "Fonts:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "jazzFonts" << " : " <<
+    booleanAsString (fJazzFonts) <<
+    endl;
+
+  gIndenter--;
+
+
+  // code generation
+  // --------------------------------------
+
+  os <<
+    "LilyPond code generation:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "xml2lyInfos" << " : " <<
+      booleanAsString (fXml2lyInfos) <<
+      endl <<
+
+    setw (valueFieldWidth) << "comments" << " : " <<
+      booleanAsString (fComments) <<
+      endl <<
+
+    setw (valueFieldWidth) << "global" << " : " <<
+      booleanAsString (fGlobal) <<
+      endl <<
+
+    setw (valueFieldWidth) << "displayMusic" << " : " <<
+      booleanAsString (fDisplayMusic) <<
+      endl <<
+
+    setw (valueFieldWidth) << "noLilypondCode" << " : " <<
+      booleanAsString (fNoLilypondCode) <<
+      endl <<
+
+    setw (valueFieldWidth) << "noLilypondLyrics" << " : " <<
+      booleanAsString (fNoLilypondLyrics) <<
+      endl <<
+
+    setw (valueFieldWidth) << "lilypondCompileDate" << " : " <<
+      booleanAsString (fLilypondCompileDate) <<
+      endl <<
+
+    setw (valueFieldWidth) << "pointAndClickOff" << " : " <<
+      booleanAsString (fPointAndClickOff) <<
+      endl <<
+
+    setw (valueFieldWidth) << "whiteNoteHeads" << " : " <<
+      booleanAsString (fWhiteNoteHeads) <<
+      endl;
+
+  gIndenter--;
+
+
+  // score notation
+  // --------------------------------------
+
+  os <<
+    "Score notation:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "fJianpu" << " : " <<
+      booleanAsString (fJianpu) <<
+      endl;
+
+  gIndenter--;
+
+
+  // midi
+  // --------------------------------------
+  os <<
+    "Midi:" <<
+    endl;
+
+  gIndenter++;
+
+  os << left <<
+    setw (valueFieldWidth) << "fMidiTempo" << " : " <<
+      fMidiTempo.first << " = " << fMidiTempo.second <<
+      endl <<
+
+    setw (valueFieldWidth) << "noMidi" << " : " <<
+      booleanAsString (fNoMidi) <<
+      endl;
+
+  gIndenter--;
 }
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
@@ -1938,7 +2536,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       booleanAsString (fAvoidOpenStrings) <<
       endl <<
 
-    setw (fieldWidth) << "accidentalStyle" << " : " <<
+    setw (fieldWidth) << "accidentalStyleKind" << " : " <<
       fAccidentalStyleKind <<
       endl <<
 
@@ -2116,6 +2714,23 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter--;
 
 
+  // fonts
+  // --------------------------------------
+
+  gLogIOstream <<
+    "Fonts:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "jazzFonts" << " : " <<
+    booleanAsString (fJazzFonts) <<
+    endl;
+
+  gIndenter--;
+
+
   // code generation
   // --------------------------------------
 
@@ -2201,21 +2816,6 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-
-  gLogIOstream <<
-    "Score notation:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "jianpu" << " : " <<
-      booleanAsString (fJianpu) <<
-      endl;
-
-  gIndenter--;
-
-
   gIndenter--;
 }
 
@@ -2227,14 +2827,14 @@ S_optionsItem lilypondOptions::handleOptionsItem (
 
   if (
     // octave entry kind item?
-    S_optionsLilypondOctaveEntryKindItem
+    S_optionsOctaveEntryKindItem
       octaveEntryKindItem =
-        dynamic_cast<optionsLilypondOctaveEntryKindItem*>(&(*item))
+        dynamic_cast<optionsOctaveEntryKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsLilypondOctaveEntryKindItem'" <<
+        "==> optionsItem is of type 'optionsOctaveEntryKindItem'" <<
         endl;
     }
 #endif
@@ -2245,20 +2845,38 @@ S_optionsItem lilypondOptions::handleOptionsItem (
 
   else if (
     // acccidentals style item?
-    S_optionsAccidentalStyleItem
-      accidentalStyleItem =
-        dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
+    S_optionsAccidentalStyleKindItem
+      accidentalStyleKindItem =
+        dynamic_cast<optionsAccidentalStyleKindItem*>(&(*item))
     ) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
+        "==> optionsItem is of type 'optionsAccidentalStyleKindItem'" <<
         endl;
     }
 #endif
 
     // wait until the value is met
-    result = accidentalStyleItem;
+    result = accidentalStyleKindItem;
+  }
+
+  else if (
+    // chords display item?
+    S_optionsChordsDisplayItem
+      chordsDisplayItem =
+        dynamic_cast<optionsChordsDisplayItem*>(&(*item))
+    ) {
+#ifdef TRACE_OPTIONS
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsChordsDisplayItem'" <<
+        endl;
+    }
+#endif
+
+    // wait until the value is met
+    result = chordsDisplayItem;
   }
 
   else if (
@@ -2282,174 +2900,9 @@ S_optionsItem lilypondOptions::handleOptionsItem (
   return result;
 }
 
-void lilypondOptions::handleOptionsItemValue (
+void lilypondOptions::handleOptionsOctaveEntryKindItemValue (
   ostream&      os,
-  S_optionsItem item,
-  string        theString)
-{
-  if (
-    // octave entry kind item?
-    S_optionsLilypondOctaveEntryKindItem
-      octaveEntryKindItem =
-        dynamic_cast<optionsLilypondOctaveEntryKindItem*>(&(*item))
-  ) {
-    handleOptionsLilypondOctaveEntryKindItemValue (
-      os,
-      octaveEntryKindItem,
-      theString);
-  }
-
-  else if (
-    // accidental style item?
-    S_optionsAccidentalStyleItem
-      accidentalStyleKindItem =
-        dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
-    ) {
-    // theString contains the language name:
-    // is it in the accidental styles map?
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
-        endl;
-    }
-#endif
-
-    map<string, lpsrAccidentalStyleKind>::const_iterator
-      it =
-        gLpsrAccidentalStyleKindsMap.find (
-          theString);
-
-    if (it == gLpsrAccidentalStyleKindsMap.end ()) {
-      // no, accidental style is unknown in the map
-      stringstream s;
-
-      s <<
-        "LPSR accidental style '" << theString <<
-        "' is unknown" <<
-        endl <<
-        "The " <<
-        gLpsrAccidentalStyleKindsMap.size () - 1 <<
-        " known LPSR accidental styles are:" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        existingLpsrAccidentalStyleKinds ();
-
-      gIndenter--;
-
-      optionError (s.str ());
-
-      printHelpSummary (os);
-
-      exit (4);
-    }
-
-    accidentalStyleKindItem->
-      setAccidentalStyleKindItemVariableValue (
-        (*it).second);
-  }
-
-  else if (
-    // midi tempo item?
-    S_optionsMidiTempoItem
-      midiTempoItem =
-        dynamic_cast<optionsMidiTempoItem*>(&(*item))
-    ) {
-    // theString contains the midi tempo specification
-    // decipher it to extract duration and perSecond values
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "==> optionsItem is of type 'optionsMidiTempoItem'" <<
-        endl;
-    }
-#endif
-
-    string regularExpression (
-      "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
-      "="
-      "[[:space:]]*([[:digit:]]+)[[:space:]]*");
-
-    regex  e (regularExpression);
-    smatch sm;
-
-    regex_match (theString, sm, e);
-
-    unsigned smSize = sm.size ();
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "There are " << smSize << " matches" <<
-        " for MIDI tempo string '" << theString <<
-        "' with regex '" << regularExpression <<
-        "'" <<
-        endl;
-    }
-#endif
-
-    if (smSize) {
-      for (unsigned i = 0; i < smSize; ++i) {
-        os <<
-          "[" << sm [i] << "] ";
-      } // for
-      os <<
-        endl;
-    }
-
-    else {
-      stringstream s;
-
-      s <<
-        "-midiTempo argument '" << theString <<
-        "' is ill-formed";
-
-      optionError (s.str ());
-
-      printSpecificSubGroupHelp (
-        os,
-        midiTempoItem->
-          getOptionsSubGroupUplink ());
-
-      exit (4);
-    }
-
-    string midiTempoDuration  = sm [1];
-
-    int    midiTempoPerSecond;
-    {
-      stringstream s;
-      s << sm [2];
-      s >> midiTempoPerSecond;
-    }
-
-#ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
-      os <<
-        "midiTempoDuration  = " <<
-        midiTempoDuration <<
-        endl <<
-        "midiTempoPerSecond = " <<
-        midiTempoPerSecond <<
-        endl;
-
-    midiTempoItem->
-      setMidiTempoItemVariableValue (
-        pair<string, int> (
-          midiTempoDuration, midiTempoPerSecond));
-    }
-#endif
-  }
-}
-
-void lilypondOptions::handleOptionsLilypondOctaveEntryKindItemValue (
-  ostream&      os,
-  S_optionsLilypondOctaveEntryKindItem
+  S_optionsOctaveEntryKindItem
                 octaveEntryKindItem,
   string        theString)
 {
@@ -2459,7 +2912,7 @@ void lilypondOptions::handleOptionsLilypondOctaveEntryKindItemValue (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
     os <<
-      "==> optionsItem is of type 'optionsLilypondOctaveEntryKindItem'" <<
+      "==> optionsItem is of type 'optionsOctaveEntryKindItem'" <<
       endl;
   }
 #endif
@@ -2499,8 +2952,335 @@ void lilypondOptions::handleOptionsLilypondOctaveEntryKindItemValue (
   }
 
   octaveEntryKindItem->
-    setOctaveEntryKindKindItemVariableValue (
+    setOctaveEntryKindItemVariableValue (
       (*it).second);
+}
+
+void lilypondOptions:: handleOptionsAccidentalStyleKindItemValue (
+  ostream&      os,
+  S_optionsAccidentalStyleKindItem
+                accidentalStyleKindItem,
+  string        theString)
+{
+  // theString contains the language name:
+  // is it in the accidental styles map?
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsAccidentalStyleKindItem'" <<
+      endl;
+  }
+#endif
+
+  map<string, lpsrAccidentalStyleKind>::const_iterator
+    it =
+      gLpsrAccidentalStyleKindsMap.find (
+        theString);
+
+  if (it == gLpsrAccidentalStyleKindsMap.end ()) {
+    // no, accidental style is unknown in the map
+    stringstream s;
+
+    s <<
+      "LPSR accidental style '" << theString <<
+      "' is unknown" <<
+      endl <<
+      "The " <<
+      gLpsrAccidentalStyleKindsMap.size () - 1 <<
+      " known LPSR accidental styles are:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      existingLpsrAccidentalStyleKinds ();
+
+    gIndenter--;
+
+    optionError (s.str ());
+
+    printHelpSummary (os);
+
+    exit (4);
+  }
+
+  accidentalStyleKindItem->
+    setAccidentalStyleKindItemVariableValue (
+      (*it).second);
+}
+
+void lilypondOptions::handleOptionsChordsDisplayItemValue (
+  ostream&      os,
+  S_optionsChordsDisplayItem
+                chordsDisplayItem,
+  string        theString)
+{
+  /*
+    % Exception music is chords with markups
+    chExceptionMusic = {
+      <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"} }
+      <c e g bes>1-\markup { \super "7" }
+      <c e gis bes>1-\markup { \super {"7(" {\small\raise #0.5 \sharp} "5)"} }
+      <c f g bes>1-\markup { \super {"7(sus4)"} }
+      <c e g a d'>1-\markup { \super "6/9" }
+      <c e g bes des'>1-\markup { \super {"7(" {\small\raise #0.5 \flat} "9)"} }
+      <c f g bes d'>1-\markup { \super {"9(sus4)"} }
+      <c e g bes d'>1-\markup { \super "9" }
+      <c e g b d'>1-\markup { \super "maj9" }
+      <c e gis bes d'>1-\markup { \super "9+" }
+      <c e g bes d' fis'>1-\markup { \super "9#11" }
+      <c e g bes d' f'>1-\markup { \super "11" }
+      <c e g bes d' a'>1-\markup { \super "13" }
+      <c e g bes d' fis' a'>1-\markup { \super {"13(" {\small\raise #0.5 \sharp} "11)"} }
+      <c e g a d'>1-\markup { \super "6(add9)" }
+    }
+
+    chExceptions = #(append
+                     (sequential-music-to-chord-exceptions chExceptionMusic #t)
+                     ignatzekExceptions)
+
+    -7b5:
+      -cd, -chord-display '<c ees ges bes> \super {"-7(" {\small\raise #0.5 \flat} "5)"}'
+  */
+
+  // theString contains a specification such as:
+  //   '<c ees ges bes> \super {"-7(" {\small\raise #0.5 \flat} "5)"}'
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsChordsDisplayItem'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "(<.+>)"
+    "[[:space:]]+"
+    "(.+)"
+    );
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for chords display string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "':" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    os <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "-chords-display argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+
+    printSpecificSubGroupHelp (
+      os,
+      chordsDisplayItem->
+        getOptionsSubGroupUplink ());
+
+    exit (4);
+  }
+
+  string chordContents     = sm [1];
+  string chordsDisplaycode = sm [2];
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "FAA chordContents  = " <<
+      chordContents <<
+      endl <<
+      "chordsDisplaycode = " <<
+      chordsDisplaycode <<
+      endl;
+
+  chordsDisplayItem->
+    setOptionsChordsDisplayItemVariableDisplayName (
+      make_pair (
+        chordContents, chordsDisplaycode));
+  }
+#endif
+}
+
+void lilypondOptions::handleOptionsMidiTempoItemValue (
+  ostream&      os,
+  S_optionsMidiTempoItem
+                midiTempoItem,
+  string        theString)
+{
+  // theString contains the midi tempo specification
+  // decipher it to extract duration and perSecond values
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "==> optionsItem is of type 'optionsMidiTempoItem'" <<
+      endl;
+  }
+#endif
+
+  string regularExpression (
+    "[[:space:]]*"
+    "([[:digit:]]+\\.*)"
+    "[[:space:]]*"
+    "="
+    "[[:space:]]*"
+    "([[:digit:]]+)"
+    "[[:space:]]*");
+
+  regex  e (regularExpression);
+  smatch sm;
+
+  regex_match (theString, sm, e);
+
+  unsigned smSize = sm.size ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "There are " << smSize << " matches" <<
+      " for MIDI tempo string '" << theString <<
+      "' with regex '" << regularExpression <<
+      "':" <<
+      endl;
+
+    gIndenter++;
+
+    for (unsigned i = 0; i < smSize; ++i) {
+      os <<
+        i << ": " << "\"" << sm [i] << "\"" <<
+        endl;
+    } // for
+    os <<
+      endl;
+
+    gIndenter--;
+  }
+#endif
+
+  if (smSize != 3) {
+    stringstream s;
+
+    s <<
+      "-midiTempo argument '" << theString <<
+      "' is ill-formed";
+
+    optionError (s.str ());
+
+    printSpecificSubGroupHelp (
+      os,
+      midiTempoItem->
+        getOptionsSubGroupUplink ());
+
+    exit (4);
+  }
+
+  string midiTempoDuration  = sm [1];
+
+  int    midiTempoPerSecond;
+  {
+    stringstream s;
+    s << sm [2];
+    s >> midiTempoPerSecond;
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions) {
+    os <<
+      "midiTempoDuration  = " <<
+      midiTempoDuration <<
+      endl <<
+      "midiTempoPerSecond = " <<
+      midiTempoPerSecond <<
+      endl;
+
+  midiTempoItem->
+    setMidiTempoItemVariableValue (
+      pair<string, int> (
+        midiTempoDuration, midiTempoPerSecond));
+  }
+#endif
+}
+
+void lilypondOptions::handleOptionsItemValue (
+  ostream&      os,
+  S_optionsItem item,
+  string        theString)
+{
+  if (
+    // octave entry kind item?
+    S_optionsOctaveEntryKindItem
+      octaveEntryKindItem =
+        dynamic_cast<optionsOctaveEntryKindItem*>(&(*item))
+  ) {
+    handleOptionsOctaveEntryKindItemValue (
+      os,
+      octaveEntryKindItem,
+      theString);
+  }
+
+  else if (
+    // accidental style item?
+    S_optionsAccidentalStyleKindItem
+      accidentalStyleKindItem =
+        dynamic_cast<optionsAccidentalStyleKindItem*>(&(*item))
+  ) {
+    handleOptionsAccidentalStyleKindItemValue (
+      os,
+      accidentalStyleKindItem,
+      theString);
+  }
+
+  else if (
+    // chords display item?
+    S_optionsChordsDisplayItem
+      chordsDisplayItem =
+        dynamic_cast<optionsChordsDisplayItem*>(&(*item))
+  ) {
+    handleOptionsChordsDisplayItemValue (
+      os,
+      chordsDisplayItem,
+      theString);
+  }
+
+  else if (
+    // midi tempo item?
+    S_optionsMidiTempoItem
+      midiTempoItem =
+        dynamic_cast<optionsMidiTempoItem*>(&(*item))
+  ) {
+    handleOptionsMidiTempoItemValue (
+      os,
+      midiTempoItem,
+      theString);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lilypondOptions& elt)

@@ -91,7 +91,7 @@ optionsFacSimileKindItem::~optionsFacSimileKindItem ()
 
 void optionsFacSimileKindItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsFacSimileKindItem:" <<
@@ -181,7 +181,7 @@ optionsBsrTextsLanguageItem::~optionsBsrTextsLanguageItem ()
 
 void optionsBsrTextsLanguageItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsBsrTextsLanguageItem:" <<
@@ -509,7 +509,7 @@ void bsrOptions::initializeBsrTraceOptions (
   fTraceBsrVisitors     = boolOptionsInitialValue;
 
   S_optionsSubGroup
-    specificTraceSubGroup =
+    traceSubGroup =
       optionsSubGroup::create (
         "Trace",
         "hbst", "help-bsr-trace",
@@ -518,9 +518,9 @@ R"(Note: the options in this group imply '-t, -trace-passes'.)",
       optionsSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (specificTraceSubGroup);
+  appendOptionsSubGroup (traceSubGroup);
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tbsr", "trace-bsr",
@@ -528,7 +528,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
         "traceBsr",
         fTraceBsr));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
         "tpages", "trace-pages",
@@ -537,7 +537,7 @@ R"()",
         fTracePages,
         gGeneralOptions->fTracePasses));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tlines", "trace-lines",
@@ -545,7 +545,7 @@ R"()",
         "traceLines",
         fTraceLines));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tspaces", "trace-spaces",
@@ -553,14 +553,14 @@ R"(Write a trace of the BSR spaces activity to standard error.)",
         "traceSpaces",
         fTraceSpaces));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tnums", "trace-numbers",
 R"(Write a trace of the BSR numbers activity to standard error.)",
         "traceNumbers",
         fTraceNumbers));
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
         "tpars", "trace-parallels",
@@ -569,7 +569,7 @@ R"()",
         fTraceParallels,
         gGeneralOptions->fTracePasses));
 
-  specificTraceSubGroup->
+  traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
         "tbsrv", "trace-bsr-visitors",

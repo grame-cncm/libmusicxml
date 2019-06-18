@@ -68,6 +68,16 @@ msrStaff::msrStaff (
 
   // do other initializations
   initializeStaff ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Creating staff \"" << asString () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+#endif
 }
 
 void msrStaff::initializeStaff ()
@@ -114,17 +124,7 @@ void msrStaff::initializeStaff ()
       break;
   } // switch
 
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceStaves) {
-    gLogIOstream <<
-      "Initializing staff \"" << fStaffName <<
-      "\" in part " <<
-      fStaffPartUplink->getPartCombinedName () <<
-      endl;
-  }
-#endif
-
-  gIndenter++;
+// JMI  gIndenter++;
 
   // check the staff number
   switch (fStaffKind) {
@@ -271,7 +271,7 @@ void msrStaff::initializeStaff ()
   // rest measures
   fStaffContainsRestMeasures = false;
 
-  gIndenter--;
+// JMI  gIndenter--;
 }
 
 msrStaff::~msrStaff ()

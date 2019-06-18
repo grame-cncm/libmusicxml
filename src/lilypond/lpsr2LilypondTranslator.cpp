@@ -3677,6 +3677,47 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
   // initial empty line in LilyPond code
   // to help copy/paste it
 // JMI  fLilypondCodeIOstream << endl;
+
+  list<pair<string, string> >&
+    chordsDisplayList =
+      gLilypondOptions->fChordsDisplayList;
+
+  if (chordsDisplayList.size ()) {
+    // generate code to be used by \chordmode
+
+    fLilypondCodeIOstream <<
+R"(% Exception music is chords with markups
+chExceptionMusic = {)" <<
+      endl;
+
+    list<pair<string, string> >::const_iterator
+      iBegin = chordsDisplayList.begin (),
+      iEnd   = chordsDisplayList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      fLilypondCodeIOstream <<
+        gTab <<
+        (*i).first <<
+        "1-\\markup { " <<
+        (*i).second <<
+        " }" <<
+        endl;
+      if (++i == iEnd) break;
+ //     fLilypondCodeIOstream << endl;
+    } // for
+
+  fLilypondCodeIOstream <<
+    "}" <<
+    endl <<
+    endl <<
+R"(% Convert music to list and prepend to existing exceptions.
+chExceptions = #( append
+                  ( sequential-music-to-chord-exceptions chExceptionMusic #t)
+                  ignatzekExceptions))" <<
+    endl <<
+    endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)

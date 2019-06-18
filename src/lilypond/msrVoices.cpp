@@ -137,6 +137,14 @@ msrVoice::msrVoice (
   // do other initializations
   initializeVoice (
     voiceCreateInitialLastSegmentKind);
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Creating voice \"" << asString () << "\"" <<
+      endl;
+  }
+#endif
 }
 
 msrVoice::~msrVoice ()

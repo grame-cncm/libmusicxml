@@ -71,7 +71,7 @@ xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem ()
 
 void xml2lyOptionsVersionItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "xml2lyOptionsVersionItem:" <<
@@ -148,7 +148,7 @@ xml2lyOptionsAboutItem::~xml2lyOptionsAboutItem ()
 
 void xml2lyOptionsAboutItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "xml2lyOptionsAboutItem:" <<
@@ -238,7 +238,7 @@ xml2lyOptionsContactItem::~xml2lyOptionsContactItem ()
 
 void xml2lyOptionsContactItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "xml2lyOptionsContactItem:" <<

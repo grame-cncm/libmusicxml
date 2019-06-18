@@ -78,8 +78,10 @@ void msrPart::initializePart ()
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
-      "Creating part \"" << getPartCombinedName () << "\"" <<
+      "Creating part \"" << asString () << "\"" <<
       endl;
+
+    gMsrOptions->printMsrOptionsValues (40); // JMI
   }
 #endif
 
@@ -108,6 +110,14 @@ void msrPart::initializePart ()
 
   // rest measures
   fPartContainsRestMeasures = false;
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceParts) {
+    gLogIOstream <<
+      "Creating part \"" << asString () << "\"" <<
+      endl;
+  }
+#endif
 }
 
 msrPart::~msrPart ()
@@ -1738,9 +1748,15 @@ string msrPart::asString () const
   stringstream s;
 
   s <<
-    "Part \"" <<
-    getPartName () <<
-    "\", line " << fInputLineNumber;
+    "Part" <<
+    ", partID = \"" <<
+    fPartID <<
+    "\", partName = \"" <<
+    fPartName <<
+    "\", partMsrName: " << fPartMsrName <<
+    fPartName <<
+    "\", partStaves: " << fPartStavesMap.size () <<
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }

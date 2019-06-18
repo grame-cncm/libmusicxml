@@ -39,7 +39,7 @@ namespace MusicXML2
 const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
 
-const int K_FIELD_WIDTH = 40;
+const int K_OPTIONS_FIELD_WIDTH = 40;
 
 // PRE-declarations for class dependencies
 //______________________________________________________________________________

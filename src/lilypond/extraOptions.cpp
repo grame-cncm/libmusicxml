@@ -64,7 +64,7 @@ optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem ()
 
 void optionsShowAllChordsStructuresItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "OptionsShowAllChordsStructuresItem:" <<
@@ -147,7 +147,7 @@ optionsShowAllChordsContentsItem::~optionsShowAllChordsContentsItem ()
 
 void optionsShowAllChordsContentsItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "optionsShowAllChordsContentsItem:" <<
@@ -234,7 +234,7 @@ optionsShowChordDetailsItem::~optionsShowChordDetailsItem ()
 
 void optionsShowChordDetailsItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "optionsShowChordDetailsItem:" <<
@@ -312,7 +312,7 @@ optionsShowChordAnalysisItem::~optionsShowChordAnalysisItem ()
 
 void optionsShowChordAnalysisItem::print (ostream& os) const
 {
-  const int fieldWidth = K_FIELD_WIDTH;
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
 
   os <<
     "optionsShowChordAnalysisItem:" <<

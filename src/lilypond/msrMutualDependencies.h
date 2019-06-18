@@ -8408,10 +8408,6 @@ class msrPart : public msrPartGroupElement
 
     S_msrTranspose        fPartCurrentTranspose;
 
-    // staff details
-
-    S_msrStaffDetails     fCurrentPartStaffDetails;
-
     // figured bass
 
     S_msrStaff            fPartFiguredBassStaff;
@@ -8470,7 +8466,6 @@ class msrPart : public msrPartGroupElement
     S_msrStaffDetails     getCurrentPartStaffDetails () const
                               { return fCurrentPartStaffDetails; }
 
-
     // finalization
 
     void                  finalizeCurrentMeasureInPart (
@@ -8496,6 +8491,9 @@ class msrPart : public msrPartGroupElement
     // work fields
     // ------------------------------------------------------
 
+    // staff details
+
+    S_msrStaffDetails     fCurrentPartStaffDetails;
 };
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);

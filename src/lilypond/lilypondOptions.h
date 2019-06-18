@@ -96,53 +96,53 @@ typedef SMARTP<optionsScoreOutputKindItem> S_optionsScoreOutputKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
-class optionsLilypondOctaveEntryKindItem : public optionsValuedItem
+class optionsOctaveEntryKindItem : public optionsValuedItem
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsLilypondOctaveEntryKindItem> create (
+    static SMARTP<optionsOctaveEntryKindItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+      string             optionsOctaveEntryKindItemVariableDisplayName,
       lpsrOctaveEntryKind&
-                         optionsLilypondOctaveEntryKindKindItemVariable);
+                         optionsOctaveEntryKindItemVariable);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsLilypondOctaveEntryKindItem (
+    optionsOctaveEntryKindItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsLilypondOctaveEntryKindKindItemVariableDisplayName,
+      string             optionsOctaveEntryKindItemVariableDisplayName,
       lpsrOctaveEntryKind&
-                         optionsLilypondOctaveEntryKindKindItemVariable);
+                         optionsOctaveEntryKindItemVariable);
 
-    virtual ~optionsLilypondOctaveEntryKindItem ();
+    virtual ~optionsOctaveEntryKindItem ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsLilypondOctaveEntryKindKindItemVariableDisplayName () const
+    string                getOptionsOctaveEntryKindItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName;
+                                  fOptionsOctaveEntryKindItemVariableDisplayName;
                               }
 
-    void                  setOctaveEntryKindKindItemVariableValue (
+    void                  setOctaveEntryKindItemVariableValue (
                             lpsrOctaveEntryKind value)
                               {
-                                fOptionsLilypondOctaveEntryKindKindItemVariable = value;
+                                fOptionsOctaveEntryKindItemVariable = value;
                               }
 
     // services
@@ -162,11 +162,11 @@ class optionsLilypondOctaveEntryKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsLilypondOctaveEntryKindKindItemVariableDisplayName;
-    lpsrOctaveEntryKind&  fOptionsLilypondOctaveEntryKindKindItemVariable;
+    string                fOptionsOctaveEntryKindItemVariableDisplayName;
+    lpsrOctaveEntryKind&  fOptionsOctaveEntryKindItemVariable;
 };
-typedef SMARTP<optionsLilypondOctaveEntryKindItem> S_optionsLilypondOctaveEntryKindItem;
-EXP ostream& operator<< (ostream& os, const S_optionsLilypondOctaveEntryKindItem& elt);
+typedef SMARTP<optionsOctaveEntryKindItem> S_optionsOctaveEntryKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsOctaveEntryKindItem& elt);
 
 //______________________________________________________________________________
 class optionsOctaveEntryReferenceItem : public optionsValuedItem
@@ -182,7 +182,7 @@ class optionsOctaveEntryReferenceItem : public optionsValuedItem
       string  optionsItemDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
-      S_msrSemiTonesPitchAndRelativeOctave&
+      S_msrSemiTonesPitchAndOctave&
               optionsOctaveEntryReferenceItemVariable);
 
   protected:
@@ -196,7 +196,7 @@ class optionsOctaveEntryReferenceItem : public optionsValuedItem
       string  optionsItemDescription,
       string  optionsValueSpecification,
       string  optionsStringItemVariableDisplayName,
-      S_msrSemiTonesPitchAndRelativeOctave&
+      S_msrSemiTonesPitchAndOctave&
               optionsOctaveEntryReferenceItemVariable);
 
     virtual ~optionsOctaveEntryReferenceItem ();
@@ -213,7 +213,7 @@ class optionsOctaveEntryReferenceItem : public optionsValuedItem
                               }
 
     void                  setTransposeItemVariableValue (
-                            S_msrSemiTonesPitchAndRelativeOctave value)
+                            S_msrSemiTonesPitchAndOctave value)
                               {
                                 fOptionsTransposeItemVariable = value;
                               }
@@ -236,26 +236,26 @@ class optionsOctaveEntryReferenceItem : public optionsValuedItem
     // ------------------------------------------------------
 
     string                fOptionsTransposeItemVariableDisplayName;
-    S_msrSemiTonesPitchAndRelativeOctave&
+    S_msrSemiTonesPitchAndOctave&
                           fOptionsTransposeItemVariable;
 };
 typedef SMARTP<optionsOctaveEntryReferenceItem> S_optionsOctaveEntryReferenceItem;
 EXP ostream& operator<< (ostream& os, const S_optionsOctaveEntryReferenceItem& elt);
 
 //______________________________________________________________________________
-class optionsAccidentalStyleItem : public optionsValuedItem
+class optionsAccidentalStyleKindItem : public optionsValuedItem
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsAccidentalStyleItem> create (
+    static SMARTP<optionsAccidentalStyleKindItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsAccidentalStyleItemVariableDisplayName,
+      string             optionsAccidentalStyleKindItemVariableDisplayName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
 
@@ -264,16 +264,16 @@ class optionsAccidentalStyleItem : public optionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsAccidentalStyleItem (
+    optionsAccidentalStyleKindItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsAccidentalStyleItemVariableDisplayName,
+      string             optionsAccidentalStyleKindItemVariableDisplayName,
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
 
-    virtual ~optionsAccidentalStyleItem ();
+    virtual ~optionsAccidentalStyleKindItem ();
 
   public:
 
@@ -313,8 +313,89 @@ class optionsAccidentalStyleItem : public optionsValuedItem
     lpsrAccidentalStyleKind&
                           fOptionsAccidentalStyleKindItemVariable;
 };
-typedef SMARTP<optionsAccidentalStyleItem> S_optionsAccidentalStyleItem;
-EXP ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
+typedef SMARTP<optionsAccidentalStyleKindItem> S_optionsAccidentalStyleKindItem;
+EXP ostream& operator<< (ostream& os, const S_optionsAccidentalStyleKindItem& elt);
+
+//______________________________________________________________________________
+class optionsChordsDisplayItem : public optionsValuedItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsChordsDisplayItem> create (
+      string                optionsItemShortName,
+      string                optionsItemLongName,
+      string                optionsItemDescription,
+      string                optionsValueSpecification,
+      string                optionsChordsDisplayItemVariableDisplayName,
+      list<pair<string, string> >&
+                            optionsChordsDisplayItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsChordsDisplayItem (
+      string                optionsItemShortName,
+      string                optionsItemLongName,
+      string                optionsItemDescription,
+      string                optionsValueSpecification,
+      string                optionsChordsDisplayItemVariableDisplayName,
+      list<pair<string, string> >&
+                            optionsChordsDisplayItemVariable);
+
+    virtual ~optionsChordsDisplayItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsChordsDisplayItemVariableDisplayName () const
+                              {
+                                return
+                                  foptionsChordsDisplayItemVariableDisplayName;
+                              }
+
+    void                  setOptionsChordsDisplayItemVariableDisplayName (
+                            pair<string, string> value)
+                              {
+                                foptionsChordsDisplayItemVariable.push_back (value);
+                              }
+
+    const list<pair<string, string> >&
+                          getOptionsChordsDisplayItemVariable ()
+                              {
+                                return
+                                  foptionsChordsDisplayItemVariable;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                foptionsChordsDisplayItemVariableDisplayName;
+    list<pair<string, string> >&
+                          foptionsChordsDisplayItemVariable;
+};
+typedef SMARTP<optionsChordsDisplayItem> S_optionsChordsDisplayItem;
+EXP ostream& operator<< (ostream& os, const S_optionsChordsDisplayItem& elt);
 
 //______________________________________________________________________________
 class optionsMidiTempoItem : public optionsValuedItem
@@ -465,8 +546,8 @@ staffInstrumentAbbreviation
     // set and get
     // ------------------------------------------------------
 
- // JMI   bool                  setAccidentalStyle (
-  //                          lpsrAccidentalStyle accidentalStyle);
+ // JMI   bool                  setAccidentalStyleKind (
+  //                          lpsrAccidentalStyleKind accidentalStyleKind);
 
     bool                  setScoreOutputKind (
                             string outputKind);
@@ -499,10 +580,28 @@ staffInstrumentAbbreviation
                             S_optionsItem item,
                             string        theString);
 
-    void                  handleOptionsLilypondOctaveEntryKindItemValue (
+    void                  handleOptionsOctaveEntryKindItemValue (
                             ostream&      os,
-                            S_optionsLilypondOctaveEntryKindItem
+                            S_optionsOctaveEntryKindItem
                                           octaveEntryKindItem,
+                            string        theString);
+
+    void                  handleOptionsAccidentalStyleKindItemValue (
+                            ostream&      os,
+                            S_optionsAccidentalStyleKindItem
+                                          accidentalStyleKindItem,
+                            string        theString);
+
+    void                  handleOptionsChordsDisplayItemValue (
+                            ostream&      os,
+                            S_optionsChordsDisplayItem
+                                          ChordsDisplayItem,
+                            string        theString);
+
+    void                  handleOptionsMidiTempoItemValue (
+                            ostream&      os,
+                            S_optionsMidiTempoItem
+                                          midiTempoItem,
                             string        theString);
 
   private:
@@ -510,52 +609,55 @@ staffInstrumentAbbreviation
     // private services
     // ------------------------------------------------------
 
-    void                  initializeLilypondIdentificationOptions (
+    void                  initializeIdentificationOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondEngraversOptions (
+    void                  initializeEngraversOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondTimeOptions (
+    void                  initializeTimeOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondNotesOptions (
+    void                  initializeNotesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondBarsOptions (
+    void                  initializeBarsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondLineBreaksOptions (
+    void                  initializeLineBreaksOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondPageBreaksOptions (
+    void                  initializePageBreaksOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondStavesOptions (
+    void                  initializeStavesOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondChordsOptions (
+    void                  initializeChordsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondTupletsOptions (
+    void                  initializeTupletsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondRepeatOptions (
+    void                  initializeRepeatOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondOrnamentsOptions (
+    void                  initializeOrnamentsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondFontsOptions (
+    void                  initializeChordsDisplayOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondCodeGenerationOptions (
+    void                  initializeFontsOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondScoreNotationOptions (
+    void                  initializeCodeGenerationOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLilypondMidiOptions (
+    void                  initializeScoreNotationOptions (
+                            bool boolOptionsInitialValue);
+
+    void                  initializeMidiOptions (
                             bool boolOptionsInitialValue);
 
   public:
@@ -566,6 +668,10 @@ staffInstrumentAbbreviation
     void                  printLilypondOptionsHelp ();
 
     void                  printLilypondOptionsValues (int fieldWidth);
+
+    virtual void          printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
 
   public:
 
@@ -644,8 +750,8 @@ staffInstrumentAbbreviation
 
     lpsrOctaveEntryKind   fOctaveEntryKind;
     // this is relevant only for relative and fixed octave entry kinds
-    S_msrSemiTonesPitchAndAbsoluteOctave
-                          fSemiTonesPitchAndAbsoluteOctave;
+    S_msrSemiTonesPitchAndOctave
+                          fSemiTonesPitchAndOctave;
 
 
 
@@ -720,6 +826,12 @@ staffInstrumentAbbreviation
 
     rational              fDelayedOrnamentsFraction;
 
+
+    // chords display
+    // --------------------------------------
+
+    list<pair<string, string> >
+                          fChordsDisplayList;
 
     // fonts
     // --------------------------------------
