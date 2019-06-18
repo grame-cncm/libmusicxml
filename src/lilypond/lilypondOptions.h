@@ -492,27 +492,27 @@ class lilypondOptions : public optionsGroup
 /*
     enum {
       workNumber
-workTitle
-movementNumber,
-movementTitle,
-scoreInstrument
-miscellaneousField
+      workTitle
+      movementNumber,
+      movementTitle,
+      scoreInstrument
+      miscellaneousField
 
-partGroupName
-partGroupNameDisplayText
-partGroupAbbrevation
-partGroupInstrumentName
+      partGroupName
+      partGroupNameDisplayText
+      partGroupAbbrevation
+      partGroupInstrumentName
 
-partID
-partMsrName
-partName
-partAbbrevation
-partInstrumentName
-partInstrumentAbbreviation
+      partID
+      partMsrName
+      partName
+      partAbbrevation
+      partInstrumentName
+      partInstrumentAbbreviation
 
-staffInstrumentName
-staffInstrumentAbbreviation
-};
+      staffInstrumentName
+      staffInstrumentAbbreviation
+      };
 */
 
   public:
@@ -832,6 +832,7 @@ staffInstrumentAbbreviation
 
     list<pair<string, string> >
                           fChordsDisplayList;
+    bool                  fJazzChordsDisplay;
 
     // fonts
     // --------------------------------------

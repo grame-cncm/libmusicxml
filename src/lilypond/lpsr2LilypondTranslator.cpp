@@ -3682,13 +3682,37 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
     chordsDisplayList =
       gLilypondOptions->fChordsDisplayList;
 
-  if (chordsDisplayList.size ()) {
+  if (
+    chordsDisplayList.size ()
+      ||
+    gLilypondOptions->fJazzChordsDisplay
+  ) {
     // generate code to be used by \chordmode
 
     fLilypondCodeIOstream <<
-R"(% Exception music is chords with markups
-chExceptionMusic = {)" <<
+R"###(% Exception music is chords with markups
+chExceptionMusic = {)###" <<
       endl;
+
+    if (gLilypondOptions->fJazzChordsDisplay) {
+      fLilypondCodeIOstream <<
+R"###(
+  <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"} }
+  <c e g bes>1-\markup { \super "7" }
+  <c e gis bes>1-\markup { \super {"7(" {\small\raise #0.5 \sharp} "5)"} }
+  <c f g bes>1-\markup { \super {"7(sus4)"} }
+  <c e g a d'>1-\markup { \super "6/9" }
+  <c e g bes des'>1-\markup { \super {"7(" {\small\raise #0.5 \flat} "9)"} }
+  <c f g bes d'>1-\markup { \super {"9(sus4)"} }
+  <c e g bes d'>1-\markup { \super "9" }
+  <c e g b d'>1-\markup { \super "maj9" }
+  <c e gis bes d'>1-\markup { \super "9+" }
+  <c e g bes d' fis'>1-\markup { \super "9#11" }
+  <c e g bes d' f'>1-\markup { \super "11" }
+  <c e g bes d' a'>1-\markup { \super "13" }
+  <c e g bes d' fis' a'>1-\markup { \super {"13(" {\small\raise #0.5 \sharp} "11)"} }
+  <c e g a d'>1-\markup { \super "6(add9)" })###";
+    }
 
     list<pair<string, string> >::const_iterator
       iBegin = chordsDisplayList.begin (),
@@ -3711,10 +3735,10 @@ chExceptionMusic = {)" <<
     "}" <<
     endl <<
     endl <<
-R"(% Convert music to list and prepend to existing exceptions.
+R"###(% Convert music to list and prepend to existing exceptions.
 chExceptions = #( append
                   ( sequential-music-to-chord-exceptions chExceptionMusic #t)
-                  ignatzekExceptions))" <<
+                  ignatzekExceptions))###" <<
     endl <<
     endl;
   }

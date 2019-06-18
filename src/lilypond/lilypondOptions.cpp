@@ -1348,13 +1348,28 @@ Including a closing parenthesis in a raw string:
 R"###(Use SPECIFICATION to display chords using LilyPond's chordNameExceptions.
 SPECIFICATION should contain a chord contents such as '<c ees ges bes>',
 followed by code to display it, for example:
-  '<c ees ges bes> \\super {"-7(" {\\small\\raise #0.5 \flat} "5)"}'.
+  '<c ees ges bes> \\super {"-7(" {\\small\\raise #0.5 \\flat} "5)"}'.
 The LilyPond code has to escape backslashed, thus use '\\' to obtain '\'.
 These two elements are passed over to LilyPond verbatim, without any check.
 This option can be used any number of times.)###",
         "SPECIFICATION",
         "chordsDisplayList",
         fChordsDisplayList));
+
+  // variables
+
+  fJazzChordsDisplay = boolOptionsInitialValue;
+
+  // options
+
+  chordsDiaplaySubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "jchd", "jazz-chords-display",
+R"(Display the chords using LilyPond's chordNameExceptions
+and a set of rather standard way to display them.)",
+        "jazzChordsDisplay",
+        fJazzChordsDisplay));
 }
 
 void lilypondOptions::initializeFontsOptions (
@@ -1362,7 +1377,7 @@ void lilypondOptions::initializeFontsOptions (
 {
   // variables
 
-  fJazzFonts   = boolOptionsInitialValue;
+  fJazzFonts = boolOptionsInitialValue;
 
   // options
 
@@ -1851,11 +1866,11 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fDelayedOrnamentsFraction;
 
 
-  // fonts
+  // chords display
   // --------------------------------------
 
-  clone->fJazzFonts =
-    fJazzFonts;
+  clone->fJazzChordsDisplay =
+    fJazzChordsDisplay;
 
 
   // fonts
@@ -2275,18 +2290,18 @@ void lilypondOptions::printOptionsValues (
   gIndenter--;
 
 
-  // fonts
+  // chords display
   // --------------------------------------
 
   os <<
-    "Fonts:" <<
+    "Chords display:" <<
     endl;
 
   gIndenter++;
 
   os << left <<
-    setw (valueFieldWidth) << "jazzFonts" << " : " <<
-    booleanAsString (fJazzFonts) <<
+    setw (valueFieldWidth) << "jazzChordsDisplay" << " : " <<
+    booleanAsString (fJazzChordsDisplay) <<
     endl;
 
   gIndenter--;
@@ -2697,18 +2712,18 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter--;
 
 
-  // fonts
+  // chords display
   // --------------------------------------
 
   gLogIOstream <<
-    "Fonts:" <<
+    "Chords display:" <<
     endl;
 
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "jazzFonts" << " : " <<
-    booleanAsString (fJazzFonts) <<
+    setw (fieldWidth) << "jazzChordsDisplay" << " : " <<
+    booleanAsString (fJazzChordsDisplay) <<
     endl;
 
   gIndenter--;
