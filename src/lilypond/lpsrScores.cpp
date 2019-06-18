@@ -1441,43 +1441,31 @@ chExceptionMusic = {)###" <<
 
     if (gLilypondOptions->fJazzChordsDisplay) {
       s <<
-R"###(  <c ees ges bes>1-\markup { \super {"-7(" {\small\raise #0.5 \flat} "5)"} }
-  <c e g bes>1-\markup { \super "7" }
-  <c e gis bes>1-\markup { \super {"7(" {\small\raise #0.5 \sharp} "5)"} }
-  <c f g bes>1-\markup { \super {"7(sus4)"} }
-  <c e g a d'>1-\markup { \super "6/9" }
-  <c e g bes des'>1-\markup { \super {"7(" {\small\raise #0.5 \flat} "9)"} }
-  <c f g bes d'>1-\markup { \super {"9(sus4)"} }
-  <c e g bes d'>1-\markup { \super "9" }
-  <c e g b d'>1-\markup { \super "maj9" }
-  <c e gis bes d'>1-\markup { \super "9+" }
-  <c e g bes d' fis'>1-\markup { \super "9#11" }
-  <c e g bes d' f'>1-\markup { \super "11" }
-  <c e g bes d' a'>1-\markup { \super "13" }
-  <c e g bes d' fis' a'>1-\markup { \super {"13(" {\small\raise #0.5 \sharp} "11)"} }
-  <c e g a d'>1-\markup { \super "6(add9)" })###";
+        gLilypondOptions->fJazzChordsDisplayLilypondcode;
     }
 
   list<pair<string, string> >&
     chordsDisplayList =
       gLilypondOptions->fChordsDisplayList;
 
-  list<pair<string, string> >::const_iterator
-    iBegin = chordsDisplayList.begin (),
-    iEnd   = chordsDisplayList.end (),
-    i      = iBegin;
+  if (chordsDisplayList.size ()) {
+    list<pair<string, string> >::const_iterator
+      iBegin = chordsDisplayList.begin (),
+      iEnd   = chordsDisplayList.end (),
+      i      = iBegin;
 
-  for ( ; ; ) {
-    s <<
-      gTab <<
-      (*i).first <<
-      "1-\\markup { " <<
-      (*i).second <<
-      " }" <<
-      endl;
-    if (++i == iEnd) break;
-//     s << endl;
-  } // for
+    for ( ; ; ) {
+      s <<
+        gTab <<
+        (*i).first <<
+        "1-\\markup { " <<
+        (*i).second <<
+        " }" <<
+        endl;
+      if (++i == iEnd) break;
+  //     s << endl;
+    } // for
+  }
 
   s <<
     "}" <<

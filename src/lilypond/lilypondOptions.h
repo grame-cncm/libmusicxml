@@ -833,6 +833,7 @@ class lilypondOptions : public optionsGroup
     list<pair<string, string> >
                           fChordsDisplayList;
     bool                  fJazzChordsDisplay;
+    string                fJazzChordsDisplayLilypondcode;
 
     // fonts
     // --------------------------------------
