@@ -12,6 +12,11 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include "setTraceOptionsIfDesired.h"
+#ifdef TRACE_OPTIONS
+  #include "traceOptions.h"
+#endif
+
 #include "generalOptions.h"
 
 
@@ -427,7 +432,7 @@ void initializeGeneralOptionsHandling (
   S_optionsHandler optionsHandler)
 {
 #ifdef TRACE_OPTIONS
-  if (false && ! gGeneralOptions->fQuiet) { // JMI ???
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing general options handling" <<
       endl;

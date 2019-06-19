@@ -313,6 +313,297 @@ class optionsHelpSummaryItem : public optionsItem
 typedef SMARTP<optionsHelpSummaryItem> S_optionsHelpSummaryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
 
+// options action items
+//______________________________________________________________________________
+class optionsActionItem : public optionsItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsActionItem> create (
+      string               optionsItemShortName,
+      string               optionsItemLongName,
+      string               optionsItemDescription,
+      function<void(void)> optionsActionItemFunction);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsActionItem (
+      string               optionsItemShortName,
+      string               optionsItemLongName,
+      string               optionsItemDescription,
+      function<void(void)> optionsActionItemFunction);
+
+    virtual ~optionsActionItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    function<void(void)>  getOptionsActionItemFunction () // JMI
+                              {
+                                return fOptionsActionItemFunction;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+/* JMI
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+*/
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    function<void(void)>  fOptionsActionItemFunction;
+};
+typedef SMARTP<optionsActionItem> S_optionsActionItem;
+EXP ostream& operator<< (ostream& os, const S_optionsActionItem& elt);
+
+// options boolean items
+//______________________________________________________________________________
+class optionsBooleanItem : public optionsItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsBooleanItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsBooleanItemVariableDisplayName,
+      bool&  optionsBooleanItemVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsBooleanItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsBooleanItemVariableDisplayName,
+      bool&  optionsBooleanItemVariable);
+
+    virtual ~optionsBooleanItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsBooleanItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsBooleanItemVariableDisplayName;
+                              }
+
+    void                  setBooleanItemVariableValue (
+                            bool value)
+                              {
+                                fOptionsBooleanItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsBooleanItemVariableDisplayName;
+    bool&                 fOptionsBooleanItemVariable;
+};
+typedef SMARTP<optionsBooleanItem> S_optionsBooleanItem;
+EXP ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
+
+// options two boolean items
+//______________________________________________________________________________
+class optionsTwoBooleansItem : public optionsItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsTwoBooleansItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsTwoBooleansItemVariableDisplayName,
+      bool&  optionsTwoBooleansItemVariable,
+      bool&  optionsTwoBooleansItemSecondaryVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsTwoBooleansItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsTwoBooleansItemVariableDisplayName,
+      bool&  optionsTwoBooleansItemVariable,
+      bool&  optionsTwoBooleansItemSecondaryVariable);
+
+    virtual ~optionsTwoBooleansItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsTwoBooleansItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsTwoBooleansItemVariableDisplayName;
+                              }
+
+    void                  setTwoBooleansItemVariableValue (
+                            bool value)
+                              {
+                                fOptionsTwoBooleansItemVariable =
+                                  value;
+                                fOptionsTwoBooleansItemSecondaryVariable =
+                                  value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsTwoBooleansItemVariableDisplayName;
+    bool&                 fOptionsTwoBooleansItemVariable;
+
+    bool&                 fOptionsTwoBooleansItemSecondaryVariable;
+};
+typedef SMARTP<optionsTwoBooleansItem> S_optionsTwoBooleansItem;
+EXP ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
+
+// options three boolean items
+//______________________________________________________________________________
+class optionsThreeBooleansItem : public optionsItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsThreeBooleansItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsThreeBooleansItemVariableDisplayName,
+      bool&  optionsThreeBooleansItemVariable,
+      bool&  optionsThreeBooleansItemSecondaryVariable,
+      bool&  optionsThreeBooleansItemTertiaryVariable);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsThreeBooleansItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsThreeBooleansItemVariableDisplayName,
+      bool&  optionsThreeBooleansItemVariable,
+      bool&  optionsThreeBooleansItemSecondaryVariable,
+      bool&  optionsThreeBooleansItemTertiaryVariable);
+
+    virtual ~optionsThreeBooleansItem ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsThreeBooleansItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsThreeBooleansItemVariableDisplayName;
+                              }
+
+    void                  setThreeBooleansItemVariableValue (
+                            bool value)
+                              {
+                                fOptionsThreeBooleansItemVariable =
+                                  value;
+                                fOptionsThreeBooleansItemSecondaryVariable =
+                                  value;
+                                fOptionsThreeBooleansItemTertiaryVariable =
+                                  value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsThreeBooleansItemVariableDisplayName;
+    bool&                 fOptionsThreeBooleansItemVariable;
+
+    bool&                 fOptionsThreeBooleansItemSecondaryVariable;
+    bool&                 fOptionsThreeBooleansItemTertiaryVariable;
+};
+typedef SMARTP<optionsThreeBooleansItem> S_optionsThreeBooleansItem;
+EXP ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
+
 // options combined items items
 //______________________________________________________________________________
 class optionsCombinedBooleanItemsItem : public optionsItem
@@ -398,231 +689,6 @@ class optionsCombinedBooleanItemsItem : public optionsItem
 };
 typedef SMARTP<optionsCombinedBooleanItemsItem> S_optionsCombinedBooleanItemsItem;
 EXP ostream& operator<< (ostream& os, const S_optionsCombinedBooleanItemsItem& elt);
-
-// options boolean items
-//______________________________________________________________________________
-class optionsBooleanItem : public optionsItem
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<optionsBooleanItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      string optionsBooleanItemVariableDisplayName,
-      bool&  optionsBooleanItemVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    optionsBooleanItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      string optionsBooleanItemVariableDisplayName,
-      bool&  optionsBooleanItemVariable);
-
-    virtual ~optionsBooleanItem ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    string                getOptionsBooleanItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsBooleanItemVariableDisplayName;
-                              }
-
-    void                  setBooleanItemVariableValue (
-                            bool value)
-                              {
-                                fOptionsBooleanItemVariable = value;
-                              }
-
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    string                fOptionsBooleanItemVariableDisplayName;
-    bool&                 fOptionsBooleanItemVariable;
-};
-typedef SMARTP<optionsBooleanItem> S_optionsBooleanItem;
-EXP ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
-
-class optionsTwoBooleansItem : public optionsItem
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<optionsTwoBooleansItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      string optionsTwoBooleansItemVariableDisplayName,
-      bool&  optionsTwoBooleansItemVariable,
-      bool&  optionsTwoBooleansItemSecondaryVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    optionsTwoBooleansItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      string optionsTwoBooleansItemVariableDisplayName,
-      bool&  optionsTwoBooleansItemVariable,
-      bool&  optionsTwoBooleansItemSecondaryVariable);
-
-    virtual ~optionsTwoBooleansItem ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    string                getOptionsTwoBooleansItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsTwoBooleansItemVariableDisplayName;
-                              }
-
-    void                  setTwoBooleansItemVariableValue (
-                            bool value)
-                              {
-                                fOptionsTwoBooleansItemVariable =
-                                  value;
-                                fOptionsTwoBooleansItemSecondaryVariable =
-                                  value;
-                              }
-
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    string                fOptionsTwoBooleansItemVariableDisplayName;
-    bool&                 fOptionsTwoBooleansItemVariable;
-
-    bool&                 fOptionsTwoBooleansItemSecondaryVariable;
-};
-typedef SMARTP<optionsTwoBooleansItem> S_optionsTwoBooleansItem;
-EXP ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
-
-class optionsThreeBooleansItem : public optionsItem
-{
-  public:
-
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<optionsThreeBooleansItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      string optionsThreeBooleansItemVariableDisplayName,
-      bool&  optionsThreeBooleansItemVariable,
-      bool&  optionsThreeBooleansItemSecondaryVariable,
-      bool&  optionsThreeBooleansItemTertiaryVariable);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    optionsThreeBooleansItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription,
-      string optionsThreeBooleansItemVariableDisplayName,
-      bool&  optionsThreeBooleansItemVariable,
-      bool&  optionsThreeBooleansItemSecondaryVariable,
-      bool&  optionsThreeBooleansItemTertiaryVariable);
-
-    virtual ~optionsThreeBooleansItem ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    string                getOptionsThreeBooleansItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsThreeBooleansItemVariableDisplayName;
-                              }
-
-    void                  setThreeBooleansItemVariableValue (
-                            bool value)
-                              {
-                                fOptionsThreeBooleansItemVariable =
-                                  value;
-                                fOptionsThreeBooleansItemSecondaryVariable =
-                                  value;
-                                fOptionsThreeBooleansItemTertiaryVariable =
-                                  value;
-                              }
-
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    string                fOptionsThreeBooleansItemVariableDisplayName;
-    bool&                 fOptionsThreeBooleansItemVariable;
-
-    bool&                 fOptionsThreeBooleansItemSecondaryVariable;
-    bool&                 fOptionsThreeBooleansItemTertiaryVariable;
-};
-typedef SMARTP<optionsThreeBooleansItem> S_optionsThreeBooleansItem;
-EXP ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
 
 // options valued items
 //______________________________________________________________________________

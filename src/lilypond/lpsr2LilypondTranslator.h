@@ -858,13 +858,14 @@ class lpsr2LilypondTranslator :
     bool                  fOnGoingHarmonyVoice;
     bool                  fOnGoingFiguredBassVoice;
 
-    // octaves modes
+    // octaves entry
     // ------------------------------------------------------
-    S_msrNote             fRelativeOctaveReference;
-                            // contains the absolute octave
-
-    S_msrNote             fFixedOctaveReference;
-                            // contains the absolute octave
+    /* this reference is:
+          mobile in relative mode
+          unused in absolute mode
+          fixed  in fixed mode
+    */
+    S_msrNote             fCurrentOctaveEntryAbsoluteReference;
 
     // repeats
     // ------------------------------------------------------

@@ -581,6 +581,383 @@ ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
 }
 
 //______________________________________________________________________________
+S_optionsActionItem optionsActionItem::create (
+  string               optionsItemShortName,
+  string               optionsItemLongName,
+  string               optionsItemDescription,
+  function<void(void)> optionsActionItemFunction)
+{
+  optionsActionItem* o = new
+    optionsActionItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsActionItemFunction);
+  assert(o!=0);
+  return o;
+}
+
+optionsActionItem::optionsActionItem (
+  string               optionsItemShortName,
+  string               optionsItemLongName,
+  string               optionsItemDescription,
+  function<void(void)> optionsActionItemFunction)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsActionItemFunction (
+      optionsActionItemFunction)
+{}
+
+optionsActionItem::~optionsActionItem ()
+{}
+
+void optionsActionItem::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsActionItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+/* JMI
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsActionItemVariableDisplayName" << " : " <<
+    fOptionsActionItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsActionItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsActionItemVariable) <<
+    endl;
+*/
+
+  gIndenter--;
+}
+
+/* JMI
+void optionsActionItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsActionItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsActionItemVariable) <<
+    endl;
+}
+    */
+
+ostream& operator<< (ostream& os, const S_optionsActionItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsBooleanItem optionsBooleanItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsBooleanItemVariableDisplayName,
+  bool&  optionsBooleanItemVariable)
+{
+  optionsBooleanItem* o = new
+    optionsBooleanItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsBooleanItemVariableDisplayName,
+      optionsBooleanItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsBooleanItem::optionsBooleanItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsBooleanItemVariableDisplayName,
+  bool&  optionsBooleanItemVariable)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsBooleanItemVariableDisplayName (
+      optionsBooleanItemVariableDisplayName),
+    fOptionsBooleanItemVariable (
+      optionsBooleanItemVariable)
+{}
+
+optionsBooleanItem::~optionsBooleanItem ()
+{}
+
+void optionsBooleanItem::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsBooleanItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsBooleanItemVariableDisplayName" << " : " <<
+    fOptionsBooleanItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsBooleanItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsBooleanItemVariable) <<
+    endl;
+
+  gIndenter--;
+}
+
+void optionsBooleanItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsBooleanItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsBooleanItemVariable) <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsTwoBooleansItem optionsTwoBooleansItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsTwoBooleansItemVariableDisplayName,
+  bool&  optionsTwoBooleansItemVariable,
+  bool&  optionsTwoBooleansItemSecondaryVariable)
+{
+  optionsTwoBooleansItem* o = new
+    optionsTwoBooleansItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsTwoBooleansItemVariableDisplayName,
+      optionsTwoBooleansItemVariable,
+      optionsTwoBooleansItemSecondaryVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsTwoBooleansItem::optionsTwoBooleansItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsTwoBooleansItemVariableDisplayName,
+  bool&  optionsTwoBooleansItemVariable,
+  bool&  optionsTwoBooleansItemSecondaryVariable)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsTwoBooleansItemVariableDisplayName (
+      optionsTwoBooleansItemVariableDisplayName),
+    fOptionsTwoBooleansItemVariable (
+      optionsTwoBooleansItemVariable),
+    fOptionsTwoBooleansItemSecondaryVariable (
+      optionsTwoBooleansItemSecondaryVariable)
+{}
+
+optionsTwoBooleansItem::~optionsTwoBooleansItem ()
+{}
+
+void optionsTwoBooleansItem::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsTwoBooleansItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription);
+  gIndenter--;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsTwoBooleansItemVariableDisplayName" << " : " <<
+    fOptionsTwoBooleansItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsTwoBooleansItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsTwoBooleansItemVariable) <<
+    endl;
+
+  gIndenter--;
+}
+
+void optionsTwoBooleansItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsTwoBooleansItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsTwoBooleansItemVariable) <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsThreeBooleansItem optionsThreeBooleansItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsThreeBooleansItemVariableDisplayName,
+  bool&  optionsThreeBooleansItemVariable,
+  bool&  optionsThreeBooleansItemSecondaryVariable,
+  bool&  optionsThreeBooleansItemTertiaryVariable)
+{
+  optionsThreeBooleansItem* o = new
+    optionsThreeBooleansItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsThreeBooleansItemVariableDisplayName,
+      optionsThreeBooleansItemVariable,
+      optionsThreeBooleansItemSecondaryVariable,
+      optionsThreeBooleansItemTertiaryVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsThreeBooleansItem::optionsThreeBooleansItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsThreeBooleansItemVariableDisplayName,
+  bool&  optionsThreeBooleansItemVariable,
+  bool&  optionsThreeBooleansItemSecondaryVariable,
+  bool&  optionsThreeBooleansItemTertiaryVariable)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsThreeBooleansItemVariableDisplayName (
+      optionsThreeBooleansItemVariableDisplayName),
+    fOptionsThreeBooleansItemVariable (
+      optionsThreeBooleansItemVariable),
+    fOptionsThreeBooleansItemSecondaryVariable (
+      optionsThreeBooleansItemSecondaryVariable),
+    fOptionsThreeBooleansItemTertiaryVariable (
+      optionsThreeBooleansItemTertiaryVariable)
+{}
+
+optionsThreeBooleansItem::~optionsThreeBooleansItem ()
+{}
+
+void optionsThreeBooleansItem::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsThreeBooleansItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsThreeBooleansItemVariableDisplayName" << " : " <<
+    fOptionsThreeBooleansItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsThreeBooleansItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsThreeBooleansItemVariable) <<
+    endl;
+
+  gIndenter--;
+}
+
+void optionsThreeBooleansItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsThreeBooleansItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsThreeBooleansItemVariable) <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_optionsCombinedBooleanItemsItem optionsCombinedBooleanItemsItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -892,293 +1269,6 @@ void optionsCombinedBooleanItemsItem::printOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_optionsCombinedBooleanItemsItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsBooleanItem optionsBooleanItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription,
-  string optionsBooleanItemVariableDisplayName,
-  bool&  optionsBooleanItemVariable)
-{
-  optionsBooleanItem* o = new
-    optionsBooleanItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsBooleanItemVariableDisplayName,
-      optionsBooleanItemVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsBooleanItem::optionsBooleanItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription,
-  string optionsBooleanItemVariableDisplayName,
-  bool&  optionsBooleanItemVariable)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription),
-    fOptionsBooleanItemVariableDisplayName (
-      optionsBooleanItemVariableDisplayName),
-    fOptionsBooleanItemVariable (
-      optionsBooleanItemVariable)
-{}
-
-optionsBooleanItem::~optionsBooleanItem ()
-{}
-
-void optionsBooleanItem::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "OptionsBooleanItem:" <<
-    endl;
-
-  gIndenter++;
-
-  optionsElement::printElementEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
-  gIndenter--;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsBooleanItemVariableDisplayName" << " : " <<
-    fOptionsBooleanItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsBooleanItemVariable" << " : " <<
-    booleanAsString (
-      fOptionsBooleanItemVariable) <<
-    endl;
-
-  gIndenter--;
-}
-
-void optionsBooleanItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsBooleanItemVariableDisplayName <<
-    " : " <<
-    booleanAsString (
-      fOptionsBooleanItemVariable) <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsTwoBooleansItem optionsTwoBooleansItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription,
-  string optionsTwoBooleansItemVariableDisplayName,
-  bool&  optionsTwoBooleansItemVariable,
-  bool&  optionsTwoBooleansItemSecondaryVariable)
-{
-  optionsTwoBooleansItem* o = new
-    optionsTwoBooleansItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsTwoBooleansItemVariableDisplayName,
-      optionsTwoBooleansItemVariable,
-      optionsTwoBooleansItemSecondaryVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsTwoBooleansItem::optionsTwoBooleansItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription,
-  string optionsTwoBooleansItemVariableDisplayName,
-  bool&  optionsTwoBooleansItemVariable,
-  bool&  optionsTwoBooleansItemSecondaryVariable)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription),
-    fOptionsTwoBooleansItemVariableDisplayName (
-      optionsTwoBooleansItemVariableDisplayName),
-    fOptionsTwoBooleansItemVariable (
-      optionsTwoBooleansItemVariable),
-    fOptionsTwoBooleansItemSecondaryVariable (
-      optionsTwoBooleansItemSecondaryVariable)
-{}
-
-optionsTwoBooleansItem::~optionsTwoBooleansItem ()
-{}
-
-void optionsTwoBooleansItem::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "OptionsTwoBooleansItem:" <<
-    endl;
-
-  gIndenter++;
-
-  optionsElement::printElementEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription);
-  gIndenter--;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsTwoBooleansItemVariableDisplayName" << " : " <<
-    fOptionsTwoBooleansItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsTwoBooleansItemVariable" << " : " <<
-    booleanAsString (
-      fOptionsTwoBooleansItemVariable) <<
-    endl;
-
-  gIndenter--;
-}
-
-void optionsTwoBooleansItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsTwoBooleansItemVariableDisplayName <<
-    " : " <<
-    booleanAsString (
-      fOptionsTwoBooleansItemVariable) <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsThreeBooleansItem optionsThreeBooleansItem::create (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription,
-  string optionsThreeBooleansItemVariableDisplayName,
-  bool&  optionsThreeBooleansItemVariable,
-  bool&  optionsThreeBooleansItemSecondaryVariable,
-  bool&  optionsThreeBooleansItemTertiaryVariable)
-{
-  optionsThreeBooleansItem* o = new
-    optionsThreeBooleansItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsThreeBooleansItemVariableDisplayName,
-      optionsThreeBooleansItemVariable,
-      optionsThreeBooleansItemSecondaryVariable,
-      optionsThreeBooleansItemTertiaryVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsThreeBooleansItem::optionsThreeBooleansItem (
-  string optionsItemShortName,
-  string optionsItemLongName,
-  string optionsItemDescription,
-  string optionsThreeBooleansItemVariableDisplayName,
-  bool&  optionsThreeBooleansItemVariable,
-  bool&  optionsThreeBooleansItemSecondaryVariable,
-  bool&  optionsThreeBooleansItemTertiaryVariable)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription),
-    fOptionsThreeBooleansItemVariableDisplayName (
-      optionsThreeBooleansItemVariableDisplayName),
-    fOptionsThreeBooleansItemVariable (
-      optionsThreeBooleansItemVariable),
-    fOptionsThreeBooleansItemSecondaryVariable (
-      optionsThreeBooleansItemSecondaryVariable),
-    fOptionsThreeBooleansItemTertiaryVariable (
-      optionsThreeBooleansItemTertiaryVariable)
-{}
-
-optionsThreeBooleansItem::~optionsThreeBooleansItem ()
-{}
-
-void optionsThreeBooleansItem::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "OptionsThreeBooleansItem:" <<
-    endl;
-
-  gIndenter++;
-
-  optionsElement::printElementEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
-  gIndenter--;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsThreeBooleansItemVariableDisplayName" << " : " <<
-    fOptionsThreeBooleansItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsThreeBooleansItemVariable" << " : " <<
-    booleanAsString (
-      fOptionsThreeBooleansItemVariable) <<
-    endl;
-
-  gIndenter--;
-}
-
-void optionsThreeBooleansItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsThreeBooleansItemVariableDisplayName <<
-    " : " <<
-    booleanAsString (
-      fOptionsThreeBooleansItemVariable) <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt)
 {
   elt->print (os);
   return os;

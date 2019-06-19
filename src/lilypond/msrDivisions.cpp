@@ -76,7 +76,7 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACE_OPTIONS
-  if (gMusicXMLOptions->fTraceDivisions) {
+  if (gMusicXMLOptions->fTraceDivisions && ! gGeneralOptions->fQuiet) {
     gLogIOstream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<

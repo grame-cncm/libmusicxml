@@ -374,14 +374,14 @@ void xml2brlOptionsHandler::initializeOptionsHandler (
   // initialize options handling, phase 1
   // ------------------------------------------------------
 
-  initializeGeneralOptionsHandling (
-    executableName,
-    this);
-
 #ifdef TRACE_OPTIONS
   initializeTraceOptionsHandling (
     this);
 #endif
+
+  initializeGeneralOptionsHandling (
+    executableName,
+    this);
 
   // initialize the library
   // ------------------------------------------------------

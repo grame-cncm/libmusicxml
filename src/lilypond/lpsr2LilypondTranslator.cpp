@@ -169,6 +169,30 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // voices
   fOnGoingVoice = false;
 
+  // octaves entry
+  // ------------------------------------------------------
+  /* initialize reference is:
+        mobile in relative mode
+        unused in absolute mode
+        fixed  in fixed mode
+  */
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryAbsoluteReference =
+        msrNote::createNoteFromSemiTonesPitchAndOctave (
+          gLilypondOptions->fSemiTonesPitchAndOctave);
+      break;
+    case kOctaveEntryAbsolute:
+      fCurrentOctaveEntryAbsoluteReference =
+        nullptr;
+      break;
+    case kOctaveEntryFixed:
+      fCurrentOctaveEntryAbsoluteReference =
+        msrNote::createNoteFromSemiTonesPitchAndOctave (
+          gLilypondOptions->fSemiTonesPitchAndOctave);
+      break;
+  } // switch
+
   // harmonies
   fOnGoingHarmonyVoice = false;
   fPowerChordHaveAlreadyBeenGenerated = false;
@@ -360,7 +384,7 @@ string lpsr2LilypondTranslator::lilypondRelativeModeOctave (
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  // generate LilyPond octave relative to fRelativeOctaveReference
+  // generate LilyPond octave relative to fCurrentOctaveEntryAbsoluteReference
 
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
@@ -374,19 +398,19 @@ string lpsr2LilypondTranslator::lilypondRelativeModeOctave (
 
   msrDiatonicPitchKind
     referenceDiatonicPitchKind =
-      fRelativeOctaveReference->
+      fCurrentOctaveEntryAbsoluteReference->
         noteDiatonicPitchKind (
           inputLineNumber);
 
   string
     referenceDiatonicPitchKindAsString =
-      fRelativeOctaveReference->
+      fCurrentOctaveEntryAbsoluteReference->
         noteDiatonicPitchKindAsString (
           inputLineNumber);
 
   int
     referenceAbsoluteOctave =
-      fRelativeOctaveReference->
+      fCurrentOctaveEntryAbsoluteReference->
         getNoteOctave ();
 
   /*
@@ -472,7 +496,7 @@ string lpsr2LilypondTranslator::lilypondFixedModeOctave ( // JMI
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  // generate LilyPond octave relative to fFixedOctaveReference
+  // generate LilyPond octave relative to fCurrentOctaveEntryAbsoluteReference
 
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
@@ -486,19 +510,19 @@ string lpsr2LilypondTranslator::lilypondFixedModeOctave ( // JMI
 
   msrDiatonicPitchKind
     referenceDiatonicPitchKind =
-      fFixedOctaveReference->
+      fCurrentOctaveEntryAbsoluteReference->
         noteDiatonicPitchKind (
           inputLineNumber);
 
   string
     referenceDiatonicPitchKindAsString =
-      fFixedOctaveReference->
+      fCurrentOctaveEntryAbsoluteReference->
         noteDiatonicPitchKindAsString (
           inputLineNumber);
 
   int
     referenceAbsoluteOctave =
-      fRelativeOctaveReference->
+      fCurrentOctaveEntryAbsoluteReference->
         getNoteOctave ();
 
   /*
@@ -705,26 +729,6 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     note->getNoteOctave ();
 
   // should an absolute octave be generated?
-  /* OLD
-  bool generateAbsoluteOctave =
-    gLilypondOptions->fAbsoluteOctaves
-      ||
-    ! fRelativeOctaveReference;
-    */
-  bool generateAbsoluteOctave = false;
-
-  switch (gLilypondOptions->fOctaveEntryKind) {
-    case kOctaveEntryRelative:
-      generateAbsoluteOctave = ! fRelativeOctaveReference;
-      break;
-    case kOctaveEntryAbsolute:
-      generateAbsoluteOctave = true;
-      break;
-    case kOctaveEntryFixed:
-      generateAbsoluteOctave = ! fRelativeOctaveReference; // JMI ???
-      break;
-  } // switch
-
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesDetails) {
     int noteAbsoluteDisplayOctave =
@@ -758,38 +762,41 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       "% noteAbsoluteDisplayOctave" <<
       " = " <<
       noteAbsoluteDisplayOctave <<
-      endl <<
-
-      setw (fieldWidth) <<
-      "% generateAbsoluteOctave" <<
-      " = " <<
-      booleanAsString (generateAbsoluteOctave) <<
-      endl <<
       endl;
   }
 #endif
 
+  /* OLD
+  bool generateAbsoluteOctave =
+    gLilypondOptions->fAbsoluteOctaves
+      ||
+    ! fCurrentOctaveEntryAbsoluteReference;
+    */
+
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
-      if (! fRelativeOctaveReference) {
-        // generate LilyPond absolute octave
+      if (! fCurrentOctaveEntryAbsoluteReference) {
+        // generate absolute octave
         s <<
           absoluteOctaveAsLilypondString (
             noteAbsoluteOctave);
       }
-/*
-      // generate LilyPond octave relative to fRelativeOctaveReference
-      s <<
-        lilypondRelativeModeOctave (note);
-      */
+      else {
+        // generate octave relative to mobile fCurrentOctaveEntryAbsoluteReference
+        s <<
+          lilypondRelativeModeOctave (note);
+      }
       break;
+
     case kOctaveEntryAbsolute:
-      // generate LilyPond octave relative to fRelativeOctaveReference
+      // generate LilyPond absolute octave
       s <<
-        lilypondRelativeModeOctave (note);
+        absoluteOctaveAsLilypondString (
+          noteAbsoluteOctave);
       break;
+
     case kOctaveEntryFixed:
-      // generate LilyPond octave relative to fRelativeOctaveReference // JMI
+      // generate octave relative to fixed fCurrentOctaveEntryAbsoluteReference
       s <<
         lilypondFixedModeOctave (note);
       break;
@@ -886,20 +893,6 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 //    quarterTonesDisplayPitchAsString;
 
   // should an absolute octave be generated?
-  bool generateAbsoluteOctave = false;
-
-  switch (gLilypondOptions->fOctaveEntryKind) {
-    case kOctaveEntryRelative:
-      generateAbsoluteOctave = ! fRelativeOctaveReference;
-      break;
-    case kOctaveEntryAbsolute:
-      generateAbsoluteOctave = true;
-      break;
-    case kOctaveEntryFixed:
-      generateAbsoluteOctave = ! fFixedOctaveReference; // JMI ???
-      break;
-  } // switch
-
   int noteAbsoluteDisplayOctave =
     note->getNoteDisplayOctave ();
 
@@ -937,20 +930,13 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       "% noteAbsoluteDisplayOctave" <<
       " = " <<
       noteAbsoluteDisplayOctave <<
-      endl <<
-
-      setw (fieldWidth) <<
-      "% generateAbsoluteOctave" <<
-      " = " <<
-      booleanAsString (generateAbsoluteOctave) <<
-      endl <<
       endl;
   }
 #endif
 
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
-    // generate LilyPond octave relative to fRelativeOctaveReference
+    // generate LilyPond octave relative to fCurrentOctaveEntryAbsoluteReference
     s <<
       lilypondRelativeModeOctave (note);
       break;
@@ -961,7 +947,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
           noteAbsoluteDisplayOctave);
       break;
     case kOctaveEntryFixed:
-      // generate LilyPond octave relative to fFixedOctaveReference
+      // generate LilyPond octave relative to fCurrentOctaveEntryAbsoluteReference
       s <<
         lilypondFixedModeOctave (note);
       break;
@@ -1599,7 +1585,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
           // have been copied to the note octave
           // in the msrNote::msrNote () constructor,
           // since the note octave is used in relative code generation)
-          fRelativeOctaveReference = note;
+          switch (gLilypondOptions->fOctaveEntryKind) {
+            case kOctaveEntryRelative:
+              fCurrentOctaveEntryAbsoluteReference = note;
+              break;
+            case kOctaveEntryAbsolute:
+              break;
+            case kOctaveEntryFixed:
+              break;
+  } // switch
         }
 
         else {
@@ -1765,7 +1759,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         }
 
         // this note is the new relative octave reference
-        fRelativeOctaveReference = note;
+        switch (gLilypondOptions->fOctaveEntryKind) {
+          case kOctaveEntryRelative:
+            fCurrentOctaveEntryAbsoluteReference = note;
+            break;
+          case kOctaveEntryAbsolute:
+            break;
+          case kOctaveEntryFixed:
+            break;
+        } // switch
       }
       break;
 
@@ -1804,7 +1806,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 */
 
       // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
+      switch (gLilypondOptions->fOctaveEntryKind) {
+        case kOctaveEntryRelative:
+          fCurrentOctaveEntryAbsoluteReference = note;
+          break;
+        case kOctaveEntryAbsolute:
+          break;
+        case kOctaveEntryFixed:
+          break;
+      } // switch
       break;
 
     case msrNote::kGraceNote:
@@ -1839,7 +1849,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       */
 
       // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
+      switch (gLilypondOptions->fOctaveEntryKind) {
+        case kOctaveEntryRelative:
+          fCurrentOctaveEntryAbsoluteReference = note;
+          break;
+        case kOctaveEntryAbsolute:
+          break;
+        case kOctaveEntryFixed:
+          break;
+      } // switch
       break;
 
     case msrNote::kGraceChordMemberNote:
@@ -1870,7 +1888,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       */
 
       // inside chords, a note is relative to the preceding one
-      fRelativeOctaveReference = note;
+      switch (gLilypondOptions->fOctaveEntryKind) {
+        case kOctaveEntryRelative:
+          fCurrentOctaveEntryAbsoluteReference = note;
+          break;
+        case kOctaveEntryAbsolute:
+          break;
+        case kOctaveEntryFixed:
+          break;
+      } // switch
       break;
 
     case msrNote::kChordMemberNote:
@@ -1915,7 +1941,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
         }
 
         // inside chords, a note is relative to the preceding one
-        fRelativeOctaveReference = note;
+        switch (gLilypondOptions->fOctaveEntryKind) {
+          case kOctaveEntryRelative:
+            fCurrentOctaveEntryAbsoluteReference = note;
+            break;
+          case kOctaveEntryAbsolute:
+            break;
+          case kOctaveEntryFixed:
+            break;
+        } // switch
       }
       break;
 
@@ -1963,7 +1997,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
       // a rest is no relative octave reference,
       if (! note->getNoteIsARest ()) {
         // this note is the new relative octave reference
-        fRelativeOctaveReference = note;
+        switch (gLilypondOptions->fOctaveEntryKind) {
+          case kOctaveEntryRelative:
+            fCurrentOctaveEntryAbsoluteReference = note;
+            break;
+          case kOctaveEntryAbsolute:
+            break;
+          case kOctaveEntryFixed:
+            break;
+        } // switch
       }
       break;
 
@@ -2008,7 +2050,15 @@ void lpsr2LilypondTranslator::generateCodeForNote (
 
       // this note is no new relative octave reference JMI ???
       // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
+      switch (gLilypondOptions->fOctaveEntryKind) {
+        case kOctaveEntryRelative:
+          fCurrentOctaveEntryAbsoluteReference = note;
+          break;
+        case kOctaveEntryAbsolute:
+          break;
+        case kOctaveEntryFixed:
+          break;
+      } // switch
       break;
 
     case msrNote::kTupletMemberUnpitchedNote:
@@ -6699,7 +6749,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
   }
 
-  fRelativeOctaveReference = nullptr;
+  // reset fCurrentOctaveEntryAbsoluteReference if relevant
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      // forget about the current reference
+      fCurrentOctaveEntryAbsoluteReference = nullptr;
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
 
   fVoiceIsCurrentlySenzaMisura = false;
 
@@ -12515,8 +12575,16 @@ void lpsr2LilypondTranslator::generateCodeAfterChordContents (S_msrChord chord)
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement
   // of a following note or chord
-  fRelativeOctaveReference =
-    chordNotesVector [0];
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryAbsoluteReference =
+        chordNotesVector [0];
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
 
   // generate the chord duration if relevant
   if (
@@ -13109,8 +13177,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   // if the preceding item is a chord, the first note of the chord
   // is used as the reference point for the octave placement
   // of a following note or chord
-  fRelativeOctaveReference =
-    elt->getChordNotesVector () [0];
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      fCurrentOctaveEntryAbsoluteReference =
+        elt->getChordNotesVector () [0];
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      break;
+  } // switch
 
   fOnGoingChord = false;
 }

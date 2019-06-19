@@ -3065,6 +3065,13 @@ class msrNote : public msrTupletElement
       int       staffNumber,
       int       voiceNumber);
 
+    // creation from the options
+    // ------------------------------------------------------
+
+    static SMARTP<msrNote> createNoteFromSemiTonesPitchAndOctave (
+      S_msrSemiTonesPitchAndOctave
+        semiTonesPitchAndOctave);
+
   protected:
 
     // constructors/destructor

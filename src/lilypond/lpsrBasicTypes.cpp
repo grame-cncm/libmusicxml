@@ -25,8 +25,10 @@
   #include "traceOptions.h"
 #endif
 
-#include "messagesHandling.h"
 #include "generalOptions.h"
+#include "lpsrOptions.h"
+
+#include "messagesHandling.h"
 
 
 using namespace std;
@@ -1050,9 +1052,13 @@ string existingLpsrChordsLanguageKinds ()
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
-  gLogIOstream <<
-    "Initializing LPSR basic types handling" <<
-    endl;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing LPSR basic types handling" <<
+      endl;
+  }
+#endif
 
   // LPSR score output handling
   // ------------------------------------------------------

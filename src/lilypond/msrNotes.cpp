@@ -1322,6 +1322,49 @@ S_msrNote msrNote::createSkipNote (
   return o;
 }
 
+//________________________________________________________________________
+S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
+  S_msrSemiTonesPitchAndOctave
+    semiTonesPitchAndOctave)
+{
+  msrNote * o =
+    new msrNote (
+      NO_INPUT_LINE_NUMBER,
+      K_NO_MEASURE_NUMBER,
+
+      kRestNote, // noteKind
+
+      quarterTonesPitchKindFromSemiTonesPitchKind (
+        semiTonesPitchAndOctave->getSemitonePitchKind ()),
+
+      rational (0, 1), // soundingWholeNotes,
+      rational (0, 1), // displayWholeNotes,
+
+      0, // dotsNumber,
+
+      k_NoDuration, // noteGraphicDuration
+
+      semiTonesPitchAndOctave->getOctave (), // noteOctave,
+
+      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
+      K_NO_OCTAVE, // noteDisplayOctave,
+
+      false, // noteIsARest
+      false, // noteIsUnpitched
+
+      false, // noteIsACueNote
+      false, // noteIsAGraceNote
+
+      kNotePrintNo, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
+  assert(o!=0);
+
+  return o;
+}
+
 void msrNote::setNoteOccupiesAFullMeasure ()
 {
   fNoteOccupiesAFullMeasure = true;

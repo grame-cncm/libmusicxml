@@ -1697,9 +1697,13 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 void initializeLpsrOptionsHandling (
   S_optionsHandler optionsHandler)
 {
-  gLogIOstream <<
-    "Initializing LPSR options handling" <<
-    endl;
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
+    gLogIOstream <<
+      "Initializing LPSR options handling" <<
+      endl;
+  }
+#endif
 
   // create the options variables
   // ------------------------------------------------------
