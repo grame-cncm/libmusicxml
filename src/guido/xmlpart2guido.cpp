@@ -1777,7 +1777,8 @@ namespace MusicXML2
         }
         if (note.fBreathMark) {
             Sguidoelement tag = guidotag::create("breathMark");
-            xml2guidovisitor::addPosition(note.fBreathMark, tag, -3, 0);
+            //xml2guidovisitor::addPosition(note.fBreathMark, tag, -3, 0);
+            xml2guidovisitor::addPosY(note.fBreathMark, tag, -3, 1);
             add(tag);
         }
         
