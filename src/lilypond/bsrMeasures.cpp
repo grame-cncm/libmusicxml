@@ -52,7 +52,7 @@ bsrMeasure::bsrMeasure (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating bsrMeasure '" <<
       asString () <<
       "', line " <<
@@ -69,7 +69,7 @@ S_bsrMeasure bsrMeasure::createMeasureNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of measure " <<
       asString () <<
       endl;
@@ -99,7 +99,7 @@ void bsrMeasure::appendClefToMeasure (S_bsrClef clef)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending clef '" <<
       clef->asShortString () <<
       "' to measure '" <<
@@ -116,7 +116,7 @@ void bsrMeasure::appendBarlineToMeasure (S_bsrBarline barline)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending barline '" <<
       barline->asShortString () <<
       "' to measure '" <<
@@ -133,7 +133,7 @@ void bsrMeasure::appendNumberToMeasure (S_bsrNumber number)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending number '" <<
       number->asShortString () <<
       "' to measure '" <<
@@ -150,7 +150,7 @@ void bsrMeasure::appendWordsToMeasure (S_bsrWords words)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceNumbers || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending words '" <<
       words->asShortString () <<
       "' to measure '" <<
@@ -167,7 +167,7 @@ void bsrMeasure::appendNoteToMeasure (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending note '" <<
       note->asShortString () <<
       "' to measure '" <<
@@ -184,7 +184,7 @@ void bsrMeasure::appendDynamicsToMeasure (S_bsrDynamics dynamics)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceDynamics || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending dynamics '" <<
       dynamics->asShortString () <<
       "' to measure '" <<
@@ -225,7 +225,7 @@ void bsrMeasure::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrMeasure::acceptIn ()" <<
       endl;
   }
@@ -238,7 +238,7 @@ void bsrMeasure::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrMeasure::visitStart ()" <<
             endl;
         }
@@ -251,7 +251,7 @@ void bsrMeasure::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrMeasure::acceptOut ()" <<
       endl;
   }
@@ -264,7 +264,7 @@ void bsrMeasure::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrMeasure::visitEnd ()" <<
             endl;
         }
@@ -335,8 +335,7 @@ void bsrMeasure::print (ostream& os)
     fSpacesBefore <<
     endl;
   
-  os <<
-    endl;
+  os << endl;
   
   // print the measure elements if any
   int measureElementsListSize = fMeasureLineElementsList.size ();
@@ -349,8 +348,7 @@ void bsrMeasure::print (ostream& os)
       singularOrPlural (
         measureElementsListSize, "element", "elements");
     if (measureElementsListSize) {
-      os <<
-        endl;
+      os << endl;
       gIndenter++;
   
       list<S_bsrLineElement>::const_iterator

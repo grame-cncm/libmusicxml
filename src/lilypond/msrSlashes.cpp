@@ -59,7 +59,7 @@ msrSlash::~msrSlash ()
 void msrSlash::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSlash::acceptIn ()" <<
       endl;
   }
@@ -70,7 +70,7 @@ void msrSlash::acceptIn (basevisitor* v)
         S_msrSlash elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSlash::visitStart ()" <<
             endl;
         }
@@ -81,7 +81,7 @@ void msrSlash::acceptIn (basevisitor* v)
 void msrSlash::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSlash::acceptOut ()" <<
       endl;
   }
@@ -92,7 +92,7 @@ void msrSlash::acceptOut (basevisitor* v)
         S_msrSlash elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSlash::visitEnd ()" <<
             endl;
         }

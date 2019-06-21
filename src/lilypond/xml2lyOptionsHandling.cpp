@@ -406,15 +406,15 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the options handler initial state
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "xml2lyOptionsHandler has been initialized as:" <<
       endl;
 
     gIndenter++;
 
     print (
-      fOptionsHandlerLogIOstream);
-    fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream);
+    fOptionsHandlerlogIOstream <<
       endl <<
       endl;
 
@@ -429,13 +429,13 @@ void xml2lyOptionsHandler::initializeOptionsHandler (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "xml2lyOptionsHandler help:" <<
       endl;
 
     this->
       printHelp (
-        fOptionsHandlerLogIOstream);
+        fOptionsHandlerlogIOstream);
   }
 #endif
 }
@@ -448,7 +448,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     if (argumentsNumber > 0) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         singularOrPluralWithoutNumber (
           argumentsNumber, "There is", "There are") <<
         " " <<
@@ -462,18 +462,17 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       gIndenter++;
 
       for (unsigned int i = 0; i < argumentsNumber; i++) {
-        fOptionsHandlerLogIOstream <<
+        fOptionsHandlerlogIOstream <<
           i << " : " << fArgumentsVector [i] <<
             endl;
       } // for
 
-      fOptionsHandlerLogIOstream <<
-        endl;
+      fOptionsHandlerlogIOstream << endl;
 
       gIndenter--;
     }
     else {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "There are no arguments" <<
         endl;
     }
@@ -485,7 +484,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
 
   switch (argumentsNumber) {
     case 0:
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         endl <<
         "Input file name or '-' for standard input expected" <<
         endl <<
@@ -501,7 +500,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       break;
 
     default:
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         endl <<
         "Several input file name supplied, only the first one, \"" <<
         fArgumentsVector [0] <<
@@ -624,7 +623,7 @@ void xml2lyOptions::enforceQuietness ()
 //______________________________________________________________________________
 void xml2lyOptions::checkOptionsConsistency ()
 {
-  gLogIOstream <<
+  glogIOstream <<
     "xml2lyOptions::checkOptionsConsistency ()" <<
     endl;
 
@@ -882,7 +881,7 @@ or adding '.ly' if none is present.)",
 
 void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The xml2ly options are:" <<
     endl;
 
@@ -891,13 +890,13 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
   // output file
   // --------------------------------------
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "Output file:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -997,7 +996,7 @@ void initializeXml2lyOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing xml2ly options handling" <<
       endl;
   }

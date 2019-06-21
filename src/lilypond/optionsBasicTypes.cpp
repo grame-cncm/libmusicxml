@@ -585,14 +585,16 @@ S_optionsActionItem optionsActionItem::create (
   string               optionsItemShortName,
   string               optionsItemLongName,
   string               optionsItemDescription,
-  function<void(void)> optionsActionItemFunction)
+//      function<void(void)> optionsActionItemFunction);
+  optionsItemMethodPtrType optionsItemMethodPtr)
 {
   optionsActionItem* o = new
     optionsActionItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsActionItemFunction);
+//      optionsActionItemFunction);
+      optionsItemMethodPtr);
   assert(o!=0);
   return o;
 }
@@ -601,13 +603,16 @@ optionsActionItem::optionsActionItem (
   string               optionsItemShortName,
   string               optionsItemLongName,
   string               optionsItemDescription,
-  function<void(void)> optionsActionItemFunction)
+//      function<void(void)> optionsActionItemFunction);
+  optionsItemMethodPtrType optionsItemMethodPtr)
   : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription),
-    fOptionsActionItemFunction (
-      optionsActionItemFunction)
+//    fOptionsActionItemFunction (
+//      optionsActionItemFunction)
+    fOptionsItemMethodPtr (
+      optionsItemMethodPtr)
 {}
 
 optionsActionItem::~optionsActionItem ()
@@ -1125,13 +1130,11 @@ void optionsCombinedBooleanItemsItem::print (ostream& os) const
   }
 
   else {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
-    os <<
-        "'";
+    os << "'";
 
     list<S_optionsItem>::const_iterator
       iBegin = fOptionsCombinedBooleanItemsList.begin (),
@@ -1144,16 +1147,14 @@ void optionsCombinedBooleanItemsItem::print (ostream& os) const
       os << " ";
     } // for
 
-    os <<
-      "'";
+    os << "'";
 
     gIndenter--;
   }
 
   gIndenter--;
 
-  os <<
-    endl;
+  os << endl;
 }
 
 void optionsCombinedBooleanItemsItem::printHelp (ostream& os) const
@@ -1182,8 +1183,7 @@ void optionsCombinedBooleanItemsItem::printHelp (ostream& os) const
   }
 
   else {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -1199,8 +1199,7 @@ void optionsCombinedBooleanItemsItem::printHelp (ostream& os) const
       os << endl;
     } // for
 
-    os <<
-      endl;
+    os << endl;
 
     gIndenter--;
   }
@@ -1899,8 +1898,7 @@ void optionsNumbersSetItem::print (ostream& os) const
       "'";
   }
 
-  os <<
-    endl;
+  os << endl;
 
   gIndenter--;
 }
@@ -1938,8 +1936,7 @@ void optionsNumbersSetItem::printOptionsValues (
       "'";
   }
 
-  os <<
-    endl;
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_optionsNumbersSetItem& elt)
@@ -2235,9 +2232,7 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       break;
   } // switch
 
-  os <<
-    endl <<
-    endl;
+  os << endl;
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
@@ -2248,8 +2243,7 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       endl;
     gIndenter--;
 
-    os <<
-      endl;
+    os << endl;
   }
 
   if (fOptionsSubGroupItemsList.size ()) {
@@ -2263,14 +2257,13 @@ void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       // print the options item help
       (*i)->printHelp (os);
       if (++i == iEnd) break;
-      os << endl;
+  // JMI    os << endl;
     } // for
 
     gIndenter--;
   }
 
-  os <<
-    endl;
+  os << endl;
 
   // register help print action in options groups's options handler uplink
   fOptionsGroupUplink->
@@ -2311,8 +2304,7 @@ void optionsSubGroup::printHelpSummary (
       break;
   } // switch
 
-  os <<
-    endl;
+  os << endl;
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
@@ -2338,8 +2330,7 @@ void optionsSubGroup::printSpecificSubGroupHelp (
   // print only the summary if this is not the desired subgroup,
   // otherwise print the regular help
   if (optionsSubGroup == this) {
-    os <<
-      endl;
+    os << endl;
     printSpecificSubGroupHelp (
       os, optionsSubGroup);
   }
@@ -2385,8 +2376,7 @@ void optionsSubGroup::printOptionsItemForcedHelp (
       }
       if (++i == iEnd) break;
       if (optionsItem == targetOptionsItem) {
-        os <<
-          endl;
+        os << endl;
       }
     } // for
 
@@ -2713,8 +2703,7 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
       endl;
     gIndenter--;
 
-    os <<
-      endl;
+    os << endl;
   }
 
   // underline the options group header
@@ -2740,8 +2729,7 @@ void optionsGroup::printOptionsSubGroupForcedHelp (
       }
       if (++i == iEnd) break;
       if (optionsSubGroup == targetOptionsSubGroup) {
-        os <<
-          endl;
+        os << endl;
       }
     } // for
 
@@ -2771,8 +2759,7 @@ void optionsGroup::printOptionsItemForcedHelp (
       endl;
     gIndenter--;
 
-    os <<
-      endl;
+    os << endl;
   }
 
   // underline the options group header
@@ -2800,13 +2787,11 @@ void optionsGroup::printOptionsItemForcedHelp (
       }
       if (++i == iEnd) break;
       if (optionsSubGroup == targetOptionsSubGroup) {
-        os <<
-          endl;
+        os << endl;
       }
     } // for
 
-    os <<
-      endl;
+    os << endl;
 
     gIndenter--;
   }
@@ -3146,7 +3131,7 @@ S_optionsHandler optionsHandler::create (
   string           optionHandlerHelpSummaryLongName,
   string           optionHandlerPreamble,
   string           optionHandlerDescription,
-  indentedOstream& optionsHandlerLogIOstream)
+  indentedOstream& optionsHandlerlogIOstream)
 {
   optionsHandler* o = new
     optionsHandler (
@@ -3158,7 +3143,7 @@ S_optionsHandler optionsHandler::create (
       optionHandlerHelpSummaryLongName,
       optionHandlerPreamble,
       optionHandlerDescription,
-      optionsHandlerLogIOstream);
+      optionsHandlerlogIOstream);
   assert(o!=0);
   return o;
 }
@@ -3173,13 +3158,13 @@ optionsHandler::optionsHandler (
   string           optionHandlerHelpSummaryLongName,
   string           optionHandlerPreamble,
   string           optionHandlerDescription,
-  indentedOstream& optionsHandlerLogIOstream)
+  indentedOstream& optionsHandlerlogIOstream)
   : optionsElement (
       optionHandlerHelpShortName,
       optionHandlerHelpLongName,
       optionHandlerDescription),
-    fOptionsHandlerLogIOstream (
-      optionsHandlerLogIOstream)
+    fOptionsHandlerlogIOstream (
+      optionsHandlerlogIOstream)
 {
   fOptionsHandlerHelpHeader =
     optionsHandlerHelpHeader;
@@ -3489,8 +3474,7 @@ void optionsHandler::print (ostream& os) const
 
   // print the options groups if any
   if (fOptionsHandlerOptionsGroupsList.size ()) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -3518,8 +3502,7 @@ void optionsHandler::printHelp (ostream& os) const
     gIndenter.indentMultiLineString (
       fOptionHandlerPreamble);
 
-  os <<
-    endl;
+  os << endl;
 
   // print the options handler help header and element names
   os <<
@@ -3545,8 +3528,7 @@ void optionsHandler::printHelp (ostream& os) const
   printKnownOptionsPrefixes ();
   gIndenter--;
 
-  os <<
-    endl;
+  os << endl;
 
   // print the options groups helps
   if (fOptionsHandlerOptionsGroupsList.size ()) {
@@ -3689,16 +3671,15 @@ void optionsHandler::printSpecificItemHelp (
          ) {
         handler->
           printHelpSummary (
-            fOptionsHandlerLogIOstream);
+            fOptionsHandlerlogIOstream);
       }
       else {
         handler->
           printHelp (
-            fOptionsHandlerLogIOstream);
+            fOptionsHandlerlogIOstream);
       }
 
-      fOptionsHandlerLogIOstream <<
-        endl;
+      fOptionsHandlerlogIOstream << endl;
     }
 
     else if (
@@ -3708,7 +3689,7 @@ void optionsHandler::printSpecificItemHelp (
           dynamic_cast<optionsGroup*>(&(*optionsElement))
       ) {
       // print the help
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         endl <<
         "--- Help for options item name '" <<
         optionsItemName <<
@@ -3721,10 +3702,9 @@ void optionsHandler::printSpecificItemHelp (
 
       group->
         printHelp (
-          fOptionsHandlerLogIOstream);
+          fOptionsHandlerlogIOstream);
 
-      fOptionsHandlerLogIOstream <<
-        endl;
+      fOptionsHandlerlogIOstream << endl;
     }
 
     else if (
@@ -3740,7 +3720,7 @@ void optionsHandler::printSpecificItemHelp (
             getOptionsGroupUplink ();
 
       // print the help
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         endl <<
         "--- Help for options item name '" <<
         optionsItemName <<
@@ -3757,7 +3737,7 @@ void optionsHandler::printSpecificItemHelp (
 
       group->
         printOptionsSubGroupForcedHelp (
-          fOptionsHandlerLogIOstream,
+          fOptionsHandlerlogIOstream,
           subGroup);
     }
 
@@ -3780,7 +3760,7 @@ void optionsHandler::printSpecificItemHelp (
             getOptionsGroupUplink ();
 
       // print the help
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         endl <<
         "--- Help for options item name '" <<
         optionsItemName <<
@@ -3797,7 +3777,7 @@ void optionsHandler::printSpecificItemHelp (
 
       group->
         printOptionsItemForcedHelp (
-          fOptionsHandlerLogIOstream,
+          fOptionsHandlerlogIOstream,
           subGroup,
           item);
     }
@@ -3914,7 +3894,7 @@ void optionsHandler::printKnownOptionsPrefixes () const
   int optionsHandlerOptionsPrefixesListSize =
     fOptionsPrefixesMap.size ();
 
-  fOptionsHandlerLogIOstream <<
+  fOptionsHandlerlogIOstream <<
     "There are " <<
     optionsHandlerOptionsPrefixesListSize <<
     " options prefixes:" <<
@@ -3935,11 +3915,11 @@ void optionsHandler::printKnownOptionsPrefixes () const
 
       prefix->
         printHeader (
-          fOptionsHandlerLogIOstream);
+          fOptionsHandlerlogIOstream);
     } // for
   }
   else {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "none" <<
       endl;
   }
@@ -3953,7 +3933,7 @@ void optionsHandler::printKnownOptionsElements () const
     fOptionsElementsMap.size ();
 
   // print the options elements map
-  fOptionsHandlerLogIOstream <<
+  fOptionsHandlerlogIOstream <<
     "The " <<
     optionsElementsMapSize <<
     " known options elements are:" <<
@@ -3967,7 +3947,7 @@ void optionsHandler::printKnownOptionsElements () const
       iEnd   = fOptionsElementsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         (*i).first << "-->" <<
         endl;
 
@@ -3975,7 +3955,7 @@ void optionsHandler::printKnownOptionsElements () const
 
       (*i).second->
         printHeader (
-          fOptionsHandlerLogIOstream);
+          fOptionsHandlerlogIOstream);
 
       if (++i == iEnd) break;
 
@@ -3983,7 +3963,7 @@ void optionsHandler::printKnownOptionsElements () const
     } // for
   }
   else {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "none" <<
       endl;
   }
@@ -4036,7 +4016,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
       // print current element
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "Command line element " << n <<
         ": " << currentElement << " "<<
         endl;
@@ -4051,7 +4031,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         // this is the stdin indicator
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-          fOptionsHandlerLogIOstream <<
+          fOptionsHandlerlogIOstream <<
             "'" << currentElement <<
               "' is the '-' stdin indicator" <<
             endl;
@@ -4074,7 +4054,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
           currentElement.substr (1, string::npos);
 
         /* JMI
-        fOptionsHandlerLogIOstream <<
+        fOptionsHandlerlogIOstream <<
           "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
           endl;
         */
@@ -4087,7 +4067,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-              fOptionsHandlerLogIOstream <<
+              fOptionsHandlerlogIOstream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
             }
@@ -4100,7 +4080,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OPTIONS
             if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-              fOptionsHandlerLogIOstream <<
+              fOptionsHandlerlogIOstream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
             }
@@ -4111,7 +4091,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
         else {
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-            fOptionsHandlerLogIOstream <<
+            fOptionsHandlerlogIOstream <<
               "'-' is the minimal single-dashed option" <<
               endl;
           }
@@ -4140,7 +4120,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-            fOptionsHandlerLogIOstream <<
+            fOptionsHandlerlogIOstream <<
               "===> equalsSignPosition = '" << equalsSignPosition <<
               "', " <<
               "===> prefixName = '" << prefixName <<
@@ -4164,7 +4144,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
 #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-            fOptionsHandlerLogIOstream <<
+            fOptionsHandlerlogIOstream <<
               "There are " << chunksListSize << " chunks" <<
               " in '" << stringAfterEqualsSign <<
               "'" <<
@@ -4178,15 +4158,14 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
               i      = iBegin;
 
             for ( ; ; ) {
-              fOptionsHandlerLogIOstream <<
+              fOptionsHandlerlogIOstream <<
                 "[" << (*i) << "]";
               if (++i == iEnd) break;
-              fOptionsHandlerLogIOstream <<
+              fOptionsHandlerlogIOstream <<
                 " ";
             } // for
 
-            fOptionsHandlerLogIOstream <<
-              endl;
+            fOptionsHandlerlogIOstream << endl;
 
             gIndenter--;
           }
@@ -4214,7 +4193,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 
   #ifdef TRACE_OPTIONS
                 if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-                  fOptionsHandlerLogIOstream <<
+                  fOptionsHandlerlogIOstream <<
                     "Expanding option '" << singleOptionName <<
                     "' to '" << uncontractedOptionName <<
                     "'" <<
@@ -4267,7 +4246,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #ifdef TRACE_OPTIONS
   // display arc and argv only now, to wait for the options to have been handled
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "argc: " << argc <<
       endl <<
       "argv:" <<
@@ -4276,7 +4255,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     gIndenter++;
 
     for (int i = 0; i < argc; i++) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "argv [" << i << "]: " << argv [i] <<
         endl;
     } // for
@@ -4295,7 +4274,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
     // print the arguments vector
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "Arguments vector (" <<
       argumentsVectorSize <<
       " elements):" <<
@@ -4304,7 +4283,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
     if (argumentsVectorSize) {
       gIndenter++;
       for (unsigned int i = 0; i < argumentsVectorSize; i++) {
-        fOptionsHandlerLogIOstream <<
+        fOptionsHandlerlogIOstream <<
           fArgumentsVector [i] <<
           endl;
       } // for
@@ -4316,7 +4295,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
   // was this run 'help' one?
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> fOptionsHandlerFoundAHelpItem: " <<
       booleanAsString (fOptionsHandlerFoundAHelpItem) <<
       endl;
@@ -4355,7 +4334,7 @@ void optionsHandler::handleOptionsHandlerItemName (
   // print the option handler help or help summary
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsHandler'" <<
       endl;
   }
@@ -4372,16 +4351,15 @@ void optionsHandler::handleOptionsHandlerItemName (
   ) {
     handler->
       printHelpSummary (
-        fOptionsHandlerLogIOstream);
+        fOptionsHandlerlogIOstream);
   }
   else {
     handler->
       printHelp (
-        fOptionsHandlerLogIOstream);
+        fOptionsHandlerlogIOstream);
   }
 
-  fOptionsHandlerLogIOstream <<
-    endl;
+  fOptionsHandlerlogIOstream << endl;
 }
 
 void optionsHandler::handleOptionsGroupItemName (
@@ -4390,14 +4368,14 @@ void optionsHandler::handleOptionsGroupItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsGroup'" <<
       endl;
   }
 #endif
 
   // print the help
-  fOptionsHandlerLogIOstream <<
+  fOptionsHandlerlogIOstream <<
     endl <<
     "--- Help for group \"" <<
     group->
@@ -4408,7 +4386,7 @@ void optionsHandler::handleOptionsGroupItemName (
 
   group->
     printHelp (
-      fOptionsHandlerLogIOstream);
+      fOptionsHandlerlogIOstream);
 }
 
 void optionsHandler::handleOptionsSubGroupItemName (
@@ -4417,7 +4395,7 @@ void optionsHandler::handleOptionsSubGroupItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsSubGroup'" <<
       endl;
   }
@@ -4430,7 +4408,7 @@ void optionsHandler::handleOptionsSubGroupItemName (
         getOptionsGroupUplink ();
 
   // print the help
-  fOptionsHandlerLogIOstream <<
+  fOptionsHandlerlogIOstream <<
     endl <<
     "--- Help for subgroup \"" <<
     subGroup->
@@ -4445,7 +4423,7 @@ void optionsHandler::handleOptionsSubGroupItemName (
 
   group->
     printOptionsSubGroupForcedHelp (
-      fOptionsHandlerLogIOstream,
+      fOptionsHandlerlogIOstream,
       subGroup);
 }
 
@@ -4455,7 +4433,7 @@ void optionsHandler::handleOptionsHelpUsageItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsHelpUsageItem'" <<
       endl;
   }
@@ -4464,7 +4442,7 @@ void optionsHandler::handleOptionsHelpUsageItemName (
   // handle it at once
   helpUsageItem->
     printHelpUsage (
-      fOptionsHandlerLogIOstream);
+      fOptionsHandlerlogIOstream);
 
   // exit
   exit (0);
@@ -4476,7 +4454,7 @@ void optionsHandler::handleOptionsHelpSummaryItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsHelpSummaryItem'" <<
       endl;
   }
@@ -4484,7 +4462,7 @@ void optionsHandler::handleOptionsHelpSummaryItemName (
 
   // handle it at once
   printHelpSummary (
-    fOptionsHandlerLogIOstream);
+    fOptionsHandlerlogIOstream);
 
   // exit
   exit (0);
@@ -4496,7 +4474,7 @@ void optionsHandler::handleOptionsCombinedBooleanItemsItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsCombinedBooleanItemsItem'" <<
       endl;
   }
@@ -4513,7 +4491,7 @@ void optionsHandler::handleOptionsBooleanItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsBooleanItem'" <<
       endl;
   }
@@ -4530,7 +4508,7 @@ void optionsHandler::handleOptionsTwoBooleansItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsTwoBooleansItem'" <<
       endl;
   }
@@ -4547,7 +4525,7 @@ void optionsHandler::handleOptionsThreeBooleansItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsThreeBooleansItem'" <<
       endl;
   }
@@ -4564,7 +4542,7 @@ void optionsHandler::handleOptionsItemHelpItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsItemHelpItem'" <<
       endl;
   }
@@ -4580,7 +4558,7 @@ void optionsHandler::handleOptionsIntegerItemItemName (
 {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "==> element is of type 'optionsIntegerItem'" <<
         endl;
     }
@@ -4596,7 +4574,7 @@ void optionsHandler::handleOptionsFloatItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsFloatItem'" <<
       endl;
   }
@@ -4612,7 +4590,7 @@ void optionsHandler::handleOptionsStringItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsStringItem'" <<
       endl;
   }
@@ -4628,7 +4606,7 @@ void optionsHandler::handleOptionsRationalItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsRationalItem'" <<
       endl;
   }
@@ -4644,7 +4622,7 @@ void optionsHandler::handleOptionsNumbersSetItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> element is of type 'optionsNumbersSetItem'" <<
       endl;
   }
@@ -4660,7 +4638,7 @@ void optionsHandler::handleOptionsItemItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> item is of type 'optionsItem'" <<
       endl;
   }
@@ -4804,7 +4782,7 @@ void optionsHandler::handleOptionsItemItemName (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "==> item is of another type" <<
         ", let the optionsGroup handle it" <<
         endl;
@@ -4820,7 +4798,7 @@ void optionsHandler::handleOptionsItemItemName (
     fPendingOptionsItem =
       group->
         handleOptionsItem (
-          fOptionsHandlerLogIOstream,
+          fOptionsHandlerlogIOstream,
           item);
   }
 }
@@ -4830,7 +4808,7 @@ void optionsHandler::handleOptionsItemName (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> handleOptionsItemName (), optionsItemName = \"" <<
       optionsItemName <<
       "\"" <<
@@ -4862,13 +4840,13 @@ void optionsHandler::handleOptionsItemName (
     // optionsItemName is known, let's handle it
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> handleOptionsItemName (), optionsItemName = \"" <<
       optionsItemName <<
       "\" is described by optionsElement:" <<
       endl;
     gIndenter++;
-    element->print (fOptionsHandlerLogIOstream);
+    element->print (fOptionsHandlerlogIOstream);
     gIndenter--;
   }
 #endif
@@ -4966,7 +4944,7 @@ void optionsHandler::handleOptionsItemHelpValue (
 {
   // handle the option item
   printSpecificItemHelp (
-    fOptionsHandlerLogIOstream,
+    fOptionsHandlerlogIOstream,
     theString);
 
   // exit
@@ -5040,7 +5018,7 @@ void optionsHandler::handleOptionsItemRationalValue (
   if (smSize) {
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "There are " << smSize << " matches" <<
         " for rational string '" << theString <<
         "' with regex '" << regularExpression <<
@@ -5048,12 +5026,11 @@ void optionsHandler::handleOptionsItemRationalValue (
         endl;
 
       for (unsigned i = 0; i < smSize; ++i) {
-        fOptionsHandlerLogIOstream <<
+        fOptionsHandlerlogIOstream <<
           "[" << sm [i] << "] ";
       } // for
 
-      fOptionsHandlerLogIOstream <<
-        endl;
+      fOptionsHandlerlogIOstream << endl;
     }
 #endif
   }
@@ -5068,7 +5045,7 @@ void optionsHandler::handleOptionsItemRationalValue (
     optionError (s.str ());
 
     printSpecificSubGroupHelp (
-      fOptionsHandlerLogIOstream,
+      fOptionsHandlerlogIOstream,
       rationalItem->
         getOptionsSubGroupUplink ());
 
@@ -5096,7 +5073,7 @@ void optionsHandler::handleOptionsItemRationalValue (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream << // JMI
+    fOptionsHandlerlogIOstream << // JMI
       "rationalValue = " <<
       rationalValue <<
       endl;
@@ -5126,34 +5103,34 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "==> handleOptionsItemValueOrArgument ()" <<
       endl;
 
     gIndenter++;
 
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "fPendingOptionsItem:" <<
       endl;
 
     gIndenter++;
     if (fPendingOptionsItem) {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         fPendingOptionsItem;
     }
     else {
-      fOptionsHandlerLogIOstream <<
+      fOptionsHandlerlogIOstream <<
         "null" <<
         endl;
     }
     gIndenter--;
 
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       "theString:" <<
       endl;
 
     gIndenter++;
-    fOptionsHandlerLogIOstream <<
+    fOptionsHandlerlogIOstream <<
       " \"" <<
       theString <<
       "\"" <<
@@ -5239,7 +5216,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-        fOptionsHandlerLogIOstream <<
+        fOptionsHandlerlogIOstream <<
           "==> fPendingOptionsItem is of another type" <<
           ", let the optionsGroup handle it" <<
           endl;
@@ -5254,7 +5231,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
 
       group->
         handleOptionsItemValue (
-          fOptionsHandlerLogIOstream,
+          fOptionsHandlerlogIOstream,
           fPendingOptionsItem,
           theString);
     }

@@ -52,7 +52,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     logIOstream <<
       endl <<
       separator <<

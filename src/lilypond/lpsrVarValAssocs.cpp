@@ -98,7 +98,7 @@ lpsrVarValAssoc::~lpsrVarValAssoc ()
 void lpsrVarValAssoc::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrVarValAssoc::acceptIn ()" <<
       endl;
   }
@@ -109,7 +109,7 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
         S_lpsrVarValAssoc elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrVarValAssoc::visitStart ()" <<
             endl;
         }
@@ -120,7 +120,7 @@ void lpsrVarValAssoc::acceptIn (basevisitor* v)
 void lpsrVarValAssoc::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrVarValAssoc::acceptOut ()" <<
       endl;
   }
@@ -131,7 +131,7 @@ void lpsrVarValAssoc::acceptOut (basevisitor* v)
         S_lpsrVarValAssoc elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrVarValAssoc::visitEnd ()" <<
             endl;
         }
@@ -396,8 +396,7 @@ void lpsrVarValAssoc::print (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   os <<
     setw (fieldWidth) <<
@@ -409,8 +408,7 @@ void lpsrVarValAssoc::print (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   os <<
     setw (fieldWidth) <<
@@ -454,7 +452,7 @@ lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
 void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrVarValsListAssoc::acceptIn ()" <<
       endl;
   }
@@ -465,7 +463,7 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
         S_lpsrVarValsListAssoc elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitStart ()" <<
             endl;
         }
@@ -476,7 +474,7 @@ void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
 void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrVarValsListAssoc::acceptOut ()" <<
       endl;
   }
@@ -487,7 +485,7 @@ void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
         S_lpsrVarValsListAssoc elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrVarValsListAssoc::visitEnd ()" <<
             endl;
         }
@@ -590,8 +588,7 @@ void lpsrVarValsListAssoc::print (ostream& os)
     os << endl;
   } // for
 
-  os <<
-    endl;
+  os << endl;
 
   gIndenter--;
 

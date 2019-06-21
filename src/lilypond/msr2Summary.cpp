@@ -451,8 +451,7 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     elt->getStaffInstrumentAbbreviation () << "\"" <<
     endl;
 
-  fMsrSummaryOutputStream <<
-    endl;
+  fMsrSummaryOutputStream << endl;
 
   fOnGoingStaff = true;
 }
@@ -518,8 +517,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
       elt->getMusicHasBeenInsertedInVoice ()) <<
     endl;
 
-  fMsrSummaryOutputStream <<
-    endl;
+  fMsrSummaryOutputStream << endl;
 
   // don't show fVoiceMuteStanza in the summary
 }

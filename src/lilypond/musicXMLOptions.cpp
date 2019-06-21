@@ -98,7 +98,7 @@ R"()",
 R"(Encoding)",
         "traceEncoding",
         fTraceEncoding,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 
   traceSubGroup->
     appendOptionsItem (
@@ -107,7 +107,7 @@ R"(Encoding)",
 R"(Divisions)",
         "traceDivisions",
         fTraceDivisions,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 
   traceSubGroup->
     appendOptionsItem (
@@ -116,7 +116,7 @@ R"(Divisions)",
 R"(Backup)",
         "traceBackup",
         fTraceBackup,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 
   traceSubGroup->
     appendOptionsItem (
@@ -404,7 +404,7 @@ void musicXMLOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The MusicXML options are:" <<
     endl;
 
@@ -413,13 +413,13 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // clefs, keys, times
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Clefs, keys, times:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
     booleanAsString (fIgnoreRedundantClefs) <<
     endl <<
@@ -441,13 +441,13 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // trace
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
 #ifdef TRACE_OPTIONS
     setw (fieldWidth) << "traceEncoding" << " : " <<
     booleanAsString (fTraceEncoding) <<
@@ -492,7 +492,7 @@ void initializeMusicXMLOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing MusicXML options handling" <<
       endl;
   }

@@ -216,7 +216,7 @@ void bsrDynamics::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrDynamics::acceptIn ()" <<
       endl;
   }
@@ -229,7 +229,7 @@ void bsrDynamics::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrDynamics::visitStart ()" <<
             endl;
         }
@@ -242,7 +242,7 @@ void bsrDynamics::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrDynamics::acceptOut ()" <<
       endl;
   }
@@ -255,7 +255,7 @@ void bsrDynamics::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrDynamics::visitEnd ()" <<
             endl;
         }

@@ -47,8 +47,7 @@ generalOptions::generalOptions (
   : optionsGroup (
     "General",
     "hg", "help-general",
-R"(Options that are used by various components of the library
-  are grouped here.)",
+R"()",
     optionsHandler),
     fExecutableName (executableName)
 {
@@ -69,10 +68,6 @@ generalOptions::~generalOptions ()
 void generalOptions::initializeGeneralHelpOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup
     helpGeneralOptionsHelpSubGroup =
       optionsSubGroup::create (
@@ -107,17 +102,6 @@ R"(Print help about ITEM_NAME.)",
 void generalOptions::initializeGeneralWarningAndErrorsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fTracePasses               = false;
-
-  fQuiet                     = false;
-  fDontShowErrors            = false;
-  fDontAbortOnErrors         = false;
-  fDisplaySourceCodePosition = false;
-
-  // options
-
   S_optionsSubGroup
     warningAndErrorHandlingSubGroup =
       optionsSubGroup::create (
@@ -129,13 +113,9 @@ R"()",
 
   appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
 
-  warningAndErrorHandlingSubGroup->
-    appendOptionsItem (
-      optionsBooleanItem::create (
-        "t", "trace-passes",
-R"(Write a trace of the passes to standard error.)",
-        "tracePasses",
-        fTracePasses));
+  // quiet
+
+  fQuiet = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
@@ -145,6 +125,10 @@ R"(Don't issue any warning or error messages.)",
         "quiet",
         fQuiet));
 
+  // don't show errors
+
+  fDontShowErrors = boolOptionsInitialValue;
+
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -152,6 +136,10 @@ R"(Don't issue any warning or error messages.)",
 R"(Don't show errors in the log.)",
         "dontShowErrors",
         fDontShowErrors));
+
+  // do not abort on errors
+
+  fDontAbortOnErrors = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
@@ -164,6 +152,10 @@ This may be useful when debugging EXECUTABLE.)",
           fExecutableName),
         "dontAbortOnErrors",
         fDontAbortOnErrors));
+
+  // display the source code position
+
+  fDisplaySourceCodePosition = boolOptionsInitialValue;
 
   warningAndErrorHandlingSubGroup->
     appendOptionsItem (
@@ -182,12 +174,6 @@ This is useful when debugging EXECUTABLE.)",
 void generalOptions::initializeGeneralCPUUsageOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fDisplayCPUusage = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     CPUUsageSubGroup =
       optionsSubGroup::create (
@@ -198,6 +184,10 @@ R"()",
       this);
 
   appendOptionsSubGroup (CPUUsageSubGroup);
+
+  // CPU usage
+
+  fDisplayCPUusage = boolOptionsInitialValue;
 
   CPUUsageSubGroup->
     appendOptionsItem (
@@ -269,11 +259,6 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
     fCommandLineWithShortOptions;
 
 
-  // passes
-  // --------------------------------------
-  clone->fTracePasses =
-    fTracePasses;
-
   // warning and error handling
   // --------------------------------------
 
@@ -300,10 +285,6 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
 void generalOptions::setAllGeneralTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // passes
-  // --------------------------------------
-  fTracePasses = boolOptionsInitialValue;
-
   // warning and error handling
   // --------------------------------------
 
@@ -334,7 +315,7 @@ void generalOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The general options are:" <<
     endl;
 
@@ -343,11 +324,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // command line
   // --------------------------------------
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "input source name" << " : " <<
     fInputSourceName <<
     endl <<
@@ -358,24 +339,16 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
 
   gIndenter--;
 
-  // passes
-  // --------------------------------------
-
-  gLogIOstream <<
-    setw (fieldWidth) << "tracePasses" << " : " <<
-    booleanAsString (fTracePasses) <<
-    endl;
-
   // warning and error handling
   // --------------------------------------
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "Warning and error handling:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream <<
+  glogIOstream <<
     setw (fieldWidth) << "quiet" << " : " <<
     booleanAsString (fQuiet) <<
     endl <<
@@ -395,13 +368,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // CPU usage
   // --------------------------------------
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream <<
+  glogIOstream <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
@@ -433,7 +406,7 @@ void initializeGeneralOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing general options handling" <<
       endl;
   }

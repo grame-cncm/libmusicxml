@@ -38,7 +38,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -52,19 +52,19 @@ void populateMsrSkeletonFromMxmlTree (
   msrAssert (
     mxmlTree != 0,
     "mxmlTree is null");
-    
+
   // sanity check
   msrAssert (
     scoreSkeleton != 0,
     "scoreSkeleton is null");
-    
+
   clock_t startClock = clock ();
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
+
     logIOstream <<
       endl <<
       separator <<
@@ -72,13 +72,13 @@ void populateMsrSkeletonFromMxmlTree (
       gTab <<
       "Pass 2b: translating the xmlelement tree into a MSR" <<
       endl;
-    
+
     logIOstream <<
       separator <<
       endl;
   }
 #endif
-  
+
   // create an mxmlTree2MsrTranslator
   mxmlTree2MsrTranslator
     translator (
@@ -110,12 +110,12 @@ void displayMSRPopulatedScore (
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
   string separator =
     "%--------------------------------------------------------------";
-  
+
   logIOstream <<
     endl <<
     separator <<
@@ -149,14 +149,14 @@ void displayMSRPopulatedScoreSummary (
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
+
     logIOstream <<
       endl <<
       separator <<
@@ -169,7 +169,7 @@ void displayMSRPopulatedScoreSummary (
       endl;
   }
 #endif
-   
+
   // create an msr2SummaryVisitor visitor
   msr2SummaryVisitor
     summaryVisitor (
@@ -178,7 +178,7 @@ void displayMSRPopulatedScoreSummary (
 
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
-  
+
   clock_t endClock = clock ();
 
   // register time spent
@@ -200,14 +200,14 @@ void displayMSRPopulatedScoreNames (
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-  
+
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-    
+
     logIOstream <<
       endl <<
       separator <<
@@ -220,7 +220,7 @@ void displayMSRPopulatedScoreNames (
       endl;
   }
 #endif
-   
+
   // create an msr2NamesVisitor visitor
   msr2NamesVisitor
     namesVisitor (
@@ -229,7 +229,7 @@ void displayMSRPopulatedScoreNames (
 
   namesVisitor.printNamesFromMsrScore (
     mScore);
-  
+
   clock_t endClock = clock ();
 
   // register time spent

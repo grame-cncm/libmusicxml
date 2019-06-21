@@ -67,7 +67,7 @@ S_msrSlide msrSlide::createSlideNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSlides) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of slide '" <<
       asString () <<
       "'" <<
@@ -110,7 +110,7 @@ string msrSlide::slideTypeKindAsString (
 void msrSlide::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSlide::acceptIn ()" <<
       endl;
   }
@@ -121,7 +121,7 @@ void msrSlide::acceptIn (basevisitor* v)
         S_msrSlide elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSlide::visitStart ()" <<
             endl;
         }
@@ -132,7 +132,7 @@ void msrSlide::acceptIn (basevisitor* v)
 void msrSlide::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSlide::acceptOut ()" <<
       endl;
   }
@@ -143,7 +143,7 @@ void msrSlide::acceptOut (basevisitor* v)
         S_msrSlide elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSlide::visitEnd ()" <<
             endl;
         }

@@ -114,13 +114,13 @@ float msrPageGeometry::globalStaffSize () const
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
-    gLogIOstream <<
+    glogIOstream <<
       "globalStaffSize ():" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    glogIOstream <<
       "lilyPondDefaultStaffSize" << " : " <<
       lilyPondDefaultStaffSize <<
       endl <<
@@ -167,7 +167,7 @@ float msrPageGeometry::globalStaffSize () const
 void msrPageGeometry::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPageGeometry::acceptIn ()" <<
       endl;
   }
@@ -178,7 +178,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
         S_msrPageGeometry elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPageGeometry::visitStart ()" <<
             endl;
         }
@@ -189,7 +189,7 @@ void msrPageGeometry::acceptIn (basevisitor* v)
 void msrPageGeometry::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPageGeometry::acceptOut ()" <<
       endl;
   }
@@ -200,7 +200,7 @@ void msrPageGeometry::acceptOut (basevisitor* v)
         S_msrPageGeometry elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPageGeometry::visitEnd ()" <<
             endl;
         }
@@ -315,8 +315,7 @@ void msrPageGeometry::print (ostream& os) {
       endl;
   }
   else {
-    os <<
-      endl;
+    os << endl;
   }
 
   gIndenter--;

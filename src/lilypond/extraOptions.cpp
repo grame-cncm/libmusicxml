@@ -601,7 +601,7 @@ void extraOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void extraOptions::printExtraOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The extra options are:" << // JMI
     endl;
 
@@ -851,8 +851,7 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
         os <<
           "[" << sm [i] << "] ";
       } // for
-      os <<
-        endl;
+      os << endl;
     }
 #endif
   }
@@ -1029,8 +1028,7 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
         os <<
           "[" << sm [i] << "] ";
       } // for
-      os <<
-        endl;
+      os << endl;
     }
 #endif
   }
@@ -1235,7 +1233,7 @@ void initializeExtraOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing extra options handling" <<
       endl;
   }

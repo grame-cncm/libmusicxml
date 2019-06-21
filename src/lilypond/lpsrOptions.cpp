@@ -376,8 +376,7 @@ void optionsLpsrTransposeItem::printOptionsValues (
     "msrSemiTonesPitchAndOctave" <<
     " : ";
   if (fOptionsTransposeItemVariable) {
-    os <<
-      endl;
+    os << endl;
     gIndenter++;
     os <<
       fOptionsTransposeItemVariable;
@@ -519,7 +518,7 @@ R"()",
 R"(Write the contents of the LPSR data to standard error.)",
         "displayLpsr",
         fDisplayLpsr,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 }
 
 void lpsrOptions::initializeLpsrScoreOutputKindOptions (
@@ -769,7 +768,7 @@ For example, 'a', 'f' and 'bes,' can be used respectively
 for instruments in 'a', 'f' and B flat respectively)",
         "TRANSPOSITION",
         "lpsrTranspose",
-        fSemiTonesPitchAndOctave));
+        fTransposeSemiTonesPitchAndOctave));
 }
 
 void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
@@ -915,8 +914,8 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   // transpose
   // --------------------------------------
 
-  clone->fSemiTonesPitchAndOctave =
-    fSemiTonesPitchAndOctave;
+  clone->fTransposeSemiTonesPitchAndOctave =
+    fTransposeSemiTonesPitchAndOctave;
 
   return clone;
 }
@@ -979,7 +978,7 @@ void lpsrOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The LPSR options are:" <<
     endl;
 
@@ -988,13 +987,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 #ifdef TRACE_OPTIONS
   // trace
   // --------------------------------------
-  gLogIOstream <<
+  glogIOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
     booleanAsString (fTraceLpsr) <<
     endl <<
@@ -1016,13 +1015,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  gLogIOstream <<
+  glogIOstream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "displayLpsr" << " : " <<
     booleanAsString (fDisplayLpsr) <<
     endl;
@@ -1032,13 +1031,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // LilyPond version
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "LilyPond version:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "lilyPondVersion" << " : " <<
     fLilyPondVersion <<
     endl;
@@ -1048,13 +1047,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // LilyPond output kind
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "LilyPond output kind:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "scoreOutputKind" << " : " <<
     lpsrScoreOutputKindAsString (fScoreOutputKind) <<
     endl;
@@ -1064,13 +1063,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // lyrics vs words
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Lyrics vs words:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "addWordsFromTheLyrics" << " : " <<
     booleanAsString (fAddWordsFromTheLyrics) <<
     endl;
@@ -1080,13 +1079,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // languages
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Languages:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fLpsrQuarterTonesPitchesLanguageKind) <<
@@ -1104,25 +1103,24 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   // transpose
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Transpose:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
-    setw (fieldWidth) << "semiTonesPitchAndOctave" << " : ";
+  glogIOstream << left <<
+    setw (fieldWidth) << "transposeSemiTonesPitchAndOctave" << " : ";
 
-    if (fSemiTonesPitchAndOctave) {
-      gLogIOstream <<
-        fSemiTonesPitchAndOctave->asString ();
+    if (fTransposeSemiTonesPitchAndOctave) {
+      glogIOstream <<
+        fTransposeSemiTonesPitchAndOctave->asString ();
     }
     else {
-      gLogIOstream <<
+      glogIOstream <<
         "none";
     }
-  gLogIOstream <<
-    endl;
+  glogIOstream << endl;
 
   gIndenter--;
 
@@ -1408,7 +1406,7 @@ void lpsrOptions::handleOptionsLpsrTransposeItemValue (
   S_msrSemiTonesPitchAndOctave
     semiTonesPitchAndOctave =
       msrSemiTonesPitchAndOctave::createFromString (
-        NO_INPUT_LINE_NUMBER,
+        K_NO_INPUT_LINE_NUMBER,
         theString);
 
   // set the transpose item variable value
@@ -1511,7 +1509,7 @@ void lpsrOptions::crackVersionNumber (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions) {
-    gLogIOstream <<
+    glogIOstream <<
       "There are " << smSize << " matches" <<
       " for chord details string '" << theString <<
       "' with regex '" << regularExpression <<
@@ -1520,12 +1518,11 @@ void lpsrOptions::crackVersionNumber (
       smSize << " elements: ";
 
       for (unsigned i = 0; i < smSize; ++i) {
-        gLogIOstream <<
+        glogIOstream <<
           "[" << sm [i] << "] ";
       } // for
 
-      gLogIOstream <<
-        endl;
+      glogIOstream << endl;
     }
 #endif
 
@@ -1538,7 +1535,7 @@ void lpsrOptions::crackVersionNumber (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
-      gLogIOstream <<
+      glogIOstream <<
         "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
         "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
         "--> minorNumberValue = \"" << minorNumberValue << "\"" <<
@@ -1567,7 +1564,7 @@ void lpsrOptions::crackVersionNumber (
 
 #ifdef TRACE_OPTIONS
     if (gTraceOptions->fTraceOptions) {
-      gLogIOstream <<
+      glogIOstream <<
         "There are " << smSize << " matches" <<
         " for chord details string '" << theString <<
         "' with regex '" << regularExpression <<
@@ -1576,12 +1573,11 @@ void lpsrOptions::crackVersionNumber (
         smSize << " elements: ";
 
         for (unsigned i = 0; i < smSize; ++i) {
-          gLogIOstream <<
+          glogIOstream <<
             "[" << sm [i] << "] ";
         } // for
 
-        gLogIOstream <<
-          endl;
+        glogIOstream << endl;
       }
 #endif
 
@@ -1594,7 +1590,7 @@ void lpsrOptions::crackVersionNumber (
 
 #ifdef TRACE_OPTIONS
       if (gTraceOptions->fTraceOptions) {
-        gLogIOstream <<
+        glogIOstream <<
           "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
           "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
           endl;
@@ -1648,7 +1644,7 @@ bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
     otherVersionNumbeMinorNumber);
 
   if (otherVersionNumbeGenerationNumber != 2) {
-    gLogIOstream <<
+    glogIOstream <<
       "Using verstion \"" <<
       otherVersionNumbeGenerationNumber << ".x.y\" " <<
       "is probably not such a good idea" <<
@@ -1656,7 +1652,7 @@ bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
   }
 
   if (otherVersionNumbeMajorNumber < 19) {
-    gLogIOstream <<
+    glogIOstream <<
       "Using a verstion older than \"" <<
       otherVersionNumbeGenerationNumber << ".19.y\" " <<
       "is not a good idea: the generated LilyPond code uses features introduced in the latter" <<
@@ -1699,7 +1695,7 @@ void initializeLpsrOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing LPSR options handling" <<
       endl;
   }

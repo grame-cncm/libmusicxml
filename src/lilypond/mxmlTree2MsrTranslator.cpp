@@ -490,8 +490,7 @@ void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
 
       if (++i == iEnd) break;
 
-      fLogOutputStream <<
-        endl;
+      fLogOutputStream << endl;
     } // for
 
     gIndenter--;
@@ -4715,8 +4714,7 @@ void mxmlTree2MsrTranslator::displayTupletsStack (
 
       if (++i == iEnd) break;
 
-      fLogOutputStream <<
-        endl;
+      fLogOutputStream << endl;
     } // for
 
     gIndenter--;
@@ -5556,8 +5554,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
       fCurrentLyricTextsList,
       fLogOutputStream);
 
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
 
     gIndenter--;
   }
@@ -5990,7 +5987,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasuresDetails) {
-    gLogIOstream <<
+    glogIOstream <<
       "==> visitStart (S_measure" <<
       ", fPartMeasuresCounter = '" <<
         fPartMeasuresCounter <<
@@ -14838,8 +14835,7 @@ void mxmlTree2MsrTranslator::printVoicesCurrentChordMap ()
     ":";
 
   if (fVoicesCurrentChordMap.size ()) {
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
 
     gIndenter++;
 
@@ -19035,8 +19031,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
  //         "fCurrentGraceNotes is NULL"; // JMI
       }
 
-      fLogOutputStream <<
-        endl;
+      fLogOutputStream << endl;
     }
 
     gIndenter--;
@@ -19336,8 +19331,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       fCurrentLyricTextsList,
       fLogOutputStream);
 
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
 
     gIndenter--;
   }
@@ -19610,8 +19604,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     }
 */
 
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
   }
 #endif
 
@@ -20817,8 +20810,7 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
       iEnd   = fLastHandledTupletInVoiceMap.end (),
       i      = iBegin;
 
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
 
     gIndenter++;
 
@@ -20833,14 +20825,12 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoiceMap (string header)
       fLogOutputStream << endl;
     } // for
 
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
 
     gIndenter--;
   }
 
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 }
 
 //______________________________________________________________________________

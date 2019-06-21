@@ -54,13 +54,13 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   // create the current LPSR score
   fLpsrScore =
     lpsrScore::create (
-      NO_INPUT_LINE_NUMBER,
+      K_NO_INPUT_LINE_NUMBER,
       fCurrentMsrScoreClone);
 
   // create the current book block
   fCurrentLpsrBookBlock =
     lpsrBookBlock::create (
-      NO_INPUT_LINE_NUMBER);
+      K_NO_INPUT_LINE_NUMBER);
 
   // append it to the current book blocks list
   fLpsrScore->
@@ -78,7 +78,7 @@ msr2LpsrTranslator::msr2LpsrTranslator (
         // create the current score block
         fCurrentScoreBlock =
           lpsrScoreBlock::create (
-            NO_INPUT_LINE_NUMBER);
+            K_NO_INPUT_LINE_NUMBER);
 
         // append it to the book block elements list
         fCurrentLpsrBookBlock->
@@ -730,7 +730,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   S_lpsrSchemeVariable
     assoc =
       lpsrSchemeVariable::create (
-        NO_INPUT_LINE_NUMBER, // JMI
+        K_NO_INPUT_LINE_NUMBER, // JMI
         lpsrSchemeVariable::kCommentedYes,
         "layout-set-staff-size",
         s.str (),
@@ -1385,7 +1385,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
               // create the current score block
               fCurrentScoreBlock =
                 lpsrScoreBlock::create (
-                  NO_INPUT_LINE_NUMBER);
+                  K_NO_INPUT_LINE_NUMBER);
 
               // append it to the book block elements list
               fCurrentLpsrBookBlock->
@@ -3462,8 +3462,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       fLogOutputStream <<
         "nullptr";
     }
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
   }
 #endif
 
@@ -3745,8 +3744,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotesGroup& elt)
       fLogOutputStream <<
         "nullptr";
     }
-    fLogOutputStream <<
-      endl;
+    fLogOutputStream << endl;
   }
 #endif
 

@@ -55,7 +55,7 @@ msrMidi::~msrMidi ()
 void msrMidi::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrMidi::acceptIn ()" <<
       endl;
   }
@@ -66,7 +66,7 @@ void msrMidi::acceptIn (basevisitor* v)
         S_msrMidi elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrMidi::visitStart ()" <<
             endl;
         }
@@ -77,7 +77,7 @@ void msrMidi::acceptIn (basevisitor* v)
 void msrMidi::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrMidi::acceptOut ()" <<
       endl;
   }
@@ -88,7 +88,7 @@ void msrMidi::acceptOut (basevisitor* v)
         S_msrMidi elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrMidi::visitEnd ()" <<
             endl;
         }

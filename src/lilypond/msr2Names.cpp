@@ -245,8 +245,7 @@ void msr2NamesVisitor::visitStart (S_msrPart& elt)
     elt->getPartInstrumentAbbreviation () << "\"" <<
     endl;
 
-  fMsrNamesOutputStream <<
-    endl;
+  fMsrNamesOutputStream << endl;
 }
 
 void msr2NamesVisitor::visitEnd (S_msrPart& elt)
@@ -302,8 +301,7 @@ void msr2NamesVisitor::visitStart (S_msrStaff& elt)
     elt->getStaffInstrumentAbbreviation () << "\"" <<
     endl;
 
-  fMsrNamesOutputStream <<
-    endl;
+  fMsrNamesOutputStream << endl;
 
   fOnGoingStaff = true;
 }
@@ -357,8 +355,7 @@ void msr2NamesVisitor::visitStart (S_msrVoice& elt)
       elt->getMusicHasBeenInsertedInVoice ()) <<
     endl;
 
-  fMsrNamesOutputStream <<
-    endl;
+  fMsrNamesOutputStream << endl;
 }
 
 void msr2NamesVisitor::visitEnd (S_msrVoice& elt)

@@ -610,38 +610,31 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
 
   showAllPartGroupDescrsMap (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   showStartedPartGroupDescrsMap (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   showPartGroupDescrsVector (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   showPositionStartingPartGroupDescrsVector (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   showPositionStoppingPartGroupDescrsVector (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   showPartsVector (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   showPartGroupsStack (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
+  fLogOutputStream << endl;
 
   fLogOutputStream <<
     "<<< ================================================" <<

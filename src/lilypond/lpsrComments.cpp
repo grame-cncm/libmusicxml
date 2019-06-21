@@ -54,7 +54,7 @@ void lpsrComment::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrComment::acceptIn ()" <<
       endl;
   }
@@ -67,7 +67,7 @@ void lpsrComment::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrComment::visitStart ()" <<
             endl;
         }
@@ -80,7 +80,7 @@ void lpsrComment::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrComment::acceptOut ()" <<
       endl;
   }
@@ -93,7 +93,7 @@ void lpsrComment::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrComment::visitEnd ()" <<
             endl;
         }
@@ -118,8 +118,7 @@ void lpsrComment::print (ostream& os)
     endl;
 
   if (fCommentGapKind == kGapAfterwards)
-    os <<
-      endl;
+    os << endl;
 
   gIndenter--;
 }

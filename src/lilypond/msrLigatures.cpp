@@ -85,7 +85,7 @@ void msrLigature::setLigatureOtherEndSidelink (
 void msrLigature::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrLigature::acceptIn ()" <<
       endl;
   }
@@ -96,7 +96,7 @@ void msrLigature::acceptIn (basevisitor* v)
         S_msrLigature elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrLigature::visitStart ()" <<
             endl;
         }
@@ -107,7 +107,7 @@ void msrLigature::acceptIn (basevisitor* v)
 void msrLigature::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrLigature::acceptOut ()" <<
       endl;
   }
@@ -118,7 +118,7 @@ void msrLigature::acceptOut (basevisitor* v)
         S_msrLigature elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrLigature::visitEnd ()" <<
             endl;
         }

@@ -546,7 +546,7 @@ R"(
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -582,7 +582,7 @@ R"(
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -764,7 +764,7 @@ glissandoTextOff = \revert Glissando.stencil
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -815,7 +815,7 @@ R"(
 
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
@@ -852,7 +852,7 @@ R"(
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Including Jianpu definition file '" << schemeModulesName << "'" <<
       endl;
   }
@@ -888,7 +888,7 @@ R"(
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Using Scheme modules '" << schemeModulesName << "'" <<
       endl;
   }
@@ -939,7 +939,7 @@ tongue =
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -984,7 +984,7 @@ editorialAccidental =
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1026,7 +1026,7 @@ ffffff = #(make-dynamic-script "ffffff")
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1116,7 +1116,7 @@ tupletsCurvedBrackets = {
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1160,7 +1160,7 @@ after =
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1262,7 +1262,7 @@ tempoRelationship =
 )!";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1314,7 +1314,7 @@ damp = \markup {
 )!";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1360,7 +1360,7 @@ dampAll = \markup
 )!";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1411,7 +1411,7 @@ whiteNoteHeads =
 )!";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1490,7 +1490,7 @@ R"(
   schemeFunctionCode = s.str ();
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -1539,7 +1539,7 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
 void lpsrScore::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrScore::acceptIn ()" <<
       endl;
   }
@@ -1550,7 +1550,7 @@ void lpsrScore::acceptIn (basevisitor* v)
         S_lpsrScore elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrScore::visitStart ()" <<
             endl;
         }
@@ -1561,7 +1561,7 @@ void lpsrScore::acceptIn (basevisitor* v)
 void lpsrScore::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrScore::acceptOut ()" <<
       endl;
   }
@@ -1572,7 +1572,7 @@ void lpsrScore::acceptOut (basevisitor* v)
         S_lpsrScore elem = this;
 
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrScore::visitEnd ()" <<
             endl;
         }
@@ -1583,7 +1583,7 @@ void lpsrScore::acceptOut (basevisitor* v)
 void lpsrScore::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrScore::browseData ()" <<
       endl;
   }
@@ -1711,7 +1711,7 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% <== lpsrScore::browseData ()" <<
       endl;
   }
@@ -1729,8 +1729,7 @@ void lpsrScore::print (ostream& os)
   // print the MSR structure (without the voices)
   fMsrScore->
     printSummary (os);
-  os <<
-    endl;
+  os << endl;
 
   // are some Scheme functions needed?
   const int fieldWidth = 42;
@@ -1779,8 +1778,7 @@ void lpsrScore::print (ostream& os)
       os << endl;
     } // for
 
-    os <<
-      endl;
+    os << endl;
   }
 
   // print the book blocks
@@ -1795,8 +1793,7 @@ void lpsrScore::print (ostream& os)
       os << endl;
     } // for
 
-    os <<
-      endl;
+    os << endl;
   }
 
   gIndenter--;

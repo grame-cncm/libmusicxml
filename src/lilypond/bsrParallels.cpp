@@ -44,7 +44,7 @@ bsrParallel::~bsrParallel ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceParallels) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating bsrParallel '" <<
       asString () <<
       "', line " <<
@@ -58,7 +58,7 @@ void bsrParallel::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrParallel::acceptIn ()" <<
       endl;
   }
@@ -71,7 +71,7 @@ void bsrParallel::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrParallel::visitStart ()" <<
             endl;
         }
@@ -84,7 +84,7 @@ void bsrParallel::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrParallel::acceptOut ()" <<
       endl;
   }
@@ -97,7 +97,7 @@ void bsrParallel::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrParallel::visitEnd ()" <<
             endl;
         }
@@ -163,8 +163,7 @@ void bsrParallel::print (ostream& os)
       setw (fieldWidth) <<
       "fParallelElementsList";
     if (parallelElementsListSize) {
-      os <<
-        endl;
+      os << endl;
       gIndenter++;
   
       list<S_bsrElement>::const_iterator
@@ -177,8 +176,7 @@ void bsrParallel::print (ostream& os)
         os << endl;
       } // for
   
-      os <<
-        endl;
+      os << endl;
         
       gIndenter--;
     }

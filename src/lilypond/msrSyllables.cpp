@@ -78,13 +78,13 @@ msrSyllable::msrSyllable (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a syllable containing:" <<
       endl;
 
     gIndenter++;
 
-    print (gLogIOstream);
+    print (glogIOstream);
 
     gIndenter--;
   }
@@ -99,7 +99,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
       "'" <<
@@ -147,7 +147,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of syllable '" <<
       asString () <<
       "'" <<
@@ -194,7 +194,7 @@ void msrSyllable::appendLyricTextToSyllable (string text)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending text \"" <<
       text <<
       "\" to the texts list of syllable '" <<
@@ -232,13 +232,13 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
   // set it uplink to note
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceLyrics) {
-    gLogIOstream <<
+    glogIOstream <<
       "Setting syllable note uplink for:" <<
       endl;
 
     gIndenter++;
 
-    gLogIOstream <<
+    glogIOstream <<
       asString () <<
     // JMI    "to '" << note->asString () <<
       ", line " << note->getInputLineNumber () <<
@@ -252,7 +252,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsNoteUplink (
 void msrSyllable::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSyllable::acceptIn ()" <<
       endl;
   }
@@ -263,7 +263,7 @@ void msrSyllable::acceptIn (basevisitor* v)
         S_msrSyllable elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSyllable::visitStart ()" <<
             endl;
         }
@@ -274,7 +274,7 @@ void msrSyllable::acceptIn (basevisitor* v)
 void msrSyllable::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSyllable::acceptOut ()" <<
       endl;
   }
@@ -285,7 +285,7 @@ void msrSyllable::acceptOut (basevisitor* v)
         S_msrSyllable elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSyllable::visitEnd ()" <<
             endl;
         }
@@ -657,8 +657,7 @@ void msrSyllable::print (ostream& os)
         "syllable type has not been set");
       break;
   } // switch
-  os <<
-    endl;
+  os << endl;
 
   gIndenter--;
 }

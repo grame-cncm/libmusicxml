@@ -35,7 +35,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -49,14 +49,14 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   msrAssert (
     mScore != 0,
     "mScore is null");
-    
+
   clock_t startClock = clock ();
-      
+
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
-  
+
     logIOstream <<
       endl <<
       separator <<
@@ -68,13 +68,13 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl;
   }
 #endif
- 
+
   // create an msr2LpsrTranslator
   msr2LpsrTranslator
     translator (
       logIOstream,
       mScore);
-      
+
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
 
@@ -108,7 +108,7 @@ void displayLpsrScore (
   msrAssert (
     lpScore != 0,
     "lpScore is null");
-    
+
   clock_t startClock = clock ();
 
   string separator =

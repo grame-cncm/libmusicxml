@@ -88,7 +88,7 @@ msrWords::~msrWords ()
 void msrWords::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrWords::acceptIn ()" <<
       endl;
   }
@@ -99,7 +99,7 @@ void msrWords::acceptIn (basevisitor* v)
         S_msrWords elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrWords::visitStart ()" <<
             endl;
         }
@@ -110,7 +110,7 @@ void msrWords::acceptIn (basevisitor* v)
 void msrWords::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrWords::acceptOut ()" <<
       endl;
   }
@@ -121,7 +121,7 @@ void msrWords::acceptOut (basevisitor* v)
         S_msrWords elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrWords::visitEnd ()" <<
             endl;
         }

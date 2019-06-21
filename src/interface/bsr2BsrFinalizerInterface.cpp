@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -45,14 +45,14 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
     "bScore is null");
 
   S_bsrScore result;
-  
+
   clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     logIOstream <<
       endl <<
       separator <<
@@ -71,15 +71,14 @@ S_bsrScore generateFinalizedBsrScoreFromBsrScore (
       bsrOpts,
       logIOstream,
       bScore);
-  
-  // build the finalized BSR score    
+
+  // build the finalized BSR score
   translator.generateFinalizedBsrScoreFromBsrScore ();
-  logIOstream <<
-    endl;
+  logIOstream << endl;
 
   // get the result
   result = translator.getBsrScore ();
-  
+
   clock_t endClock = clock ();
 
   // register time spent
@@ -104,7 +103,7 @@ void displayFinalizedBsrScore (
   msrAssert (
     bScore != 0,
     "bScore is null");
-    
+
   clock_t startClock = clock ();
 
   string separator =

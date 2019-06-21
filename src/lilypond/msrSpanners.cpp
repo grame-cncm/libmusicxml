@@ -83,7 +83,7 @@ void msrSpanner::setSpannerOtherEndSidelink (
 void msrSpanner::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSpanner::acceptIn ()" <<
       endl;
   }
@@ -94,7 +94,7 @@ void msrSpanner::acceptIn (basevisitor* v)
         S_msrSpanner elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSpanner::visitStart ()" <<
             endl;
         }
@@ -105,7 +105,7 @@ void msrSpanner::acceptIn (basevisitor* v)
 void msrSpanner::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSpanner::acceptOut ()" <<
       endl;
   }
@@ -116,7 +116,7 @@ void msrSpanner::acceptOut (basevisitor* v)
         S_msrSpanner elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSpanner::visitEnd ()" <<
             endl;
         }

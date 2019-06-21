@@ -492,7 +492,7 @@ void brailleOptions::checkOptionsConsistency ()
 
 void brailleOptions::printBrailleOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The Braille options are:" <<
     endl;
 
@@ -502,13 +502,13 @@ void brailleOptions::printBrailleOptionsValues (int fieldWidth)
   // code generation
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Braille code generation:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "UTFKind" << " : " <<
       bsrUTFKindAsString (fUTFKind) <<
       endl <<
@@ -725,7 +725,7 @@ void initializeBrailleOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing Braille options handling" <<
       endl;
   }

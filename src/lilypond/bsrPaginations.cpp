@@ -105,7 +105,7 @@ void bsrPagination::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrPagination::acceptIn ()" <<
       endl;
   }
@@ -118,7 +118,7 @@ void bsrPagination::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrPagination::visitStart ()" <<
             endl;
         }
@@ -131,7 +131,7 @@ void bsrPagination::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrPagination::acceptOut ()" <<
       endl;
   }
@@ -144,7 +144,7 @@ void bsrPagination::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrPagination::visitEnd ()" <<
             endl;
         }

@@ -42,7 +42,7 @@ lpsrElement::~lpsrElement ()
 void lpsrElement::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrElement::acceptIn ()" <<
       endl;
   }
@@ -53,7 +53,7 @@ void lpsrElement::acceptIn (basevisitor* v)
         S_lpsrElement elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrElement::visitStart ()" <<
             endl;
         }
@@ -64,7 +64,7 @@ void lpsrElement::acceptIn (basevisitor* v)
 void lpsrElement::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrElement::acceptOut ()" <<
       endl;
   }
@@ -75,7 +75,7 @@ void lpsrElement::acceptOut (basevisitor* v)
         S_lpsrElement elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrElement::visitEnd ()" <<
             endl;
         }

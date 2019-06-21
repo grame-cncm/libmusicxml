@@ -29,7 +29,7 @@ namespace MusicXML2
 //______________________________________________________________________________
 /*!
   \brief Converts a MusicXML representation to an MSR.
-  \param file a file name 
+  \param file a file name
   \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
@@ -42,7 +42,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 //______________________________________________________________________________
 /*!
   \brief Converts a MusicXML representation to an MSR.
-  \param fd a file descriptor 
+  \param fd a file descriptor
   \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)

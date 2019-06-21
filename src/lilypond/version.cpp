@@ -55,8 +55,7 @@ void versionInfo::print (ostream& os) const
 
   indenter::gIndenter--;
 
-  os <<
-    endl;
+  os << endl;
 }
 
 void enlistVersion (
@@ -89,8 +88,7 @@ void printVersionsHistory (ostream& os)
     os << endl;
   } // for
 
-  os <<
-    endl;
+  os << endl;
 
   indenter::gIndenter--;
 }

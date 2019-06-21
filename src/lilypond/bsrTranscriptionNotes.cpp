@@ -62,7 +62,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptIn ()" <<
       endl;
   }
@@ -75,7 +75,7 @@ void bsrTranscriptionNotesElement::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitStart ()" <<
             endl;
         }
@@ -88,7 +88,7 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTranscriptionNotesElement::acceptOut ()" <<
       endl;
   }
@@ -101,7 +101,7 @@ void bsrTranscriptionNotesElement::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTranscriptionNotesElement::visitEnd ()" <<
             endl;
         }
@@ -175,7 +175,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptIn ()" <<
       endl;
   }
@@ -188,7 +188,7 @@ void bsrTranscriptionNotes::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitStart ()" <<
             endl;
         }
@@ -201,7 +201,7 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTranscriptionNotes::acceptOut ()" <<
       endl;
   }
@@ -214,7 +214,7 @@ void bsrTranscriptionNotes::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTranscriptionNotes::visitEnd ()" <<
             endl;
         }
@@ -268,8 +268,7 @@ void bsrTranscriptionNotes::print (ostream& os)
         os << endl;
       } // for
   
-      os <<
-        endl;
+      os << endl;
         
       gIndenter--;
     }

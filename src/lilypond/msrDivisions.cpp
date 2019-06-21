@@ -44,7 +44,7 @@ S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
  if (gMusicXMLOptions->fTraceDivisions) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
       "'" <<
@@ -77,7 +77,7 @@ void msrDivisions::initializeDivisions ()
 {
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceDivisions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing divisions" <<
       ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
       ", line " << fInputLineNumber <<
@@ -95,7 +95,7 @@ void msrDivisions::initializeDivisions ()
 
   for (int i = kQuarter; i >= kMaxima; i--) {
     /*
-    gLogIOstream <<
+    glogIOstream <<
       msrDurationAsString (msrDuration (i)) <<
       " -> " <<
       bigDivisions <<
@@ -120,7 +120,7 @@ void msrDivisions::initializeDivisions ()
 
     while (smallDivisions >= 1) {
       /*
-      gLogIOstream <<
+      glogIOstream <<
         msrDurationAsString (currentDuration) <<
         " % --> " <<
         smallDivisions <<
@@ -140,7 +140,7 @@ void msrDivisions::initializeDivisions ()
   // print the durations divisions if needed
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceDivisions) {
-    printDurationKindsDivisions (gLogIOstream);
+    printDurationKindsDivisions (glogIOstream);
   }
 #endif
 
@@ -253,7 +253,7 @@ string msrDivisions::divisionsAsMsrString (
   if (gMusicXMLOptions->fTraceDivisions) {
     const int fieldWidth = 16;
 
-    gLogIOstream <<
+    glogIOstream <<
      "--> divisionsAsMsrString ():" <<
       endl <<
       gTab << setw (fieldWidth) <<
@@ -283,7 +283,7 @@ string msrDivisions::divisionsAsMsrString (
         " could not be handled by divisionsAsMsrString () with:" <<
         endl;
 
-      printDurationKindsDivisions (gLogIOstream);
+      printDurationKindsDivisions (glogIOstream);
 
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -305,7 +305,7 @@ string msrDivisions::divisionsAsMsrString (
       if (gMusicXMLOptions->fTraceDivisions) {
         const int fieldWidth = 22;
 
-        gLogIOstream <<
+        glogIOstream <<
             gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -342,7 +342,7 @@ string msrDivisions::divisionsAsMsrString (
     if (gMusicXMLOptions->fTraceDivisions) {
       const int fieldWidth = 22;
 
-      gLogIOstream <<
+      glogIOstream <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
         endl <<
@@ -370,7 +370,7 @@ string msrDivisions::divisionsAsMsrString (
       if (gMusicXMLOptions->fTraceDivisions) { // JMI
         const int fieldWidth = 22;
 
-        gLogIOstream <<
+        glogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -400,7 +400,7 @@ string msrDivisions::divisionsAsMsrString (
         if (gMusicXMLOptions->fTraceDivisions) {
           const int fieldWidth = 22;
 
-          gLogIOstream <<
+          glogIOstream <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
@@ -429,7 +429,7 @@ string msrDivisions::divisionsAsMsrString (
       if (gMusicXMLOptions->fTraceDivisions) {
         const int fieldWidth = 24;
 
-        gLogIOstream <<
+        glogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -461,7 +461,7 @@ string msrDivisions::divisionsAsMsrString (
 
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceDivisions) {
-    gLogIOstream <<
+    glogIOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
       endl;
@@ -516,7 +516,7 @@ msrDivisions::~msrDivisions ()
 void msrDivisions::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrDivisions::acceptIn ()" <<
       endl;
   }
@@ -527,7 +527,7 @@ void msrDivisions::acceptIn (basevisitor* v)
         S_msrDivisions elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrDivisions::visitStart ()" <<
             endl;
         }
@@ -538,7 +538,7 @@ void msrDivisions::acceptIn (basevisitor* v)
 void msrDivisions::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrDivisions::acceptOut ()" <<
       endl;
   }
@@ -549,7 +549,7 @@ void msrDivisions::acceptOut (basevisitor* v)
         S_msrDivisions elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrDivisions::visitEnd ()" <<
             endl;
         }

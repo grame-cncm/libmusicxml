@@ -107,211 +107,280 @@ class traceOptions : public optionsGroup
 
 
     // options
+    // --------------------------------------
     bool                  fTraceOptions;
     bool                  fTraceOptionsDetails;
     bool                  fDisplayOptionsValues;
     bool                  fDisplayOptionsHandler;
 
+    // passes
+    // --------------------------------------
+    bool                  fTracePasses;
+
     // score
+    // --------------------------------------
     bool                  fTraceScore;
 
     // varValAssocs
+    // --------------------------------------
     bool                  fTraceVarValAssocs;
 
     // credits
+    // --------------------------------------
     bool                  fTraceCredits;
 
     // geometry
+    // --------------------------------------
     bool                  fTraceGeometry;
 
     // part groups
+    // --------------------------------------
     bool                  fTracePartGroups;
     bool                  fTracePartGroupsDetails;
 
     // parts
+    // --------------------------------------
     bool                  fTraceParts;
 
     // staves
+    // --------------------------------------
     bool                  fTraceStaves;
 
     // voices
+    // --------------------------------------
     bool                  fTraceVoices;
     bool                  fTraceVoicesDetails;
 
     // measures
+    // --------------------------------------
     bool                  fTraceMeasures;
     bool                  fTraceMeasuresDetails;
     bool                  fTracePositionsInMeasures;
     set<int>              fTraceDetailedMeasureNumbersSet;
 
     // segments
+    // --------------------------------------
     bool                  fTraceSegments;
     bool                  fTraceSegmentsDetails;
 
     // clefs
+    // --------------------------------------
     bool                  fTraceClefs;
 
     // keys
+    // --------------------------------------
     bool                  fTraceKeys;
 
     // times
+    // --------------------------------------
     bool                  fTraceTimes;
 
     // tempos
+    // --------------------------------------
     bool                  fTraceTempos;
 
     // rehearsals
+    // --------------------------------------
     bool                  fTraceRehearsals;
 
     // line breaks
+    // --------------------------------------
     bool                  fTraceLineBreaks;
 
     // page breaks
+    // --------------------------------------
     bool                  fTracePageBreaks;
 
     // staff changes
+    // --------------------------------------
     bool                  fTraceStaffChanges;
 
     // transpositions
+    // --------------------------------------
     bool                  fTraceTranspositions;
 
     // octave shifts
+    // --------------------------------------
     bool                  fTraceOctaveShifts;
 
     // barlines
+    // --------------------------------------
     bool                  fTraceBarLines;
     bool                  fTraceBarLinesDetails;
 
     // repeats
+    // --------------------------------------
     bool                  fTraceRepeats;
     bool                  fTraceRepeatsDetails;
 
     // measures repeats
+    // --------------------------------------
     bool                  fTraceMeasuresRepeats;
 
     // rest measures
+    // --------------------------------------
     bool                  fTraceRestMeasures;
 
     // slashes
+    // --------------------------------------
     bool                  fTraceSlashes;
 
     // notes
+    // --------------------------------------
     bool                  fTraceNotes;
     bool                  fTraceNotesDetails;
     bool                  fTraceWholeNotes;
     bool                  fTraceSkipNotes;
+    bool                  fTraceRestNotes;
+    bool                  fTraceNotesOctaveEntry;
 
     // stems
+    // --------------------------------------
     bool                  fTraceStems;
 
     // beams
+    // --------------------------------------
     bool                  fTraceBeams;
 
     // articulations
+    // --------------------------------------
     bool                  fTraceArticulations;
 
     // technicals
+    // --------------------------------------
     bool                  fTraceTechnicals;
 
     // ornaments
+    // --------------------------------------
     bool                  fTraceOrnaments;
 
     // dynamics
+    // --------------------------------------
     bool                  fTraceDynamics;
 
     // spanners
+    // --------------------------------------
     bool                  fTraceSpanners;
 
     // words
+    // --------------------------------------
     bool                  fTraceWords;
 
     // tremolos
+    // --------------------------------------
     bool                  fTraceTremolos;
 
     // chords
+    // --------------------------------------
     bool                  fTraceChords;
     bool                  fTraceChordsDetails;
 
     // tuplets
+    // --------------------------------------
     bool                  fTraceTuplets;
     bool                  fTraceTupletsDetails;
 
     // glissandos
+    // --------------------------------------
     bool                  fTraceGlissandos;
 
     // eyeglases
+    // --------------------------------------
     bool                  fTraceEyeGlasses;
 
     // damps
+    // --------------------------------------
     bool                  fTraceDamps;
 
     // dampalls
+    // --------------------------------------
     bool                  fTraceDampAlls;
 
     // slides
+    // --------------------------------------
     bool                  fTraceSlides;
 
     // grace notes
+    // --------------------------------------
     bool                  fTraceGraceNotes;
 
     // lyrics
+    // --------------------------------------
     bool                  fTraceLyrics;
     bool                  fTraceLyricsDetails;
 
     // harmonies
+    // --------------------------------------
     bool                  fTraceHarmonies;
 
     // frames
+    // --------------------------------------
     bool                  fTraceFrames;
 
     // figured basses
+    // --------------------------------------
     bool                  fTraceFiguredBasses;
 
     // ties
+    // --------------------------------------
     bool                  fTraceTies;
 
     // slurs
+    // --------------------------------------
     bool                  fTraceSlurs;
 
     // ligatures
+    // --------------------------------------
     bool                  fTraceLigatures;
 
     // pedals
+    // --------------------------------------
     bool                  fTracePedals;
 
     // wedges
+    // --------------------------------------
     bool                  fTraceWedges;
 
     // staff details
+    // --------------------------------------
     bool                  fTraceStaffDetails;
 
     // scordaturas
+    // --------------------------------------
     bool                  fTraceScordaturas;
 
     // segnos
+    // --------------------------------------
     bool                  fTraceSegnos;
 
     // codas
+    // --------------------------------------
     bool                  fTraceCodas;
 
     // accordion registrations
+    // --------------------------------------
     bool                  fTraceAccordionRegistrations;
 
     // harp pedals
+    // --------------------------------------
     bool                  fTraceHarpPedals;
 
     // harp pedals tuning
+    // --------------------------------------
     bool                  fTraceHarpPedalsTunings;
 
     // extra chords
+    // --------------------------------------
     bool                  fTraceExtraChords;
 
 /* JMI
     // msrStreams
+    // --------------------------------------
     bool                  fTraceMsrStreams;
 */
 
     // midi
+    // --------------------------------------
     bool                  fTraceMidi;
 };
 typedef SMARTP<traceOptions> S_traceOptions;

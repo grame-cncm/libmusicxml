@@ -154,7 +154,7 @@ string msrDynamics::dynamicsPlacementKindAsString () const
 void msrDynamics::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrDynamics::acceptIn ()" <<
       endl;
   }
@@ -165,7 +165,7 @@ void msrDynamics::acceptIn (basevisitor* v)
         S_msrDynamics elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrDynamics::visitStart ()" <<
             endl;
         }
@@ -176,7 +176,7 @@ void msrDynamics::acceptIn (basevisitor* v)
 void msrDynamics::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrDynamics::acceptOut ()" <<
       endl;
   }
@@ -187,7 +187,7 @@ void msrDynamics::acceptOut (basevisitor* v)
         S_msrDynamics elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrDynamics::visitEnd ()" <<
             endl;
         }
@@ -255,7 +255,7 @@ string msrOtherDynamics::otherDynamicsPlacementKindAsString () const
 void msrOtherDynamics::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrOtherDynamics::acceptIn ()" <<
       endl;
   }
@@ -266,7 +266,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
         S_msrOtherDynamics elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrOtherDynamics::visitStart ()" <<
             endl;
         }
@@ -277,7 +277,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v)
 void msrOtherDynamics::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrOtherDynamics::acceptOut ()" <<
       endl;
   }
@@ -288,7 +288,7 @@ void msrOtherDynamics::acceptOut (basevisitor* v)
         S_msrOtherDynamics elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrOtherDynamics::visitEnd ()" <<
             endl;
         }
@@ -406,7 +406,7 @@ string msrWedge::wedgeNienteKindAsString (
 void msrWedge::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrWedge::acceptIn ()" <<
       endl;
   }
@@ -417,7 +417,7 @@ void msrWedge::acceptIn (basevisitor* v)
         S_msrWedge elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrWedge::visitStart ()" <<
             endl;
         }
@@ -428,7 +428,7 @@ void msrWedge::acceptIn (basevisitor* v)
 void msrWedge::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrWedge::acceptOut ()" <<
       endl;
   }
@@ -439,7 +439,7 @@ void msrWedge::acceptOut (basevisitor* v)
         S_msrWedge elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrWedge::visitEnd ()" <<
             endl;
         }

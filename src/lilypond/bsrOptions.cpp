@@ -288,7 +288,7 @@ R"()",
 R"(Write the contents of the BSR data to standard error.)",
         "displayBsr",
         fDisplayBsr,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 
   traceAndDisplaySubGroup->
     appendOptionsItem (
@@ -297,7 +297,7 @@ R"(Write the contents of the BSR data to standard error.)",
 R"(Write the contents of the BSR data with more details to standard error.)",
         "displayBsrDetails",
         fDisplayBsrDetails,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 }
 
 void bsrOptions::initializeBsrLanguagesOptions (
@@ -513,7 +513,7 @@ void bsrOptions::initializeBsrTraceOptions (
       optionsSubGroup::create (
         "Trace",
         "hbst", "help-bsr-trace",
-R"(Note: the options in this group imply '-t, -trace-passes'.)",
+R"(Note: the options in this group imply '-tbsr, -trace-bsr'.)",
 // JMI        optionsSubGroup::kHideDescriptionByDefault,
       optionsSubGroup::kAlwaysShowDescription,
       this);
@@ -535,7 +535,7 @@ R"(Write a trace of the BSR graphs visiting activity to standard error.)",
 R"()",
         "tracePages",
         fTracePages,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 
   traceSubGroup->
     appendOptionsItem (
@@ -567,7 +567,7 @@ R"(Write a trace of the BSR numbers activity to standard error.)",
 R"()",
         "traceParallels",
         fTraceParallels,
-        gGeneralOptions->fTracePasses));
+        gTraceOptions->fTracePasses));
 
   traceSubGroup->
     appendOptionsItem (
@@ -677,7 +677,7 @@ void bsrOptions::checkOptionsConsistency ()
 //______________________________________________________________________________
 void bsrOptions::printBsrOptionsValues (int fieldWidth)
 {
-  gLogIOstream <<
+  glogIOstream <<
     "The BSR options are:" <<
     endl;
 
@@ -685,13 +685,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
 
   // display
   // --------------------------------------
-  gLogIOstream <<
+  glogIOstream <<
     "Display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "displayBsr" << " : " <<
     booleanAsString (fDisplayBsr) <<
     endl <<
@@ -705,13 +705,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // exit after some passes
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Exit after some passes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "exit3a" << " : " <<
     booleanAsString (fExit3a) <<
     endl <<
@@ -724,13 +724,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // miscellaneous
   // --------------------------------------
 
-  gLogIOstream <<
+  glogIOstream <<
     "Miscellaneous:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "noBrailleLyrics" << " : " <<
       booleanAsString (fNoBrailleLyrics) <<
       endl <<
@@ -750,13 +750,13 @@ void bsrOptions::printBsrOptionsValues (int fieldWidth)
   // --------------------------------------
 
 #ifdef TRACE_OPTIONS
-  gLogIOstream <<
+  glogIOstream <<
     "Trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIOstream << left <<
+  glogIOstream << left <<
     setw (fieldWidth) << "traceBsr" << " : " <<
     booleanAsString (fTraceBsr) <<
     endl <<
@@ -849,7 +849,7 @@ void initializeBsrOptionsHandling (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-    gLogIOstream <<
+    glogIOstream <<
       "Initializing BSR options handling" <<
       endl;
   }

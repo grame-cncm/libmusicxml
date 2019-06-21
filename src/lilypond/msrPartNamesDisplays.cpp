@@ -49,7 +49,7 @@ msrPartNameDisplay::~msrPartNameDisplay ()
 void msrPartNameDisplay::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartNameDisplay::acceptIn ()" <<
       endl;
   }
@@ -60,7 +60,7 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
         S_msrPartNameDisplay elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPartNameDisplay::visitStart ()" <<
             endl;
         }
@@ -71,7 +71,7 @@ void msrPartNameDisplay::acceptIn (basevisitor* v)
 void msrPartNameDisplay::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartNameDisplay::acceptOut ()" <<
       endl;
   }
@@ -82,7 +82,7 @@ void msrPartNameDisplay::acceptOut (basevisitor* v)
         S_msrPartNameDisplay elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPartNameDisplay::visitEnd ()" <<
             endl;
         }
@@ -144,7 +144,7 @@ msrPartAbbreviationDisplay::~msrPartAbbreviationDisplay ()
 void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartAbbreviationDisplay::acceptIn ()" <<
       endl;
   }
@@ -155,7 +155,7 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
         S_msrPartAbbreviationDisplay elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitStart ()" <<
             endl;
         }
@@ -166,7 +166,7 @@ void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
 void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartAbbreviationDisplay::acceptOut ()" <<
       endl;
   }
@@ -177,7 +177,7 @@ void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
         S_msrPartAbbreviationDisplay elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPartAbbreviationDisplay::visitEnd ()" <<
             endl;
         }

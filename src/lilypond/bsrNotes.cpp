@@ -833,7 +833,7 @@ void bsrNote::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrNote::acceptIn ()" <<
       endl;
   }
@@ -846,7 +846,7 @@ void bsrNote::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrNote::visitStart ()" <<
             endl;
         }
@@ -859,7 +859,7 @@ void bsrNote::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrNote::acceptOut ()" <<
       endl;
   }
@@ -872,7 +872,7 @@ void bsrNote::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrNote::visitEnd ()" <<
             endl;
         }

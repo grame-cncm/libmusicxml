@@ -59,7 +59,7 @@ void bsrScore::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrScore::acceptIn ()" <<
       endl;
   }
@@ -72,7 +72,7 @@ void bsrScore::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrScore::visitStart ()" <<
             endl;
         }
@@ -85,7 +85,7 @@ void bsrScore::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrScore::acceptOut ()" <<
       endl;
   }
@@ -98,7 +98,7 @@ void bsrScore::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrScore::visitEnd ()" <<
             endl;
         }
@@ -111,7 +111,7 @@ void bsrScore::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
@@ -136,7 +136,7 @@ void bsrScore::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }
@@ -155,8 +155,7 @@ void bsrScore::print (ostream& os)
   // print the MSR structure (without the voices)
   fMsrScore->
     printSummary (os);
-  os <<
-    endl;
+  os << endl;
 
   // print the transcription notes if any
   const int fieldWidth = 19;
@@ -182,8 +181,7 @@ void bsrScore::print (ostream& os)
     setw (fieldWidth) <<
     "BraillePageLength" << " : " << fBraillePageLength <<
     endl;
-  os <<
-    endl;
+  os << endl;
         */
 
   // print the score pages if any
@@ -195,8 +193,7 @@ void bsrScore::print (ostream& os)
       "ScorePagesList";
 
     if (scorePagesListSize) {
-      os <<
-        endl;
+      os << endl;
       gIndenter++;
 
       list<S_bsrPage>::const_iterator

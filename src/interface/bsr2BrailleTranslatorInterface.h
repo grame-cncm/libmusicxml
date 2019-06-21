@@ -25,7 +25,7 @@
 #include "bsrOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 /*!

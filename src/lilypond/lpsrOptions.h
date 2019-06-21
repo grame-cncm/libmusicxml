@@ -499,7 +499,7 @@ class lpsrOptions : public optionsGroup
     // --------------------------------------
 
     S_msrSemiTonesPitchAndOctave
-                          fSemiTonesPitchAndOctave;
+                          fTransposeSemiTonesPitchAndOctave;
 
     // exit after some passes
     // --------------------------------------

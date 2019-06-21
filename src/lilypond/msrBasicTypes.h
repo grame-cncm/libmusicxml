@@ -27,7 +27,7 @@ namespace MusicXML2
 // input line numbers
 //______________________________________________________________________________
 
-#define NO_INPUT_LINE_NUMBER 0
+#define K_NO_INPUT_LINE_NUMBER 0
 
 // XMLLang
 //______________________________________________________________________________

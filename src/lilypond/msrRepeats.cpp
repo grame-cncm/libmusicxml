@@ -81,7 +81,7 @@ void msrRepeatElement::appendSegmentToRepeatElementsList ( // JMI ???
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending segment '" << segment <<
       "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
@@ -105,7 +105,7 @@ void msrRepeatElement::appendRepeatToRepeatElementsList (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending repeat '" << repeat <<
       "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
@@ -129,7 +129,7 @@ void msrRepeatElement::appendVoiceElementToRepeatElementsList (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending voice element '" << voiceElement <<
       "' to repeat element elements list '" << asString () <<
       "' (" << context << ")" <<
@@ -230,7 +230,7 @@ S_msrNote msrRepeatElement::fetchRepeatElementFirstNonGraceNote () const
 void msrRepeatElement::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeatElement::acceptIn ()" <<
       endl;
   }
@@ -241,7 +241,7 @@ void msrRepeatElement::acceptIn (basevisitor* v)
         S_msrRepeatElement elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeatElement::visitStart ()" <<
             endl;
         }
@@ -252,7 +252,7 @@ void msrRepeatElement::acceptIn (basevisitor* v)
 void msrRepeatElement::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeatElement::acceptOut ()" <<
       endl;
   }
@@ -263,7 +263,7 @@ void msrRepeatElement::acceptOut (basevisitor* v)
         S_msrRepeatElement elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeatElement::visitEnd ()" <<
             endl;
         }
@@ -335,12 +335,10 @@ void msrRepeatElement::print (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (elementsNumber) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -396,12 +394,10 @@ void msrRepeatElement::shortPrint (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (elementsNumber) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -466,7 +462,7 @@ void msrRepeatCommonPart::appendSegmentToRepeatCommonPart (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending segment '" <<
       segment->asString () <<
       "' to repeat common part '" << asString () <<
@@ -491,7 +487,7 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending repeat '" <<
     // JMI  repeat->asString () <<
       repeat <<
@@ -517,7 +513,7 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
       "' to repeat common part '" << asString () <<
@@ -542,7 +538,7 @@ void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
       "' to repeat common part '" << asString () <<
@@ -567,7 +563,7 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending voice element '" <<
       voiceElement->asString () <<
       "' to repeat common part '" << asString () <<
@@ -669,7 +665,7 @@ S_msrNote msrRepeatCommonPart::fetchRepeatCommonPartFirstNonGraceNote () const
 void msrRepeatCommonPart::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeatCommonPart::acceptIn ()" <<
       endl;
   }
@@ -680,7 +676,7 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
         S_msrRepeatCommonPart elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitStart ()" <<
             endl;
         }
@@ -691,7 +687,7 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v)
 void msrRepeatCommonPart::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeatCommonPart::acceptOut ()" <<
       endl;
   }
@@ -702,7 +698,7 @@ void msrRepeatCommonPart::acceptOut (basevisitor* v)
         S_msrRepeatCommonPart elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitEnd ()" <<
             endl;
         }
@@ -774,12 +770,10 @@ void msrRepeatCommonPart::print (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (elementsNumber) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -835,12 +829,10 @@ void msrRepeatCommonPart::shortPrint (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (elementsNumber) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -912,7 +904,7 @@ void msrRepeatEnding::appendSegmentToRepeatEnding (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending segment '" << segment <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
@@ -936,7 +928,7 @@ void msrRepeatEnding::appendRepeatToRepeatEnding (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending repeat '" << repeat <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
@@ -960,7 +952,7 @@ void msrRepeatEnding::appendMeasuresRepeatToRepeatEnding (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asShortString () <<
       "' to repeat ending '" << asString () <<
@@ -985,7 +977,7 @@ void msrRepeatEnding::appendRestMeasuresToRepeatEnding (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asShortString () <<
       "' to repeat ending '" << asString () <<
@@ -1010,7 +1002,7 @@ void msrRepeatEnding::appendVoiceElementToRepeatEnding (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending voice element '" << voiceElement <<
       "' to repeat ending '" << asString () <<
       "' (" << context << ")" <<
@@ -1030,7 +1022,7 @@ void msrRepeatEnding::appendVoiceElementToRepeatEnding (
 void msrRepeatEnding::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeatEnding::acceptIn ()" <<
       endl;
   }
@@ -1041,7 +1033,7 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
         S_msrRepeatEnding elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeatEnding::visitStart ()" <<
             endl;
         }
@@ -1052,7 +1044,7 @@ void msrRepeatEnding::acceptIn (basevisitor* v)
 void msrRepeatEnding::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeatEnding::acceptOut ()" <<
       endl;
   }
@@ -1063,7 +1055,7 @@ void msrRepeatEnding::acceptOut (basevisitor* v)
         S_msrRepeatEnding elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeatEnding::visitEnd ()" <<
             endl;
         }
@@ -1189,12 +1181,10 @@ void msrRepeatEnding::print (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (elementsNumber) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -1274,12 +1264,10 @@ void msrRepeatEnding::shortPrint (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (elementsNumber) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 
@@ -1351,7 +1339,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of a repeat" <<
       endl;
   }
@@ -1385,7 +1373,7 @@ void msrRepeat::setRepeatCommonPart (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Setting repeat common part containing " <<
       singularOrPlural (
         repeatCommonPart->
@@ -1414,7 +1402,7 @@ void msrRepeat::addRepeatEndingToRepeat (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Adding ending '" <<
       repeatEnding->asString () <<
       "' to repeat" <<
@@ -1560,7 +1548,7 @@ void msrRepeat::appendSegmentToRepeat (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending segment '" <<
       segment->asString () <<
       "' to repeat '" <<
@@ -1644,7 +1632,7 @@ void msrRepeat::appendRepeatToRepeat (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending repeat '" <<
       repeat->asString () <<
       "' to repeat '" <<
@@ -1728,7 +1716,7 @@ void msrRepeat::appendMeasuresRepeatToRepeat (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
       "' to repeat '" <<
@@ -1812,7 +1800,7 @@ void msrRepeat::appendRestMeasuresToRepeat (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
       "' to repeat '" <<
@@ -1905,7 +1893,7 @@ S_msrNote msrRepeat::fetchRepeatFirstNonGraceNote () const
 void msrRepeat::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeat::acceptIn ()" <<
       endl;
   }
@@ -1916,7 +1904,7 @@ void msrRepeat::acceptIn (basevisitor* v)
         S_msrRepeat elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeat::visitStart ()" <<
             endl;
         }
@@ -1927,7 +1915,7 @@ void msrRepeat::acceptIn (basevisitor* v)
 void msrRepeat::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrRepeat::acceptOut ()" <<
       endl;
   }
@@ -1938,7 +1926,7 @@ void msrRepeat::acceptOut (basevisitor* v)
         S_msrRepeat elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrRepeat::visitEnd ()" <<
             endl;
         }
@@ -2105,7 +2093,7 @@ void msrRepeat::displayRepeat (
   int    inputLineNumber,
   string context)
 {
-  gLogIOstream <<
+  glogIOstream <<
     endl <<
     "*********>> Repeat '" <<
     asShortString () <<
@@ -2115,10 +2103,10 @@ void msrRepeat::displayRepeat (
     endl;
 
   gIndenter++;
-  print (gLogIOstream);
+  print (glogIOstream);
   gIndenter--;
 
-  gLogIOstream <<
+  glogIOstream <<
     "<<*********" <<
     endl <<
     endl;
@@ -2159,8 +2147,7 @@ void msrRepeat::print (ostream& os)
   }
 #endif
 
-  os <<
-    endl;
+  os << endl;
 
   // print the repeat common part
   if (! fRepeatCommonPart) {
@@ -2186,8 +2173,7 @@ void msrRepeat::print (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (endingsNumber) {
     gIndenter++;
@@ -2245,8 +2231,7 @@ void msrRepeat::shortPrint (ostream& os)
   }
 #endif
 
-  gLogIOstream <<
-    endl;
+  glogIOstream << endl;
 
   // print the repeat common part
   if (! fRepeatCommonPart) {
@@ -2257,8 +2242,7 @@ void msrRepeat::shortPrint (ostream& os)
   else {
     fRepeatCommonPart->shortPrint (os);
   }
-  os <<
-    endl;
+  os << endl;
 
   // print the repeat endings
   int endingsNumber =
@@ -2272,8 +2256,7 @@ void msrRepeat::shortPrint (ostream& os)
   else {
     os << "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   if (endingsNumber) {
     gIndenter++;

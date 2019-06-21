@@ -48,7 +48,7 @@ lpsrLayout::~lpsrLayout ()
 void lpsrLayout::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrLayout::acceptIn ()" <<
       endl;
   }
@@ -59,7 +59,7 @@ void lpsrLayout::acceptIn (basevisitor* v)
         S_lpsrLayout elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrLayout::visitStart ()" <<
             endl;
         }
@@ -70,7 +70,7 @@ void lpsrLayout::acceptIn (basevisitor* v)
 void lpsrLayout::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrLayout::acceptOut ()" <<
       endl;
   }
@@ -81,7 +81,7 @@ void lpsrLayout::acceptOut (basevisitor* v)
         S_lpsrLayout elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrLayout::visitEnd ()" <<
             endl;
         }

@@ -262,7 +262,7 @@ void bsrCellsList::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrCellsList::acceptIn ()" <<
       endl;
   }
@@ -275,7 +275,7 @@ void bsrCellsList::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrCellsList::visitStart ()" <<
             endl;
         }
@@ -288,7 +288,7 @@ void bsrCellsList::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrCellsList::acceptOut ()" <<
       endl;
   }
@@ -301,7 +301,7 @@ void bsrCellsList::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrCellsList::visitEnd ()" <<
             endl;
         }

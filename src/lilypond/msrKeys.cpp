@@ -48,7 +48,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -84,7 +84,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchKindAsString (diatonicPitchKind) <<
       "'" <<
@@ -100,7 +100,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationKindAsString (alterationKind) <<
       "'" <<
@@ -115,7 +115,7 @@ void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
       "'" <<
@@ -129,7 +129,7 @@ void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptIn ()" <<
       endl;
   }
@@ -140,7 +140,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
         S_msrHumdrumScotKeyItem elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitStart ()" <<
             endl;
         }
@@ -151,7 +151,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
 void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptOut ()" <<
       endl;
   }
@@ -162,7 +162,7 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
         S_msrHumdrumScotKeyItem elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitEnd ()" <<
             endl;
         }
@@ -285,7 +285,7 @@ msrKey::msrKey ( // for traditional keys
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating traditional key '" <<
       this->asString () <<
       "'" <<
@@ -306,7 +306,7 @@ msrKey::msrKey ( // for Humdrum/Scot keys
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating Humdrum/Scot key '" <<
       this->asString () <<
       "'" <<
@@ -381,7 +381,7 @@ void msrKey::appendHumdrumScotKeyItem (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys) {
-    gLogIOstream <<
+    glogIOstream <<
       "Append item '" <<
       item->asString () <<
       "' to key '" <<
@@ -403,7 +403,7 @@ void msrKey::appendHumdrumScotKeyItem (
 void msrKey::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrKey::acceptIn ()" <<
       endl;
   }
@@ -414,7 +414,7 @@ void msrKey::acceptIn (basevisitor* v)
         S_msrKey elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrKey::visitStart ()" <<
             endl;
         }
@@ -425,7 +425,7 @@ void msrKey::acceptIn (basevisitor* v)
 void msrKey::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrKey::acceptOut ()" <<
       endl;
   }
@@ -436,7 +436,7 @@ void msrKey::acceptOut (basevisitor* v)
         S_msrKey elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrKey::visitEnd ()" <<
             endl;
         }
@@ -574,8 +574,7 @@ void msrKey::print (ostream& os)
         endl;
 
       if (fHumdrumScotKeyItemsVector.size ()) {
-        os <<
-          endl;
+        os << endl;
 
         gIndenter++;
 

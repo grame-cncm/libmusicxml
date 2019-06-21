@@ -59,7 +59,7 @@ S_bsrLineContents bsrLineContents::createLineNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
       endl;
@@ -99,7 +99,7 @@ void bsrLineContents::insertLineElementBeforeLastElementOfLineContents (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Inserting line element '" <<
       lineElement->asShortString () <<
       "' before the last element of line contents '" <<
@@ -157,7 +157,7 @@ void bsrLineContents::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrLineContents::acceptIn ()" <<
       endl;
   }
@@ -170,7 +170,7 @@ void bsrLineContents::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrLineContents::visitStart ()" <<
             endl;
         }
@@ -183,7 +183,7 @@ void bsrLineContents::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrLineContents::acceptOut ()" <<
       endl;
   }
@@ -196,7 +196,7 @@ void bsrLineContents::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrLineContents::visitEnd ()" <<
             endl;
         }
@@ -282,8 +282,7 @@ void bsrLineContents::print (ostream& os)
     setw (fieldWidth) <<
     "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
-  os <<
-    endl;
+  os << endl;
   
   // print the line elements if any
   if (lineElementsListSize || gBsrOptions->fDisplayBsrDetails) {
@@ -294,8 +293,7 @@ void bsrLineContents::print (ostream& os)
       singularOrPlural (
         lineElementsListSize, "lineElement", "lineElements");
     if (lineElementsListSize) {
-      os <<
-        endl;
+      os << endl;
       gIndenter++;
   
       list<S_bsrLineElement>::const_iterator
@@ -356,7 +354,7 @@ bsrLine::bsrLine (
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating bsrLine '" <<
       asString () <<
       "', line " <<
@@ -373,7 +371,7 @@ S_bsrLine bsrLine::createLineNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of line " <<
       asString () <<
       endl;
@@ -468,7 +466,7 @@ void bsrLine::appendSpacesToLine (S_bsrSpaces spaces)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceSpaces || gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending spaces '" <<
       spaces->asShortString () <<
       "' to line '" <<
@@ -485,7 +483,7 @@ void bsrLine::appendKeyToLine (S_bsrKey key)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending key '" <<
       key->asShortString () <<
       "' to line '" <<
@@ -503,7 +501,7 @@ void bsrLine::appendTimeToLine (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending time '" <<
       time->asShortString () <<
       "' to line '" <<
@@ -521,7 +519,7 @@ void bsrLine::insertTimeBeforeLastElementOfLine (S_bsrTime time)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Inserting time '" <<
       time->asShortString () <<
       "' before the last element of line '" <<
@@ -539,7 +537,7 @@ void bsrLine::appendTempoToLine (S_bsrTempo tempo)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTempos || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending tempo '" <<
       tempo->asShortString () <<
       "' to line '" <<
@@ -557,7 +555,7 @@ void bsrLine::appendMeasureToLine (S_bsrMeasure measure)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceMeasures || gBsrOptions->fTraceLines) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending line '" <<
       measure->asShortString () <<
       "' to line '" <<
@@ -622,7 +620,7 @@ void bsrLine::appendNoteToLine (S_bsrNote note)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending note '" <<
       note->asShortString () <<
       "' to line '" <<
@@ -688,7 +686,7 @@ void bsrLine::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrLine::acceptIn ()" <<
       endl;
   }
@@ -701,7 +699,7 @@ void bsrLine::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrLine::visitStart ()" <<
             endl;
         }
@@ -714,7 +712,7 @@ void bsrLine::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrLine::acceptOut ()" <<
       endl;
   }
@@ -727,7 +725,7 @@ void bsrLine::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrLine::visitEnd ()" <<
             endl;
         }
@@ -796,8 +794,7 @@ void bsrLine::print (ostream& os)
     setw (fieldWidth) <<
     "cellsNumber" << " : " << fetchCellsNumber () <<
     endl;
-  os <<
-    endl;
+  os << endl;
   
   // print the line contents if any
   if (lineContentsListSize || gBsrOptions->fDisplayBsrDetails) {
@@ -808,8 +805,7 @@ void bsrLine::print (ostream& os)
       singularOrPlural (
         lineContentsListSize, "lineContent", "lineContents");
     if (lineContentsListSize) {
-      os <<
-        endl;
+      os << endl;
       gIndenter++;
   
       list<S_bsrLineContents>::const_iterator

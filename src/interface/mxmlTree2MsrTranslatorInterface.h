@@ -31,7 +31,7 @@
 #include "msrOptions.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________

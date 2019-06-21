@@ -74,7 +74,7 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
 {
   msrPartGroup* o =
     new msrPartGroup (
-      NO_INPUT_LINE_NUMBER,
+      K_NO_INPUT_LINE_NUMBER,
       partGroupNumber,
       partGroupAbsoluteNumber,
       partGroupName,
@@ -161,7 +161,7 @@ msrPartGroup::msrPartGroup (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "--------------------------------------------" <<
       endl <<
       "Creating part group '" << fPartGroupNumber << "'" <<
@@ -181,7 +181,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "--------------------------------------------" <<
       endl <<
       "Creating a newborn clone part group " <<
@@ -300,7 +300,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   // register it in this part group
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
       " to part group '" <<
@@ -315,7 +315,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroupsDetails) {
-    gLogIOstream <<
+    glogIOstream <<
       endl <<
       "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
@@ -327,7 +327,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
         i != fPartGroupPartsMap.end ();
         i++
       ) {
-      gLogIOstream <<
+      glogIOstream <<
         "\"" << (*i).first << "\" --% --> " <<
         (*i).second->
           getPartCombinedName () <<
@@ -336,7 +336,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
     
     gIndenter--;
     
-    gLogIOstream <<
+    glogIOstream <<
       "After appendPartToPartGroupByItsID, fPartGroupElements contains:" <<
       endl;
       
@@ -349,11 +349,10 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
         i      = iBegin;
         
       for ( ; ; ) {
-        gLogIOstream <<
+        glogIOstream <<
           (*i);
         if (++i == iEnd) break;
-        gLogIOstream <<
-          endl;
+        glogIOstream << endl;
       } // for
     }
     
@@ -370,7 +369,7 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
   // register part in this part group
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
       " to part group " << fPartGroupNumber <<
@@ -393,7 +392,7 @@ void msrPartGroup::removePartFromPartGroup (
   // register part in this part group
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "Removing part " <<
       partToBeRemoved->getPartCombinedName () <<
       " from part group " << fPartGroupNumber <<
@@ -455,7 +454,7 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
   }
@@ -470,7 +469,7 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroups) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
   }
@@ -500,7 +499,7 @@ void msrPartGroup::printPartGroupParts (
             dynamic_cast<msrPartGroup*>(&(*element))
         ) {
         // this is a part group          
-        gLogIOstream <<
+        glogIOstream <<
           nestedPartGroup->
             getPartGroupCombinedName () <<
           endl;
@@ -521,7 +520,7 @@ void msrPartGroup::printPartGroupParts (
             dynamic_cast<msrPart*>(&(*element))
         ) {
         // this is a part
-        gLogIOstream <<
+        glogIOstream <<
           part->
             getPartCombinedName () <<
           endl;
@@ -559,7 +558,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTracePartGroupsDetails) {    
-    gLogIOstream <<
+    glogIOstream <<
       "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;
 
@@ -567,11 +566,11 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
 
     printPartGroupParts (
       inputLineNumber,
-      gLogIOstream);
+      glogIOstream);
     
     gIndenter--;
 
-    gLogIOstream <<
+    glogIOstream <<
       "<=- fetchPartFromPartGroupByItsPartID(" << partID << ")" <<
       endl <<
       endl;
@@ -689,7 +688,7 @@ void msrPartGroup::collectPartGroupPartsList (
 void msrPartGroup::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartGroup::acceptIn ()" <<
       endl;
   }
@@ -700,7 +699,7 @@ void msrPartGroup::acceptIn (basevisitor* v)
         S_msrPartGroup elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPartGroup::visitStart ()" <<
             endl;
         }
@@ -711,7 +710,7 @@ void msrPartGroup::acceptIn (basevisitor* v)
 void msrPartGroup::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartGroup::acceptOut ()" <<
       endl;
   }
@@ -722,7 +721,7 @@ void msrPartGroup::acceptOut (basevisitor* v)
         S_msrPartGroup elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrPartGroup::visitEnd ()" <<
             endl;
         }
@@ -733,7 +732,7 @@ void msrPartGroup::acceptOut (basevisitor* v)
 void msrPartGroup::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrPartGroup::browseData ()" <<
       endl;
   }
@@ -749,7 +748,7 @@ void msrPartGroup::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% <== msrPartGroup::browseData ()" <<
       endl;
   }
@@ -890,8 +889,7 @@ void msrPartGroup::print (ostream& os)
     os <<
       "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   os << left <<
     setw (fieldWidth) <<
@@ -914,8 +912,7 @@ void msrPartGroup::print (ostream& os)
     os <<
     "none";
   }
-  os <<
-    endl;
+  os << endl;
 
   os << left <<
    setw (fieldWidth) <<

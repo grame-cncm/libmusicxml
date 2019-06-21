@@ -65,7 +65,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceStaffDetails) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of staff tuning '" <<
       asString () <<
       "'" <<
@@ -87,7 +87,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 void msrStaffTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrStaffTuning::acceptIn ()" <<
       endl;
   }
@@ -98,7 +98,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
         S_msrStaffTuning elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrStaffTuning::visitStart ()" <<
             endl;
         }
@@ -109,7 +109,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
 void msrStaffTuning::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrStaffTuning::acceptOut ()" <<
       endl;
   }
@@ -120,7 +120,7 @@ void msrStaffTuning::acceptOut (basevisitor* v)
         S_msrStaffTuning elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrStaffTuning::visitEnd ()" <<
             endl;
         }
@@ -226,7 +226,7 @@ msrStaffDetails::~msrStaffDetails ()
 void msrStaffDetails::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrStaffDetails::acceptIn ()" <<
       endl;
   }
@@ -237,7 +237,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
         S_msrStaffDetails elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrStaffDetails::visitStart ()" <<
             endl;
         }
@@ -248,7 +248,7 @@ void msrStaffDetails::acceptIn (basevisitor* v)
 void msrStaffDetails::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrStaffDetails::acceptOut ()" <<
       endl;
   }
@@ -259,7 +259,7 @@ void msrStaffDetails::acceptOut (basevisitor* v)
         S_msrStaffDetails elem = this;
 
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrStaffDetails::visitEnd ()" <<
             endl;
         }
@@ -416,8 +416,7 @@ void msrStaffDetails::print (ostream& os)
 
   // print the staff tunings if any
   if (fStaffTuningsList.size ()) {
-    os <<
-      endl;
+    os << endl;
 
     list<S_msrStaffTuning>::const_iterator
       iBegin = fStaffTuningsList.begin (),
@@ -431,8 +430,7 @@ void msrStaffDetails::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    os <<
-      endl;
+    os << endl;
 
     gIndenter--;
   }

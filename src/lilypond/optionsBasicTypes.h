@@ -207,6 +207,16 @@ class optionsItem : public optionsElement
 typedef SMARTP<optionsItem> S_optionsItem;
 EXP ostream& operator<< (ostream& os, const S_optionsItem& elt);
 
+// pointers to options items methods
+//______________________________________________________________________________
+typedef void (optionsItem::*optionsItemMethodPtrType)();
+
+/*
+  It's worth noting that, as of C++11, you could write this expression
+  as a more legible using statement:
+    using optionsItemMethodPtrType = void (optionsItem::*)();
+*/
+
 // options help usage items
 //______________________________________________________________________________
 class optionsHelpUsageItem : public optionsItem
@@ -326,7 +336,8 @@ class optionsActionItem : public optionsItem
       string               optionsItemShortName,
       string               optionsItemLongName,
       string               optionsItemDescription,
-      function<void(void)> optionsActionItemFunction);
+//      function<void(void)> optionsActionItemFunction);
+      optionsItemMethodPtrType optionsItemMethodPtr);
 
   protected:
 
@@ -337,7 +348,8 @@ class optionsActionItem : public optionsItem
       string               optionsItemShortName,
       string               optionsItemLongName,
       string               optionsItemDescription,
-      function<void(void)> optionsActionItemFunction);
+//      function<void(void)> optionsActionItemFunction);
+      optionsItemMethodPtrType optionsItemMethodPtr);
 
     virtual ~optionsActionItem ();
 
@@ -346,9 +358,12 @@ class optionsActionItem : public optionsItem
     // set and get
     // ------------------------------------------------------
 
-    function<void(void)>  getOptionsActionItemFunction () // JMI
+//    function<void(void)>  getOptionsActionItemFunction () // JMI
+    optionsItemMethodPtrType
+                          getOptionsActionItemFunction () // JMI
                               {
-                                return fOptionsActionItemFunction;
+                       //         return fOptionsActionItemFunction;
+                                return fOptionsItemMethodPtr;
                               }
 
     // services
@@ -370,7 +385,8 @@ class optionsActionItem : public optionsItem
     // fields
     // ------------------------------------------------------
 
-    function<void(void)>  fOptionsActionItemFunction;
+//    function<void(void)>  fOptionsActionItemFunction;
+    optionsItemMethodPtrType  fOptionsItemMethodPtr;
 };
 typedef SMARTP<optionsActionItem> S_optionsActionItem;
 EXP ostream& operator<< (ostream& os, const S_optionsActionItem& elt);
@@ -1565,7 +1581,7 @@ class EXP optionsHandler : public optionsElement
       string           optionHandlerHelpSummaryLongName,
       string           optionHandlerPreamble,
       string           optionHandlerDescription,
-      indentedOstream& optionsHandlerLogIOstream);
+      indentedOstream& optionsHandlerlogIOstream);
 */
 
   protected:
@@ -1582,7 +1598,7 @@ class EXP optionsHandler : public optionsElement
       string           optionHandlerHelpSummaryLongName,
       string           optionHandlerPreamble,
       string           optionHandlerDescription,
-      indentedOstream& optionsHandlerLogIOstream);
+      indentedOstream& optionsHandlerlogIOstream);
 
     virtual ~optionsHandler ();
 
@@ -1615,8 +1631,8 @@ class EXP optionsHandler : public optionsElement
                               { return fOptionHandlerPreamble; }
 
     const indentedOstream&
-                          getOptionsHandlerLogIOstream ()
-                              { return fOptionsHandlerLogIOstream; }
+                          getOptionsHandlerlogIOstream ()
+                              { return fOptionsHandlerlogIOstream; }
 
     string                getExecutableName () const
                               { return fExecutableName; }
@@ -1682,7 +1698,7 @@ class EXP optionsHandler : public optionsElement
     void                  printHelpSummary () const
                               {
                                 printHelpSummary (
-                                  fOptionsHandlerLogIOstream);
+                                  fOptionsHandlerlogIOstream);
                               }
 
     void                  printSpecificSubGroupHelp (
@@ -1856,7 +1872,7 @@ class EXP optionsHandler : public optionsElement
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;
 
-    indentedOstream&      fOptionsHandlerLogIOstream;
+    indentedOstream&      fOptionsHandlerlogIOstream;
 
     // this is needed to exit if the executable is launched with help items,
     // i.e. items that are only used to display help to the user

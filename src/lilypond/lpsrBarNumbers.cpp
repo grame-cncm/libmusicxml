@@ -47,7 +47,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrBarNumberCheck::acceptIn ()" <<
       endl;
   }
@@ -60,7 +60,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitStart ()" <<
             endl;
         }
@@ -73,7 +73,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrBarNumberCheck::acceptOut ()" <<
       endl;
   }
@@ -86,7 +86,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitEnd ()" <<
             endl;
         }
@@ -134,7 +134,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrBarCommand::acceptIn ()" <<
       endl;
   }
@@ -147,7 +147,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrBarCommand::visitStart ()" <<
             endl;
         }
@@ -160,7 +160,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> lpsrBarCommand::acceptOut ()" <<
       endl;
   }
@@ -173,7 +173,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gLpsrOptions->fTraceLpsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching lpsrBarCommand::visitEnd ()" <<
             endl;
         }

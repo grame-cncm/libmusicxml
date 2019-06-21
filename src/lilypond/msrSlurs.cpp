@@ -55,7 +55,7 @@ msrSlur::~msrSlur ()
 void msrSlur::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSlur::acceptIn ()" <<
       endl;
   }
@@ -66,7 +66,7 @@ void msrSlur::acceptIn (basevisitor* v)
         S_msrSlur elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSlur::visitStart ()" <<
             endl;
         }
@@ -77,7 +77,7 @@ void msrSlur::acceptIn (basevisitor* v)
 void msrSlur::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> msrSlur::acceptOut ()" <<
       endl;
   }
@@ -88,7 +88,7 @@ void msrSlur::acceptOut (basevisitor* v)
         S_msrSlur elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching msrSlur::visitEnd ()" <<
             endl;
         }

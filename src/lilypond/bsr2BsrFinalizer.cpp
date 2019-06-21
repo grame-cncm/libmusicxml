@@ -70,7 +70,7 @@ void bsr2BsrFinalizer::visitStart (S_bsrScore& elt)
   // create the BSR score
   fBsrScore =
     bsrScore::create (
-      NO_INPUT_LINE_NUMBER,
+      K_NO_INPUT_LINE_NUMBER,
       fBaseMsrScore);
 }
 

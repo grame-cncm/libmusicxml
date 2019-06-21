@@ -3069,8 +3069,8 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     static SMARTP<msrNote> createNoteFromSemiTonesPitchAndOctave (
-      S_msrSemiTonesPitchAndOctave
-        semiTonesPitchAndOctave);
+      int                          inputLineNumber,
+      S_msrSemiTonesPitchAndOctave semiTonesPitchAndOctave);
 
   protected:
 

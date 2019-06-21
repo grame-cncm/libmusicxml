@@ -56,7 +56,7 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrFootNotesElement::acceptIn ()" <<
       endl;
   }
@@ -69,7 +69,7 @@ void bsrFootNotesElement::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrFootNotesElement::visitStart ()" <<
             endl;
         }
@@ -82,7 +82,7 @@ void bsrFootNotesElement::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrFootNotesElement::acceptOut ()" <<
       endl;
   }
@@ -95,7 +95,7 @@ void bsrFootNotesElement::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrFootNotesElement::visitEnd ()" <<
             endl;
         }
@@ -169,7 +169,7 @@ void bsrFootNotes::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrFootNotes::acceptIn ()" <<
       endl;
   }
@@ -182,7 +182,7 @@ void bsrFootNotes::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrFootNotes::visitStart ()" <<
             endl;
         }
@@ -195,7 +195,7 @@ void bsrFootNotes::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrFootNotes::acceptOut ()" <<
       endl;
   }
@@ -208,7 +208,7 @@ void bsrFootNotes::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrFootNotes::visitEnd ()" <<
             endl;
         }

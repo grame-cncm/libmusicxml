@@ -53,7 +53,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
   clock_t startClock = clock ();
       
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -77,8 +77,7 @@ S_bsrScore buildBsrScoreFromMsrScore (
       
   // build the BSR score
   translator.buildBsrScoreFromMsrScore ();
-  logIOstream <<
-    endl;
+  logIOstream << endl;
 
   clock_t endClock = clock ();
 

@@ -204,7 +204,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         if (smSize) {
   #ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
-            gLogIOstream <<
+            glogIOstream <<
               "There are " << smSize << " matches" <<
               " for rational string '" << tempoPerMinuteString <<
               "' with regex '" << regularExpression <<
@@ -212,12 +212,11 @@ S_bsrCellsList bsrTempo::buildCellsList () const
               endl;
 
             for (unsigned i = 0; i < smSize; ++i) {
-              gLogIOstream <<
+              glogIOstream <<
                 "[" << sm [i] << "] ";
             } // for
 
-            gLogIOstream <<
-              endl;
+            glogIOstream << endl;
           }
   #endif
 
@@ -292,7 +291,7 @@ void bsrTempo::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTempo::acceptIn ()" <<
       endl;
   }
@@ -305,7 +304,7 @@ void bsrTempo::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTempo::visitStart ()" <<
             endl;
         }
@@ -318,7 +317,7 @@ void bsrTempo::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTempo::acceptOut ()" <<
       endl;
   }
@@ -331,7 +330,7 @@ void bsrTempo::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTempo::visitEnd ()" <<
             endl;
         }

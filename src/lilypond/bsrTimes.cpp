@@ -52,7 +52,7 @@ bsrTimeItem::bsrTimeItem (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -100,7 +100,7 @@ void bsrTimeItem::appendBeatsNumber (int beatsNumber)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending beat number '" <<
       beatsNumber <<
       "' to time item '" <<
@@ -119,7 +119,7 @@ void bsrTimeItem::setTimeBeatValue (int timeBeatValue)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+    glogIOstream <<
       "Setting beat value to '" <<
       timeBeatValue <<
       "' in time item '" <<
@@ -148,7 +148,7 @@ void bsrTimeItem::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTimeItem::acceptIn ()" <<
       endl;
   }
@@ -161,7 +161,7 @@ void bsrTimeItem::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTimeItem::visitStart ()" <<
             endl;
         }
@@ -174,7 +174,7 @@ void bsrTimeItem::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTimeItem::acceptOut ()" <<
       endl;
   }
@@ -187,7 +187,7 @@ void bsrTimeItem::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTimeItem::visitEnd ()" <<
             endl;
         }
@@ -288,7 +288,7 @@ bsrTime::bsrTime (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating bsrTimes '" <<
       asString () <<
       "', line " <<
@@ -305,7 +305,7 @@ void bsrTime::appendTimeItem (S_bsrTimeItem timeItem)
 {
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceTimes) {
-    gLogIOstream <<
+    glogIOstream <<
       "Appending time item '" <<
       timeItem->asString () <<
       "' to time '" <<
@@ -667,7 +667,7 @@ void bsrTime::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTime::acceptIn ()" <<
       endl;
   }
@@ -680,7 +680,7 @@ void bsrTime::acceptIn (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTime::visitStart ()" <<
             endl;
         }
@@ -693,7 +693,7 @@ void bsrTime::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrTime::acceptOut ()" <<
       endl;
   }
@@ -706,7 +706,7 @@ void bsrTime::acceptOut (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrTime::visitEnd ()" <<
             endl;
         }
@@ -795,8 +795,7 @@ void bsrTime::print (ostream& os)
     "timeItemsVector" << " : ";
 
   if (timeItemsVectorSize) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
 

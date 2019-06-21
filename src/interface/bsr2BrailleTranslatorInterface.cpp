@@ -30,7 +30,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //_______________________________________________________________________________
@@ -44,14 +44,14 @@ void generateBrailleCodeFromBsrScore (
   msrAssert (
     bScore != 0,
     "bScore is null");
-    
+
   clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
 
 #ifdef TRACE_OPTIONS
-  if (gGeneralOptions->fTracePasses) {
+  if (gTraceOptions->fTracePasses) {
     logIOstream <<
       endl <<
       separator <<
@@ -71,8 +71,8 @@ void generateBrailleCodeFromBsrScore (
       logIOstream,
       brailleCodeIOstream,
       bScore);
-  
-  // build the Braille score    
+
+  // build the Braille score
   translator.generateBrailleCodeFromBsrScore ();
 
   clock_t endClock = clock ();

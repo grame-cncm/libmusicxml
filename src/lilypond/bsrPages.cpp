@@ -49,7 +49,7 @@ bsrPage::bsrPage (
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTracePages) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating bsrPage '" <<
       asString () <<
       "', line " <<
@@ -66,7 +66,7 @@ S_bsrPage bsrPage::createPageNewbornClone ()
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTracePages) {
-    gLogIOstream <<
+    glogIOstream <<
       "Creating a newborn clone of page " <<
       asString () <<
       endl;
@@ -105,7 +105,7 @@ void bsrPage::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrPage::acceptIn ()" <<
       endl;
   }
@@ -118,7 +118,7 @@ void bsrPage::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrPage::visitStart ()" <<
             endl;
         }
@@ -131,7 +131,7 @@ void bsrPage::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrPage::acceptOut ()" <<
       endl;
   }
@@ -144,7 +144,7 @@ void bsrPage::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrPage::visitEnd ()" <<
             endl;
         }
@@ -203,8 +203,7 @@ void bsrPage::print (ostream& os)
     setw (fieldWidth) <<
     "linesPerPage" << " : " << fLinesPerPage <<
     endl;
-  os <<
-    endl;
+  os << endl;
     
   // print the page elements if any
   int pageElementsListSize = fPageElementsList.size ();
@@ -217,8 +216,7 @@ void bsrPage::print (ostream& os)
     singularOrPlural (
       pageElementsListSize, "pageElement", "pageElements");
     if (pageElementsListSize) {
-      os <<
-        endl;
+      os << endl;
       gIndenter++;
   
       list<S_bsrPageElement>::const_iterator

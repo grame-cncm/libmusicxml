@@ -84,7 +84,7 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrMusicHeading::acceptIn ()" <<
       endl;
   }
@@ -97,7 +97,7 @@ void bsrMusicHeading::acceptIn (basevisitor* v)
         
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrMusicHeading::visitStart ()" <<
             endl;
         }
@@ -110,7 +110,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrMusicHeading::acceptOut ()" <<
       endl;
   }
@@ -123,7 +123,7 @@ void bsrMusicHeading::acceptOut (basevisitor* v)
       
 #ifdef TRACE_OPTIONS
         if (gBsrOptions->fTraceBsrVisitors) {
-          gLogIOstream <<
+          glogIOstream <<
             "% ==> Launching bsrMusicHeading::visitEnd ()" <<
             endl;
         }
@@ -136,7 +136,7 @@ void bsrMusicHeading::browseData (basevisitor* v)
 {
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% ==> bsrScore::browseData ()" <<
       endl;
   }
@@ -162,7 +162,7 @@ void bsrMusicHeading::browseData (basevisitor* v)
 
 #ifdef TRACE_OPTIONS
   if (gBsrOptions->fTraceBsrVisitors) {
-    gLogIOstream <<
+    glogIOstream <<
       "% <== bsrScore::browseData ()" <<
       endl;
   }
@@ -230,8 +230,7 @@ void bsrMusicHeading::print (ostream& os)
   os <<
     "musicHeadingTempo: ";
   if (fMusicHeadingTempo) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
   
@@ -249,8 +248,7 @@ void bsrMusicHeading::print (ostream& os)
   os <<
     "musicHeadingKey: ";
   if (fMusicHeadingKey) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
   
@@ -268,8 +266,7 @@ void bsrMusicHeading::print (ostream& os)
   os <<
     "musicHeadingTime: ";
   if (fMusicHeadingTime) {
-    os <<
-      endl;
+    os << endl;
 
     gIndenter++;
   
