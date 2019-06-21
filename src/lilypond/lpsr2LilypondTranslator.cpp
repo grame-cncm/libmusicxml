@@ -178,12 +178,12 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   */
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
-      if (gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave) {
+      if (gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave) {
         // option '-rel, -relative' has been used
         fCurrentOctaveEntryAbsoluteReference =
           msrNote::createNoteFromSemiTonesPitchAndOctave (
             K_NO_INPUT_LINE_NUMBER,
-            gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+            gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave);
       }
       break;
 
@@ -195,13 +195,13 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
     case kOctaveEntryFixed:
       // sanity check
       msrAssert (
-        gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave != nullptr,
-        "gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave is null");
+        gLilypondOptions->fFixedOctaveEntrySemiTonesPitchAndOctave != nullptr,
+        "gLilypondOptions->fFixedOctaveEntrySemiTonesPitchAndOctave is null");
 
       fCurrentOctaveEntryAbsoluteReference =
         msrNote::createNoteFromSemiTonesPitchAndOctave (
           K_NO_INPUT_LINE_NUMBER,
-          gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+          gLilypondOptions->fFixedOctaveEntrySemiTonesPitchAndOctave);
       break;
   } // switch
 
@@ -460,7 +460,7 @@ string lpsr2LilypondTranslator::lilypondRelativeModeOctave (
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -572,7 +572,7 @@ string lpsr2LilypondTranslator::lilypondFixedModeOctave ( // JMI
       referenceDiatonicPitchKind - kC;
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -760,7 +760,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // should an absolute octave be generated?
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
     int noteAbsoluteDisplayOctave =
       note->getNoteDisplayOctave ();
 
@@ -6652,7 +6652,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
           fLilypondCodeIOstream <<
             "\\relative";
           if (
-            gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave
+            gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave
 //      JMI         !=
 //            gLilypondOptions->fSemiTonesPitchAndOctaveDefaultValue
           ) {
@@ -6661,7 +6661,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
               " " <<
               msrSemiTonesPitchAndOctaveAsLilypondString (
                 gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-                gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+                gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave);
           }
           break;
 
@@ -6672,10 +6672,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
         case kOctaveEntryFixed:
           fLilypondCodeIOstream <<
-            "\\fixed  " <<
+            "\\fixed " <<
             msrSemiTonesPitchAndOctaveAsLilypondString (
               gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-              gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+              gLilypondOptions->fFixedOctaveEntrySemiTonesPitchAndOctave);
           break;
       } // switch
 

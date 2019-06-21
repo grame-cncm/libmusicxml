@@ -170,36 +170,17 @@ void optionsAbsoluteOctaveEntryItem::print (ostream& os) const
     endl;
   gIndenter--;
 
-/* JMI
-  os << left <<
-    setw (fieldWidth) <<
-    "foptionsAbsoluteOctaveEntryItemVariableDisplayName" << " : " <<
-    foptionsAbsoluteOctaveEntryItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "foptionsAbsoluteOctaveEntryItemVariable" << " : " <<
-    booleanAsString (
-      foptionsAbsoluteOctaveEntryItemVariable) <<
-    endl;
-*/
-
   gIndenter--;
 }
 
-/* JMI
 void optionsAbsoluteOctaveEntryItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   os << left <<
-    setw (valueFieldWidth) <<
-    foptionsAbsoluteOctaveEntryItemVariableDisplayName <<
-    " : " <<
-    booleanAsString (
-      foptionsAbsoluteOctaveEntryItemVariable) <<
+    "no value for optionsAbsoluteOctaveEntryItem" <<
     endl;
 }
-    */
 
 //______________________________________________________________________________
 S_optionsRelativeOctaveEntryItem optionsRelativeOctaveEntryItem::create (
@@ -274,7 +255,7 @@ void optionsRelativeOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    "optionsRelativeOctaveEntryItemVariable" <<
+    fOptionsRelativeOctaveEntryItemVariableDisplayName <<
     " : ";
   if (fOptionsRelativeOctaveEntryItemVariable) {
     os << endl;
@@ -284,9 +265,7 @@ void optionsRelativeOctaveEntryItem::printOptionsValues (
     gIndenter--;
   }
   else {
-    os <<
-      "none" <<
-      endl;
+    os << "none" << endl;
   }
 }
 
@@ -369,7 +348,7 @@ void optionsFixedOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    "optionsFixedOctaveEntryItemVariable" <<
+    fOptionsFixedOctaveEntryItemVariableDisplayName <<
     " : ";
   if (fOptionsFixedOctaveEntryItemVariable) {
     os << endl;
@@ -379,9 +358,7 @@ void optionsFixedOctaveEntryItem::printOptionsValues (
     gIndenter--;
   }
   else {
-    os <<
-      "none" <<
-      endl;
+    os << "none" << endl;
   }
 }
 
@@ -988,20 +965,24 @@ The default is 'DEFAULT_VALUE'.)",
       optionsRelativeOctaveEntryItem::create (
         "rel", "relative",
 R"(Use relative octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
-PITCH_AND_OCTAVE is made of a diatonic pitch and a sequence or ',' or '\''.)",
+PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
+It should be placed between double quotes if it contains single quotes, such as:
+  -rel "c''")",
         "PITCH_AND_OCTAVE",
-        "octaveEntrySemiTonesPitchAndOctave",
-        fOctaveEntrySemiTonesPitchAndOctave));
+        "relativeOctaveEntrySemiTonesPitchAndOctave",
+        fRelativeOctaveEntrySemiTonesPitchAndOctave));
 
   notesSubGroup->
     appendOptionsItem (
       optionsFixedOctaveEntryItem::create (
         "fixed", "",
 R"(Use fixed octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
-PITCH_AND_OCTAVE is made of a diatonic pitch and a sequence or ',' or '\''.)",
+PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
+It should be placed between double quotes if it contains single quotes, such as:
+  -rel "c''")",
         "PITCH_AND_OCTAVE",
-        "octaveEntrySemiTonesPitchAndOctave",
-        fOctaveEntrySemiTonesPitchAndOctave));
+        "fixedOctaveEntrySemiTonesPitchAndOctave",
+        fFixedOctaveEntrySemiTonesPitchAndOctave));
 
   // durations
 
@@ -2100,7 +2081,6 @@ void lilypondOptions::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
-
   os <<
     "The LilyPond options are:" <<
     endl;
@@ -2222,8 +2202,30 @@ void lilypondOptions::printOptionsValues (
   os << left <<
     setw (valueFieldWidth) << "octaveEntryKind" << " : " <<
       lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
-      endl <<
+      endl;
 
+  switch (gLilypondOptions->fOctaveEntryKind) {
+    case kOctaveEntryRelative:
+      if (fRelativeOctaveEntrySemiTonesPitchAndOctave) {
+        os << left <<
+          setw (valueFieldWidth) << "relativeOctaveEntrySemiTonesPitchAndOctave" << " : " <<
+          fRelativeOctaveEntrySemiTonesPitchAndOctave->asString () <<
+          endl;
+      }
+      break;
+    case kOctaveEntryAbsolute:
+      break;
+    case kOctaveEntryFixed:
+      if (fFixedOctaveEntrySemiTonesPitchAndOctave) {
+        os << left <<
+          setw (valueFieldWidth) << "fixedOctaveEntrySemiTonesPitchAndOctave" << " : " <<
+          fFixedOctaveEntrySemiTonesPitchAndOctave->asString () <<
+          endl;
+      }
+      break;
+  } // switch
+
+  os << left <<
     setw (valueFieldWidth) << "allDurations" << " : " <<
       booleanAsString (fAllDurations) <<
       endl <<

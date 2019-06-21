@@ -133,11 +133,9 @@ class optionsAbsoluteOctaveEntryItem : public optionsItem
 
     void                  print (ostream& os) const;
 
-/* JMI
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-*/
 
   private:
 
@@ -781,9 +779,14 @@ class lilypondOptions : public optionsGroup
     // --------------------------------------
 
     lpsrOctaveEntryKind   fOctaveEntryKind;
-    // this is relevant only for relative and fixed octave entry kinds
+
+    // this is relevant only for relative octave entry kinds
     S_msrSemiTonesPitchAndOctave
-                          fOctaveEntrySemiTonesPitchAndOctave;
+                          fRelativeOctaveEntrySemiTonesPitchAndOctave;
+    // this is relevant only for fixed octave entry kinds
+    S_msrSemiTonesPitchAndOctave
+                          fFixedOctaveEntrySemiTonesPitchAndOctave;
+
     S_msrSemiTonesPitchAndOctave
                           fSemiTonesPitchAndOctaveDefaultValue;
 
