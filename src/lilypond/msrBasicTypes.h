@@ -367,6 +367,10 @@ msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   string                             quarterTonesPitchName);
 
+string msrSemiTonesPitchKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrSemiTonesPitchKind              semiTonesPitchKind);
+
 // enharmonies
 //______________________________________________________________________________
 msrSemiTonesPitchKind enharmonicSemiTonesPitch (
@@ -983,154 +987,6 @@ class msrChordStructure : public smartable
 typedef SMARTP<msrChordStructure> S_msrChordStructure;
 EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
 
-/*
-// semitone pitches and absolute octave
-//______________________________________________________________________________
-class msrSemiTonesPitchAndAbsoluteOctave : public smartable
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSemiTonesPitchAndAbsoluteOctave> create (
-      msrSemiTonesPitchKind semitonePitchKind,
-      int                   absoluteOctave);
-
-    SMARTP<msrSemiTonesPitchAndAbsoluteOctave> createSemiTonesPitchAndAbsoluteOctaveNewbornClone ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchAndAbsoluteOctave (
-      msrSemiTonesPitchKind semitonePitchKind,
-      int                   absoluteOctave);
-
-    virtual ~msrSemiTonesPitchAndAbsoluteOctave ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchKind getSemitonePitchKind () const
-                              { return fSemitonePitchKind; }
-
-    void                  incrementAbsoluteOctave ()
-                              { fAbsoluteOctave++; }
-
-    void                  decrementAbsoluteOctave ()
-                              { fAbsoluteOctave--; }
-
-    int                   getAbsoluteOctave () const
-                              { return fAbsoluteOctave; }
-
-    // services
-    // ------------------------------------------------------
-
-
-    string                semitonePitchKindAsString () const;
-    string                semitonePitchKindAsShortString () const;
-
-    string                asString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-  public:
-
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchKind fSemitonePitchKind;
-
-    int                   fAbsoluteOctave;
-};
-typedef SMARTP<msrSemiTonesPitchAndAbsoluteOctave> S_msrSemiTonesPitchAndAbsoluteOctave;
-EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndAbsoluteOctave& elt);
-
-// semitone pitches and relative octave
-//______________________________________________________________________________
-class msrSemiTonesPitchAndRelativeOctave : public smartable
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrSemiTonesPitchAndRelativeOctave> create (
-      msrSemiTonesPitchKind semitonePitchKind,
-      int                   relativeOctave);
-
-    SMARTP<msrSemiTonesPitchAndRelativeOctave> createSemiTonesPitchAndRelativeOctaveNewbornClone ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchAndRelativeOctave (
-      msrSemiTonesPitchKind semitonePitchKind,
-      int                   relativeOctave);
-
-    virtual ~msrSemiTonesPitchAndRelativeOctave ();
-
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchKind getSemitonePitchKind () const
-                              { return fSemitonePitchKind; }
-
-    void                  incrementRelativeOctave ()
-                              { fRelativeOctave++; }
-
-    void                  decrementRelativeOctave ()
-                              { fRelativeOctave--; }
-
-    int                   getRelativeOctave () const
-                              { return fRelativeOctave; }
-
-    // services
-    // ------------------------------------------------------
-
-
-    string                semitonePitchKindAsString () const;
-    string                semitonePitchKindAsShortString () const;
-
-    string                asString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-  public:
-
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrSemiTonesPitchKind fSemitonePitchKind;
-
-    int                   fRelativeOctave;
-};
-typedef SMARTP<msrSemiTonesPitchAndRelativeOctave> S_msrSemiTonesPitchAndRelativeOctave;
-EXP ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& elt);
-*/
-
 // semitone pitches and octave
 // can be used as absolute, relative or fixed reference
 //______________________________________________________________________________
@@ -1142,7 +998,7 @@ class msrSemiTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrSemiTonesPitchAndOctave> create (
-      msrSemiTonesPitchKind semitonePitchKind,
+      msrSemiTonesPitchKind semiTonesPitchKind,
       int                   octave);
 
     SMARTP<msrSemiTonesPitchAndOctave> createSemiTonesPitchAndOctaveNewbornClone ();
@@ -1160,7 +1016,7 @@ class msrSemiTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
     msrSemiTonesPitchAndOctave (
-      msrSemiTonesPitchKind semitonePitchKind,
+      msrSemiTonesPitchKind semiTonesPitchKind,
       int                   octave);
 
     virtual ~msrSemiTonesPitchAndOctave ();
@@ -1170,8 +1026,8 @@ class msrSemiTonesPitchAndOctave : public smartable
     // set and get
     // ------------------------------------------------------
 
-    msrSemiTonesPitchKind getSemitonePitchKind () const
-                              { return fSemitonePitchKind; }
+    msrSemiTonesPitchKind getSemiTonesPitchKind () const
+                              { return fSemiTonesPitchKind; }
 
     void                  incrementOctave ()
                               { fOctave++; }
@@ -1186,8 +1042,8 @@ class msrSemiTonesPitchAndOctave : public smartable
     // ------------------------------------------------------
 
 
-    string                semitonePitchKindAsString () const;
-    string                semitonePitchKindAsShortString () const;
+    string                semiTonesPitchKindAsString () const;
+    string                semiTonesPitchKindAsShortString () const;
 
     string                asString () const;
 
@@ -1205,7 +1061,7 @@ class msrSemiTonesPitchAndOctave : public smartable
     // fields
     // ------------------------------------------------------
 
-    msrSemiTonesPitchKind fSemitonePitchKind;
+    msrSemiTonesPitchKind fSemiTonesPitchKind;
     int                   fOctave;
 };
 typedef SMARTP<msrSemiTonesPitchAndOctave> S_msrSemiTonesPitchAndOctave;

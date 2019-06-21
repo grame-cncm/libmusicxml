@@ -1350,7 +1350,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       kRestNote, // noteKind
 
       quarterTonesPitchKindFromSemiTonesPitchKind (
-        semiTonesPitchAndOctave->getSemitonePitchKind ()),
+        semiTonesPitchAndOctave->getSemiTonesPitchKind ()),
 
       rational (0, 1), // soundingWholeNotes,
       rational (0, 1), // displayWholeNotes,

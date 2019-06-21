@@ -140,6 +140,16 @@ void writeTextsListAsLilypondString (
   const list<string>& textsList,
   ostream&            os);
 
+// pitches and octaves
+//______________________________________________________________________________
+string msrSemiTonesPitchKindAsLilypondString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrSemiTonesPitchKind              semiTonesPitchKind);
+
+string msrSemiTonesPitchAndOctaveAsLilypondString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  S_msrSemiTonesPitchAndOctave       quarterTonesPitchAndOctave);
+
 // initialization
 //______________________________________________________________________________
 void initializeLPSRBasicTypes ();

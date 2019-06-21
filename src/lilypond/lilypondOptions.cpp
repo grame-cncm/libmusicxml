@@ -570,7 +570,7 @@ void optionsChordsDisplayItem::printOptionsValues (
   os << left <<
     setw (valueFieldWidth) <<
     foptionsChordsDisplayItemVariableDisplayName <<
-    " : '";
+    " : ";
 
   if (foptionsChordsDisplayItemVariable.size ()) {
     os << endl;
@@ -586,20 +586,13 @@ void optionsChordsDisplayItem::printOptionsValues (
       os << endl;
     } // for
 
-  /* JMI
-      foptionsChordsDisplayItemVariable.first <<
-      " = " <<
-      foptionsChordsDisplayItemVariable.second <<
-      "'" <<
-      endl;
-      */
-
     gIndenter--;
   }
   else {
     os <<
       "none";
   }
+  os << endl;
 }
 
 ostream& operator<< (ostream& os, const S_optionsChordsDisplayItem& elt)
@@ -972,13 +965,13 @@ R"()",
       kOctaveEntryRelative; // LilyPond default value
   fOctaveEntryKind = octaveEntryKindDefaultValue;
 
-  S_msrSemiTonesPitchAndOctave
-    semiTonesPitchAndOctaveDefaultValue =
-      msrSemiTonesPitchAndOctave::create (
-        // F under middle C, LilyPond default for relative octave entry
-        kF_Natural_STP, 3);
-  fOctaveEntrySemiTonesPitchAndOctave  =
-    semiTonesPitchAndOctaveDefaultValue;
+  // leave fOctaveEntrySemiTonesPitchAndOctave equal to nullptr here,
+  // since \relative without a pitch and absolute octave
+  // can be used in LilyPond, in which case the pitch and absolute actave is:
+  fSemiTonesPitchAndOctaveDefaultValue =
+    msrSemiTonesPitchAndOctave::create (
+      // F under middle C, LilyPond default for relative octave entry
+      kF_Natural_STP, 3);
 
   notesSubGroup->
     appendOptionsItem (
@@ -988,8 +981,7 @@ R"()",
 R"(Use asbolute octave entry in the generated LilyPond code.
 The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
-          lpsrOctaveEntryKindAsString (
-            octaveEntryKindDefaultValue))));
+          fSemiTonesPitchAndOctaveDefaultValue->asString ())));
 
   notesSubGroup->
     appendOptionsItem (
@@ -2427,6 +2419,10 @@ void lilypondOptions::printOptionsValues (
     setw (valueFieldWidth) << "chordsDisplayList" << " : ";
 
   if (fChordsDisplayList.size ()) {
+    os << endl;
+
+    gIndenter++;
+
     list<pair<string, string> >::const_iterator
       iBegin = fChordsDisplayList.begin (),
       iEnd   = fChordsDisplayList.end (),
@@ -2442,6 +2438,8 @@ void lilypondOptions::printOptionsValues (
       if (++i == iEnd) break;
   //     os << endl;
     } // for
+
+    gIndenter--;
   }
   else {
     os <<

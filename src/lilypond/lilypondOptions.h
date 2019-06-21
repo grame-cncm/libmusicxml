@@ -784,6 +784,9 @@ class lilypondOptions : public optionsGroup
     // this is relevant only for relative and fixed octave entry kinds
     S_msrSemiTonesPitchAndOctave
                           fOctaveEntrySemiTonesPitchAndOctave;
+    S_msrSemiTonesPitchAndOctave
+                          fSemiTonesPitchAndOctaveDefaultValue;
+
 
     bool                  fAllDurations;
 

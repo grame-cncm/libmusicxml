@@ -17141,12 +17141,12 @@ ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
 /* JMI
 //______________________________________________________________________________
 S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::create (
-  msrSemiTonesPitchKind semitonePitchKind,
+  msrSemiTonesPitchKind semiTonesPitchKind,
   int                   absoluteOctave)
 {
   msrSemiTonesPitchAndAbsoluteOctave* o =
     new msrSemiTonesPitchAndAbsoluteOctave (
-      semitonePitchKind,
+      semiTonesPitchKind,
       absoluteOctave);
   assert(o!=0);
 
@@ -17154,10 +17154,10 @@ S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::create 
 }
 
 msrSemiTonesPitchAndAbsoluteOctave::msrSemiTonesPitchAndAbsoluteOctave (
-  msrSemiTonesPitchKind semitonePitchKind,
+  msrSemiTonesPitchKind semiTonesPitchKind,
   int                   absoluteOctave)
 {
-  fSemitonePitchKind = semitonePitchKind;
+  fSemiTonesPitchKind = semiTonesPitchKind;
 
   fAbsoluteOctave = absoluteOctave;
 
@@ -17180,7 +17180,7 @@ S_msrSemiTonesPitchAndAbsoluteOctave msrSemiTonesPitchAndAbsoluteOctave::createS
   S_msrSemiTonesPitchAndAbsoluteOctave
     newbornClone =
       msrSemiTonesPitchAndAbsoluteOctave::create (
-        fSemitonePitchKind,
+        fSemiTonesPitchKind,
         fAbsoluteOctave);
 
   return newbornClone;
@@ -17196,7 +17196,7 @@ string msrSemiTonesPitchAndAbsoluteOctave::asString () const
     "SemiTonesPitchAndAbsoluteOctave" <<
     ": " <<
     setw (fieldWidth) <<
-    msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     ", absoluteOctave: " << fAbsoluteOctave;
 
   return s.str ();
@@ -17214,8 +17214,8 @@ void msrSemiTonesPitchAndAbsoluteOctave::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "semitonePitchKind" << " : " <<
-      msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    "semiTonesPitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
     "absoluteOctave" << " : " << fAbsoluteOctave <<
@@ -17232,12 +17232,12 @@ ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndAbsoluteOctave& el
 
 //______________________________________________________________________________
 S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::create (
-  msrSemiTonesPitchKind semitonePitchKind,
+  msrSemiTonesPitchKind semiTonesPitchKind,
   int                   relativeOctave)
 {
   msrSemiTonesPitchAndRelativeOctave* o =
     new msrSemiTonesPitchAndRelativeOctave (
-      semitonePitchKind,
+      semiTonesPitchKind,
       relativeOctave);
   assert(o!=0);
 
@@ -17245,10 +17245,10 @@ S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::create 
 }
 
 msrSemiTonesPitchAndRelativeOctave::msrSemiTonesPitchAndRelativeOctave (
-  msrSemiTonesPitchKind semitonePitchKind,
+  msrSemiTonesPitchKind semiTonesPitchKind,
   int                   relativeOctave)
 {
-  fSemitonePitchKind = semitonePitchKind;
+  fSemiTonesPitchKind = semiTonesPitchKind;
 
   fRelativeOctave = relativeOctave;
 
@@ -17271,7 +17271,7 @@ S_msrSemiTonesPitchAndRelativeOctave msrSemiTonesPitchAndRelativeOctave::createS
   S_msrSemiTonesPitchAndRelativeOctave
     newbornClone =
       msrSemiTonesPitchAndRelativeOctave::create (
-        fSemitonePitchKind,
+        fSemiTonesPitchKind,
         fRelativeOctave);
 
   return newbornClone;
@@ -17287,7 +17287,7 @@ string msrSemiTonesPitchAndRelativeOctave::asString () const
     "SemiTonesPitchAndRelativeOctave" <<
     ": " <<
     setw (fieldWidth) <<
-    msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     ", relativeOctave: " << fRelativeOctave;
 
   return s.str ();
@@ -17305,8 +17305,8 @@ void msrSemiTonesPitchAndRelativeOctave::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "semitonePitchKind" << " : " <<
-      msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    "semiTonesPitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
     "relativeOctave" << " : " << fRelativeOctave <<
@@ -17325,12 +17325,12 @@ ostream& operator<< (ostream& os, const S_msrSemiTonesPitchAndRelativeOctave& el
 // semitone pitches and absolute octave
 //______________________________________________________________________________
 S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::create (
-  msrSemiTonesPitchKind semitonePitchKind,
+  msrSemiTonesPitchKind semiTonesPitchKind,
   int                   relativeOctave)
 {
   msrSemiTonesPitchAndOctave* o =
     new msrSemiTonesPitchAndOctave (
-      semitonePitchKind,
+      semiTonesPitchKind,
       relativeOctave);
   assert(o!=0);
 
@@ -17397,7 +17397,8 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
           pitch);
 
     // handling ',' and '\'' in octave indication
-    int octave = 0;
+    // middle C, LilyPond's c', starts octave 4
+    int octave = 3;
     for (unsigned int i = 0; i < octaveIndication.size (); i++) {
       switch (octaveIndication [i]) {
         case ',':
@@ -17459,7 +17460,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
     stringstream s;
 
     s <<
-      "-msrPartRename argument '" << theString <<
+      "semitones pitch and octave argument '" << theString <<
       "' is ill-formed";
 
     msrMusicXMLError (
@@ -17474,10 +17475,10 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
 }
 
 msrSemiTonesPitchAndOctave::msrSemiTonesPitchAndOctave (
-  msrSemiTonesPitchKind semitonePitchKind,
+  msrSemiTonesPitchKind semiTonesPitchKind,
   int                   relativeOctave)
 {
-  fSemitonePitchKind = semitonePitchKind;
+  fSemiTonesPitchKind = semiTonesPitchKind;
   fOctave            = relativeOctave;
 
 #ifdef TRACE_OPTIONS
@@ -17499,7 +17500,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createSemiTonesPitchAnd
   S_msrSemiTonesPitchAndOctave
     newbornClone =
       msrSemiTonesPitchAndOctave::create (
-        fSemitonePitchKind,
+        fSemiTonesPitchKind,
         fOctave);
 
   return newbornClone;
@@ -17515,8 +17516,8 @@ string msrSemiTonesPitchAndOctave::asString () const
     "SemiTonesPitchAndOctave" <<
     ": " <<
     setw (fieldWidth) <<
-    "semitonePitchKind: " <<
-    msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    "semiTonesPitchKind: " <<
+    msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     ", octave: " << fOctave;
 
   return s.str ();
@@ -17534,8 +17535,8 @@ void msrSemiTonesPitchAndOctave::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "semitonePitchKind" << " : " <<
-      msrSemiTonesPitchKindAsString (fSemitonePitchKind) <<
+    "semiTonesPitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fSemiTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
     "octave" << " : " << fOctave <<
@@ -17681,7 +17682,7 @@ msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion 
 
   return
     fChordElementsVector [inversionNumber]->
-      getSemitonePitchKind ();
+      getSemiTonesPitchKind ();
 }
 
 void msrChordContents::printAllChordsContents (

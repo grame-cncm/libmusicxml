@@ -178,15 +178,13 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   */
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
-        // sanity check
-      msrAssert (
-        gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave != nullptr,
-        "gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave is null");
-
-      fCurrentOctaveEntryAbsoluteReference =
-        msrNote::createNoteFromSemiTonesPitchAndOctave (
-          K_NO_INPUT_LINE_NUMBER,
-          gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+      if (gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave) {
+        // option '-rel, -relative' has been used
+        fCurrentOctaveEntryAbsoluteReference =
+          msrNote::createNoteFromSemiTonesPitchAndOctave (
+            K_NO_INPUT_LINE_NUMBER,
+            gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+      }
       break;
 
     case kOctaveEntryAbsolute:
@@ -755,7 +753,8 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   s <<
     quarterTonesPitchKindAsString;
 
-  // in MusicXML, octave number is 4 for the octave starting with middle C
+  // in MusicXML, octave number is 4 for the octave
+  // starting with middle C, LilyPond's c'
   int noteAbsoluteOctave =
     note->getNoteOctave ();
 
@@ -796,13 +795,6 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       endl;
   }
 #endif
-
-  /* OLD
-  bool generateAbsoluteOctave =
-    gLilypondOptions->fAbsoluteOctaves
-      ||
-    ! fCurrentOctaveEntryAbsoluteReference;
-    */
 
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
@@ -6650,7 +6642,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   fLilypondCodeIOstream <<
     fCurrentVoice->getVoiceName () <<
-      " = ";
+    " = ";
 
   // generate the beginning of the voice definition
   switch (fCurrentVoice->getVoiceKind ()) {
@@ -6659,14 +6651,31 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
         case kOctaveEntryRelative:
           fLilypondCodeIOstream <<
             "\\relative";
+          if (
+            gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave
+//      JMI         !=
+//            gLilypondOptions->fSemiTonesPitchAndOctaveDefaultValue
+          ) {
+            // option '-rel, -relative' has been used
+            fLilypondCodeIOstream <<
+              " " <<
+              msrSemiTonesPitchAndOctaveAsLilypondString (
+                gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+                gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
+          }
           break;
+
         case kOctaveEntryAbsolute:
           fLilypondCodeIOstream <<
             "\\absolute";
           break;
+
         case kOctaveEntryFixed:
           fLilypondCodeIOstream <<
-            "\\fixed";
+            "\\fixed  " <<
+            msrSemiTonesPitchAndOctaveAsLilypondString (
+              gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+              gLilypondOptions->fOctaveEntrySemiTonesPitchAndOctave);
           break;
       } // switch
 

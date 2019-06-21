@@ -1050,6 +1050,146 @@ string existingLpsrChordsLanguageKinds ()
 }
 
 //______________________________________________________________________________
+string msrSemiTonesPitchAndOctaveAsLilypondString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  S_msrSemiTonesPitchAndOctave       semiTonesPitchAndOctave)
+{
+  stringstream s;
+
+  msrQuarterTonesPitchKind
+    quarterTonesPitchKind =
+      quarterTonesPitchKindFromSemiTonesPitchKind (
+        semiTonesPitchAndOctave->getSemiTonesPitchKind ());
+
+  map<msrQuarterTonesPitchKind, string> *pitchNamesMapPTR;
+
+  // is quarterTonesPitchName in the part renaming map?
+  switch (languageKind) {
+    case kNederlands:
+      pitchNamesMapPTR = &gNederlandsPitchNamesMap;
+      break;
+    case kCatalan:
+      pitchNamesMapPTR = &gCatalanPitchNamesMap;
+      break;
+    case kDeutsch:
+      pitchNamesMapPTR = &gDeutschPitchNamesMap;
+      break;
+    case kEnglish:
+      pitchNamesMapPTR = &gEnglishPitchNamesMap;
+      break;
+    case kEspanol:
+      pitchNamesMapPTR = &gEspanolPitchNamesMap;
+      break;
+    case kFrancais:
+      pitchNamesMapPTR = &gFrancaisPitchNamesMap;
+      break;
+    case kItaliano:
+      pitchNamesMapPTR = &gItalianoPitchNamesMap;
+      break;
+    case kNorsk:
+      pitchNamesMapPTR = &gNorskPitchNamesMap;
+      break;
+    case kPortugues:
+      pitchNamesMapPTR = &gPortuguesPitchNamesMap;
+      break;
+    case kSuomi:
+      pitchNamesMapPTR = &gSuomiPitchNamesMap;
+      break;
+    case kSvenska:
+      pitchNamesMapPTR = &gSvenskaPitchNamesMap;
+      break;
+    case kVlaams:
+      pitchNamesMapPTR = &gVlaamsPitchNamesMap;
+      break;
+  } // switch
+
+  s << (*pitchNamesMapPTR) [quarterTonesPitchKind];
+
+/* JMI
+  // is quarterTonesPitchName present in the map?
+  if (gQuarterTonesPitchesLanguageKindsMap.size ()) {
+    result =
+      (*pitchNamesMapPTR) [];
+
+    map<msrQuarterTonesPitchKind, string>::const_iterator
+      iBegin = (*pitchNamesMapPTR).begin (),
+      iEnd   = (*pitchNamesMapPTR).end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      if ((*i).second == quarterTonesPitchName) {
+        result = (*i).first;
+        break;
+      }
+      if (++i == iEnd) break;
+    } // for
+
+  }
+*/
+
+  switch (semiTonesPitchAndOctave->getOctave ()) {
+    case 0:
+      s << ",,,";
+      break;
+    case 1:
+      s << ",,";
+      break;
+    case 2:
+      s << ",";
+      break;
+    case 3:
+      s << "";
+      break;
+    case 4:
+      s << "'";
+      break;
+    case 5:
+      s << "''";
+      break;
+    case 6:
+      s << "'''";
+      break;
+    case 7:
+      s << "''''";
+      break;
+    case 8:
+      s << "'''''";
+      break;
+    default:
+      s << "!!!";
+  } // switch
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotesOctaveEntry) {
+    s <<
+      " %{ " <<
+      semiTonesPitchAndOctave->asString () <<
+      " %}";
+  }
+#endif
+
+  return s.str ();
+}
+
+/* JMI
+string msrSemiTonesPitchAndOctaveAsLilypondString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  S_msrSemiTonesPitchAndOctave       semiTonesPitchAndOctave)
+{
+  msrQuarterTonesPitchKind
+    quarterTonesPitchKind =
+      quarterTonesPitchKindFromSemiTonesPitchKind (
+        semiTonesPitchKind);
+
+  return
+    msrQuarterTonesPitchAndOctaveAsLilypondString (
+      languageKind,
+      quarterTonesPitchKind);
+
+  return "??????";
+}
+*/
+
+//______________________________________________________________________________
 void initializeLPSRBasicTypes ()
 {
 #ifdef TRACE_OPTIONS
