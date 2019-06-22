@@ -100,6 +100,22 @@ ostream& operator<< (ostream& os, const S_lpsrRepeatDescr& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOptions ()
+{
+  if (gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave) {
+    // option '-rel, -relative' has been used:
+    fCurrentOctaveEntryReference =
+      msrNote::createNoteFromSemiTonesPitchAndOctave (
+        K_NO_INPUT_LINE_NUMBER,
+        gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave);
+  }
+  else {
+    // leave fCurrentOctaveEntryReference equal to nullptr:
+    // the first note in the voice will become the initial reference
+  }
+}
+
+//________________________________________________________________________
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_msrOptions&    msrOpts,
   S_lpsrOptions&   lpsrOpts,
@@ -178,13 +194,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   */
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
-      if (gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave) {
-        // option '-rel, -relative' has been used
-        fCurrentOctaveEntryReference =
-          msrNote::createNoteFromSemiTonesPitchAndOctave (
-            K_NO_INPUT_LINE_NUMBER,
-            gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave);
-      }
+      setCurrentOctaveEntryReferenceFromTheLilypondOptions ();
       break;
 
     case kOctaveEntryAbsolute:
@@ -205,19 +215,23 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   } // switch
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceNotes) {
-    fLilypondCodeIOstream <<
-      "fCurrentOctaveEntryReference: ";
+  if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
+    fLogOutputStream <<
+      "OctaveEntryKind is" <<
+      lpsrOctaveEntryKindAsString (gLilypondOptions->fOctaveEntryKind) <<
+      endl <<
+      "Initial fCurrentOctaveEntryReference is ";
 
     if (fCurrentOctaveEntryReference) {
-      fLilypondCodeIOstream <<
-        fCurrentOctaveEntryReference->asString ();
+      fLogOutputStream <<
+        "'" <<
+        fCurrentOctaveEntryReference->asString () <<
+        "'";
     }
     else {
-      fLilypondCodeIOstream <<
-        "none";
+      fLogOutputStream << "none";
     }
-    fLilypondCodeIOstream << endl;
+    fLogOutputStream << endl;
   }
 #endif
 
@@ -462,14 +476,16 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
   if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
     const int fieldWidth = 28;
 
-    fLilypondCodeIOstream << left <<
-/*
-      setw (fieldWidth) <<
-      "% referenceDiatonicPitch" <<
-      " = " <<
-      referenceDiatonicPitch <<
+    fLogOutputStream << left <<
+      "lilypondOctaveInRelativeEntryMode() 1" <<
       endl <<
-*/
+
+      setw (fieldWidth) <<
+      "% noteAboluteDiatonicOrdinal" <<
+      " = " <<
+      noteAboluteDiatonicOrdinal <<
+      endl <<
+
       setw (fieldWidth) <<
       "% referenceDiatonicPitchAsString" <<
       " = " <<
@@ -480,16 +496,10 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
        " = " <<
       referenceAbsoluteOctave <<
       endl <<
-      endl <<
       setw (fieldWidth) <<
       "% referenceAboluteDiatonicOrdinal" <<
       " = " <<
       referenceAboluteDiatonicOrdinal <<
-      endl <<
-      setw (fieldWidth) <<
-      "% noteAboluteDiatonicOrdinal" <<
-      " = " <<
-      noteAboluteDiatonicOrdinal <<
       endl <<
       endl;
   }
@@ -514,6 +524,16 @@ string lpsr2LilypondTranslator::lilypondOctaveInRelativeEntryMode (
     } // while
   }
 
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
+    fLogOutputStream <<
+      "lilypondOctaveInRelativeEntryMode() 2" <<
+      ", result = " << s.str () <<
+      endl <<
+      endl;
+  }
+#endif
+
   return s.str ();
 }
 
@@ -529,7 +549,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
   // in MusicXML, octave number is 4 for the octave starting with middle C
 
   /*
-    Pitches in fixed octave entry mode only need commas or quotesKind
+    Pitches in fixed octave entry mode only need commas or quotes
     when they are above or below fCurrentOctaveEntryReference,
     hence when their octave is different that the latter's.
   */
@@ -548,7 +568,7 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
-    fLilypondCodeIOstream << left <<
+    fLogOutputStream << left <<
       "% noteAbsoluteOctave = " <<
       noteAbsoluteOctave <<
       ", referenceAbsoluteOctave = " <<
@@ -563,6 +583,18 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
 
   // generate the octaves as needed
   switch (absoluteOctavesDifference) {
+    case -12:
+      s << ",,,,,,,,,,,,";
+      break;
+    case -11:
+      s << ",,,,,,,,,,,";
+      break;
+    case -10:
+      s << ",,,,,,,,,,";
+      break;
+    case -9:
+      s << ",,,,,,,,,";
+      break;
     case -8:
       s << ",,,,,,,,";
       break;
@@ -613,6 +645,18 @@ string lpsr2LilypondTranslator::lilypondOctaveInFixedEntryMode (
     case 8:
       s << "''''''''";
       break;
+    case 9:
+      s << "'''''''''";
+      break;
+    case 10:
+      s << "''''''''''";
+      break;
+    case 11:
+      s << "'''''''''''";
+      break;
+    case 12:
+      s << "''''''''''''";
+      break;
     default:
       s << "!!!";
   } // switch
@@ -655,7 +699,7 @@ string lpsr2LilypondTranslator::stringTuningAsLilypondString (
         stringTuning->
           getStringTuningNumber ();
 
-    fLilypondCodeIOstream <<
+    fLogOutputStream <<
       endl <<
       "%getStringTuningNumber = " <<
       getStringTuningNumber <<
@@ -745,34 +789,34 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // in MusicXML, octave number is 4 for the octave
   // starting with middle C, LilyPond's c'
-  int noteAbsoluteOctave =
-    note->getNoteOctave ();
+  int
+    noteAbsoluteOctave =
+      note->getNoteOctave ();
 
   // should an absolute octave be generated?
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
-    int noteAbsoluteDisplayOctave =
-      note->getNoteDisplayOctave ();
+    int
+      noteAbsoluteDisplayOctave =
+        note->getNoteDisplayOctave ();
 
-      const int fieldWidth = 28;
+    const int fieldWidth = 39;
 
-    fLilypondCodeIOstream << left <<
+    fLogOutputStream << left <<
+      "notePitchAsLilypondString() 1" <<
       endl <<
+
       setw (fieldWidth) <<
-      "% line" <<
-      " = " <<
-      note->getInputLineNumber () <<
-      endl <<
-      setw (fieldWidth) <<
-      "% msrQuarterTonesPitch" <<
+      "% quarterTonesPitchKindAsString" <<
       " = " <<
       quarterTonesPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
-      "% quarterTonesDisplayPitch" <<
+      "% quarterTonesDisplayPitchKindAsString" <<
       " = " <<
       quarterTonesDisplayPitchKindAsString <<
       endl <<
+
       setw (fieldWidth) <<
       "% noteAbsoluteOctave" <<
       " = " <<
@@ -782,6 +826,12 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       "% noteAbsoluteDisplayOctave" <<
       " = " <<
       noteAbsoluteDisplayOctave <<
+      endl <<
+
+      setw (fieldWidth) <<
+      "% line" <<
+      " = " <<
+      note->getInputLineNumber () <<
       endl;
   }
 #endif
@@ -789,12 +839,35 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
       if (! fCurrentOctaveEntryReference) {
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
+          fLogOutputStream <<
+            "notePitchAsLilypondString() 2: fCurrentOctaveEntryReference is null" <<
+            " upon note " << note->asString () <<
+            ", line " << note->getInputLineNumber () <<
+            endl;
+        }
+#endif
+
         // generate absolute octave
         s <<
           absoluteOctaveAsLilypondString (
             noteAbsoluteOctave);
+
+        // fCurrentOctaveEntryReference will be set to note later
       }
       else {
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
+          fLogOutputStream <<
+            "notePitchAsLilypondString() 3: fCurrentOctaveEntryReference is '" <<
+            fCurrentOctaveEntryReference->asString () <<
+            "' upon note " << note->asString () <<
+            ", line " << note->getInputLineNumber () <<
+            endl;
+        }
+#endif
+
         // generate octave relative to mobile fCurrentOctaveEntryReference
         s <<
           lilypondOctaveInRelativeEntryMode (note);
@@ -834,6 +907,12 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
     case msrNote::kNoteCautionaryAccidentalNo:
       break;
   } // switch
+
+#ifdef TRACE_OPTIONS
+        if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
+          fLogOutputStream << endl;
+        }
+#endif
 
   return s.str ();
 }
@@ -880,7 +959,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 
   // fetch the quarter tones pitch as string
   string
-    quarterTonesPitchKindAsString =
+    noteQuarterTonesPitchKindAsString =
       msrQuarterTonesPitchKindAsString (
         gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
         noteQuarterTonesPitchKind);
@@ -906,8 +985,9 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 //    quarterTonesDisplayPitchAsString;
 
   // should an absolute octave be generated?
-  int noteAbsoluteDisplayOctave =
-    note->getNoteDisplayOctave ();
+  int
+    noteAbsoluteDisplayOctave =
+      note->getNoteDisplayOctave ();
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotes) {
@@ -917,23 +997,21 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 
     const int fieldWidth = 28;
 
-    fLilypondCodeIOstream << left <<
+    fLogOutputStream << left <<
+      "pitchedRestAsLilypondString()" <<
       endl <<
+
       setw (fieldWidth) <<
-      "% line" <<
+      "% noteQuarterTonesPitchKindAsString" <<
       " = " <<
-      note->getInputLineNumber () <<
-      endl <<
-      setw (fieldWidth) <<
-      "% msrQuarterTonesPitch" <<
-      " = " <<
-      quarterTonesPitchKindAsString <<
+      noteQuarterTonesPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
       "% quarterTonesDisplayPitch" <<
       " = " <<
       quarterTonesDisplayPitchKindAsString <<
       endl <<
+
       setw (fieldWidth) <<
       "% noteAbsoluteOctave" <<
       " = " <<
@@ -943,6 +1021,12 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       "% noteAbsoluteDisplayOctave" <<
       " = " <<
       noteAbsoluteDisplayOctave <<
+      endl <<
+
+      setw (fieldWidth) <<
+      "% line" <<
+      " = " <<
+      note->getInputLineNumber () <<
       endl;
   }
 #endif
@@ -1606,7 +1690,7 @@ void lpsr2LilypondTranslator::generateCodeForNote (
               break;
             case kOctaveEntryFixed:
               break;
-  } // switch
+          } // switch
         }
 
         else {
@@ -6759,8 +6843,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   // reset fCurrentOctaveEntryReference if relevant
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
-      // forget about the current reference
-      fCurrentOctaveEntryReference = nullptr;
+      // forget about the current reference:
+      // it should be set from the LilyPond preferences here
+      setCurrentOctaveEntryReferenceFromTheLilypondOptions ();
       break;
     case kOctaveEntryAbsolute:
       break;
@@ -6772,7 +6857,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   fOnGoingVoice = true;
 
-  switch (fCurrentVoice->getVoiceKind ()) {
+  switch (fCurrentVoice->getVoiceKind ()) { // JMI
     case msrVoice::kVoiceRegular:
       break;
 

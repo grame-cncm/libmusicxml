@@ -1347,7 +1347,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       inputLineNumber,
       K_NO_MEASURE_NUMBER,
 
-      kRestNote, // noteKind
+      kStandaloneNote, // noteKind
 
       quarterTonesPitchKindFromSemiTonesPitchKind (
         semiTonesPitchAndOctave->getSemiTonesPitchKind ()),

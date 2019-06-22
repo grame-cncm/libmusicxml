@@ -866,6 +866,7 @@ class lpsr2LilypondTranslator :
           fixed  in fixed mode
     */
     S_msrNote             fCurrentOctaveEntryReference;
+    void                  setCurrentOctaveEntryReferenceFromTheLilypondOptions ();
 
     // repeats
     // ------------------------------------------------------

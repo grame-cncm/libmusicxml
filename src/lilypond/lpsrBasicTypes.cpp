@@ -1105,28 +1105,28 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
 
   s << (*pitchNamesMapPTR) [quarterTonesPitchKind];
 
-/* JMI
-  // is quarterTonesPitchName present in the map?
-  if (gQuarterTonesPitchesLanguageKindsMap.size ()) {
-    result =
-      (*pitchNamesMapPTR) [];
-
-    map<msrQuarterTonesPitchKind, string>::const_iterator
-      iBegin = (*pitchNamesMapPTR).begin (),
-      iEnd   = (*pitchNamesMapPTR).end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      if ((*i).second == quarterTonesPitchName) {
-        result = (*i).first;
-        break;
-      }
-      if (++i == iEnd) break;
-    } // for
-
-  }
-*/
-
   switch (semiTonesPitchAndOctave->getOctave ()) {
+    case -7:
+      s << ",,,,,,,,,,";
+      break;
+    case -6:
+      s << ",,,,,,,,,,";
+      break;
+    case -5:
+      s << ",,,,,,,,,";
+      break;
+    case -4:
+      s << ",,,,,,,";
+      break;
+    case -3:
+      s << ",,,,,,";
+      break;
+    case -2:
+      s << ",,,,,";
+      break;
+    case -1:
+      s << ",,,,";
+      break;
     case 0:
       s << ",,,";
       break;
@@ -1153,6 +1153,30 @@ string msrSemiTonesPitchAndOctaveAsLilypondString (
       break;
     case 8:
       s << "'''''";
+      break;
+    case 9:
+      s << "''''''";
+      break;
+    case 10:
+      s << "'''''''";
+      break;
+    case 11:
+      s << "''''''''";
+      break;
+    case 12:
+      s << "'''''''''";
+      break;
+    case 13:
+      s << "''''''''''";
+      break;
+    case 14:
+      s << "'''''''''''";
+      break;
+    case 15:
+      s << "''''''''''''";
+      break;
+    case 16:
+      s << "'''''''''''''";
       break;
     default:
       s << "!!!";

@@ -2210,8 +2210,8 @@ void lilypondOptions::printOptionsValues (
 
   os << left <<
     setw (valueFieldWidth) << "octaveEntryKind" << " : " <<
-      lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
-      endl;
+    lpsrOctaveEntryKindAsString (fOctaveEntryKind) <<
+    endl;
 
   switch (gLilypondOptions->fOctaveEntryKind) {
     case kOctaveEntryRelative:
