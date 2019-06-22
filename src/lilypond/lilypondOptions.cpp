@@ -961,12 +961,14 @@ R"()",
   notesSubGroup->
     appendOptionsItem (
       optionsAbsoluteOctaveEntryItem::create (
-        "abs", "asbolute",
+        "abs", "absolute",
         replaceSubstringInString (
-R"(Use asbolute octave entry in the generated LilyPond code.
-The default is 'DEFAULT_VALUE'.)",
+R"(Use absolute octave entry in the generated LilyPond code.
+The default is to use '\relative', with LilyPond's implicit reference 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
-          fSemiTonesPitchAndOctaveDefaultValue->asString ()),
+          msrSemiTonesPitchAndOctaveAsLilypondString (
+            gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+            fSemiTonesPitchAndOctaveDefaultValue)),
           "optionsAbsoluteOctaveEntryItem"));
 
   notesSubGroup->
