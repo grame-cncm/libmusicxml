@@ -124,27 +124,32 @@ ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt)
 
 //______________________________________________________________________________
 S_optionsAbsoluteOctaveEntryItem optionsAbsoluteOctaveEntryItem::create (
-  string               optionsItemShortName,
-  string               optionsItemLongName,
-  string               optionsItemDescription)
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsAbsoluteOctaveEntryItemVariableDisplayName)
 {
   optionsAbsoluteOctaveEntryItem* o = new
     optionsAbsoluteOctaveEntryItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription);
+      optionsItemDescription,
+      optionsAbsoluteOctaveEntryItemVariableDisplayName);
   assert(o!=0);
   return o;
 }
 
 optionsAbsoluteOctaveEntryItem::optionsAbsoluteOctaveEntryItem (
-  string               optionsItemShortName,
-  string               optionsItemLongName,
-  string               optionsItemDescription)
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsAbsoluteOctaveEntryItemVariableDisplayName)
   : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription)
+      optionsItemDescription),
+    fOptionsAbsoluteOctaveEntryItemVariableDisplayName (
+      optionsAbsoluteOctaveEntryItemVariableDisplayName)
 {}
 
 optionsAbsoluteOctaveEntryItem::~optionsAbsoluteOctaveEntryItem ()
@@ -178,7 +183,10 @@ void optionsAbsoluteOctaveEntryItem::printOptionsValues (
   int      valueFieldWidth) const
 {
   os << left <<
-    "no value for optionsAbsoluteOctaveEntryItem" <<
+    setw (valueFieldWidth) <<
+    fOptionsAbsoluteOctaveEntryItemVariableDisplayName <<
+    " : " <<
+    "- no value here -" <<
     endl;
 }
 
@@ -958,7 +966,8 @@ R"()",
 R"(Use asbolute octave entry in the generated LilyPond code.
 The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
-          fSemiTonesPitchAndOctaveDefaultValue->asString ())));
+          fSemiTonesPitchAndOctaveDefaultValue->asString ()),
+          "optionsAbsoluteOctaveEntryItem"));
 
   notesSubGroup->
     appendOptionsItem (

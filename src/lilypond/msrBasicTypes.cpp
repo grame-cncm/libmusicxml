@@ -17397,12 +17397,13 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
           pitch);
 
     // handling ',' and '\'' in octave indication
-    // middle C, LilyPond's c', starts octave 4
+    // middle C, LilyPond's c', starts octave 4,
+    // thus a single pitch without any octave indication is in octave 3
     int octave = 3;
     for (unsigned int i = 0; i < octaveIndication.size (); i++) {
       switch (octaveIndication [i]) {
         case ',':
-          if (octave > 0) {
+          if (octave > 3) {
             // a '\'' has been met previously
             stringstream s;
 
@@ -17418,7 +17419,7 @@ S_msrSemiTonesPitchAndOctave msrSemiTonesPitchAndOctave::createFromString (
           octave--;
           break;
         case '\'':
-          if (octave < 0) {
+          if (octave < 3) {
             // a ',' has been met previously
             stringstream s;
 

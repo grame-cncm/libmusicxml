@@ -104,9 +104,10 @@ class optionsAbsoluteOctaveEntryItem : public optionsItem
     // ------------------------------------------------------
 
     static SMARTP<optionsAbsoluteOctaveEntryItem> create (
-      string               optionsItemShortName,
-      string               optionsItemLongName,
-      string               optionsItemDescription);
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsAbsoluteOctaveEntryItemVariableDisplayName);
 
   protected:
 
@@ -114,9 +115,10 @@ class optionsAbsoluteOctaveEntryItem : public optionsItem
     // ------------------------------------------------------
 
     optionsAbsoluteOctaveEntryItem (
-      string               optionsItemShortName,
-      string               optionsItemLongName,
-      string               optionsItemDescription);
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsAbsoluteOctaveEntryItemVariableDisplayName);
 
     virtual ~optionsAbsoluteOctaveEntryItem ();
 
@@ -141,6 +143,9 @@ class optionsAbsoluteOctaveEntryItem : public optionsItem
 
     // fields
     // ------------------------------------------------------
+    string                fOptionsAbsoluteOctaveEntryItemVariableDisplayName;
+                            // in order for it to be displayed,
+                            // even if there's no associated variable
 };
 typedef SMARTP<optionsAbsoluteOctaveEntryItem> S_optionsAbsoluteOctaveEntryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsAbsoluteOctaveEntryItem& elt);

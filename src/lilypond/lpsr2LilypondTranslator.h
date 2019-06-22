@@ -693,10 +693,10 @@ class lpsr2LilypondTranslator :
     msrNote::msrNotePrintKind
                           fCurrentNotePrintKind;
 
-    string                lilypondRelativeModeOctave (
+    string                lilypondOctaveInRelativeEntryMode (
                             S_msrNote note);
 
-    string                lilypondFixedModeOctave (
+    string                lilypondOctaveInFixedEntryMode (
                             S_msrNote note);
 
     string                notePitchAsLilypondString (S_msrNote note);
@@ -865,7 +865,7 @@ class lpsr2LilypondTranslator :
           unused in absolute mode
           fixed  in fixed mode
     */
-    S_msrNote             fCurrentOctaveEntryAbsoluteReference;
+    S_msrNote             fCurrentOctaveEntryReference;
 
     // repeats
     // ------------------------------------------------------
