@@ -110,9 +110,31 @@ void lpsr2LilypondTranslator::setCurrentOctaveEntryReferenceFromTheLilypondOptio
         gLilypondOptions->fRelativeOctaveEntrySemiTonesPitchAndOctave);
   }
   else {
-    // leave fCurrentOctaveEntryReference equal to nullptr:
+    fCurrentOctaveEntryReference = nullptr;
     // the first note in the voice will become the initial reference
   }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
+    fLogOutputStream <<
+      "setCurrentOctaveEntryReferenceFromTheLilypondOptions()" <<
+      ", octaveEntryKind is" <<
+      lpsrOctaveEntryKindAsString (gLilypondOptions->fOctaveEntryKind) <<
+      endl <<
+      "Initial fCurrentOctaveEntryReference is ";
+
+    if (fCurrentOctaveEntryReference) {
+      fLogOutputStream <<
+        "'" <<
+        fCurrentOctaveEntryReference->asString () <<
+        "'";
+    }
+    else {
+      fLogOutputStream << "none";
+    }
+    fLogOutputStream << endl;
+  }
+#endif
 }
 
 //________________________________________________________________________
@@ -217,7 +239,8 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceNotesOctaveEntry || gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
-      "OctaveEntryKind is" <<
+      "lpsr2LilypondTranslator()" <<
+      ", octaveEntryKind is" <<
       lpsrOctaveEntryKindAsString (gLilypondOptions->fOctaveEntryKind) <<
       endl <<
       "Initial fCurrentOctaveEntryReference is ";
