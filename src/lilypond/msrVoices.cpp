@@ -3429,9 +3429,76 @@ void msrVoice::pushRepeatOntoRepeatDescrsStack (
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceRepeats) {
+    string
+      combinedContext =
+        "pushRepeatOntoRepeatDescrsStack() called from " + context;
+
     displayVoiceRepeatsStack (
       inputLineNumber,
-      "context");
+      combinedContext);
+  }
+#endif
+}
+
+void msrVoice::popRepeatFromRepeatDescrsStack (
+  int         inputLineNumber,
+  S_msrRepeat repeat,
+  string      context)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceRepeats) {
+    string
+      combinedContext =
+        "popRepeatFromRepeatDescrsStack() 1 called from " + context;
+
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      combinedContext);
+  }
+#endif
+
+  if (repeat != fVoicePendingRepeatDescrsStack.front ()->getRepeatDescrRepeat ()) {
+    stringstream s;
+
+    s <<
+      "cannot pop repeat '" <<
+      repeat->asShortString () <<
+      "' from the stack since it is not at the top" <<
+      " (" << context << ")" <<
+      ", line " << inputLineNumber;
+
+    msrInternalError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceRepeats) {
+    glogIOstream <<
+      "Popping repeat '" <<
+      repeat->asString () <<
+      "' from the repeat stack in voice \"" <<
+      getVoiceName () <<
+      "\" (" << context << ")" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // pop it from repeats stack
+  fVoicePendingRepeatDescrsStack.pop_front ();
+
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceRepeats) {
+    string
+      combinedContext =
+        "popRepeatFromRepeatDescrsStack() 2 called from " + context;
+
+    displayVoiceRepeatsStack (
+      inputLineNumber,
+      combinedContext);
   }
 #endif
 }
@@ -3624,54 +3691,6 @@ void msrVoice::appendRepeatCloneToInitialVoiceElements (
 
   fInitialVoiceElementsList.push_back (
     repeatCLone);
-}
-
-void msrVoice::popARepeatFromRepeatDescrsStack (
-  int         inputLineNumber,
-  S_msrRepeat repeat,
-  string      context)
-{
-
-  if (repeat != fVoicePendingRepeatDescrsStack.front ()->getRepeatDescrRepeat ()) {
-    stringstream s;
-
-    s <<
-      "cannot pop repeat '" <<
-      repeat->asShortString () <<
-      "' from the stack since it is not at the top" <<
-      " (" << context << ")" <<
-      ", line " << inputLineNumber;
-
-    msrInternalError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
-    glogIOstream <<
-      "Popping repeat '" <<
-      repeat->asString () <<
-      "' from the repeat stack in voice \"" <<
-      getVoiceName () <<
-      "\" (" << context << ")" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-#endif
-
-  // pop it from repeats stack
-  fVoicePendingRepeatDescrsStack.pop_front ();
-
-#ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats) {
-    displayVoiceRepeatsStack (
-      inputLineNumber,
-      "popARepeatFromRepeatDescrsStack()");
-  }
-#endif
 }
 
 void msrVoice::nestContentsIntoNewRepeatInVoice (
@@ -4242,7 +4261,7 @@ void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
         getRepeatDescrRepeat ();
 
   // pop it from the repeats stack
-  popARepeatFromRepeatDescrsStack (
+  popRepeatFromRepeatDescrsStack (
     inputLineNumber,
     repeatsStackTopRepeat,
     "handleVoiceLevelContainingRepeatEndWithoutStartInVoice()");
@@ -7586,7 +7605,7 @@ void msrVoice::handleHooklessRepeatEndingEndInVoice (
     "handleHooklessRepeatEndingEndInVoice()");
 
   // pop it from the voice's repeat descrs stack
-  popARepeatFromRepeatDescrsStack (
+  popRepeatFromRepeatDescrsStack (
     inputLineNumber,
     currentRepeat,
     "handleHooklessRepeatEndingEndInVoice");
@@ -8184,7 +8203,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
                 "handleRepeatEndInVoiceClone()");
 
               // pop currentRepeat from the voice's repeat descrs stack
-              popARepeatFromRepeatDescrsStack (
+              popRepeatFromRepeatDescrsStack (
                 inputLineNumber,
                 currentRepeat,
                 "handleRepeatEndInVoiceClone()");
@@ -8214,7 +8233,7 @@ void msrVoice::handleRepeatEndInVoiceClone (
                 "handleRepeatEndInVoiceClone()");
 
               // pop currentRepeat from the voice's repeat descrs stack
-              popARepeatFromRepeatDescrsStack (
+              popRepeatFromRepeatDescrsStack (
                 inputLineNumber,
                 currentRepeat,
                 "handleRepeatEndInVoiceClone");

@@ -7063,7 +7063,7 @@ class msrVoice : public msrElement
                             S_msrRepeat repeat,
                             string      context);
 
-    void                  popARepeatFromRepeatDescrsStack (
+    void                  popRepeatFromRepeatDescrsStack (
                             int         inputLineNumber,
                             S_msrRepeat repeat,
                             string      context);
