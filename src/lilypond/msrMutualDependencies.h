@@ -6849,7 +6849,7 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string context);
 
-    void                  createNewLastSegmentFromFirstMeasureForVoice (
+    void                  createNewLastSegmentFromItsFirstMeasureForVoice (
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure,
                             string       context);
@@ -7083,9 +7083,6 @@ class msrVoice : public msrElement
                             S_msrRepeat repeatCLone,
                             string      context);
 
-    void                  nestContentsIntoNewRepeatInVoice (
-                            int inputLineNumber);
-
     void                  handleVoiceLevelRepeatStartInVoice (
                             int inputLineNumber);
 
@@ -7112,6 +7109,9 @@ class msrVoice : public msrElement
                             S_msrRepeat currentRepeat);
 
     void                  handleVoiceLevelRepeatEndingStartWithExplicitStartInVoice (
+                            int inputLineNumber);
+
+    void                  nestContentsIntoNewRepeatInVoice (
                             int inputLineNumber);
 
     void                  handleNestedRepeatEndingStartInVoice (

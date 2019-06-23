@@ -318,7 +318,7 @@ void optionsElement::printHelp (ostream& os) const
     gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   }
 
-  // register help print action in options handler uplink
+  // register help print action in options handler uplink JMI ???
 //  fOptionsHandlerUplink->setOptionsHandlerFoundAHelpItem ();
 }
 
@@ -575,101 +575,6 @@ void optionsHelpSummaryItem::printOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsActionItem optionsActionItem::create (
-  string               optionsItemShortName,
-  string               optionsItemLongName,
-  string               optionsItemDescription,
-//      function<void(void)> optionsActionItemFunction);
-  optionsItemMethodPtrType optionsItemMethodPtr)
-{
-  optionsActionItem* o = new
-    optionsActionItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-//      optionsActionItemFunction);
-      optionsItemMethodPtr);
-  assert(o!=0);
-  return o;
-}
-
-optionsActionItem::optionsActionItem (
-  string               optionsItemShortName,
-  string               optionsItemLongName,
-  string               optionsItemDescription,
-//      function<void(void)> optionsActionItemFunction);
-  optionsItemMethodPtrType optionsItemMethodPtr)
-  : optionsItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription),
-//    fOptionsActionItemFunction (
-//      optionsActionItemFunction)
-    fOptionsItemMethodPtr (
-      optionsItemMethodPtr)
-{}
-
-optionsActionItem::~optionsActionItem ()
-{}
-
-void optionsActionItem::print (ostream& os) const
-{
-  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
-
-  os <<
-    "OptionsActionItem:" <<
-    endl;
-
-  gIndenter++;
-
-  optionsElement::printElementEssentials (
-    os, fieldWidth);
-
-  gIndenter++;
-  os <<
-    gIndenter.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
-  gIndenter--;
-
-/* JMI
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsActionItemVariableDisplayName" << " : " <<
-    fOptionsActionItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsActionItemVariable" << " : " <<
-    booleanAsString (
-      fOptionsActionItemVariable) <<
-    endl;
-*/
-
-  gIndenter--;
-}
-
-/* JMI
-void optionsActionItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsActionItemVariableDisplayName <<
-    " : " <<
-    booleanAsString (
-      fOptionsActionItemVariable) <<
-    endl;
-}
-    */
-
-ostream& operator<< (ostream& os, const S_optionsActionItem& elt)
 {
   elt->print (os);
   return os;
