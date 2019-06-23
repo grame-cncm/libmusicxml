@@ -14504,7 +14504,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
     elt->measuresRepeatReplicasNumber ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceMeasuresRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     int repeatMeasuresNumber =
       elt->measuresRepeatPatternMeasuresNumber ();
 

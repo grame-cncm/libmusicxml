@@ -3555,7 +3555,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // skip grace notes in the other voices of the part
 
       // create the skip grace notes group
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
         if (
             gTraceOptions->fTraceGraceNotes
               ||
@@ -3569,7 +3569,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
             "' to work around LilyPond issue 34" <<
             endl;
         }
-  #endif
+#endif
 
       fCurrentSkipGraceNotesGroup =
         elt->
@@ -5149,11 +5149,7 @@ void msr2LpsrTranslator::visitStart (S_msrRestMeasuresContents& elt)
   gIndenter++;
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceRestMeasures
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceRestMeasures) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5183,11 +5179,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRestMeasuresContents& elt)
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceRestMeasures
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceRestMeasures) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5295,11 +5287,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   gIndenter++;
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceMeasuresRepeats
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5329,11 +5317,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   gIndenter--;
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceMeasuresRepeats
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5364,11 +5348,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   gIndenter++;
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceMeasuresRepeats
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,
@@ -5399,11 +5379,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceMeasuresRepeats
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceMeasuresRepeats) {
     fCurrentVoiceClone->
       displayVoice (
         inputLineNumber,

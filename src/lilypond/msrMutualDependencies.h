@@ -5097,9 +5097,9 @@ class msrRepeatCommonPart : public msrElement
                             string              context);
 
     void                  appendRestMeasuresToRepeatCommonPart (
-                            int                       inputLineNumber,
+                            int               inputLineNumber,
                             S_msrRestMeasures restMeasures,
-                            string                    context);
+                            string            context);
 
     S_msrNote             fetchRepeatCommonPartFirstNonGraceNote () const;
 

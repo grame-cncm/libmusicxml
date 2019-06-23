@@ -486,7 +486,7 @@ void msrRepeatCommonPart::appendRepeatToRepeatCommonPart (
   string       context)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     glogIOstream <<
       "Appending repeat '" <<
     // JMI  repeat->asString () <<
@@ -512,7 +512,7 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
   string              context)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasuresRepeats || gTraceOptions->fTraceRepeats) {
     glogIOstream <<
       "Appending measures repeat '" <<
       measuresRepeat->asString () <<
@@ -532,12 +532,12 @@ void msrRepeatCommonPart::appendMeasuresRepeatToRepeatCommonPart (
 }
 
 void msrRepeatCommonPart::appendRestMeasuresToRepeatCommonPart (
-  int                       inputLineNumber,
+  int               inputLineNumber,
   S_msrRestMeasures restMeasures,
-  string                    context)
+  string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRestMeasures || gTraceOptions->fTraceRepeats) {
     glogIOstream <<
       "Appending rest measures '" <<
       restMeasures->asString () <<
@@ -562,7 +562,7 @@ void msrRepeatCommonPart::appendVoiceElementToRepeatCommonPart (
   string            context)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     glogIOstream <<
       "Appending voice element '" <<
       voiceElement->asString () <<

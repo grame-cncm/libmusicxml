@@ -1318,13 +1318,7 @@ void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
   }
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceBarLines
-      ||
-    gTraceOptions->fTraceRepeatsDetails
-      ||
-    gTraceOptions->fTraceVoicesDetails
-  ) {
+  if (gTraceOptions->fTraceBarLines || gTraceOptions->fTraceMeasures) {
     printMeasurePendingMeasureElementsList ();
   }
 #endif
@@ -2131,15 +2125,7 @@ S_msrNote msrMeasure::createPaddingNoteForVoice (
   S_msrVoice voice)
 {
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceNotes
-      ||
-    gTraceOptions->fTraceMeasures
-      ||
-    gTraceOptions->fTraceRepeats
-      ||
-    gTraceOptions->fTraceVoices
-  ) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
     glogIOstream <<
       "Creating a padding note for voice \"" <<
       voice->getVoiceName () <<

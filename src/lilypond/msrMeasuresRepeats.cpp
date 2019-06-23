@@ -996,17 +996,13 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
     score->getInhibitMeasuresRepeatReplicasBrowsing ();
 
   if (inhibitMeasuresRepeatReplicasBrowsing) {
-    if (
-      gMsrOptions->fTraceMsrVisitors
 #ifdef TRACE_OPTIONS
-        ||
-      gTraceOptions->fTraceRepeats
-#endif
-    ) {
+    if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceMeasuresRepeats) {
       glogIOstream <<
         "% ==> visiting measures repeat replicas is inhibited" <<
         endl;
     }
+#endif
   }
 
   if (fMeasuresRepeatReplicas) {

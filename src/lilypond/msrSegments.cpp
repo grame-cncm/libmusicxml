@@ -83,7 +83,7 @@ void msrSegment::initializeSegment ()
 #endif
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceSegments) {
     if (false && fSegmentDebugNumber == 3) { // JMI
       glogIOstream <<
         endl <<

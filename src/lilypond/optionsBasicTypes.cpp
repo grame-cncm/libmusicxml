@@ -4191,7 +4191,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
                   uncontractedOptionName =
                     prefix->getOptionsPrefixErsatz () + singleOptionName;
 
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
                 if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
                   fOptionsHandlerlogIOstream <<
                     "Expanding option '" << singleOptionName <<
@@ -4199,7 +4199,7 @@ const vector<string> optionsHandler::decipherOptionsAndArguments (
                     "'" <<
                     endl;
                 }
-  #endif
+#endif
 
                 // handle the uncontracted option item name
                 handleOptionsItemName (uncontractedOptionName);

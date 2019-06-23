@@ -202,7 +202,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
         unsigned smSize = sm.size ();
 
         if (smSize) {
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
           if (gTraceOptions->fTraceOptions && ! gGeneralOptions->fQuiet) {
             glogIOstream <<
               "There are " << smSize << " matches" <<
@@ -218,7 +218,7 @@ S_bsrCellsList bsrTempo::buildCellsList () const
 
             glogIOstream << endl;
           }
-  #endif
+#endif
 
           {
             stringstream s;

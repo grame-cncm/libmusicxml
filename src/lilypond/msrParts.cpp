@@ -1065,7 +1065,7 @@ void msrPart::createRestMeasuresInPart (
   int multipleRestMeasuresMeasuresNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceRestMeasures || gTraceOptions->fTraceParts) {
     glogIOstream <<
       "Creating a multiple rest in part " <<
       getPartCombinedName () <<
@@ -1095,7 +1095,7 @@ void msrPart::appendPendingRestMeasuresToPart (
   int inputLineNumber)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceRestMeasures || gTraceOptions->fTraceParts) {
     glogIOstream <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<

@@ -4409,7 +4409,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
       // skip grace notes in the other voices of the part
 
       // create the skip grace notes group
-  #ifdef TRACE_OPTIONS
+#ifdef TRACE_OPTIONS
         if (
             gTraceOptions->fTraceGraceNotes
               ||
@@ -4423,7 +4423,7 @@ void msr2BsrTranslator::visitStart (S_msrGraceNotesGroup& elt)
             "' to work around LilyPond issue 34" <<
             endl;
         }
-  #endif
+#endif
 
       fCurrentSkipGraceNotesGroup =
         elt->

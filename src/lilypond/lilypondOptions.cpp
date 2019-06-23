@@ -990,7 +990,7 @@ It should be placed between double quotes if it contains single quotes, such as:
 R"(Use fixed octave entry reference PITCH_AND_OCTAVE in the generated LilyPond code.
 PITCH_AND_OCTAVE is made of a diatonic pitch and an optional sequence of commas or single quotes.
 It should be placed between double quotes if it contains single quotes, such as:
-  -rel "c''")",
+  -fixed "c''")",
         "PITCH_AND_OCTAVE",
         "fixedOctaveEntrySemiTonesPitchAndOctave",
         fFixedOctaveEntrySemiTonesPitchAndOctave));
