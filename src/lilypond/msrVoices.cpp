@@ -1144,13 +1144,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
     K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber;
 
 #ifdef TRACE_OPTIONS
-  if (
-    gTraceOptions->fTraceHarmonies
-      ||
-    gTraceOptions->fTraceVoices
-      ||
-    gTraceOptions->fTraceStaves
-  ) {
+  if (gTraceOptions->fTraceHarmonies) {
     glogIOstream <<
       "Creating harmony voice for regular voice \"" <<
       getVoiceName () <<
@@ -1841,9 +1835,11 @@ void msrVoice::appendHarmonyToHarmonyVoice (
     // --------------------------------------------
 
     // bring this voice to that measure position
+    /* JMI SIMONE
     padUpToActualMeasureWholeNotesInVoice (
       inputLineNumber,
       harmonyNoteUplinkPositionInMeasure);
+      */
   }
 
   else if (harmonyWholeNotesOffsetNumerator < 0) {
@@ -2018,7 +2014,7 @@ void msrVoice::appendFiguredBassToVoice (
 
   switch (fVoiceKind) {
     case msrVoice::kVoiceFiguredBass:
-      // skip to figured bass note position in the voice TICINO
+      // skip to figured bass note position in the voice
       padUpToActualMeasureWholeNotesInVoice (
         inputLineNumber,
         figuredBass->

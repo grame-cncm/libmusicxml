@@ -710,7 +710,6 @@ void extraOptions::handleOptionsItemShowAllChordsContentsValue (
 
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
- //   case k_Rest_QTP: // TICINO
       {
         stringstream s;
 
@@ -878,7 +877,6 @@ void extraOptions::handleOptionsShowChordDetailsItemValue (
 
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
- //   case k_Rest_QTP: // TICINO
       {
         stringstream s;
 
@@ -1067,7 +1065,6 @@ void extraOptions::handleOptionshowChordAnalysisItemValue (
 
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
- //   case k_Rest_QTP: // TICINO
       {
         stringstream s;
 

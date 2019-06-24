@@ -2584,7 +2584,7 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 
   fNoteFiguredBass = figuredBass;
 
-  // register this note as the figured bass uplink TICINO
+  // register this note as the figured bass uplink
   figuredBass->
     setFiguredBassNoteUplink (this);
 }

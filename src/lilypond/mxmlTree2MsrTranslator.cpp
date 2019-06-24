@@ -18705,7 +18705,7 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
   if (pendingHarmoniesNumber > 1) {
     // sort the pending harmonies in increasing whole notes offsets,
     // necessary both for MSR and code generation
-    // and the detection of multi-occurrences whole notes offsets
+    // and the detection of multi-occurrence whole notes offsets
     fPendingHarmoniesList.sort (
       msrHarmony::compareHarmoniesByIncreasingOffset);
   }
@@ -18722,11 +18722,6 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
     S_msrHarmony
       harmony =
         fPendingHarmoniesList.front ();
-
-    // set the harmony's voice uplink
-    harmony->
-      setHarmonyVoiceUplink (
-        voiceToInsertInto);
 
     // get that harmony's whole notes offset
     rational
@@ -18775,6 +18770,13 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
       voiceHarmonyVoice =
         voiceToInsertInto->
           getHarmonyVoiceForRegularVoice ();
+
+    // set the harmony's voice uplink
+    // only now that we know which harmony voice will contain it
+    harmony->
+      setHarmonyVoiceUplink (
+ // JMI       voiceToInsertInto);
+        voiceHarmonyVoice);
 
     // has the harmony whole notes offset already been used
     // at the same point in time?
@@ -21505,7 +21507,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inversion& elt )
 #ifdef TRACE_OPTIONS
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_bass_step" <<
+      "--> Start visiting S_inversion" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }
@@ -22470,7 +22472,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
     // forget about those pending figures
     fPendingFiguredBassFiguresList.clear ();
 
-    // append the figured bass to the pending figured basses list TICINO
+    // append the figured bass to the pending figured basses list
     fPendingFiguredBassesList.push_back (figuredBass);
   }
 
