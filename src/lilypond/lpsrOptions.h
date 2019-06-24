@@ -400,7 +400,7 @@ class lpsrOptions : public optionsGroup
                             S_optionsLpsrTransposeItem transposeItem,
                             string                     theString);
 
-    void                  crackVersionNumber (
+    void                  crackLilypondVersionNumber (
                             string theString,
                             int&   generationNumber,
                             int&   majorNumber,
@@ -453,6 +453,8 @@ class lpsrOptions : public optionsGroup
 
 #ifdef TRACE_OPTIONS
     bool                  fTraceLpsr;
+
+    bool                  fTraceLilypondVersion;
 
     bool                  fTraceLpsrVisitors;
 

@@ -388,10 +388,6 @@ extraOptions::~extraOptions ()
 void extraOptions::initializeExtraShowAllChordsStructuresOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup
     traceAndDisplaySubGroup =
       optionsSubGroup::create (
@@ -413,10 +409,6 @@ R"(Write all known chords structures to standard output.)"));
 void extraOptions::initializeExtraShowAllChordsContentsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup
     workSubGroup =
       optionsSubGroup::create (
@@ -461,10 +453,6 @@ in the current language to standard output.)",
 void extraOptions::initializeExtraShowChordDetailsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup
     workSubGroup =
       optionsSubGroup::create (
@@ -502,10 +490,6 @@ EXECUTABLE -show-chord-details "bes ${HARMONY}")",
 void extraOptions::initializeExtraShowChordAnalysisOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup
     workSubGroup =
       optionsSubGroup::create (

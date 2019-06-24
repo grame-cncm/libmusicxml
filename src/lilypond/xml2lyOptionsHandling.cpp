@@ -758,10 +758,6 @@ void xml2lyOptions::initializeXml2lyOptions ()
   // --------------------------------------
 
   {
-    // variables
-
-    // options
-
     S_optionsSubGroup
       versionSubGroup =
         optionsSubGroup::create (
@@ -772,6 +768,8 @@ R"()",
         this);
 
     appendOptionsSubGroup (versionSubGroup);
+
+    // version
 
     versionSubGroup->
       appendOptionsItem (
@@ -785,10 +783,6 @@ R"(Display xml2ly's version number and history and exit.)"));
   // --------------------------------------
 
   {
-    // variables
-
-    // options
-
     S_optionsSubGroup
       aboutSubGroup =
         optionsSubGroup::create (
@@ -799,6 +793,8 @@ R"()",
         this);
 
     appendOptionsSubGroup (aboutSubGroup);
+
+    // about
 
     aboutSubGroup->
       appendOptionsItem (
@@ -812,10 +808,6 @@ R"(Display information about xml2ly and exit.)"));
   // --------------------------------------
 
   {
-    // variables
-
-    // options
-
     S_optionsSubGroup
       contactSubGroup =
         optionsSubGroup::create (
@@ -826,6 +818,8 @@ R"()",
         this);
 
     appendOptionsSubGroup (contactSubGroup);
+
+    // contact
 
     contactSubGroup->
       appendOptionsItem (
@@ -839,12 +833,6 @@ R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   // --------------------------------------
 
   {
-    // variables
-
-    fAutoOutputFile = false;
-
-    // options
-
     S_optionsSubGroup
       outputFileSubGroup =
         optionsSubGroup::create (
@@ -856,6 +844,8 @@ R"()",
 
     appendOptionsSubGroup (outputFileSubGroup);
 
+    // output filename
+
     outputFileSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
@@ -864,6 +854,10 @@ R"(Write LilyPond code to file FILENAME instead of standard output.)",
           "FILENAME",
           "outputFileName",
           fOutputFileName));
+
+    // auto output filename
+
+    fAutoOutputFile = false;
 
     outputFileSubGroup->
       appendOptionsItem (

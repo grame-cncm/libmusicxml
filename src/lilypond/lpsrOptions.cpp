@@ -435,18 +435,6 @@ lpsrOptions::~lpsrOptions ()
 void lpsrOptions::initializeLpsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fTraceLpsr            = boolOptionsInitialValue;
-
-  fTraceLpsrVisitors    = boolOptionsInitialValue;
-
-  fTraceLpsrBlocks      = boolOptionsInitialValue;
-
-  fTraceSchemeFunctions = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     traceSubGroup =
       optionsSubGroup::create (
@@ -458,6 +446,8 @@ R"()",
 
   appendOptionsSubGroup (traceSubGroup);
 
+  fTraceLpsr            = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -465,6 +455,18 @@ R"()",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLpsr",
         fTraceLpsr));
+
+  fTraceLilypondVersion = boolOptionsInitialValue;
+
+  traceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tlpv", "trace-lilypond-version",
+R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
+        "traceLilypondVersion",
+        fTraceLilypondVersion));
+
+  fTraceLpsrVisitors    = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (
@@ -474,13 +476,18 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
         "traceLpsrVisitors",
         fTraceLpsrVisitors));
 
-traceSubGroup->
-  appendOptionsItem (
-    optionsBooleanItem::create (
-      "tlpsrb", "trace-lpsr-blocks",
+  fTraceLpsrBlocks      = boolOptionsInitialValue;
+
+  traceSubGroup->
+    appendOptionsItem (
+      optionsBooleanItem::create (
+        "tlpsrb", "trace-lpsr-blocks",
 R"(Write a trace of the LPSR blocks to standard error.)",
-      "traceLpsrBlocks",
-      fTraceLpsrBlocks));
+        "traceLpsrBlocks",
+        fTraceLpsrBlocks));
+
+  fTraceSchemeFunctions = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -494,12 +501,6 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
 void lpsrOptions::initializeLpsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fDisplayLpsr = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     displaySubGroup =
       optionsSubGroup::create (
@@ -510,6 +511,8 @@ R"()",
       this);
 
   appendOptionsSubGroup (displaySubGroup);
+
+  fDisplayLpsr = boolOptionsInitialValue;
 
   displaySubGroup->
     appendOptionsItem (
@@ -524,24 +527,6 @@ R"(Write the contents of the LPSR data to standard error.)",
 void lpsrOptions::initializeLpsrScoreOutputKindOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  string lilyPondVersionDefaultValue = "2.19.83";
-
-  fLilyPondVersion = lilyPondVersionDefaultValue;
-
-  const lpsrScoreOutputKind
-    lpsrScoreOutputKindDefaultValue =
-      kScoreOnly; // default value
-
-  fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
-
-  const int staffGlobalSizeDefaultValue = 20; // LilyPond default
-
-  fGlobalStaffSize = staffGlobalSizeDefaultValue;
-
-  // options
-
   S_optionsSubGroup
     lilypondOutputKindSubGroup =
       optionsSubGroup::create (
@@ -552,6 +537,10 @@ R"()",
       this);
 
   appendOptionsSubGroup (lilypondOutputKindSubGroup);
+
+  string lilyPondVersionDefaultValue = "2.19.83";
+
+  fLilyPondVersion = lilyPondVersionDefaultValue;
 
   lilypondOutputKindSubGroup->
     appendOptionsItem (
@@ -565,6 +554,12 @@ The default is 'DEFAULT_VALUE'.)",
         "STRING",
         "lilyPondVersion",
         fLilyPondVersion));
+
+  const lpsrScoreOutputKind
+    lpsrScoreOutputKindDefaultValue =
+      kScoreOnly; // default value
+
+  fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
   lilypondOutputKindSubGroup->
     appendOptionsItem (
@@ -591,6 +586,10 @@ The default is 'DEFAULT_VALUE'.)",
         "scoreOutputKind",
         fScoreOutputKind));
 
+  const int staffGlobalSizeDefaultValue = 20; // LilyPond default
+
+  fGlobalStaffSize = staffGlobalSizeDefaultValue;
+
   lilypondOutputKindSubGroup->
     appendOptionsItem (
       optionsFloatItem::create (
@@ -608,12 +607,6 @@ The default is 'DEFAULT_VALUE'.)",
 void lpsrOptions::initializeLpsrLyricsVersusWordsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fAddWordsFromTheLyrics = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     lyricsVersusWordsSubGroup =
       optionsSubGroup::create (
@@ -624,6 +617,8 @@ R"()",
       this);
 
   appendOptionsSubGroup (lyricsVersusWordsSubGroup);
+
+  fAddWordsFromTheLyrics = boolOptionsInitialValue;
 
   lyricsVersusWordsSubGroup->
     appendOptionsItem (
@@ -638,7 +633,16 @@ This may come in handy when MusicXML data has been obtained from scanned images.
 void lpsrOptions::initializeLpsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
+  S_optionsSubGroup
+    languagesSubGroup =
+      optionsSubGroup::create (
+        "Languages",
+        "hlpsrl", "help-lpsr-languages",
+R"()",
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
+
+  appendOptionsSubGroup (languagesSubGroup);
 
   if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -669,26 +673,6 @@ void lpsrOptions::initializeLpsrLanguagesOptions (
   fLpsrQuarterTonesPitchesLanguageKind =
     msrQuarterTonesPitchesLanguageKindDefaultValue;
 
-  const lpsrChordsLanguageKind
-    lpsrChordsLanguageKindDefaultValue =
-      k_IgnatzekChords; // LilyPond default
-
-  fLpsrChordsLanguageKind =
-    lpsrChordsLanguageKindDefaultValue;
-
-  // options
-
-  S_optionsSubGroup
-    languagesSubGroup =
-      optionsSubGroup::create (
-        "Languages",
-        "hlpsrl", "help-lpsr-languages",
-R"()",
-      optionsSubGroup::kAlwaysShowDescription,
-      this);
-
-  appendOptionsSubGroup (languagesSubGroup);
-
   languagesSubGroup->
     appendOptionsItem (
       optionsLpsrPitchesLanguageItem::create (
@@ -711,6 +695,13 @@ The default is 'DEFAULT_VALUE'.)",
         "LANGUAGE",
         "lpsrPitchesLanguage",
         fLpsrQuarterTonesPitchesLanguageKind));
+
+  const lpsrChordsLanguageKind
+    lpsrChordsLanguageKindDefaultValue =
+      k_IgnatzekChords; // LilyPond default
+
+  fLpsrChordsLanguageKind =
+    lpsrChordsLanguageKindDefaultValue;
 
   languagesSubGroup->
     appendOptionsItem (
@@ -740,10 +731,6 @@ The default is 'DEFAULT_VALUE'.)",
 void lpsrOptions::initializeLpsrTransposeOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup
     languagesSubGroup =
       optionsSubGroup::create (
@@ -774,12 +761,6 @@ for instruments in 'a', 'f' and B flat respectively)",
 void lpsrOptions::initializeLpsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fExit3 = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     exitAfterSomePassesSubGroup =
       optionsSubGroup::create (
@@ -790,6 +771,8 @@ R"()",
       this);
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+
+  fExit3 = boolOptionsInitialValue;
 
   S_optionsBooleanItem
     exit3OptionsBooleanItem =
@@ -866,6 +849,9 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
 #ifdef TRACE_OPTIONS
   clone->fTraceLpsr =
+    true;
+
+  clone->fTraceLilypondVersion =
     true;
 
   clone->fTraceLpsrVisitors =
@@ -961,6 +947,7 @@ void lpsrOptions::enforceQuietness ()
 {
 #ifdef TRACE_OPTIONS
   fTraceLpsr = false;
+  fTraceLilypondVersion = false;
   fTraceLpsrVisitors = false;
   fTraceLpsrBlocks = false;
   fTraceSchemeFunctions = false;
@@ -996,6 +983,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   glogIOstream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
     booleanAsString (fTraceLpsr) <<
+    endl <<
+
+    setw (fieldWidth) << "traceLilypondVersion" << " : " <<
+    booleanAsString (fTraceLilypondVersion) <<
     endl <<
 
     setw (fieldWidth) << "traceLpsrVisitors" << " : " <<
@@ -1484,7 +1475,7 @@ void lpsrOptions::handleOptionsItemValue (
   }
 }
 
-void lpsrOptions::crackVersionNumber (
+void lpsrOptions::crackLilypondVersionNumber (
   string theString,
   int&   generationNumber,
   int&   majorNumber,
@@ -1508,10 +1499,10 @@ void lpsrOptions::crackVersionNumber (
   unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceOptions) {
+  if (gLpsrOptions->fTraceLilypondVersion) {
     glogIOstream <<
       "There are " << smSize << " matches" <<
-      " for chord details string '" << theString <<
+      " for version string '" << theString <<
       "' with regex '" << regularExpression <<
       "'" <<
       endl <<
@@ -1534,7 +1525,7 @@ void lpsrOptions::crackVersionNumber (
       minorNumberValue      = sm [3];
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gLpsrOptions->fTraceLilypondVersion) {
       glogIOstream <<
         "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
         "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
@@ -1563,7 +1554,7 @@ void lpsrOptions::crackVersionNumber (
     unsigned smSize = sm.size ();
 
 #ifdef TRACE_OPTIONS
-    if (gTraceOptions->fTraceOptions) {
+    if (gLpsrOptions->fTraceLilypondVersion) {
       glogIOstream <<
         "There are " << smSize << " matches" <<
         " for chord details string '" << theString <<
@@ -1589,7 +1580,7 @@ void lpsrOptions::crackVersionNumber (
         majorNumberValue      = sm [2];
 
 #ifdef TRACE_OPTIONS
-      if (gTraceOptions->fTraceOptions) {
+      if (gLpsrOptions->fTraceLilypondVersion) {
         glogIOstream <<
           "--> generationNumberValue = \"" << generationNumberValue << "\", " <<
           "--> majorNumberValue = \"" << majorNumberValue << "\", " <<
@@ -1626,7 +1617,7 @@ bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
     lilyPondVersionMajorNumber,
     lilyPondVersionMinorNumber;
 
-  crackVersionNumber (
+  crackLilypondVersionNumber (
     fLilyPondVersion,
     lilyPondVersionGenerationNumber,
     lilyPondVersionMajorNumber,
@@ -1637,7 +1628,7 @@ bool lpsrOptions::versionNumberGreaterThanOrEqualTo (
     otherVersionNumbeMajorNumber,
     otherVersionNumbeMinorNumber;
 
-  crackVersionNumber (
+  crackLilypondVersionNumber (
     otherVersionNumber,
     otherVersionNumbeGenerationNumber,
     otherVersionNumbeMajorNumber,

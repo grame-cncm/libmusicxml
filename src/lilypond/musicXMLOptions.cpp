@@ -70,16 +70,6 @@ musicXMLOptions::~musicXMLOptions ()
 void musicXMLOptions::initializeMusicXMLTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fTraceEncoding = boolOptionsInitialValue;
-  fTraceDivisions = boolOptionsInitialValue;
-  fTraceBackup = boolOptionsInitialValue;
-
-  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     traceSubGroup =
       optionsSubGroup::create (
@@ -91,6 +81,10 @@ R"()",
 
   appendOptionsSubGroup (traceSubGroup);
 
+  // encoding
+
+  fTraceEncoding = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
@@ -99,6 +93,10 @@ R"(Encoding)",
         "traceEncoding",
         fTraceEncoding,
         gTraceOptions->fTracePasses));
+
+  // divisions
+
+  fTraceDivisions = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (
@@ -109,6 +107,10 @@ R"(Divisions)",
         fTraceDivisions,
         gTraceOptions->fTracePasses));
 
+  // backup
+
+  fTraceBackup = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsTwoBooleansItem::create (
@@ -117,6 +119,10 @@ R"(Backup)",
         "traceBackup",
         fTraceBackup,
         gTraceOptions->fTracePasses));
+
+  // MusicXML tree visiting
+
+  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (
@@ -131,12 +137,6 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 void musicXMLOptions::initializeMusicXMLWorkOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fUseFilenameAsWorkTitle = false;
-
-  // options
-
   S_optionsSubGroup
     workSubGroup =
       optionsSubGroup::create (
@@ -147,6 +147,10 @@ R"()",
         this);
 
   appendOptionsSubGroup (workSubGroup);
+
+  // file name as work title
+
+  fUseFilenameAsWorkTitle = false;
 
   workSubGroup->
     appendOptionsItem (
@@ -161,16 +165,6 @@ Standard input (-) becomes 'Standard input' in that case.)",
 void musicXMLOptions::initializeMusicXMLClefsKeysTimesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fIgnoreRedundantClefs = boolOptionsInitialValue;
-  fIgnoreRedundantKeys  = boolOptionsInitialValue;
-  fIgnoreRedundantTimes = boolOptionsInitialValue;
-
-  fLoopToMusicXML = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     clefsKeysTimesSubGroup =
       optionsSubGroup::create (
@@ -182,6 +176,9 @@ R"()",
 
   appendOptionsSubGroup (clefsKeysTimesSubGroup);
 
+  // redundant clefs
+
+  fIgnoreRedundantClefs = boolOptionsInitialValue;
 
   fIgnoreRedundantClefsItem =
       optionsBooleanItem::create (
@@ -193,6 +190,9 @@ R"(Ignore clefs that are the same as the current one.)",
     appendOptionsItem (
       fIgnoreRedundantClefsItem);
 
+  // redundant keys
+
+  fIgnoreRedundantKeys  = boolOptionsInitialValue;
 
   fIgnoreRedundantKeysItem =
       optionsBooleanItem::create (
@@ -204,6 +204,9 @@ R"(Ignore keys that are the same as the current one.)",
     appendOptionsItem (
       fIgnoreRedundantKeysItem);
 
+  // redundant times
+
+  fIgnoreRedundantTimes = boolOptionsInitialValue;
 
   fIgnoreRedundantTimesItem =
       optionsBooleanItem::create (
@@ -215,8 +218,10 @@ R"(Ignore times that are the same as the current one.)",
     appendOptionsItem (
       fIgnoreRedundantTimesItem);
 
-
   // '-loop' is hidden...
+
+  fLoopToMusicXML = boolOptionsInitialValue;
+
   S_optionsBooleanItem
     loopOptionsBooleanItem =
       optionsBooleanItem::create (
@@ -236,13 +241,6 @@ The file name receives a '_loop' suffix. Currently under development.)",
 void musicXMLOptions::initializeMusicXMLCombinedOptionsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fCubase   = false;
-  fNoCubase = false;
-
-  // options
-
   S_optionsSubGroup
     combinedOptionsSubGroup =
       optionsSubGroup::create (
@@ -253,6 +251,10 @@ R"()",
         this);
 
   appendOptionsSubGroup (combinedOptionsSubGroup);
+
+  // cubase
+
+  fCubase   = false;
 
   // create the 'cubase' combined item
   S_optionsCombinedBooleanItemsItem
@@ -283,7 +285,10 @@ This option is set by default, and can be unset by 'noCubase'.)",
     appendOptionsItemToCombinedBooleanItemsList (
       fIgnoreRedundantTimesItem);
 
-  // create the '-noCubase' item
+  // noCubase
+
+  fNoCubase = false;
+
   S_optionsBooleanItem
     noCubaseBooleanItem =
       optionsBooleanItem::create (

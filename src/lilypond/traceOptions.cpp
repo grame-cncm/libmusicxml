@@ -2493,31 +2493,29 @@ void initializeTraceOptionsHandling (
 
 
 /* JMI
-  // trace and display
+  // traceDetailedMeasureNumbersSet
   // --------------------------------------
 
   {
-    // variables
-
-    // fTraceDetailedMeasureNumbersSet is empty
-
-    // options
-
-      S_optionsSubGroup
-        traceAndDisplaySubGroup =
-          optionsSubGroup::create (
-            "Trace and display",
-            "htd", "help-trace-and-display",
+    S_optionsSubGroup
+      traceAndDisplaySubGroup =
+        optionsSubGroup::create (
+          "Trace and display",
+          "htd", "help-trace-and-display",
 R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
+      optionsSubGroup::kAlwaysShowDescription,
+      this);
 
-      appendOptionsSubGroup (traceAndDisplaySubGroup);
+    appendOptionsSubGroup (traceAndDisplaySubGroup);
 
-      traceAndDisplaySubGroup->
-        appendOptionsItem (
-          optionsNumbersSetItem::create (
-            "tdetail", "trace-detailed",
+  // detailed measure numbers set
+
+  // fTraceDetailedMeasureNumbersSet is empty
+
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        optionsNumbersSetItem::create (
+          "tdetail", "trace-detailed",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval
 and 0 applies to the '<part-list>' and anacrusis if present.
@@ -2525,9 +2523,9 @@ The measure numbers should be those of the produced score,
 since MusicXML measure numbers are arbitrary strings.
 Generate a detailed trace of the activity and print additional
 debugging information to standard error for the specified measures.)",
-            "measureNumbersSet",
-            "traceDetailedMeasureNumbersSet",
-            fTraceDetailedMeasureNumbersSet));
+          "measureNumbersSet",
+          "traceDetailedMeasureNumbersSet",
+          fTraceDetailedMeasureNumbersSet));
   }
 */
 

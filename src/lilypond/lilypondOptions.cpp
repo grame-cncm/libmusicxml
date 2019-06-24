@@ -889,7 +889,7 @@ R"()",
 
   appendOptionsSubGroup (engraversSubGroup);
 
-  // variables
+  // ambitus engraver
 
   fAmbitusEngraver = boolOptionsInitialValue;
 
@@ -916,7 +916,7 @@ R"()",
 
   appendOptionsSubGroup (timeSubGroup);
 
-  // variables
+  // numerical time
 
   fNumericalTime = boolOptionsInitialValue;
 
@@ -1669,7 +1669,7 @@ R"()",
 
   appendOptionsSubGroup (midiSubGroup);
 
-  // MIDI
+  // midiTempo
 
   string midiTempoDuration  = "4";
   int    midiTempoPerSecond = 90;
@@ -1703,7 +1703,7 @@ The default is 'DEFAULT_VALUE'.)",
         "midiTempo",
         fMidiTempo));
 
-  // variables
+  // noMidi
 
   fNoMidi = boolOptionsInitialValue;
 

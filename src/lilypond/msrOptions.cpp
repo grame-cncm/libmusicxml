@@ -417,14 +417,6 @@ msrOptions::~msrOptions ()
 void msrOptions::initializeMsrTraceOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fTraceMsr          = boolOptionsInitialValue;
-
-  fTraceMsrVisitors  = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup traceSubGroup =
     optionsSubGroup::create (
       "Trace",
@@ -435,6 +427,10 @@ R"()",
 
   appendOptionsSubGroup (traceSubGroup);
 
+  // trace msr
+
+  fTraceMsr          = boolOptionsInitialValue;
+
   traceSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -442,6 +438,10 @@ R"()",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceMsr",
         fTraceMsr));
+
+  // trace msr visitors
+
+  fTraceMsrVisitors  = boolOptionsInitialValue;
 
   traceSubGroup->
     appendOptionsItem (
@@ -456,18 +456,6 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
 void msrOptions::initializeMsrDisplayOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fDisplayPartGroups = boolOptionsInitialValue;
-
-  fDisplayMsr        = boolOptionsInitialValue;
-  fDisplayMsrDetails = boolOptionsInitialValue;
-
-  fDisplayMsrNames   = boolOptionsInitialValue;
-  fDisplayMsrSummary = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup displaySubGroup =
     optionsSubGroup::create (
       "Display",
@@ -478,6 +466,10 @@ R"()",
 
   appendOptionsSubGroup (displaySubGroup);
 
+  // foo
+
+  fDisplayPartGroups = boolOptionsInitialValue;
+
   displaySubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -485,6 +477,10 @@ R"()",
 R"(Write the structure of the part groups to standard error.)",
         "displayPartGroups",
         fDisplayPartGroups));
+
+  // foo
+
+  fDisplayMsr        = boolOptionsInitialValue;
 
   displaySubGroup->
     appendOptionsItem (
@@ -494,6 +490,10 @@ R"(Write the contents of the MSR data to standard error.)",
         "displayMsr",
         fDisplayMsr,
         gTraceOptions->fTracePasses));
+
+  // foo
+
+  fDisplayMsrDetails = boolOptionsInitialValue;
 
   displaySubGroup->
     appendOptionsItem (
@@ -505,6 +505,10 @@ R"(Write the contents of the MSR data with more details to standard error.)",
         fDisplayMsr,
         gTraceOptions->fTracePasses));
 
+  // foo
+
+  fDisplayMsrNames   = boolOptionsInitialValue;
+
   displaySubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -513,6 +517,10 @@ R"(Only write a view of the names in the MSR to standard error.
 This implies that no LilyPond code is generated.)",
         "displayMsrNames",
         fDisplayMsrNames));
+
+  // foo
+
+  fDisplayMsrSummary = boolOptionsInitialValue;
 
   displaySubGroup->
     appendOptionsItem (
@@ -527,7 +535,17 @@ This implies that no LilyPond code is generated.)",
 void msrOptions::initializeMsrLanguagesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
+  S_optionsSubGroup languagesSubGroup =
+    optionsSubGroup::create (
+      "Languages",
+      "hmsrlang", "help-msr-languages",
+R"()",
+    optionsSubGroup::kAlwaysShowDescription,
+    this);
+
+  appendOptionsSubGroup (languagesSubGroup);
+
+  // foo
 
   if (! setMsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -555,18 +573,6 @@ void msrOptions::initializeMsrLanguagesOptions (
     msrQuarterTonesPitchesLanguageKindDefaultValue =
       kNederlands; //LilyPond default value
 
-  // options
-
-  S_optionsSubGroup languagesSubGroup =
-    optionsSubGroup::create (
-      "Languages",
-      "hmsrlang", "help-msr-languages",
-R"()",
-    optionsSubGroup::kAlwaysShowDescription,
-    this);
-
-  appendOptionsSubGroup (languagesSubGroup);
-
   languagesSubGroup->
     appendOptionsItem (
       optionsMsrPitchesLanguageItem::create (
@@ -593,10 +599,6 @@ The default is 'DEFAULT_VALUE'.)",
 void msrOptions::initializeMsrPartsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  // options
-
   S_optionsSubGroup partsSubGroup =
     optionsSubGroup::create (
       "Parts",
@@ -606,6 +608,8 @@ R"()",
     this);
 
   appendOptionsSubGroup (partsSubGroup);
+
+  // foo
 
   partsSubGroup->
     appendOptionsItem (
@@ -630,6 +634,8 @@ There can be several occurrences of this option.)",
         "PART_RENAME_SPEC",
         "partRename",
         fPartsRenamingMap));
+
+  // foo
 
   partsSubGroup->
     appendOptionsItem (
@@ -659,12 +665,6 @@ There can be several occurrences of this option.)",
 void msrOptions::initializeMsrStavesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup stavesSubGroup =
     optionsSubGroup::create (
       "Staves",
@@ -674,6 +674,10 @@ R"()",
     this);
 
   appendOptionsSubGroup (stavesSubGroup);
+
+  // foo
+
+  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
   stavesSubGroup->
     appendOptionsItem (
@@ -688,12 +692,6 @@ By default, drum staves are created in this case.)",
 void msrOptions::initializeMsrVoicesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup voicesSubGroup =
     optionsSubGroup::create (
       "Voices",
@@ -703,6 +701,10 @@ R"()",
     this);
 
   appendOptionsSubGroup (voicesSubGroup);
+
+  // foo
+
+  fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
 
   voicesSubGroup->
     appendOptionsItem (
@@ -718,12 +720,6 @@ which may be global to the score.)",
 void msrOptions::initializeMsrRepeatsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup repeatsSubGroup =
     optionsSubGroup::create (
       "Repeats",
@@ -733,6 +729,10 @@ R"()",
     this);
 
   appendOptionsSubGroup (repeatsSubGroup);
+
+  // foo
+
+  fCreateImplicitInitialRepeatBarline = boolOptionsInitialValue;
 
   repeatsSubGroup->
     appendOptionsItem (
@@ -748,19 +748,6 @@ By default, no such barline is added.)",
 void msrOptions::initializeMsrNotesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fDelayRestsDynamics  = boolOptionsInitialValue;
-  fDelayRestsWords     = boolOptionsInitialValue; // JMI
-  fDelayRestsBeams     = boolOptionsInitialValue; // JMI
-  fDelayRestsSlurs     = boolOptionsInitialValue; // JMI
-  fDelayRestsLigatures = boolOptionsInitialValue; // JMI
-  fDelayRestsPedals    = boolOptionsInitialValue; // JMI
-  fDelayRestsSlashes   = boolOptionsInitialValue; // JMI
-  fDelayRestsWedges    = boolOptionsInitialValue; // JMI
-
-  // options
-
   S_optionsSubGroup notesSubGroup =
     optionsSubGroup::create (
       "Notes",
@@ -771,6 +758,10 @@ R"()",
 
   appendOptionsSubGroup (notesSubGroup);
 
+  // delay rests dynamics
+
+  fDelayRestsDynamics = false;
+
   notesSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -778,6 +769,10 @@ R"()",
 R"()",
         "delayRestsDynamics",
         fDelayRestsDynamics));
+
+  // delay rests words
+
+  fDelayRestsWords = false;
 
   notesSubGroup->
     appendOptionsItem (
@@ -787,6 +782,10 @@ R"()",
         "delayRestsWords",
         fDelayRestsWords));
 
+  // delay rests beams
+
+  fDelayRestsBeams = false;
+
   notesSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -794,6 +793,10 @@ R"()",
 R"()",
         "delayRestsBeams",
         fDelayRestsBeams));
+
+  // delay rests slurs
+
+  fDelayRestsSlurs = false;
 
   notesSubGroup->
     appendOptionsItem (
@@ -803,6 +806,10 @@ R"()",
         "delayRestsSlurs",
         fDelayRestsSlurs));
 
+  // delay rests ligatures
+
+  fDelayRestsLigatures = false;
+
   notesSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -810,6 +817,10 @@ R"()",
 R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
         "delayRestsLigatures",
         fDelayRestsLigatures));
+
+  // delay rests pedals
+
+  fDelayRestsPedals = false;
 
   notesSubGroup->
     appendOptionsItem (
@@ -819,6 +830,10 @@ R"()",
         "delayRestsPedals",
         fDelayRestsPedals));
 
+  // delay rests slashes
+
+  fDelayRestsSlashes = false;
+
   notesSubGroup->
     appendOptionsItem (
       optionsBooleanItem::create (
@@ -826,6 +841,10 @@ R"()",
 R"('<slash/>' in MusicXML)",
         "delayRestsSlashes",
         fDelayRestsSlashes));
+
+  // delay rests wedges
+
+  fDelayRestsWedges = false;
 
   notesSubGroup->
     appendOptionsItem (
@@ -839,12 +858,6 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
 void msrOptions::initializeMsrLyricsOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fAddStanzasNumbers  = false;
-
-  // options
-
   S_optionsSubGroup lyricsSubGroup =
     optionsSubGroup::create (
       "Lyrics",
@@ -854,6 +867,10 @@ R"()",
     this);
 
   appendOptionsSubGroup (lyricsSubGroup);
+
+  // stanzas numbers
+
+  fAddStanzasNumbers  = false;
 
   lyricsSubGroup->
     appendOptionsItem (
@@ -867,12 +884,6 @@ R"(Add stanzas numbers to lyrics.)",
 void msrOptions::initializeMsrHarmoniesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fShowHarmonyVoices      = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup harmoniesSubGroup =
     optionsSubGroup::create (
       "Harmonies",
@@ -882,6 +893,10 @@ R"()",
     this);
 
   appendOptionsSubGroup (harmoniesSubGroup);
+
+  // show harmony voices
+
+  fShowHarmonyVoices      = boolOptionsInitialValue;
 
   harmoniesSubGroup->
     appendOptionsItem (
@@ -896,12 +911,6 @@ even though it does not contain music.)",
 void msrOptions::initializeMsrFiguredBassOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fShowFiguredBassVoices      = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup figuredBassSubGroup =
     optionsSubGroup::create (
       "Figured bass",
@@ -911,6 +920,10 @@ R"()",
     this);
 
   appendOptionsSubGroup (figuredBassSubGroup);
+
+  // show figured bass voices
+
+  fShowFiguredBassVoices      = boolOptionsInitialValue;
 
   figuredBassSubGroup->
     appendOptionsItem (
@@ -925,13 +938,6 @@ even though they do not contain music.)",
 void msrOptions::initializeMsrExitAfterSomePassesOptions (
   bool boolOptionsInitialValue)
 {
-  // variables
-
-  fExit2a = boolOptionsInitialValue;
-  fExit2b = boolOptionsInitialValue;
-
-  // options
-
   S_optionsSubGroup
     exitAfterSomePassesSubGroup =
       optionsSubGroup::create (
@@ -942,6 +948,10 @@ R"()",
       this);
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+
+  // exit after pass 2a
+
+  fExit2a = boolOptionsInitialValue;
 
   // '-exit-2a' is hidden...
   S_optionsBooleanItem
@@ -956,6 +966,10 @@ of the MusicXML tree to an MSR skeleton.)",
   exit2aOptionsBooleanItem->
     setOptionsElementIsHidden ();
     */
+
+  // exit after pass 2b
+
+  fExit2b = boolOptionsInitialValue;
 
   exitAfterSomePassesSubGroup->
     appendOptionsItem (
