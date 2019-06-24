@@ -18,7 +18,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -31,7 +31,7 @@ class msrPageGeometry : public msrElement
 
     static SMARTP<msrPageGeometry> create (
       int inputLineNumber);
-    
+
     SMARTP<msrPageGeometry> createGeometryNewbornClone ();
 
   protected:
@@ -41,46 +41,68 @@ class msrPageGeometry : public msrElement
 
     msrPageGeometry (
       int inputLineNumber);
-      
+
     virtual ~msrPageGeometry ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void    setMillimeters        (float val) { fMillimeters = val; }
-    void    setTenths             (int val)   { fTenths = val; }
+    void                  setMillimeters (float val)
+                              { fMillimeters = val; }
+    float                 getMillimeters () const
+                              { return fMillimeters; }
 
-    float   getMillimeters        () const    { return fMillimeters; }
-    float   getTenths             () const    { return float(fTenths); }
+    void                  setTenths (int val)
+                              { fTenths = val; }
+    float                 getTenths () const
+                              { return float(fTenths); }
 
-    void    setPaperWidth         (float val) { fPaperWidth = val; }
-    void    setPaperHeight        (float val) { fPaperHeight = val; }
-    
-    void    setTopMargin          (float val) { fTopMargin = val; }
-    void    setBottomMargin       (float val) { fBottomMargin = val; }
-    void    setLeftMargin         (float val) { fLeftMargin = val; }
-    void    setRightMargin        (float val) { fRightMargin = val; }
-    
-    void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
-    void    setPageTopSpace       (float val) { fPageTopSpace = val; }
-    
-    float   getPaperWidth         () const    { return fPaperWidth; }
-    float   getPaperHeight        () const    { return fPaperHeight; }
-    
-    float   getTopMargin          () const    { return fTopMargin; }
-    float   getBottomMargin       () const    { return fBottomMargin; }
-    float   getLeftMargin         () const    { return fLeftMargin; }
-    float   getRightMargin        () const    { return fRightMargin; }
-    
-    float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
-    float   getPageTopSpace       () const    { return fPageTopSpace; }
-    
+    void                  setPaperWidth (float val)
+                              { fPaperWidth = val; }
+    float                 getPaperWidth () const
+                              { return fPaperWidth; }
+
+    void                  setPaperHeight (float val)
+                              { fPaperHeight = val; }
+    float                 getPaperHeight () const
+                              { return fPaperHeight; }
+
+    void                  setTopMargin (float val)
+                              { fTopMargin = val; }
+    float                 getTopMargin () const
+                              { return fTopMargin; }
+
+    void                  setBottomMargin (float val)
+                              { fBottomMargin = val; }
+    float                 getBottomMargin () const
+                              { return fBottomMargin; }
+
+    void                  setLeftMargin (float val)
+                              { fLeftMargin = val; }
+    float                 getLeftMargin () const
+                              { return fLeftMargin; }
+
+    void                  setRightMargin (float val)
+                              { fRightMargin = val; }
+    float                 getRightMargin () const
+                              { return fRightMargin; }
+
+    void                  setBetweenSystemSpace (float val)
+                              { fBetweenSystemSpace = val; }
+    float                 getBetweenSystemSpace () const
+                              { return fBetweenSystemSpace; }
+
+    void                  setPageTopSpace (float val)
+                              { fPageTopSpace = val; }
+    float                 getPageTopSpace () const
+                              { return fPageTopSpace; }
+
     // services
     // ------------------------------------------------------
 
-    float   globalStaffSize       () const;
+    float                 fetchGlobalStaffSize () const;
 
   public:
 
@@ -113,7 +135,7 @@ class msrPageGeometry : public msrElement
     // page height, margins and the like in centimeters are in centimeters
     float                 fPaperWidth;
     float                 fPaperHeight;
-    
+
     float                 fTopMargin;
     float                 fBottomMargin;
     float                 fLeftMargin;
@@ -121,9 +143,9 @@ class msrPageGeometry : public msrElement
 
     float                 fMillimeters;
     int                   fTenths;
-    
+
     float                 fBetweenSystemSpace;
-    float                 fPageTopSpace; 
+    float                 fPageTopSpace;
 };
 typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
 EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);

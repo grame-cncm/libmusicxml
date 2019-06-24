@@ -101,28 +101,29 @@ S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
   return newbornClone;
 }
 
-float msrPageGeometry::globalStaffSize () const
+float msrPageGeometry::fetchGlobalStaffSize () const
 {
-  const float lilyPondDefaultStaffSize =
+  const float optionsGlobalStaffSize =
     gLpsrOptions->fGlobalStaffSize;
 
   const float defaultTenthsToMillimetersRatio = 0.175;
 
   float millimetersOverTenths = fMillimeters / fTenths;
   float ratio = millimetersOverTenths / defaultTenthsToMillimetersRatio;
-  float staffSize = lilyPondDefaultStaffSize * ratio;
+
+  float staffSize = optionsGlobalStaffSize * ratio;
 
 #ifdef TRACE_OPTIONS
   if (gTraceOptions->fTraceGeometry) {
     glogIOstream <<
-      "globalStaffSize ():" <<
+      "fetchGlobalStaffSize():" <<
       endl;
 
     gIndenter++;
 
     glogIOstream <<
-      "lilyPondDefaultStaffSize" << " : " <<
-      lilyPondDefaultStaffSize <<
+      "optionsGlobalStaffSize" << " : " <<
+      optionsGlobalStaffSize <<
       endl <<
       "defaultTenthsToMillimetersRatio" << " : " <<
       defaultTenthsToMillimetersRatio <<
@@ -158,7 +159,7 @@ float msrPageGeometry::globalStaffSize () const
     }
 #endif
 
-    staffSize = lilyPondDefaultStaffSize;
+    staffSize = optionsGlobalStaffSize;
   }
 
   return staffSize;

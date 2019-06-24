@@ -446,6 +446,8 @@ R"()",
 
   appendOptionsSubGroup (traceSubGroup);
 
+  // trace- lpsr
+
   fTraceLpsr            = boolOptionsInitialValue;
 
   traceSubGroup->
@@ -455,6 +457,8 @@ R"()",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLpsr",
         fTraceLpsr));
+
+  // trace lilypond version
 
   fTraceLilypondVersion = boolOptionsInitialValue;
 
@@ -466,6 +470,8 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
         "traceLilypondVersion",
         fTraceLilypondVersion));
 
+  // trace lpsr visitors
+
   fTraceLpsrVisitors    = boolOptionsInitialValue;
 
   traceSubGroup->
@@ -476,6 +482,8 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
         "traceLpsrVisitors",
         fTraceLpsrVisitors));
 
+  // trace lpsr blocks
+
   fTraceLpsrBlocks      = boolOptionsInitialValue;
 
   traceSubGroup->
@@ -485,6 +493,8 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
 R"(Write a trace of the LPSR blocks to standard error.)",
         "traceLpsrBlocks",
         fTraceLpsrBlocks));
+
+  // trace scheme functions
 
   fTraceSchemeFunctions = boolOptionsInitialValue;
 
@@ -512,6 +522,8 @@ R"()",
 
   appendOptionsSubGroup (displaySubGroup);
 
+  // display lpsr
+
   fDisplayLpsr = boolOptionsInitialValue;
 
   displaySubGroup->
@@ -524,25 +536,27 @@ R"(Write the contents of the LPSR data to standard error.)",
         gTraceOptions->fTracePasses));
 }
 
-void lpsrOptions::initializeLpsrScoreOutputKindOptions (
+void lpsrOptions::initializeLilypondScoreOutputOptions (
   bool boolOptionsInitialValue)
 {
   S_optionsSubGroup
-    lilypondOutputKindSubGroup =
+    lilypondOutputKindGroup =
       optionsSubGroup::create (
-        "LilyPond output",
-        "hlpo", "help-lilypond-output",
+        "LilyPond score  output",
+        "hlpso", "help-lilypond-score-output",
 R"()",
       optionsSubGroup::kAlwaysShowDescription,
       this);
 
-  appendOptionsSubGroup (lilypondOutputKindSubGroup);
+  appendOptionsSubGroup (lilypondOutputKindGroup);
+
+  // lilypond version
 
   string lilyPondVersionDefaultValue = "2.19.83";
 
   fLilyPondVersion = lilyPondVersionDefaultValue;
 
-  lilypondOutputKindSubGroup->
+  lilypondOutputKindGroup->
     appendOptionsItem (
       optionsStringItem::create (
         "lpv", "lilypond-version",
@@ -555,13 +569,15 @@ The default is 'DEFAULT_VALUE'.)",
         "lilyPondVersion",
         fLilyPondVersion));
 
+  // lpsr score output kind
+
   const lpsrScoreOutputKind
     lpsrScoreOutputKindDefaultValue =
       kScoreOnly; // default value
 
   fScoreOutputKind = lpsrScoreOutputKindDefaultValue;
 
-  lilypondOutputKindSubGroup->
+  lilypondOutputKindGroup->
     appendOptionsItem (
       optionsLpsrScoreOutputKindItem::create (
         "lpsok", "lpsr-score-output-kind",
@@ -586,11 +602,12 @@ The default is 'DEFAULT_VALUE'.)",
         "scoreOutputKind",
         fScoreOutputKind));
 
-  const int staffGlobalSizeDefaultValue = 20; // LilyPond default
+  // global staff size
 
-  fGlobalStaffSize = staffGlobalSizeDefaultValue;
+  fStaffGlobalSizeDefaultValue = 20; // LilyPond default
+  fGlobalStaffSize = fStaffGlobalSizeDefaultValue;
 
-  lilypondOutputKindSubGroup->
+  lilypondOutputKindGroup->
     appendOptionsItem (
       optionsFloatItem::create (
         "gss", "global-staff-size",
@@ -598,7 +615,7 @@ The default is 'DEFAULT_VALUE'.)",
 R"(Set the LilyPond '#(set-global-staff-size ...)' to FLOAT in the LilyPond code.
 The default is 'DEFAULT_VALUE'.)",
           "DEFAULT_VALUE",
-          to_string (staffGlobalSizeDefaultValue)),
+          to_string (fStaffGlobalSizeDefaultValue)),
         "FLOAT",
         "globalStaffSize",
         fGlobalStaffSize));
@@ -619,6 +636,8 @@ R"()",
   appendOptionsSubGroup (lyricsVersusWordsSubGroup);
 
   fAddWordsFromTheLyrics = boolOptionsInitialValue;
+
+  // add words from the lyrics
 
   lyricsVersusWordsSubGroup->
     appendOptionsItem (
@@ -643,6 +662,8 @@ R"()",
       this);
 
   appendOptionsSubGroup (languagesSubGroup);
+
+  // lpsr pitches language
 
   if (! setLpsrQuarterTonesPitchesLanguage ("nederlands")) {
     stringstream s;
@@ -696,6 +717,8 @@ The default is 'DEFAULT_VALUE'.)",
         "lpsrPitchesLanguage",
         fLpsrQuarterTonesPitchesLanguageKind));
 
+  // lpsr chords language
+
   const lpsrChordsLanguageKind
     lpsrChordsLanguageKindDefaultValue =
       k_IgnatzekChords; // LilyPond default
@@ -742,6 +765,8 @@ R"()",
 
   appendOptionsSubGroup (languagesSubGroup);
 
+  // lpsr transpose
+
   languagesSubGroup->
     appendOptionsItem (
       optionsLpsrTransposeItem::create (
@@ -771,6 +796,8 @@ R"()",
       this);
 
   appendOptionsSubGroup (exitAfterSomePassesSubGroup);
+
+  // exit after pass 3
 
   fExit3 = boolOptionsInitialValue;
 
@@ -805,9 +832,9 @@ void lpsrOptions::initializeLpsrOptions (
   initializeLpsrDisplayOptions (
     boolOptionsInitialValue);
 
-  // LilyPond score output kind
+  // LilyPond score output
   // --------------------------------------
-  initializeLpsrScoreOutputKindOptions (
+  initializeLilypondScoreOutputOptions (
     boolOptionsInitialValue);
 
   // lyrics versus words
@@ -881,6 +908,12 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   clone->fScoreOutputKind =
     fScoreOutputKind;
+
+  // global staff size
+  // --------------------------------------
+
+  clone->fGlobalStaffSize =
+    fGlobalStaffSize;
 
   // lyrics vs words
   // --------------------------------------
@@ -1047,6 +1080,22 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   glogIOstream << left <<
     setw (fieldWidth) << "scoreOutputKind" << " : " <<
     lpsrScoreOutputKindAsString (fScoreOutputKind) <<
+    endl;
+
+  gIndenter--;
+
+  // global staff size
+  // --------------------------------------
+
+  glogIOstream <<
+    "global staff size:" <<
+    endl;
+
+  gIndenter++;
+
+  glogIOstream << left <<
+    setw (fieldWidth) << "fGlobalStaffSize" << " : " <<
+    fGlobalStaffSize <<
     endl;
 
   gIndenter--;

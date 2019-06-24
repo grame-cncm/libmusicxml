@@ -702,11 +702,6 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     scoreLayout =
       fLpsrScore->getScoreLayout ();
 
-  // get LPSR score global staff size
-  float
-    globalStaffSize =
-      elt->globalStaffSize ();
-
   // populate layout JMI ???
   /*
   scoreLayout->
@@ -716,8 +711,28 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     */
 
   // populate LPSR score global staff size
+  float globalStaffSize = 0.0;
+
+  if (
+    gLpsrOptions->fGlobalStaffSize
+      !=
+    gLpsrOptions->fStaffGlobalSizeDefaultValue
+  ) {
+    // the LPSR option value takes precedence
+    globalStaffSize =
+      gLpsrOptions->fGlobalStaffSize;
+  }
+
+  else {
+    // fetch LPSR score global staff size
+    globalStaffSize =
+      elt->fetchGlobalStaffSize ();
+  }
+
+  // set score global staff size Scheme variable
   fLpsrScore->
-    setGlobalStaffSize (globalStaffSize);
+    setScoreGlobalStaffSizeSchemeVariable (
+      globalStaffSize);
 
   // get LPSR score block layout
   S_lpsrLayout

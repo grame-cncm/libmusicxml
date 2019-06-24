@@ -422,7 +422,7 @@ class lpsrOptions : public optionsGroup
     void                  initializeLpsrDisplayOptions (
                             bool boolOptionsInitialValue);
 
-    void                  initializeLpsrScoreOutputKindOptions (
+    void                  initializeLilypondScoreOutputOptions (
                             bool boolOptionsInitialValue);
 
     void                  initializeLpsrLyricsVersusWordsOptions (
@@ -482,6 +482,7 @@ class lpsrOptions : public optionsGroup
     // --------------------------------------
 
     float                 fGlobalStaffSize;
+    float                 fStaffGlobalSizeDefaultValue;
 
     // lyrics vs words
     // --------------------------------------

@@ -39,19 +39,19 @@ class lpsrLayout : public lpsrElement
 
     lpsrLayout (
       int inputLineNumber);
-      
+
     virtual ~lpsrLayout ();
-  
+
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    float                 getStaffSize () const
-                              { return fStaffSize; }
-                
-    void                  setGlobalStaffSize (float size)
-                              { fStaffSize = size; }
+    float                 getLayoutGlobalStaffSize () const
+                              { return fLayoutGlobalStaffSize; }
+
+    void                  setLayoutGlobalStaffSize (float size)
+                              { fLayoutGlobalStaffSize = size; }
 
     // services JMI ???
     // ------------------------------------------------------
@@ -59,17 +59,17 @@ class lpsrLayout : public lpsrElement
     void                  addLilypondVarValAssoc (
                             S_lpsrVarValAssoc assoc)
                               {
-                                flpsrVarValAssocs.push_back (assoc);
+                                flpsrVarValAssocsVector.push_back (assoc);
                               }
-      
+
     void                  addSchemeVariable (
                             S_lpsrSchemeVariable assoc)
                               {
-                                fLpsrSchemeVariables.push_back (assoc);
+                                fLpsrSchemeVariablesVector.push_back (assoc);
                               }
 
   public:
-  
+
     // visitors
     // ------------------------------------------------------
 
@@ -79,24 +79,24 @@ class lpsrLayout : public lpsrElement
     virtual void          browseData (basevisitor* v);
 
   public:
-  
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
 
   private:
-  
+
     // fields
     // ------------------------------------------------------
 
     float
-                          fStaffSize;
-    
+                          fLayoutGlobalStaffSize;
+
     vector<S_lpsrVarValAssoc>
-                          flpsrVarValAssocs;
+                          flpsrVarValAssocsVector;
     vector<S_lpsrSchemeVariable>
-                          fLpsrSchemeVariables;
+                          fLpsrSchemeVariablesVector;
 };
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);

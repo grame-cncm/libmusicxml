@@ -155,7 +155,7 @@ lpsrScore::lpsrScore (
   // create the global staff size variable
   // too early to benefit from gLpsrOptions->fGlobalStaffSize... JMI
   // needs to be updated later in msrPageGeometry::globalStaffSize()
-  fScoreGlobalStaffSizeVariable =
+  fScoreGlobalStaffSizeSchemeVariable =
     lpsrSchemeVariable::create (
       inputLineNumber,
       lpsrSchemeVariable::kCommentedNo,
@@ -384,14 +384,26 @@ R"(
 lpsrScore::~lpsrScore ()
 {}
 
-void lpsrScore::setGlobalStaffSize (float size)
+void lpsrScore::setScoreGlobalStaffSizeSchemeVariable (float size)
 {
   stringstream s;
 
   s << size;
 
-  fScoreGlobalStaffSizeVariable->
-    setVariableValue (s.str ());
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceGeometry) {
+    glogIOstream <<
+      "Setting score global staff size Scheme variable to '" <<
+      size <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  string sizeAsString = s.str ();
+
+  fScoreGlobalStaffSizeSchemeVariable->
+    setVariableValue (sizeAsString);
 }
 
 void lpsrScore::setJianpuFileIncludeIsNeeded ()
@@ -1621,7 +1633,7 @@ void lpsrScore::browseData (basevisitor* v)
   {
     // browse the score global staff size
     msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fScoreGlobalStaffSizeVariable);
+    browser.browse (*fScoreGlobalStaffSizeSchemeVariable);
   }
 
   {
@@ -1752,7 +1764,7 @@ void lpsrScore::print (ostream& os)
     fLilypondVersion <<
     endl <<
 
-    fScoreGlobalStaffSizeVariable <<
+    fScoreGlobalStaffSizeSchemeVariable <<
     endl <<
 
     fScoreHeader <<

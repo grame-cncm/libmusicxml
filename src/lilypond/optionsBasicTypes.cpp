@@ -4882,7 +4882,8 @@ void optionsHandler::handleOptionsItemFloatValue (
   float floatValue;
   {
     stringstream s;
-    s << theString;
+
+    s << setprecision (2) << theString;
     s >> floatValue;
   }
 

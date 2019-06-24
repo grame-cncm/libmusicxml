@@ -2164,7 +2164,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_scaling& elt)
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
       " millimeters, hence the global staff size is " <<
-      fMsrScore->getPageGeometry ()->globalStaffSize () <<
+      fMsrScore->getPageGeometry ()->fetchGlobalStaffSize () <<
       endl;
   }
 #endif

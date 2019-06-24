@@ -21,7 +21,7 @@
 
 using namespace std;
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -39,7 +39,7 @@ lpsrLayout::lpsrLayout (
   int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {
-  fStaffSize = 20; // LilyPond default // JMI
+  fLayoutGlobalStaffSize = 20; // LilyPond default // JMI
 }
 
 lpsrLayout::~lpsrLayout ()
@@ -52,12 +52,12 @@ void lpsrLayout::acceptIn (basevisitor* v)
       "% ==> lpsrLayout::acceptIn ()" <<
       endl;
   }
-      
+
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
-        
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           glogIOstream <<
             "% ==> Launching lpsrLayout::visitStart ()" <<
@@ -79,7 +79,7 @@ void lpsrLayout::acceptOut (basevisitor* v)
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
-      
+
         if (gLpsrOptions->fTraceLpsrVisitors) {
           glogIOstream <<
             "% ==> Launching lpsrLayout::visitEnd ()" <<
@@ -92,20 +92,20 @@ void lpsrLayout::acceptOut (basevisitor* v)
 void lpsrLayout::browseData (basevisitor* v)
 {
 
-  int lilypondAssocs = flpsrVarValAssocs.size ();
+  int lilypondAssocs = flpsrVarValAssocsVector.size ();
 
   for (int i = 0; i < lilypondAssocs; i++ ) {
     // browse the variable/value association
     msrBrowser<lpsrVarValAssoc> browser (v);
-    browser.browse (*flpsrVarValAssocs [i]);
+    browser.browse (*flpsrVarValAssocsVector [i]);
   } // for
-  
-  int schemeAssocs = fLpsrSchemeVariables.size ();
-  
+
+  int schemeAssocs = fLpsrSchemeVariablesVector.size ();
+
   for (int i = 0; i < schemeAssocs; i++ ) {
     // browse the Scheme variable/value association
     msrBrowser<lpsrSchemeVariable> browser (v);
-    browser.browse (*fLpsrSchemeVariables [i]);
+    browser.browse (*fLpsrSchemeVariablesVector [i]);
   } // for
 }
 
@@ -121,21 +121,21 @@ void lpsrLayout::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-   "StaffSize" << " : " << fStaffSize <<
+   "layoutGlobalStaffSize" << " : " << fLayoutGlobalStaffSize <<
     endl;
-    
-  int lilypondAssocs = flpsrVarValAssocs.size ();
-  
+
+  int lilypondAssocs = flpsrVarValAssocsVector.size ();
+
   for (int i = 0; i < lilypondAssocs; i++ ) {
-    os << flpsrVarValAssocs [i];
+    os << flpsrVarValAssocsVector [i];
   } // for
 
-  int schemeAssocs = fLpsrSchemeVariables.size ();
-  
+  int schemeAssocs = fLpsrSchemeVariablesVector.size ();
+
   for (int i = 0; i < schemeAssocs; i++ ) {
-    os << fLpsrSchemeVariables[i];
+    os << fLpsrSchemeVariablesVector[i];
   } // for
-  
+
   gIndenter--;
 }
 

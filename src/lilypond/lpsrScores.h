@@ -88,9 +88,11 @@ class lpsrScore : public lpsrElement
                           getLilypondVersion () const
                               { return fLilypondVersion; }
 
+    void                  setScoreGlobalStaffSizeSchemeVariable (float size);
+
     S_lpsrSchemeVariable
-                          getScoreGlobalStaffSizeVariable () const
-                              { return fScoreGlobalStaffSizeVariable; }
+                          getScoreGlobalStaffSizeSchemeVariable () const
+                              { return fScoreGlobalStaffSizeSchemeVariable; }
 
     S_lpsrHeader          getScoreHeader () const
                               { return fScoreHeader; }
@@ -111,8 +113,6 @@ class lpsrScore : public lpsrElement
 
     S_lpsrScoreBlock      getScoreScoreBlock () const
                               { return fScoreScoreBlock; }
-
-    void                  setGlobalStaffSize (float size);
 
     // files includes
     // ---------------------
@@ -297,7 +297,7 @@ class lpsrScore : public lpsrElement
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
 
-    S_lpsrSchemeVariable  fScoreGlobalStaffSizeVariable;
+    S_lpsrSchemeVariable  fScoreGlobalStaffSizeSchemeVariable;
 
     S_lpsrHeader          fScoreHeader;
     S_lpsrPaper           fScorePaper;
