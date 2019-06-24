@@ -1429,6 +1429,7 @@ void msrPart::appendHarpPedalsTuningToPart (
   } // for
 }
 
+/* JMI
 void msrPart:: handleBackup (
   int inputLineNumber,
   int divisions,
@@ -1480,6 +1481,7 @@ void msrPart:: handleBackup (
     inputLineNumber,
     positionInMeasure);
 }
+*/
 
 void msrPart::addSkipGraceNotesGroupBeforeAheadOfVoicesClonesIfNeeded (
   S_msrVoice           graceNotesGroupOriginVoice,

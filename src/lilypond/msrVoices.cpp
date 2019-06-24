@@ -2190,6 +2190,58 @@ void msrVoice::appendPaddingNoteToVoice (
   gIndenter--;
 }
 
+void msrVoice:: handleBackup (
+  int inputLineNumber,
+  int divisions,
+  int divisionsPerQuarterNote)
+{
+  // compute the backup step length
+  rational
+    backupStepLength =
+      rational (
+        divisions,
+        divisionsPerQuarterNote * 4); // hence a whole note
+
+  // get the fPartActualMeasureWholeNotesHighTide
+  rational
+    partActualMeasureWholeNotesHighTide =
+      fVoiceStaffUplink->
+        getStaffPartUplink ()->
+          getPartActualMeasureWholeNotesHighTide ();
+
+  // determine the measure position 'divisions' backward
+  rational
+    positionInMeasure =
+      partActualMeasureWholeNotesHighTide - backupStepLength;
+
+  positionInMeasure.rationalise ();
+
+#ifdef TRACE_OPTIONS
+  if (gMusicXMLOptions->fTraceBackup) {
+    glogIOstream <<
+      "Handling backup, divisions = '" <<
+      divisions <<
+      "', divisionsPerQuarterNote = '" <<
+      divisionsPerQuarterNote <<
+      "', backupStepLength = '" <<
+      backupStepLength <<
+      "', partActualMeasureWholeNotesHighTide = '" <<
+      partActualMeasureWholeNotesHighTide <<
+      "', positionInMeasure = '" <<
+      positionInMeasure <<
+      "' in voice " <<
+      getVoiceName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+#endif
+
+  // bring the voice to that measure position
+  padUpToActualMeasureWholeNotesInVoice (
+    inputLineNumber,
+    positionInMeasure);
+}
+
 void msrVoice::appendTransposeToVoice (
   S_msrTranspose transpose)
 {
@@ -3756,7 +3808,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
         // is there a measure splitting?
         if (
           lastMeasureInLastSegment->getActualMeasureWholeNotes ()
-            ==
+            == // JMI SURE ???
           lastMeasureInLastSegment->getFullMeasureWholeNotes ()
         ) {
           // yes this measure is not yet complete and should be split
@@ -3822,7 +3874,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
       }
       else {
         // the last measure is empty
-
+/*
           // finalize lastMeasureInLastSegment
           lastMeasureInLastSegment->
             finalizeMeasure (
@@ -3856,6 +3908,7 @@ void msrVoice::handleVoiceLevelRepeatStartInVoice (
             inputLineNumber,
             lastMeasureInLastSegment->getMeasureNumber (),
             msrMeasure::kMeasureImplicitKindNo);
+            */
       }
 
         /* JMI
@@ -4139,7 +4192,7 @@ void msrVoice::handleVoiceLevelRepeatEndWithoutStartInVoice (
       fVoiceLastSegment,
       "handleVoiceLevelRepeatEndWithoutStartInVoice() 3");
 
-/* JMI VIRER BOF ???
+/* JMI VIRER BOF ??? SURE
   // create a new last segment for the voice
   createNewLastSegmentForVoice (
     inputLineNumber,
@@ -4294,7 +4347,7 @@ void msrVoice::handleVoiceLevelContainingRepeatEndWithoutStartInVoice (
       fVoiceLastSegment,
       "handleVoiceLevelContainingRepeatEndWithoutStartInVoice() 5");
 
-/* JMI
+/* JMI SURE
   // create a new last segment for the voice
   createNewLastSegmentForVoice (
     inputLineNumber,
@@ -4416,14 +4469,14 @@ void msrVoice::handleVoiceLevelRepeatEndWithStartInVoice (
     repeatCommonPart,
     "handleVoiceLevelRepeatEndWithStartInVoice() 2");
 
-// * JMI SURE ???
+/* JMI SURE ???
   // create a new last segment to collect the remainder of the voice,
   if (false) {
   createNewLastSegmentForVoice ( // JMI
     inputLineNumber,
     "handleVoiceLevelRepeatEndWithStartInVoice() BOF");
   }
-//    */
+    */
 
   // set currentRepeat's build phase to completed
   currentRepeat->

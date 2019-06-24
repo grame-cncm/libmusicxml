@@ -979,7 +979,7 @@ void msrStaff::padUpToActualMeasureWholeNotesInStaff (
 {
 #ifdef TRACE_OPTIONS
   if (
-    gTraceOptions->fTraceParts
+    gTraceOptions->fTraceStaves
       ||
     gTraceOptions->fTraceMeasures
       ||

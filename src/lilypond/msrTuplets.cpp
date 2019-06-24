@@ -315,9 +315,11 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   chord->setChordMeasureNumber (
     fMeasureNumber);
 
+/* too early JMI
   // populate chord's position in measure
   chord->setChordPositionInMeasure (
     fPositionInMeasure);
+    */
 }
 
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
@@ -622,6 +624,17 @@ rational msrTuplet::setTupletPositionInMeasure (
   rational positionInMeasure)
   // returns the position in measure after the tuplet
 {
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures) {
+    glogIOstream <<
+      "Setting tuplet position in measure of '" << asString () <<
+      "' to '" <<
+      positionInMeasure <<
+      "'" <<
+      endl;
+  }
+#endif
+
   fPositionInMeasure = positionInMeasure;
 
   rational currentPosition = positionInMeasure;

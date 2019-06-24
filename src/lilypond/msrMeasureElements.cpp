@@ -59,7 +59,7 @@ void msrMeasureElement::setPositionInMeasure (
 #endif
 
   if (fPositionInMeasure == K_NO_POSITION_MEASURE_NUMBER) {
-    abort ();
+    abort (); // JMI
   }
 }
 

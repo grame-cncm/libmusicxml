@@ -17,6 +17,7 @@
   #include "traceOptions.h"
 #endif
 
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 
 
@@ -1243,7 +1244,13 @@ void msrSegment::padUpToActualMeasureWholeNotesInSegment (
   rational wholeNotes)
 {
 #ifdef TRACE_OPTIONS
-  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
+  if (
+    gTraceOptions->fTraceSegments
+      ||
+    gTraceOptions->fTraceMeasures
+      ||
+    gMusicXMLOptions->fTraceBackup
+  ) {
     glogIOstream <<
       "Padding up to actual whole notes '" << wholeNotes <<
       "' in segment '" <<

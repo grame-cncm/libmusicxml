@@ -197,6 +197,7 @@ void msrNote::initializeNote ()
 
   fNoteBelongsToAChord = false;
   fNoteBelongsToATuplet = false;
+  fNoteOccupiesAFullMeasure = false;
 
   // note lyrics
   // ------------------------------------------------------
@@ -362,6 +363,13 @@ void msrNote::initializeNote ()
         setw (fieldWidth) <<
         "fNoteBelongsToATuplet" << " = " <<
          booleanAsString (fNoteBelongsToATuplet) <<
+        endl <<
+        endl <<
+
+      left <<
+        setw (fieldWidth) <<
+        "fNoteOccupiesAFullMeasure" << " = " <<
+         booleanAsString (fNoteOccupiesAFullMeasure) <<
         endl <<
       endl;
 
@@ -554,6 +562,13 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->
     fNoteBelongsToATuplet =
       fNoteBelongsToATuplet;
+
+  // note measure information
+  // ------------------------------------------------------
+
+  newbornClone->
+    fNoteOccupiesAFullMeasure =
+      fNoteOccupiesAFullMeasure;
 
   // multiple rest member?
   // ------------------------------------------------------
@@ -802,6 +817,13 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->
     fNoteBelongsToATuplet =
       fNoteBelongsToATuplet;
+
+  // note measure information
+  // ------------------------------------------------------
+
+  noteDeepCopy->
+    fNoteOccupiesAFullMeasure =
+      fNoteOccupiesAFullMeasure;
 
   // multiple rest member?
   // ------------------------------------------------------
@@ -1390,6 +1412,24 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
 #endif
 
   return o;
+}
+
+void msrNote::setNotePositionInMeasure (
+  rational positionInMeasure)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+    glogIOstream <<
+      "Setting note position in measure of '" << asString () <<
+      "' to '" <<
+      positionInMeasure <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  msrMeasureElement::setPositionInMeasure (
+    positionInMeasure);
 }
 
 void msrNote::setNoteOccupiesAFullMeasure ()
@@ -3771,25 +3811,6 @@ void msrNote::print (ostream& os)
     }
     os << endl;
 
-    // short cuts for efficiency
-    os << left <<
-      setw (fieldWidth) <<
-      "noteIsARest" << " : " <<
-      booleanAsString (fNoteIsARest) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteIsUnpitched" << " : " <<
-      booleanAsString (fNoteIsUnpitched) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteIsACueNote" << " : " <<
-      booleanAsString (fNoteIsACueNote) <<
-      endl <<
-      setw (fieldWidth) <<
-      "noteIsAGraceNote" << " : " <<
-      booleanAsString (fNoteIsAGraceNote) <<
-      endl;
-
     // chord member?
     os << left <<
       setw (fieldWidth) <<
@@ -3802,6 +3823,15 @@ void msrNote::print (ostream& os)
       setw (fieldWidth) <<
       "noteBelongsToATuplet" << " : " <<
       booleanAsString (fNoteBelongsToATuplet) <<
+      endl;
+
+    // note measure information
+    // ------------------------------------------------------
+
+    os << left <<
+      setw (fieldWidth) <<
+      "noteOccupiesAFullMeasure" << " : " <<
+      booleanAsString (fNoteOccupiesAFullMeasure) <<
       endl;
 
     // multiple rest member?
@@ -3898,6 +3928,25 @@ void msrNote::print (ostream& os)
     }
     os << endl;
   }
+
+    // short cuts for efficiency
+    os << left <<
+      setw (fieldWidth) <<
+      "noteIsARest" << " : " <<
+      booleanAsString (fNoteIsARest) <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteIsUnpitched" << " : " <<
+      booleanAsString (fNoteIsUnpitched) <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteIsACueNote" << " : " <<
+      booleanAsString (fNoteIsACueNote) <<
+      endl <<
+      setw (fieldWidth) <<
+      "noteIsAGraceNote" << " : " <<
+      booleanAsString (fNoteIsAGraceNote) <<
+      endl;
 
   {
     // note redundant information (for speed)

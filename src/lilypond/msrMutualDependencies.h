@@ -3529,11 +3529,7 @@ class msrNote : public msrTupletElement
 
     // position in measure
     void                  setNotePositionInMeasure (
-                            rational positionInMeasure)
-                              {
-                                msrMeasureElement::setPositionInMeasure (
-                                  positionInMeasure);
-                              }
+                            rational positionInMeasure);
 
     void                  setNoteOccupiesAFullMeasure ();
 
@@ -3829,6 +3825,11 @@ class msrNote : public msrTupletElement
 
     bool                  fNoteBelongsToATuplet;
 
+    // note measure information
+    // ------------------------------------------------------
+
+    bool                  fNoteOccupiesAFullMeasure;
+
     // multiple rest member?
     // ------------------------------------------------------
 
@@ -3989,11 +3990,6 @@ class msrNote : public msrTupletElement
     // ------------------------------------------------------
 
     S_msrFiguredBass      fNoteFiguredBass;
-
-    // note measure information
-    // ------------------------------------------------------
-
-    bool                  fNoteOccupiesAFullMeasure;
 
     // note redundant information (for speed)
     // ------------------------------------------------------
@@ -4260,11 +4256,7 @@ class msrChord : public msrTupletElement
 
     // position in measure
     void                  setChordPositionInMeasure (
-                            rational positionInMeasure)
-                              {
-                                msrMeasureElement::setPositionInMeasure (
-                                  positionInMeasure);
-                              }
+                            rational positionInMeasure);
 
     // services
     // ------------------------------------------------------
@@ -6615,6 +6607,13 @@ class msrVoice : public msrElement
                             int divisions,
                             int divisionsPerQuarterNote);
 
+    // backup
+
+    void                  handleBackup (
+                            int inputLineNumber,
+                            int divisions,
+                            int divisionsPerQuarterNote);
+
     // clef, key, time
 
     void                  appendClefToVoice (S_msrClef clef);
@@ -8321,12 +8320,14 @@ class msrPart : public msrPartGroupElement
                             S_msrHarpPedalsTuning
                               harpPedalsTuning);
 
+/* JMI
     // backup
 
     void                  handleBackup (
                             int inputLineNumber,
                             int divisions,
                             int divisionsPerQuarterNote);
+*/
 
     // LilyPond issue 34
 

@@ -329,8 +329,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // backup handling
   fCurrentBackupDurationDivisions = -1;
-  fOnGoingBackup      = false;
-  fOnGoingBackupPhase = false;
+  fOnGoingBackup                  = false;
+  fThereIsAPendingBackup          = false;
 
   // forward handling
   fCurrentForwardDurationDivisions = 1;
@@ -4384,8 +4384,7 @@ void mxmlTree2MsrTranslator::visitStart (S_backup& elt )
     inputLineNumber);
     */
 
-  fOnGoingBackup      = true;
-  fOnGoingBackupPhase = true;
+  fOnGoingBackup = true;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
@@ -4401,21 +4400,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   }
 
 #ifdef TRACE_OPTIONS
-  if (
-    gMusicXMLOptions->fTraceBackup
-      ||
-    gTraceOptions->fTraceNotes
-      ||
-    gTraceOptions->fTraceChords
-      ||
-    gTraceOptions->fTraceMeasures
-      ||
-    gTraceOptions->fTraceVoices
-      ||
-    gTraceOptions->fTraceStaves
-      ||
-    gTraceOptions->fTraceLyrics
-    ) {
+  if (gMusicXMLOptions->fTraceBackup) {
     fLogOutputStream <<
       "Handling 'backup <<< " << fCurrentBackupDurationDivisions <<
       " divisions >>>" <<
@@ -4435,16 +4420,12 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   // reset staff change detection
   fCurrentStaffNumberToInsertInto = K_NO_STAFF_NUMBER;
 
-  // handle the backup
-  // JMI: make it pending until the note that follows,
-  //      and then have it handled by the corresponding voice only?
-  fCurrentPart->
-    handleBackup (
-      inputLineNumber,
-      fCurrentBackupDurationDivisions,
-      fCurrentDivisionsPerQuarterNote);
-
   fOnGoingBackup = false;
+
+  // DON't handle the backup right now:
+  // leave it pending until the note that follows,
+  // and then have it handled by the corresponding voice
+  fThereIsAPendingBackup = true;
 }
 
 //______________________________________________________________________________
@@ -18098,8 +18079,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteSoundingWholeNotes; // same value by default
     }
     */
-
-    fOnGoingBackupPhase = false;
   }
 
   // create the (new) note
@@ -18139,11 +18118,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteHeadParenthesesKind);
 
   // set newNote's color if relevant
-  if (
-    fCurrentNoteRGB.size ()
-      ||
-    fCurrentNoteAlpha.size ()
-  ) {
+  if (fCurrentNoteRGB.size () || fCurrentNoteAlpha.size ()) {
     newNote->setNoteColor (
       msrColor (
         fCurrentNoteRGB,
@@ -18336,11 +18311,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // to remain in this staff and not use the note's one
 
 #ifdef TRACE_OPTIONS
-      if (
-        gTraceOptions->fTraceStaves
-          ||
-        gTraceOptions->fTraceVoices
-      ) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
         fLogOutputStream <<
           "*** There is staff change for note '" <<
           newNote->asShortString () <<
@@ -18382,6 +18353,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // now fake its belonging to the current sequence staff
    // JMI  BOFBOFBOF ??? fCurrentMusicXMLStaffNumber = fCurrentStaffNumberToInsertInto;
     }
+  }
+
+  // handle the pending backup if any
+  if (fThereIsAPendingBackup) {
+    voiceToInsertInto->
+      handleBackup (
+        inputLineNumber,
+        fCurrentBackupDurationDivisions,
+        fCurrentDivisionsPerQuarterNote);
+
+    fThereIsAPendingBackup = false;
   }
 
   // handle note
@@ -18818,10 +18800,9 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
 
       // append the harmony to the harmony voice for the current voice,
       // unless newNote is a tuplet or chord note,
-      // in which case that will be done after the position in measure
-      // for the tuplet or chord is appended to its own voice
+      // in which case that will be done after the tuplet or chord
+      // is appended to its own voice,
       // to ensure the harmony's position in measure can be determined
-      /*
       switch (newNote->getNoteKind ()) {
         case msrNote::k_NoNoteKind:
         case msrNote::kRestNote:
@@ -18842,10 +18823,6 @@ void mxmlTree2MsrTranslator::handlePendingHarmonies (
         case msrNote::kTupletMemberUnpitchedNote:
           break;
       } // switch
-*/
-      voiceHarmonyVoice->
-        appendHarmonyToVoice (
-          harmony);
 
       previousHarmonyWhoseNotesOffset = harmonyWholeNotesOffset;
     }
@@ -18938,7 +18915,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       else {
         // a rest should become a skip after a <backup /> // JMI
         noteKind =
-          fOnGoingBackupPhase
+          fThereIsAPendingBackup
             ? msrNote::kSkipNote
             : msrNote::kRestNote;
       }
@@ -19953,13 +19930,13 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     note->getInputLineNumber ();
 
  // register note as a tuplet member
- if (! fCurrentNoteIsUnpitched) {
+ if (fCurrentNoteIsUnpitched) {
     note->
-      setNoteKind (msrNote::kTupletMemberNote);
+      setNoteKind (msrNote::kTupletMemberUnpitchedNote);
   }
   else {
     note->
-      setNoteKind (msrNote::kTupletMemberUnpitchedNote);
+      setNoteKind (msrNote::kTupletMemberNote);
   }
 
   if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {

@@ -154,6 +154,41 @@ void msrChord::setChordDisplayWholeNotes (
   fChordDisplayWholeNotes = wholeNotes;
 }
 
+void msrChord::setChordPositionInMeasure (
+  rational positionInMeasure)
+{
+#ifdef TRACE_OPTIONS
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+    glogIOstream <<
+      "Setting chord position in measure of '" << asString () <<
+      "' to '" <<
+      positionInMeasure <<
+      "'" <<
+      endl;
+  }
+#endif
+
+  msrMeasureElement::setPositionInMeasure (
+    positionInMeasure);
+
+  // set the chord's elements' position in measure
+  if (fChordNotesVector.size ()) {
+    vector<S_msrNote>::const_iterator
+      iBegin = fChordNotesVector.begin (),
+      iEnd   = fChordNotesVector.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrNote
+        note = (*i);
+
+      note->
+        setNotePositionInMeasure (positionInMeasure);
+
+      if (++i == iEnd) break;
+    } // for
+  }
+}
+
 void msrChord::addFirstNoteToChord (
   S_msrNote  note,
   S_msrVoice voice)
@@ -233,9 +268,11 @@ void msrChord::addAnotherNoteToChord (
     registerNoteAsVoiceLastAppendedNote (note);
     */
 
+/* DON't, too early JMI
   // populate note's position in measure
   note->setNotePositionInMeasure (
     fPositionInMeasure);
+  */
 }
 
 void msrChord::setChordFirstNotePositionInMeasure (

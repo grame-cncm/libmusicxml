@@ -1937,8 +1937,8 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentBackupDurationDivisions;
     bool                      fOnGoingBackup;
 
-    // rests between a <backup /> and the next non-rest note are skips in fact
-    bool                      fOnGoingBackupPhase;
+    // a backup must remain pending until the next note's voice is known
+    bool                      fThereIsAPendingBackup;
 
     // forward handling
     // ------------------------------------------------------
