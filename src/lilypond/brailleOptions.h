@@ -59,12 +59,6 @@ class optionsUTFKindItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsUTFKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsUTFKindItemVariableDisplayName;
-                              }
-
     void                  setOptionsUTFKindItemVariable (bsrUTFKind value)
                               {
                                 fOptionsUTFKindItemVariable = value;
@@ -87,7 +81,6 @@ class optionsUTFKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsUTFKindItemVariableDisplayName;
     bsrUTFKind            fOptionsUTFKindItemVariable;
 };
 typedef SMARTP<optionsUTFKindItem> S_optionsUTFKindItem;
@@ -129,12 +122,6 @@ class optionsByteOrderingKindItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsByteOrderingKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsByteOrderingKindItemVariableDisplayName;
-                              }
-
     void                  setOptionsByteOrderingKindItemVariable (
                             bsrByteOrderingKind value)
                               {
@@ -158,7 +145,6 @@ class optionsByteOrderingKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsByteOrderingKindItemVariableDisplayName;
     bsrByteOrderingKind   fOptionsByteOrderingKindItemVariable;
 };
 typedef SMARTP<optionsByteOrderingKindItem> S_optionsByteOrderingKindItem;

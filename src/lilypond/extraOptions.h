@@ -115,12 +115,6 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsShowAllChordsContentsItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsShowAllChordsContentsItemVariableDisplayName;
-                              }
-
     void                  setShowAllChordsContentsItemVariableValue (
                             string value)
                               {
@@ -148,7 +142,6 @@ class optionsShowAllChordsContentsItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsShowAllChordsContentsItemVariableDisplayName;
     string&               fOptionsShowAllChordsContentsItemVariable;
 };
 typedef SMARTP<optionsShowAllChordsContentsItem> S_optionsShowAllChordsContentsItem;
@@ -190,12 +183,6 @@ class optionsShowChordDetailsItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsShowChordDetailsItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsShowChordDetailsItemVariableDisplayName;
-                              }
-
     void                  setShowChordDetailsItemVariableValue (
                             string value)
                               {
@@ -219,7 +206,6 @@ class optionsShowChordDetailsItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsShowChordDetailsItemVariableDisplayName;
     string&               fOptionsShowChordDetailsItemVariable;
 };
 typedef SMARTP<optionsShowChordDetailsItem> S_optionsShowChordDetailsItem;
@@ -261,12 +247,6 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsShowChordAnalysisItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsShowChordAnalysisItemVariableDisplayName;
-                              }
-
     void                  setShowChordAnalysisItemVariableValue (
                             string value)
                               {
@@ -290,7 +270,6 @@ class optionsShowChordAnalysisItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsShowChordAnalysisItemVariableDisplayName;
     string&               fOptionsShowChordAnalysisItemVariable;
 };
 typedef SMARTP<optionsShowChordAnalysisItem> S_optionsShowChordAnalysisItem;

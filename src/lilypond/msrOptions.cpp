@@ -67,8 +67,7 @@ optionsPartRenameItem::optionsPartRenameItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsPartRenameItemVariableDisplayName (
+      optionsValueSpecification,
       optionsPartRenameItemVariableDisplayName),
     fOptionsPartRenameItemVariable (
       optionsPartRenameItemVariable)
@@ -92,8 +91,8 @@ void optionsPartRenameItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsPartRenameItemVariableDisplayName" << " : " <<
-    fOptionsPartRenameItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "fOptionsPartRenameItemVariable" << " : " <<
     endl;
@@ -122,7 +121,7 @@ void optionsPartRenameItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsPartRenameItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : ";
 
   if (! fOptionsPartRenameItemVariable.size ()) {
@@ -194,8 +193,7 @@ optionsPartTransposeItem::optionsPartTransposeItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsPartTransposeItemVariableDisplayName (
+      optionsValueSpecification,
       optionsPartTransposeItemVariableDisplayName),
     fOptionsPartTransposeItemVariable (
       optionsPartTransposeItemVariable)
@@ -219,8 +217,8 @@ void optionsPartTransposeItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsPartTransposeItemVariableDisplayName" << " : " <<
-    fOptionsPartTransposeItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "fOptionsPartTransposeItemVariable" << " : " <<
     endl;
@@ -249,7 +247,7 @@ void optionsPartTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsPartTransposeItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : ";
 
   if (! fOptionsPartTransposeItemVariable.size ()) {
@@ -321,8 +319,7 @@ optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsMsrPitchesLanguageKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsMsrPitchesLanguageKindItemVariableDisplayName),
     fOptionsMsrPitchesLanguageKindItemVariable (
       optionsMsrPitchesLanguageKindItemVariable)
@@ -346,8 +343,8 @@ void optionsMsrPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsMsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
-    fOptionsMsrPitchesLanguageKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsMsrPitchesLanguageItemVariable" << " : \"" <<
@@ -363,7 +360,7 @@ void optionsMsrPitchesLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsMsrPitchesLanguageKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fOptionsMsrPitchesLanguageKindItemVariable) <<

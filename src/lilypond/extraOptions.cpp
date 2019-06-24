@@ -135,8 +135,7 @@ optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsShowAllChordsContentsItemVariableDisplayName (
+      optionsValueSpecification,
       optionsShowAllChordsContentsItemVariableDisplayName),
     fOptionsShowAllChordsContentsItemVariable (
       optionsShowAllChordsContentsItemVariable)
@@ -222,8 +221,7 @@ optionsShowChordDetailsItem::optionsShowChordDetailsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsShowChordDetailsItemVariableDisplayName (
+      optionsValueSpecification,
       optionsShowChordDetailsItemVariableDisplayName),
     fOptionsShowChordDetailsItemVariable (
       optionsShowChordDetailsItemVariable)
@@ -300,8 +298,7 @@ optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsShowChordAnalysisItemVariableDisplayName (
+      optionsValueSpecification,
       optionsShowChordAnalysisItemVariableDisplayName),
     fOptionsShowChordAnalysisItemVariable (
       optionsShowChordAnalysisItemVariable)

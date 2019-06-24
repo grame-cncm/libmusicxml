@@ -58,12 +58,6 @@ class optionsLpsrScoreOutputKindItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsLpsrScoreOutputKindKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsLpsrScoreOutputKindKindItemVariableDisplayName;
-                              }
-
     void                  setScoreOutputKindKindItemVariableValue (
                             lpsrScoreOutputKind value)
                               {
@@ -87,7 +81,6 @@ class optionsLpsrScoreOutputKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsLpsrScoreOutputKindKindItemVariableDisplayName;
     lpsrScoreOutputKind&  fOptionsLpsrScoreOutputKindKindItemVariable;
 };
 typedef SMARTP<optionsLpsrScoreOutputKindItem> S_optionsLpsrScoreOutputKindItem;
@@ -131,12 +124,6 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsLpsrPitchesLanguageKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsLpsrPitchesLanguageKindItemVariableDisplayName;
-                              }
-
     void                  setPitchesLanguageKindItemVariableValue (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
@@ -160,7 +147,6 @@ class optionsLpsrPitchesLanguageItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsLpsrPitchesLanguageKindItemVariableDisplayName;
     msrQuarterTonesPitchesLanguageKind&
                           fOptionsLpsrPitchesLanguageKindItemVariable;
 };
@@ -205,12 +191,6 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsLpsrChordsLanguageKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsLpsrChordsLanguageKindItemVariableDisplayName;
-                              }
-
     void                  setLpsrChordsLanguageKindItemVariableValue (
                             lpsrChordsLanguageKind value)
                               {
@@ -234,7 +214,6 @@ class optionsLpsrChordsLanguageItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsLpsrChordsLanguageKindItemVariableDisplayName;
     lpsrChordsLanguageKind&
                           fOptionsLpsrChordsLanguageKindItemVariable;
 };
@@ -279,12 +258,6 @@ class optionsLpsrTransposeItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsTransposeItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsTransposeItemVariableDisplayName;
-                              }
-
     void                  setTransposeItemVariableValue (
                             S_msrSemiTonesPitchAndOctave value)
                               {
@@ -308,7 +281,6 @@ class optionsLpsrTransposeItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsTransposeItemVariableDisplayName;
     S_msrSemiTonesPitchAndOctave&
                           fOptionsTransposeItemVariable;
 };

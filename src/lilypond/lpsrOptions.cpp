@@ -65,8 +65,7 @@ optionsLpsrScoreOutputKindItem::optionsLpsrScoreOutputKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsLpsrScoreOutputKindKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsLpsrScoreOutputKindKindItemVariableDisplayName),
     fOptionsLpsrScoreOutputKindKindItemVariable (
       optionsLpsrScoreOutputKindKindItemVariable)
@@ -90,8 +89,8 @@ void optionsLpsrScoreOutputKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
-    fOptionsLpsrScoreOutputKindKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrScoreOutputKindItemVariable" << " : \"" <<
@@ -107,7 +106,7 @@ void optionsLpsrScoreOutputKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsLpsrScoreOutputKindKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fOptionsLpsrScoreOutputKindKindItemVariable) <<
@@ -155,8 +154,7 @@ optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsLpsrPitchesLanguageKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsLpsrPitchesLanguageKindItemVariableDisplayName),
     fOptionsLpsrPitchesLanguageKindItemVariable (
       optionsLpsrPitchesLanguageKindItemVariable)
@@ -180,8 +178,8 @@ void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
-    fOptionsLpsrPitchesLanguageKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsLpsrPitchesLanguageItemVariable" << " : \"" <<
@@ -197,7 +195,7 @@ void optionsLpsrPitchesLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsLpsrPitchesLanguageKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
       fOptionsLpsrPitchesLanguageKindItemVariable) <<
@@ -245,8 +243,7 @@ optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsLpsrChordsLanguageKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsLpsrChordsLanguageKindItemVariableDisplayName),
     fOptionsLpsrChordsLanguageKindItemVariable (
       optionsLpsrChordsLanguageKindItemVariable)
@@ -270,8 +267,8 @@ void optionsLpsrChordsLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsLpsrChordsLanguageKindItemVariableDisplayName" << " : " <<
-    fOptionsLpsrChordsLanguageKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "fOptionsLpsrChordsLanguageKindItemVariable" << " : \"" <<
     lpsrChordsLanguageKindAsString (
@@ -286,7 +283,7 @@ void optionsLpsrChordsLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsLpsrChordsLanguageKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     lpsrChordsLanguageKindAsString (
       fOptionsLpsrChordsLanguageKindItemVariable) <<
@@ -334,8 +331,7 @@ optionsLpsrTransposeItem::optionsLpsrTransposeItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsTransposeItemVariableDisplayName (
+      optionsValueSpecification,
       optionsLpsrTransposeItemVariableDisplayName),
     fOptionsTransposeItemVariable (
       optionsLpsrTransposeItemVariable)
@@ -373,7 +369,7 @@ void optionsLpsrTransposeItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    "msrSemiTonesPitchAndOctave" <<
+    fOptionsItemVariableDisplayName <<
     " : ";
   if (fOptionsTransposeItemVariable) {
     os << endl;

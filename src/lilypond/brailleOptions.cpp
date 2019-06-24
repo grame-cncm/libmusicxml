@@ -63,8 +63,7 @@ optionsUTFKindItem::optionsUTFKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsUTFKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsUTFKindItemVariableDisplayName),
     fOptionsUTFKindItemVariable (
       optionsUTFKindItemVariable)
@@ -88,8 +87,8 @@ void optionsUTFKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "optionsUTFKindItemVariableDisplayName" << " : " <<
-    fOptionsUTFKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "optionsUTFKindItemVariable" << " : \"" <<
@@ -105,7 +104,7 @@ void optionsUTFKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsUTFKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     bsrUTFKindAsString (
       fOptionsUTFKindItemVariable) <<
@@ -151,8 +150,7 @@ optionsByteOrderingKindItem::optionsByteOrderingKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsByteOrderingKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsByteOrderingKindItemVariableDisplayName),
     fOptionsByteOrderingKindItemVariable (
       optionsByteOrderingKindItemVariable)
@@ -176,8 +174,8 @@ void optionsByteOrderingKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "optionsByteOrderingKindItemVariableDisplayName" << " : " <<
-    fOptionsByteOrderingKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "optionsByteOrderingKindItemVariable" << " : \"" <<
@@ -193,7 +191,7 @@ void optionsByteOrderingKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsByteOrderingKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     byteOrderingKindAsString (
       fOptionsByteOrderingKindItemVariable) <<

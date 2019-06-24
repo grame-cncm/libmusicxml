@@ -112,6 +112,9 @@ class optionsElement : public smartable
     string                optionsElementNamesInColumnsBetweenParentheses (
                             int subGroupsShortNameFieldWidth) const;
 
+    virtual int           fetchOptionsElementVariableDisplayNameLength () const
+                              { return 0; }
+
     string                operator () () const
                               { return fOptionsElementDescription; }
 
@@ -323,9 +326,76 @@ class optionsHelpSummaryItem : public optionsItem
 typedef SMARTP<optionsHelpSummaryItem> S_optionsHelpSummaryItem;
 EXP ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
 
+// options items with variable name
+//______________________________________________________________________________
+class optionsItemWithVariableDisplayName : public optionsItem
+{
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsItemWithVariableDisplayName> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsItemVariableDisplayName);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsItemWithVariableDisplayName (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsItemVariableDisplayName);
+
+    virtual ~optionsItemWithVariableDisplayName ();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsItemVariableDisplayName;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    virtual int           fetchOptionsElementVariableDisplayNameLength () const
+                              {
+                                return
+                                  fOptionsItemVariableDisplayName.size ();
+                              }
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  protected:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsItemVariableDisplayName;
+};
+typedef SMARTP<optionsItemWithVariableDisplayName> S_optionsItemWithVariableDisplayName;
+EXP ostream& operator<< (ostream& os, const S_optionsItemWithVariableDisplayName& elt);
+
 // options boolean items
 //______________________________________________________________________________
-class optionsBooleanItem : public optionsItem
+class optionsBooleanItem : public optionsItemWithVariableDisplayName
 {
   public:
 
@@ -358,12 +428,6 @@ class optionsBooleanItem : public optionsItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsBooleanItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsBooleanItemVariableDisplayName;
-                              }
-
     void                  setBooleanItemVariableValue (
                             bool value)
                               {
@@ -387,7 +451,6 @@ class optionsBooleanItem : public optionsItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsBooleanItemVariableDisplayName;
     bool&                 fOptionsBooleanItemVariable;
 };
 typedef SMARTP<optionsBooleanItem> S_optionsBooleanItem;
@@ -395,7 +458,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
 
 // options two boolean items
 //______________________________________________________________________________
-class optionsTwoBooleansItem : public optionsItem
+class optionsTwoBooleansItem : public optionsItemWithVariableDisplayName
 {
   public:
 
@@ -430,12 +493,6 @@ class optionsTwoBooleansItem : public optionsItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsTwoBooleansItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsTwoBooleansItemVariableDisplayName;
-                              }
-
     void                  setTwoBooleansItemVariableValue (
                             bool value)
                               {
@@ -462,7 +519,6 @@ class optionsTwoBooleansItem : public optionsItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsTwoBooleansItemVariableDisplayName;
     bool&                 fOptionsTwoBooleansItemVariable;
 
     bool&                 fOptionsTwoBooleansItemSecondaryVariable;
@@ -472,7 +528,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
 
 // options three boolean items
 //______________________________________________________________________________
-class optionsThreeBooleansItem : public optionsItem
+class optionsThreeBooleansItem : public optionsItemWithVariableDisplayName
 {
   public:
 
@@ -509,12 +565,6 @@ class optionsThreeBooleansItem : public optionsItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsThreeBooleansItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsThreeBooleansItemVariableDisplayName;
-                              }
-
     void                  setThreeBooleansItemVariableValue (
                             bool value)
                               {
@@ -543,7 +593,6 @@ class optionsThreeBooleansItem : public optionsItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsThreeBooleansItemVariableDisplayName;
     bool&                 fOptionsThreeBooleansItemVariable;
 
     bool&                 fOptionsThreeBooleansItemSecondaryVariable;
@@ -554,7 +603,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
 
 // options combined items items
 //______________________________________________________________________________
-class optionsCombinedBooleanItemsItem : public optionsItem
+class optionsCombinedBooleanItemsItem : public optionsItemWithVariableDisplayName
 {
   public:
 
@@ -629,7 +678,6 @@ class optionsCombinedBooleanItemsItem : public optionsItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsCombinedBooleanItemsItemVariableDisplayName;
     bool&                 fOptionsCombinedBooleanItemsItemVariable;
 
     list<S_optionsItem>
@@ -640,7 +688,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsCombinedBooleanItemsItem& e
 
 // options valued items
 //______________________________________________________________________________
-class optionsValuedItem : public optionsItem
+class optionsValuedItem : public optionsItemWithVariableDisplayName
 {
   public:
 
@@ -662,7 +710,8 @@ class optionsValuedItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
-      string optionsValueSpecification);
+      string optionsValueSpecification,
+      string optionsValuedItemVariableDisplayName);
 
   protected:
 
@@ -673,7 +722,8 @@ class optionsValuedItem : public optionsItem
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
-      string optionsValueSpecification);
+      string optionsValueSpecification,
+      string optionsValuedItemVariableDisplayName);
 
     virtual ~optionsValuedItem ();
 
@@ -691,9 +741,6 @@ class optionsValuedItem : public optionsItem
 
     // services
     // ------------------------------------------------------
-
-    void                  registerOptionsItemInHandler (
-                            S_optionsHandler optionsHandler);
 
     // print
     // ------------------------------------------------------
@@ -724,7 +771,7 @@ EXP ostream& operator<< (ostream& os, const S_optionsValuedItem& elt);
 
 // options items helps items
 //______________________________________________________________________________
-class optionsItemHelpItem : public optionsValuedItem
+class optionsItemHelpItem : public optionsItem
 {
   public:
 
@@ -773,6 +820,8 @@ class optionsItemHelpItem : public optionsValuedItem
 
     // fields
     // ------------------------------------------------------
+
+    string             fOptionsValueSpecification;
 };
 typedef SMARTP<optionsItemHelpItem> S_optionsItemHelpItem;
 EXP ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt);
@@ -817,12 +866,6 @@ class optionsIntegerItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsIntegerItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsIntegerItemVariableDisplayName;
-                              }
-
     void                  setIntegerItemVariableValue (
                             int value)
                               {
@@ -845,7 +888,6 @@ class optionsIntegerItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsIntegerItemVariableDisplayName;
     int&                  fOptionsIntegerItemVariable;
 };
 typedef SMARTP<optionsIntegerItem> S_optionsIntegerItem;
@@ -888,12 +930,6 @@ class optionsFloatItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsFloatItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsFloatItemVariableDisplayName;
-                              }
-
     void                  setFloatItemVariableValue (
                             float value)
                               {
@@ -917,7 +953,6 @@ class optionsFloatItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsFloatItemVariableDisplayName;
     float&                fOptionsFloatItemVariable;
 };
 typedef SMARTP<optionsFloatItem> S_optionsFloatItem;
@@ -960,12 +995,6 @@ class optionsStringItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsStringItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsStringItemVariableDisplayName;
-                              }
-
     void                  setStringItemVariableValue (
                             string value)
                               {
@@ -989,7 +1018,6 @@ class optionsStringItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsStringItemVariableDisplayName;
     string&               fOptionsStringItemVariable;
 };
 typedef SMARTP<optionsStringItem> S_optionsStringItem;
@@ -1032,12 +1060,6 @@ class optionsRationalItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsRationalItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsRationalItemVariableDisplayName;
-                              }
-
     void                  setRationalItemVariableValue (
                             rational value)
                               {
@@ -1061,7 +1083,6 @@ class optionsRationalItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsRationalItemVariableDisplayName;
     rational&             fOptionsRationalItemVariable;
 };
 typedef SMARTP<optionsRationalItem> S_optionsRationalItem;
@@ -1104,12 +1125,6 @@ class optionsNumbersSetItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsNumbersSetItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsNumbersSetItemVariableDisplayName;
-                              }
-
     void                  setNumbersSetItemVariableValue (
                             set<int> value)
                               {
@@ -1133,7 +1148,6 @@ class optionsNumbersSetItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsNumbersSetItemVariableDisplayName;
     set<int>&             fOptionsNumbersSetItemVariable;
 };
 typedef SMARTP<optionsNumbersSetItem> S_optionsNumbersSetItem;
@@ -1588,8 +1602,8 @@ class EXP optionsHandler : public optionsElement
     int                   getMaximumLongNameWidth () const
                               { return fMaximumLongNameWidth; }
 
-    int                   getMaximumDisplayNameWidth () const
-                              { return fMaximumDisplayNameWidth; }
+    int                   getMaximumVariableDisplayNameWidth () const
+                              { return fMaximumVariableDisplayNameWidth; }
 
   public:
 
@@ -1794,7 +1808,7 @@ class EXP optionsHandler : public optionsElement
     int                   fMaximumShortNameWidth;
     int                   fMaximumLongNameWidth;
 
-    int                   fMaximumDisplayNameWidth;
+    int                   fMaximumVariableDisplayNameWidth;
 
     list<S_optionsElement>
                           fCommandOptionsElements;

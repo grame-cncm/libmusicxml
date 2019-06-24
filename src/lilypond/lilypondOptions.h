@@ -59,12 +59,6 @@ class optionsScoreOutputKindItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsScoreOutputKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsScoreOutputKindItemVariableDisplayName;
-                              }
-
     void                  setScoreOutputKindItemVariableValue (
                             lpsrScoreOutputKind value)
                               {
@@ -88,15 +82,13 @@ class optionsScoreOutputKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsScoreOutputKindItemVariableDisplayName;
-    lpsrScoreOutputKind&
-                          fOptionsScoreOutputKindItemVariable;
+    lpsrScoreOutputKind&  fOptionsScoreOutputKindItemVariable;
 };
 typedef SMARTP<optionsScoreOutputKindItem> S_optionsScoreOutputKindItem;
 EXP ostream& operator<< (ostream& os, const S_optionsScoreOutputKindItem& elt);
 
 //______________________________________________________________________________
-class optionsAbsoluteOctaveEntryItem : public optionsItem
+class optionsAbsoluteOctaveEntryItem : public optionsItemWithVariableDisplayName
 {
   public:
 
@@ -188,12 +180,6 @@ class optionsRelativeOctaveEntryItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsRelativeOctaveEntryItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsRelativeOctaveEntryItemVariableDisplayName;
-                              }
-
     void                  setRelativeOctaveEntryItemVariableValue (
                             S_msrSemiTonesPitchAndOctave value)
                               {
@@ -217,7 +203,6 @@ class optionsRelativeOctaveEntryItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsRelativeOctaveEntryItemVariableDisplayName;
     S_msrSemiTonesPitchAndOctave&
                           fOptionsRelativeOctaveEntryItemVariable;
 };
@@ -262,12 +247,6 @@ class optionsFixedOctaveEntryItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsFixedOctaveEntryItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsFixedOctaveEntryItemVariableDisplayName;
-                              }
-
     void                  setFixedOctaveEntryItemVariableValue (
                             S_msrSemiTonesPitchAndOctave value)
                               {
@@ -291,7 +270,6 @@ class optionsFixedOctaveEntryItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsFixedOctaveEntryItemVariableDisplayName;
     S_msrSemiTonesPitchAndOctave&
                           fOptionsFixedOctaveEntryItemVariable;
 };
@@ -336,12 +314,6 @@ class optionsAccidentalStyleKindItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsAccidentalStyleKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsAccidentalStyleKindItemVariableDisplayName;
-                              }
-
     void                  setAccidentalStyleKindItemVariableValue (
                             lpsrAccidentalStyleKind value)
                               {
@@ -365,7 +337,6 @@ class optionsAccidentalStyleKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsAccidentalStyleKindItemVariableDisplayName;
     lpsrAccidentalStyleKind&
                           fOptionsAccidentalStyleKindItemVariable;
 };
@@ -410,12 +381,6 @@ class optionsChordsDisplayItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsChordsDisplayItemVariableDisplayName () const
-                              {
-                                return
-                                  foptionsChordsDisplayItemVariableDisplayName;
-                              }
-
     void                  setOptionsChordsDisplayItemVariableDisplayName (
                             pair<string, string> value)
                               {
@@ -446,7 +411,6 @@ class optionsChordsDisplayItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                foptionsChordsDisplayItemVariableDisplayName;
     list<pair<string, string> >&
                           foptionsChordsDisplayItemVariable;
 };
@@ -489,12 +453,6 @@ class optionsMidiTempoItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsMidiTempoItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsMidiTempoItemVariableDisplayName;
-                              }
-
     void                  setMidiTempoItemVariableValue (
                             pair<string, int> value)
                               {
@@ -525,7 +483,6 @@ class optionsMidiTempoItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsMidiTempoItemVariableDisplayName;
     pair<string, int>&    fOptionsMidiTempoItemVariable;
 };
 typedef SMARTP<optionsMidiTempoItem> S_optionsMidiTempoItem;

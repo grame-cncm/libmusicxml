@@ -79,8 +79,7 @@ optionsFacSimileKindItem::optionsFacSimileKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsFacSimileKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsFacSimileKindItemVariableDisplayName),
     fOptionsFacSimileKindItemVariable (
       optionsFacSimileKindItemVariable)
@@ -104,8 +103,8 @@ void optionsFacSimileKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "optionsFacSimileKindItemVariableDisplayName" << " : " <<
-    fOptionsFacSimileKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "optionsFacSimileKindItemVariable" << " : \"" <<
@@ -121,7 +120,7 @@ void optionsFacSimileKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsFacSimileKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     facSimileKindAsString (
       fOptionsFacSimileKindItemVariable) <<
@@ -169,8 +168,7 @@ optionsBsrTextsLanguageItem::optionsBsrTextsLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsBsrTextsLanguageKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsBsrTextsLanguageKindItemVariableDisplayName),
     fOptionsBsrTextsLanguageKindItemVariable (
       optionsBsrTextsLanguageKindItemVariable)
@@ -194,8 +192,8 @@ void optionsBsrTextsLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsBsrTextsLanguageKindItemVariableDisplayName" << " : " <<
-    fOptionsBsrTextsLanguageKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "fOptionsBsrTextsLanguageKindItemVariable" << " : \"" <<
     bsrTextsLanguageKindAsString (
@@ -210,7 +208,7 @@ void optionsBsrTextsLanguageItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsBsrTextsLanguageKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     bsrTextsLanguageKindAsString (
       fOptionsBsrTextsLanguageKindItemVariable) <<

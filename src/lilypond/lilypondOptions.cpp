@@ -66,8 +66,7 @@ optionsScoreOutputKindItem::optionsScoreOutputKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsScoreOutputKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsScoreOutputKindItemVariableDisplayName),
     fOptionsScoreOutputKindItemVariable (
       optionsScoreOutputKindItemVariable)
@@ -91,8 +90,8 @@ void optionsScoreOutputKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsScoreOutputKindItemVariableDisplayName" << " : " <<
-    fOptionsScoreOutputKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsScoreOutputKindItemVariable" << " : \"" <<
@@ -108,7 +107,7 @@ void optionsScoreOutputKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsScoreOutputKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     lpsrScoreOutputKindAsString (
       fOptionsScoreOutputKindItemVariable) <<
@@ -144,11 +143,10 @@ optionsAbsoluteOctaveEntryItem::optionsAbsoluteOctaveEntryItem (
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsAbsoluteOctaveEntryItemVariableDisplayName)
-  : optionsItem (
+  : optionsItemWithVariableDisplayName (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription),
-    fOptionsAbsoluteOctaveEntryItemVariableDisplayName (
+      optionsItemDescription,
       optionsAbsoluteOctaveEntryItemVariableDisplayName)
 {}
 
@@ -184,7 +182,7 @@ void optionsAbsoluteOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsAbsoluteOctaveEntryItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     "- no value here -" <<
     endl;
@@ -224,8 +222,7 @@ optionsRelativeOctaveEntryItem::optionsRelativeOctaveEntryItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsRelativeOctaveEntryItemVariableDisplayName (
+      optionsValueSpecification,
       optionsRelativeOctaveEntryItemVariableDisplayName),
     fOptionsRelativeOctaveEntryItemVariable (
       optionsRelativeOctaveEntryItemVariable)
@@ -263,7 +260,7 @@ void optionsRelativeOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsRelativeOctaveEntryItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : ";
   if (fOptionsRelativeOctaveEntryItemVariable) {
     os << endl;
@@ -317,8 +314,7 @@ optionsFixedOctaveEntryItem::optionsFixedOctaveEntryItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsFixedOctaveEntryItemVariableDisplayName (
+      optionsValueSpecification,
       optionsFixedOctaveEntryItemVariableDisplayName),
     fOptionsFixedOctaveEntryItemVariable (
       optionsFixedOctaveEntryItemVariable)
@@ -356,7 +352,7 @@ void optionsFixedOctaveEntryItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsFixedOctaveEntryItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : ";
   if (fOptionsFixedOctaveEntryItemVariable) {
     os << endl;
@@ -410,8 +406,7 @@ optionsAccidentalStyleKindItem::optionsAccidentalStyleKindItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsAccidentalStyleKindItemVariableDisplayName (
+      optionsValueSpecification,
       optionsAccidentalStyleKindItemVariableDisplayName),
     fOptionsAccidentalStyleKindItemVariable (
       optionsAccidentalStyleKindItemVariable)
@@ -435,8 +430,8 @@ void optionsAccidentalStyleKindItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsAccidentalStyleKindItemVariableDisplayName" << " : " <<
-    fOptionsAccidentalStyleKindItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsAccidentalStyleKindItemVariable" << " : \"" <<
@@ -452,7 +447,7 @@ void optionsAccidentalStyleKindItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsAccidentalStyleKindItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     lpsrAccidentalStyleKindAsString (
       fOptionsAccidentalStyleKindItemVariable) <<
@@ -500,8 +495,7 @@ optionsChordsDisplayItem::optionsChordsDisplayItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    foptionsChordsDisplayItemVariableDisplayName (
+      optionsValueSpecification,
       optionsChordsDisplayItemVariableDisplayName),
     foptionsChordsDisplayItemVariable (
       optionsChordsDisplayItemVariable)
@@ -525,8 +519,8 @@ void optionsChordsDisplayItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "foptionsChordsDisplayItemVariableDisplayName" << " : " <<
-    foptionsChordsDisplayItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "foptionsChordsDisplayItemVariable" << " : '" <<
     endl;
@@ -554,7 +548,7 @@ void optionsChordsDisplayItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    foptionsChordsDisplayItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : ";
 
   if (foptionsChordsDisplayItemVariable.size ()) {
@@ -618,8 +612,7 @@ optionsMidiTempoItem::optionsMidiTempoItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsMidiTempoItemVariableDisplayName (
+      optionsValueSpecification,
       optionsMidiTempoItemVariableDisplayName),
     fOptionsMidiTempoItemVariable (
       optionsMidiTempoItemVariable)
@@ -643,8 +636,8 @@ void optionsMidiTempoItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsMidiTempoItemVariableDisplayName" << " : " <<
-    fOptionsMidiTempoItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "fOptionsMidiTempoItemVariable" << " : '" <<
     fOptionsMidiTempoItemVariable.first <<
@@ -660,7 +653,7 @@ void optionsMidiTempoItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsMidiTempoItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : '" <<
     fOptionsMidiTempoItemVariable.first <<
     " = " <<
@@ -2219,7 +2212,8 @@ void lilypondOptions::printOptionsValues (
     case kOctaveEntryRelative:
       if (fRelativeOctaveEntrySemiTonesPitchAndOctave) {
         os << left <<
-          setw (valueFieldWidth) << "relativeOctaveEntrySemiTonesPitchAndOctave" << " : " <<
+          setw (valueFieldWidth) <<
+          "relativeOctaveEntrySemiTonesPitchAndOctave" << " : " <<
           fRelativeOctaveEntrySemiTonesPitchAndOctave->asString () <<
           endl;
       }
@@ -2229,7 +2223,8 @@ void lilypondOptions::printOptionsValues (
     case kOctaveEntryFixed:
       if (fFixedOctaveEntrySemiTonesPitchAndOctave) {
         os << left <<
-          setw (valueFieldWidth) << "fixedOctaveEntrySemiTonesPitchAndOctave" << " : " <<
+          setw (valueFieldWidth) <<
+          "fixedOctaveEntrySemiTonesPitchAndOctave" << " : " <<
           fFixedOctaveEntrySemiTonesPitchAndOctave->asString () <<
           endl;
       }

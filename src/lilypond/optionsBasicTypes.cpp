@@ -297,7 +297,7 @@ void optionsElement::print (ostream& os) const
     "??? optionsElement ???" <<
     endl;
 
-  printElementEssentials (os, 35);
+  printElementEssentials (os, 40); // JMI
 }
 
 void optionsElement::printHelp (ostream& os) const
@@ -581,6 +581,87 @@ ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
 }
 
 //______________________________________________________________________________
+S_optionsItemWithVariableDisplayName optionsItemWithVariableDisplayName::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsItemVariableDisplayName)
+{
+  optionsItemWithVariableDisplayName* o = new
+    optionsItemWithVariableDisplayName (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsItemVariableDisplayName);
+  assert(o!=0);
+  return o;
+}
+
+optionsItemWithVariableDisplayName::optionsItemWithVariableDisplayName (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsItemVariableDisplayName)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsItemVariableDisplayName (
+      optionsItemVariableDisplayName)
+{}
+
+optionsItemWithVariableDisplayName::~optionsItemWithVariableDisplayName ()
+{}
+
+void optionsItemWithVariableDisplayName::print (ostream& os) const
+{
+  const int fieldWidth = K_OPTIONS_FIELD_WIDTH;
+
+  os <<
+    "OptionsItemWithVariableDisplayName:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
+    endl <<
+    endl;
+
+  gIndenter--;
+}
+
+void optionsItemWithVariableDisplayName::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsItemVariableDisplayName <<
+    " : " <<
+    "FOO" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsItemWithVariableDisplayName& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_optionsBooleanItem optionsBooleanItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -605,11 +686,10 @@ optionsBooleanItem::optionsBooleanItem (
   string optionsItemDescription,
   string optionsBooleanItemVariableDisplayName,
   bool&  optionsBooleanItemVariable)
-  : optionsItem (
+  : optionsItemWithVariableDisplayName (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription),
-    fOptionsBooleanItemVariableDisplayName (
+      optionsItemDescription,
       optionsBooleanItemVariableDisplayName),
     fOptionsBooleanItemVariable (
       optionsBooleanItemVariable)
@@ -640,8 +720,8 @@ void optionsBooleanItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsBooleanItemVariableDisplayName" << " : " <<
-    fOptionsBooleanItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsBooleanItemVariable" << " : " <<
@@ -658,7 +738,7 @@ void optionsBooleanItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsBooleanItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     booleanAsString (
       fOptionsBooleanItemVariable) <<
@@ -699,11 +779,10 @@ optionsTwoBooleansItem::optionsTwoBooleansItem (
   string optionsTwoBooleansItemVariableDisplayName,
   bool&  optionsTwoBooleansItemVariable,
   bool&  optionsTwoBooleansItemSecondaryVariable)
-  : optionsItem (
+  : optionsItemWithVariableDisplayName (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription),
-    fOptionsTwoBooleansItemVariableDisplayName (
+      optionsItemDescription,
       optionsTwoBooleansItemVariableDisplayName),
     fOptionsTwoBooleansItemVariable (
       optionsTwoBooleansItemVariable),
@@ -735,8 +814,8 @@ void optionsTwoBooleansItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsTwoBooleansItemVariableDisplayName" << " : " <<
-    fOptionsTwoBooleansItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsTwoBooleansItemVariable" << " : " <<
@@ -753,7 +832,7 @@ void optionsTwoBooleansItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsTwoBooleansItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     booleanAsString (
       fOptionsTwoBooleansItemVariable) <<
@@ -797,11 +876,10 @@ optionsThreeBooleansItem::optionsThreeBooleansItem (
   bool&  optionsThreeBooleansItemVariable,
   bool&  optionsThreeBooleansItemSecondaryVariable,
   bool&  optionsThreeBooleansItemTertiaryVariable)
-  : optionsItem (
+  : optionsItemWithVariableDisplayName (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription),
-    fOptionsThreeBooleansItemVariableDisplayName (
+      optionsItemDescription,
       optionsThreeBooleansItemVariableDisplayName),
     fOptionsThreeBooleansItemVariable (
       optionsThreeBooleansItemVariable),
@@ -836,8 +914,8 @@ void optionsThreeBooleansItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsThreeBooleansItemVariableDisplayName" << " : " <<
-    fOptionsThreeBooleansItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsThreeBooleansItemVariable" << " : " <<
@@ -854,7 +932,7 @@ void optionsThreeBooleansItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsThreeBooleansItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     booleanAsString (
       fOptionsThreeBooleansItemVariable) <<
@@ -892,11 +970,10 @@ optionsCombinedBooleanItemsItem::optionsCombinedBooleanItemsItem (
   string optionsItemDescription,
   string optionsCombinedBooleanItemsItemVariableDisplayName,
   bool&  optionsCombinedBooleanItemsItemVariable)
-  : optionsItem (
+  : optionsItemWithVariableDisplayName (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription),
-    fOptionsCombinedBooleanItemsItemVariableDisplayName (
+      optionsItemDescription,
       optionsCombinedBooleanItemsItemVariableDisplayName),
     fOptionsCombinedBooleanItemsItemVariable (
       optionsCombinedBooleanItemsItemVariable)
@@ -1123,7 +1200,7 @@ void optionsCombinedBooleanItemsItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsCombinedBooleanItemsItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     booleanAsString (
       fOptionsCombinedBooleanItemsItemVariable) <<
@@ -1183,14 +1260,16 @@ S_optionsValuedItem optionsValuedItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
-  string optionsValueSpecification)
+  string optionsValueSpecification,
+  string optionsValuedItemVariableDisplayName)
 {
   optionsValuedItem* o = new
     optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification);
+      optionsValueSpecification,
+      optionsValuedItemVariableDisplayName);
   assert(o!=0);
   return o;
 }
@@ -1199,11 +1278,13 @@ optionsValuedItem::optionsValuedItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
-  string optionsValueSpecification)
-  : optionsItem (
+  string optionsValueSpecification,
+  string optionsValuedItemVariableDisplayName)
+  : optionsItemWithVariableDisplayName (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription)
+      optionsItemDescription,
+      optionsValuedItemVariableDisplayName)
 {
   fOptionsValueSpecification = optionsValueSpecification;
 }
@@ -1229,13 +1310,6 @@ string optionsValuedItem::optionsItemKindAsString (
   } // switch
 
   return result;
-}
-
-void optionsValuedItem::registerOptionsItemInHandler (
-  S_optionsHandler optionsHandler)
-{
-  optionsHandler->
-    registerOptionsElementInHandler (this);
 }
 
 void optionsValuedItem::printValuedItemEssentials (
@@ -1329,10 +1403,11 @@ optionsItemHelpItem::optionsItemHelpItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification)
-  : optionsValuedItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription,
+      optionsItemDescription),
+    fOptionsValueSpecification ( // JMI
       optionsValueSpecification)
 {}
 
@@ -1349,7 +1424,7 @@ void optionsItemHelpItem::print (ostream& os) const
 
   gIndenter++;
 
-  optionsItemHelpItem::printValuedItemEssentials (
+  printElementEssentials (
     os, fieldWidth);
 
   gIndenter--;
@@ -1400,8 +1475,7 @@ optionsIntegerItem::optionsIntegerItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsIntegerItemVariableDisplayName (
+      optionsValueSpecification,
       optionsIntegerItemVariableDisplayName),
     fOptionsIntegerItemVariable (
       optionsIntegerItemVariable)
@@ -1425,8 +1499,8 @@ void optionsIntegerItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsIntegerItemVariableDisplayName" << " : " <<
-    fOptionsIntegerItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsIntegerItemVariable" << " : " <<
@@ -1442,7 +1516,7 @@ void optionsIntegerItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsIntegerItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     fOptionsIntegerItemVariable <<
     endl;
@@ -1486,8 +1560,7 @@ optionsFloatItem::optionsFloatItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsFloatItemVariableDisplayName (
+      optionsValueSpecification,
       optionsFloatItemVariableDisplayName),
     fOptionsFloatItemVariable (
       optionsFloatItemVariable)
@@ -1511,8 +1584,8 @@ void optionsFloatItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsFloatItemVariableDisplayName" << " : " <<
-    fOptionsFloatItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsFloatItemVariable" << " : " <<
@@ -1528,7 +1601,7 @@ void optionsFloatItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsFloatItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     fOptionsFloatItemVariable <<
     endl;
@@ -1572,8 +1645,7 @@ optionsStringItem::optionsStringItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsStringItemVariableDisplayName (
+      optionsValueSpecification,
       optionsStringItemVariableDisplayName),
     fOptionsStringItemVariable (
       optionsStringItemVariable)
@@ -1597,8 +1669,8 @@ void optionsStringItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsStringItemVariableDisplayName" << " : " <<
-    fOptionsStringItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsStringItemVariable" << " : " <<
@@ -1614,7 +1686,7 @@ void optionsStringItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsStringItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : \"" <<
     fOptionsStringItemVariable <<
     "\"" <<
@@ -1662,8 +1734,7 @@ optionsRationalItem::optionsRationalItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsRationalItemVariableDisplayName (
+      optionsValueSpecification,
       optionsRationalItemVariableDisplayName),
     fOptionsRationalItemVariable (
       optionsRationalItemVariable)
@@ -1687,8 +1758,8 @@ void optionsRationalItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsRationalItemVariableDisplayName" << " : " <<
-    fOptionsRationalItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsRationalItemVariable" << " : " <<
@@ -1704,7 +1775,7 @@ void optionsRationalItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsRationalItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : " <<
     fOptionsRationalItemVariable <<
     endl;
@@ -1748,8 +1819,7 @@ optionsNumbersSetItem::optionsNumbersSetItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsNumbersSetItemVariableDisplayName (
+      optionsValueSpecification,
       optionsNumbersSetItemVariableDisplayName),
     fOptionsNumbersSetItemVariable (
       optionsNumbersSetItemVariable)
@@ -1773,8 +1843,8 @@ void optionsNumbersSetItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsNumbersSetItemVariableDisplayName" << " : " <<
-    fOptionsNumbersSetItemVariableDisplayName <<
+    "fOptionsItemVariableDisplayName" << " : " <<
+    fOptionsItemVariableDisplayName <<
     setw (fieldWidth) <<
     "fOptionsNumbersSetItemVariable" << " : " <<
     endl;
@@ -1814,7 +1884,7 @@ void optionsNumbersSetItem::printOptionsValues (
 {
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsNumbersSetItemVariableDisplayName <<
+    fOptionsItemVariableDisplayName <<
     " : ";
 
   if (! fOptionsNumbersSetItemVariable.size ()) {
@@ -2982,7 +3052,7 @@ void optionsPrefix::print (ostream& os) const
     "??? optionsPrefix ???" <<
     endl;
 
-  printElementEssentials (os, 35);
+  printElementEssentials (os, 40); // JMI
 }
 
 void optionsPrefix::printHelp (ostream& os) const
@@ -3090,7 +3160,7 @@ optionsHandler::optionsHandler (
   fMaximumShortNameWidth   = 1;
   fMaximumLongNameWidth    = 1;
 
-  fMaximumDisplayNameWidth = 1;
+  fMaximumVariableDisplayNameWidth = 0;
 
   fOptionsHandlerFoundAHelpItem = false;
 }
@@ -3202,8 +3272,8 @@ string optionsHandler::helpNamesBetweenParentheses () const
 }
 
 void optionsHandler::registerOptionsNamesInHandler (
-  string              optionShortName,
-  string              optionLongName,
+  string           optionShortName,
+  string           optionLongName,
   S_optionsElement optionsElement)
 {
   int
@@ -3212,10 +3282,7 @@ void optionsHandler::registerOptionsNamesInHandler (
     optionLongNameSize =
       optionLongName.size ();
 
-  if (
-    optionShortNameSize == 0
-      &&
-    optionLongNameSize == 0) {
+  if (optionShortNameSize == 0 && optionLongNameSize == 0) {
     stringstream s;
 
     s <<
@@ -3272,17 +3339,13 @@ void optionsHandler::registerOptionsNamesInHandler (
     }
   } // for
 
-  // register optionsElement's names size
+  // register optionsElement's names
   if (optionLongNameSize) {
     fOptionsElementsMap [optionLongName] =
       optionsElement;
 
     if (optionLongNameSize > fMaximumLongNameWidth) {
       fMaximumLongNameWidth = optionLongNameSize;
-    }
-
-    if (optionLongNameSize > fMaximumDisplayNameWidth) {
-      fMaximumDisplayNameWidth = optionLongNameSize;
     }
   }
 
@@ -3293,11 +3356,22 @@ void optionsHandler::registerOptionsNamesInHandler (
     if (optionShortNameSize > fMaximumShortNameWidth) {
       fMaximumShortNameWidth = optionShortNameSize;
     }
-
-    if (optionShortNameSize > fMaximumDisplayNameWidth) {
-      fMaximumDisplayNameWidth = optionShortNameSize;
-    }
   }
+
+  // take optionsElement's display variable name length into account
+  int
+    optionsElementVariableDisplayNameLength =
+      optionsElement->
+        fetchOptionsElementVariableDisplayNameLength ();
+
+    if (
+      optionsElementVariableDisplayNameLength
+        >
+      fMaximumVariableDisplayNameWidth
+    ) {
+      fMaximumVariableDisplayNameWidth =
+        optionsElementVariableDisplayNameLength;
+    }
 }
 
 void optionsHandler::registerOptionsElementInHandler (
@@ -3726,7 +3800,7 @@ void optionsHandler::printAllOptionsValues (
       // print the options group values
       (*i)->
         printOptionsValues (
-          os, fMaximumDisplayNameWidth);
+          os, fMaximumVariableDisplayNameWidth);
       if (++i == iEnd) break;
       os << endl;
     } // for

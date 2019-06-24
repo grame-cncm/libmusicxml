@@ -59,12 +59,6 @@ class optionsPartRenameItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsPartRenameItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsPartRenameItemVariableDisplayName;
-                              }
-
     void                  setPartRenameItemVariableValue (
                             string oldPartName,
                             string newPartName)
@@ -97,7 +91,6 @@ class optionsPartRenameItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsPartRenameItemVariableDisplayName;
     map<string, string>&  fOptionsPartRenameItemVariable;
 };
 typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
@@ -141,12 +134,6 @@ class optionsPartTransposeItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsPartTransposeItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsPartTransposeItemVariableDisplayName;
-                              }
-
     void                  setPartTransposeItemVariableValue (
                             string  partName,
                             S_msrSemiTonesPitchAndOctave
@@ -180,7 +167,6 @@ class optionsPartTransposeItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsPartTransposeItemVariableDisplayName;
     map<string, S_msrSemiTonesPitchAndOctave>&
                           fOptionsPartTransposeItemVariable;
 };
@@ -225,12 +211,6 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsMsrPitchesLanguageKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsMsrPitchesLanguageKindItemVariableDisplayName;
-                              }
-
     void                  setPitchesLanguageKindItemVariableValue (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
@@ -254,7 +234,6 @@ class optionsMsrPitchesLanguageItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsMsrPitchesLanguageKindItemVariableDisplayName;
     msrQuarterTonesPitchesLanguageKind&
                           fOptionsMsrPitchesLanguageKindItemVariable;
 };

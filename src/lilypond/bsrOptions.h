@@ -65,12 +65,6 @@ class optionsFacSimileKindItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsFacSimileKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsFacSimileKindItemVariableDisplayName;
-                              }
-
     void                  setOptionsFacSimileKindItemVariable (
                             bsrFacSimileKind value)
                               {
@@ -94,7 +88,6 @@ class optionsFacSimileKindItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsFacSimileKindItemVariableDisplayName;
     bsrFacSimileKind      fOptionsFacSimileKindItemVariable;
 };
 typedef SMARTP<optionsFacSimileKindItem> S_optionsFacSimileKindItem;
@@ -138,12 +131,6 @@ class optionsBsrTextsLanguageItem : public optionsValuedItem
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsBsrTextsLanguageKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsBsrTextsLanguageKindItemVariableDisplayName;
-                              }
-
     void                  setBsrTextsLanguageKindItemVariableValue (
                             bsrTextsLanguageKind value)
                               {
@@ -167,9 +154,7 @@ class optionsBsrTextsLanguageItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsBsrTextsLanguageKindItemVariableDisplayName;
-    bsrTextsLanguageKind&
-                          fOptionsBsrTextsLanguageKindItemVariable;
+    bsrTextsLanguageKind& fOptionsBsrTextsLanguageKindItemVariable;
 };
 typedef SMARTP<optionsBsrTextsLanguageItem> S_optionsBsrTextsLanguageItem;
 EXP ostream& operator<< (ostream& os, const S_optionsBsrTextsLanguageItem& elt);
