@@ -2967,12 +2967,6 @@ class msrNote : public msrTupletElement
     static string noteCautionaryAccidentalKindAsString (
       msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind);
 
-    enum msrNotePrintKind {
-      kNotePrintYes, kNotePrintNo };
-
-    static string notePrintKindAsString (
-      msrNotePrintKind notePrintKind);
-
     enum msrNoteHeadKind {
       kNoteHeadSlash,
       kNoteHeadTriangle, kNoteHeadDiamond, kNoteHeadSquare,
@@ -3032,7 +3026,7 @@ class msrNote : public msrTupletElement
       bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
-      msrNotePrintKind           notePrintKind,
+      msrPrintObjectKind         notePrintObjectKind,
 
       msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,
@@ -3103,7 +3097,7 @@ class msrNote : public msrTupletElement
       bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
-      msrNotePrintKind           notePrintKind,
+      msrPrintObjectKind         notePrintObjectKind,
 
       msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,
@@ -3170,11 +3164,11 @@ class msrNote : public msrTupletElement
 
     // note print kind
 
-    void                  setNotePrintKind (
-                            msrNotePrintKind notePrintKind)
-                              { fNotePrintKind = notePrintKind; }
-    msrNotePrintKind      getNotePrintKind () const
-                              { return fNotePrintKind; }
+    void                  setNotePrintObjectKind (
+                            msrPrintObjectKind notePrintObjectKind)
+                              { fNotePrintObjectKind = notePrintObjectKind; }
+    msrPrintObjectKind    getNotePrintObjectKind () const
+                              { return fNotePrintObjectKind; }
 
     // note head
 
@@ -3710,7 +3704,7 @@ class msrNote : public msrTupletElement
     string                noteDisplayOctaveAsString () const;
 
     // note print kind
-    string                notePrintKindAsString () const;
+    string                notePrintObjectKindAsString () const;
 
     // note head
     string                noteHeadKindAsString () const;
@@ -3791,7 +3785,7 @@ class msrNote : public msrTupletElement
     S_msrOctaveShift      fNoteOctaveShift;
 
     // note print kind
-    msrNotePrintKind      fNotePrintKind;
+    msrPrintObjectKind    fNotePrintObjectKind;
 
     // note head
     msrNoteHeadKind       fNoteHeadKind;

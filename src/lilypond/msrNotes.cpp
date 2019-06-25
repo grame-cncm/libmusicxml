@@ -52,7 +52,7 @@ S_msrNote msrNote::create (
   bool                       noteIsACueNote,
   bool                       noteIsAGraceNote,
 
-  msrNotePrintKind           msrNotePrintKind,
+  msrPrintObjectKind         notePrintObjectKind,
 
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
@@ -85,7 +85,7 @@ S_msrNote msrNote::create (
       noteIsACueNote,
       noteIsAGraceNote,
 
-      msrNotePrintKind,
+      notePrintObjectKind,
 
       noteHeadKind,
       noteHeadFilledKind,
@@ -121,7 +121,7 @@ msrNote::msrNote (
   bool                       noteIsACueNote,
   bool                       noteIsAGraceNote,
 
-  msrNotePrintKind           notePrintKind,
+  msrPrintObjectKind         notePrintObjectKind,
 
   msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
@@ -154,7 +154,7 @@ msrNote::msrNote (
   fNoteIsACueNote   = noteIsACueNote;
   fNoteIsAGraceNote = noteIsAGraceNote;
 
-  fNotePrintKind = notePrintKind;
+  fNotePrintObjectKind = notePrintObjectKind;
 
   fNoteHeadKind            = noteHeadKind;
   fNoteHeadFilledKind      = noteHeadFilledKind;
@@ -303,8 +303,8 @@ void msrNote::initializeNote ()
 
       left <<
         setw (fieldWidth) <<
-        "fNotePrintKind" << " = " <<
-         notePrintKindAsString (fNotePrintKind) <<
+        "fNotePrintObjectKind" << " = " <<
+         msrPrintObjectKindAsString (fNotePrintObjectKind) <<
         endl <<
 
       left <<
@@ -499,7 +499,7 @@ S_msrNote msrNote::createNoteNewbornClone (
         fNoteIsACueNote,
         fNoteIsAGraceNote,
 
-        fNotePrintKind,
+        fNotePrintObjectKind,
 
         fNoteHeadKind,
         fNoteHeadFilledKind,
@@ -514,8 +514,8 @@ S_msrNote msrNote::createNoteNewbornClone (
   // note print kind
   // ------------------------------------------------------
 
-  newbornClone->fNotePrintKind =
-    fNotePrintKind;
+  newbornClone->fNotePrintObjectKind =
+    fNotePrintObjectKind;
 
   // note head
   // ------------------------------------------------------
@@ -754,7 +754,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteIsACueNote,
         fNoteIsAGraceNote,
 
-        fNotePrintKind,
+        fNotePrintObjectKind,
 
         fNoteHeadKind,
         fNoteHeadFilledKind,
@@ -769,8 +769,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   // note print kind
   // ------------------------------------------------------
 
-  noteDeepCopy->fNotePrintKind =
-    fNotePrintKind;
+  noteDeepCopy->fNotePrintObjectKind =
+    fNotePrintObjectKind;
 
   // note head
   // ------------------------------------------------------
@@ -1278,7 +1278,7 @@ S_msrNote msrNote::createRestNote (
       false, // noteIsACueNote
       false, // noteIsAGraceNote
 
-      kNotePrintYes, // JMI
+      kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1334,7 +1334,7 @@ S_msrNote msrNote::createSkipNote (
       false, // noteIsACueNote
       false, // noteIsAGraceNote
 
-      kNotePrintYes, // JMI
+      kPrintObjectYes, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1392,7 +1392,7 @@ S_msrNote msrNote::createNoteFromSemiTonesPitchAndOctave (
       false, // noteIsACueNote
       false, // noteIsAGraceNote
 
-      kNotePrintNo, // JMI
+      kPrintObjectNo, // JMI
 
       kNoteHeadNormal, // JMI
       kNoteHeadFilledYes, // JMI
@@ -1687,23 +1687,6 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   return result;
 }
 
-string msrNote::notePrintKindAsString (
-  msrNotePrintKind notePrintKind)
-{
-  string result;
-
-  switch (notePrintKind) {
-    case msrNote::kNotePrintYes:
-      result = "notePrintYes";
-      break;
-    case msrNote::kNotePrintNo:
-      result = "notePrintNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrNote::noteHeadKindAsString (
   msrNoteHeadKind noteHeadKind)
 {
@@ -1827,11 +1810,11 @@ string msrNote::noteHeadParenthesesKindAsString (
   return result;
 }
 
-string msrNote::notePrintKindAsString () const
+string msrNote::notePrintObjectKindAsString () const
 {
   return
-    notePrintKindAsString (
-      fNotePrintKind);
+    msrPrintObjectKindAsString (
+      fNotePrintObjectKind);
 }
 
 string msrNote::noteHeadKindAsString () const
@@ -3849,8 +3832,8 @@ void msrNote::print (ostream& os)
     // note print kind
     os << left <<
       setw (fieldWidth) <<
-     "notePrintKind" << " : " <<
-      notePrintKindAsString () <<
+     "notePrintObjectKind" << " : " <<
+      notePrintObjectKindAsString () <<
       endl;
 
     // note head

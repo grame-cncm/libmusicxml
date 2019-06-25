@@ -279,7 +279,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fLastMetWholeNotes = rational (0, 1);
 
   // notes
-  fCurrentNotePrintKind = msrNote::kNotePrintYes; // default value
+  fCurrentNotePrinObjectKind = kPrintObjectYes; // default value
   fOnGoingNote = false;
 
   // grace notes
@@ -10719,19 +10719,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   }
 
   // should the note actually be printed?
-  msrNote::msrNotePrintKind
-    notePrintKind =
-      elt->getNotePrintKind ();
+  msrPrintObjectKind
+    notePrintObjectKind =
+      elt->getNotePrintObjectKind ();
 
-  if (notePrintKind != fCurrentNotePrintKind) {
-    switch (notePrintKind) {
-      case msrNote::kNotePrintYes:
+  if (notePrintObjectKind != fCurrentNotePrinObjectKind) {
+    switch (notePrintObjectKind) {
+      case kPrintObjectNone:
+        // JMI
+        break;
+      case kPrintObjectYes:
         fLilypondCodeIOstream <<
           endl <<
           "\\revert NoteHead.color" <<
           endl;
         break;
-      case msrNote::kNotePrintNo:
+      case kPrintObjectNo:
         fLilypondCodeIOstream <<
           endl <<
           "\\temporary\\override NoteHead.color = #(rgb-color 0.5 0.5 0.5)" <<
@@ -10739,7 +10742,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         break;
     } // switch
 
-    fCurrentNotePrintKind = notePrintKind;
+    fCurrentNotePrinObjectKind = notePrintObjectKind;
   }
 
   // print the note slashes if any

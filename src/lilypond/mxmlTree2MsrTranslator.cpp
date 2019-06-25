@@ -89,7 +89,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
     msrStaffDetails::kShowFretsNumbers; // default value
 
   fCurrentPrintObjectKind =
-    msrStaffDetails::kPrintObjectYes; // default value
+    kPrintObjectYes; // default value
 
   fCurrentPrintSpacingKind =
     msrStaffDetails::kPrintSpacingNo; // default value ??? JMI
@@ -264,7 +264,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentNoteAlterationKind    = k_NoAlteration;
 
   // note print kind
-  fCurrentNotePrintKind = msrNote::kNotePrintYes;
+  fCurrentNotePrintObjectKind = kPrintObjectYes;
 
   // note head
   fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
@@ -2321,28 +2321,12 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
 
   // placement
 
-  string directionPlacementString =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
-  fCurrentDirectionPlacementKind = kPlacementNone;
-
-  if      (directionPlacementString == "above")
-    fCurrentDirectionPlacementKind = kPlacementAbove;
-  else if (directionPlacementString == "below")
-    fCurrentDirectionPlacementKind = kPlacementBelow;
-  else if (directionPlacementString.size ()) {
-    stringstream s;
-
-    s <<
-      "direction placement \"" << directionPlacementString <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+  fCurrentDirectionPlacementKind =
+    msrPlacementKindFromString (
       inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
+      placementString);
 
   fCurrentDirectionStaffNumber = 1; // it may be absent
   // no <voice /> possible in <direction /> ??? JMI
@@ -3911,36 +3895,14 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 
   // print-object
 
-  {
-    string
-      printObject =
-        elt->getAttributeValue ("print-object");
+  string
+    printObjectString =
+      elt->getAttributeValue ("print-object");
 
-    fCurrentPrintObjectKind =
-      msrStaffDetails::kPrintObjectYes; // default value
-
-    if      (printObject == "yes") {
-    fCurrentPrintObjectKind =
-      msrStaffDetails::kPrintObjectYes;
-    }
-    else if (printObject == "no") {
-    fCurrentPrintObjectKind =
-      msrStaffDetails::kPrintObjectNo;
-    }
-    else {
-      if (printObject.size ()) {
-        stringstream s;
-
-        s << "print-object " << printObject << " is unknown";
-
-        msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-    }
-  }
+  fCurrentPrintObjectKind =
+    msrPrintObjectKindFromString (
+      inputLineNumber,
+      printObjectString);
 
   // print-spacing
 
@@ -4756,8 +4718,10 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
     fCurrentSlurType = elt->getAttributeValue ("type");
 
-    fCurrentSlurPlacement =
-      elt->getAttributeValue ("placement");
+    // placement
+
+    string placementString =
+      fCurrentSlurPlacement = elt->getAttributeValue ("placement");
 
     // a phrasing slur is recognized as such
     // when the nested regular slur start is met
@@ -7463,31 +7427,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   // print-object
 
-  // note print kind
+  string printObjectString = elt->getAttributeValue ("print-object");
 
-  string notePrintObject = elt->getAttributeValue ("print-object");
-
-  fCurrentNotePrintKind = msrNote::kNotePrintYes; // default value
-
-  if      (notePrintObject == "yes")
-    fCurrentNotePrintKind = msrNote::kNotePrintYes;
-  else if (notePrintObject == "no")
-    fCurrentNotePrintKind = msrNote::kNotePrintNo;
-  else {
-    if (notePrintObject.size ()) {
-      stringstream s;
-
-      s <<
-        "note print-object \"" << notePrintObject <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+  fCurrentNotePrintObjectKind =
+    msrPrintObjectKindFromString (
+      inputLineNumber,
+      printObjectString);
 
   // note color, unofficial ??? JMI
 
@@ -8677,27 +8622,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "accent placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -8728,27 +8657,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "breath-mark placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -8779,27 +8692,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "caesura placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -8830,27 +8727,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "spiccato placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -8881,27 +8762,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "staccato placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -8932,27 +8797,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "staccatissimo placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -8983,27 +8832,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "stress placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9032,27 +8865,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "unstress placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9081,27 +8898,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "detached-legato placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9132,27 +8933,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "strong-accent placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   // type : upright inverted  (Binchois20.xml) // JMI
@@ -9180,34 +8965,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
   }
 #endif
 
+  // type : upright inverted  (Binchois20.xml) // JMI ???
+
   // placement
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "tenuto placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
-  // type : upright inverted  (Binchois20.xml) // JMI
   S_msrArticulation
     articulation =
       msrArticulation::create (
@@ -9236,27 +9006,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "doit placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9287,27 +9041,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "falloff placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9338,27 +9076,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "plop placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9389,27 +9111,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone;
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "scoop placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // create the articulation
   S_msrArticulation
@@ -9455,27 +9161,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = kPlacementNone; // default value
-
-  if      (placementString == "above")
-    placementKind = kPlacementAbove;
-  else if (placementString == "below")
-    placementKind = kPlacementBelow;
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-
-      s <<
-        "arpeggiate placement \"" << placementString <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
         inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
+        placementString);
 
   // number
 
@@ -9637,36 +9327,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_arrow& elt )
   }
 #endif
 
-  string placement = elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    arrowPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    arrowPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    arrowPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "arrow placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kArrow,
-        arrowPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -9711,36 +9388,24 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
   }
 #endif
 
-  string placement = elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    bendPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    bendPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    bendPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "bend placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical with float
   S_msrTechnicalWithFloat
     technicalWithFloat =
       msrTechnicalWithFloat::create (
         inputLineNumber,
         msrTechnicalWithFloat::kBend,
         fBendAlterValue,
-        bendPlacementKind);
+        placementKind);
 
   fCurrentTechnicalWithFloatsList.push_back (
     technicalWithFloat);
@@ -9760,37 +9425,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    doubleTonguePlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    doubleTonguePlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    doubleTonguePlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "double-tongue placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kDoubleTongue,
-        doubleTonguePlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -9809,37 +9460,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_down_bow& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    downBowPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    downBowPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    downBowPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "down-bow placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kDownBow,
-        downBowPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -9861,36 +9498,24 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
   int fingeringValue = (int)(*elt);
 
   if (fOnGoingTechnical) {
-    string placement = elt->getAttributeValue ("placement");
+    // placement
+
+    string placementString = elt->getAttributeValue ("placement");
 
     msrPlacementKind
-      fingeringPlacementKind = kPlacementNone;
+      placementKind =
+        msrPlacementKindFromString (
+          inputLineNumber,
+          placementString);
 
-    if      (placement == "above")
-      fingeringPlacementKind = kPlacementAbove;
-    else if (placement == "below")
-      fingeringPlacementKind = kPlacementBelow;
-    else if (placement.size ()) {
-      stringstream s;
-
-      s <<
-        "fingering placement \"" << placement <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-
+  // create the technical with integer
     S_msrTechnicalWithInteger
       technicalWithInteger =
         msrTechnicalWithInteger::create (
           inputLineNumber,
           msrTechnicalWithInteger::kFingering,
           fingeringValue,
-          fingeringPlacementKind);
+          placementKind);
 
     fCurrentTechnicalWithIntegersList.push_back (
       technicalWithInteger);
@@ -9929,37 +9554,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    fingernailsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    fingernailsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    fingernailsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "fingernails placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kFingernails,
-        fingernailsPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -9981,31 +9592,22 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
   int fretValue = (int)(*elt);
 
   if (fOnGoingTechnical) {
-    string placement = elt->getAttributeValue ("placement");
+    // placement
+
+    string placementString = elt->getAttributeValue ("placement");
+
+    msrPlacementKind
+      placementKind =
+        msrPlacementKindFromString (
+          inputLineNumber,
+          placementString);
 
     msrPlacementKind
       fretPlacementKind =  kPlacementNone;
 
-    if      (placement == "above")
-      fretPlacementKind = kPlacementAbove;
-    else if (placement == "below")
-      fretPlacementKind = kPlacementBelow;
-    else if (placement.size ()) {
-      stringstream s;
+    // color JMI ???
 
-      s <<
-        "fret placement \"" << placement <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-
-  // color JMI
-
+    // create the technical with integer
     S_msrTechnicalWithInteger
       technicalWithInteger =
         msrTechnicalWithInteger::create (
@@ -10051,6 +9653,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
   }
 #endif
 
+  string hammerOnValue = elt->getValue ();
+
   // type
 
   string hammerOnType = elt->getAttributeValue ("type");
@@ -10079,31 +9683,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
 
   // placement
 
-  string hammerOnValue = elt->getValue ();
-
-  string placement = elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    hammerOnPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    hammerOnPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    hammerOnPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "hammer-on placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical with string
   S_msrTechnicalWithString
     technicalWithString =
       msrTechnicalWithString::create (
@@ -10111,7 +9699,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
         msrTechnicalWithString::kHammerOn,
         hammerOnTechnicalTypeKind,
         hammerOnValue,
-        hammerOnPlacementKind);
+        placementKind);
 
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
@@ -10135,30 +9723,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
   // placement
 
   string
-    placement =
+    placementString =
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    handbellPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    handbellPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    handbellPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "handbell placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical with string
   S_msrTechnicalWithString
     technicalWithString =
       msrTechnicalWithString::create (
@@ -10166,7 +9740,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
         msrTechnicalWithString::kHandbell,
         k_NoTechnicalType,
         handBellValue,
-        handbellPlacementKind);
+        placementKind);
 
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
@@ -10185,37 +9759,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmonic& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    harmonicPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    harmonicPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    harmonicPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "harmonic placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kHarmonic,
-        harmonicPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10234,37 +9794,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_heel& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    heelPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    heelPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    heelPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "heel placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kHeel,
-        heelPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10283,37 +9829,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_hole& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    holePlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    holePlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    holePlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "hole placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kHole,
-        holePlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10332,37 +9864,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_open_string& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    openStringPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    openStringPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    openStringPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "open-string placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kOpenString,
-        openStringPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10383,31 +9901,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
 
   string otherTechnicalValue = elt->getValue ();
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    otherTechnicalWithStringPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    otherTechnicalWithStringPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    otherTechnicalWithStringPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "other-technical placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical with string
   S_msrTechnicalWithString
     technicalWithString =
       msrTechnicalWithString::create (
@@ -10415,7 +9919,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
         msrTechnicalWithString::kOtherTechnical,
         k_NoTechnicalType,
         otherTechnicalValue,
-        otherTechnicalWithStringPlacementKind);
+        placementKind);
 
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
@@ -10436,31 +9940,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
 
   string pluckValue = elt->getValue ();
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    pluckPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    pluckPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    pluckPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "pluck placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical with string
   S_msrTechnicalWithString
     technicalWithString =
       msrTechnicalWithString::create (
@@ -10468,7 +9958,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
         msrTechnicalWithString::kPluck,
         k_NoTechnicalType,
         pluckValue,
-        pluckPlacementKind);
+        placementKind);
 
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
@@ -10517,31 +10007,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
 
   // placement
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    pullOffPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    pullOffPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    pullOffPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "pull-off placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical with string
   S_msrTechnicalWithString
     technicalWithString =
       msrTechnicalWithString::create (
@@ -10549,7 +10023,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
         msrTechnicalWithString::kPullOff,
         pullOffTechnicalTypeKind,
         pullOffValue,
-        pullOffPlacementKind);
+        placementKind);
 
   fCurrentTechnicalWithStringsList.push_back (technicalWithString);
 }
@@ -10568,37 +10042,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    snapPizzicatoPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    snapPizzicatoPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    snapPizzicatoPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "snap-pizzicato placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kSnapPizzicato,
-        snapPizzicatoPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10617,37 +10077,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_stopped& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    stoppedPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    stoppedPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    stoppedPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "stopped placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kStopped,
-        stoppedPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10699,36 +10145,24 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
   }
 
   if (fOnGoingTechnical) {
-    string placement = elt->getAttributeValue ("placement");
+    // placement
+
+    string placementString = elt->getAttributeValue ("placement");
 
     msrPlacementKind
-      stringPlacementKind = kPlacementNone;
+      placementKind =
+        msrPlacementKindFromString (
+          inputLineNumber,
+          placementString);
 
-    if      (placement == "above")
-      stringPlacementKind = kPlacementAbove;
-    else if (placement == "below")
-      stringPlacementKind = kPlacementBelow;
-    else if (placement.size ()) {
-      stringstream s;
-
-      s <<
-        "string placement \"" << placement <<
-        "\" is unknown";
-
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        s.str ());
-    }
-
+  // create the technical with integer
     S_msrTechnicalWithInteger
       technicalWithInteger =
         msrTechnicalWithInteger::create (
           inputLineNumber,
           msrTechnicalWithInteger::kString,
           stringIntegerValue,
-          stringPlacementKind);
+          placementKind);
 
     fCurrentTechnicalWithIntegersList.push_back (
       technicalWithInteger);
@@ -10767,37 +10201,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    tapPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    tapPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    tapPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "tap placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kTap,
-        tapPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10816,37 +10236,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_thumb_position& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    thumbPositionPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    thumbPositionPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    thumbPositionPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "thumb-position placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kThumbPosition,
-        thumbPositionPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10865,37 +10271,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_toe& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    toePlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    toePlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    toePlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "toe placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kToe,
-        toePlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10914,37 +10306,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    tripleTonguePlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    tripleTonguePlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    tripleTonguePlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "triple-tongue placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kTripleTongue,
-        tripleTonguePlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -10963,37 +10341,23 @@ void mxmlTree2MsrTranslator::visitStart ( S_up_bow& elt )
   }
 #endif
 
-  string
-    placement =
-      elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    upBowPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    upBowPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    upBowPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "up-bow placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the technical
   S_msrTechnical
     technical =
       msrTechnical::create (
         inputLineNumber,
         msrTechnical::kUpBow,
-        upBowPlacementKind);
+        placementKind);
 
   fCurrentTechnicalsList.push_back (technical);
 }
@@ -11180,9 +10544,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
 
   // placement
 
-  string
-    tremoloPlacement =
-      elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
     singleTremoloPlacementKind = kPlacementNone;
@@ -11190,7 +10552,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
   msrPlacementKind
     doubleTremoloPlacementKind = kPlacementNone;
 
-  if      (tremoloPlacement == "above") {
+/* JMI ???
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
+*/
+
+  if      (placementString == "above") {
     switch (fCurrentTremoloTypeKind) {
       case k_NoTremoloType:
         // just to avoid a compiler message
@@ -11207,7 +10577,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
     } // switch
   }
 
-  else if (tremoloPlacement == "below") {
+  else if (placementString == "below") {
     switch (fCurrentTremoloTypeKind) {
       case k_NoTremoloType:
         // just to avoid a compiler message
@@ -11224,12 +10594,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
     } // switch
   }
 
-  else if (tremoloPlacement.size ()) {
+  else if (placementString.size ()) {
 
     stringstream s;
 
     s <<
-      "tremolo placement \"" << tremoloPlacement <<
+      "tremolo placement \"" << placementString <<
       "\" is unknown";
 
     msrMusicXMLError (
@@ -11371,37 +10741,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentTrill,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11456,33 +10810,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
+  // color ??? JMI
 
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  // color JMI
-
+  // create the spanner
   S_msrSpanner
     spanner =
       msrSpanner::create (
@@ -11490,7 +10828,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
         dashesNumber,
         msrSpanner::kSpannerDashes,
         fDashesSpannerTypeKind,
-        ornamentPlacementKind,
+        placementKind,
         nullptr); // will be set later REMOVE??? JMI
 
   fCurrentSpannersList.push_back (spanner);
@@ -11544,32 +10882,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
+  // color JMI ???
 
-    s <<
-      "wavy-line placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  // color JMI
-
+  // create the spanner
   S_msrSpanner
     spanner =
       msrSpanner::create (
@@ -11577,7 +10900,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         wavyLineNumber,
         msrSpanner::kSpannerWavyLine,
         fWavyLineSpannerTypeKind,
-        ornamentPlacementKind,
+        placementKind,
         nullptr); // will be set later REMOVE??? JMI
 
   switch (fWavyLineSpannerTypeKind) {
@@ -11639,37 +10962,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "turn placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentTurn,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11690,37 +10997,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "inverted-turn placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentInvertedTurn,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11741,37 +11032,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "delayed-turn placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentDelayedTurn,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11792,37 +11067,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "delayed-inverted-turn placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentDelayedInvertedTurn,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11843,37 +11102,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "vertical-turn placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentVerticalTurn,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11894,37 +11137,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "mordent placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentMordent,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11945,37 +11172,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "inverted-mordent placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentInvertedMordent,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -11996,37 +11207,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "schleifer placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentSchleifer,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -12047,37 +11242,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "shake placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentShake,
-        ornamentPlacementKind);
+        placementKind);
 
   fCurrentOrnamentsList.push_back (ornament);
 }
@@ -12145,36 +11324,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    ornamentPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    ornamentPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "accidental-mark placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the ornament
   S_msrOrnament
     ornament =
       msrOrnament::create (
         inputLineNumber,
         msrOrnament::kOrnamentAccidentalMark,
-        ornamentPlacementKind);
+        placementKind);
 
   ornament->
     setOrnamentAccidentalMarkKind (
@@ -12212,37 +11376,21 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
 
   // placement
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12260,37 +11408,23 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12308,37 +11442,23 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFFF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12356,37 +11476,23 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFFFF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12404,37 +11510,23 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFFFFF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12452,37 +11544,23 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFFFFFF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12501,37 +11579,23 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12549,37 +11613,23 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kPP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12597,37 +11647,23 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kPPP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12645,37 +11681,23 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kPPPP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12693,37 +11715,23 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kPPPPP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12741,37 +11749,23 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kPPPPPP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12791,37 +11785,23 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kMF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12839,37 +11819,23 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kMP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12888,37 +11854,23 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12936,37 +11888,23 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kFZ,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -12985,37 +11923,23 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kRF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13034,37 +11958,23 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kSF,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13083,36 +11993,23 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kRFZ,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13131,36 +12028,23 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kSFZ,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13179,36 +12063,23 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kSFP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13227,36 +12098,23 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
   }
 #endif
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kSFPP,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13273,37 +12131,23 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
       endl;
   }
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    dynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    dynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the dynamics
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         inputLineNumber,
         msrDynamics::kSFFZ,
-        dynamicsPlacementKind);
+        placementKind);
 
   fPendingDynamicsList.push_back(dynamics);
 }
@@ -13324,37 +12168,23 @@ void mxmlTree2MsrTranslator::visitStart( S_other_dynamics& elt)
 
   string otherDynamicsValue = elt->getValue ();
 
-  string placement =
-    elt->getAttributeValue ("placement");
+  // placement
+
+  string placementString = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    otherDynamicsPlacementKind = kPlacementNone;
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
 
-  if      (placement == "above")
-    otherDynamicsPlacementKind = kPlacementAbove;
-  else if (placement == "below")
-    otherDynamicsPlacementKind = kPlacementBelow;
-  else if (placement.size ()) {
-
-    stringstream s;
-
-    s <<
-      "other dynamics placement \"" << placement <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
+  // create the other dynamics
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
         inputLineNumber,
         otherDynamicsValue,
-        otherDynamicsPlacementKind);
+        placementKind);
 
   fPendingOtherDynamicsList.push_back(otherDynamics);
 }
@@ -13460,6 +12290,13 @@ void mxmlTree2MsrTranslator::visitStart( S_soft_pedal& elt)
 
   string softPedalValue = elt->getValue ();
 
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
+
+  // create the other dynamics
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
@@ -13485,6 +12322,13 @@ void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
 
   string sostenutoPedalValue = elt->getValue ();
 
+  msrPlacementKind
+    placementKind =
+      msrPlacementKindFromString (
+        inputLineNumber,
+        placementString);
+
+  // create the other dynamics
   S_msrOtherDynamics
     otherDynamics =
       msrOtherDynamics::create (
@@ -17909,9 +16753,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       endl <<
 
       setw (fieldWidth) <<
-      "fCurrentNotePrintKind" << " = " <<
-      msrNote::notePrintKindAsString (
-        fCurrentNotePrintKind) <<
+      "fCurrentNotePrintObjectKind" << " = " <<
+      msrPrintObjectKindAsString (
+        fCurrentNotePrintObjectKind) <<
       endl <<
 
       setw (fieldWidth) <<
@@ -18111,7 +16955,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteIsACueNote,
         fCurrentNoteIsAGraceNote,
 
-        fCurrentNotePrintKind,
+        fCurrentNotePrintObjectKind,
 
         fCurrentNoteHeadKind,
         fCurrentNoteHeadFilledKind,
@@ -18153,13 +16997,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   newNote->
     setNoteCautionaryAccidentalKind (
       fCurrentNoteCautionaryAccidentalKind);
-
-/* JMI
-  // set note print kind
-  newNote->
-    setNotePrintKind (
-      fCurrentNotePrintKind);
-*/
 
   // fetch current note's voice
   S_msrVoice

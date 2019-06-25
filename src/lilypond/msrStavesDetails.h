@@ -20,7 +20,7 @@
 #include "msrBasicTypes.h"
 
 
-namespace MusicXML2 
+namespace MusicXML2
 {
 
 //______________________________________________________________________________
@@ -36,7 +36,7 @@ class msrStaffTuning : public msrElement
       int                      staffTuningLineNumber,
       msrQuarterTonesPitchKind quarterTonesPitchKind,
       int                      staffTuningOctave);
-    
+
     SMARTP<msrStaffTuning> createStaffTuningNewbornClone ();
 
     SMARTP<msrStaffTuning> createStaffTuningDeepCopy ();
@@ -51,9 +51,9 @@ class msrStaffTuning : public msrElement
       int                      staffTuningLineNumber,
       msrQuarterTonesPitchKind quarterTonesPitchKind,
       int                      staffTuningOctave);
-         
+
     ~ msrStaffTuning ();
-  
+
   public:
 
     // set and get
@@ -88,16 +88,16 @@ class msrStaffTuning : public msrElement
     // ------------------------------------------------------
 
     string                asString () const;
-         
+
     virtual void          print (ostream& os);
-    
+
   public:
-  
+
     // fields
     // ------------------------------------------------------
-    
+
     int                   fStaffTuningLineNumber;
-    
+
     msrQuarterTonesPitchKind
                           fStaffTuningQuarterTonesPitchKind;
     int                   fStaffTuningOctave;
@@ -109,8 +109,8 @@ EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
 class msrStaffDetails : public msrMeasureElement
 {
   public:
-    
-    
+
+
     // data types
     // ------------------------------------------------------
 
@@ -121,25 +121,19 @@ class msrStaffDetails : public msrMeasureElement
 
     static string staffTypeKindAsString (
       msrStaffTypeKind staffTypeKind);
-      
+
     enum msrShowFretsKind {
       kShowFretsNumbers, kShowFretsLetters};
 
     static string showFretsKindAsString (
       msrShowFretsKind showFretsKind);
-      
-    enum msrPrintObjectKind {
-      kPrintObjectYes, kPrintObjectNo};
 
-    static string printObjectKindAsString (
-      msrPrintObjectKind printObjectKind);
-      
     enum msrPrintSpacingKind {
       kPrintSpacingYes, kPrintSpacingNo};
 
     static string printSpacingKindAsString (
       msrPrintSpacingKind printSpacingKind);
-      
+
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -161,9 +155,9 @@ class msrStaffDetails : public msrMeasureElement
       msrShowFretsKind    showFretsKind,
       msrPrintObjectKind  printObjectKind,
       msrPrintSpacingKind printSpacingKin);
-      
+
     virtual ~msrStaffDetails ();
-  
+
   public:
 
     // set and get
@@ -171,27 +165,27 @@ class msrStaffDetails : public msrMeasureElement
 
     msrStaffTypeKind      getStaffTypeKind () const
                               { return fStaffTypeKind; }
-                        
+
     void                  setStaffLinesNumber (
                             int staffLinesNumber)
                               { fStaffLinesNumber = staffLinesNumber; }
-                        
+
     int                   getStaffLinesNumber () const
                               { return fStaffLinesNumber; }
-                        
+
     const list<S_msrStaffTuning>&
                           getStaffTuningsList () const
                               { return fStaffTuningsList; }
-                        
+
     msrShowFretsKind      getShowFretsKind () const
                               { return fShowFretsKind; }
-                        
+
     msrPrintObjectKind    getPrintObjectKind () const
                               { return fPrintObjectKind; }
-                        
+
     msrPrintSpacingKind   getPrintSpacingKind () const
                               { return fPrintSpacingKind; }
-                        
+
     // services
     // ------------------------------------------------------
 
@@ -200,9 +194,9 @@ class msrStaffDetails : public msrMeasureElement
                               {
                                 fStaffTuningsList.push_back (staffTuning);
                               }
-                            
+
     string                asShortString ();
-    
+
   public:
 
     // visitors
@@ -232,7 +226,7 @@ class msrStaffDetails : public msrMeasureElement
                           fStaffTuningsList;
 
     msrShowFretsKind      fShowFretsKind;
-    
+
     msrPrintObjectKind    fPrintObjectKind;
     msrPrintSpacingKind   fPrintSpacingKind;
 };

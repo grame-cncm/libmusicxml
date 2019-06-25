@@ -531,6 +531,19 @@ enum msrDirectionKind {
 string msrDirectionKindAsString (
   msrDirectionKind directionKind);
 
+// print object
+//______________________________________________________________________________
+enum msrPrintObjectKind {
+  kPrintObjectNone,
+  kPrintObjectYes, kPrintObjectNo};
+
+msrPrintObjectKind msrPrintObjectKindFromString (
+  int    inputLineNumber,
+  string printObjectString);
+
+string msrPrintObjectKindAsString (
+  msrPrintObjectKind printObjectKind);
+
 // placement
 //______________________________________________________________________________
 enum msrPlacementKind {

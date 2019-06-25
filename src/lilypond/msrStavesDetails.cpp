@@ -325,23 +325,6 @@ string msrStaffDetails::showFretsKindAsString (
   return result;
 }
 
-string msrStaffDetails::printObjectKindAsString (
-  msrPrintObjectKind printObjectKind)
-{
-  string result;
-
-  switch (printObjectKind) {
-    case msrStaffDetails::kPrintObjectYes:
-      result = "printObjectYes";
-      break;
-    case msrStaffDetails::kPrintObjectNo:
-      result = "printObjectNo";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrStaffDetails::printSpacingKindAsString (
   msrPrintSpacingKind printSpacingKind)
 {
@@ -387,7 +370,7 @@ string msrStaffDetails::asShortString ()
     ", showFretsKind = " <<
     showFretsKindAsString (fShowFretsKind) <<
     ", printObjectKind = " <<
-    printObjectKindAsString (fPrintObjectKind) <<
+    msrPrintObjectKindAsString (fPrintObjectKind) <<
     ", printSpacingKind = " <<
     printSpacingKindAsString (fPrintSpacingKind);
 
@@ -448,7 +431,7 @@ void msrStaffDetails::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "printObjectKind" << " : " <<
-    printObjectKindAsString (fPrintObjectKind) <<
+    msrPrintObjectKindAsString (fPrintObjectKind) <<
     endl <<
     setw (fieldWidth) <<
     "printSpacingKind" << " : " <<

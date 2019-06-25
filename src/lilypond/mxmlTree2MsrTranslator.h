@@ -965,8 +965,7 @@ class mxmlTree2MsrTranslator :
                               fCurrentStaffTypeKind;
     msrStaffDetails::msrShowFretsKind
                               fCurrentShowFretsKind;
-    msrStaffDetails::msrPrintObjectKind
-                              fCurrentPrintObjectKind;
+    msrPrintObjectKind        fCurrentPrintObjectKind;
     msrStaffDetails::msrPrintSpacingKind
                               fCurrentPrintSpacingKind;
 
@@ -1470,8 +1469,8 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentDisplayOctave;
     msrDiatonicPitchKind      fCurrentDisplayDiatonicPitchKind;
 
-    // note print kind
-    msrNote::msrNotePrintKind fCurrentNotePrintKind;
+    // note print object kind
+    msrPrintObjectKind        fCurrentNotePrintObjectKind;
 
     // note heads
     msrNote::msrNoteHeadKind  fCurrentNoteHeadKind;

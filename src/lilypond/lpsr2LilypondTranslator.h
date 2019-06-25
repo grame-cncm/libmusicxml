@@ -690,8 +690,7 @@ class lpsr2LilypondTranslator :
 
     // notes
 
-    msrNote::msrNotePrintKind
-                          fCurrentNotePrintKind;
+    msrPrintObjectKind    fCurrentNotePrinObjectKind;
 
     string                lilypondOctaveInRelativeEntryMode (
                             S_msrNote note);

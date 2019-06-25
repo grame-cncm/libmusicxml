@@ -12252,6 +12252,57 @@ string msrDirectionKindAsString (
 }
 
 
+// print object
+//______________________________________________________________________________
+msrPrintObjectKind msrPrintObjectKindFromString (
+  int    inputLineNumber,
+  string printObjectString)
+{
+  msrPrintObjectKind result = kPrintObjectNone; // default value
+
+  if      (printObjectString == "yes")
+    result = kPrintObjectYes;
+  else if (printObjectString == "no")
+    result = kPrintObjectNo;
+  else {
+    if (printObjectString.size ()) {
+      stringstream s;
+
+      s <<
+        "printObject \"" << printObjectString <<
+        "\" should be 'above' or 'below'";
+
+      msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return result;
+}
+
+string msrPrintObjectKindAsString (
+  msrPrintObjectKind printObjectKind)
+{
+  string result;
+
+  switch (printObjectKind) {
+    case msrPrintObjectKind::kPrintObjectNone:
+      result = "printObjectNone";
+      break;
+    case msrPrintObjectKind::kPrintObjectYes:
+      result = "printObjectAbove";
+      break;
+    case msrPrintObjectKind::kPrintObjectNo:
+      result = "printObjectBelow";
+      break;
+  } // switch
+
+  return result;
+}
+
 // placement
 //______________________________________________________________________________
 msrPlacementKind msrPlacementKindFromString (
